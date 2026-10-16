@@ -28,7 +28,7 @@ namespace Helodrace.Tactics
         public TacticalMemberCommand Patient, Helper;
         public Job Job;
         public int Started;
-        public bool Finished, Successful, Plasma, CancelRequested;
+        public bool Finished, Successful, Plasma, CancelRequested, Captive;
     }
 
     public sealed partial class MapComponent_TacticalCommands
@@ -174,7 +174,7 @@ namespace Helodrace.Tactics
             return pawn.Position.DistanceToSquared(known.Position) <= radius * radius;
         }
         private bool TryBeginMedicalCare(TacticalSquadCommand command, List<TacticalMemberCommand> active,
-            TacticalMemberCommand patient, int tick)
+            TacticalMemberCommand patient, int tick, bool captive = false)
         {
             TacticalMemberCommand helper = null; Job treatment = null; bool plasma = false;
             bool needsHemostasis = NeedsHemostasis(patient.Pawn, null, tick);
@@ -194,7 +194,7 @@ namespace Helodrace.Tactics
                 if (!member.Medic || !TacticalMedicalPolicy.WithinTreatmentRange(member.Pawn.Position, patient.Pawn.Position)
                     || member.Pawn.CurJob?.playerForced == true || !TcccUtility.CanTreat(member.Pawn, patient.Pawn)
                     || !MedicalSafe(command, member.Pawn.Position, tick)) continue;
-                treatment = BagTreatment(member.Pawn, patient.Pawn, needsHemostasis, tick, out plasma);
+                treatment = BagTreatment(member.Pawn, patient.Pawn, needsHemostasis, tick, out plasma, captive);
                 if (treatment != null) { helper = member; break; }
             }
             if (helper == null && needsHemostasis)
@@ -215,7 +215,7 @@ namespace Helodrace.Tactics
                 {
                     if (!TacticalMedicalPolicy.WithinTreatmentRange(member.Pawn.Position, patient.Pawn.Position) || member.Pawn.CurJob?.playerForced == true
                         || !TcccUtility.CanTreat(member.Pawn, patient.Pawn) || !MedicalSafe(command, member.Pawn.Position, tick)) continue;
-                    treatment = BagTreatment(member.Pawn, patient.Pawn, needsHemostasis, tick, out plasma);
+                    treatment = BagTreatment(member.Pawn, patient.Pawn, needsHemostasis, tick, out plasma, captive);
                     if (treatment != null) helper = member;
                     if (helper != null) break;
                 }
@@ -224,23 +224,23 @@ namespace Helodrace.Tactics
                 || KnownCareDanger(helper.Pawn) || !CanIssue(helper)) return false;
             if (helper != patient && !GenSight.LineOfSight(helper.Pawn.Position, patient.Pawn.Position, map, true,
                 c => c.Walkable(map) && (!(c.GetEdifice(map) is Building_Door door) || door.Open))) return false;
-            if (helper != patient && Available(patient, map))
+            if (!captive && helper != patient && Available(patient, map))
             {
                 EnsurePost(patient, patient.Pawn.Position, command.Goal, tick);
                 if (!AtPost(patient)) { command.NextMedicalCheck = tick + 15; return false; }
             }
             treatment.canUseRangedWeapon = false;
-            var care = new TacticalMedicalCare { Patient = patient, Helper = helper, Job = treatment, Started = tick, Plasma = plasma };
+            var care = new TacticalMedicalCare { Patient = patient, Helper = helper, Job = treatment, Started = tick, Plasma = plasma, Captive = captive };
             command.MedicalCare = care;
             if (!Issue(helper, treatment)) { command.MedicalCare = null; command.NextMedicalCheck = tick + 15; return false; }
             patient.MedicalRejoinPending |= patient.Pawn.Downed;
             MedicalTreatments++; if (plasma) MedicalPlasma++;
             command.Link.Cooperation.LocalReady = false; command.Due = tick + 15; return true;
         }
-        private static Job BagTreatment(Pawn helper, Pawn patient, bool needsHemostasis, int tick, out bool plasma)
+        private static Job BagTreatment(Pawn helper, Pawn patient, bool needsHemostasis, int tick, out bool plasma, bool hemostasisOnly = false)
         {
             plasma = false;
-            bool needsPlasma = TacticalMedicalPolicy.Urgent(patient.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss)?.Severity ?? 0);
+            bool needsPlasma = !hemostasisOnly && TacticalMedicalPolicy.Urgent(patient.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss)?.Severity ?? 0);
             foreach (Apparel apparel in helper.apparel.WornApparel)
             {
                 CompMedibag bag = apparel.TryGetComp<CompMedibag>();

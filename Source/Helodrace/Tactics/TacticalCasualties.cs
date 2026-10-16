@@ -50,6 +50,8 @@ namespace Helodrace.Tactics
             {
                 if(command.ChargeAction!=null || command.OpeningAction?.Launched==true && !command.OpeningAction.EffectsCleared
                     || command.CqbTeams.Any(t=>t.ChargeAction!=null || t.OpeningAction?.Launched==true && !t.OpeningAction.EffectsCleared)) return false;
+                command.EvacuateAll=command.Phase==TacticalCommandPhase.Complete
+                    || command.RaidLord?.LordJob is LordJob_HelodSweep completed && completed.CompletedObjective;
                 EndHighCqb(command); command.CancelPreparation(); command.CancelEntryPreview(); ReleaseClaims(command);
                 command.Withdrawing=true; command.Phase=TacticalCommandPhase.Returning;
                 command.MedicalCare=null; command.ContactResponse=null; command.FocusFire=null;
@@ -72,8 +74,9 @@ namespace Helodrace.Tactics
                     finally { budget.Account(tick,Stopwatch.GetTimestamp()-started); }
                     if(!command.WithdrawalGoal.IsValid) { command.Due=tick+120; return true; }
                 }
+                return AdvanceEvacuation(command,active,tick);
             }
-            if((retreat || !rescuing) && tick>=command.NextCasualtyCheck && command.MedicalCare==null
+            if(!rescuing && tick>=command.NextCasualtyCheck && command.MedicalCare==null
                 && command.ChargeAction==null && !(command.OpeningAction?.Launched==true && !command.OpeningAction.EffectsCleared))
             {
                 bool danger=MedicalThreatActive(command,tick);
@@ -82,7 +85,7 @@ namespace Helodrace.Tactics
                     var patient=command.Members[command.CasualtyCursor++].Pawn;
                     if(patient?.Spawned!=true || patient.Map!=map || patient.Dead || !patient.Downed
                         || map.GetComponent<MapComponent_TcccDragging>().IsPatient(patient)
-                        || !retreat && MedicalSafe(command,patient.Position,tick)
+                        || MedicalSafe(command,patient.Position,tick)
                             && active.Any(m=>TacticalMedicalPolicy.WithinTreatmentRange(m.Pawn.Position,patient.Position)
                                 && TcccUtility.CanTreat(m.Pawn,patient))) continue;
                     foreach(var helper in active.OrderBy(m=>m.Pawn.Position.DistanceToSquared(patient.Position)))
@@ -92,10 +95,9 @@ namespace Helodrace.Tactics
                             || !pawn.CanReserve(patient) || !TacticalCasualtyPolicy.Approach(danger,
                                 pawn.Position.DistanceToSquared(patient.Position),CasualtyCovered(command,pawn.Position,tick))) continue;
                         if(danger && !pawn.CanReachImmediate(patient,PathEndMode.Touch)) continue;
-                        if(!TryCasualtyDestination(command,pawn,patient,retreat,tick,out IntVec3 goal)) break;
+                        if(!TryCasualtyDestination(command,pawn,patient,tick,out IntVec3 goal)) break;
                         if(!CanIssue(helper)) break;
                         Job job=JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed(TacticalCasualtyPolicy.JobName),patient,goal);
-                        job.exitMapOnArrival=retreat;
                         if(Issue(helper,job)) { rescuing=true; command.Members.Find(m=>m.Pawn==patient).MedicalRejoinPending=true; }
                         break;
                     }
@@ -105,26 +107,12 @@ namespace Helodrace.Tactics
                 { command.CasualtyCursor=0; command.NextCasualtyCheck=tick+90; }
                 else command.NextCasualtyCheck=tick+10;
             }
-            if(!retreat)
-            {
-                if(rescuing) command.Due=Math.Min(command.Due,tick+10);
-                return rescuing;
-            }
-            // Leave a nearby qualified rescuer briefly available while the
-            // bounded casualty pass runs; others withdraw with their guns.
-            foreach(var member in active)
-            {
-                if(CasualtyJob(member.Pawn) || tick<member.RetryTick || !CanIssue(member)) continue;
-                if(!rescuing && command.CasualtyCursor>0 && member.Medic) continue;
-                Job job=JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed(TacticalCasualtyPolicy.JobName),LocalTargetInfo.Invalid,command.WithdrawalGoal);
-                job.exitMapOnArrival=true; Issue(member,job);
-            }
-            return true;
+            if(rescuing) command.Due=Math.Min(command.Due,tick+10);
+            return rescuing;
         }
-        private bool TryCasualtyDestination(TacticalSquadCommand command,Pawn helper,Pawn patient,bool retreat,int tick,out IntVec3 goal)
+        private bool TryCasualtyDestination(TacticalSquadCommand command,Pawn helper,Pawn patient,int tick,out IntVec3 goal)
         {
-            goal=retreat?command.WithdrawalGoal:IntVec3.Invalid;
-            if(retreat) return true;
+            goal=IntVec3.Invalid;
             var budget=Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
             if(!budget.TryPlan(tick)) return false;
             long started=Stopwatch.GetTimestamp();
@@ -176,7 +164,7 @@ namespace Helodrace.Tactics
             finally { budget.Account(tick,Stopwatch.GetTimestamp()-started); }
         }
     }
-    public sealed class JobDriver_TacticalCasualtyMove : TacticalJobDriver
+    public sealed partial class JobDriver_TacticalCasualtyMove : TacticalJobDriver
     {
         private int nextFire,firingUntil;
         private bool attached;
@@ -186,6 +174,11 @@ namespace Helodrace.Tactics
         {
             BindOwner(); job.canUseRangedWeapon=false;
             this.FailOn(()=>MapComponent_TacticalCommands.KnownCareDanger(pawn));
+            if(job.exitMapOnArrival)
+            {
+                foreach(var toil in EvacuationToils()) yield return toil;
+                yield break;
+            }
             this.FailOn(()=>Patient!=null && (!Patient.Spawned || Patient.Map!=pawn.Map || Patient.Dead || !Patient.Downed));
             AddFinishAction(_=> { if(Patient!=null && pawn.Map!=null) pawn.Map.GetComponent<MapComponent_TcccDragging>().Detach(pawn); });
             if(Patient!=null)
@@ -207,16 +200,9 @@ namespace Helodrace.Tactics
                 var dragging=pawn.Map.GetComponent<MapComponent_TcccDragging>();
                 if(Patient!=null && dragging.PatientFor(pawn)!=Patient) { EndJobWith(JobCondition.Incompletable); return; }
                 IntVec3 goal=job.targetB.Cell;
-                if(pawn.Position==goal || job.exitMapOnArrival && pawn.Position.OnEdge(pawn.Map))
+                if(pawn.Position==goal)
                 {
-                    if(job.exitMapOnArrival)
-                    {
-                        var edge=CellRect.WholeMap(pawn.Map).GetClosestEdge(pawn.Position);
-                        Pawn patient=Patient; dragging.Detach(pawn);
-                        if(patient?.Spawned==true) patient.ExitMap(false,edge);
-                        pawn.ExitMap(false,edge);
-                    }
-                    else { dragging.Detach(pawn); EndJobWith(JobCondition.Succeeded); }
+                    dragging.Detach(pawn); EndJobWith(JobCondition.Succeeded);
                     return;
                 }
                 int tick=GenTicks.TicksGame;

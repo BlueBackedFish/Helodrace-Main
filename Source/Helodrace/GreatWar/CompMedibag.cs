@@ -178,7 +178,7 @@ namespace Helodrace
                 && !target.Dead
                 && target.Spawned
                 && wearer.Map == target.Map
-                && !target.HostileTo(wearer);
+                && (!target.HostileTo(wearer) || Helodrace.Tactical.TemporaryRestraint.CanAid(target));
         }
 
         private void StartTreatmentJob(Pawn target, string jobDefName)

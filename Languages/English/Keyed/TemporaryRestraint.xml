@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Restraint_Bind>Temporarily restrain {0}</HD_Restraint_Bind>
+  <HD_Restraint_Release>Release restraints on {0}</HD_Restraint_Release>
+</LanguageData>

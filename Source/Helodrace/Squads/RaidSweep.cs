@@ -19,6 +19,7 @@ namespace Helodrace.Squads
     {
         private Faction faction;
         public bool RetreatRequested;
+        public bool CompletedObjective;
         public LordJob_HelodSweep() { }
         public LordJob_HelodSweep(Faction faction) { this.faction = faction; }
         public override bool GuiltyOnDowned => true;
@@ -41,7 +42,10 @@ namespace Helodrace.Squads
             return graph;
         }
         public override void ExposeData()
-        { Scribe_References.Look(ref faction, "faction"); Scribe_Values.Look(ref RetreatRequested, "retreatRequested"); }
+        {
+            Scribe_References.Look(ref faction, "faction"); Scribe_Values.Look(ref RetreatRequested, "retreatRequested");
+            Scribe_Values.Look(ref CompletedObjective, "completedObjective");
+        }
     }
     public sealed class LordToil_HelodWithdrawal : LordToil_AssaultColony
     {
@@ -60,7 +64,9 @@ namespace Helodrace.Squads
             if (lord.ticksInToil % 30 != 0) return;
             var owner = Map.GetComponent<MapComponent_TacticalCommands>();
             bool pending = owner?.Commands.Any(c => c.RaidLord == lord && !c.Terminal) == true;
-            if (!pending || lord.ticksInToil >= 600) lord.ReceiveMemo("HelodWithdrawalReady");
+            // The tactical controller completes bounded reachability checks
+            // and repeated evacuation trips before releasing its command.
+            if (!pending) lord.ReceiveMemo("HelodWithdrawalReady");
         }
     }
 }

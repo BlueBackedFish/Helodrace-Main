@@ -53,7 +53,8 @@ namespace Helodrace.Tactical
             && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) && !pawn.InMentalState
             && HasTraining(pawn);
         public static bool CanTreat(Pawn actor, Pawn patient) => CanAct(actor) && patient != null && patient.Spawned
-            && !patient.Dead && patient.Map == actor.Map && patient.RaceProps.Humanlike && !patient.HostileTo(actor);
+            && !patient.Dead && patient.Map == actor.Map && patient.RaceProps.Humanlike
+            && (!patient.HostileTo(actor) || TemporaryRestraint.CanAid(patient));
         public static bool CanTreat(Pawn actor, Pawn patient, TcccTreatment treatment) =>
             CanTreat(actor, patient) && HasTraining(actor, treatment)
                 && MedicalPouchUtility.ForTreatment(actor, treatment) != null;

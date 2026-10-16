@@ -223,6 +223,9 @@ internal static class TacticalHighCqbTests
         converters.SetValue(null, new List<BackCompatibilityConverter>());
         var root=new TacticalSquadCommand {Id="root",CqbCursor=2,CqbCancelRequested=true,CqbPassageSequence=5,CqbTogether=true};
         root.Withdrawing=true; root.WithdrawalGoal=new IntVec3(0,0,25); root.NextCasualtyCheck=130; root.CasualtyCursor=4;
+        root.PrisonerScanCursor=3; root.NextPrisonerCheck=123;
+        root.EvacuationScanCursor=17; root.EvacuationScanDone=true; root.EvacuationRescan=true; root.EvacuateAll=true;
+        root.MedicalCare=new TacticalMedicalCare {Captive=true,Started=120};
         root.Phase=TacticalCommandPhase.Enter;
         root.Plan=new TacticalLocalPlan {Direct=true,Opening=new IntVec3(9,0,9),Inward=IntVec3.North};
         root.Plan.StackDirections.Add(IntVec3.South);
@@ -284,6 +287,10 @@ internal static class TacticalHighCqbTests
             var order=restored.Members[0].CqbOrder;
             check(restored.Withdrawing && restored.WithdrawalGoal==root.WithdrawalGoal
                 && restored.NextCasualtyCheck==130 && restored.CasualtyCursor==4,"Withdrawal goal and bounded casualty scan must survive native Scribe.");
+            check(restored.PrisonerScanCursor==3 && restored.NextPrisonerCheck==123
+                && restored.EvacuationScanCursor==17 && restored.EvacuationScanDone && restored.EvacuationRescan && restored.EvacuateAll
+                && restored.MedicalCare?.Captive==true && restored.PrisonerWorkPending,
+                "Native Scribe preserves captive care and partial extraction scans without releasing the sweep early.");
             check(order.SameRoute(savedOrder) && order.Revision==7 && order.StartLeg==3 && order.Face==savedOrder.Face && order.Reposition,
                 "Native nested Scribe must preserve value-only CQB intent, owner and route revision.");
             check(loadedDriver.PlanVersion==root.PlanVersion && loadedDriver.CqbOwnerId=="root" && loadedDriver.Crossed

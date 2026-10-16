@@ -69,13 +69,35 @@ namespace Helodrace.Tactics
     {
         internal bool SurveyPending;
         private int savedPlanIndex = -1;
+        private List<Pawn> evacuationFailureKeys;
+        private List<int> evacuationFailureValues;
         internal Pawn SavedMedicalCandidate;
         public void ExposeData()
         {
             Scribe_Values.Look(ref Id, "id");
             Scribe_Values.Look(ref Withdrawing,"withdrawing");
             Scribe_Values.Look(ref NextCasualtyCheck,"nextCasualtyCheck");
+            Scribe_Values.Look(ref PrisonerScanCursor,"prisonerScanCursor");
+            Scribe_Values.Look(ref NextPrisonerCheck,"nextPrisonerCheck");
             Scribe_Values.Look(ref CasualtyCursor,"casualtyCursor");
+            Scribe_Values.Look(ref EvacuationScanCursor,"evacuationScanCursor");
+            Scribe_Values.Look(ref EvacuationScanDone,"evacuationScanDone");
+            Scribe_Values.Look(ref EvacuationRescan,"evacuationRescan");
+            Scribe_Values.Look(ref EvacuationReady,"evacuationReady");
+            Scribe_Values.Look(ref EvacuateAll,"evacuateAll");
+            Scribe_References.Look(ref EvacuationTesting,"evacuationTesting");
+            Scribe_Collections.Look(ref Evacuees,"evacuees",LookMode.Reference);
+            Scribe_Collections.Look(ref EvacuationUnreachable,"evacuationUnreachable",LookMode.Reference);
+            Scribe_Collections.Look(ref EvacuationTried,"evacuationTried",LookMode.Reference);
+            Scribe_Collections.Look(ref EvacuationFailures,"evacuationFailures",LookMode.Reference,LookMode.Value,
+                ref evacuationFailureKeys,ref evacuationFailureValues);
+            if(Scribe.mode==LoadSaveMode.PostLoadInit)
+            {
+                if(Evacuees==null) Evacuees=new List<Pawn>();
+                if(EvacuationUnreachable==null) EvacuationUnreachable=new List<Pawn>();
+                if(EvacuationTried==null) EvacuationTried=new List<Pawn>();
+                if(EvacuationFailures==null) EvacuationFailures=new Dictionary<Pawn,int>();
+            }
             Scribe_Values.Look(ref WithdrawalGoal,"withdrawalGoal",IntVec3.Invalid);
             Scribe_Values.Look(ref CqbTeam, "cqbTeam", -1);
             Scribe_Values.Look(ref CqbCursor, "cqbCursor");
@@ -438,6 +460,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Finished, "finished");
             Scribe_Values.Look(ref Successful, "successful");
             Scribe_Values.Look(ref Plasma, "plasma");
+            Scribe_Values.Look(ref Captive, "captive");
             Scribe_Values.Look(ref CancelRequested, "cancelRequested");
             if (Scribe.mode == LoadSaveMode.Saving) { SavedPatient = Patient?.Pawn; SavedHelper = Helper?.Pawn; }
             Scribe_References.Look(ref SavedPatient, "patient"); Scribe_References.Look(ref SavedHelper, "helper");

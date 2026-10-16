@@ -132,8 +132,9 @@ namespace Helodrace.Tactics
                 if (command.Due > tick) continue;
                 command.Owner.Advance(command, tick); Advances++; processed++;
                 if (command.Phase == TacticalCommandPhase.Complete && command.RaidLord?.LordJob is LordJob_HelodSweep sweep
-                    && !sweep.RetreatRequested && commands.Where(c => c.RaidLord == command.RaidLord).All(c => c.Terminal || c.Phase == TacticalCommandPhase.Complete))
-                    command.RaidLord.ReceiveMemo("HelodSweepComplete");
+                    && !sweep.RetreatRequested && commands.Where(c => c.RaidLord == command.RaidLord)
+                        .All(c => c.Terminal || c.Phase == TacticalCommandPhase.Complete && !c.PrisonerWorkPending))
+                { sweep.CompletedObjective = true; command.RaidLord.ReceiveMemo("HelodSweepComplete"); }
                 if (Stopwatch.GetTimestamp() - started > Stopwatch.Frequency * .0015)
                 { BudgetStops++; break; }
             }
@@ -293,6 +294,8 @@ namespace Helodrace.Tactics
                     var root=command.CqbParent??command;
                     root.NextMedicalCheck=Math.Min(root.NextMedicalCheck,GenTicks.TicksGame+1);
                     root.MedicalCursor=0; root.MedicalCandidate=null; root.MedicalCandidateScore=0;
+                    if(root.Withdrawing)
+                    { root.EvacuationScanDone=false; root.EvacuationScanCursor=0; root.EvacuationReady=false; }
                 }
                 command.Due = Math.Min(command.Due, GenTicks.TicksGame + 1);
                 if (command.CqbParent != null) command.CqbParent.Due = Math.Min(command.CqbParent.Due, GenTicks.TicksGame + 1);
@@ -304,6 +307,9 @@ namespace Helodrace.Tactics
             TacticalMemberCommand member = command.Members.Find(item => item.Pawn == pawn);
             if (member == null || member.Job != job) return;
             member.Job = null;
+            if (job.exitMapOnArrival && job.def.defName == TacticalCasualtyPolicy.JobName
+                && !KnownCareDanger(pawn) && (!(job.targetA.Thing is Pawn evacPatient) || !KnownCareDanger(evacPatient)))
+                EvacuationFailed(command, job, condition);
             CqbNotice(command,TacticalCqbNotice.Failure,member.CqbExecutionVersion);
             if (job.def.defName == TacticalFurniturePolicy.JobName && command.FurnitureAction?.Worker == pawn
                 && condition != JobCondition.Succeeded && condition != JobCondition.InterruptForced)
@@ -379,6 +385,7 @@ namespace Helodrace.Tactics
                 else Release(command);
                 return;
             }
+            if (AdvancePrisoners(command, active, tick)) return;
             if (command.CqbParent != null)
             {
                 if (AdvanceCommittedIngress(command, active, tick)) return;

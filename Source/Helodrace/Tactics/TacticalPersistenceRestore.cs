@@ -142,6 +142,8 @@ namespace Helodrace.Tactics
                 {
                     TacticalMedicalCare care = command.MedicalCare;
                     care.Patient = command.Members.Find(m => m.Pawn == care.SavedPatient);
+                    if (care.Patient == null && care.Captive && care.SavedPatient != null)
+                        care.Patient = new TacticalMemberCommand { Pawn = care.SavedPatient };
                     care.Helper = command.Members.Find(m => m.Pawn == care.SavedHelper);
                     if (care.Patient == null || care.Helper == null) command.MedicalCare = null;
                     else care.Job = care.Helper.Job;
