@@ -12,8 +12,8 @@ namespace Helodrace.Tactics
         public const string JobName = "HD_NewTacticalEvadeExplosion";
         public const float NotifyRadius = JobGiver_FleePotentialExplosion.FleeDist;
         public const int RecoveryCheckTicks = 90;
-        public static int QuietUntil(int tick, bool engaged) => tick
-            + (engaged ? TacticalEntryCombatPolicy.QuietTicks : RecoveryCheckTicks);
+        public static int QuietUntil(int tick, bool engaged, bool field = false) => tick
+            + (field ? 0 : engaged ? TacticalEntryCombatPolicy.QuietTicks : RecoveryCheckTicks);
         public static bool CanReturn(int tick, int quietUntil, bool checkedNow, bool engaged, bool busy) =>
             checkedNow && !engaged && !busy && tick >= quietUntil;
         public static IntVec3 ReturnPost(TacticalLocalPlan plan, TacticalCommandPhase phase, int index)
@@ -73,6 +73,8 @@ namespace Helodrace.Tactics
 
     public sealed partial class MapComponent_TacticalCommands
     {
+        internal int RecoveryQuietUntil(Pawn pawn, int tick, bool engaged) => TacticalExplosiveEvasionPolicy.QuietUntil(tick, engaged,
+            byPawn.TryGetValue(pawn, out var command) && command.FieldResponse != null);
         internal bool CanNotifyExplosive(Pawn pawn, Thing danger) => byPawn.TryGetValue(pawn, out TacticalSquadCommand command)
             && !command.Terminal && !TacticalExplosiveEvasionPolicy.Controlled(command, danger);
         internal bool TryEvasionContext(Pawn pawn, out TacticalSquadCommand command) =>
@@ -150,7 +152,8 @@ namespace Helodrace.Tactics
             Toil recovery = Hold(job.targetC.IsValid ? job.targetC.Cell : pawn.Position);
             recovery.initAction += () =>
             {
-                recoveryUntil = Math.Max(recoveryUntil, TacticalExplosiveEvasionPolicy.QuietUntil(GenTicks.TicksGame, false));
+                recoveryUntil = owner?.RecoveryQuietUntil(pawn, GenTicks.TicksGame, false)
+                    ?? TacticalExplosiveEvasionPolicy.QuietUntil(GenTicks.TicksGame, false);
                 nextCombatCheck = 0;
             };
             bool CheckCombat(int tick, out bool engaged)
@@ -159,7 +162,8 @@ namespace Helodrace.Tactics
                 if (tick < nextCombatCheck) return false;
                 bool checkedNow = owner == null || owner.TryRecoveryFire(pawn, job, tick, out engaged);
                 nextCombatCheck = tick + (checkedNow ? 30 + pawn.thingIDNumber % 7 : 3 + pawn.thingIDNumber % 3);
-                if (engaged) recoveryUntil = Math.Max(recoveryUntil, TacticalExplosiveEvasionPolicy.QuietUntil(tick, true));
+                if (engaged) recoveryUntil = owner?.RecoveryQuietUntil(pawn, tick, true)
+                    ?? TacticalExplosiveEvasionPolicy.QuietUntil(tick, true);
                 return checkedNow;
             }
             recovery.tickAction = () =>

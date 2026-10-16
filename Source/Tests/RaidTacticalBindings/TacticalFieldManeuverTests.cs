@@ -11,9 +11,35 @@ internal static class TacticalFieldManeuverTests
     {
         int checks = 0;
         void Check(bool condition, string reason) { checks++; if (!condition) throw new Exception(reason); }
-        Check(TacticalFieldPolicy.Continue(1000, 500, -1), "Short observation gaps must preserve the field mission.");
-        Check(TacticalFieldPolicy.Continue(1000, 0, 900), "Actual recent shots must preserve combat after stale scheduled observation.");
-        Check(!TacticalFieldPolicy.Continue(900, 0, -1), "A lost mission must terminate after its bounded grace period.");
+        var releaseService=new MapComponent_TacticalCommands(null);
+        var release=new TacticalSquadCommand {Phase=TacticalCommandPhase.Stack,
+            FieldResponse=new TacticalFieldResponse {Started=900,LastSeen=999,LastEngaged=999}};
+        var advance=AccessTools.Method(releaseService.GetType(),"AdvanceFieldResponse");
+        Check(!(bool)advance.Invoke(releaseService,new object[]{release,new List<TacticalMemberCommand>(),1000})
+            && release.FieldResponse==null && release.Due==1001,
+            "Without fresh contact, even a recent shot must release the field response on this decision instead of a 900-tick stationary grace.");
+        var projectile=(Projectile)RuntimeHelpers.GetUninitializedObject(typeof(Projectile_Explosive));
+        AccessTools.Field(typeof(Thing),"mapIndexOrState").SetValue(projectile,(sbyte)0);
+        release.FieldResponse=new TacticalFieldResponse {Started=1000,Screen=new TacticalFieldSmoke {Projectile=projectile}};
+        var previousGame=Current.Game;
+        try
+        {
+            var game=(Game)RuntimeHelpers.GetUninitializedObject(typeof(Game));
+            AccessTools.Field(typeof(Game),"maps").SetValue(game,new List<Map>{null}); Current.Game=game;
+            Check((bool)advance.Invoke(releaseService,new object[]{release,new List<TacticalMemberCommand>(),1001})
+                && release.FieldResponse!=null,
+                "Losing field contact cannot abandon a launched smoke projectile's existing safety controller.");
+        }
+        finally { Current.Game=previousGame; }
+        var recovering=new Pawn();
+        AccessTools.Field(releaseService.GetType(),"byPawn").SetValue(releaseService,
+            new Dictionary<Pawn,TacticalSquadCommand>(ReferenceEqualityComparer.Instance){[recovering]=release});
+        var recoveryQuiet=AccessTools.Method(releaseService.GetType(),"RecoveryQuietUntil");
+        Check((int)recoveryQuiet.Invoke(releaseService,new object[]{recovering,1001,true})==1001,
+            "An owned field recovery does not add a post-contact hold.");
+        release.FieldResponse=null;
+        Check((int)recoveryQuiet.Invoke(releaseService,new object[]{recovering,1001,true})==1091,
+            "The same pawn returning to CQB retains its 90-tick quiet window.");
         Check(!TacticalFieldPolicy.Prepare(false, false, false, 30, 31 * 31), "Attackers must keep approaching a distant passive observation.");
         Check(TacticalFieldPolicy.Prepare(false, false, false, 30, 30 * 30), "Targets at the weapon boundary allow preparation.");
         Check(TacticalFieldPolicy.Prepare(true, false, false, 30, 10000)
@@ -51,6 +77,6 @@ internal static class TacticalFieldManeuverTests
         var fixedJob = AccessTools.Method(typeof(MapComponent_TacticalCommands), "FixedFieldPostJob");
         Check(fixedJob.Invoke(service, new object[] { rejected, new TacticalSquadCommand(), 200 }) == null,
             "Uncovered placement cannot acquire a permanent fixed-position wait.");
-        Console.WriteLine("PASS: " + checks + " field feedback, contact grace and attack approach checks.");
+        Console.WriteLine("PASS: " + checks + " field contact release, explosive safety, recovery scope and attack approach checks.");
     }
 }

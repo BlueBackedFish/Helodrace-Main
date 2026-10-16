@@ -42,7 +42,7 @@ namespace Helodrace.Tactics
     }
     public static class TacticalFieldManeuverPolicy
     {
-        public const int CandidateLimit = 24, CandidateBatch = 4, MoveTimeout = 1800;
+        public const int CandidateLimit = 24, CandidateBatch = 4, MoveTimeout = 1800, StrikeTimeout = 900;
         public static IntVec3 Candidate(IntVec3 anchor, IntVec3 focus, int side, int index, bool high)
         {
             double distance = Math.Sqrt(anchor.DistanceToSquared(focus));
@@ -234,7 +234,10 @@ namespace Helodrace.Tactics
                     && StartFieldReserve(command, active, field, tick)) return;
                 // A successful flank holds its useful angle; a fixed strike
                 // timer must not send actual crossfire back to the original line.
-                if (tick - Math.Max(m.PhaseAt, m.LastStrikeAt) >= TacticalFieldPolicy.ContactGrace) BeginFieldRecovery(command, field, tick);
+                // This timeout permits acquiring a firing solution while fresh
+                // enemy contact still exists; contact loss ends the whole field
+                // response before this maneuver is advanced.
+                if (tick - Math.Max(m.PhaseAt, m.LastStrikeAt) >= TacticalFieldManeuverPolicy.StrikeTimeout) BeginFieldRecovery(command, field, tick);
             }
             if (m.Phase == TacticalManeuverPhase.Recover)
             {

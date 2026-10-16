@@ -18,8 +18,6 @@ namespace Helodrace.Tactics
         public const int PlayerApproachRadius = 55;
         public const int HighWidth = 8, HighDepth = 6, CoverLimit = 64, CoverBatch = 96;
         public const float MinimumCover = .15f;
-        public const int ContactGrace = 900;
-        public static bool Continue(int tick, int seen, int engaged) => tick - Math.Max(seen, engaged) < ContactGrace;
         public static bool Prepare(bool defensive, bool support, bool takingFire, float range, int distanceSquared,
             TacticalObservedMotion motion = TacticalObservedMotion.Unknown) =>
             defensive || support || takingFire || motion == TacticalObservedMotion.Approaching || distanceSquared <= range * range;
@@ -201,7 +199,9 @@ namespace Helodrace.Tactics
                             field.WeaponRange = Math.Max(field.WeaponRange, member.Pawn.equipment?.PrimaryEq?.PrimaryVerb?.EffectiveRange ?? 0);
                     }
                 }
-            if (!permitted && !TacticalFieldPolicy.Continue(tick, field.LastSeen, field.LastEngaged))
+            // Fresh contact already accounts for the sliced observation cadence.
+            // Do not add a second stationary grace period after contact ends.
+            if (!permitted)
             {
                 var screen = field.Screen;
                 bool returning = screen?.ActiveJob != null && screen.Thrower?.Spawned == true && !screen.Thrower.Dead && !screen.Thrower.Downed;

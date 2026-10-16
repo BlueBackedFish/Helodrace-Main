@@ -61,6 +61,13 @@ internal static class TacticalExplosiveEvasionTests
         Check(command.PhaseStarted == 140, "An ended evasion must shift phase clocks exactly once.");
 
         int quietUntil = TacticalExplosiveEvasionPolicy.QuietUntil(100, false);
+        Check(TacticalExplosiveEvasionPolicy.QuietUntil(100,false,true)==100
+            && TacticalExplosiveEvasionPolicy.QuietUntil(130,true,true)==130
+            && TacticalExplosiveEvasionPolicy.CanReturn(130,130,true,false,false)
+            && !TacticalExplosiveEvasionPolicy.CanReturn(130,130,false,false,false)
+            && !TacticalExplosiveEvasionPolicy.CanReturn(130,130,true,true,false)
+            && !TacticalExplosiveEvasionPolicy.CanReturn(130,130,true,false,true),
+            "Field recovery has no post-contact idle timer but still requires an admitted safety/combat check, no target and no busy stance.");
         Check(!TacticalExplosiveEvasionPolicy.CanReturn(189, quietUntil, true, false, false)
             && TacticalExplosiveEvasionPolicy.CanReturn(190, quietUntil, true, false, false),
             "Recovery must reassess before returning, then release an empty firing area without indefinite holding.");
