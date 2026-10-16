@@ -8,10 +8,14 @@ using Verse;
 
 namespace Helodrace.Tactical
 {
-    // A visible, timed marker on the exact treated body part. Does not tend wounds.
+    // A visible, timed marker on the treated part or its surviving stump. Does not tend wounds.
     public sealed class Hediff_PartHemostasis : Hediff_TcccTimed
     {
         public float bleedingFactor = 1f;
+        public BodyPartRecord bleedingPart;
+        public BodyPartRecord TargetPart => bleedingPart ?? Part;
+        // Several missing parts can share one surviving parent; each needs its own marker.
+        public override bool TryMergeWith(Hediff other) => false;
         public override float PainOffset => PartHemostasis.PainOffset(pawn?.health?.hediffSet, this, Find.TickManager.TicksGame);
         public override string TipStringExtra => base.TipStringExtra + "\n"
             + "HD_Hemostasis_Reduction".Translate((1f - bleedingFactor).ToString("P0"));
@@ -19,6 +23,7 @@ namespace Helodrace.Tactical
         {
             base.ExposeData();
             Scribe_Values.Look(ref bleedingFactor, "bleedingFactor", 1f);
+            Scribe_BodyParts.Look(ref bleedingPart, "bleedingPart");
             if (Scribe.mode == LoadSaveMode.PostLoadInit) PartHemostasis.Invalidate(pawn?.health?.hediffSet);
         }
         public override void PostAdd(DamageInfo? dinfo)
@@ -79,17 +84,22 @@ namespace Helodrace.Tactical
         {
             if (patient?.health?.hediffSet == null || part == null || duration <= 0) return null;
             HediffDef def = DefDatabase<HediffDef>.GetNamed(effectName);
+            HediffSet set = patient.health.hediffSet;
+            BodyPartRecord attachment = part;
+            while (attachment != null && set.PartIsMissing(attachment)) attachment = attachment.parent;
+            if (attachment == null) return null;
             Hediff_PartHemostasis marker = null;
-            foreach (Hediff hediff in patient.health.hediffSet.hediffs)
-                if (hediff.def == def && hediff.Part == part && hediff is Hediff_PartHemostasis found)
+            foreach (Hediff hediff in set.hediffs)
+                if (hediff.def == def && hediff is Hediff_PartHemostasis found && found.TargetPart == part)
                 { marker = found; break; }
             int expires = Find.TickManager.TicksGame + duration;
             factor = Math.Max(0f, Math.Min(1f, factor));
             if (marker == null)
             {
-                marker = (Hediff_PartHemostasis)HediffMaker.MakeHediff(def, patient, part);
+                marker = (Hediff_PartHemostasis)HediffMaker.MakeHediff(def, patient, attachment);
                 marker.expiresTick = expires;
                 marker.bleedingFactor = factor;
+                marker.bleedingPart = attachment == part ? null : part;
                 patient.health.AddHediff(marker);
             }
             else
@@ -149,13 +159,13 @@ namespace Helodrace.Tactical
                         cache.validUntil = Math.Min(cache.validUntil, drug.expiresTick);
                         continue;
                     }
-                    if (!(hediff is Hediff_PartHemostasis marker) || marker.Part == null || marker.expiresTick <= tick) continue;
+                    if (!(hediff is Hediff_PartHemostasis marker) || marker.TargetPart == null || marker.expiresTick <= tick) continue;
                     cache.validUntil = Math.Min(cache.validUntil, marker.expiresTick);
                     float factor = Math.Max(0f, Math.Min(1f, marker.bleedingFactor));
-                    if (!cache.factors.TryGetValue(marker.Part, out float previous) || factor < previous)
-                        cache.factors[marker.Part] = factor;
+                    if (!cache.factors.TryGetValue(marker.TargetPart, out float previous) || factor < previous)
+                        cache.factors[marker.TargetPart] = factor;
                     if (marker.def?.defName == DressingDefName && cache.painfulParts.Count < MaxPainfulParts
-                        && cache.painfulParts.Add(marker.Part)) cache.painOwners.Add(marker);
+                        && cache.painfulParts.Add(marker.TargetPart)) cache.painOwners.Add(marker);
                 }
                 cache.dirty = false;
             }

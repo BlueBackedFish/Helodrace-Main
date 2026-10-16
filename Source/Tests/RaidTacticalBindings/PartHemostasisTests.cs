@@ -47,6 +47,16 @@ internal static class PartHemostasisTests
         PartHemostasis.Invalidate(set);
         Check(PartHemostasis.Factor(set,right,700)==0f && PartHemostasis.Factor(set,left,700)==1f,
             "Invalid potency clamps safely and does not leak to another part.");
+        var missingLeft = new BodyPartRecord(); var missingRight = new BodyPartRecord();
+        var stump = Marker(left,.20f,900); stump.bleedingPart = missingLeft;
+        var otherStump = Marker(left,.30f,900); otherStump.bleedingPart = missingRight;
+        set.hediffs.Add(stump); set.hediffs.Add(otherStump); PartHemostasis.Invalidate(set);
+        Check(PartHemostasis.Factor(set,missingLeft,700)==.20f
+            && PartHemostasis.Factor(set,missingRight,700)==.30f
+            && PartHemostasis.Factor(set,left,700)==1f
+            && PartHemostasis.HasDressing(set,missingLeft,700)
+            && !PartHemostasis.HasDressing(set,left,700),
+            "Stump markers reduce bleeding on their own missing parts without affecting the surviving parent.");
         var combined = new HediffSet(new Pawn());
         var local = Marker(left,PartHemostasis.DressingFactor,900);
         combined.hediffs.Add(local);

@@ -15,6 +15,7 @@ namespace Helodrace.Tactical
     {
         private Pawn actor;
         private BodyPartRecord left, right;
+        private BodyPartRecord missingLeg;
         private Hediff leftWound, rightWound;
         private Hediff_PartHemostasis completedDressing;
         private Apparel bag;
@@ -210,6 +211,45 @@ namespace Helodrace.Tactical
                             && dressings.Any(h=>h.Part.def.defName=="Brain")
                             && TcccUtility.Effect(patient,"HD_TCCC_Pressure")==null,
                             "Actual other-pawn twenty-second skill dresses exactly six wounded parts including brain");
+                        missingLeg=actor.RaceProps.body.AllParts.First(p=>p.def==BodyPartDefOf.Leg);
+                        Wound(missingLeg);
+                        Check(PartHemostasis.BleedingParts(actor).Contains(missingLeg),
+                            "Wounded leg is selected for treatment before destruction");
+                        TcccUtility.Start(actor,actor,TcccTreatment.Hemostasis); Next(7); break;
+                    case 7:
+                        if (WorkTicks<1) break;
+                        if (!addedLater)
+                        {
+                            actor.health.AddHediff(HediffDefOf.MissingBodyPart,missingLeg);
+                            Check(actor.health.hediffSet.PartIsMissing(missingLeg),
+                                "Selected leg can become missing while hemostasis is running");
+                            addedLater=true;
+                        }
+                        var pressure=actor.health.hediffSet.hediffs.OfType<Hediff_PartHemostasis>()
+                            .FirstOrDefault(h=>h.def.defName=="HD_TCCC_Pressure" && h.TargetPart==missingLeg);
+                        if (pressure==null) break;
+                        Check(pressure.Part==missingLeg.parent && !actor.health.hediffSet.PartIsMissing(pressure.Part)
+                            && PartHemostasis.Factor(actor.health.hediffSet,missingLeg,GenTicks.TicksGame)==.30f,
+                            "Skill pressure attaches to the surviving stump and reduces missing-part bleeding");
+                        Next(8); break;
+                    case 8:
+                        var dressingOnStump=actor.health.hediffSet.hediffs.OfType<Hediff_PartHemostasis>()
+                            .FirstOrDefault(h=>h.def.defName==PartHemostasis.DressingDefName && h.TargetPart==missingLeg);
+                        if (dressingOnStump==null) break;
+                        Check(dressingOnStump.Part==missingLeg.parent
+                            && PartHemostasis.Factor(actor.health.hediffSet,missingLeg,GenTicks.TicksGame)==.20f
+                            && PartHemostasis.Factor(actor.health.hediffSet,missingLeg.parent,GenTicks.TicksGame)==1f,
+                            "Completed skill dresses the missing leg without suppressing unrelated torso bleeding");
+                        Check(ReferenceEquals(dressingOnStump,PartHemostasis.ApplyDressing(actor,missingLeg)),
+                            "Treating the same missing part refreshes its stump dressing");
+                        var otherLeg=actor.RaceProps.body.AllParts.First(p=>p.def==BodyPartDefOf.Leg && p!=missingLeg);
+                        actor.health.AddHediff(HediffDefOf.MissingBodyPart,otherLeg);
+                        var otherDressing=PartHemostasis.ApplyDressing(actor,otherLeg);
+                        Check(otherDressing!=null && otherDressing!=dressingOnStump
+                            && otherDressing.Part==dressingOnStump.Part && otherDressing.TargetPart==otherLeg
+                            && actor.health.hediffSet.hediffs.Contains(otherDressing)
+                            && actor.health.hediffSet.hediffs.Contains(dressingOnStump),
+                            "Two missing legs retain separate dressings on their shared surviving torso");
                         File.AppendAllText(Results,"COMPLETE\n"); finished=true; Root.Shutdown(); break;
                 }
             }
