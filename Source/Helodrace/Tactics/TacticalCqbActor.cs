@@ -136,12 +136,26 @@ namespace Helodrace.Tactics
         {
             if(!pawn.Spawned || pawn.Dead || pawn.Downed || pawn.CurJob!=job) return;
             int tick=GenTicks.TicksGame;
-            if(member?.Job==job && member.CqbOrder?.Revision==revision && pawn.Position==lastCell
+            if(member?.Job==job && member.RoomWatchUntil<=tick && member.CqbOrder?.Revision==revision && pawn.Position==lastCell
                 && AtPost && tick<nextStepAt) return;
             lastCell=pawn.Position; nextStepAt=tick+3;
             var owner=pawn.Map?.GetComponent<MapComponent_TacticalCommands>();
             if (owner==null) { EndJobWith(JobCondition.Incompletable); return; }
             member=member??owner.ActorMember(pawn,job);
+            // A short rear watch overlays execution, not the next plan. Keep
+            // accepting future intents so expiry resumes the newest route.
+            if (member != null && owner.RoomWatching(member, tick))
+            {
+                AtPost = false;
+                if (pawn.pather.Moving) pawn.pather.StopDead();
+                job.targetB = member.RoomWatchFace;
+                if (tick >= nextShot)
+                {
+                    bool checkedNow = owner.TryRoomWatchFire(pawn, job, tick);
+                    nextShot = tick + TacticalPostFirePolicy.CheckDelay(checkedNow, pawn.thingIDNumber);
+                }
+                return;
+            }
             TacticalCqbOrder order=member?.CqbOrder;
             if(member==null || !owner.ActorValid(member,order))
             { if(pawn.pather.Moving) pawn.pather.StopDead(); AtPost=false; return; } // Await an admitted new role/intent.

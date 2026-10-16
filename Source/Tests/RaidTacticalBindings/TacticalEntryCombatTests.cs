@@ -50,11 +50,12 @@ internal static class TacticalEntryCombatTests
         command.Frontiers.Add(new TacticalRoomFrontier { Opening = origin, Inward = IntVec3.North });
         typeof(MapComponent_TacticalCommands).GetMethod("AdvanceRoomClear", BindingFlags.Instance | BindingFlags.NonPublic)
             .Invoke(owner, new object[] { command, new List<TacticalMemberCommand>(), 100 });
-        Check(command.Due == 130 && command.FrontierCursor == 0 && command.Plan == plan
+        Check(command.Due == 110 && command.FrontierCursor == 0 && command.Plan == plan
             && command.Phase == TacticalCommandPhase.Clear, "Ongoing engagement must preserve the current room and defer the next frontier.");
-        typeof(MapComponent_TacticalCommands).GetMethod("AdvanceRoomClear", BindingFlags.Instance | BindingFlags.NonPublic)
+        bool held = (bool)AccessTools.Method(owner.GetType(), "HoldRoomCombat")
             .Invoke(owner,new object[]{command,new List<TacticalMemberCommand>(),275});
-        Check(command.Due == 280,"Quiet-window expiry must wake the command without an extra 30-tick polling delay.");
+        Check(!held && command.RoomWatchHandledUntil == 280,
+            "The quiet tail must permit the rest of the squad to plan instead of holding everyone for 90 ticks.");
         CheckCommittedIngress(Check,origin);
         Console.WriteLine("PASS: " + checks + " entry combat quiet-window, connected bounded cover, occupied posts and room-progress checks.");
     }

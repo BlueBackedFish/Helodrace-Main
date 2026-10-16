@@ -754,8 +754,7 @@ namespace Helodrace.Tactics
             AdvanceEntryPreview(command, active, tick);
             if (CqbEntryReady(command,active,tick))
             {
-                if (TacticalEntryCombatPolicy.Engaged(command.EntryCombatUntil, tick))
-                { command.CqbWait=TacticalCqbWait.CombatQuiet; command.Due = Math.Min(tick + 30, command.EntryCombatUntil); return; }
+                if (HoldRoomCombat(command, active, tick)) return;
                 // Keep owned posts while freeing the unused entry approach.
                 // Vanilla next-job selection must not run for a whole squad here.
                 BeginRoomClear(command, tick);
@@ -940,6 +939,7 @@ namespace Helodrace.Tactics
             }
             // Set ownership before StartJob; an old job's finish notification
             // cannot clear the replacement. One owner, one persistent job.
+            member.RoomWatchUntil = 0;
             member.Job = job; JobsIssued++;
             if(byPawn.TryGetValue(member.Pawn,out var execution)) member.CqbExecutionVersion=execution.PlanVersion;
             member.PostReady=false;
@@ -974,6 +974,7 @@ namespace Helodrace.Tactics
         }
         private static void EndOwned(TacticalMemberCommand member, bool startNewJob = true)
         {
+            member.RoomWatchUntil = 0;
             Job owned = member.Job; member.Job = null;
             if (owned != null && member.Pawn?.CurJob == owned)
                 member.Pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: startNewJob);

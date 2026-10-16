@@ -52,6 +52,7 @@ internal static class Program
     {
         try
         {
+            if (args.Contains("--room-watch")) { TacticalRoomWatchTests.Run(); TacticalEntryCombatTests.Run(); TacticalHighCqbTests.Run(); return 0; }
             if (args.Contains("--facing")) { TacticalFacingTests.Run(); return 0; }
             if (args.Contains("--path-admission")) { TacticalPathAdmissionTests.Run(); return 0; }
             if (args.Contains("--sharp-load")) { SharpshooterLoadTests.Run(); TacticalFieldModeTests.Run(); return 0; }

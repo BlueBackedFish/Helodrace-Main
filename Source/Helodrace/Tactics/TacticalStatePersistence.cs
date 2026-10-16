@@ -14,6 +14,9 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref RetryTick, "retryTick");
             Scribe_Values.Look(ref LastProgressTick, "lastProgressTick");
             Scribe_Values.Look(ref FireCandidateCursor, "fireCandidateCursor");
+            Scribe_Values.Look(ref RoomWatchUntil, "roomWatchUntil");
+            Scribe_Values.Look(ref RoomWatchCell, "roomWatchCell", IntVec3.Invalid);
+            Scribe_Values.Look(ref RoomWatchFace, "roomWatchFace", IntVec3.Invalid);
             Scribe_Values.Look(ref FieldDecisionAt, "lowDecisionAt");
             Scribe_Values.Look(ref FieldShotAt, "fieldShotAt", -1);
             Scribe_Values.Look(ref FieldObservationAt, "fieldObservationAt");
@@ -118,6 +121,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref ContactHandledAt, "contactHandledAt");
             Scribe_Values.Look(ref ContactCloseAt, "contactCloseAt");
             Scribe_Values.Look(ref EntryCombatUntil, "entryCombatUntil");
+            Scribe_Values.Look(ref RoomWatchHandledUntil, "roomWatchHandledUntil");
             Scribe_Values.Look(ref EvasionStarted, "evasionStarted", -1);
             Scribe_Values.Look(ref EntryCombatFocus, "entryCombatFocus", IntVec3.Invalid);
             Scribe_Values.Look(ref ReplanAfterSupport, "replanAfterSupport");

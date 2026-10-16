@@ -78,13 +78,13 @@ namespace Helodrace.Tactics
         internal void ContactShot(Pawn pawn)
         {
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command)) return;
-            if (TacticalEntryCombatPolicy.ArrivalPhase(command.Phase))
-                command.EntryCombatUntil = System.Math.Max(command.EntryCombatUntil, GenTicks.TicksGame + TacticalEntryCombatPolicy.QuietTicks);
+            var shooter = command.Members.Find(m => m.Pawn == pawn);
+            if (TacticalEntryCombatPolicy.ArrivalPhase(command.Phase) || shooter?.RoomWatchUntil > GenTicks.TicksGame)
+                EntryCombatEvidence(command, shooter, GenTicks.TicksGame);
             if (command.FieldResponse != null)
             {
                 FieldShots++; command.FieldResponse.LastEngaged = GenTicks.TicksGame;
-                var member = command.Members.Find(m => m.Pawn == pawn);
-                if (member != null) member.FieldShotAt = GenTicks.TicksGame;
+                if (shooter != null) shooter.FieldShotAt = GenTicks.TicksGame;
             }
             else ContactShots++;
         }

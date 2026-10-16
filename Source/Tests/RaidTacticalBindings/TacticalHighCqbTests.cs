@@ -241,6 +241,10 @@ internal static class TacticalHighCqbTests
             .Invoke(new object[]{root,previewScan});
         AccessTools.Field(root.GetType(),"EntryPreview").SetValue(root,preview);
         root.Members.Add(new TacticalMemberCommand());
+        root.RoomWatchHandledUntil = 190;
+        root.Members[0].RoomWatchUntil = 190;
+        root.Members[0].RoomWatchCell = new IntVec3(15,0,11);
+        root.Members[0].RoomWatchFace = new IntVec3(18,0,11);
         root.Members[0].EntryVersion=root.PlanVersion; root.Members[0].LaneCleared=true;
         root.Members[0].CqbOrder=new TacticalCqbOrder { Owner="root",Version=root.PlanVersion,Revision=7,
             Ingress=true,Combat=true,Reposition=true,StartLeg=3,Destination=new IntVec3(15,0,11),Opening=root.Plan.Opening,
@@ -286,6 +290,10 @@ internal static class TacticalHighCqbTests
                 && (int)AccessTools.Field(loadedDriver.GetType(),"leg").GetValue(loadedDriver)==3
                 && (int)AccessTools.Field(loadedDriver.GetType(),"quietUntil").GetValue(loadedDriver)==170,
                 "Native Scribe retains the continuing driver's physical leg and individual quiet deadline.");
+            check(restored.RoomWatchHandledUntil==190 && restored.Members[0].RoomWatchUntil==190
+                && restored.Members[0].RoomWatchCell==root.Members[0].RoomWatchCell
+                && restored.Members[0].RoomWatchFace==root.Members[0].RoomWatchFace,
+                "Native Scribe preserves selective watch membership, deadline and post without selecting a second team after load.");
             check(restored.Members[0].EntryCoverAnchor==root.Members[0].EntryCoverAnchor
                 && restored.Members[0].EntryCoverOwner=="root" && restored.Members[0].EntryCoverVersion==root.PlanVersion
                 && restored.Members[0].EntryCoverCheckAt==250 && restored.Members[0].EntryNoShotSince==150

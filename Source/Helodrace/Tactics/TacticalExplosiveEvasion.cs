@@ -84,6 +84,7 @@ namespace Helodrace.Tactics
             if (pawn.CurJob != job || !TryEvasionContext(pawn, out TacticalSquadCommand command)) return;
             TacticalMemberCommand member = command.Members.Find(m => m.Pawn == pawn);
             if (member == null) return;
+            member.RoomWatchUntil = 0;
             member.Job = job; member.RetryTick = 0;
             member.LastProgressTick = GenTicks.TicksGame; member.LastPosition = pawn.Position;
             // Interrupted unlaunched observation/preparation can be rebuilt.

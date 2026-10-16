@@ -212,10 +212,9 @@ namespace Helodrace.Tactics
         }
         private void AdvanceRoomClear(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
         {
-            // An actual visible firing opportunity, shot or incoming damage
-            // holds this room. Old contact memory alone cannot stall progress.
-            if (TacticalEntryCombatPolicy.Engaged(command.EntryCombatUntil, tick))
-            { command.Due = Math.Min(tick + 30, command.EntryCombatUntil); return; }
+            // Actual combat holds the room; the quiet tail belongs to a small
+            // watch while the remaining members can receive the next intent.
+            if (HoldRoomCombat(command, active, tick)) return;
             if (command.CqbParent != null && !command.CqbEntered && command.CqbTask != null
                 && !TacticalMissionRouting.UnenteredRoom(command.CqbParent, command.CqbTask))
             {
