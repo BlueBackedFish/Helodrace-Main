@@ -30,6 +30,7 @@ namespace Helodrace.ModernWar
         public float muzzleVelocityOffsetMetersPerSecond;
         public float damageTransfer;
         public float penetrationEfficiency;
+        public float rangeAdjustmentPercent;
     }
 
     /// <summary>
@@ -57,6 +58,8 @@ namespace Helodrace.ModernWar
         public float DamageTransferFactor { get; internal set; } = 1f;
         public float PenetrationEfficiencyFactor { get; internal set; } = 1f;
         public ModularWeaponBallisticProfile Ballistics { get; internal set; }
+        public float MechanicalRangeFactor { get; internal set; } = 1f;
+        public float RangeFactor { get; internal set; } = 1f;
 
         public float VanillaWarmupFactor { get; internal set; } = 1f;
         public float VanillaCycleFactor { get; internal set; } = 1f;
@@ -89,6 +92,7 @@ namespace Helodrace.ModernWar
             public float aimingPrecision;
             public float identificationMeters;
             public float barrelLength, velocityOffset, damageTransfer, penetrationEfficiency;
+            public float rangeAdjustment;
         }
 
         public static ModularWeaponConvertedStats Resolve(
@@ -161,6 +165,7 @@ namespace Helodrace.ModernWar
                 aggregate.localInertia += Mathf.Max(0f, authored.momentOfInertia);
                 if (!opticalAccessory)
                 {
+                    aggregate.rangeAdjustment += authored.rangeAdjustmentPercent * performanceWeight;
                     aggregate.targetAcquisition += authored.targetAcquisition * performanceWeight;
                     aggregate.aimingPrecision += authored.aimingPrecision * performanceWeight;
                     aggregate.identificationMeters += authored.identificationDistanceMeters
@@ -263,6 +268,7 @@ namespace Helodrace.ModernWar
                 DamageTransferFactor = Mathf.Clamp(1f + aggregate.damageTransfer / 100f, 0.25f, 2f),
                 PenetrationEfficiencyFactor = Mathf.Clamp(1f + aggregate.penetrationEfficiency / 100f, 0.25f, 2f)
             };
+            result.MechanicalRangeFactor = Mathf.Clamp(1f + aggregate.rangeAdjustment / 100f, 0.65f, 1.35f);
 
             result.VanillaWarmupFactor = Mathf.Clamp(
                 1.47f
@@ -311,6 +317,7 @@ namespace Helodrace.ModernWar
             result.VanillaAccuracyShortFactor *= sightPerformance.Short;
             result.VanillaAccuracyMediumFactor *= sightPerformance.Medium;
             result.VanillaAccuracyLongFactor *= sightPerformance.Long;
+            result.RangeFactor = Mathf.Clamp(result.MechanicalRangeFactor * sightPerformance.Range, 0.5f, 1.5f);
 
             // CE-ready values are generated now but applied only by the CE
             // compatibility assembly, avoiding any hard dependency here.
@@ -350,6 +357,7 @@ namespace Helodrace.ModernWar
             Add(offsets, StatDefOf.Mass, converted.MassKg - rootMass);
             Multiply(factors, StatDefOf.RangedWeapon_WarmupMultiplier,
                 converted.VanillaWarmupFactor);
+            Multiply(factors, StatDefOf.RangedWeapon_RangeMultiplier, converted.RangeFactor);
             // CE performs angular dispersion through ShiftVecReport. Leaving the
             // vanilla range-band accuracy factors active in a CE session makes the
             // authoring system appear to use two independent hit models.

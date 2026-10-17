@@ -9,6 +9,7 @@
     <Compile Include="../../Helodrace/Core/BulletBallistics.cs" Link="BulletBallistics.cs" />
     <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponBallistics.cs" Link="ModularWeaponBallistics.cs" />
     <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponBallisticDisplay.cs" Link="ModularWeaponBallisticDisplay.cs" />
+    <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponRange.cs" Link="ModularWeaponRange.cs" />
     <Reference Include="Assembly-CSharp"><HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath></Reference>
     <Reference Include="UnityEngine.CoreModule"><HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath></Reference>
     <PackageReference Include="Lib.Harmony" Version="2.3.3" />

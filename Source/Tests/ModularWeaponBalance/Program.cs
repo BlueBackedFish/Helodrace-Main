@@ -46,6 +46,7 @@ internal static class Program
             VariantTests();
             BallisticTests();
             BallisticAuthoringTests();
+            RangeTests();
             Console.WriteLine("PASS: "+checks+" modular balance checks using production sight/stat code and patched preset geometry.");
             return 0;
         }
@@ -228,9 +229,11 @@ internal static class Program
         Near(Math.Max(s.Touch,d.Touch),both.Touch,"Groups take maximum touch factor");
         Near(Math.Max(s.Short,d.Short),both.Short,"Groups take maximum short factor");
         Near(Math.Max(s.Long,d.Long),both.Long,"Groups take maximum long factor");
+        Near(Math.Max(s.Range,d.Range),both.Range,"Groups take maximum range factor");
         Near(Math.Min(s.Warmup,d.Warmup),both.Warmup,"Groups take fastest independent acquisition factor");
         var copy=TestSight(ModularSightKind.Scope,-.1f,.24f);
         Near(s.Long,SightProfile(new(){r,scope,copy}).Long,"Duplicate groups never multiply bonuses");
+        Near(s.Range,SightProfile(new(){r,scope,copy}).Range,"Duplicate sight groups never multiply range bonuses");
         var one=Convert(single);var two=Convert(new(){r,scope,copy});
         Check(two.MassKg>one.MassKg && two.VanillaWarmupFactor>=one.VanillaWarmupFactor,"Inactive/duplicate optics still impose physical costs");
         Check(two.VanillaAccuracyLongFactor<=one.VanillaAccuracyLongFactor+0.0001f,"Duplicate optics do not increase final accuracy");
@@ -277,7 +280,9 @@ internal static class Program
             string[] keys={"AccuracyTouch","AccuracyShort","AccuracyMedium","AccuracyLong"};
             float[] accuracy=keys.Select((key,i)=>Number(def.Element("statBases").Element(key))*factors[i]).ToArray();
             Check(accuracy.All(a=>a>0 && a<=.92f),"Stock gun accuracy must retain meaningful miss chances: "+pair.Key);
-            Console.WriteLine(pair.Key+" mass="+stats.MassKg.ToString("F2")+" warmup="+warmup.ToString("F2")+" cooldown="+cooldown.ToString("F2")+" accuracy="+string.Join("/",accuracy.Select(a=>a.ToString("F3"))));
+            float range=Number(verbs[0].Element("range"))*stats.RangeFactor;
+            Check(range>=15 && range<=50,"Default build range stays within weapon-scale bounds");
+            Console.WriteLine(pair.Key+" mass="+stats.MassKg.ToString("F2")+" warmup="+warmup.ToString("F2")+" cooldown="+cooldown.ToString("F2")+" range="+range.ToString("F1")+" accuracy="+string.Join("/",accuracy.Select(a=>a.ToString("F3"))));
         }
     }
     private static void VariantTests()
@@ -288,6 +293,7 @@ internal static class Program
             string weapon=preset.Element("weaponDef").Value;
             var stats=Convert(BuildAssembly(weapon,preset));
             Check(stats.VanillaWarmupFactor>=0.65f && stats.VanillaWarmupFactor<=2.5f,"Preset warmup remains bounded: "+preset.Element("defName"));
+            Check(stats.RangeFactor>=.5f && stats.RangeFactor<=1.5f,"Preset range remains bounded");
             var def=Resolve(definitions[weapon]);
             float[] factors={stats.VanillaAccuracyTouchFactor,stats.VanillaAccuracyShortFactor,stats.VanillaAccuracyMediumFactor,stats.VanillaAccuracyLongFactor};
             string[] keys={"AccuracyTouch","AccuracyShort","AccuracyMedium","AccuracyLong"};
@@ -307,6 +313,7 @@ internal static class Program
         var dotStats=Convert(BuildAssembly("HD_Gun_M4A1_Weapon",redDot));
         Check(dotStats.VanillaWarmupFactor<scopeStats.VanillaWarmupFactor,"A lighter close-range optic build can still improve acquisition");
         Check(dotStats.VanillaAccuracyLongFactor<scopeStats.VanillaAccuracyLongFactor,"Faster acquisition retains a long-range tradeoff");
+        Check(dotStats.RangeFactor<scopeStats.RangeFactor,"Short-range optic retains a range tradeoff");
         Check(dotStats.VanillaCooldownFactor<scopeStats.VanillaCooldownFactor,"Lighter handling improves cooldown without changing mechanical RPM");
         Near(dotStats.VanillaCycleFactor,scopeStats.VanillaCycleFactor,"An optic swap cannot change mechanical cycling");
         Check(count>=10,"Stock presets and authored variants were exercised");
@@ -386,7 +393,7 @@ internal static class Program
     private static void BallisticAuthoringTests()
     {
         var inputs=new ModularWeaponInternalStats {massKg=.3f,barrelLengthInches=10.3f,
-            muzzleVelocityOffsetMetersPerSecond=-15,damageTransfer=12,penetrationEfficiency=-5};
+            muzzleVelocityOffsetMetersPerSecond=-15,damageTransfer=12,penetrationEfficiency=-5,rangeAdjustmentPercent=-12};
         var editor=typeof(Dialog_ModularAttachmentEditor);
         var xml=new System.Text.StringBuilder();
         editor.GetMethod("AppendInternalStats",BindingFlags.Static|BindingFlags.NonPublic).Invoke(null,new object[]{xml,inputs});
@@ -399,6 +406,7 @@ internal static class Program
             Near(inputs.muzzleVelocityOffsetMetersPerSecond,copy.muzzleVelocityOffsetMetersPerSecond,"Editor XML/undo preserves velocity offset");
             Near(inputs.damageTransfer,copy.damageTransfer,"Editor XML/undo preserves damage transfer");
             Near(inputs.penetrationEfficiency,copy.penetrationEfficiency,"Editor XML/undo preserves penetration efficiency");
+            Near(inputs.rangeAdjustmentPercent,copy.rangeAdjustmentPercent,"Editor XML/undo preserves effective range adjustment");
         }
         Check(!ReferenceEquals(inputs,cloned),"Undo owns an independent raw-stat copy");
         var integral=new ModularWeaponSightProperties {kind=ModularSightKind.IronSet,integrated=true};
@@ -411,5 +419,36 @@ internal static class Program
             .Any(ext=>(string)ext.Attribute("Class")==typeof(BulletBallisticsExtension).FullName)==true))
             Check(!Projectile(def.Element("defName").Value).GetModExtension<BulletBallisticsExtension>().ConfigErrors().Any(),"Authored ballistic input is valid");
         Check(new BulletBallisticsExtension {referenceVelocityMetersPerSecond=0}.ConfigErrors().Any(),"Invalid ballistic inputs report XML errors");
+    }
+    private static void RangeTests()
+    {
+        var receiver=Node(new CompProperties_ModularWeaponNode {isAssemblyRoot=true,internalStats=new ModularWeaponInternalStats {massKg=1}});
+        var barrel=Node(Properties(Resolve(definitions["HD_ModularPart_Barrel_AR15103_Part"])));
+        var sight=TestSight(ModularSightKind.IronSet,0,.1f);
+        var nodes=new List<ModularRenderNode>{receiver,barrel,sight};
+        var shortBuild=Convert(nodes);
+        barrel.Props.internalStats=Properties(Resolve(definitions["HD_ModularPart_Barrel_AR1520_Part"])).internalStats;
+        var longBuild=Convert(nodes);
+        Check(longBuild.RangeFactor>shortBuild.RangeFactor,"Authored long barrel provides more range than the short barrel");
+        var ammo=Projectile("HD_Bullet_M16A4_Proj");
+        Near(Ballistics(ammo,longBuild).DamageAt(),Ballistics(ammo,shortBuild).DamageAt(),"Longer range does not increase primary damage");
+        Near(Ballistics(ammo,longBuild).PenetrationAt(),Ballistics(ammo,shortBuild).PenetrationAt(),"Longer range does not increase primary penetration");
+        var optic=TestSight(ModularSightKind.Scope,-.1f,.2f);optic.Props.internalStats.rangeAdjustmentPercent=100;
+        nodes.Add(optic);var withOptic=Convert(nodes);
+        Near(longBuild.MechanicalRangeFactor,withOptic.MechanicalRangeFactor,"Optic raw values cannot bypass group range limits");
+        Check(withOptic.RangeFactor>longBuild.RangeFactor,"A valid scope can improve effective range");
+        var duplicate=TestSight(ModularSightKind.Scope,-.1f,.3f);nodes.Add(duplicate);
+        Near(withOptic.RangeFactor,Convert(nodes).RangeFactor,"Installing another scope cannot extend range again");
+        nodes.Remove(sight);nodes.Remove(optic);nodes.Remove(duplicate);
+        Check(Convert(nodes).RangeFactor<longBuild.RangeFactor,"Removing all usable sights reduces effective range");
+        barrel.Props.internalStats.rangeAdjustmentPercent=10000;
+        Check(Convert(nodes).RangeFactor<=1.5f,"Extreme positive range authoring is capped");
+        barrel.Props.internalStats.rangeAdjustmentPercent=-10000;
+        Check(Convert(nodes).RangeFactor>=.5f,"Extreme negative range authoring is capped");
+        var full=Convert(BuildAssembly("HD_Gun_P320_Weapon",definitions["HD_WeaponPreset_ModularP320_Default"]));
+        var raider=Convert(BuildAssembly("HD_Gun_P320_Weapon",definitions["HD_WeaponPreset_P320_RaiderKit"]));
+        Check(raider.RangeFactor>full.RangeFactor,"Flux Raider support kit extends the pistol's effective range");
+        Near(full.DamageTransferFactor,raider.DamageTransferFactor,"Flux range bonus cannot increase direct damage");
+        Console.WriteLine("PASS: authored barrel/Flux range, sight-group maximums, input caps and terminal-damage independence.");
     }
 }

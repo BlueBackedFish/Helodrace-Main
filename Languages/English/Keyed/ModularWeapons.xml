@@ -170,4 +170,7 @@
   <HD_ModularWeapon_ProjectilePenetration>Armor penetration</HD_ModularWeapon_ProjectilePenetration>
   <HD_ModularWeapon_FragmentationChance>Fragmentation chance</HD_ModularWeapon_FragmentationChance>
   <HD_ModularWeapon_BallisticsHint>Values are before target armor at the muzzle. Barrel velocity affects fragmentation only, not primary damage or penetration. Cartridge-based distance falloff remains; traversed armor further reduces fragmentation. Fragment wounds are additional to primary damage.</HD_ModularWeapon_BallisticsHint>
+  <HD_ModularWeapon_EffectiveRange>Effective range</HD_ModularWeapon_EffectiveRange>
+  <HD_ModularWeapon_MechanicalRangeFactor>Mechanical range factor</HD_ModularWeapon_MechanicalRangeFactor>
+  <HD_ModularWeapon_RangeFactor>Combined range factor</HD_ModularWeapon_RangeFactor>
 </LanguageData>

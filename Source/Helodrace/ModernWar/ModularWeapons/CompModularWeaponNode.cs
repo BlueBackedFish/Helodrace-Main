@@ -1162,6 +1162,7 @@ namespace Helodrace.ModernWar
             root.CollectPerformanceStats(affectedStats, 0);
             affectedStats.Add(StatDefOf.RangedWeapon_Cooldown);
             affectedStats.Add(StatDefOf.RangedWeapon_WarmupMultiplier);
+            affectedStats.Add(StatDefOf.RangedWeapon_RangeMultiplier);
             affectedStats.Add(StatDefOf.Mass);
             affectedStats.Add(StatDefOf.AccuracyTouch);
             affectedStats.Add(StatDefOf.AccuracyShort);

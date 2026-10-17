@@ -289,7 +289,7 @@ namespace Helodrace.Tactical
             float referenceAngle = (state.partner.DrawPos - state.shooter.DrawPos).AngleFlat();
             return IsWithinArc(referenceAngle, targetAngle)
                 && state.shooter.Position.DistanceTo(target.Cell)
-                    <= state.verb.verbProps.range
+                    <= state.verb.EffectiveRange
                 && GenSight.LineOfSight(
                     state.shooter.Position,
                     target.Cell,
@@ -422,10 +422,10 @@ namespace Helodrace.Tactical
                 float referenceAngle = (state.partner.DrawPos - start).AngleFlat();
                 Vector3 left = start + Vector3.forward.RotatedBy(
                     referenceAngle - TargetHalfAngle)
-                    * state.verb.verbProps.range;
+                    * state.verb.EffectiveRange;
                 Vector3 right = start + Vector3.forward.RotatedBy(
                     referenceAngle + TargetHalfAngle)
-                    * state.verb.verbProps.range;
+                    * state.verb.EffectiveRange;
                 GenDraw.DrawLineBetween(state.shooter.DrawPos, state.partner.DrawPos, SimpleColor.Cyan, 0.08f);
                 GenDraw.DrawLineBetween(start, left, SimpleColor.Cyan, 0.04f);
                 GenDraw.DrawLineBetween(start, right, SimpleColor.Cyan, 0.04f);

@@ -102,7 +102,7 @@ namespace Helodrace
             if (fieldStep == 1)
             {
                 if (field == null || seen?.Position != fieldSeen) return;
-                float maxRange = fieldCommand.Members.Max(m => m.Pawn.equipment?.PrimaryEq?.PrimaryVerb?.verbProps.range ?? 0);
+                float maxRange = fieldCommand.Members.Max(m => m.Pawn.equipment?.PrimaryEq?.PrimaryVerb?.EffectiveRange ?? 0);
                 result.newFieldEarlySight = field.Anchor.DistanceTo(fieldSeen) > maxRange;
                 fieldBoundBaseline = service.FieldBounds; fieldStepAt = tick; fieldStep = 2;
                 FieldEvent("field response outside range=" + maxRange + " distance=" + field.Anchor.DistanceTo(fieldSeen)); return;

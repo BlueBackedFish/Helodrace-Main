@@ -1350,6 +1350,7 @@ namespace Helodrace.ModernWar
             float velocityOffset = SliderRow(inner, ref y, "Muzzle velocity offset m/s", stats.muzzleVelocityOffsetMetersPerSecond, -300f, 300f);
             float damageTransfer = SliderRow(inner, ref y, "Damage transfer points", stats.damageTransfer, -75f, 100f);
             float penetration = SliderRow(inner, ref y, "Penetration efficiency points", stats.penetrationEfficiency, -75f, 100f);
+            float rangeAdjustment = SliderRow(inner, ref y, "Effective range adjustment %", stats.rangeAdjustmentPercent, -50f, 50f);
             if (!Mathf.Approximately(mass, stats.massKg)
                 || !Mathf.Approximately(recoil, stats.recoilImpulse)
                 || !Mathf.Approximately(ergonomics, stats.ergonomics)
@@ -1364,7 +1365,8 @@ namespace Helodrace.ModernWar
                 || !Mathf.Approximately(barrelLength, stats.barrelLengthInches)
                 || !Mathf.Approximately(velocityOffset, stats.muzzleVelocityOffsetMetersPerSecond)
                 || !Mathf.Approximately(damageTransfer, stats.damageTransfer)
-                || !Mathf.Approximately(penetration, stats.penetrationEfficiency))
+                || !Mathf.Approximately(penetration, stats.penetrationEfficiency)
+                || !Mathf.Approximately(rangeAdjustment, stats.rangeAdjustmentPercent))
             {
                 EnsureUndoCheckpoint(CurrentEditKey(node) + ":internalStats");
                 stats.massKg = mass;
@@ -1382,6 +1384,7 @@ namespace Helodrace.ModernWar
                 stats.muzzleVelocityOffsetMetersPerSecond = velocityOffset;
                 stats.damageTransfer = damageTransfer;
                 stats.penetrationEfficiency = penetration;
+                stats.rangeAdjustmentPercent = rangeAdjustment;
                 root.InvalidateTree();
             }
         }
@@ -2123,6 +2126,7 @@ namespace Helodrace.ModernWar
             builder.AppendLine("  <muzzleVelocityOffsetMetersPerSecond>" + Number(stats.muzzleVelocityOffsetMetersPerSecond) + "</muzzleVelocityOffsetMetersPerSecond>");
             builder.AppendLine("  <damageTransfer>" + Number(stats.damageTransfer) + "</damageTransfer>");
             builder.AppendLine("  <penetrationEfficiency>" + Number(stats.penetrationEfficiency) + "</penetrationEfficiency>");
+            builder.AppendLine("  <rangeAdjustmentPercent>" + Number(stats.rangeAdjustmentPercent) + "</rangeAdjustmentPercent>");
             builder.AppendLine("</internalStats>");
         }
 
@@ -2528,7 +2532,8 @@ namespace Helodrace.ModernWar
                     barrelLengthInches = source.barrelLengthInches,
                     muzzleVelocityOffsetMetersPerSecond = source.muzzleVelocityOffsetMetersPerSecond,
                     damageTransfer = source.damageTransfer,
-                    penetrationEfficiency = source.penetrationEfficiency
+                    penetrationEfficiency = source.penetrationEfficiency,
+                    rangeAdjustmentPercent = source.rangeAdjustmentPercent
                 };
             }
 

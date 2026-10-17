@@ -149,7 +149,7 @@ namespace Helodrace.Tactical
 
             float length = pawn.Position.DistanceTo(target.Cell);
             return length >= MinimumLineLength
-                && length <= verb.verbProps.range
+                && length <= verb.EffectiveRange
                 && GenSight.LineOfSight(pawn.Position, target.Cell, pawn.Map);
         }
 
@@ -176,7 +176,7 @@ namespace Helodrace.Tactical
             Vector3 direction = raw.normalized;
             float length = Mathf.Min(
                 raw.magnitude,
-                verb?.verbProps?.range ?? raw.magnitude);
+                verb?.EffectiveRange ?? raw.magnitude);
             Vector3 end = start + direction * length;
             Vector3 lateral = new Vector3(-direction.z, 0f, direction.x)
                 * CorridorHalfWidth;
@@ -205,7 +205,7 @@ namespace Helodrace.Tactical
             Vector3 direction = destination.ToVector3Shifted()
                 - pawn.Position.ToVector3Shifted();
             direction.y = 0f;
-            float length = Mathf.Min(direction.magnitude, verb.verbProps.range);
+            float length = Mathf.Min(direction.magnitude, verb.EffectiveRange);
             direction.Normalize();
 
             State state = new State

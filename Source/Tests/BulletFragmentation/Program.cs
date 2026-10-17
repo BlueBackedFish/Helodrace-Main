@@ -23,8 +23,10 @@ namespace Helodrace.ModernWar
     {
         public float BarrelLengthInches = 16f, MuzzleVelocityOffsetMetersPerSecond;
         public float DamageTransferFactor = 1f, PenetrationEfficiencyFactor = 1f;
+        public float RangeFactor = 1f;
         public ModularWeaponBallisticProfile Ballistics;
     }
+    public sealed class Verb_ShootModularUnderbarrel : Verb_Shoot { }
 }
 
 internal static class Program
@@ -46,7 +48,12 @@ internal static class Program
         return false;
     }
     private static bool NoEffects() => false;
-    private static bool WeaponStatFixture(ref float __result) { __result = 1f; return false; }
+    private static bool WeaponStatFixture(Thing thing, StatDef stat, ref float __result)
+    {
+        __result = stat != null && stat == StatDefOf.RangedWeapon_RangeMultiplier
+            ? thing?.TryGetComp<Helodrace.ModernWar.CompModularWeaponNode>()?.ConvertedStats.RangeFactor ?? 1f : 1f;
+        return false;
+    }
     // Headless type lookup only: native Scribe_Deep still constructs and roundtrips
     // the real snapshot, without scanning unrelated Unity-dependent game types.
     private static bool SnapshotTypeFixture(string typeName, ref Type __result)
@@ -84,6 +91,8 @@ internal static class Program
                 prefix: new HarmonyMethod(typeof(Program), nameof(NoEffects)));
             harmony.Patch(AccessTools.Method(typeof(Log), nameof(Log.Error), new[] { typeof(string) }),
                 prefix: new HarmonyMethod(typeof(Program), nameof(LogError)));
+            harmony.Patch(AccessTools.Method(typeof(StatExtension), nameof(StatExtension.GetStatValue)),
+                prefix: new HarmonyMethod(typeof(Program), nameof(WeaponStatFixture)));
             foreach (Type type in typeof(BulletFragmentationExtension).Assembly.GetTypes()
                 .Where(type => type.IsDefined(typeof(HarmonyPatch), false)))
             {
@@ -204,6 +213,7 @@ internal static class Program
             }
             finally { Rand.PopState(); BulletFragmentationImpact.Current = null; }
             LifecycleTests(harmony, pawn, bullet);
+            ModularRangeTests.Run(Check, harmony);
             DefinitionTests(args.Length > 0 ? args[0] : ".");
             Console.WriteLine($"Bullet fragmentation: {checks} checks passed.");
             return 0;
@@ -214,8 +224,6 @@ internal static class Program
 
     private static void LifecycleTests(Harmony harmony, Pawn pawn, DamageDef bullet)
     {
-        harmony.Patch(AccessTools.Method(typeof(StatExtension), nameof(StatExtension.GetStatValue)),
-            prefix: new HarmonyMethod(typeof(Program), nameof(WeaponStatFixture)));
         harmony.Patch(AccessTools.Method(typeof(GenTypes), nameof(GenTypes.GetTypeInAnyAssembly)),
             prefix: new HarmonyMethod(typeof(Program), nameof(SnapshotTypeFixture)));
         harmony.Patch(AccessTools.Method(typeof(Projectile), nameof(Projectile.Launch), new[]

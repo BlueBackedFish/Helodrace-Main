@@ -37,6 +37,8 @@ namespace Helodrace.ModernWar
                 FinalStatBar(StatDefOf.Mass, 15f, true),
                 FinalStatBar(StatDefOf.RangedWeapon_WarmupMultiplier, 2f, true),
                 FinalStatBar(StatDefOf.RangedWeapon_Cooldown, 4f, true),
+                Bar("EffectiveRange", ModularWeaponRangeUtility.PreviewPrimaryRange(root.parent), 80f,
+                    "0.#' " + "HD_ModularWeapon_Cells".Translate().ToString() + "'"),
                 Bar("RoundsPerMinute", root.EffectiveRoundsPerMinute, 1800f, "0.#' RPM'"),
                 Bar("CycleDelay", root.EffectiveFireDelaySeconds, 4f, "0.###' s'", true)
             };
@@ -73,6 +75,8 @@ namespace Helodrace.ModernWar
                 Bar("Handling", value.Handling, 1f, "P0"),
                 Bar("TargetAcquisition", value.TargetAcquisition, 1f, "P0"),
                 Bar("AimingPrecision", value.AimingPrecision, 1f, "P0"),
+                Bar("MechanicalRangeFactor", value.MechanicalRangeFactor, 1.5f, "P0"),
+                Bar("RangeFactor", value.RangeFactor, 1.5f, "P0"),
                 Bar("Reliability", value.OperatingReliability, 1f, "P1"),
                 Bar("IdentificationDistance", value.IdentificationDistanceCells, 80f,
                     "0.#' " + "HD_ModularWeapon_Cells".Translate().ToString() + "'", false,

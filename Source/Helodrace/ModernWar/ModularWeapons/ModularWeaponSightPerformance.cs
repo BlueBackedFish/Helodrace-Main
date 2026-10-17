@@ -11,6 +11,7 @@ namespace Helodrace.ModernWar
         public float Short = 0.90f;
         public float Medium = 0.82f;
         public float Long = 0.70f;
+        public float Range = 0.75f;
 
         public static ModularWeaponSightPerformance For(
             ModularSightKind kind, bool magnified, float efficiency)
@@ -37,13 +38,19 @@ namespace Helodrace.ModernWar
             // A blocked/poorly placed line loses its advantages. Its inherent
             // close-range and acquisition costs cannot disappear through occlusion.
             float weight = Mathf.Clamp01(efficiency);
+            float range = magnified ? 1.06f : kind == ModularSightKind.Scope ? 1.08f
+                : kind == ModularSightKind.LowPowerVariableOptic ? 1.10f
+                : kind == ModularSightKind.FireControl ? 1.12f
+                : kind == ModularSightKind.Reflex ? 0.97f
+                : kind == ModularSightKind.Holographic ? 0.98f : 1f;
             return new ModularWeaponSightPerformance
             {
                 Warmup = Mathf.Lerp(Mathf.Max(1.12f, warmup), warmup, weight),
                 Touch = Mathf.Lerp(Mathf.Min(0.95f, touch), touch, weight),
                 Short = Mathf.Lerp(Mathf.Min(0.90f, near), near, weight),
                 Medium = Mathf.Lerp(Mathf.Min(0.82f, medium), medium, weight),
-                Long = Mathf.Lerp(Mathf.Min(0.70f, far), far, weight)
+                Long = Mathf.Lerp(Mathf.Min(0.70f, far), far, weight),
+                Range = Mathf.Lerp(0.75f, range, weight)
             };
         }
 
@@ -54,6 +61,7 @@ namespace Helodrace.ModernWar
             Short = Mathf.Max(Short, other.Short);
             Medium = Mathf.Max(Medium, other.Medium);
             Long = Mathf.Max(Long, other.Long);
+            Range = Mathf.Max(Range, other.Range);
         }
     }
 }
