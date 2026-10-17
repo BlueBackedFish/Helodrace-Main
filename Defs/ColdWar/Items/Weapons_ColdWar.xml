@@ -3,6 +3,8 @@
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_M60E3_Proj</defName>
+    <thingClass>Helodrace.Projectile_BallisticBullet</thingClass>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>9.5</projectileMassGrams><referenceVelocityMetersPerSecond>830</referenceVelocityMetersPerSecond><referenceBarrelInches>22</referenceBarrelInches><velocityHalfDistance>80</velocityHalfDistance></li></modExtensions>
     <label>7.62x51mm NATO bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>

@@ -157,4 +157,17 @@
   <HD_ModularWeapon_RejectRailOverlap>{0}이(가) {2} 레일에서 {1}과(와) 겹칩니다.</HD_ModularWeapon_RejectRailOverlap>
   <HD_ModularWeapon_FallbackWeapon>총기</HD_ModularWeapon_FallbackWeapon>
   <HD_ModularWeapon_FallbackWeaponUser>총기 사용자</HD_ModularWeapon_FallbackWeaponUser>
+  <HD_ModularWeapon_ProjectileMass>탄자 질량</HD_ModularWeapon_ProjectileMass>
+  <HD_ModularWeapon_BarrelLength>총열 길이</HD_ModularWeapon_BarrelLength>
+  <HD_ModularWeapon_ReferenceVelocity>기준 탄속</HD_ModularWeapon_ReferenceVelocity>
+  <HD_ModularWeapon_MuzzleVelocity>총구 탄속</HD_ModularWeapon_MuzzleVelocity>
+  <HD_ModularWeapon_MuzzleEnergy>총구 운동에너지</HD_ModularWeapon_MuzzleEnergy>
+  <HD_ModularWeapon_DamageTransfer>에너지 전달 효율</HD_ModularWeapon_DamageTransfer>
+  <HD_ModularWeapon_PenetrationEfficiency>관통 효율</HD_ModularWeapon_PenetrationEfficiency>
+  <HD_ModularWeapon_ReferenceDamage>탄종 기준 피해량</HD_ModularWeapon_ReferenceDamage>
+  <HD_ModularWeapon_ReferencePenetration>탄종 기준 관통력</HD_ModularWeapon_ReferencePenetration>
+  <HD_ModularWeapon_ProjectileDamage>탄환 피해량</HD_ModularWeapon_ProjectileDamage>
+  <HD_ModularWeapon_ProjectilePenetration>방어구 관통력</HD_ModularWeapon_ProjectilePenetration>
+  <HD_ModularWeapon_FragmentationChance>파편화 확률</HD_ModularWeapon_FragmentationChance>
+  <HD_ModularWeapon_BallisticsHint>탄도 수치는 총구·방어구 미통과 기준입니다. 거리로 탄속·피해·관통력·파편화가 낮아지고 통과한 방어구는 파편화를 추가로 낮춥니다. 파편 상처는 직접 피해와 별도입니다.</HD_ModularWeapon_BallisticsHint>
 </LanguageData>

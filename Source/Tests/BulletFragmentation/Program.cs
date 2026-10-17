@@ -15,9 +15,16 @@ namespace Helodrace.ModernWar
 {
     public sealed class CompModularWeaponNode : ThingComp
     {
-        public MuzzleFixture MuzzleSignature = new MuzzleFixture();
+        public WeaponProps Props = new WeaponProps();
+        public ModularWeaponConvertedStats ConvertedStats = new ModularWeaponConvertedStats();
     }
-    public sealed class MuzzleFixture { public float BarrelLengthInches = 16f; }
+    public sealed class WeaponProps { public bool isAssemblyRoot = true; }
+    public sealed class ModularWeaponConvertedStats
+    {
+        public float BarrelLengthInches = 16f, MuzzleVelocityOffsetMetersPerSecond;
+        public float DamageTransferFactor = 1f, PenetrationEfficiencyFactor = 1f;
+        public ModularWeaponBallisticProfile Ballistics;
+    }
 }
 
 internal static class Program
@@ -39,6 +46,14 @@ internal static class Program
         return false;
     }
     private static bool NoEffects() => false;
+    private static bool WeaponStatFixture(ref float __result) { __result = 1f; return false; }
+    // Headless type lookup only: native Scribe_Deep still constructs and roundtrips
+    // the real snapshot, without scanning unrelated Unity-dependent game types.
+    private static bool SnapshotTypeFixture(string typeName, ref Type __result)
+    {
+        if (typeName != typeof(BulletBallisticsSnapshot).FullName) return true;
+        __result = typeof(BulletBallisticsSnapshot); return false;
+    }
     private static bool failImpact;
     private static BulletFragmentationImpact observedImpact;
     private static bool FakeImpact()
@@ -81,15 +96,17 @@ internal static class Program
             harmony.Patch(AccessTools.Method(typeof(HediffSet), nameof(HediffSet.DirtyCache)),
                 prefix: new HarmonyMethod(typeof(Program), nameof(NoEffects)));
             var settings = new BulletFragmentationExtension();
-            float close = settings.Strength(5, 16, 0);
-            Check(close > settings.Strength(30, 16, 0), "Distance must reduce fragmentation.");
-            Check(close > settings.Strength(5, 10.3f, 0), "Short barrels must reduce fragmentation.");
-            Check(close < settings.Strength(5, 20, 0), "Long barrels must increase fragmentation.");
-            Check(close > settings.Strength(5, 16, 0.5f), "Penetrated armor must reduce fragmentation even after a full penetration.");
-            Check(settings.Strength(5, 16, 0.5f) > settings.Strength(5, 16, 1f), "Multiple layers must accumulate resistance.");
-            Check(settings.Strength(500, 20, 0) == 0, "Below-threshold impacts must not fragment.");
-            Check(settings.Strength(0, 0, 0) == settings.Strength(0, 16, 0), "Fixed weapons must use the ammo reference barrel.");
-            Check(settings.Strength(-1, 16, -1) == settings.Strength(0, 16, 0), "Invalid negative inputs must not boost strength.");
+            float Strength(float distance, float barrel, float armor) => settings.Strength(
+                BulletBallisticsRules.RetainedVelocity(BulletBallisticsRules.BarrelVelocityFactor(barrel, 16, .35f), distance, 55), armor);
+            float close = Strength(5, 16, 0);
+            Check(close > Strength(30, 16, 0), "Distance must reduce fragmentation.");
+            Check(close > Strength(5, 10.3f, 0), "Short barrels must reduce fragmentation.");
+            Check(close < Strength(5, 20, 0), "Long barrels must increase fragmentation.");
+            Check(close > Strength(5, 16, 0.5f), "Penetrated armor must reduce fragmentation even after a full penetration.");
+            Check(Strength(5, 16, 0.5f) > Strength(5, 16, 1f), "Multiple layers must accumulate resistance.");
+            Check(Strength(500, 20, 0) == 0, "Below-threshold impacts must not fragment.");
+            Check(Strength(0, 0, 0) == Strength(0, 16, 0), "Fixed weapons must use the ammo reference barrel.");
+            Check(Strength(-1, 16, -1) == Strength(0, 16, 0), "Invalid negative inputs must not boost strength.");
 
             var body = new BodyDef();
             var torso = Part(body, "Torso");
@@ -129,7 +146,7 @@ internal static class Program
             BulletFragmentationImpact NewImpact() => new BulletFragmentationImpact
             {
                 pawn = pawn, damageDef = bullet, armorPart = torso,
-                settings = new BulletFragmentationExtension { chance = 1, damageFraction = 0.7f }, barrelInches = 16
+                settings = new BulletFragmentationExtension { chance = 1, damageFraction = 0.7f }, velocityFactor = 1f
             };
             void Apply(float amount = 16) => finalize.Invoke(worker, new object[] { pawn, amount, damage, result });
 
@@ -161,7 +178,7 @@ internal static class Program
                 Check(wounds.Count == 1, "Armor-converted blunt damage must not fragment.");
                 damage.Def = bullet;
                 wounds.Clear(); BulletFragmentationImpact.Current = NewImpact();
-                BulletFragmentationImpact.Current.distance = 500; Apply();
+                BulletFragmentationImpact.Current.velocityFactor = BulletBallisticsRules.RetainedVelocity(1, 500, 55); Apply();
                 Check(wounds.Count == 1, "Long-range impacts below the velocity threshold must not fragment.");
                 wounds.Clear(); BulletFragmentationImpact.Current = NewImpact();
                 BulletFragmentationImpact.RecordArmor(pawn, 0.5f, 16, bullet);
@@ -197,6 +214,10 @@ internal static class Program
 
     private static void LifecycleTests(Harmony harmony, Pawn pawn, DamageDef bullet)
     {
+        harmony.Patch(AccessTools.Method(typeof(StatExtension), nameof(StatExtension.GetStatValue)),
+            prefix: new HarmonyMethod(typeof(Program), nameof(WeaponStatFixture)));
+        harmony.Patch(AccessTools.Method(typeof(GenTypes), nameof(GenTypes.GetTypeInAnyAssembly)),
+            prefix: new HarmonyMethod(typeof(Program), nameof(SnapshotTypeFixture)));
         harmony.Patch(AccessTools.Method(typeof(Projectile), nameof(Projectile.Launch), new[]
             { typeof(Thing), typeof(Vector3), typeof(LocalTargetInfo), typeof(LocalTargetInfo), typeof(ProjectileHitFlags), typeof(bool), typeof(Thing), typeof(ThingDef) }),
             prefix: new HarmonyMethod(typeof(Program), nameof(NoEffects)));
@@ -206,15 +227,34 @@ internal static class Program
         var pellet = Bare<Projectile_FragmentingBullet>();
         pellet.def = Bare<ThingDef>();
         pellet.def.projectile = new ProjectileProperties { damageDef = bullet };
-        pellet.def.modExtensions = new List<DefModExtension> { new BulletFragmentationExtension() };
+        AccessTools.Field(typeof(ProjectileProperties), "damageAmountBase").SetValue(pellet.def.projectile, 13);
+        AccessTools.Field(typeof(ProjectileProperties), "armorPenetrationBase").SetValue(pellet.def.projectile, .28f);
+        pellet.def.modExtensions = new List<DefModExtension> { new BulletFragmentationExtension(), new BulletBallisticsExtension() };
         var weapon = Bare<ThingWithComps>();
         var comp = new Helodrace.ModernWar.CompModularWeaponNode { parent = weapon };
-        comp.MuzzleSignature.BarrelLengthInches = 10.3f;
+        comp.ConvertedStats.BarrelLengthInches = 10.3f;
+        comp.ConvertedStats.MuzzleVelocityOffsetMetersPerSecond = 20;
+        comp.ConvertedStats.DamageTransferFactor = 1.1f;
+        comp.ConvertedStats.PenetrationEfficiencyFactor = .95f;
         AccessTools.Field(typeof(ThingWithComps), "comps").SetValue(weapon, new List<ThingComp> { comp });
         pellet.Launch(null, Vector3.zero, pawn, pawn, ProjectileHitFlags.All, equipment: weapon);
-        var barrel = AccessTools.Field(typeof(Projectile_FragmentingBullet), "barrelInches");
-        comp.MuzzleSignature.BarrelLengthInches = 20;
-        Check(Math.Abs((float)barrel.GetValue(pellet) - 10.3f) < 0.001f, "Changing equipment after firing cannot change the captured barrel length.");
+        var snapshotField = AccessTools.Field(typeof(Projectile_BallisticBullet), "ballistics");
+        var captured = (BulletBallisticsSnapshot)snapshotField.GetValue(pellet);
+        float savedVelocity = captured.muzzleVelocityFactor;
+        int savedDamage = pellet.DamageAmount;
+        float savedPenetration = pellet.ArmorPenetration;
+        comp.ConvertedStats.BarrelLengthInches = 20;
+        comp.ConvertedStats.DamageTransferFactor = 2;
+        Check(Math.Abs(captured.muzzleVelocityFactor - (BulletBallisticsRules.BarrelVelocityFactor(10.3f, 16, .35f) + 20f/900f)) < .001f,
+            "Changing equipment after firing cannot change the captured muzzle velocity.");
+        Check(pellet.DamageAmount == savedDamage && Math.Abs(pellet.ArmorPenetration - savedPenetration) < .001f,
+            "Damage and penetration must not re-read changed equipment in flight.");
+        Check(savedDamage == captured.DamageAt(15) && Math.Abs(savedPenetration - captured.PenetrationAt(15)) < .001f,
+            "Live projectile properties must consume the common snapshot at actual travel distance.");
+        var fixedBullet = Bare<Projectile_BallisticBullet>(); fixedBullet.def = pellet.def;
+        fixedBullet.Launch(null, Vector3.zero, pawn, pawn, ProjectileHitFlags.All);
+        Check(fixedBullet.DamageAmount == 13 && Math.Abs(fixedBullet.ArmorPenetration-.28f)<.001f,
+            "Non-modular weapons sharing these projectile defs must retain native primary damage/AP.");
         string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fragmentation-roundtrip.xml");
         try
         {
@@ -225,19 +265,25 @@ internal static class Program
             Scribe.loader.InitLoading(path);
             pellet.ExposeData();
             Scribe.loader.FinalizeLoading();
-            Check(Math.Abs((float)barrel.GetValue(pellet) - 10.3f) < 0.001f, "An airborne bullet must retain its barrel length after save/load.");
+            captured = (BulletBallisticsSnapshot)snapshotField.GetValue(pellet);
+            Check(Math.Abs(captured.muzzleVelocityFactor - savedVelocity) < .001f
+                && captured.referenceDamage == 13 && Math.Abs(captured.referencePenetration - .28f) < .001f,
+                "An airborne bullet must retain velocity, damage and penetration after save/load.");
+            Check(Math.Abs(captured.damageTransfer-1.1f)<.001f && Math.Abs(captured.penetrationEfficiency-.95f)<.001f,
+                "Save/load must retain non-default transfer/penetration contributions.");
         }
         finally { Scribe.ForceStop(); if (File.Exists(path)) File.Delete(path); }
         pellet.def = Bare<ThingDef>();
         pellet.def.projectile = new ProjectileProperties { damageDef = bullet };
-        pellet.def.modExtensions = new List<DefModExtension> { new BulletFragmentationExtension() };
+        pellet.def.modExtensions = new List<DefModExtension> { new BulletFragmentationExtension(), new BulletBallisticsExtension() };
         var outer = new BulletFragmentationImpact();
         BulletFragmentationImpact.Current = outer;
         var impact = AccessTools.Method(typeof(Projectile_FragmentingBullet), "Impact");
         try
         {
             impact.Invoke(pellet, new object[] { pawn, false });
-            Check(observedImpact?.pawn == pawn && Math.Abs(observedImpact.distance - 15) < 0.001f, "Impact must use actual flown distance and actual victim.");
+            Check(observedImpact?.pawn == pawn && Math.Abs(observedImpact.velocityFactor - captured.VelocityAt(15)) < .001f,
+                "Fragmentation must use the same captured velocity and travel distance as primary damage/AP.");
             Check(BulletFragmentationImpact.Current == outer, "Impact must restore the surrounding context.");
             impact.Invoke(pellet, new object[] { pawn, true });
             Check(observedImpact == null && BulletFragmentationImpact.Current == outer, "Shield interception must never enable fragmentation.");
@@ -259,6 +305,11 @@ internal static class Program
             .Any(li => (string)li.Attribute("Class") == "Helodrace.BulletFragmentationExtension") == true).ToList();
         Check(optedIn.Count == 6, "Only the six selected projectile defs may opt in.");
         Check(optedIn.All(node => (string)node.Element("thingClass") == "Helodrace.Projectile_FragmentingBullet"), "Each opt-in must use the fragmentation projectile.");
+        Check(optedIn.All(node => node.Element("modExtensions").Elements().Any(e => (string)e.Attribute("Class") == "Helodrace.BulletBallisticsExtension")),
+            "Every fragmenting projectile must use the shared ballistic profile.");
+        Check(optedIn.All(node => !node.Element("modExtensions").Elements().Where(e => (string)e.Attribute("Class") == "Helodrace.BulletFragmentationExtension")
+            .Any(e => e.Element("referenceBarrelInches") != null || e.Element("velocityHalfDistance") != null)),
+            "Fragmentation must not retain a second, divergent barrel/velocity model.");
         Check(!optedIn.Any(node => ((string)node.Element("defName")).Contains("M995") || ((string)node.Element("defName")).Contains("TACTX")),
             "AP and expanding-copper selections must retain their existing behavior.");
         var injury = defs.Single(node => (string)node.Element("defName") == "HD_FragmentationWound");

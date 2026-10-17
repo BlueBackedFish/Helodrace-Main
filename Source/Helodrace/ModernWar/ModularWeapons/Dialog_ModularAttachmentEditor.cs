@@ -1346,6 +1346,10 @@ namespace Helodrace.ModernWar
             float acquisition = SliderRow(inner, ref y, "Target acquisition", stats.targetAcquisition, -50f, 100f);
             float precision = SliderRow(inner, ref y, "Aiming precision", stats.aimingPrecision, -50f, 100f);
             float identification = SliderRow(inner, ref y, "Identification distance m", stats.identificationDistanceMeters, -300f, 600f);
+            float barrelLength = SliderRow(inner, ref y, "Barrel length in (0 unset)", stats.barrelLengthInches, 0f, 30f);
+            float velocityOffset = SliderRow(inner, ref y, "Muzzle velocity offset m/s", stats.muzzleVelocityOffsetMetersPerSecond, -300f, 300f);
+            float damageTransfer = SliderRow(inner, ref y, "Damage transfer points", stats.damageTransfer, -75f, 100f);
+            float penetration = SliderRow(inner, ref y, "Penetration efficiency points", stats.penetrationEfficiency, -75f, 100f);
             if (!Mathf.Approximately(mass, stats.massKg)
                 || !Mathf.Approximately(recoil, stats.recoilImpulse)
                 || !Mathf.Approximately(ergonomics, stats.ergonomics)
@@ -1356,7 +1360,11 @@ namespace Helodrace.ModernWar
                 || !Mathf.Approximately(inertia, stats.momentOfInertia)
                 || !Mathf.Approximately(acquisition, stats.targetAcquisition)
                 || !Mathf.Approximately(precision, stats.aimingPrecision)
-                || !Mathf.Approximately(identification, stats.identificationDistanceMeters))
+                || !Mathf.Approximately(identification, stats.identificationDistanceMeters)
+                || !Mathf.Approximately(barrelLength, stats.barrelLengthInches)
+                || !Mathf.Approximately(velocityOffset, stats.muzzleVelocityOffsetMetersPerSecond)
+                || !Mathf.Approximately(damageTransfer, stats.damageTransfer)
+                || !Mathf.Approximately(penetration, stats.penetrationEfficiency))
             {
                 EnsureUndoCheckpoint(CurrentEditKey(node) + ":internalStats");
                 stats.massKg = mass;
@@ -1370,6 +1378,10 @@ namespace Helodrace.ModernWar
                 stats.targetAcquisition = acquisition;
                 stats.aimingPrecision = precision;
                 stats.identificationDistanceMeters = identification;
+                stats.barrelLengthInches = barrelLength;
+                stats.muzzleVelocityOffsetMetersPerSecond = velocityOffset;
+                stats.damageTransfer = damageTransfer;
+                stats.penetrationEfficiency = penetration;
                 root.InvalidateTree();
             }
         }
@@ -2107,6 +2119,10 @@ namespace Helodrace.ModernWar
             builder.AppendLine("  <targetAcquisition>" + Number(stats.targetAcquisition) + "</targetAcquisition>");
             builder.AppendLine("  <aimingPrecision>" + Number(stats.aimingPrecision) + "</aimingPrecision>");
             builder.AppendLine("  <identificationDistanceMeters>" + Number(stats.identificationDistanceMeters) + "</identificationDistanceMeters>");
+            builder.AppendLine("  <barrelLengthInches>" + Number(stats.barrelLengthInches) + "</barrelLengthInches>");
+            builder.AppendLine("  <muzzleVelocityOffsetMetersPerSecond>" + Number(stats.muzzleVelocityOffsetMetersPerSecond) + "</muzzleVelocityOffsetMetersPerSecond>");
+            builder.AppendLine("  <damageTransfer>" + Number(stats.damageTransfer) + "</damageTransfer>");
+            builder.AppendLine("  <penetrationEfficiency>" + Number(stats.penetrationEfficiency) + "</penetrationEfficiency>");
             builder.AppendLine("</internalStats>");
         }
 
@@ -2117,6 +2133,7 @@ namespace Helodrace.ModernWar
             if (sight == null) return;
             builder.AppendLine("<sight>");
             builder.AppendLine("  <kind>" + sight.kind + "</kind>");
+            builder.AppendLine("  <integrated>" + sight.integrated.ToString().ToLowerInvariant() + "</integrated>");
             builder.AppendLine("  <axisOffset>" + Vector(sight.axisOffset)
                 + "</axisOffset>");
             builder.AppendLine("  <aimRadius>" + Number(sight.aimRadius)
@@ -2507,7 +2524,11 @@ namespace Helodrace.ModernWar
                     momentOfInertia = source.momentOfInertia,
                     targetAcquisition = source.targetAcquisition,
                     aimingPrecision = source.aimingPrecision,
-                    identificationDistanceMeters = source.identificationDistanceMeters
+                    identificationDistanceMeters = source.identificationDistanceMeters,
+                    barrelLengthInches = source.barrelLengthInches,
+                    muzzleVelocityOffsetMetersPerSecond = source.muzzleVelocityOffsetMetersPerSecond,
+                    damageTransfer = source.damageTransfer,
+                    penetrationEfficiency = source.penetrationEfficiency
                 };
             }
 
@@ -2580,6 +2601,7 @@ namespace Helodrace.ModernWar
                 return new ModularWeaponSightProperties
                 {
                     kind = source.kind,
+                    integrated = source.integrated,
                     axisOffset = source.axisOffset,
                     aimRadius = source.aimRadius,
                     selectionPriority = source.selectionPriority

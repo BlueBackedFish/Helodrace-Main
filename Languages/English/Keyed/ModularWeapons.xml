@@ -157,4 +157,17 @@
   <HD_ModularWeapon_RejectRailOverlap>{0} overlaps {1} on rail {2}.</HD_ModularWeapon_RejectRailOverlap>
   <HD_ModularWeapon_FallbackWeapon>weapon</HD_ModularWeapon_FallbackWeapon>
   <HD_ModularWeapon_FallbackWeaponUser>weapon user</HD_ModularWeapon_FallbackWeaponUser>
+  <HD_ModularWeapon_ProjectileMass>Projectile mass</HD_ModularWeapon_ProjectileMass>
+  <HD_ModularWeapon_BarrelLength>Barrel length</HD_ModularWeapon_BarrelLength>
+  <HD_ModularWeapon_ReferenceVelocity>Reference velocity</HD_ModularWeapon_ReferenceVelocity>
+  <HD_ModularWeapon_MuzzleVelocity>Muzzle velocity</HD_ModularWeapon_MuzzleVelocity>
+  <HD_ModularWeapon_MuzzleEnergy>Muzzle energy</HD_ModularWeapon_MuzzleEnergy>
+  <HD_ModularWeapon_DamageTransfer>Damage transfer</HD_ModularWeapon_DamageTransfer>
+  <HD_ModularWeapon_PenetrationEfficiency>Penetration efficiency</HD_ModularWeapon_PenetrationEfficiency>
+  <HD_ModularWeapon_ReferenceDamage>Cartridge reference damage</HD_ModularWeapon_ReferenceDamage>
+  <HD_ModularWeapon_ReferencePenetration>Cartridge reference penetration</HD_ModularWeapon_ReferencePenetration>
+  <HD_ModularWeapon_ProjectileDamage>Projectile damage</HD_ModularWeapon_ProjectileDamage>
+  <HD_ModularWeapon_ProjectilePenetration>Armor penetration</HD_ModularWeapon_ProjectilePenetration>
+  <HD_ModularWeapon_FragmentationChance>Fragmentation chance</HD_ModularWeapon_FragmentationChance>
+  <HD_ModularWeapon_BallisticsHint>Ballistics shown at the muzzle, before target armor. Distance reduces velocity, damage, penetration and fragmentation; traversed armor further reduces fragmentation. Fragment wounds are additional to primary damage.</HD_ModularWeapon_BallisticsHint>
 </LanguageData>

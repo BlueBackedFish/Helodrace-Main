@@ -674,6 +674,21 @@ namespace Helodrace.ModernWar
                     activeGasSetting,
                     resolvedMuzzleFlashSuppressed);
 
+            if (resolvedConvertedStats.BarrelLengthInches <= 0f)
+                resolvedConvertedStats.BarrelLengthInches = resolvedMuzzleSignature.BarrelLengthInches;
+            ThingDef ballisticProjectile = resolvedProjectileOverride;
+            if (ballisticProjectile == null && parent?.def?.Verbs != null)
+            {
+                foreach (VerbProperties verb in parent.def.Verbs)
+                    if (verb.defaultProjectile != null)
+                    {
+                        ballisticProjectile = verb.defaultProjectile;
+                        break;
+                    }
+            }
+            resolvedConvertedStats.Ballistics = ModularWeaponBallistics.Resolve(
+                ballisticProjectile, resolvedConvertedStats);
+
             ModularWeaponStatConverter.ApplyVanillaFactors(
                 resolvedConvertedStats,
                 statOffsetCache,

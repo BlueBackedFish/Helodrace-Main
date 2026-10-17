@@ -6,6 +6,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../../Helodrace/Core/BulletFragmentation.cs" Link="BulletFragmentation.cs" />
+    <Compile Include="../../Helodrace/Core/BulletBallistics.cs" Link="BulletBallistics.cs" />
+    <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponBallistics.cs" Link="ModularWeaponBallistics.cs" />
+    <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponBallisticDisplay.cs" Link="ModularWeaponBallisticDisplay.cs" />
     <Reference Include="Assembly-CSharp"><HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath></Reference>
     <Reference Include="UnityEngine.CoreModule"><HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath></Reference>
     <PackageReference Include="Lib.Harmony" Version="2.3.3" />

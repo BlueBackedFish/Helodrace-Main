@@ -12,8 +12,6 @@ namespace Helodrace
     public sealed class BulletFragmentationExtension : DefModExtension
     {
         public float chance = 0.7f;
-        public float referenceBarrelInches = 16f;
-        public float velocityHalfDistance = 50f;
         public float minimumVelocityFactor = 0.45f;
         public float fullVelocityFactor = 1f;
         public float armorResistanceFactor = 0.65f;
@@ -22,38 +20,17 @@ namespace Helodrace
         public int maxFragments = 5;
         public float maxFragmentDamage = 2.5f;
 
-        internal float Strength(float distance, float barrelInches, float penetratedArmor)
+        internal float Strength(float velocityFactor, float penetratedArmor)
         {
-            float reference = Math.Max(1f, referenceBarrelInches);
-            float barrel = barrelInches > 0f ? barrelInches : reference;
-            double velocity = Math.Pow(Math.Max(0.25f, Math.Min(2f, barrel / reference)), 0.35)
-                * Math.Pow(0.5, Math.Max(0f, distance) / Math.Max(1f, velocityHalfDistance))
+            float velocity = Math.Max(0f, velocityFactor)
                 / (1f + Math.Max(0f, penetratedArmor) * Math.Max(0f, armorResistanceFactor));
-            return Mathf.Clamp01(((float)velocity - minimumVelocityFactor)
+            return Mathf.Clamp01((velocity - minimumVelocityFactor)
                 / Math.Max(0.01f, fullVelocityFactor - minimumVelocityFactor));
         }
     }
 
-    public sealed class Projectile_FragmentingBullet : Bullet
+    public sealed class Projectile_FragmentingBullet : Projectile_BallisticBullet
     {
-        private float barrelInches;
-
-        public override void Launch(Thing launcher, Vector3 origin, LocalTargetInfo usedTarget,
-            LocalTargetInfo intendedTarget, ProjectileHitFlags hitFlags, bool preventFriendlyFire = false,
-            Thing equipment = null, ThingDef targetCoverDef = null)
-        {
-            // Snapshot the actual assembly at firing; changing weapons in flight
-            // must not change the bullet, including after a save/load.
-            barrelInches = equipment?.TryGetComp<CompModularWeaponNode>()?.MuzzleSignature.BarrelLengthInches ?? 0f;
-            base.Launch(launcher, origin, usedTarget, intendedTarget, hitFlags, preventFriendlyFire, equipment, targetCoverDef);
-        }
-
-        public override void ExposeData()
-        {
-            base.ExposeData();
-            Scribe_Values.Look(ref barrelInches, "fragmentationBarrelInches");
-        }
-
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
             BulletFragmentationImpact previous = BulletFragmentationImpact.Current;
@@ -62,7 +39,7 @@ namespace Helodrace
                 ? new BulletFragmentationImpact
                 {
                     pawn = pawn, settings = settings, damageDef = DamageDef,
-                    distance = (ExactPosition - origin).MagnitudeHorizontal(), barrelInches = barrelInches
+                    velocityFactor = ImpactVelocityFactor
                 } : null;
             try { base.Impact(hitThing, blockedByShield); }
             finally { BulletFragmentationImpact.Current = previous; }
@@ -75,7 +52,7 @@ namespace Helodrace
         internal Pawn pawn;
         internal BulletFragmentationExtension settings;
         internal DamageDef damageDef;
-        internal float distance, barrelInches, penetratedArmor;
+        internal float velocityFactor = 1f, penetratedArmor;
         internal BodyPartRecord armorPart;
         internal bool resolved;
 
@@ -160,7 +137,7 @@ namespace Helodrace
                 || (!dinfo.IgnoreArmor && dinfo.HitPart != impact.armorPart)) return;
             impact.resolved = true; // Also guards every recursively finalized fragment.
             BulletFragmentationExtension settings = impact.settings;
-            float strength = settings.Strength(impact.distance, impact.barrelInches, impact.penetratedArmor);
+            float strength = settings.Strength(impact.velocityFactor, impact.penetratedArmor);
             if (strength <= 0f || !Rand.Chance(Mathf.Clamp01(settings.chance) * strength)) return;
             List<BodyPartRecord> parts = BulletFragmentationImpact.Neighbors(pawn, dinfo.HitPart);
             if (parts.Count == 0) return;

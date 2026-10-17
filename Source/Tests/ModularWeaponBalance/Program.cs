@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Helodrace;
 using Helodrace.ModernWar;
 using UnityEngine;
 using Verse;
@@ -43,6 +44,8 @@ internal static class Program
             SightTests();
             PresetTests();
             VariantTests();
+            BallisticTests();
+            BallisticAuthoringTests();
             Console.WriteLine("PASS: "+checks+" modular balance checks using production sight/stat code and patched preset geometry.");
             return 0;
         }
@@ -84,7 +87,7 @@ internal static class Program
         {
             XElement old=result.Element(item.Name);
             if(old==null) { result.Add(new XElement(item)); continue; }
-            if(item.Name=="statBases" || item.Name=="graphicData") old.ReplaceWith(Merge(old,item));
+            if(item.Name=="statBases" || item.Name=="graphicData" || item.Name=="projectile") old.ReplaceWith(Merge(old,item));
             else if(item.Name=="comps")
             {
                 foreach(XElement comp in item.Elements())
@@ -128,12 +131,12 @@ internal static class Program
         object obj=Activator.CreateInstance(type);
         foreach(XElement item in e.Elements())
         {
-            FieldInfo field=type.GetField(item.Name.LocalName);
+            FieldInfo field=type.GetField(item.Name.LocalName,BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic);
             if(field!=null) field.SetValue(obj,Parse(field.FieldType,item));
         }
         return obj;
     }
-    private static readonly string[] parsedFields={"internalStats","sight","sockets","mounts","performanceRole","graphicOffset","graphicAngle","assemblyScale","sightGroupHeightTolerance","laser","verticalOccupancy","verticalOccupancyOffset"};
+    private static readonly string[] parsedFields={"internalStats","sight","sockets","mounts","performanceRole","graphicOffset","graphicAngle","assemblyScale","sightGroupHeightTolerance","laser","verticalOccupancy","verticalOccupancyOffset","projectileOverride","overridePriority"};
     private static CompProperties_ModularWeaponNode Properties(XElement def)
     {
         XElement c=def.Element("comps").Elements().Single(e=>(string)e.Attribute("Class")==CompClass);
@@ -308,5 +311,96 @@ internal static class Program
         Near(dotStats.VanillaCycleFactor,scopeStats.VanillaCycleFactor,"An optic swap cannot change mechanical cycling");
         Check(count>=10,"Stock presets and authored variants were exercised");
         Console.WriteLine("PASS: "+count+" authored presets and a real scope-to-holographic tuning tradeoff.");
+    }
+
+    private static ThingDef Projectile(string name)
+    {
+        XElement xml=Resolve(definitions[name]);
+        var def=Bare<ThingDef>();def.defName=name;
+        def.projectile=(ProjectileProperties)Parse(typeof(ProjectileProperties),xml.Element("projectile"));
+        def.projectile.damageDef=Bare<DamageDef>();
+        def.projectile.damageDef.armorCategory=Bare<DamageArmorCategoryDef>();
+        def.modExtensions=new List<DefModExtension>();
+        foreach(XElement extension in xml.Element("modExtensions")?.Elements() ?? Enumerable.Empty<XElement>())
+            def.modExtensions.Add((DefModExtension)Parse(typeof(BulletBallisticsExtension).Assembly.GetType((string)extension.Attribute("Class")),extension));
+        return def;
+    }
+    private static ModularWeaponBallisticProfile Ballistics(ThingDef projectile,ModularWeaponConvertedStats stats)
+        => (ModularWeaponBallisticProfile)typeof(CompModularWeaponNode).Assembly.GetType("Helodrace.ModernWar.ModularWeaponBallistics")
+            .GetMethod("Resolve",BindingFlags.Static|BindingFlags.NonPublic).Invoke(null,new object[]{projectile,stats});
+    private static void BallisticTests()
+    {
+        int count=0;
+        foreach(var preset in definitions.Values.Where(e=>e.Name.LocalName=="Helodrace.ModernWar.ModularWeaponPresetDef"))
+        {
+            var nodes=BuildAssembly(preset.Element("weaponDef").Value,preset);
+            ThingDef selected=null;int priority=int.MinValue;
+            foreach(var node in nodes)
+                if(node.Props.projectileOverride!=null && node.Props.overridePriority>=priority)
+                { selected=node.Props.projectileOverride;priority=node.Props.overridePriority; }
+            Check(selected!=null,"Every authored preset has an ammunition choice");
+            var stats=Convert(nodes);var value=Ballistics(Projectile(selected.defName),stats);
+            Check(value!=null && value.BarrelLengthInches>0 && value.MuzzleEnergyJoules>0,"Preset has a physical ballistic profile");
+            Check(value.DamageAt()>0 && value.PenetrationAt()>0,"Preset has converted damage/AP");
+            Check(value.DamageAt(25)<=value.DamageAt() && value.PenetrationAt(25)<value.PenetrationAt(),"Distance reduces damage and penetration");
+            Check(value.FragmentationChanceAt(25)<=value.FragmentationChanceAt(),"Fragmentation shares retained velocity");
+            Check(value.FragmentationChanceAt(10,.8f)<=value.FragmentationChanceAt(10),"Traversed armor reduces fragmentation");
+            var snapshot=value.Snapshot(value.ReferenceDamage,value.ReferencePenetration);
+            Near(value.DamageAt(12),snapshot.DamageAt(12),"UI/combat snapshot damage agree");
+            Near(value.PenetrationAt(12),snapshot.PenetrationAt(12),"UI/combat snapshot penetration agree");
+            var qualityShot=value.Snapshot((int)Math.Round(value.ReferenceDamage*1.25f),value.ReferencePenetration*1.1f);
+            Near(value.DamageAt(12,1.25f),qualityShot.DamageAt(12),"Quality damage multiplier is applied exactly once");
+            Near(value.PenetrationAt(12,1.1f),qualityShot.PenetrationAt(12),"Quality penetration multiplier is applied exactly once");
+            Console.WriteLine((string)preset.Element("defName")+" barrel="+value.BarrelLengthInches.ToString("F1")
+                +" velocity="+value.MuzzleVelocityMetersPerSecond.ToString("F0")+" damage="+value.DamageAt()
+                +" AP="+value.PenetrationAt().ToString("P1")+" fragment="+value.FragmentationChanceAt().ToString("P1"));
+            count++;
+        }
+        var props=new CompProperties_ModularWeaponNode {isAssemblyRoot=true,internalStats=new ModularWeaponInternalStats {massKg=1,barrelLengthInches=10.3f}};
+        var receiver=Node(props);var nodes2=new List<ModularRenderNode>{receiver};var ammo=Projectile("HD_Bullet_M16A4_Proj");
+        var shortBarrel=Ballistics(ammo,Convert(nodes2));props.internalStats.barrelLengthInches=20;
+        var longBarrel=Ballistics(ammo,Convert(nodes2));
+        Check(longBarrel.DamageAt()>shortBarrel.DamageAt() && longBarrel.PenetrationAt()>shortBarrel.PenetrationAt()
+            && longBarrel.FragmentationChanceAt(10)>shortBarrel.FragmentationChanceAt(10),"Barrel length changes damage/AP/fragmentation together");
+        props.internalStats.damageTransfer=25;props.internalStats.penetrationEfficiency=20;
+        var tuned=Ballistics(ammo,Convert(nodes2));
+        Check(tuned.DamageAt()>longBarrel.DamageAt() && tuned.PenetrationAt()>longBarrel.PenetrationAt(),"Authored terminal-efficiency inputs reach converted combat stats");
+        var optic=TestSight(ModularSightKind.Scope,0,.1f);optic.Props.internalStats.damageTransfer=100;optic.Props.internalStats.penetrationEfficiency=100;
+        optic.Props.internalStats.muzzleVelocityOffsetMetersPerSecond=300;optic.Props.internalStats.barrelLengthInches=30;
+        nodes2.Add(optic);var withOptic=Ballistics(ammo,Convert(nodes2));
+        Near(tuned.DamageAt(),withOptic.DamageAt(),"Optics cannot increase ballistic damage");
+        Near(tuned.PenetrationAt(),withOptic.PenetrationAt(),"Optics cannot increase ballistic penetration");
+        Check(Ballistics(Projectile("HD_Bullet_556M995_Proj"),Convert(nodes2)).FragmentationChanceAt()==0,"AP ammo never acquires fragmentation through the new system");
+        Check(Ballistics(Projectile("HD_40mmM381HE_Proj"),Convert(nodes2))==null,"Underbarrel grenades are not scaled as rifle bullets");
+        Console.WriteLine("PASS: "+count+" preset ballistics and damage/AP/fragmentation integration checks.");
+    }
+    private static void BallisticAuthoringTests()
+    {
+        var inputs=new ModularWeaponInternalStats {massKg=.3f,barrelLengthInches=10.3f,
+            muzzleVelocityOffsetMetersPerSecond=-15,damageTransfer=12,penetrationEfficiency=-5};
+        var editor=typeof(Dialog_ModularAttachmentEditor);
+        var xml=new System.Text.StringBuilder();
+        editor.GetMethod("AppendInternalStats",BindingFlags.Static|BindingFlags.NonPublic).Invoke(null,new object[]{xml,inputs});
+        var exported=(ModularWeaponInternalStats)Parse(typeof(ModularWeaponInternalStats),XElement.Parse(xml.ToString()));
+        var state=editor.GetNestedType("NodePropertiesState",BindingFlags.NonPublic);
+        var cloned=(ModularWeaponInternalStats)state.GetMethod("CloneInternalStats",BindingFlags.Static|BindingFlags.NonPublic).Invoke(null,new object[]{inputs});
+        foreach(var copy in new[]{exported,cloned})
+        {
+            Near(inputs.barrelLengthInches,copy.barrelLengthInches,"Editor XML/undo preserves barrel length");
+            Near(inputs.muzzleVelocityOffsetMetersPerSecond,copy.muzzleVelocityOffsetMetersPerSecond,"Editor XML/undo preserves velocity offset");
+            Near(inputs.damageTransfer,copy.damageTransfer,"Editor XML/undo preserves damage transfer");
+            Near(inputs.penetrationEfficiency,copy.penetrationEfficiency,"Editor XML/undo preserves penetration efficiency");
+        }
+        Check(!ReferenceEquals(inputs,cloned),"Undo owns an independent raw-stat copy");
+        var integral=new ModularWeaponSightProperties {kind=ModularSightKind.IronSet,integrated=true};
+        var sightXml=new System.Text.StringBuilder();
+        editor.GetMethod("AppendSight",BindingFlags.Static|BindingFlags.NonPublic).Invoke(null,new object[]{sightXml,integral});
+        Check((bool)XElement.Parse(sightXml.ToString()).Element("integrated"),"Editor export preserves integral sight identity");
+        var sightCopy=(ModularWeaponSightProperties)state.GetMethod("CloneSight",BindingFlags.Static|BindingFlags.NonPublic).Invoke(null,new object[]{integral});
+        Check(sightCopy.integrated,"Undo preserves integral sight identity");
+        foreach(var def in definitions.Values.Where(e=>e.Element("modExtensions")?.Elements()
+            .Any(ext=>(string)ext.Attribute("Class")==typeof(BulletBallisticsExtension).FullName)==true))
+            Check(!Projectile(def.Element("defName").Value).GetModExtension<BulletBallisticsExtension>().ConfigErrors().Any(),"Authored ballistic input is valid");
+        Check(new BulletBallisticsExtension {referenceVelocityMetersPerSecond=0}.ConfigErrors().Any(),"Invalid ballistic inputs report XML errors");
     }
 }

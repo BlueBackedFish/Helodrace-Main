@@ -3,6 +3,8 @@
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_Glock19_Proj</defName>
+    <thingClass>Helodrace.Projectile_BallisticBullet</thingClass>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>8</projectileMassGrams><referenceVelocityMetersPerSecond>350</referenceVelocityMetersPerSecond><referenceBarrelInches>4.7</referenceBarrelInches><velocityHalfDistance>45</velocityHalfDistance></li></modExtensions>
     <label>9x19mm bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>

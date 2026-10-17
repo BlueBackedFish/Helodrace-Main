@@ -24,6 +24,12 @@ namespace Helodrace.ModernWar
         public float targetAcquisition;
         public float aimingPrecision;
         public float identificationDistanceMeters;
+        // Absolute length on the barrel; additive velocity and efficiency points
+        // on functional parts. Zero means no contribution (100 points = +100%).
+        public float barrelLengthInches;
+        public float muzzleVelocityOffsetMetersPerSecond;
+        public float damageTransfer;
+        public float penetrationEfficiency;
     }
 
     /// <summary>
@@ -46,6 +52,11 @@ namespace Helodrace.ModernWar
         public float IdentificationDistanceCells { get; internal set; }
         public float GasTubeFlowSetting { get; internal set; } = 1f;
         public float GasRecoilMultiplier { get; internal set; } = 1f;
+        public float BarrelLengthInches { get; internal set; }
+        public float MuzzleVelocityOffsetMetersPerSecond { get; internal set; }
+        public float DamageTransferFactor { get; internal set; } = 1f;
+        public float PenetrationEfficiencyFactor { get; internal set; } = 1f;
+        public ModularWeaponBallisticProfile Ballistics { get; internal set; }
 
         public float VanillaWarmupFactor { get; internal set; } = 1f;
         public float VanillaCycleFactor { get; internal set; } = 1f;
@@ -77,6 +88,7 @@ namespace Helodrace.ModernWar
             public float targetAcquisition;
             public float aimingPrecision;
             public float identificationMeters;
+            public float barrelLength, velocityOffset, damageTransfer, penetrationEfficiency;
         }
 
         public static ModularWeaponConvertedStats Resolve(
@@ -118,6 +130,15 @@ namespace Helodrace.ModernWar
                 }
 
                 if (authored == null) continue;
+                // Ballistic contributions are mechanical, never sight-efficiency
+                // weighted. Optical accessories cannot increase terminal ballistics.
+                if (props.sight == null || props.sight.integrated)
+                {
+                    aggregate.barrelLength = Mathf.Max(aggregate.barrelLength, authored.barrelLengthInches);
+                    aggregate.velocityOffset += authored.muzzleVelocityOffsetMetersPerSecond;
+                    aggregate.damageTransfer += authored.damageTransfer;
+                    aggregate.penetrationEfficiency += authored.penetrationEfficiency;
+                }
                 float performanceWeight = performanceWeights != null
                     && performanceWeights.TryGetValue(
                         thing.thingIDNumber, out float resolvedWeight)
@@ -231,7 +252,11 @@ namespace Helodrace.ModernWar
                 AimingPrecision = precision01,
                 IdentificationDistanceCells = identificationCells,
                 GasTubeFlowSetting = gasTubeFlowSetting,
-                GasRecoilMultiplier = gasRecoilMultiplier
+                GasRecoilMultiplier = gasRecoilMultiplier,
+                BarrelLengthInches = aggregate.barrelLength,
+                MuzzleVelocityOffsetMetersPerSecond = aggregate.velocityOffset,
+                DamageTransferFactor = Mathf.Clamp(1f + aggregate.damageTransfer / 100f, 0.25f, 2f),
+                PenetrationEfficiencyFactor = Mathf.Clamp(1f + aggregate.penetrationEfficiency / 100f, 0.25f, 2f)
             };
 
             result.VanillaWarmupFactor = Mathf.Clamp(

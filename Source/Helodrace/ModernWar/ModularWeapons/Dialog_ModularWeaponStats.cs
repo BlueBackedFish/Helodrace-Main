@@ -40,6 +40,7 @@ namespace Helodrace.ModernWar
                 Bar("RoundsPerMinute", root.EffectiveRoundsPerMinute, 1800f, "0.#' RPM'"),
                 Bar("CycleDelay", root.EffectiveFireDelaySeconds, 4f, "0.###' s'", true)
             };
+            if (!CombatExtendedActive) AddBallisticStatBars(bars, false);
             if (CombatExtendedActive)
             {
                 AddFinalStatBar(bars, "Recoil", 8f, true);
@@ -63,7 +64,7 @@ namespace Helodrace.ModernWar
         private List<StatBar> RawWeaponStatBars()
         {
             ModularWeaponConvertedStats value = root.ConvertedStats;
-            return new List<StatBar>
+            List<StatBar> bars = new List<StatBar>
             {
                 Bar("Mass", value.MassKg, 15f, "0.##' kg'", true),
                 Bar("Ergonomics", value.Ergonomics, 1f, "P0"),
@@ -80,6 +81,32 @@ namespace Helodrace.ModernWar
                 Bar("CycleDelay", root.EffectiveFireDelaySeconds, 4f, "0.###' s'", true),
                 Bar("GasEfficiency", value.GasEfficiency, 1.35f, "P0")
             };
+            if (!CombatExtendedActive) AddBallisticStatBars(bars, true);
+            return bars;
+        }
+
+        private void AddBallisticStatBars(List<StatBar> bars, bool raw)
+        {
+            ModularWeaponBallisticProfile value = root.ConvertedStats.Ballistics;
+            if (value == null) return;
+            if (raw)
+            {
+                bars.Add(Bar("ProjectileMass", value.ProjectileMassGrams, 20f, "0.##' g'"));
+                bars.Add(Bar("BarrelLength", value.BarrelLengthInches, 30f, "0.##' in'"));
+                bars.Add(Bar("ReferenceVelocity", value.ReferenceVelocityMetersPerSecond, 1200f, "0.#' m/s'"));
+                bars.Add(Bar("MuzzleVelocity", value.MuzzleVelocityMetersPerSecond, 1200f, "0.#' m/s'"));
+                bars.Add(Bar("MuzzleEnergy", value.MuzzleEnergyJoules, 5000f, "0.#' J'"));
+                bars.Add(Bar("DamageTransfer", value.DamageTransfer, 2f, "P0"));
+                bars.Add(Bar("PenetrationEfficiency", value.PenetrationEfficiency, 2f, "P0"));
+                bars.Add(Bar("ReferenceDamage", value.ReferenceDamage, 40f, "0"));
+                bars.Add(Bar("ReferencePenetration", value.ReferencePenetration, 1f, "P1"));
+                return;
+            }
+            bars.Add(Bar("ProjectileDamage", value.DamageAt(0f,
+                root.parent.GetStatValue(StatDefOf.RangedWeapon_DamageMultiplier)), 40f, "0"));
+            bars.Add(Bar("ProjectilePenetration", value.PenetrationAt(0f,
+                root.parent.GetStatValue(StatDefOf.RangedWeapon_ArmorPenetrationMultiplier)), 1f, "P1"));
+            bars.Add(Bar("FragmentationChance", value.FragmentationChanceAt(), 1f, "P1"));
         }
 
         private StatBar FinalStatBar(StatDef stat, float maximum, bool lowerIsBetter = false)
@@ -198,6 +225,8 @@ namespace Helodrace.ModernWar
                     .ToString("+0.0;-0.0;0.0", CultureInfo.InvariantCulture) + " cm";
             VerbProperties verb = weapon.def.Verbs?.FirstOrDefault(v => v.isPrimary) ?? weapon.def.Verbs?.FirstOrDefault();
             if (verb != null) text += "\n" + "HD_ModularWeapon_BurstShots".Translate(root.ApplyBurstShotCount(verb.burstShotCount));
+            if (!CombatExtendedActive && root.ConvertedStats.Ballistics != null)
+                text += "\n" + "HD_ModularWeapon_BallisticsHint".Translate();
             return text;
         }
     }

@@ -85,6 +85,8 @@
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_M1911_Proj</defName>
+    <thingClass>Helodrace.Projectile_BallisticBullet</thingClass>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>14.9</projectileMassGrams><referenceVelocityMetersPerSecond>260</referenceVelocityMetersPerSecond><referenceBarrelInches>5</referenceBarrelInches><velocityHalfDistance>35</velocityHalfDistance></li></modExtensions>
     <label>Ironfang M1911 bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>

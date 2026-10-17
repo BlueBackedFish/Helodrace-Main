@@ -476,6 +476,8 @@ namespace Helodrace.ModernWar
                     + " is a modular part with a vanilla recipeMaker.";
             if (internalStats != null)
             {
+                if (internalStats.barrelLengthInches < 0f)
+                    yield return parentDef.defName + " has a negative ballistic barrel length.";
                 if (internalStats.massKg == 0f)
                     yield return parentDef.defName
                         + " has zero internal mass; use a positive value or -1 for automatic mass.";

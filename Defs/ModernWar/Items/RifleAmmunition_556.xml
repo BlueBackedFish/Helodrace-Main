@@ -13,7 +13,7 @@
     <defName>HD_Bullet_556M193_Proj</defName>
     <label>5.56x45mm M193 bullet</label>
     <thingClass>Helodrace.Projectile_FragmentingBullet</thingClass>
-    <modExtensions><li Class="Helodrace.BulletFragmentationExtension"><chance>0.8</chance><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>45</velocityHalfDistance><damageFraction>0.65</damageFraction></li></modExtensions>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>3.56</projectileMassGrams><referenceVelocityMetersPerSecond>980</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>45</velocityHalfDistance></li><li Class="Helodrace.BulletFragmentationExtension"><chance>0.8</chance><damageFraction>0.65</damageFraction></li></modExtensions>
     <projectile><damageAmountBase>13</damageAmountBase><armorPenetrationBase>0.20</armorPenetrationBase><stoppingPower>0.55</stoppingPower><speed>105</speed></projectile>
   </ThingDef>
 
@@ -21,12 +21,14 @@
     <defName>HD_Bullet_556M855_Proj</defName>
     <label>5.56x45mm M855 bullet</label>
     <thingClass>Helodrace.Projectile_FragmentingBullet</thingClass>
-    <modExtensions><li Class="Helodrace.BulletFragmentationExtension"><chance>0.65</chance><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>40</velocityHalfDistance><damageFraction>0.5</damageFraction></li></modExtensions>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>4</projectileMassGrams><referenceVelocityMetersPerSecond>930</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>40</velocityHalfDistance></li><li Class="Helodrace.BulletFragmentationExtension"><chance>0.65</chance><damageFraction>0.5</damageFraction></li></modExtensions>
     <projectile><damageAmountBase>13</damageAmountBase><armorPenetrationBase>0.24</armorPenetrationBase><stoppingPower>0.5</stoppingPower><speed>98</speed></projectile>
   </ThingDef>
 
   <ThingDef ParentName="HD_556VariantProjectileBase">
     <defName>HD_Bullet_556M995_Proj</defName>
+    <thingClass>Helodrace.Projectile_BallisticBullet</thingClass>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>3.4</projectileMassGrams><referenceVelocityMetersPerSecond>920</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>60</velocityHalfDistance></li></modExtensions>
     <label>5.56x45mm M995 bullet</label>
     <projectile><damageAmountBase>11</damageAmountBase><armorPenetrationBase>0.38</armorPenetrationBase><stoppingPower>0.4</stoppingPower><speed>100</speed></projectile>
   </ThingDef>
@@ -35,7 +37,7 @@
     <defName>HD_Bullet_556MK262_Proj</defName>
     <label>5.56x45mm MK262 bullet</label>
     <thingClass>Helodrace.Projectile_FragmentingBullet</thingClass>
-    <modExtensions><li Class="Helodrace.BulletFragmentationExtension"><chance>0.9</chance><velocityHalfDistance>65</velocityHalfDistance><damageFraction>0.7</damageFraction><maxFragments>6</maxFragments></li></modExtensions>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>5</projectileMassGrams><referenceVelocityMetersPerSecond>800</referenceVelocityMetersPerSecond><referenceBarrelInches>16</referenceBarrelInches><velocityHalfDistance>65</velocityHalfDistance></li><li Class="Helodrace.BulletFragmentationExtension"><chance>0.9</chance><damageFraction>0.7</damageFraction><maxFragments>6</maxFragments></li></modExtensions>
     <projectile><damageAmountBase>16</damageAmountBase><armorPenetrationBase>0.18</armorPenetrationBase><stoppingPower>0.7</stoppingPower><speed>88</speed></projectile>
   </ThingDef>
 
@@ -43,7 +45,7 @@
     <defName>HD_Bullet_556MK318_Proj</defName>
     <label>5.56x45mm MK318 bullet</label>
     <thingClass>Helodrace.Projectile_FragmentingBullet</thingClass>
-    <modExtensions><li Class="Helodrace.BulletFragmentationExtension"><chance>0.75</chance><velocityHalfDistance>60</velocityHalfDistance><armorResistanceFactor>0.4</armorResistanceFactor><damageFraction>0.55</damageFraction></li></modExtensions>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>4</projectileMassGrams><referenceVelocityMetersPerSecond>880</referenceVelocityMetersPerSecond><referenceBarrelInches>16</referenceBarrelInches><velocityHalfDistance>60</velocityHalfDistance></li><li Class="Helodrace.BulletFragmentationExtension"><chance>0.75</chance><armorResistanceFactor>0.4</armorResistanceFactor><damageFraction>0.55</damageFraction></li></modExtensions>
     <projectile><damageAmountBase>15</damageAmountBase><armorPenetrationBase>0.23</armorPenetrationBase><stoppingPower>0.65</stoppingPower><speed>95</speed></projectile>
   </ThingDef>
 
