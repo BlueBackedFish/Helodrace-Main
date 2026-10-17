@@ -472,15 +472,21 @@ namespace Helodrace.ModernWar
             if (node?.comp == null || socket == null || def == null || mount == null) return;
             List<DetachedPart> displaced = new List<DetachedPart>();
             int limit = socket.isRail ? socket.maxAttachments : 1;
-            if (socket.isRail && limit > 0 && node.comp.CountOnSocket(socket.id) >= limit)
+            int replacing = -1;
+            for (int i = 0; i < node.comp.ChildCount; i++)
+                if (node.comp.ChildAt(i).thingIDNumber == selectedAttachmentId
+                    && node.comp.SocketIdAt(i) == socket.id) replacing = i;
+            if (replacing < 0 && socket.isRail && limit != 1
+                && limit > 0 && node.comp.CountOnSocket(socket.id) >= limit)
             {
                 Messages.Message("HD_ModularWeapon_RejectSocketFull".Translate(socket.Label),
                     MessageTypeDefOf.RejectInput, false);
                 return;
             }
-            while (limit > 0 && node.comp.CountOnSocket(socket.id) >= limit)
+            while (replacing >= 0 || (limit > 0 && node.comp.CountOnSocket(socket.id) >= limit))
             {
-                int index = FirstChildIndexOnSocket(node.comp, socket.id);
+                int index = replacing >= 0 ? replacing : FirstChildIndexOnSocket(node.comp, socket.id);
+                replacing = -1;
                 if (index < 0) break;
                 displaced.Add(new DetachedPart
                 {
@@ -514,7 +520,9 @@ namespace Helodrace.ModernWar
                 child = ThingMaker.MakeThing(def);
             }
             string rejection;
-            bool success = TryInstallAtPreviewSocket(node, socket, child, mount, out rejection);
+            float? replacementOffset = socket.isRail && displaced.Count == 1
+                ? (float?)displaced[0].railOffset : null;
+            bool success = TryInstallAtPreviewSocket(node, socket, child, mount, out rejection, replacementOffset);
             if (!success)
             {
                 if (acquisition != null) acquisition.Rollback();
@@ -527,7 +535,13 @@ namespace Helodrace.ModernWar
 
             acquisition?.Commit();
             for (int i = 0; i < displaced.Count; i++)
+            {
+                foreach (Thing removed in ModularWeaponChildTransfer.Move(
+                    displaced[i].thing.TryGetComp<CompModularWeaponNode>(),
+                    child.TryGetComp<CompModularWeaponNode>()))
+                    ReturnOrDestroyAssembly(removed);
                 ReturnOrDestroyAssembly(displaced[i].thing);
+            }
             selectedAttachmentId = child.thingIDNumber;
             revealSocketAttachment = child.thingIDNumber;
             preferredRailOffset = null;

@@ -15,6 +15,7 @@ internal static class Program
         StatMotionTests.Run();
         SocketLayoutTests.Run();
         FunctionTests.Run();
+        ChildTransferTests.Run();
         var lower = Part(1, "하부 리시버");
         var upper = Part(2, "상부 리시버", lower, "upper", "상부 결합부", 0);
         var barrel = Part(3, "10.3인치 총열", upper, "barrel", "총열 결합부", 0);
@@ -158,13 +159,28 @@ namespace Helodrace.ModernWar
         public CompProperties_ModularWeaponNode Props;
         public T GetCompProperties<T>() where T : class => Props as T;
     }
-    public sealed class ModularAttachmentSocket { public string id; public string Label; public bool required; public ThingDef expectedPart; }
+    public sealed class ModularAttachmentSocket
+    {
+        public string id;
+        public string Label;
+        public bool required, isRail;
+        public int maxAttachments;
+        public ThingDef expectedPart;
+    }
+    public sealed class ModularAttachmentMount
+    {
+        public string id, SocketId;
+        public bool Accepts(ModularAttachmentSocket socket) => socket.id == SocketId;
+    }
     public sealed class CompProperties_ModularWeaponNode
     {
         public ModularWeaponPartCategory partCategory = ModularWeaponPartCategory.Optional;
         public bool isAssemblyRoot, isWeaponSubassembly;
         public List<ModularWeaponMissingFunction> missingFunctions = new List<ModularWeaponMissingFunction>();
         public List<ModularAttachmentSocket> sockets = new List<ModularAttachmentSocket>();
+        public List<ModularAttachmentMount> mounts = new List<ModularAttachmentMount>();
+        public ModularAttachmentMount MountNamed(string id) => string.IsNullOrEmpty(id)
+            ? mounts.FirstOrDefault() : mounts.FirstOrDefault(mount => mount.id == id);
         public ModularAttachmentSocket SocketNamed(string id) => sockets.FirstOrDefault(socket => socket.id == id);
     }
     public sealed class CompModularWeaponNode
@@ -173,9 +189,38 @@ namespace Helodrace.ModernWar
         public CompModularWeaponNode AssemblyRoot => this;
         public readonly List<Thing> Children = new List<Thing>();
         public readonly List<string> SocketIds = new List<string>();
+        public readonly List<string> MountIds = new List<string>();
+        public readonly List<float> Offsets = new List<float>();
+        public Func<Thing, string, float, bool> PlacementAllowed;
+        public float? FreeOffset;
         public int ChildCount => Children.Count;
         public Thing ChildAt(int index) => Children[index];
         public string SocketIdAt(int index) => SocketIds[index];
+        public string MountIdAt(int index) => MountIds[index];
+        public float RailOffsetAt(int index) => Offsets[index];
+        public Thing DetachChildAt(int index)
+        {
+            Thing child = Children[index];
+            Children.RemoveAt(index); SocketIds.RemoveAt(index);
+            MountIds.RemoveAt(index); Offsets.RemoveAt(index);
+            return child;
+        }
+        public Thing DetachChild(Thing child) => DetachChildAt(Children.IndexOf(child));
+        public bool TryAttach(Thing child, string socketId, string mountId, float offset, out string reason)
+        {
+            reason = null;
+            var socket = Props.SocketNamed(socketId);
+            if (socket == null || child.Comp.Props.MountNamed(mountId)?.Accepts(socket) != true
+                || (!socket.isRail && SocketIds.Contains(socketId))
+                || PlacementAllowed?.Invoke(child, socketId, offset) == false) return false;
+            Children.Add(child); SocketIds.Add(socketId); MountIds.Add(mountId); Offsets.Add(offset);
+            return true;
+        }
+        public bool TryFindAttachOffset(Thing child, string socketId, string mountId, out float offset, out string reason)
+        {
+            reason = null; offset = FreeOffset ?? 0f;
+            return FreeOffset.HasValue && PlacementAllowed?.Invoke(child, socketId, offset) != false;
+        }
     }
     public sealed class ModularRenderNode
     {

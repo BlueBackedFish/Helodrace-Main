@@ -320,18 +320,19 @@ namespace Helodrace.ModernWar
         }
 
         private bool TryInstallAtPreviewSocket(ModularRenderNode owner, ModularAttachmentSocket socket,
-            Thing child, ModularAttachmentMount mount, out string reason)
+            Thing child, ModularAttachmentMount mount, out string reason, float? replacementOffset = null)
         {
             float offset;
-            if (socket.isRail && preferredRailOffset.HasValue
-                && preferredRailOwner == owner.path && preferredRailSocket == socket.id)
+            float? preferred = replacementOffset ?? (preferredRailOwner == owner.path
+                && preferredRailSocket == socket.id ? preferredRailOffset : null);
+            if (socket.isRail && preferred.HasValue)
             {
                 var childComp = child.TryGetComp<CompModularWeaponNode>();
                 float half = (socket.railLength - mount.EffectiveRailContactLength
                     * owner.comp.PaletteRatioFor(childComp)) * 0.5f;
                 if (half >= 0f)
                     return owner.comp.TryAttach(child, socket.id, mount.id,
-                        Mathf.Clamp(preferredRailOffset.Value, -half, half), out reason);
+                        Mathf.Clamp(preferred.Value, -half, half), out reason);
             }
             return owner.comp.TryFindAttachOffset(child, socket.id, mount.id, out offset, out reason)
                 && owner.comp.TryAttach(child, socket.id, mount.id, offset, out reason);
