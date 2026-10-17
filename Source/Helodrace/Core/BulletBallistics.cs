@@ -44,8 +44,8 @@ namespace Helodrace
         public static float Energy(float massGrams, float velocityMetersPerSecond)
             => Math.Max(0f, massGrams) * 0.0005f * velocityMetersPerSecond * velocityMetersPerSecond;
 
-        // Sub-linear energy conversion retains each cartridge's authored wound/AP
-        // identity without turning a modest velocity change into a huge damage buff.
+        // Primary damage/AP use only the cartridge's distance retention, never
+        // barrel-derived muzzle velocity. That velocity affects fragmentation only.
         public static float DamageFactor(float velocityFactor, float transfer)
             => (float)Math.Pow(Math.Max(0f, velocityFactor), 0.7) * Math.Max(0f, transfer);
 
@@ -66,10 +66,12 @@ namespace Helodrace
 
         public float VelocityAt(float distance) => BulletBallisticsRules.RetainedVelocity(
             muzzleVelocityFactor, distance, velocityHalfDistance);
+        private float PrimaryRetentionAt(float distance) => BulletBallisticsRules.RetainedVelocity(
+            1f, distance, velocityHalfDistance);
         public int DamageAt(float distance) => BulletBallisticsRules.Damage(referenceDamage,
-            BulletBallisticsRules.DamageFactor(VelocityAt(distance), damageTransfer));
+            BulletBallisticsRules.DamageFactor(PrimaryRetentionAt(distance), damageTransfer));
         public float PenetrationAt(float distance) => referencePenetration
-            * BulletBallisticsRules.PenetrationFactor(VelocityAt(distance), penetrationEfficiency);
+            * BulletBallisticsRules.PenetrationFactor(PrimaryRetentionAt(distance), penetrationEfficiency);
 
         public void ExposeData()
         {

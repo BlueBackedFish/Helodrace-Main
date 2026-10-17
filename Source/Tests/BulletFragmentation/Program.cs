@@ -251,6 +251,16 @@ internal static class Program
             "Damage and penetration must not re-read changed equipment in flight.");
         Check(savedDamage == captured.DamageAt(15) && Math.Abs(savedPenetration - captured.PenetrationAt(15)) < .001f,
             "Live projectile properties must consume the common snapshot at actual travel distance.");
+        var alternate = new BulletBallisticsSnapshot { referenceDamage=captured.referenceDamage,
+            referencePenetration=captured.referencePenetration, velocityHalfDistance=captured.velocityHalfDistance,
+            damageTransfer=captured.damageTransfer, penetrationEfficiency=captured.penetrationEfficiency,
+            muzzleVelocityFactor=1.2f };
+        Check(alternate.DamageAt(15)==captured.DamageAt(15)
+            && Math.Abs(alternate.PenetrationAt(15)-captured.PenetrationAt(15))<.001f,
+            "Captured barrel velocity cannot scale direct projectile damage or penetration.");
+        Check(new BulletFragmentationExtension().Strength(alternate.VelocityAt(15),0)
+            > new BulletFragmentationExtension().Strength(captured.VelocityAt(15),0),
+            "Captured barrel velocity still changes fragmentation at the same distance.");
         var fixedBullet = Bare<Projectile_BallisticBullet>(); fixedBullet.def = pellet.def;
         fixedBullet.Launch(null, Vector3.zero, pawn, pawn, ProjectileHitFlags.All);
         Check(fixedBullet.DamageAmount == 13 && Math.Abs(fixedBullet.ArmorPenetration-.28f)<.001f,

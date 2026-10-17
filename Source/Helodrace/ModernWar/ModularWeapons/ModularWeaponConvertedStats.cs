@@ -136,8 +136,13 @@ namespace Helodrace.ModernWar
                 {
                     aggregate.barrelLength = Mathf.Max(aggregate.barrelLength, authored.barrelLengthInches);
                     aggregate.velocityOffset += authored.muzzleVelocityOffsetMetersPerSecond;
-                    aggregate.damageTransfer += authored.damageTransfer;
-                    aggregate.penetrationEfficiency += authored.penetrationEfficiency;
+                    // Barrel-specific terminal effects belong to fragmentation,
+                    // not a second direct-damage/AP bonus in the authoring fields.
+                    if (props.isAssemblyRoot || authored.barrelLengthInches <= 0f)
+                    {
+                        aggregate.damageTransfer += authored.damageTransfer;
+                        aggregate.penetrationEfficiency += authored.penetrationEfficiency;
+                    }
                 }
                 float performanceWeight = performanceWeights != null
                     && performanceWeights.TryGetValue(

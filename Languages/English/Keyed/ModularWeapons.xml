@@ -169,5 +169,5 @@
   <HD_ModularWeapon_ProjectileDamage>Projectile damage</HD_ModularWeapon_ProjectileDamage>
   <HD_ModularWeapon_ProjectilePenetration>Armor penetration</HD_ModularWeapon_ProjectilePenetration>
   <HD_ModularWeapon_FragmentationChance>Fragmentation chance</HD_ModularWeapon_FragmentationChance>
-  <HD_ModularWeapon_BallisticsHint>Ballistics shown at the muzzle, before target armor. Distance reduces velocity, damage, penetration and fragmentation; traversed armor further reduces fragmentation. Fragment wounds are additional to primary damage.</HD_ModularWeapon_BallisticsHint>
+  <HD_ModularWeapon_BallisticsHint>Values are before target armor at the muzzle. Barrel velocity affects fragmentation only, not primary damage or penetration. Cartridge-based distance falloff remains; traversed armor further reduces fragmentation. Fragment wounds are additional to primary damage.</HD_ModularWeapon_BallisticsHint>
 </LanguageData>

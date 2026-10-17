@@ -360,8 +360,17 @@ internal static class Program
         var receiver=Node(props);var nodes2=new List<ModularRenderNode>{receiver};var ammo=Projectile("HD_Bullet_M16A4_Proj");
         var shortBarrel=Ballistics(ammo,Convert(nodes2));props.internalStats.barrelLengthInches=20;
         var longBarrel=Ballistics(ammo,Convert(nodes2));
-        Check(longBarrel.DamageAt()>shortBarrel.DamageAt() && longBarrel.PenetrationAt()>shortBarrel.PenetrationAt()
-            && longBarrel.FragmentationChanceAt(10)>shortBarrel.FragmentationChanceAt(10),"Barrel length changes damage/AP/fragmentation together");
+        foreach(float distance in new[]{0f,10f,25f,50f})
+        {
+            Near(longBarrel.DamageAt(distance),shortBarrel.DamageAt(distance),"Barrel length cannot change direct damage");
+            Near(longBarrel.PenetrationAt(distance),shortBarrel.PenetrationAt(distance),"Barrel length cannot change direct penetration");
+        }
+        Check(longBarrel.FragmentationChanceAt(10)>shortBarrel.FragmentationChanceAt(10),"Only fragmentation retains barrel-derived lethality");
+        var customBarrel=Node(new CompProperties_ModularWeaponNode {internalStats=new ModularWeaponInternalStats
+            {massKg=.3f,barrelLengthInches=20,damageTransfer=100,penetrationEfficiency=100}});
+        var terminalStats=Convert(new(){receiver,customBarrel});
+        Near(1f,terminalStats.DamageTransferFactor,"Barrel authoring cannot add direct damage");
+        Near(1f,terminalStats.PenetrationEfficiencyFactor,"Barrel authoring cannot add direct penetration");
         props.internalStats.damageTransfer=25;props.internalStats.penetrationEfficiency=20;
         var tuned=Ballistics(ammo,Convert(nodes2));
         Check(tuned.DamageAt()>longBarrel.DamageAt() && tuned.PenetrationAt()>longBarrel.PenetrationAt(),"Authored terminal-efficiency inputs reach converted combat stats");

@@ -169,5 +169,5 @@
   <HD_ModularWeapon_ProjectileDamage>탄환 피해량</HD_ModularWeapon_ProjectileDamage>
   <HD_ModularWeapon_ProjectilePenetration>방어구 관통력</HD_ModularWeapon_ProjectilePenetration>
   <HD_ModularWeapon_FragmentationChance>파편화 확률</HD_ModularWeapon_FragmentationChance>
-  <HD_ModularWeapon_BallisticsHint>탄도 수치는 총구·방어구 미통과 기준입니다. 거리로 탄속·피해·관통력·파편화가 낮아지고 통과한 방어구는 파편화를 추가로 낮춥니다. 파편 상처는 직접 피해와 별도입니다.</HD_ModularWeapon_BallisticsHint>
+  <HD_ModularWeapon_BallisticsHint>수치는 총구·방어구 미통과 기준입니다. 총열 탄속 차이는 직접 피해·관통이 아닌 파편화에만 적용됩니다. 탄종 기준 거리 감쇠는 유지되며, 통과한 방어구는 파편화를 추가로 낮춥니다. 파편 상처는 직접 피해와 별도입니다.</HD_ModularWeapon_BallisticsHint>
 </LanguageData>
