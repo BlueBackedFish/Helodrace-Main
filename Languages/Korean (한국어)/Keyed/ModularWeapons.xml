@@ -55,10 +55,10 @@
   <HD_ModularWeapon_SocketOverlayTitle>{0}의 장착부</HD_ModularWeapon_SocketOverlayTitle>
   <HD_ModularWeapon_AddRailPart>+ 레일 파츠 추가</HD_ModularWeapon_AddRailPart>
   <HD_ModularWeapon_AddSocketPart>+ 파츠 장착</HD_ModularWeapon_AddSocketPart>
-  <HD_ModularWeapon_InspectSocketPart>더블클릭하면 이 파츠에 달린 소켓을 편집합니다.</HD_ModularWeapon_InspectSocketPart>
+  <HD_ModularWeapon_InspectSocketPart>이 이미지를 누르면 파츠에 달린 소켓을 편집합니다.</HD_ModularWeapon_InspectSocketPart>
   <HD_ModularWeapon_RemoveSocketPart>이 파츠를 제거합니다. 작업대에서는 부품 상자로 돌려보냅니다.</HD_ModularWeapon_RemoveSocketPart>
   <HD_ModularWeapon_RailPartCount>장착된 파츠: {0}개</HD_ModularWeapon_RailPartCount>
-  <HD_ModularWeapon_SocketOverlayHint>이미지를 누르면 해당 파츠를 화면 중앙에 맞추고 아래에서 교체할 파츠를 고릅니다. 레일 파츠는 레일 위에 뜨는 슬라이더로 위치를 조절합니다. 이미지를 더블클릭하면 파츠 자체의 소켓을 편집합니다. 빈 박스와 다중 레일은 파츠를 추가하며, 하나만 달리는 레일은 박스 하나로 바로 조절·교체합니다. ×는 제거, 화살표는 박스 페이지 전환입니다.</HD_ModularWeapon_SocketOverlayHint>
+  <HD_ModularWeapon_SocketOverlayHint>고정 소켓과 단일 레일은 이름이 있는 기존 박스를 사용하며 작은 이미지를 누르면 하위 소켓을 편집합니다. 다중 레일만 정사각형 이미지 박스를 사용하며 클릭은 선택, 더블클릭은 하위 소켓 편집입니다. 박스는 총기 화면 이동·확대를 따라 움직입니다. 위치 슬라이더는 부모 레일 위에 표시되며 호버하면 값을 확인합니다. ×는 제거, 화살표는 박스 페이지 전환입니다.</HD_ModularWeapon_SocketOverlayHint>
   <HD_ModularWeapon_SelectedAmmunition>선택 탄종\n{0}</HD_ModularWeapon_SelectedAmmunition>
   <HD_ModularWeapon_NoAmmunition>선택 없음</HD_ModularWeapon_NoAmmunition>
   <HD_ModularWeapon_AmmunitionPartDetail>탄종 선택: {0}</HD_ModularWeapon_AmmunitionPartDetail>

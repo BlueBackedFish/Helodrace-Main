@@ -103,11 +103,12 @@ namespace Helodrace.ModernWar
             UpdatePreviewBounds();
             PrepareSocketCards(previewRect, selected, snapshot);
             HandleRailClick(previewRect);
-            if (!PointerOverSocketCard(previewRect))
-            {
+            bool overSocketControl = PointerOverSocketCard(previewRect);
+            if (!overSocketControl || Event.current.type == EventType.ScrollWheel
+                || (Event.current.type == EventType.MouseDrag && Event.current.button == 2))
                 HandlePreviewNavigation(previewRect);
+            if (!overSocketControl)
                 UpdatePreviewHover(previewRect, snapshot);
-            }
             selected = FindSelected(snapshot);
             EnsureSelectedSocket(selected);
             DrawPartNavigator(treeRect, selected);

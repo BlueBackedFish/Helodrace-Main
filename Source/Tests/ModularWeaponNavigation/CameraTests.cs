@@ -40,6 +40,20 @@ internal static class CameraTests
         camera.ZoomAt(area, 4f, pointer);
         Equal(point, (pointer - camera.OriginFor(area)) / camera.ScaleFor(area),
             "Cursor anchoring must survive fitting an off-center group.");
+        var fittedCamera = new ModularWeaponPreviewCamera();
+        fittedCamera.SetBounds(bounds);
+        foreach (var anchor in new[] { Vector2.zero, new Vector2(4, -2), new Vector2(-1, 3) })
+        {
+            Vector2 gui = new Vector2(anchor.x, -anchor.y);
+            Vector2 before = fittedCamera.OriginFor(area) + gui * fittedCamera.ScaleFor(area);
+            Vector2 after = camera.OriginFor(area) + gui * camera.ScaleFor(area);
+            Equal(after - before, camera.OffsetFromFit(area, anchor),
+                "Callouts must follow their weapon anchor through cursor zoom and pan.");
+        }
+        camera.Reset();
+        camera.Move(new Vector2(130, -75));
+        Equal(new Vector2(130, -75), camera.OffsetFromFit(area, new Vector2(4, -2)),
+            "All boxes must translate exactly with middle-button panning.");
         Console.WriteLine("PASS: preview zoom anchoring, pan, zoom limits and reset.");
     }
 

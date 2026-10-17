@@ -15,7 +15,8 @@ namespace Helodrace.ModernWar
             public ModularRenderNode Child;
             public Rect Rect;
             public Vector2 Anchor;
-            public bool Add => Socket.isRail && Socket.maxAttachments != 1 && Child == null;
+            public bool Compact => Socket.isRail && Socket.maxAttachments != 1;
+            public bool Add => Compact && Child == null;
         }
 
         private readonly List<SocketCard> socketCards = new List<SocketCard>();
@@ -26,7 +27,7 @@ namespace Helodrace.ModernWar
         private int draggedRailPart = -1;
         private int socketPage;
         private int socketPages = 1;
-        private int socketPageStart;
+        private ModularWeaponSocketLayout.Layout socketLayout;
         private int revealSocketAttachment = -1;
         private float? preferredRailOffset;
         private string preferredRailOwner, preferredRailSocket;
@@ -75,31 +76,35 @@ namespace Helodrace.ModernWar
                     socketCards.Add(new SocketCard { Socket = socket, Child = child });
             }
             Rect area = PreviewArea(rect);
-            socketPages = ModularWeaponSocketLayout.PageCount(area, socketCards.Count);
+            socketLayout = ModularWeaponSocketLayout.Arrange(area, socketCards.Select(card => card.Compact).ToList());
+            socketPages = socketLayout.PageCount;
             if (revealSocketAttachment >= 0)
             {
                 int index = socketCards.FindIndex(card => card.Child?.thing.thingIDNumber == revealSocketAttachment);
                 if (index >= 0)
                 {
-                    socketPage = ModularWeaponSocketLayout.PageFor(area, index);
+                    socketPage = socketLayout.PageFor(index);
                     revealSocketAttachment = -1;
                 }
             }
             socketPage = Mathf.Clamp(socketPage, 0, socketPages - 1);
-            socketPageStart = socketPage * ModularWeaponSocketLayout.Capacity(area);
-            List<Rect> positions = ModularWeaponSocketLayout.Arrange(area, socketCards.Count, socketPage);
             Rect cameraArea = PreviewCameraArea(rect);
             Vector2 origin = previewCamera.OriginFor(cameraArea);
             float scale = previewCamera.ScaleFor(cameraArea);
+            Vector2 ownerCenter;
+            float ownerAngle;
+            ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(root, owner, false, out ownerCenter, out ownerAngle);
+            Vector2 boxOffset = previewCamera.OffsetFromFit(cameraArea, ownerCenter);
             for (int i = 0; i < socketCards.Count; i++)
             {
                 var card = socketCards[i];
                 Vector3 local = card.Socket.transform?.position ?? Vector3.zero;
                 if (card.Child?.attachedToRail == true) local.x += card.Child.railOffset;
                 card.Anchor = WorldToGui(RealtimeSocketPoint(owner, local), origin, scale);
-                card.Rect = i >= socketPageStart && i < socketPageStart + positions.Count
-                    ? positions[i - socketPageStart] : default(Rect);
-                if (card.Rect.width > 0f && Mouse.IsOver(card.Rect)) hoveredNode = card.Child ?? owner;
+                card.Rect = socketLayout.PageFor(i) == socketPage
+                    ? ModularWeaponSocketLayout.Follow(socketLayout.Rects[i], boxOffset) : default(Rect);
+                if (card.Rect.width > 0f && Mouse.IsOver(area) && Mouse.IsOver(card.Rect))
+                    hoveredNode = card.Child ?? owner;
             }
         }
 
@@ -130,8 +135,8 @@ namespace Helodrace.ModernWar
 
         private bool PointerOverSocketCard(Rect rect)
         {
-            return socketCards.Any(card => card.Rect.width > 0f && Mouse.IsOver(card.Rect))
-                || (activeRailSocket != null && Mouse.IsOver(FloatingRailSliderRect(rect)))
+            return Mouse.IsOver(PreviewArea(rect)) && (socketCards.Any(card => card.Rect.width > 0f && Mouse.IsOver(card.Rect))
+                || (activeRailSocket != null && Mouse.IsOver(FloatingRailSliderRect(rect))))
                 || (socketPages > 1 && Mouse.IsOver(SocketPageControls(rect)));
         }
 
@@ -176,7 +181,7 @@ namespace Helodrace.ModernWar
                 if (attached != null) SelectSocketAttachment(rect, attached, false);
             }
             int index = socketCards.FindIndex(card => card.Socket == closest && card.Add);
-            if (index >= 0) socketPage = ModularWeaponSocketLayout.PageFor(PreviewArea(rect), index);
+            if (index >= 0) socketPage = socketLayout.PageFor(index);
             current.Use();
         }
 
@@ -214,7 +219,7 @@ namespace Helodrace.ModernWar
             {
                 if (card.Rect.width <= 0f) continue;
                 Vector2 target = new Vector2(card.Rect.center.x,
-                    card.Rect.center.y < area.center.y ? card.Rect.yMax : card.Rect.y);
+                    card.Anchor.y > card.Rect.center.y ? card.Rect.yMax : card.Rect.y);
                 bool active = card.Child == null ? card.Socket.id == selectedSocketId
                     : card.Child.thing.thingIDNumber == selectedAttachmentId;
                 Color color = active ? new Color(1f, 0.85f, 0.35f) : new Color(0.48f, 0.65f, 0.72f);
@@ -232,11 +237,13 @@ namespace Helodrace.ModernWar
             GUI.EndGroup();
             bool wrap = Text.WordWrap;
             Text.WordWrap = false;
+            GUI.BeginGroup(area);
             foreach (var card in socketCards)
             {
                 if (card.Rect.width <= 0f || card.Child?.thing.Destroyed == true) continue;
-                if (DrawSocketCard(rect, card)) break;
+                if (DrawSocketCard(rect, card, area.position)) break;
             }
+            GUI.EndGroup();
             DrawFloatingRailSlider(rect);
             Text.WordWrap = wrap;
             Text.Font = GameFont.Small;
@@ -257,16 +264,39 @@ namespace Helodrace.ModernWar
         }
 
         // Returns true after a mutation; stop drawing records from the old snapshot.
-        private bool DrawSocketCard(Rect preview, SocketCard card)
+        private bool DrawSocketCard(Rect preview, SocketCard card, Vector2 offset)
         {
             bool active = card.Child == null ? card.Socket.id == selectedSocketId && selectedAttachmentId < 0
                 : card.Child.thing.thingIDNumber == selectedAttachmentId;
-            Rect box = card.Rect;
+            Rect box = ModularWeaponSocketLayout.Follow(card.Rect, offset * -1f);
             Widgets.DrawBoxSolidWithOutline(box, active ? new Color(0.13f, 0.22f, 0.24f)
                 : new Color(0.065f, 0.09f, 0.11f), active ? Color.yellow : new Color(0.37f, 0.52f, 0.59f), 1);
             string label = card.Child?.thing.LabelCap.ToString()
                 ?? (card.Add ? "HD_ModularWeapon_AddRailPart" : "HD_ModularWeapon_AddSocketPart").Translate().ToString();
-            if (card.Child != null)
+            if (!card.Compact)
+            {
+                Text.Font = GameFont.Tiny;
+                Widgets.Label(new Rect(box.x + 6f, box.y + 2f, box.width - 34f, 18f), card.Socket.Label);
+                float textX = box.x + 7f;
+                if (card.Child != null)
+                {
+                    Rect image = new Rect(box.x + 5f, box.y + 20f, 25f, 25f);
+                    ModularWeaponPartImage.For(card.Child.thing.def).Draw(image);
+                    TooltipHandler.TipRegion(image, "HD_ModularWeapon_InspectSocketPart".Translate());
+                    if (Widgets.ButtonInvisible(image))
+                    {
+                        SelectNode(card.Child);
+                        return true;
+                    }
+                    textX = image.xMax + 4f;
+                }
+                Widgets.Label(new Rect(textX, box.y + 21f, box.xMax - textX - 5f, 19f), label);
+                if (card.Child?.attachedToRail == true)
+                    Widgets.Label(new Rect(textX, box.y + 38f, box.xMax - textX - 5f, 17f),
+                        card.Child.railOffset.ToString("0.###", CultureInfo.InvariantCulture));
+                Text.Font = GameFont.Small;
+            }
+            else if (card.Child != null)
             {
                 ModularWeaponPartImage.For(card.Child.thing.def).Draw(box.ContractedBy(4f));
             }
@@ -280,7 +310,8 @@ namespace Helodrace.ModernWar
             }
             if (card.Child != null && (!card.Socket.required || card.Socket.isRail))
             {
-                Rect remove = new Rect(box.xMax - 18f, box.y + 1f, 17f, 17f);
+                Rect remove = card.Compact ? new Rect(box.xMax - 18f, box.y + 1f, 17f, 17f)
+                    : new Rect(box.xMax - 25f, box.y + 3f, 21f, 21f);
                 TooltipHandler.TipRegion(remove, "HD_ModularWeapon_RemoveSocketPart".Translate());
                 if (Widgets.ButtonText(remove, "×"))
                 {
@@ -302,7 +333,7 @@ namespace Helodrace.ModernWar
             if (Widgets.ButtonInvisible(box))
             {
                 if (inspect && card.Child != null) SelectNode(card.Child);
-                else if (card.Child != null) SelectSocketAttachment(preview, card, true);
+                else if (card.Child != null) SelectSocketAttachment(preview, card, card.Compact);
                 else SelectPreviewSocket(socketOwner, card.Socket);
                 return true;
             }
@@ -340,9 +371,7 @@ namespace Helodrace.ModernWar
                 && GUIUtility.hotControl != 0) return draggedRailSlider.Value;
             Vector2 start, end;
             RailScreenPoints(preview, activeRailOwner, activeRailSocket, out start, out end);
-            Vector2 anchor = start + (end - start) * (activeRailSocket.railLength <= 0f ? 0.5f
-                : activeRailPart.railOffset / activeRailSocket.railLength + 0.5f);
-            return ModularWeaponSocketLayout.FloatingSlider(PreviewCameraArea(preview), start, end, anchor);
+            return ModularWeaponSocketLayout.FloatingSlider(PreviewCameraArea(preview), start, end);
         }
 
         private void DrawFloatingRailSlider(Rect preview)
@@ -357,25 +386,11 @@ namespace Helodrace.ModernWar
                 - (mount?.EffectiveRailContactLength ?? 0f) * ratio) * 0.5f);
             float old = owner.RailOffsetAt(index);
             Rect panel = FloatingRailSliderRect(preview);
-            Vector2 start, end;
-            RailScreenPoints(preview, activeRailOwner, activeRailSocket, out start, out end);
-            Vector2 anchor = start + (end - start) * (activeRailSocket.railLength <= 0f ? 0.5f
-                : old / activeRailSocket.railLength + 0.5f);
-            Rect area = PreviewArea(preview);
-            GUI.BeginGroup(area);
-            Widgets.DrawLine(new Vector2(panel.center.x, panel.yMax) - area.position,
-                anchor - area.position, Color.yellow, 1f);
-            Widgets.DrawBoxSolidWithOutline(CenteredRect(anchor - area.position, new Vector2(9f, 9f)),
-                new Color(0.08f, 0.12f, 0.14f), Color.yellow, 1);
-            GUI.EndGroup();
-            Widgets.DrawBoxSolidWithOutline(panel, new Color(0.065f, 0.09f, 0.11f), Color.yellow, 1);
-            Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(panel.x + 8f, panel.y + 2f, panel.width - 16f, 20f),
-                "HD_ModularWeapon_RailOffset".Translate(old.ToString("0.###", CultureInfo.InvariantCulture)));
-            TooltipHandler.TipRegion(panel, activeRailPart.thing.LabelCap);
+            TooltipHandler.TipRegion(panel, activeRailPart.thing.LabelCap + "\n"
+                + "HD_ModularWeapon_RailOffset".Translate(old.ToString("0.###", CultureInfo.InvariantCulture)));
             int controlBefore = GUIUtility.hotControl;
             float value = half <= 0f ? 0f : Widgets.HorizontalSlider(
-                new Rect(panel.x + 9f, panel.y + 24f, panel.width - 18f, 16f), old, -half, half, true);
+                panel, old, -half, half, true);
             if (GUIUtility.hotControl != 0 && GUIUtility.hotControl != controlBefore)
             {
                 // Keep the control still while its part moves and the weapon bounds change.
@@ -385,7 +400,12 @@ namespace Helodrace.ModernWar
             else if (GUIUtility.hotControl == 0) draggedRailSlider = null;
             if (Mathf.Approximately(old, value)) return;
             string reason;
-            if (owner.TrySetRailOffset(index, value, out reason)) lastRailRejection = null;
+            if (owner.TrySetRailOffset(index, value, out reason))
+            {
+                lastRailRejection = null;
+                // Moving an attachment must not refit the camera and shift its parent rail.
+                preservePreviewFitOnRefresh = true;
+            }
             else if (reason != lastRailRejection || Time.realtimeSinceStartup - lastRailRejectionAt > 1f)
             {
                 lastRailRejection = reason;

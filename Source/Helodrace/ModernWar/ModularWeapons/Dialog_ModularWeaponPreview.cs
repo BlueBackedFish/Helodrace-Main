@@ -50,7 +50,12 @@ namespace Helodrace.ModernWar
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
             if (Widgets.ButtonText(new Rect(toolbar.x + 123f, toolbar.y, 100f, toolbar.height),
-                "HD_ModularWeapon_ResetView".Translate())) previewCamera.Reset();
+                "HD_ModularWeapon_ResetView".Translate()))
+            {
+                previewNeedsFit = true;
+                UpdatePreviewBounds();
+                previewCamera.Reset();
+            }
             TooltipHandler.TipRegion(toolbar, "HD_ModularWeapon_ZoomHint".Translate());
             DrawPreviewGroupSelector(new Rect(toolbar.x + 231f, toolbar.y,
                 Mathf.Max(40f, toolbar.width - 231f), toolbar.height));

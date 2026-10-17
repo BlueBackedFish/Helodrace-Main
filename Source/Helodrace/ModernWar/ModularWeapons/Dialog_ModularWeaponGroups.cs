@@ -12,6 +12,7 @@ namespace Helodrace.ModernWar
         private ModularWeaponPreviewGroup activePreviewGroup;
         private List<ModularRenderNode> previewLayers;
         private bool previewNeedsFit;
+        private bool preservePreviewFitOnRefresh;
         private HashSet<int> PreviewScope => activePreviewGroup == null
             || activePreviewGroup.Kind == ModularWeaponPreviewGroupKind.Assembly
                 ? null : activePreviewGroup.PartIds;
@@ -36,7 +37,8 @@ namespace Helodrace.ModernWar
         {
             previewLayers = ModularWeaponVisualLayers.Expand(groupSnapshot)
                 .Where(node => IsPreviewPart(node) && !ShouldHideCEAmmunitionPart(node)).ToList();
-            previewNeedsFit = true;
+            previewNeedsFit = !preservePreviewFitOnRefresh;
+            preservePreviewFitOnRefresh = false;
         }
 
         private void SelectPreviewGroup(ModularWeaponPreviewGroup group, bool selectRoot = true)
@@ -44,6 +46,7 @@ namespace Helodrace.ModernWar
             activePreviewGroup = previewGroups.FirstOrDefault(current => current.Key == group.Key)
                 ?? previewGroups[0];
             RefreshPreviewLayers();
+            previewNeedsFit = true;
             previewCamera.Reset();
             navigationSearch = string.Empty;
             collapsedParts.Clear();

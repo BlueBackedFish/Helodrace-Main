@@ -26,6 +26,16 @@ namespace Helodrace.ModernWar
 
         public Vector2 OriginFor(Rect area) => area.center + Pan - CenterOffset(area);
 
+        // Callouts keep readable pixel sizes while following the same weapon anchor
+        // through camera pan and cursor-centered zoom.
+        public Vector2 OffsetFromFit(Rect area, Vector2 point)
+        {
+            Vector2 guiPoint = new Vector2(point.x, -point.y);
+            Vector2 current = OriginFor(area) + guiPoint * ScaleFor(area);
+            Vector2 fitted = area.center - CenterOffset(area) / Zoom + guiPoint * (ScaleFor(area) / Zoom);
+            return current - fitted;
+        }
+
         public void SetBounds(Rect bounds) => contentBounds = bounds;
 
         public void ZoomAt(Rect area, float zoom, Vector2 pointer)

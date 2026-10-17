@@ -7,35 +7,45 @@ namespace Helodrace.ModernWar
     internal static class ModularWeaponSocketLayout
     {
         public const float CardHeight = 56f;
-        public static int Capacity(Rect area)
-            => Math.Max(1, (int)((area.width + 8f) / (CardHeight + 8f))) * (area.height >= 200f ? 2 : 1);
-        public static int PageCount(Rect area, int count)
-            => Math.Max(1, (count + Capacity(area) - 1) / Capacity(area));
-        public static int PageFor(Rect area, int index) => Math.Max(0, index) / Capacity(area);
-
-        public static List<Rect> Arrange(Rect area, int count, int page)
+        public sealed class Layout
         {
-            int capacity = Capacity(area);
-            int columns = area.height >= 200f ? capacity / 2 : capacity;
-            page = Math.Max(0, Math.Min(PageCount(area, count) - 1, page));
-            int shown = Math.Max(0, Math.Min(capacity, count - page * capacity));
-            float size = Math.Min(CardHeight, Math.Min(area.width, area.height));
-            var result = new List<Rect>();
-            for (int i = 0; i < shown; i++)
+            public readonly List<Rect> Rects = new List<Rect>();
+            public readonly List<int> Pages = new List<int>();
+            public int PageCount => Pages.Count == 0 ? 1 : Pages[Pages.Count - 1] + 1;
+            public int PageFor(int index) => index >= 0 && index < Pages.Count ? Pages[index] : 0;
+        }
+
+        public static Layout Arrange(Rect area, IList<bool> compact)
+        {
+            var result = new Layout();
+            int page = 0, row = 0;
+            int rows = area.height >= 200f ? 2 : 1;
+            float x = area.x;
+            float height = Math.Min(CardHeight, area.height);
+            foreach (bool imageOnly in compact)
             {
-                int rowCount = Math.Min(columns, shown - (i / columns) * columns);
-                float left = area.x + (area.width - rowCount * size - (rowCount - 1) * 8f) * 0.5f;
-                result.Add(new Rect(left + (i % columns) * (size + 8f),
-                    i < columns ? area.y : area.yMax - size, size, size));
+                float cardHeight = imageOnly ? Math.Min(height, area.width) : height;
+                float width = Math.Min(imageOnly ? cardHeight : 172f, area.width);
+                if (x > area.x && x + width > area.xMax + 0.001f)
+                {
+                    x = area.x;
+                    if (++row >= rows) { page++; row = 0; }
+                }
+                result.Rects.Add(new Rect(x, row == 0 ? area.y : area.yMax - cardHeight, width, cardHeight));
+                result.Pages.Add(page);
+                x += width + 8f;
             }
             return result;
         }
 
-        public static Rect FloatingSlider(Rect area, Vector2 start, Vector2 end, Vector2 anchor)
+        public static Rect Follow(Rect box, Vector2 offset)
+            => new Rect(box.x + offset.x, box.y + offset.y, box.width, box.height);
+
+        public static Rect FloatingSlider(Rect area, Vector2 start, Vector2 end)
         {
             float width = Math.Min(240f, Math.Max(1f, area.width - 8f));
-            float height = Math.Min(46f, Math.Max(1f, area.height));
-            float x = Math.Max(area.x, Math.Min(area.xMax - width, anchor.x - width * 0.5f));
+            float height = Math.Min(16f, Math.Max(1f, area.height));
+            float x = Math.Max(area.x, Math.Min(area.xMax - width, (start.x + end.x - width) * 0.5f));
             float y = Math.Max(area.y, Math.Min(area.yMax - height, Math.Min(start.y, end.y) - height - 12f));
             return new Rect(x, y, width, height);
         }
