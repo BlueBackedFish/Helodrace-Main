@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Ammunition_76251M198_Ammo.label>7.62×51mm M198 탄약</HD_Ammunition_76251M198_Ammo.label>
+  <HD_Ammunition_76251M198_Ammo.description>모듈식 7.62×51mm 탄창에서 선택하는 M198 탄약입니다. 전용 탄약 아이콘과 급탄 이미지를 사용하며, 현재 투사체 동작은 M80A1과 공유합니다.</HD_Ammunition_76251M198_Ammo.description>
+  <HD_Ammunition_76251M198_Ammo.comps.0.ammunitionType>7.62 M198</HD_Ammunition_76251M198_Ammo.comps.0.ammunitionType>
+  <HD_Ammunition_76251M948_Ammo.label>7.62×51mm M948 탄약</HD_Ammunition_76251M948_Ammo.label>
+  <HD_Ammunition_76251M948_Ammo.description>모듈식 7.62×51mm 탄창에서 선택하는 M948 탄약입니다. 전용 탄약 아이콘과 급탄 이미지를 사용하며, 현재 투사체 동작은 M80A1과 공유합니다.</HD_Ammunition_76251M948_Ammo.description>
+  <HD_Ammunition_76251M948_Ammo.comps.0.ammunitionType>7.62 M948</HD_Ammunition_76251M948_Ammo.comps.0.ammunitionType>
+  <HD_Ammunition_76251M993_Ammo.label>7.62×51mm M993 탄약</HD_Ammunition_76251M993_Ammo.label>
+  <HD_Ammunition_76251M993_Ammo.description>모듈식 7.62×51mm 탄창에서 선택하는 M993 탄약입니다. 전용 탄약 아이콘과 급탄 이미지를 사용하며, 현재 투사체 동작은 M80A1과 공유합니다.</HD_Ammunition_76251M993_Ammo.description>
+  <HD_Ammunition_76251M993_Ammo.comps.0.ammunitionType>7.62 M993</HD_Ammunition_76251M993_Ammo.comps.0.ammunitionType>
+  <HD_Ammunition_76251M1158_Ammo.label>7.62×51mm M1158 탄약</HD_Ammunition_76251M1158_Ammo.label>
+  <HD_Ammunition_76251M1158_Ammo.description>모듈식 7.62×51mm 탄창에서 선택하는 M1158 탄약입니다. 전용 탄약 아이콘과 급탄 이미지를 사용하며, 현재 투사체 동작은 M80A1과 공유합니다.</HD_Ammunition_76251M1158_Ammo.description>
+  <HD_Ammunition_76251M1158_Ammo.comps.0.ammunitionType>7.62 M1158</HD_Ammunition_76251M1158_Ammo.comps.0.ammunitionType>
+  <HD_Ammunition_76251MK316_Ammo.label>7.62×51mm MK316 탄약</HD_Ammunition_76251MK316_Ammo.label>
+  <HD_Ammunition_76251MK316_Ammo.description>모듈식 7.62×51mm 탄창에서 선택하는 MK316 탄약입니다. 전용 탄약 아이콘과 급탄 이미지를 사용하며, 현재 투사체 동작은 M80A1과 공유합니다.</HD_Ammunition_76251MK316_Ammo.description>
+  <HD_Ammunition_76251MK316_Ammo.comps.0.ammunitionType>7.62 MK316</HD_Ammunition_76251MK316_Ammo.comps.0.ammunitionType>
+  <HD_Ammunition_76251MK319_Ammo.label>7.62×51mm MK319 탄약</HD_Ammunition_76251MK319_Ammo.label>
+  <HD_Ammunition_76251MK319_Ammo.description>모듈식 7.62×51mm 탄창에서 선택하는 MK319 탄약입니다. 전용 탄약 아이콘과 급탄 이미지를 사용하며, 현재 투사체 동작은 M80A1과 공유합니다.</HD_Ammunition_76251MK319_Ammo.description>
+  <HD_Ammunition_76251MK319_Ammo.comps.0.ammunitionType>7.62 MK319</HD_Ammunition_76251MK319_Ammo.comps.0.ammunitionType>
+</LanguageData>
