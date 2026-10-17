@@ -10,6 +10,7 @@ internal static class Program
     private static void Main()
     {
         CameraTests.Run();
+        DragTests.Run();
         ImageBoundsTests.Run();
         GroupTests.Run();
         StatMotionTests.Run();

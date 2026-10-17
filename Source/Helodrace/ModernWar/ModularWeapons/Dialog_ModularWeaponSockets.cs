@@ -122,7 +122,7 @@ namespace Helodrace.ModernWar
                 var card = socketCards[i];
                 card.Rect = socketLayout.PageFor(i) == socketPage
                     ? ModularWeaponSocketLayout.Follow(socketLayout.Rects[i], boxOffset) : default(Rect);
-                if (card.Rect.width > 0f && Mouse.IsOver(area) && Mouse.IsOver(card.Rect))
+                if (!previewDrag.Active && card.Rect.width > 0f && Mouse.IsOver(area) && Mouse.IsOver(card.Rect))
                     hoveredNode = card.Child ?? owner;
             }
         }
@@ -176,7 +176,7 @@ namespace Helodrace.ModernWar
         {
             if (socketOwner == null || !Mouse.IsOver(PreviewArea(rect)) || PointerOverSocketCard(rect)) return;
             Event current = Event.current;
-            if (current.type != EventType.MouseDown || current.button != 0) return;
+            if (current.type != EventType.MouseUp || current.button != 0) return;
             ModularAttachmentSocket closest = null;
             float distance = 9f;
             float fraction = 0.5f;

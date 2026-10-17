@@ -8,6 +8,15 @@ namespace Helodrace.ModernWar
     public sealed partial class Dialog_ModularWeapon
     {
         private readonly ModularWeaponPreviewCamera previewCamera = new ModularWeaponPreviewCamera();
+        private readonly ModularWeaponPreviewDrag previewDrag = new ModularWeaponPreviewDrag();
+        private int previewDragControl, pressedPreviewPart = -1;
+
+        public override void PreClose()
+        {
+            if (previewDrag.Active && GUIUtility.hotControl == previewDragControl) GUIUtility.hotControl = 0;
+            previewDrag.Cancel();
+            base.PreClose();
+        }
 
         private Rect PreviewArea(Rect rect)
         {
@@ -17,20 +26,63 @@ namespace Helodrace.ModernWar
             return inner;
         }
 
-        private void HandlePreviewNavigation(Rect rect)
+        private void HandlePreviewNavigation(Rect rect, bool overControl, List<ModularRenderNode> snapshot)
         {
             Rect area = PreviewCameraArea(rect);
-            if (!Mouse.IsOver(PreviewArea(rect))) return;
+            int control = GUIUtility.GetControlID(573491, FocusType.Passive);
             Event current = Event.current;
+            if (previewDrag.Active && GUIUtility.hotControl != previewDragControl)
+                previewDrag.Cancel();
+            if (previewDrag.Active)
+            {
+                if (current.type == EventType.MouseDrag && current.button == 0)
+                {
+                    previewCamera.Move(previewDrag.Move(current.mousePosition));
+                    current.Use();
+                }
+                else if (current.type == EventType.MouseUp && current.button == 0)
+                {
+                    previewCamera.Move(previewDrag.Move(current.mousePosition));
+                    bool click = previewDrag.End();
+                    GUIUtility.hotControl = 0;
+                    if (click && Mouse.IsOver(PreviewArea(rect)) && !overControl)
+                    {
+                        HandleRailClick(rect);
+                        if (current.type != EventType.Used)
+                        {
+                            ModularRenderNode target = snapshot.Find(node => node.thing.thingIDNumber == pressedPreviewPart);
+                            if (target != null && IsPreviewPart(target))
+                            {
+                                navigationSearch = string.Empty;
+                                GUI.FocusControl(null);
+                                SelectNode(target);
+                            }
+                        }
+                    }
+                    pressedPreviewPart = -1;
+                    current.Use();
+                }
+                else if (current.type == EventType.Ignore)
+                {
+                    previewDrag.Cancel();
+                    GUIUtility.hotControl = 0;
+                    pressedPreviewPart = -1;
+                }
+                return;
+            }
+            if (!Mouse.IsOver(PreviewArea(rect)) || GUIUtility.hotControl != 0) return;
             if (current.type == EventType.ScrollWheel)
             {
                 previewCamera.ZoomAt(area, previewCamera.Zoom * Mathf.Pow(1.12f, -current.delta.y),
                     current.mousePosition);
                 current.Use();
             }
-            else if (current.type == EventType.MouseDrag && current.button == 2)
+            else if (!overControl && current.type == EventType.MouseDown && current.button == 0)
             {
-                previewCamera.Move(current.delta);
+                previewDrag.Begin(current.mousePosition);
+                previewDragControl = control;
+                pressedPreviewPart = hoveredNode?.thing.thingIDNumber ?? -1;
+                GUIUtility.hotControl = control;
                 current.Use();
             }
         }
@@ -56,7 +108,7 @@ namespace Helodrace.ModernWar
                 UpdatePreviewBounds();
                 previewCamera.Reset();
             }
-            TooltipHandler.TipRegion(toolbar, "HD_ModularWeapon_ZoomHint".Translate());
+            TooltipHandler.TipRegion(toolbar, "HD_ModularWeapon_PreviewNavigationHint".Translate());
             DrawPreviewGroupSelector(new Rect(toolbar.x + 231f, toolbar.y,
                 Mathf.Max(40f, toolbar.width - 231f), toolbar.height));
         }
@@ -88,12 +140,6 @@ namespace Helodrace.ModernWar
                 if (!ModularWeaponTextureData.For(texture).Contains(u, v)) continue;
                 // Visual layer copies resolve back to their real assembly node.
                 hoveredNode = snapshot.Find(part => part.path == node.path);
-                if (hoveredNode != null && Widgets.ButtonInvisible(inner))
-                {
-                    navigationSearch = string.Empty;
-                    GUI.FocusControl(null);
-                    SelectNode(hoveredNode);
-                }
                 break;
             }
         }
