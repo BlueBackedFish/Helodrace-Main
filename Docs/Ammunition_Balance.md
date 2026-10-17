@@ -1,6 +1,6 @@
 # 탄약 피해량·관통력 차트
 
-2026-10-15 기준. 사용자 지정 수치를 탄종별 공통 기준으로 적용한다. 피해량은 투사체 한 발 기준이며, 산탄은 **한 알 기준**이다. 관통력은 XML의 `armorPenetrationBase`를 백분율로 표시한다. 28%는 `0.28`, 180%는 `1.80`이다. 관통력은 명중률이나 고정 방어 무시 확률을 뜻하지 않는다.
+2026-10-17 기준. 기존 사용자 지정 수치를 탄종별 공통 기준으로 유지하고, 신규 5.56mm 탄종은 M855A1을 기준으로 역할을 구분한다. 피해량은 투사체 한 발 기준이며, 산탄은 **한 알 기준**이다. 관통력은 XML의 `armorPenetrationBase`를 백분율로 표시한다. 28%는 `0.28`, 180%는 `1.80`이다. 관통력은 명중률이나 고정 방어 무시 확률을 뜻하지 않는다.
 
 | 탄종 | 피해량 | 관통력 | 적용 무기·용도 |
 |---|---:|---:|---|
@@ -9,6 +9,11 @@
 | .30 Carbine M1 Ball | 13 | 15% | M1A1·M2 Carbine |
 | .300 BLK TAC-TX | 15 | 19% | .300 BLK 탄종을 선택한 모듈식 소총 |
 | 5.56mm M855A1 | 13 | 28% | M16·M4·MK18·M249 계열의 공용 5.56 투사체 |
+| 5.56mm M193 | 13 | 20% | STANAG·M249 선택 탄종; 높은 탄속의 초기형 |
+| 5.56mm M855 | 13 | 24% | STANAG·M249 선택 탄종; M193과 M855A1 사이의 관통력 |
+| 5.56mm M995 | 11 | 38% | STANAG·M249 선택 탄종; 피해량을 낮춘 고관통형 |
+| 5.56mm MK262 | 16 | 18% | STANAG·M249 선택 탄종; 경장갑 대상 피해·저지력 중점 |
+| 5.56mm MK318 | 15 | 23% | STANAG·M249 선택 탄종; 피해·관통 균형형 |
 | 7.62×51mm M80A1 | 18 | 34% | M14·M14 EBR 계열 |
 | .30-06 M2 Ball | 19 | 27% | M1903, M1 Garand, BAR, M1917, M1919A6 |
 | 12.7mm M1 Ball | 32 | 42% | M2HB, 항공지원 .50구경 |
@@ -23,12 +28,23 @@
 
 - 9mm는 .45 ACP보다 피해가 낮고 관통력이 조금 높다. 권총·기관단총 차이는 발사 속도, 조준시간, 정확도와 탄창으로 조정한다.
 - .30 Carbine과 5.56mm는 피해 13으로 같고, 5.56mm의 관통력을 높여 방어구 대응 능력을 구분한다. .300 BLK는 5.56mm보다 피해·저지력이 높고 관통력·탄속이 낮다.
+- 신규 5.56mm 수치는 게임 밸런스용이다. M193·M855는 기존 탄약보다 관통력이 낮고, M995는 피해·저지력을 낮추는 대신 ESAPI 확정 방어 컷 34%를 넘는다. MK262는 피해·저지력이 높고 관통력이 낮으며, MK318은 MK262와 M855A1 사이의 역할이다. 확정 방어 컷을 넘더라도 확정 관통은 아니다.
 - M80A1은 .30-06보다 피해가 1 낮고 관통력이 7%p 높다. 같은 .30-06을 쓰는 소총과 기관총은 한 발 피해를 통일하고 연사·명중률로 구분한다.
 - 12게이지의 감쇠 전 피해 합계는 `5 × 9 = 45`, M576은 `2 × 20 = 40`이다. 전탄 명중을 가정한 합계이며, 탄별 관통력을 합산하지 않는다. 거리별 에너지 감쇠·산포·장갑 판정 때문에 실제 피해는 달라진다.
 - M53은 철갑, M56A3는 폭발·파편·발화 역할이다. M56A3의 30은 폭발 기본 피해이며 별도로 생성되는 파편과 화상 피해를 포함하지 않는다.
 - M6A3와 TOW의 수치는 폭발 기본 피해·관통력이다. 폭발 반경은 각각 2.0칸·1.2칸이며, 표의 피해량이 단일 표적에 보장되는 값은 아니다.
 
-이번 조정은 피해량·관통력에 한정한다. 연사속도, 조준시간, 정확도, 사거리, 저지력, 탄속, 탄창, 산탄 수·산포·감쇠, 폭발 반경, 파편 및 발화 설정은 기존 값을 유지한다. 총기별 최종 밸런스는 게임에서 비장갑·방탄복·중장갑 표적에 대한 제압 시간과 탄약 소모량을 비교해 조정한다.
+기존 탄종의 연사속도, 조준시간, 정확도, 사거리, 저지력, 탄속, 탄창, 산탄 수·산포·감쇠, 폭발 반경, 파편 및 발화 설정은 유지한다. 신규 5.56mm 탄종의 저지력·탄속은 아래 값을 사용한다. 총기별 최종 밸런스는 게임에서 비장갑·방탄복·중장갑 표적에 대한 제압 시간과 탄약 소모량을 비교해 조정한다.
+
+| 신규 5.56mm 탄종 | 저지력 | 탄속 | 모딩창 연구 조건 |
+|---|---:|---:|---|
+| M193 | 0.55 | 105 | `HelodLowAutomaticRifle` |
+| M855 | 0.50 | 98 | `HelodMidAutomaticRifle` |
+| M995 | 0.40 | 100 | `HelodHighAutomaticRifle` |
+| MK262 | 0.70 | 88 | `HelodHighAutomaticRifle` |
+| MK318 | 0.65 | 95 | `HelodHighAutomaticRifle` |
+
+다섯 탄종은 내부 탄종 선택 파츠이며 STANAG 탄창과 M249 탄통의 각 마운트 위치를 사용한다. 선택한 탄종의 투사체·급탄 이미지가 함께 바뀐다. 바닐라 제작 레시피는 추가하지 않으며, 256px 텍스처는 기존 팔레트 배율 계산으로 1024px 대비 0.25배로 렌더링한다. M855A1 기본 프리셋은 유지한다.
 
 ## XML 적용 위치
 
@@ -38,6 +54,7 @@
 |---|---|
 | `Defs/ModernWar/Items/Weapons_ModernWar.xml` | `HD_Bullet_Glock19_Proj` |
 | `Defs/ModernWar/Items/RifleAmmunition_Development.xml` | `HD_Bullet_300BLKTACTX_Proj`, `HD_Bullet_76251M80A1_Proj` |
+| `Defs/ModernWar/Items/RifleAmmunition_556.xml` | `HD_Bullet_556M193_Proj`, `HD_Bullet_556M855_Proj`, `HD_Bullet_556M995_Proj`, `HD_Bullet_556MK262_Proj`, `HD_Bullet_556MK318_Proj` |
 | `Defs/Items/WeaponFamilies_Helod.xml` | `HD_Bullet_M16A4_Proj` |
 | `Defs/GreatWar/Items/Weapons_GreatWar.xml` | `HD_Bullet_M1911_Proj`, `HD_Bullet_M1Carbine_Proj`, `HD_Bullet_SprMThree_Proj`, `HD_Bullet_M1Garand_Proj`, `HD_Bullet_M1917HMG_Proj`, `HD_Bullet_M1919A6LMG_Proj`, `HD_Bullet_M2HB_Proj`, `HD_Bullet_M2HB_CAS_Proj`, `HD_Rocket_M6A3HEAT_Proj`, `HD_Bullet_M1897_Proj` |
 | `Defs/ColdWar/Items/Weapons_ColdWar.xml` | `HD_BGM71A_Proj`, `HD_Projectile_M167_20mmAPI`, `HD_Projectile_M167_20mmHEI`, `HD_Projectile_M167_20mmHEIT` |

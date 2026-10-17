@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Game balance variants of M855A1 (13 damage / 0.28 AP).
+       All selectors share its 256px canvas. Separate mounts retain STANAG and
+       M249 belt-box positions. CE ammunition remains managed by CE itself. -->
+  <ThingDef Name="HD_556VariantProjectileBase" ParentName="BaseBullet" Abstract="True">
+    <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
+    <projectile><damageDef>Bullet</damageDef></projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_556VariantProjectileBase">
+    <defName>HD_Bullet_556M193_Proj</defName>
+    <label>5.56x45mm M193 bullet</label>
+    <projectile><damageAmountBase>13</damageAmountBase><armorPenetrationBase>0.20</armorPenetrationBase><stoppingPower>0.55</stoppingPower><speed>105</speed></projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_556VariantProjectileBase">
+    <defName>HD_Bullet_556M855_Proj</defName>
+    <label>5.56x45mm M855 bullet</label>
+    <projectile><damageAmountBase>13</damageAmountBase><armorPenetrationBase>0.24</armorPenetrationBase><stoppingPower>0.5</stoppingPower><speed>98</speed></projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_556VariantProjectileBase">
+    <defName>HD_Bullet_556M995_Proj</defName>
+    <label>5.56x45mm M995 bullet</label>
+    <projectile><damageAmountBase>11</damageAmountBase><armorPenetrationBase>0.38</armorPenetrationBase><stoppingPower>0.4</stoppingPower><speed>100</speed></projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_556VariantProjectileBase">
+    <defName>HD_Bullet_556MK262_Proj</defName>
+    <label>5.56x45mm MK262 bullet</label>
+    <projectile><damageAmountBase>16</damageAmountBase><armorPenetrationBase>0.18</armorPenetrationBase><stoppingPower>0.7</stoppingPower><speed>88</speed></projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_556VariantProjectileBase">
+    <defName>HD_Bullet_556MK318_Proj</defName>
+    <label>5.56x45mm MK318 bullet</label>
+    <projectile><damageAmountBase>15</damageAmountBase><armorPenetrationBase>0.23</armorPenetrationBase><stoppingPower>0.65</stoppingPower><speed>95</speed></projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_RifleAmmunitionBase">
+    <defName>HD_Ammunition_556M193_Ammo</defName>
+    <label>5.56x45mm M193 cartridge</label>
+    <description>A 5.56x45mm ammunition selection for STANAG magazines and M249 belt boxes. Baseline damage and high projectile speed, with less penetration than M855A1.</description>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556M193</texPath></graphicData>
+    <statBases><MarketValue>1.5</MarketValue></statBases>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+      <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
+      <ammunitionType>5.56 M193</ammunitionType>
+      <ammunitionCaliber>556x45</ammunitionCaliber><projectileDiameterMm>5.7</projectileDiameterMm>
+      <projectileOverride>HD_Bullet_556M193_Proj</projectileOverride>
+      <casingMoteDef>HD_Mote_Shell55645_Mote</casingMoteDef>
+      <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_556M193</feedingRoundTexPath>
+      <overridePriority>20</overridePriority>
+      <mounts>
+        <li><id>ammunition_mount</id><socketTags><li>stanag_ammunition</li></socketTags><transform><position>(-0.064,0,-0.097)</position></transform></li>
+        <li><id>belt_ammunition_mount</id><socketTags><li>m249_ammunition</li></socketTags><transform><position>(-0.035,0,-0.04)</position></transform></li>
+      </mounts>
+    </li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_RifleAmmunitionBase">
+    <defName>HD_Ammunition_556M855_Ammo</defName>
+    <label>5.56x45mm M855 cartridge</label>
+    <description>A 5.56x45mm ammunition selection for STANAG magazines and M249 belt boxes. More penetration than M193, while remaining below the M855A1 baseline.</description>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556M855</texPath></graphicData>
+    <statBases><MarketValue>2</MarketValue></statBases>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <requiredResearch><li>HelodMidAutomaticRifle</li></requiredResearch>
+      <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
+      <ammunitionType>5.56 M855</ammunitionType>
+      <ammunitionCaliber>556x45</ammunitionCaliber><projectileDiameterMm>5.7</projectileDiameterMm>
+      <projectileOverride>HD_Bullet_556M855_Proj</projectileOverride>
+      <casingMoteDef>HD_Mote_Shell55645_Mote</casingMoteDef>
+      <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_556M855</feedingRoundTexPath>
+      <overridePriority>20</overridePriority>
+      <mounts>
+        <li><id>ammunition_mount</id><socketTags><li>stanag_ammunition</li></socketTags><transform><position>(-0.064,0,-0.097)</position></transform></li>
+        <li><id>belt_ammunition_mount</id><socketTags><li>m249_ammunition</li></socketTags><transform><position>(-0.035,0,-0.04)</position></transform></li>
+      </mounts>
+    </li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_RifleAmmunitionBase">
+    <defName>HD_Ammunition_556M995_Ammo</defName>
+    <label>5.56x45mm M995 cartridge</label>
+    <description>A 5.56x45mm ammunition selection for STANAG magazines and M249 belt boxes. Lower damage and stopping power in exchange for the highest penetration of the available 5.56mm selections.</description>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556M995</texPath></graphicData>
+    <statBases><MarketValue>5</MarketValue></statBases>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
+      <ammunitionType>5.56 M995</ammunitionType>
+      <ammunitionCaliber>556x45</ammunitionCaliber><projectileDiameterMm>5.7</projectileDiameterMm>
+      <projectileOverride>HD_Bullet_556M995_Proj</projectileOverride>
+      <casingMoteDef>HD_Mote_Shell55645_Mote</casingMoteDef>
+      <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_556M995</feedingRoundTexPath>
+      <overridePriority>20</overridePriority>
+      <mounts>
+        <li><id>ammunition_mount</id><socketTags><li>stanag_ammunition</li></socketTags><transform><position>(-0.064,0,-0.097)</position></transform></li>
+        <li><id>belt_ammunition_mount</id><socketTags><li>m249_ammunition</li></socketTags><transform><position>(-0.035,0,-0.04)</position></transform></li>
+      </mounts>
+    </li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_RifleAmmunitionBase">
+    <defName>HD_Ammunition_556MK262_Ammo</defName>
+    <label>5.56x45mm MK262 cartridge</label>
+    <description>A 5.56x45mm ammunition selection for STANAG magazines and M249 belt boxes. High damage and stopping power against lightly armored targets, with reduced penetration and projectile speed.</description>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556MK262</texPath></graphicData>
+    <statBases><MarketValue>3</MarketValue></statBases>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
+      <ammunitionType>5.56 MK262</ammunitionType>
+      <ammunitionCaliber>556x45</ammunitionCaliber><projectileDiameterMm>5.7</projectileDiameterMm>
+      <projectileOverride>HD_Bullet_556MK262_Proj</projectileOverride>
+      <casingMoteDef>HD_Mote_Shell55645_Mote</casingMoteDef>
+      <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_556MK262</feedingRoundTexPath>
+      <overridePriority>20</overridePriority>
+      <mounts>
+        <li><id>ammunition_mount</id><socketTags><li>stanag_ammunition</li></socketTags><transform><position>(-0.064,0,-0.097)</position></transform></li>
+        <li><id>belt_ammunition_mount</id><socketTags><li>m249_ammunition</li></socketTags><transform><position>(-0.035,0,-0.04)</position></transform></li>
+      </mounts>
+    </li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_RifleAmmunitionBase">
+    <defName>HD_Ammunition_556MK318_Ammo</defName>
+    <label>5.56x45mm MK318 cartridge</label>
+    <description>A 5.56x45mm ammunition selection for STANAG magazines and M249 belt boxes. Balanced damage, penetration and stopping power between the MK262 and M855A1 selections.</description>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556MK318</texPath></graphicData>
+    <statBases><MarketValue>3</MarketValue></statBases>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
+      <ammunitionType>5.56 MK318</ammunitionType>
+      <ammunitionCaliber>556x45</ammunitionCaliber><projectileDiameterMm>5.7</projectileDiameterMm>
+      <projectileOverride>HD_Bullet_556MK318_Proj</projectileOverride>
+      <casingMoteDef>HD_Mote_Shell55645_Mote</casingMoteDef>
+      <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_556MK318</feedingRoundTexPath>
+      <overridePriority>20</overridePriority>
+      <mounts>
+        <li><id>ammunition_mount</id><socketTags><li>stanag_ammunition</li></socketTags><transform><position>(-0.064,0,-0.097)</position></transform></li>
+        <li><id>belt_ammunition_mount</id><socketTags><li>m249_ammunition</li></socketTags><transform><position>(-0.035,0,-0.04)</position></transform></li>
+      </mounts>
+    </li></comps>
+  </ThingDef>
+
+</Defs>
