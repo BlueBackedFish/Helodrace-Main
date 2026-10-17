@@ -45,6 +45,9 @@
   <HD_ModularWeapon_VerticalOccupancy>Vertical occupancy: {0}</HD_ModularWeapon_VerticalOccupancy>
   <HD_ModularWeapon_SightPartDetail>Sight: {0} · aim radius {1}</HD_ModularWeapon_SightPartDetail>
   <HD_ModularWeapon_StatsTitle>Weapon statistics</HD_ModularWeapon_StatsTitle>
+  <HD_ModularWeapon_StatsModeConverted>Display: converted stats</HD_ModularWeapon_StatsModeConverted>
+  <HD_ModularWeapon_StatsModeRaw>Display: raw stats</HD_ModularWeapon_StatsModeRaw>
+  <HD_ModularWeapon_StatsModeHint>Click to switch between converted combat stats and raw performance indicators such as ergonomics and recoil control.</HD_ModularWeapon_StatsModeHint>
   <HD_ModularWeapon_RoundsPerMinute>Cyclic rate</HD_ModularWeapon_RoundsPerMinute>
   <HD_ModularWeapon_CycleDelay>Cycle delay</HD_ModularWeapon_CycleDelay>
   <HD_ModularWeapon_BurstShots>Burst shots: {0}</HD_ModularWeapon_BurstShots>

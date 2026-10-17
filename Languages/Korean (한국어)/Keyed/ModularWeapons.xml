@@ -45,6 +45,9 @@
   <HD_ModularWeapon_VerticalOccupancy>수직 점유: {0}</HD_ModularWeapon_VerticalOccupancy>
   <HD_ModularWeapon_SightPartDetail>조준경: {0} · 조준반경 {1}</HD_ModularWeapon_SightPartDetail>
   <HD_ModularWeapon_StatsTitle>무기 성능</HD_ModularWeapon_StatsTitle>
+  <HD_ModularWeapon_StatsModeConverted>표시: 환산 스탯</HD_ModularWeapon_StatsModeConverted>
+  <HD_ModularWeapon_StatsModeRaw>표시: 원시 스탯</HD_ModularWeapon_StatsModeRaw>
+  <HD_ModularWeapon_StatsModeHint>누르면 실제 전투에 적용되는 환산 스탯과 인체공학·반동 제어 등의 원시 성능 지표를 번갈아 표시합니다.</HD_ModularWeapon_StatsModeHint>
   <HD_ModularWeapon_RoundsPerMinute>연사 속도</HD_ModularWeapon_RoundsPerMinute>
   <HD_ModularWeapon_CycleDelay>발사 간격</HD_ModularWeapon_CycleDelay>
   <HD_ModularWeapon_BurstShots>점사 발수: {0}</HD_ModularWeapon_BurstShots>

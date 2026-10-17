@@ -25,11 +25,13 @@ namespace Helodrace.ModernWar
         private readonly Dictionary<string, ModularWeaponStatMotion> statMotions =
             new Dictionary<string, ModularWeaponStatMotion>();
         private Vector2 statsScroll;
+        private bool showRawStats;
 
         private List<StatBar> WeaponStatBars()
         {
+            if (showRawStats) return RawWeaponStatBars();
             // Read the same final instance stats used by combat, after part factors
-            // and compatibility patches. Authoring/control scores stay out of the UI.
+            // and compatibility patches. Control scores have their own raw view.
             List<StatBar> bars = new List<StatBar>
             {
                 FinalStatBar(StatDefOf.Mass, 15f, true),
@@ -56,6 +58,28 @@ namespace Helodrace.ModernWar
                 "0.#' " + "HD_ModularWeapon_Cells".Translate().ToString() + "'", false,
                 "HD_ModularWeapon_IdentificationDistance".Translate()));
             return bars;
+        }
+
+        private List<StatBar> RawWeaponStatBars()
+        {
+            ModularWeaponConvertedStats value = root.ConvertedStats;
+            return new List<StatBar>
+            {
+                Bar("Mass", value.MassKg, 15f, "0.##' kg'", true),
+                Bar("Ergonomics", value.Ergonomics, 1f, "P0"),
+                Bar("RecoilControl", value.RecoilControl, 1f, "P0"),
+                Bar("MuzzleControl", value.MuzzleControl, 1f, "P0"),
+                Bar("Handling", value.Handling, 1f, "P0"),
+                Bar("TargetAcquisition", value.TargetAcquisition, 1f, "P0"),
+                Bar("AimingPrecision", value.AimingPrecision, 1f, "P0"),
+                Bar("Reliability", value.OperatingReliability, 1f, "P1"),
+                Bar("IdentificationDistance", value.IdentificationDistanceCells, 80f,
+                    "0.#' " + "HD_ModularWeapon_Cells".Translate().ToString() + "'", false,
+                    "HD_ModularWeapon_IdentificationDistance".Translate()),
+                Bar("RoundsPerMinute", root.EffectiveRoundsPerMinute, 1800f, "0.#' RPM'"),
+                Bar("CycleDelay", root.EffectiveFireDelaySeconds, 4f, "0.###' s'", true),
+                Bar("GasEfficiency", value.GasEfficiency, 1.35f, "P0")
+            };
         }
 
         private StatBar FinalStatBar(StatDef stat, float maximum, bool lowerIsBetter = false)
@@ -94,6 +118,20 @@ namespace Helodrace.ModernWar
             float top = 57f + statusHeight;
             DrawAmmunitionBadge(new Rect(inner.x, inner.y + top, inner.width, 63f), snapshot);
             top += 71f;
+            Text.Font = GameFont.Small;
+            Rect modeButton = new Rect(inner.x, inner.y + top, inner.width, 27f);
+            if (Widgets.ButtonText(modeButton, (showRawStats
+                ? "HD_ModularWeapon_StatsModeRaw" : "HD_ModularWeapon_StatsModeConverted").Translate()))
+            {
+                showRawStats = !showRawStats;
+                statsScroll = Vector2.zero;
+                // Switching representations is not a part change. Start at the
+                // current values instead of easing between unrelated units/scores.
+                statMotions.Clear();
+            }
+            TooltipHandler.TipRegion(modeButton, "HD_ModularWeapon_StatsModeHint".Translate());
+            top += 35f;
+            Text.Font = GameFont.Tiny;
             Rect outRect = new Rect(inner.x, inner.y + top, inner.width, Mathf.Max(1f, inner.height - top));
             List<StatBar> bars = WeaponStatBars();
             const float rowHeight = 43f;
