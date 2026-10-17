@@ -60,7 +60,6 @@ namespace Helodrace.ModernWar
             new ModularWeaponMuzzleSignature();
         private float gasTubeFlowSetting =
             ModularWeaponGasSystemUtility.DefaultSetting;
-        private bool requiredDefaultAttachmentsChecked;
         private bool fluxStockRailMigrationChecked;
 
         public CompProperties_ModularWeaponNode Props =>
@@ -95,7 +94,6 @@ namespace Helodrace.ModernWar
         {
             base.PostPostMake();
             EnsureContainer();
-            BuildDefaultAttachments();
             if (Props.isAssemblyRoot && Props.spawnPreset != null && !creatingPresetTemplate
                 && !TryApplyPreset(Props.spawnPreset, out string rejection))
                 Log.Error("[Helodrace] Could not apply spawn preset "
@@ -803,7 +801,6 @@ namespace Helodrace.ModernWar
                 return false;
 
             childRailOffsets[childIndex] = railOffset;
-            SyncDefaultRailOffset(childIndex, railOffset);
             InvalidateTree();
             return true;
         }
@@ -958,14 +955,10 @@ namespace Helodrace.ModernWar
                 return false;
             }
 
-            if (!preset.useDefaultConfiguration)
+            if (!BuildPresetChildren(template, preset.parts, 0, out rejection))
             {
-                template.DestroyAllChildren();
-                if (!BuildPresetChildren(template, preset.parts, 0, out rejection))
-                {
-                    DestroyAssembly(templateThing);
-                    return false;
-                }
+                DestroyAssembly(templateThing);
+                return false;
             }
 
             if (!template.ValidateRequiredSocketsRecursive(0, out rejection))
@@ -989,7 +982,6 @@ namespace Helodrace.ModernWar
                 }
             }
 
-            requiredDefaultAttachmentsChecked = true;
             gasTubeFlowSetting = Mathf.Clamp(
                 preset.gasTubeFlowSetting,
                 ModularWeaponGasSystemUtility.MinimumSetting,
@@ -1040,7 +1032,6 @@ namespace Helodrace.ModernWar
                     DestroyAssembly(child);
                     return false;
                 }
-                childComp.requiredDefaultAttachmentsChecked = true;
             }
             return true;
         }
@@ -1084,7 +1075,6 @@ namespace Helodrace.ModernWar
         {
             while (ChildCount > 0)
                 DestroyAssembly(DetachChildAt(ChildCount - 1));
-            requiredDefaultAttachmentsChecked = true;
             InvalidateTree();
         }
 
@@ -1121,7 +1111,6 @@ namespace Helodrace.ModernWar
         {
             CompModularWeaponNode root = RootComp();
             if (root != this) return root.RenderSnapshot();
-            root.EnsureRequiredDefaultAttachmentsRecursive();
             if (!renderCacheDirty && renderCache != null) return renderCache;
 
             List<ModularRenderNode> result = new List<ModularRenderNode>();
@@ -1228,72 +1217,6 @@ namespace Helodrace.ModernWar
                 action = () => Find.WindowStack.Add(new Dialog_ModularAttachmentEditor(this))
             };
         }
-
-        private void BuildDefaultAttachments()
-        {
-            // CE can query assembled stats while comps are still initializing, which may
-            // materialize a required child before this callback. Reconcile each socket
-            // below instead of treating any existing child as a completed assembly.
-            if (Props.defaultAttachments.NullOrEmpty()) return;
-
-            for (int i = 0; i < Props.defaultAttachments.Count; i++)
-            {
-                ModularDefaultAttachment entry = Props.defaultAttachments[i];
-                if (entry?.part == null) continue;
-                ModularAttachmentSocket socket = Props.SocketNamed(entry.socketId);
-                int limit = socket?.isRail == true ? socket.maxAttachments : 1;
-                if (socket == null || (limit > 0 && CountOnSocket(entry.socketId) >= limit))
-                    continue;
-
-                Thing child = ThingMaker.MakeThing(entry.part);
-                string reason;
-                if (!TryAttach(child, entry.socketId, entry.mountId, entry.railOffset, out reason))
-                {
-                    child.Destroy(DestroyMode.Vanish);
-                    Log.Error("[Helodrace] Could not build default modular attachment "
-                        + entry.part.defName + " on " + parent.def.defName + ": " + reason);
-                }
-            }
-        }
-
-        private void EnsureRequiredDefaultAttachmentsRecursive()
-        {
-            if (!requiredDefaultAttachmentsChecked)
-            {
-                requiredDefaultAttachmentsChecked = true;
-                for (int i = 0; i < Props.defaultAttachments.Count; i++)
-                {
-                    ModularDefaultAttachment entry = Props.defaultAttachments[i];
-                    ModularAttachmentSocket socket = Props.SocketNamed(entry?.socketId);
-                    if (entry?.part == null || socket?.required != true
-                        || CountOnSocket(socket.id) > 0)
-                        continue;
-
-                    // Part categories intentionally allow incomplete assemblies to persist.
-                    // A missing Required part must block firing instead of silently being
-                    // recreated when the weapon happens to render.
-                    CompProperties_ModularWeaponNode expectedProps = entry.part
-                        .GetCompProperties<CompProperties_ModularWeaponNode>();
-                    if (expectedProps?.partCategory == ModularWeaponPartCategory.Required)
-                        continue;
-
-                    Thing child = ThingMaker.MakeThing(entry.part);
-                    string reason;
-                    if (!TryAttach(child, socket.id, entry.mountId,
-                        entry.railOffset, out reason))
-                    {
-                        child.Destroy(DestroyMode.Vanish);
-                        Log.Error("[Helodrace] Could not restore required modular attachment "
-                            + entry.part.defName + " on " + parent.def.defName + ": " + reason);
-                    }
-                }
-            }
-
-            for (int i = 0; i < ChildCount; i++)
-                ChildAt(i)?.TryGetComp<CompModularWeaponNode>()
-                    ?.EnsureRequiredDefaultAttachmentsRecursive();
-        }
-
 
         private CompModularWeaponNode DirectChildComp(string defName)
         {
@@ -1645,25 +1568,6 @@ namespace Helodrace.ModernWar
             }
 
             return true;
-        }
-
-        private void SyncDefaultRailOffset(int childIndex, float value)
-        {
-            if (Props.defaultAttachments.NullOrEmpty()) return;
-            Thing child = children[childIndex];
-            string socketId = childSocketIds[childIndex];
-            int ordinal = 0;
-            for (int i = 0; i < childIndex; i++)
-                if (childSocketIds[i] == socketId && children[i]?.def == child?.def) ordinal++;
-
-            for (int i = 0; i < Props.defaultAttachments.Count; i++)
-            {
-                ModularDefaultAttachment entry = Props.defaultAttachments[i];
-                if (entry?.socketId != socketId || entry.part != child?.def) continue;
-                if (ordinal-- > 0) continue;
-                entry.railOffset = value;
-                return;
-            }
         }
     }
 }

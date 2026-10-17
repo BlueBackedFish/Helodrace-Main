@@ -17,7 +17,6 @@
         <sockets>
           <li><id>front_sight</id><label>MP5 cocking-tube front sight base</label><tags><li>mp5_front_sight_standard</li></tags><transform><position>(0.160,0,0.080)</position></transform></li>
         </sockets>
-        <defaultAttachments><li><socketId>front_sight</socketId><part>HD_ModularPart_FrontSight_MP5_Part</part></li></defaultAttachments>
       </li>
     </comps>
   </ThingDef>
@@ -35,7 +34,6 @@
         <sockets>
           <li><id>front_sight</id><label>MP5SD cocking-tube front sight base</label><tags><li>mp5_front_sight_sd</li></tags><transform><position>(0.160,0,0.080)</position></transform></li>
         </sockets>
-        <defaultAttachments><li><socketId>front_sight</socketId><part>HD_ModularPart_FrontSight_MP5SD</part></li></defaultAttachments>
       </li>
     </comps>
   </ThingDef>
@@ -57,9 +55,6 @@
           <li><id>muzzle</id><label>MP5 bare muzzle</label><tags><li>mp5_muzzle</li></tags><transform><position>(0.196,0,0.029)</position></transform></li>
           <li><id>handguard</id><label>standard MP5 handguard interface</label><tags><li>mp5_handguard_standard</li></tags><transform><position>(0,0,0.031)</position></transform></li>
         </sockets>
-        <defaultAttachments>
-          <li><socketId>handguard</socketId><part>HD_ModularPart_Handguard_MP5Default</part></li>
-        </defaultAttachments>
       </li>
     </comps>
   </ThingDef>
@@ -82,10 +77,6 @@
           <li><id>integral_suppressor</id><label>MP5SD integral suppressor thread</label><tags><li>mp5sd_suppressor</li></tags><transform><position>(0.129,0,0.031)</position></transform></li>
           <li><id>handguard</id><label>MP5SD handguard interface</label><tags><li>mp5_handguard_sd</li></tags><transform><position>(0,0,0.031)</position></transform></li>
         </sockets>
-        <defaultAttachments>
-          <li><socketId>integral_suppressor</socketId><part>HD_ModularPart_Suppressor_MP5SD</part></li>
-          <li><socketId>handguard</socketId><part>HD_ModularPart_Handguard_MP5SD</part></li>
-        </defaultAttachments>
       </li>
     </comps>
   </ThingDef>
@@ -220,7 +211,6 @@
         <partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><graphicLayer>-1</graphicLayer><magazineCapacity>30</magazineCapacity>
         <mounts><li><id>magazine_mount</id><socketTags><li>mp5_magazine</li></socketTags><transform><position>(-0.012,0,0.012)</position></transform></li></mounts>
         <sockets><li><id>ammunition</id><label>loaded 9x19mm ammunition</label><tags><li>mp5_ammunition</li></tags><required>true</required><transform><position>(-0.012,0,-0.090)</position></transform></li></sockets>
-        <defaultAttachments><li><socketId>ammunition</socketId><part>HD_Ammunition_919M882_Ammo</part></li></defaultAttachments>
       </li>
     </comps>
   </ThingDef>
@@ -262,30 +252,20 @@
     <description>A modular 9mm submachine gun with interchangeable barrel, stock, sights, and trigger housing.</description>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
-        <isAssemblyRoot>true</isAssemblyRoot><partCategory>Required</partCategory><realisticRoundsPerMinute>800</realisticRoundsPerMinute><baseFireDelayFactor>1.2</baseFireDelayFactor><graphicLayer>0</graphicLayer><outlinePriority>100</outlinePriority>
+        <isAssemblyRoot>true</isAssemblyRoot><spawnPreset>HD_WeaponPreset_ModularMP5_Default</spawnPreset><partCategory>Required</partCategory><realisticRoundsPerMinute>800</realisticRoundsPerMinute><baseFireDelayFactor>1.2</baseFireDelayFactor><graphicLayer>0</graphicLayer><outlinePriority>100</outlinePriority>
         <casingPort><offset>(-0.064,0,0.046)</offset><ejectionAngleOffset>90</ejectionAngleOffset><speedMin>1.5</speedMin><speedMax>2.1</speedMax><scale>0.75</scale><ejectionCycleFraction>0.30</ejectionCycleFraction><feedStartCycleFraction>0.55</feedStartCycleFraction><feedEndCycleFraction>0.92</feedEndCycleFraction><feedStartOffset>(-0.034,0,0.012)</feedStartOffset><feedEndOffset>(-0.001,0,0.028)</feedEndOffset><feedingRoundDrawSize>0.075</feedingRoundDrawSize></casingPort>
         <internalStats><massKg>0.75</massKg><recoilImpulse>2.4</recoilImpulse><ergonomics>70</ergonomics><muzzleRise>2.1</muzzleRise><operatingReliability>0.98</operatingReliability><gasFlow>1</gasFlow><momentOfInertia>0.022</momentOfInertia><targetAcquisition>67</targetAcquisition><aimingPrecision>60</aimingPrecision><identificationDistanceMeters>180</identificationDistanceMeters></internalStats>
         <sockets>
-          <li><id>cocking_tube</id><label>MP5 cocking-tube interface</label><tags><li>mp5_cocking_tube_standard</li><li>mp5_cocking_tube_sd</li></tags><required>true</required><transform><position>(-0.008,0,0.058)</position></transform></li>
-          <li><id>barrel</id><label>MP5 receiver barrel trunnion</label><tags><li>mp5_barrel</li></tags><required>true</required><transform><position>(0,0,0.031)</position></transform></li>
-          <li><id>bolt</id><label>MP5 bolt group</label><tags><li>mp5_bolt</li></tags><required>true</required><transform><position>(-0.056,0,0.047)</position></transform></li>
+          <li><id>cocking_tube</id><expectedPart>HD_ModularPart_CockingTube_MP5_Part</expectedPart><label>MP5 cocking-tube interface</label><tags><li>mp5_cocking_tube_standard</li><li>mp5_cocking_tube_sd</li></tags><required>true</required><transform><position>(-0.008,0,0.058)</position></transform></li>
+          <li><id>barrel</id><expectedPart>HD_ModularPart_Barrel_MP5_Part</expectedPart><label>MP5 receiver barrel trunnion</label><tags><li>mp5_barrel</li></tags><required>true</required><transform><position>(0,0,0.031)</position></transform></li>
+          <li><id>bolt</id><expectedPart>HD_ModularPart_Bolt_MP5_Part</expectedPart><label>MP5 bolt group</label><tags><li>mp5_bolt</li></tags><required>true</required><transform><position>(-0.056,0,0.047)</position></transform></li>
           <li><id>rear_sight</id><label>MP5 rear sight base</label><tags><li>mp5_rear_sight</li></tags><transform><position>(-0.155,0,0.080)</position></transform></li>
           <li><id>optic_mount</id><label>MP5 receiver claw mount</label><tags><li>mp5_claw_mount</li></tags><transform><position>(-0.067,0,0.064)</position></transform></li>
-          <li><id>trigger_housing</id><label>MP5 trigger housing interface</label><tags><li>mp5_trigger_housing</li></tags><required>true</required><transform><position>(-0.106,0,-0.003)</position></transform></li>
-          <li><id>magazine</id><label>MP5 magazine well</label><tags><li>mp5_magazine</li></tags><transform><position>(-0.012,0,0.012)</position></transform></li>
+          <li><id>trigger_housing</id><expectedPart>HD_ModularPart_TriggerHousing_MP5A3_Part</expectedPart><label>MP5 trigger housing interface</label><tags><li>mp5_trigger_housing</li></tags><required>true</required><transform><position>(-0.106,0,-0.003)</position></transform></li>
+          <li><id>magazine</id><expectedPart>HD_ModularPart_Magazine_MP530_Part</expectedPart><label>MP5 magazine well</label><tags><li>mp5_magazine</li></tags><transform><position>(-0.012,0,0.012)</position></transform></li>
           <li><id>stock</id><label>MP5 stock interface</label><tags><li>mp5_stock</li></tags><transform><position>(-0.190,0,0.031)</position></transform></li>
-          <li><id>trigger</id><label>MP5 trigger group</label><tags><li>mp5_trigger</li></tags><required>true</required><transform><position>(-0.103,0,-0.043)</position></transform></li>
+          <li><id>trigger</id><expectedPart>HD_ModularPart_Trigger_MP5_Part</expectedPart><label>MP5 trigger group</label><tags><li>mp5_trigger</li></tags><required>true</required><transform><position>(-0.103,0,-0.043)</position></transform></li>
         </sockets>
-        <defaultAttachments>
-          <li><socketId>cocking_tube</socketId><part>HD_ModularPart_CockingTube_MP5_Part</part></li>
-          <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_MP5_Part</part></li>
-          <li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_MP5_Part</part></li>
-          <li><socketId>rear_sight</socketId><part>HD_ModularPart_RearSight_MP5_Part</part></li>
-          <li><socketId>trigger_housing</socketId><part>HD_ModularPart_TriggerHousing_MP5A3_Part</part></li>
-          <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_MP530_Part</part></li>
-          <li><socketId>stock</socketId><part>HD_ModularPart_Stock_MP5A3_Part</part></li>
-          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_MP5_Part</part></li>
-        </defaultAttachments>
       </li>
     </comps>
   </ThingDef>

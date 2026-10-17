@@ -2067,7 +2067,6 @@ namespace Helodrace.ModernWar
                 AppendCasingPort(builder, props.casingPort);
                 AppendMounts(builder, props.mounts);
                 AppendSockets(builder, props.sockets);
-                AppendDefaultAttachments(builder, props.defaultAttachments);
                 builder.AppendLine();
             }
 
@@ -2283,6 +2282,8 @@ namespace Helodrace.ModernWar
                     builder.AppendLine("    <label>" + socket.label + "</label>");
                 AppendStringList(builder, "tags", socket.tags, 4);
                 if (socket.required) builder.AppendLine("    <required>true</required>");
+                if (socket.expectedPart != null)
+                    builder.AppendLine("    <expectedPart>" + socket.expectedPart.defName + "</expectedPart>");
                 if (socket.isRail)
                 {
                     builder.AppendLine("    <isRail>true</isRail>");
@@ -2300,29 +2301,6 @@ namespace Helodrace.ModernWar
                 builder.AppendLine("  </li>");
             }
             builder.AppendLine("</sockets>");
-        }
-
-        private static void AppendDefaultAttachments(
-            StringBuilder builder,
-            List<ModularDefaultAttachment> attachments)
-        {
-            if (attachments.NullOrEmpty()) return;
-            builder.AppendLine("<defaultAttachments>");
-            for (int i = 0; i < attachments.Count; i++)
-            {
-                ModularDefaultAttachment item = attachments[i];
-                if (item?.part == null) continue;
-                builder.AppendLine("  <li>");
-                builder.AppendLine("    <socketId>" + item.socketId + "</socketId>");
-                if (!item.mountId.NullOrEmpty())
-                    builder.AppendLine("    <mountId>" + item.mountId + "</mountId>");
-                builder.AppendLine("    <part>" + item.part.defName + "</part>");
-                if (!Mathf.Approximately(item.railOffset, 0f))
-                    builder.AppendLine("    <railOffset>" + Number(item.railOffset)
-                        + "</railOffset>");
-                builder.AppendLine("  </li>");
-            }
-            builder.AppendLine("</defaultAttachments>");
         }
 
         private static void AppendStringList(
@@ -2447,7 +2425,6 @@ namespace Helodrace.ModernWar
             private readonly ModularWeaponCasingPortProperties casingPort;
             private readonly List<ModularAttachmentMount> mounts;
             private readonly List<ModularAttachmentSocket> sockets;
-            private readonly List<ModularDefaultAttachment> defaultAttachments;
 
             public NodePropertiesState(CompProperties_ModularWeaponNode props)
             {
@@ -2480,7 +2457,6 @@ namespace Helodrace.ModernWar
                 casingPort = CloneCasingPort(props.casingPort);
                 mounts = CloneMounts(props.mounts);
                 sockets = CloneSockets(props.sockets);
-                defaultAttachments = CloneDefaultAttachments(props.defaultAttachments);
             }
 
             public void Restore()
@@ -2513,7 +2489,6 @@ namespace Helodrace.ModernWar
                 targetProps.casingPort = CloneCasingPort(casingPort);
                 targetProps.mounts = CloneMounts(mounts);
                 targetProps.sockets = CloneSockets(sockets);
-                targetProps.defaultAttachments = CloneDefaultAttachments(defaultAttachments);
             }
 
             private static ModularWeaponInternalStats CloneInternalStats(
@@ -2680,6 +2655,7 @@ namespace Helodrace.ModernWar
                         transform = item.transform?.Clone()
                             ?? new ModularAttachmentTransform(),
                         required = item.required,
+                        expectedPart = item.expectedPart,
                         isRail = item.isRail,
                         railLength = item.railLength,
                         maxAttachments = item.maxAttachments,
@@ -2690,25 +2666,6 @@ namespace Helodrace.ModernWar
                 return result;
             }
 
-            private static List<ModularDefaultAttachment> CloneDefaultAttachments(
-                List<ModularDefaultAttachment> source)
-            {
-                List<ModularDefaultAttachment> result = new List<ModularDefaultAttachment>();
-                if (source == null) return result;
-                for (int i = 0; i < source.Count; i++)
-                {
-                    ModularDefaultAttachment item = source[i];
-                    if (item == null) continue;
-                    result.Add(new ModularDefaultAttachment
-                    {
-                        socketId = item.socketId,
-                        mountId = item.mountId,
-                        part = item.part,
-                        railOffset = item.railOffset
-                    });
-                }
-                return result;
-            }
         }
 
     }

@@ -11,7 +11,6 @@
       <graphicLayer>5</graphicLayer>
       <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.03</railOccupancy><railContactLength>0.02</railContactLength><physicalLength>0.03</physicalLength><railSurface>Top</railSurface><transform><position>(-0.2,0,0.143)</position></transform></li></mounts>
       <sockets><li><id>optic</id><label>RMR optic footprint</label><tags><li>rmr_footprint</li></tags><transform><position>(-0.2,0,0.195)</position></transform></li></sockets>
-      <defaultAttachments><li><socketId>optic</socketId><part>HD_ModularPart_Optic_LumiconRMR</part></li></defaultAttachments>
     </li></comps>
   </ThingDef>
 

@@ -20,16 +20,11 @@
         <casingPort><offset>(-0.096,0,0)</offset><ejectionAngleOffset>90</ejectionAngleOffset><speedMin>1.7</speedMin><speedMax>2.4</speedMax><scale>0.75</scale><ejectionCycleFraction>0.28</ejectionCycleFraction><feedStartCycleFraction>0.55</feedStartCycleFraction><feedEndCycleFraction>0.92</feedEndCycleFraction><feedStartOffset>(-0.076,0,-0.01)</feedStartOffset><feedEndOffset>(-0.023,0,-0.004)</feedEndOffset><feedingRoundDrawSize>0.12</feedingRoundDrawSize></casingPort>
         <mounts><li><id>receiver_mount</id><socketTags><li>upper_receiver</li></socketTags><transform><position>(-0.095,0,-0.017)</position></transform></li></mounts>
         <sockets>
-          <li><id>barrel</id><label>barrel extension</label><tags><li>ar15_barrel</li></tags><transform><position>(-0.037,0,-0.005)</position></transform></li>
+          <li><id>barrel</id><expectedPart>HD_ModularPart_Barrel_AR1520Pencil</expectedPart><label>barrel extension</label><tags><li>ar15_barrel</li></tags><transform><position>(-0.037,0,-0.005)</position></transform></li>
           <li><id>handguard</id><label>handguard mount</label><tags><li>ar15_handguard</li></tags><transform><position>(-0.029,0,-0.005)</position></transform></li>
-          <li><id>bolt</id><label>bolt carrier group</label><tags><li>ar15_bolt</li></tags><required>true</required><transform><position>(-0.044,0,-0.002)</position></transform></li>
+          <li><id>bolt</id><expectedPart>HD_ModularPart_Bolt_AR15_Part</expectedPart><label>bolt carrier group</label><tags><li>ar15_bolt</li></tags><required>true</required><transform><position>(-0.044,0,-0.002)</position></transform></li>
           <li><id>carry_handle_optic</id><label>carry handle ACOG mount</label><tags><li>lumicon_ta_scope</li></tags><transform><position>(-0.103,0,0.057)</position></transform></li>
         </sockets>
-        <defaultAttachments>
-          <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_AR1520Pencil</part></li>
-          <li><socketId>handguard</socketId><part>HD_ModularPart_Handguard_M16A1_Part</part></li>
-          <li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_AR15_Part</part></li>
-        </defaultAttachments>
       </li>
     </comps>
   </ThingDef>
@@ -63,16 +58,11 @@
         <casingPort><offset>(-0.096,0,0)</offset><ejectionAngleOffset>90</ejectionAngleOffset><speedMin>1.7</speedMin><speedMax>2.4</speedMax><scale>0.75</scale><ejectionCycleFraction>0.28</ejectionCycleFraction><feedStartCycleFraction>0.55</feedStartCycleFraction><feedEndCycleFraction>0.92</feedEndCycleFraction><feedStartOffset>(-0.076,0,-0.01)</feedStartOffset><feedEndOffset>(-0.023,0,-0.004)</feedEndOffset><feedingRoundDrawSize>0.12</feedingRoundDrawSize></casingPort>
         <mounts><li><id>receiver_mount</id><socketTags><li>upper_receiver</li></socketTags><transform><position>(-0.095,0,-0.017)</position></transform></li></mounts>
         <sockets>
-          <li><id>barrel</id><label>barrel extension</label><tags><li>ar15_barrel</li></tags><transform><position>(-0.025,0,-0.005)</position></transform></li>
+          <li><id>barrel</id><expectedPart>HD_ModularPart_Barrel_AR1520_Part</expectedPart><label>barrel extension</label><tags><li>ar15_barrel</li></tags><transform><position>(-0.025,0,-0.005)</position></transform></li>
           <li><id>handguard</id><label>handguard mount</label><tags><li>ar15_handguard</li></tags><transform><position>(-0.026,0,-0.005)</position></transform></li>
-          <li><id>bolt</id><label>bolt carrier group</label><tags><li>ar15_bolt</li></tags><required>true</required><transform><position>(-0.044,0,-0.002)</position></transform></li>
+          <li><id>bolt</id><expectedPart>HD_ModularPart_Bolt_AR15_Part</expectedPart><label>bolt carrier group</label><tags><li>ar15_bolt</li></tags><required>true</required><transform><position>(-0.044,0,-0.002)</position></transform></li>
           <li><id>carry_handle_optic</id><label>carry handle ACOG mount</label><tags><li>lumicon_ta_scope</li></tags><transform><position>(-0.103,0,0.057)</position></transform></li>
         </sockets>
-        <defaultAttachments>
-          <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_AR1520_Part</part></li>
-          <li><socketId>handguard</socketId><part>HD_ModularPart_Handguard_M16A2UP</part></li>
-          <li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_AR15_Part</part></li>
-        </defaultAttachments>
       </li>
     </comps>
   </ThingDef>
@@ -87,7 +77,6 @@
         <graphicLayer>2</graphicLayer>
         <mounts><li><id>handguard_mount</id><socketTags><li>ar15_handguard</li></socketTags><transform><position>(-0.029,0,-0.005)</position></transform></li></mounts>
         <sockets><li><id>lower_extension</id><label>M16A2 lower handguard interface</label><tags><li>m16a2_handguard_lower</li></tags><transform><position>(-0.011,0,-0.006)</position></transform></li></sockets>
-        <defaultAttachments><li><socketId>lower_extension</socketId><part>HD_ModularPart_HandguardExt_M16A2DOWN</part></li></defaultAttachments>
       </li>
     </comps>
   </ThingDef>
@@ -118,13 +107,9 @@
         <boreDiameterMm>5.7</boreDiameterMm>
         <mounts><li><id>barrel_mount</id><socketTags><li>ar15_barrel</li></socketTags><transform><position>(-0.039,0,-0.005)</position></transform></li></mounts>
         <sockets>
-          <li><id>gas_block</id><label>gas block journal</label><tags><li>ar15_gas_block</li></tags><transform><position>(0.282,0,-0.009)</position></transform></li>
+          <li><id>gas_block</id><expectedPart>HD_ModularPart_GasBlock_AR15_Part</expectedPart><label>gas block journal</label><tags><li>ar15_gas_block</li></tags><transform><position>(0.282,0,-0.009)</position></transform></li>
           <li><id>muzzle</id><label>muzzle thread</label><tags><li>muzzle_556</li></tags><transform><position>(0.417,0,-0.008)</position></transform></li>
         </sockets>
-        <defaultAttachments>
-          <li><socketId>gas_block</socketId><part>HD_ModularPart_GasBlock_AR15_Part</part></li>
-          <li><socketId>muzzle</socketId><part>HD_ModularPart_Muzzle_M16A1_Part</part></li>
-        </defaultAttachments>
       </li>
     </comps>
   </ThingDef>
@@ -155,7 +140,6 @@
         <magazineCapacity>20</magazineCapacity>
         <mounts><li><id>magazine_mount</id><socketTags><li>stanag_magazine</li></socketTags><transform><position>(-0.075,0,-0.026)</position></transform></li></mounts>
         <sockets><li><id>ammunition</id><label>loaded ammunition</label><tags><li>stanag_ammunition</li></tags><required>true</required><transform><position>(-0.075,0,-0.090)</position></transform></li></sockets>
-        <defaultAttachments><li><socketId>ammunition</socketId><part>HD_Ammunition_556M855A1_Ammo</part></li></defaultAttachments>
       </li>
     </comps>
   </ThingDef>
@@ -195,19 +179,12 @@
           <identificationDistanceMeters>240</identificationDistanceMeters>
         </internalStats>
         <sockets>
-          <li><id>upper_receiver</id><label>upper receiver interface</label><tags><li>upper_receiver</li></tags><transform><position>(-0.094,0,-0.018)</position></transform></li>
+          <li><id>upper_receiver</id><expectedPart>HD_ModularPart_UpperReceiver_M16A1_Part</expectedPart><label>upper receiver interface</label><tags><li>upper_receiver</li></tags><transform><position>(-0.094,0,-0.018)</position></transform></li>
           <li><id>pistol_grip</id><label>pistol grip interface</label><tags><li>ar15_pistol_grip</li></tags><transform><position>(-0.161,0,-0.051)</position></transform></li>
-          <li><id>buffer_tube</id><label>buffer tube interface</label><tags><li>ar15_buffer</li></tags><transform><position>(-0.21,0,-0.006)</position></transform></li>
-          <li><id>magazine</id><label>STANAG magazine well</label><tags><li>stanag_magazine</li></tags><transform><position>(-0.075,0,-0.019)</position></transform></li>
-          <li><id>trigger</id><label>trigger group</label><tags><li>ar15_trigger</li></tags><required>true</required><transform><position>(-0.139,0,-0.051)</position></transform></li>
+          <li><id>buffer_tube</id><expectedPart>HD_ModularPart_BufferTube_ColtA2_Part</expectedPart><label>buffer tube interface</label><tags><li>ar15_buffer</li></tags><transform><position>(-0.21,0,-0.006)</position></transform></li>
+          <li><id>magazine</id><expectedPart>HD_ModularPart_Magazine_STANAG20_Part</expectedPart><label>STANAG magazine well</label><tags><li>stanag_magazine</li></tags><transform><position>(-0.075,0,-0.019)</position></transform></li>
+          <li><id>trigger</id><expectedPart>HD_ModularPart_Trigger_AR15_Part</expectedPart><label>trigger group</label><tags><li>ar15_trigger</li></tags><required>true</required><transform><position>(-0.139,0,-0.051)</position></transform></li>
         </sockets>
-        <defaultAttachments>
-          <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M16A1_Part</part></li>
-          <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2_Part</part></li>
-          <li><socketId>buffer_tube</socketId><part>HD_ModularPart_BufferTube_ColtA2_Part</part></li>
-          <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_STANAG20_Part</part></li>
-          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_AR15_Part</part></li>
-        </defaultAttachments>
       </li>
     </comps>
   </ThingDef>
@@ -242,19 +219,12 @@
           <identificationDistanceMeters>285</identificationDistanceMeters>
         </internalStats>
         <sockets>
-          <li><id>upper_receiver</id><label>upper receiver interface</label><tags><li>upper_receiver</li></tags><transform><position>(-0.094,0,-0.018)</position></transform></li>
+          <li><id>upper_receiver</id><expectedPart>HD_ModularPart_UpperReceiver_M16A2_Part</expectedPart><label>upper receiver interface</label><tags><li>upper_receiver</li></tags><transform><position>(-0.094,0,-0.018)</position></transform></li>
           <li><id>pistol_grip</id><label>pistol grip interface</label><tags><li>ar15_pistol_grip</li></tags><transform><position>(-0.161,0,-0.051)</position></transform></li>
-          <li><id>buffer_tube</id><label>buffer tube interface</label><tags><li>ar15_buffer</li></tags><transform><position>(-0.219,0,-0.006)</position></transform></li>
-          <li><id>magazine</id><label>STANAG magazine well</label><tags><li>stanag_magazine</li></tags><transform><position>(-0.075,0,-0.019)</position></transform></li>
-          <li><id>trigger</id><label>trigger group</label><tags><li>ar15_trigger</li></tags><required>true</required><transform><position>(-0.139,0,-0.051)</position></transform></li>
+          <li><id>buffer_tube</id><expectedPart>HD_ModularPart_BufferTube_ColtA2_Part</expectedPart><label>buffer tube interface</label><tags><li>ar15_buffer</li></tags><transform><position>(-0.219,0,-0.006)</position></transform></li>
+          <li><id>magazine</id><expectedPart>HD_ModularPart_Magazine_STANAG</expectedPart><label>STANAG magazine well</label><tags><li>stanag_magazine</li></tags><transform><position>(-0.075,0,-0.019)</position></transform></li>
+          <li><id>trigger</id><expectedPart>HD_ModularPart_Trigger_AR15_Part</expectedPart><label>trigger group</label><tags><li>ar15_trigger</li></tags><required>true</required><transform><position>(-0.139,0,-0.051)</position></transform></li>
         </sockets>
-        <defaultAttachments>
-          <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M16A2_Part</part></li>
-          <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2_Part</part></li>
-          <li><socketId>buffer_tube</socketId><part>HD_ModularPart_BufferTube_ColtA2_Part</part></li>
-          <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_STANAG</part></li>
-          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_AR15_Part</part></li>
-        </defaultAttachments>
       </li>
     </comps>
   </ThingDef>
@@ -294,19 +264,12 @@
           <identificationDistanceMeters>285</identificationDistanceMeters>
         </internalStats>
         <sockets>
-          <li><id>upper_receiver</id><label>upper receiver interface</label><tags><li>upper_receiver</li></tags><transform><position>(-0.094,0,-0.018)</position></transform></li>
+          <li><id>upper_receiver</id><expectedPart>HD_ModularPart_UpperReceiver_M16A2_Part</expectedPart><label>upper receiver interface</label><tags><li>upper_receiver</li></tags><transform><position>(-0.094,0,-0.018)</position></transform></li>
           <li><id>pistol_grip</id><label>pistol grip interface</label><tags><li>ar15_pistol_grip</li></tags><transform><position>(-0.161,0,-0.051)</position></transform></li>
-          <li><id>buffer_tube</id><label>buffer tube interface</label><tags><li>ar15_buffer</li></tags><transform><position>(-0.219,0,-0.006)</position></transform></li>
-          <li><id>magazine</id><label>STANAG magazine well</label><tags><li>stanag_magazine</li></tags><transform><position>(-0.075,0,-0.019)</position></transform></li>
-          <li><id>trigger</id><label>trigger group</label><tags><li>ar15_trigger</li></tags><required>true</required><transform><position>(-0.139,0,-0.051)</position></transform></li>
+          <li><id>buffer_tube</id><expectedPart>HD_ModularPart_BufferTube_ColtA2_Part</expectedPart><label>buffer tube interface</label><tags><li>ar15_buffer</li></tags><transform><position>(-0.219,0,-0.006)</position></transform></li>
+          <li><id>magazine</id><expectedPart>HD_ModularPart_Magazine_STANAG</expectedPart><label>STANAG magazine well</label><tags><li>stanag_magazine</li></tags><transform><position>(-0.075,0,-0.019)</position></transform></li>
+          <li><id>trigger</id><expectedPart>HD_ModularPart_Trigger_AR15_Part</expectedPart><label>trigger group</label><tags><li>ar15_trigger</li></tags><required>true</required><transform><position>(-0.139,0,-0.051)</position></transform></li>
         </sockets>
-        <defaultAttachments>
-          <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M16A2_Part</part></li>
-          <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2_Part</part></li>
-          <li><socketId>buffer_tube</socketId><part>HD_ModularPart_BufferTube_ColtA2_Part</part></li>
-          <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_STANAG</part></li>
-          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_AR15_Part</part></li>
-        </defaultAttachments>
       </li>
     </comps>
   </ThingDef>

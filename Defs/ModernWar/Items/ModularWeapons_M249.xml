@@ -70,7 +70,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Magazine_M249200_Part</defName><label>M249 200-round belt box</label>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_M249200</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodHighMachineGun</li></requiredResearch><partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><graphicLayer>-1</graphicLayer><magazineCapacity>200</magazineCapacity><mounts><li><id>magazine_mount</id><socketTags><li>m249_magazine</li></socketTags><transform><position>(-0.035,0,-0.025)</position></transform></li></mounts><sockets><li><id>ammunition</id><label>5.56mm belt ammunition</label><tags><li>m249_ammunition</li></tags><transform><position>(-0.035,0,-0.04)</position></transform></li></sockets><defaultAttachments><li><socketId>ammunition</socketId><part>HD_ModularPart_Ammunition_M249_M855A1_Part</part></li></defaultAttachments></li></comps>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodHighMachineGun</li></requiredResearch><partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><graphicLayer>-1</graphicLayer><magazineCapacity>200</magazineCapacity><mounts><li><id>magazine_mount</id><socketTags><li>m249_magazine</li></socketTags><transform><position>(-0.035,0,-0.025)</position></transform></li></mounts><sockets><li><id>ammunition</id><label>5.56mm belt ammunition</label><tags><li>m249_ammunition</li></tags><transform><position>(-0.035,0,-0.04)</position></transform></li></sockets></li></comps>
   </ThingDef>
 
   <ThingDef ParentName="HD_RifleAmmunitionBase">
@@ -91,28 +91,18 @@
     <verbs><li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile><warmupTime>1.15</warmupTime><range>31</range><burstShotCount>10</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_AssaultRifle</soundCast><soundCastTail>GunTail_Medium</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li></verbs>
     <tools><li><label>stock</label><capacities><li>Blunt</li></capacities><power>10</power><cooldownTime>2</cooldownTime></li></tools>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
-      <isAssemblyRoot>true</isAssemblyRoot><partCategory>Required</partCategory><realisticRoundsPerMinute>750</realisticRoundsPerMinute><baseFireDelayFactor>1.2</baseFireDelayFactor><outlinePriority>100</outlinePriority>
+      <isAssemblyRoot>true</isAssemblyRoot><spawnPreset>HD_WeaponPreset_ModularM249_Default</spawnPreset><partCategory>Required</partCategory><realisticRoundsPerMinute>750</realisticRoundsPerMinute><baseFireDelayFactor>1.2</baseFireDelayFactor><outlinePriority>100</outlinePriority>
       <casingPort><offset>(-0.02,0,0.015)</offset><feedStartOffset>(-0.035,0,-0.07)</feedStartOffset><feedEndOffset>(-0.025,0,0.005)</feedEndOffset><feedingRoundDrawSize>0.1</feedingRoundDrawSize></casingPort>
       <sockets>
-        <li><id>barrel</id><label>M249 barrel trunnion</label><tags><li>m249_barrel</li></tags><required>true</required><transform><position>(0.02,0,0)</position></transform></li>
+        <li><id>barrel</id><expectedPart>HD_ModularPart_Barrel_M249E2_Part</expectedPart><label>M249 barrel trunnion</label><tags><li>m249_barrel</li></tags><required>true</required><transform><position>(0.02,0,0)</position></transform></li>
         <li><id>handguard</id><label>M249 handguard</label><tags><li>m249_handguard</li></tags><transform><position>(0.09,0,-0.02)</position></transform></li>
         <li><id>stock</id><label>M249 stock</label><tags><li>m249_stock</li></tags><transform><position>(-0.235,0,0)</position></transform></li>
         <li><id>top_cover</id><label>M249 feed cover</label><tags><li>m249_cover</li></tags><transform><position>(-0.12,0,0.04)</position></transform></li>
         <li><id>charging_handle</id><label>M249 charging handle</label><tags><li>m249_charging</li></tags><transform><position>(-0.04,0,0.015)</position></transform></li>
         <li><id>pistol_grip</id><label>M249 pistol grip</label><tags><li>m249_grip</li></tags><transform><position>(-0.14,0,-0.035)</position></transform></li>
-        <li><id>trigger</id><label>M249 trigger</label><tags><li>m249_trigger</li></tags><required>true</required><transform><position>(-0.108,0,-0.05)</position></transform></li>
-        <li><id>magazine</id><label>M249 belt box</label><tags><li>m249_magazine</li></tags><transform><position>(-0.035,0,-0.025)</position></transform></li>
+        <li><id>trigger</id><expectedPart>HD_ModularPart_Trigger_M249_Part</expectedPart><label>M249 trigger</label><tags><li>m249_trigger</li></tags><required>true</required><transform><position>(-0.108,0,-0.05)</position></transform></li>
+        <li><id>magazine</id><expectedPart>HD_ModularPart_Magazine_M249200_Part</expectedPart><label>M249 belt box</label><tags><li>m249_magazine</li></tags><transform><position>(-0.035,0,-0.025)</position></transform></li>
       </sockets>
-      <defaultAttachments>
-        <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_M249E2_Part</part></li>
-        <li><socketId>handguard</socketId><part>HD_ModularPart_Handguard_M249E2_Part</part></li>
-        <li><socketId>stock</socketId><part>HD_ModularPart_Stock_M249E2_Part</part></li>
-        <li><socketId>top_cover</socketId><part>HD_ModularPart_TopCover_M249E2_Part</part></li>
-        <li><socketId>charging_handle</socketId><part>HD_ModularPart_ChargingHandle_M249_Part</part></li>
-        <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_M249_Part</part></li>
-        <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_M249_Part</part></li>
-        <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_M249200_Part</part></li>
-      </defaultAttachments>
     </li></comps>
   </ThingDef>
 </Defs>

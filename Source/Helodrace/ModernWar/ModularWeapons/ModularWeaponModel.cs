@@ -222,6 +222,8 @@ namespace Helodrace.ModernWar
         public List<string> tags = new List<string>();
         public ModularAttachmentTransform transform = new ModularAttachmentTransform();
         public bool required;
+        // Identifies the missing-part category/effects; never creates a child Thing.
+        public ThingDef expectedPart;
         public bool isRail;
         public float railLength;
         public int maxAttachments;
@@ -304,14 +306,6 @@ namespace Helodrace.ModernWar
             return value == ModularRailSurface.Top
                 || value == ModularRailSurface.Bottom;
         }
-    }
-
-    public sealed class ModularDefaultAttachment
-    {
-        public string socketId;
-        public string mountId;
-        public ThingDef part;
-        public float railOffset;
     }
 
     public sealed class ModularWeaponGraphicLayer
@@ -420,8 +414,6 @@ namespace Helodrace.ModernWar
         public ModularWeaponCasingPortProperties casingPort;
         public List<ModularAttachmentMount> mounts = new List<ModularAttachmentMount>();
         public List<ModularAttachmentSocket> sockets = new List<ModularAttachmentSocket>();
-        public List<ModularDefaultAttachment> defaultAttachments =
-            new List<ModularDefaultAttachment>();
         // An authored preset applied to newly created weapon roots only.
         public ModularWeaponPresetDef spawnPreset;
 
@@ -437,6 +429,8 @@ namespace Helodrace.ModernWar
             if (spawnPreset != null && (!isAssemblyRoot || spawnPreset.weaponDef != parentDef))
                 yield return parentDef.defName
                     + " has a spawnPreset that does not target this weapon root.";
+            if (isAssemblyRoot && spawnPreset == null)
+                yield return parentDef.defName + " has no spawnPreset for its initial assembly.";
 
             if (partCategory == ModularWeaponPartCategory.Functional
                 && missingFunctions.NullOrEmpty())
@@ -588,6 +582,15 @@ namespace Helodrace.ModernWar
                 if (!ids.Add(socket.id))
                     yield return parentDef.defName + " has duplicate modular socket " + socket.id + ".";
 
+                if (socket.expectedPart != null)
+                {
+                    CompProperties_ModularWeaponNode expected = socket.expectedPart
+                        .GetCompProperties<CompProperties_ModularWeaponNode>();
+                    if (expected == null || expected.partCategory == ModularWeaponPartCategory.Optional)
+                        yield return parentDef.defName + " socket " + socket.id
+                            + " must identify a Required or Functional expectedPart.";
+                }
+
                 if (socket.isRail)
                 {
                     if (socket.railLength <= 0f)
@@ -640,20 +643,6 @@ namespace Helodrace.ModernWar
                     && mount.railSurface == ModularRailSurface.Unspecified)
                     yield return parentDef.defName + " Picatinny mount " + mount.id
                         + " must specify railSurface (Top, Bottom or Side).";
-            }
-
-            for (int i = 0; i < defaultAttachments.Count; i++)
-            {
-                ModularDefaultAttachment attachment = defaultAttachments[i];
-                if (attachment == null || attachment.part == null)
-                {
-                    yield return parentDef.defName + " has an invalid default modular attachment.";
-                    continue;
-                }
-
-                if (SocketNamed(attachment.socketId) == null)
-                    yield return parentDef.defName + " default attachment uses missing socket "
-                        + attachment.socketId + ".";
             }
         }
 

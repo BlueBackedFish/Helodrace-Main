@@ -94,13 +94,12 @@ internal static class Program
             Check(node.Element("sockets").Elements("li").Any(socket =>
                 (string)socket.Element("id") == "front_magazine"),
                 "Flux chassis has a front magazine socket");
-            Check(node.Element("defaultAttachments").Elements("li").Any(item =>
-                (string)item.Element("socketId") == "front_magazine"),
-                "Flux chassis spawns with a spare magazine");
+            Check(node.Element("defaultAttachments") == null,
+                "A separately acquired Flux chassis does not spawn a spare magazine");
         }
         foreach (int count in new[] { 17, 21, 30 })
         {
-            string name = "HD_ModularPart_FrontMagazine_P320" + count;
+            string name = "HD_ModularPart_FrontMagazine_P320" + count + "_Part";
             var magazine = p320.Root.Elements("ThingDef").Single(def =>
                 (string)def.Element("defName") == name);
             var comps = magazine.Element("comps").Elements("li").ToList();
@@ -111,13 +110,13 @@ internal static class Program
             Check(comps[0].Element("magazineCapacity") == null,
                 name + " cannot override the active feed magazine");
             Check((string)comps[1].Element("emptyEjectMoteDef") ==
-                "HD_Mote_FrontMagazine_P320" + count, name + " has its own drop animation");
+                "HD_Mote_FrontMagazine_P320" + count + "_Mote", name + " has its own drop animation");
         }
         var motes = XDocument.Load(Path.Combine(root,
             "Defs/ModernWar/Items/ModularWeaponCasings.xml"));
         foreach (int count in new[] { 17, 21, 30 })
             Check(motes.Root.Elements("ThingDef").Any(def =>
-                (string)def.Element("defName") == "HD_Mote_FrontMagazine_P320" + count
+                (string)def.Element("defName") == "HD_Mote_FrontMagazine_P320" + count + "_Mote"
                 && (string)def.Element("graphicData")?.Element("texPath") ==
                     "Weapons/Modular/Magazines/HD_Magazine_P320" + count),
                 count + "-round ejection mote uses the matching magazine texture");

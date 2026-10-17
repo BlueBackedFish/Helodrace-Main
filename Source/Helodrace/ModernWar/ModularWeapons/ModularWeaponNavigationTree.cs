@@ -55,10 +55,9 @@ namespace Helodrace.ModernWar
                     if (hideSocket(socket) || entry.Children.Any(child => child.Socket == socket))
                         continue;
                     // Keep missing firing-critical parts visible even though no Thing exists.
-                    bool required = socket.required || entry.Node.Props.defaultAttachments.Any(
-                        attachment => attachment.socketId == socket.id
-                            && attachment.part?.GetCompProperties<CompProperties_ModularWeaponNode>()
-                                ?.partCategory == ModularWeaponPartCategory.Required);
+                    bool required = socket.required
+                        || socket.expectedPart?.GetCompProperties<CompProperties_ModularWeaponNode>()
+                            ?.partCategory == ModularWeaponPartCategory.Required;
                     if (required)
                         entry.Children.Add(new Entry { Parent = entry, Socket = socket });
                 }

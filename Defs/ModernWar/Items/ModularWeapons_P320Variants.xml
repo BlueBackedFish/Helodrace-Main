@@ -9,7 +9,6 @@
       <graphicLayer>2</graphicLayer><partCategory>Required</partCategory>
       <mounts><li><id>receiver_mount</id><socketTags><li>p320_receiver</li></socketTags><transform><position>(-0.12,0,0.082)</position></transform></li></mounts>
       <sockets><li><id>rail_lower</id><label>P320 lower rail</label><tags><li>picatinny</li><li>bottom_rail</li></tags><isRail>true</isRail><railLength>0.085</railLength><maxAttachments>1</maxAttachments><railSurface>Bottom</railSurface><transform><position>(0.098,0,0.04)</position></transform></li></sockets>
-      <defaultAttachments><li><socketId>rail_lower</socketId><part>HD_ModularPart_Laser_DBALPL</part><railOffset>0.009</railOffset></li></defaultAttachments>
     </li></comps>
   </ThingDef>
 
@@ -27,12 +26,6 @@
         <li><id>rail_lower</id><label>Flux lower rail</label><tags><li>picatinny</li><li>bottom_rail</li></tags><isRail>true</isRail><railLength>0.075</railLength><maxAttachments>1</maxAttachments><railSurface>Bottom</railSurface><transform><position>(0.16,0,0.037)</position></transform></li>
         <li><id>front_magazine</id><label>Flux front spare magazine well</label><tags><li>flux_front_magazine</li></tags><transform><position>(0.018,0,-0.082)</position></transform></li>
       </sockets>
-      <defaultAttachments>
-        <li><socketId>stock</socketId><part>HD_ModularPart_Stock_FluxRaiderKit</part><railOffset>-0.145</railOffset></li>
-        <li><socketId>rail_top</socketId><part>HD_ModularPart_Mount_T2Low</part></li>
-        <li><socketId>rail_lower</socketId><part>HD_ModularPart_Laser_DBALPL</part><railOffset>0.0125</railOffset></li>
-        <li><socketId>front_magazine</socketId><part>HD_ModularPart_FrontMagazine_P32021_Part</part></li>
-      </defaultAttachments>
     </li></comps>
   </ThingDef>
 
@@ -50,10 +43,6 @@
         <li><id>front_sight</id><label>P320 front sight dovetail</label><tags><li>p320_front_sight</li></tags><transform><position>(0.153,0,0.121)</position></transform></li>
         <li><id>optic_plate</id><label>P320 slide optic plate mount</label><tags><li>p320_optic_plate</li></tags><transform><position>(-0.09,0,0.114)</position></transform></li>
       </sockets>
-      <defaultAttachments>
-        <li><socketId>rear_sight</socketId><part>HD_ModularPart_IronSight_P320Rear</part></li>
-        <li><socketId>front_sight</socketId><part>HD_ModularPart_IronSight_P320Front</part></li>
-      </defaultAttachments>
     </li></comps>
   </ThingDef>
 

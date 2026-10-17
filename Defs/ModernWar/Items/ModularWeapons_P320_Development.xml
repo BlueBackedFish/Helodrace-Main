@@ -11,7 +11,6 @@
       <graphicLayer>2</graphicLayer><partCategory>Required</partCategory>
       <mounts><li><id>receiver_mount</id><socketTags><li>p320_receiver</li></socketTags><transform><position>(-0.12,0,0.082)</position></transform></li></mounts>
       <sockets><li><id>rail_lower</id><label>P320 lower rail</label><tags><li>picatinny</li><li>bottom_rail</li></tags><isRail>true</isRail><railLength>0.085</railLength><maxAttachments>1</maxAttachments><railSurface>Bottom</railSurface><transform><position>(0.098,0,0.04)</position></transform></li></sockets>
-      <defaultAttachments><li><socketId>rail_lower</socketId><part>HD_ModularPart_Laser_DBALPL</part><railOffset>0.009</railOffset></li></defaultAttachments>
     </li></comps>
   </ThingDef>
 
@@ -29,12 +28,6 @@
         <li><id>rail_lower</id><label>Flux lower rail</label><tags><li>picatinny</li><li>bottom_rail</li></tags><isRail>true</isRail><railLength>0.075</railLength><maxAttachments>1</maxAttachments><railSurface>Bottom</railSurface><transform><position>(0.16,0,0.037)</position></transform></li>
         <li><id>front_magazine</id><label>Flux front spare magazine well</label><tags><li>flux_front_magazine</li></tags><transform><position>(0.018,0,-0.082)</position></transform></li>
       </sockets>
-      <defaultAttachments>
-        <li><socketId>stock</socketId><part>HD_ModularPart_Stock_FluxRaiderKit</part><railOffset>-0.145</railOffset></li>
-        <li><socketId>rail_top</socketId><part>HD_ModularPart_Mount_T2Low</part></li>
-        <li><socketId>rail_lower</socketId><part>HD_ModularPart_Laser_DBALPL</part><railOffset>0.0125</railOffset></li>
-        <li><socketId>front_magazine</socketId><part>HD_ModularPart_FrontMagazine_P32021_Part</part></li>
-      </defaultAttachments>
     </li></comps>
   </ThingDef>
 
@@ -52,10 +45,6 @@
         <li><id>front_sight</id><label>P320 front sight dovetail</label><tags><li>p320_front_sight</li></tags><transform><position>(0.153,0,0.121)</position></transform></li>
         <li><id>optic_plate</id><label>P320 slide optic plate mount</label><tags><li>p320_optic_plate</li></tags><transform><position>(-0.09,0,0.114)</position></transform></li>
       </sockets>
-      <defaultAttachments>
-        <li><socketId>rear_sight</socketId><part>HD_ModularPart_IronSight_P320Rear</part></li>
-        <li><socketId>front_sight</socketId><part>HD_ModularPart_IronSight_P320Front</part></li>
-      </defaultAttachments>
     </li></comps>
   </ThingDef>
 
@@ -80,7 +69,6 @@
       <animatedPart>TiltingBarrel</animatedPart><animationTravel>(-0.014,0,0)</animationTravel><animationPivot>(0.183,0,0.09)</animationPivot><animationAngle>4</animationAngle>
       <mounts><li><id>barrel_mount</id><socketTags><li>p320_barrel</li></socketTags><transform><position>(0,0,0.09)</position></transform></li></mounts>
       <sockets><li><id>muzzle</id><label>1/2x28 muzzle thread</label><tags><li>p320_muzzle_9mm</li></tags><transform><position>(0.183,0,0.09)</position></transform></li></sockets>
-      <defaultAttachments><li><socketId>muzzle</socketId><part>HD_ModularPart_Suppressor_HelveticSRD9_Part</part></li></defaultAttachments>
     </li></comps>
   </ThingDef>
 
@@ -129,7 +117,6 @@
       <graphicLayer>5</graphicLayer>
       <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.055</railOccupancy><railContactLength>0.045</railContactLength><physicalLength>0.088</physicalLength><railSurface>Top</railSurface><transform><position>(-0.199,0,0.143)</position></transform></li></mounts>
       <sockets><li><id>optic</id><label>T2 optic footprint</label><tags><li>t2_footprint</li></tags><transform><position>(-0.2,0,0.195)</position></transform></li></sockets>
-      <defaultAttachments><li><socketId>optic</socketId><part>HD_ModularPart_Optic_PointSightT2_Part</part></li></defaultAttachments>
     </li></comps>
   </ThingDef>
 
@@ -207,19 +194,19 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Magazine_P32017_Part</defName><label>17-round P320 magazine</label>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_P32017</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>-3</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><magazineCapacity>17</magazineCapacity><mounts><li><id>magazine_mount</id><socketTags><li>p320_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts><sockets><li><id>ammunition</id><tags><li>p320_ammunition</li></tags></li></sockets><defaultAttachments><li><socketId>ammunition</socketId><part>HD_ModularPart_Ammunition_919M882_P320_Part</part></li></defaultAttachments></li></comps>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>-3</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><magazineCapacity>17</magazineCapacity><mounts><li><id>magazine_mount</id><socketTags><li>p320_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts><sockets><li><id>ammunition</id><tags><li>p320_ammunition</li></tags></li></sockets></li></comps>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Magazine_P32021_Part</defName><label>21-round P320 magazine</label>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_P32021</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>-3</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><magazineCapacity>21</magazineCapacity><mounts><li><id>magazine_mount</id><socketTags><li>p320_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts><sockets><li><id>ammunition</id><tags><li>p320_ammunition</li></tags></li></sockets><defaultAttachments><li><socketId>ammunition</socketId><part>HD_ModularPart_Ammunition_919M882_P320_Part</part></li></defaultAttachments></li></comps>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>-3</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><magazineCapacity>21</magazineCapacity><mounts><li><id>magazine_mount</id><socketTags><li>p320_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts><sockets><li><id>ammunition</id><tags><li>p320_ammunition</li></tags></li></sockets></li></comps>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Magazine_P32030_Part</defName><label>30-round P320 magazine</label>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_P32030</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>-3</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><magazineCapacity>30</magazineCapacity><mounts><li><id>magazine_mount</id><socketTags><li>p320_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts><sockets><li><id>ammunition</id><tags><li>p320_ammunition</li></tags></li></sockets><defaultAttachments><li><socketId>ammunition</socketId><part>HD_ModularPart_Ammunition_919M882_P320_Part</part></li></defaultAttachments></li></comps>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>-3</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><magazineCapacity>30</magazineCapacity><mounts><li><id>magazine_mount</id><socketTags><li>p320_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts><sockets><li><id>ammunition</id><tags><li>p320_ammunition</li></tags></li></sockets></li></comps>
   </ThingDef>
 
   <ThingDef ParentName="HD_RifleAmmunitionBase">
@@ -243,19 +230,12 @@
       <isAssemblyRoot>true</isAssemblyRoot><spawnPreset>HD_WeaponPreset_ModularP320_Default</spawnPreset><partCategory>Required</partCategory><realisticRoundsPerMinute>500</realisticRoundsPerMinute><graphicLayer>-2</graphicLayer><assemblyScale>0.5</assemblyScale><animationSpeed>1.75</animationSpeed><outlinePriority>100</outlinePriority>
       <casingPort><offset>(-0.001,0,0.1)</offset><feedStartOffset>(-0.084,0,0.076)</feedStartOffset><feedEndOffset>(0.027,0,0.091)</feedEndOffset><feedingRoundDrawSize>0.08</feedingRoundDrawSize></casingPort>
       <sockets>
-        <li><id>receiver</id><label>P320 grip/chassis module</label><tags><li>p320_receiver</li></tags><required>true</required><transform><position>(-0.12,0,0.082)</position></transform></li>
-        <li><id>slide</id><label>P320 slide</label><tags><li>p320_slide</li></tags><required>true</required><transform><position>(0,0,0.105)</position></transform></li>
-        <li><id>barrel</id><label>P320 barrel</label><tags><li>p320_barrel</li></tags><required>true</required><transform><position>(0,0,0.09)</position></transform></li>
-        <li><id>trigger</id><label>P320 trigger</label><tags><li>p320_trigger</li></tags><required>true</required><transform><position>(-0.037,0,0.058)</position></transform></li>
-        <li><id>magazine</id><label>P320 magazine well</label><tags><li>p320_magazine</li></tags><transform><position>(-0.13,0,-0.04)</position></transform></li>
+        <li><id>receiver</id><expectedPart>HD_ModularPart_Receiver_P320_Part</expectedPart><label>P320 grip/chassis module</label><tags><li>p320_receiver</li></tags><required>true</required><transform><position>(-0.12,0,0.082)</position></transform></li>
+        <li><id>slide</id><expectedPart>HD_ModularPart_Slide_P32047_Part</expectedPart><label>P320 slide</label><tags><li>p320_slide</li></tags><required>true</required><transform><position>(0,0,0.105)</position></transform></li>
+        <li><id>barrel</id><expectedPart>HD_ModularPart_Barrel_P32047_Part</expectedPart><label>P320 barrel</label><tags><li>p320_barrel</li></tags><required>true</required><transform><position>(0,0,0.09)</position></transform></li>
+        <li><id>trigger</id><expectedPart>HD_ModularPart_Trigger_P320Flat</expectedPart><label>P320 trigger</label><tags><li>p320_trigger</li></tags><required>true</required><transform><position>(-0.037,0,0.058)</position></transform></li>
+        <li><id>magazine</id><expectedPart>HD_ModularPart_Magazine_P32017_Part</expectedPart><label>P320 magazine well</label><tags><li>p320_magazine</li></tags><transform><position>(-0.13,0,-0.04)</position></transform></li>
       </sockets>
-      <defaultAttachments>
-        <li><socketId>receiver</socketId><part>HD_ModularPart_Receiver_P320_Part</part></li>
-        <li><socketId>slide</socketId><part>HD_ModularPart_Slide_P32047_Part</part></li>
-        <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_P32047_Part</part></li>
-        <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_P320Flat</part></li>
-        <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_P32017_Part</part></li>
-      </defaultAttachments>
     </li></comps>
   </ThingDef>
 

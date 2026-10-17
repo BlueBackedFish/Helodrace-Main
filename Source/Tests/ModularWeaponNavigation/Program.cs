@@ -14,6 +14,7 @@ internal static class Program
         GroupTests.Run();
         StatMotionTests.Run();
         SocketLayoutTests.Run();
+        FunctionTests.Run();
         var lower = Part(1, "하부 리시버");
         var upper = Part(2, "상부 리시버", lower, "upper", "상부 결합부", 0);
         var barrel = Part(3, "10.3인치 총열", upper, "barrel", "총열 결합부", 0);
@@ -68,12 +69,8 @@ internal static class Program
 
         var boltSocket = new ModularAttachmentSocket { id = "bolt", Label = "볼트 결합부" };
         upper.Props.sockets.Add(boltSocket);
-        upper.Props.defaultAttachments.Add(new ModularDefaultAttachment
-        {
-            socketId = "bolt",
-            part = new ThingDef { Props = new CompProperties_ModularWeaponNode
-                { partCategory = ModularWeaponPartCategory.Required } }
-        });
+        boltSocket.expectedPart = new ThingDef { Props = new CompProperties_ModularWeaponNode
+            { partCategory = ModularWeaponPartCategory.Required } };
         var mandatory = new ModularAttachmentSocket
             { id = "mandatory", Label = "필수 결합부", required = true };
         lower.Props.sockets.Add(mandatory);
@@ -81,7 +78,7 @@ internal static class Program
         tree = Tree(snapshot);
         rows = tree.VisibleRows(new HashSet<int>(), "");
         Check(rows.Count(row => row.IsEmpty) == 2,
-            "Both required sockets and missing Required-category defaults need warning rows.");
+            "Both required sockets and missing Required-category expectations need warning rows.");
         Check(rows[0].DescendantCount == 7, "Vacancies must not inflate attached part totals.");
         var empty = rows.Single(row => row.IsEmpty && row.Socket == boltSocket);
         Check(empty.Owner == upper && empty.Depth == 2,
@@ -141,7 +138,14 @@ internal static class Program
 namespace Helodrace.ModernWar
 {
     public enum ModularWeaponPartCategory { Required, Functional, Optional }
-    public sealed class Thing { public int thingIDNumber; public string LabelCap; }
+    public enum ModularWeaponMissingFunction { SemiAutomaticOnly, SingleRoundCapacity }
+    public sealed class Thing
+    {
+        public int thingIDNumber;
+        public string LabelCap;
+        public CompModularWeaponNode Comp;
+        public T TryGetComp<T>() where T : class => Comp as T;
+    }
     public sealed class ModularSightGroupStatus
     {
         public int index;
@@ -150,20 +154,29 @@ namespace Helodrace.ModernWar
     }
     public sealed class ThingDef
     {
+        public string LabelCap;
         public CompProperties_ModularWeaponNode Props;
         public T GetCompProperties<T>() where T : class => Props as T;
     }
-    public sealed class ModularAttachmentSocket { public string id; public string Label; public bool required; }
-    public sealed class ModularDefaultAttachment { public string socketId; public ThingDef part; }
+    public sealed class ModularAttachmentSocket { public string id; public string Label; public bool required; public ThingDef expectedPart; }
     public sealed class CompProperties_ModularWeaponNode
     {
         public ModularWeaponPartCategory partCategory = ModularWeaponPartCategory.Optional;
         public bool isAssemblyRoot, isWeaponSubassembly;
+        public List<ModularWeaponMissingFunction> missingFunctions = new List<ModularWeaponMissingFunction>();
         public List<ModularAttachmentSocket> sockets = new List<ModularAttachmentSocket>();
-        public List<ModularDefaultAttachment> defaultAttachments = new List<ModularDefaultAttachment>();
         public ModularAttachmentSocket SocketNamed(string id) => sockets.FirstOrDefault(socket => socket.id == id);
     }
-    public sealed class CompModularWeaponNode { public CompProperties_ModularWeaponNode Props = new CompProperties_ModularWeaponNode(); }
+    public sealed class CompModularWeaponNode
+    {
+        public CompProperties_ModularWeaponNode Props = new CompProperties_ModularWeaponNode();
+        public CompModularWeaponNode AssemblyRoot => this;
+        public readonly List<Thing> Children = new List<Thing>();
+        public readonly List<string> SocketIds = new List<string>();
+        public int ChildCount => Children.Count;
+        public Thing ChildAt(int index) => Children[index];
+        public string SocketIdAt(int index) => SocketIds[index];
+    }
     public sealed class ModularRenderNode
     {
         public Thing thing;

@@ -344,13 +344,11 @@ namespace Helodrace.ModernWar
     }
 
     /// <summary>
-    /// An exact recursive modular weapon tree. useDefaultConfiguration is useful for
-    /// PawnKinds which only need to lock in the authored default assembly.
+    /// An exact recursive modular weapon tree, also used for initial weapon assemblies.
     /// </summary>
     public sealed class ModularWeaponPresetDef : Def
     {
         public ThingDef weaponDef;
-        public bool useDefaultConfiguration;
         public float gasTubeFlowSetting = ModularWeaponGasSystemUtility.DefaultSetting;
         public List<ModularWeaponPresetPart> parts = new List<ModularWeaponPresetPart>();
 
@@ -371,11 +369,6 @@ namespace Helodrace.ModernWar
                 yield return defName + " has gasTubeFlowSetting outside the supported "
                     + ModularWeaponGasSystemUtility.MinimumSetting + "-"
                     + ModularWeaponGasSystemUtility.MaximumSetting + " range.";
-
-            if (useDefaultConfiguration && !parts.NullOrEmpty())
-                yield return defName
-                    + " uses the default configuration but also declares preset parts.";
-            if (useDefaultConfiguration) yield break;
 
             foreach (string error in ValidateChildren(root, parts, weaponDef.defName, 0))
                 yield return defName + ": " + error;
@@ -446,38 +439,6 @@ namespace Helodrace.ModernWar
                             + socket.id + ".";
                 }
             }
-        }
-    }
-
-    /// <summary>
-    /// Keeps default-only loadout presets usable before the full recursive weapon preset
-    /// applier is present. A newer CompModularWeaponNode instance method takes precedence
-    /// over this extension automatically when that implementation is available.
-    /// </summary>
-    public static class ModularWeaponPresetCompatibility
-    {
-        public static bool TryApplyPreset(
-            this CompModularWeaponNode comp,
-            ModularWeaponPresetDef preset,
-            out string rejection)
-        {
-            rejection = null;
-            if (comp?.parent?.def == null
-                || preset?.weaponDef != comp.parent.def
-                || comp.Props?.isAssemblyRoot != true)
-            {
-                rejection = "The weapon preset does not target this assembly root.";
-                return false;
-            }
-
-            if (preset.useDefaultConfiguration)
-            {
-                comp.SetGasTubeFlowSetting(preset.gasTubeFlowSetting);
-                return true;
-            }
-
-            rejection = "This build does not support applying an exact recursive weapon preset.";
-            return false;
         }
     }
 
