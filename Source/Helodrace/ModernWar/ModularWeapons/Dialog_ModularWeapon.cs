@@ -87,7 +87,7 @@ namespace Helodrace.ModernWar
                 "HD_ModularWeapon_ExportPresetDesc".Translate());
 
             float bodyTop = 40f;
-            float catalogHeight = 250f;
+            float catalogHeight = 206f;
             float footerHeight = 38f;
             float bodyHeight = inRect.height - bodyTop - catalogHeight - footerHeight - 8f;
             float treeWidth = Mathf.Clamp(inRect.width * 0.23f, 260f, 320f);
@@ -290,11 +290,11 @@ namespace Helodrace.ModernWar
             if (socket == null || node == null) return;
 
             List<ThingDef> candidates = CompatibleParts(socket);
-            const float tileWidth = 164f;
-            const float tileHeight = 140f;
+            const float tileWidth = 148f;
+            const float tileHeight = 122f;
             const float gap = 8f;
-            const float buttonWidth = 158f;
-            const float buttonHeight = 28f;
+            const float buttonWidth = 132f;
+            const float buttonHeight = 24f;
             string[] groupOrder =
             {
                 "Discouraged", "Core", "Barrel", "Furniture", "Magazine",
@@ -343,7 +343,7 @@ namespace Helodrace.ModernWar
             List<ThingDef> entries = groups[selectedCatalogGroup];
             int columns = Mathf.Max(1,
                 Mathf.FloorToInt((outRect.width - 18f) / (tileWidth + gap)));
-            float contentHeight = 8f
+            float contentHeight = 12f - gap
                 + Mathf.CeilToInt(entries.Count / (float)columns)
                     * (tileHeight + gap);
             Rect viewRect = new Rect(0f, 0f, outRect.width - 18f,
@@ -385,17 +385,12 @@ namespace Helodrace.ModernWar
                     Widgets.Label(new Rect(tile.x + 6f, tile.y + 4f,
                         tile.width - 12f, 18f), status);
                     GUI.color = Color.white;
-                    if (def.uiIcon != null)
-                        Widgets.DrawTextureFitted(new Rect(tile.center.x - 25f,
-                            tile.y + 24f, 50f, 50f), def.uiIcon, 1f);
+                    ModularWeaponPartImage.For(def).Draw(new Rect(tile.x + 6f,
+                        tile.y + 22f, tile.width - 12f, 61f));
                     Text.Anchor = TextAnchor.UpperCenter;
-                    Text.Font = GameFont.Small;
-                    Widgets.Label(new Rect(tile.x + 5f, tile.y + 75f,
-                        tile.width - 10f, 39f), def.LabelCap);
+                    Widgets.Label(new Rect(tile.x + 5f, tile.y + 85f,
+                        tile.width - 10f, 34f), def.LabelCap);
                     Text.Anchor = TextAnchor.UpperLeft;
-                    Text.Font = GameFont.Tiny;
-                    Widgets.Label(new Rect(tile.x + 6f, tile.yMax - 22f,
-                        tile.width - 12f, 20f), props.partCategory.Label());
                     Text.Font = GameFont.Small;
                     if (hovered) hoveredPart = def;
                     string discouragedReason = DiscouragedReason(def, socket);
