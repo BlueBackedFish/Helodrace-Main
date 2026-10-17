@@ -5,5 +5,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponNavigationTree.cs" Link="ModularWeaponNavigationTree.cs" />
+    <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponPreviewCamera.cs" Link="ModularWeaponPreviewCamera.cs" />
   </ItemGroup>
 </Project>

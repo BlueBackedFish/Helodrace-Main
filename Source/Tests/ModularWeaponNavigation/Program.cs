@@ -9,6 +9,7 @@ internal static class Program
 
     private static void Main()
     {
+        CameraTests.Run();
         var lower = Part(1, "하부 리시버");
         var upper = Part(2, "상부 리시버", lower, "upper", "상부 결합부", 0);
         var barrel = Part(3, "10.3인치 총열", upper, "barrel", "총열 결합부", 0);

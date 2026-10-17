@@ -9,23 +9,66 @@ namespace Helodrace.ModernWar
     {
         private const int PreviewMaskSize = 256;
         private readonly Dictionary<Texture2D, byte[]> previewMasks = new Dictionary<Texture2D, byte[]>();
+        private readonly ModularWeaponPreviewCamera previewCamera = new ModularWeaponPreviewCamera();
 
         private static Rect PreviewArea(Rect rect)
         {
             Rect inner = rect.ContractedBy(18f);
-            inner.yMin += 92f;
+            inner.yMin += 122f;
             inner.yMax -= 46f;
             return inner;
+        }
+
+        private bool PreviewCoveredByStats(Rect rect)
+        {
+            return performanceExpanded && Mouse.IsOver(
+                new Rect(rect.x + 10f, rect.y + 44f, 430f, 390f));
+        }
+
+        private void HandlePreviewNavigation(Rect rect)
+        {
+            Rect area = PreviewArea(rect);
+            if (!Mouse.IsOver(area) || PreviewCoveredByStats(rect)) return;
+            Event current = Event.current;
+            if (current.type == EventType.ScrollWheel)
+            {
+                previewCamera.ZoomAt(area, previewCamera.Zoom * Mathf.Pow(1.12f, -current.delta.y),
+                    current.mousePosition);
+                current.Use();
+            }
+            else if (current.type == EventType.MouseDrag && current.button == 2)
+            {
+                previewCamera.Move(current.delta);
+                current.Use();
+            }
+        }
+
+        private void DrawPreviewToolbar(Rect rect)
+        {
+            Rect toolbar = new Rect(rect.x + 10f, rect.y + 8f, rect.width - 20f, 27f);
+            Rect area = PreviewArea(rect);
+            if (Widgets.ButtonText(new Rect(toolbar.x, toolbar.y, 28f, toolbar.height), "−"))
+                previewCamera.ZoomAt(area, previewCamera.Zoom / 1.25f, area.center);
+            if (Widgets.ButtonText(new Rect(toolbar.x + 34f, toolbar.y, 28f, toolbar.height), "+"))
+                previewCamera.ZoomAt(area, previewCamera.Zoom * 1.25f, area.center);
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(new Rect(toolbar.x + 66f, toolbar.y, 52f, toolbar.height),
+                previewCamera.Zoom.ToString("P0"));
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
+            if (Widgets.ButtonText(new Rect(toolbar.x + 123f, toolbar.y, 100f, toolbar.height),
+                "HD_ModularWeapon_ResetView".Translate())) previewCamera.Reset();
+            TooltipHandler.TipRegion(toolbar, "HD_ModularWeapon_ZoomHint".Translate());
         }
 
         private void UpdatePreviewHover(Rect rect, List<ModularRenderNode> snapshot)
         {
             Rect inner = PreviewArea(rect);
             if (!Mouse.IsOver(inner)) return;
-            if (performanceExpanded && Mouse.IsOver(
-                new Rect(rect.x + 10f, rect.y + 10f, 430f, 390f))) return;
-            Vector2 origin = inner.center;
-            float scale = Mathf.Min(inner.width, inner.height) * 0.82f;
+            if (PreviewCoveredByStats(rect)) return;
+            Vector2 origin = previewCamera.OriginFor(inner);
+            float scale = previewCamera.ScaleFor(inner);
             List<ModularRenderNode> layers = ModularWeaponVisualLayers.Expand(snapshot);
             // Test the visible pixels in reverse draw order, including additional layers.
             for (int i = layers.Count - 1; i >= 0; i--)
@@ -119,6 +162,9 @@ namespace Helodrace.ModernWar
             Vector2 origin, float scale)
         {
             if (node == null) return;
+            Rect area = PreviewArea(rect);
+            GUI.BeginGroup(area);
+            origin -= area.position;
             Vector2 marker = WorldToGui(node.GraphicCenter, origin, scale);
             foreach (ModularRenderNode layer in ModularWeaponVisualLayers.Expand(navigationSnapshot))
             {
@@ -139,10 +185,11 @@ namespace Helodrace.ModernWar
             }
 
             Rect caption = new Rect(rect.x + 10f, rect.yMax - 47f, rect.width - 20f, 39f);
-            Widgets.DrawLine(marker, new Vector2(caption.center.x, caption.y),
+            Widgets.DrawLine(marker, new Vector2(area.width * 0.5f, area.height),
                 new Color(0.95f, 0.8f, 0.3f), 1f);
             Widgets.DrawBoxSolidWithOutline(CenteredRect(marker, new Vector2(8f, 8f)),
                 new Color(0.1f, 0.14f, 0.15f), Color.yellow, 1);
+            GUI.EndGroup();
             Widgets.DrawBoxSolidWithOutline(caption, new Color(0.055f, 0.07f, 0.08f, 0.96f),
                 new Color(0.6f, 0.55f, 0.3f), 1);
             Text.Font = GameFont.Tiny;

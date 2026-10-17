@@ -12,6 +12,8 @@
   <HD_ModularWeapon_TreeNoResults>No matching parts or sockets.</HD_ModularWeapon_TreeNoResults>
   <HD_ModularWeapon_EmptyRequiredSocket>! Required part missing</HD_ModularWeapon_EmptyRequiredSocket>
   <HD_ModularWeapon_InternalPart>Internal / normally hidden</HD_ModularWeapon_InternalPart>
+  <HD_ModularWeapon_ResetView>Reset view</HD_ModularWeapon_ResetView>
+  <HD_ModularWeapon_ZoomHint>Mouse wheel: zoom at the pointer (25–800%). Middle mouse drag: pan. Reset view: restore zoom and position.</HD_ModularWeapon_ZoomHint>
   <HD_ModularWeapon_AssemblyRoot>Assembly root</HD_ModularWeapon_AssemblyRoot>
   <HD_ModularWeapon_AttachedParts>Parts attached here</HD_ModularWeapon_AttachedParts>
   <HD_ModularWeapon_ConnectedVia>Socket: {0}</HD_ModularWeapon_ConnectedVia>

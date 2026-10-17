@@ -100,6 +100,7 @@ namespace Helodrace.ModernWar
             Rect catalogRect = new Rect(0f, bodyTop + bodyHeight + 8f,
                 inRect.width, catalogHeight);
 
+            HandlePreviewNavigation(previewRect);
             UpdatePreviewHover(previewRect, snapshot);
             selected = FindSelected(snapshot);
             EnsureSelectedSocket(selected);
@@ -132,11 +133,13 @@ namespace Helodrace.ModernWar
                 new Color(0.055f, 0.06f, 0.07f, 1f),
                 new Color(0.35f, 0.38f, 0.42f), 2);
             Rect inner = PreviewArea(rect);
-            Vector2 origin = inner.center;
-            float pixelsPerCell = Mathf.Min(inner.width, inner.height) * 0.82f;
+            Vector2 origin = previewCamera.OriginFor(inner);
+            float pixelsPerCell = previewCamera.ScaleFor(inner);
             ModularRenderNode focus = hoveredNode ?? selected;
 
             var visualSnapshot = ModularWeaponVisualLayers.Expand(snapshot);
+            GUI.BeginGroup(inner);
+            Vector2 localOrigin = origin - inner.position;
             for (int pass = 0; pass < 2; pass++)
             {
                 for (int i = 0; i < visualSnapshot.Count; i++)
@@ -154,7 +157,7 @@ namespace Helodrace.ModernWar
 
                     ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(
                         root, node, false, out Vector2 posedCenter, out float posedAngle);
-                    Vector2 center = WorldToGui(posedCenter, origin, pixelsPerCell);
+                    Vector2 center = WorldToGui(posedCenter, localOrigin, pixelsPerCell);
                     Vector2 graphicScale = node.GraphicScale;
                     Vector2 size = Vector2.Scale(graphic.drawSize,
                         new Vector2(Mathf.Abs(graphicScale.x),
@@ -172,15 +175,17 @@ namespace Helodrace.ModernWar
                 }
             }
 
-            DrawSelectedRailOverlay(focus, origin, pixelsPerCell);
+            DrawSelectedRailOverlay(focus, localOrigin, pixelsPerCell);
+            GUI.EndGroup();
             DrawPreviewHighlight(rect, focus, origin, pixelsPerCell);
             Rect performanceRect = performanceExpanded
-                ? new Rect(rect.x + 10f, rect.y + 10f, 430f, 390f)
-                : new Rect(rect.x + 10f, rect.y + 10f, 285f, 60f);
+                ? new Rect(rect.x + 10f, rect.y + 44f, 430f, 390f)
+                : new Rect(rect.x + 10f, rect.y + 44f, 285f, 60f);
             DrawPerformanceBlock(performanceRect, performanceExpanded);
             DrawAmmunitionBadge(
-                new Rect(rect.xMax - 245f, rect.y + 10f, 235f, 74f),
+                new Rect(rect.xMax - 245f, rect.y + 44f, 235f, 74f),
                 snapshot);
+            DrawPreviewToolbar(rect);
         }
 
         private void DrawSelectedRailOverlay(
