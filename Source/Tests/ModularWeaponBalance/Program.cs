@@ -47,6 +47,7 @@ internal static class Program
             BallisticTests();
             BallisticAuthoringTests();
             RangeTests();
+            AmmunitionCatalogTests();
             PartConflictTests.Run(Check);
             PlacementEditorTests.Run(Check);
             Console.WriteLine("PASS: "+checks+" modular balance checks using production sight/stat code and patched preset geometry.");
@@ -139,7 +140,7 @@ internal static class Program
         }
         return obj;
     }
-    private static readonly string[] parsedFields={"internalStats","sight","sockets","mounts","performanceRole","graphicOffset","graphicAngle","assemblyScale","sightGroupHeightTolerance","laser","verticalOccupancy","verticalOccupancyOffset","projectileOverride","overridePriority"};
+    private static readonly string[] parsedFields={"internalStats","sight","sockets","mounts","performanceRole","graphicOffset","graphicAngle","assemblyScale","sightGroupHeightTolerance","laser","verticalOccupancy","verticalOccupancyOffset","projectileOverride","overridePriority","ammunitionType"};
     private static CompProperties_ModularWeaponNode Properties(XElement def)
     {
         XElement c=def.Element("comps").Elements().Single(e=>(string)e.Attribute("Class")==CompClass);
@@ -151,6 +152,38 @@ internal static class Program
         // do not need the game's stat worker/Unity initialization for a fallback.
         Check(props.internalStats?.massKg>0,"Missing component mass: "+def.Element("defName")?.Value);
         return props;
+    }
+    private static void AmmunitionCatalogTests()
+    {
+        var catalog = typeof(Dialog_ModularWeapon).GetMethod("CatalogGroup", BindingFlags.Static | BindingFlags.NonPublic);
+        var compatible = typeof(Dialog_ModularWeapon).GetMethod("CompatibleMount", BindingFlags.Static | BindingFlags.NonPublic);
+        var magazine = Properties(Resolve(definitions["HD_ModularPart_Magazine_M1420_Part"]));
+        var socket = magazine.SocketNamed("ammunition");
+        int count = 0, natoCount = 0;
+        foreach (var pair in definitions)
+        {
+            if (pair.Value.Name.LocalName != "ThingDef") continue;
+            var xml = Resolve(pair.Value);
+            var comp = xml.Element("comps")?.Elements().FirstOrDefault(e => (string)e.Attribute("Class") == CompClass);
+            if (string.IsNullOrEmpty((string)comp?.Element("ammunitionType"))) continue;
+            var props = Properties(xml);
+            var def = Bare<ThingDef>(); def.defName = pair.Key; def.label = (string)xml.Element("label");
+            def.comps = new List<CompProperties> { props };
+            Check((string)catalog.Invoke(null, new object[] { def, socket }) == "Magazine",
+                "All ammunition must share the visible magazine catalog group regardless of DefName: " + pair.Key);
+            count++;
+            if ((string)comp.Element("ammunitionCaliber") != "762x51") continue;
+            Check(compatible.Invoke(null, new object[] { props, socket }) != null,
+                "Every 7.62x51 selection must fit the M14 ammunition socket: " + pair.Key);
+            Check(definitions.ContainsKey((string)comp.Element("projectileOverride")), "7.62x51 projectile exists: " + pair.Key);
+            Check(File.Exists(Path.Combine(root, "Textures", (string)xml.Element("graphicData")?.Element("texPath") + ".png")),
+                "7.62x51 catalog icon exists: " + pair.Key);
+            Check(File.Exists(Path.Combine(root, "Textures", (string)comp.Element("feedingRoundTexPath") + ".png")),
+                "7.62x51 feeding texture exists: " + pair.Key);
+            natoCount++;
+        }
+        Check(natoCount == 8, "M80/M80A1/M198/M948/M993/M1158/MK316/MK319 are all selectable");
+        Console.WriteLine("PASS: " + count + " ammunition catalog groups and all 8 M14 7.62x51 selections, projectiles and textures.");
     }
     private static float Palette(XElement def)
     {

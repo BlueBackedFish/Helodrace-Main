@@ -421,6 +421,10 @@ namespace Helodrace.ModernWar
         private static string CatalogGroup(ThingDef def, ModularAttachmentSocket socket)
         {
             if (DiscouragedReason(def, socket) != null) return "Discouraged";
+            // Cartridge DefNames use multiple naming schemes; classify by their
+            // actual role so new ammunition stays beside the original M80 selection.
+            if (!string.IsNullOrEmpty(def.GetCompProperties<CompProperties_ModularWeaponNode>()
+                ?.ammunitionType)) return "Magazine";
             string[] name = def.defName.Split('_');
             string kind = name.Length > 2 ? name[2] : string.Empty;
             switch (kind)
