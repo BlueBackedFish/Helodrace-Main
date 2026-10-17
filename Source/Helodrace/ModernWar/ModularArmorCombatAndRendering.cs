@@ -527,6 +527,9 @@ namespace Helodrace.ModernWar
                             pawn,
                             ref metalArmor);
                     }
+                    // Reverse-patched soft armor and custom plate rolls bypass
+                    // the normal ApplyArmor hook; record each traversed layer here.
+                    BulletFragmentationImpact.RecordArmor(pawn, armorRating, __result, damageDef);
                     metalArmor |= record.part.metallic;
 
                     if (__result <= 0f)

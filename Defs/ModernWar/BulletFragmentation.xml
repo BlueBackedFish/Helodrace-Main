@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <DamageDef ParentName="Bullet">
+    <defName>HD_BulletFragment</defName>
+    <label>bullet fragment</label>
+    <hediff>HD_FragmentationWound</hediff>
+    <hediffSolid>Crack</hediffSolid>
+    <harmAllLayersUntilOutside>false</harmAllLayersUntilOutside>
+  </DamageDef>
+
+  <HediffDef ParentName="InjuryBase">
+    <defName>HD_FragmentationWound</defName>
+    <label>fragmentation wound</label>
+    <labelNoun>a fragmentation wound</labelNoun>
+    <description>A small wound caused by a bullet breaking apart after penetrating the body.</description>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <labelTendedWell>bandaged</labelTendedWell>
+        <labelTendedWellInner>sutured</labelTendedWellInner>
+        <labelSolidTendedWell>set</labelSolidTendedWell>
+      </li>
+      <li Class="HediffCompProperties_GetsPermanent"><permanentLabel>fragment scar</permanentLabel></li>
+      <li Class="HediffCompProperties_Infecter"><infectionChance>0.15</infectionChance></li>
+    </comps>
+    <injuryProps>
+      <painPerSeverity>0.0125</painPerSeverity>
+      <bleedRate>0.06</bleedRate>
+      <canMerge>false</canMerge>
+      <destroyedLabel>Destroyed</destroyedLabel>
+    </injuryProps>
+  </HediffDef>
+</Defs>

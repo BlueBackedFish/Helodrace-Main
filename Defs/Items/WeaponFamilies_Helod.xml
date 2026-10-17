@@ -5,6 +5,8 @@
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_M16A4_Proj</defName>
     <label>5.56x45mm M16 bullet</label>
+    <thingClass>Helodrace.Projectile_FragmentingBullet</thingClass>
+    <modExtensions><li Class="Helodrace.BulletFragmentationExtension"><chance>0.75</chance><velocityHalfDistance>55</velocityHalfDistance><damageFraction>0.55</damageFraction></li></modExtensions>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>

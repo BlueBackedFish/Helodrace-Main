@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_FragmentationWound.label>파편화 상처</HD_FragmentationWound.label>
+  <HD_FragmentationWound.labelNoun>파편화 상처</HD_FragmentationWound.labelNoun>
+  <HD_FragmentationWound.description>몸을 관통한 탄자가 부서지면서 생긴 작은 상처입니다.</HD_FragmentationWound.description>
+  <HD_FragmentationWound.comps.0.labelTendedWell>붕대 감음</HD_FragmentationWound.comps.0.labelTendedWell>
+  <HD_FragmentationWound.comps.0.labelTendedWellInner>봉합함</HD_FragmentationWound.comps.0.labelTendedWellInner>
+  <HD_FragmentationWound.comps.0.labelSolidTendedWell>접합함</HD_FragmentationWound.comps.0.labelSolidTendedWell>
+  <HD_FragmentationWound.comps.1.permanentLabel>파편 흉터</HD_FragmentationWound.comps.1.permanentLabel>
+  <HD_FragmentationWound.injuryProps.destroyedLabel>파괴됨</HD_FragmentationWound.injuryProps.destroyedLabel>
+</LanguageData>
