@@ -111,28 +111,29 @@ namespace Helodrace.ModernWar
         private void DrawPreviewAssembly(Vector2 origin, float scale, ModularRenderNode front)
         {
             Color previous = GUI.color;
-            GUI.color = Color.white;
-            // Complete the background before drawing the selected part's outline and
-            // color layers. Hovering another row never makes the selected part recede.
-            for (int foreground = 0; foreground < 2; foreground++)
-                for (int pass = 0; pass < 2; pass++)
-                    foreach (ModularRenderNode node in previewLayers)
-                    {
-                        bool selected = node.path == front?.path;
-                        if (selected != (foreground == 1)
-                            || (!selected && !ModularWeaponAssemblyRenderer.ShouldDrawNode(node))) continue;
-                        string path = node.TexturePath;
-                        Texture texture = pass == 0
-                            ? path.NullOrEmpty() ? null : ContentFinder<Texture2D>.Get(path + "_Outline", false)
-                            : node.Graphic?.MatSingle?.mainTexture;
-                        if (texture == null || node.Graphic == null) continue;
-                        float angle;
-                        Rect drawRect = PreviewPartRect(node, origin, scale, out angle);
-                        Matrix4x4 matrix = GUI.matrix;
-                        UI.RotateAroundPivot(-angle, drawRect.center);
-                        DrawTexture(drawRect, texture, node.GraphicVerticallyFlipped);
-                        GUI.matrix = matrix;
-                    }
+            // All authored outlines stay behind every body layer, including selection.
+            // Only the selected body's layers move to the front and receive the tint.
+            for (int pass = 0; pass < 3; pass++)
+            {
+                GUI.color = pass == 2 ? new Color(1f, 0.95f, 0.65f) : Color.white;
+                foreach (ModularRenderNode node in previewLayers)
+                {
+                    bool selected = node.path == front?.path;
+                    if ((pass == 1 && selected) || (pass == 2 && !selected)
+                        || (!selected && !ModularWeaponAssemblyRenderer.ShouldDrawNode(node))) continue;
+                    string path = node.TexturePath;
+                    Texture texture = pass == 0
+                        ? path.NullOrEmpty() ? null : ContentFinder<Texture2D>.Get(path + "_Outline", false)
+                        : node.Graphic?.MatSingle?.mainTexture;
+                    if (texture == null || node.Graphic == null) continue;
+                    float angle;
+                    Rect drawRect = PreviewPartRect(node, origin, scale, out angle);
+                    Matrix4x4 matrix = GUI.matrix;
+                    UI.RotateAroundPivot(-angle, drawRect.center);
+                    DrawTexture(drawRect, texture, node.GraphicVerticallyFlipped);
+                    GUI.matrix = matrix;
+                }
+            }
             GUI.color = previous;
         }
 
