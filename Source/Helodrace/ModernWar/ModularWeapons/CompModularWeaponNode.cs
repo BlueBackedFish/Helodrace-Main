@@ -359,7 +359,8 @@ namespace Helodrace.ModernWar
         {
             cooldownSeconds = Mathf.Max(
                 MinimumFireDelaySeconds,
-                cooldownSeconds * InstalledFireDelayMultiplier);
+                cooldownSeconds * InstalledFireDelayMultiplier
+                    * RootComp().resolvedConvertedStats.VanillaCooldownFactor);
         }
 
         public void ApplyMechanicalRpmFloor(ref float seconds)

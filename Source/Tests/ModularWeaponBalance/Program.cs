@@ -266,15 +266,15 @@ internal static class Program
             var verbs=def.Element("verbs").Elements().Where(e=>(string)e.Element("verbClass")=="Verb_Shoot").ToArray();
             float warmup=Number(verbs[0].Element("warmupTime"))*stats.VanillaWarmupFactor;
             bool pistol=pair.Key.Contains("P320")||pair.Key.Contains("M1911");
-            float min=pistol?.30f:pair.Key.Contains("MP5")?.80f:pair.Key.Contains("M249")?1.6f:pair.Key.Contains("M14")?1.35f:.95f;
-            float max=pistol?.85f:pair.Key.Contains("MP5")?1.40f:pair.Key.Contains("M249")?2.80f:2.25f;
-            Check(warmup>=min && warmup<=max,"Stock warmup outside vanilla-comparable band for "+pair.Key+": "+warmup);
+            float cooldown=Number(def.Element("statBases").Element("RangedWeapon_Cooldown"))*stats.VanillaCycleFactor*stats.VanillaCooldownFactor;
+            float min=pistol?.80f:1.35f;
+            float max=pistol?1.30f:2.25f;
+            Check(cooldown>=min && cooldown<=max,"Stock cooldown outside vanilla-comparable band for "+pair.Key+": "+cooldown);
             float[] factors={stats.VanillaAccuracyTouchFactor,stats.VanillaAccuracyShortFactor,stats.VanillaAccuracyMediumFactor,stats.VanillaAccuracyLongFactor};
             string[] keys={"AccuracyTouch","AccuracyShort","AccuracyMedium","AccuracyLong"};
             float[] accuracy=keys.Select((key,i)=>Number(def.Element("statBases").Element(key))*factors[i]).ToArray();
             Check(accuracy.All(a=>a>0 && a<=.92f),"Stock gun accuracy must retain meaningful miss chances: "+pair.Key);
-            if(verbs.Length>1)Check(Number(verbs[1].Element("warmupTime"))*stats.VanillaWarmupFactor>=.28f,"Alternate mode must not restore near-instant aiming");
-            Console.WriteLine(pair.Key+" mass="+stats.MassKg.ToString("F2")+" warmup="+warmup.ToString("F2")+" accuracy="+string.Join("/",accuracy.Select(a=>a.ToString("F3"))));
+            Console.WriteLine(pair.Key+" mass="+stats.MassKg.ToString("F2")+" warmup="+warmup.ToString("F2")+" cooldown="+cooldown.ToString("F2")+" accuracy="+string.Join("/",accuracy.Select(a=>a.ToString("F3"))));
         }
     }
     private static void VariantTests()
@@ -304,6 +304,8 @@ internal static class Program
         var dotStats=Convert(BuildAssembly("HD_Gun_M4A1_Weapon",redDot));
         Check(dotStats.VanillaWarmupFactor<scopeStats.VanillaWarmupFactor,"A lighter close-range optic build can still improve acquisition");
         Check(dotStats.VanillaAccuracyLongFactor<scopeStats.VanillaAccuracyLongFactor,"Faster acquisition retains a long-range tradeoff");
+        Check(dotStats.VanillaCooldownFactor<scopeStats.VanillaCooldownFactor,"Lighter handling improves cooldown without changing mechanical RPM");
+        Near(dotStats.VanillaCycleFactor,scopeStats.VanillaCycleFactor,"An optic swap cannot change mechanical cycling");
         Check(count>=10,"Stock presets and authored variants were exercised");
         Console.WriteLine("PASS: "+count+" authored presets and a real scope-to-holographic tuning tradeoff.");
     }

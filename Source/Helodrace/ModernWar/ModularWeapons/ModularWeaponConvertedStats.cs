@@ -49,6 +49,7 @@ namespace Helodrace.ModernWar
 
         public float VanillaWarmupFactor { get; internal set; } = 1f;
         public float VanillaCycleFactor { get; internal set; } = 1f;
+        public float VanillaCooldownFactor { get; internal set; } = 1f;
         public float VanillaAccuracyTouchFactor { get; internal set; } = 1f;
         public float VanillaAccuracyShortFactor { get; internal set; } = 1f;
         public float VanillaAccuracyMediumFactor { get; internal set; } = 1f;
@@ -234,13 +235,20 @@ namespace Helodrace.ModernWar
             };
 
             result.VanillaWarmupFactor = Mathf.Clamp(
-                1.58f
-                    - ergonomics01 * 0.40f
-                    - acquisition01 * 0.22f
-                    - handling * 0.12f
-                    + balancePenalty * 0.12f,
-                0.80f,
-                1.70f);
+                1.47f
+                    - ergonomics01 * 0.38f
+                    - acquisition01 * 0.24f
+                    - handling * 0.13f
+                    + balancePenalty * 0.18f,
+                0.62f,
+                1.55f);
+            // Recovery is affected by control and handling, independently from
+            // the mechanical cycle/RPM. Better parts can improve this baseline.
+            result.VanillaCooldownFactor = Mathf.Clamp(
+                1.32f - recoilControl * 0.18f - muzzleControl * 0.14f
+                    - ergonomics01 * 0.10f - handling * 0.10f
+                    + balancePenalty * 0.06f,
+                0.70f, 1.55f);
             result.VanillaCycleFactor = Mathf.Clamp(
                 1f + (0.97f - reliability01) * 1.8f
                     + Mathf.Max(0f, 1f - gasEfficiency) * 0.65f

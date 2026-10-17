@@ -668,20 +668,17 @@
     <value><internalStats><massKg>0.025</massKg></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationRemove"><xpath>/Defs/ThingDef[defName="HD_ModularPart_Optic_VOTechEXPS" or defName="HD_ModularPart_Magnifier_VOTechG33_Part" or defName="HD_ModularPart_Scope_LumiconTA11_Part" or defName="HD_ModularPart_Optic_PointSightT2_Part" or defName="HD_ModularPart_Optic_LumiconRMR"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/statFactors</xpath></Operation>
-  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[@Name="HD_M16FamilyBase"]/verbs/li[verbClass="Verb_Shoot"][1]/warmupTime</xpath><value><warmupTime>1.05</warmupTime></value></Operation>
-  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[@Name="HD_M16FamilyBase"]/verbs/li[verbClass="Verb_Shoot"][2]/warmupTime</xpath><value><warmupTime>0.8</warmupTime></value></Operation>
-  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M4A1_Weapon"]/verbs/li[verbClass="Verb_Shoot"][1]/warmupTime</xpath><value><warmupTime>1</warmupTime></value></Operation>
-  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M4A1_Weapon"]/verbs/li[verbClass="Verb_Shoot"][2]/warmupTime</xpath><value><warmupTime>0.8</warmupTime></value></Operation>
-  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M16A1_Weapon"]/verbs/li[verbClass="Verb_Shoot"][1]/warmupTime</xpath><value><warmupTime>1.1</warmupTime></value></Operation>
-  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M16A1_Weapon"]/verbs/li[verbClass="Verb_Shoot"][2]/warmupTime</xpath><value><warmupTime>0.85</warmupTime></value></Operation>
-  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M16A3_Weapon"]/verbs/li[verbClass="Verb_Shoot"][1]/warmupTime</xpath><value><warmupTime>1.1</warmupTime></value></Operation>
-  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M16A3_Weapon"]/verbs/li[verbClass="Verb_Shoot"][2]/warmupTime</xpath><value><warmupTime>0.85</warmupTime></value></Operation>
-  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[@Name="HD_MP5FamilyBase"]/verbs/li[verbClass="Verb_Shoot"][1]/warmupTime</xpath><value><warmupTime>0.9</warmupTime></value></Operation>
-  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[@Name="HD_ModularP320Root"]/verbs/li[verbClass="Verb_Shoot"][1]/warmupTime</xpath><value><warmupTime>0.42</warmupTime></value></Operation>
-  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M1911_Weapon"]/verbs/li[verbClass="Verb_Shoot"][1]/warmupTime</xpath><value><warmupTime>0.45</warmupTime></value></Operation>
-  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M1911_Weapon"]/verbs/li[verbClass="Verb_Shoot"][2]/warmupTime</xpath><value><warmupTime>0.35</warmupTime></value></Operation>
-  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M14_Weapon"]/verbs/li[verbClass="Verb_Shoot"][1]/warmupTime</xpath><value><warmupTime>1.35</warmupTime></value></Operation>
-  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M249_Weapon"]/verbs/li[verbClass="Verb_Shoot"][1]/warmupTime</xpath><value><warmupTime>1.45</warmupTime></value></Operation>
+  <!-- Recovery after the burst, not the mechanical interval between rounds. -->
+  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M4A1_Weapon"]/statBases/RangedWeapon_Cooldown</xpath><value><RangedWeapon_Cooldown>1.7</RangedWeapon_Cooldown></value></Operation>
+  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M16A1_Weapon"]/statBases/RangedWeapon_Cooldown</xpath><value><RangedWeapon_Cooldown>1.7</RangedWeapon_Cooldown></value></Operation>
+  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M16A2_Weapon"]/statBases/RangedWeapon_Cooldown</xpath><value><RangedWeapon_Cooldown>1.7</RangedWeapon_Cooldown></value></Operation>
+  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M16A3_Weapon"]/statBases/RangedWeapon_Cooldown</xpath><value><RangedWeapon_Cooldown>1.7</RangedWeapon_Cooldown></value></Operation>
+  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M16A4_Weapon"]/statBases/RangedWeapon_Cooldown</xpath><value><RangedWeapon_Cooldown>1.7</RangedWeapon_Cooldown></value></Operation>
+  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[@Name="HD_MP5FamilyBase"]/statBases/RangedWeapon_Cooldown</xpath><value><RangedWeapon_Cooldown>1.65</RangedWeapon_Cooldown></value></Operation>
+  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[@Name="HD_ModularP320Root"]/statBases/RangedWeapon_Cooldown</xpath><value><RangedWeapon_Cooldown>1</RangedWeapon_Cooldown></value></Operation>
+  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M1911_Weapon"]/statBases/RangedWeapon_Cooldown</xpath><value><RangedWeapon_Cooldown>1</RangedWeapon_Cooldown></value></Operation>
+  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M14_Weapon"]/statBases/RangedWeapon_Cooldown</xpath><value><RangedWeapon_Cooldown>1.6</RangedWeapon_Cooldown></value></Operation>
+  <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[defName="HD_Gun_M249_Weapon"]/statBases/RangedWeapon_Cooldown</xpath><value><RangedWeapon_Cooldown>1.6</RangedWeapon_Cooldown></value></Operation>
   <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[@Name="HD_M16FamilyBase"]/statBases/AccuracyTouch</xpath><value><AccuracyTouch>0.6</AccuracyTouch></value></Operation>
   <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[@Name="HD_M16FamilyBase"]/statBases/AccuracyShort</xpath><value><AccuracyShort>0.7</AccuracyShort></value></Operation>
   <Operation Class="PatchOperationReplace"><xpath>/Defs/ThingDef[@Name="HD_M16FamilyBase"]/statBases/AccuracyMedium</xpath><value><AccuracyMedium>0.65</AccuracyMedium></value></Operation>
