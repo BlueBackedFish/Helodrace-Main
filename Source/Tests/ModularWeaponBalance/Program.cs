@@ -48,6 +48,7 @@ internal static class Program
             BallisticAuthoringTests();
             RangeTests();
             AmmunitionCatalogTests();
+            PartStatCoverageTests();
             PartConflictTests.Run(Check);
             PlacementEditorTests.Run(Check);
             Console.WriteLine("PASS: "+checks+" modular balance checks using production sight/stat code and patched preset geometry.");
@@ -184,6 +185,34 @@ internal static class Program
         }
         Check(natoCount == 8, "M80/M80A1/M198/M948/M993/M1158/MK316/MK319 are all selectable");
         Console.WriteLine("PASS: " + count + " ammunition catalog groups and all 8 M14 7.62x51 selections, projectiles and textures.");
+    }
+    private static void PartStatCoverageTests()
+    {
+        var rootNode = Node(new CompProperties_ModularWeaponNode {isAssemblyRoot=true,
+            internalStats=new ModularWeaponInternalStats {massKg=1.5f,recoilImpulse=4.5f,muzzleRise=3.5f,
+                ergonomics=55,targetAcquisition=55,aimingPrecision=60,operatingReliability=.97f,gasFlow=1}});
+        var bare = Convert(new List<ModularRenderNode>{rootNode});
+        int count=0,muzzles=0;
+        foreach(var pair in definitions)
+        {
+            if(pair.Value.Name.LocalName!="ThingDef") continue;
+            var xml=Resolve(pair.Value);
+            var comp=xml.Element("comps")?.Elements().FirstOrDefault(e=>(string)e.Attribute("Class")==CompClass);
+            if(comp==null || ((string)comp.Element("isAssemblyRoot")!="true" && comp.Element("mounts")?.Elements().Any()!=true)) continue;
+            var props=Properties(xml);count++;
+            bool effect=typeof(ModularWeaponInternalStats).GetFields().Any(f=>f.Name!="massKg" && Math.Abs((float)f.GetValue(props.internalStats))>.00001f);
+            Check(effect || props.sight!=null || !string.IsNullOrEmpty((string)comp.Element("projectileOverride"))
+                || pair.Key=="HD_ModularPart_MagazineWrap_StanagTapeBlue", "Unexplained mass-only part: "+pair.Key);
+            if(!pair.Key.Contains("_Muzzle_") && !pair.Key.Contains("_Suppressor_"))continue;
+            var part=Node(props);part.transform=new ModularTransform2D {position=new Vector2(.4f,0),scale=Vector2.one};
+            var fitted=Convert(new List<ModularRenderNode>{rootNode,part});
+            Check(fitted.RecoilControl>bare.RecoilControl && fitted.MuzzleControl>bare.MuzzleControl,"Muzzle attachment improves both control scores: "+pair.Key);
+            Check(fitted.VanillaCooldownFactor<bare.VanillaCooldownFactor-.001f,"Muzzle attachment improves recovery despite added weight: "+pair.Key);
+            Check(fitted.CERecoil<bare.CERecoil && fitted.MassKg>bare.MassKg,"CE recoil benefit and physical weight remain: "+pair.Key);
+            muzzles++;
+        }
+        Check(muzzles==11,"Every muzzle/suppressor definition was tested");
+        Console.WriteLine("PASS: "+count+" usable parts/roots have stats; all "+muzzles+" muzzle parts outperform a bare muzzle in control/recovery.");
     }
     private static float Palette(XElement def)
     {

@@ -37,15 +37,15 @@
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_Muzzle_HACNT4_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.09</massKg><ergonomics>-1</ergonomics><recoilImpulse>-0.25</recoilImpulse><muzzleRise>-0.3</muzzleRise></internalStats></value>
+    <value><internalStats><massKg>0.09</massKg><ergonomics>-1</ergonomics><recoilImpulse>-0.8</recoilImpulse><muzzleRise>-1</muzzleRise></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_Suppressor_BrightStrike4Prong"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.42</massKg><ergonomics>-5</ergonomics><recoilImpulse>-0.2</recoilImpulse><muzzleRise>-0.3</muzzleRise><targetAcquisition>-2</targetAcquisition><momentOfInertia>0.007</momentOfInertia></internalStats></value>
+    <value><internalStats><massKg>0.42</massKg><ergonomics>-5</ergonomics><recoilImpulse>-2</recoilImpulse><muzzleRise>-2.1</muzzleRise><targetAcquisition>-2</targetAcquisition><momentOfInertia>0.007</momentOfInertia></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_Muzzle_BrightStrikeSF3P762_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.09</massKg><ergonomics>-0.5</ergonomics><muzzleRise>-0.1</muzzleRise></internalStats></value>
+    <value><internalStats><massKg>0.09</massKg><ergonomics>-0.5</ergonomics><muzzleRise>-1</muzzleRise><recoilImpulse>-0.8</recoilImpulse></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_Handguard_HACRISFDE"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
@@ -177,19 +177,19 @@
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_Muzzle_M14_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.09</massKg><ergonomics>-0.5</ergonomics><muzzleRise>-0.1</muzzleRise></internalStats></value>
+    <value><internalStats><massKg>0.09</massKg><ergonomics>-0.5</ergonomics><muzzleRise>-1</muzzleRise><recoilImpulse>-0.8</recoilImpulse></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_Muzzle_SEI2000V"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.1</massKg><ergonomics>-1</ergonomics><recoilImpulse>-0.3</recoilImpulse><muzzleRise>-0.35</muzzleRise></internalStats></value>
+    <value><internalStats><massKg>0.1</massKg><ergonomics>-1</ergonomics><recoilImpulse>-1.2</recoilImpulse><muzzleRise>-1.4</muzzleRise></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_Muzzle_Socom16_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.1</massKg><ergonomics>-1</ergonomics><recoilImpulse>-0.3</recoilImpulse><muzzleRise>-0.35</muzzleRise></internalStats></value>
+    <value><internalStats><massKg>0.1</massKg><ergonomics>-1</ergonomics><recoilImpulse>-1.2</recoilImpulse><muzzleRise>-1.4</muzzleRise></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_Muzzle_Socom16Thread"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.035</massKg><ergonomics>-0.25</ergonomics></internalStats></value>
+    <value><internalStats><massKg>0.035</massKg><ergonomics>-0.25</ergonomics><recoilImpulse>-0.25</recoilImpulse><muzzleRise>-0.35</muzzleRise></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_Magazine_M1420_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
@@ -293,7 +293,7 @@
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_Muzzle_M16A1_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.09</massKg><ergonomics>-0.5</ergonomics><muzzleRise>-0.1</muzzleRise></internalStats></value>
+    <value><internalStats><massKg>0.09</massKg><ergonomics>-0.5</ergonomics><muzzleRise>-1</muzzleRise><recoilImpulse>-0.8</recoilImpulse></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_Magazine_STANAG20_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
@@ -441,7 +441,7 @@
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_Suppressor_MP5SD"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.35</massKg><ergonomics>-4</ergonomics><recoilImpulse>-0.15</recoilImpulse><muzzleRise>-0.25</muzzleRise><targetAcquisition>-1</targetAcquisition><momentOfInertia>0.005</momentOfInertia></internalStats></value>
+    <value><internalStats><massKg>0.35</massKg><ergonomics>-4</ergonomics><recoilImpulse>-2</recoilImpulse><muzzleRise>-2.1</muzzleRise><targetAcquisition>-1</targetAcquisition><momentOfInertia>0.005</momentOfInertia></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_FrontSight_MP5_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
@@ -553,11 +553,11 @@
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_Muzzle_9mmThreadProtector"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.012</massKg></internalStats></value>
+    <value><internalStats><massKg>0.012</massKg><recoilImpulse>-0.3</recoilImpulse><muzzleRise>-0.4</muzzleRise></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_Suppressor_HelveticSRD9_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.36</massKg><ergonomics>-4</ergonomics><recoilImpulse>-0.2</recoilImpulse><muzzleRise>-0.3</muzzleRise><targetAcquisition>-2</targetAcquisition><momentOfInertia>0.006</momentOfInertia></internalStats></value>
+    <value><internalStats><massKg>0.36</massKg><ergonomics>-4</ergonomics><recoilImpulse>-2</recoilImpulse><muzzleRise>-2.1</muzzleRise><targetAcquisition>-2</targetAcquisition><momentOfInertia>0.006</momentOfInertia></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_FrontMagazine_P32017_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
