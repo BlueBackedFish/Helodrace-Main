@@ -50,19 +50,18 @@ internal static class SocketLayoutTests
             || ModularWeaponSocketLayout.Fraction(new Vector2(900, -700), start, end) != 1
             || ModularWeaponSocketLayout.Fraction(middle, start, start) != 0.5f)
             throw new Exception("Rail endpoint clamping and zero-length rails must be safe.");
-        foreach (var area in new[] { new Rect(325, 120, 700, 200), new Rect(10, 20, 180, 100),
-            new Rect(0, 0, 40, 25) })
+        foreach (float zoom in new[] { 0.25f, 1f, 3f, 8f })
             foreach (var shift in new[] { Vector2.zero, new Vector2(-500, -500), new Vector2(2000, 2000) })
             {
-                Rect slider = ModularWeaponSocketLayout.FloatingSlider(area,
-                    area.center + shift, new Vector2(area.center.x + 50, area.center.y) + shift);
-                if (slider.xMin < area.xMin || slider.yMin < area.yMin
-                    || slider.xMax > area.xMax + 0.001f || slider.yMax > area.yMax + 0.001f)
-                    throw new Exception("Floating rail sliders must remain inside the camera area after zoom/pan.");
+                var slider = ModularWeaponSocketLayout.FloatingSlider(start * zoom + shift, end * zoom + shift);
+                float expected = (float)Math.Sqrt(200f * 200f + 100f * 100f) * zoom;
+                if (Math.Abs(slider.Rect.width - expected) > 0.001f || slider.Rect.height != 16f
+                    || !slider.Contains((slider.Start + slider.End) * 0.5f)
+                    || slider.Contains((slider.Start + slider.End) * 0.5f + new Vector2(0, 100)))
+                    throw new Exception("The slider must match projected rail length at every zoom, retain its thickness and follow rotated rails.");
             }
-        var above = ModularWeaponSocketLayout.FloatingSlider(new Rect(0, 0, 600, 300),
-            new Vector2(100, 200), new Vector2(500, 180));
-        if (above.yMax >= 180 || Math.Abs(above.center.x - 300f) > 0.001f || above.height != 16f)
+        var above = ModularWeaponSocketLayout.FloatingSlider(new Vector2(100, 200), new Vector2(500, 200));
+        if (above.Rect.yMax >= 200 || Math.Abs(above.Rect.center.x - 300f) > 0.001f || above.Rect.width != 400f)
             throw new Exception("Only the slider should appear, centered above the parent rail.");
         var original = new Rect(25, 80, 172, 56);
         var followed = ModularWeaponSocketLayout.Follow(original, new Vector2(1000, -500));

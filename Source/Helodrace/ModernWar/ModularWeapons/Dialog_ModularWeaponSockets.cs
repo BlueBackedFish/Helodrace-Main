@@ -23,8 +23,6 @@ namespace Helodrace.ModernWar
         private ModularRenderNode socketOwner;
         private ModularRenderNode activeRailPart, activeRailOwner;
         private ModularAttachmentSocket activeRailSocket;
-        private Rect? draggedRailSlider;
-        private int draggedRailPart = -1;
         private int socketPage;
         private int socketPages = 1;
         private ModularWeaponSocketLayout.Layout socketLayout;
@@ -136,7 +134,7 @@ namespace Helodrace.ModernWar
         private bool PointerOverSocketCard(Rect rect)
         {
             return Mouse.IsOver(PreviewArea(rect)) && (socketCards.Any(card => card.Rect.width > 0f && Mouse.IsOver(card.Rect))
-                || (activeRailSocket != null && Mouse.IsOver(FloatingRailSliderRect(rect))))
+                || (FloatingRailSliderGeometry(rect)?.Contains(Event.current.mousePosition) == true))
                 || (socketPages > 1 && Mouse.IsOver(SocketPageControls(rect)));
         }
 
@@ -364,14 +362,12 @@ namespace Helodrace.ModernWar
             previewCamera.Move(area.center - center);
         }
 
-        private Rect FloatingRailSliderRect(Rect preview)
+        private ModularWeaponSocketLayout.RailSlider FloatingRailSliderGeometry(Rect preview)
         {
-            if (activeRailSocket == null) return default(Rect);
-            if (draggedRailSlider.HasValue && draggedRailPart == activeRailPart.thing.thingIDNumber
-                && GUIUtility.hotControl != 0) return draggedRailSlider.Value;
+            if (activeRailSocket == null) return null;
             Vector2 start, end;
             RailScreenPoints(preview, activeRailOwner, activeRailSocket, out start, out end);
-            return ModularWeaponSocketLayout.FloatingSlider(PreviewCameraArea(preview), start, end);
+            return ModularWeaponSocketLayout.FloatingSlider(start, end);
         }
 
         private void DrawFloatingRailSlider(Rect preview)
@@ -385,19 +381,20 @@ namespace Helodrace.ModernWar
             float half = Mathf.Max(0f, (activeRailSocket.railLength
                 - (mount?.EffectiveRailContactLength ?? 0f) * ratio) * 0.5f);
             float old = owner.RailOffsetAt(index);
-            Rect panel = FloatingRailSliderRect(preview);
-            TooltipHandler.TipRegion(panel, activeRailPart.thing.LabelCap + "\n"
-                + "HD_ModularWeapon_RailOffset".Translate(old.ToString("0.###", CultureInfo.InvariantCulture)));
-            int controlBefore = GUIUtility.hotControl;
-            float value = half <= 0f ? 0f : Widgets.HorizontalSlider(
-                panel, old, -half, half, true);
-            if (GUIUtility.hotControl != 0 && GUIUtility.hotControl != controlBefore)
-            {
-                // Keep the control still while its part moves and the weapon bounds change.
-                draggedRailSlider = panel;
-                draggedRailPart = activeRailPart.thing.thingIDNumber;
-            }
-            else if (GUIUtility.hotControl == 0) draggedRailSlider = null;
+            var slider = FloatingRailSliderGeometry(preview);
+            if (slider == null || slider.Rect.width < 0.001f) return;
+            if (slider.Contains(Event.current.mousePosition))
+                TooltipHandler.TipRegion(new Rect(Event.current.mousePosition.x - 2f,
+                    Event.current.mousePosition.y - 2f, 4f, 4f), activeRailPart.thing.LabelCap + "\n"
+                    + "HD_ModularWeapon_RailOffset".Translate(old.ToString("0.###", CultureInfo.InvariantCulture)));
+            Rect area = PreviewArea(preview);
+            Rect panel = ModularWeaponSocketLayout.Follow(slider.Rect, area.position * -1f);
+            GUI.BeginGroup(area);
+            Matrix4x4 matrix = GUI.matrix;
+            UI.RotateAroundPivot(slider.Angle, panel.center);
+            float value = half <= 0f ? 0f : Widgets.HorizontalSlider(panel, old, -half, half, true);
+            GUI.matrix = matrix;
+            GUI.EndGroup();
             if (Mathf.Approximately(old, value)) return;
             string reason;
             if (owner.TrySetRailOffset(index, value, out reason))

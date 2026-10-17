@@ -41,13 +41,23 @@ namespace Helodrace.ModernWar
         public static Rect Follow(Rect box, Vector2 offset)
             => new Rect(box.x + offset.x, box.y + offset.y, box.width, box.height);
 
-        public static Rect FloatingSlider(Rect area, Vector2 start, Vector2 end)
+        public sealed class RailSlider
         {
-            float width = Math.Min(240f, Math.Max(1f, area.width - 8f));
-            float height = Math.Min(16f, Math.Max(1f, area.height));
-            float x = Math.Max(area.x, Math.Min(area.xMax - width, (start.x + end.x - width) * 0.5f));
-            float y = Math.Max(area.y, Math.Min(area.yMax - height, Math.Min(start.y, end.y) - height - 12f));
-            return new Rect(x, y, width, height);
+            public Rect Rect;
+            public float Angle;
+            public Vector2 Start, End;
+            public bool Contains(Vector2 point) => Rect.width > 0f && Distance(point, Start, End) <= 12f;
+        }
+
+        public static RailSlider FloatingSlider(Vector2 start, Vector2 end)
+        {
+            float dx = end.x - start.x, dy = end.y - start.y;
+            float length = (float)Math.Sqrt(dx * dx + dy * dy);
+            Vector2 offset = length < 0.001f ? Vector2.zero : new Vector2(dy / length, -dx / length) * 20f;
+            if (offset.y > 0f) offset = offset * -1f;
+            Vector2 center = (start + end) * 0.5f + offset;
+            return new RailSlider { Rect = new Rect(center.x - length * 0.5f, center.y - 8f, length, 16f),
+                Angle = (float)(Math.Atan2(dy, dx) * 180.0 / Math.PI), Start = start + offset, End = end + offset };
         }
 
         public static float Fraction(Vector2 point, Vector2 start, Vector2 end)
