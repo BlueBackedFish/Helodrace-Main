@@ -36,6 +36,15 @@ namespace Helodrace.ModernWar
             return current - fitted;
         }
 
+        public Rect BoundsAtFit(Rect area)
+        {
+            Rect bounds = contentBounds ?? new Rect(-0.5f, -0.5f, 1f, 1f);
+            float scale = ScaleFor(area) / Zoom;
+            Vector2 origin = area.center - CenterOffset(area) / Zoom;
+            return new Rect(origin.x + bounds.xMin * scale, origin.y - bounds.yMax * scale,
+                bounds.width * scale, bounds.height * scale);
+        }
+
         public void SetBounds(Rect bounds) => contentBounds = bounds;
 
         public void ZoomAt(Rect area, float zoom, Vector2 pointer)

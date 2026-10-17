@@ -112,6 +112,7 @@ namespace Helodrace.ModernWar
                 if (outline != null) IncludePreviewBounds(node, outline, ref bounds, ref found);
             }
             previewCamera.SetBounds(found ? bounds : new Rect(-0.5f, -0.5f, 1f, 1f));
+            socketLayoutSnapshot = null;
             previewNeedsFit = false;
         }
 

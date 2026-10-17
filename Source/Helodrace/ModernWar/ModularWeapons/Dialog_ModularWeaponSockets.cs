@@ -26,6 +26,9 @@ namespace Helodrace.ModernWar
         private int socketPage;
         private int socketPages = 1;
         private ModularWeaponSocketLayout.Layout socketLayout;
+        private List<ModularRenderNode> socketLayoutSnapshot;
+        private string socketLayoutOwner, socketLayoutGroup;
+        private Rect socketLayoutArea;
         private int revealSocketAttachment = -1;
         private float? preferredRailOffset;
         private string preferredRailOwner, preferredRailSocket;
@@ -38,6 +41,9 @@ namespace Helodrace.ModernWar
             if (socketCards.Count > 0)
             {
                 bool twoRows = area.height >= 200f;
+                float side = Mathf.Min(32f, area.width * 0.08f);
+                area.xMin += side;
+                area.xMax -= side;
                 area.yMin += ModularWeaponSocketLayout.CardHeight + 8f;
                 if (twoRows) area.yMax -= ModularWeaponSocketLayout.CardHeight + 8f;
             }
@@ -74,7 +80,28 @@ namespace Helodrace.ModernWar
                     socketCards.Add(new SocketCard { Socket = socket, Child = child });
             }
             Rect area = PreviewArea(rect);
-            socketLayout = ModularWeaponSocketLayout.Arrange(area, socketCards.Select(card => card.Compact).ToList());
+            Rect cameraArea = PreviewCameraArea(rect);
+            Vector2 origin = previewCamera.OriginFor(cameraArea);
+            float scale = previewCamera.ScaleFor(cameraArea);
+            var fitAnchors = new List<Vector2>();
+            foreach (var card in socketCards)
+            {
+                Vector3 local = card.Socket.transform?.position ?? Vector3.zero;
+                if (card.Child?.attachedToRail == true) local.x += card.Child.railOffset;
+                Vector2 point = RealtimeSocketPoint(owner, local);
+                card.Anchor = WorldToGui(point, origin, scale);
+                fitAnchors.Add(card.Anchor - previewCamera.OffsetFromFit(cameraArea, point));
+            }
+            if (!ReferenceEquals(socketLayoutSnapshot, snapshot) || socketLayoutOwner != owner.path
+                || socketLayoutGroup != activePreviewGroup?.Key || socketLayoutArea != area)
+            {
+                socketLayout = ModularWeaponSocketLayout.Arrange(area,
+                    socketCards.Select(card => card.Compact).ToList(), fitAnchors, previewCamera.BoundsAtFit(cameraArea));
+                socketLayoutSnapshot = snapshot;
+                socketLayoutOwner = owner.path;
+                socketLayoutGroup = activePreviewGroup?.Key;
+                socketLayoutArea = area;
+            }
             socketPages = socketLayout.PageCount;
             if (revealSocketAttachment >= 0)
             {
@@ -86,9 +113,6 @@ namespace Helodrace.ModernWar
                 }
             }
             socketPage = Mathf.Clamp(socketPage, 0, socketPages - 1);
-            Rect cameraArea = PreviewCameraArea(rect);
-            Vector2 origin = previewCamera.OriginFor(cameraArea);
-            float scale = previewCamera.ScaleFor(cameraArea);
             Vector2 ownerCenter;
             float ownerAngle;
             ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(root, owner, false, out ownerCenter, out ownerAngle);
@@ -96,9 +120,6 @@ namespace Helodrace.ModernWar
             for (int i = 0; i < socketCards.Count; i++)
             {
                 var card = socketCards[i];
-                Vector3 local = card.Socket.transform?.position ?? Vector3.zero;
-                if (card.Child?.attachedToRail == true) local.x += card.Child.railOffset;
-                card.Anchor = WorldToGui(RealtimeSocketPoint(owner, local), origin, scale);
                 card.Rect = socketLayout.PageFor(i) == socketPage
                     ? ModularWeaponSocketLayout.Follow(socketLayout.Rects[i], boxOffset) : default(Rect);
                 if (card.Rect.width > 0f && Mouse.IsOver(area) && Mouse.IsOver(card.Rect))

@@ -14,7 +14,12 @@ internal static class SocketLayoutTests
             {
                 var compact = Enumerable.Range(0, count)
                     .Select(index => mode == 1 || (mode == 2 && index % 2 == 0)).ToList();
-                var layout = ModularWeaponSocketLayout.Arrange(area, compact);
+                var anchors = Enumerable.Range(0, count).Select(index => area.center + new Vector2(
+                    (float)Math.Cos(index * 2.399963) * area.width * 0.25f,
+                    (float)Math.Sin(index * 2.399963) * area.height * 0.15f)).ToList();
+                var weapon = new Rect(area.x + area.width * 0.25f, area.y + area.height * 0.4f,
+                    area.width * 0.5f, area.height * 0.2f);
+                var layout = ModularWeaponSocketLayout.Arrange(area, compact, anchors, weapon);
                 int found = 0;
                 int pages = layout.PageCount;
                 for (int page = 0; page < pages; page++)
@@ -40,6 +45,19 @@ internal static class SocketLayoutTests
                 }
                 if (found != count) throw new Exception("Pagination hides or duplicates socket boxes.");
             }
+        var distributed = ModularWeaponSocketLayout.Arrange(new Rect(0, 0, 700, 360),
+            new[] { false, true, false, true, true, false },
+            new[] { new Vector2(180, 160), new Vector2(300, 130), new Vector2(500, 175),
+                new Vector2(350, 220), new Vector2(420, 190), new Vector2(260, 180) }, new Rect(175, 135, 350, 90));
+        if (distributed.Rects.Select(box => (int)box.center.y).Distinct().Count() < 3)
+            throw new Exception("Callouts must fan around their socket anchors instead of forming two fixed rows.");
+        var repeated = ModularWeaponSocketLayout.Arrange(new Rect(0, 0, 700, 360),
+            new[] { false, true, false, true, true, false },
+            new[] { new Vector2(180, 160), new Vector2(300, 130), new Vector2(500, 175),
+                new Vector2(350, 220), new Vector2(420, 190), new Vector2(260, 180) }, new Rect(175, 135, 350, 90));
+        for (int i = 0; i < repeated.Rects.Count; i++)
+            if (repeated.Rects[i].x != distributed.Rects[i].x || repeated.Rects[i].y != distributed.Rects[i].y)
+                throw new Exception("Unchanged callouts must retain deterministic positions.");
         var start = new Vector2(100, 200);
         var end = new Vector2(300, 100);
         var middle = new Vector2(200, 150);
@@ -67,6 +85,6 @@ internal static class SocketLayoutTests
         var followed = ModularWeaponSocketLayout.Follow(original, new Vector2(1000, -500));
         if (followed.x != 1025 || followed.y != -420 || followed.width != 172 || followed.height != 56)
             throw new Exception("Boxes must follow the weapon without screen-edge clamping or changing their readable size.");
-        Console.WriteLine("PASS: mixed fixed/rail boxes, pagination, camera-following boxes, rail projection and parent-centered bare sliders.");
+        Console.WriteLine("PASS: distributed mixed callouts, non-overlap, deterministic pagination, camera following and rail-length sliders.");
     }
 }
