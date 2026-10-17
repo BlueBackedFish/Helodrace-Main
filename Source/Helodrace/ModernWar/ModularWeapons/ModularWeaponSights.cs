@@ -26,6 +26,7 @@ namespace Helodrace.ModernWar
         public Thing magnifier;
         public ModularSightKind? primaryKind;
         public readonly List<Thing> members = new List<Thing>();
+        public ModularWeaponSightPerformance performance;
     }
 
     internal sealed class ModularSightResolution
@@ -34,6 +35,7 @@ namespace Helodrace.ModernWar
             new List<ModularSightGroupStatus>();
         public readonly Dictionary<int, float> performanceWeights =
             new Dictionary<int, float>();
+        public ModularWeaponSightPerformance performance = new ModularWeaponSightPerformance();
     }
 
     internal static class ModularWeaponSightResolver
@@ -106,13 +108,28 @@ namespace Helodrace.ModernWar
                 sights,
                 Mathf.Max(0.0001f, root.Props.sightGroupHeightTolerance));
             List<Candidate> winners = new List<Candidate>();
+            bool hasPerformance = false;
 
             for (int i = 0; i < groups.Count; i++)
             {
                 SightGroup group = groups[i];
                 Candidate winner = BestCandidate(group, occupancies);
                 winners.Add(winner);
-                result.groups.Add(BuildStatus(i, group, winner));
+                ModularSightGroupStatus status = BuildStatus(i, group, winner);
+                result.groups.Add(status);
+                if (winner == null || winner.efficiency <= 0f) continue;
+                float efficiency = winner.efficiency;
+                if (winner.primary?.mountSurface == ModularRailSurface.Side) efficiency *= 0.5f;
+                status.performance = ModularWeaponSightPerformance.For(
+                    winner.Kind, winner.magnifier != null, efficiency);
+                if (!hasPerformance)
+                {
+                    // Do not let the unscoped fallback erase a scope's penalties.
+                    result.performance = ModularWeaponSightPerformance.For(
+                        winner.Kind, winner.magnifier != null, efficiency);
+                    hasPerformance = true;
+                }
+                else result.performance.TakeBest(status.performance);
             }
 
             int activeIndex = -1;
@@ -403,6 +420,9 @@ namespace Helodrace.ModernWar
             SightGroup group,
             Candidate winner)
         {
+            bool hasIronSet = group.records.Any(
+                r => IsUsable(r)
+                    && r.props.kind == ModularSightKind.IronSet);
             bool hasFront = group.records.Any(
                 r => IsUsable(r)
                     && r.props.kind == ModularSightKind.IronFront);
@@ -429,10 +449,10 @@ namespace Helodrace.ModernWar
                 axisHeight = group.AxisHeight,
                 sightCount = group.records.Count,
                 belowWeaponSightCount = group.records.Count(r => !IsUsable(r)),
-                hasIronFront = hasFront,
-                hasIronRear = hasRear,
-                hasCompleteIronSight = hasFront && hasRear && ironOrder,
-                ironOrderValid = ironOrder,
+                hasIronFront = hasFront || hasIronSet,
+                hasIronRear = hasRear || hasIronSet,
+                hasCompleteIronSight = hasIronSet || (hasFront && hasRear && ironOrder),
+                ironOrderValid = hasIronSet || ironOrder,
                 hasMagnifier = group.records.Any(
                     r => IsUsable(r)
                         && r.props.kind == ModularSightKind.Magnifier)

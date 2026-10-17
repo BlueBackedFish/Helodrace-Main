@@ -58,7 +58,7 @@ namespace Helodrace.ModernWar
                 if (node?.thing == null || node.Props == null) continue;
                 ModularRailSurface surface = MountSurface(node, nodes);
                 float weight = 1f;
-                if (node.Props.sight != null)
+                if (node.Props.sight != null && !node.Props.sight.integrated)
                 {
                     if (sightWeights == null || !sightWeights.TryGetValue(
                         node.thing.thingIDNumber, out weight)) weight = 0f;

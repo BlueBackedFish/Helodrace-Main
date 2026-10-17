@@ -141,7 +141,10 @@ namespace Helodrace.ModernWar
         Holographic,
         Reflex,
         Scope,
-        Magnifier
+        Magnifier,
+        LowPowerVariableOptic,
+        FireControl,
+        IronSet
     }
 
     /// <summary>
@@ -155,6 +158,8 @@ namespace Helodrace.ModernWar
         public Vector3 axisOffset = Vector3.zero;
         public float aimRadius = 0.015f;
         public float selectionPriority = 10f;
+        // Built-in irons share a mechanical part (barrel, receiver, slide).
+        public bool integrated;
     }
 
     /// <summary>

@@ -82,7 +82,8 @@ namespace Helodrace.ModernWar
             CompModularWeaponNode root,
             List<ModularRenderNode> nodes,
             Dictionary<int, float> performanceWeights,
-            float gasTubeFlowSetting)
+            float gasTubeFlowSetting,
+            ModularSightResolution sights = null)
         {
             Aggregate aggregate = new Aggregate();
             if (nodes == null || nodes.Count == 0)
@@ -120,6 +121,10 @@ namespace Helodrace.ModernWar
                     && performanceWeights.TryGetValue(
                         thing.thingIDNumber, out float resolvedWeight)
                     ? resolvedWeight : 1f;
+                // Sight benefits are resolved once per complete optical group.
+                // Every installed optic still carries its mass/handling costs.
+                bool opticalAccessory = props.sight != null && !props.sight.integrated;
+                if (opticalAccessory) performanceWeight = 1f;
 
                 aggregate.recoil += authored.recoilImpulse * performanceWeight;
                 aggregate.ergonomics += authored.ergonomics * performanceWeight;
@@ -127,10 +132,13 @@ namespace Helodrace.ModernWar
                 aggregate.reliability += authored.operatingReliability * performanceWeight;
                 aggregate.gasFlow += authored.gasFlow * performanceWeight;
                 aggregate.localInertia += Mathf.Max(0f, authored.momentOfInertia);
-                aggregate.targetAcquisition += authored.targetAcquisition * performanceWeight;
-                aggregate.aimingPrecision += authored.aimingPrecision * performanceWeight;
-                aggregate.identificationMeters += authored.identificationDistanceMeters
-                    * performanceWeight;
+                if (!opticalAccessory)
+                {
+                    aggregate.targetAcquisition += authored.targetAcquisition * performanceWeight;
+                    aggregate.aimingPrecision += authored.aimingPrecision * performanceWeight;
+                    aggregate.identificationMeters += authored.identificationDistanceMeters
+                        * performanceWeight;
+                }
             }
 
             float center = aggregate.mass > 0.0001f
@@ -226,13 +234,13 @@ namespace Helodrace.ModernWar
             };
 
             result.VanillaWarmupFactor = Mathf.Clamp(
-                1.47f
-                    - ergonomics01 * 0.38f
-                    - acquisition01 * 0.24f
-                    - handling * 0.13f
-                    + balancePenalty * 0.18f,
-                0.62f,
-                1.55f);
+                1.58f
+                    - ergonomics01 * 0.40f
+                    - acquisition01 * 0.22f
+                    - handling * 0.12f
+                    + balancePenalty * 0.12f,
+                0.80f,
+                1.70f);
             result.VanillaCycleFactor = Mathf.Clamp(
                 1f + (0.97f - reliability01) * 1.8f
                     + Mathf.Max(0f, 1f - gasEfficiency) * 0.65f
@@ -240,25 +248,31 @@ namespace Helodrace.ModernWar
                 0.78f,
                 1.55f);
             result.VanillaAccuracyTouchFactor = Mathf.Clamp(
-                0.76f + muzzleControl * 0.22f + recoilControl * 0.18f,
-                0.65f,
-                1.22f);
+                0.78f + muzzleControl * 0.16f + recoilControl * 0.12f,
+                0.70f,
+                1.08f);
             result.VanillaAccuracyShortFactor = Mathf.Clamp(
-                0.72f + precision01 * 0.25f + recoilControl * 0.14f
-                    + handling * 0.08f,
-                0.62f,
-                1.24f);
+                0.78f + precision01 * 0.18f + recoilControl * 0.10f
+                    + handling * 0.05f,
+                0.70f,
+                1.08f);
             result.VanillaAccuracyMediumFactor = Mathf.Clamp(
-                0.67f + precision01 * 0.34f + handling * 0.08f
-                    + acquisition01 * 0.07f,
-                0.58f,
-                1.28f);
-            float identificationFactor = Mathf.Clamp(identificationCells / 30f, 0.65f, 1.35f);
+                0.77f + precision01 * 0.23f + handling * 0.04f
+                    + acquisition01 * 0.04f,
+                0.65f,
+                1.08f);
             result.VanillaAccuracyLongFactor = Mathf.Clamp(
-                (0.60f + precision01 * 0.38f + handling * 0.07f)
-                    * identificationFactor,
-                0.52f,
-                1.35f);
+                0.75f + precision01 * 0.25f + handling * 0.04f,
+                0.60f,
+                1.08f);
+
+            ModularWeaponSightPerformance sightPerformance =
+                (sights ?? ModularWeaponSightResolver.Resolve(root, nodes)).performance;
+            result.VanillaWarmupFactor *= sightPerformance.Warmup;
+            result.VanillaAccuracyTouchFactor *= sightPerformance.Touch;
+            result.VanillaAccuracyShortFactor *= sightPerformance.Short;
+            result.VanillaAccuracyMediumFactor *= sightPerformance.Medium;
+            result.VanillaAccuracyLongFactor *= sightPerformance.Long;
 
             // CE-ready values are generated now but applied only by the CE
             // compatibility assembly, avoiding any hard dependency here.

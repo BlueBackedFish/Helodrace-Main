@@ -574,7 +574,8 @@ namespace Helodrace.ModernWar
                 this,
                 nodes,
                 resolvedPartPerformanceWeights,
-                activeGasSetting);
+                activeGasSetting,
+                sightResolution);
             for (int i = 0; i < nodes.Count; i++)
             {
                 CompProperties_ModularWeaponNode nodeProps = nodes[i].Props;
@@ -586,7 +587,7 @@ namespace Helodrace.ModernWar
                         nodes[i].thing.thingIDNumber, out performanceWeight)
                     && performanceWeight > 0f;
 
-                if (applyStatModifiers && !nodeProps.statOffsets.NullOrEmpty())
+                if (applyStatModifiers && (nodeProps.sight == null || nodeProps.sight.integrated) && !nodeProps.statOffsets.NullOrEmpty())
                 {
                     for (int j = 0; j < nodeProps.statOffsets.Count; j++)
                     {
@@ -599,7 +600,7 @@ namespace Helodrace.ModernWar
                     }
                 }
 
-                if (applyStatModifiers && !nodeProps.statFactors.NullOrEmpty())
+                if (applyStatModifiers && (nodeProps.sight == null || nodeProps.sight.integrated) && !nodeProps.statFactors.NullOrEmpty())
                 {
                     for (int j = 0; j < nodeProps.statFactors.Count; j++)
                     {
