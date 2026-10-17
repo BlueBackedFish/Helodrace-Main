@@ -25,6 +25,7 @@ namespace Helodrace.ModernWar
         public Thing primary;
         public Thing magnifier;
         public ModularSightKind? primaryKind;
+        public readonly List<Thing> members = new List<Thing>();
     }
 
     internal sealed class ModularSightResolution
@@ -436,6 +437,7 @@ namespace Helodrace.ModernWar
                     r => IsUsable(r)
                         && r.props.kind == ModularSightKind.Magnifier)
             };
+            status.members.AddRange(group.records.Select(record => record.node.thing));
             if (winner == null) return status;
             status.primary = winner.primary?.node.thing;
             status.primaryKind = winner.Kind;

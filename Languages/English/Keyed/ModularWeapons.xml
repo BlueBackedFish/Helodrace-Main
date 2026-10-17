@@ -14,6 +14,15 @@
   <HD_ModularWeapon_InternalPart>Internal / normally hidden</HD_ModularWeapon_InternalPart>
   <HD_ModularWeapon_ResetView>Reset view</HD_ModularWeapon_ResetView>
   <HD_ModularWeapon_OpenPartImage>Hover to enlarge the part image, including its outline. Click to open a separate image window with zoom and pan.</HD_ModularWeapon_OpenPartImage>
+  <HD_ModularWeapon_ViewGroup>View: {0} ▾</HD_ModularWeapon_ViewGroup>
+  <HD_ModularWeapon_GroupAll>Entire assembly</HD_ModularWeapon_GroupAll>
+  <HD_ModularWeapon_GroupMain>Main weapon</HD_ModularWeapon_GroupMain>
+  <HD_ModularWeapon_GroupAllSights>All sights</HD_ModularWeapon_GroupAllSights>
+  <HD_ModularWeapon_GroupSight>Sight group {0} · {1}</HD_ModularWeapon_GroupSight>
+  <HD_ModularWeapon_GroupAttached>Attached weapon · {0}</HD_ModularWeapon_GroupAttached>
+  <HD_ModularWeapon_GroupViewHint>{0} parts · Only the selected group's parts are shown.</HD_ModularWeapon_GroupViewHint>
+  <HD_ModularWeapon_GroupMenuHint>View the entire assembly, sights sharing an optical axis, or an independently attached weapon. Each group fits the preview automatically; the tree retains its parent paths.</HD_ModularWeapon_GroupMenuHint>
+  <HD_ModularWeapon_GroupContext>Parent structure. Select this part to return to the entire assembly.</HD_ModularWeapon_GroupContext>
   <HD_ModularWeapon_ZoomHint>Mouse wheel: zoom at the pointer (25–800%). Middle mouse drag: pan. Reset view: restore zoom and position.</HD_ModularWeapon_ZoomHint>
   <HD_ModularWeapon_AssemblyRoot>Assembly root</HD_ModularWeapon_AssemblyRoot>
   <HD_ModularWeapon_AttachedParts>Parts attached here</HD_ModularWeapon_AttachedParts>

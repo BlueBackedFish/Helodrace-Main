@@ -61,6 +61,7 @@ namespace Helodrace.ModernWar
             if (SynchronizeCEAmmunitionToChamber(snapshot))
                 snapshot = root.RenderSnapshot();
             EnsureNavigation(snapshot);
+            EnsurePreviewGroups(snapshot);
             ModularRenderNode selected = FindSelected(snapshot);
             if (ShouldHideCEAmmunitionPart(selected))
             {
@@ -100,6 +101,7 @@ namespace Helodrace.ModernWar
             Rect catalogRect = new Rect(0f, bodyTop + bodyHeight + 8f,
                 inRect.width, catalogHeight);
 
+            UpdatePreviewBounds();
             HandlePreviewNavigation(previewRect);
             UpdatePreviewHover(previewRect, snapshot);
             selected = FindSelected(snapshot);
@@ -135,9 +137,10 @@ namespace Helodrace.ModernWar
             Rect inner = PreviewArea(rect);
             Vector2 origin = previewCamera.OriginFor(inner);
             float pixelsPerCell = previewCamera.ScaleFor(inner);
-            ModularRenderNode focus = hoveredNode ?? selected;
+            ModularRenderNode focus = IsPreviewPart(hoveredNode) ? hoveredNode
+                : IsPreviewPart(selected) ? selected : null;
 
-            var visualSnapshot = ModularWeaponVisualLayers.Expand(snapshot);
+            var visualSnapshot = previewLayers;
             GUI.BeginGroup(inner);
             Vector2 localOrigin = origin - inner.position;
             for (int pass = 0; pass < 2; pass++)
@@ -175,16 +178,27 @@ namespace Helodrace.ModernWar
                 }
             }
 
-            DrawSelectedRailOverlay(focus, localOrigin, pixelsPerCell);
+            if (focus?.parentComp == null || PreviewScope == null
+                || PreviewScope.Contains(focus.parentComp.parent.thingIDNumber))
+                DrawSelectedRailOverlay(focus, localOrigin, pixelsPerCell);
             GUI.EndGroup();
             DrawPreviewHighlight(rect, focus, origin, pixelsPerCell);
-            Rect performanceRect = performanceExpanded
-                ? new Rect(rect.x + 10f, rect.y + 44f, 430f, 390f)
-                : new Rect(rect.x + 10f, rect.y + 44f, 285f, 60f);
-            DrawPerformanceBlock(performanceRect, performanceExpanded);
-            DrawAmmunitionBadge(
-                new Rect(rect.xMax - 245f, rect.y + 44f, 235f, 74f),
-                snapshot);
+            if (PreviewScope == null)
+            {
+                Rect performanceRect = performanceExpanded
+                    ? new Rect(rect.x + 10f, rect.y + 44f, 430f, 390f)
+                    : new Rect(rect.x + 10f, rect.y + 44f, 285f, 60f);
+                DrawPerformanceBlock(performanceRect, performanceExpanded);
+                DrawAmmunitionBadge(
+                    new Rect(rect.xMax - 245f, rect.y + 44f, 235f, 74f), snapshot);
+            }
+            else
+            {
+                Text.Font = GameFont.Tiny;
+                Widgets.Label(new Rect(rect.x + 12f, rect.y + 43f, rect.width - 24f, 25f),
+                    "HD_ModularWeapon_GroupViewHint".Translate(PreviewScope.Count));
+                Text.Font = GameFont.Small;
+            }
             DrawPreviewToolbar(rect);
         }
 

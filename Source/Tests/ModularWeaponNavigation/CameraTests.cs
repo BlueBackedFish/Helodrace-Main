@@ -26,6 +26,20 @@ internal static class CameraTests
         camera.Reset();
         Equal(camera.OriginFor(area), area.center, "Reset must recenter the weapon.");
         if (camera.Zoom != 1f) throw new Exception("Reset must restore 100%.");
+        var bounds = new Rect(2f, -3f, 4f, 2f);
+        camera.SetBounds(bounds);
+        foreach (var viewport in new[] { area, new Rect(20, 40, 220, 500), new Rect(0, 0, 300, 300) })
+        {
+            float scale = camera.ScaleFor(viewport);
+            Equal(camera.OriginFor(viewport) + new Vector2(bounds.center.x, -bounds.center.y) * scale,
+                viewport.center, "Fit must center an off-origin weapon group in every viewport shape.");
+            if (bounds.width * scale > viewport.width || bounds.height * scale > viewport.height)
+                throw new Exception("Fitted group exceeds its viewport.");
+        }
+        point = (pointer - camera.OriginFor(area)) / camera.ScaleFor(area);
+        camera.ZoomAt(area, 4f, pointer);
+        Equal(point, (pointer - camera.OriginFor(area)) / camera.ScaleFor(area),
+            "Cursor anchoring must survive fitting an off-center group.");
         Console.WriteLine("PASS: preview zoom anchoring, pan, zoom limits and reset.");
     }
 

@@ -81,7 +81,7 @@ namespace Helodrace.ModernWar
             TooltipHandler.TipRegion(breadcrumbRect, breadcrumb);
 
             List<ModularWeaponNavigationTree.Entry> rows =
-                navigationTree.VisibleRows(collapsedParts, navigationSearch);
+                navigationTree.VisibleRows(collapsedParts, navigationSearch, PreviewScope);
             Rect outRect = new Rect(rect.x + 4f, rect.y + 127f,
                 rect.width - 8f, Mathf.Max(1f, rect.height - 131f));
             const float rowHeight = 44f;
@@ -176,15 +176,17 @@ namespace Helodrace.ModernWar
                     socketLabel += "  ·  " + SurfaceText(row.Socket.railSurface);
                 Widgets.Label(new Rect(textX, card.y + 2f, selectRect.width - 4f, 16f), socketLabel);
                 GUI.color = row.IsEmpty ? new Color(1f, 0.65f, 0.3f)
+                    : row.IsContext ? new Color(0.5f, 0.58f, 0.6f)
                     : row.MatchesSearch ? new Color(0.8f, 1f, 0.65f) : Color.white;
                 string label = row.IsEmpty ? "HD_ModularWeapon_EmptyRequiredSocket".Translate().ToString()
                     : row.Node.thing.LabelCap.ToString();
-                if (!row.IsEmpty && row.DescendantCount > 0)
+                if (!row.IsEmpty && row.DescendantCount > 0 && PreviewScope == null)
                     label += "  (" + row.DescendantCount + ")";
                 Text.Font = GameFont.Small;
                 Widgets.Label(new Rect(textX, card.y + 18f, selectRect.width - 4f, 24f), label);
                 GUI.color = Color.white;
                 string tip = navigationTree.Breadcrumb(row.Owner);
+                if (row.IsContext) tip += "\n" + "HD_ModularWeapon_GroupContext".Translate();
                 if (row.Socket != null) tip += "\n" + ConnectionText(row.Node, row.Socket);
                 if (!row.IsEmpty && row.Node.Props.hideWhenAttached)
                     tip += "\n" + "HD_ModularWeapon_InternalPart".Translate();
@@ -210,6 +212,8 @@ namespace Helodrace.ModernWar
         private void SelectNode(ModularRenderNode node)
         {
             if (node == null) return;
+            if (activePreviewGroup != null && !activePreviewGroup.Contains(node))
+                SelectPreviewGroup(previewGroups[0], false);
             if (selectedPath != node.path)
             {
                 selectedPath = node.path;

@@ -9,17 +9,17 @@ namespace Helodrace.ModernWar
     {
         private readonly ModularWeaponPreviewCamera previewCamera = new ModularWeaponPreviewCamera();
 
-        private static Rect PreviewArea(Rect rect)
+        private Rect PreviewArea(Rect rect)
         {
             Rect inner = rect.ContractedBy(18f);
-            inner.yMin += 122f;
+            inner.yMin += PreviewScope == null ? 122f : 60f;
             inner.yMax -= 46f;
             return inner;
         }
 
         private bool PreviewCoveredByStats(Rect rect)
         {
-            return performanceExpanded && Mouse.IsOver(
+            return PreviewScope == null && performanceExpanded && Mouse.IsOver(
                 new Rect(rect.x + 10f, rect.y + 44f, 430f, 390f));
         }
 
@@ -58,6 +58,8 @@ namespace Helodrace.ModernWar
             if (Widgets.ButtonText(new Rect(toolbar.x + 123f, toolbar.y, 100f, toolbar.height),
                 "HD_ModularWeapon_ResetView".Translate())) previewCamera.Reset();
             TooltipHandler.TipRegion(toolbar, "HD_ModularWeapon_ZoomHint".Translate());
+            DrawPreviewGroupSelector(new Rect(toolbar.x + 231f, toolbar.y,
+                Mathf.Max(40f, toolbar.width - 231f), toolbar.height));
         }
 
         private void UpdatePreviewHover(Rect rect, List<ModularRenderNode> snapshot)
@@ -67,7 +69,7 @@ namespace Helodrace.ModernWar
             if (PreviewCoveredByStats(rect)) return;
             Vector2 origin = previewCamera.OriginFor(inner);
             float scale = previewCamera.ScaleFor(inner);
-            List<ModularRenderNode> layers = ModularWeaponVisualLayers.Expand(snapshot);
+            List<ModularRenderNode> layers = previewLayers;
             // Test the visible pixels in reverse draw order, including additional layers.
             for (int i = layers.Count - 1; i >= 0; i--)
             {
@@ -117,7 +119,7 @@ namespace Helodrace.ModernWar
             GUI.BeginGroup(area);
             origin -= area.position;
             Vector2 marker = WorldToGui(node.GraphicCenter, origin, scale);
-            foreach (ModularRenderNode layer in ModularWeaponVisualLayers.Expand(navigationSnapshot))
+            foreach (ModularRenderNode layer in previewLayers)
             {
                 if (layer.path != node.path) continue;
                 Texture texture = layer.Graphic?.MatSingle?.mainTexture;

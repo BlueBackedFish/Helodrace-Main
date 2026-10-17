@@ -11,6 +11,7 @@ internal static class Program
     {
         CameraTests.Run();
         ImageBoundsTests.Run();
+        GroupTests.Run();
         var lower = Part(1, "하부 리시버");
         var upper = Part(2, "상부 리시버", lower, "upper", "상부 결합부", 0);
         var barrel = Part(3, "10.3인치 총열", upper, "barrel", "총열 결합부", 0);
@@ -43,6 +44,16 @@ internal static class Program
         CheckIds(tree.VisibleRows(collapsed, "ris ii"), 1, 2, 5);
         Check(tree.VisibleRows(collapsed, "not present").Count == 0,
             "Unmatched searches must not display unrelated branches.");
+        var scope = new HashSet<int> { light.thing.thingIDNumber, secondLight.thing.thingIDNumber };
+        CheckIds(tree.VisibleRows(new HashSet<int>(), "", scope), 1, 2, 5, 6, 8);
+        Check(tree.VisibleRows(new HashSet<int>(), "", scope).Count(row => row.IsContext) == 3,
+            "Group views must distinguish contextual ancestors from actual group members.");
+        Check(tree.VisibleRows(collapsed, "총열", scope).Count == 0,
+            "Scoped searches must not include unrelated parts.");
+        Check(tree.VisibleRows(collapsed, "리시버", scope).Count == 0,
+            "Scoped searches must not match contextual ancestors.");
+        CheckIds(tree.VisibleRows(collapsed, "", scope), 1, 2);
+        CheckIds(tree.VisibleRows(collapsed, "조명", scope), 1, 2, 5, 6, 8);
         CheckIds(tree.VisibleRows(collapsed, ""), 1, 2, 7);
         tree.Reveal(light, collapsed);
         CheckIds(tree.VisibleRows(collapsed, ""), 1, 2, 3, 4, 5, 6, 8, 7);
@@ -129,6 +140,12 @@ namespace Helodrace.ModernWar
 {
     public enum ModularWeaponPartCategory { Required, Functional, Optional }
     public sealed class Thing { public int thingIDNumber; public string LabelCap; }
+    public sealed class ModularSightGroupStatus
+    {
+        public int index;
+        public Thing primary;
+        public readonly List<Thing> members = new List<Thing>();
+    }
     public sealed class ThingDef
     {
         public CompProperties_ModularWeaponNode Props;
@@ -139,6 +156,7 @@ namespace Helodrace.ModernWar
     public sealed class CompProperties_ModularWeaponNode
     {
         public ModularWeaponPartCategory partCategory = ModularWeaponPartCategory.Optional;
+        public bool isAssemblyRoot, isWeaponSubassembly;
         public List<ModularAttachmentSocket> sockets = new List<ModularAttachmentSocket>();
         public List<ModularDefaultAttachment> defaultAttachments = new List<ModularDefaultAttachment>();
         public ModularAttachmentSocket SocketNamed(string id) => sockets.FirstOrDefault(socket => socket.id == id);
@@ -150,6 +168,7 @@ namespace Helodrace.ModernWar
         public CompModularWeaponNode comp, parentComp;
         public string parentSocketId;
         public int parentChildIndex;
+        public int depth;
         public CompProperties_ModularWeaponNode Props => comp.Props;
     }
 }

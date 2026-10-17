@@ -16,6 +16,7 @@ namespace Helodrace.ModernWar
             public int Depth;
             public int DescendantCount;
             public bool MatchesSearch;
+            public bool IsContext;
             public bool IsEmpty => Node == null;
             public ModularRenderNode Owner => IsEmpty ? Parent.Node : Node;
         }
@@ -65,23 +66,27 @@ namespace Helodrace.ModernWar
             foreach (Entry entry in roots) SetDepthAndCount(entry, 0);
         }
 
-        public List<Entry> VisibleRows(HashSet<int> collapsed, string search)
+        public List<Entry> VisibleRows(HashSet<int> collapsed, string search, HashSet<int> scope = null)
         {
             string query = (search ?? string.Empty).Trim();
             var included = new HashSet<Entry>();
             foreach (Entry entry in entries.Values)
             {
-                entry.MatchesSearch = query.Length > 0 && Matches(entry, query);
-                if (entry.MatchesSearch) IncludeAncestors(entry, included);
+                entry.IsContext = scope != null && !scope.Contains(entry.Node.thing.thingIDNumber);
+                entry.MatchesSearch = !entry.IsContext && query.Length > 0 && Matches(entry, query);
+                if (entry.MatchesSearch || (!entry.IsContext && query.Length == 0))
+                    IncludeAncestors(entry, included);
                 foreach (Entry empty in entry.Children.Where(child => child.IsEmpty))
                 {
-                    empty.MatchesSearch = query.Length > 0 && Matches(empty, query);
-                    if (empty.MatchesSearch) IncludeAncestors(empty, included);
+                    empty.MatchesSearch = !entry.IsContext && query.Length > 0 && Matches(empty, query);
+                    if (empty.MatchesSearch || (!entry.IsContext && query.Length == 0))
+                        IncludeAncestors(empty, included);
                 }
             }
             var result = new List<Entry>();
             foreach (Entry entry in roots)
-                AppendVisible(entry, collapsed, query.Length > 0 ? included : null, result);
+                AppendVisible(entry, collapsed, query.Length > 0 || scope != null ? included : null,
+                    query.Length > 0, result);
             return result;
         }
 
@@ -135,14 +140,14 @@ namespace Helodrace.ModernWar
         }
 
         private static void AppendVisible(Entry entry, HashSet<int> collapsed,
-            HashSet<Entry> included, List<Entry> result)
+            HashSet<Entry> included, bool expandMatches, List<Entry> result)
         {
             if (included != null && !included.Contains(entry)) return;
             result.Add(entry);
-            if (entry.IsEmpty || (included == null
+            if (entry.IsEmpty || (!expandMatches
                 && collapsed.Contains(entry.Node.thing.thingIDNumber))) return;
             foreach (Entry child in entry.Children)
-                AppendVisible(child, collapsed, included, result);
+                AppendVisible(child, collapsed, included, expandMatches, result);
         }
     }
 }

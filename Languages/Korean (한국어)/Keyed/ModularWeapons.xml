@@ -14,6 +14,15 @@
   <HD_ModularWeapon_InternalPart>내부 / 평소 숨겨진 파츠</HD_ModularWeapon_InternalPart>
   <HD_ModularWeapon_ResetView>화면 초기화</HD_ModularWeapon_ResetView>
   <HD_ModularWeapon_OpenPartImage>마우스를 올리면 테두리를 포함한 파츠 이미지를 확대합니다. 클릭하면 확대·이동이 가능한 별도 이미지 창을 엽니다.</HD_ModularWeapon_OpenPartImage>
+  <HD_ModularWeapon_ViewGroup>보기: {0} ▾</HD_ModularWeapon_ViewGroup>
+  <HD_ModularWeapon_GroupAll>전체 조립체</HD_ModularWeapon_GroupAll>
+  <HD_ModularWeapon_GroupMain>주 무기</HD_ModularWeapon_GroupMain>
+  <HD_ModularWeapon_GroupAllSights>조준기 전체</HD_ModularWeapon_GroupAllSights>
+  <HD_ModularWeapon_GroupSight>조준기 그룹 {0} · {1}</HD_ModularWeapon_GroupSight>
+  <HD_ModularWeapon_GroupAttached>부착 무기 · {0}</HD_ModularWeapon_GroupAttached>
+  <HD_ModularWeapon_GroupViewHint>파츠 {0}개 · 선택한 그룹의 파츠만 표시합니다.</HD_ModularWeapon_GroupViewHint>
+  <HD_ModularWeapon_GroupMenuHint>전체 조립체, 광축이 같은 조준기 그룹, 별도로 부착한 무기를 골라 봅니다. 그룹을 바꾸면 화면에 맞게 표시하고 트리에는 상위 연결 경로를 유지합니다.</HD_ModularWeapon_GroupMenuHint>
+  <HD_ModularWeapon_GroupContext>상위 연결 구조입니다. 선택하면 전체 조립체 보기로 돌아갑니다.</HD_ModularWeapon_GroupContext>
   <HD_ModularWeapon_ZoomHint>마우스 휠: 커서 위치를 기준으로 확대·축소(25~800%). 가운데 버튼 드래그: 화면 이동. 화면 초기화: 배율과 위치 복원.</HD_ModularWeapon_ZoomHint>
   <HD_ModularWeapon_AssemblyRoot>조립체 루트</HD_ModularWeapon_AssemblyRoot>
   <HD_ModularWeapon_AttachedParts>장착된 파츠</HD_ModularWeapon_AttachedParts>

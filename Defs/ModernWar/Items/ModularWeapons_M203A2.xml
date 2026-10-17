@@ -7,6 +7,7 @@
     <description>An M203A2 assembly that replaces the HAC URX lower handguard and fires 40×46mm grenades from the operator's inventory.</description>
     <graphicData><texPath>Weapons/Modular/Tactical/HD_UB_M203A2</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <isWeaponSubassembly>true</isWeaponSubassembly>
       <craftCost><Steel>8</Steel><ComponentIndustrial>2</ComponentIndustrial></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
       <graphicLayer>1</graphicLayer><internalStats><massKg>1.4</massKg><ergonomics>-10</ergonomics><momentOfInertia>0.015</momentOfInertia></internalStats>
       <mounts>

@@ -323,6 +323,9 @@ namespace Helodrace.ModernWar
     public sealed class CompProperties_ModularWeaponNode : CompProperties
     {
         public bool isAssemblyRoot;
+        // Marks an attached weapon's own modding group; descendants belong to it
+        // until another weapon subassembly begins. This does not change combat logic.
+        public bool isWeaponSubassembly;
         public bool allowPlayerConfiguration = true;
         // Parts can be made inside the workbench during a modification session.
         // Set false for parts that must first be obtained and stored in the parts box.
