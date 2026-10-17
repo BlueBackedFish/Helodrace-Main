@@ -195,13 +195,7 @@ namespace Helodrace.ModernWar
                 if (Widgets.ButtonInvisible(selectRect))
                 {
                     SelectNode(row.Owner);
-                    if (row.IsEmpty && selectedSocketId != row.Socket.id)
-                    {
-                        selectedSocketId = row.Socket.id;
-                        selectedAttachmentId = -1;
-                        selectedCatalogGroup = null;
-                        catalogScroll = Vector2.zero;
-                    }
+                    if (row.IsEmpty) SelectPreviewSocket(row.Owner, row.Socket);
                 }
             }
             Widgets.EndScrollView();
@@ -220,7 +214,7 @@ namespace Helodrace.ModernWar
                 selectedSocketId = null;
                 selectedAttachmentId = -1;
                 selectedCatalogGroup = null;
-                socketScroll = Vector2.zero;
+                preferredRailOffset = null;
                 catalogScroll = Vector2.zero;
             }
             navigationTree?.Reveal(node, collapsedParts);

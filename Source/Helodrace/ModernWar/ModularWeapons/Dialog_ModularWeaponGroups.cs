@@ -45,7 +45,6 @@ namespace Helodrace.ModernWar
                 ?? previewGroups[0];
             RefreshPreviewLayers();
             previewCamera.Reset();
-            performanceExpanded = false;
             navigationSearch = string.Empty;
             collapsedParts.Clear();
             navigationScroll = Vector2.zero;

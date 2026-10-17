@@ -16,11 +16,9 @@ namespace Helodrace.ModernWar
         private string selectedSocketId;
         private int selectedAttachmentId = -1;
         private Vector2 navigationScroll;
-        private Vector2 socketScroll;
         private Vector2 catalogScroll;
         private string selectedCatalogGroup;
         private ThingDef hoveredPart;
-        private bool performanceExpanded;
 
         public Dialog_ModularWeapon(CompModularWeaponNode root)
             : this(root, null)
@@ -92,25 +90,35 @@ namespace Helodrace.ModernWar
             float catalogHeight = 250f;
             float footerHeight = 38f;
             float bodyHeight = inRect.height - bodyTop - catalogHeight - footerHeight - 8f;
-            float sideWidth = Mathf.Clamp(inRect.width * 0.25f, 270f, 340f);
-            Rect treeRect = new Rect(0f, bodyTop, sideWidth, bodyHeight);
+            float treeWidth = Mathf.Clamp(inRect.width * 0.23f, 260f, 320f);
+            float statsWidth = Mathf.Clamp(inRect.width * 0.21f, 250f, 300f);
+            Rect treeRect = new Rect(0f, bodyTop, treeWidth, bodyHeight);
             Rect previewRect = new Rect(treeRect.xMax + 12f, bodyTop,
-                inRect.width - sideWidth * 2f - 24f, bodyHeight);
-            Rect detailsRect = new Rect(inRect.width - sideWidth, bodyTop,
-                sideWidth, bodyHeight);
+                inRect.width - treeWidth - statsWidth - 24f, bodyHeight);
+            Rect detailsRect = new Rect(inRect.width - statsWidth, bodyTop,
+                statsWidth, bodyHeight);
             Rect catalogRect = new Rect(0f, bodyTop + bodyHeight + 8f,
                 inRect.width, catalogHeight);
 
             UpdatePreviewBounds();
-            HandlePreviewNavigation(previewRect);
-            UpdatePreviewHover(previewRect, snapshot);
+            PrepareSocketCards(previewRect, selected, snapshot);
+            HandleRailClick(previewRect);
+            if (!PointerOverSocketCard(previewRect))
+            {
+                HandlePreviewNavigation(previewRect);
+                UpdatePreviewHover(previewRect, snapshot);
+            }
             selected = FindSelected(snapshot);
             EnsureSelectedSocket(selected);
             DrawPartNavigator(treeRect, selected);
             selected = FindSelected(snapshot);
             EnsureSelectedSocket(selected);
-            DrawAssemblyPreview(previewRect, snapshot, selected);
-            DrawSocketPanel(detailsRect, selected);
+            UpdatePreviewBounds();
+            PrepareSocketCards(previewRect, selected, snapshot);
+            DrawAssemblyPreview(previewRect, selected);
+            DrawWeaponStatsPanel(detailsRect, snapshot);
+            selected = FindSelected(snapshot);
+            EnsureSelectedSocket(selected);
             DrawCatalog(catalogRect, selected);
 
             Rect footer = new Rect(0f, inRect.height - footerHeight,
@@ -128,201 +136,29 @@ namespace Helodrace.ModernWar
 
         private void DrawAssemblyPreview(
             Rect rect,
-            List<ModularRenderNode> snapshot,
             ModularRenderNode selected)
         {
             Widgets.DrawBoxSolidWithOutline(rect,
                 new Color(0.055f, 0.06f, 0.07f, 1f),
                 new Color(0.35f, 0.38f, 0.42f), 2);
             Rect inner = PreviewArea(rect);
-            Vector2 origin = previewCamera.OriginFor(inner);
-            float pixelsPerCell = previewCamera.ScaleFor(inner);
+            Rect cameraArea = PreviewCameraArea(rect);
+            Vector2 origin = previewCamera.OriginFor(cameraArea);
+            float pixelsPerCell = previewCamera.ScaleFor(cameraArea);
             ModularRenderNode front = SelectedPreviewPart(selected);
             ModularRenderNode focus = IsPreviewPart(hoveredNode) ? hoveredNode : front;
             GUI.BeginGroup(inner);
             Vector2 localOrigin = origin - inner.position;
             DrawPreviewAssembly(localOrigin, pixelsPerCell, front);
 
-            if (focus?.parentComp == null || PreviewScope == null
-                || PreviewScope.Contains(focus.parentComp.parent.thingIDNumber))
-                DrawSelectedRailOverlay(focus, localOrigin, pixelsPerCell);
             GUI.EndGroup();
             DrawPreviewHighlight(rect, focus, origin, pixelsPerCell);
-            if (PreviewScope == null)
-            {
-                Rect performanceRect = performanceExpanded
-                    ? new Rect(rect.x + 10f, rect.y + 44f, 430f, 390f)
-                    : new Rect(rect.x + 10f, rect.y + 44f, 285f, 60f);
-                DrawPerformanceBlock(performanceRect, performanceExpanded);
-                DrawAmmunitionBadge(
-                    new Rect(rect.xMax - 245f, rect.y + 44f, 235f, 74f), snapshot);
-            }
-            else
-            {
-                Text.Font = GameFont.Tiny;
-                Widgets.Label(new Rect(rect.x + 12f, rect.y + 43f, rect.width - 24f, 25f),
-                    "HD_ModularWeapon_GroupViewHint".Translate(PreviewScope.Count));
-                Text.Font = GameFont.Small;
-            }
-            DrawPreviewToolbar(rect);
-        }
-
-        private void DrawSelectedRailOverlay(
-            ModularRenderNode selected,
-            Vector2 origin,
-            float pixelsPerCell)
-        {
-            if (selected?.attachedToRail != true) return;
-            Vector2 railStart = WorldToGui(selected.railStart, origin, pixelsPerCell);
-            Vector2 railEnd = WorldToGui(selected.railEnd, origin, pixelsPerCell);
-            Vector2 occupiedStart = WorldToGui(
-                selected.occupiedRailStart, origin, pixelsPerCell);
-            Vector2 occupiedEnd = WorldToGui(
-                selected.occupiedRailEnd, origin, pixelsPerCell);
-            Widgets.DrawLine(railStart, railEnd, new Color(0.15f, 0.65f, 1f), 4f);
-            Widgets.DrawLine(occupiedStart, occupiedEnd, Color.yellow, 7f);
-        }
-
-        private void DrawPerformanceBlock(Rect rect, bool expanded)
-        {
-            Widgets.DrawBoxSolidWithOutline(rect,
-                new Color(0.07f, 0.08f, 0.085f, 0.93f),
-                new Color(0.32f, 0.38f, 0.40f), 1);
             Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(rect.x + 8f, rect.y + 5f,
-                rect.width - 42f, 20f),
-                "HD_ModularWeapon_StatsTitle".Translate());
-            if (Widgets.ButtonText(new Rect(rect.xMax - 31f, rect.y + 4f, 25f, 22f),
-                expanded ? "−" : "+"))
-                performanceExpanded = !performanceExpanded;
-
-            if (!expanded)
-            {
-                Widgets.Label(new Rect(rect.x + 8f, rect.y + 26f,
-                    rect.width - 16f, 28f),
-                    "HD_ModularWeapon_PerformanceCompact".Translate(
-                        root.EffectiveRoundsPerMinute.ToString("0.#",
-                            CultureInfo.InvariantCulture),
-                        root.EffectiveFireDelaySeconds.ToString("0.###",
-                            CultureInfo.InvariantCulture)));
-                Text.Font = GameFont.Small;
-                return;
-            }
-
-            string text = "HD_ModularWeapon_Performance".Translate(
-                root.RealisticRoundsPerMinute.ToString("0.#", CultureInfo.InvariantCulture),
-                root.EffectiveRoundsPerMinute.ToString("0.#", CultureInfo.InvariantCulture),
-                root.MinimumFireDelaySeconds.ToString("0.###", CultureInfo.InvariantCulture),
-                root.EffectiveFireDelaySeconds.ToString("0.###", CultureInfo.InvariantCulture),
-                root.EffectiveBurstIntervalTicks);
-            Thing weapon = root.parent;
-            VerbProperties verb = weapon.def.Verbs?.FirstOrDefault(v => v.isPrimary)
-                ?? weapon.def.Verbs?.FirstOrDefault();
-            if (verb != null)
-                text += "\n" + "Burst shots" + ": "
-                    + root.ApplyBurstShotCount(verb.burstShotCount);
-            ModularWeaponFunctionStatus functionStatus = root.FunctionStatus;
-            text += "\n" + (functionStatus.CanFire
-                ? "HD_ModularWeapon_FunctionOperational".Translate().ToString()
-                : "HD_ModularWeapon_FunctionBlocked".Translate(
-                    functionStatus.MissingRequiredLabels).ToString());
-            if (functionStatus.missingFunctionalParts.Count > 0)
-                text += "\n" + "HD_ModularWeapon_FunctionDegraded".Translate(
-                    functionStatus.MissingFunctionalLabels);
-            text += "\n" + StatDefOf.RangedWeapon_Cooldown.LabelCap + ": "
-                + weapon.GetStatValue(StatDefOf.RangedWeapon_Cooldown)
-                    .ToString("0.###", CultureInfo.InvariantCulture) + "s";
-            text += "\n" + StatDefOf.RangedWeapon_WarmupMultiplier.LabelCap + ": ×"
-                + weapon.GetStatValue(StatDefOf.RangedWeapon_WarmupMultiplier)
-                    .ToString("0.###", CultureInfo.InvariantCulture);
-            if (ModsConfig.IsActive("ceteam.combatextended"))
-            {
-                AppendCEStat(ref text, weapon, "SightsEfficiency", "P0");
-                AppendCEStat(ref text, weapon, "ShotSpread", "0.###");
-                AppendCEStat(ref text, weapon, "SwayFactor", "0.###");
-                AppendCEStat(ref text, weapon, "Recoil", "0.###");
-            }
-            else
-            {
-                text += "\n" + StatDefOf.AccuracyShort.LabelCap + ": "
-                    + weapon.GetStatValue(StatDefOf.AccuracyShort).ToString("P0");
-                text += "  " + StatDefOf.AccuracyMedium.LabelCap + ": "
-                    + weapon.GetStatValue(StatDefOf.AccuracyMedium).ToString("P0");
-                text += "\n" + StatDefOf.AccuracyLong.LabelCap + ": "
-                    + weapon.GetStatValue(StatDefOf.AccuracyLong).ToString("P0");
-            }
-            text += "  " + StatDefOf.Mass.LabelCap + ": "
-                + weapon.GetStatValue(StatDefOf.Mass)
-                    .ToString("0.##", CultureInfo.InvariantCulture) + "kg";
-            ModularWeaponConvertedStats converted = root.ConvertedStats;
-            text += "\n\n" + "HD_ModularWeapon_ConvertedStats".Translate();
-            text += "\n" + "HD_ModularWeapon_Mass".Translate() + ": "
-                + converted.MassKg.ToString("0.##", CultureInfo.InvariantCulture) + " kg";
-            text += "  " + "HD_ModularWeapon_RecoilControl".Translate() + ": "
-                + converted.RecoilControl.ToString("P0");
-            text += "\n" + "HD_ModularWeapon_Ergonomics".Translate() + ": "
-                + converted.Ergonomics.ToString("P0");
-            text += "  " + "HD_ModularWeapon_MuzzleControl".Translate() + ": "
-                + converted.MuzzleControl.ToString("P0");
-            text += "\n" + "HD_ModularWeapon_Reliability".Translate() + ": "
-                + converted.OperatingReliability.ToString("P1");
-            text += "  " + "HD_ModularWeapon_GasEfficiency".Translate() + ": "
-                + converted.GasEfficiency.ToString("P0");
-            text += "\n" + "HD_ModularWeapon_Balance".Translate() + ": "
-                + (converted.CenterOfMassMeters * 100f)
-                    .ToString("+0.0;-0.0;0.0", CultureInfo.InvariantCulture) + " cm";
-            text += "  " + "HD_ModularWeapon_Handling".Translate() + ": "
-                + converted.Handling.ToString("P0");
-            text += "\n" + "HD_ModularWeapon_TargetAcquisition".Translate() + ": "
-                + converted.TargetAcquisition.ToString("P0");
-            text += "  " + "HD_ModularWeapon_AimingPrecision".Translate() + ": "
-                + converted.AimingPrecision.ToString("P0");
-            text += "\n" + "HD_ModularWeapon_IdentificationDistance".Translate() + ": "
-                + converted.IdentificationDistanceCells
-                    .ToString("0.#", CultureInfo.InvariantCulture) + " "
-                + "HD_ModularWeapon_Cells".Translate();
-            IReadOnlyList<ModularSightGroupStatus> sightGroups = root.SightGroups;
-            text += "\n\n" + "HD_ModularWeapon_SightGroups".Translate(
-                sightGroups.Count);
-            for (int i = 0; i < sightGroups.Count; i++)
-            {
-                ModularSightGroupStatus group = sightGroups[i];
-                string primary = group.primary != null
-                    ? group.primary.LabelCap.ToString()
-                    : "HD_ModularWeapon_SightNoPrimary".Translate().ToString();
-                if (group.hasCompleteIronSight)
-                    primary += " / " + "HD_ModularWeapon_SightIronPair".Translate();
-                if (group.magnifierBehindPrimary)
-                    primary += " + " + "HD_ModularWeapon_SightMagnifierRear".Translate();
-                else if (group.magnifierAheadPrimary)
-                    primary += " / " + "HD_ModularWeapon_SightMagnifierFront".Translate();
-                if (group.belowWeaponSightCount > 0)
-                    primary += " / " + "HD_ModularWeapon_SightBelowWeapon".Translate(
-                        group.belowWeaponSightCount);
-                text += "\n" + "HD_ModularWeapon_SightGroupLine".Translate(
-                    group.isActive ? "▶ " : "  ",
-                    group.axisHeight.ToString("0.###", CultureInfo.InvariantCulture),
-                    group.efficiency.ToString("P0"),
-                    primary);
-            }
-            Widgets.Label(new Rect(rect.x + 8f, rect.y + 29f,
-                rect.width - 16f, rect.height - 36f), text);
+            Widgets.Label(new Rect(rect.x + 12f, rect.y + 43f, rect.width - 150f, 25f),
+                "HD_ModularWeapon_SocketOverlayTitle".Translate(selected?.thing.LabelCap.ToString() ?? string.Empty));
             Text.Font = GameFont.Small;
-        }
-
-        private static void AppendCEStat(
-            ref string text,
-            Thing weapon,
-            string defName,
-            string format)
-        {
-            StatDef stat = DefDatabase<StatDef>.GetNamedSilentFail(defName);
-            if (stat == null || weapon == null) return;
-
-            text += "\n" + stat.LabelCap + ": "
-                + weapon.GetStatValue(stat).ToString(
-                    format,
-                    CultureInfo.InvariantCulture);
+            DrawSocketOverlay(rect);
+            DrawPreviewToolbar(rect);
         }
 
         private static void DrawAmmunitionBadge(
@@ -373,148 +209,6 @@ namespace Helodrace.ModernWar
                 + "\n" + status);
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
-        }
-
-        private void DrawSocketPanel(Rect rect, ModularRenderNode node)
-        {
-            Widgets.DrawMenuSection(rect);
-            if (node == null) return;
-            Rect inner = rect.ContractedBy(10f);
-            Widgets.Label(new Rect(inner.x, inner.y, inner.width, 26f), node.thing.LabelCap);
-            float socketTop = 30f;
-            if (root.HasAdjustableGasSystem)
-            {
-                DrawGasTubeControl(new Rect(
-                    inner.x,
-                    inner.y + socketTop,
-                    inner.width,
-                    82f));
-                socketTop += 88f;
-            }
-            Rect outRect = new Rect(inner.x, inner.y + socketTop, inner.width,
-                inner.height - socketTop);
-            float contentHeight = 16f;
-            for (int i = 0; i < node.Props.sockets.Count; i++)
-            {
-                ModularAttachmentSocket candidate = node.Props.sockets[i];
-                if (ShouldHideCEAmmunitionSocket(candidate)) continue;
-                contentHeight += 78f + node.comp.CountOnSocket(candidate.id) * 50f;
-            }
-            Rect viewRect = new Rect(0f, 0f, outRect.width - 18f,
-                Mathf.Max(outRect.height, contentHeight));
-            Widgets.BeginScrollView(outRect, ref socketScroll, viewRect);
-
-            float y = 2f;
-            for (int socketIndex = 0; socketIndex < node.Props.sockets.Count; socketIndex++)
-            {
-                ModularAttachmentSocket socket = node.Props.sockets[socketIndex];
-                if (ShouldHideCEAmmunitionSocket(socket)) continue;
-                int count = node.comp.CountOnSocket(socket.id);
-                Rect socketRect = new Rect(2f, y, viewRect.width - 4f, 64f);
-                bool active = socket.id == selectedSocketId;
-                Widgets.DrawBoxSolidWithOutline(socketRect,
-                    active ? new Color(0.16f, 0.22f, 0.25f)
-                        : new Color(0.09f, 0.11f, 0.12f),
-                    active ? Color.yellow : new Color(0.34f, 0.40f, 0.43f),
-                    active ? 2 : 1);
-                if (Widgets.ButtonInvisible(socketRect))
-                {
-                    selectedSocketId = socket.id;
-                    selectedAttachmentId = -1;
-                    selectedCatalogGroup = null;
-                    catalogScroll = Vector2.zero;
-                }
-
-                string capacity = socket.isRail
-                    ? socket.maxAttachments > 0
-                        ? count + "/" + socket.maxAttachments
-                        : count + "/∞"
-                    : count + "/1";
-                Widgets.Label(new Rect(socketRect.x + 8f, socketRect.y + 7f,
-                    socketRect.width - 16f, 24f), socket.Label + "  " + capacity);
-                Text.Font = GameFont.Tiny;
-                string detail = socket.isRail
-                    ? "HD_ModularWeapon_RailDetail".Translate(
-                        socket.railLength.ToString("0.###", CultureInfo.InvariantCulture),
-                        SurfaceText(socket.railSurface) + "  ·  "
-                            + TagText(socket.tags)).ToString()
-                    : TagText(socket.tags);
-                Widgets.Label(new Rect(socketRect.x + 8f, socketRect.y + 33f,
-                    socketRect.width - 16f, 22f), detail);
-                Text.Font = GameFont.Small;
-                y += 69f;
-
-                for (int childIndex = 0; childIndex < node.comp.ChildCount; childIndex++)
-                {
-                    if (node.comp.SocketIdAt(childIndex) != socket.id) continue;
-                    Thing child = node.comp.ChildAt(childIndex);
-                    Rect childRect = new Rect(18f, y, viewRect.width - 22f, 43f);
-                    bool childSelected = child?.thingIDNumber == selectedAttachmentId;
-                    Widgets.DrawBoxSolidWithOutline(childRect,
-                        childSelected ? new Color(0.22f, 0.25f, 0.19f)
-                            : new Color(0.11f, 0.12f, 0.105f),
-                        childSelected ? Color.yellow : new Color(0.38f, 0.42f, 0.35f),
-                        childSelected ? 2 : 1);
-                    if (child?.def.uiIcon != null)
-                        Widgets.DrawTextureFitted(new Rect(childRect.x + 5f,
-                            childRect.y + 5f, 32f, 32f), child.def.uiIcon, 1f);
-                    Widgets.Label(new Rect(childRect.x + 43f, childRect.y + 4f,
-                        childRect.width - 86f, 24f), child?.LabelCap ?? "-");
-                    if (socket.isRail)
-                    {
-                        Text.Font = GameFont.Tiny;
-                        Widgets.Label(new Rect(childRect.x + 43f, childRect.y + 24f,
-                            childRect.width - 86f, 17f),
-                            "HD_ModularWeapon_RailOffset".Translate(
-                                node.comp.RailOffsetAt(childIndex).ToString(
-                                    "0.###", CultureInfo.InvariantCulture)));
-                        Text.Font = GameFont.Small;
-                    }
-                    Rect removeRect = new Rect(childRect.xMax - 36f,
-                        childRect.y + 6f, 30f, 30f);
-                    if (!socket.required && Widgets.ButtonText(removeRect, "×"))
-                    {
-                        Thing removed = node.comp.DetachChildAt(childIndex);
-                        ReturnOrDestroyAssembly(removed);
-                        selectedAttachmentId = -1;
-                        root.InvalidateTree();
-                        Widgets.EndScrollView();
-                        return;
-                    }
-                    if (Widgets.ButtonInvisible(new Rect(childRect.x, childRect.y,
-                        childRect.width - 42f, childRect.height)))
-                        selectedAttachmentId = childSelected ? -1 : child.thingIDNumber;
-                    y += 47f;
-
-                    if (childSelected && socket.isRail)
-                    {
-                        CompModularWeaponNode childComp = child
-                            ?.TryGetComp<CompModularWeaponNode>();
-                        ModularAttachmentMount mount = childComp
-                            ?.Props.MountNamed(node.comp.MountIdAt(childIndex));
-                        float paletteRatio = node.comp.PaletteRatioFor(childComp);
-                        float half = Mathf.Max(0f,
-                            (socket.railLength
-                                - (mount?.EffectiveRailContactLength ?? 0f)
-                                    * paletteRatio) * 0.5f);
-                        float oldValue = node.comp.RailOffsetAt(childIndex);
-                        float value = half <= 0f ? 0f : Widgets.HorizontalSlider(
-                            new Rect(28f, y + 3f, viewRect.width - 118f, 18f),
-                            oldValue, -half, half, true);
-                        Widgets.Label(new Rect(viewRect.width - 84f, y,
-                            80f, 22f), value.ToString("0.###", CultureInfo.InvariantCulture));
-                        if (!Mathf.Approximately(value, oldValue))
-                        {
-                            string rejection;
-                            if (!node.comp.TrySetRailOffset(childIndex, value, out rejection))
-                                Messages.Message(rejection, MessageTypeDefOf.RejectInput, false);
-                        }
-                        y += 27f;
-                    }
-                }
-                y += 9f;
-            }
-            Widgets.EndScrollView();
         }
 
         private void DrawGasTubeControl(Rect rect)
@@ -783,6 +477,12 @@ namespace Helodrace.ModernWar
             if (node?.comp == null || socket == null || def == null || mount == null) return;
             List<DetachedPart> displaced = new List<DetachedPart>();
             int limit = socket.isRail ? socket.maxAttachments : 1;
+            if (socket.isRail && limit > 0 && node.comp.CountOnSocket(socket.id) >= limit)
+            {
+                Messages.Message("HD_ModularWeapon_RejectSocketFull".Translate(socket.Label),
+                    MessageTypeDefOf.RejectInput, false);
+                return;
+            }
             while (limit > 0 && node.comp.CountOnSocket(socket.id) >= limit)
             {
                 int index = FirstChildIndexOnSocket(node.comp, socket.id);
@@ -819,10 +519,7 @@ namespace Helodrace.ModernWar
                 child = ThingMaker.MakeThing(def);
             }
             string rejection;
-            float offset;
-            bool success = node.comp.TryFindAttachOffset(
-                    child, socket.id, mount.id, out offset, out rejection)
-                && node.comp.TryAttach(child, socket.id, mount.id, offset, out rejection);
+            bool success = TryInstallAtPreviewSocket(node, socket, child, mount, out rejection);
             if (!success)
             {
                 if (acquisition != null) acquisition.Rollback();
@@ -837,6 +534,8 @@ namespace Helodrace.ModernWar
             for (int i = 0; i < displaced.Count; i++)
                 ReturnOrDestroyAssembly(displaced[i].thing);
             selectedAttachmentId = child.thingIDNumber;
+            revealSocketAttachment = child.thingIDNumber;
+            preferredRailOffset = null;
             root.InvalidateTree();
         }
 
@@ -1003,10 +702,9 @@ namespace Helodrace.ModernWar
         {
             ModularAttachmentSocket current = node?.Props.SocketNamed(selectedSocketId);
             if (current != null && !ShouldHideCEAmmunitionSocket(current)) return;
-            selectedSocketId = node?.Props.sockets
-                .FirstOrDefault(socket => !ShouldHideCEAmmunitionSocket(socket))
-                ?.id;
+            selectedSocketId = null;
             selectedAttachmentId = -1;
+            preferredRailOffset = null;
             selectedCatalogGroup = null;
             catalogScroll = Vector2.zero;
         }
@@ -1136,11 +834,6 @@ namespace Helodrace.ModernWar
             for (int i = 0; i < comp.ChildCount; i++)
                 if (comp.SocketIdAt(i) == socketId) return i;
             return -1;
-        }
-
-        private static string TagText(List<string> tags)
-        {
-            return tags.NullOrEmpty() ? "-" : string.Join(", ", tags.ToArray());
         }
 
         private static string SurfaceText(ModularRailSurface surface)

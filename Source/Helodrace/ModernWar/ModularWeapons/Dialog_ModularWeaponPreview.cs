@@ -12,21 +12,15 @@ namespace Helodrace.ModernWar
         private Rect PreviewArea(Rect rect)
         {
             Rect inner = rect.ContractedBy(18f);
-            inner.yMin += PreviewScope == null ? 122f : 60f;
+            inner.yMin += 60f;
             inner.yMax -= 46f;
             return inner;
         }
 
-        private bool PreviewCoveredByStats(Rect rect)
-        {
-            return PreviewScope == null && performanceExpanded && Mouse.IsOver(
-                new Rect(rect.x + 10f, rect.y + 44f, 430f, 390f));
-        }
-
         private void HandlePreviewNavigation(Rect rect)
         {
-            Rect area = PreviewArea(rect);
-            if (!Mouse.IsOver(area) || PreviewCoveredByStats(rect)) return;
+            Rect area = PreviewCameraArea(rect);
+            if (!Mouse.IsOver(PreviewArea(rect))) return;
             Event current = Event.current;
             if (current.type == EventType.ScrollWheel)
             {
@@ -44,7 +38,7 @@ namespace Helodrace.ModernWar
         private void DrawPreviewToolbar(Rect rect)
         {
             Rect toolbar = new Rect(rect.x + 10f, rect.y + 8f, rect.width - 20f, 27f);
-            Rect area = PreviewArea(rect);
+            Rect area = PreviewCameraArea(rect);
             if (Widgets.ButtonText(new Rect(toolbar.x, toolbar.y, 28f, toolbar.height), "−"))
                 previewCamera.ZoomAt(area, previewCamera.Zoom / 1.25f, area.center);
             if (Widgets.ButtonText(new Rect(toolbar.x + 34f, toolbar.y, 28f, toolbar.height), "+"))
@@ -66,9 +60,9 @@ namespace Helodrace.ModernWar
         {
             Rect inner = PreviewArea(rect);
             if (!Mouse.IsOver(inner)) return;
-            if (PreviewCoveredByStats(rect)) return;
-            Vector2 origin = previewCamera.OriginFor(inner);
-            float scale = previewCamera.ScaleFor(inner);
+            Rect cameraArea = PreviewCameraArea(rect);
+            Vector2 origin = previewCamera.OriginFor(cameraArea);
+            float scale = previewCamera.ScaleFor(cameraArea);
             ModularRenderNode front = SelectedPreviewPart(FindSelected(snapshot));
             // Hit testing follows the selected part's foreground draw order.
             foreach (ModularRenderNode node in PreviewHitOrder(front))

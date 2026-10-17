@@ -20,7 +20,6 @@
   <HD_ModularWeapon_GroupAllSights>조준기 전체</HD_ModularWeapon_GroupAllSights>
   <HD_ModularWeapon_GroupSight>조준기 그룹 {0} · {1}</HD_ModularWeapon_GroupSight>
   <HD_ModularWeapon_GroupAttached>부착 무기 · {0}</HD_ModularWeapon_GroupAttached>
-  <HD_ModularWeapon_GroupViewHint>파츠 {0}개 · 선택한 그룹의 파츠만 표시합니다.</HD_ModularWeapon_GroupViewHint>
   <HD_ModularWeapon_GroupMenuHint>전체 조립체, 광축이 같은 조준기 그룹, 별도로 부착한 무기를 골라 봅니다. 그룹을 바꾸면 화면에 맞게 표시하고 트리에는 상위 연결 경로를 유지합니다.</HD_ModularWeapon_GroupMenuHint>
   <HD_ModularWeapon_GroupContext>상위 연결 구조입니다. 선택하면 전체 조립체 보기로 돌아갑니다.</HD_ModularWeapon_GroupContext>
   <HD_ModularWeapon_ZoomHint>마우스 휠: 커서 위치를 기준으로 확대·축소(25~800%). 가운데 버튼 드래그: 화면 이동. 화면 초기화: 배율과 위치 복원.</HD_ModularWeapon_ZoomHint>
@@ -34,10 +33,8 @@
   <HD_ModularWeapon_SurfaceUnspecified>미지정</HD_ModularWeapon_SurfaceUnspecified>
   <HD_ModularWeapon_OppositeMounted>상하 반전 장착</HD_ModularWeapon_OppositeMounted>
   <HD_ModularWeapon_ImmediateHint>소켓을 선택한 다음 호환 파츠를 누르세요. 현재 개발 단계에서는 바닥이나 인벤토리에 파츠가 없어도 즉시 장착됩니다.</HD_ModularWeapon_ImmediateHint>
-  <HD_ModularWeapon_Performance>기계적 한계: {0} RPM\n현재 설정: {1} RPM\n최소/현재 지연: {2}초 / {3}초\n점사 발사 간격: {4}틱</HD_ModularWeapon_Performance>
-  <HD_ModularWeapon_RailDetail>길이 {0}  ·  {1}</HD_ModularWeapon_RailDetail>
   <HD_ModularWeapon_RailOffset>레일 위치: {0}</HD_ModularWeapon_RailOffset>
-  <HD_ModularWeapon_SelectSocket>소켓을 선택하면 호환 파츠가 표시됩니다.</HD_ModularWeapon_SelectSocket>
+  <HD_ModularWeapon_SelectSocket>총기 화면의 소켓 박스나 강조된 레일을 누르면 호환 파츠를 고를 수 있습니다.</HD_ModularWeapon_SelectSocket>
   <HD_ModularWeapon_Catalog>호환 파츠 — {0}</HD_ModularWeapon_Catalog>
   <HD_ModularWeapon_Occupancy>점유 길이: {0}</HD_ModularWeapon_Occupancy>
   <HD_ModularWeapon_RailContactLength>레일 접촉 길이: {0}</HD_ModularWeapon_RailContactLength>
@@ -45,17 +42,20 @@
   <HD_ModularWeapon_BodyOffset>레일 접촉점 기준 본체 중심: {0}</HD_ModularWeapon_BodyOffset>
   <HD_ModularWeapon_FireDelayModifier>발사 지연 배수: ×{0}</HD_ModularWeapon_FireDelayModifier>
   <HD_ModularWeapon_AttachFailed>파츠를 장착할 수 없습니다.</HD_ModularWeapon_AttachFailed>
-  <HD_ModularWeapon_SightGroups>조준경 그룹: {0}</HD_ModularWeapon_SightGroups>
-  <HD_ModularWeapon_SightGroupLine>{0}높이 {1} · 효율 {2} · {3}</HD_ModularWeapon_SightGroupLine>
-  <HD_ModularWeapon_SightNoPrimary>사용 가능한 주 조준경 없음</HD_ModularWeapon_SightNoPrimary>
-  <HD_ModularWeapon_SightIronPair>아이언사이트 한 쌍</HD_ModularWeapon_SightIronPair>
-  <HD_ModularWeapon_SightMagnifierRear>후방 확대경 시너지</HD_ModularWeapon_SightMagnifierRear>
-  <HD_ModularWeapon_SightMagnifierFront>전방 확대경 비활성</HD_ModularWeapon_SightMagnifierFront>
-  <HD_ModularWeapon_SightBelowWeapon>무기 중심선 아래 조준경 {0}개 비활성</HD_ModularWeapon_SightBelowWeapon>
   <HD_ModularWeapon_VerticalOccupancy>수직 점유: {0}</HD_ModularWeapon_VerticalOccupancy>
   <HD_ModularWeapon_SightPartDetail>조준경: {0} · 조준반경 {1}</HD_ModularWeapon_SightPartDetail>
   <HD_ModularWeapon_StatsTitle>무기 성능</HD_ModularWeapon_StatsTitle>
-  <HD_ModularWeapon_PerformanceCompact>{0} RPM · 발사 후딜 {1}초</HD_ModularWeapon_PerformanceCompact>
+  <HD_ModularWeapon_RoundsPerMinute>연사 속도</HD_ModularWeapon_RoundsPerMinute>
+  <HD_ModularWeapon_CycleDelay>발사 간격</HD_ModularWeapon_CycleDelay>
+  <HD_ModularWeapon_BurstShots>점사 발수: {0}</HD_ModularWeapon_BurstShots>
+  <HD_ModularWeapon_StatChange>변경 전: {0} → 변경 후: {1}</HD_ModularWeapon_StatChange>
+  <HD_ModularWeapon_SocketOverlayTitle>{0}의 장착부</HD_ModularWeapon_SocketOverlayTitle>
+  <HD_ModularWeapon_AddRailPart>+ 레일 파츠 추가</HD_ModularWeapon_AddRailPart>
+  <HD_ModularWeapon_AddSocketPart>+ 파츠 장착</HD_ModularWeapon_AddSocketPart>
+  <HD_ModularWeapon_InspectSocketPart>이 파츠를 선택해 이 파츠에 달린 소켓을 편집합니다.</HD_ModularWeapon_InspectSocketPart>
+  <HD_ModularWeapon_RemoveSocketPart>이 파츠를 제거합니다. 작업대에서는 부품 상자로 돌려보냅니다.</HD_ModularWeapon_RemoveSocketPart>
+  <HD_ModularWeapon_RailPartCount>장착된 파츠: {0}개</HD_ModularWeapon_RailPartCount>
+  <HD_ModularWeapon_SocketOverlayHint>빈 박스나 강조된 레일을 누른 뒤 아래 목록에서 파츠를 고릅니다. 레일에 파츠를 추가하면 별도 박스가 생깁니다. 장착된 파츠를 선택하면 위치를 조절하고, ×를 누르면 제거합니다. 소켓이 많으면 화살표로 페이지를 바꿉니다.</HD_ModularWeapon_SocketOverlayHint>
   <HD_ModularWeapon_SelectedAmmunition>선택 탄종\n{0}</HD_ModularWeapon_SelectedAmmunition>
   <HD_ModularWeapon_NoAmmunition>선택 없음</HD_ModularWeapon_NoAmmunition>
   <HD_ModularWeapon_AmmunitionPartDetail>탄종 선택: {0}</HD_ModularWeapon_AmmunitionPartDetail>
@@ -66,7 +66,6 @@
   <HD_ModularWeapon_AmmoUnspecified>총열 호환성 확인 불가</HD_ModularWeapon_AmmoUnspecified>
   <HD_ModularWeapon_FailureToChamber>{0}: {1} 탄종은 {2} 총열에서 약실이 완전히 폐쇄되지 않아 격발할 수 없습니다.</HD_ModularWeapon_FailureToChamber>
   <HD_ModularWeapon_CatastrophicFailure>{0}의 총기가 파열했습니다! {2} 총열에 잘못 장전된 {1} 탄종이 원인입니다.</HD_ModularWeapon_CatastrophicFailure>
-  <HD_ModularWeapon_ConvertedStats>&#54872;&#49328; &#49457;&#45733;</HD_ModularWeapon_ConvertedStats>
   <HD_ModularWeapon_Mass>&#47924;&#44172;</HD_ModularWeapon_Mass>
   <HD_ModularWeapon_RecoilControl>&#48152;&#46041; &#51228;&#50612;</HD_ModularWeapon_RecoilControl>
   <HD_ModularWeapon_Ergonomics>&#51064;&#52404;&#44277;&#54617;</HD_ModularWeapon_Ergonomics>

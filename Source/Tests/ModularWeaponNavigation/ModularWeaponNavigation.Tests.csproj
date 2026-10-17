@@ -8,5 +8,7 @@
     <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponPreviewCamera.cs" Link="ModularWeaponPreviewCamera.cs" />
     <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponImageBounds.cs" Link="ModularWeaponImageBounds.cs" />
     <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponPreviewGroups.cs" Link="ModularWeaponPreviewGroups.cs" />
+    <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponStatMotion.cs" Link="ModularWeaponStatMotion.cs" />
+    <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponSocketLayout.cs" Link="ModularWeaponSocketLayout.cs" />
   </ItemGroup>
 </Project>

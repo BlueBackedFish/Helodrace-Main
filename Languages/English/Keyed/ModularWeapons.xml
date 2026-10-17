@@ -20,7 +20,6 @@
   <HD_ModularWeapon_GroupAllSights>All sights</HD_ModularWeapon_GroupAllSights>
   <HD_ModularWeapon_GroupSight>Sight group {0} · {1}</HD_ModularWeapon_GroupSight>
   <HD_ModularWeapon_GroupAttached>Attached weapon · {0}</HD_ModularWeapon_GroupAttached>
-  <HD_ModularWeapon_GroupViewHint>{0} parts · Only the selected group's parts are shown.</HD_ModularWeapon_GroupViewHint>
   <HD_ModularWeapon_GroupMenuHint>View the entire assembly, sights sharing an optical axis, or an independently attached weapon. Each group fits the preview automatically; the tree retains its parent paths.</HD_ModularWeapon_GroupMenuHint>
   <HD_ModularWeapon_GroupContext>Parent structure. Select this part to return to the entire assembly.</HD_ModularWeapon_GroupContext>
   <HD_ModularWeapon_ZoomHint>Mouse wheel: zoom at the pointer (25–800%). Middle mouse drag: pan. Reset view: restore zoom and position.</HD_ModularWeapon_ZoomHint>
@@ -34,10 +33,8 @@
   <HD_ModularWeapon_SurfaceUnspecified>unspecified</HD_ModularWeapon_SurfaceUnspecified>
   <HD_ModularWeapon_OppositeMounted>vertically flipped</HD_ModularWeapon_OppositeMounted>
   <HD_ModularWeapon_ImmediateHint>Click a socket, then click a compatible part. No loose item is required during this development stage.</HD_ModularWeapon_ImmediateHint>
-  <HD_ModularWeapon_Performance>Mechanical limit: {0} RPM\nCurrent setting: {1} RPM\nMinimum/current delay: {2}s / {3}s\nBurst interval: {4} ticks</HD_ModularWeapon_Performance>
-  <HD_ModularWeapon_RailDetail>Length {0}  •  {1}</HD_ModularWeapon_RailDetail>
   <HD_ModularWeapon_RailOffset>Rail position: {0}</HD_ModularWeapon_RailOffset>
-  <HD_ModularWeapon_SelectSocket>Select a socket to view compatible parts.</HD_ModularWeapon_SelectSocket>
+  <HD_ModularWeapon_SelectSocket>Click a socket box or highlighted rail on the weapon to choose a part.</HD_ModularWeapon_SelectSocket>
   <HD_ModularWeapon_Catalog>Compatible parts — {0}</HD_ModularWeapon_Catalog>
   <HD_ModularWeapon_Occupancy>Occupied length: {0}</HD_ModularWeapon_Occupancy>
   <HD_ModularWeapon_RailContactLength>Rail contact: {0}</HD_ModularWeapon_RailContactLength>
@@ -45,17 +42,20 @@
   <HD_ModularWeapon_BodyOffset>Body center from rail contact: {0}</HD_ModularWeapon_BodyOffset>
   <HD_ModularWeapon_FireDelayModifier>Fire delay multiplier: ×{0}</HD_ModularWeapon_FireDelayModifier>
   <HD_ModularWeapon_AttachFailed>The part could not be attached.</HD_ModularWeapon_AttachFailed>
-  <HD_ModularWeapon_SightGroups>Sight groups: {0}</HD_ModularWeapon_SightGroups>
-  <HD_ModularWeapon_SightGroupLine>{0}H {1} · efficiency {2} · {3}</HD_ModularWeapon_SightGroupLine>
-  <HD_ModularWeapon_SightNoPrimary>no usable primary sight</HD_ModularWeapon_SightNoPrimary>
-  <HD_ModularWeapon_SightIronPair>iron-sight pair</HD_ModularWeapon_SightIronPair>
-  <HD_ModularWeapon_SightMagnifierRear>rear magnifier synergy</HD_ModularWeapon_SightMagnifierRear>
-  <HD_ModularWeapon_SightMagnifierFront>front magnifier disabled</HD_ModularWeapon_SightMagnifierFront>
-  <HD_ModularWeapon_SightBelowWeapon>{0} sight(s) below the weapon centerline disabled</HD_ModularWeapon_SightBelowWeapon>
   <HD_ModularWeapon_VerticalOccupancy>Vertical occupancy: {0}</HD_ModularWeapon_VerticalOccupancy>
   <HD_ModularWeapon_SightPartDetail>Sight: {0} · aim radius {1}</HD_ModularWeapon_SightPartDetail>
   <HD_ModularWeapon_StatsTitle>Weapon statistics</HD_ModularWeapon_StatsTitle>
-  <HD_ModularWeapon_PerformanceCompact>{0} RPM · {1}s fire delay</HD_ModularWeapon_PerformanceCompact>
+  <HD_ModularWeapon_RoundsPerMinute>Cyclic rate</HD_ModularWeapon_RoundsPerMinute>
+  <HD_ModularWeapon_CycleDelay>Cycle delay</HD_ModularWeapon_CycleDelay>
+  <HD_ModularWeapon_BurstShots>Burst shots: {0}</HD_ModularWeapon_BurstShots>
+  <HD_ModularWeapon_StatChange>Previous: {0} → Current: {1}</HD_ModularWeapon_StatChange>
+  <HD_ModularWeapon_SocketOverlayTitle>Sockets on {0}</HD_ModularWeapon_SocketOverlayTitle>
+  <HD_ModularWeapon_AddRailPart>+ Add rail part</HD_ModularWeapon_AddRailPart>
+  <HD_ModularWeapon_AddSocketPart>+ Install part</HD_ModularWeapon_AddSocketPart>
+  <HD_ModularWeapon_InspectSocketPart>Select this part to edit its own sockets.</HD_ModularWeapon_InspectSocketPart>
+  <HD_ModularWeapon_RemoveSocketPart>Remove this part. At a workbench it returns to the parts box.</HD_ModularWeapon_RemoveSocketPart>
+  <HD_ModularWeapon_RailPartCount>Attached parts: {0}</HD_ModularWeapon_RailPartCount>
+  <HD_ModularWeapon_SocketOverlayHint>Click an empty box or highlighted rail to choose a part below. Each rail attachment gets its own box. Select an attachment to adjust its position; × removes it. Arrow buttons switch pages when there are many sockets.</HD_ModularWeapon_SocketOverlayHint>
   <HD_ModularWeapon_SelectedAmmunition>Ammunition\n{0}</HD_ModularWeapon_SelectedAmmunition>
   <HD_ModularWeapon_NoAmmunition>none selected</HD_ModularWeapon_NoAmmunition>
   <HD_ModularWeapon_AmmunitionPartDetail>Ammunition selection: {0}</HD_ModularWeapon_AmmunitionPartDetail>
@@ -66,7 +66,6 @@
   <HD_ModularWeapon_AmmoUnspecified>Chamber compatibility unknown</HD_ModularWeapon_AmmoUnspecified>
   <HD_ModularWeapon_FailureToChamber>{0} cannot fire: {1} will not chamber correctly in a {2} barrel.</HD_ModularWeapon_FailureToChamber>
   <HD_ModularWeapon_CatastrophicFailure>{0}'s weapon ruptured! {1} was fired through a {2} barrel.</HD_ModularWeapon_CatastrophicFailure>
-  <HD_ModularWeapon_ConvertedStats>Converted performance</HD_ModularWeapon_ConvertedStats>
   <HD_ModularWeapon_Mass>Weight</HD_ModularWeapon_Mass>
   <HD_ModularWeapon_RecoilControl>Recoil control</HD_ModularWeapon_RecoilControl>
   <HD_ModularWeapon_Ergonomics>Ergonomics</HD_ModularWeapon_Ergonomics>
