@@ -50,7 +50,7 @@
     <defName>HD_Ammunition_556M855A1_Ammo</defName>
     <label>5.56x45mm M855A1 cartridge</label>
     <description>M855A1 ammunition for modular 5.56x45mm magazines.</description>
-    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556M855A1_Ammo</texPath></graphicData>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556M855A1</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <storageMode>Internal</storageMode>
@@ -95,7 +95,7 @@
     <defName>HD_Ammunition_919M882_Ammo</defName>
     <label>9x19mm M882 cartridge</label>
     <description>M882 ammunition for modular 9x19mm magazines.</description>
-    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_919M882_Ammo</texPath></graphicData>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_919M882</texPath></graphicData>
     <statBases><Mass>0.012</Mass><MarketValue>2</MarketValue></statBases>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><requiredResearch><li>HelodSpecialOperationsWeapons</li></requiredResearch>
@@ -118,7 +118,7 @@
     <defName>HD_Ammunition_76251M80A1_Ammo</defName>
     <label>7.62x51mm M80A1 cartridge</label>
     <description>M80A1 ammunition for modular 7.62x51mm magazines.</description>
-    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M80A1_Ammo</texPath></graphicData>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M80A1</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>

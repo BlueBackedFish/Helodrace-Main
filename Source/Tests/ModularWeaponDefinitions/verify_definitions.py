@@ -94,5 +94,28 @@ def validate():
     return parts, presets, roots
 
 
+def validate_ammunition_textures():
+    """Check item icons, feed animations and casing motes against shipped assets."""
+    prefix = 'Weapons/Modular/Ammunition/'
+    available = {p.relative_to(ROOT / 'Textures').with_suffix('').as_posix()
+                 for p in (ROOT / 'Textures' / prefix).rglob('*.png')}
+    missing, references, used = [], 0, set()
+    for folder in ('Defs', 'Patches'):
+        for path in (ROOT / folder).rglob('*.xml'):
+            for node in ET.parse(path).getroot().iter():
+                texture = (node.text or '').strip()
+                if node.tag not in ('texPath', 'feedingRoundTexPath', 'uiIconPath') or not texture.startswith(prefix):
+                    continue
+                references += 1
+                used.add(texture)
+                if texture not in available:
+                    missing.append('%s: %s' % (path.relative_to(ROOT), texture))
+    assert references > 0, 'No modular ammunition textures were checked.'
+    assert not missing, 'Missing ammunition textures:\n' + '\n'.join(missing)
+    print('PASS: %d ammunition texture references resolve to %d shipped icons, feeding rounds and casings.'
+          % (references, len(used)))
+
+
 if __name__ == '__main__':
     validate()
+    validate_ammunition_textures()
