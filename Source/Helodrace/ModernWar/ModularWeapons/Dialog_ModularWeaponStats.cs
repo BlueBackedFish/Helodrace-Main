@@ -13,8 +13,13 @@ namespace Helodrace.ModernWar
         private sealed class StatBar
         {
             public string Key, Label, Format;
+            public StatDef Stat;
             public float Value, Maximum;
             public bool LowerIsBetter;
+
+            public string FormatValue(double value) => Stat != null
+                ? Stat.Worker.ValueToString((float)value, false, ToStringNumberSense.Absolute)
+                : value.ToString(Format, CultureInfo.InvariantCulture);
         }
 
         private readonly Dictionary<string, ModularWeaponStatMotion> statMotions =
@@ -23,24 +28,44 @@ namespace Helodrace.ModernWar
 
         private List<StatBar> WeaponStatBars()
         {
-            ModularWeaponConvertedStats value = root.ConvertedStats;
-            return new List<StatBar>
+            // Read the same final instance stats used by combat, after part factors
+            // and compatibility patches. Authoring/control scores stay out of the UI.
+            List<StatBar> bars = new List<StatBar>
             {
-                Bar("Mass", value.MassKg, 15f, "0.##' kg'", true),
-                Bar("Ergonomics", value.Ergonomics, 1f, "P0"),
-                Bar("RecoilControl", value.RecoilControl, 1f, "P0"),
-                Bar("MuzzleControl", value.MuzzleControl, 1f, "P0"),
-                Bar("Handling", value.Handling, 1f, "P0"),
-                Bar("TargetAcquisition", value.TargetAcquisition, 1f, "P0"),
-                Bar("AimingPrecision", value.AimingPrecision, 1f, "P0"),
-                Bar("Reliability", value.OperatingReliability, 1f, "P1"),
-                Bar("IdentificationDistance", value.IdentificationDistanceCells, 80f,
-                    "0.#' " + "HD_ModularWeapon_Cells".Translate().ToString() + "'", false,
-                    "HD_ModularWeapon_IdentificationDistance".Translate()),
+                FinalStatBar(StatDefOf.Mass, 15f, true),
+                FinalStatBar(StatDefOf.RangedWeapon_WarmupMultiplier, 2f, true),
+                FinalStatBar(StatDefOf.RangedWeapon_Cooldown, 4f, true),
                 Bar("RoundsPerMinute", root.EffectiveRoundsPerMinute, 1800f, "0.#' RPM'"),
-                Bar("CycleDelay", root.EffectiveFireDelaySeconds, 4f, "0.###' s'", true),
-                Bar("GasEfficiency", value.GasEfficiency, 1.35f, "P0")
+                Bar("CycleDelay", root.EffectiveFireDelaySeconds, 4f, "0.###' s'", true)
             };
+            if (CombatExtendedActive)
+            {
+                AddFinalStatBar(bars, "Recoil", 8f, true);
+                AddFinalStatBar(bars, "ShotSpread", 0.24f, true);
+                AddFinalStatBar(bars, "SwayFactor", 1.8f, true);
+                AddFinalStatBar(bars, "SightsEfficiency", 1.25f);
+                AddFinalStatBar(bars, "Bulk", 30f, true);
+            }
+            else
+            {
+                foreach (StatDef stat in new[] { StatDefOf.AccuracyTouch, StatDefOf.AccuracyShort,
+                    StatDefOf.AccuracyMedium, StatDefOf.AccuracyLong })
+                    bars.Add(FinalStatBar(stat, 1f));
+            }
+            bars.Add(Bar("IdentificationDistance", root.ConvertedStats.IdentificationDistanceCells, 80f,
+                "0.#' " + "HD_ModularWeapon_Cells".Translate().ToString() + "'", false,
+                "HD_ModularWeapon_IdentificationDistance".Translate()));
+            return bars;
+        }
+
+        private StatBar FinalStatBar(StatDef stat, float maximum, bool lowerIsBetter = false)
+            => new StatBar { Key = stat.defName, Label = stat.LabelCap, Stat = stat,
+                Value = root.parent.GetStatValue(stat), Maximum = maximum, LowerIsBetter = lowerIsBetter };
+
+        private void AddFinalStatBar(List<StatBar> bars, string name, float maximum, bool lowerIsBetter = false)
+        {
+            StatDef stat = DefDatabase<StatDef>.GetNamedSilentFail(name);
+            if (stat != null) bars.Add(FinalStatBar(stat, maximum, lowerIsBetter));
         }
 
         private static StatBar Bar(string key, float value, float maximum, string format,
@@ -91,7 +116,6 @@ namespace Helodrace.ModernWar
                 }
                 motion.Retarget(bar.Value, now);
                 double current = Math.Max(0, motion.ValueAt(now));
-                if (bar.Format.StartsWith("P", StringComparison.Ordinal)) current = Math.Min(bar.Maximum, current);
                 double delta = motion.Target - motion.PreviousTarget;
                 bool changed = now - motion.ChangedAt < 1.8 && Math.Abs(delta) > 0.00001;
                 bool improved = bar.LowerIsBetter ? delta < 0 : delta > 0;
@@ -103,7 +127,7 @@ namespace Helodrace.ModernWar
                 Text.Anchor = TextAnchor.UpperRight;
                 if (changed) GUI.color = color;
                 Widgets.Label(new Rect(view.width * 0.58f, y, view.width * 0.42f, 24f),
-                    current.ToString(bar.Format, CultureInfo.InvariantCulture));
+                    bar.FormatValue(current));
                 GUI.color = Color.white;
                 Text.Anchor = TextAnchor.UpperLeft;
                 Rect track = new Rect(0f, y + 24f, view.width, 9f);
@@ -113,11 +137,10 @@ namespace Helodrace.ModernWar
                 float target = Mathf.Clamp01(bar.Value / bar.Maximum);
                 Widgets.DrawBoxSolid(new Rect(Mathf.Clamp(track.x + track.width * target - 1f,
                     track.x, track.xMax - 2f), track.y - 2f, 2f, track.height + 4f), Color.white);
-                string tip = bar.Label + ": " + bar.Value.ToString(bar.Format, CultureInfo.InvariantCulture);
+                string tip = bar.Label + ": " + bar.FormatValue(bar.Value);
                 if (changed)
                     tip += "\n" + "HD_ModularWeapon_StatChange".Translate(
-                        motion.PreviousTarget.ToString(bar.Format, CultureInfo.InvariantCulture),
-                        bar.Value.ToString(bar.Format, CultureInfo.InvariantCulture));
+                        bar.FormatValue(motion.PreviousTarget), bar.FormatValue(bar.Value));
                 TooltipHandler.TipRegion(new Rect(0f, y, view.width, rowHeight), tip);
             }
             float detailTop = bars.Count * rowHeight + 3f;
@@ -135,24 +158,8 @@ namespace Helodrace.ModernWar
             string text = "HD_ModularWeapon_Balance".Translate() + ": "
                 + (root.ConvertedStats.CenterOfMassMeters * 100f)
                     .ToString("+0.0;-0.0;0.0", CultureInfo.InvariantCulture) + " cm";
-            text += "\n" + StatDefOf.RangedWeapon_Cooldown.LabelCap + ": "
-                + weapon.GetStatValue(StatDefOf.RangedWeapon_Cooldown).ToString("0.###", CultureInfo.InvariantCulture) + " s";
-            text += "\n" + StatDefOf.RangedWeapon_WarmupMultiplier.LabelCap + ": ×"
-                + weapon.GetStatValue(StatDefOf.RangedWeapon_WarmupMultiplier).ToString("0.###", CultureInfo.InvariantCulture);
             VerbProperties verb = weapon.def.Verbs?.FirstOrDefault(v => v.isPrimary) ?? weapon.def.Verbs?.FirstOrDefault();
             if (verb != null) text += "\n" + "HD_ModularWeapon_BurstShots".Translate(root.ApplyBurstShotCount(verb.burstShotCount));
-            if (CombatExtendedActive)
-            {
-                foreach (string name in new[] { "SightsEfficiency", "ShotSpread", "SwayFactor", "Recoil" })
-                {
-                    StatDef stat = DefDatabase<StatDef>.GetNamedSilentFail(name);
-                    if (stat != null) text += "\n" + stat.LabelCap + ": "
-                        + weapon.GetStatValue(stat).ToString("0.###", CultureInfo.InvariantCulture);
-                }
-            }
-            else
-                foreach (StatDef stat in new[] { StatDefOf.AccuracyShort, StatDefOf.AccuracyMedium, StatDefOf.AccuracyLong })
-                    text += "\n" + stat.LabelCap + ": " + weapon.GetStatValue(stat).ToString("P0", CultureInfo.InvariantCulture);
             return text;
         }
     }
