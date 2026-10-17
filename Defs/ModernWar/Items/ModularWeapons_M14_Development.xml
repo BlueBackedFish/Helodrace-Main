@@ -145,6 +145,12 @@
     <description>M14 wooden stock provides shoulder support and helps control recoil.</description>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_M14Wood</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>3</Steel></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+      <incompatibleParts>
+        <li>HD_ModularPart_Barrel_M1A16_Part</li>
+        <li>HD_ModularPart_Handguard_MK14EBR</li>
+        <li>HD_ModularPart_PistolGrip_MK14EBR</li>
+        <li>HD_ModularPart_Stock_MK14EBR</li>
+      </incompatibleParts>
       <graphicLayer>2</graphicLayer>
       <mounts><li><id>m14_stock_mount</id><socketTags><li>m14_stock</li></socketTags><transform><position>(-0.075195,0,-0.027344)</position></transform></li></mounts>
       <sockets><li><id>top_cover</id><label>wooden stock top cover</label><tags><li>m14_stock_top_cover</li></tags><maxAttachments>1</maxAttachments><transform><position>(0.022461,0,-0.014648)</position></transform></li></sockets>
@@ -170,6 +176,11 @@
     <description>SOCOM 16 stock provides shoulder support and helps control recoil.</description>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_Socom16</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>3</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <incompatibleParts>
+        <li>HD_ModularPart_Handguard_MK14EBR</li>
+        <li>HD_ModularPart_PistolGrip_MK14EBR</li>
+        <li>HD_ModularPart_Stock_MK14EBR</li>
+      </incompatibleParts>
       <graphicLayer>2</graphicLayer>
       <mounts><li><id>m14_stock_mount</id><socketTags><li>m14_stock</li></socketTags><transform><position>(-0.075,0,-0.027)</position></transform></li></mounts>
       

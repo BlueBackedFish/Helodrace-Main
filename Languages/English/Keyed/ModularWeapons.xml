@@ -184,4 +184,6 @@
   <HD_Placement_Copied>The complete placement batch was copied. Save to a file to keep it after restarting.</HD_Placement_Copied>
   <HD_Placement_Exported>Saved {0} weapons / {1} unique parts to one XML file: {2}</HD_Placement_Exported>
   <HD_Placement_ExportFailed>Export failed. Your live edits and batch remain available; see the log.</HD_Placement_ExportFailed>
+  <HD_ModularWeapon_ConflictingPart>Conflicting part</HD_ModularWeapon_ConflictingPart>
+  <HD_ModularWeapon_RejectPartConflict>{0} cannot be installed together with {1}. Remove or replace the conflicting part first.</HD_ModularWeapon_RejectPartConflict>
 </LanguageData>

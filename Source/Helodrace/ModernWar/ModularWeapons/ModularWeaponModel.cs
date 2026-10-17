@@ -333,6 +333,8 @@ namespace Helodrace.ModernWar
         // would list every internal part separately on the vanilla research screen.
         public List<ResearchProjectDef> requiredResearch =
             new List<ResearchProjectDef>();
+        // Assembly-wide, symmetric exclusions. Defining a pair on either part is enough.
+        public List<ThingDef> incompatibleParts = new List<ThingDef>();
         // The workbench consumes these materials directly. Keeping them off
         // ThingDef.costList avoids involving vanilla recipe generation.
         public List<ThingDefCountClass> craftCost =
@@ -430,6 +432,19 @@ namespace Helodrace.ModernWar
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
         {
             foreach (string error in base.ConfigErrors(parentDef)) yield return error;
+
+            if (incompatibleParts != null)
+            {
+                HashSet<ThingDef> seen = new HashSet<ThingDef>();
+                foreach (ThingDef part in incompatibleParts)
+                {
+                    if (part == null || part == parentDef
+                        || part.GetCompProperties<CompProperties_ModularWeaponNode>() == null)
+                        yield return parentDef.defName + " has an invalid incompatibleParts entry.";
+                    else if (!seen.Add(part))
+                        yield return parentDef.defName + " repeats incompatible part " + part.defName + ".";
+                }
+            }
 
             if (spawnPreset != null && (!isAssemblyRoot || spawnPreset.weaponDef != parentDef))
                 yield return parentDef.defName

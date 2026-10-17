@@ -47,6 +47,7 @@ internal static class Program
             BallisticTests();
             BallisticAuthoringTests();
             RangeTests();
+            PartConflictTests.Run(Check);
             PlacementEditorTests.Run(Check);
             Console.WriteLine("PASS: "+checks+" modular balance checks using production sight/stat code and patched preset geometry.");
             return 0;

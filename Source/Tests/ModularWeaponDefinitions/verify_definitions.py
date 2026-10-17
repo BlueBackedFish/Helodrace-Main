@@ -44,7 +44,12 @@ def validate():
                 categories[name] = category
 
     expectations = 0
+    conflicts = {}
     for name, comp in parts.items():
+        excluded = [entry.text for entry in comp.findall('incompatibleParts/li')]
+        assert len(excluded) == len(set(excluded)), (name, 'duplicate incompatible part')
+        assert all(part in parts and part != name for part in excluded), (name, excluded)
+        conflicts[name] = set(excluded)
         if name in roots:
             spawn = comp.findtext('spawnPreset')
             assert spawn in presets, (name, spawn)
@@ -89,6 +94,16 @@ def validate():
         assert weapon in roots, name
         assert len(preset.find('parts')) > 0, name
         check_tree(weapon, preset.find('parts'))
+        installed = [weapon] + [p.text for p in preset.findall('.//part')]
+        for i, first in enumerate(installed):
+            for second in installed[i + 1:]:
+                assert second not in conflicts[first] and first not in conflicts[second], (name, first, second, 'conflicting preset')
+    wood = 'HD_ModularPart_Stock_M14Wood'
+    socom = 'HD_ModularPart_Stock_Socom16_Part'
+    ebr = {'HD_ModularPart_Handguard_MK14EBR', 'HD_ModularPart_PistolGrip_MK14EBR', 'HD_ModularPart_Stock_MK14EBR'}
+    assert ebr <= conflicts[wood] and ebr <= conflicts[socom]
+    assert 'HD_ModularPart_Barrel_M1A16_Part' in conflicts[wood]
+    print('PASS: %d authored conflicts; every shipped preset has a compatible full assembly.' % sum(map(len, conflicts.values())))
     print('PASS: %d bare parts, %d complete weapon roots, %d exact presets, %d attachments, %d missing-part expectations.'
           % (len(parts) - len(roots), len(roots), len(presets), attachments, expectations))
     return parts, presets, roots

@@ -1855,6 +1855,14 @@ namespace Helodrace.ModernWar
                 if (props.performanceRole != ModularWeaponPerformanceRole.None)
                     builder.AppendLine("<performanceRole>" + props.performanceRole
                         + "</performanceRole>");
+                if (!props.incompatibleParts.NullOrEmpty())
+                {
+                    builder.AppendLine("<incompatibleParts>");
+                    foreach (ThingDef part in props.incompatibleParts)
+                        if (part != null)
+                            builder.AppendLine("  <li>" + Xml(part.defName) + "</li>");
+                    builder.AppendLine("</incompatibleParts>");
+                }
                 if (!props.missingFunctions.NullOrEmpty())
                 {
                     builder.AppendLine("<missingFunctions>");

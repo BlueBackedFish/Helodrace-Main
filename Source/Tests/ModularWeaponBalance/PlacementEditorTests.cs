@@ -73,12 +73,14 @@ internal static class PlacementEditorTests
         check((moving.Props.graphicOffset-before*2).sqrMagnitude<.000001f,"Repeated instances of one shared definition are moved only once");
 
         var settings=new CompProperties_ModularWeaponNode();
+        var excluded=Bare<ThingDef>();excluded.defName="Excluded&Part";settings.incompatibleParts.Add(excluded);
         settings.mounts.Add(new ModularAttachmentMount {id="mount&",label="<left & right>"});
         settings.sockets.Add(new ModularAttachmentSocket {id="socket&",label="<socket>",tags=new List<string>{"a&b"}});
         var named=Node("Escaping",204,settings);
         string fragment=(string)Editor.GetMethod("BuildXml",Static).Invoke(null,new object[]{new List<ModularRenderNode>{named}});
         var escaped=XElement.Parse("<settings>"+fragment+"</settings>");
         check(escaped.Element("mounts").Element("li").Element("label").Value=="<left & right>","Custom labels remain valid batch XML");
+        check(escaped.Element("incompatibleParts").Element("li").Value=="Excluded&Part","Placement exports retain part conflicts with valid XML escaping");
 
         var dialog=Bare<Dialog_ModularAttachmentEditor>();
         Set(dialog,"root",a.comp);Set(dialog,"workspace",workspace);

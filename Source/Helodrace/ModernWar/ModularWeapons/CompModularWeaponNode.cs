@@ -769,6 +769,14 @@ namespace Helodrace.ModernWar
                 return false;
             }
 
+            ModularWeaponPartConflict conflict = ModularWeaponPartConflicts.Find(
+                this, child.def, childComp);
+            if (conflict != null)
+            {
+                reason = conflict.Reason;
+                return false;
+            }
+
             if (!ValidateRailPlacement(
                 socket, mount, childComp, railOffset, -1, out reason))
                 return false;
@@ -980,6 +988,17 @@ namespace Helodrace.ModernWar
 
             if (!template.ValidateRequiredSocketsRecursive(0, out rejection))
             {
+                DestroyAssembly(templateThing);
+                return false;
+            }
+
+            // A preset may target an attached weapon subassembly. Validate against
+            // its surrounding weapon before destroying any of the current children.
+            ModularWeaponPartConflict presetConflict = ModularWeaponPartConflicts.Find(
+                this, templateThing.def, template, parent);
+            if (presetConflict != null)
+            {
+                rejection = presetConflict.Reason;
                 DestroyAssembly(templateThing);
                 return false;
             }

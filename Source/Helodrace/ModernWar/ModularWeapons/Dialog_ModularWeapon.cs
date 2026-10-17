@@ -347,6 +347,8 @@ namespace Helodrace.ModernWar
             Rect viewRect = new Rect(0f, 0f, outRect.width - 18f,
                 Mathf.Max(outRect.height, contentHeight));
             Widgets.BeginScrollView(outRect, ref catalogScroll, viewRect);
+            int replacementIndex = ReplacementIndex(node.comp, socket);
+            Thing replacement = node.comp.ChildAt(replacementIndex);
             for (int i = 0; i < entries.Count; i++)
             {
                     ThingDef def = entries[i];
@@ -354,6 +356,9 @@ namespace Helodrace.ModernWar
                         def.GetCompProperties<CompProperties_ModularWeaponNode>();
                     int available = workshop?.AvailableCount(def) ?? int.MaxValue;
                     bool unavailable = available <= 0;
+                    ModularWeaponPartConflict conflict = ModularWeaponPartConflicts.Find(
+                        node.comp, def, ignoredSubtree: replacement);
+                    unavailable |= conflict != null;
                     ResearchProjectDef missingResearch = workshop == null
                         ? null
                         : ModularWeaponWorkshopSession.MissingResearch(def);
@@ -368,7 +373,9 @@ namespace Helodrace.ModernWar
                         hovered ? 2 : 1);
                     Text.Font = GameFont.Tiny;
                     GUI.color = unavailable ? Color.red : new Color(0.65f, 0.9f, 0.65f);
-                    string status = workshop == null
+                    string status = conflict != null
+                        ? "HD_ModularWeapon_ConflictingPart".Translate()
+                        : workshop == null
                         ? "HD_ModularWeapon_InstantCraft".Translate()
                         : missingResearch != null
                             ? "HD_ModularWeapon_ResearchRequired".Translate(
@@ -392,7 +399,9 @@ namespace Helodrace.ModernWar
                     Text.Font = GameFont.Small;
                     if (hovered) hoveredPart = def;
                     string discouragedReason = DiscouragedReason(def, socket);
-                    if (discouragedReason != null)
+                    if (conflict != null)
+                        TooltipHandler.TipRegion(tile, conflict.Reason);
+                    else if (discouragedReason != null)
                         TooltipHandler.TipRegion(tile, discouragedReason.Translate());
                     else if (socket.railSurface == ModularRailSurface.Side
                         && props.performanceRole
@@ -470,10 +479,16 @@ namespace Helodrace.ModernWar
             if (node?.comp == null || socket == null || def == null || mount == null) return;
             List<DetachedPart> displaced = new List<DetachedPart>();
             int limit = socket.isRail ? socket.maxAttachments : 1;
-            int replacing = -1;
-            for (int i = 0; i < node.comp.ChildCount; i++)
-                if (node.comp.ChildAt(i).thingIDNumber == selectedAttachmentId
-                    && node.comp.SocketIdAt(i) == socket.id) replacing = i;
+            int replacing = ReplacementIndex(node.comp, socket);
+            // Check before crafting or taking a stored part. Runtime TryAttach repeats
+            // this with the acquired part's actual descendant tree before any mutation.
+            ModularWeaponPartConflict conflict = ModularWeaponPartConflicts.Find(
+                node.comp, def, ignoredSubtree: node.comp.ChildAt(replacing));
+            if (conflict != null)
+            {
+                Messages.Message(conflict.Reason, MessageTypeDefOf.RejectInput, false);
+                return;
+            }
             if (replacing < 0 && socket.isRail && limit != 1
                 && limit > 0 && node.comp.CountOnSocket(socket.id) >= limit)
             {
@@ -544,6 +559,15 @@ namespace Helodrace.ModernWar
             revealSocketAttachment = child.thingIDNumber;
             preferredRailOffset = null;
             root.InvalidateTree();
+        }
+
+        private int ReplacementIndex(CompModularWeaponNode owner, ModularAttachmentSocket socket)
+        {
+            for (int i = 0; i < owner.ChildCount; i++)
+                if (owner.ChildAt(i).thingIDNumber == selectedAttachmentId
+                    && owner.SocketIdAt(i) == socket.id) return i;
+            int limit = socket.isRail ? socket.maxAttachments : 1;
+            return limit == 1 ? FirstChildIndexOnSocket(owner, socket.id) : -1;
         }
 
         private static void RestoreDisplaced(

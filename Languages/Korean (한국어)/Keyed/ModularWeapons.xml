@@ -184,4 +184,6 @@
   <HD_Placement_Copied>모든 총기·파츠의 XML을 복사했습니다. 재시작 후에도 남기려면 파일로 저장하세요.</HD_Placement_Copied>
   <HD_Placement_Exported>총기 {0}개 / 공용 파츠 {1}종을 XML 한 파일로 저장했습니다: {2}</HD_Placement_Exported>
   <HD_Placement_ExportFailed>저장에 실패했습니다. 편집값과 저장 목록은 유지됩니다. 로그를 확인하세요.</HD_Placement_ExportFailed>
+  <HD_ModularWeapon_ConflictingPart>충돌 파츠 있음</HD_ModularWeapon_ConflictingPart>
+  <HD_ModularWeapon_RejectPartConflict>{0}: {1}와(과) 함께 장착할 수 없습니다. 충돌하는 파츠를 먼저 제거하거나 교체하세요.</HD_ModularWeapon_RejectPartConflict>
 </LanguageData>
