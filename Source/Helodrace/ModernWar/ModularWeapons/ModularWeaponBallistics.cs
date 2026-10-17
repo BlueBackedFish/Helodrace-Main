@@ -17,6 +17,7 @@ namespace Helodrace.ModernWar
         public float VelocityHalfDistance { get; internal set; }
         public int ReferenceDamage { get; internal set; }
         public float ReferencePenetration { get; internal set; }
+        public int ProjectilesPerShot { get; internal set; } = 1;
 
         public BulletBallisticsSnapshot Snapshot(int referenceDamage, float referencePenetration)
             => new BulletBallisticsSnapshot
@@ -59,7 +60,8 @@ namespace Helodrace.ModernWar
                 VelocityHalfDistance = Mathf.Max(1f, input.velocityHalfDistance),
                 DamageTransfer = stats.DamageTransferFactor, PenetrationEfficiency = stats.PenetrationEfficiencyFactor,
                 ReferenceDamage = projectile.projectile.GetDamageAmount(1f, null),
-                ReferencePenetration = projectile.projectile.GetArmorPenetration()
+                ReferencePenetration = projectile.projectile.GetArmorPenetration(),
+                ProjectilesPerShot = projectile.GetModExtension<DuplexProjectileExtension>() == null ? 1 : 2
             };
         }
     }

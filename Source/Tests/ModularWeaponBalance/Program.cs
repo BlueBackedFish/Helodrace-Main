@@ -49,6 +49,7 @@ internal static class Program
             RangeTests();
             AmmunitionCatalogTests();
             PartStatCoverageTests();
+            Rifle762Tests();
             PartConflictTests.Run(Check);
             PlacementEditorTests.Run(Check);
             Console.WriteLine("PASS: "+checks+" modular balance checks using production sight/stat code and patched preset geometry.");
@@ -212,7 +213,62 @@ internal static class Program
             muzzles++;
         }
         Check(muzzles==11,"Every muzzle/suppressor definition was tested");
+        foreach(var preset in definitions.Values.Where(e=>e.Name.LocalName=="Helodrace.ModernWar.ModularWeaponPresetDef"))
+        {
+            var nodes=BuildAssembly(preset.Element("weaponDef").Value,preset);
+            var fitted=Convert(nodes);
+            foreach(var device in nodes.Where(n=>n.parentSocketId=="muzzle" || n.parentSocketId=="suppressor").ToArray())
+            {
+                var excluded=new HashSet<CompModularWeaponNode>{device.comp};
+                bool changed;
+                do{changed=false;foreach(var n in nodes)if(n.parentComp!=null && excluded.Contains(n.parentComp))changed|=excluded.Add(n.comp);}while(changed);
+                var unfitted=Convert(nodes.Where(n=>!excluded.Contains(n.comp)).ToList());
+                Check(fitted.VanillaCooldownFactor<unfitted.VanillaCooldownFactor,
+                    "Actual preset muzzle attachment improves recovery: "+preset.Element("defName")+" / "+device.parentSocketId);
+            }
+        }
         Console.WriteLine("PASS: "+count+" usable parts/roots have stats; all "+muzzles+" muzzle parts outperform a bare muzzle in control/recovery.");
+    }
+    private static void Rifle762Tests()
+    {
+        var selectors=new Dictionary<string,(int damage,float ap,int count)>{
+            {"HD_ModularPart_Ammunition_762M80_Part",(14,.24f,1)},
+            {"HD_Ammunition_76251M80A1_Ammo",(18,.34f,1)},
+            {"HD_Ammunition_76251M198_Ammo",(9,.14f,2)},
+            {"HD_Ammunition_76251M948_Ammo",(10,.58f,1)},
+            {"HD_Ammunition_76251M993_Ammo",(13,.48f,1)},
+            {"HD_Ammunition_76251M1158_Ammo",(15,.56f,1)},
+            {"HD_Ammunition_76251MK316_Ammo",(17,.26f,1)},
+            {"HD_Ammunition_76251MK319_Ammo",(19,.29f,1)}};
+        var projectiles=new HashSet<string>();var profiles=new Dictionary<string,ModularWeaponBallisticProfile>();
+        var builds=new Dictionary<string,ModularWeaponConvertedStats>();
+        foreach(var pair in selectors)
+        {
+            var nodes=BuildAssembly("HD_Gun_M14_Weapon",definitions["HD_WeaponPreset_ModularM14_Default"]);
+            var ammo=nodes.Single(n=>!string.IsNullOrEmpty(n.Props.ammunitionType));
+            ammo.comp.props=Properties(Resolve(definitions[pair.Key]));
+            string projectile=ammo.Props.projectileOverride.defName;
+            Check(projectiles.Add(projectile),"7.62x51 cartridges have distinct projectiles: "+pair.Key);
+            var converted=Convert(nodes);builds[pair.Key]=converted;
+            var profile=Ballistics(Projectile(projectile),converted);profiles[pair.Key]=profile;
+            Check(profile.DamageAt()==pair.Value.damage && profile.ProjectilesPerShot==pair.Value.count,"Selected ammo damage/count reaches the real ballistic profile: "+pair.Key);
+            Near(profile.PenetrationAt(),pair.Value.ap,"Selected ammo penetration reaches the real ballistic profile");
+            var barrel=nodes.Single(n=>n.Props.internalStats.barrelLengthInches>0);barrel.Props.internalStats.barrelLengthInches=16;
+            var shortProfile=Ballistics(Projectile(projectile),Convert(nodes));
+            Near(shortProfile.DamageAt(20),profile.DamageAt(20),"7.62 direct damage is independent of barrel length");
+            Near(shortProfile.PenetrationAt(20),profile.PenetrationAt(20),"7.62 direct penetration is independent of barrel length");
+            if(pair.Key.Contains("M948")||pair.Key.Contains("M993")||pair.Key.Contains("M1158")||pair.Key.Contains("M198"))
+                Check(profile.FragmentationChanceAt()==0,"AP/SLAP/duplex do not inherit EPR fragmentation");
+        }
+        var epr=builds["HD_Ammunition_76251M80A1_Ammo"];var match=builds["HD_Ammunition_76251MK316_Ammo"];
+        Check(match.RangeFactor>epr.RangeFactor && match.VanillaAccuracyLongFactor>epr.VanillaAccuracyLongFactor,"MATCH provides a real precision/range benefit");
+        Check(builds["HD_Ammunition_76251MK319_Ammo"].RecoilControl>epr.RecoilControl,"OTM has a real recoil tradeoff");
+        Check(profiles["HD_Ammunition_76251MK316_Ammo"].FragmentationChanceAt()>0 && profiles["HD_Ammunition_76251MK319_Ammo"].FragmentationChanceAt()>0,"MATCH/OTM use the fragmentation system");
+        var endpoint=DuplexProjectileRules.SecondaryEndpoint(Vector3.zero,new Vector3(20,0,0),1.2f,1);
+        var far=DuplexProjectileRules.SecondaryEndpoint(Vector3.zero,new Vector3(40,0,0),1.2f,1);
+        Near(endpoint.x,20,"Duplex spread stays around the primary resolved trajectory");Near(far.z,endpoint.z*2,"Duplex dispersion grows with distance");
+        Check(new DuplexProjectileExtension {secondarySpreadDegrees=float.NaN}.ConfigErrors().Any(),"Invalid duplex XML spread is rejected");
+        Console.WriteLine("PASS: all 8 7.62x51 profiles, distinct projectiles, duplex count/spread and barrel-independent terminal damage.");
     }
     private static float Palette(XElement def)
     {

@@ -7,6 +7,7 @@
   <ItemGroup>
     <Compile Include="../../Helodrace/Core/BulletFragmentation.cs" Link="BulletFragmentation.cs" />
     <Compile Include="../../Helodrace/Core/BulletBallistics.cs" Link="BulletBallistics.cs" />
+    <Compile Include="../../Helodrace/Core/Projectile_DuplexBullet.cs" Link="Projectile_DuplexBullet.cs" />
     <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponBallistics.cs" Link="ModularWeaponBallistics.cs" />
     <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponBallisticDisplay.cs" Link="ModularWeaponBallisticDisplay.cs" />
     <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponRange.cs" Link="ModularWeaponRange.cs" />

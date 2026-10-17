@@ -30,8 +30,11 @@ namespace Helodrace.ModernWar
                 yield return entry;
             }
             string report = profile.Projectile.LabelCap + "\n" + "HD_ModularWeapon_BallisticsHint".Translate();
+            if (profile.ProjectilesPerShot > 1)
+                report += "\n" + "HD_ModularWeapon_DuplexHint".Translate(profile.ProjectilesPerShot);
             yield return new StatDrawEntry(StatCategoryDefOf.Weapon_Ranged, damageLabel,
-                profile.DamageAt(0, req.Thing.GetStatValue(StatDefOf.RangedWeapon_DamageMultiplier)).ToString(), report, 5500);
+                profile.DamageAt(0, req.Thing.GetStatValue(StatDefOf.RangedWeapon_DamageMultiplier)).ToString()
+                    + (profile.ProjectilesPerShot > 1 ? " × " + profile.ProjectilesPerShot : ""), report, 5500);
             yield return new StatDrawEntry(StatCategoryDefOf.Weapon_Ranged, penetrationLabel,
                 profile.PenetrationAt(0, req.Thing.GetStatValue(StatDefOf.RangedWeapon_ArmorPenetrationMultiplier)).ToStringPercent(), report, 5400);
             yield return new StatDrawEntry(StatCategoryDefOf.Weapon_Ranged, "HD_ModularWeapon_FragmentationChance".Translate(),

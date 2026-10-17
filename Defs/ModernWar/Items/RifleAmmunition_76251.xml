@@ -1,14 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-  <!-- Texture-first cartridge selections. These currently reuse M80A1's complete
-       projectile behavior; per-cartridge tuning and special behavior are not
-       introduced by this visual integration. All icons and feed rounds use the
-       existing 256px ammunition canvas and M14 ammunition mount. -->
+  <!-- Game balance profiles, not a real-world performance table. Each cartridge
+       has its own projectile. M198 launches two lower-damage ballistic bullets
+       while consuming one round; AP/SLAP rounds do not fragment. -->
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_76251M198_Proj</defName><label>7.62x51mm M198 duplex bullet</label>
+    <thingClass>Helodrace.Projectile_DuplexBullet</thingClass>
+    <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
+    <modExtensions>
+      <li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>5.44</projectileMassGrams><referenceVelocityMetersPerSecond>850</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>40</velocityHalfDistance></li>
+      <li Class="Helodrace.DuplexProjectileExtension"><secondarySpreadDegrees>1.2</secondarySpreadDegrees></li>
+    </modExtensions>
+    <projectile><damageDef>Bullet</damageDef><damageAmountBase>9</damageAmountBase><armorPenetrationBase>0.14</armorPenetrationBase><stoppingPower>0.45</stoppingPower><speed>90</speed></projectile>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_76251M948_Proj</defName><label>7.62x51mm M948 SLAP bullet</label>
+    <thingClass>Helodrace.Projectile_BallisticBullet</thingClass>
+    <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>4</projectileMassGrams><referenceVelocityMetersPerSecond>1200</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>50</velocityHalfDistance></li></modExtensions>
+    <projectile><damageDef>Bullet</damageDef><damageAmountBase>10</damageAmountBase><armorPenetrationBase>0.58</armorPenetrationBase><stoppingPower>0.35</stoppingPower><speed>110</speed></projectile>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_76251M993_Proj</defName><label>7.62x51mm M993 AP bullet</label>
+    <thingClass>Helodrace.Projectile_BallisticBullet</thingClass>
+    <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>8.2</projectileMassGrams><referenceVelocityMetersPerSecond>930</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>70</velocityHalfDistance></li></modExtensions>
+    <projectile><damageDef>Bullet</damageDef><damageAmountBase>13</damageAmountBase><armorPenetrationBase>0.48</armorPenetrationBase><stoppingPower>0.55</stoppingPower><speed>100</speed></projectile>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_76251M1158_Proj</defName><label>7.62x51mm M1158 ADVAP bullet</label>
+    <thingClass>Helodrace.Projectile_BallisticBullet</thingClass>
+    <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>8</projectileMassGrams><referenceVelocityMetersPerSecond>950</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>75</velocityHalfDistance></li></modExtensions>
+    <projectile><damageDef>Bullet</damageDef><damageAmountBase>15</damageAmountBase><armorPenetrationBase>0.56</armorPenetrationBase><stoppingPower>0.65</stoppingPower><speed>100</speed></projectile>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_76251MK316_Proj</defName><label>7.62x51mm MK316 match bullet</label>
+    <thingClass>Helodrace.Projectile_FragmentingBullet</thingClass>
+    <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
+    <modExtensions>
+      <li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>11.3</projectileMassGrams><referenceVelocityMetersPerSecond>790</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>90</velocityHalfDistance></li>
+      <li Class="Helodrace.BulletFragmentationExtension"><chance>0.7</chance><damageFraction>0.5</damageFraction><maxFragments>5</maxFragments></li>
+    </modExtensions>
+    <projectile><damageDef>Bullet</damageDef><damageAmountBase>17</damageAmountBase><armorPenetrationBase>0.26</armorPenetrationBase><stoppingPower>1</stoppingPower><speed>85</speed></projectile>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_76251MK319_Proj</defName><label>7.62x51mm MK319 OTM bullet</label>
+    <thingClass>Helodrace.Projectile_FragmentingBullet</thingClass>
+    <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
+    <modExtensions>
+      <li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>8.4</projectileMassGrams><referenceVelocityMetersPerSecond>885</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>65</velocityHalfDistance></li>
+      <li Class="Helodrace.BulletFragmentationExtension"><chance>0.75</chance><armorResistanceFactor>0.4</armorResistanceFactor><damageFraction>0.55</damageFraction><maxFragments>6</maxFragments></li>
+    </modExtensions>
+    <projectile><damageDef>Bullet</damageDef><damageAmountBase>19</damageAmountBase><armorPenetrationBase>0.29</armorPenetrationBase><stoppingPower>1.1</stoppingPower><speed>95</speed></projectile>
+  </ThingDef>
 
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251M198_Ammo</defName>
     <label>7.62x51mm M198 cartridge (DUPLEX)</label>
-    <description>M198 ammunition selection for modular 7.62x51mm magazines. Uses its own cartridge and feeding-round images. Currently shares M80A1 projectile behavior.</description>
+    <description>Duplex cartridge: two independently colliding 9-damage bullets per round, low penetration and extra dispersion. Best against lightly armored targets at short range.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M198</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -16,7 +67,7 @@
       <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
       <ammunitionType>7.62 M198 (DUPLEX)</ammunitionType>
       <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
-      <projectileOverride>HD_Bullet_76251M80A1_Proj</projectileOverride>
+      <projectileOverride>HD_Bullet_76251M198_Proj</projectileOverride>
       <casingMoteDef>HD_Mote_Shell76251_Mote</casingMoteDef>
       <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_76251M198</feedingRoundTexPath>
       <overridePriority>30</overridePriority>
@@ -27,7 +78,7 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251M948_Ammo</defName>
     <label>7.62x51mm M948 cartridge (SLAP)</label>
-    <description>M948 ammunition selection for modular 7.62x51mm magazines. Uses its own cartridge and feeding-round images. Currently shares M80A1 projectile behavior.</description>
+    <description>SLAP cartridge: very high penetration and projectile speed, but low damage and stopping power. Does not fragment.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M948</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -35,7 +86,7 @@
       <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
       <ammunitionType>7.62 M948 (SLAP)</ammunitionType>
       <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
-      <projectileOverride>HD_Bullet_76251M80A1_Proj</projectileOverride>
+      <projectileOverride>HD_Bullet_76251M948_Proj</projectileOverride>
       <casingMoteDef>HD_Mote_Shell76251_Mote</casingMoteDef>
       <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_76251M948</feedingRoundTexPath>
       <overridePriority>30</overridePriority>
@@ -46,7 +97,7 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251M993_Ammo</defName>
     <label>7.62x51mm M993 cartridge (AP)</label>
-    <description>M993 ammunition selection for modular 7.62x51mm magazines. Uses its own cartridge and feeding-round images. Currently shares M80A1 projectile behavior.</description>
+    <description>Armor-piercing cartridge: strong penetration in exchange for reduced damage against unarmored targets. Does not fragment.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M993</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -54,7 +105,7 @@
       <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
       <ammunitionType>7.62 M993 (AP)</ammunitionType>
       <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
-      <projectileOverride>HD_Bullet_76251M80A1_Proj</projectileOverride>
+      <projectileOverride>HD_Bullet_76251M993_Proj</projectileOverride>
       <casingMoteDef>HD_Mote_Shell76251_Mote</casingMoteDef>
       <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_76251M993</feedingRoundTexPath>
       <overridePriority>30</overridePriority>
@@ -65,7 +116,7 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251M1158_Ammo</defName>
     <label>7.62x51mm M1158 cartridge (ADVAP)</label>
-    <description>M1158 ammunition selection for modular 7.62x51mm magazines. Uses its own cartridge and feeding-round images. Currently shares M80A1 projectile behavior.</description>
+    <description>Advanced armor-piercing cartridge: improved damage and penetration over M993, with greater recoil. Does not fragment.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M1158</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -73,7 +124,7 @@
       <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
       <ammunitionType>7.62 M1158 (ADVAP)</ammunitionType>
       <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
-      <projectileOverride>HD_Bullet_76251M80A1_Proj</projectileOverride>
+      <projectileOverride>HD_Bullet_76251M1158_Proj</projectileOverride>
       <casingMoteDef>HD_Mote_Shell76251_Mote</casingMoteDef>
       <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_76251M1158</feedingRoundTexPath>
       <overridePriority>30</overridePriority>
@@ -84,7 +135,7 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251MK316_Ammo</defName>
     <label>7.62x51mm MK316 cartridge (MATCH)</label>
-    <description>MK316 ammunition selection for modular 7.62x51mm magazines. Uses its own cartridge and feeding-round images. Currently shares M80A1 projectile behavior.</description>
+    <description>Match cartridge: improved precision, range and long-distance retention, but less armor penetration than M80A1. Can fragment.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251MK316</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -92,7 +143,7 @@
       <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
       <ammunitionType>7.62 MK316 (MATCH)</ammunitionType>
       <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
-      <projectileOverride>HD_Bullet_76251M80A1_Proj</projectileOverride>
+      <projectileOverride>HD_Bullet_76251MK316_Proj</projectileOverride>
       <casingMoteDef>HD_Mote_Shell76251_Mote</casingMoteDef>
       <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_76251MK316</feedingRoundTexPath>
       <overridePriority>30</overridePriority>
@@ -103,7 +154,7 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251MK319_Ammo</defName>
     <label>7.62x51mm MK319 cartridge (OTM)</label>
-    <description>MK319 ammunition selection for modular 7.62x51mm magazines. Uses its own cartridge and feeding-round images. Currently shares M80A1 projectile behavior.</description>
+    <description>OTM cartridge: high damage and stopping power with lower recoil, moderate penetration and fragmentation after passing light armor.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251MK319</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -111,7 +162,7 @@
       <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
       <ammunitionType>7.62 MK319 (OTM)</ammunitionType>
       <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
-      <projectileOverride>HD_Bullet_76251M80A1_Proj</projectileOverride>
+      <projectileOverride>HD_Bullet_76251MK319_Proj</projectileOverride>
       <casingMoteDef>HD_Mote_Shell76251_Mote</casingMoteDef>
       <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_76251MK319</feedingRoundTexPath>
       <overridePriority>30</overridePriority>

@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_Ammunition_76251M198_Ammo.label>7.62×51mm M198 탄약 (DUPLEX)</HD_Ammunition_76251M198_Ammo.label>
-  <HD_Ammunition_76251M198_Ammo.description>모듈식 7.62×51mm 탄창에서 선택하는 M198 탄약입니다. 전용 탄약 아이콘과 급탄 이미지를 사용하며, 현재 투사체 동작은 M80A1과 공유합니다.</HD_Ammunition_76251M198_Ammo.description>
+  <HD_Ammunition_76251M198_Ammo.description>탄약 한 발로 피해량 9의 탄자 두 개를 발사합니다. 탄자는 각각 충돌·관통 판정을 받으며, 관통력이 낮고 탄착이 벌어져 근거리 경장갑 표적에 적합합니다.</HD_Ammunition_76251M198_Ammo.description>
   <HD_Ammunition_76251M198_Ammo.comps.0.ammunitionType>7.62 M198 (DUPLEX)</HD_Ammunition_76251M198_Ammo.comps.0.ammunitionType>
   <HD_Ammunition_76251M948_Ammo.label>7.62×51mm M948 탄약 (SLAP)</HD_Ammunition_76251M948_Ammo.label>
-  <HD_Ammunition_76251M948_Ammo.description>모듈식 7.62×51mm 탄창에서 선택하는 M948 탄약입니다. 전용 탄약 아이콘과 급탄 이미지를 사용하며, 현재 투사체 동작은 M80A1과 공유합니다.</HD_Ammunition_76251M948_Ammo.description>
+  <HD_Ammunition_76251M948_Ammo.description>매우 높은 관통력과 탄속 대신 직접 피해량과 저지력이 낮은 SLAP 탄약입니다. 파편화하지 않습니다.</HD_Ammunition_76251M948_Ammo.description>
   <HD_Ammunition_76251M948_Ammo.comps.0.ammunitionType>7.62 M948 (SLAP)</HD_Ammunition_76251M948_Ammo.comps.0.ammunitionType>
   <HD_Ammunition_76251M993_Ammo.label>7.62×51mm M993 탄약 (AP)</HD_Ammunition_76251M993_Ammo.label>
-  <HD_Ammunition_76251M993_Ammo.description>모듈식 7.62×51mm 탄창에서 선택하는 M993 탄약입니다. 전용 탄약 아이콘과 급탄 이미지를 사용하며, 현재 투사체 동작은 M80A1과 공유합니다.</HD_Ammunition_76251M993_Ammo.description>
+  <HD_Ammunition_76251M993_Ammo.description>비장갑 표적 피해량을 줄이는 대신 높은 관통력을 제공하는 철갑탄입니다. 파편화하지 않습니다.</HD_Ammunition_76251M993_Ammo.description>
   <HD_Ammunition_76251M993_Ammo.comps.0.ammunitionType>7.62 M993 (AP)</HD_Ammunition_76251M993_Ammo.comps.0.ammunitionType>
   <HD_Ammunition_76251M1158_Ammo.label>7.62×51mm M1158 탄약 (ADVAP)</HD_Ammunition_76251M1158_Ammo.label>
-  <HD_Ammunition_76251M1158_Ammo.description>모듈식 7.62×51mm 탄창에서 선택하는 M1158 탄약입니다. 전용 탄약 아이콘과 급탄 이미지를 사용하며, 현재 투사체 동작은 M80A1과 공유합니다.</HD_Ammunition_76251M1158_Ammo.description>
+  <HD_Ammunition_76251M1158_Ammo.description>M993보다 높은 피해량과 관통력을 제공하지만 반동도 커지는 개량 철갑탄입니다. 파편화하지 않습니다.</HD_Ammunition_76251M1158_Ammo.description>
   <HD_Ammunition_76251M1158_Ammo.comps.0.ammunitionType>7.62 M1158 (ADVAP)</HD_Ammunition_76251M1158_Ammo.comps.0.ammunitionType>
   <HD_Ammunition_76251MK316_Ammo.label>7.62×51mm MK316 탄약 (MATCH)</HD_Ammunition_76251MK316_Ammo.label>
-  <HD_Ammunition_76251MK316_Ammo.description>모듈식 7.62×51mm 탄창에서 선택하는 MK316 탄약입니다. 전용 탄약 아이콘과 급탄 이미지를 사용하며, 현재 투사체 동작은 M80A1과 공유합니다.</HD_Ammunition_76251MK316_Ammo.description>
+  <HD_Ammunition_76251MK316_Ammo.description>정밀도·사거리·장거리 탄도 유지력이 우수하지만 관통력은 M80A1보다 낮은 정밀탄입니다. 파편화할 수 있습니다.</HD_Ammunition_76251MK316_Ammo.description>
   <HD_Ammunition_76251MK316_Ammo.comps.0.ammunitionType>7.62 MK316 (MATCH)</HD_Ammunition_76251MK316_Ammo.comps.0.ammunitionType>
   <HD_Ammunition_76251MK319_Ammo.label>7.62×51mm MK319 탄약 (OTM)</HD_Ammunition_76251MK319_Ammo.label>
-  <HD_Ammunition_76251MK319_Ammo.description>모듈식 7.62×51mm 탄창에서 선택하는 MK319 탄약입니다. 전용 탄약 아이콘과 급탄 이미지를 사용하며, 현재 투사체 동작은 M80A1과 공유합니다.</HD_Ammunition_76251MK319_Ammo.description>
+  <HD_Ammunition_76251MK319_Ammo.description>높은 피해량·저지력과 낮은 반동을 제공하는 OTM 탄약입니다. 관통력은 중간 수준이며 경장갑 통과 후에도 파편화할 수 있습니다.</HD_Ammunition_76251MK319_Ammo.description>
   <HD_Ammunition_76251MK319_Ammo.comps.0.ammunitionType>7.62 MK319 (OTM)</HD_Ammunition_76251MK319_Ammo.comps.0.ammunitionType>
+  <HD_Bullet_76251M198_Proj.label>7.62×51mm M198 듀플렉스 탄자</HD_Bullet_76251M198_Proj.label>
+  <HD_Bullet_76251M948_Proj.label>7.62×51mm M948 SLAP 탄자</HD_Bullet_76251M948_Proj.label>
+  <HD_Bullet_76251M993_Proj.label>7.62×51mm M993 철갑 탄자</HD_Bullet_76251M993_Proj.label>
+  <HD_Bullet_76251M1158_Proj.label>7.62×51mm M1158 개량 철갑 탄자</HD_Bullet_76251M1158_Proj.label>
+  <HD_Bullet_76251MK316_Proj.label>7.62×51mm MK316 정밀 탄자</HD_Bullet_76251MK316_Proj.label>
+  <HD_Bullet_76251MK319_Proj.label>7.62×51mm MK319 OTM 탄자</HD_Bullet_76251MK319_Proj.label>
 </LanguageData>

@@ -629,27 +629,27 @@
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_Ammunition_76251M198_Ammo"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.025</massKg></internalStats></value>
+    <value><internalStats><massKg>0.027</massKg><recoilImpulse>0.2</recoilImpulse><aimingPrecision>-3</aimingPrecision><rangeAdjustmentPercent>-8</rangeAdjustmentPercent></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_Ammunition_76251M948_Ammo"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.025</massKg></internalStats></value>
+    <value><internalStats><massKg>0.018</massKg><recoilImpulse>-0.15</recoilImpulse><aimingPrecision>-0.5</aimingPrecision></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_Ammunition_76251M993_Ammo"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.025</massKg></internalStats></value>
+    <value><internalStats><massKg>0.024</massKg><recoilImpulse>0.15</recoilImpulse></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_Ammunition_76251M1158_Ammo"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.025</massKg></internalStats></value>
+    <value><internalStats><massKg>0.026</massKg><recoilImpulse>0.3</recoilImpulse><aimingPrecision>-0.5</aimingPrecision></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_Ammunition_76251MK316_Ammo"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.025</massKg></internalStats></value>
+    <value><internalStats><massKg>0.027</massKg><aimingPrecision>4</aimingPrecision><targetAcquisition>-1</targetAcquisition><rangeAdjustmentPercent>5</rangeAdjustmentPercent></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_Ammunition_76251MK319_Ammo"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
-    <value><internalStats><massKg>0.025</massKg></internalStats></value>
+    <value><internalStats><massKg>0.024</massKg><recoilImpulse>-0.35</recoilImpulse><aimingPrecision>1</aimingPrecision><targetAcquisition>0.5</targetAcquisition><rangeAdjustmentPercent>-1</rangeAdjustmentPercent></internalStats></value>
   </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[defName="HD_Ammunition_556M855A1_Ammo"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>

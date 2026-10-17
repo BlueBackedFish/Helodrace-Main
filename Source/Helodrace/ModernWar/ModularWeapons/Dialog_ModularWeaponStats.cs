@@ -93,6 +93,8 @@ namespace Helodrace.ModernWar
         {
             ModularWeaponBallisticProfile value = root.ConvertedStats.Ballistics;
             if (value == null) return;
+            if (value.ProjectilesPerShot > 1)
+                bars.Add(Bar("ProjectilesPerShot", value.ProjectilesPerShot, 2f, "0"));
             if (raw)
             {
                 bars.Add(Bar("ProjectileMass", value.ProjectileMassGrams, 20f, "0.##' g'"));
@@ -107,7 +109,8 @@ namespace Helodrace.ModernWar
                 return;
             }
             bars.Add(Bar("ProjectileDamage", value.DamageAt(0f,
-                root.parent.GetStatValue(StatDefOf.RangedWeapon_DamageMultiplier)), 40f, "0"));
+                root.parent.GetStatValue(StatDefOf.RangedWeapon_DamageMultiplier)), 40f, "0", label:
+                    value.ProjectilesPerShot > 1 ? "HD_ModularWeapon_DamagePerProjectile".Translate().ToString() : null));
             bars.Add(Bar("ProjectilePenetration", value.PenetrationAt(0f,
                 root.parent.GetStatValue(StatDefOf.RangedWeapon_ArmorPenetrationMultiplier)), 1f, "P1"));
             bars.Add(Bar("FragmentationChance", value.FragmentationChanceAt(), 1f, "P1"));

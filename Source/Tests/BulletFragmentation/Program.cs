@@ -213,6 +213,7 @@ internal static class Program
             }
             finally { Rand.PopState(); BulletFragmentationImpact.Current = null; }
             LifecycleTests(harmony, pawn, bullet);
+            DuplexTests.Run(Check, harmony, pawn, bullet);
             ModularRangeTests.Run(Check, harmony);
             DefinitionTests(args.Length > 0 ? args[0] : ".");
             Console.WriteLine($"Bullet fragmentation: {checks} checks passed.");
@@ -321,7 +322,7 @@ internal static class Program
             .SelectMany(path => XDocument.Load(path).Root.Elements()).ToList();
         var optedIn = defs.Where(node => node.Element("modExtensions")?.Elements("li")
             .Any(li => (string)li.Attribute("Class") == "Helodrace.BulletFragmentationExtension") == true).ToList();
-        Check(optedIn.Count == 6, "Only the six selected projectile defs may opt in.");
+        Check(optedIn.Count == 8, "Only the eight selected projectile defs may opt in, including 7.62 MATCH/OTM.");
         Check(optedIn.All(node => (string)node.Element("thingClass") == "Helodrace.Projectile_FragmentingBullet"), "Each opt-in must use the fragmentation projectile.");
         Check(optedIn.All(node => node.Element("modExtensions").Elements().Any(e => (string)e.Attribute("Class") == "Helodrace.BulletBallisticsExtension")),
             "Every fragmenting projectile must use the shared ballistic profile.");
