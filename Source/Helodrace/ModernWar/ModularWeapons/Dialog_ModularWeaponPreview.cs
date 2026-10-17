@@ -115,12 +115,15 @@ namespace Helodrace.ModernWar
             // Only the selected body's layers move to the front and receive the tint.
             for (int pass = 0; pass < 3; pass++)
             {
-                GUI.color = pass == 2 ? new Color(1f, 0.95f, 0.65f) : Color.white;
                 foreach (ModularRenderNode node in previewLayers)
                 {
                     bool selected = node.path == front?.path;
+                    bool hovered = node.path == hoveredNode?.path;
                     if ((pass == 1 && selected) || (pass == 2 && !selected)
-                        || (!selected && !ModularWeaponAssemblyRenderer.ShouldDrawNode(node))) continue;
+                        || (!selected && !hovered && !ModularWeaponAssemblyRenderer.ShouldDrawNode(node))) continue;
+                    GUI.color = pass == 0 ? Color.white
+                        : selected ? new Color(1f, 0.95f, 0.65f)
+                        : hovered ? new Color(0.65f, 0.9f, 1f) : Color.white;
                     string path = node.TexturePath;
                     Texture texture = pass == 0
                         ? path.NullOrEmpty() ? null : ContentFinder<Texture2D>.Get(path + "_Outline", false)

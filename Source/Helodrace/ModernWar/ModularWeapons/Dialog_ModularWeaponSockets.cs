@@ -84,6 +84,7 @@ namespace Helodrace.ModernWar
                 card.Anchor = WorldToGui(RealtimeSocketPoint(owner, local), origin, scale);
                 card.Rect = i >= socketPageStart && i < socketPageStart + positions.Count
                     ? positions[i - socketPageStart] : default(Rect);
+                if (card.Rect.width > 0f && Mouse.IsOver(card.Rect)) hoveredNode = card.Child ?? owner;
             }
         }
 
