@@ -173,4 +173,15 @@
   <HD_ModularWeapon_EffectiveRange>유효 사거리</HD_ModularWeapon_EffectiveRange>
   <HD_ModularWeapon_MechanicalRangeFactor>기계적 사거리 배율</HD_ModularWeapon_MechanicalRangeFactor>
   <HD_ModularWeapon_RangeFactor>최종 사거리 배율</HD_ModularWeapon_RangeFactor>
+  <HD_Placement_CopyBatch>전체 XML 복사</HD_Placement_CopyBatch>
+  <HD_Placement_SaveBatch>전체 한 번에 저장</HD_Placement_SaveBatch>
+  <HD_Placement_SwitchWeapon>총기 전환</HD_Placement_SwitchWeapon>
+  <HD_Placement_BatchStatus>저장 목록: 총기 {0}개 / 공용 파츠 {1}종 — {2}   |   선택 {3}개</HD_Placement_BatchStatus>
+  <HD_Placement_Unsaved>미저장</HD_Placement_Unsaved>
+  <HD_Placement_Saved>저장됨</HD_Placement_Saved>
+  <HD_Placement_SessionHint>창을 닫아도 현재 게임 세션의 저장 목록은 유지됩니다. 불러오기·재시작 전에 XML로 저장하세요. Ctrl+클릭으로 다중 선택하고 드래그하면 그림 위치만 함께 움직입니다. 되돌리기는 총기에 관계없이 마지막 편집부터 취소합니다.</HD_Placement_SessionHint>
+  <HD_Placement_MultiHint>Ctrl+클릭: 다중 선택 / 그림 함께 이동</HD_Placement_MultiHint>
+  <HD_Placement_Copied>모든 총기·파츠의 XML을 복사했습니다. 재시작 후에도 남기려면 파일로 저장하세요.</HD_Placement_Copied>
+  <HD_Placement_Exported>총기 {0}개 / 공용 파츠 {1}종을 XML 한 파일로 저장했습니다: {2}</HD_Placement_Exported>
+  <HD_Placement_ExportFailed>저장에 실패했습니다. 편집값과 저장 목록은 유지됩니다. 로그를 확인하세요.</HD_Placement_ExportFailed>
 </LanguageData>

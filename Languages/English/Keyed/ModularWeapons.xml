@@ -173,4 +173,15 @@
   <HD_ModularWeapon_EffectiveRange>Effective range</HD_ModularWeapon_EffectiveRange>
   <HD_ModularWeapon_MechanicalRangeFactor>Mechanical range factor</HD_ModularWeapon_MechanicalRangeFactor>
   <HD_ModularWeapon_RangeFactor>Combined range factor</HD_ModularWeapon_RangeFactor>
+  <HD_Placement_CopyBatch>Copy batch XML</HD_Placement_CopyBatch>
+  <HD_Placement_SaveBatch>Save entire batch</HD_Placement_SaveBatch>
+  <HD_Placement_SwitchWeapon>Switch weapon</HD_Placement_SwitchWeapon>
+  <HD_Placement_BatchStatus>Batch: {0} weapons / {1} unique parts — {2}   |   {3} selected</HD_Placement_BatchStatus>
+  <HD_Placement_Unsaved>unsaved</HD_Placement_Unsaved>
+  <HD_Placement_Saved>saved</HD_Placement_Saved>
+  <HD_Placement_SessionHint>The batch survives closing this editor in the current game session. Export XML before loading/restarting. Ctrl-click selects multiple parts; group dragging moves graphic positions only. Undo follows the latest edit across weapons.</HD_Placement_SessionHint>
+  <HD_Placement_MultiHint>Ctrl-click: multi-select / drag graphics together</HD_Placement_MultiHint>
+  <HD_Placement_Copied>The complete placement batch was copied. Save to a file to keep it after restarting.</HD_Placement_Copied>
+  <HD_Placement_Exported>Saved {0} weapons / {1} unique parts to one XML file: {2}</HD_Placement_Exported>
+  <HD_Placement_ExportFailed>Export failed. Your live edits and batch remain available; see the log.</HD_Placement_ExportFailed>
 </LanguageData>

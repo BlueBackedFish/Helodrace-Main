@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Text;
 using RimWorld;
 using UnityEngine;
@@ -9,7 +8,7 @@ using Verse;
 
 namespace Helodrace.ModernWar
 {
-    public sealed class Dialog_ModularAttachmentEditor : Window
+    public sealed partial class Dialog_ModularAttachmentEditor : Window
     {
         private enum EditTarget
         {
@@ -38,7 +37,7 @@ namespace Helodrace.ModernWar
             Vertical
         }
 
-        private readonly CompModularWeaponNode root;
+        private CompModularWeaponNode root;
         private string selectedPath = "root";
         private int selectedMountIndex;
         private int selectedSocketIndex;
@@ -61,6 +60,9 @@ namespace Helodrace.ModernWar
         public Dialog_ModularAttachmentEditor(CompModularWeaponNode root)
         {
             this.root = root;
+            workspace = Current.Game?.GetComponent<GameComponent_ModularPlacementWorkspace>()?.Workspace
+                ?? new ModularPlacementWorkspace();
+            workspace.Visit(root);
             doCloseX = true;
             absorbInputAroundWindow = true;
             closeOnClickedOutside = false;
@@ -74,16 +76,17 @@ namespace Helodrace.ModernWar
         {
             HandleUndoInput();
             if (Event.current.type == EventType.MouseUp) activeEditKey = null;
+            DrawWorkspaceControls(inRect);
 
             if (root?.parent == null || root.parent.Destroyed)
             {
-                Widgets.Label(inRect, "The edited weapon no longer exists.");
+                Widgets.Label(new Rect(0f, 112f, inRect.width, 40f), "The edited weapon no longer exists. Switch to another weapon above.");
                 return;
             }
 
             List<ModularRenderNode> snapshot = root.RenderSnapshot();
             ModularRenderNode selected = FindSelected(snapshot);
-            float header = 76f;
+            float header = 112f;
             Rect treeRect = new Rect(0f, header, 290f, inRect.height - header - 46f);
             Rect previewRect = new Rect(302f, header, inRect.width - 682f,
                 inRect.height - header - 46f);
@@ -114,7 +117,7 @@ namespace Helodrace.ModernWar
             DrawInspector(inspectorRect, selected);
 
             Rect footer = new Rect(0f, inRect.height - 38f, inRect.width, 38f);
-            if (Widgets.ButtonText(new Rect(footer.x, footer.y + 4f, 125f, 30f),
+            if (Widgets.ButtonText(new Rect(footer.x, footer.y + 4f, 110f, 30f),
                 "Copy XML"))
             {
                 string xml = BuildXml(snapshot);
@@ -124,24 +127,24 @@ namespace Helodrace.ModernWar
                     MessageTypeDefOf.PositiveEvent, false);
             }
 
-            if (Widgets.ButtonText(new Rect(footer.x + 133f, footer.y + 4f, 135f, 30f),
-                "Save XML files"))
-                SaveXmlFiles(snapshot);
+            if (Widgets.ButtonText(new Rect(footer.x + 118f, footer.y + 4f, 130f, 30f),
+                "HD_Placement_CopyBatch".Translate())) CopyBatch();
+            if (Widgets.ButtonText(new Rect(footer.x + 256f, footer.y + 4f, 130f, 30f),
+                "HD_Placement_SaveBatch".Translate())) SaveBatch();
 
-            if (Widgets.ButtonText(new Rect(footer.x + 276f, footer.y + 4f, 105f, 30f),
+            if (Widgets.ButtonText(new Rect(footer.x + 394f, footer.y + 4f, 105f, 30f),
                 "Reset view"))
             {
                 zoom = 1f;
                 pan = Vector2.zero;
             }
 
-            if (Widgets.ButtonText(new Rect(footer.x + 389f, footer.y + 4f, 145f, 30f),
+            if (Widgets.ButtonText(new Rect(footer.x + 507f, footer.y + 4f, 145f, 30f),
                 "Undo (Ctrl+Z) " + undoHistory.Count))
                 UndoLastEdit();
 
-            Widgets.Label(new Rect(footer.x + 546f, footer.y + 8f,
-                footer.width - 690f, 26f),
-                "Every edit is applied to the live weapon immediately.");
+            Widgets.Label(new Rect(footer.x + 664f, footer.y + 8f,
+                Mathf.Max(1f, footer.width - 796f), 26f), "HD_Placement_MultiHint".Translate());
 
             if (Widgets.ButtonText(new Rect(footer.xMax - 120f, footer.y + 4f, 120f, 30f),
                 "CloseButton".Translate()))
@@ -167,13 +170,10 @@ namespace Helodrace.ModernWar
                 ModularRenderNode node = treeOrder[i];
                 Rect row = new Rect(4f + node.depth * 15f, y,
                     viewRect.width - 8f - node.depth * 15f, 25f);
-                if (node.path == selectedPath) Widgets.DrawHighlightSelected(row);
+                if (node.path == selectedPath || selectedPaths.Contains(node.path)) Widgets.DrawHighlightSelected(row);
                 if (Widgets.ButtonInvisible(row))
                 {
-                    activeEditKey = null;
-                    selectedPath = node.path;
-                    selectedMountIndex = 0;
-                    selectedSocketIndex = 0;
+                    SelectNode(node, Event.current.control || Event.current.command);
                 }
 
                 Widgets.Label(row.ContractedBy(4f, 2f),
@@ -247,7 +247,7 @@ namespace Helodrace.ModernWar
                         Mathf.Abs(graphicScale.y))) * pixelsPerCell;
                 Rect drawRect = CenteredRect(center, size);
                 Color old = GUI.color;
-                GUI.color = node.path == selectedPath
+                GUI.color = (node.path == selectedPath || selectedPaths.Contains(node.path))
                     ? graphic.Color
                     : new Color(graphic.Color.r, graphic.Color.g, graphic.Color.b, 0.72f);
                 Matrix4x4 matrix = GUI.matrix;
@@ -1551,7 +1551,14 @@ namespace Helodrace.ModernWar
             EnsureUndoCheckpoint(CurrentEditKey(node) + ":drag");
             if (target == EditTarget.Graphic)
             {
-                node.Props.graphicOffset += delta;
+                if (selectedPaths.Count > 1)
+                {
+                    var moving = new List<ModularRenderNode> {node};
+                    foreach (ModularRenderNode candidate in root.RenderSnapshot())
+                        if (candidate != node && selectedPaths.Contains(candidate.path)) moving.Add(candidate);
+                    MoveGraphics(moving, rootDelta);
+                }
+                else node.Props.graphicOffset += delta;
             }
             else if (target == EditTarget.Flashlight)
             {
@@ -1665,7 +1672,7 @@ namespace Helodrace.ModernWar
 
         private void PushUndoSnapshot()
         {
-            undoHistory.Add(EditorSnapshot.Capture(root.RenderSnapshot()));
+            undoHistory.Add(EditorSnapshot.Capture(root.RenderSnapshot(), root));
             if (undoHistory.Count > 100) undoHistory.RemoveAt(0);
         }
 
@@ -1675,22 +1682,30 @@ namespace Helodrace.ModernWar
             int index = undoHistory.Count - 1;
             EditorSnapshot snapshot = undoHistory[index];
             undoHistory.RemoveAt(index);
+            if (snapshot.Owner != root && ModularPlacementWorkspace.IsLive(snapshot.Owner)) SwitchWeapon(snapshot.Owner);
             snapshot.Restore();
             activeEditKey = null;
             numericBuffers.Clear();
             textBuffers.Clear();
             root.InvalidateTree();
+            workspace.Refresh();
         }
 
         private ModularRenderNode FindSelected(List<ModularRenderNode> snapshot)
         {
+            selectedPaths.RemoveWhere(path => !snapshot.Exists(node => node.path == path));
             for (int i = 0; i < snapshot.Count; i++)
             {
-                if (snapshot[i].path == selectedPath) return snapshot[i];
+                if (snapshot[i].path == selectedPath)
+                {
+                    selectedPaths.Add(selectedPath);
+                    return snapshot[i];
+                }
             }
 
             ModularRenderNode fallback = snapshot.Count > 0 ? snapshot[0] : null;
             selectedPath = fallback?.path;
+            if (selectedPath != null) selectedPaths.Add(selectedPath);
             return fallback;
         }
 
@@ -1823,83 +1838,7 @@ namespace Helodrace.ModernWar
             return result;
         }
 
-        private static void SaveXmlFiles(List<ModularRenderNode> snapshot)
-        {
-            try
-            {
-                string directory = Path.Combine(
-                    GenFilePaths.SaveDataFolderPath,
-                    "Helodrace",
-                    "ModularWeaponExports",
-                    DateTime.Now.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture));
-                Directory.CreateDirectory(directory);
-
-                HashSet<ThingDef> exported = new HashSet<ThingDef>();
-                int count = 0;
-                for (int i = 0; i < snapshot.Count; i++)
-                {
-                    ModularRenderNode node = snapshot[i];
-                    ThingDef def = node.thing.def;
-                    if (!exported.Add(def)) continue;
-
-                    string fragment = BuildXml(new List<ModularRenderNode> { node });
-                    string content = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-                        + "<ModularWeaponPlacementExport>\n"
-                        + "  <thingDef>" + def.defName + "</thingDef>\n"
-                        + Indent(fragment, "  ")
-                        + "</ModularWeaponPlacementExport>\n";
-                    string path = Path.Combine(directory,
-                        SafeFileName(def.defName) + "_Placement.xml");
-                    File.WriteAllText(path, content, new UTF8Encoding(false));
-                    count++;
-                }
-
-                Messages.Message(
-                    "Saved " + count + " modular placement XML files to " + directory,
-                    MessageTypeDefOf.PositiveEvent,
-                    false);
-                Log.Message("[Helodrace] Modular placement files saved to " + directory);
-            }
-            catch (Exception exception)
-            {
-                Log.Error("[Helodrace] Failed to save modular placement XML files: " + exception);
-                Messages.Message(
-                    "Could not save modular placement files. See the log for details.",
-                    MessageTypeDefOf.RejectInput,
-                    false);
-            }
-        }
-
-        private static string Indent(string value, string prefix)
-        {
-            string normalized = value.Replace("\r\n", "\n");
-            string[] lines = normalized.Split('\n');
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < lines.Length; i++)
-            {
-                if (i == lines.Length - 1 && lines[i].Length == 0) continue;
-                builder.Append(prefix).AppendLine(lines[i]);
-            }
-            return builder.ToString();
-        }
-
-        private static string SafeFileName(string value)
-        {
-            char[] invalid = Path.GetInvalidFileNameChars();
-            StringBuilder builder = new StringBuilder(value ?? "ModularPart");
-            for (int i = 0; i < builder.Length; i++)
-            {
-                for (int j = 0; j < invalid.Length; j++)
-                {
-                    if (builder[i] != invalid[j]) continue;
-                    builder[i] = '_';
-                    break;
-                }
-            }
-            return builder.ToString();
-        }
-
-        private static string BuildXml(List<ModularRenderNode> snapshot)
+        internal static string BuildXml(List<ModularRenderNode> snapshot)
         {
             StringBuilder builder = new StringBuilder();
             HashSet<ThingDef> exported = new HashSet<ThingDef>();
@@ -1965,7 +1904,7 @@ namespace Helodrace.ModernWar
                         + props.casingMoteDef.defName + "</casingMoteDef>");
                 if (!props.feedingRoundTexPath.NullOrEmpty())
                     builder.AppendLine("<feedingRoundTexPath>"
-                        + props.feedingRoundTexPath + "</feedingRoundTexPath>");
+                        + Xml(props.feedingRoundTexPath) + "</feedingRoundTexPath>");
                 if (props.soundCastOverride != null)
                     builder.AppendLine("<soundCastOverride>"
                         + props.soundCastOverride.defName + "</soundCastOverride>");
@@ -2047,13 +1986,13 @@ namespace Helodrace.ModernWar
                     builder.AppendLine("<magazineCapacity>" + props.magazineCapacity
                         + "</magazineCapacity>");
                 if (!props.ammunitionType.NullOrEmpty())
-                    builder.AppendLine("<ammunitionType>" + props.ammunitionType
+                    builder.AppendLine("<ammunitionType>" + Xml(props.ammunitionType)
                         + "</ammunitionType>");
                 if (!props.ceAmmoDefName.NullOrEmpty())
                     builder.AppendLine("<ceAmmoDefName>" + props.ceAmmoDefName
                         + "</ceAmmoDefName>");
                 if (!props.chamberCaliber.NullOrEmpty())
-                    builder.AppendLine("<chamberCaliber>" + props.chamberCaliber
+                    builder.AppendLine("<chamberCaliber>" + Xml(props.chamberCaliber)
                         + "</chamberCaliber>");
                 if (!props.ceAmmoSetDefName.NullOrEmpty())
                     builder.AppendLine("<ceAmmoSetDefName>" + props.ceAmmoSetDefName
@@ -2062,7 +2001,7 @@ namespace Helodrace.ModernWar
                     builder.AppendLine("<boreDiameterMm>" + Number(props.boreDiameterMm)
                         + "</boreDiameterMm>");
                 if (!props.ammunitionCaliber.NullOrEmpty())
-                    builder.AppendLine("<ammunitionCaliber>" + props.ammunitionCaliber
+                    builder.AppendLine("<ammunitionCaliber>" + Xml(props.ammunitionCaliber)
                         + "</ammunitionCaliber>");
                 if (props.projectileDiameterMm > 0f)
                     builder.AppendLine("<projectileDiameterMm>"
@@ -2159,7 +2098,7 @@ namespace Helodrace.ModernWar
                 + Number(light.color.g) + "," + Number(light.color.b) + ","
                 + Number(light.color.a) + ")</color>");
             if (!light.coneTexPath.NullOrEmpty())
-                builder.AppendLine("  <coneTexPath>" + light.coneTexPath
+                builder.AppendLine("  <coneTexPath>" + Xml(light.coneTexPath)
                     + "</coneTexPath>");
             builder.AppendLine("  <nearWidth>" + Number(light.nearWidth)
                 + "</nearWidth>");
@@ -2169,7 +2108,7 @@ namespace Helodrace.ModernWar
                 builder.AppendLine("  <lengthOvershoot>"
                     + Number(light.lengthOvershoot) + "</lengthOvershoot>");
             if (!light.circleTexPath.NullOrEmpty())
-                builder.AppendLine("  <circleTexPath>" + light.circleTexPath
+                builder.AppendLine("  <circleTexPath>" + Xml(light.circleTexPath)
                     + "</circleTexPath>");
             builder.AppendLine("  <circleRadius>" + Number(light.circleRadius)
                 + "</circleRadius>");
@@ -2257,9 +2196,9 @@ namespace Helodrace.ModernWar
             {
                 ModularAttachmentMount mount = mounts[i];
                 builder.AppendLine("  <li>");
-                builder.AppendLine("    <id>" + mount.id + "</id>");
+                builder.AppendLine("    <id>" + Xml(mount.id) + "</id>");
                 if (!mount.label.NullOrEmpty())
-                    builder.AppendLine("    <label>" + mount.label + "</label>");
+                    builder.AppendLine("    <label>" + Xml(mount.label) + "</label>");
                 AppendStringList(builder, "socketTags", mount.socketTags, 4);
                 if (mount.railOccupancy > 0f)
                     builder.AppendLine("    <railOccupancy>" + Number(mount.railOccupancy)
@@ -2298,9 +2237,9 @@ namespace Helodrace.ModernWar
             {
                 ModularAttachmentSocket socket = sockets[i];
                 builder.AppendLine("  <li>");
-                builder.AppendLine("    <id>" + socket.id + "</id>");
+                builder.AppendLine("    <id>" + Xml(socket.id) + "</id>");
                 if (!socket.label.NullOrEmpty())
-                    builder.AppendLine("    <label>" + socket.label + "</label>");
+                    builder.AppendLine("    <label>" + Xml(socket.label) + "</label>");
                 AppendStringList(builder, "tags", socket.tags, 4);
                 if (socket.required) builder.AppendLine("    <required>true</required>");
                 if (socket.expectedPart != null)
@@ -2334,7 +2273,7 @@ namespace Helodrace.ModernWar
             string pad = new string(' ', indent);
             builder.AppendLine(pad + "<" + name + ">");
             for (int i = 0; i < values.Count; i++)
-                builder.AppendLine(pad + "  <li>" + values[i] + "</li>");
+                builder.AppendLine(pad + "  <li>" + Xml(values[i]) + "</li>");
             builder.AppendLine(pad + "</" + name + ">");
         }
 
@@ -2366,15 +2305,18 @@ namespace Helodrace.ModernWar
             return value.ToString("0.######", CultureInfo.InvariantCulture);
         }
 
+        private static string Xml(string value) => System.Security.SecurityElement.Escape(value ?? string.Empty);
+
         private sealed class EditorSnapshot
         {
+            public CompModularWeaponNode Owner;
             private readonly List<NodePropertiesState> states =
                 new List<NodePropertiesState>();
             private readonly List<NodeRailState> railStates = new List<NodeRailState>();
 
-            public static EditorSnapshot Capture(List<ModularRenderNode> nodes)
+            public static EditorSnapshot Capture(List<ModularRenderNode> nodes, CompModularWeaponNode owner)
             {
-                EditorSnapshot snapshot = new EditorSnapshot();
+                EditorSnapshot snapshot = new EditorSnapshot {Owner=owner};
                 HashSet<CompProperties_ModularWeaponNode> captured =
                     new HashSet<CompProperties_ModularWeaponNode>();
                 HashSet<CompModularWeaponNode> capturedComps =

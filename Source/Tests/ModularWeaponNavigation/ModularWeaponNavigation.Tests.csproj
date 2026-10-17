@@ -4,6 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularPlacementBatch.cs" Link="ModularPlacementBatch.cs" />
     <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponPreviewDrag.cs" Link="ModularWeaponPreviewDrag.cs" />
     <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponChildTransfer.cs" Link="ModularWeaponChildTransfer.cs" />
     <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponFunctionResolver.cs" Link="ModularWeaponFunctionResolver.cs" />
