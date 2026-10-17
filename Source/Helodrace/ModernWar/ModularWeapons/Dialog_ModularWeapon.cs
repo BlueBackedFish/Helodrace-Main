@@ -137,46 +137,11 @@ namespace Helodrace.ModernWar
             Rect inner = PreviewArea(rect);
             Vector2 origin = previewCamera.OriginFor(inner);
             float pixelsPerCell = previewCamera.ScaleFor(inner);
-            ModularRenderNode focus = IsPreviewPart(hoveredNode) ? hoveredNode
-                : IsPreviewPart(selected) ? selected : null;
-
-            var visualSnapshot = previewLayers;
+            ModularRenderNode front = SelectedPreviewPart(selected);
+            ModularRenderNode focus = IsPreviewPart(hoveredNode) ? hoveredNode : front;
             GUI.BeginGroup(inner);
             Vector2 localOrigin = origin - inner.position;
-            for (int pass = 0; pass < 2; pass++)
-            {
-                for (int i = 0; i < visualSnapshot.Count; i++)
-                {
-                    ModularRenderNode node = visualSnapshot[i];
-                    if (!ModularWeaponAssemblyRenderer.ShouldDrawNode(node)) continue;
-                    Graphic graphic = node.Graphic;
-                    string texturePath = node.TexturePath;
-                    Texture texture = pass == 0
-                        ? texturePath.NullOrEmpty()
-                            ? null
-                            : ContentFinder<Texture2D>.Get(texturePath + "_Outline", false)
-                        : graphic?.MatSingle?.mainTexture;
-                    if (graphic == null || texture == null) continue;
-
-                    ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(
-                        root, node, false, out Vector2 posedCenter, out float posedAngle);
-                    Vector2 center = WorldToGui(posedCenter, localOrigin, pixelsPerCell);
-                    Vector2 graphicScale = node.GraphicScale;
-                    Vector2 size = Vector2.Scale(graphic.drawSize,
-                        new Vector2(Mathf.Abs(graphicScale.x),
-                            Mathf.Abs(graphicScale.y))) * pixelsPerCell;
-                    Rect drawRect = CenteredRect(center, size);
-                    Color previous = GUI.color;
-                    if (focus != null && node.path != focus.path)
-                        GUI.color = new Color(1f, 1f, 1f, hoveredNode != null ? 0.32f : 0.68f);
-                    Matrix4x4 matrix = GUI.matrix;
-                    if (!Mathf.Approximately(posedAngle, 0f))
-                        UI.RotateAroundPivot(-posedAngle, drawRect.center);
-                    DrawTexture(drawRect, texture, node.GraphicVerticallyFlipped);
-                    GUI.matrix = matrix;
-                    GUI.color = previous;
-                }
-            }
+            DrawPreviewAssembly(localOrigin, pixelsPerCell, front);
 
             if (focus?.parentComp == null || PreviewScope == null
                 || PreviewScope.Contains(focus.parentComp.parent.thingIDNumber))

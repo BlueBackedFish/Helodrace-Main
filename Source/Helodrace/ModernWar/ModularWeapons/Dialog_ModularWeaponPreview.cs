@@ -69,12 +69,11 @@ namespace Helodrace.ModernWar
             if (PreviewCoveredByStats(rect)) return;
             Vector2 origin = previewCamera.OriginFor(inner);
             float scale = previewCamera.ScaleFor(inner);
-            List<ModularRenderNode> layers = previewLayers;
-            // Test the visible pixels in reverse draw order, including additional layers.
-            for (int i = layers.Count - 1; i >= 0; i--)
+            ModularRenderNode front = SelectedPreviewPart(FindSelected(snapshot));
+            // Hit testing follows the selected part's foreground draw order.
+            foreach (ModularRenderNode node in PreviewHitOrder(front))
             {
-                ModularRenderNode node = layers[i];
-                if (!ModularWeaponAssemblyRenderer.ShouldDrawNode(node)
+                if ((node.path != front?.path && !ModularWeaponAssemblyRenderer.ShouldDrawNode(node))
                     || ShouldHideCEAmmunitionPart(node)) continue;
                 Texture2D texture = node.Graphic?.MatSingle?.mainTexture as Texture2D;
                 if (texture == null) continue;
@@ -100,6 +99,49 @@ namespace Helodrace.ModernWar
             }
         }
 
+        private ModularRenderNode SelectedPreviewPart(ModularRenderNode selected)
+        {
+            ModularRenderNode attached = navigationSnapshot.Find(node =>
+                node.thing.thingIDNumber == selectedAttachmentId && node.parentComp == selected?.comp);
+            return IsPreviewPart(attached) ? attached : IsPreviewPart(selected) ? selected : null;
+        }
+
+        private IEnumerable<ModularRenderNode> PreviewHitOrder(ModularRenderNode front)
+        {
+            for (int priority = 0; priority < 2; priority++)
+                for (int i = previewLayers.Count - 1; i >= 0; i--)
+                    if ((previewLayers[i].path == front?.path) == (priority == 0))
+                        yield return previewLayers[i];
+        }
+
+        private void DrawPreviewAssembly(Vector2 origin, float scale, ModularRenderNode front)
+        {
+            Color previous = GUI.color;
+            GUI.color = Color.white;
+            // Complete the background before drawing the selected part's outline and
+            // color layers. Hovering another row never makes the selected part recede.
+            for (int foreground = 0; foreground < 2; foreground++)
+                for (int pass = 0; pass < 2; pass++)
+                    foreach (ModularRenderNode node in previewLayers)
+                    {
+                        bool selected = node.path == front?.path;
+                        if (selected != (foreground == 1)
+                            || (!selected && !ModularWeaponAssemblyRenderer.ShouldDrawNode(node))) continue;
+                        string path = node.TexturePath;
+                        Texture texture = pass == 0
+                            ? path.NullOrEmpty() ? null : ContentFinder<Texture2D>.Get(path + "_Outline", false)
+                            : node.Graphic?.MatSingle?.mainTexture;
+                        if (texture == null || node.Graphic == null) continue;
+                        float angle;
+                        Rect drawRect = PreviewPartRect(node, origin, scale, out angle);
+                        Matrix4x4 matrix = GUI.matrix;
+                        UI.RotateAroundPivot(-angle, drawRect.center);
+                        DrawTexture(drawRect, texture, node.GraphicVerticallyFlipped);
+                        GUI.matrix = matrix;
+                    }
+            GUI.color = previous;
+        }
+
         private Rect PreviewPartRect(ModularRenderNode node, Vector2 origin,
             float scale, out float angle)
         {
@@ -119,23 +161,8 @@ namespace Helodrace.ModernWar
             GUI.BeginGroup(area);
             origin -= area.position;
             Vector2 marker = WorldToGui(node.GraphicCenter, origin, scale);
-            foreach (ModularRenderNode layer in previewLayers)
-            {
-                if (layer.path != node.path) continue;
-                Texture texture = layer.Graphic?.MatSingle?.mainTexture;
-                if (texture == null) continue;
-                float angle;
-                Rect drawRect = PreviewPartRect(layer, origin, scale, out angle);
-                if (layer.additionalGraphic == null) marker = drawRect.center;
-                Matrix4x4 matrix = GUI.matrix;
-                Color color = GUI.color;
-                UI.RotateAroundPivot(-angle, drawRect.center);
-                // Draw over the assembly so internal/covered parts can also be located.
-                GUI.color = new Color(1f, 0.95f, 0.65f);
-                DrawTexture(drawRect, texture, layer.GraphicVerticallyFlipped);
-                GUI.color = color;
-                GUI.matrix = matrix;
-            }
+            float markerAngle;
+            marker = PreviewPartRect(node, origin, scale, out markerAngle).center;
 
             Rect caption = new Rect(rect.x + 10f, rect.yMax - 47f, rect.width - 20f, 39f);
             Widgets.DrawLine(marker, new Vector2(area.width * 0.5f, area.height),
