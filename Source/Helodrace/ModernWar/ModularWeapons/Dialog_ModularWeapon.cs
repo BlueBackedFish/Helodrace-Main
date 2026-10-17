@@ -8,7 +8,7 @@ using Verse;
 
 namespace Helodrace.ModernWar
 {
-    public sealed class Dialog_ModularWeapon : Window
+    public sealed partial class Dialog_ModularWeapon : Window
     {
         private readonly CompModularWeaponNode root;
         private readonly ModularWeaponWorkshopSession workshop;
@@ -45,6 +45,7 @@ namespace Helodrace.ModernWar
         public override void DoWindowContents(Rect inRect)
         {
             hoveredPart = null;
+            hoveredNode = null;
             if (workshop != null && !workshop.IsValidFor(root))
             {
                 Close();
@@ -59,6 +60,7 @@ namespace Helodrace.ModernWar
             List<ModularRenderNode> snapshot = root.RenderSnapshot();
             if (SynchronizeCEAmmunitionToChamber(snapshot))
                 snapshot = root.RenderSnapshot();
+            EnsureNavigation(snapshot);
             ModularRenderNode selected = FindSelected(snapshot);
             if (ShouldHideCEAmmunitionPart(selected))
             {
@@ -89,13 +91,21 @@ namespace Helodrace.ModernWar
             float catalogHeight = 250f;
             float footerHeight = 38f;
             float bodyHeight = inRect.height - bodyTop - catalogHeight - footerHeight - 8f;
-            Rect treeRect = new Rect(0f, bodyTop, 278f, bodyHeight);
-            Rect previewRect = new Rect(290f, bodyTop, inRect.width - 690f, bodyHeight);
-            Rect detailsRect = new Rect(inRect.width - 388f, bodyTop, 388f, bodyHeight);
+            float sideWidth = Mathf.Clamp(inRect.width * 0.25f, 270f, 340f);
+            Rect treeRect = new Rect(0f, bodyTop, sideWidth, bodyHeight);
+            Rect previewRect = new Rect(treeRect.xMax + 12f, bodyTop,
+                inRect.width - sideWidth * 2f - 24f, bodyHeight);
+            Rect detailsRect = new Rect(inRect.width - sideWidth, bodyTop,
+                sideWidth, bodyHeight);
             Rect catalogRect = new Rect(0f, bodyTop + bodyHeight + 8f,
                 inRect.width, catalogHeight);
 
-            DrawPartNavigator(treeRect, snapshot, selected);
+            UpdatePreviewHover(previewRect, snapshot);
+            selected = FindSelected(snapshot);
+            EnsureSelectedSocket(selected);
+            DrawPartNavigator(treeRect, selected);
+            selected = FindSelected(snapshot);
+            EnsureSelectedSocket(selected);
             DrawAssemblyPreview(previewRect, snapshot, selected);
             DrawSocketPanel(detailsRect, selected);
             DrawCatalog(catalogRect, selected);
@@ -113,182 +123,6 @@ namespace Helodrace.ModernWar
             if (hoveredPart != null) DrawHoveredPartPreview(inRect, hoveredPart);
         }
 
-        private void DrawPartNavigator(
-            Rect rect,
-            List<ModularRenderNode> snapshot,
-            ModularRenderNode selected)
-        {
-            Widgets.DrawMenuSection(rect);
-            Widgets.Label(new Rect(rect.x + 9f, rect.y + 7f, rect.width - 18f, 24f),
-                "HD_ModularWeapon_Navigation".Translate());
-            if (selected == null) return;
-
-            ModularRenderNode parentNode = FindNodeForComp(snapshot, selected.parentComp);
-            ModularRenderNode rootNode = snapshot.FirstOrDefault(node => node.depth == 0);
-            Rect backRect = new Rect(rect.x + 8f, rect.y + 34f, rect.width - 88f, 29f);
-            if (parentNode != null)
-            {
-                if (Widgets.ButtonText(backRect,
-                    "HD_ModularWeapon_BackToParent".Translate()))
-                    SelectNode(parentNode);
-            }
-            else
-            {
-                Text.Font = GameFont.Tiny;
-                Widgets.Label(backRect.ContractedBy(5f, 4f),
-                    "HD_ModularWeapon_AssemblyRoot".Translate());
-                Text.Font = GameFont.Small;
-            }
-
-            Rect homeRect = new Rect(rect.xMax - 72f, rect.y + 34f, 64f, 29f);
-            if (rootNode != null && selected != rootNode &&
-                Widgets.ButtonText(homeRect, "HD_ModularWeapon_Home".Translate()))
-                SelectNode(rootNode);
-
-            string breadcrumb = BuildBreadcrumbText(snapshot, selected);
-            Rect breadcrumbRect = new Rect(rect.x + 9f, rect.y + 68f,
-                rect.width - 18f, 28f);
-            Text.Font = GameFont.Tiny;
-            GUI.color = new Color(0.72f, 0.76f, 0.79f);
-            Widgets.Label(breadcrumbRect, breadcrumb);
-            GUI.color = Color.white;
-            TooltipHandler.TipRegion(breadcrumbRect, breadcrumb);
-            Text.Font = GameFont.Small;
-
-            Rect currentCard = new Rect(rect.x + 8f, rect.y + 98f,
-                rect.width - 16f, 88f);
-            Widgets.DrawBoxSolidWithOutline(currentCard,
-                new Color(0.13f, 0.17f, 0.18f),
-                new Color(0.42f, 0.72f, 0.76f), 2);
-            Texture currentIcon = selected.thing.def.uiIcon;
-            if (currentIcon != null)
-                Widgets.DrawTextureFitted(new Rect(currentCard.x + 8f,
-                    currentCard.y + 13f, 58f, 58f), currentIcon, 1f);
-            Text.Font = GameFont.Tiny;
-            GUI.color = new Color(0.65f, 0.85f, 0.88f);
-            Widgets.Label(new Rect(currentCard.x + 74f, currentCard.y + 8f,
-                currentCard.width - 82f, 18f),
-                "HD_ModularWeapon_CurrentPart".Translate());
-            GUI.color = Color.white;
-            Text.Font = GameFont.Small;
-            Widgets.Label(new Rect(currentCard.x + 74f, currentCard.y + 27f,
-                currentCard.width - 82f, 30f), selected.thing.LabelCap);
-            int directChildCount = DirectChildren(snapshot, selected).Count;
-            Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(currentCard.x + 74f, currentCard.y + 60f,
-                currentCard.width - 82f, 20f),
-                "HD_ModularWeapon_PartSummary".Translate(
-                    selected.Props.sockets?.Count ?? 0, directChildCount)
-                    + "  ·  " + selected.Props.partCategory.Label());
-            Text.Font = GameFont.Small;
-
-            Widgets.Label(new Rect(rect.x + 9f, rect.y + 194f,
-                rect.width - 18f, 24f),
-                "HD_ModularWeapon_AttachedParts".Translate());
-
-            List<ModularRenderNode> children = DirectChildren(snapshot, selected);
-            Rect outRect = new Rect(rect.x + 4f, rect.y + 220f,
-                rect.width - 8f, rect.height - 224f);
-            Rect viewRect = new Rect(0f, 0f, outRect.width - 18f,
-                Mathf.Max(outRect.height, children.Count * 74f + 8f));
-            Widgets.BeginScrollView(outRect, ref navigationScroll, viewRect);
-            if (children.Count == 0)
-            {
-                Text.Font = GameFont.Tiny;
-                GUI.color = new Color(0.66f, 0.69f, 0.70f);
-                Text.Anchor = TextAnchor.UpperCenter;
-                Widgets.Label(new Rect(10f, 12f, viewRect.width - 20f, 44f),
-                    "HD_ModularWeapon_NoAttachedParts".Translate());
-                Text.Anchor = TextAnchor.UpperLeft;
-                GUI.color = Color.white;
-                Text.Font = GameFont.Small;
-            }
-            for (int i = 0; i < children.Count; i++)
-            {
-                ModularRenderNode child = children[i];
-                Rect card = new Rect(4f, 4f + i * 74f, viewRect.width - 8f, 66f);
-                bool hovered = Mouse.IsOver(card);
-                Widgets.DrawBoxSolidWithOutline(card,
-                    hovered ? new Color(0.17f, 0.20f, 0.18f)
-                        : new Color(0.095f, 0.11f, 0.105f),
-                    hovered ? Color.yellow : new Color(0.32f, 0.38f, 0.35f),
-                    hovered ? 2 : 1);
-                Texture icon = child.thing.def.uiIcon;
-                if (icon != null)
-                    Widgets.DrawTextureFitted(new Rect(card.x + 7f,
-                        card.y + 10f, 46f, 46f), icon, 1f);
-                Widgets.Label(new Rect(card.x + 60f, card.y + 7f,
-                    card.width - 82f, 25f), child.thing.LabelCap);
-                ModularAttachmentSocket socket = selected.Props
-                    .SocketNamed(child.parentSocketId);
-                Text.Font = GameFont.Tiny;
-                string connection = "HD_ModularWeapon_ConnectedVia".Translate(
-                    socket?.Label ?? child.parentSocketId)
-                    + "  ·  " + child.Props.partCategory.Label();
-                if (socket?.isRail == true)
-                    connection += "  ·  " + "HD_ModularWeapon_RailOffset".Translate(
-                        child.railOffset.ToString("0.###", CultureInfo.InvariantCulture));
-                if (child.mountedOnOppositeSurface)
-                    connection += "  ·  "
-                        + "HD_ModularWeapon_OppositeMounted".Translate();
-                GUI.color = new Color(0.70f, 0.74f, 0.71f);
-                Widgets.Label(new Rect(card.x + 60f, card.y + 34f,
-                    card.width - 76f, 24f), connection);
-                GUI.color = Color.white;
-                Text.Font = GameFont.Small;
-                Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(new Rect(card.xMax - 24f, card.y, 20f, card.height), "›");
-                Text.Anchor = TextAnchor.UpperLeft;
-                if (hovered) hoveredPart = child.thing.def;
-                if (Widgets.ButtonInvisible(card)) SelectNode(child);
-            }
-            Widgets.EndScrollView();
-        }
-
-        private void SelectNode(ModularRenderNode node)
-        {
-            if (node == null) return;
-            selectedPath = node.path;
-            selectedSocketId = null;
-            selectedAttachmentId = -1;
-            socketScroll = Vector2.zero;
-            catalogScroll = Vector2.zero;
-        }
-
-        private static ModularRenderNode FindNodeForComp(
-            List<ModularRenderNode> snapshot,
-            CompModularWeaponNode comp)
-        {
-            if (comp == null) return null;
-            return snapshot.FirstOrDefault(node => node.comp == comp);
-        }
-
-        private static List<ModularRenderNode> DirectChildren(
-            List<ModularRenderNode> snapshot,
-            ModularRenderNode parent)
-        {
-            if (parent?.comp == null) return new List<ModularRenderNode>();
-            return snapshot.Where(node => node.parentComp == parent.comp)
-                .Where(node => !ShouldHideCEAmmunitionPart(node))
-                .OrderBy(node => node.parentChildIndex)
-                .ToList();
-        }
-
-        private static string BuildBreadcrumbText(
-            List<ModularRenderNode> snapshot,
-            ModularRenderNode selected)
-        {
-            List<string> labels = new List<string>();
-            ModularRenderNode current = selected;
-            int guard = 0;
-            while (current != null && guard++ < 32)
-            {
-                labels.Insert(0, current.thing.LabelCap.ToString());
-                current = FindNodeForComp(snapshot, current.parentComp);
-            }
-            return string.Join("  ›  ", labels.ToArray());
-        }
-
         private void DrawAssemblyPreview(
             Rect rect,
             List<ModularRenderNode> snapshot,
@@ -297,11 +131,10 @@ namespace Helodrace.ModernWar
             Widgets.DrawBoxSolidWithOutline(rect,
                 new Color(0.055f, 0.06f, 0.07f, 1f),
                 new Color(0.35f, 0.38f, 0.42f), 2);
-            Rect inner = rect.ContractedBy(18f);
-            // Keep the normal compact overlays out of the weapon's drawing area.
-            inner.yMin += 92f;
+            Rect inner = PreviewArea(rect);
             Vector2 origin = inner.center;
             float pixelsPerCell = Mathf.Min(inner.width, inner.height) * 0.82f;
+            ModularRenderNode focus = hoveredNode ?? selected;
 
             var visualSnapshot = ModularWeaponVisualLayers.Expand(snapshot);
             for (int pass = 0; pass < 2; pass++)
@@ -328,8 +161,8 @@ namespace Helodrace.ModernWar
                             Mathf.Abs(graphicScale.y))) * pixelsPerCell;
                     Rect drawRect = CenteredRect(center, size);
                     Color previous = GUI.color;
-                    if (pass == 1 && selected != null && node.path != selected.path)
-                        GUI.color = new Color(1f, 1f, 1f, 0.78f);
+                    if (focus != null && node.path != focus.path)
+                        GUI.color = new Color(1f, 1f, 1f, hoveredNode != null ? 0.32f : 0.68f);
                     Matrix4x4 matrix = GUI.matrix;
                     if (!Mathf.Approximately(posedAngle, 0f))
                         UI.RotateAroundPivot(-posedAngle, drawRect.center);
@@ -339,7 +172,8 @@ namespace Helodrace.ModernWar
                 }
             }
 
-            DrawSelectedRailOverlay(selected, origin, pixelsPerCell);
+            DrawSelectedRailOverlay(focus, origin, pixelsPerCell);
+            DrawPreviewHighlight(rect, focus, origin, pixelsPerCell);
             Rect performanceRect = performanceExpanded
                 ? new Rect(rect.x + 10f, rect.y + 10f, 430f, 390f)
                 : new Rect(rect.x + 10f, rect.y + 10f, 285f, 60f);
@@ -1181,8 +1015,11 @@ namespace Helodrace.ModernWar
         {
             for (int i = 0; i < snapshot.Count; i++)
                 if (snapshot[i].path == selectedPath) return snapshot[i];
-            ModularRenderNode fallback = snapshot.Count > 0 ? snapshot[0] : null;
+            ModularRenderNode fallback = snapshot.FirstOrDefault(node => node.depth == 0);
             selectedPath = fallback?.path;
+            selectedSocketId = null;
+            selectedAttachmentId = -1;
+            revealNavigationSelection = true;
             return fallback;
         }
 

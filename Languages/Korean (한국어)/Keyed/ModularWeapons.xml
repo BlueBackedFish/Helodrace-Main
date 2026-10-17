@@ -5,14 +5,15 @@
   <HD_ModularWeapon_Title>총기 모딩 — {0}</HD_ModularWeapon_Title>
   <HD_ModularWeapon_Missing>편집할 총기가 더 이상 존재하지 않습니다.</HD_ModularWeapon_Missing>
   <HD_ModularWeapon_Tree>조립 구조</HD_ModularWeapon_Tree>
-  <HD_ModularWeapon_Navigation>파츠 탐색</HD_ModularWeapon_Navigation>
-  <HD_ModularWeapon_BackToParent>상위 파츠로</HD_ModularWeapon_BackToParent>
-  <HD_ModularWeapon_Home>루트</HD_ModularWeapon_Home>
+  <HD_ModularWeapon_TreeHint>행에 마우스를 올리면 총기에서 해당 파츠를 강조합니다. 총기 위 파츠를 클릭하면 트리에서도 선택하고 상위 경로를 펼칩니다. 괄호 안 숫자는 연결된 전체 하위 파츠 수입니다.</HD_ModularWeapon_TreeHint>
+  <HD_ModularWeapon_TreeSearch>검색</HD_ModularWeapon_TreeSearch>
+  <HD_ModularWeapon_ExpandAll>전체 펼치기</HD_ModularWeapon_ExpandAll>
+  <HD_ModularWeapon_FocusSelection>선택 경로 보기</HD_ModularWeapon_FocusSelection>
+  <HD_ModularWeapon_TreeNoResults>일치하는 파츠나 장착부가 없습니다.</HD_ModularWeapon_TreeNoResults>
+  <HD_ModularWeapon_EmptyRequiredSocket>! 필수 파츠 없음</HD_ModularWeapon_EmptyRequiredSocket>
+  <HD_ModularWeapon_InternalPart>내부 / 평소 숨겨진 파츠</HD_ModularWeapon_InternalPart>
   <HD_ModularWeapon_AssemblyRoot>조립체 루트</HD_ModularWeapon_AssemblyRoot>
-  <HD_ModularWeapon_CurrentPart>현재 파츠</HD_ModularWeapon_CurrentPart>
-  <HD_ModularWeapon_PartSummary>소켓 {0}개  ·  직접 연결 파츠 {1}개</HD_ModularWeapon_PartSummary>
   <HD_ModularWeapon_AttachedParts>장착된 파츠</HD_ModularWeapon_AttachedParts>
-  <HD_ModularWeapon_NoAttachedParts>이 파츠에 직접 연결된 파츠가 없습니다.</HD_ModularWeapon_NoAttachedParts>
   <HD_ModularWeapon_ConnectedVia>장착 소켓: {0}</HD_ModularWeapon_ConnectedVia>
   <HD_ModularWeapon_SurfaceDetail>방향: {0}</HD_ModularWeapon_SurfaceDetail>
   <HD_ModularWeapon_SurfaceTop>상부</HD_ModularWeapon_SurfaceTop>

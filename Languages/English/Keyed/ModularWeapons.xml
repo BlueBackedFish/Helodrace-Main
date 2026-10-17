@@ -5,14 +5,15 @@
   <HD_ModularWeapon_Title>Weapon modding — {0}</HD_ModularWeapon_Title>
   <HD_ModularWeapon_Missing>The weapon is no longer available.</HD_ModularWeapon_Missing>
   <HD_ModularWeapon_Tree>Assembly tree</HD_ModularWeapon_Tree>
-  <HD_ModularWeapon_Navigation>Part browser</HD_ModularWeapon_Navigation>
-  <HD_ModularWeapon_BackToParent>← Back to parent</HD_ModularWeapon_BackToParent>
-  <HD_ModularWeapon_Home>Root</HD_ModularWeapon_Home>
+  <HD_ModularWeapon_TreeHint>Hover a row to locate the part on the weapon. Click a part on the weapon to select and reveal it in the tree. Numbers show the total attached descendants.</HD_ModularWeapon_TreeHint>
+  <HD_ModularWeapon_TreeSearch>Search</HD_ModularWeapon_TreeSearch>
+  <HD_ModularWeapon_ExpandAll>Expand all</HD_ModularWeapon_ExpandAll>
+  <HD_ModularWeapon_FocusSelection>Focus selected</HD_ModularWeapon_FocusSelection>
+  <HD_ModularWeapon_TreeNoResults>No matching parts or sockets.</HD_ModularWeapon_TreeNoResults>
+  <HD_ModularWeapon_EmptyRequiredSocket>! Required part missing</HD_ModularWeapon_EmptyRequiredSocket>
+  <HD_ModularWeapon_InternalPart>Internal / normally hidden</HD_ModularWeapon_InternalPart>
   <HD_ModularWeapon_AssemblyRoot>Assembly root</HD_ModularWeapon_AssemblyRoot>
-  <HD_ModularWeapon_CurrentPart>Current part</HD_ModularWeapon_CurrentPart>
-  <HD_ModularWeapon_PartSummary>{0} sockets  ·  {1} attached</HD_ModularWeapon_PartSummary>
   <HD_ModularWeapon_AttachedParts>Parts attached here</HD_ModularWeapon_AttachedParts>
-  <HD_ModularWeapon_NoAttachedParts>No parts are attached directly here.</HD_ModularWeapon_NoAttachedParts>
   <HD_ModularWeapon_ConnectedVia>Socket: {0}</HD_ModularWeapon_ConnectedVia>
   <HD_ModularWeapon_SurfaceDetail>Orientation: {0}</HD_ModularWeapon_SurfaceDetail>
   <HD_ModularWeapon_SurfaceTop>top</HD_ModularWeapon_SurfaceTop>
