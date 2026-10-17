@@ -50,7 +50,7 @@ namespace Helodrace.ModernWar
             else
             {
                 Rect scrollRect = outRect.ContractedBy(7f);
-                const float cardHeight = 88f;
+                const float cardHeight = 124f;
                 Rect viewRect = new Rect(0f, 0f,
                     scrollRect.width - 18f,
                     Mathf.Max(scrollRect.height,
@@ -63,6 +63,9 @@ namespace Helodrace.ModernWar
                     Rect card = new Rect(5f,
                         5f + i * (cardHeight + 7f),
                         viewRect.width - 10f, cardHeight);
+                    // Only visible rows request time-sliced icon baking.
+                    if (card.yMax < scrollPosition.y
+                        || card.y > scrollPosition.y + scrollRect.height) continue;
                     bool hovered = Mouse.IsOver(card);
                     Widgets.DrawBoxSolidWithOutline(card,
                         hovered ? new Color(0.17f, 0.22f, 0.19f)
@@ -70,19 +73,20 @@ namespace Helodrace.ModernWar
                         hovered ? Color.yellow
                             : new Color(0.35f, 0.46f, 0.40f),
                         hovered ? 2 : 1);
-                    if (weapon.def.uiIcon != null)
-                        Widgets.DrawTextureFitted(new Rect(card.x + 12f,
-                            card.y + 10f, 68f, 68f), weapon.def.uiIcon, 1f);
+                    Rect image = new Rect(card.x + 12f, card.y + 12f, 220f, 100f);
+                    DrawWeaponImage(image, weapon);
 
+                    float textX = image.xMax + 14f;
+                    float textWidth = Mathf.Max(1f, card.xMax - 170f - textX);
                     Text.Font = GameFont.Medium;
-                    Widgets.Label(new Rect(card.x + 94f, card.y + 10f,
-                        card.width - 260f, 30f), owner.LabelShortCap);
+                    Widgets.Label(new Rect(textX, card.y + 18f,
+                        textWidth, 30f), owner.LabelShortCap);
                     Text.Font = GameFont.Small;
-                    Widgets.Label(new Rect(card.x + 96f, card.y + 47f,
-                        card.width - 260f, 27f), weapon.LabelCap);
+                    Widgets.Label(new Rect(textX, card.y + 55f,
+                        textWidth, 52f), weapon.LabelCap);
                     GUI.color = hovered
                         ? Color.yellow : new Color(0.73f, 0.87f, 0.77f);
-                    Widgets.Label(new Rect(card.xMax - 155f, card.y + 31f,
+                    Widgets.Label(new Rect(card.xMax - 155f, card.y + 49f,
                         142f, 25f),
                         "HD_ModularWeapon_SelectWeaponAction".Translate());
                     GUI.color = Color.white;
@@ -101,6 +105,29 @@ namespace Helodrace.ModernWar
             if (Widgets.ButtonText(new Rect(inRect.width - 125f,
                 inRect.height - 39f, 115f, 30f), "CloseButton".Translate()))
                 Close();
+        }
+
+        private static void DrawWeaponImage(Rect area, Thing weapon)
+        {
+            CompModularWeaponNode root = weapon.TryGetComp<CompModularWeaponNode>();
+            Texture2D icon = ModularWeaponIconCache.Get(root);
+            if (icon == null)
+            {
+                // Keep the existing fallback while the shared cache finishes baking.
+                if (weapon.def.uiIcon != null)
+                    Widgets.DrawTextureFitted(area, weapon.def.uiIcon, 1f);
+                return;
+            }
+
+            // Cached assembly icons use a square canvas. Fit their visible pixels
+            // so long guns fill the wide preview without transparent padding.
+            ModularWeaponTextureData pixels = ModularWeaponTextureData.For(icon);
+            if (!pixels.HasPixels) return;
+            Rect uv = pixels.VisibleUv;
+            Vector2 size = new Vector2(icon.width * uv.width, icon.height * uv.height);
+            size *= Mathf.Min(area.width / Mathf.Max(0.001f, size.x),
+                area.height / Mathf.Max(0.001f, size.y)) * 0.96f;
+            GUI.DrawTextureWithTexCoords(new Rect(area.center - size * 0.5f, size), icon, uv);
         }
     }
 }

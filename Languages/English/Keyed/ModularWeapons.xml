@@ -105,7 +105,7 @@
   <HD_ModularWeapon_SideGripEfficiency>A side mounted foregrip gives 45% of its handling and muzzle control benefit. Only the most effective foregrip adds a benefit; every part still adds weight.</HD_ModularWeapon_SideGripEfficiency>
   <HD_ModularWeapon_RailPanelEfficiency>Rail panels improve ergonomics equally on any rail. The second and third panels give half and one quarter of their benefit; all panels add weight.</HD_ModularWeapon_RailPanelEfficiency>
   <HD_ModularWeapon_SelectWeaponTitle>Select a weapon to modify</HD_ModularWeapon_SelectWeaponTitle>
-  <HD_ModularWeapon_SelectWeaponDesc>Choose an equipped modular weapon. Its colonist will walk to this workbench before the modification window opens.</HD_ModularWeapon_SelectWeaponDesc>
+  <HD_ModularWeapon_SelectWeaponDesc>Check each weapon's current attachments in its preview, then choose the weapon to modify. Its colonist will walk to this workbench before the modification window opens.</HD_ModularWeapon_SelectWeaponDesc>
   <HD_ModularWeapon_SelectWeaponAction>Modify at bench</HD_ModularWeapon_SelectWeaponAction>
   <HD_ModularWeaponBench_Command>Modify weapon</HD_ModularWeaponBench_Command>
   <HD_ModularWeaponBench_CommandDesc>Choose an equipped modular weapon. Its colonist will come to this workbench to modify it.</HD_ModularWeaponBench_CommandDesc>

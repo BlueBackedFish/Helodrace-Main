@@ -105,7 +105,7 @@
   <HD_ModularWeapon_SideGripEfficiency>측면 수직손잡이는 조작성과 총구 제어 이득의 45%를 제공합니다. 가장 효과적인 손잡이 하나만 이득을 주지만, 모든 파츠의 무게는 합산됩니다.</HD_ModularWeapon_SideGripEfficiency>
   <HD_ModularWeapon_RailPanelEfficiency>레일 패널은 어느 레일에 달아도 인체공학 이득이 같습니다. 두 번째와 세 번째 패널의 이득은 절반과 4분의 1로 줄지만 무게는 모두 합산됩니다.</HD_ModularWeapon_RailPanelEfficiency>
   <HD_ModularWeapon_SelectWeaponTitle>개조할 총기 선택</HD_ModularWeapon_SelectWeaponTitle>
-  <HD_ModularWeapon_SelectWeaponDesc>정착민이 장착한 모듈형 총기를 선택하세요. 해당 정착민이 작업대에 도착하면 모딩 창이 열립니다.</HD_ModularWeapon_SelectWeaponDesc>
+  <HD_ModularWeapon_SelectWeaponDesc>미리보기에서 각 총기의 현재 모딩 상태를 확인하고 개조할 총기를 선택하세요. 해당 정착민이 작업대에 도착하면 모딩 창이 열립니다.</HD_ModularWeapon_SelectWeaponDesc>
   <HD_ModularWeapon_SelectWeaponAction>작업대에서 개조</HD_ModularWeapon_SelectWeaponAction>
   <HD_ModularWeaponBench_Command>총기 모딩</HD_ModularWeaponBench_Command>
   <HD_ModularWeaponBench_CommandDesc>정착민이 장착한 모듈형 총기를 선택하면 해당 정착민이 이 작업대로 와서 개조합니다.</HD_ModularWeaponBench_CommandDesc>
