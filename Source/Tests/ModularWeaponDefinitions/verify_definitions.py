@@ -103,6 +103,12 @@ def validate():
     ebr = {'HD_ModularPart_Handguard_MK14EBR', 'HD_ModularPart_PistolGrip_MK14EBR', 'HD_ModularPart_Stock_MK14EBR'}
     assert ebr <= conflicts[wood] and ebr <= conflicts[socom]
     assert 'HD_ModularPart_Barrel_M1A16_Part' in conflicts[wood]
+    short_barrel = 'HD_ModularPart_Barrel_M1A16_Part'
+    chassis = 'HD_ModularPart_Handguard_MK14EBR'
+    assert short_barrel not in conflicts[socom] and socom not in conflicts[short_barrel], 'SOCOM16 stock must accept its 16-inch barrel'
+    assert short_barrel in conflicts[chassis] or chassis in conflicts[short_barrel], 'EBR chassis must reject the 16-inch barrel'
+    for barrel in ('HD_ModularPart_Barrel_M1418_Part', 'HD_ModularPart_Barrel_M1422_Part'):
+        assert barrel not in conflicts[chassis] and chassis not in conflicts[barrel], (chassis, barrel, 'longer barrels remain compatible')
     print('PASS: %d authored conflicts; every shipped preset has a compatible full assembly.' % sum(map(len, conflicts.values())))
     print('PASS: %d bare parts, %d complete weapon roots, %d exact presets, %d attachments, %d missing-part expectations.'
           % (len(parts) - len(roots), len(roots), len(presets), attachments, expectations))

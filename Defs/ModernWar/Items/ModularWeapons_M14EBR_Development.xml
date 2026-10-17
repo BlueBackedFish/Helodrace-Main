@@ -9,6 +9,7 @@
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_MK14EBR</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+        <incompatibleParts><li>HD_ModularPart_Barrel_M1A16_Part</li></incompatibleParts>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>2</graphicLayer>
         <mounts>
