@@ -83,20 +83,30 @@ namespace Helodrace.ModernWar
             Rect cameraArea = PreviewCameraArea(rect);
             Vector2 origin = previewCamera.OriginFor(cameraArea);
             float scale = previewCamera.ScaleFor(cameraArea);
-            var fitAnchors = new List<Vector2>();
+            var layoutCards = new List<ModularWeaponSocketLayout.Card>();
             foreach (var card in socketCards)
             {
                 Vector3 local = card.Socket.transform?.position ?? Vector3.zero;
                 if (card.Child?.attachedToRail == true) local.x += card.Child.railOffset;
                 Vector2 point = RealtimeSocketPoint(owner, local);
                 card.Anchor = WorldToGui(point, origin, scale);
-                fitAnchors.Add(card.Anchor - previewCamera.OffsetFromFit(cameraArea, point));
+                Vector2 outward = Vector2.zero;
+                if (card.Socket.isRail && (card.Socket.railSurface == ModularRailSurface.Top
+                    || card.Socket.railSurface == ModularRailSurface.Bottom))
+                {
+                    Vector3 outside = local;
+                    outside.z += card.Socket.railSurface == ModularRailSurface.Top ? 1f : -1f;
+                    Vector2 direction = RealtimeSocketPoint(owner, outside) - point;
+                    outward = new Vector2(direction.x, -direction.y).normalized;
+                }
+                layoutCards.Add(new ModularWeaponSocketLayout.Card {
+                    Compact = card.Compact, Rail = card.Socket.isRail, Outward = outward,
+                    Anchor = card.Anchor - previewCamera.OffsetFromFit(cameraArea, point) });
             }
             if (!ReferenceEquals(socketLayoutSnapshot, snapshot) || socketLayoutOwner != owner.path
                 || socketLayoutGroup != activePreviewGroup?.Key || socketLayoutArea != area)
             {
-                socketLayout = ModularWeaponSocketLayout.Arrange(area,
-                    socketCards.Select(card => card.Compact).ToList(), fitAnchors, previewCamera.BoundsAtFit(cameraArea));
+                socketLayout = ModularWeaponSocketLayout.Arrange(area, layoutCards, previewCamera.BoundsAtFit(cameraArea));
                 socketLayoutSnapshot = snapshot;
                 socketLayoutOwner = owner.path;
                 socketLayoutGroup = activePreviewGroup?.Key;
