@@ -55,10 +55,17 @@ namespace UnityEngine
         public Rect(float x, float y, float width, float height)
         { this.x = x; this.y = y; this.width = width; this.height = height; }
         public Vector2 center => new Vector2(x + width / 2, y + height / 2);
+        public float xMin => x;
+        public float yMin => y;
+        public float xMax => x + width;
+        public float yMax => y + height;
     }
     public static class Mathf
     {
         public static float Min(float a, float b) => Math.Min(a, b);
+        public static int Min(int a, int b) => Math.Min(a, b);
+        public static float Max(float a, float b) => Math.Max(a, b);
+        public static int Max(int a, int b) => Math.Max(a, b);
         public static float Clamp(float value, float min, float max) => Math.Max(min, Math.Min(max, value));
     }
 }

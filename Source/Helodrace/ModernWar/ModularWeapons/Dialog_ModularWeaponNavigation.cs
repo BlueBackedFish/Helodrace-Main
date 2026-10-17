@@ -86,7 +86,7 @@ namespace Helodrace.ModernWar
                 rect.width - 8f, Mathf.Max(1f, rect.height - 131f));
             const float rowHeight = 44f;
             float width = Mathf.Max(outRect.width - 18f,
-                220f + (rows.Count == 0 ? 0 : rows.Max(row => row.Depth)) * 14f);
+                260f + (rows.Count == 0 ? 0 : rows.Max(row => row.Depth)) * 14f);
             float visibleHeight = Mathf.Max(1f,
                 outRect.height - (width > outRect.width - 18f ? 18f : 0f));
             if (revealNavigationSelection)
@@ -100,8 +100,8 @@ namespace Helodrace.ModernWar
                         navigationScroll.y = Mathf.Max(0f, top + rowHeight - visibleHeight);
                     float left = rows[index].Depth * 14f;
                     if (left < navigationScroll.x) navigationScroll.x = left;
-                    else if (left + 220f > navigationScroll.x + outRect.width - 18f)
-                        navigationScroll.x = Mathf.Max(0f, left + 220f - outRect.width + 18f);
+                    else if (left + 260f > navigationScroll.x + outRect.width - 18f)
+                        navigationScroll.x = Mathf.Max(0f, left + 260f - outRect.width + 18f);
                 }
                 revealNavigationSelection = false;
             }
@@ -150,7 +150,22 @@ namespace Helodrace.ModernWar
                         navigationSearch = string.Empty;
                     }
                 }
-                float textX = toggle.xMax + 5f;
+                Rect imageRect = new Rect(toggle.xMax + 3f, card.y + 4f, 34f, 34f);
+                if (!row.IsEmpty && card.yMax >= navigationScroll.y
+                    && card.y <= navigationScroll.y + visibleHeight)
+                {
+                    Widgets.DrawBoxSolidWithOutline(imageRect, new Color(0.16f, 0.18f, 0.20f),
+                        new Color(0.32f, 0.39f, 0.42f), 1);
+                    ModularWeaponPartImage.For(row.Node.thing.def).Draw(imageRect.ContractedBy(2f));
+                    if (pointerInTree && Mouse.IsOver(imageRect)) hoveredPart = row.Node.thing.def;
+                    TooltipHandler.TipRegion(imageRect, "HD_ModularWeapon_OpenPartImage".Translate());
+                    if (Widgets.ButtonInvisible(imageRect))
+                    {
+                        SelectNode(row.Node);
+                        Find.WindowStack.Add(new Dialog_ModularWeaponPartImage(row.Node.thing.def));
+                    }
+                }
+                float textX = imageRect.xMax + 5f;
                 Rect selectRect = new Rect(textX, card.y, card.xMax - textX, card.height);
                 Text.Font = GameFont.Tiny;
                 GUI.color = row.IsEmpty ? new Color(1f, 0.65f, 0.3f)

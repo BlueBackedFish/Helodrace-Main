@@ -892,10 +892,10 @@ namespace Helodrace.ModernWar
 
         private void DrawHoveredPartPreview(Rect windowRect, ThingDef def)
         {
-            PartPreviewData data = PartPreviewData.For(def);
+            ModularWeaponPartImage data = ModularWeaponPartImage.For(def);
             Vector2 mouse = Event.current.mousePosition;
-            float width = 250f;
-            float height = 340f;
+            float width = Mathf.Min(360f, windowRect.width - 8f);
+            float height = Mathf.Min(480f, windowRect.height - 8f);
             float x = Mathf.Min(windowRect.xMax - width - 4f, mouse.x + 20f);
             float y = Mathf.Clamp(mouse.y - height * 0.5f,
                 windowRect.y + 4f, windowRect.yMax - height - 4f);
@@ -906,17 +906,9 @@ namespace Helodrace.ModernWar
                 panel.width - 20f, 26f), def.LabelCap);
 
             Rect imageArea = new Rect(panel.x + 12f, panel.y + 38f,
-                panel.width - 24f, 140f);
-            if (data.texture != null)
-            {
-                float aspect = Mathf.Max(0.05f, data.aspect);
-                Vector2 size = aspect >= 1f
-                    ? new Vector2(imageArea.width, imageArea.width / aspect)
-                    : new Vector2(imageArea.height * aspect, imageArea.height);
-                size *= 0.94f;
-                Rect drawRect = CenteredRect(imageArea.center, size);
-                GUI.DrawTextureWithTexCoords(drawRect, data.texture, data.uv, true);
-            }
+                panel.width - 24f, Mathf.Min(250f, height * 0.52f));
+            Widgets.DrawBoxSolid(imageArea, new Color(0.16f, 0.18f, 0.20f));
+            data.Draw(imageArea.ContractedBy(4f));
 
             CompProperties_ModularWeaponNode props =
                 def.GetCompProperties<CompProperties_ModularWeaponNode>();
@@ -992,8 +984,8 @@ namespace Helodrace.ModernWar
                 }
             }
             Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(panel.x + 10f, panel.y + 183f,
-                panel.width - 20f, panel.height - 191f), details);
+            Widgets.Label(new Rect(panel.x + 10f, imageArea.yMax + 8f,
+                panel.width - 20f, panel.yMax - imageArea.yMax - 16f), details);
             Text.Font = GameFont.Small;
         }
 
@@ -1214,106 +1206,5 @@ namespace Helodrace.ModernWar
             public float railOffset;
         }
 
-        private sealed class PartPreviewData
-        {
-            private static readonly Dictionary<ThingDef, PartPreviewData> Cache =
-                new Dictionary<ThingDef, PartPreviewData>();
-
-            public Texture2D texture;
-            public Rect uv = new Rect(0f, 0f, 1f, 1f);
-            public float aspect = 1f;
-
-            public static PartPreviewData For(ThingDef def)
-            {
-                PartPreviewData result;
-                if (Cache.TryGetValue(def, out result)) return result;
-                result = Build(def);
-                Cache[def] = result;
-                return result;
-            }
-
-            private static PartPreviewData Build(ThingDef def)
-            {
-                PartPreviewData result = new PartPreviewData();
-                string path = def?.graphicData?.texPath;
-                result.texture = path.NullOrEmpty()
-                    ? null
-                    : ContentFinder<Texture2D>.Get(path, false);
-                Texture2D texture = result.texture;
-                if (texture == null) return result;
-
-                result.aspect = texture.width / (float)Mathf.Max(1, texture.height);
-                try
-                {
-                    Color32[] pixels = ReadPixelsSafely(texture);
-                    if (pixels == null || pixels.Length == 0) return result;
-                    int minX = texture.width;
-                    int minY = texture.height;
-                    int maxX = -1;
-                    int maxY = -1;
-                    for (int y = 0; y < texture.height; y++)
-                    {
-                        int row = y * texture.width;
-                        for (int x = 0; x < texture.width; x++)
-                        {
-                            if (pixels[row + x].a <= 8) continue;
-                            if (x < minX) minX = x;
-                            if (x > maxX) maxX = x;
-                            if (y < minY) minY = y;
-                            if (y > maxY) maxY = y;
-                        }
-                    }
-
-                    if (maxX >= minX && maxY >= minY)
-                    {
-                        const int padding = 6;
-                        minX = Mathf.Max(0, minX - padding);
-                        minY = Mathf.Max(0, minY - padding);
-                        maxX = Mathf.Min(texture.width - 1, maxX + padding);
-                        maxY = Mathf.Min(texture.height - 1, maxY + padding);
-                        float width = maxX - minX + 1f;
-                        float height = maxY - minY + 1f;
-                        result.uv = new Rect(minX / (float)texture.width,
-                            minY / (float)texture.height,
-                            width / texture.width,
-                            height / texture.height);
-                        result.aspect = width / Mathf.Max(1f, height);
-                    }
-                }
-                catch (Exception)
-                {
-                    // A full-texture preview is still preferable to breaking Window.OnGUI.
-                }
-                return result;
-            }
-
-            private static Color32[] ReadPixelsSafely(Texture2D texture)
-            {
-                if (texture.isReadable) return texture.GetPixels32();
-
-                RenderTexture previous = RenderTexture.active;
-                RenderTexture temporary = null;
-                Texture2D readableCopy = null;
-                try
-                {
-                    temporary = RenderTexture.GetTemporary(texture.width, texture.height,
-                        0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
-                    Graphics.Blit(texture, temporary);
-                    RenderTexture.active = temporary;
-                    readableCopy = new Texture2D(texture.width, texture.height,
-                        TextureFormat.RGBA32, false);
-                    readableCopy.ReadPixels(new Rect(0f, 0f,
-                        texture.width, texture.height), 0, 0, false);
-                    readableCopy.Apply(false, false);
-                    return readableCopy.GetPixels32();
-                }
-                finally
-                {
-                    RenderTexture.active = previous;
-                    if (temporary != null) RenderTexture.ReleaseTemporary(temporary);
-                    if (readableCopy != null) UnityEngine.Object.Destroy(readableCopy);
-                }
-            }
-        }
     }
 }

@@ -7,8 +7,6 @@ namespace Helodrace.ModernWar
 {
     public sealed partial class Dialog_ModularWeapon
     {
-        private const int PreviewMaskSize = 256;
-        private readonly Dictionary<Texture2D, byte[]> previewMasks = new Dictionary<Texture2D, byte[]>();
         private readonly ModularWeaponPreviewCamera previewCamera = new ModularWeaponPreviewCamera();
 
         private static Rect PreviewArea(Rect rect)
@@ -87,7 +85,7 @@ namespace Helodrace.ModernWar
                 float u = (point.x - drawRect.x) / drawRect.width;
                 float v = 1f - (point.y - drawRect.y) / drawRect.height;
                 if (node.GraphicVerticallyFlipped) v = 1f - v;
-                if (!PreviewPixelVisible(texture, u, v)) continue;
+                if (!ModularWeaponTextureData.For(texture).Contains(u, v)) continue;
                 // Visual layer copies resolve back to their real assembly node.
                 hoveredNode = snapshot.Find(part => part.path == node.path);
                 if (hoveredNode != null && Widgets.ButtonInvisible(inner))
@@ -109,53 +107,6 @@ namespace Helodrace.ModernWar
             Vector2 size = Vector2.Scale(node.Graphic?.drawSize ?? Vector2.zero,
                 new Vector2(Mathf.Abs(graphicScale.x), Mathf.Abs(graphicScale.y))) * scale;
             return CenteredRect(WorldToGui(center, origin, scale), size);
-        }
-
-        private bool PreviewPixelVisible(Texture2D texture, float u, float v)
-        {
-            byte[] mask;
-            if (!previewMasks.TryGetValue(texture, out mask))
-            {
-                try
-                {
-                    mask = ReadPreviewMask(texture);
-                }
-                catch (Exception)
-                {
-                    // Tree selection remains available when GPU readback is unavailable.
-                    mask = null;
-                }
-                previewMasks.Add(texture, mask);
-            }
-            return mask != null && mask[Mathf.Clamp((int)(v * PreviewMaskSize), 0, PreviewMaskSize - 1)
-                * PreviewMaskSize + Mathf.Clamp((int)(u * PreviewMaskSize), 0, PreviewMaskSize - 1)] != 0;
-        }
-
-        private static byte[] ReadPreviewMask(Texture2D texture)
-        {
-            // Hit testing needs only a small alpha mask, never a full-resolution GPU readback.
-            RenderTexture previous = RenderTexture.active;
-            RenderTexture temporary = null;
-            Texture2D copy = null;
-            try
-            {
-                temporary = RenderTexture.GetTemporary(PreviewMaskSize, PreviewMaskSize,
-                    0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
-                Graphics.Blit(texture, temporary);
-                RenderTexture.active = temporary;
-                copy = new Texture2D(PreviewMaskSize, PreviewMaskSize, TextureFormat.RGBA32, false);
-                copy.ReadPixels(new Rect(0f, 0f, PreviewMaskSize, PreviewMaskSize), 0, 0, false);
-                Color32[] pixels = copy.GetPixels32();
-                var mask = new byte[pixels.Length];
-                for (int i = 0; i < pixels.Length; i++) mask[i] = pixels[i].a > 24 ? (byte)1 : (byte)0;
-                return mask;
-            }
-            finally
-            {
-                RenderTexture.active = previous;
-                if (temporary != null) RenderTexture.ReleaseTemporary(temporary);
-                if (copy != null) UnityEngine.Object.Destroy(copy);
-            }
         }
 
         private void DrawPreviewHighlight(Rect rect, ModularRenderNode node,
