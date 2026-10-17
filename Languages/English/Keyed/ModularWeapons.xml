@@ -55,10 +55,10 @@
   <HD_ModularWeapon_SocketOverlayTitle>Sockets on {0}</HD_ModularWeapon_SocketOverlayTitle>
   <HD_ModularWeapon_AddRailPart>+ Add rail part</HD_ModularWeapon_AddRailPart>
   <HD_ModularWeapon_AddSocketPart>+ Install part</HD_ModularWeapon_AddSocketPart>
-  <HD_ModularWeapon_InspectSocketPart>Select this part to edit its own sockets.</HD_ModularWeapon_InspectSocketPart>
+  <HD_ModularWeapon_InspectSocketPart>Double-click to edit this part's own sockets.</HD_ModularWeapon_InspectSocketPart>
   <HD_ModularWeapon_RemoveSocketPart>Remove this part. At a workbench it returns to the parts box.</HD_ModularWeapon_RemoveSocketPart>
   <HD_ModularWeapon_RailPartCount>Attached parts: {0}</HD_ModularWeapon_RailPartCount>
-  <HD_ModularWeapon_SocketOverlayHint>Click an empty box or highlighted rail to choose a part below. Each rail attachment gets its own box. Select an attachment to adjust its position; × removes it. Arrow buttons switch pages when there are many sockets.</HD_ModularWeapon_SocketOverlayHint>
+  <HD_ModularWeapon_SocketOverlayHint>Click an image to center that part and choose a replacement below. Rail attachments show a floating position slider above their rail. Double-click an image to edit the part's own sockets. Empty boxes and multi-part rails add parts; single-part rails use one box. × removes a part. Arrows switch box pages.</HD_ModularWeapon_SocketOverlayHint>
   <HD_ModularWeapon_SelectedAmmunition>Ammunition\n{0}</HD_ModularWeapon_SelectedAmmunition>
   <HD_ModularWeapon_NoAmmunition>none selected</HD_ModularWeapon_NoAmmunition>
   <HD_ModularWeapon_AmmunitionPartDetail>Ammunition selection: {0}</HD_ModularWeapon_AmmunitionPartDetail>

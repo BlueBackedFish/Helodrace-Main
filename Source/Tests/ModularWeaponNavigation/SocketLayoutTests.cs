@@ -18,6 +18,8 @@ internal static class SocketLayoutTests
                     for (int i = 0; i < cards.Count; i++)
                     {
                         Rect card = cards[i];
+                        if (Math.Abs(card.width - card.height) > 0.001f)
+                            throw new Exception("Image-only socket boxes must stay square.");
                         if (card.xMin < area.xMin || card.yMin < area.yMin
                             || card.xMax > area.xMax + 0.001 || card.yMax > area.yMax + 0.001)
                             throw new Exception("Socket boxes exceed their preview bounds.");
@@ -42,6 +44,20 @@ internal static class SocketLayoutTests
             || ModularWeaponSocketLayout.Fraction(new Vector2(900, -700), start, end) != 1
             || ModularWeaponSocketLayout.Fraction(middle, start, start) != 0.5f)
             throw new Exception("Rail endpoint clamping and zero-length rails must be safe.");
-        Console.WriteLine("PASS: socket box bounds/non-overlap, 40-item pagination, attachment reveal, rotated rail projection and endpoint clamping.");
+        foreach (var area in new[] { new Rect(325, 120, 700, 200), new Rect(10, 20, 180, 100),
+            new Rect(0, 0, 40, 25) })
+            foreach (var anchor in new[] { area.center, new Vector2(-500, -500), new Vector2(2000, 2000) })
+            {
+                Rect slider = ModularWeaponSocketLayout.FloatingSlider(area,
+                    area.center, new Vector2(area.center.x + 50, area.center.y), anchor);
+                if (slider.xMin < area.xMin || slider.yMin < area.yMin
+                    || slider.xMax > area.xMax + 0.001f || slider.yMax > area.yMax + 0.001f)
+                    throw new Exception("Floating rail sliders must remain inside the camera area after zoom/pan.");
+            }
+        var above = ModularWeaponSocketLayout.FloatingSlider(new Rect(0, 0, 600, 300),
+            new Vector2(100, 200), new Vector2(500, 180), new Vector2(300, 190));
+        if (above.yMax >= 180)
+            throw new Exception("The position control must float above the rail when space permits.");
+        Console.WriteLine("PASS: square socket boxes, pagination, attachment reveal, rail projection and floating slider bounds/placement.");
     }
 }
