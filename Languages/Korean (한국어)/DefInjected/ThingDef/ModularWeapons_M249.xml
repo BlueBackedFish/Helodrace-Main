@@ -14,5 +14,6 @@
   <HD_ModularPart_PistolGrip_M249_Part.label>M249 권총손잡이</HD_ModularPart_PistolGrip_M249_Part.label>
   <HD_ModularPart_Trigger_M249_Part.label>M249 방아쇠</HD_ModularPart_Trigger_M249_Part.label>
   <HD_ModularPart_Magazine_M249200_Part.label>M249 200발 탄통</HD_ModularPart_Magazine_M249200_Part.label>
-  <HD_ModularPart_Ammunition_M249_M855A1_Part.label>M249 M855A1 탄띠</HD_ModularPart_Ammunition_M249_M855A1_Part.label>
+  <HD_ModularPart_Ammunition_M249_M855A1_Part.label>M249 M855A1 탄띠 (EPR)</HD_ModularPart_Ammunition_M249_M855A1_Part.label>
+  <HD_ModularPart_Ammunition_M249_M855A1_Part.comps.0.ammunitionType>5.56 M855A1 (EPR)</HD_ModularPart_Ammunition_M249_M855A1_Part.comps.0.ammunitionType>
 </LanguageData>

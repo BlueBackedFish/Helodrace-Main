@@ -47,9 +47,9 @@
   <HD_ModularPart_Magazine_M1420_Part.label>20-탄 M14 탄창</HD_ModularPart_Magazine_M1420_Part.label>
   <HD_ModularPart_Magazine_M1420_Part.description>20-탄 M14 탄창은 탄약을 보관하고 약실 쪽으로 공급하는 탈착식 탄창입니다.</HD_ModularPart_Magazine_M1420_Part.description>
   <HD_ModularPart_Magazine_M1420_Part.comps.0.sockets.0.label>탄약</HD_ModularPart_Magazine_M1420_Part.comps.0.sockets.0.label>
-  <HD_ModularPart_Ammunition_762M80_Part.label>7.62×51mm M80 탄약</HD_ModularPart_Ammunition_762M80_Part.label>
+  <HD_ModularPart_Ammunition_762M80_Part.label>7.62×51mm M80 탄약 (FMJ)</HD_ModularPart_Ammunition_762M80_Part.label>
   <HD_ModularPart_Ammunition_762M80_Part.description>7.62×51mm M80 탄약은 해당 구경의 모듈식 탄창에 넣는 탄약 구성입니다.</HD_ModularPart_Ammunition_762M80_Part.description>
-  <HD_ModularPart_Ammunition_762M80_Part.comps.0.ammunitionType>7.62 M80</HD_ModularPart_Ammunition_762M80_Part.comps.0.ammunitionType>
+  <HD_ModularPart_Ammunition_762M80_Part.comps.0.ammunitionType>7.62 M80 (FMJ)</HD_ModularPart_Ammunition_762M80_Part.comps.0.ammunitionType>
   <HD_Gun_M14_Weapon.label>M14</HD_Gun_M14_Weapon.label>
   <HD_Gun_M14_Weapon.description>총열, 개머리판, 조준기와 탄창을 교체할 수 있는 모듈식 7.62mm 제식소총입니다.</HD_Gun_M14_Weapon.description>
   <HD_Gun_M14_Weapon.tools.0.label>개머리판</HD_Gun_M14_Weapon.tools.0.label>

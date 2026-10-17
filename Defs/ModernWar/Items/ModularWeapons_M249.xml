@@ -74,9 +74,9 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_RifleAmmunitionBase">
-    <defName>HD_ModularPart_Ammunition_M249_M855A1_Part</defName><label>M249 M855A1 belt ammunition</label>
+    <defName>HD_ModularPart_Ammunition_M249_M855A1_Part</defName><label>M249 M855A1 belt ammunition (EPR)</label>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556M855A1</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><requiredResearch><li>HelodHighMachineGun</li></requiredResearch><storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached><ammunitionType>5.56 M855A1</ammunitionType><ceAmmoDefName>Ammo_HDM855A1</ceAmmoDefName><ammunitionCaliber>556x45</ammunitionCaliber><projectileDiameterMm>5.7</projectileDiameterMm><projectileOverride>HD_Bullet_M16A4_Proj</projectileOverride><casingMoteDef>HD_Mote_Shell55645_Mote</casingMoteDef><feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_556M855A1</feedingRoundTexPath><overridePriority>20</overridePriority><mounts><li><id>ammunition_mount</id><socketTags><li>m249_ammunition</li></socketTags><transform><position>(-0.035,0,-0.04)</position></transform></li></mounts></li></comps>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><requiredResearch><li>HelodHighMachineGun</li></requiredResearch><storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached><ammunitionType>5.56 M855A1 (EPR)</ammunitionType><ceAmmoDefName>Ammo_HDM855A1</ceAmmoDefName><ammunitionCaliber>556x45</ammunitionCaliber><projectileDiameterMm>5.7</projectileDiameterMm><projectileOverride>HD_Bullet_M16A4_Proj</projectileOverride><casingMoteDef>HD_Mote_Shell55645_Mote</casingMoteDef><feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_556M855A1</feedingRoundTexPath><overridePriority>20</overridePriority><mounts><li><id>ammunition_mount</id><socketTags><li>m249_ammunition</li></socketTags><transform><position>(-0.035,0,-0.04)</position></transform></li></mounts></li></comps>
   </ThingDef>
 
   <ThingDef ParentName="BaseHumanMakeableGun">

@@ -210,9 +210,9 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_RifleAmmunitionBase">
-    <defName>HD_ModularPart_Ammunition_919M882_P320_Part</defName><label>9x19mm M882 P320 ammunition</label>
+    <defName>HD_ModularPart_Ammunition_919M882_P320_Part</defName><label>9x19mm M882 P320 ammunition (FMJ)</label>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_919M882</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached><ammunitionType>9x19 M882</ammunitionType><ceAmmoDefName>Ammo_9x19mmPara_FMJ</ceAmmoDefName><ammunitionCaliber>9x19</ammunitionCaliber><projectileDiameterMm>9.03</projectileDiameterMm><projectileOverride>HD_Bullet_Glock19_Proj</projectileOverride><casingMoteDef>HD_Mote_Shell919_Mote</casingMoteDef><feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_919M882</feedingRoundTexPath><overridePriority>20</overridePriority><mounts><li><id>ammunition_mount</id><socketTags><li>p320_ammunition</li></socketTags></li></mounts></li></comps>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached><ammunitionType>9x19 M882 (FMJ)</ammunitionType><ceAmmoDefName>Ammo_9x19mmPara_FMJ</ceAmmoDefName><ammunitionCaliber>9x19</ammunitionCaliber><projectileDiameterMm>9.03</projectileDiameterMm><projectileOverride>HD_Bullet_Glock19_Proj</projectileOverride><casingMoteDef>HD_Mote_Shell919_Mote</casingMoteDef><feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_919M882</feedingRoundTexPath><overridePriority>20</overridePriority><mounts><li><id>ammunition_mount</id><socketTags><li>p320_ammunition</li></socketTags></li></mounts></li></comps>
   </ThingDef>
 
   <ThingDef Name="HD_ModularP320Root" ParentName="BaseHumanMakeableGun" Abstract="True">

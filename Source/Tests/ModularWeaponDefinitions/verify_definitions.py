@@ -137,6 +137,54 @@ def validate_ammunition_textures():
           % (references, len(used)))
 
 
+
+def validate_ammunition_labels():
+    """Keep English/Korean item names and installed-ammo readouts consistent."""
+    expected = {
+        'HD_Ammunition_556M193_Ammo': 'FMJ',
+        'HD_Ammunition_556M855_Ammo': 'FMJ',
+        'HD_Ammunition_556M995_Ammo': 'AP',
+        'HD_Ammunition_556MK262_Ammo': 'MATCH',
+        'HD_Ammunition_556MK318_Ammo': 'OTM',
+        'HD_Ammunition_556M855A1_Ammo': 'EPR',
+        'HD_Ammunition_300BLKTACTX': 'EXP',
+        'HD_Ammunition_919M882_Ammo': 'FMJ',
+        'HD_Ammunition_76251M80A1_Ammo': 'EPR',
+        'HD_Ammunition_76251M198_Ammo': 'DUPLEX',
+        'HD_Ammunition_76251M948_Ammo': 'SLAP',
+        'HD_Ammunition_76251M993_Ammo': 'AP',
+        'HD_Ammunition_76251M1158_Ammo': 'ADVAP',
+        'HD_Ammunition_76251MK316_Ammo': 'MATCH',
+        'HD_Ammunition_76251MK319_Ammo': 'OTM',
+        'HD_ModularPart_Ammunition_762M80_Part': 'FMJ',
+        'HD_ModularPart_Ammunition_45ACPM1911_Part': 'FMJ',
+        'HD_ModularPart_Ammunition_919M882_P320_Part': 'FMJ',
+        'HD_ModularPart_Ammunition_M249_M855A1_Part': 'EPR',
+    }
+    translated = {}
+    for path in (ROOT / 'Languages' / 'Korean (한국어)' / 'DefInjected' / 'ThingDef').glob('*.xml'):
+        for entry in ET.parse(path).getroot():
+            if entry.tag.endswith(('.label', '.comps.0.ammunitionType')):
+                translated[entry.tag] = entry.text or ''
+
+    found = set()
+    for path in (ROOT / 'Defs').rglob('*.xml'):
+        for node in ET.parse(path).getroot().findall('ThingDef'):
+            comp = node.find("comps/li[@Class='%s']" % COMP)
+            if comp is None or comp.find('ammunitionType') is None:
+                continue
+            name = node.findtext('defName')
+            assert name in expected, (name, 'new ammunition needs a classification label')
+            suffix = ' (%s)' % expected[name]
+            assert node.findtext('label', '').endswith(suffix), (name, 'English label')
+            assert comp.findtext('ammunitionType', '').endswith(suffix), (name, 'English ammo readout')
+            assert translated.get(name + '.label', '').endswith(suffix), (name, 'Korean label')
+            assert translated.get(name + '.comps.0.ammunitionType', '').endswith(suffix), (name, 'Korean ammo readout')
+            found.add(name)
+    assert found == set(expected), ('missing ammunition labels', set(expected) - found)
+    print('PASS: %d ammunition selections have matching class suffixes in English/Korean names and readouts.' % len(found))
+
 if __name__ == '__main__':
     validate()
     validate_ammunition_textures()
+    validate_ammunition_labels()

@@ -9,8 +9,8 @@
   <HD_ModularPart_Trigger_M1911A1_Part.label>방아쇠 M1911A1</HD_ModularPart_Trigger_M1911A1_Part.label>
   <HD_ModularPart_PistolGrip_1911GI.label>권총손잡이 1911GI</HD_ModularPart_PistolGrip_1911GI.label>
   <HD_ModularPart_Magazine_1911GI7_Part.label>탄창 1911GI7</HD_ModularPart_Magazine_1911GI7_Part.label>
-  <HD_ModularPart_Ammunition_45ACPM1911_Part.label>.45 ACP M1911 탄약</HD_ModularPart_Ammunition_45ACPM1911_Part.label>
-  <HD_ModularPart_Ammunition_45ACPM1911_Part.comps.0.ammunitionType>.45 ACP</HD_ModularPart_Ammunition_45ACPM1911_Part.comps.0.ammunitionType>
+  <HD_ModularPart_Ammunition_45ACPM1911_Part.label>.45 ACP M1911 탄약 (FMJ)</HD_ModularPart_Ammunition_45ACPM1911_Part.label>
+  <HD_ModularPart_Ammunition_45ACPM1911_Part.comps.0.ammunitionType>.45 ACP (FMJ)</HD_ModularPart_Ammunition_45ACPM1911_Part.comps.0.ammunitionType>
   <HD_Gun_M1911_Weapon.comps.1.sockets.0.label>슬라이드</HD_Gun_M1911_Weapon.comps.1.sockets.0.label>
   <HD_Gun_M1911_Weapon.comps.1.sockets.1.label>총열</HD_Gun_M1911_Weapon.comps.1.sockets.1.label>
   <HD_Gun_M1911_Weapon.comps.1.sockets.2.label>해머</HD_Gun_M1911_Weapon.comps.1.sockets.2.label>

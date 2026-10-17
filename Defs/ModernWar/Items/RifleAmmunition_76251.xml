@@ -7,14 +7,14 @@
 
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251M198_Ammo</defName>
-    <label>7.62x51mm M198 cartridge</label>
+    <label>7.62x51mm M198 cartridge (DUPLEX)</label>
     <description>M198 ammunition selection for modular 7.62x51mm magazines. Uses its own cartridge and feeding-round images. Currently shares M80A1 projectile behavior.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M198</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
       <requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
       <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
-      <ammunitionType>7.62 M198</ammunitionType>
+      <ammunitionType>7.62 M198 (DUPLEX)</ammunitionType>
       <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
       <projectileOverride>HD_Bullet_76251M80A1_Proj</projectileOverride>
       <casingMoteDef>HD_Mote_Shell76251_Mote</casingMoteDef>
@@ -26,14 +26,14 @@
 
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251M948_Ammo</defName>
-    <label>7.62x51mm M948 cartridge</label>
+    <label>7.62x51mm M948 cartridge (SLAP)</label>
     <description>M948 ammunition selection for modular 7.62x51mm magazines. Uses its own cartridge and feeding-round images. Currently shares M80A1 projectile behavior.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M948</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
       <requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
       <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
-      <ammunitionType>7.62 M948</ammunitionType>
+      <ammunitionType>7.62 M948 (SLAP)</ammunitionType>
       <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
       <projectileOverride>HD_Bullet_76251M80A1_Proj</projectileOverride>
       <casingMoteDef>HD_Mote_Shell76251_Mote</casingMoteDef>
@@ -45,14 +45,14 @@
 
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251M993_Ammo</defName>
-    <label>7.62x51mm M993 cartridge</label>
+    <label>7.62x51mm M993 cartridge (AP)</label>
     <description>M993 ammunition selection for modular 7.62x51mm magazines. Uses its own cartridge and feeding-round images. Currently shares M80A1 projectile behavior.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M993</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
       <requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
       <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
-      <ammunitionType>7.62 M993</ammunitionType>
+      <ammunitionType>7.62 M993 (AP)</ammunitionType>
       <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
       <projectileOverride>HD_Bullet_76251M80A1_Proj</projectileOverride>
       <casingMoteDef>HD_Mote_Shell76251_Mote</casingMoteDef>
@@ -64,14 +64,14 @@
 
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251M1158_Ammo</defName>
-    <label>7.62x51mm M1158 cartridge</label>
+    <label>7.62x51mm M1158 cartridge (ADVAP)</label>
     <description>M1158 ammunition selection for modular 7.62x51mm magazines. Uses its own cartridge and feeding-round images. Currently shares M80A1 projectile behavior.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M1158</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
       <requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
       <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
-      <ammunitionType>7.62 M1158</ammunitionType>
+      <ammunitionType>7.62 M1158 (ADVAP)</ammunitionType>
       <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
       <projectileOverride>HD_Bullet_76251M80A1_Proj</projectileOverride>
       <casingMoteDef>HD_Mote_Shell76251_Mote</casingMoteDef>
@@ -83,14 +83,14 @@
 
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251MK316_Ammo</defName>
-    <label>7.62x51mm MK316 cartridge</label>
+    <label>7.62x51mm MK316 cartridge (MATCH)</label>
     <description>MK316 ammunition selection for modular 7.62x51mm magazines. Uses its own cartridge and feeding-round images. Currently shares M80A1 projectile behavior.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251MK316</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
       <requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
       <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
-      <ammunitionType>7.62 MK316</ammunitionType>
+      <ammunitionType>7.62 MK316 (MATCH)</ammunitionType>
       <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
       <projectileOverride>HD_Bullet_76251M80A1_Proj</projectileOverride>
       <casingMoteDef>HD_Mote_Shell76251_Mote</casingMoteDef>
@@ -102,14 +102,14 @@
 
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251MK319_Ammo</defName>
-    <label>7.62x51mm MK319 cartridge</label>
+    <label>7.62x51mm MK319 cartridge (OTM)</label>
     <description>MK319 ammunition selection for modular 7.62x51mm magazines. Uses its own cartridge and feeding-round images. Currently shares M80A1 projectile behavior.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251MK319</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
       <requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
       <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
-      <ammunitionType>7.62 MK319</ammunitionType>
+      <ammunitionType>7.62 MK319 (OTM)</ammunitionType>
       <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
       <projectileOverride>HD_Bullet_76251M80A1_Proj</projectileOverride>
       <casingMoteDef>HD_Mote_Shell76251_Mote</casingMoteDef>
