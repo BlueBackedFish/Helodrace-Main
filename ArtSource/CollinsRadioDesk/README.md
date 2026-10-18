@@ -1,6 +1,6 @@
 # Collins radio desk
 
-New 1×1 sprite-proxy desk with simplified Collins 32V-3 transmitter (left), 75A-3 receiver (right), and a tabletop microphone. Baked wood base RGB is `(133,97,67)`, from vanilla `WoodLog.stuffProps.color`; face shading uses darker wood shades. No color mask is produced.
+New 1×1 sprite-proxy desk with simplified Collins 32V-3 transmitter (left), 75A-3 receiver (right), and a tabletop microphone. Radio assemblies use 25% less height and 28% less depth than the initial version, keeping their width and front placement. Baked wood base RGB is `(133,97,67)`, from vanilla `WoodLog.stuffProps.color`; face shading uses darker wood shades. No color mask is produced.
 
 Outputs: `Textures/Buildings/HD_CollinsRadioDesk_{north,east,south}.png`, transparent 512×512 RGBA. North, East and South share an orthographic scale of 1.47 and an elevation of 64° downward from horizontal. South shows the operating faces; North shows the cabinet backs. West can use the engine's mirrored East view. The scene is `collins_radio_desk.blend`.
 

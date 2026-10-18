@@ -66,6 +66,14 @@ window('75A3_signal_meter',.355,.748,.055,.038)
 window('75A3_tuning_scale',.196,.735,.125,.051)
 cyl('75A3_main_tuning',(.196,-.071,.625),.043,.034,black,True)
 for x in [.072,.325,.4]:cyl('75A3_control',(x,-.065,.593),.018,.022,black,True)
+# Flatten only the two radio assemblies around their front edge and tabletop.
+for obj in list(scene.objects):
+    if obj.type=='MESH' and obj.name.startswith(('Collins_', '32V3_', '75A3_')):
+        obj.location.y=-.035+(obj.location.y+.035)*.72
+        obj.location.z=.525+(obj.location.z-.525)*.75
+        obj.scale.y*=.72
+        obj.scale.z*=.75
+scene['radios_flattened']=True
 # Single prominent desk microphone. Broad grille stripes survive sprite reduction.
 cyl('Microphone_base',(.325,-.326,.54),.081,.035,black)
 cyl('Microphone_stem',(.325,-.326,.61),.016,.13,steel)
