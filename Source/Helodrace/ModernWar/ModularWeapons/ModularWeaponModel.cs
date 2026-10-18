@@ -500,6 +500,12 @@ namespace Helodrace.ModernWar
                 }
                 if (internalStats.barrelLengthInches < 0f)
                     yield return parentDef.defName + " has a negative ballistic barrel length.";
+                if (internalStats.ammunitionPrecisionFactor != 0f
+                    && (ammunitionType.NullOrEmpty() || internalStats.ammunitionPrecisionFactor < 0.5f
+                        || internalStats.ammunitionPrecisionFactor > 1.35f))
+                    yield return parentDef.defName + " needs an ammunition precision factor in 0.5..1.35 on an ammunition selector only.";
+                if (!ammunitionType.NullOrEmpty() && internalStats.mechanicalPrecision != 0f)
+                    yield return parentDef.defName + " must author cartridge precision with ammunitionPrecisionFactor, not mechanicalPrecision.";
                 if (internalStats.massKg == 0f)
                     yield return parentDef.defName
                         + " has zero internal mass; use a positive value or -1 for automatic mass.";

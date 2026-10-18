@@ -75,6 +75,7 @@ namespace Helodrace.ModernWar
                 Bar("Handling", value.Handling, 1f, "P0"),
                 Bar("AimStability", value.AimStability, 1f, "P0"),
                 Bar("MechanicalPrecision", value.MechanicalPrecision, 1f, "P0"),
+                Bar("AmmunitionPrecisionFactor", value.AmmunitionPrecisionFactor, 1.35f, "P0"),
                 Bar("MechanicalRangeFactor", value.MechanicalRangeFactor, 1.5f, "P0"),
                 Bar("RangeFactor", value.RangeFactor, 1.5f, "P0"),
                 Bar("Reliability", value.OperatingReliability, 1f, "P1"),

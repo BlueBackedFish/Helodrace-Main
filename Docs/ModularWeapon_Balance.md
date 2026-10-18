@@ -2,6 +2,8 @@
 
 2026-10-18. [스탯 역할·정확도 분리 설계](ModularWeapon_StatDirection.md)의 1차 구현을 적용했다. XML 항목과 개머리판 상태별 수치는 [구현 기록](ModularWeapon_StatDirection_Implementation.md)을 참고한다.
 
+2026-10-19. [탄약별 정밀도 밸런스](ModularWeapon_AmmunitionPrecision.md)를 적용했다. 5.56 6종과 7.62×51 8종의 중·원거리 차이를 확대했으며 기본 생성 탄약의 기준값은 유지한다.
+
 2026-10-17. 모듈형 총기 본체 10종, 장착 가능한 파츠·탄종 선택 항목 156종을 조정했다. 파츠별 값과 기본 쿨다운·명중률은 [중앙 밸런스 표](../Patches/ModularWeapon_Balance.xml)에 있다. 무게는 해당 부품 하나의 무게다. 기계식 RPM은 유지한다. 처음 웜업으로 잘못 적용한 일괄 상향은 취소했고 사격 후 쿨다운을 조정했다.
 
 ## 순정 기준

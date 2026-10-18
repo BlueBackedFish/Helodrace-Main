@@ -196,4 +196,5 @@
   <HD_ModularWeapon_AccuracyModel>정확도 구성</HD_ModularWeapon_AccuracyModel>
   <HD_ModularWeapon_AccuracyBreakdown>기계 상한 {0} × 조준 효율 {1} × 유지 효율 {2} = {3} (보통 품질 장비 기준).</HD_ModularWeapon_AccuracyBreakdown>
   <HD_ModularWeapon_TimingHint>조준 준비는 발사 전 획득, 쿨다운은 발사·점사 후 회복입니다. 기계식 RPM과는 별개입니다. 유효 조준 그룹이 여러 개면 표적 거리에 맞는 그룹의 준비 시간을 쓰며, 미리보기는 대표 활성 그룹을 사용합니다.</HD_ModularWeapon_TimingHint>
+  <HD_ModularWeapon_AmmunitionPrecisionFactor>탄약 정밀도 배율</HD_ModularWeapon_AmmunitionPrecisionFactor>
 </LanguageData>

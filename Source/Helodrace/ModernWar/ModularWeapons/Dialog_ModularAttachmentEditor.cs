@@ -1348,6 +1348,7 @@ namespace Helodrace.ModernWar
                     || name == "lengthExtensionMeters" || name == "naturalSupport"
                     || name.StartsWith("precision", StringComparison.Ordinal)) { min = 0f; max = 1f; }
                 else if (name.EndsWith("ReferenceCost", StringComparison.Ordinal)) { min = 0.1f; max = 3f; }
+                else if (name == "ammunitionPrecisionFactor") { min = 0f; max = 1.35f; }
                 else if (name == "operatingReliability" || name == "gasFlow") { min = -0.5f; max = 1.5f; }
                 else if (name == "barrelLengthInches") { min = 0f; max = 30f; }
                 else if (name == "identificationDistanceMeters") { min = 0f; max = 600f; }

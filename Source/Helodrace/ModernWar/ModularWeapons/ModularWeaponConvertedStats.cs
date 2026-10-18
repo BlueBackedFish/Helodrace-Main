@@ -19,6 +19,9 @@ namespace Helodrace.ModernWar
         public float momentOfInertia;
         public float aimStability;
         public float mechanicalPrecision;
+        // Cartridge consistency: 0 = unset, 1 = service-ammo reference.
+        // Only the selected primary ammunition contributes; never stack selectors.
+        public float ammunitionPrecisionFactor;
         public float identificationDistanceMeters;
         public float barrelLengthInches;
         public float muzzleVelocityOffsetMetersPerSecond;
@@ -60,6 +63,7 @@ namespace Helodrace.ModernWar
         public float Handling { get; internal set; }
         public float AimStability { get; internal set; }
         public float MechanicalPrecision { get; internal set; }
+        public float AmmunitionPrecisionFactor { get; internal set; } = 1f;
         public float StockSupport { get; internal set; }
         public float StockExtension { get; internal set; }
         public bool HasStock { get; internal set; }
@@ -102,6 +106,8 @@ namespace Helodrace.ModernWar
             public float identificationMeters, barrelLength, velocityOffset, damageTransfer, penetrationEfficiency;
             public float rangeAdjustment, lengthExtension, stockLength, stockSupport, stockExtension;
             public bool hasStock;
+            public int projectilePriority = int.MinValue;
+            public float ammunitionPrecision = 1f;
         }
 
         // Secondary launchers add weight but cannot improve the primary gun's precision,
@@ -146,7 +152,17 @@ namespace Helodrace.ModernWar
                 a.mass += mass;
                 a.weightedPosition += mass * PhysicalPosition(node);
                 a.localInertia += Mathf.Max(0f, raw?.momentOfInertia ?? 0f);
-                if (raw == null || IsSecondary(node, nodes)) continue;
+                bool secondary = IsSecondary(node, nodes);
+                bool ammunition = !props.ammunitionType.NullOrEmpty();
+                // Match the projectile resolver's priority/tie order, including a
+                // non-ammo override winning and therefore providing no cartridge bonus.
+                if (!secondary && props.projectileOverride != null && props.overridePriority >= a.projectilePriority)
+                {
+                    a.projectilePriority = props.overridePriority;
+                    a.ammunitionPrecision = ammunition && raw?.ammunitionPrecisionFactor > 0f
+                        ? Mathf.Clamp(raw.ammunitionPrecisionFactor, 0.5f, 1.35f) : 1f;
+                }
+                if (raw == null || secondary) continue;
 
                 float weight = performanceWeights != null
                     && performanceWeights.TryGetValue(node.thing.thingIDNumber, out float resolved)
@@ -160,10 +176,14 @@ namespace Helodrace.ModernWar
                 }
                 // Hardware costs remain for blocked/duplicate optics. Positive optic
                 // accuracy/acquisition fields cannot create a second benefit channel.
-                a.aimSpeed += optic ? Mathf.Min(0f, raw.aimSpeed) : raw.aimSpeed * weight;
+                if (!ammunition)
+                    a.aimSpeed += optic ? Mathf.Min(0f, raw.aimSpeed) : raw.aimSpeed * weight;
                 if (optic) continue;
-                a.aimStability += raw.aimStability * weight;
-                a.mechanicalPrecision += raw.mechanicalPrecision * weight;
+                if (!ammunition)
+                {
+                    a.aimStability += raw.aimStability * weight;
+                    a.mechanicalPrecision += raw.mechanicalPrecision * weight;
+                }
                 a.reliability += raw.operatingReliability * weight;
                 a.gasFlow += raw.gasFlow * weight;
                 a.rangeAdjustment += raw.rangeAdjustmentPercent * weight;
@@ -229,6 +249,7 @@ namespace Helodrace.ModernWar
             {
                 MassKg = a.mass, AimSpeed = speed01, AimStability = stability01,
                 MechanicalPrecision = precision01, RecoilControl = recoilControl, MuzzleControl = muzzleControl,
+                AmmunitionPrecisionFactor = a.ammunitionPrecision,
                 OperatingReliability = reliability01, GasEfficiency = gasEfficiency,
                 CenterOfMassMeters = center, Handling = handling, HandlingLengthMeters = length,
                 HasStock = a.hasStock, StockSupport = a.stockSupport, StockExtension = a.stockExtension,
@@ -251,10 +272,10 @@ namespace Helodrace.ModernWar
             result.VanillaCycleFactor = Mathf.Clamp(1f + (0.97f - reliability01) * 1.8f
                 + Mathf.Max(0f, 1f - gasEfficiency) * 0.65f
                 - Mathf.Max(0f, gasEfficiency - 1f) * 0.65f, 0.78f, 1.55f);
-            result.Touch = Band(rootStats.precisionTouchCeiling, 0.68f, a.mechanicalPrecision, 0.0004f, sight.Touch, stability01, 0.06f);
-            result.Short = Band(rootStats.precisionShortCeiling, 0.78f, a.mechanicalPrecision, 0.0009f, sight.Short, stability01, 0.12f);
-            result.Medium = Band(rootStats.precisionMediumCeiling, 0.80f, a.mechanicalPrecision, 0.0018f, sight.Medium, stability01, 0.22f);
-            result.Long = Band(rootStats.precisionLongCeiling, 0.76f, a.mechanicalPrecision, 0.0030f, sight.Long, stability01, 0.38f);
+            result.Touch = Band(rootStats.precisionTouchCeiling, 0.68f, a.mechanicalPrecision, 0.0004f, sight.Touch, stability01, 0.06f, a.ammunitionPrecision, 0.15f);
+            result.Short = Band(rootStats.precisionShortCeiling, 0.78f, a.mechanicalPrecision, 0.0009f, sight.Short, stability01, 0.12f, a.ammunitionPrecision, 0.40f);
+            result.Medium = Band(rootStats.precisionMediumCeiling, 0.80f, a.mechanicalPrecision, 0.0018f, sight.Medium, stability01, 0.22f, a.ammunitionPrecision, 0.75f);
+            result.Long = Band(rootStats.precisionLongCeiling, 0.76f, a.mechanicalPrecision, 0.0030f, sight.Long, stability01, 0.38f, a.ammunitionPrecision, 1f);
             result.VanillaAccuracyTouchFactor = result.Touch.Accuracy / BaseAccuracy(root, "AccuracyTouch", 0.6f);
             result.VanillaAccuracyShortFactor = result.Short.Accuracy / BaseAccuracy(root, "AccuracyShort", 0.7f);
             result.VanillaAccuracyMediumFactor = result.Medium.Accuracy / BaseAccuracy(root, "AccuracyMedium", 0.65f);
@@ -262,17 +283,18 @@ namespace Helodrace.ModernWar
             result.CERecoil = Mathf.Clamp(recoil * (1f + balance * 0.35f) / massDamping, 0.15f, 8f);
             result.CEBulk = Mathf.Clamp(a.mass * 1.75f + inertia * 7.5f + length * 2f, 1f, 30f);
             result.CESwayFactor = Mathf.Clamp(0.45f + (1f - stability01) * 1.35f, 0.45f, 1.8f);
-            result.CEShotSpread = Mathf.Clamp(0.025f + (1f - precision01) * 0.14f, 0.02f, 0.24f);
+            result.CEShotSpread = Mathf.Clamp((0.025f + (1f - precision01) * 0.14f) / a.ammunitionPrecision, 0.02f, 0.24f);
             result.CESightsEfficiency = Mathf.Clamp((sight.Medium + sight.Long) * 0.5f, 0.5f, 1.25f);
             return result;
         }
 
         private static ModularWeaponAccuracyBand Band(float ceiling, float fallback, float precision,
-            float sensitivity, float sight, float stability, float holdSensitivity)
+            float sensitivity, float sight, float stability, float holdSensitivity, float ammunitionPrecision, float ammunitionInfluence)
             => new ModularWeaponAccuracyBand
             {
                 MechanicalCeiling = Mathf.Clamp((ceiling > 0f ? ceiling : fallback)
-                    * (1f + (precision - 60f) * sensitivity), 0.01f, 0.97f),
+                    * (1f + (precision - 60f) * sensitivity)
+                    * Mathf.Lerp(1f, ammunitionPrecision, ammunitionInfluence), 0.01f, 0.97f),
                 SightEfficiency = Mathf.Clamp01(sight),
                 HoldEfficiency = Mathf.Clamp01(1f - (1f - stability) * holdSensitivity)
             };

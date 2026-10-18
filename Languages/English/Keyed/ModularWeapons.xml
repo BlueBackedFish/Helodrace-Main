@@ -196,4 +196,5 @@
   <HD_ModularWeapon_AccuracyModel>Accuracy composition</HD_ModularWeapon_AccuracyModel>
   <HD_ModularWeapon_AccuracyBreakdown>Mechanical ceiling {0} × sight efficiency {1} × hold efficiency {2} = {3} (normal-quality equipment).</HD_ModularWeapon_AccuracyBreakdown>
   <HD_ModularWeapon_TimingHint>Aim preparation is pre-shot readiness; cooldown is post-shot/burst recovery. Mechanical RPM is independent. With multiple usable sight groups, preparation uses the group best suited to target distance; previews use the representative active group.</HD_ModularWeapon_TimingHint>
+  <HD_ModularWeapon_AmmunitionPrecisionFactor>Ammunition precision factor</HD_ModularWeapon_AmmunitionPrecisionFactor>
 </LanguageData>

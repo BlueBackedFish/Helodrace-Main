@@ -54,6 +54,7 @@ internal static partial class Program
             AmmunitionCatalogTests();
             PartStatCoverageTests();
             Rifle762Tests();
+            AmmunitionPrecisionTests();
             PartConflictTests.Run(Check);
             PlacementEditorTests.Run(Check);
             Console.WriteLine("PASS: "+checks+" modular balance checks using production sight/stat code and patched preset geometry.");
