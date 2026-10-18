@@ -1,0 +1,26 @@
+{
+  "footprint": [
+    1,
+    1
+  ],
+  "wood_rgb": [
+    133,
+    97,
+    67
+  ],
+  "color_mask": false,
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "margin_px": 54
+    },
+    "East": {
+      "downward_degrees": 63.99999334484027,
+      "margin_px": 43
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "margin_px": 54
+    }
+  }
+}
