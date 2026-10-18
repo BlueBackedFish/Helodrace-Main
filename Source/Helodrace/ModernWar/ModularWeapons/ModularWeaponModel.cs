@@ -319,6 +319,32 @@ namespace Helodrace.ModernWar
         public float graphicLayer;
     }
 
+    public sealed class ModularWeaponConditionalPartConflict
+    {
+        public ThingDef part;
+        // The owner and target conflict only while at least one condition part is present.
+        public List<ThingDef> whenAnyParts = new List<ThingDef>();
+
+        public IEnumerable<string> ConfigErrors(ThingDef owner)
+        {
+            if (part == null || part == owner
+                || part.GetCompProperties<CompProperties_ModularWeaponNode>() == null)
+                yield return owner.defName + " has an invalid conditional conflict target.";
+            if (whenAnyParts.NullOrEmpty())
+                yield return owner.defName + " has a conditional conflict without condition parts.";
+            else
+            {
+                var seen = new HashSet<ThingDef>();
+                foreach (ThingDef condition in whenAnyParts)
+                    if (condition == null || condition == owner || condition == part
+                        || condition.GetCompProperties<CompProperties_ModularWeaponNode>() == null)
+                        yield return owner.defName + " has an invalid conditional conflict condition.";
+                    else if (!seen.Add(condition))
+                        yield return owner.defName + " repeats conditional conflict condition " + condition.defName + ".";
+            }
+        }
+    }
+
     public sealed class CompProperties_ModularWeaponNode : CompProperties
     {
         public bool isAssemblyRoot;
@@ -335,6 +361,8 @@ namespace Helodrace.ModernWar
             new List<ResearchProjectDef>();
         // Assembly-wide, symmetric exclusions. Defining a pair on either part is enough.
         public List<ThingDef> incompatibleParts = new List<ThingDef>();
+        public List<ModularWeaponConditionalPartConflict> conditionalIncompatibleParts =
+            new List<ModularWeaponConditionalPartConflict>();
         // The workbench consumes these materials directly. Keeping them off
         // ThingDef.costList avoids involving vanilla recipe generation.
         public List<ThingDefCountClass> craftCost =
@@ -444,6 +472,22 @@ namespace Helodrace.ModernWar
                         yield return parentDef.defName + " has an invalid incompatibleParts entry.";
                     else if (!seen.Add(part))
                         yield return parentDef.defName + " repeats incompatible part " + part.defName + ".";
+                }
+            }
+
+            if (conditionalIncompatibleParts != null)
+            {
+                var targets = new HashSet<ThingDef>();
+                foreach (ModularWeaponConditionalPartConflict rule in conditionalIncompatibleParts)
+                {
+                    if (rule == null)
+                        yield return parentDef.defName + " has a null conditional conflict rule.";
+                    else
+                    {
+                        foreach (string error in rule.ConfigErrors(parentDef)) yield return error;
+                        if (rule.part != null && !targets.Add(rule.part))
+                            yield return parentDef.defName + " repeats conditional conflict target " + rule.part.defName + ".";
+                    }
                 }
             }
 

@@ -7,15 +7,19 @@ namespace Helodrace.ModernWar
     {
         public readonly ThingDef Part;
         public readonly ThingDef Other;
+        public readonly ThingDef Condition;
 
-        internal ModularWeaponPartConflict(ThingDef part, ThingDef other)
+        internal ModularWeaponPartConflict(ThingDef part, ThingDef other, ThingDef condition = null)
         {
             Part = part;
             Other = other;
+            Condition = condition;
         }
 
-        public string Reason => "HD_ModularWeapon_RejectPartConflict".Translate(
-            Part.LabelCap, Other.LabelCap);
+        public string Reason => Condition == null
+            ? "HD_ModularWeapon_RejectPartConflict".Translate(Part.LabelCap, Other.LabelCap)
+            : "HD_ModularWeapon_RejectConditionalPartConflict".Translate(
+                Part.LabelCap, Other.LabelCap, Condition.LabelCap);
     }
 
     public static class ModularWeaponPartConflicts
@@ -50,6 +54,25 @@ namespace Helodrace.ModernWar
                 for (int j = 0; j < i; j++)
                     if (Conflicts(incoming[i], incoming[j]))
                         return new ModularWeaponPartConflict(incoming[i], incoming[j]);
+            }
+            // Adding the condition part (e.g. swapping a barrel) can activate a rule
+            // on two already installed parts, so inspect the complete proposed assembly.
+            var combined = new HashSet<ThingDef>(installed);
+            combined.UnionWith(incoming);
+            var added = new HashSet<ThingDef>(incoming);
+            foreach (ThingDef owner in combined)
+            {
+                var rules = owner?.GetCompProperties<CompProperties_ModularWeaponNode>()
+                    ?.conditionalIncompatibleParts;
+                if (rules == null) continue;
+                foreach (ModularWeaponConditionalPartConflict rule in rules)
+                {
+                    if (rule?.part == null || !combined.Contains(rule.part) || rule.whenAnyParts == null) continue;
+                    foreach (ThingDef condition in rule.whenAnyParts)
+                        if (condition != null && combined.Contains(condition)
+                            && (added.Contains(owner) || added.Contains(rule.part) || added.Contains(condition)))
+                            return new ModularWeaponPartConflict(owner, rule.part, condition);
+                }
             }
             return null;
         }

@@ -186,6 +186,7 @@
   <HD_Placement_ExportFailed>저장에 실패했습니다. 편집값과 저장 목록은 유지됩니다. 로그를 확인하세요.</HD_Placement_ExportFailed>
   <HD_ModularWeapon_ConflictingPart>충돌 파츠 있음</HD_ModularWeapon_ConflictingPart>
   <HD_ModularWeapon_RejectPartConflict>{0}: {1}와(과) 함께 장착할 수 없습니다. 충돌하는 파츠를 먼저 제거하거나 교체하세요.</HD_ModularWeapon_RejectPartConflict>
+  <HD_ModularWeapon_RejectConditionalPartConflict>{2} 장착 시 {0}와(과) {1}은(는) 함께 장착할 수 없습니다. 해당 파츠 중 하나를 먼저 제거하거나 교체하세요.</HD_ModularWeapon_RejectConditionalPartConflict>
   <HD_ModularWeapon_ProjectilesPerShot>한 발당 탄자 수</HD_ModularWeapon_ProjectilesPerShot>
   <HD_ModularWeapon_DamagePerProjectile>탄자당 피해량</HD_ModularWeapon_DamagePerProjectile>
   <HD_ModularWeapon_DuplexHint>탄약 한 발로 탄자 {0}개를 발사합니다. 탄자는 각각 충돌·관통 판정을 받으며 피해량은 탄자당 수치입니다.</HD_ModularWeapon_DuplexHint>

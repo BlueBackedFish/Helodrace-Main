@@ -186,6 +186,7 @@
   <HD_Placement_ExportFailed>Export failed. Your live edits and batch remain available; see the log.</HD_Placement_ExportFailed>
   <HD_ModularWeapon_ConflictingPart>Conflicting part</HD_ModularWeapon_ConflictingPart>
   <HD_ModularWeapon_RejectPartConflict>{0} cannot be installed together with {1}. Remove or replace the conflicting part first.</HD_ModularWeapon_RejectPartConflict>
+  <HD_ModularWeapon_RejectConditionalPartConflict>{0} cannot be installed together with {1} while {2} is installed. Remove or replace one of these parts first.</HD_ModularWeapon_RejectConditionalPartConflict>
   <HD_ModularWeapon_ProjectilesPerShot>Projectiles per round</HD_ModularWeapon_ProjectilesPerShot>
   <HD_ModularWeapon_DamagePerProjectile>Damage per projectile</HD_ModularWeapon_DamagePerProjectile>
   <HD_ModularWeapon_DuplexHint>One round launches {0} independently colliding projectiles. Damage is per projectile; each must hit and penetrate separately.</HD_ModularWeapon_DuplexHint>

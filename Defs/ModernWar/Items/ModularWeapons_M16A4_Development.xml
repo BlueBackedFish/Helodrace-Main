@@ -56,6 +56,25 @@
     <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasBlock_AR15</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+        <!-- Fixed front sight clearance depends on the barrel's gas-block journal.
+             The 14.5-inch/M4 URX and both 20-inch rifle combinations stay valid. -->
+        <conditionalIncompatibleParts>
+          <li><part>HD_ModularPart_Handguard_HACRISFDE</part><whenAnyParts>
+            <li>HD_ModularPart_Barrel_AR15103_Part</li><li>HD_ModularPart_Barrel_AR15145_Part</li><li>HD_ModularPart_Barrel_AR15300BLK103_Part</li>
+          </whenAnyParts></li>
+          <li><part>HD_ModularPart_Handguard_HACURXUP</part><whenAnyParts>
+            <li>HD_ModularPart_Barrel_AR15103_Part</li><li>HD_ModularPart_Barrel_AR15145_Part</li><li>HD_ModularPart_Barrel_AR15300BLK103_Part</li>
+          </whenAnyParts></li>
+          <li><part>HD_ModularPart_Handguard_HACURXM4UP</part><whenAnyParts>
+            <li>HD_ModularPart_Barrel_AR15103_Part</li><li>HD_ModularPart_Barrel_AR15300BLK103_Part</li>
+          </whenAnyParts></li>
+          <li><part>HD_ModularPart_Handguard_M16A1_Part</part><whenAnyParts>
+            <li>HD_ModularPart_Barrel_AR15103_Part</li><li>HD_ModularPart_Barrel_AR15145_Part</li><li>HD_ModularPart_Barrel_AR15300BLK103_Part</li>
+          </whenAnyParts></li>
+          <li><part>HD_ModularPart_Handguard_M16A2UP</part><whenAnyParts>
+            <li>HD_ModularPart_Barrel_AR15103_Part</li><li>HD_ModularPart_Barrel_AR15145_Part</li><li>HD_ModularPart_Barrel_AR15300BLK103_Part</li>
+          </whenAnyParts></li>
+        </conditionalIncompatibleParts>
         <graphicLayer>-2</graphicLayer>
         <verticalOccupancy>0.065</verticalOccupancy>
         <verticalOccupancyOffset>0.016</verticalOccupancyOffset>

@@ -78,6 +78,9 @@ internal static class PlacementEditorTests
             warmupReferenceCost=1.1f,recoveryReferenceCost=1.2f,receiverLengthMeters=.18f,naturalSupport=.15f};
         settings.stock=new ModularWeaponStockProperties {adjustable=true,retractedOffset=.03f,extendedOffset=-.03f};
         var excluded=Bare<ThingDef>();excluded.defName="Excluded&Part";settings.incompatibleParts.Add(excluded);
+        var condition=Bare<ThingDef>();condition.defName="Barrel&Condition";
+        settings.conditionalIncompatibleParts.Add(new ModularWeaponConditionalPartConflict {
+            part=excluded,whenAnyParts=new List<ThingDef>{condition}});
         settings.mounts.Add(new ModularAttachmentMount {id="mount&",label="<left & right>"});
         settings.sockets.Add(new ModularAttachmentSocket {id="socket&",label="<socket>",tags=new List<string>{"a&b"}});
         var named=Node("Escaping",204,settings);
@@ -98,6 +101,9 @@ internal static class PlacementEditorTests
             && settings.stock.extendedOffset==-.03f,"Real Undo restores independent raw/stock profile copies");
         check(escaped.Element("mounts").Element("li").Element("label").Value=="<left & right>","Custom labels remain valid batch XML");
         check(escaped.Element("incompatibleParts").Element("li").Value=="Excluded&Part","Placement exports retain part conflicts with valid XML escaping");
+        var rule=escaped.Element("conditionalIncompatibleParts").Element("li");
+        check(rule.Element("part").Value=="Excluded&Part" && rule.Element("whenAnyParts").Element("li").Value=="Barrel&Condition",
+            "Placement exports retain conditional conflict targets/conditions with valid XML escaping");
 
         var dialog=Bare<Dialog_ModularAttachmentEditor>();
         Set(dialog,"root",a.comp);Set(dialog,"workspace",workspace);

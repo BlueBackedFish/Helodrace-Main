@@ -45,11 +45,22 @@ def validate():
 
     expectations = 0
     conflicts = {}
+    conditional_conflicts = {}
     for name, comp in parts.items():
         excluded = [entry.text for entry in comp.findall('incompatibleParts/li')]
         assert len(excluded) == len(set(excluded)), (name, 'duplicate incompatible part')
         assert all(part in parts and part != name for part in excluded), (name, excluded)
         conflicts[name] = set(excluded)
+        rules = []
+        for rule in comp.findall('conditionalIncompatibleParts/li'):
+            target = rule.findtext('part')
+            conditions = [entry.text for entry in rule.findall('whenAnyParts/li')]
+            assert target in parts and target != name, (name, target, 'invalid conditional target')
+            assert conditions and len(conditions) == len(set(conditions)), (name, conditions, 'empty/duplicate conditions')
+            assert all(part in parts and part not in (name, target) for part in conditions), (name, conditions)
+            assert all(previous != target for previous, _ in rules), (name, target, 'duplicate conditional target')
+            rules.append((target, set(conditions)))
+        conditional_conflicts[name] = rules
         if name in roots:
             spawn = comp.findtext('spawnPreset')
             assert spawn in presets, (name, spawn)
@@ -98,6 +109,9 @@ def validate():
         for i, first in enumerate(installed):
             for second in installed[i + 1:]:
                 assert second not in conflicts[first] and first not in conflicts[second], (name, first, second, 'conflicting preset')
+        for owner in installed:
+            for target, conditions in conditional_conflicts[owner]:
+                assert target not in installed or not conditions.intersection(installed), (name, owner, target, 'conditional conflict in preset')
     wood = 'HD_ModularPart_Stock_M14Wood'
     socom = 'HD_ModularPart_Stock_Socom16_Part'
     ebr = {'HD_ModularPart_Handguard_MK14EBR', 'HD_ModularPart_PistolGrip_MK14EBR', 'HD_ModularPart_Stock_MK14EBR'}
@@ -109,7 +123,19 @@ def validate():
     assert short_barrel in conflicts[chassis] or chassis in conflicts[short_barrel], 'EBR chassis must reject the 16-inch barrel'
     for barrel in ('HD_ModularPart_Barrel_M1418_Part', 'HD_ModularPart_Barrel_M1422_Part'):
         assert barrel not in conflicts[chassis] and chassis not in conflicts[barrel], (chassis, barrel, 'longer barrels remain compatible')
+    sight = 'HD_ModularPart_GasBlock_AR15_Part'
+    short_guard = 'HD_ModularPart_Handguard_HACURXM4UP'
+    short_barrels = {'HD_ModularPart_Barrel_AR15103_Part', 'HD_ModularPart_Barrel_AR15300BLK103_Part'}
+    carbine = 'HD_ModularPart_Barrel_AR15145_Part'
+    guards = {short_guard, 'HD_ModularPart_Handguard_HACRISFDE', 'HD_ModularPart_Handguard_HACURXUP',
+              'HD_ModularPart_Handguard_M16A1_Part', 'HD_ModularPart_Handguard_M16A2UP'}
+    rules = dict(conditional_conflicts[sight])
+    assert set(rules) == guards, 'Every AR15 handguard must have an authored fixed-sight clearance rule'
+    for guard in guards:
+        expected = short_barrels if guard == short_guard else short_barrels | {carbine}
+        assert rules[guard] == expected, (guard, rules[guard], 'incorrect barrel-dependent front sight clearance')
     print('PASS: %d authored conflicts; every shipped preset has a compatible full assembly.' % sum(map(len, conflicts.values())))
+    print('PASS: 5 conditional AR15 front-sight rules cover 14 interfering barrel/handguard combinations; standard M4/M16 presets remain valid.')
     print('PASS: %d bare parts, %d complete weapon roots, %d exact presets, %d attachments, %d missing-part expectations.'
           % (len(parts) - len(roots), len(roots), len(presets), attachments, expectations))
     return parts, presets, roots

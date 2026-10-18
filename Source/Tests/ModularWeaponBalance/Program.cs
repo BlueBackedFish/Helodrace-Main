@@ -56,6 +56,7 @@ internal static partial class Program
             Rifle762Tests();
             AmmunitionPrecisionTests();
             PartConflictTests.Run(Check);
+            AuthoredPartConflictTests();
             PlacementEditorTests.Run(Check);
             Console.WriteLine("PASS: "+checks+" modular balance checks using production sight/stat code and patched preset geometry.");
             return 0;
@@ -220,7 +221,7 @@ internal static partial class Program
         var usmc=definitions["HD_WeaponPreset_M249_USMC"].Descendants("li")
             .Single(e=>(string)e.Element("part")=="HD_ModularPart_OpticMount_LumiconTA51_Part");
         Near(Number(usmc.Element("railOffset")),0,"M249 preset retains saved optic rail position");
-        string[] protectedFields={"internalStats","statOffsets","statFactors","incompatibleParts","projectileOverride","requiredResearch","craftCost","statBases"};
+        string[] protectedFields={"internalStats","statOffsets","statFactors","incompatibleParts","conditionalIncompatibleParts","projectileOverride","requiredResearch","craftCost","statBases"};
         foreach(string path in Directory.GetFiles(Path.Combine(root,"Patches"),"ModularWeapon_Placement_*.xml"))
             foreach(var op in XDocument.Load(path).Root.Elements())
                 Check(!protectedFields.Any(field=>op.Element("xpath").Value.Contains("/"+field)

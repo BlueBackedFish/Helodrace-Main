@@ -1871,6 +1871,21 @@ namespace Helodrace.ModernWar
                             builder.AppendLine("  <li>" + Xml(part.defName) + "</li>");
                     builder.AppendLine("</incompatibleParts>");
                 }
+                if (!props.conditionalIncompatibleParts.NullOrEmpty())
+                {
+                    builder.AppendLine("<conditionalIncompatibleParts>");
+                    foreach (ModularWeaponConditionalPartConflict rule in props.conditionalIncompatibleParts)
+                    {
+                        if (rule?.part == null) continue;
+                        builder.AppendLine("  <li><part>" + Xml(rule.part.defName) + "</part><whenAnyParts>");
+                        if (rule.whenAnyParts != null)
+                            foreach (ThingDef condition in rule.whenAnyParts)
+                                if (condition != null)
+                                    builder.AppendLine("    <li>" + Xml(condition.defName) + "</li>");
+                        builder.AppendLine("  </whenAnyParts></li>");
+                    }
+                    builder.AppendLine("</conditionalIncompatibleParts>");
+                }
                 if (!props.missingFunctions.NullOrEmpty())
                 {
                     builder.AppendLine("<missingFunctions>");
