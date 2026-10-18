@@ -166,7 +166,7 @@ internal static class Program
                 Apply();
                 var fragments = wounds.Where(wound => wound.Def == fragment).ToList();
                 Check(fragments.Count >= 2 && fragments.Count <= 5, "A qualifying hit must produce multiple bounded fragments.");
-                Check(fragments.All(wound => wound.Amount <= 2.5f && !wound.AllowDamagePropagation), "Each fragment must be small and cannot propagate.");
+                Check(fragments.All(wound => wound.Amount <= 5f && !wound.AllowDamagePropagation), "Each fragment must respect the raised cap and cannot propagate.");
                 Check(fragments.Sum(wound => wound.Amount) <= 16 * 0.7f + 0.001f, "Bonus damage must stay within the post-armor budget.");
                 Check(fragments.All(wound => BulletFragmentationImpact.Neighbors(pawn, torso).Contains(wound.HitPart)), "Every wound must be local to the impact.");
                 Check(result.LastHitPart == torso, "Fragments must not redirect native small-pawn propagation to a different body part.");
@@ -178,6 +178,48 @@ internal static class Program
                 Apply(2);
                 Check(wounds.Where(wound => wound.Def == fragment).Sum(wound => wound.Amount) <= 2 * 0.7f + 0.001f,
                     "Armor-reduced primary damage must reduce the fragment budget, never restore full projectile damage.");
+                wounds.Clear(); BulletFragmentationImpact.Current = NewImpact(); Apply(100);
+                fragments = wounds.Where(wound => wound.Def == fragment).ToList();
+                Check(fragments.Count >= 2 && fragments.Count <= 5 && fragments.All(wound => Math.Abs(wound.Amount - 5f) < .001f),
+                    "A large non-EPR budget must reach the new per-fragment cap without changing the default count.");
+                string root = args.Length > 0 ? args[0] : ".";
+                foreach (var epr in new[]
+                {
+                    new { File = "Defs/Items/WeaponFamilies_Helod.xml", Name = "HD_Bullet_M16A4_Proj", Damage = 13f },
+                    new { File = "Defs/ModernWar/Items/RifleAmmunition_Development.xml", Name = "HD_Bullet_76251M80A1_Proj", Damage = 18f }
+                })
+                {
+                    var extension = XDocument.Load(Path.Combine(root, epr.File)).Root.Elements("ThingDef")
+                        .Single(node => (string)node.Element("defName") == epr.Name).Element("modExtensions")
+                        .Elements("li").Single(node => (string)node.Attribute("Class") == "Helodrace.BulletFragmentationExtension");
+                    var eprSettings = new BulletFragmentationExtension
+                    {
+                        // Force only the chance so count/cap boundaries are deterministic; use real XML settings.
+                        chance = 1f, damageFraction = (float)extension.Element("damageFraction"),
+                        minFragments = (int)extension.Element("minFragments"), maxFragments = (int)extension.Element("maxFragments")
+                    };
+                    Check(eprSettings.minFragments == 1 && eprSettings.maxFragments == 1 && eprSettings.maxFragmentDamage == 5f
+                        && (float)extension.Element("chance") == .75f && eprSettings.damageFraction == .55f,
+                        epr.Name + ": EPR must keep its chance/budget with exactly one possible fragment and the raised cap.");
+                    foreach (float primaryDamage in new[] { epr.Damage, 2f, .1f })
+                    {
+                        wounds.Clear(); BulletFragmentationImpact.Current = NewImpact();
+                        BulletFragmentationImpact.Current.settings = eprSettings;
+                        Apply(primaryDamage);
+                        fragments = wounds.Where(wound => wound.Def == fragment).ToList();
+                        Check(fragments.Count == (primaryDamage == .1f ? 0 : 1),
+                            epr.Name + ": EPR must create at most one fragment, or none if the post-armor budget is insufficient.");
+                        Check(fragments.All(wound => Math.Abs(wound.Amount - Math.Min(5f, primaryDamage * .55f)) < .001f
+                            && !wound.AllowDamagePropagation), epr.Name + ": One fragment must obey both the cap and post-armor budget.");
+                        int woundCount = wounds.Count;
+                        Apply(primaryDamage);
+                        Check(wounds.Count == woundCount + 1, epr.Name + ": Native propagation must not generate a second fragment.");
+                    }
+                    wounds.Clear(); BulletFragmentationImpact.Current = NewImpact();
+                    BulletFragmentationImpact.Current.settings = eprSettings;
+                    BulletFragmentationImpact.Current.velocityFactor = .45f; Apply(epr.Damage);
+                    Check(wounds.Count == 1, epr.Name + ": EPR below the velocity threshold must still produce no fragments.");
+                }
                 wounds.Clear(); BulletFragmentationImpact.Current = null; Apply();
                 Check(wounds.Count == 1, "Ordinary bullets must not fragment.");
                 wounds.Clear(); BulletFragmentationImpact.Current = NewImpact(); Apply(0);

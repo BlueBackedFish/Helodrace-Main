@@ -6,7 +6,7 @@
     <defName>HD_Bullet_M16A4_Proj</defName>
     <label>5.56x45mm M16 bullet</label>
     <thingClass>Helodrace.Projectile_FragmentingBullet</thingClass>
-    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>4</projectileMassGrams><referenceVelocityMetersPerSecond>900</referenceVelocityMetersPerSecond><referenceBarrelInches>16</referenceBarrelInches><velocityHalfDistance>55</velocityHalfDistance></li><li Class="Helodrace.BulletFragmentationExtension"><chance>0.75</chance><damageFraction>0.55</damageFraction></li></modExtensions>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>4</projectileMassGrams><referenceVelocityMetersPerSecond>900</referenceVelocityMetersPerSecond><referenceBarrelInches>16</referenceBarrelInches><velocityHalfDistance>55</velocityHalfDistance></li><li Class="Helodrace.BulletFragmentationExtension"><chance>0.75</chance><damageFraction>0.55</damageFraction><minFragments>1</minFragments><maxFragments>1</maxFragments></li></modExtensions>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>

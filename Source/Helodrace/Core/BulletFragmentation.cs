@@ -18,7 +18,7 @@ namespace Helodrace
         public float damageFraction = 0.55f;
         public int minFragments = 2;
         public int maxFragments = 5;
-        public float maxFragmentDamage = 2.5f;
+        public float maxFragmentDamage = 5f;
 
         internal float Strength(float velocityFactor, float penetratedArmor)
         {
