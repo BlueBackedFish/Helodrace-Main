@@ -13,12 +13,9 @@
   <HD_TelegraphTable_Status_Ready_WithCells>Status: line ready | primary cells: {0}</HD_TelegraphTable_Status_Ready_WithCells>
   <HD_TelegraphTable_Tab_Orders>Orders</HD_TelegraphTable_Tab_Orders>
   <HD_TelegraphTable_Tab_Military>Military cooperation</HD_TelegraphTable_Tab_Military>
-  <HD_TelegraphTable_Tab_Market>Market</HD_TelegraphTable_Tab_Market>
   <HD_TelegraphTable_Orders_Title>Orders</HD_TelegraphTable_Orders_Title>
-  <HD_TelegraphTable_Placeholder>The telegraph key is ready. Contract, bond, and exchange controls will be connected here later.</HD_TelegraphTable_Placeholder>
+  <HD_TelegraphTable_Placeholder>The telegraph line is ready. Frontier contracts will be connected to this screen later.</HD_TelegraphTable_Placeholder>
   <HD_TelegraphTable_Button_Contracts>Contracts</HD_TelegraphTable_Button_Contracts>
-  <HD_TelegraphTable_Button_Bonds>Bonds</HD_TelegraphTable_Button_Bonds>
-  <HD_TelegraphTable_Button_Exchange>Exchange</HD_TelegraphTable_Button_Exchange>
   <HD_TelegraphTable_Military_Title>Military cooperation</HD_TelegraphTable_Military_Title>
   <HD_TelegraphTable_Military_Placeholder>Military liaison is available. Support requests and forward base contracts will be connected here later.</HD_TelegraphTable_Military_Placeholder>
   <HD_TelegraphTable_Military_RequestSupport>Request support</HD_TelegraphTable_Military_RequestSupport>
@@ -199,51 +196,6 @@
   <HD_TelegraphTable_ForwardBase_Service_SupplyConvoy>Supply convoy</HD_TelegraphTable_ForwardBase_Service_SupplyConvoy>
   <HD_TelegraphTable_ForwardBase_Service_ArtilleryLiaison>Artillery liaison</HD_TelegraphTable_ForwardBase_Service_ArtilleryLiaison>
   <HD_TelegraphTable_ForwardBase_Service_Bombardment>Bombardment</HD_TelegraphTable_ForwardBase_Service_Bombardment>
-  <HD_TelegraphTable_MarketUnavailable>Market data is unavailable.</HD_TelegraphTable_MarketUnavailable>
-  <HD_TelegraphTable_Market_Title>Market board ({0})</HD_TelegraphTable_Market_Title>
-  <HD_TelegraphTable_Market_SubTab_Log>Records</HD_TelegraphTable_Market_SubTab_Log>
-  <HD_TelegraphTable_Market_SubTab_Trade>Trade</HD_TelegraphTable_Market_SubTab_Trade>
-  <HD_TelegraphTable_Market_OilIndex>Oil index: {0}</HD_TelegraphTable_Market_OilIndex>
-  <HD_TelegraphTable_Market_CurrentQuote>{0} OTC quote: {1}</HD_TelegraphTable_Market_CurrentQuote>
-  <HD_TelegraphTable_Market_FixedGoldPrice>Fixed gold-standard price: {0}</HD_TelegraphTable_Market_FixedGoldPrice>
-  <HD_TelegraphTable_Market_FixedGoldDetail>No bid/ask spread | Settlement: {0}</HD_TelegraphTable_Market_FixedGoldDetail>
-  <HD_TelegraphTable_Market_LogEntry>Bid: {0} | Ask: {1} | Spread: {2} | Settlement: {3}</HD_TelegraphTable_Market_LogEntry>
-  <HD_TelegraphTable_Market_LogEntry_Prices>Bid: {0} | Ask: {1}</HD_TelegraphTable_Market_LogEntry_Prices>
-  <HD_TelegraphTable_Market_LogEntry_Details>Spread: {0} | Settlement: {1}</HD_TelegraphTable_Market_LogEntry_Details>
-  <HD_TelegraphTable_Market_Day>Day {0}</HD_TelegraphTable_Market_Day>
-  <HD_TelegraphTable_Market_NoInformation>No information</HD_TelegraphTable_Market_NoInformation>
-  <HD_TelegraphTable_Market_NoInformationDetail>Quote was not checked on this day.</HD_TelegraphTable_Market_NoInformationDetail>
-  <HD_TelegraphTable_Market_QueryNeedsPrimaryCell>Load a primary cell to record today's quote.</HD_TelegraphTable_Market_QueryNeedsPrimaryCell>
-  <HD_TelegraphTable_Market_SettlementHours>{0}h</HD_TelegraphTable_Market_SettlementHours>
-  <HD_TelegraphTable_Market_SettlementDays>{0}d</HD_TelegraphTable_Market_SettlementDays>
-  <HD_TelegraphTable_Market_NotEnoughHistory>Waiting for market history.</HD_TelegraphTable_Market_NotEnoughHistory>
-  <HD_TelegraphTable_Market_SthalerFxValue>{0} silver/STH</HD_TelegraphTable_Market_SthalerFxValue>
-  <HD_TelegraphTable_Market_SthalerLocked>Sthaler FX quotes unlock after the credit currency regime begins.</HD_TelegraphTable_Market_SthalerLocked>
-  <HD_TelegraphTable_Trade_IndexOnly>This index is informational only.</HD_TelegraphTable_Trade_IndexOnly>
-  <HD_TelegraphTable_Trade_Credit>Credit: {0} {1}</HD_TelegraphTable_Trade_Credit>
-  <HD_TelegraphTable_Trade_Count>Count</HD_TelegraphTable_Trade_Count>
-  <HD_TelegraphTable_Trade_Sell>Sell</HD_TelegraphTable_Trade_Sell>
-  <HD_TelegraphTable_Trade_Buy>Buy</HD_TelegraphTable_Trade_Buy>
-  <HD_TelegraphTable_Trade_EstimatedSettlement>Settlement: {0}</HD_TelegraphTable_Trade_EstimatedSettlement>
-  <HD_TelegraphTable_Trade_PendingLocked>A trade for this asset is already pending.</HD_TelegraphTable_Trade_PendingLocked>
-  <HD_TelegraphTable_Trade_CreditTooLow>Credit too low: {0} / {1}</HD_TelegraphTable_Trade_CreditTooLow>
-  <HD_TelegraphTable_Trade_NotEnoughCurrency>Not enough {0}: need {1}</HD_TelegraphTable_Trade_NotEnoughCurrency>
-  <HD_TelegraphTable_Trade_NotEnoughGoods>Not enough {0}: need {1}</HD_TelegraphTable_Trade_NotEnoughGoods>
-  <HD_TelegraphTable_Trade_Failed>Trade order failed.</HD_TelegraphTable_Trade_Failed>
-  <HD_TelegraphTable_Trade_Started>{0} trade order started: {1}</HD_TelegraphTable_Trade_Started>
-  <HD_TelegraphTable_Trade_Settled>{0} trade settled: {1}</HD_TelegraphTable_Trade_Settled>
-  <HD_TelegraphTable_Trade_SettlementFailed>{0} trade settlement failed.</HD_TelegraphTable_Trade_SettlementFailed>
-  <HD_MarketCurrency_Sthaler>Sthaler</HD_MarketCurrency_Sthaler>
-  <HD_MarketCurrency_Silver>silver</HD_MarketCurrency_Silver>
-  <HD_MarketStandard_Gold>gold standard</HD_MarketStandard_Gold>
-  <HD_MarketStandard_Credit>credit currency regime</HD_MarketStandard_Credit>
-  <HD_MarketAsset_OilIndex>Oil index</HD_MarketAsset_OilIndex>
-  <HD_MarketAsset_CrudeOil>Heavy crude oil</HD_MarketAsset_CrudeOil>
-  <HD_MarketAsset_Diesel>Diesel</HD_MarketAsset_Diesel>
-  <HD_MarketAsset_Kerosene>Kerosene</HD_MarketAsset_Kerosene>
-  <HD_MarketAsset_GovernmentBond>Government bond</HD_MarketAsset_GovernmentBond>
-  <HD_MarketAsset_ContinentalPetroleumBond>Continental Petroleum bond</HD_MarketAsset_ContinentalPetroleumBond>
-  <HD_MarketAsset_Sthaler>Sthaler banknote</HD_MarketAsset_Sthaler>
   <HD_SCR300_SelectedBase_None>Selected forward base: none</HD_SCR300_SelectedBase_None>
   <HD_SCR300_SelectedBase>Selected forward base: {0} (tile {1})</HD_SCR300_SelectedBase>
   <HD_SCR300_SelectBase_Label>Select forward base</HD_SCR300_SelectBase_Label>

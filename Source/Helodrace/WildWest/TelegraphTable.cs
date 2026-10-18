@@ -126,7 +126,7 @@ namespace Helodrace
     public class Dialog_TelegraphTable : Window
     {
         private const float MaxForwardBaseDistance = 60f;
-        private const float GoldStandardSthalerSilverValue = HelodForwardBaseServiceUtility.GoldStandardSthalerSilverValue;
+        private const float SthalerSilverValue = HelodForwardBaseServiceUtility.SthalerSilverValue;
         private static readonly ForwardBaseService[] InfantryServices = { ForwardBaseService.InfantryMortarSupport, ForwardBaseService.InfantrySniperSupport, ForwardBaseService.InfantryDeployment };
         private static readonly ForwardBaseService[] ArtilleryServices = { ForwardBaseService.Artillery105mmSupport, ForwardBaseService.Artillery155mmSupport, ForwardBaseService.W48Support };
         private static readonly ForwardBaseService[] AirForceServices = { ForwardBaseService.CloseAirSupport, ForwardBaseService.HelicopterQRF, ForwardBaseService.HelicopterMedevac };
@@ -157,11 +157,6 @@ namespace Helodrace
         private bool includeW48Support;
         private readonly Dictionary<ForwardBaseService, int> ffpServiceUnitCounts = new Dictionary<ForwardBaseService, int>();
         private readonly Dictionary<ForwardBaseService, string> ffpServiceUnitBuffers = new Dictionary<ForwardBaseService, string>();
-        private MarketSubTab selectedMarketSubTab;
-        private int selectedMarketIndex;
-        private int tradeCount = 1;
-        private string tradeCountBuffer = "1";
-        private Vector2 marketLogScroll;
         private readonly ContractDocumentSurface forwardBaseDocumentSurface = new ContractDocumentSurface();
         private Vector2 forwardBaseContractsScroll;
         private Vector2 infantryServiceScroll;
@@ -249,9 +244,8 @@ namespace Helodrace
             Widgets.Label(new Rect(statusInner.x, statusInner.y + 26f, statusInner.width, 24f), "HD_TelegraphTable_Operator".Translate(operatorPawn?.LabelShortCap ?? "Unknown".Translate()));
             Widgets.Label(new Rect(statusInner.x, statusInner.y + 52f, statusInner.width, 24f), "HD_TelegraphTable_Status_Ready_WithCells".Translate(telegraphComp?.StoredPrimaryCells ?? 0));
 
-            bool marketUnlocked = FinancialNetworkFinished();
             Rect tabRect = new Rect(inRect.x, statusRect.yMax + 10f, inRect.width, 32f);
-            DrawTabs(tabRect, marketUnlocked);
+            DrawTabs(tabRect);
 
             Rect bodyRect = new Rect(inRect.x, tabRect.yMax + 8f, inRect.width, inRect.height - statusRect.height - tabRect.height - 132f);
             Widgets.DrawMenuSection(bodyRect);
@@ -260,10 +254,6 @@ namespace Helodrace
             if (selectedTab == TelegraphTab.Military)
             {
                 DrawMilitaryTab(bodyInner);
-            }
-            else if (selectedTab == TelegraphTab.Market && marketUnlocked)
-            {
-                DrawMarketTab(bodyInner);
             }
             else
             {
@@ -277,9 +267,9 @@ namespace Helodrace
             }
         }
 
-        private void DrawTabs(Rect tabRect, bool marketUnlocked)
+        private void DrawTabs(Rect tabRect)
         {
-            float tabWidth = marketUnlocked ? 120f : 140f;
+            const float tabWidth = 140f;
             Rect ordersRect = new Rect(tabRect.x, tabRect.y, tabWidth, tabRect.height);
             if (Widgets.ButtonText(ordersRect, "HD_TelegraphTable_Tab_Orders".Translate(), selectedTab == TelegraphTab.Orders))
             {
@@ -290,15 +280,6 @@ namespace Helodrace
             if (Widgets.ButtonText(militaryRect, "HD_TelegraphTable_Tab_Military".Translate(), selectedTab == TelegraphTab.Military))
             {
                 selectedTab = TelegraphTab.Military;
-            }
-
-            if (marketUnlocked)
-            {
-                Rect marketRect = new Rect(militaryRect.xMax + 8f, tabRect.y, tabWidth, tabRect.height);
-                if (Widgets.ButtonText(marketRect, "HD_TelegraphTable_Tab_Market".Translate(), selectedTab == TelegraphTab.Market))
-                {
-                    selectedTab = TelegraphTab.Market;
-                }
             }
         }
 
@@ -314,8 +295,6 @@ namespace Helodrace
             float buttonWidth = (bodyInner.width - 20f) / 3f;
             float buttonY = bodyInner.yMax - 48f;
             DrawDisabledButton(new Rect(bodyInner.x, buttonY, buttonWidth, 40f), "HD_TelegraphTable_Button_Contracts".Translate());
-            DrawDisabledButton(new Rect(bodyInner.x + buttonWidth + 10f, buttonY, buttonWidth, 40f), "HD_TelegraphTable_Button_Bonds".Translate());
-            DrawDisabledButton(new Rect(bodyInner.x + (buttonWidth + 10f) * 2f, buttonY, buttonWidth, 40f), "HD_TelegraphTable_Button_Exchange".Translate());
         }
 
         private void DrawMilitaryTab(Rect bodyInner)
@@ -1500,20 +1479,15 @@ namespace Helodrace
             return ContractSilverValue(Mathf.Max(1f, (contractBase + services) * distanceMultiplier * creditMultiplier));
         }
 
-        private static float ContractSilverValue(float goldStandardSthalerValue)
+        private static float ContractSilverValue(float sthalerValue)
         {
-            return goldStandardSthalerValue * GoldStandardSthalerSilverValue;
+            return sthalerValue * SthalerSilverValue;
         }
 
         private static string FormatContractValue(float silverValue)
         {
-            float sthalerValue = silverValue / CurrentSthalerSilverValue();
+            float sthalerValue = silverValue / SthalerSilverValue;
             return "HD_TelegraphTable_ForwardBase_SthalerAmount".Translate(sthalerValue.ToString("F0")).ToString();
-        }
-
-        private static float CurrentSthalerSilverValue()
-        {
-            return HelodForwardBaseServiceUtility.CurrentSthalerSilverValue();
         }
 
         private float SelectedServiceCost()
@@ -1669,333 +1643,12 @@ namespace Helodrace
             }
         }
 
-        private void DrawMarketTab(Rect bodyInner)
-        {
-            HelodMarketState market = HelodMarketState.Current;
-            if (market == null)
-            {
-                Widgets.Label(bodyInner, "HD_TelegraphTable_MarketUnavailable".Translate());
-                return;
-            }
-
-            Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(bodyInner.x, bodyInner.y, bodyInner.width, 30f), "HD_TelegraphTable_Market_Title".Translate(market.StandardLabel()));
-            Text.Font = GameFont.Small;
-            Widgets.Label(new Rect(bodyInner.x, bodyInner.y + 30f, bodyInner.width, 24f), "HD_TelegraphTable_Market_OilIndex".Translate(market.OilIndexValue.ToString("F1")));
-
-            Rect listRect = new Rect(bodyInner.x, bodyInner.y + 62f, 270f, bodyInner.height - 62f);
-            Rect contentRect = new Rect(listRect.xMax + 16f, bodyInner.y + 62f, bodyInner.width - listRect.width - 16f, bodyInner.height - 62f);
-
-            if (selectedMarketIndex >= 0 && selectedMarketIndex < HelodMarketState.DisplayAssets.Count && IsMarketAssetLocked(HelodMarketState.DisplayAssets[selectedMarketIndex], market))
-            {
-                selectedMarketIndex = 0;
-            }
-
-            for (int i = 0; i < HelodMarketState.DisplayAssets.Count; i++)
-            {
-                HelodMarketAsset asset = HelodMarketState.DisplayAssets[i];
-                Rect row = new Rect(listRect.x, listRect.y + i * 36f, listRect.width, 34f);
-                bool locked = IsMarketAssetLocked(asset, market);
-                if (locked)
-                {
-                    GUI.color = Color.gray;
-                    Widgets.DrawOptionBackground(row, false);
-                    Text.Anchor = TextAnchor.MiddleCenter;
-                    Widgets.Label(row, asset.Label);
-                    Text.Anchor = TextAnchor.UpperLeft;
-                    GUI.color = Color.white;
-                    TooltipHandler.TipRegion(row, "HD_TelegraphTable_Market_SthalerLocked".Translate());
-                    continue;
-                }
-
-                if (Widgets.ButtonText(row, asset.Label, selectedMarketIndex == i))
-                {
-                    selectedMarketIndex = i;
-                }
-            }
-
-            selectedMarketIndex = Mathf.Clamp(selectedMarketIndex, 0, HelodMarketState.DisplayAssets.Count - 1);
-            HelodMarketAsset selected = HelodMarketState.DisplayAssets[selectedMarketIndex];
-            DrawMarketSubTabs(new Rect(contentRect.x, contentRect.y, contentRect.width, 32f));
-            Rect subContentRect = new Rect(contentRect.x, contentRect.y + 40f, contentRect.width, contentRect.height - 40f);
-            if (selectedMarketSubTab == MarketSubTab.Trade)
-            {
-                DrawTradeControls(subContentRect, market, selected);
-            }
-            else
-            {
-                DrawMarketLog(subContentRect, market, selected);
-            }
-        }
-
-        private void DrawMarketSubTabs(Rect rect)
-        {
-            float tabWidth = 120f;
-            Rect logRect = new Rect(rect.x, rect.y, tabWidth, rect.height);
-            Rect tradeRect = new Rect(logRect.xMax + 8f, rect.y, tabWidth, rect.height);
-            if (Widgets.ButtonText(logRect, "HD_TelegraphTable_Market_SubTab_Log".Translate(), selectedMarketSubTab == MarketSubTab.Log))
-            {
-                selectedMarketSubTab = MarketSubTab.Log;
-            }
-
-            if (Widgets.ButtonText(tradeRect, "HD_TelegraphTable_Market_SubTab_Trade".Translate(), selectedMarketSubTab == MarketSubTab.Trade))
-            {
-                selectedMarketSubTab = MarketSubTab.Trade;
-            }
-        }
-
-        private void DrawMarketLog(Rect rect, HelodMarketState market, HelodMarketAsset asset)
-        {
-            CompTelegraphTable telegraphComp = telegraphTable.TryGetComp<CompTelegraphTable>();
-            bool observedToday = market.WasObservedToday(asset.defName);
-            if (!observedToday && telegraphComp?.ConsumePrimaryCell() == true)
-            {
-                market.ObserveAsset(asset);
-                observedToday = true;
-            }
-
-            Widgets.DrawMenuSection(rect);
-            Rect inner = rect.ContractedBy(12f);
-
-            float current = market.QuotedPrice(asset);
-            float currentBid = BidFromMid(current, asset);
-            float currentAsk = AskFromMid(current, asset);
-            float currentSpread = currentAsk - currentBid;
-            int today = CurrentDay();
-            Widgets.Label(new Rect(inner.x, inner.y, inner.width, 22f), "HD_TelegraphTable_Market_CurrentQuote".Translate(asset.Label, FormatMarketValue(current, asset, market)));
-            if (market.IsFixedGoldStandardGold(asset))
-            {
-                Widgets.Label(new Rect(inner.x, inner.y + 24f, inner.width, 20f), "HD_TelegraphTable_Market_FixedGoldPrice".Translate(FormatMarketValue(current, asset, market)));
-                Widgets.Label(new Rect(inner.x, inner.y + 44f, inner.width, 20f), "HD_TelegraphTable_Market_FixedGoldDetail".Translate(FormatSettlement(SettlementHoursFor(asset, today))));
-            }
-            else
-            {
-                Widgets.Label(new Rect(inner.x, inner.y + 24f, inner.width, 20f), "HD_TelegraphTable_Market_LogEntry_Prices".Translate(FormatMarketValue(currentBid, asset, market), FormatMarketValue(currentAsk, asset, market)));
-                Widgets.Label(new Rect(inner.x, inner.y + 44f, inner.width, 20f), "HD_TelegraphTable_Market_LogEntry_Details".Translate(FormatMarketValue(currentSpread, asset, market), FormatSettlement(SettlementHoursFor(asset, today))));
-            }
-
-            float logTop = observedToday ? inner.y + 72f : inner.y + 96f;
-            if (!observedToday)
-            {
-                Widgets.Label(new Rect(inner.x, inner.y + 70f, inner.width, 24f), "HD_TelegraphTable_Market_QueryNeedsPrimaryCell".Translate());
-            }
-
-            Rect logRect = new Rect(inner.x, logTop, inner.width, inner.yMax - logTop);
-            Widgets.DrawBoxSolid(logRect, new Color(0.08f, 0.08f, 0.08f, 0.35f));
-            Widgets.DrawBox(logRect);
-            Rect logInner = logRect.ContractedBy(10f);
-
-            List<HelodMarketObservation> observations = market.ObservationLogFor(asset.defName);
-            if (observations.Count == 0)
-            {
-                Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(logRect, "HD_TelegraphTable_Market_NotEnoughHistory".Translate());
-                Text.Anchor = TextAnchor.UpperLeft;
-                return;
-            }
-
-            const float rowHeight = 52f;
-            Rect viewRect = new Rect(0f, 0f, logInner.width - 16f, observations.Count * rowHeight);
-            Widgets.BeginScrollView(logInner, ref marketLogScroll, viewRect);
-            float y = 0f;
-            for (int i = 0; i < observations.Count; i++)
-            {
-                HelodMarketObservation observation = observations[i];
-                Rect rowRect = new Rect(0f, y, viewRect.width, rowHeight - 6f);
-                Widgets.DrawHighlightIfMouseover(rowRect);
-                Widgets.DrawBox(rowRect);
-
-                string dayText = "HD_TelegraphTable_Market_Day".Translate(observation.day);
-                string priceLine;
-                string detailLine;
-                if (observation.value.HasValue)
-                {
-                    float mid = observation.value.Value;
-                    float bid = BidFromMid(mid, asset);
-                    float ask = AskFromMid(mid, asset);
-                    float spread = ask - bid;
-                    if (market.IsFixedGoldStandardGold(asset))
-                    {
-                        priceLine = dayText + "  " + "HD_TelegraphTable_Market_FixedGoldPrice".Translate(FormatMarketValue(mid, asset, market));
-                        detailLine = "HD_TelegraphTable_Market_FixedGoldDetail".Translate(FormatSettlement(SettlementHoursFor(asset, observation.day)));
-                    }
-                    else
-                    {
-                        priceLine = dayText + "  " + "HD_TelegraphTable_Market_LogEntry_Prices".Translate(
-                            FormatMarketValue(bid, asset, market),
-                            FormatMarketValue(ask, asset, market)
-                        );
-                        detailLine = "HD_TelegraphTable_Market_LogEntry_Details".Translate(
-                            FormatMarketValue(spread, asset, market),
-                            FormatSettlement(SettlementHoursFor(asset, observation.day))
-                        );
-                    }
-                }
-                else
-                {
-                    priceLine = dayText + "  " + "HD_TelegraphTable_Market_NoInformation".Translate();
-                    detailLine = "HD_TelegraphTable_Market_NoInformationDetail".Translate();
-                    GUI.color = Color.gray;
-                }
-
-                Widgets.Label(new Rect(rowRect.x + 8f, rowRect.y + 5f, rowRect.width - 16f, 20f), priceLine);
-                Widgets.Label(new Rect(rowRect.x + 8f, rowRect.y + 25f, rowRect.width - 16f, 20f), detailLine);
-                TooltipHandler.TipRegion(rowRect, priceLine + "\n" + detailLine);
-                GUI.color = Color.white;
-                y += rowHeight;
-            }
-            Widgets.EndScrollView();
-        }
-
-        private void DrawTradeControls(Rect rect, HelodMarketState market, HelodMarketAsset asset)
-        {
-            Widgets.DrawMenuSection(rect);
-            Rect inner = rect.ContractedBy(12f);
-            ThingDef deliveryDef = HelodMarketState.DeliveryThingDef(asset);
-            if (deliveryDef == null)
-            {
-                Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(inner, "HD_TelegraphTable_Trade_IndexOnly".Translate());
-                Text.Anchor = TextAnchor.UpperLeft;
-                return;
-            }
-
-            Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(inner.x, inner.y, inner.width, 30f), "HD_TelegraphTable_Market_SubTab_Trade".Translate());
-            Text.Font = GameFont.Small;
-            Widgets.Label(new Rect(inner.x, inner.y + 40f, inner.width, 24f), "HD_TelegraphTable_Trade_Credit".Translate(market.CreditLimit(telegraphTable.Map).ToString("F0"), market.CurrencyLabel()));
-            Widgets.Label(new Rect(inner.x, inner.y + 74f, 80f, 24f), "HD_TelegraphTable_Trade_Count".Translate());
-            Widgets.TextFieldNumeric(new Rect(inner.x + 88f, inner.y + 74f, 160f, 24f), ref tradeCount, ref tradeCountBuffer, 1, 999999);
-
-            bool locked = market.HasPendingTrade(asset.defName);
-            Rect sellRect = new Rect(inner.x, inner.y + 112f, 150f, 34f);
-            Rect buyRect = new Rect(sellRect.xMax + 8f, sellRect.y, sellRect.width, 30f);
-            int count = Mathf.Clamp(tradeCount, 1, 999999);
-            int settlementHours = SettlementHoursFor(asset, CurrentDay());
-
-            if (locked)
-            {
-                DrawDisabledButton(sellRect, "HD_TelegraphTable_Trade_Sell".Translate());
-                DrawDisabledButton(buyRect, "HD_TelegraphTable_Trade_Buy".Translate());
-                TooltipHandler.TipRegion(new Rect(inner.x, sellRect.y, inner.width, sellRect.height), "HD_TelegraphTable_Trade_PendingLocked".Translate());
-                Widgets.Label(new Rect(inner.x, sellRect.yMax + 12f, inner.width, 24f), "HD_TelegraphTable_Trade_PendingLocked".Translate());
-                return;
-            }
-
-            if (Widgets.ButtonText(sellRect, "HD_TelegraphTable_Trade_Sell".Translate()))
-            {
-                TryStartUiTrade(market, asset, HelodMarketTradeSide.Sell, count, settlementHours);
-            }
-
-            if (Widgets.ButtonText(buyRect, "HD_TelegraphTable_Trade_Buy".Translate()))
-            {
-                TryStartUiTrade(market, asset, HelodMarketTradeSide.Buy, count, settlementHours);
-            }
-
-            Widgets.Label(new Rect(inner.x, sellRect.yMax + 12f, inner.width, 24f), "HD_TelegraphTable_Trade_EstimatedSettlement".Translate(FormatSettlement(settlementHours)));
-            if (market.IsFixedGoldStandardGold(asset))
-            {
-                Widgets.Label(new Rect(inner.x, sellRect.yMax + 38f, inner.width, 24f), "HD_TelegraphTable_Market_FixedGoldPrice".Translate(FormatMarketValue(market.QuotedPrice(asset), asset, market)));
-            }
-        }
-
-        private void TryStartUiTrade(HelodMarketState market, HelodMarketAsset asset, HelodMarketTradeSide side, int count, int settlementHours)
-        {
-            CompTelegraphTable telegraphComp = telegraphTable.TryGetComp<CompTelegraphTable>();
-            if (telegraphComp?.HasPrimaryCell != true)
-            {
-                Messages.Message("HD_TelegraphTable_ActionNeedsPrimaryCell".Translate(), telegraphTable, MessageTypeDefOf.RejectInput);
-                return;
-            }
-
-            if (market.TryStartTrade(telegraphTable.Map, telegraphTable.Position, asset, side, count, settlementHours, out string failReason))
-            {
-                telegraphComp.ConsumePrimaryCell();
-                Messages.Message("HD_TelegraphTable_Trade_Started".Translate(asset.Label, count), telegraphTable, MessageTypeDefOf.PositiveEvent);
-            }
-            else
-            {
-                Messages.Message(failReason, telegraphTable, MessageTypeDefOf.RejectInput);
-            }
-        }
-
-        private static float BidFromMid(float mid, HelodMarketAsset asset)
-        {
-            return Mathf.Max(0.01f, mid * (1f - asset.spreadPct * 0.5f));
-        }
-
-        private static float AskFromMid(float mid, HelodMarketAsset asset)
-        {
-            return Mathf.Max(0.01f, mid * (1f + asset.spreadPct * 0.5f));
-        }
-
-        private static string FormatMarketValue(float value, HelodMarketAsset asset, HelodMarketState market)
-        {
-            if (asset.defName == "HD_OilIndex")
-            {
-                return value.ToString("F1");
-            }
-
-            if (asset.defName == "HD_Money")
-            {
-                return "HD_TelegraphTable_Market_SthalerFxValue".Translate(value.ToString("F2"));
-            }
-
-            return value.ToString("F2") + " " + market.CurrencyLabel();
-        }
-
-        private static string FormatSettlement(int hours)
-        {
-            if (hours < 24)
-            {
-                return "HD_TelegraphTable_Market_SettlementHours".Translate(hours);
-            }
-
-            int days = Mathf.CeilToInt(hours / 24f);
-            return "HD_TelegraphTable_Market_SettlementDays".Translate(days);
-        }
-
-        private static int SettlementHoursFor(HelodMarketAsset asset, int day)
-        {
-            if (asset.settlementVarianceHours <= 0)
-            {
-                return asset.settlementHours;
-            }
-
-            int hash = 17;
-            for (int i = 0; i < asset.defName.Length; i++)
-            {
-                hash = hash * 31 + asset.defName[i];
-            }
-
-            hash = Mathf.Abs(hash + day * 1103515245);
-            int variance = hash % (asset.settlementVarianceHours * 2 + 1) - asset.settlementVarianceHours;
-            return Mathf.Max(1, asset.settlementHours + variance);
-        }
-
-        private static int CurrentDay()
-        {
-            return Find.TickManager?.TicksGame / GenDate.TicksPerDay ?? 0;
-        }
-
-        private static bool IsMarketAssetLocked(HelodMarketAsset asset, HelodMarketState market)
-        {
-            return asset.defName == "HD_Money" && market.Standard != HelodMarketStandard.Silver;
-        }
-
-        private static bool FinancialNetworkFinished()
-        {
-            ResearchProjectDef research = DefDatabase<ResearchProjectDef>.GetNamedSilentFail("HelodFinancialNetwork");
-            return research != null && research.IsFinished;
-        }
-
         private static float MilitaryCredit(Map map, Faction faction)
         {
             float wealth = Mathf.Max(0f, map?.wealthWatcher?.WealthTotal ?? 0f);
             float wealthCredit = Mathf.Sqrt(Mathf.Max(wealth, 1f)) * 16f;
             float goodwillCredit = MilitaryGoodwill(faction) * 7f;
-            float marketCredit = HelodMarketState.Current?.CreditLimit(map) ?? 100f;
-            return Mathf.Max(100f, wealthCredit + goodwillCredit + marketCredit * 0.25f);
+            return Mathf.Max(100f, wealthCredit + goodwillCredit);
         }
 
         private static int MilitaryGoodwill(Faction faction)
@@ -2471,8 +2124,7 @@ namespace Helodrace
         private enum TelegraphTab
         {
             Orders,
-            Military,
-            Market
+            Military
         }
 
         private enum MilitaryActivity
@@ -2510,12 +2162,6 @@ namespace Helodrace
             Infantry,
             AirForce,
             Logistics
-        }
-
-        private enum MarketSubTab
-        {
-            Log,
-            Trade
         }
     }
 }

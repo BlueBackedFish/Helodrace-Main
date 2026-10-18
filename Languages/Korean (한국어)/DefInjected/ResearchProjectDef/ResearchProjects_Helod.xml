@@ -64,8 +64,6 @@
   <HelodBasicElectronics.label>옴의 법칙 응용</HelodBasicElectronics.label>
   <HelodBasicElectronics.description>배선, 스위치와 저항 소자를 제작하고 회로를 구성하는 기초 전기 기술을 연구합니다.</HelodBasicElectronics.description>
 
-  <HelodFinancialNetwork.label>전선을 타고 흐르는 돈</HelodFinancialNetwork.label>
-  <HelodFinancialNetwork.description>전신망을 이용해 원거리 거래와 송금을 처리하는 금융 체계를 연구합니다.</HelodFinancialNetwork.description>
 
   <HelodBasicMotor.label>운동-전기 시너지</HelodBasicMotor.label>
   <HelodBasicMotor.description>전기와 회전 운동을 서로 바꾸는 산업용 모터와 발전기를 연구합니다.</HelodBasicMotor.description>

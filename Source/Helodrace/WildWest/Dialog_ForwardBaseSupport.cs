@@ -295,7 +295,7 @@ namespace Helodrace
         {
             return forwardBase.ContractCostKind == HelodForwardBaseCostKind.FFP
                 ? "HD_MortarSupport_Pricing_Included".Translate().ToString()
-                : "HD_MortarSupport_Pricing_PerCall".Translate(HelodForwardBaseServiceUtility.FormatSthalerValue(HelodForwardBaseServiceUtility.MortarCallCostGoldStandard(shell, HelodMortarSupportUtility.VolleyCount * HelodMortarSupportUtility.ShellsPerVolley))).ToString();
+                : "HD_MortarSupport_Pricing_PerCall".Translate(HelodForwardBaseServiceUtility.FormatSthalerValue(HelodForwardBaseServiceUtility.MortarCallCost(shell, HelodMortarSupportUtility.VolleyCount * HelodMortarSupportUtility.ShellsPerVolley))).ToString();
         }
 
         private void Select(ThingDef shell, string price)

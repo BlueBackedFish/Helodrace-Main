@@ -304,20 +304,6 @@
     </ResearchProjectDef>
 
     <ResearchProjectDef>
-        <defName>HelodFinancialNetwork</defName>
-        <label>Wire transfer</label>
-        <description>Studies a financial system that handles long-distance trade and transfers over telegraph lines.</description>
-        <baseCost>500</baseCost>
-        <techLevel>Industrial</techLevel>
-        <prerequisites>
-            <li>HelodTelegraph</li>
-        </prerequisites>
-        <tab>HelodTechTab</tab>
-        <researchViewX>4</researchViewX>
-        <researchViewY>7.2</researchViewY>
-    </ResearchProjectDef>
-
-    <ResearchProjectDef>
         <defName>HelodBasicMotor</defName>
         <label>Kinetic-Electric Synergy</label>
         <description>Studies industrial motors and generators that convert between electricity and rotary motion.</description>
@@ -471,7 +457,6 @@
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodBasicElectronics</li>
-            <li>HelodFinancialNetwork</li>
             <li>HelodBasicMotor</li>
         </prerequisites>
         <tab>HelodTechTab</tab>

@@ -33,7 +33,7 @@ namespace Helodrace
         public const int ServiceBillingPeriodDays = 30;
         public const int ServiceBillingPeriodTicks = ServiceBillingPeriodDays * GenDate.TicksPerDay;
         public const int DefaultFfpServiceUnitsPerBillingPeriod = 10;
-        public const float GoldStandardSthalerSilverValue = 5f;
+        public const float SthalerSilverValue = 5f;
 
         public static float SupportRange(HelodForwardBaseService service)
         {
@@ -197,19 +197,19 @@ namespace Helodrace
             }
         }
 
-        public static float ServiceUseCostGoldStandard(HelodForwardBaseService service)
+        public static float ServiceUseCost(HelodForwardBaseService service)
         {
             // Preserve the existing per-call reimbursement rate while allowing
             // unlimited service uses within a billing period.
             return ServiceBaseCost(service) / 10f;
         }
 
-        public static float MortarCallCostGoldStandard(ThingDef shellDef, int shellCount)
+        public static float MortarCallCost(ThingDef shellDef, int shellCount)
         {
             if (shellDef == null || shellCount <= 0) return 0f;
             // Ammo market values are silver-denominated. Convert the full fire mission to
-            // gold-standard Sthaler so every future shell Def automatically gets its own price.
-            return Mathf.Max(1f, shellDef.BaseMarketValue * shellCount / GoldStandardSthalerSilverValue);
+            // Sthaler so every future shell Def automatically gets its own price.
+            return Mathf.Max(1f, shellDef.BaseMarketValue * shellCount / SthalerSilverValue);
         }
 
         public static System.Collections.Generic.List<ThingDef> AvailableMortarShells()
@@ -246,15 +246,8 @@ namespace Helodrace
             return result;
         }
 
-        public static float CurrentSthalerSilverValue()
+        public static string FormatSthalerValue(float sthalerValue)
         {
-            return Mathf.Max(0.01f, HelodMarketState.Current?.SthalerSilverValue ?? GoldStandardSthalerSilverValue);
-        }
-
-        public static string FormatSthalerValue(float goldStandardSthalerValue)
-        {
-            float silverValue = goldStandardSthalerValue * GoldStandardSthalerSilverValue;
-            float sthalerValue = silverValue / CurrentSthalerSilverValue();
             return "HD_TelegraphTable_ForwardBase_SthalerAmount".Translate(sthalerValue.ToString("F0")).ToString();
         }
 
