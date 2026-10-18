@@ -41,6 +41,7 @@ internal static class Program
         {
             root=Path.GetFullPath(args.Length>0 ? args[0] : ".");
             Load();
+            PlacementDefinitionTests();
             SightTests();
             PresetTests();
             VariantTests();
@@ -62,8 +63,11 @@ internal static class Program
         var all=new XElement("Defs");
         foreach(string file in Directory.GetFiles(Path.Combine(root,"Defs"),"*.xml",SearchOption.AllDirectories))
             all.Add(XDocument.Load(file).Root.Elements().Select(e=>new XElement(e)));
-        // Apply the actual balance operations, before XML inheritance as the game does.
-        foreach(XElement op in XDocument.Load(Path.Combine(root,"Patches/ModularWeapon_Balance.xml")).Root.Elements())
+        // Apply balance first, then placement overrides, before XML inheritance.
+        var patchFiles=new[]{Path.Combine(root,"Patches/ModularWeapon_Balance.xml")}
+            .Concat(Directory.GetFiles(Path.Combine(root,"Patches"),"ModularWeapon_Placement_*.xml").OrderBy(p=>p,StringComparer.Ordinal));
+        foreach(string patchFile in patchFiles)
+        foreach(XElement op in XDocument.Load(patchFile).Root.Elements())
         {
             string path=op.Element("xpath").Value;
             var document=new XDocument(all); var nodes=document.XPathSelectElements(path).ToArray();
@@ -154,6 +158,31 @@ internal static class Program
         // do not need the game's stat worker/Unity initialization for a fallback.
         Check(props.internalStats?.massKg>0,"Missing component mass: "+def.Element("defName")?.Value);
         return props;
+    }
+    private static void PlacementDefinitionTests()
+    {
+        var m249=Properties(Resolve(definitions["HD_ModularPart_Handguard_M249E3_Part"]));
+        var side=m249.SocketNamed("rail_side");
+        Check(side?.isRail==true && side.railSurface==ModularRailSurface.Side,"Latest M249 side rail is a functional side attachment surface");
+        Near(side.railLength,.125f,"Latest M249 side rail length");
+        var ebr=Properties(Resolve(definitions["HD_ModularPart_Handguard_MK14EBR"]));
+        Check(ebr.SocketNamed("rail_bottom")?.railSurface==ModularRailSurface.Bottom
+            && ebr.SocketNamed("raid_side")?.railSurface==ModularRailSurface.Side,"Latest EBR bottom/side sockets are preserved");
+        var stock=Properties(Resolve(definitions["HD_ModularPart_PistolGrip_MK14EBR"])).SocketNamed("stock");
+        Check(stock?.isRail==true && stock.maxAttachments==1,"EBR stock extension becomes a one-stock rail rather than just a visual offset");
+        Near(stock.railLength,.05f,"Saved EBR stock extension travel");
+        var mk14=definitions["HD_WeaponPreset_MK14_Default"].Descendants("li")
+            .Single(e=>(string)e.Element("part")=="HD_ModularPart_Stock_MK14EBR");
+        Near(Number(mk14.Element("railOffset")),-.025f,"MK14 preset retains saved extended-stock position");
+        var usmc=definitions["HD_WeaponPreset_M249_USMC"].Descendants("li")
+            .Single(e=>(string)e.Element("part")=="HD_ModularPart_OpticMount_LumiconTA51_Part");
+        Near(Number(usmc.Element("railOffset")),0,"M249 preset retains saved optic rail position");
+        string[] protectedFields={"internalStats","statOffsets","statFactors","incompatibleParts","projectileOverride","requiredResearch","craftCost","statBases"};
+        foreach(string path in Directory.GetFiles(Path.Combine(root,"Patches"),"ModularWeapon_Placement_*.xml"))
+            foreach(var op in XDocument.Load(path).Root.Elements())
+                Check(!protectedFields.Any(field=>op.Element("xpath").Value.Contains("/"+field)
+                    || op.Element("value").Descendants(field).Any()),"Placement imports cannot roll back current combat/crafting/conflict settings");
+        Console.WriteLine("PASS: saved side/bottom rails, functional EBR stock extension, preset instance offsets and protected combat settings.");
     }
     private static void AmmunitionCatalogTests()
     {

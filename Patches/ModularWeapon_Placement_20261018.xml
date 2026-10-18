@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!-- Geometry/interface changes from PlacementBatch_20261018_172342_558_2b47c406.xml.
+       73 saved definitions / 6 assembly instances. Combat stats, ammunition,
+       research, crafting and incompatibleParts remain in their current definitions. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_Gun_M14_Weapon"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sight/axisOffset</xpath>
+    <value><axisOffset>(-0.122583,0,0.001143)</axisOffset></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Barrel_M249E2_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="muzzle"]/transform</xpath>
+    <value><transform><position>(0.442916,0,0.008785)</position><layer>1</layer></transform></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Barrel_M249E3_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sight/axisOffset</xpath>
+    <value><axisOffset>(0.283464,0,0.064929)</axisOffset></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Barrel_M249E3_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sight/aimRadius</xpath>
+    <value><aimRadius>0.005</aimRadius></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_HandguardExt_MK14EBRTopRail"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="rail_top"]/transform</xpath>
+    <value><transform><position>(-0.036385,0,0.024258)</position></transform></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_HandguardExt_MK14EBRTopRail"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="rail_top"]/railLength</xpath>
+    <value><railLength>0.155</railLength></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Handguard_HACURXUP"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="rail_top_front"]/transform</xpath>
+    <value><transform><position>(0.123551,0,0.018)</position></transform></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Handguard_HACURXUP"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="rail_top_front"]/railLength</xpath>
+    <value><railLength>0.265</railLength></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Handguard_HACURXUP"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="rail_side_upper"]/railLength</xpath>
+    <value><railLength>0.22</railLength></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Handguard_M249E3_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="rail_bottom"]/transform</xpath>
+    <value><transform><position>(0.093561,0,-0.04)</position></transform></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Handguard_M249E3_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="rail_bottom"]/railLength</xpath>
+    <value><railLength>0.11</railLength></value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Handguard_M249E3_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets</xpath>
+    <value><li><id>rail_side</id><label>M249 side rail</label><tags><li>picatinny</li></tags><isRail>true</isRail><railLength>0.125</railLength><railSurface>Side</railSurface><transform><position>(0.088467,0,-0.022699)</position></transform></li></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Handguard_MK14EBR"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="rail_top"]/transform</xpath>
+    <value><transform><position>(0.16075,0,0.006134)</position></transform></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Handguard_MK14EBR"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="rail_top"]/railLength</xpath>
+    <value><railLength>0.25</railLength></value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Handguard_MK14EBR"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets</xpath>
+    <value><li><id>rail_bottom</id><label>MK14 handguard bottom rail</label><tags><li>picatinny</li></tags><isRail>true</isRail><railLength>0.08</railLength><railSurface>Bottom</railSurface><transform><position>(0.259317,0,-0.055419)</position></transform></li></value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Handguard_MK14EBR"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets</xpath>
+    <value><li><id>raid_side</id><label>MK14 handguard side rail</label><tags><li>picatinny</li></tags><isRail>true</isRail><railLength>0.082</railLength><railSurface>Side</railSurface><transform><position>(0.258307,0,-0.029012)</position></transform></li></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Mount_RMRLow"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/mounts/li[id="rail_mount"]/transform</xpath>
+    <value><transform><position>(-0.2,0,0.139297)</position></transform></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Mount_T2Low"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/mounts/li[id="rail_mount"]/transform</xpath>
+    <value><transform><position>(-0.199,0,0.139606)</position></transform></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Muzzle_M14_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sight/axisOffset</xpath>
+    <value><axisOffset>(0.330258,0,0.001692)</axisOffset></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_PistolGrip_MK14EBR"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="stock"]/transform</xpath>
+    <value><transform><position>(-0.216,0,-0.051)</position></transform></value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_PistolGrip_MK14EBR"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="stock"]</xpath>
+    <value><railLength>0.05</railLength></value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_PistolGrip_MK14EBR"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="stock"]</xpath>
+    <value><isRail>true</isRail></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Scope_LumiconTA11_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/graphicLayer</xpath>
+    <value><graphicLayer>-1</graphicLayer></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Stock_MK14EBR"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/mounts/li[id="stock_mount"]/transform</xpath>
+    <value><transform><position>(-0.241211,0,-0.051)</position></transform></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_TopCover_M249E3_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="rail_top"]/transform</xpath>
+    <value><transform><position>(-0.085863,0,0.051152)</position></transform></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_TopCover_M249E3_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="rail_top"]/railLength</xpath>
+    <value><railLength>0.153</railLength></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_TopCover_M249E3_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sight/axisOffset</xpath>
+    <value><axisOffset>(-0.213006,0,0.058734)</axisOffset></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_TopCover_M249E3_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sight/aimRadius</xpath>
+    <value><aimRadius>0.007</aimRadius></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_UpperReceiver_M16A1_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="carry_handle_optic"]/transform</xpath>
+    <value><transform><position>(-0.103,0,0.045298)</position></transform></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_UpperReceiver_M16A2_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="carry_handle_optic"]/transform</xpath>
+    <value><transform><position>(-0.103,0,0.044037)</position></transform></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_UpperReceiver_M16A2_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sight/axisOffset</xpath>
+    <value><axisOffset>(-0.172594,0,0.053074)</axisOffset></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_UpperReceiver_M16A2_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sight/aimRadius</xpath>
+    <value><aimRadius>0.004</aimRadius></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/Helodrace.ModernWar.ModularWeaponPresetDef[defName="HD_WeaponPreset_M249_USMC"]/parts/li[part="HD_ModularPart_TopCover_M249E3_Part" and socketId="top_cover"]/children/li[part="HD_ModularPart_OpticMount_LumiconTA51_Part" and socketId="rail_top"]/railOffset</xpath>
+    <value><railOffset>0</railOffset></value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/Helodrace.ModernWar.ModularWeaponPresetDef[defName="HD_WeaponPreset_MK14_Default"]/parts/li[part="HD_ModularPart_TriggerGroup_M14_Part" and socketId="trigger_group"]/children/li[part="HD_ModularPart_PistolGrip_MK14EBR" and socketId="pistol_grip"]/children/li[part="HD_ModularPart_Stock_MK14EBR" and socketId="stock"]</xpath>
+    <value><railOffset>-0.025</railOffset></value>
+  </Operation>
+</Patch>
