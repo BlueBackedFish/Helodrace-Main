@@ -5,51 +5,65 @@ using Verse;
 
 namespace Helodrace.ModernWar
 {
-    /// <summary>
-    /// Authoring-space contribution stored on each modular part.  These values
-    /// are deliberately not StatDefs: players see only the converted game
-    /// values, while vanilla and CE can consume the same physical model.
-    /// </summary>
+    /// <summary>Part authoring points, not hit probabilities. Physical values use metres/kg.</summary>
     public sealed class ModularWeaponInternalStats
     {
-        // Negative/zero mass means: use the part ThingDef's abstract Mass.
         public float massKg = -1f;
         public float recoilImpulse;
-        public float ergonomics;
+        public float aimSpeed;
         public float muzzleRise;
         public float operatingReliability;
         public float gasFlow;
-        public float centerOfMassOffsetMeters;
+        // Root-relative physical mass position, NOT a sprite/pivot offset.
+        public float massPositionMeters;
         public float momentOfInertia;
-        public float targetAcquisition;
-        public float aimingPrecision;
+        public float aimStability;
+        public float mechanicalPrecision;
         public float identificationDistanceMeters;
-        // Absolute length on the barrel; additive velocity and efficiency points
-        // on functional parts. Zero means no contribution (100 points = +100%).
         public float barrelLengthInches;
         public float muzzleVelocityOffsetMetersPerSecond;
         public float damageTransfer;
         public float penetrationEfficiency;
         public float rangeAdjustmentPercent;
+        public float receiverLengthMeters;
+        public float lengthExtensionMeters;
+        // Root-only normal-quality ceilings at mechanicalPrecision = 60.
+        public float precisionTouchCeiling;
+        public float precisionShortCeiling;
+        public float precisionMediumCeiling;
+        public float precisionLongCeiling;
+        // Root-only natural hold: a pistol's two-hand baseline is not a stockless rifle.
+        public float naturalSupport;
+        public float warmupReferenceCost;
+        public float recoveryReferenceCost;
+        public ModularWeaponInternalStats Clone() => (ModularWeaponInternalStats)MemberwiseClone();
     }
 
-    /// <summary>
-    /// Stable public conversion contract.  The main assembly applies the
-    /// Vanilla fields; a CE compatibility assembly can consume the CE fields
-    /// without reinterpreting attachment definitions.
-    /// </summary>
+    public sealed class ModularWeaponAccuracyBand
+    {
+        public float MechanicalCeiling { get; internal set; }
+        public float SightEfficiency { get; internal set; }
+        public float HoldEfficiency { get; internal set; }
+        public float Accuracy => MechanicalCeiling * SightEfficiency * HoldEfficiency;
+    }
+
+    /// <summary>Shared conversion contract for vanilla, modding UI and the CE adapter.</summary>
     public sealed class ModularWeaponConvertedStats
     {
         public float MassKg { get; internal set; }
         public float RecoilControl { get; internal set; }
-        public float Ergonomics { get; internal set; }
+        public float AimSpeed { get; internal set; }
         public float MuzzleControl { get; internal set; }
         public float OperatingReliability { get; internal set; }
         public float GasEfficiency { get; internal set; }
         public float CenterOfMassMeters { get; internal set; }
         public float Handling { get; internal set; }
-        public float TargetAcquisition { get; internal set; }
-        public float AimingPrecision { get; internal set; }
+        public float AimStability { get; internal set; }
+        public float MechanicalPrecision { get; internal set; }
+        public float StockSupport { get; internal set; }
+        public float StockExtension { get; internal set; }
+        public bool HasStock { get; internal set; }
+        public float HandlingLengthMeters { get; internal set; }
         public float IdentificationDistanceCells { get; internal set; }
         public float GasTubeFlowSetting { get; internal set; } = 1f;
         public float GasRecoilMultiplier { get; internal set; } = 1f;
@@ -60,6 +74,10 @@ namespace Helodrace.ModernWar
         public ModularWeaponBallisticProfile Ballistics { get; internal set; }
         public float MechanicalRangeFactor { get; internal set; } = 1f;
         public float RangeFactor { get; internal set; } = 1f;
+        public ModularWeaponAccuracyBand Touch { get; internal set; }
+        public ModularWeaponAccuracyBand Short { get; internal set; }
+        public ModularWeaponAccuracyBand Medium { get; internal set; }
+        public ModularWeaponAccuracyBand Long { get; internal set; }
 
         public float VanillaWarmupFactor { get; internal set; } = 1f;
         public float VanillaCycleFactor { get; internal set; } = 1f;
@@ -68,7 +86,6 @@ namespace Helodrace.ModernWar
         public float VanillaAccuracyShortFactor { get; internal set; } = 1f;
         public float VanillaAccuracyMediumFactor { get; internal set; } = 1f;
         public float VanillaAccuracyLongFactor { get; internal set; } = 1f;
-
         public float CERecoil { get; internal set; }
         public float CEBulk { get; internal set; }
         public float CESwayFactor { get; internal set; } = 1f;
@@ -80,270 +97,193 @@ namespace Helodrace.ModernWar
     {
         private sealed class Aggregate
         {
-            public float mass;
-            public float weightedPosition;
-            public float recoil;
-            public float ergonomics;
-            public float muzzleRise;
-            public float reliability;
-            public float gasFlow;
-            public float localInertia;
-            public float targetAcquisition;
-            public float aimingPrecision;
-            public float identificationMeters;
-            public float barrelLength, velocityOffset, damageTransfer, penetrationEfficiency;
-            public float rangeAdjustment;
+            public float mass, weightedPosition, recoil, aimSpeed, muzzleRise;
+            public float reliability, gasFlow, localInertia, aimStability, mechanicalPrecision;
+            public float identificationMeters, barrelLength, velocityOffset, damageTransfer, penetrationEfficiency;
+            public float rangeAdjustment, lengthExtension, stockLength, stockSupport, stockExtension;
+            public bool hasStock;
+        }
+
+        // Secondary launchers add weight but cannot improve the primary gun's precision,
+        // barrel, gas system, muzzle control or ammunition.
+        internal static bool IsSecondary(ModularRenderNode node, List<ModularRenderNode> nodes)
+        {
+            for (int depth = 0; node != null && depth < 32; depth++)
+            {
+                if (node.Props.isWeaponSubassembly) return true;
+                CompModularWeaponNode parent = node.parentComp;
+                node = nodes.Find(n => n.comp == parent);
+            }
+            return false;
+        }
+
+        private static float Mass(ModularRenderNode node) => node.Props.internalStats?.massKg > 0f
+            ? node.Props.internalStats.massKg
+            : Mathf.Max(0f, node.thing.def.GetStatValueAbstract(StatDefOf.Mass));
+
+        private static float PhysicalPosition(ModularRenderNode node)
+        {
+            float position = node.Props.internalStats?.massPositionMeters ?? 0f;
+            if (node.Props.stock != null)
+                position -= node.Props.stock.Length(node.railOffset) * 0.5f;
+            return position;
         }
 
         public static ModularWeaponConvertedStats Resolve(
-            CompModularWeaponNode root,
-            List<ModularRenderNode> nodes,
-            Dictionary<int, float> performanceWeights,
-            float gasTubeFlowSetting,
+            CompModularWeaponNode root, List<ModularRenderNode> nodes,
+            Dictionary<int, float> performanceWeights, float gasTubeFlowSetting,
             ModularSightResolution sights = null)
         {
-            Aggregate aggregate = new Aggregate();
-            if (nodes == null || nodes.Count == 0)
+            Aggregate a = new Aggregate();
+            if (nodes == null || nodes.Count == 0) return new ModularWeaponConvertedStats();
+            ModularWeaponInternalStats rootStats = root?.Props.internalStats ?? new ModularWeaponInternalStats();
+            foreach (ModularRenderNode node in nodes)
             {
-                return new ModularWeaponConvertedStats();
-            }
+                var props = node?.Props;
+                if (props == null || node.thing?.def == null) continue;
+                var raw = props.internalStats;
+                float mass = Mass(node);
+                a.mass += mass;
+                a.weightedPosition += mass * PhysicalPosition(node);
+                a.localInertia += Mathf.Max(0f, raw?.momentOfInertia ?? 0f);
+                if (raw == null || IsSecondary(node, nodes)) continue;
 
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                ModularRenderNode node = nodes[i];
-                CompProperties_ModularWeaponNode props = node?.Props;
-                Thing thing = node?.thing;
-                if (props == null || thing?.def == null) continue;
-
-                ModularWeaponInternalStats authored = props.internalStats;
-                float mass = authored != null && authored.massKg > 0f
-                    ? authored.massKg
-                    : Mathf.Max(0f, thing.def.GetStatValueAbstract(StatDefOf.Mass));
-                float position = node.transform.position.x
-                    + (authored?.centerOfMassOffsetMeters ?? 0f);
-                aggregate.mass += mass;
-                aggregate.weightedPosition += mass * position;
-
+                float weight = performanceWeights != null
+                    && performanceWeights.TryGetValue(node.thing.thingIDNumber, out float resolved)
+                    ? resolved : 1f;
+                bool optic = props.sight != null && !props.sight.integrated;
                 if (ModularWeaponPartPerformance.IsForegrip(node)
-                    && ModularWeaponPartPerformance.MountSurface(node, nodes)
-                        == ModularRailSurface.Top)
+                    && ModularWeaponPartPerformance.MountSurface(node, nodes) == ModularRailSurface.Top)
                 {
-                    aggregate.ergonomics -= 8f;
-                    aggregate.targetAcquisition -= 12f;
-                    aggregate.aimingPrecision -= 8f;
+                    a.aimSpeed -= 10f;
+                    a.aimStability -= 8f;
                 }
-
-                if (authored == null) continue;
-                // Ballistic contributions are mechanical, never sight-efficiency
-                // weighted. Optical accessories cannot increase terminal ballistics.
-                if (props.sight == null || props.sight.integrated)
+                // Hardware costs remain for blocked/duplicate optics. Positive optic
+                // accuracy/acquisition fields cannot create a second benefit channel.
+                a.aimSpeed += optic ? Mathf.Min(0f, raw.aimSpeed) : raw.aimSpeed * weight;
+                if (optic) continue;
+                a.aimStability += raw.aimStability * weight;
+                a.mechanicalPrecision += raw.mechanicalPrecision * weight;
+                a.reliability += raw.operatingReliability * weight;
+                a.gasFlow += raw.gasFlow * weight;
+                a.rangeAdjustment += raw.rangeAdjustmentPercent * weight;
+                a.identificationMeters += raw.identificationDistanceMeters * weight;
+                a.barrelLength = Mathf.Max(a.barrelLength, raw.barrelLengthInches);
+                a.velocityOffset += raw.muzzleVelocityOffsetMetersPerSecond;
+                a.lengthExtension += Mathf.Max(0f, raw.lengthExtensionMeters);
+                if (props.isAssemblyRoot || raw.barrelLengthInches <= 0f)
                 {
-                    aggregate.barrelLength = Mathf.Max(aggregate.barrelLength, authored.barrelLengthInches);
-                    aggregate.velocityOffset += authored.muzzleVelocityOffsetMetersPerSecond;
-                    // Barrel-specific terminal effects belong to fragmentation,
-                    // not a second direct-damage/AP bonus in the authoring fields.
-                    if (props.isAssemblyRoot || authored.barrelLengthInches <= 0f)
+                    a.damageTransfer += raw.damageTransfer;
+                    a.penetrationEfficiency += raw.penetrationEfficiency;
+                }
+                if (props.stock == null)
+                {
+                    a.recoil += raw.recoilImpulse * weight;
+                    a.muzzleRise += raw.muzzleRise * weight;
+                }
+                else
+                {
+                    float support = props.stock.Support(node.railOffset);
+                    if (!a.hasStock || support > a.stockSupport)
                     {
-                        aggregate.damageTransfer += authored.damageTransfer;
-                        aggregate.penetrationEfficiency += authored.penetrationEfficiency;
+                        a.stockSupport = support;
+                        a.stockExtension = props.stock.Extension(node.railOffset);
                     }
+                    a.hasStock = true;
+                    a.stockLength = Mathf.Max(a.stockLength, props.stock.Length(node.railOffset));
                 }
-                float performanceWeight = performanceWeights != null
-                    && performanceWeights.TryGetValue(
-                        thing.thingIDNumber, out float resolvedWeight)
-                    ? resolvedWeight : 1f;
-                // Sight benefits are resolved once per complete optical group.
-                // Every installed optic still carries its mass/handling costs.
-                bool opticalAccessory = props.sight != null && !props.sight.integrated;
-                if (opticalAccessory) performanceWeight = 1f;
+            }
 
-                aggregate.recoil += authored.recoilImpulse * performanceWeight;
-                aggregate.ergonomics += authored.ergonomics * performanceWeight;
-                aggregate.muzzleRise += authored.muzzleRise * performanceWeight;
-                aggregate.reliability += authored.operatingReliability * performanceWeight;
-                aggregate.gasFlow += authored.gasFlow * performanceWeight;
-                aggregate.localInertia += Mathf.Max(0f, authored.momentOfInertia);
-                if (!opticalAccessory)
+            float center = a.mass > 0.0001f ? a.weightedPosition / a.mass : 0f;
+            float inertia = a.localInertia;
+            foreach (ModularRenderNode node in nodes)
+                if (node?.Props != null && node.thing?.def != null)
                 {
-                    aggregate.rangeAdjustment += authored.rangeAdjustmentPercent * performanceWeight;
-                    aggregate.targetAcquisition += authored.targetAcquisition * performanceWeight;
-                    aggregate.aimingPrecision += authored.aimingPrecision * performanceWeight;
-                    aggregate.identificationMeters += authored.identificationDistanceMeters
-                        * performanceWeight;
+                    float arm = PhysicalPosition(node) - center;
+                    inertia += Mass(node) * arm * arm;
                 }
-            }
-
-            float center = aggregate.mass > 0.0001f
-                ? aggregate.weightedPosition / aggregate.mass
-                : 0f;
-            float inertia = aggregate.localInertia;
-            for (int i = 0; i < nodes.Count; i++)
+            float balance = Mathf.Clamp01(Mathf.Abs(center + 0.03f) / 0.32f);
+            float length = Mathf.Max(0.1f, rootStats.receiverLengthMeters + a.barrelLength * 0.0254f
+                + a.stockLength + a.lengthExtension);
+            float support01 = Mathf.Max(Mathf.Clamp01(rootStats.naturalSupport), a.stockSupport);
+            float speed01 = Mathf.Clamp01(a.aimSpeed / 100f);
+            float precision01 = Mathf.Clamp01(a.mechanicalPrecision / 100f);
+            float stability01 = Mathf.Clamp01(a.aimStability / 100f + (support01 - 0.65f) * 0.40f);
+            float reliability01 = Mathf.Clamp(a.reliability, 0.35f, 0.9995f);
+            gasTubeFlowSetting = Mathf.Clamp(gasTubeFlowSetting,
+                ModularWeaponGasSystemUtility.MinimumSetting, ModularWeaponGasSystemUtility.MaximumSetting);
+            float gasRecoil = Mathf.Clamp(1f + (gasTubeFlowSetting - 1f) * 0.4f, 0.85f, 1.15f);
+            float gasEfficiency = Mathf.Clamp(a.gasFlow * gasTubeFlowSetting, 0.45f, 1.35f);
+            // Support changes control, never the cartridge/gas impulse itself.
+            float recoil = a.recoil * gasRecoil * (1f - support01 * 0.18f);
+            float rise = a.muzzleRise * Mathf.Clamp(1f + (gasTubeFlowSetting - 1f) * 0.28f, 0.88f, 1.12f)
+                * (1f - support01 * 0.25f);
+            float massDamping = Mathf.Pow(Mathf.Max(0.5f, a.mass), 0.18f);
+            float recoilControl = Mathf.Clamp01(1f - recoil / (11f * massDamping));
+            float muzzleControl = Mathf.Clamp01(1f - rise / (9f * massDamping));
+            float physicalCost = Mathf.Max(0f, a.mass - 0.5f) * 0.045f
+                + inertia / 0.35f + balance * 0.10f + length * 1.40f;
+            float handling = 1f / (1f + physicalCost);
+            var sight = (sights ?? ModularWeaponSightResolver.Resolve(root, nodes)).performance;
+            var result = new ModularWeaponConvertedStats
             {
-                ModularRenderNode node = nodes[i];
-                CompProperties_ModularWeaponNode props = node?.Props;
-                Thing thing = node?.thing;
-                if (props == null || thing?.def == null) continue;
-                ModularWeaponInternalStats authored = props.internalStats;
-                float mass = authored != null && authored.massKg > 0f
-                    ? authored.massKg
-                    : Mathf.Max(0f, thing.def.GetStatValueAbstract(StatDefOf.Mass));
-                float position = node.transform.position.x
-                    + (authored?.centerOfMassOffsetMeters ?? 0f);
-                float arm = position - center;
-                inertia += mass * arm * arm;
-            }
-
-            float balancePenalty = Mathf.Clamp01(
-                Mathf.Abs(center + 0.07f) / 0.32f);
-
-            // Supply a baseline only when the root omits that field. This keeps
-            // accessory bonuses and penalties effective on older weapon Defs.
-            ModularWeaponInternalStats rootStats = root?.Props.internalStats;
-            float recoil = aggregate.recoil
-                + (rootStats?.recoilImpulse > 0f ? 0f : 4.2f);
-            float ergonomics = aggregate.ergonomics
-                + (rootStats?.ergonomics > 0f ? 0f : 55f);
-            // Weight and the resulting center of mass affect the displayed
-            // ergonomics directly, regardless of a part's special bonuses.
-            ergonomics -= Mathf.Max(0f, aggregate.mass - 0.5f) * 3.5f
-                + balancePenalty * 12f;
-            float muzzleRise = aggregate.muzzleRise
-                + (rootStats?.muzzleRise > 0f ? 0f : 3.2f);
-            float reliability = aggregate.reliability
-                + (rootStats?.operatingReliability > 0f ? 0f : 0.96f);
-            float gasFlow = aggregate.gasFlow
-                + (rootStats?.gasFlow > 0f ? 0f : 1f);
-            float targetAcquisition = aggregate.targetAcquisition
-                + (rootStats?.targetAcquisition > 0f ? 0f : 55f);
-            targetAcquisition -= balancePenalty * 7f;
-            float aimingPrecision = aggregate.aimingPrecision
-                + (rootStats?.aimingPrecision > 0f ? 0f : 60f);
-            float identificationMeters = aggregate.identificationMeters
-                + (rootStats?.identificationDistanceMeters > 0f ? 0f : 280f);
-
-            gasTubeFlowSetting = Mathf.Clamp(
-                gasTubeFlowSetting,
-                ModularWeaponGasSystemUtility.MinimumSetting,
-                ModularWeaponGasSystemUtility.MaximumSetting);
-            float gasRecoilMultiplier = Mathf.Clamp(
-                1f + (gasTubeFlowSetting - 1f) * 0.4f,
-                0.85f,
-                1.15f);
-            recoil *= gasRecoilMultiplier;
-            muzzleRise *= Mathf.Clamp(
-                1f + (gasTubeFlowSetting - 1f) * 0.28f,
-                0.88f,
-                1.12f);
-            gasFlow *= gasTubeFlowSetting;
-
-            float ergonomics01 = Mathf.Clamp01(ergonomics / 100f);
-            float acquisition01 = Mathf.Clamp01(targetAcquisition / 100f);
-            float precision01 = Mathf.Clamp01(aimingPrecision / 100f);
-            float recoilControl = Mathf.Clamp01(1f - recoil / 11f);
-            float muzzleControl = Mathf.Clamp01(1f - muzzleRise / 9f);
-            float reliability01 = Mathf.Clamp(reliability, 0.35f, 0.9995f);
-            float gasEfficiency = Mathf.Clamp(gasFlow, 0.45f, 1.35f);
-            float handling = 1f / (1f + Mathf.Max(0f, inertia) / 0.18f
-                + Mathf.Max(0f, aggregate.mass - 0.5f) * 0.05f
-                + balancePenalty * 0.25f);
-            float identificationCells = Mathf.Clamp(identificationMeters / 10f, 8f, 80f);
-
-            ModularWeaponConvertedStats result = new ModularWeaponConvertedStats
-            {
-                MassKg = aggregate.mass,
-                RecoilControl = recoilControl,
-                Ergonomics = ergonomics01,
-                MuzzleControl = muzzleControl,
-                OperatingReliability = reliability01,
-                GasEfficiency = gasEfficiency,
-                CenterOfMassMeters = center,
-                Handling = handling,
-                TargetAcquisition = acquisition01,
-                AimingPrecision = precision01,
-                IdentificationDistanceCells = identificationCells,
-                GasTubeFlowSetting = gasTubeFlowSetting,
-                GasRecoilMultiplier = gasRecoilMultiplier,
-                BarrelLengthInches = aggregate.barrelLength,
-                MuzzleVelocityOffsetMetersPerSecond = aggregate.velocityOffset,
-                DamageTransferFactor = Mathf.Clamp(1f + aggregate.damageTransfer / 100f, 0.25f, 2f),
-                PenetrationEfficiencyFactor = Mathf.Clamp(1f + aggregate.penetrationEfficiency / 100f, 0.25f, 2f)
+                MassKg = a.mass, AimSpeed = speed01, AimStability = stability01,
+                MechanicalPrecision = precision01, RecoilControl = recoilControl, MuzzleControl = muzzleControl,
+                OperatingReliability = reliability01, GasEfficiency = gasEfficiency,
+                CenterOfMassMeters = center, Handling = handling, HandlingLengthMeters = length,
+                HasStock = a.hasStock, StockSupport = a.stockSupport, StockExtension = a.stockExtension,
+                IdentificationDistanceCells = Mathf.Clamp(a.identificationMeters / 10f, 8f, 80f),
+                GasTubeFlowSetting = gasTubeFlowSetting, GasRecoilMultiplier = gasRecoil,
+                BarrelLengthInches = a.barrelLength, MuzzleVelocityOffsetMetersPerSecond = a.velocityOffset,
+                DamageTransferFactor = Mathf.Clamp(1f + a.damageTransfer / 100f, 0.25f, 2f),
+                PenetrationEfficiencyFactor = Mathf.Clamp(1f + a.penetrationEfficiency / 100f, 0.25f, 2f)
             };
-            result.MechanicalRangeFactor = Mathf.Clamp(1f + aggregate.rangeAdjustment / 100f, 0.65f, 1.35f);
-
+            result.MechanicalRangeFactor = Mathf.Clamp(1f + a.rangeAdjustment / 100f, 0.65f, 1.35f);
+            result.RangeFactor = Mathf.Clamp(result.MechanicalRangeFactor * sight.Range, 0.5f, 1.5f);
             result.VanillaWarmupFactor = Mathf.Clamp(
-                1.47f
-                    - ergonomics01 * 0.38f
-                    - acquisition01 * 0.24f
-                    - handling * 0.13f
-                    + balancePenalty * 0.18f,
-                0.62f,
-                1.55f);
-            // Recovery is affected by control and handling, independently from
-            // the mechanical cycle/RPM. Better parts can improve this baseline.
+                (1.32f - speed01 * 0.48f + physicalCost * 0.30f) * sight.Warmup
+                    / (rootStats.warmupReferenceCost > 0f ? rootStats.warmupReferenceCost : 1f), 0.65f, 2.2f);
+            // No aimSpeed, sight magnification or mechanical cycle multiplier here.
             result.VanillaCooldownFactor = Mathf.Clamp(
-                1.32f - recoilControl * 0.18f - muzzleControl * 0.14f
-                    - ergonomics01 * 0.10f - handling * 0.10f
-                    + balancePenalty * 0.06f,
-                0.70f, 1.55f);
-            result.VanillaCycleFactor = Mathf.Clamp(
-                1f + (0.97f - reliability01) * 1.8f
-                    + Mathf.Max(0f, 1f - gasEfficiency) * 0.65f
-                    - Mathf.Max(0f, gasEfficiency - 1f) * 0.65f,
-                0.78f,
-                1.55f);
-            result.VanillaAccuracyTouchFactor = Mathf.Clamp(
-                0.78f + muzzleControl * 0.16f + recoilControl * 0.12f,
-                0.70f,
-                1.08f);
-            result.VanillaAccuracyShortFactor = Mathf.Clamp(
-                0.78f + precision01 * 0.18f + recoilControl * 0.10f
-                    + handling * 0.05f,
-                0.70f,
-                1.08f);
-            result.VanillaAccuracyMediumFactor = Mathf.Clamp(
-                0.77f + precision01 * 0.23f + handling * 0.04f
-                    + acquisition01 * 0.04f,
-                0.65f,
-                1.08f);
-            result.VanillaAccuracyLongFactor = Mathf.Clamp(
-                0.75f + precision01 * 0.25f + handling * 0.04f,
-                0.60f,
-                1.08f);
-
-            ModularWeaponSightPerformance sightPerformance =
-                (sights ?? ModularWeaponSightResolver.Resolve(root, nodes)).performance;
-            result.VanillaWarmupFactor *= sightPerformance.Warmup;
-            result.VanillaAccuracyTouchFactor *= sightPerformance.Touch;
-            result.VanillaAccuracyShortFactor *= sightPerformance.Short;
-            result.VanillaAccuracyMediumFactor *= sightPerformance.Medium;
-            result.VanillaAccuracyLongFactor *= sightPerformance.Long;
-            result.RangeFactor = Mathf.Clamp(result.MechanicalRangeFactor * sightPerformance.Range, 0.5f, 1.5f);
-
-            // CE-ready values are generated now but applied only by the CE
-            // compatibility assembly, avoiding any hard dependency here.
-            float safeMass = Mathf.Max(0.5f, result.MassKg);
-            result.CERecoil = Mathf.Clamp(
-                recoil * (1f + balancePenalty * 0.35f) / Mathf.Pow(safeMass, 0.32f),
-                0.15f,
-                8f);
-            result.CEBulk = Mathf.Clamp(
-                safeMass * 1.75f + inertia * 7.5f + balancePenalty * 1.5f,
-                1f,
-                30f);
-            result.CESwayFactor = Mathf.Clamp(
-                result.VanillaWarmupFactor * (1.08f - handling * 0.16f),
-                0.45f,
-                1.8f);
-            result.CEShotSpread = Mathf.Clamp(
-                0.025f + (1f - precision01) * 0.14f
-                    + (1f - muzzleControl) * 0.035f,
-                0.02f,
-                0.24f);
-            result.CESightsEfficiency = Mathf.Clamp(
-                0.55f + acquisition01 * 0.38f + precision01 * 0.22f,
-                0.5f,
-                1.25f);
+                (1.18f - recoilControl * 0.20f - muzzleControl * 0.18f
+                + (1f - support01) * 0.12f + inertia * 0.08f + balance * 0.025f)
+                    / (rootStats.recoveryReferenceCost > 0f ? rootStats.recoveryReferenceCost : 1f), 0.72f, 1.55f);
+            result.VanillaCycleFactor = Mathf.Clamp(1f + (0.97f - reliability01) * 1.8f
+                + Mathf.Max(0f, 1f - gasEfficiency) * 0.65f
+                - Mathf.Max(0f, gasEfficiency - 1f) * 0.65f, 0.78f, 1.55f);
+            result.Touch = Band(rootStats.precisionTouchCeiling, 0.68f, a.mechanicalPrecision, 0.0004f, sight.Touch, stability01, 0.06f);
+            result.Short = Band(rootStats.precisionShortCeiling, 0.78f, a.mechanicalPrecision, 0.0009f, sight.Short, stability01, 0.12f);
+            result.Medium = Band(rootStats.precisionMediumCeiling, 0.80f, a.mechanicalPrecision, 0.0018f, sight.Medium, stability01, 0.22f);
+            result.Long = Band(rootStats.precisionLongCeiling, 0.76f, a.mechanicalPrecision, 0.0030f, sight.Long, stability01, 0.38f);
+            result.VanillaAccuracyTouchFactor = result.Touch.Accuracy / BaseAccuracy(root, "AccuracyTouch", 0.6f);
+            result.VanillaAccuracyShortFactor = result.Short.Accuracy / BaseAccuracy(root, "AccuracyShort", 0.7f);
+            result.VanillaAccuracyMediumFactor = result.Medium.Accuracy / BaseAccuracy(root, "AccuracyMedium", 0.65f);
+            result.VanillaAccuracyLongFactor = result.Long.Accuracy / BaseAccuracy(root, "AccuracyLong", 0.55f);
+            result.CERecoil = Mathf.Clamp(recoil * (1f + balance * 0.35f) / massDamping, 0.15f, 8f);
+            result.CEBulk = Mathf.Clamp(a.mass * 1.75f + inertia * 7.5f + length * 2f, 1f, 30f);
+            result.CESwayFactor = Mathf.Clamp(0.45f + (1f - stability01) * 1.35f, 0.45f, 1.8f);
+            result.CEShotSpread = Mathf.Clamp(0.025f + (1f - precision01) * 0.14f, 0.02f, 0.24f);
+            result.CESightsEfficiency = Mathf.Clamp((sight.Medium + sight.Long) * 0.5f, 0.5f, 1.25f);
             return result;
+        }
+
+        private static ModularWeaponAccuracyBand Band(float ceiling, float fallback, float precision,
+            float sensitivity, float sight, float stability, float holdSensitivity)
+            => new ModularWeaponAccuracyBand
+            {
+                MechanicalCeiling = Mathf.Clamp((ceiling > 0f ? ceiling : fallback)
+                    * (1f + (precision - 60f) * sensitivity), 0.01f, 0.97f),
+                SightEfficiency = Mathf.Clamp01(sight),
+                HoldEfficiency = Mathf.Clamp01(1f - (1f - stability) * holdSensitivity)
+            };
+
+        private static float BaseAccuracy(CompModularWeaponNode root, string name, float fallback)
+        {
+            var bases = root?.parent?.def?.statBases;
+            if (bases != null)
+                foreach (var value in bases)
+                    if (value.stat?.defName == name) return Mathf.Max(0.01f, value.value);
+            return fallback;
         }
 
         public static void ApplyVanillaFactors(

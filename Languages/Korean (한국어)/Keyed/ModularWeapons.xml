@@ -72,14 +72,14 @@
   <HD_ModularWeapon_CatastrophicFailure>{0}의 총기가 파열했습니다! {2} 총열에 잘못 장전된 {1} 탄종이 원인입니다.</HD_ModularWeapon_CatastrophicFailure>
   <HD_ModularWeapon_Mass>&#47924;&#44172;</HD_ModularWeapon_Mass>
   <HD_ModularWeapon_RecoilControl>&#48152;&#46041; &#51228;&#50612;</HD_ModularWeapon_RecoilControl>
-  <HD_ModularWeapon_Ergonomics>&#51064;&#52404;&#44277;&#54617;</HD_ModularWeapon_Ergonomics>
+  <HD_ModularWeapon_AimSpeed>조준 준비성</HD_ModularWeapon_AimSpeed>
   <HD_ModularWeapon_MuzzleControl>&#52509;&#44396; &#49345;&#49849; &#51228;&#50612;</HD_ModularWeapon_MuzzleControl>
   <HD_ModularWeapon_Reliability>&#51089;&#46041; &#49888;&#47280;&#49457;</HD_ModularWeapon_Reliability>
   <HD_ModularWeapon_GasEfficiency>&#44032;&#49828; &#54952;&#50984;</HD_ModularWeapon_GasEfficiency>
   <HD_ModularWeapon_Balance>&#47924;&#44172; &#51473;&#49900;</HD_ModularWeapon_Balance>
   <HD_ModularWeapon_Handling>&#44288;&#49457; &#51312;&#51089;&#49457;</HD_ModularWeapon_Handling>
-  <HD_ModularWeapon_TargetAcquisition>&#54364;&#51201; &#54925;&#46301;</HD_ModularWeapon_TargetAcquisition>
-  <HD_ModularWeapon_AimingPrecision>&#51312;&#51456; &#51221;&#48128;&#46020;</HD_ModularWeapon_AimingPrecision>
+  <HD_ModularWeapon_AimStability>조준 안정성</HD_ModularWeapon_AimStability>
+  <HD_ModularWeapon_MechanicalPrecision>기계 정밀도</HD_ModularWeapon_MechanicalPrecision>
   <HD_ModularWeapon_IdentificationDistance>&#49885;&#48324; &#44144;&#47532;</HD_ModularWeapon_IdentificationDistance>
   <HD_ModularWeapon_Cells>&#52856;</HD_ModularWeapon_Cells>
   <HD_ModularWeapon_ImmediateHintDev>개발자 모드: 파츠 재고를 계산하지 않고 즉시 생성하거나 제거합니다.</HD_ModularWeapon_ImmediateHintDev>
@@ -189,4 +189,11 @@
   <HD_ModularWeapon_ProjectilesPerShot>한 발당 탄자 수</HD_ModularWeapon_ProjectilesPerShot>
   <HD_ModularWeapon_DamagePerProjectile>탄자당 피해량</HD_ModularWeapon_DamagePerProjectile>
   <HD_ModularWeapon_DuplexHint>탄약 한 발로 탄자 {0}개를 발사합니다. 탄자는 각각 충돌·관통 판정을 받으며 피해량은 탄자당 수치입니다.</HD_ModularWeapon_DuplexHint>
+  <HD_ModularWeapon_WarmupSeconds>조준 준비 시간</HD_ModularWeapon_WarmupSeconds>
+  <HD_ModularWeapon_StockExtension>개머리판 인출</HD_ModularWeapon_StockExtension>
+  <HD_ModularWeapon_StockSupport>견착 지지</HD_ModularWeapon_StockSupport>
+  <HD_ModularWeapon_HandlingLength>취급 전장</HD_ModularWeapon_HandlingLength>
+  <HD_ModularWeapon_AccuracyModel>정확도 구성</HD_ModularWeapon_AccuracyModel>
+  <HD_ModularWeapon_AccuracyBreakdown>기계 상한 {0} × 조준 효율 {1} × 유지 효율 {2} = {3} (보통 품질 장비 기준).</HD_ModularWeapon_AccuracyBreakdown>
+  <HD_ModularWeapon_TimingHint>조준 준비는 발사 전 획득, 쿨다운은 발사·점사 후 회복입니다. 기계식 RPM과는 별개입니다. 유효 조준 그룹이 여러 개면 표적 거리에 맞는 그룹의 준비 시간을 쓰며, 미리보기는 대표 활성 그룹을 사용합니다.</HD_ModularWeapon_TimingHint>
 </LanguageData>

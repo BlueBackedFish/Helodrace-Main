@@ -56,6 +56,11 @@ namespace Helodrace.ModernWar
             {
                 ModularRenderNode node = nodes[i];
                 if (node?.thing == null || node.Props == null) continue;
+                if (ModularWeaponStatConverter.IsSecondary(node, nodes))
+                {
+                    result[node.thing.thingIDNumber] = 0f;
+                    continue;
+                }
                 ModularRailSurface surface = MountSurface(node, nodes);
                 float weight = 1f;
                 if (node.Props.sight != null && !node.Props.sight.integrated)
@@ -90,7 +95,7 @@ namespace Helodrace.ModernWar
                 {
                     panelIds.Add(node.thing.thingIDNumber);
                     panelBenefits[node.thing.thingIDNumber] =
-                        Mathf.Max(0f, node.Props.internalStats?.ergonomics ?? 0f);
+                        Mathf.Max(0f, node.Props.internalStats?.aimSpeed ?? 0f);
                 }
                 result[node.thing.thingIDNumber] = Mathf.Clamp01(weight);
             }

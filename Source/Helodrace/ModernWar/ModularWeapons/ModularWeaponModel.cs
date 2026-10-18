@@ -149,14 +149,14 @@ namespace Helodrace.ModernWar
 
     /// <summary>
     /// Defines the optical axis of a sight. The axis is authored from the texture centre;
-    /// aimRadius is the usable vertical window around it. Parts at a greater local X are
+    /// sightClearanceRadius is the usable vertical window around it. Parts at a greater local X are
     /// in front of the sight and can cover this window through verticalOccupancy.
     /// </summary>
     public sealed class ModularWeaponSightProperties
     {
         public ModularSightKind kind;
         public Vector3 axisOffset = Vector3.zero;
-        public float aimRadius = 0.015f;
+        public float sightClearanceRadius = 0.015f;
         public float selectionPriority = 10f;
         // Built-in irons share a mechanical part (barrel, receiver, slide).
         public bool integrated;
@@ -356,6 +356,7 @@ namespace Helodrace.ModernWar
         // Internal authoring values. They are aggregated into a single
         // ModularWeaponConvertedStats profile and are never exposed as StatDefs.
         public ModularWeaponInternalStats internalStats;
+        public ModularWeaponStockProperties stock;
 
         // Performance modifiers are weighted by the installed location. Sights
         // also require an active, usable sight group; foregrips share one benefit.
@@ -491,6 +492,12 @@ namespace Helodrace.ModernWar
                     + " is a modular part with a vanilla recipeMaker.";
             if (internalStats != null)
             {
+                foreach (var field in typeof(ModularWeaponInternalStats).GetFields())
+                {
+                    float value = (float)field.GetValue(internalStats);
+                    if (float.IsNaN(value) || float.IsInfinity(value))
+                        yield return parentDef.defName + " has non-finite internal stat " + field.Name;
+                }
                 if (internalStats.barrelLengthInches < 0f)
                     yield return parentDef.defName + " has a negative ballistic barrel length.";
                 if (internalStats.massKg == 0f)
@@ -502,7 +509,21 @@ namespace Helodrace.ModernWar
                 if (internalStats.identificationDistanceMeters < 0f)
                     yield return parentDef.defName
                         + " has a negative internal identification distance.";
+                if (internalStats.receiverLengthMeters < 0f || internalStats.lengthExtensionMeters < 0f
+                    || internalStats.naturalSupport < 0f || internalStats.naturalSupport > 1f)
+                    yield return parentDef.defName + " has invalid physical length/support values.";
+                if (isAssemblyRoot && (internalStats.warmupReferenceCost <= 0f
+                    || internalStats.recoveryReferenceCost <= 0f || internalStats.receiverLengthMeters <= 0f))
+                    yield return parentDef.defName + " needs positive root timing references and receiver length.";
+                if (isAssemblyRoot)
+                    foreach (float ceiling in new[] {internalStats.precisionTouchCeiling, internalStats.precisionShortCeiling,
+                        internalStats.precisionMediumCeiling, internalStats.precisionLongCeiling})
+                        if (ceiling <= 0f || ceiling > 0.97f)
+                            yield return parentDef.defName + " needs mechanical ceilings within (0, 0.97].";
             }
+            if (stock != null)
+                foreach (string error in stock.ConfigErrors())
+                    yield return parentDef.defName + ": " + error;
             if (verticalOccupancy < 0f)
                 yield return parentDef.defName + " has a negative verticalOccupancy.";
             if (magazineCapacity < 0)
@@ -521,9 +542,9 @@ namespace Helodrace.ModernWar
                     + " defines an ammunition caliber without a positive projectile diameter.";
             if (sight != null)
             {
-                if (sight.aimRadius <= 0f)
+                if (sight.sightClearanceRadius <= 0f)
                     yield return parentDef.defName
-                        + " has a sight with a non-positive aimRadius.";
+                        + " has a sight with a non-positive sightClearanceRadius.";
                 if (sight.selectionPriority < 0f)
                     yield return parentDef.defName
                         + " has a sight with a negative selectionPriority.";

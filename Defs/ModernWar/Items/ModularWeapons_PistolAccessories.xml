@@ -22,8 +22,8 @@
       <craftCost><Steel>2</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost>
       <requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
       <graphicLayer>6</graphicLayer><verticalOccupancy>0.029</verticalOccupancy><verticalOccupancyOffset>0.168</verticalOccupancyOffset>
-      <sight><kind>Reflex</kind><axisOffset>(-0.2,0,0.168)</axisOffset><aimRadius>0.012</aimRadius><selectionPriority>25</selectionPriority></sight>
-      <internalStats><massKg>0.04</massKg><ergonomics>2</ergonomics><targetAcquisition>16</targetAcquisition><aimingPrecision>7</aimingPrecision><identificationDistanceMeters>45</identificationDistanceMeters></internalStats>
+      <sight><kind>Reflex</kind><axisOffset>(-0.2,0,0.168)</axisOffset><sightClearanceRadius>0.012</sightClearanceRadius><selectionPriority>25</selectionPriority></sight>
+      <internalStats><massKg>0.04</massKg><mechanicalPrecision>7</mechanicalPrecision><identificationDistanceMeters>45</identificationDistanceMeters><aimSpeed>6.9</aimSpeed></internalStats>
       <statFactors><AccuracyShort>1.06</AccuracyShort><AccuracyMedium>1.03</AccuracyMedium></statFactors>
       <mounts><li><id>optic_mount</id><socketTags><li>rmr_footprint</li></socketTags><transform><position>(-0.2,0,0.195)</position></transform></li></mounts>
     </li></comps>
@@ -38,7 +38,7 @@
       <requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
       <graphicLayer>5</graphicLayer><verticalOccupancy>0.033</verticalOccupancy><verticalOccupancyOffset>0.01</verticalOccupancyOffset>
       <flashlight><emitterOffset>(0.19,0,0.025)</emitterOffset><color>(1,0.95,0.75,0.26)</color><nearWidth>0.28</nearWidth><farWidth>1.35</farWidth><circleRadius>0.65</circleRadius><closeRange>3.5</closeRange><maxRange>22</maxRange><hediff>HD_WeaponFlashlightDazzle</hediff></flashlight>
-      <internalStats><massKg>0.11</massKg><ergonomics>-2</ergonomics><targetAcquisition>2</targetAcquisition></internalStats>
+      <internalStats><massKg>0.11</massKg><aimSpeed>-0.6</aimSpeed></internalStats>
       <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.065</railOccupancy><railContactLength>0.04</railContactLength><physicalLength>0.09</physicalLength><physicalCenterOffset>0.005</physicalCenterOffset><railSurface>Bottom</railSurface><transform><position>(0.1,0,0.04)</position></transform></li></mounts>
     </li></comps>
   </ThingDef>
@@ -52,7 +52,7 @@
       <requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
       <graphicLayer>5</graphicLayer><verticalOccupancy>0.031</verticalOccupancy><verticalOccupancyOffset>0.01</verticalOccupancyOffset>
       <flashlight><emitterOffset>(0.145,0,0.025)</emitterOffset><color>(1,0.95,0.75,0.24)</color><nearWidth>0.25</nearWidth><farWidth>1.2</farWidth><circleRadius>0.6</circleRadius><closeRange>3.5</closeRange><maxRange>20</maxRange><hediff>HD_WeaponFlashlightDazzle</hediff></flashlight>
-      <internalStats><massKg>0.075</massKg><ergonomics>-1</ergonomics><targetAcquisition>2</targetAcquisition></internalStats>
+      <internalStats><massKg>0.075</massKg><aimSpeed>0.05</aimSpeed></internalStats>
       <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.055</railOccupancy><railContactLength>0.035</railContactLength><physicalLength>0.065</physicalLength><railSurface>Bottom</railSurface><transform><position>(0.1,0,0.04)</position></transform></li></mounts>
     </li></comps>
   </ThingDef>

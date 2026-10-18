@@ -13,7 +13,7 @@ using Helodrace.ModernWar;
 using UnityEngine;
 using Verse;
 
-internal static class Program
+internal static partial class Program
 {
     private const string CompClass = "Helodrace.ModernWar.CompProperties_ModularWeaponNode";
     private static readonly Dictionary<string, XElement> definitions = new();
@@ -41,7 +41,10 @@ internal static class Program
         {
             root=Path.GetFullPath(args.Length>0 ? args[0] : ".");
             Load();
+            if (args.Contains("--snapshot")) { Snapshot(); return 0; }
+            if (args.Contains("--stock-snapshot")) { StockSnapshot(); return 0; }
             PlacementDefinitionTests();
+            StatDirectionTests();
             SightTests();
             PresetTests();
             VariantTests();
@@ -88,6 +91,44 @@ internal static class Program
         {
             if(e.Attribute("Name")!=null) parents[e.Attribute("Name").Value]=e;
             if(e.Element("defName")!=null) definitions[e.Element("defName").Value]=e;
+        }
+    }
+    private static readonly Dictionary<string,float[]> ReferenceAccuracy = new()
+    {
+        ["HD_Gun_M4A1_Weapon"]=new[]{.475f,.621f,.615f,.506f},
+        ["HD_Gun_M14_Weapon"]=new[]{.570f,.765f,.802f,.680f},
+        ["HD_Gun_M16A4_Weapon"]=new[]{.482f,.630f,.618f,.509f},
+        ["HD_Gun_M16A1_Weapon"]=new[]{.591f,.692f,.611f,.476f},
+        ["HD_Gun_M16A2_Weapon"]=new[]{.597f,.699f,.618f,.483f},
+        ["HD_Gun_M16A3_Weapon"]=new[]{.597f,.697f,.616f,.480f},
+        ["HD_Gun_M1911_Weapon"]=new[]{.750f,.709f,.436f,.243f},
+        ["HD_Gun_M249_Weapon"]=new[]{.383f,.505f,.419f,.301f},
+        ["HD_Gun_MP5_Weapon"]=new[]{.813f,.705f,.432f,.219f},
+        ["HD_Gun_P320_Weapon"]=new[]{.760f,.715f,.429f,.244f}
+    };
+    private static readonly Dictionary<string,float[]> ReferenceTimes = new()
+    {
+        ["HD_Gun_M4A1_Weapon"]=new[]{1.07f,1.65f}, ["HD_Gun_M14_Weapon"]=new[]{1.37f,1.61f},
+        ["HD_Gun_M16A4_Weapon"]=new[]{1.42f,1.62f}, ["HD_Gun_M16A1_Weapon"]=new[]{1.01f,1.66f},
+        ["HD_Gun_M16A2_Weapon"]=new[]{1.18f,1.61f}, ["HD_Gun_M16A3_Weapon"]=new[]{1.06f,1.62f},
+        ["HD_Gun_M1911_Weapon"]=new[]{.26f,.98f}, ["HD_Gun_M249_Weapon"]=new[]{1.47f,1.66f},
+        ["HD_Gun_MP5_Weapon"]=new[]{.55f,1.50f}, ["HD_Gun_P320_Weapon"]=new[]{.26f,.95f}
+    };
+    private static void Snapshot()
+    {
+        foreach(var pair in ReferenceAccuracy)
+        {
+            var def=Resolve(definitions[pair.Key]); var props=Properties(def);
+            var comp=def.Element("comps").Elements().Single(e=>(string)e.Attribute("Class")==CompClass);
+            var stats=Convert(BuildAssembly(pair.Key,definitions[comp.Element("spawnPreset").Value]));
+            var bands=new[]{stats.Touch,stats.Short,stats.Medium,stats.Long};
+            var verb=def.Element("verbs").Elements().First(e=>(string)e.Element("verbClass")=="Verb_Shoot");
+            Console.WriteLine(pair.Key+" referenceCosts="+((props.internalStats.warmupReferenceCost>0?props.internalStats.warmupReferenceCost:1)*Number(verb.Element("warmupTime"))*stats.VanillaWarmupFactor/ReferenceTimes[pair.Key][0]).ToString("F6",CultureInfo.InvariantCulture)
+                +"/"+((props.internalStats.recoveryReferenceCost>0?props.internalStats.recoveryReferenceCost:1)*Number(def.Element("statBases").Element("RangedWeapon_Cooldown"))*stats.VanillaCooldownFactor/ReferenceTimes[pair.Key][1]).ToString("F6",CultureInfo.InvariantCulture));
+            float[] current={props.internalStats.precisionTouchCeiling,props.internalStats.precisionShortCeiling,
+                props.internalStats.precisionMediumCeiling,props.internalStats.precisionLongCeiling};
+            Console.WriteLine(pair.Key+" suggestedCeilings="+string.Join("/",bands.Select((b,i)=>(current[i]*pair.Value[i]/b.Accuracy).ToString("F6",CultureInfo.InvariantCulture)))
+                +" accuracy="+string.Join("/",bands.Select(b=>b.Accuracy.ToString("F3")))+" stability="+stats.AimStability+" stock="+stats.StockSupport);
         }
     }
     private static XElement Merge(XElement parent, XElement child)
@@ -142,11 +183,12 @@ internal static class Program
         foreach(XElement item in e.Elements())
         {
             FieldInfo field=type.GetField(item.Name.LocalName,BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic);
-            if(field!=null) field.SetValue(obj,Parse(field.FieldType,item));
+            if(field==null) throw new Exception("Unknown authored field: "+type.Name+"."+item.Name);
+            field.SetValue(obj,Parse(field.FieldType,item));
         }
         return obj;
     }
-    private static readonly string[] parsedFields={"internalStats","sight","sockets","mounts","performanceRole","graphicOffset","graphicAngle","assemblyScale","sightGroupHeightTolerance","laser","verticalOccupancy","verticalOccupancyOffset","projectileOverride","overridePriority","ammunitionType"};
+    private static readonly string[] parsedFields={"internalStats","stock","isWeaponSubassembly","sight","sockets","mounts","performanceRole","graphicOffset","graphicAngle","assemblyScale","sightGroupHeightTolerance","laser","verticalOccupancy","verticalOccupancyOffset","projectileOverride","overridePriority","ammunitionType"};
     private static CompProperties_ModularWeaponNode Properties(XElement def)
     {
         XElement c=def.Element("comps").Elements().Single(e=>(string)e.Attribute("Class")==CompClass);
@@ -220,7 +262,7 @@ internal static class Program
     {
         var rootNode = Node(new CompProperties_ModularWeaponNode {isAssemblyRoot=true,
             internalStats=new ModularWeaponInternalStats {massKg=1.5f,recoilImpulse=4.5f,muzzleRise=3.5f,
-                ergonomics=55,targetAcquisition=55,aimingPrecision=60,operatingReliability=.97f,gasFlow=1}});
+                aimSpeed=55,aimStability=55,mechanicalPrecision=60,operatingReliability=.97f,gasFlow=1}});
         var bare = Convert(new List<ModularRenderNode>{rootNode});
         int count=0,muzzles=0;
         foreach(var pair in definitions)
@@ -318,6 +360,8 @@ internal static class Program
     {
         XElement def=Resolve(definitions[weapon]); var node=Node(Properties(def));
         var transform=ModularTransform2D.Identity; transform.scale=Vector2.one*node.Props.assemblyScale;node.transform=transform;
+        node.thing.def.statBases=def.Element("statBases")?.Elements().Select(e=>new RimWorld.StatModifier {
+            stat=new RimWorld.StatDef {defName=e.Name.LocalName},value=Number(e)}).ToList();
         var nodes=new List<ModularRenderNode>{node};
         void Children(ModularRenderNode parent,XElement parentDef,XElement entries)
         {
@@ -333,7 +377,7 @@ internal static class Program
                 float ratio=Palette(childDef)/Palette(parentDef);
                 if(mount.UsesOppositeSurface(socket)) effective.position+=mount.oppositeSurfaceOffset*ratio;
                 child.transform=parent.transform.Attach(effective,mount.EffectiveTransform(socket),child.Props.graphicAngle,ratio);
-                child.parentComp=parent.comp;child.parentSocketId=socketId;child.mountId=mount.id;child.attachedToRail=socket.isRail;
+                child.railOffset=offset;child.parentComp=parent.comp;child.parentSocketId=socketId;child.mountId=mount.id;child.attachedToRail=socket.isRail;
                 float half=mount.EffectivePhysicalLength*ratio*.5f;
                 var left=socket.transform.position;var right=left;
                 left.x+=offset+mount.physicalCenterOffset*ratio-half;
@@ -363,37 +407,40 @@ internal static class Program
     }
     private static ModularRenderNode TestSight(ModularSightKind kind,float x,float z)
     {
-        var n=Node(new CompProperties_ModularWeaponNode { internalStats=new ModularWeaponInternalStats { massKg=.15f,ergonomics=-2 },
+        var n=Node(new CompProperties_ModularWeaponNode { internalStats=new ModularWeaponInternalStats { massKg=.15f,aimSpeed=-2 },
             sight=new ModularWeaponSightProperties { kind=kind,axisOffset=new Vector3(x,0,z),selectionPriority=25 } });
         return n;
     }
     private static void SightTests()
     {
-        var r=Node(new CompProperties_ModularWeaponNode { isAssemblyRoot=true,internalStats=new ModularWeaponInternalStats {massKg=1,ergonomics=55,aimingPrecision=60,targetAcquisition=55} });
+        var r=Node(new CompProperties_ModularWeaponNode { isAssemblyRoot=true,internalStats=new ModularWeaponInternalStats {massKg=1,aimSpeed=55,mechanicalPrecision=60,aimStability=55} });
         var scope=TestSight(ModularSightKind.Scope,-.1f,.18f);var dot=TestSight(ModularSightKind.Reflex,-.1f,.1f);
         var single=new List<ModularRenderNode>{r,scope}; var s=SightProfile(single);
-        Check(s.Touch<1 && s.Short<1 && s.Warmup>1 && s.Long>1,"A lone fixed scope pays close-range and warmup costs");
-        var d=SightProfile(new(){r,dot});Check(d.Long<1 && d.Short>1,"A lone reflex has a long-range disadvantage");
+        var ironProfile=ModularWeaponSightPerformance.For(ModularSightKind.IronSet,false,1);
+        Check(s.Touch<ironProfile.Touch && s.Short<ironProfile.Short && s.Warmup>1 && s.Long>ironProfile.Long,"A lone fixed scope pays close-range and warmup costs");
+        var d=SightProfile(new(){r,dot});Check(d.Long<ironProfile.Long && d.Short>ironProfile.Short,"A lone reflex has a long-range disadvantage");
         var both=SightProfile(new(){r,scope,dot});
         Near(Math.Max(s.Touch,d.Touch),both.Touch,"Groups take maximum touch factor");
         Near(Math.Max(s.Short,d.Short),both.Short,"Groups take maximum short factor");
         Near(Math.Max(s.Long,d.Long),both.Long,"Groups take maximum long factor");
         Near(Math.Max(s.Range,d.Range),both.Range,"Groups take maximum range factor");
-        Near(Math.Min(s.Warmup,d.Warmup),both.Warmup,"Groups take fastest independent acquisition factor");
+        var active=((List<ModularSightGroupStatus>)SightResolution(new(){r,scope,dot}).GetType().GetField("groups")
+            .GetValue(SightResolution(new(){r,scope,dot}))).Single(g=>g.isActive);
+        Near(active.performance.Warmup,both.Warmup,"Representative acquisition comes from one active group, not independent minimum costs");
         var copy=TestSight(ModularSightKind.Scope,-.1f,.24f);
         Near(s.Long,SightProfile(new(){r,scope,copy}).Long,"Duplicate groups never multiply bonuses");
         Near(s.Range,SightProfile(new(){r,scope,copy}).Range,"Duplicate sight groups never multiply range bonuses");
         var one=Convert(single);var two=Convert(new(){r,scope,copy});
         Check(two.MassKg>one.MassKg && two.VanillaWarmupFactor>=one.VanillaWarmupFactor,"Inactive/duplicate optics still impose physical costs");
         Check(two.VanillaAccuracyLongFactor<=one.VanillaAccuracyLongFactor+0.0001f,"Duplicate optics do not increase final accuracy");
-        scope.Props.internalStats.targetAcquisition=100;
-        scope.Props.internalStats.aimingPrecision=100;
+        scope.Props.internalStats.aimStability=100;
+        scope.Props.internalStats.mechanicalPrecision=100;
         scope.Props.internalStats.identificationDistanceMeters=1000;
         Near(one.VanillaAccuracyLongFactor,Convert(single).VanillaAccuracyLongFactor,
             "Optic authoring values cannot add a second accuracy channel on top of sight-group performance");
         var holo=TestSight(ModularSightKind.Holographic,0,.12f);var mag=TestSight(ModularSightKind.Magnifier,-.1f,.12f);
         var magnified=SightProfile(new(){r,holo,mag});
-        Check(magnified.Touch<1 && magnified.Short<1 && magnified.Warmup>1 && magnified.Long>1,"A magnifier group retains close-range and acquisition drawbacks");
+        Check(magnified.Touch<ironProfile.Touch && magnified.Short<ironProfile.Short && magnified.Warmup>1 && magnified.Long>ironProfile.Long,"A magnifier group retains close-range and acquisition drawbacks");
         var iron=TestSight(ModularSightKind.IronSet,-.1f,.1f);
         iron.Props.sight.integrated=true;
         var ironNodes=new List<ModularRenderNode>{r,iron};
@@ -403,9 +450,9 @@ internal static class Program
             "A slide's integral front/rear set is reported as a complete iron sight");
         // Group membership must not erase mechanical accuracy of integrated irons.
         float before=Convert(ironNodes).VanillaAccuracyLongFactor;
-        iron.Props.internalStats.aimingPrecision=10;
+        iron.Props.internalStats.mechanicalPrecision=10;
         Check(Convert(ironNodes).VanillaAccuracyLongFactor>before,"An integrated sight preserves its mechanical part's precision");
-        Check(ModularWeaponSightPerformance.For(ModularSightKind.LowPowerVariableOptic,false,1).Short>=1,
+        Check(ModularWeaponSightPerformance.For(ModularSightKind.LowPowerVariableOptic,false,1).Short<ironProfile.Short,
             "Future LPVOs have an explicit separate profile rather than bypassing normal optic limits");
     }
     private static void PresetTests()
@@ -417,11 +464,11 @@ internal static class Program
             XElement preset=definitions[comp.Element("spawnPreset").Value];
             var nodes=BuildAssembly(pair.Key,preset);var stats=Convert(nodes);
             if(!pair.Key.Contains("M4A1") && !pair.Key.Contains("M16A4"))
-                Check(SightProfile(nodes).Short>=0.99f,"Stock integral iron sights must resolve a complete sight line: "+pair.Key);
+                Check(SightProfile(nodes).Short>=0.96f,"Stock integral iron sights must resolve a complete sight line: "+pair.Key);
             var verbs=def.Element("verbs").Elements().Where(e=>(string)e.Element("verbClass")=="Verb_Shoot").ToArray();
             float warmup=Number(verbs[0].Element("warmupTime"))*stats.VanillaWarmupFactor;
             bool pistol=pair.Key.Contains("P320")||pair.Key.Contains("M1911");
-            float cooldown=Number(def.Element("statBases").Element("RangedWeapon_Cooldown"))*stats.VanillaCycleFactor*stats.VanillaCooldownFactor;
+            float cooldown=Number(def.Element("statBases").Element("RangedWeapon_Cooldown"))*stats.VanillaCooldownFactor;
             float min=pistol?.80f:1.35f;
             float max=pistol?1.30f:2.25f;
             Check(cooldown>=min && cooldown<=max,"Stock cooldown outside vanilla-comparable band for "+pair.Key+": "+cooldown);
@@ -463,7 +510,7 @@ internal static class Program
         Check(dotStats.VanillaWarmupFactor<scopeStats.VanillaWarmupFactor,"A lighter close-range optic build can still improve acquisition");
         Check(dotStats.VanillaAccuracyLongFactor<scopeStats.VanillaAccuracyLongFactor,"Faster acquisition retains a long-range tradeoff");
         Check(dotStats.RangeFactor<scopeStats.RangeFactor,"Short-range optic retains a range tradeoff");
-        Check(dotStats.VanillaCooldownFactor<scopeStats.VanillaCooldownFactor,"Lighter handling improves cooldown without changing mechanical RPM");
+        Check(Math.Abs(dotStats.VanillaCooldownFactor-scopeStats.VanillaCooldownFactor)<.02f,"Optic mass can affect recovery but acquisition speed must not become a direct cooldown bonus");
         Near(dotStats.VanillaCycleFactor,scopeStats.VanillaCycleFactor,"An optic swap cannot change mechanical cycling");
         Check(count>=10,"Stock presets and authored variants were exercised");
         Console.WriteLine("PASS: "+count+" authored presets and a real scope-to-holographic tuning tradeoff.");

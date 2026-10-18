@@ -72,14 +72,14 @@
   <HD_ModularWeapon_CatastrophicFailure>{0}'s weapon ruptured! {1} was fired through a {2} barrel.</HD_ModularWeapon_CatastrophicFailure>
   <HD_ModularWeapon_Mass>Weight</HD_ModularWeapon_Mass>
   <HD_ModularWeapon_RecoilControl>Recoil control</HD_ModularWeapon_RecoilControl>
-  <HD_ModularWeapon_Ergonomics>Ergonomics</HD_ModularWeapon_Ergonomics>
+  <HD_ModularWeapon_AimSpeed>Aim readiness</HD_ModularWeapon_AimSpeed>
   <HD_ModularWeapon_MuzzleControl>Muzzle control</HD_ModularWeapon_MuzzleControl>
   <HD_ModularWeapon_Reliability>Operating reliability</HD_ModularWeapon_Reliability>
   <HD_ModularWeapon_GasEfficiency>Gas efficiency</HD_ModularWeapon_GasEfficiency>
   <HD_ModularWeapon_Balance>Balance point</HD_ModularWeapon_Balance>
   <HD_ModularWeapon_Handling>Moment handling</HD_ModularWeapon_Handling>
-  <HD_ModularWeapon_TargetAcquisition>Target acquisition</HD_ModularWeapon_TargetAcquisition>
-  <HD_ModularWeapon_AimingPrecision>Aiming precision</HD_ModularWeapon_AimingPrecision>
+  <HD_ModularWeapon_AimStability>Aim stability</HD_ModularWeapon_AimStability>
+  <HD_ModularWeapon_MechanicalPrecision>Mechanical precision</HD_ModularWeapon_MechanicalPrecision>
   <HD_ModularWeapon_IdentificationDistance>Identification range</HD_ModularWeapon_IdentificationDistance>
   <HD_ModularWeapon_Cells>cells</HD_ModularWeapon_Cells>
   <HD_ModularWeapon_ImmediateHintDev>Development mode: parts are created and removed without inventory accounting.</HD_ModularWeapon_ImmediateHintDev>
@@ -189,4 +189,11 @@
   <HD_ModularWeapon_ProjectilesPerShot>Projectiles per round</HD_ModularWeapon_ProjectilesPerShot>
   <HD_ModularWeapon_DamagePerProjectile>Damage per projectile</HD_ModularWeapon_DamagePerProjectile>
   <HD_ModularWeapon_DuplexHint>One round launches {0} independently colliding projectiles. Damage is per projectile; each must hit and penetrate separately.</HD_ModularWeapon_DuplexHint>
+  <HD_ModularWeapon_WarmupSeconds>Aim preparation time</HD_ModularWeapon_WarmupSeconds>
+  <HD_ModularWeapon_StockExtension>Stock extension</HD_ModularWeapon_StockExtension>
+  <HD_ModularWeapon_StockSupport>Shoulder support</HD_ModularWeapon_StockSupport>
+  <HD_ModularWeapon_HandlingLength>Handling length</HD_ModularWeapon_HandlingLength>
+  <HD_ModularWeapon_AccuracyModel>Accuracy composition</HD_ModularWeapon_AccuracyModel>
+  <HD_ModularWeapon_AccuracyBreakdown>Mechanical ceiling {0} × sight efficiency {1} × hold efficiency {2} = {3} (normal-quality equipment).</HD_ModularWeapon_AccuracyBreakdown>
+  <HD_ModularWeapon_TimingHint>Aim preparation is pre-shot readiness; cooldown is post-shot/burst recovery. Mechanical RPM is independent. With multiple usable sight groups, preparation uses the group best suited to target distance; previews use the representative active group.</HD_ModularWeapon_TimingHint>
 </LanguageData>

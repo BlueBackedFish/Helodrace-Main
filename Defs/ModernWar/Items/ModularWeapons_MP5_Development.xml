@@ -119,7 +119,7 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>1</Steel></craftCost><requiredResearch><li>HelodSpecialOperationsWeapons</li></requiredResearch>
         <graphicLayer>3</graphicLayer><verticalOccupancy>0.072</verticalOccupancy><verticalOccupancyOffset>0.080</verticalOccupancyOffset>
-        <sight><kind>IronFront</kind><axisOffset>(0.158,0,0.080)</axisOffset><aimRadius>0.012</aimRadius><selectionPriority>20</selectionPriority></sight>
+        <sight><kind>IronFront</kind><axisOffset>(0.158,0,0.080)</axisOffset><sightClearanceRadius>0.012</sightClearanceRadius><selectionPriority>20</selectionPriority></sight>
         <mounts><li><id>front_sight_mount</id><socketTags><li>mp5_front_sight_standard</li></socketTags><transform><position>(0.158,0,0.080)</position></transform></li></mounts>
       </li>
     </comps>
@@ -133,7 +133,7 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>1</Steel></craftCost><requiredResearch><li>HelodSpecialOperationsWeapons</li></requiredResearch>
         <graphicLayer>3</graphicLayer><verticalOccupancy>0.046</verticalOccupancy><verticalOccupancyOffset>0.080</verticalOccupancyOffset>
-        <sight><kind>IronFront</kind><axisOffset>(0.160,0,0.080)</axisOffset><aimRadius>0.012</aimRadius><selectionPriority>20</selectionPriority></sight>
+        <sight><kind>IronFront</kind><axisOffset>(0.160,0,0.080)</axisOffset><sightClearanceRadius>0.012</sightClearanceRadius><selectionPriority>20</selectionPriority></sight>
         <mounts><li><id>front_sight_mount</id><socketTags><li>mp5_front_sight_sd</li></socketTags><transform><position>(0.160,0,0.080)</position></transform></li></mounts>
       </li>
     </comps>
@@ -147,7 +147,7 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>1</Steel></craftCost><requiredResearch><li>HelodSpecialOperationsWeapons</li></requiredResearch>
         <graphicLayer>3</graphicLayer><verticalOccupancy>0.029</verticalOccupancy><verticalOccupancyOffset>0.080</verticalOccupancyOffset>
-        <sight><kind>IronRear</kind><axisOffset>(-0.155,0,0.080)</axisOffset><aimRadius>0.012</aimRadius><selectionPriority>20</selectionPriority></sight>
+        <sight><kind>IronRear</kind><axisOffset>(-0.155,0,0.080)</axisOffset><sightClearanceRadius>0.012</sightClearanceRadius><selectionPriority>20</selectionPriority></sight>
         <mounts><li><id>rear_sight_mount</id><socketTags><li>mp5_rear_sight</li></socketTags><transform><position>(-0.155,0,0.080)</position></transform></li></mounts>
       </li>
     </comps>
@@ -254,7 +254,7 @@
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <isAssemblyRoot>true</isAssemblyRoot><spawnPreset>HD_WeaponPreset_ModularMP5_Default</spawnPreset><partCategory>Required</partCategory><realisticRoundsPerMinute>800</realisticRoundsPerMinute><baseFireDelayFactor>1.2</baseFireDelayFactor><graphicLayer>0</graphicLayer><outlinePriority>100</outlinePriority>
         <casingPort><offset>(-0.064,0,0.046)</offset><ejectionAngleOffset>90</ejectionAngleOffset><speedMin>1.5</speedMin><speedMax>2.1</speedMax><scale>0.75</scale><ejectionCycleFraction>0.30</ejectionCycleFraction><feedStartCycleFraction>0.55</feedStartCycleFraction><feedEndCycleFraction>0.92</feedEndCycleFraction><feedStartOffset>(-0.034,0,0.012)</feedStartOffset><feedEndOffset>(-0.001,0,0.028)</feedEndOffset><feedingRoundDrawSize>0.075</feedingRoundDrawSize></casingPort>
-        <internalStats><massKg>0.75</massKg><recoilImpulse>2.4</recoilImpulse><ergonomics>70</ergonomics><muzzleRise>2.1</muzzleRise><operatingReliability>0.98</operatingReliability><gasFlow>1</gasFlow><momentOfInertia>0.022</momentOfInertia><targetAcquisition>67</targetAcquisition><aimingPrecision>60</aimingPrecision><identificationDistanceMeters>180</identificationDistanceMeters></internalStats>
+        <internalStats><massKg>0.75</massKg><recoilImpulse>2.4</recoilImpulse><muzzleRise>2.1</muzzleRise><operatingReliability>0.98</operatingReliability><gasFlow>1</gasFlow><momentOfInertia>0.022</momentOfInertia><mechanicalPrecision>60</mechanicalPrecision><identificationDistanceMeters>180</identificationDistanceMeters><aimSpeed>68.95</aimSpeed><aimStability>65</aimStability></internalStats>
         <sockets>
           <li><id>cocking_tube</id><expectedPart>HD_ModularPart_CockingTube_MP5_Part</expectedPart><label>MP5 cocking-tube interface</label><tags><li>mp5_cocking_tube_standard</li><li>mp5_cocking_tube_sd</li></tags><required>true</required><transform><position>(-0.008,0,0.058)</position></transform></li>
           <li><id>barrel</id><expectedPart>HD_ModularPart_Barrel_MP5_Part</expectedPart><label>MP5 receiver barrel trunnion</label><tags><li>mp5_barrel</li></tags><required>true</required><transform><position>(0,0,0.031)</position></transform></li>

@@ -54,7 +54,7 @@
       <craftCost><Steel>2</Steel></craftCost>
       <requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
       <graphicLayer>4</graphicLayer>
-      <internalStats><massKg>0.05</massKg><ergonomics>-1</ergonomics></internalStats>
+      <internalStats><massKg>0.05</massKg><aimSpeed>-0.65</aimSpeed></internalStats>
       <mounts><li><id>plate_mount</id><socketTags><li>p320_optic_plate</li></socketTags><transform><position>(-0.09,0,0.114)</position></transform></li></mounts>
       <sockets><li><id>optic</id><label>DPP optic footprint</label><tags><li>dpp_footprint</li></tags><transform><position>(-0.09,0,0.124)</position></transform></li></sockets>
     </li></comps>

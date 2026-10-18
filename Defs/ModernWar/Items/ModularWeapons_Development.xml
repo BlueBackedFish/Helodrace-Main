@@ -261,15 +261,15 @@
         <sight>
           <kind>Holographic</kind>
           <axisOffset>(-0.095,0,0.055)</axisOffset>
-          <aimRadius>0.016</aimRadius>
+          <sightClearanceRadius>0.016</sightClearanceRadius>
           <selectionPriority>20</selectionPriority>
         </sight>
         <internalStats>
-          <ergonomics>4</ergonomics>
-          <targetAcquisition>24</targetAcquisition>
-          <aimingPrecision>10</aimingPrecision>
+
+
+          <mechanicalPrecision>10</mechanicalPrecision>
           <identificationDistanceMeters>50</identificationDistanceMeters>
-        </internalStats>
+        <aimSpeed>11</aimSpeed></internalStats>
         <statFactors>
           <AccuracyShort>1.08</AccuracyShort>
           <AccuracyMedium>1.04</AccuracyMedium>
@@ -329,15 +329,15 @@
         <sight>
           <kind>Magnifier</kind>
           <axisOffset>(-0.169,0,0.055)</axisOffset>
-          <aimRadius>0.013</aimRadius>
+          <sightClearanceRadius>0.013</sightClearanceRadius>
           <selectionPriority>0</selectionPriority>
         </sight>
         <internalStats>
-          <ergonomics>-3</ergonomics>
-          <targetAcquisition>-3</targetAcquisition>
-          <aimingPrecision>15</aimingPrecision>
+
+
+          <mechanicalPrecision>15</mechanicalPrecision>
           <identificationDistanceMeters>170</identificationDistanceMeters>
-        </internalStats>
+        <aimSpeed>-3</aimSpeed></internalStats>
         <statFactors>
           <AccuracyMedium>1.08</AccuracyMedium>
           <AccuracyLong>1.12</AccuracyLong>
@@ -366,7 +366,7 @@
           <drawDot>true</drawDot>
           <maxLength>40</maxLength>
         </laser>
-        <internalStats><ergonomics>-2</ergonomics><targetAcquisition>7</targetAcquisition></internalStats>
+        <internalStats><aimSpeed>1.15</aimSpeed></internalStats>
         <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.135</railOccupancy><railContactLength>0.08</railContactLength><physicalLength>0.129</physicalLength><physicalCenterOffset>-0.001</physicalCenterOffset><railSurface>Top</railSurface><transform><position>(0.145,0,0.019)</position></transform></li></mounts>
       </li>
     </comps>
@@ -424,7 +424,7 @@
           <drawDot>true</drawDot>
           <maxLength>40</maxLength>
         </laser>
-        <internalStats><ergonomics>-1</ergonomics><targetAcquisition>5</targetAcquisition></internalStats>
+        <internalStats><aimSpeed>1.1</aimSpeed></internalStats>
         <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.13</railOccupancy><railContactLength>0.031</railContactLength><physicalLength>0.155</physicalLength><physicalCenterOffset>0.024</physicalCenterOffset><railSurface>Side</railSurface><transform><position>(0.119,0,-0.005)</position></transform></li></mounts>
       </li>
     </comps>
@@ -442,7 +442,7 @@
         <performanceRole>Foregrip</performanceRole>
         <verticalOccupancy>0.09</verticalOccupancy>
         <verticalOccupancyOffset>-0.045</verticalOccupancyOffset>
-        <internalStats><ergonomics>6</ergonomics><muzzleRise>-0.8</muzzleRise><targetAcquisition>3</targetAcquisition></internalStats>
+        <internalStats><muzzleRise>-0.8</muzzleRise><aimSpeed>4.95</aimSpeed><aimStability>3</aimStability></internalStats>
         <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.043</railOccupancy><railContactLength>0.035</railContactLength><railSurface>Bottom</railSurface><transform><position>(0.155,0,-0.022)</position></transform></li></mounts>
       </li>
     </comps>
@@ -472,7 +472,7 @@
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>3</graphicLayer>
         <performanceRole>RailPanel</performanceRole>
-        <internalStats><ergonomics>2.5</ergonomics></internalStats>
+        <internalStats><aimSpeed>1.625</aimSpeed></internalStats>
         <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.086</railOccupancy><railContactLength>0.076</railContactLength><railSurface>Bottom</railSurface><transform><position>(0.028,0,-0.024)</position></transform></li></mounts>
       </li>
     </comps>
@@ -577,15 +577,15 @@
         <internalStats>
           <massKg>0.82</massKg>
           <recoilImpulse>4.4</recoilImpulse>
-          <ergonomics>56</ergonomics>
+
           <muzzleRise>3.4</muzzleRise>
           <operatingReliability>0.965</operatingReliability>
           <gasFlow>1</gasFlow>
           <momentOfInertia>0.035</momentOfInertia>
-          <targetAcquisition>52</targetAcquisition>
-          <aimingPrecision>56</aimingPrecision>
+
+          <mechanicalPrecision>56</mechanicalPrecision>
           <identificationDistanceMeters>250</identificationDistanceMeters>
-        </internalStats>
+        <aimSpeed>54.6</aimSpeed><aimStability>65</aimStability></internalStats>
         <graphicOffset>(0,0,0)</graphicOffset>
         <sockets>
           <li><id>upper_receiver</id><expectedPart>HD_ModularPart_UpperReceiver_M4A1_Part</expectedPart><label>upper receiver interface</label><tags><li>upper_receiver</li></tags><transform><position>(-0.094,0,-0.018)</position></transform></li>

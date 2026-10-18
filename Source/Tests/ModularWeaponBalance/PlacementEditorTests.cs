@@ -73,12 +73,28 @@ internal static class PlacementEditorTests
         check((moving.Props.graphicOffset-before*2).sqrMagnitude<.000001f,"Repeated instances of one shared definition are moved only once");
 
         var settings=new CompProperties_ModularWeaponNode();
+        settings.internalStats=new ModularWeaponInternalStats {massKg=.5f,aimSpeed=7,aimStability=8,mechanicalPrecision=9,
+            precisionTouchCeiling=.6f,precisionShortCeiling=.7f,precisionMediumCeiling=.8f,precisionLongCeiling=.9f,
+            warmupReferenceCost=1.1f,recoveryReferenceCost=1.2f,receiverLengthMeters=.18f,naturalSupport=.15f};
+        settings.stock=new ModularWeaponStockProperties {adjustable=true,retractedOffset=.03f,extendedOffset=-.03f};
         var excluded=Bare<ThingDef>();excluded.defName="Excluded&Part";settings.incompatibleParts.Add(excluded);
         settings.mounts.Add(new ModularAttachmentMount {id="mount&",label="<left & right>"});
         settings.sockets.Add(new ModularAttachmentSocket {id="socket&",label="<socket>",tags=new List<string>{"a&b"}});
         var named=Node("Escaping",204,settings);
         string fragment=(string)Editor.GetMethod("BuildXml",Static).Invoke(null,new object[]{new List<ModularRenderNode>{named}});
         var escaped=XElement.Parse("<settings>"+fragment+"</settings>");
+        foreach(var f in typeof(ModularWeaponInternalStats).GetFields())
+            check(Math.Abs(float.Parse(escaped.Element("internalStats").Element(f.Name).Value,System.Globalization.CultureInfo.InvariantCulture)
+                -(float)f.GetValue(settings.internalStats))<.00001f,"Every raw physical/accuracy/timing field survives real editor XML export: "+f.Name);
+        check((bool)escaped.Element("stock").Element("adjustable")
+            && (float)escaped.Element("stock").Element("extendedOffset")==-.03f,"Stock state profiles survive real editor XML export");
+        var propertyState=Editor.GetNestedType("NodePropertiesState",BindingFlags.NonPublic);
+        object propertySnapshot=Activator.CreateInstance(propertyState,new object[]{settings});
+        settings.internalStats.mechanicalPrecision=99;settings.internalStats.warmupReferenceCost=3;
+        settings.stock.extendedOffset=.9f;
+        propertyState.GetMethod("Restore").Invoke(propertySnapshot,null);
+        check(settings.internalStats.mechanicalPrecision==9 && settings.internalStats.warmupReferenceCost==1.1f
+            && settings.stock.extendedOffset==-.03f,"Real Undo restores independent raw/stock profile copies");
         check(escaped.Element("mounts").Element("li").Element("label").Value=="<left & right>","Custom labels remain valid batch XML");
         check(escaped.Element("incompatibleParts").Element("li").Value=="Excluded&Part","Placement exports retain part conflicts with valid XML escaping");
 

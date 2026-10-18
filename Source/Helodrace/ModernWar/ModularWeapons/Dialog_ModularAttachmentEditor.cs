@@ -406,9 +406,9 @@ namespace Helodrace.ModernWar
                 Vector2 axis = WorldToGui(node.transform.TransformPoint(axisLocal),
                     origin, pixelsPerCell);
                 Vector3 lowLocal = axisLocal
-                    + new Vector3(0f, 0f, -sight.aimRadius);
+                    + new Vector3(0f, 0f, -sight.sightClearanceRadius);
                 Vector3 highLocal = axisLocal
-                    + new Vector3(0f, 0f, sight.aimRadius);
+                    + new Vector3(0f, 0f, sight.sightClearanceRadius);
                 Vector2 low = WorldToGui(node.transform.TransformPoint(lowLocal),
                     origin, pixelsPerCell);
                 Vector2 high = WorldToGui(node.transform.TransformPoint(highLocal),
@@ -1176,17 +1176,17 @@ namespace Helodrace.ModernWar
             float axisZ = SliderRow(inner, ref y, "Optical axis Z",
                 sight.axisOffset.z, -0.5f, 0.5f);
             float radius = SliderRow(inner, ref y, "Aim radius",
-                sight.aimRadius, 0.001f, 0.15f);
+                sight.sightClearanceRadius, 0.001f, 0.15f);
             float priority = SliderRow(inner, ref y, "Selection priority",
                 sight.selectionPriority, 0f, 100f);
             if (!Mathf.Approximately(axisX, sight.axisOffset.x)
                 || !Mathf.Approximately(axisZ, sight.axisOffset.z)
-                || !Mathf.Approximately(radius, sight.aimRadius)
+                || !Mathf.Approximately(radius, sight.sightClearanceRadius)
                 || !Mathf.Approximately(priority, sight.selectionPriority))
             {
                 EnsureUndoCheckpoint(CurrentEditKey(node) + ":sightData");
                 sight.axisOffset = new Vector3(axisX, 0f, axisZ);
-                sight.aimRadius = radius;
+                sight.sightClearanceRadius = radius;
                 sight.selectionPriority = priority;
                 root.InvalidateTree();
             }
@@ -1280,6 +1280,7 @@ namespace Helodrace.ModernWar
                 root.InvalidateTree();
             }
             DrawInternalStatsEditor(inner, node, ref y);
+            DrawStockEditor(inner, node, ref y);
             y += 4f;
         }
 
@@ -1335,56 +1336,62 @@ namespace Helodrace.ModernWar
             }
             y += 31f;
 
-            float mass = SliderRow(inner, ref y, "Weight kg (-1 auto)", stats.massKg, -1f, 10f);
-            float recoil = SliderRow(inner, ref y, "Recoil impulse", stats.recoilImpulse, -5f, 12f);
-            float ergonomics = SliderRow(inner, ref y, "Ergonomics", stats.ergonomics, -50f, 100f);
-            float muzzleRise = SliderRow(inner, ref y, "Muzzle rise", stats.muzzleRise, -5f, 10f);
-            float reliability = SliderRow(inner, ref y, "Operating reliability", stats.operatingReliability, -0.5f, 1f);
-            float gasFlow = SliderRow(inner, ref y, "Gas flow", stats.gasFlow, -0.5f, 1.5f);
-            float center = SliderRow(inner, ref y, "Local balance offset m", stats.centerOfMassOffsetMeters, -0.5f, 0.5f);
-            float inertia = SliderRow(inner, ref y, "Local moment of inertia", stats.momentOfInertia, 0f, 0.5f);
-            float acquisition = SliderRow(inner, ref y, "Target acquisition", stats.targetAcquisition, -50f, 100f);
-            float precision = SliderRow(inner, ref y, "Aiming precision", stats.aimingPrecision, -50f, 100f);
-            float identification = SliderRow(inner, ref y, "Identification distance m", stats.identificationDistanceMeters, -300f, 600f);
-            float barrelLength = SliderRow(inner, ref y, "Barrel length in (0 unset)", stats.barrelLengthInches, 0f, 30f);
-            float velocityOffset = SliderRow(inner, ref y, "Muzzle velocity offset m/s", stats.muzzleVelocityOffsetMetersPerSecond, -300f, 300f);
-            float damageTransfer = SliderRow(inner, ref y, "Damage transfer points", stats.damageTransfer, -75f, 100f);
-            float penetration = SliderRow(inner, ref y, "Penetration efficiency points", stats.penetrationEfficiency, -75f, 100f);
-            float rangeAdjustment = SliderRow(inner, ref y, "Effective range adjustment %", stats.rangeAdjustmentPercent, -50f, 50f);
-            if (!Mathf.Approximately(mass, stats.massKg)
-                || !Mathf.Approximately(recoil, stats.recoilImpulse)
-                || !Mathf.Approximately(ergonomics, stats.ergonomics)
-                || !Mathf.Approximately(muzzleRise, stats.muzzleRise)
-                || !Mathf.Approximately(reliability, stats.operatingReliability)
-                || !Mathf.Approximately(gasFlow, stats.gasFlow)
-                || !Mathf.Approximately(center, stats.centerOfMassOffsetMeters)
-                || !Mathf.Approximately(inertia, stats.momentOfInertia)
-                || !Mathf.Approximately(acquisition, stats.targetAcquisition)
-                || !Mathf.Approximately(precision, stats.aimingPrecision)
-                || !Mathf.Approximately(identification, stats.identificationDistanceMeters)
-                || !Mathf.Approximately(barrelLength, stats.barrelLengthInches)
-                || !Mathf.Approximately(velocityOffset, stats.muzzleVelocityOffsetMetersPerSecond)
-                || !Mathf.Approximately(damageTransfer, stats.damageTransfer)
-                || !Mathf.Approximately(penetration, stats.penetrationEfficiency)
-                || !Mathf.Approximately(rangeAdjustment, stats.rangeAdjustmentPercent))
+            foreach (var field in typeof(ModularWeaponInternalStats).GetFields())
             {
+                float before = (float)field.GetValue(stats);
+                float min = -50f, max = 100f;
+                string name = field.Name;
+                if (name == "massKg") { min = -1f; max = 10f; }
+                else if (name == "recoilImpulse" || name == "muzzleRise") { min = -5f; max = 12f; }
+                else if (name == "massPositionMeters") { min = -1f; max = 1f; }
+                else if (name == "momentOfInertia" || name == "receiverLengthMeters"
+                    || name == "lengthExtensionMeters" || name == "naturalSupport"
+                    || name.StartsWith("precision", StringComparison.Ordinal)) { min = 0f; max = 1f; }
+                else if (name.EndsWith("ReferenceCost", StringComparison.Ordinal)) { min = 0.1f; max = 3f; }
+                else if (name == "operatingReliability" || name == "gasFlow") { min = -0.5f; max = 1.5f; }
+                else if (name == "barrelLengthInches") { min = 0f; max = 30f; }
+                else if (name == "identificationDistanceMeters") { min = 0f; max = 600f; }
+                else if (name == "muzzleVelocityOffsetMetersPerSecond") { min = -300f; max = 300f; }
+                float value = SliderRow(inner, ref y, name, before, min, max);
+                if (Mathf.Approximately(value, before)) continue;
                 EnsureUndoCheckpoint(CurrentEditKey(node) + ":internalStats");
-                stats.massKg = mass;
-                stats.recoilImpulse = recoil;
-                stats.ergonomics = ergonomics;
-                stats.muzzleRise = muzzleRise;
-                stats.operatingReliability = reliability;
-                stats.gasFlow = gasFlow;
-                stats.centerOfMassOffsetMeters = center;
-                stats.momentOfInertia = inertia;
-                stats.targetAcquisition = acquisition;
-                stats.aimingPrecision = precision;
-                stats.identificationDistanceMeters = identification;
-                stats.barrelLengthInches = barrelLength;
-                stats.muzzleVelocityOffsetMetersPerSecond = velocityOffset;
-                stats.damageTransfer = damageTransfer;
-                stats.penetrationEfficiency = penetration;
-                stats.rangeAdjustmentPercent = rangeAdjustment;
+                field.SetValue(stats, value);
+                root.InvalidateTree();
+            }
+        }
+
+        private void DrawStockEditor(Rect inner, ModularRenderNode node, ref float y)
+        {
+            y += 12f;
+            var stock = node.Props.stock;
+            if (Widgets.ButtonText(new Rect(inner.x, y, inner.width, 27f),
+                stock == null ? "Add physical stock profile" : "Remove physical stock profile"))
+            {
+                PushUndoSnapshot();
+                node.Props.stock = stock == null ? new ModularWeaponStockProperties() : null;
+                root.InvalidateTree();
+                stock = node.Props.stock;
+            }
+            y += 34f;
+            if (stock == null) return;
+            bool adjustable = stock.adjustable;
+            Widgets.CheckboxLabeled(new Rect(inner.x, y, inner.width, 24f), "Rail-driven stock extension", ref adjustable);
+            y += 30f;
+            if (adjustable != stock.adjustable)
+            {
+                PushUndoSnapshot();
+                stock.adjustable = adjustable;
+                root.InvalidateTree();
+            }
+            foreach (var field in typeof(ModularWeaponStockProperties).GetFields())
+            {
+                if (field.FieldType != typeof(float)) continue;
+                float before = (float)field.GetValue(stock);
+                bool offset = field.Name.EndsWith("Offset", StringComparison.Ordinal);
+                float value = SliderRow(inner, ref y, field.Name, before, offset ? -1f : 0f, 1f);
+                if (Mathf.Approximately(value, before)) continue;
+                EnsureUndoCheckpoint(CurrentEditKey(node) + ":stock");
+                field.SetValue(stock, value);
                 root.InvalidateTree();
             }
         }
@@ -1891,6 +1898,7 @@ namespace Helodrace.ModernWar
                     builder.AppendLine("<fireDelayMultiplier>"
                         + Number(props.fireDelayMultiplier) + "</fireDelayMultiplier>");
                 AppendInternalStats(builder, props.internalStats);
+                AppendStock(builder, props.stock);
                 AppendStatModifiers(builder, "statOffsets", props.statOffsets);
                 AppendStatModifiers(builder, "statFactors", props.statFactors);
                 if (props.burstShotCountOffset != 0)
@@ -2058,23 +2066,21 @@ namespace Helodrace.ModernWar
         {
             if (stats == null) return;
             builder.AppendLine("<internalStats>");
-            builder.AppendLine("  <massKg>" + Number(stats.massKg) + "</massKg>");
-            builder.AppendLine("  <recoilImpulse>" + Number(stats.recoilImpulse) + "</recoilImpulse>");
-            builder.AppendLine("  <ergonomics>" + Number(stats.ergonomics) + "</ergonomics>");
-            builder.AppendLine("  <muzzleRise>" + Number(stats.muzzleRise) + "</muzzleRise>");
-            builder.AppendLine("  <operatingReliability>" + Number(stats.operatingReliability) + "</operatingReliability>");
-            builder.AppendLine("  <gasFlow>" + Number(stats.gasFlow) + "</gasFlow>");
-            builder.AppendLine("  <centerOfMassOffsetMeters>" + Number(stats.centerOfMassOffsetMeters) + "</centerOfMassOffsetMeters>");
-            builder.AppendLine("  <momentOfInertia>" + Number(stats.momentOfInertia) + "</momentOfInertia>");
-            builder.AppendLine("  <targetAcquisition>" + Number(stats.targetAcquisition) + "</targetAcquisition>");
-            builder.AppendLine("  <aimingPrecision>" + Number(stats.aimingPrecision) + "</aimingPrecision>");
-            builder.AppendLine("  <identificationDistanceMeters>" + Number(stats.identificationDistanceMeters) + "</identificationDistanceMeters>");
-            builder.AppendLine("  <barrelLengthInches>" + Number(stats.barrelLengthInches) + "</barrelLengthInches>");
-            builder.AppendLine("  <muzzleVelocityOffsetMetersPerSecond>" + Number(stats.muzzleVelocityOffsetMetersPerSecond) + "</muzzleVelocityOffsetMetersPerSecond>");
-            builder.AppendLine("  <damageTransfer>" + Number(stats.damageTransfer) + "</damageTransfer>");
-            builder.AppendLine("  <penetrationEfficiency>" + Number(stats.penetrationEfficiency) + "</penetrationEfficiency>");
-            builder.AppendLine("  <rangeAdjustmentPercent>" + Number(stats.rangeAdjustmentPercent) + "</rangeAdjustmentPercent>");
+            foreach (var field in typeof(ModularWeaponInternalStats).GetFields())
+                builder.AppendLine("  <" + field.Name + ">" + Number((float)field.GetValue(stats))
+                    + "</" + field.Name + ">");
             builder.AppendLine("</internalStats>");
+        }
+
+        private static void AppendStock(StringBuilder builder, ModularWeaponStockProperties stock)
+        {
+            if (stock == null) return;
+            builder.AppendLine("<stock>");
+            foreach (var field in typeof(ModularWeaponStockProperties).GetFields())
+                builder.AppendLine("  <" + field.Name + ">"
+                    + (field.FieldType == typeof(bool) ? ((bool)field.GetValue(stock) ? "true" : "false")
+                        : Number((float)field.GetValue(stock))) + "</" + field.Name + ">");
+            builder.AppendLine("</stock>");
         }
 
         private static void AppendSight(
@@ -2087,8 +2093,8 @@ namespace Helodrace.ModernWar
             builder.AppendLine("  <integrated>" + sight.integrated.ToString().ToLowerInvariant() + "</integrated>");
             builder.AppendLine("  <axisOffset>" + Vector(sight.axisOffset)
                 + "</axisOffset>");
-            builder.AppendLine("  <aimRadius>" + Number(sight.aimRadius)
-                + "</aimRadius>");
+            builder.AppendLine("  <sightClearanceRadius>" + Number(sight.sightClearanceRadius)
+                + "</sightClearanceRadius>");
             builder.AppendLine("  <selectionPriority>"
                 + Number(sight.selectionPriority) + "</selectionPriority>");
             builder.AppendLine("</sight>");
@@ -2381,6 +2387,7 @@ namespace Helodrace.ModernWar
             private readonly float fireDelayMultiplier;
             private readonly float sightGroupHeightTolerance;
             private readonly ModularWeaponInternalStats internalStats;
+            private readonly ModularWeaponStockProperties stock;
             private readonly float verticalOccupancy;
             private readonly float verticalOccupancyOffset;
             private readonly int burstShotCountOffset;
@@ -2413,6 +2420,7 @@ namespace Helodrace.ModernWar
                 fireDelayMultiplier = props.fireDelayMultiplier;
                 sightGroupHeightTolerance = props.sightGroupHeightTolerance;
                 internalStats = CloneInternalStats(props.internalStats);
+                stock = props.stock?.Clone();
                 verticalOccupancy = props.verticalOccupancy;
                 verticalOccupancyOffset = props.verticalOccupancyOffset;
                 burstShotCountOffset = props.burstShotCountOffset;
@@ -2445,6 +2453,7 @@ namespace Helodrace.ModernWar
                 targetProps.fireDelayMultiplier = fireDelayMultiplier;
                 targetProps.sightGroupHeightTolerance = sightGroupHeightTolerance;
                 targetProps.internalStats = CloneInternalStats(internalStats);
+                targetProps.stock = stock?.Clone();
                 targetProps.verticalOccupancy = verticalOccupancy;
                 targetProps.verticalOccupancyOffset = verticalOccupancyOffset;
                 targetProps.burstShotCountOffset = burstShotCountOffset;
@@ -2465,26 +2474,7 @@ namespace Helodrace.ModernWar
             private static ModularWeaponInternalStats CloneInternalStats(
                 ModularWeaponInternalStats source)
             {
-                if (source == null) return null;
-                return new ModularWeaponInternalStats
-                {
-                    massKg = source.massKg,
-                    recoilImpulse = source.recoilImpulse,
-                    ergonomics = source.ergonomics,
-                    muzzleRise = source.muzzleRise,
-                    operatingReliability = source.operatingReliability,
-                    gasFlow = source.gasFlow,
-                    centerOfMassOffsetMeters = source.centerOfMassOffsetMeters,
-                    momentOfInertia = source.momentOfInertia,
-                    targetAcquisition = source.targetAcquisition,
-                    aimingPrecision = source.aimingPrecision,
-                    identificationDistanceMeters = source.identificationDistanceMeters,
-                    barrelLengthInches = source.barrelLengthInches,
-                    muzzleVelocityOffsetMetersPerSecond = source.muzzleVelocityOffsetMetersPerSecond,
-                    damageTransfer = source.damageTransfer,
-                    penetrationEfficiency = source.penetrationEfficiency,
-                    rangeAdjustmentPercent = source.rangeAdjustmentPercent
-                };
+                return source?.Clone();
             }
 
             private static ModularWeaponFlashlightProperties CloneFlashlight(
@@ -2558,7 +2548,7 @@ namespace Helodrace.ModernWar
                     kind = source.kind,
                     integrated = source.integrated,
                     axisOffset = source.axisOffset,
-                    aimRadius = source.aimRadius,
+                    sightClearanceRadius = source.sightClearanceRadius,
                     selectionPriority = source.selectionPriority
                 };
             }

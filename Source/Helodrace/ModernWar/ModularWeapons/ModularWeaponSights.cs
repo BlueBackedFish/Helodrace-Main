@@ -11,6 +11,7 @@ namespace Helodrace.ModernWar
         public float axisHeight;
         public int sightCount;
         public bool isActive;
+        public bool isSecondaryWeapon;
         public bool hasIronFront;
         public bool hasIronRear;
         public bool hasCompleteIronSight;
@@ -49,6 +50,7 @@ namespace Helodrace.ModernWar
             public ModularWeaponSightProperties props;
             public Vector2 axis;
             public ModularRailSurface mountSurface;
+            public CompModularWeaponNode weaponOwner;
         }
 
         private sealed class OccupancyRecord
@@ -66,6 +68,7 @@ namespace Helodrace.ModernWar
             public float AxisHeight => records.Count == 0
                 ? 0f
                 : heightSum / records.Count;
+            public CompModularWeaponNode Owner => records[0].weaponOwner;
 
             public void Add(SightRecord record)
             {
@@ -82,7 +85,7 @@ namespace Helodrace.ModernWar
             public SightRecord magnifier;
             public float axisX;
             public float axisHeight;
-            public float aimRadius;
+            public float sightClearanceRadius;
             public float priority;
             public float efficiency;
             public float score;
@@ -101,7 +104,7 @@ namespace Helodrace.ModernWar
             ModularSightResolution result = new ModularSightResolution();
             if (root == null || nodes.NullOrEmpty()) return result;
 
-            List<SightRecord> sights = BuildSightRecords(nodes);
+            List<SightRecord> sights = BuildSightRecords(nodes, root);
             if (sights.Count == 0) return result;
             List<OccupancyRecord> occupancies = BuildOccupancies(nodes);
             List<SightGroup> groups = BuildGroups(
@@ -116,12 +119,14 @@ namespace Helodrace.ModernWar
                 Candidate winner = BestCandidate(group, occupancies);
                 winners.Add(winner);
                 ModularSightGroupStatus status = BuildStatus(i, group, winner);
+                status.isSecondaryWeapon = group.Owner != root;
                 result.groups.Add(status);
                 if (winner == null || winner.efficiency <= 0f) continue;
                 float efficiency = winner.efficiency;
                 if (winner.primary?.mountSurface == ModularRailSurface.Side) efficiency *= 0.5f;
                 status.performance = ModularWeaponSightPerformance.For(
                     winner.Kind, winner.magnifier != null, efficiency);
+                if (status.isSecondaryWeapon) continue;
                 if (!hasPerformance)
                 {
                     // Do not let the unscoped fallback erase a scope's penalties.
@@ -137,6 +142,7 @@ namespace Helodrace.ModernWar
             for (int i = 0; i < winners.Count; i++)
             {
                 Candidate candidate = winners[i];
+                if (result.groups[i].isSecondaryWeapon) continue;
                 if (candidate == null || candidate.score <= 0f) continue;
                 if (active == null
                     || candidate.score > active.score + 0.0001f
@@ -150,6 +156,10 @@ namespace Helodrace.ModernWar
 
             if (active == null) return result;
             result.groups[activeIndex].isActive = true;
+            // Use one representative line's acquisition cost, never the minimum
+            // cost cherry-picked independently of the active optical group.
+            if (result.groups[activeIndex].performance != null)
+                result.performance.Warmup = result.groups[activeIndex].performance.Warmup;
             AddWeight(result, active.primary, active.efficiency);
             AddWeight(result, active.ironFront, active.efficiency);
             AddWeight(result, active.ironRear, active.efficiency);
@@ -158,19 +168,20 @@ namespace Helodrace.ModernWar
         }
 
         private static List<SightRecord> BuildSightRecords(
-            List<ModularRenderNode> nodes)
+            List<ModularRenderNode> nodes, CompModularWeaponNode root)
         {
             List<SightRecord> result = new List<SightRecord>();
             for (int i = 0; i < nodes.Count; i++)
             {
                 ModularRenderNode node = nodes[i];
                 ModularWeaponSightProperties sight = node.Props.sight;
-                if (sight == null || sight.aimRadius <= 0f) continue;
+                if (sight == null || sight.sightClearanceRadius <= 0f) continue;
                 Vector3 local = node.Props.graphicOffset + sight.axisOffset;
                 result.Add(new SightRecord
                 {
                     node = node,
                     props = sight,
+                    weaponOwner = WeaponOwner(node, nodes, root),
                     axis = node.transform.TransformPoint(local),
                     mountSurface = ModularWeaponPartPerformance.MountSurface(
                         node, nodes)
@@ -178,6 +189,18 @@ namespace Helodrace.ModernWar
             }
             result.Sort((a, b) => a.axis.y.CompareTo(b.axis.y));
             return result;
+        }
+
+        private static CompModularWeaponNode WeaponOwner(ModularRenderNode node,
+            List<ModularRenderNode> nodes, CompModularWeaponNode fallback)
+        {
+            for (int depth = 0; node != null && depth < 32; depth++)
+            {
+                if (node.Props.isAssemblyRoot || node.Props.isWeaponSubassembly) return node.comp;
+                CompModularWeaponNode parent = node.parentComp;
+                node = nodes.Find(n => n.comp == parent);
+            }
+            return fallback;
         }
 
         private static List<OccupancyRecord> BuildOccupancies(
@@ -230,6 +253,7 @@ namespace Helodrace.ModernWar
                 float bestDistance = float.MaxValue;
                 for (int j = 0; j < groups.Count; j++)
                 {
+                    if (groups[j].Owner != sight.weaponOwner) continue;
                     float distance = Mathf.Abs(groups[j].AxisHeight - sight.axis.y);
                     if (distance <= tolerance && distance < bestDistance)
                     {
@@ -274,7 +298,7 @@ namespace Helodrace.ModernWar
                     ironRear = rear,
                     axisX = rear.axis.x,
                     axisHeight = (front.axis.y + rear.axis.y) * 0.5f,
-                    aimRadius = Mathf.Min(front.props.aimRadius, rear.props.aimRadius),
+                    sightClearanceRadius = Mathf.Min(front.props.sightClearanceRadius, rear.props.sightClearanceRadius),
                     priority = Mathf.Max(
                         front.props.selectionPriority,
                         rear.props.selectionPriority)
@@ -294,7 +318,7 @@ namespace Helodrace.ModernWar
                     primary = record,
                     axisX = record.axis.x,
                     axisHeight = record.axis.y,
-                    aimRadius = record.props.aimRadius,
+                    sightClearanceRadius = record.props.sightClearanceRadius,
                     priority = record.props.selectionPriority
                 });
             }
@@ -347,8 +371,8 @@ namespace Helodrace.ModernWar
             out int blockerCount)
         {
             blockerCount = 0;
-            float minAim = candidate.axisHeight - candidate.aimRadius;
-            float maxAim = candidate.axisHeight + candidate.aimRadius;
+            float minAim = candidate.axisHeight - candidate.sightClearanceRadius;
+            float maxAim = candidate.axisHeight + candidate.sightClearanceRadius;
             if (maxAim <= minAim) return 0f;
 
             HashSet<int> excluded = new HashSet<int>();

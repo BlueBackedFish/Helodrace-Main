@@ -135,7 +135,7 @@ foreach ($part in $export.SelectNodes('/ModularWeaponPlacementBatchExport/parts/
             }
         }
     }
-    foreach ($relative in @('sight/axisOffset','sight/aimRadius','laser/emitterOffset','casingPort/offset','casingPort/feedStartOffset','casingPort/feedEndOffset','casingPort/feedingRoundDrawSize')) {
+    foreach ($relative in @('sight/axisOffset','sight/sightClearanceRadius','laser/emitterOffset','casingPort/offset','casingPort/feedStartOffset','casingPort/feedEndOffset','casingPort/feedingRoundDrawSize')) {
         $old=$current.SelectSingleNode($relative);$saved=$settings.SelectSingleNode($relative)
         if ($null -ne $saved -and $null -eq $current.SelectSingleNode($relative.Substring(0,$relative.IndexOf('/')))) { throw "Missing geometry owner: $defName/$relative" }
         CompareField $defName $old $saved "$basePath/$relative"

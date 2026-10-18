@@ -60,7 +60,6 @@ namespace Helodrace.ModernWar
             new ModularWeaponMuzzleSignature();
         private float gasTubeFlowSetting =
             ModularWeaponGasSystemUtility.DefaultSetting;
-        private bool fluxStockRailMigrationChecked;
 
         public CompProperties_ModularWeaponNode Props =>
             (CompProperties_ModularWeaponNode)props;
@@ -109,8 +108,6 @@ namespace Helodrace.ModernWar
             Scribe_Collections.Look(ref childSocketIds, "modularChildSocketIds", LookMode.Value);
             Scribe_Collections.Look(ref childMountIds, "modularChildMountIds", LookMode.Value);
             Scribe_Collections.Look(ref childRailOffsets, "modularChildRailOffsets", LookMode.Value);
-            Scribe_Values.Look(ref fluxStockRailMigrationChecked,
-                "modularFluxStockRailMigrationChecked", false);
             if (Props.isAssemblyRoot)
                 Scribe_Values.Look(
                     ref gasTubeFlowSetting,
@@ -359,8 +356,7 @@ namespace Helodrace.ModernWar
         {
             cooldownSeconds = Mathf.Max(
                 MinimumFireDelaySeconds,
-                cooldownSeconds * InstalledFireDelayMultiplier
-                    * RootComp().resolvedConvertedStats.VanillaCooldownFactor);
+                cooldownSeconds * RootComp().ConvertedStats.VanillaCooldownFactor);
         }
 
         public void ApplyMechanicalRpmFloor(ref float seconds)
@@ -487,6 +483,13 @@ namespace Helodrace.ModernWar
             root.EnsurePerformanceCache();
             List<ModularRenderNode> nodes = root.RenderSnapshot();
             StringBuilder partLines = new StringBuilder();
+            if (!ModsConfig.IsActive("ceteam.combatextended"))
+            {
+                var value = root.resolvedConvertedStats;
+                var band = stat == StatDefOf.AccuracyTouch ? value.Touch : stat == StatDefOf.AccuracyShort ? value.Short
+                    : stat == StatDefOf.AccuracyMedium ? value.Medium : stat == StatDefOf.AccuracyLong ? value.Long : null;
+                if (band != null) sb.AppendLine(whitespace + Dialog_ModularWeapon.AccuracyReport(band));
+            }
 
             for (int i = 0; i < nodes.Count; i++)
             {
@@ -1316,7 +1319,6 @@ namespace Helodrace.ModernWar
             RepairAssignmentLists();
             MigrateLegacyReceiverRailAssignments();
             MigrateLegacyM16LowerRailAssignments();
-            MigrateLegacyFluxStockRailOffset();
             for (int i = 0; i < children.Count; i++)
             {
                 Thing child = children[i];
@@ -1472,28 +1474,6 @@ namespace Helodrace.ModernWar
             }
 
             if (changed) InvalidateTree();
-        }
-
-        private void MigrateLegacyFluxStockRailOffset()
-        {
-            if (fluxStockRailMigrationChecked) return;
-            fluxStockRailMigrationChecked = true;
-            if (parent?.def?.defName != "HD_ModularPart_Receiver_FluxRaiderKit") return;
-
-            RepairAssignmentLists();
-            for (int i = 0; i < children.Count; i++)
-            {
-                if (childSocketIds[i] != "stock"
-                    || children[i]?.def?.defName != "HD_ModularPart_Stock_FluxRaiderKit"
-                    || !Mathf.Approximately(childRailOffsets[i], 0f))
-                    continue;
-
-                // Before the extension track existed, zero represented the authored
-                // placement. Preserve the latest fully extended authoring position.
-                childRailOffsets[i] = -0.121f;
-                InvalidateTree();
-                break;
-            }
         }
 
         private bool ContainsThingRecursive(Thing candidate, int depth)

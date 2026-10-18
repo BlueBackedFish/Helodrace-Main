@@ -34,7 +34,10 @@ namespace Helodrace.ModernWar
         }
     }
 
-    [HarmonyPatch(typeof(Verb), "get_WarmupTime")]
+    // Patch after vanilla's projectile verb has applied the equipment multiplier.
+    // Patching the base getter clamps too early and a faster build can then
+    // multiply that clamped value below the mechanical minimum again.
+    [HarmonyPatch(typeof(Verb_LaunchProjectile), "get_WarmupTime")]
     public static class Patch_Verb_WarmupTime_ModularWeapon
     {
         [HarmonyPostfix]
@@ -45,6 +48,17 @@ namespace Helodrace.ModernWar
             CompModularWeaponNode comp = __instance?.EquipmentSource
                 ?.TryGetComp<CompModularWeaponNode>();
             if (comp?.Props.isAssemblyRoot != true) return;
+            if (!ModsConfig.IsActive("ceteam.combatextended") && __instance.CurrentTarget.IsValid
+                && __instance.Caster?.Spawned == true)
+            {
+                var groups = comp.SightGroups;
+                float representativeCost = 1.12f;
+                foreach (var group in groups)
+                    if (group.isActive && group.performance != null)
+                        representativeCost = group.performance.Warmup;
+                float distance = __instance.Caster.Position.DistanceTo(__instance.CurrentTarget.Cell);
+                __result *= ModularWeaponSightPerformance.WarmupAtDistance(groups, distance) / representativeCost;
+            }
             comp.ApplyMechanicalRpmFloor(ref __result);
         }
     }

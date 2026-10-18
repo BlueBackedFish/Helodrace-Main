@@ -669,7 +669,7 @@ namespace Helodrace.ModernWar
             if (props?.sight != null)
                 details += "\n" + "HD_ModularWeapon_SightPartDetail".Translate(
                     props.sight.kind.ToString(),
-                    props.sight.aimRadius.ToString("0.###", CultureInfo.InvariantCulture));
+                    props.sight.sightClearanceRadius.ToString("0.###", CultureInfo.InvariantCulture));
             if (props != null && !props.ammunitionType.NullOrEmpty())
                 details += "\n" + "HD_ModularWeapon_AmmunitionPartDetail".Translate(
                     props.ammunitionType);

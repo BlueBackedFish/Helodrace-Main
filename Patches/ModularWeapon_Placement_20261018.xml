@@ -16,8 +16,8 @@
     <value><axisOffset>(0.283464,0,0.064929)</axisOffset></value>
   </Operation>
   <Operation Class="PatchOperationReplace">
-    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Barrel_M249E3_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sight/aimRadius</xpath>
-    <value><aimRadius>0.005</aimRadius></value>
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Barrel_M249E3_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sight/sightClearanceRadius</xpath>
+    <value><sightClearanceRadius>0.005</sightClearanceRadius></value>
   </Operation>
   <Operation Class="PatchOperationReplace">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_HandguardExt_MK14EBRTopRail"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="rail_top"]/transform</xpath>
@@ -112,8 +112,8 @@
     <value><axisOffset>(-0.213006,0,0.058734)</axisOffset></value>
   </Operation>
   <Operation Class="PatchOperationReplace">
-    <xpath>/Defs/ThingDef[defName="HD_ModularPart_TopCover_M249E3_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sight/aimRadius</xpath>
-    <value><aimRadius>0.007</aimRadius></value>
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_TopCover_M249E3_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sight/sightClearanceRadius</xpath>
+    <value><sightClearanceRadius>0.007</sightClearanceRadius></value>
   </Operation>
   <Operation Class="PatchOperationReplace">
     <xpath>/Defs/ThingDef[defName="HD_ModularPart_UpperReceiver_M16A1_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sockets/li[id="carry_handle_optic"]/transform</xpath>
@@ -128,8 +128,8 @@
     <value><axisOffset>(-0.172594,0,0.053074)</axisOffset></value>
   </Operation>
   <Operation Class="PatchOperationReplace">
-    <xpath>/Defs/ThingDef[defName="HD_ModularPart_UpperReceiver_M16A2_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sight/aimRadius</xpath>
-    <value><aimRadius>0.004</aimRadius></value>
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_UpperReceiver_M16A2_Part"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]/sight/sightClearanceRadius</xpath>
+    <value><sightClearanceRadius>0.004</sightClearanceRadius></value>
   </Operation>
   <Operation Class="PatchOperationReplace">
     <xpath>/Defs/Helodrace.ModernWar.ModularWeaponPresetDef[defName="HD_WeaponPreset_M249_USMC"]/parts/li[part="HD_ModularPart_TopCover_M249E3_Part" and socketId="top_cover"]/children/li[part="HD_ModularPart_OpticMount_LumiconTA51_Part" and socketId="rail_top"]/railOffset</xpath>

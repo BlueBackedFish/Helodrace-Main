@@ -12,7 +12,7 @@ namespace Helodrace.ModernWar
     {
         private sealed class StatBar
         {
-            public string Key, Label, Format;
+            public string Key, Label, Format, Explanation;
             public StatDef Stat;
             public float Value, Maximum;
             public bool LowerIsBetter;
@@ -35,7 +35,7 @@ namespace Helodrace.ModernWar
             List<StatBar> bars = new List<StatBar>
             {
                 FinalStatBar(StatDefOf.Mass, 15f, true),
-                FinalStatBar(StatDefOf.RangedWeapon_WarmupMultiplier, 2f, true),
+                Bar("WarmupSeconds", PreviewWarmupSeconds(root), 4f, "0.###' s'", true),
                 FinalStatBar(StatDefOf.RangedWeapon_Cooldown, 4f, true),
                 Bar("EffectiveRange", ModularWeaponRangeUtility.PreviewPrimaryRange(root.parent), 80f,
                     "0.#' " + "HD_ModularWeapon_Cells".Translate().ToString() + "'"),
@@ -69,12 +69,12 @@ namespace Helodrace.ModernWar
             List<StatBar> bars = new List<StatBar>
             {
                 Bar("Mass", value.MassKg, 15f, "0.##' kg'", true),
-                Bar("Ergonomics", value.Ergonomics, 1f, "P0"),
+                Bar("AimSpeed", value.AimSpeed, 1f, "P0"),
                 Bar("RecoilControl", value.RecoilControl, 1f, "P0"),
                 Bar("MuzzleControl", value.MuzzleControl, 1f, "P0"),
                 Bar("Handling", value.Handling, 1f, "P0"),
-                Bar("TargetAcquisition", value.TargetAcquisition, 1f, "P0"),
-                Bar("AimingPrecision", value.AimingPrecision, 1f, "P0"),
+                Bar("AimStability", value.AimStability, 1f, "P0"),
+                Bar("MechanicalPrecision", value.MechanicalPrecision, 1f, "P0"),
                 Bar("MechanicalRangeFactor", value.MechanicalRangeFactor, 1.5f, "P0"),
                 Bar("RangeFactor", value.RangeFactor, 1.5f, "P0"),
                 Bar("Reliability", value.OperatingReliability, 1f, "P1"),
@@ -86,6 +86,12 @@ namespace Helodrace.ModernWar
                 Bar("GasEfficiency", value.GasEfficiency, 1.35f, "P0")
             };
             if (!CombatExtendedActive) AddBallisticStatBars(bars, true);
+            bars.Add(Bar("HandlingLength", value.HandlingLengthMeters, 1.5f, "0.###' m'", true));
+            if (value.HasStock)
+            {
+                bars.Add(Bar("StockExtension", value.StockExtension, 1f, "P0"));
+                bars.Add(Bar("StockSupport", value.StockSupport, 1f, "P0"));
+            }
             return bars;
         }
 
@@ -116,9 +122,27 @@ namespace Helodrace.ModernWar
             bars.Add(Bar("FragmentationChance", value.FragmentationChanceAt(), 1f, "P1"));
         }
 
+        internal static float PreviewWarmupSeconds(CompModularWeaponNode weapon)
+        {
+            var verbs = weapon.parent.def.Verbs;
+            VerbProperties verb = verbs?.FirstOrDefault(v => v.isPrimary) ?? verbs?.FirstOrDefault();
+            return Mathf.Max(weapon.MinimumFireDelaySeconds, (verb?.warmupTime ?? 0f)
+                * weapon.parent.GetStatValue(StatDefOf.RangedWeapon_WarmupMultiplier));
+        }
+
         private StatBar FinalStatBar(StatDef stat, float maximum, bool lowerIsBetter = false)
-            => new StatBar { Key = stat.defName, Label = stat.LabelCap, Stat = stat,
-                Value = root.parent.GetStatValue(stat), Maximum = maximum, LowerIsBetter = lowerIsBetter };
+        {
+            var value = root.ConvertedStats;
+            var band = stat == StatDefOf.AccuracyTouch ? value.Touch : stat == StatDefOf.AccuracyShort ? value.Short
+                : stat == StatDefOf.AccuracyMedium ? value.Medium : stat == StatDefOf.AccuracyLong ? value.Long : null;
+            return new StatBar { Key = stat.defName, Label = stat.LabelCap, Stat = stat,
+                Value = root.parent.GetStatValue(stat), Maximum = maximum, LowerIsBetter = lowerIsBetter,
+                Explanation = band == null ? null : AccuracyReport(band) };
+        }
+
+        internal static string AccuracyReport(ModularWeaponAccuracyBand band) =>
+            "HD_ModularWeapon_AccuracyBreakdown".Translate(band.MechanicalCeiling.ToStringPercent(),
+                band.SightEfficiency.ToStringPercent(), band.HoldEfficiency.ToStringPercent(), band.Accuracy.ToStringPercent());
 
         private void AddFinalStatBar(List<StatBar> bars, string name, float maximum, bool lowerIsBetter = false)
         {
@@ -210,6 +234,7 @@ namespace Helodrace.ModernWar
                 Widgets.DrawBoxSolid(new Rect(Mathf.Clamp(track.x + track.width * target - 1f,
                     track.x, track.xMax - 2f), track.y - 2f, 2f, track.height + 4f), Color.white);
                 string tip = bar.Label + ": " + bar.FormatValue(bar.Value);
+                if (!bar.Explanation.NullOrEmpty()) tip += "\n" + bar.Explanation;
                 if (changed)
                     tip += "\n" + "HD_ModularWeapon_StatChange".Translate(
                         bar.FormatValue(motion.PreviousTarget), bar.FormatValue(bar.Value));
@@ -234,6 +259,7 @@ namespace Helodrace.ModernWar
             if (verb != null) text += "\n" + "HD_ModularWeapon_BurstShots".Translate(root.ApplyBurstShotCount(verb.burstShotCount));
             if (!CombatExtendedActive && root.ConvertedStats.Ballistics != null)
                 text += "\n" + "HD_ModularWeapon_BallisticsHint".Translate();
+            text += "\n" + "HD_ModularWeapon_TimingHint".Translate();
             return text;
         }
     }
