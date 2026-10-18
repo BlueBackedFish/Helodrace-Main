@@ -52,6 +52,7 @@ internal static class Program
     {
         try
         {
+            if (args.Contains("--sniper-support")) { SniperSupportTests.Run(); return 0; }
             if (args.Contains("--prisoners")) { TacticalPrisonerTests.Run(); TacticalCasualtyTests.Run(); TacticalHighCqbTests.Run(); return 0; }
             if (args.Contains("--room-watch")) { TacticalRoomWatchTests.Run(); TacticalEntryCombatTests.Run(); TacticalHighCqbTests.Run(); return 0; }
             if (args.Contains("--facing")) { TacticalFacingTests.Run(); return 0; }

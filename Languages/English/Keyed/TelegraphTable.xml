@@ -22,12 +22,25 @@
   <HD_TelegraphTable_Military_Title>Military cooperation</HD_TelegraphTable_Military_Title>
   <HD_TelegraphTable_Military_Placeholder>Military liaison is available. Support requests and forward base contracts will be connected here later.</HD_TelegraphTable_Military_Placeholder>
   <HD_TelegraphTable_Military_RequestSupport>Request support</HD_TelegraphTable_Military_RequestSupport>
-  <HD_SniperSupport_ModePrompt>Select sniper support mode.</HD_SniperSupport_ModePrompt>
+  <HD_SniperSupport_ControlTitle>Sniper support control</HD_SniperSupport_ControlTitle>
+  <HD_SniperSupport_SetupDesc>Select a map edge and request support for {0} in-game hours with {1} actions. Each target request fires one shot.</HD_SniperSupport_SetupDesc>
+  <HD_SniperSupport_Direction_North>North</HD_SniperSupport_Direction_North>
+  <HD_SniperSupport_Direction_East>East</HD_SniperSupport_Direction_East>
+  <HD_SniperSupport_Direction_South>South</HD_SniperSupport_Direction_South>
+  <HD_SniperSupport_Direction_West>West</HD_SniperSupport_Direction_West>
+  <HD_SniperSupport_NotRequested>Support has not been requested.</HD_SniperSupport_NotRequested>
+  <HD_SniperSupport_Status>Direction: {0}\nTime remaining: {1} | Actions remaining: {2} / {3}</HD_SniperSupport_Status>
+  <HD_SniperSupport_Request>Request sniper support</HD_SniperSupport_Request>
+  <HD_SniperSupport_Ready>Sniper support is ready on the {0} map edge.</HD_SniperSupport_Ready>
+  <HD_SniperSupport_NotReady>Request active sniper support with actions remaining first. Only one shot can be pending per team.</HD_SniperSupport_NotReady>
+  <HD_SniperSupport_Busy>The sniper is handling a request. The direction stays fixed until support ends.</HD_SniperSupport_Busy>
+  <HD_SniperSupport_TargetHint>Select an enemy visible from the chosen edge. A request consumes one action and one service use; telegraph requests also consume one primary cell.</HD_SniperSupport_TargetHint>
+  <HD_SniperSupport_DuplicateTarget>Sniper support is already aiming at that target.</HD_SniperSupport_DuplicateTarget>
+  <HD_SniperSupport_CallerUnavailable>The radio operator cannot request support right now.</HD_SniperSupport_CallerUnavailable>
   <HD_SniperSupport_Suppress>Sniper support: suppress</HD_SniperSupport_Suppress>
   <HD_SniperSupport_Kill>Sniper support: kill</HD_SniperSupport_Kill>
-  <HD_SniperSupport_CommandDesc>Call a forward-base sniper shot on a visible pawn or building. The target must be visible from the map edge.</HD_SniperSupport_CommandDesc>
   <HD_SniperSupport_Unavailable>No contracted sniper support is in range.</HD_SniperSupport_Unavailable>
-  <HD_SniperSupport_InvalidTarget>The target is not visible from the map edge.</HD_SniperSupport_InvalidTarget>
+  <HD_SniperSupport_InvalidTarget>Select an enemy visible from the chosen map edge.</HD_SniperSupport_InvalidTarget>
   <HD_SniperSupport_Called>Sniper support is aiming.</HD_SniperSupport_Called>
   <HD_SniperSupport_LostTarget>Sniper support lost the target.</HD_SniperSupport_LostTarget>
   <HD_TelegraphTable_Support_Title>Forward-base support request</HD_TelegraphTable_Support_Title>
@@ -40,7 +53,7 @@
   <HD_TelegraphTable_Support_Mortar>Mortar support: {0}</HD_TelegraphTable_Support_Mortar>
   <HD_TelegraphTable_Support_MortarSelect>Mortar support — select ammunition</HD_TelegraphTable_Support_MortarSelect>
   <HD_TelegraphTable_Support_Catalog>Contracted support services</HD_TelegraphTable_Support_Catalog>
-  <HD_TelegraphTable_Support_SniperDesc>Choose suppression or precision kill support.</HD_TelegraphTable_Support_SniperDesc>
+  <HD_TelegraphTable_Support_SniperDesc>Select a direction and request timed sniper support. Choose targets for each shot.</HD_TelegraphTable_Support_SniperDesc>
   <HD_TelegraphTable_Support_MortarCatalog>Mortar support</HD_TelegraphTable_Support_MortarCatalog>
   <HD_TelegraphTable_Support_MortarDesc>Choose ammunition, then designate the bombardment area.</HD_TelegraphTable_Support_MortarDesc>
   <HD_TelegraphTable_Support_Select>Select service</HD_TelegraphTable_Support_Select>

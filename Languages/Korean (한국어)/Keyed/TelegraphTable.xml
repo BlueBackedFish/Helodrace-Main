@@ -22,12 +22,25 @@
   <HD_TelegraphTable_Military_Title>군사 협력</HD_TelegraphTable_Military_Title>
   <HD_TelegraphTable_Military_Placeholder>군사 연락망이 열려 있습니다. 지원 요청과 전진기지 구축 계약은 나중에 이 화면에 연결됩니다.</HD_TelegraphTable_Military_Placeholder>
   <HD_TelegraphTable_Military_RequestSupport>지원 요청</HD_TelegraphTable_Military_RequestSupport>
-  <HD_SniperSupport_ModePrompt>저격지원 방식을 선택합니다.</HD_SniperSupport_ModePrompt>
+  <HD_SniperSupport_ControlTitle>저격지원 통제</HD_SniperSupport_ControlTitle>
+  <HD_SniperSupport_SetupDesc>맵 방면을 선택해 게임 내 {0}시간 동안 {1}회 행동할 저격지원을 요청합니다. 표적 요청마다 한 발씩 사격합니다.</HD_SniperSupport_SetupDesc>
+  <HD_SniperSupport_Direction_North>북쪽</HD_SniperSupport_Direction_North>
+  <HD_SniperSupport_Direction_East>동쪽</HD_SniperSupport_Direction_East>
+  <HD_SniperSupport_Direction_South>남쪽</HD_SniperSupport_Direction_South>
+  <HD_SniperSupport_Direction_West>서쪽</HD_SniperSupport_Direction_West>
+  <HD_SniperSupport_NotRequested>아직 저격지원을 요청하지 않았습니다.</HD_SniperSupport_NotRequested>
+  <HD_SniperSupport_Status>지원 방면: {0}\n남은 시간: {1} | 남은 행동: {2} / {3}회</HD_SniperSupport_Status>
+  <HD_SniperSupport_Request>저격지원 요청</HD_SniperSupport_Request>
+  <HD_SniperSupport_Ready>맵 {0} 방면의 저격지원이 준비되었습니다.</HD_SniperSupport_Ready>
+  <HD_SniperSupport_NotReady>남은 행동이 있는 저격지원을 먼저 요청해야 합니다. 한 팀은 사격 요청 하나씩 처리합니다.</HD_SniperSupport_NotReady>
+  <HD_SniperSupport_Busy>저격수가 요청을 수행 중입니다. 지원이 끝날 때까지 방면이 고정됩니다.</HD_SniperSupport_Busy>
+  <HD_SniperSupport_TargetHint>선택한 방면에서 보이는 적을 지정하세요. 요청마다 행동 1회와 서비스 1회를 사용하며, 전신 요청은 1차 전지 1개도 소모합니다.</HD_SniperSupport_TargetHint>
+  <HD_SniperSupport_DuplicateTarget>저격지원이 이미 해당 표적을 조준하고 있습니다.</HD_SniperSupport_DuplicateTarget>
+  <HD_SniperSupport_CallerUnavailable>무전병이 현재 지원을 요청할 수 없습니다.</HD_SniperSupport_CallerUnavailable>
   <HD_SniperSupport_Suppress>저격지원: 제압</HD_SniperSupport_Suppress>
   <HD_SniperSupport_Kill>저격지원: 사살</HD_SniperSupport_Kill>
-  <HD_SniperSupport_CommandDesc>전진기지 저격수를 호출해 시야에 잡힌 폰이나 구조물을 사격합니다. 대상은 맵 경계에서 시야가 닿아야 합니다.</HD_SniperSupport_CommandDesc>
   <HD_SniperSupport_Unavailable>범위 내에 계약된 저격지원이 없습니다.</HD_SniperSupport_Unavailable>
-  <HD_SniperSupport_InvalidTarget>대상이 맵 경계 시야에 닿지 않습니다.</HD_SniperSupport_InvalidTarget>
+  <HD_SniperSupport_InvalidTarget>선택한 맵 방면에서 보이는 적을 지정해야 합니다.</HD_SniperSupport_InvalidTarget>
   <HD_SniperSupport_Called>저격지원이 조준을 시작했습니다.</HD_SniperSupport_Called>
   <HD_SniperSupport_LostTarget>저격지원이 대상을 놓쳤습니다.</HD_SniperSupport_LostTarget>
   <HD_TelegraphTable_Support_Title>전진기지 지원 요청</HD_TelegraphTable_Support_Title>
@@ -40,7 +53,7 @@
   <HD_TelegraphTable_Support_Mortar>박격포 지원: {0}</HD_TelegraphTable_Support_Mortar>
   <HD_TelegraphTable_Support_MortarSelect>박격포 지원 — 탄종 선택</HD_TelegraphTable_Support_MortarSelect>
   <HD_TelegraphTable_Support_Catalog>계약 지원 서비스</HD_TelegraphTable_Support_Catalog>
-  <HD_TelegraphTable_Support_SniperDesc>제압 사격 또는 정밀 사살 지원을 선택합니다.</HD_TelegraphTable_Support_SniperDesc>
+  <HD_TelegraphTable_Support_SniperDesc>방면과 제한시간이 있는 저격지원을 요청하고, 사격마다 표적을 지정합니다.</HD_TelegraphTable_Support_SniperDesc>
   <HD_TelegraphTable_Support_MortarCatalog>박격포 지원</HD_TelegraphTable_Support_MortarCatalog>
   <HD_TelegraphTable_Support_MortarDesc>탄종을 선택한 뒤 포격 범위를 지정합니다.</HD_TelegraphTable_Support_MortarDesc>
   <HD_TelegraphTable_Support_Select>서비스 선택</HD_TelegraphTable_Support_Select>

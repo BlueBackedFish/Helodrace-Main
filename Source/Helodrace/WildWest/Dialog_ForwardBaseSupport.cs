@@ -39,7 +39,7 @@ namespace Helodrace
             Widgets.Label(new Rect(rect.x, y, rect.width, 28f), "HD_TelegraphTable_Support_Catalog".Translate());
             Text.Font = GameFont.Small;
             y += 34f;
-            bool sniper = selectedMap != null && HelodSniperSupportUtility.CanUseBase(selectedMap, selectedBase);
+            bool sniper = selectedMap != null && HelodSniperSupportUtility.IsBaseInRange(selectedMap, selectedBase);
             bool mortar = selectedMap != null && HelodMortarSupportUtility.CanUseBase(selectedMap, selectedBase) && HelodForwardBaseServiceUtility.AvailableMortarShells().Count > 0;
             bool artillery105 = selectedMap != null && HelodMortarSupportUtility.CanUseBase(selectedMap, selectedBase, HelodForwardBaseService.Artillery105mmSupport) && HelodForwardBaseServiceUtility.AvailableSupportShells(HelodForwardBaseService.Artillery105mmSupport).Count > 0;
             bool artillery155 = selectedMap != null && HelodMortarSupportUtility.CanUseBase(selectedMap, selectedBase, HelodForwardBaseService.Artillery155mmSupport) && HelodForwardBaseServiceUtility.AvailableSupportShells(HelodForwardBaseService.Artillery155mmSupport).Count > 0;
@@ -50,7 +50,7 @@ namespace Helodrace
                 int cardIndex = 0;
                 if (selectedBase.HasService(HelodForwardBaseService.InfantrySniperSupport))
                 {
-                    DrawServiceCard(CardRect(rect, y, cardWidth, cardIndex), "HD_TelegraphTable_Support_Sniper".Translate(), "HD_TelegraphTable_Support_SniperDesc".Translate(), sniper, OpenSniperModes);
+                    DrawServiceCard(CardRect(rect, y, cardWidth, cardIndex), "HD_TelegraphTable_Support_Sniper".Translate(), "HD_TelegraphTable_Support_SniperDesc".Translate(), sniper, OpenSniperControl);
                     cardIndex++;
                 }
                 if (selectedBase.HasService(HelodForwardBaseService.InfantryMortarSupport))
@@ -125,11 +125,11 @@ namespace Helodrace
             Find.WindowStack.Add(new Dialog_ForwardBaseSupport(faction, telegraphDialog, telegraphComp) { selectedBase = selectedBase, selectedMap = selectedMap });
         }
 
-        private void OpenSniperModes()
+        private void OpenSniperControl()
         {
             Map map = selectedMap; HelodForwardBase b = selectedBase;
             CloseForServiceSelection();
-            Find.WindowStack.Add(new Dialog_MessageBox("HD_SniperSupport_ModePrompt".Translate(), "HD_SniperSupport_Suppress".Translate(), () => HelodSniperSupportUtility.BeginTargeting(map, HelodSniperSupportMode.Suppress, b, telegraphComp), "HD_SniperSupport_Kill".Translate(), () => HelodSniperSupportUtility.BeginTargeting(map, HelodSniperSupportMode.Kill, b, telegraphComp)));
+            HelodSniperSupportUtility.OpenSupportDialog(map, b, telegraphComp);
         }
 
         private static void DrawServiceCard(Rect rect, string title, string description, bool available, System.Action action)

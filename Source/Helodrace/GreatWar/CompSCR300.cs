@@ -231,12 +231,7 @@ namespace Helodrace
                     HelodHelicopterSupport.Request(map, selectedBase, wearer, service);
                     break;
                 case HelodForwardBaseService.InfantrySniperSupport:
-                    Find.WindowStack.Add(new Dialog_MessageBox(
-                        "HD_SniperSupport_ModePrompt".Translate(),
-                        "HD_SniperSupport_Suppress".Translate(),
-                        () => HelodSniperSupportUtility.BeginTargeting(map, HelodSniperSupportMode.Suppress, selectedBase),
-                        "HD_SniperSupport_Kill".Translate(),
-                        () => HelodSniperSupportUtility.BeginTargeting(map, HelodSniperSupportMode.Kill, selectedBase)));
+                    HelodSniperSupportUtility.OpenSupportDialog(map, selectedBase, null, wearer);
                     break;
                 case HelodForwardBaseService.InfantryMortarSupport:
                     Find.WindowStack.Add(new Dialog_MortarAmmoSelection(map, selectedBase, null, wearer));
@@ -397,9 +392,10 @@ namespace Helodrace
                     : "HD_W48_NotReady".Translate().ToString();
             }
 
-            // Keep the CAS operations panel available as a status display even
+            // Keep support control panels available as status displays even
             // when the base cannot accept another attack request.
             if (service != HelodForwardBaseService.CloseAirSupport
+                && service != HelodForwardBaseService.InfantrySniperSupport
                 && !selectedBase.HasServiceCapacity(service))
             {
                 return "HD_SCR300_ServiceUnavailable".Translate().ToString();

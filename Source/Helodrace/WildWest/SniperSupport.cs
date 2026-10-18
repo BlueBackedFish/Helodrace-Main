@@ -16,12 +16,9 @@ namespace Helodrace
     [StaticConstructorOnStartup]
     public static class HelodSniperSupportUtility
     {
-        private const int AimTicks = 120;
-        public const int MaxShots = 5;
+        public const int AimTicks = 120;
         public const int HiddenCancelTicks = 30 * 60;
         public const int TrailDurationTicks = 36;
-        private const int MinRetryTicks = 240;
-        private const int MaxRetryTicks = 300;
         private const string SniperProjectileDefName = "HD_Bullet_SprMThree_Proj";
         private const string SniperWeaponDefName = "HD_Gun_M1903A4_Weapon";
         private const string HitSoundDefName = "HD_Snipe";
@@ -37,235 +34,108 @@ namespace Helodrace
         private const float FallbackSniperArmorPenetration = 0.30f;
         private static Thing sniperWeaponForStats;
 
-        public static readonly Texture2D CommandIcon = ContentFinder<Texture2D>.Get("Icons/HD_Icon_Aimed", false) ?? BaseContent.BadTex;
         public static readonly Material AimMaterial = MaterialPool.MatFrom("Icons/HD_Icon_Aimed", ShaderDatabase.Transparent);
         public static readonly Material TrailGlowMaterial = SolidColorMaterials.SimpleSolidColorMaterial(new Color(1f, 0.62f, 0.18f, 0.50f), false);
         public static readonly Material TrailCoreMaterial = SolidColorMaterials.SimpleSolidColorMaterial(new Color(1f, 0.96f, 0.68f, 0.95f), false);
 
-        public static void OpenSupportDialog(Map map)
+        public static string DirectionLabel(HelodSniperSupportDirection direction)
         {
-            OpenSupportDialog(map, null);
+            return ("HD_SniperSupport_Direction_" + direction).Translate().ToString();
         }
 
-        public static void OpenSupportDialog(Map map, Faction faction)
+        public static void OpenSupportDialog(Map map, HelodForwardBase forwardBase,
+            CompTelegraphTable telegraphComp = null, Pawn caller = null)
         {
-            if (!HasSniperSupport(map, faction))
+            if (!IsBaseInRange(map, forwardBase))
             {
                 Messages.Message("HD_SniperSupport_Unavailable".Translate(), MessageTypeDefOf.RejectInput);
                 return;
             }
-
-            Find.WindowStack.Add(new Dialog_MessageBox(
-                "HD_SniperSupport_ModePrompt".Translate(),
-                "HD_SniperSupport_Suppress".Translate(),
-                () => BeginTargeting(map, HelodSniperSupportMode.Suppress, faction),
-                "HD_SniperSupport_Kill".Translate(),
-                () => BeginTargeting(map, HelodSniperSupportMode.Kill, faction),
-                null,
-                true
-            ));
+            Find.WindowStack.Add(new Dialog_HelodSniperControl(map, forwardBase, telegraphComp, caller));
         }
 
-        public static bool HasSniperSupport(Map map)
+        public static bool IsBaseInRange(Map map, HelodForwardBase forwardBase)
         {
-            return HasSniperSupport(map, null);
+            if (map == null || forwardBase == null || forwardBase.Tile < 0
+                || !forwardBase.HasService(HelodForwardBaseService.InfantrySniperSupport)) return false;
+            int tile = map.Tile >= 0 ? map.Tile : map.Parent?.Tile ?? -1;
+            return tile >= 0 && Find.WorldGrid.ApproxDistanceInTiles(forwardBase.Tile, tile)
+                <= HelodForwardBaseServiceUtility.SupportRange(HelodForwardBaseService.InfantrySniperSupport);
         }
 
-        public static bool HasSniperSupport(Map map, Faction faction)
+        public static string RequestRejection(Map map, HelodForwardBase forwardBase,
+            CompTelegraphTable telegraphComp, Pawn caller)
         {
-            HelodForwardBase forwardBase;
-            float distance;
-            return TryFindSniperBase(map, faction, out forwardBase, out distance);
+            if (!IsBaseInRange(map, forwardBase)
+                || !forwardBase.HasServiceCapacity(HelodForwardBaseService.InfantrySniperSupport))
+                return "HD_SniperSupport_Unavailable".Translate().ToString();
+            if (telegraphComp != null && !telegraphComp.HasPrimaryCell)
+                return "HD_TelegraphTable_ActionNeedsPrimaryCell".Translate().ToString();
+            if (caller != null && (caller.Dead || caller.Downed || !caller.Spawned || caller.Map != map))
+                return "HD_SniperSupport_CallerUnavailable".Translate().ToString();
+            if (caller != null && SCR300RadioUtility.IsBlackout(map))
+                return "HD_SCR300_SolarFlare".Translate().ToString();
+            return null;
         }
 
-        public static void BeginTargeting(Map map, HelodSniperSupportMode mode)
+        public static void BeginTargeting(Map map, HelodSniperSupportMode mode,
+            HelodForwardBase forwardBase, CompTelegraphTable telegraphComp, Pawn caller)
         {
-            BeginTargeting(map, mode, (Faction)null);
-        }
-
-        public static void BeginTargeting(Map map, HelodSniperSupportMode mode, Faction faction)
-        {
-            if (map == null)
+            string rejection = RequestRejection(map, forwardBase, telegraphComp, caller);
+            if (rejection != null)
             {
+                Messages.Message(rejection, MessageTypeDefOf.RejectInput);
                 return;
             }
-
-            if (!HasSniperSupport(map, faction))
+            MapComponent_HelodSniperSupport support = map.GetComponent<MapComponent_HelodSniperSupport>();
+            HelodSniperSupportSession session = support.GetSession(forwardBase);
+            if (session?.CanRequestShot(Find.TickManager.TicksGame) != true || support.HasActiveStrike(forwardBase))
             {
-                Messages.Message("HD_SniperSupport_Unavailable".Translate(), MessageTypeDefOf.RejectInput);
-                return;
-            }
-
-            Find.Targeter.BeginTargeting(TargetingParameters(map), target => TryCallSupport(map, target.Thing, mode, faction));
-        }
-
-        public static void BeginTargeting(Map map, HelodSniperSupportMode mode, HelodForwardBase forwardBase)
-        {
-            BeginTargeting(map, mode, forwardBase, null);
-        }
-
-        public static void BeginTargeting(Map map, HelodSniperSupportMode mode, HelodForwardBase forwardBase, CompTelegraphTable telegraphComp)
-        {
-            if (map == null || !CanUseBase(map, forwardBase))
-            {
-                Messages.Message("HD_SniperSupport_Unavailable".Translate(), MessageTypeDefOf.RejectInput);
+                Messages.Message("HD_SniperSupport_NotReady".Translate(), MessageTypeDefOf.RejectInput);
                 return;
             }
             Current.Game.CurrentMap = map;
             Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
-            CameraJumper.TryJump(new TargetInfo(map.Center, map));
-            Find.Targeter.BeginTargeting(TargetingParameters(map), target => TryCallSupport(map, target.Thing, mode, forwardBase, telegraphComp));
-        }
-
-        public static bool CanUseBase(Map map, HelodForwardBase forwardBase)
-        {
-            if (map == null || forwardBase == null || !forwardBase.HasService(HelodForwardBaseService.InfantrySniperSupport)
-                || !forwardBase.HasServiceCapacity(HelodForwardBaseService.InfantrySniperSupport)) return false;
-            int tile = map.Tile >= 0 ? map.Tile : map.Parent?.Tile ?? -1;
-            return tile >= 0 && Find.WorldGrid.ApproxDistanceInTiles(forwardBase.Tile, tile) <= HelodForwardBaseServiceUtility.SupportRange(HelodForwardBaseService.InfantrySniperSupport);
-        }
-
-        private static TargetingParameters TargetingParameters(Map map)
-        {
-            return new TargetingParameters
+            CameraJumper.TryJump(new TargetInfo(caller?.Position ?? map.Center, map));
+            Find.Targeter.BeginTargeting(new TargetingParameters
             {
                 canTargetPawns = true,
                 canTargetBuildings = true,
                 canTargetItems = false,
                 canTargetLocations = false,
-                validator = target => IsValidTarget(map, target.Thing)
-            };
+                validator = target => IsValidTarget(map, target.Thing, session.Direction)
+            }, target =>
+            {
+                if (support.TryQueueStrike(target.Thing, mode, session, telegraphComp, caller))
+                    Messages.Message("HD_SniperSupport_Called".Translate(), target.Thing, MessageTypeDefOf.NeutralEvent);
+            });
         }
 
-        private static bool TryCallSupport(Map map, Thing target, HelodSniperSupportMode mode, Faction faction)
+        public static bool IsValidTarget(Map map, Thing target, HelodSniperSupportDirection direction)
         {
-            IntVec3 edgeCell;
-            if (!IsValidTarget(map, target, out edgeCell))
-            {
-                Messages.Message("HD_SniperSupport_InvalidTarget".Translate(), MessageTypeDefOf.RejectInput);
-                return false;
-            }
-
-            HelodForwardBase forwardBase;
-            float distance;
-            if (!TryFindSniperBase(map, faction, out forwardBase, out distance))
-            {
-                Messages.Message("HD_SniperSupport_Unavailable".Translate(), MessageTypeDefOf.RejectInput);
-                return false;
-            }
-
-            MapComponent_HelodSniperSupport sniperComponent = map.GetComponent<MapComponent_HelodSniperSupport>();
-            if (sniperComponent.HasActiveStrikeOnTarget(target))
-            {
-                Messages.Message("Sniper support is already aiming at that target.", target, MessageTypeDefOf.RejectInput);
-                return false;
-            }
-
-            if (forwardBase.ShouldRecordServiceUseOnCall(HelodForwardBaseService.InfantrySniperSupport)
-                && !forwardBase.TryConsumeServiceUse(HelodForwardBaseService.InfantrySniperSupport, out string failReason))
-            {
-                Messages.Message(failReason ?? "HD_SniperSupport_Unavailable".Translate().ToString(), MessageTypeDefOf.RejectInput);
-                return false;
-            }
-
-            sniperComponent.QueueStrike(target, mode, AimTicks, forwardBase);
-            Messages.Message("HD_SniperSupport_Called".Translate(), target, MessageTypeDefOf.NeutralEvent);
-            return true;
+            return IsEligibleTarget(map, target) && EdgeSightCells(map, target, direction).Count > 0;
         }
 
-        private static bool TryCallSupport(Map map, Thing target, HelodSniperSupportMode mode, HelodForwardBase forwardBase, CompTelegraphTable telegraphComp)
+        public static bool IsEligibleTarget(Map map, Thing target)
         {
-            if (!IsValidTarget(map, target, out _) || !CanUseBase(map, forwardBase)) return false;
-            if (telegraphComp != null && !telegraphComp.HasPrimaryCell)
-            {
-                Messages.Message("HD_TelegraphTable_ActionNeedsPrimaryCell".Translate(), MessageTypeDefOf.RejectInput);
-                return false;
-            }
-            MapComponent_HelodSniperSupport component = map.GetComponent<MapComponent_HelodSniperSupport>();
-            if (component.HasActiveStrikeOnTarget(target)) return false;
-            if (forwardBase.ShouldRecordServiceUseOnCall(HelodForwardBaseService.InfantrySniperSupport)
-                && !forwardBase.TryConsumeServiceUse(HelodForwardBaseService.InfantrySniperSupport, out string reason))
-            {
-                Messages.Message(reason ?? "HD_SniperSupport_Unavailable".Translate().ToString(), MessageTypeDefOf.RejectInput);
-                return false;
-            }
-            component.QueueStrike(target, mode, AimTicks, forwardBase);
-            telegraphComp?.ConsumePrimaryCell();
-            Messages.Message("HD_SniperSupport_Called".Translate(), target, MessageTypeDefOf.NeutralEvent);
-            return true;
+            return map != null && target != null && !target.Destroyed && target.Spawned
+                && target.Map == map && !target.Position.Fogged(map)
+                && (target is Pawn pawn ? !pawn.Dead : target is Building)
+                && target.HostileTo(Faction.OfPlayer);
         }
 
-        private static bool TryFindSniperBase(Map map, Faction faction, out HelodForwardBase forwardBase, out float distance)
-        {
-            return HelodForwardBaseServiceUtility.TryFindSupportingBase(HelodForwardBaseService.InfantrySniperSupport, map, faction, true, out forwardBase, out distance);
-        }
-
-        private static bool IsValidTarget(Map map, Thing target)
-        {
-            IntVec3 edgeCell;
-            return IsValidTarget(map, target, out edgeCell);
-        }
-
-        public static bool CanMaintainTargetSight(Map map, Thing target)
-        {
-            return IsValidTarget(map, target);
-        }
-
-        private static bool IsValidTarget(Map map, Thing target, out IntVec3 edgeCell)
+        public static bool TryFindSniperSourceCell(Map map, Thing target,
+            HelodSniperSupportDirection direction, IntVec3 previousCell, out IntVec3 edgeCell)
         {
             edgeCell = IntVec3.Invalid;
-            if (map == null || target == null || !target.Spawned || target.Map != map || target.Position.Fogged(map))
-            {
-                return false;
-            }
-
-            Pawn pawn = target as Pawn;
-            if (pawn != null && pawn.Dead)
-            {
-                return false;
-            }
-
-            if (!(target is Pawn) && !(target is Building))
-            {
-                return false;
-            }
-
-            return TryFindRandomEdgeSightCell(map, target, out edgeCell);
-        }
-
-        public static bool TryFindRandomSniperSourceCell(Map map, Thing target, out IntVec3 edgeCell)
-        {
-            return TryFindRandomEdgeSightCell(map, target, out edgeCell);
-        }
-
-        public static bool TryFindSimilarSniperSourceCell(Map map, Thing target, IntVec3 previousCell, out IntVec3 edgeCell)
-        {
-            if (!previousCell.IsValid)
-            {
-                return TryFindRandomEdgeSightCell(map, target, out edgeCell);
-            }
-
-            edgeCell = IntVec3.Invalid;
-            List<IntVec3> edgeCells = EdgeSightCells(map, target);
-            if (edgeCells.Count == 0)
-            {
-                return false;
-            }
-
-            edgeCell = edgeCells.RandomElementByWeight(cell => SimilarSourceWeight(previousCell, cell));
-            return true;
-        }
-
-        private static bool TryFindRandomEdgeSightCell(Map map, Thing target, out IntVec3 edgeCell)
-        {
-            edgeCell = IntVec3.Invalid;
-            List<IntVec3> edgeCells = EdgeSightCells(map, target);
-            if (edgeCells.Count == 0)
-            {
-                return false;
-            }
-
-            edgeCell = edgeCells.RandomElement();
+            if (!IsEligibleTarget(map, target)) return false;
+            if (HelodSniperSupportSession.IsOnEdge(previousCell, map.Size, direction)
+                && CanSeeTarget(previousCell, target, map, out edgeCell)) return true;
+            List<IntVec3> edgeCells = EdgeSightCells(map, target, direction);
+            if (edgeCells.Count == 0) return false;
+            edgeCell = previousCell.IsValid
+                ? edgeCells.RandomElementByWeight(cell => SimilarSourceWeight(previousCell, cell))
+                : edgeCells.RandomElement();
             return true;
         }
 
@@ -275,22 +145,14 @@ namespace Helodrace
             return 1f / Mathf.Pow(1f + distance / SimilarSourceFalloffDistance, 3f);
         }
 
-        private static List<IntVec3> EdgeSightCells(Map map, Thing target)
+        private static List<IntVec3> EdgeSightCells(Map map, Thing target, HelodSniperSupportDirection direction)
         {
             List<IntVec3> cells = new List<IntVec3>();
-            CellRect rect = CellRect.WholeMap(map);
-            for (int z = rect.minZ; z <= rect.maxZ; z++)
+            if (!IsEligibleTarget(map, target)) return cells;
+            foreach (IntVec3 cell in HelodSniperSupportSession.EdgeCells(map.Size, direction))
             {
-                TryAddEdgeSightCell(new IntVec3(rect.minX, 0, z), target, map, cells);
-                TryAddEdgeSightCell(new IntVec3(rect.maxX, 0, z), target, map, cells);
+                TryAddEdgeSightCell(cell, target, map, cells);
             }
-
-            for (int x = rect.minX + 1; x < rect.maxX; x++)
-            {
-                TryAddEdgeSightCell(new IntVec3(x, 0, rect.minZ), target, map, cells);
-                TryAddEdgeSightCell(new IntVec3(x, 0, rect.maxZ), target, map, cells);
-            }
-
             return cells;
         }
 
@@ -367,32 +229,6 @@ namespace Helodrace
 
             SoundDef sound = DefDatabase<SoundDef>.GetNamedSilentFail(defName);
             sound?.PlayOneShot(new TargetInfo(cell, map));
-        }
-
-        public static bool ShouldContinueShooting(Thing target, HelodSniperSupportMode mode)
-        {
-            if (target == null || target.Destroyed || !target.Spawned)
-            {
-                return false;
-            }
-
-            Pawn pawn = target as Pawn;
-            if (pawn == null)
-            {
-                return !target.Destroyed;
-            }
-
-            if (pawn.Dead)
-            {
-                return false;
-            }
-
-            return mode != HelodSniperSupportMode.Suppress || RandomBodyPart(pawn, "Leg") != null;
-        }
-
-        public static int NextShotDelayTicks()
-        {
-            return Rand.RangeInclusive(MinRetryTicks, MaxRetryTicks);
         }
 
         private static bool TryMissNearby(Thing target, Map map, out IntVec3 missCell)
@@ -644,41 +480,72 @@ namespace Helodrace
         private List<SniperSupportEffect> effects = new List<SniperSupportEffect>();
         private List<SniperSupportTrail> trails = new List<SniperSupportTrail>();
         private List<SniperSupportDelayedSound> delayedSounds = new List<SniperSupportDelayedSound>();
+        private List<HelodSniperSupportSession> sessions = new List<HelodSniperSupportSession>();
 
         public MapComponent_HelodSniperSupport(Map map) : base(map)
         {
         }
 
-        public bool HasActiveStrikeOnTarget(Thing target)
+        public HelodSniperSupportSession GetSession(HelodForwardBase forwardBase)
         {
-            if (target == null)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < effects.Count; i++)
-            {
-                SniperSupportEffect effect = effects[i];
-                if (effect.Target == target && !effect.Finished)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return sessions.FirstOrDefault(session => session.ForwardBase == forwardBase);
         }
 
-        public void QueueStrike(Thing target, HelodSniperSupportMode mode, int ticks, HelodForwardBase forwardBase)
+        public bool HasActiveStrike(HelodForwardBase forwardBase)
         {
-            if (target == null || forwardBase == null)
-            {
-                return;
-            }
+            return effects.Any(effect => effect.ForwardBase == forwardBase);
+        }
 
-            int startTick = Find.TickManager.TicksGame;
-            IntVec3 sourceCell;
-            HelodSniperSupportUtility.TryFindRandomSniperSourceCell(map, target, out sourceCell);
-            effects.Add(new SniperSupportEffect(target, mode, startTick, startTick + ticks, HelodSniperSupportUtility.MaxShots, forwardBase, sourceCell));
+        public bool TryRequestSupport(HelodForwardBase forwardBase, HelodSniperSupportDirection direction,
+            CompTelegraphTable telegraphComp = null, Pawn caller = null)
+        {
+            int now = Find.TickManager.TicksGame;
+            if (!System.Enum.IsDefined(typeof(HelodSniperSupportDirection), direction)
+                || HelodSniperSupportUtility.RequestRejection(map, forwardBase, telegraphComp, caller) != null
+                || GetSession(forwardBase)?.CanRequestShot(now) == true || HasActiveStrike(forwardBase)) return false;
+            sessions.RemoveAll(session => session.ForwardBase == forwardBase);
+            sessions.Add(new HelodSniperSupportSession(forwardBase, direction, now));
+            return true;
+        }
+
+        public bool TryQueueStrike(Thing target, HelodSniperSupportMode mode, HelodSniperSupportSession session,
+            CompTelegraphTable telegraphComp = null, Pawn caller = null)
+        {
+            string rejection = HelodSniperSupportUtility.RequestRejection(map, session?.ForwardBase, telegraphComp, caller);
+            if (rejection != null)
+            {
+                Messages.Message(rejection, MessageTypeDefOf.RejectInput);
+                return false;
+            }
+            int now = Find.TickManager.TicksGame;
+            if (!sessions.Contains(session) || !session.CanRequestShot(now) || HasActiveStrike(session.ForwardBase))
+            {
+                Messages.Message("HD_SniperSupport_NotReady".Translate(), MessageTypeDefOf.RejectInput);
+                return false;
+            }
+            if (effects.Any(effect => effect.Target == target))
+            {
+                Messages.Message("HD_SniperSupport_DuplicateTarget".Translate(), MessageTypeDefOf.RejectInput);
+                return false;
+            }
+            if (!HelodSniperSupportUtility.TryFindSniperSourceCell(map, target, session.Direction,
+                IntVec3.Invalid, out IntVec3 sourceCell))
+            {
+                Messages.Message("HD_SniperSupport_InvalidTarget".Translate(), MessageTypeDefOf.RejectInput);
+                return false;
+            }
+            HelodForwardBase forwardBase = session.ForwardBase;
+            if (forwardBase.ShouldRecordServiceUseOnCall(HelodForwardBaseService.InfantrySniperSupport)
+                && !forwardBase.TryConsumeServiceUse(HelodForwardBaseService.InfantrySniperSupport, out string reason))
+            {
+                Messages.Message(reason ?? "HD_SniperSupport_Unavailable".Translate().ToString(), MessageTypeDefOf.RejectInput);
+                return false;
+            }
+            session.TryConsumeAction(now);
+            telegraphComp?.ConsumePrimaryCell();
+            effects.Add(new SniperSupportEffect(target, mode, now, now + HelodSniperSupportUtility.AimTicks,
+                forwardBase, session.Direction, sourceCell));
+            return true;
         }
 
         public override void MapComponentTick()
@@ -707,7 +574,10 @@ namespace Helodrace
             for (int i = effects.Count - 1; i >= 0; i--)
             {
                 SniperSupportEffect effect = effects[i];
-                if (!effect.ImpactApplied && (effect.Target == null || effect.Target.Destroyed || !effect.Target.Spawned || effect.Target.Map != map))
+                HelodSniperSupportSession session = GetSession(effect.ForwardBase);
+                if (session == null || !session.IsWithinDuration(Find.TickManager.TicksGame)
+                    || !HelodSniperSupportUtility.IsBaseInRange(map, effect.ForwardBase)
+                    || !HelodSniperSupportUtility.IsEligibleTarget(map, effect.Target))
                 {
                     effects.RemoveAt(i);
                     continue;
@@ -725,7 +595,7 @@ namespace Helodrace
                     continue;
                 }
 
-                if (!effect.ImpactApplied && Find.TickManager.TicksGame >= effect.FireTick)
+                if (Find.TickManager.TicksGame >= effect.FireTick)
                 {
                     if (!effect.TryConsumeShotUse(out string failReason))
                     {
@@ -759,15 +629,7 @@ namespace Helodrace
                     {
                         FleckMaker.Static(effect.ImpactCell, map, FleckDefOf.ShotHit_Dirt);
                     }
-                    effect.MarkImpactApplied();
-                    if (effect.CanScheduleNextShot())
-                    {
-                        effect.ScheduleNextShot(HelodSniperSupportUtility.NextShotDelayTicks());
-                    }
-                    else
-                    {
-                        effects.RemoveAt(i);
-                    }
+                    effects.RemoveAt(i);
                 }
             }
         }
@@ -783,7 +645,7 @@ namespace Helodrace
             for (int i = 0; i < effects.Count; i++)
             {
                 SniperSupportEffect effect = effects[i];
-                if (effect.ImpactApplied || effect.TargetHidden || !effect.IsAiming || effect.Target == null || effect.Target.Destroyed || !effect.Target.Spawned || effect.Target.Map != map)
+                if (effect.TargetHidden || !effect.IsAiming || effect.Target == null || effect.Target.Destroyed || !effect.Target.Spawned || effect.Target.Map != map)
                 {
                     continue;
                 }
@@ -795,6 +657,8 @@ namespace Helodrace
         public override void ExposeData()
         {
             base.ExposeData();
+            Scribe_Collections.Look(ref sessions, "helodSniperSupportSessions", LookMode.Deep);
+            if (sessions == null) sessions = new List<HelodSniperSupportSession>();
             Scribe_Collections.Look(ref effects, "helodSniperSupportEffects", LookMode.Deep);
             if (effects == null)
             {
@@ -887,66 +751,49 @@ namespace Helodrace
     {
         private Thing target;
         private HelodSniperSupportMode mode;
+        private HelodSniperSupportDirection direction;
         private int startTick;
         private int fireTick;
-        private int shotsFired;
-        private int maxShots = 5;
-        private bool impactApplied;
         private IntVec3 impactCell = IntVec3.Invalid;
         private HelodForwardBase forwardBase;
         private int hiddenSinceTick = -1;
         private IntVec3 sourceCell = IntVec3.Invalid;
 
         public Thing Target => target;
+        public HelodForwardBase ForwardBase => forwardBase;
         public HelodSniperSupportMode Mode => mode;
         public int FireTick => fireTick;
-        public bool ImpactApplied => impactApplied;
         public IntVec3 ImpactCell => impactCell;
         public IntVec3 SourceCell => sourceCell;
-        public bool Finished => target == null || target.Destroyed || !target.Spawned || impactApplied;
         public bool TargetHidden => hiddenSinceTick >= 0;
         public bool IsAiming => Find.TickManager.TicksGame >= startTick;
-        public bool CanScheduleNextShot()
-        {
-            return shotsFired < maxShots
-                && HelodSniperSupportUtility.ShouldContinueShooting(target, mode)
-                && (forwardBase == null
-                    || !forwardBase.ShouldRecordServiceUseOnExecution(HelodForwardBaseService.InfantrySniperSupport)
-                    || forwardBase.HasServiceCapacity(HelodForwardBaseService.InfantrySniperSupport));
-        }
-
         public float Progress => Mathf.Clamp01((Find.TickManager.TicksGame - startTick) / Mathf.Max(1f, fireTick - startTick));
 
-        public SniperSupportEffect()
-        {
-        }
+        public SniperSupportEffect() { }
 
-        public SniperSupportEffect(Thing target, HelodSniperSupportMode mode, int startTick, int fireTick, int maxShots, HelodForwardBase forwardBase, IntVec3 sourceCell)
+        public SniperSupportEffect(Thing target, HelodSniperSupportMode mode, int startTick, int fireTick,
+            HelodForwardBase forwardBase, HelodSniperSupportDirection direction, IntVec3 sourceCell)
         {
             this.target = target;
             this.mode = mode;
             this.startTick = startTick;
             this.fireTick = fireTick;
-            this.maxShots = maxShots;
             this.forwardBase = forwardBase;
+            this.direction = direction;
             this.sourceCell = sourceCell;
         }
 
         public bool UpdateTargetSight(Map map)
         {
-            bool visible = HelodSniperSupportUtility.CanMaintainTargetSight(map, target);
-            if (visible)
+            if (HelodSniperSupportUtility.TryFindSniperSourceCell(map, target, direction,
+                sourceCell, out IntVec3 visibleSource))
             {
+                sourceCell = visibleSource;
                 hiddenSinceTick = -1;
                 return true;
             }
-
             int now = Find.TickManager.TicksGame;
-            if (hiddenSinceTick < 0)
-            {
-                hiddenSinceTick = now;
-            }
-
+            if (hiddenSinceTick < 0) hiddenSinceTick = now;
             startTick++;
             fireTick++;
             return now - hiddenSinceTick < HelodSniperSupportUtility.HiddenCancelTicks;
@@ -955,18 +802,13 @@ namespace Helodrace
         public bool TryConsumeShotUse(out string failReason)
         {
             failReason = null;
-            if (forwardBase == null)
+            if (forwardBase == null || !forwardBase.HasService(HelodForwardBaseService.InfantrySniperSupport))
             {
                 failReason = "HD_SniperSupport_Unavailable".Translate().ToString();
                 return false;
             }
-
-            if (!forwardBase.ShouldRecordServiceUseOnExecution(HelodForwardBaseService.InfantrySniperSupport))
-            {
-                return true;
-            }
-
-            return forwardBase.TryConsumeServiceUse(HelodForwardBaseService.InfantrySniperSupport, out failReason);
+            return !forwardBase.ShouldRecordServiceUseOnExecution(HelodForwardBaseService.InfantrySniperSupport)
+                || forwardBase.TryConsumeServiceUse(HelodForwardBaseService.InfantrySniperSupport, out failReason);
         }
 
         public void RecordImpactCell(IntVec3 cell)
@@ -974,45 +816,17 @@ namespace Helodrace
             impactCell = cell.IsValid ? cell : target?.Position ?? IntVec3.Invalid;
         }
 
-        public void MarkImpactApplied()
-        {
-            impactApplied = true;
-            shotsFired++;
-        }
-
-        public void ScheduleNextShot(int delayTicks)
-        {
-            startTick = Find.TickManager.TicksGame + delayTicks;
-            fireTick = startTick + 120;
-            impactApplied = false;
-            impactCell = IntVec3.Invalid;
-            if (target?.Map != null)
-            {
-                IntVec3 newSourceCell;
-                if (HelodSniperSupportUtility.TryFindSimilarSniperSourceCell(target.Map, target, sourceCell, out newSourceCell))
-                {
-                    sourceCell = newSourceCell;
-                }
-            }
-        }
-
         public void ExposeData()
         {
             Scribe_References.Look(ref target, "target");
             Scribe_References.Look(ref forwardBase, "forwardBase");
             Scribe_Values.Look(ref mode, "mode");
+            Scribe_Values.Look(ref direction, "direction");
             Scribe_Values.Look(ref startTick, "startTick");
             Scribe_Values.Look(ref fireTick, "fireTick");
-            Scribe_Values.Look(ref shotsFired, "shotsFired");
-            Scribe_Values.Look(ref maxShots, "maxShots", 5);
-            Scribe_Values.Look(ref impactApplied, "impactApplied");
             Scribe_Values.Look(ref impactCell, "impactCell");
             Scribe_Values.Look(ref hiddenSinceTick, "hiddenSinceTick", -1);
             Scribe_Values.Look(ref sourceCell, "sourceCell");
-            if (startTick <= 0 || startTick > fireTick)
-            {
-                startTick = fireTick - 120;
-            }
         }
     }
 
