@@ -14,15 +14,6 @@ namespace Helodrace.ModernWar
         Positionable
     }
 
-    public enum ModularArmorSlotSide
-    {
-        Auto,
-        Left,
-        Right,
-        Top,
-        Bottom
-    }
-
     public enum ModularArmorFacing
     {
         Front,
@@ -48,7 +39,6 @@ namespace Helodrace.ModernWar
     {
         public bool required;
         public int uiOrder;
-        public ModularArmorSlotSide uiSide;
     }
 
     public sealed class ModularArmorDrawOffsets
@@ -2703,7 +2693,7 @@ namespace Helodrace.ModernWar
         }
     }
 
-    public sealed class Dialog_ModularArmor : Window
+    public sealed partial class Dialog_ModularArmor : Window
     {
         private readonly CompModularArmor comp;
         private readonly CompModularArmor original;
@@ -2713,6 +2703,7 @@ namespace Helodrace.ModernWar
         private InstalledModularArmorPart selectedInstalledPart;
         private Rot4 previewFacing;
         private readonly ModularArmorPreviewBounds previewBounds = new ModularArmorPreviewBounds();
+        private Vector2 slotsScroll, catalogScroll;
 
         public Dialog_ModularArmor(CompModularArmor comp, CompClothingWorkbench bench)
         {
@@ -2765,20 +2756,25 @@ namespace Helodrace.ModernWar
                 comp.CompleteFrontRearSwap();
             }
 
-            Rect previewRect = new Rect(
-                inRect.width * 0.5f - 220f,
-                120f,
-                440f,
-                400f);
-            List<ModularArmorSlotDef> visibleSlots = VisibleFixedSlots();
-            DrawFixedSlotConnections(visibleSlots, previewRect);
-            DrawArmorPreview(previewRect, visibleSlots);
-            DrawFixedSlots(visibleSlots, previewRect);
-            DrawMetrics(new Rect(20f, 500f, 270f, 110f));
             bool hasPals = !comp.Props.palsPanels.NullOrEmpty();
+            const float bodyTop = 82f;
+            const float footerHeight = 66f;
+            float catalogHeight = hasPals ? 170f : 0f;
+            float bodyHeight = inRect.height - bodyTop - footerHeight - catalogHeight
+                - (hasPals ? 8f : 0f);
+            float slotsWidth = Mathf.Clamp(inRect.width * 0.23f, 250f, 300f);
+            float statsWidth = Mathf.Clamp(inRect.width * 0.23f, 270f, 310f);
+            Rect slotsRect = new Rect(0f, bodyTop, slotsWidth, bodyHeight);
+            Rect previewRect = new Rect(slotsRect.xMax + 12f, bodyTop,
+                inRect.width - slotsWidth - statsWidth - 24f, bodyHeight);
+            Rect statsRect = new Rect(inRect.width - statsWidth, bodyTop, statsWidth, bodyHeight);
+            List<ModularArmorSlotDef> visibleSlots = VisibleFixedSlots();
+            DrawArmorPreview(previewRect, visibleSlots);
+            DrawFixedSlots(visibleSlots, slotsRect);
+            DrawArmorStatsPanel(statsRect);
             if (hasPals)
             {
-                DrawPalsCatalog(new Rect(0f, 620f, inRect.width, 112f));
+                DrawPalsCatalog(new Rect(0f, previewRect.yMax + 8f, inRect.width, catalogHeight));
             }
 
             string instruction = selectedInstalledPart != null
@@ -2792,8 +2788,11 @@ namespace Helodrace.ModernWar
                     : hasPals
                         ? "HD_ModularArmor_Pals_Hint".Translate()
                         : "HD_ModularArmor_FixedOnlyHint".Translate();
-            Widgets.Label(new Rect(10f, inRect.height - 35f, inRect.width - 300f, 30f),
+            Text.Font = GameFont.Tiny;
+            Widgets.Label(new Rect(10f, inRect.height - footerHeight + 8f,
+                inRect.width - 310f, footerHeight - 12f),
                 instruction);
+            Text.Font = GameFont.Small;
             if (Widgets.ButtonText(new Rect(inRect.width - 280f, inRect.height - 34f, 150f, 32f),
                 "HD_ClothingBench_Apply".Translate()))
             {
@@ -3100,6 +3099,7 @@ namespace Helodrace.ModernWar
                 facing += 4;
             }
             previewFacing = new Rot4(facing);
+            slotsScroll = Vector2.zero;
         }
 
         private TaggedString FacingLabel()
@@ -3113,47 +3113,20 @@ namespace Helodrace.ModernWar
             return "HD_ModularArmor_Facing_Front".Translate();
         }
 
-        private void DrawFixedSlotConnections(
-            List<ModularArmorSlotDef> slots,
-            Rect previewRect)
-        {
-            for (int i = 0; i < slots.Count; i++)
-            {
-                Rect socket = FixedSlotRect(slots, i, previewRect);
-                Vector2 start;
-                Vector2 end;
-                if (socket.xMax <= previewRect.xMin)
-                {
-                    start = new Vector2(socket.xMax, socket.center.y);
-                    end = new Vector2(previewRect.xMin, socket.center.y);
-                }
-                else if (socket.xMin >= previewRect.xMax)
-                {
-                    start = new Vector2(socket.xMin, socket.center.y);
-                    end = new Vector2(previewRect.xMax, socket.center.y);
-                }
-                else if (socket.yMax <= previewRect.yMin)
-                {
-                    start = new Vector2(socket.center.x, socket.yMax);
-                    end = new Vector2(socket.center.x, previewRect.yMin);
-                }
-                else
-                {
-                    start = new Vector2(socket.center.x, socket.yMin);
-                    end = new Vector2(socket.center.x, previewRect.yMax);
-                }
-                Widgets.DrawLine(start, end, new Color(0.45f, 0.52f, 0.48f), 2f);
-            }
-        }
-
         private void DrawFixedSlots(
             List<ModularArmorSlotDef> slots,
-            Rect previewRect)
+            Rect rect)
         {
+            Widgets.DrawMenuSection(rect);
+            Widgets.Label(new Rect(rect.x + 10f, rect.y + 8f, rect.width - 20f, 26f),
+                "HD_ModularArmor_FixedSlots".Translate());
+            Rect outRect = new Rect(rect.x + 8f, rect.y + 40f, rect.width - 16f, rect.height - 48f);
+            Rect view = new Rect(0f, 0f, outRect.width - 18f, slots.Count * 88f);
+            Widgets.BeginScrollView(outRect, ref slotsScroll, view);
             for (int i = 0; i < slots.Count; i++)
             {
                 ModularArmorSlotDef slot = slots[i];
-                Rect socket = FixedSlotRect(slots, i, previewRect);
+                Rect socket = new Rect(0f, i * 88f, view.width, 80f);
                 InstalledModularArmorPart installed = comp.InstalledIn(slot);
                 bool hovered = Mouse.IsOver(socket);
                 Widgets.DrawBoxSolidWithOutline(
@@ -3219,7 +3192,7 @@ namespace Helodrace.ModernWar
                     Text.Font = GameFont.Tiny;
                 }
                 Widgets.Label(
-                    new Rect(labelX, socket.y + 22f, labelWidth, 44f),
+                    new Rect(labelX, socket.y + 22f, labelWidth, socket.height - 26f),
                     installedLabel);
                 Text.Anchor = TextAnchor.UpperLeft;
                 Text.Font = GameFont.Small;
@@ -3229,19 +3202,7 @@ namespace Helodrace.ModernWar
                     OpenPartMenu(slot);
                 }
             }
-        }
-
-        private void DrawMetrics(Rect rect)
-        {
-            Widgets.DrawBoxSolidWithOutline(
-                rect,
-                new Color(0.10f, 0.12f, 0.11f),
-                new Color(0.34f, 0.40f, 0.36f),
-                1);
-            Widgets.Label(rect.ContractedBy(10f), "HD_ModularArmor_MetricBlock".Translate(
-                comp.MetricFor(ModularArmorMetric.Ergonomics).ToString("0.##"),
-                comp.MetricFor(ModularArmorMetric.Ventilation).ToString("0.##"),
-                comp.MetricFor(ModularArmorMetric.LoadDistribution).ToString("0.##")));
+            Widgets.EndScrollView();
         }
 
         private void DrawPalsPanel(Rect previewRect, ModularArmorPalsPanelDef panel)
@@ -3425,10 +3386,18 @@ namespace Helodrace.ModernWar
                     && comp.IsPartCompatible(part))
                 .OrderBy(part => part.label)
                 .ToList();
+            Rect outRect = new Rect(rect.x + 8f, rect.y + 36f,
+                rect.width - 16f, rect.height - 44f);
+            const float tileWidth = 165f, tileHeight = 116f, gap = 8f;
+            int columns = Mathf.Max(1, Mathf.FloorToInt((outRect.width - 18f + gap) / (tileWidth + gap)));
+            int rows = Mathf.CeilToInt(parts.Count / (float)columns);
+            Rect view = new Rect(0f, 0f, outRect.width - 18f, rows * (tileHeight + gap));
+            Widgets.BeginScrollView(outRect, ref catalogScroll, view);
             for (int i = 0; i < parts.Count; i++)
             {
                 ModularArmorPartDef part = parts[i];
-                Rect tile = new Rect(rect.x + 10f + i * 175f, rect.y + 34f, 165f, 78f);
+                Rect tile = new Rect((i % columns) * (tileWidth + gap),
+                    (i / columns) * (tileHeight + gap), tileWidth, tileHeight);
                 bool selected = selectedPalsPart == part;
                 int available = EditorStock(part.RequiredThingDef);
                 bool hasItem = DebugSettings.godMode
@@ -3441,7 +3410,10 @@ namespace Helodrace.ModernWar
                         : new Color(0.08f, 0.08f, 0.08f),
                     selected ? Color.yellow : new Color(0.35f, 0.42f, 0.37f),
                     selected ? 2 : 1);
-                DrawPartIconAndLabel(tile.ContractedBy(8f), part);
+                Rect content = tile.ContractedBy(8f);
+                content.height -= 22f;
+                Text.Font = GameFont.Tiny;
+                DrawPartIconAndLabel(content, part);
                 Text.Font = GameFont.Tiny;
                 Text.Anchor = TextAnchor.LowerCenter;
                 string footprint = part.palsWidth + " x " + part.palsHeight;
@@ -3468,6 +3440,7 @@ namespace Helodrace.ModernWar
                     }
                 }
             }
+            Widgets.EndScrollView();
         }
 
         private static void DrawPartIconAndLabel(Rect rect, ModularArmorPartDef part)
@@ -3547,64 +3520,6 @@ namespace Helodrace.ModernWar
             if (previewFacing == Rot4.East) return ModularArmorFacing.Right;
             if (previewFacing == Rot4.West) return ModularArmorFacing.Left;
             return ModularArmorFacing.Front;
-        }
-
-        private static Rect FixedSlotRect(
-            List<ModularArmorSlotDef> slots,
-            int index,
-            Rect previewRect)
-        {
-            int side = FixedSlotSide(slots[index], index);
-            int ring = 0;
-            for (int i = 0; i < index; i++)
-            {
-                if (FixedSlotSide(slots[i], i) == side)
-                {
-                    ring++;
-                }
-            }
-
-            if (side == 0)
-            {
-                return new Rect(
-                    previewRect.x - 285f - ring * 12f,
-                    previewRect.center.y - 36f + ring * 82f,
-                    260f,
-                    72f);
-            }
-
-            if (side == 1)
-            {
-                return new Rect(
-                    previewRect.xMax + 25f + ring * 12f,
-                    previewRect.center.y - 36f + ring * 82f,
-                    260f,
-                    72f);
-            }
-
-            if (side == 2)
-            {
-                return new Rect(
-                    previewRect.center.x - 130f + ring * 270f,
-                    previewRect.y - 82f,
-                    260f,
-                    72f);
-            }
-
-            return new Rect(
-                previewRect.center.x - 130f + ring * 270f,
-                previewRect.yMax + 12f,
-                260f,
-                72f);
-        }
-
-        private static int FixedSlotSide(ModularArmorSlotDef slot, int index)
-        {
-            if (slot.uiSide == ModularArmorSlotSide.Auto) return index % 4;
-            if (slot.uiSide == ModularArmorSlotSide.Left) return 0;
-            if (slot.uiSide == ModularArmorSlotSide.Right) return 1;
-            if (slot.uiSide == ModularArmorSlotSide.Top) return 2;
-            return 3;
         }
 
         private static Rect GridPartRect(

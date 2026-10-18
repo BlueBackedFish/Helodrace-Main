@@ -9,14 +9,12 @@
     <label>night vision mount</label>
     <required>false</required>
     <uiOrder>10</uiOrder>
-    <uiSide>Top</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
   <Helodrace.ModernWar.ModularArmorSlotDef>
     <defName>HD_MH_Slot_Visor</defName>
     <label>ballistic visor mount</label>
     <required>false</required>
     <uiOrder>20</uiOrder>
-    <uiSide>Right</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
 
   <!-- Vanilla head apparel occupies the 70-85 band. Helmet attachments stay

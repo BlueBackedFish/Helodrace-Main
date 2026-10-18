@@ -11,14 +11,12 @@
     <label>IBTV front/rear plate set slot</label>
     <required>false</required>
     <uiOrder>10</uiOrder>
-    <uiSide>Left</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
   <Helodrace.ModernWar.ModularArmorSlotDef>
     <defName>HD_MA_Slot_SidePlates</defName>
     <label>IBTV left/right side plate set slot</label>
     <required>false</required>
     <uiOrder>20</uiOrder>
-    <uiSide>Right</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
   <!-- Legacy definitions are retained so existing saves can resolve old records. -->
   <Helodrace.ModernWar.ModularArmorSlotDef>
@@ -26,77 +24,66 @@
     <label>IBTV front plate slot</label>
     <required>true</required>
     <uiOrder>10</uiOrder>
-    <uiSide>Left</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
   <Helodrace.ModernWar.ModularArmorSlotDef>
     <defName>HD_MA_Slot_RearPlate</defName>
     <label>IBTV rear plate slot</label>
     <required>true</required>
     <uiOrder>20</uiOrder>
-    <uiSide>Right</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
   <Helodrace.ModernWar.ModularArmorSlotDef>
     <defName>HD_MA_Slot_LeftPlate</defName>
     <label>IBTV left side plate slot</label>
     <required>false</required>
     <uiOrder>30</uiOrder>
-    <uiSide>Left</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
   <Helodrace.ModernWar.ModularArmorSlotDef>
     <defName>HD_MA_Slot_RightPlate</defName>
     <label>IBTV right side plate slot</label>
     <required>false</required>
     <uiOrder>40</uiOrder>
-    <uiSide>Right</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
   <Helodrace.ModernWar.ModularArmorSlotDef>
     <defName>HD_MA_Slot_NeckGuard</defName>
     <label>IBTV neck guard slot</label>
     <required>false</required>
     <uiOrder>50</uiOrder>
-    <uiSide>Top</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
   <Helodrace.ModernWar.ModularArmorSlotDef>
     <defName>HD_MA_Slot_ShoulderGuards</defName>
     <label>IBTV shoulder guard slot</label>
     <required>false</required>
     <uiOrder>60</uiOrder>
-    <uiSide>Top</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
   <Helodrace.ModernWar.ModularArmorSlotDef>
     <defName>HD_MA_Slot_LowerBody</defName>
     <label>IBTV groin protector slot</label>
     <required>false</required>
     <uiOrder>70</uiOrder>
-    <uiSide>Bottom</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
   <Helodrace.ModernWar.ModularArmorSlotDef>
     <defName>HD_MA_Slot_CamelBak</defName>
     <label>IBTV hydration pack slot</label>
     <required>false</required>
     <uiOrder>80</uiOrder>
-    <uiSide>Bottom</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
   <Helodrace.ModernWar.ModularArmorSlotDef>
     <defName>HD_MA_Slot_BackProtector</defName>
     <label>IBTV rear lower protector slot</label>
     <required>false</required>
     <uiOrder>75</uiOrder>
-    <uiSide>Bottom</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
   <Helodrace.ModernWar.ModularArmorSlotDef>
     <defName>HD_MA_Slot_KneePads</defName>
     <label>combat pants knee-pad slot</label>
     <required>false</required>
     <uiOrder>10</uiOrder>
-    <uiSide>Bottom</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
   <Helodrace.ModernWar.ModularArmorSlotDef>
     <defName>HD_MA_Slot_DropLeg</defName>
     <label>MOLLE battle belt drop-leg platform slot</label>
     <required>false</required>
     <uiOrder>10</uiOrder>
-    <uiSide>Bottom</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
   <!-- A position controls hit location, protected direction and render anchor.
        Vanilla body apparel occupies the 20-30 band: fixed parts use 21-23. -->

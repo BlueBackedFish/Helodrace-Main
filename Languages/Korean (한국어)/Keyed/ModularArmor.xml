@@ -6,13 +6,20 @@
   <HD_ModularArmor_WindowTitle>{0} 개조</HD_ModularArmor_WindowTitle>
   <HD_ModularArmor_None>없음</HD_ModularArmor_None>
   <HD_ModularArmor_FixedPosition>고정: {0}</HD_ModularArmor_FixedPosition>
-  <HD_ModularArmor_MetricBlock>인체공학  {0}\n통기성  {1}\n하중분산  {2}</HD_ModularArmor_MetricBlock>
+  <HD_ModularArmor_FixedSlots>고정 장착부</HD_ModularArmor_FixedSlots>
+  <HD_ModularArmor_StatsTitle>방어구 스탯</HD_ModularArmor_StatsTitle>
+  <HD_ModularArmor_StatsModeConverted>환산 스탯</HD_ModularArmor_StatsModeConverted>
+  <HD_ModularArmor_StatsModeRaw>원시 스탯</HD_ModularArmor_StatsModeRaw>
+  <HD_ModularArmor_ConvertedStatsHint>현재 편집 구성의 착용자 적용 효과입니다. 가산값과 배율만 표시하며 착용자의 기본 능력치와 다른 장비는 포함하지 않습니다.</HD_ModularArmor_ConvertedStatsHint>
+  <HD_ModularArmor_RawStatsHint>착용자 적용 효과를 계산하는 방어구와 부품의 점수입니다. 위 버튼을 눌러 환산 스탯과 전환할 수 있습니다.</HD_ModularArmor_RawStatsHint>
+  <HD_ModularArmor_NoConversions>이 방어구에는 스탯 환산이나 부품 보정이 없습니다.</HD_ModularArmor_NoConversions>
+  <HD_ModularArmor_StatChange>{0} → {1}</HD_ModularArmor_StatChange>
   <HD_ModularArmor_PalsCatalog>PALS 부착 장비</HD_ModularArmor_PalsCatalog>
   <HD_ModularArmor_Pals_Hint>아래에서 PALS 부착 장비를 선택한 뒤 빈 격자 칸을 클릭하십시오. 장착된 부품은 왼쪽 클릭으로 이동하고 오른쪽 클릭으로 제거합니다.</HD_ModularArmor_Pals_Hint>
   <HD_ModularArmor_Pals_PlaceHint>{0} 장착 중 ({1} × {2}). 장착 가능한 빈 격자 칸을 클릭하십시오.</HD_ModularArmor_Pals_PlaceHint>
   <HD_ModularArmor_Pals_MoveHint>{0} 이동 중. 장착 가능한 빈 격자 칸을 클릭하십시오.</HD_ModularArmor_Pals_MoveHint>
   <HD_ModularArmor_PalsInstalledTip>{0}\nPALS 장착 위치: {1}, {2}\n왼쪽 클릭: 이동\n오른쪽 클릭: 제거</HD_ModularArmor_PalsInstalledTip>
-  <HD_ModularArmor_FixedOnlyHint>미리보기 주변의 장착부를 선택하여 호환 부품을 장착하거나 제거하십시오.</HD_ModularArmor_FixedOnlyHint>
+  <HD_ModularArmor_FixedOnlyHint>왼쪽 고정 장착부를 선택하여 호환 부품을 장착하거나 제거하십시오. 미리보기를 회전하면 다른 방향의 장착부가 표시됩니다.</HD_ModularArmor_FixedOnlyHint>
   <HD_ModularArmor_Facing>보기 방향: {0}</HD_ModularArmor_Facing>
   <HD_ModularArmor_VisibleSlots>현재 보이는 고정 부품: {0}</HD_ModularArmor_VisibleSlots>
   <HD_ModularArmor_Facing_Front>전면</HD_ModularArmor_Facing_Front>

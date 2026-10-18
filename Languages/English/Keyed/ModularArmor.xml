@@ -6,13 +6,20 @@
   <HD_ModularArmor_WindowTitle>Customize {0}</HD_ModularArmor_WindowTitle>
   <HD_ModularArmor_None>None</HD_ModularArmor_None>
   <HD_ModularArmor_FixedPosition>Fixed: {0}</HD_ModularArmor_FixedPosition>
-  <HD_ModularArmor_MetricBlock>ERGONOMICS  {0}\nVENTILATION  {1}\nLOAD DISTRIBUTION  {2}</HD_ModularArmor_MetricBlock>
+  <HD_ModularArmor_FixedSlots>FIXED PARTS</HD_ModularArmor_FixedSlots>
+  <HD_ModularArmor_StatsTitle>ARMOR STATS</HD_ModularArmor_StatsTitle>
+  <HD_ModularArmor_StatsModeConverted>Converted stats</HD_ModularArmor_StatsModeConverted>
+  <HD_ModularArmor_StatsModeRaw>Raw stats</HD_ModularArmor_StatsModeRaw>
+  <HD_ModularArmor_ConvertedStatsHint>Effects of the draft configuration on the wearer. Offsets and multipliers exclude base pawn stats and other equipment.</HD_ModularArmor_ConvertedStatsHint>
+  <HD_ModularArmor_RawStatsHint>Armor and part scores used to calculate the wearer's stat effects. Click the button above to switch views.</HD_ModularArmor_RawStatsHint>
+  <HD_ModularArmor_NoConversions>This armor has no stat conversions or part modifiers.</HD_ModularArmor_NoConversions>
+  <HD_ModularArmor_StatChange>{0} → {1}</HD_ModularArmor_StatChange>
   <HD_ModularArmor_PalsCatalog>PALS PARTS</HD_ModularArmor_PalsCatalog>
   <HD_ModularArmor_Pals_Hint>Select a PALS part below, then click an empty grid cell. Click an installed part to move it; right-click to remove it.</HD_ModularArmor_Pals_Hint>
   <HD_ModularArmor_Pals_PlaceHint>Installing {0} ({1} x {2}). Click a valid empty grid cell.</HD_ModularArmor_Pals_PlaceHint>
   <HD_ModularArmor_Pals_MoveHint>Moving {0}. Click a valid empty grid cell.</HD_ModularArmor_Pals_MoveHint>
   <HD_ModularArmor_PalsInstalledTip>{0}\nPALS coordinate: {1}, {2}\nLeft-click: move\nRight-click: remove</HD_ModularArmor_PalsInstalledTip>
-  <HD_ModularArmor_FixedOnlyHint>Select a socket around the preview to install or remove a compatible part.</HD_ModularArmor_FixedOnlyHint>
+  <HD_ModularArmor_FixedOnlyHint>Select a fixed part in the left panel to install or remove a compatible part. Rotate the preview to show other slots.</HD_ModularArmor_FixedOnlyHint>
   <HD_ModularArmor_Facing>View: {0}</HD_ModularArmor_Facing>
   <HD_ModularArmor_VisibleSlots>Visible fixed parts: {0}</HD_ModularArmor_VisibleSlots>
   <HD_ModularArmor_Facing_Front>Front</HD_ModularArmor_Facing_Front>
