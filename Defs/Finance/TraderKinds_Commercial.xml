@@ -2,7 +2,7 @@
 <Defs>
   <TraderKindDef>
     <defName>HD_GW_Caravan_HelodCommercial</defName>
-    <label>commercial caravan</label>
+    <label>Central Hardware &amp; Supply Co.</label>
     <stockGenerators>
       <li Class="StockGenerator_SingleDef">
         <thingDef>Silver</thingDef>

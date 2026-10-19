@@ -15,18 +15,9 @@
   <HD_Telegraph_Status_ProviderUnavailable>The contracted LOW Helod relay is unavailable.</HD_Telegraph_Status_ProviderUnavailable>
   <HD_Telegraph_Status_NoPrimaryCells>Offline: load at least one primary cell.</HD_Telegraph_Status_NoPrimaryCells>
   <HD_Telegraph_Status_Online>Relay online</HD_Telegraph_Status_Online>
-  <HD_Telegraph_Directory>Communication stations</HD_Telegraph_Directory>
   <HD_Telegraph_LocalTime>Local time {0}:00 | Primary cells: {1}</HD_Telegraph_LocalTime>
   <HD_Telegraph_OnlineProvider>{0} — relay online</HD_Telegraph_OnlineProvider>
-  <HD_Telegraph_OfflineDirectory>The line is offline. Station information is unavailable.</HD_Telegraph_OfflineDirectory>
-  <HD_Telegraph_TradeOffice>Caravan dispatch office</HD_Telegraph_TradeOffice>
-  <HD_Telegraph_TradeOfficeDesc>Contact the LOW Helod association for caravan requests and other standard faction services. Normal goodwill requirements and cooldowns apply.</HD_Telegraph_TradeOfficeDesc>
-  <HD_Telegraph_ContractOffice>Forward base contracting office</HD_Telegraph_ContractOffice>
-  <HD_Telegraph_ContractOfficeDesc>Arrange a new LOW Helod forward base contract or review existing contracts.</HD_Telegraph_ContractOfficeDesc>
-  <HD_Telegraph_SupportOffice>Military support dispatch office</HD_Telegraph_SupportOffice>
-  <HD_Telegraph_SupportOfficeDesc>Request available services from contracted LOW Helod forward bases.</HD_Telegraph_SupportOfficeDesc>
-  <HD_Telegraph_Connect>Connect</HD_Telegraph_Connect>
-  <HD_Telegraph_LeaderUnavailable>The association's representative is unavailable.</HD_Telegraph_LeaderUnavailable>
+  <HD_Telegraph_OfflineDirectory>The line is offline. Company and organization listings are unavailable.</HD_Telegraph_OfflineDirectory>
   <HD_Telegraph_OperatorUnavailable>The operator cannot negotiate.</HD_Telegraph_OperatorUnavailable>
   <HD_Telegraph_WrongProvider>The telegraph can only contact its contracted LOW Helod faction.</HD_Telegraph_WrongProvider>
 </LanguageData>

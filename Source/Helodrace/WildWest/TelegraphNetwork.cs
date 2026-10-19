@@ -93,17 +93,34 @@ namespace Helodrace
                 return false;
             }
 
+            if (!TryPay(negotiator, TelegraphNetworkRules.InstallationCost, out reason)) return false;
+            provider = trader.Faction;
+            readyTick = Find.TickManager.TicksGame + Rand.RangeInclusive(
+                TelegraphNetworkRules.MinimumInstallationTicks, TelegraphNetworkRules.MaximumInstallationTicks);
+            activationNotified = false;
+            Messages.Message("HD_Telegraph_InstallationOrdered".Translate(TelegraphNetworkRules.InstallationCost),
+                negotiator, MessageTypeDefOf.PositiveEvent);
+            return true;
+        }
+        public bool TryPay(Pawn negotiator, int amount, out string reason)
+        {
+            reason = null;
+            if (negotiator == null || !negotiator.Spawned || negotiator.Map != map || negotiator.Faction != Faction.OfPlayer)
+            {
+                reason = "HD_Telegraph_OperatorUnavailable".Translate();
+                return false;
+            }
             ThingDef money = DefDatabase<ThingDef>.GetNamed("HD_Money");
             List<Thing> notes = map.listerThings.ThingsOfDef(money)
                 .Where(t => !t.IsForbidden(negotiator) && !t.Position.Fogged(map)
                     && negotiator.CanReach(t, PathEndMode.Touch, Danger.Deadly)).ToList();
-            if (notes.Sum(t => t.stackCount) < TelegraphNetworkRules.InstallationCost)
+            if (notes.Sum(t => t.stackCount) < amount)
             {
-                reason = "HD_Telegraph_NotEnoughMoney".Translate(TelegraphNetworkRules.InstallationCost);
+                reason = "HD_Telegraph_NotEnoughMoney".Translate(amount);
                 return false;
             }
 
-            int remaining = TelegraphNetworkRules.InstallationCost;
+            int remaining = amount;
             foreach (Thing note in notes)
             {
                 int count = System.Math.Min(remaining, note.stackCount);
@@ -111,12 +128,6 @@ namespace Helodrace
                 remaining -= count;
                 if (remaining == 0) break;
             }
-            provider = trader.Faction;
-            readyTick = Find.TickManager.TicksGame + Rand.RangeInclusive(
-                TelegraphNetworkRules.MinimumInstallationTicks, TelegraphNetworkRules.MaximumInstallationTicks);
-            activationNotified = false;
-            Messages.Message("HD_Telegraph_InstallationOrdered".Translate(TelegraphNetworkRules.InstallationCost),
-                negotiator, MessageTypeDefOf.PositiveEvent);
             return true;
         }
     }

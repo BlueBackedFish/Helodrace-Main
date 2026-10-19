@@ -3,7 +3,7 @@
 
   <TraderKindDef>
     <defName>HD_WW_Caravan_HelodFinancial</defName>
-    <label>financial caravan</label>
+    <label>National Industrial Credit Corporation</label>
     <stockGenerators>
       <li Class="StockGenerator_SingleDef">
         <thingDef>Silver</thingDef>

@@ -152,7 +152,7 @@ namespace Helodrace
 
         private readonly Thing telegraphTable;
         private readonly Pawn operatorPawn;
-        private TelegraphTab selectedTab;
+        private TelegraphCompany selectedCompany;
         private MilitaryActivity selectedMilitaryActivity;
         private ForwardBaseKind selectedForwardBaseKind;
         private ContractCostKind selectedContractCostKind;
@@ -237,7 +237,7 @@ namespace Helodrace
             string failure = comp?.ConnectionFailure ?? (comp == null ? "HD_Telegraph_Status_ProviderUnavailable".Translate().ToString() : null);
             if (failure != null && selectedMilitaryActivity == MilitaryActivity.ForwardBaseContract)
             {
-                selectedTab = TelegraphTab.Stations;
+                selectedCompany = TelegraphCompany.NationalIndustrialCredit;
                 selectedMilitaryActivity = MilitaryActivity.None;
                 contractEntranceAnimating = false;
                 windowRect.size = TelegraphWindowSize;
@@ -245,7 +245,7 @@ namespace Helodrace
                     Mathf.Max(0f, (UI.screenHeight - windowRect.height) / 2f));
                 return;
             }
-            if (failure == null && selectedTab == TelegraphTab.Military && selectedMilitaryActivity == MilitaryActivity.ForwardBaseContract)
+            if (failure == null && selectedCompany == TelegraphCompany.PioneerOverseasService && selectedMilitaryActivity == MilitaryActivity.ForwardBaseContract)
             {
                 UpdateContractEntranceAnimation();
                 closeOnClickedOutside = false;
@@ -276,23 +276,14 @@ namespace Helodrace
                 "HD_Telegraph_OnlineProvider".Translate(SelectedMilitaryFaction().Name).ToString());
             GUI.color = Color.white;
 
-            Rect navRect = new Rect(inRect.x, statusRect.yMax + 10f, inRect.width, 32f);
-            if (failure == null)
-            {
-                if (Widgets.ButtonText(new Rect(navRect.x, navRect.y, 180f, navRect.height), "HD_Telegraph_Directory".Translate()))
-                {
-                    selectedTab = TelegraphTab.Stations;
-                    selectedMilitaryActivity = MilitaryActivity.None;
-                }
-                if (selectedTab == TelegraphTab.Military)
-                    Widgets.Label(new Rect(navRect.x + 194f, navRect.y + 5f, navRect.width - 194f, 26f), "HD_Telegraph_ContractOffice".Translate());
-            }
+            Rect navRect = new Rect(inRect.x, statusRect.yMax + 10f, inRect.width, 56f);
+            if (failure == null) DrawCompanyTabs(navRect);
             Rect bodyRect = new Rect(inRect.x, navRect.yMax + 8f, inRect.width, inRect.yMax - navRect.yMax - 58f);
             Widgets.DrawMenuSection(bodyRect);
             Rect inner = bodyRect.ContractedBy(12f);
             if (failure != null)
             {
-                selectedTab = TelegraphTab.Stations;
+                selectedCompany = TelegraphCompany.NationalIndustrialCredit;
                 selectedMilitaryActivity = MilitaryActivity.None;
                 Text.Anchor = TextAnchor.MiddleCenter;
                 GUI.color = Color.gray;
@@ -300,58 +291,83 @@ namespace Helodrace
                 GUI.color = Color.white;
                 Text.Anchor = TextAnchor.UpperLeft;
             }
-            else if (selectedTab == TelegraphTab.Military) DrawMilitaryTab(inner);
-            else DrawStationDirectory(inner);
+            else if (selectedCompany == TelegraphCompany.PioneerOverseasService) DrawMilitaryTab(inner);
+            else DrawCompanyPage(inner, comp);
 
             if (Widgets.ButtonText(new Rect(inRect.xMax - 120f, inRect.yMax - 38f, 120f, 38f), "CloseButton".Translate())) Close();
         }
 
-        private void DrawStationDirectory(Rect rect)
+        private void DrawCompanyTabs(Rect rect)
         {
-            float height = (rect.height - 20f) / 3f;
-            DrawStation(new Rect(rect.x, rect.y, rect.width, height), "TradeOffice", OpenFactionComms);
-            DrawStation(new Rect(rect.x, rect.y + height + 10f, rect.width, height), "ContractOffice", () =>
+            float width = (rect.width - 18f) / 4f;
+            Text.Font = GameFont.Tiny;
+            for (int i = 0; i < 4; i++)
             {
-                selectedTab = TelegraphTab.Military;
-                selectedMilitaryActivity = MilitaryActivity.None;
-            });
-            DrawStation(new Rect(rect.x, rect.y + (height + 10f) * 2f, rect.width, height), "SupportOffice", () =>
-                Find.WindowStack.Add(new Dialog_ForwardBaseSupport(SelectedMilitaryFaction(), this,
-                    telegraphTable.TryGetComp<CompTelegraphTable>())));
-        }
-
-        private static void DrawStation(Rect rect, string station, Action connect)
-        {
-            Widgets.DrawMenuSection(rect);
-            Rect inner = rect.ContractedBy(12f);
-            const float buttonWidth = 118f;
-            Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(inner.x, inner.y, inner.width - buttonWidth - 18f, 28f), ("HD_Telegraph_" + station).Translate());
+                TelegraphCompany company = (TelegraphCompany)i;
+                if (Widgets.ButtonText(new Rect(rect.x + i * (width + 6f), rect.y, width, rect.height),
+                    TelegraphCompanies.Name(company), selectedCompany == company))
+                {
+                    selectedCompany = company;
+                    selectedMilitaryActivity = MilitaryActivity.None;
+                }
+            }
             Text.Font = GameFont.Small;
-            GUI.color = Color.gray;
-            Widgets.Label(new Rect(inner.x, inner.y + 34f, inner.width - buttonWidth - 18f, inner.height - 34f),
-                ("HD_Telegraph_" + station + "Desc").Translate());
-            GUI.color = Color.white;
-            if (Widgets.ButtonText(new Rect(inner.xMax - buttonWidth, inner.y + (inner.height - 36f) / 2f, buttonWidth, 36f),
-                "HD_Telegraph_Connect".Translate())) connect();
         }
 
-        private void OpenFactionComms()
+        private void DrawCompanyPage(Rect rect, CompTelegraphTable comp)
         {
-            CompTelegraphTable comp = telegraphTable.TryGetComp<CompTelegraphTable>();
-            Faction faction = SelectedMilitaryFaction();
-            string reason = comp.TransmissionFailure(faction);
-            if (reason == null && (operatorPawn == null || !operatorPawn.Spawned || operatorPawn.Dead || operatorPawn.Downed
-                || operatorPawn.Map != telegraphTable.Map || !operatorPawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking)
-                || operatorPawn.skills.GetSkill(SkillDefOf.Social).TotallyDisabled))
-                reason = "HD_Telegraph_OperatorUnavailable".Translate();
-            if (reason == null && !Dialog_TelegraphFactionComms.CanContact(faction)) reason = "HD_Telegraph_LeaderUnavailable".Translate();
-            if (reason != null)
+            MapComponent_TelegraphCompanies companies = telegraphTable.Map.GetComponent<MapComponent_TelegraphCompanies>();
+            Text.Font = GameFont.Medium;
+            Widgets.Label(new Rect(rect.x, rect.y, rect.width, 32f), TelegraphCompanies.Name(selectedCompany));
+            Text.Font = GameFont.Small;
+            bool harrington = selectedCompany == TelegraphCompany.HarringtonProtective;
+            string description = harrington ? "HD_Company_HarringtonDesc" : selectedCompany == TelegraphCompany.NationalIndustrialCredit
+                ? "HD_Company_FinancialDesc" : "HD_Company_CommercialDesc";
+            Widgets.Label(new Rect(rect.x, rect.y + 44f, rect.width, 82f), description.Translate());
+            int now = Find.TickManager.TicksGame;
+            if (harrington)
             {
-                Messages.Message(reason, MessageTypeDefOf.RejectInput);
+                Widgets.Label(new Rect(rect.x, rect.y + 134f, rect.width, 40f), companies.HarringtonWait > 0
+                    ? "HD_Company_Cooldown".Translate(companies.HarringtonWait.ToStringTicksToPeriod())
+                    : "HD_Company_Ready".Translate());
+                DrawCompanyButton(new Rect(rect.x, rect.y + 190f, rect.width, 42f), "HD_Company_HireHarrington".Translate(TelegraphCompanies.HarringtonCost),
+                    companies.HarringtonWait == 0, () => Find.WindowStack.Add(new Dialog_MessageBox(
+                        "HD_Company_HarringtonConfirm".Translate(TelegraphCompanies.HarringtonGuardCount, TelegraphCompanies.HarringtonCost),
+                        "Confirm".Translate(), () =>
+                        {
+                            if (!companies.TryRequestHarrington(operatorPawn, comp, out string reason)) Messages.Message(reason, MessageTypeDefOf.RejectInput);
+                        }, "CancelButton".Translate(), null)));
                 return;
             }
-            if (comp.ConsumePrimaryCell()) Find.WindowStack.Add(new Dialog_TelegraphFactionComms(comp.Network, operatorPawn, faction));
+            bool financial = selectedCompany == TelegraphCompany.NationalIndustrialCredit;
+            CompanyDispatchSchedule schedule = companies.Schedule(financial);
+            string status = schedule.Pending
+                ? "HD_Company_InTransit".Translate(Mathf.Max(0, schedule.ArrivalTick - now).ToStringTicksToPeriod()).ToString()
+                : schedule.CanRequest(now) ? "HD_Company_Ready".Translate().ToString()
+                : "HD_Company_Cooldown".Translate(Mathf.Max(0, schedule.LastRequestTick + CompanyDispatchSchedule.CooldownTicks - now).ToStringTicksToPeriod()).ToString();
+            Widgets.Label(new Rect(rect.x, rect.y + 134f, rect.width, 40f), status);
+            DrawCompanyButton(new Rect(rect.x, rect.y + 190f, rect.width, 42f), "HD_Company_RequestCaravan".Translate(),
+                schedule.CanRequest(now), () => ConfirmCaravanRequest(companies, comp, financial, !financial));
+            DrawCompanyButton(new Rect(rect.x, rect.y + 244f, rect.width, 42f), "HD_Company_RequestBoth".Translate(),
+                companies.Schedule(true).CanRequest(now) && companies.Schedule(false).CanRequest(now),
+                () => ConfirmCaravanRequest(companies, comp, true, true));
+        }
+
+        private void ConfirmCaravanRequest(MapComponent_TelegraphCompanies companies, CompTelegraphTable comp, bool financial, bool commercial)
+        {
+            int count = (financial ? 1 : 0) + (commercial ? 1 : 0);
+            int goodwill = -Faction.OfPlayer.CalculateAdjustedGoodwillChange(comp.Network.Provider, -15) * count;
+            Find.WindowStack.Add(new Dialog_MessageBox("HD_Company_CaravanConfirm".Translate(count, goodwill), "Confirm".Translate(), () =>
+            {
+                if (!companies.TryRequestCaravans(operatorPawn, comp, financial, commercial, out string reason)) Messages.Message(reason, MessageTypeDefOf.RejectInput);
+            }, "CancelButton".Translate(), null));
+        }
+
+        private static void DrawCompanyButton(Rect rect, string label, bool available, Action action)
+        {
+            GUI.color = available ? Color.white : Color.gray;
+            if (Widgets.ButtonText(rect, label) && available) action();
+            GUI.color = Color.white;
         }
 
         private void DrawMilitaryTab(Rect bodyInner)
@@ -374,10 +390,10 @@ namespace Helodrace
         private void DrawMilitaryActivityList(Rect rect)
         {
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(rect.x, rect.y, rect.width, 30f), "HD_Telegraph_ContractOffice".Translate());
+            Widgets.Label(new Rect(rect.x, rect.y, rect.width, 30f), TelegraphCompanies.Name(TelegraphCompany.PioneerOverseasService));
             Text.Font = GameFont.Small;
-            Widgets.Label(new Rect(rect.x, rect.y + 42f, rect.width, 50f), "HD_Telegraph_ContractOfficeDesc".Translate());
-            float width = (rect.width - 12f) / 2f;
+            Widgets.Label(new Rect(rect.x, rect.y + 42f, rect.width, 50f), "HD_Company_PioneerDesc".Translate());
+            float width = (rect.width - 24f) / 3f;
             if (Widgets.ButtonText(new Rect(rect.x, rect.y + 110f, width, 42f), "HD_TelegraphTable_Military_ForwardBase".Translate()))
             {
                 selectedMilitaryActivity = MilitaryActivity.ForwardBaseContract;
@@ -389,6 +405,9 @@ namespace Helodrace
             }
             if (Widgets.ButtonText(new Rect(rect.x + width + 12f, rect.y + 110f, width, 42f), "HD_TelegraphTable_Military_ForwardBaseContracts".Translate()))
                 selectedMilitaryActivity = MilitaryActivity.ForwardBaseContracts;
+            if (Widgets.ButtonText(new Rect(rect.x + (width + 12f) * 2f, rect.y + 110f, width, 42f), "HD_TelegraphTable_Military_RequestSupport".Translate()))
+                Find.WindowStack.Add(new Dialog_ForwardBaseSupport(SelectedMilitaryFaction(), this,
+                    telegraphTable.TryGetComp<CompTelegraphTable>()));
         }
 
         private Faction SelectedMilitaryFaction() => telegraphTable?.TryGetComp<CompTelegraphTable>()?.Network?.Provider;
@@ -799,7 +818,7 @@ namespace Helodrace
             }
         }
 
-        private static string ProviderCompanyName() => "Pioneer Overseas Service Company";
+        private static string ProviderCompanyName() => TelegraphCompanies.Name(TelegraphCompany.PioneerOverseasService);
 
         private Texture2D SelectedProviderLogo() => ContentFinder<Texture2D>.Get("Icons/HD_POSC", false);
 
@@ -1025,7 +1044,7 @@ namespace Helodrace
         {
             Dialog_TelegraphTable dialog = new Dialog_TelegraphTable(telegraphTable, operatorPawn)
             {
-                selectedTab = TelegraphTab.Military,
+                selectedCompany = TelegraphCompany.PioneerOverseasService,
                 selectedMilitaryActivity = MilitaryActivity.ForwardBaseContract,
                 selectedForwardBaseKind = baseKind,
                 selectedContractCostKind = costKind,
@@ -2021,12 +2040,6 @@ namespace Helodrace
                 GUI.color = Color.white;
                 y += 8f;
             }
-        }
-
-        private enum TelegraphTab
-        {
-            Stations,
-            Military
         }
 
         private enum MilitaryActivity

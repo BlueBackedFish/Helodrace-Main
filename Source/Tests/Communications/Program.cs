@@ -1,4 +1,7 @@
 using System;
+using System.IO;
+using System.Linq;
+using System.Xml.Linq;
 using Helodrace;
 
 internal static class Program
@@ -23,6 +26,74 @@ internal static class Program
         var restored = new HamRadioSchedule { LastCheckedDay = ham.LastCheckedDay };
         Check(!restored.CanCheck(2), "Persisted day prevents a same-day retry after loading");
         Check(restored.CanCheck(3), "Persisted state permits the next day");
+        CompanyRequests();
+        Definitions();
         Console.WriteLine("PASS: " + checks + " communications checks.");
+    }
+
+    private static void Definitions()
+    {
+        foreach (var entry in new[]
+        {
+            ("Defs/Finance/TraderKinds_Finance.xml", TelegraphCompanies.FinancialTrader, TelegraphCompany.NationalIndustrialCredit),
+            ("Defs/Finance/TraderKinds_Commercial.xml", TelegraphCompanies.CommercialTrader, TelegraphCompany.CentralHardwareSupply)
+        })
+        {
+            var def = XDocument.Load(entry.Item1).Root.Elements("TraderKindDef").Single(d => (string)d.Element("defName") == entry.Item2);
+            Check((string)def.Element("label") == TelegraphCompanies.Name(entry.Item3), "Arriving caravan label matches its company tab");
+        }
+        var kinds = XDocument.Load("Defs/Helod/Pawns/PawnKinds_GreatWar.xml").Root.Elements("PawnKindDef").ToList();
+        Check(kinds.Any(d => (string)d.Element("defName") == TelegraphCompanies.EliteGuard), "Elite guard definition exists");
+        Check(kinds.Any(d => (string)d.Element("defName") == TelegraphCompanies.EliteCaptain), "Elite captain definition exists");
+        var english = XDocument.Load("Languages/English/Keyed/TelegraphCompanies.xml").Root.Elements().ToList();
+        var korean = XDocument.Load("Languages/Korean (한국어)/Keyed/TelegraphCompanies.xml").Root.Elements().ToList();
+        Check(english.Select(e => e.Name).OrderBy(n => n.ToString()).SequenceEqual(korean.Select(e => e.Name).OrderBy(n => n.ToString())),
+            "English and Korean company text has matching keys");
+        Check(english.Select(e => e.Name).Distinct().Count() == english.Count, "No duplicate company translation keys");
+        Check(!File.Exists("Source/Helodrace/WildWest/TelegraphFactionComms.cs"), "The obsolete generic faction dialogue has been removed");
+    }
+
+    private static void CompanyRequests()
+    {
+        Check(TelegraphCompanies.Name(TelegraphCompany.NationalIndustrialCredit) == "National Industrial Credit Corporation", "Financial company name");
+        Check(TelegraphCompanies.Name(TelegraphCompany.CentralHardwareSupply) == "Central Hardware & Supply Co.", "Commercial company name");
+        Check(TelegraphCompanies.Name(TelegraphCompany.PioneerOverseasService) == "Pioneer Overseas Service Company", "Contract company name matches its contract");
+        Check(TelegraphCompanies.Name(TelegraphCompany.HarringtonProtective) == "Harrington Protective Services", "Security company name");
+        Check(TelegraphCompanies.FinancialTrader != TelegraphCompanies.CommercialTrader, "Companies use separate exact trader kinds");
+        Check(TelegraphCompanies.HarringtonGuardCount == 6 && TelegraphCompanies.HarringtonCost == 500
+            && TelegraphCompanies.HarringtonDurationTicks == 60000, "Approved Harrington terms");
+        Check(TelegraphCompanies.EliteGuard == "HD_GW_HelodEliteCaravanGuard"
+            && TelegraphCompanies.EliteCaptain == "HD_GW_HelodEliteCaravanGuardCaptain", "Harrington uses elite caravan guards");
+        var book = new CompanyDispatchBook();
+        Check(book.TrySchedule(0, true, false, 60000, 60000), "Financial caravan can be requested at game start");
+        Check(book.CanRequest(0, false, true), "Financial request does not block the commercial company");
+        Check(book.TrySchedule(0, false, true, 60000, 120000), "Both companies can be requested at the same tick");
+        Check(book.Financial.ArrivalTick == 60000 && book.Commercial.ArrivalTick == 120000, "Each caravan keeps its own arrival schedule");
+        Check(!book.TrySchedule(1, true, true, 60000, 60000), "In-transit caravans cannot be requested twice");
+        book.Financial.Complete();
+        Check(!book.Financial.CanRequest(239999), "Arrival does not skip the four-day cooldown");
+        Check(book.Financial.CanRequest(240000), "Cooldown ends at its exact boundary");
+        Check(book.Commercial.Pending && book.Commercial.ArrivalTick == 120000, "Completing one caravan never clears the other");
+        int before = book.Financial.LastRequestTick;
+        Check(!book.TrySchedule(240000, true, true, 60000, 60000), "A blocked member rejects a combined request");
+        Check(book.Financial.LastRequestTick == before && !book.Financial.Pending, "Combined rejection does not partially schedule or reset cooldowns");
+        book.Commercial.Complete();
+        Check(book.TrySchedule(240000, true, true, 60000, 120000), "Both companies can be requested atomically after cooldown");
+        Check(book.Financial.Retry(300000) && book.Financial.ArrivalTick == 302500, "Arrival failure retries after one hour");
+        Check(book.Commercial.ArrivalTick == 360000, "Retrying one company does not delay the other");
+        Check(!book.Financial.Retry(480000) && !book.Financial.Pending, "Impossible arrival expires instead of retrying forever");
+        var loaded = new CompanyDispatchSchedule
+        {
+            LastRequestTick = book.Commercial.LastRequestTick,
+            ArrivalTick = book.Commercial.ArrivalTick,
+            ExpiryTick = book.Commercial.ExpiryTick
+        };
+        Check(loaded.Pending && !loaded.CanRequest(360000), "Persisted company state retains a dispatched caravan");
+        loaded.Complete();
+        Check(!loaded.CanRequest(479999) && loaded.CanRequest(480000), "Persisted cooldown retains its original deadline");
+        var invalid = new CompanyDispatchBook();
+        Check(!invalid.TrySchedule(0, false, false, 60000, 60000), "Empty batch cannot charge or schedule a request");
+        Check(!invalid.TrySchedule(0, true, true, 60000, 59999)
+            && !invalid.Financial.Pending && !invalid.Commercial.Pending, "Invalid travel time rejects the entire batch");
     }
 }
