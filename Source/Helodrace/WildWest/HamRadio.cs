@@ -11,17 +11,42 @@ namespace Helodrace
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref schedule.LastCheckedDay, "hamLastQuestCheckDay", -1);
+            Scribe_Values.Look(ref schedule.PreparedDay, "hamRumorDay", -1);
+            Scribe_Values.Look(ref schedule.HasRumor, "hamHasRumor", false);
+            Scribe_Values.Look(ref schedule.RumorConsumed, "hamRumorConsumed", false);
         }
 
-        public string TryReceiveMission(Pawn operatorPawn, Faction faction)
+        private int CurrentDay => (int)((Find.TickManager.TicksAbs
+            + GenDate.LocalTicksOffsetFromLongitude(Find.WorldGrid.LongLatOf(map.Tile).x)) / GenDate.TicksPerDay);
+
+        public override void FinalizeInit()
         {
+            base.FinalizeInit();
+            PrepareToday();
+        }
+
+        public override void MapComponentTick()
+        {
+            if (Find.TickManager.TicksGame % 250 == 0) PrepareToday();
+        }
+
+        private void PrepareToday()
+        {
+            if (!map.IsPlayerHome) return;
+            int day = CurrentDay;
+            if (day > schedule.PreparedDay) schedule.PrepareDay(day, Find.World.info.Seed, map.uniqueID);
+        }
+
+        public string Chat(Pawn operatorPawn, Faction faction)
+        {
+            string chatter = HamRadioUtility.RandomChatter();
             if (operatorPawn == null || operatorPawn.Map != map || !map.IsPlayerHome
                 || !HamRadioUtility.IsHamFaction(faction) || faction.defeated)
-                return "HD_HAM_NoMission".Translate();
-            int day = Find.TickManager.TicksAbs / GenDate.TicksPerDay;
-            if (!schedule.CanCheck(day)) return "HD_HAM_AlreadyChecked".Translate();
-            if (schedule.CheckDay(day, Rand.Value))
+                return chatter;
+            PrepareToday();
+            // Consume before generation so an unavailable quest cannot be retried
+            // by repeatedly choosing chatter or switching LOW/HIGH contacts.
+            if (schedule.TryConsumeRumor(CurrentDay))
             {
                 IncidentDef incident = IncidentDefOf.GiveQuest_Random;
                 IncidentParms parms = StorytellerUtility.DefaultParmsNow(incident.category, map);
@@ -29,10 +54,10 @@ namespace Helodrace
                 if (incident.Worker.TryExecute(parms))
                 {
                     Messages.Message("HD_HAM_MissionReceived".Translate(), operatorPawn, MessageTypeDefOf.PositiveEvent);
-                    return "HD_HAM_MissionReceived".Translate();
+                    return chatter + "\n\n" + "HD_HAM_Rumor".Translate();
                 }
             }
-            return "HD_HAM_NoMission".Translate();
+            return chatter;
         }
     }
 }

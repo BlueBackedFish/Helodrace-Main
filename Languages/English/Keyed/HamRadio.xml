@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_HAM_Greeting>This is the {0} HAM operator. Your signal is clear. Would you like to chat, or ask about available missions?</HD_HAM_Greeting>
+  <HD_HAM_Greeting>This is the {0} HAM operator. Your signal is clear. How are things at your settlement?</HD_HAM_Greeting>
   <HD_HAM_Chat>Chat on the HAM band</HD_HAM_Chat>
-  <HD_HAM_AskMission>Ask about missions</HD_HAM_AskMission>
-  <HD_HAM_NoMission>There are no missions to relay today. Try contacting us again tomorrow.</HD_HAM_NoMission>
-  <HD_HAM_AlreadyChecked>Your settlement has already checked the HAM mission traffic today. Please check again tomorrow.</HD_HAM_AlreadyChecked>
-  <HD_HAM_MissionReceived>A distant HAM operator has transmitted a mission. Check the quests tab.</HD_HAM_MissionReceived>
-  <HD_HAM_Chatter1>A distant operator discusses the weather, then signs off through the static.</HD_HAM_Chatter1>
-  <HD_HAM_Chatter2>Someone on the HAM band is comparing homemade antennas. No urgent traffic.</HD_HAM_Chatter2>
-  <HD_HAM_Chatter3>A caravan cook shares a recipe over the open band. The signal fades before the last ingredient.</HD_HAM_Chatter3>
-  <HD_HAM_Chatter4>Two operators trade stories about their settlements. Nothing requires action.</HD_HAM_Chatter4>
-  <HD_HAM_Chatter5>A voice asks for a signal report and thanks the colony for the reply.</HD_HAM_Chatter5>
-  <HD_HAM_Chatter6>The operator exchanges call signs with a distant station. The rest is quiet static.</HD_HAM_Chatter6>
+  <HD_HAM_MissionReceived>A rumor picked up during HAM chatter has led to a new mission. Check the quests tab.</HD_HAM_MissionReceived>
+  <HD_HAM_Chatter1>The wind has been picking up here all morning. How is the weather at your settlement?</HD_HAM_Chatter1>
+  <HD_HAM_Chatter2>We have been comparing homemade antennas on this band. A little more height can make quite a difference.</HD_HAM_Chatter2>
+  <HD_HAM_Chatter3>A caravan cook shared a recipe with me. The signal broke up just as they mentioned the last ingredient.</HD_HAM_Chatter3>
+  <HD_HAM_Chatter4>An operator nearby has been telling stories about life in their settlement. Sounds like they have had a busy week.</HD_HAM_Chatter4>
+  <HD_HAM_Chatter5>Your signal is coming through clearly. Thanks for helping me check the receiver.</HD_HAM_Chatter5>
+  <HD_HAM_Chatter6>It is always good to exchange call signs with another settlement. The band has been fairly quiet today.</HD_HAM_Chatter6>
+  <HD_HAM_Rumor>Come to think of it, I heard someone out there could use a hand. Let me pass along what I know.</HD_HAM_Rumor>
 </LanguageData>

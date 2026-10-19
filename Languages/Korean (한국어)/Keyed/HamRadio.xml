@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_HAM_Greeting>여기는 {0}의 HAM 통신원입니다. 신호 잘 들립니다. 잠깐 잡담을 나누시겠습니까, 아니면 전달할 의뢰가 있는지 확인하시겠습니까?</HD_HAM_Greeting>
+  <HD_HAM_Greeting>여기는 {0}의 HAM 통신원입니다. 신호 잘 들립니다. 그쪽 정착지는 별일 없습니까?</HD_HAM_Greeting>
   <HD_HAM_Chat>HAM 대역에서 잡담한다</HD_HAM_Chat>
-  <HD_HAM_AskMission>전달할 임무가 있는지 묻는다</HD_HAM_AskMission>
-  <HD_HAM_NoMission>오늘 전달할 임무는 없습니다. 내일 다시 교신해 주세요.</HD_HAM_NoMission>
-  <HD_HAM_AlreadyChecked>오늘은 이미 정착지에서 HAM 임무 수신을 확인했습니다. 내일 다시 확인해 주세요.</HD_HAM_AlreadyChecked>
-  <HD_HAM_MissionReceived>먼 곳의 HAM 통신원이 임무를 전해 왔습니다. 임무 탭을 확인하세요.</HD_HAM_MissionReceived>
-  <HD_HAM_Chatter1>먼 곳의 통신원이 날씨 이야기를 나누다 잡음 속에서 교신을 마쳤습니다.</HD_HAM_Chatter1>
-  <HD_HAM_Chatter2>HAM 대역에서 자작 안테나 성능을 비교하는 이야기가 들립니다. 긴급한 소식은 없습니다.</HD_HAM_Chatter2>
-  <HD_HAM_Chatter3>어느 상단의 요리사가 조리법을 알려 줍니다. 마지막 재료를 듣기 전에 신호가 끊겼습니다.</HD_HAM_Chatter3>
-  <HD_HAM_Chatter4>두 통신원이 서로의 정착지 소식을 전합니다. 도움이 필요한 일은 없다고 합니다.</HD_HAM_Chatter4>
-  <HD_HAM_Chatter5>상대방이 수신 상태를 물어보고, 답신에 감사하며 교신을 마쳤습니다.</HD_HAM_Chatter5>
-  <HD_HAM_Chatter6>먼 곳의 통신국과 호출부호를 주고받았습니다. 이후에는 잔잔한 잡음만 들립니다.</HD_HAM_Chatter6>
+  <HD_HAM_MissionReceived>HAM 잡담 중 전해 들은 소문이 새로운 임무로 이어졌습니다. 임무 탭을 확인하세요.</HD_HAM_MissionReceived>
+  <HD_HAM_Chatter1>이쪽은 아침부터 바람이 거셉니다. 그쪽 정착지는 날씨가 어떻습니까?</HD_HAM_Chatter1>
+  <HD_HAM_Chatter2>요즘 이 대역에서는 자작 안테나 성능 이야기가 한창입니다. 조금만 높여도 수신이 꽤 달라지더군요.</HD_HAM_Chatter2>
+  <HD_HAM_Chatter3>어느 상단의 요리사에게 조리법을 배웠습니다. 마지막 재료를 말할 때 잡음이 끼어서 그 부분만 놓쳤네요.</HD_HAM_Chatter3>
+  <HD_HAM_Chatter4>근처 통신원이 정착지에서 있었던 일을 들려주더군요. 이번 주에는 꽤 바쁘게 지낸 모양입니다.</HD_HAM_Chatter4>
+  <HD_HAM_Chatter5>그쪽 신호는 또렷하게 들립니다. 수신기 상태를 확인하는 데 도움을 주셔서 고맙습니다.</HD_HAM_Chatter5>
+  <HD_HAM_Chatter6>다른 정착지와 호출부호를 주고받으니 반갑군요. 오늘 대역은 비교적 조용한 편입니다.</HD_HAM_Chatter6>
+  <HD_HAM_Rumor>그러고 보니, 어디선가 일손을 구하는 사람들이 있다는 얘기를 들었습니다. 제가 들은 내용을 전해 드리죠.</HD_HAM_Rumor>
 </LanguageData>

@@ -9,11 +9,12 @@ namespace Helodrace
         public static bool IsHamFaction(ICommunicable target)
             => target is Faction faction && HamRadioRoutingRules.IsHamFaction(faction.def?.defName);
 
+        public static string RandomChatter()
+            => ("HD_HAM_Chatter" + Rand.RangeInclusive(1, 6)).Translate();
+
         public static DiaNode CreateDialog(Pawn negotiator, Faction faction)
             => HamRadioDialog.Create(faction.Name,
-                () => ("HD_HAM_Chatter" + Rand.RangeInclusive(1, 6)).Translate(),
-                () => negotiator?.Map?.GetComponent<MapComponent_HamRadio>().TryReceiveMission(negotiator, faction)
-                    ?? "HD_HAM_NoMission".Translate());
+                () => negotiator?.Map?.GetComponent<MapComponent_HamRadio>().Chat(negotiator, faction) ?? RandomChatter());
     }
 
     // Keep the vanilla contact option, icon, goodwill, comms job and negotiation

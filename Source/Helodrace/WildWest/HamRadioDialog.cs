@@ -5,16 +5,12 @@ namespace Helodrace
 {
     public static class HamRadioDialog
     {
-        public static DiaNode Create(string factionName, Func<string> chatter, Func<string> receiveMission)
+        public static DiaNode Create(string factionName, Func<string> chatter)
         {
             var root = new DiaNode("HD_HAM_Greeting".Translate(factionName));
             root.options.Add(new DiaOption("HD_HAM_Chat".Translate())
             {
                 linkLateBind = () => Reply(root, chatter())
-            });
-            root.options.Add(new DiaOption("HD_HAM_AskMission".Translate())
-            {
-                linkLateBind = () => Reply(root, receiveMission())
             });
             root.options.Add(Disconnect());
             return root;

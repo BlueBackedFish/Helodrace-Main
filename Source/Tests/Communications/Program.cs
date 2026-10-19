@@ -16,17 +16,8 @@ internal static class Program
 
     private static void Main()
     {
-        var ham = new HamRadioSchedule();
-        Check(ham.CanCheck(0), "The first day can receive a mission");
-        Check(ham.CheckDay(0, 0.14999f), "A roll below 15 percent receives mission traffic");
-        Check(!ham.CheckDay(0, 0f), "Repeated use cannot receive another mission that day");
-        Check(!ham.CheckDay(1, 0.15f), "A roll at the threshold is ordinary chatter");
-        Check(!ham.CheckDay(1, 0f), "A failed daily roll cannot be rerolled on another console");
-        Check(ham.CheckDay(2, 0f), "A later day can receive another mission");
-        Check(!ham.CheckDay(1, 0f), "Clock rollback does not reopen a checked day");
-        var restored = new HamRadioSchedule { LastCheckedDay = ham.LastCheckedDay };
-        Check(!restored.CanCheck(2), "Persisted day prevents a same-day retry after loading");
-        Check(restored.CanCheck(3), "Persisted state permits the next day");
+        HamSchedule();
+        HamRumors();
         CompanyRequests();
         HamRouting();
         HamDialogue();
@@ -57,24 +48,108 @@ internal static class Program
 
     private static void HamDialogue()
     {
-        int conversations = 0, missionChecks = 0;
-        var root = HamRadioDialog.Create("Test Helod faction", () => "Chatter " + ++conversations, () => "Mission reply " + ++missionChecks);
+        int conversations = 0;
+        var root = HamRadioDialog.Create("Test Helod faction", () => "Chatter " + ++conversations);
         Check(root.text.Contains("Test Helod faction"), "The vanilla negotiation window receives a faction-specific HAM greeting");
-        Check(root.options.Count == 3 && root.options[0].text == "HD_HAM_Chat" && root.options[1].text == "HD_HAM_AskMission",
-            "Root offers chatter, mission inquiry and disconnect instead of vanilla faction services");
-        Check(conversations == 0 && missionChecks == 0, "Opening the dialogue cannot silently consume the daily mission check");
+        Check(root.options.Count == 2 && root.options[0].text == "HD_HAM_Chat" && root.options[1].resolveTree,
+            "Root offers only chatter and disconnect, with no mission inquiry");
+        Check(conversations == 0, "Opening the dialogue does not consume or reveal a prepared rumor");
         var chatter = root.options[0].linkLateBind();
-        Check(chatter.text == "Chatter 1" && conversations == 1 && missionChecks == 0, "Choosing chatter displays a reply without rolling a mission");
+        Check(chatter.text == "Chatter 1" && conversations == 1, "Choosing chatter displays its normal or rumor reply inside the window");
         Check(chatter.options.Count == 2 && chatter.options[0].link == root && !chatter.options[0].resolveTree,
             "Chatter returns to the same root inside the existing dialogue window");
-        var mission = root.options[1].linkLateBind();
-        Check(mission.text == "Mission reply 1" && missionChecks == 1 && conversations == 1, "Mission inquiry executes once when selected and shows its result in the dialogue");
-        Check(mission.options.Count == 2 && mission.options[0].link == root, "Mission replies can return to the root without reopening comms");
-        Check(root.options[2].resolveTree && chatter.options[1].resolveTree && mission.options[1].resolveTree,
+        var repeated = root.options[0].linkLateBind();
+        Check(repeated.text == "Chatter 2" && conversations == 2, "Returning to the root allows more ordinary chatter");
+        Check(root.options[1].resolveTree && chatter.options[1].resolveTree && repeated.options[1].resolveTree,
             "Every dialogue stage can disconnect through the vanilla tree close behavior");
-        Check(root.options[2].link == null && root.options[2].linkLateBind == null, "Disconnect never triggers a new reply or mission check");
-        Check(!ReferenceEquals(chatter, mission) && !ReferenceEquals(chatter.options[1], root.options[2]),
+        Check(root.options[1].link == null && root.options[1].linkLateBind == null, "Disconnect never triggers a new reply or rumor");
+        Check(!ReferenceEquals(chatter, repeated) && !ReferenceEquals(chatter.options[1], root.options[1]),
             "Response nodes and close options have independent dialogue ownership");
+    }
+
+    private static void HamSchedule()
+    {
+        const int world = 1234, map = 1;
+        int yes = Enumerable.Range(0, 200).First(d => HamRadioSchedule.IsRumorDay(d, world, map));
+        int no = Enumerable.Range(0, 200).First(d => !HamRadioSchedule.IsRumorDay(d, world, map));
+        var schedule = new HamRadioSchedule();
+        Check(!schedule.TryConsumeRumor(yes), "An unprepared day cannot generate a rumor");
+        schedule.PrepareDay(yes, world, map);
+        Check(schedule.PreparedDay == yes && schedule.HasRumor && !schedule.RumorConsumed, "The day's rumor is decided before chatting");
+        Check(schedule.TryConsumeRumor(yes) && !schedule.TryConsumeRumor(yes), "A prepared rumor can be consumed once only");
+        schedule.PrepareDay(yes, world + 99, map + 99);
+        Check(!schedule.TryConsumeRumor(yes), "Preparing the same day again cannot reset consumed state");
+        var absent = new HamRadioSchedule(); absent.PrepareDay(no, world, map);
+        Check(!absent.HasRumor && !absent.TryConsumeRumor(no), "A no-rumor day never yields a mission");
+        absent.PrepareDay(no, 9876, 77);
+        Check(!absent.HasRumor, "Changing inputs after preparation cannot reroll the current day");
+        var restored = new HamRadioSchedule { PreparedDay = yes, HasRumor = true, RumorConsumed = true };
+        restored.PrepareDay(yes, world, map);
+        Check(!restored.TryConsumeRumor(yes), "Persisted consumed state prevents same-day duplicates");
+        Check(!restored.TryConsumeRumor(yes - 1), "A rumor cannot be consumed under the wrong date");
+        restored.PrepareDay(yes - 1, world, map);
+        Check(restored.PreparedDay == yes && restored.RumorConsumed, "Clock rollback does not reset the active day");
+        restored.PrepareDay(yes + 1, world, map);
+        Check(restored.PreparedDay == yes + 1 && !restored.RumorConsumed, "The next day gets its own unconsumed result");
+        int count = Enumerable.Range(0, 10000).Count(d => HamRadioSchedule.IsRumorDay(d, world, map));
+        Check(count > 1300 && count < 1700, "The fixed calendar retains the approved 15-percent daily chance");
+        Check(Enumerable.Range(0, 200).Any(d => HamRadioSchedule.IsRumorDay(d, world, map) != HamRadioSchedule.IsRumorDay(d, world + 1, map)),
+            "Different worlds do not share one universal rumor calendar");
+        Check(Enumerable.Range(0, 200).Any(d => HamRadioSchedule.IsRumorDay(d, world, map) != HamRadioSchedule.IsRumorDay(d, world, map + 1)),
+            "Different settlements have independent calendars");
+    }
+
+    private static void HamRumors()
+    {
+        const int seed = 1234, mapId = 1;
+        int yes = Enumerable.Range(0, 200).First(d => HamRadioSchedule.IsRumorDay(d, seed, mapId));
+        int no = Enumerable.Range(0, 200).First(d => !HamRadioSchedule.IsRumorDay(d, seed, mapId));
+        Action<int> clock = ticks => { Verse.Find.TickManager.TicksAbs = ticks; Verse.Find.TickManager.TicksGame = ticks; };
+        var map = new Verse.Map { uniqueID = mapId };
+        var pawn = new Verse.Pawn { Map = map };
+        var low = new RimWorld.Faction { def = new RimWorld.FactionDef { defName = "HD_HelodCivilLowFaction" } };
+        var high = new RimWorld.Faction { def = new RimWorld.FactionDef { defName = "HD_HelodCivilHighFaction" } };
+        var worker = RimWorld.IncidentDefOf.GiveQuest_Random.Worker;
+        Verse.Find.World.info.Seed = seed; Verse.Find.WorldGrid.Longitude = 0;
+        clock(yes * 60000); worker.Calls = 0; worker.Success = true;
+        var component = new MapComponent_HamRadio(map); component.FinalizeInit();
+        Verse.Scribe_Values.Loading = false; Verse.Scribe_Values.Stored.Clear(); component.ExposeData();
+        Check((int)Verse.Scribe_Values.Stored["hamRumorDay"] == yes && (bool)Verse.Scribe_Values.Stored["hamHasRumor"]
+            && !(bool)Verse.Scribe_Values.Stored["hamRumorConsumed"] && worker.Calls == 0,
+            "Map initialization prepares and saves today's result before any contact or quest generation");
+        var pendingSave = new System.Collections.Generic.Dictionary<string, object>(Verse.Scribe_Values.Stored);
+        Check(component.Chat(pawn, low).Contains("HD_HAM_Rumor") && worker.Calls == 1, "A positive day reveals one mission as a rumor inside normal chatter");
+        Check(component.Chat(pawn, high) == "Ordinary chatter" && worker.Calls == 1, "Switching LOW/HIGH contacts cannot reveal another rumor");
+        for (int i = 0; i < 100; i++) component.Chat(pawn, low);
+        Check(worker.Calls == 1, "Repeated chatter cannot produce additional quest attempts");
+        component.ExposeData();
+        var loaded = new MapComponent_HamRadio(map);
+        Verse.Scribe_Values.Loading = true; loaded.ExposeData(); Verse.Scribe_Values.Loading = false; loaded.FinalizeInit();
+        Check(loaded.Chat(pawn, high) == "Ordinary chatter" && worker.Calls == 1, "Save/load preserves rumor consumption across faction contacts");
+
+        Verse.Scribe_Values.Stored = pendingSave;
+        var pending = new MapComponent_HamRadio(map);
+        Verse.Scribe_Values.Loading = true; pending.ExposeData(); Verse.Scribe_Values.Loading = false; pending.FinalizeInit();
+        worker.Success = false;
+        Check(pending.Chat(pawn, low) == "Ordinary chatter" && worker.Calls == 2, "An unavailable quest keeps the response as ordinary chatter");
+        worker.Success = true;
+        Check(pending.Chat(pawn, high) == "Ordinary chatter" && worker.Calls == 2, "Failed quest generation is consumed and cannot be retried by clicking");
+
+        clock(no * 60000); var empty = new MapComponent_HamRadio(map); empty.FinalizeInit();
+        Check(Enumerable.Range(0, 100).All(_ => empty.Chat(pawn, low) == "Ordinary chatter"), "Repeated chatter on no-rumor days always stays ordinary");
+        Check(worker.Calls == 2, "No-rumor days never attempt quest generation");
+        clock(yes * 60000); var guarded = new MapComponent_HamRadio(map); guarded.FinalizeInit();
+        Check(guarded.Chat(pawn, new RimWorld.Faction()) == "Ordinary chatter" && worker.Calls == 2, "Other factions cannot consume a prepared rumor");
+        Check(guarded.Chat(pawn, low).Contains("HD_HAM_Rumor") && worker.Calls == 3, "An excluded contact leaves the valid LOW/HIGH rumor available");
+
+        Verse.Find.WorldGrid.Longitude = 90;
+        clock(10 * 60000 - 15001); var midnight = new MapComponent_HamRadio(map); midnight.FinalizeInit(); midnight.ExposeData();
+        Check((int)Verse.Scribe_Values.Stored["hamRumorDay"] == 9, "Daily planning follows the settlement's local day");
+        clock(10 * 60000 - 15000); midnight.MapComponentTick(); midnight.ExposeData();
+        Check((int)Verse.Scribe_Values.Stored["hamRumorDay"] == 10
+            && (bool)Verse.Scribe_Values.Stored["hamHasRumor"] == HamRadioSchedule.IsRumorDay(10, seed, mapId),
+            "Local midnight prepares the next result automatically without chatting");
+        Verse.Find.WorldGrid.Longitude = 0;
     }
 
     private static void Definitions()
