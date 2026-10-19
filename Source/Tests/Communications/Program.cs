@@ -173,26 +173,11 @@ internal static class Program
             "English and Korean company text has matching keys");
         Check(english.Select(e => e.Name).Distinct().Count() == english.Count, "No duplicate company translation keys");
 
-        var giftEnglish = XDocument.Load("Languages/English/Keyed/FinancialGoodwill.xml").Root.Elements().ToList();
-        var giftKorean = XDocument.Load("Languages/Korean (한국어)/Keyed/FinancialGoodwill.xml").Root.Elements().ToList();
-        Check(giftEnglish.Select(e => e.Name).OrderBy(n => n.ToString()).SequenceEqual(giftKorean.Select(e => e.Name).OrderBy(n => n.ToString())),
-            "English and Korean financial gift text has matching keys");
-        Check(giftEnglish.Select(e => e.Name).Distinct().Count() == giftEnglish.Count, "No duplicate financial gift translation keys");
-        foreach (Match key in Regex.Matches(File.ReadAllText("Source/Helodrace/Economy/FinancialGiftPatches.cs"), "\"(HD_FinancialGift_[A-Za-z]+)\""))
-            Check(giftEnglish.Any(e => e.Name.LocalName == key.Groups[1].Value), "Every financial gift UI and message key is translated");
-        foreach (var entry in giftEnglish)
-        {
-            var translated = giftKorean.Single(e => e.Name == entry.Name);
-            var pattern = @"\{\d+\}";
-            Check(Regex.Matches(entry.Value, pattern).Select(m => m.Value).SequenceEqual(Regex.Matches(translated.Value, pattern).Select(m => m.Value)),
-                "Financial gift text preserves translation arguments");
-        }
-        var financialSituation = XDocument.Load("Defs/Finance/GoodwillSituations_Financial.xml").Root.Element("GoodwillSituationDef");
-        Check((string)financialSituation.Element("workerClass") == "Helodrace.Economy.GoodwillSituationWorker_Financial",
-            "Natural goodwill definition uses the financial ledger worker");
-        var situationTranslation = XDocument.Load("Languages/Korean (한국어)/DefInjected/GoodwillSituationDef/FinancialGoodwill.xml");
-        Check(situationTranslation.Root.Element((string)financialSituation.Element("defName") + ".label") != null,
-            "The financial natural-goodwill situation has a Korean label");
+        var financialEnglish = XDocument.Load("Languages/English/Keyed/FinancialGoodwill.xml").Root.Elements().ToList();
+        var financialKorean = XDocument.Load("Languages/Korean (한국어)/Keyed/FinancialGoodwill.xml").Root.Elements().ToList();
+        Check(financialEnglish.Select(e => e.Name).SequenceEqual(financialKorean.Select(e => e.Name)), "Financial reward translations have matching keys");
+        Check(!File.Exists("Defs/Finance/GoodwillSituations_Financial.xml") && !File.Exists("Source/Helodrace/Economy/GoodwillSituationWorker_Financial.cs"),
+            "Financial reputation no longer adds a natural-goodwill situation");
         Check(!File.Exists("Source/Helodrace/WildWest/TelegraphFactionComms.cs"), "The obsolete generic faction dialogue has been removed");
     }
 

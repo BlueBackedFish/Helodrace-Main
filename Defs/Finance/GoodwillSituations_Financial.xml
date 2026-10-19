@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Defs>
-  <GoodwillSituationDef>
-    <defName>HD_FinancialGoodwill</defName>
-    <label>financial goodwill</label>
-    <workerClass>Helodrace.Economy.GoodwillSituationWorker_Financial</workerClass>
-  </GoodwillSituationDef>
-</Defs>

@@ -165,8 +165,9 @@ namespace RimWorld
         public string Name = "Test faction";
         public bool IsPlayer => ReferenceEquals(this, OfPlayer);
         public int PlayerGoodwill, NativeNaturalGoodwill, MaxGoodwill = 100, GoodwillChanges;
-        public int NaturalGoodwill => NativeNaturalGoodwill + new Helodrace.Economy.GoodwillSituationWorker_Financial().GetNaturalGoodwillOffset(this);
+        public int NaturalGoodwill => NativeNaturalGoodwill;
         public int BaseGoodwillWith(Faction other) => PlayerGoodwill;
+        public int CalculateAdjustedGoodwillChange(Faction other, int amount) => amount;
         public bool TryAffectGoodwillWith(Faction other, int amount, HistoryEventDef reason = null)
         {
             PlayerGoodwill += amount; GoodwillChanges++; return true;

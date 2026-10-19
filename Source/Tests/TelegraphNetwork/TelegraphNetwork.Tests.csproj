@@ -14,7 +14,6 @@
     <Compile Include="../../Helodrace/WildWest/TelegraphNetwork.cs" Link="TelegraphNetwork.cs" />
     <Compile Include="../../Helodrace/Economy/FinancialGoodwill.cs" Link="FinancialGoodwill.cs" />
     <Compile Include="../../Helodrace/Economy/FinancialGoodwillRules.cs" Link="FinancialGoodwillRules.cs" />
-    <Compile Include="../../Helodrace/Economy/GoodwillSituationWorker_Financial.cs" Link="GoodwillSituationWorker_Financial.cs" />
-    <Compile Include="../../Helodrace/Economy/FinancialGiftPatches.cs" Link="FinancialGiftPatches.cs" />
+    <Compile Include="../../Helodrace/Economy/FinancialGoodwillPatches.cs" Link="FinancialGoodwillPatches.cs" />
   </ItemGroup>
 </Project>

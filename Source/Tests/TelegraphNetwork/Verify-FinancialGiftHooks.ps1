@@ -19,38 +19,15 @@ try {
     $null = [Reflection.Assembly]::LoadFrom((Join-Path $managedDirectory 'Assembly-CSharp.dll'))
     $mod = [Reflection.Assembly]::LoadFrom((Join-Path $RepositoryRoot 'Assemblies/Helodrace.dll'))
     $harmony = [HarmonyLib.Harmony]::new('Helodrace.Tests.FinancialGifts')
-    $targets = @{
-        Patch_FinancialEconomicReward = 1
-        Patch_FinancialGiftValuation = 3
-        Patch_FinancialGiftCapMessage = 1
-        Patch_FinancialNaturalRecovery = 1
+    $type = $mod.GetType('Helodrace.Economy.Patch_FinancialEconomicReward', $true)
+    $patched = $harmony.CreateClassProcessor($type).Patch()
+    if ($patched.Count -ne 1) { throw 'Expected the vanilla goodwill award method' }
+    foreach ($name in @('Patch_FinancialGiftValuation', 'Patch_FinancialGiftCapMessage', 'Patch_FinancialNaturalRecovery',
+        'Patch_FinancialGiftTradeText', 'GoodwillSituationWorker_Financial')) {
+        if ($null -ne $mod.GetType('Helodrace.Economy.' + $name)) { throw "Obsolete financial replacement remains: $name" }
     }
-    $count = 0
-    foreach ($name in $targets.Keys) {
-        $type = $mod.GetType('Helodrace.Economy.' + $name, $true)
-        $patched = $harmony.CreateClassProcessor($type).Patch()
-        if ($patched.Count -ne $targets[$name]) { throw "Unexpected installed game method count for $name" }
-        $count += $patched.Count
-    }
-    # Reading/transpiling UI instructions is safe outside Unity. Creating a live
-    # Dialog_Trade wrapper here would require Unity's native ECall methods.
-    $textTargets = [Helodrace.Economy.Patch_FinancialGiftTradeText]::TargetMethods()
-    $expectedTextCounts = @(2, 2, 1)
-    $readInstructions = [HarmonyLib.PatchProcessor].GetMethods() | Where-Object {
-        $_.Name -eq 'GetOriginalInstructions' -and $_.GetParameters()[1].ParameterType -eq [Reflection.Emit.ILGenerator]
-    }
-    $index = 0
-    foreach ($method in $textTargets) {
-        $instructions = $readInstructions.Invoke($null, [object[]]@($method, $null))
-        $rewritten = @([Helodrace.Economy.Patch_FinancialGiftTradeText]::Transpiler($instructions))
-        $textCount = @($rewritten | Where-Object {
-            $_.opcode -eq [Reflection.Emit.OpCodes]::Ldstr -and [string]$_.operand -like 'HD_FinancialGift_*'
-        }).Count
-        if ($textCount -ne $expectedTextCounts[$index]) { throw "Gift UI text does not match $method" }
-        $index++
-    }
-    if ($index -ne 3) { throw 'Expected three financial gift UI methods' }
-    Write-Output "PASS: Four financial goodwill patches apply to $count installed RimWorld method targets; all three gift UI instruction rewrites match."
+    Write-Output 'PASS: Half-sized financial rewards supplement vanilla goodwill; obsolete gift valuation, UI and baseline patches are absent.'
+
 }
 finally {
     if ($null -ne $harmony) { $harmony.UnpatchAll('Helodrace.Tests.FinancialGifts') }

@@ -429,7 +429,7 @@ namespace Helodrace
             if (financial)
             {
                 Rect goodwillRect = new Rect(rect.x, rect.yMax - 38f, rect.width, 30f);
-                int financialGoodwill = Economy.GameComponent_FinancialGoodwill.Current?.Get(SelectedMilitaryFaction()) ?? 0;
+                float financialGoodwill = Economy.GameComponent_FinancialGoodwill.Current?.Get(SelectedMilitaryFaction()) ?? 0;
                 Widgets.Label(goodwillRect, "HD_Company_FinancialGoodwill".Translate(financialGoodwill));
                 TooltipHandler.TipRegion(goodwillRect, "HD_Company_FinancialGoodwillTip".Translate());
             }

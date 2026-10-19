@@ -42,176 +42,65 @@ internal static class Program
         TransactionsAndPersistence();
         CaravanContact();
         FinancialGoodwill();
-        FinancialRecovery();
-        GiftRouting();
         Console.WriteLine("PASS: " + checks + " telegraph network checks.");
     }
 
     private static void FinancialGoodwill()
     {
-        var ledger = new GameComponent_FinancialGoodwill(new Game());
-        var low = new Faction { PlayerGoodwill = 42 };
-        var other = new Faction { PlayerGoodwill = -20 };
-        Check(ledger.Get(low) == 0 && ledger.Get(other) == 0, "Financial goodwill starts neutral independently of diplomacy");
-        Check(ledger.TrySet(low, 35) && ledger.Get(low) == 35, "Financial value can be set through its separate API");
-        Check(ledger.Get(other) == 0, "A financial relationship does not change other factions");
-        Check(low.PlayerGoodwill == 42 && other.PlayerGoodwill == -20, "Setting financial goodwill does not instantly change diplomatic goodwill");
-        low.PlayerGoodwill = -90;
-        Check(ledger.Get(low) == 35, "Vanilla goodwill changes do not derive or overwrite the financial value");
-        ledger.TrySet(low, 1000);
-        Check(ledger.Get(low) == 100, "Financial goodwill clamps at 100");
-        ledger.TrySet(other, -1000);
-        Check(ledger.Get(other) == -100, "Financial goodwill clamps at minus 100");
+        var game = new Game(); Current.Game = game;
+        var ledger = new GameComponent_FinancialGoodwill(game); game.Component = ledger;
+        var faction = new Faction { PlayerGoodwill = 20, NativeNaturalGoodwill = -10 };
+        Check(ledger.Get(faction) == 0, "Financial reputation starts independently at zero");
+        float state = 0;
+        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 11, HistoryEventDefOf.GaveGift, ref state);
+        Check(state == 5.5f, "Gift credit is half the evaluated diplomatic award, retaining half-points");
+        faction.TryAffectGoodwillWith(Faction.OfPlayer, 11, reason: HistoryEventDefOf.GaveGift);
+        Patch_FinancialEconomicReward.Postfix(Faction.OfPlayer, faction, state);
+        Check(faction.PlayerGoodwill == 31 && ledger.Get(faction) == 5.5f, "Gifts increase both vanilla goodwill and half-sized financial reputation");
+        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 3, HistoryEventDefOf.Traded, ref state);
+        faction.TryAffectGoodwillWith(Faction.OfPlayer, 3, reason: HistoryEventDefOf.Traded);
+        Patch_FinancialEconomicReward.Postfix(Faction.OfPlayer, faction, state);
+        Check(faction.PlayerGoodwill == 34 && ledger.Get(faction) == 7f, "Trade goodwill stays vanilla and adds half its award to finance");
+        Check(faction.NaturalGoodwill == -10, "Finance does not shift the natural diplomatic baseline");
+        Find.TickManager.TicksGame = 999999; ledger.GameComponentTick(); ledger.LoadedGame();
+        Check(faction.PlayerGoodwill == 34, "Financial reputation grants no automatic diplomatic recovery");
+        faction.PlayerGoodwill = 100;
+        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 2, HistoryEventDefOf.Traded, ref state);
+        Patch_FinancialEconomicReward.Postfix(Faction.OfPlayer, faction, state);
+        Check(ledger.Get(faction) == 8f && faction.PlayerGoodwill == 100, "The separate half reward can still accumulate at the diplomatic cap");
+        foreach (var reason in new[] { (HistoryEventDef)null, new HistoryEventDef(), HistoryEventDefOf.ReachNaturalGoodwill })
+        {
+            Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 10, reason, ref state);
+            Check(state == 0f, "Non-economic diplomacy cannot award financial reputation");
+        }
+        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, -10, HistoryEventDefOf.Traded, ref state);
+        Check(state == 0f, "Negative economic changes are not half-sized rewards");
+        Patch_FinancialEconomicReward.Prefix(faction, new Faction(), 10, HistoryEventDefOf.GaveGift, ref state);
+        Check(state == 0f, "NPC-to-NPC gifts are not player financial rewards");
+        faction.CanChange = false;
+        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 10, HistoryEventDefOf.GaveGift, ref state);
+        Check(state == 0f, "Vanilla restrictions also gate financial rewards"); faction.CanChange = true;
         Check(!ledger.TrySet(null, 10) && !ledger.TrySet(Faction.OfPlayer, 10), "Invalid and self relationships cannot be written");
-        Check(ledger.Get(null) == 0 && ledger.Get(Faction.OfPlayer) == 0, "Invalid and self relationships read neutral");
-        Scribe.Values.Clear(); Scribe.Loading = false;
-        ledger.ExposeData();
-        var loaded = new GameComponent_FinancialGoodwill(new Game());
-        Scribe.Loading = true; loaded.ExposeData(); Scribe.Loading = false;
-        Check(loaded.Get(low) == 100 && loaded.Get(other) == -100, "Faction references and financial values survive ExposeData save/load");
-        loaded.TrySet(low, 0);
-        Check(loaded.Get(low) == 0 && loaded.Get(other) == -100, "Resetting one financial relationship leaves the other unchanged");
-        Check(ledger.Get(low) == 100, "A loaded ledger is independent of the saved in-memory snapshot");
-        Scribe.Values.Clear();
-        var empty = new GameComponent_FinancialGoodwill(new Game());
-        Scribe.Loading = true; empty.ExposeData(); Scribe.Loading = false;
-        Check(empty.Get(low) == 0, "An absent financial ledger reads as neutral");
-        Check(empty.TrySet(low, -10) && empty.Get(low) == -10, "An absent ledger can be initialized through the API");
-    }
-
-    private static void GiftRouting()
-    {
-        var game = new Game(); Current.Game = game;
-        var ledger = new GameComponent_FinancialGoodwill(game); game.Component = ledger;
-        var faction = new Faction { PlayerGoodwill = 100 };
-        bool result = false;
-        int events = Find.HistoryEventsManager.Count, messages = Messages.Count;
-        Check(!Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 20, HistoryEventDefOf.GaveGift, ref result) && result,
-            "Actual gift prefix completes the reward while suppressing vanilla diplomatic mutation");
-        Check(ledger.Get(faction) == 20 && faction.PlayerGoodwill == 100 && faction.GoodwillChanges == 0,
-            "Gift routing rewards finance even at maximum diplomatic goodwill");
-        Check(Find.HistoryEventsManager.Count == events + 1 && Messages.Count == messages + 1,
-            "Financial gift produces one history entry and one financial reward message");
-        Check(FinancialGiftUtility.GiftGoodwill(faction) == 20, "Gift valuation reads finance independently of diplomatic goodwill");
-        ledger.TrySet(faction, 100); events = Find.HistoryEventsManager.Count; messages = Messages.Count;
-        Check(!Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 20, HistoryEventDefOf.GaveGift, ref result)
-            && ledger.Get(faction) == 100 && faction.GoodwillChanges == 0,
-            "Financial cap cannot fall back to an ordinary goodwill reward");
-        Check(Find.HistoryEventsManager.Count == events && Messages.Count == messages, "A capped gift cannot produce a false reward notification");
-        ledger.TrySet(faction, 0); faction.CanChange = false; result = true;
-        Check(!Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 20, HistoryEventDefOf.GaveGift, ref result) && !result && ledger.Get(faction) == 0,
-            "Vanilla restrictions on changing a faction's goodwill also restrict financial gifts");
-        faction.CanChange = true;
-        Check(Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, -15, null, ref result), "Caravan request costs stay on the vanilla goodwill path");
-        Check(Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 20, new HistoryEventDef(), ref result), "Non-gift quest and diplomacy rewards retain the vanilla path");
-        Check(Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 0, HistoryEventDefOf.GaveGift, ref result), "Zero-value gifts do not create financial rewards");
-        Check(Patch_FinancialEconomicReward.Prefix(faction, new Faction(), 20, HistoryEventDefOf.GaveGift, ref result), "NPC-to-NPC relations stay on the vanilla path");
-        faction.PlayerGoodwill = 0;
-        Check(!Patch_FinancialEconomicReward.Prefix(faction, Faction.OfPlayer, 5, HistoryEventDefOf.GaveGift, ref result)
-            && ledger.Get(faction) == 5 && faction.PlayerGoodwill == 0, "Gift routing works regardless of which side invokes the relation update");
-        Check(!Patch_FinancialNaturalRecovery.Prefix(faction), "Actual recovery prefix suppresses vanilla upward recovery while finance owns it");
-        faction.PlayerGoodwill = 10;
-        Check(Patch_FinancialNaturalRecovery.Prefix(faction), "Actual recovery prefix preserves vanilla behavior above the financial target");
-        var tradingFaction = new Faction { PlayerGoodwill = 33 };
-        Check(!Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, tradingFaction, 4, HistoryEventDefOf.Traded, ref result) && result,
-            "Trade goodwill suppresses immediate vanilla diplomatic rewards");
-        Check(ledger.Get(tradingFaction) == 4 && tradingFaction.PlayerGoodwill == 33 && tradingFaction.GoodwillChanges == 0,
-            "Trade goodwill is credited to the same financial ledger as gifts");
-        tradingFaction.PlayerGoodwill = 100;
-        Check(!Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, tradingFaction, 6, HistoryEventDefOf.Traded, ref result)
-            && ledger.Get(tradingFaction) == 10 && tradingFaction.PlayerGoodwill == 100,
-            "Trade can still build finance at maximum diplomatic goodwill");
-        ledger.TrySet(tradingFaction, 99);
-        Check(!Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, tradingFaction, 5, HistoryEventDefOf.Traded, ref result)
-            && ledger.Get(tradingFaction) == 100, "Trade rewards respect the financial cap");
-        Check(!Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, tradingFaction, 5, HistoryEventDefOf.Traded, ref result)
-            && tradingFaction.GoodwillChanges == 0, "Capped trading never falls back to vanilla goodwill");
-        Check(Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, tradingFaction, -5, HistoryEventDefOf.Traded, ref result),
-            "Negative economic diplomacy changes retain the vanilla path");
-        Check(Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, tradingFaction, 0, HistoryEventDefOf.Traded, ref result),
-            "A trade below the vanilla goodwill threshold creates no financial reward");
-        tradingFaction.CanChange = false; ledger.TrySet(tradingFaction, 0);
-        Check(!Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, tradingFaction, 5, HistoryEventDefOf.Traded, ref result)
-            && !result && ledger.Get(tradingFaction) == 0, "Trade financial rewards honor vanilla diplomatic restrictions");
-        Current.Game = null;
-        Check(Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 20, HistoryEventDefOf.GaveGift, ref result), "Gift routing remains safe without an active game ledger");
-    }
-
-    private static void FinancialRecovery()
-    {
-        Find.TickManager.TicksGame = 0;
-        var game = new Game(); Current.Game = game;
-        var ledger = new GameComponent_FinancialGoodwill(game); game.Component = ledger;
-        var faction = new Faction();
-        var other = new Faction { NativeNaturalGoodwill = -80, PlayerGoodwill = -80 };
-        Check(ledger.AddReward(faction, 20) == 20 && ledger.Get(faction) == 20, "Gift reward goes into the financial ledger");
-        Check(faction.PlayerGoodwill == 0 && faction.NaturalGoodwill == 20, "Gift shifts the vanilla natural baseline without immediate diplomatic reward");
-        Check(other.NaturalGoodwill == -80 && other.PlayerGoodwill == -80, "Gift does not affect another faction's baseline or relations");
-        Check(ledger.ReplacesVanillaRecovery(faction), "Financial recovery owns upward natural recovery to prevent double rewards");
-        Check(Find.GoodwillSituationManager.Recalculations > 0, "Financial changes invalidate the vanilla situation cache");
-        Find.TickManager.TicksGame = 30000;
-        ledger.AddReward(faction, 10);
-        Find.TickManager.TicksGame = 59750; ledger.GameComponentTick();
-        Check(faction.PlayerGoodwill == 0, "No recovery before one full day");
-        Find.TickManager.TicksGame = 60000; ledger.GameComponentTick(); ledger.GameComponentTick();
-        Check(faction.PlayerGoodwill == 1 && faction.GoodwillChanges == 1, "Additional gifts preserve the original deadline, and duplicate ticks grant no extra points");
-
+        Check(!ledger.TrySet(faction, float.NaN) && !ledger.TrySet(faction, float.PositiveInfinity), "Non-finite values cannot corrupt financial balances");
+        ledger.TrySet(faction, 99.5f);
+        Check(ledger.Adjust(faction, 10) == 0.5f && ledger.Get(faction) == 100f, "Fractional rewards respect the upper limit");
+        Check(ledger.Adjust(faction, 10) == 0f, "Financial cap cannot overflow");
+        Check(ledger.TrySpend(faction, 20f) && ledger.Get(faction) == 80f, "Hostile caravan fees spend exactly the financial cost");
+        Check(!ledger.TrySpend(faction, 81f) && !ledger.TrySpend(faction, -20f) && ledger.Get(faction) == 80f, "Rejected fees cannot partially spend or credit a balance");
+        ledger.Adjust(faction, -500f);
+        Check(ledger.Get(faction) == -100f, "Attack penalties respect the financial floor");
+        ledger.TrySet(faction, 12.5f);
         Scribe.Values.Clear(); Scribe.Loading = false; ledger.ExposeData();
         var loaded = new GameComponent_FinancialGoodwill(game);
         Scribe.Loading = true; loaded.ExposeData(); Scribe.Loading = false;
-        game.Component = loaded; loaded.LoadedGame();
-        Find.TickManager.TicksGame = 119750; loaded.GameComponentTick();
-        Check(faction.PlayerGoodwill == 1 && loaded.Get(faction) == 30, "Reload retains the exact next recovery deadline and financial balance");
-        Find.TickManager.TicksGame = 120000; loaded.GameComponentTick();
-        Check(faction.PlayerGoodwill == 2, "Reloaded financial recovery grants one point at its original deadline");
-        Find.TickManager.TicksGame = 600000; loaded.GameComponentTick();
-        Check(faction.PlayerGoodwill == 3, "Late ticks never grant a burst of missed daily recovery");
-        faction.PlayerGoodwill = 29;
-        Find.TickManager.TicksGame = 660000; loaded.GameComponentTick();
-        Check(faction.PlayerGoodwill == 30, "Recovery reaches the shifted baseline exactly");
-        Find.TickManager.TicksGame = 720000; loaded.GameComponentTick();
-        Check(faction.PlayerGoodwill == 30 && !loaded.ReplacesVanillaRecovery(faction), "Recovery stops at the target");
-        faction.PlayerGoodwill = 50;
-        Find.TickManager.TicksGame = 780000; loaded.GameComponentTick();
-        Check(faction.PlayerGoodwill == 50 && !loaded.ReplacesVanillaRecovery(faction), "Financial recovery does not pull higher goodwill down or disable vanilla downward recovery");
-        Check(loaded.AddReward(other, 20) == 20 && other.NaturalGoodwill == -60, "Financial offset adds to the faction's original negative baseline");
-        other.PlayerGoodwill = -61;
-        Find.TickManager.TicksGame = 840000; loaded.GameComponentTick();
-        Check(other.PlayerGoodwill == -60, "Negative diplomatic goodwill recovers toward its raised negative target");
-
-        var capped = new Faction { NativeNaturalGoodwill = 90, PlayerGoodwill = 79, MaxGoodwill = 80 };
-        loaded.AddReward(capped, 50);
-        Check(loaded.RecoveryTarget(capped) == 80, "Faction-specific maximum limits recovery below the natural target");
-        Find.TickManager.TicksGame = 900000; loaded.GameComponentTick();
-        Check(capped.PlayerGoodwill == 80, "Recovery respects the faction-specific maximum");
-        var alreadyFriendly = new Faction { PlayerGoodwill = 100 };
-        Check(loaded.AddReward(alreadyFriendly, 99) == 99 && loaded.Get(alreadyFriendly) == 99 && alreadyFriendly.PlayerGoodwill == 100,
-            "Maximum diplomatic goodwill does not cap separate financial gift rewards");
-        Check(loaded.AddReward(alreadyFriendly, int.MaxValue) == 1 && loaded.Get(alreadyFriendly) == 100, "Financial gain caps without integer overflow");
-        Check(loaded.AddReward(alreadyFriendly, 20) == 0, "Gifts at the financial cap award no extra points");
-        Check(loaded.AddReward(faction, 0) == 0 && loaded.AddReward(faction, -20) == 0 && loaded.Get(faction) == 30,
-            "Non-positive gift gains cannot reduce financial goodwill");
-        Check(loaded.AddReward(null, 20) == 0 && loaded.AddReward(Faction.OfPlayer, 20) == 0, "Gifts cannot create invalid or self relationships");
-
-        var excluded = new[] {
-            new Faction { defeated = true }, new Faction { temporary = true },
-            new Faction { HasGoodwill = false }, new Faction { def = new FactionDef { permanentEnemy = true } }
-        };
-        foreach (var invalid in excluded)
-        {
-            loaded.TrySet(invalid, 50);
-            Check(!loaded.UsesFinancialRecovery(invalid), "Excluded faction cannot get financial automatic recovery");
-        }
-        var neutral = new Faction { PlayerGoodwill = -20 };
-        var negativeFinance = new Faction { PlayerGoodwill = -20 }; loaded.TrySet(negativeFinance, -10);
-        Check(!loaded.ReplacesVanillaRecovery(neutral) && !loaded.ReplacesVanillaRecovery(negativeFinance),
-            "Without positive financial goodwill, vanilla recovery stays in control");
-        Find.TickManager.TicksGame = 960000; loaded.GameComponentTick();
-        Check(excluded.All(f => f.PlayerGoodwill == 0) && neutral.PlayerGoodwill == -20 && negativeFinance.PlayerGoodwill == -20,
-            "Ticking does not reward excluded or unfunded factions");
-        Check(FinancialGoodwillRules.RecoveryAmount(100, int.MaxValue) == 0 && FinancialGoodwillRules.RecoveryAmount(-100, int.MinValue) == 0,
-            "Recovery never exceeds legal goodwill bounds");
+        Check(loaded.Get(faction) == 12.5f, "Faction references and half-point balances survive save/load");
+        Check(!Scribe.Values.ContainsKey("financialGoodwillNextRecovery"), "No obsolete recovery schedule is serialized");
+        Check(FinancialGoodwillRules.CaravanAttackPenalty(10) == -13 && FinancialGoodwillRules.CaravanAttackPenalty(200) == -130,
+            "Protected-caravan damage uses the vanilla damage-scaled goodwill penalty");
+        Check(FinancialGoodwillRules.CaravanAttackPenalty(0) == 0, "Zero damage cannot deduct financial reputation");
         Current.Game = null;
+        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 10, HistoryEventDefOf.GaveGift, ref state);
+        Check(state == 0f, "The economic reward hook remains safe outside a game");
     }
 
     private static void CaravanContact()
