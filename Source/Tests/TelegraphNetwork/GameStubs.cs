@@ -186,6 +186,7 @@ namespace RimWorld
     {
         public static readonly HistoryEventDef ReachNaturalGoodwill = new HistoryEventDef();
         public static readonly HistoryEventDef GaveGift = new HistoryEventDef();
+        public static readonly HistoryEventDef Traded = new HistoryEventDef();
     }
     public sealed class HistoryEvent { public HistoryEvent(HistoryEventDef def, params object[] args) { } }
     public static class HistoryEventArgsNames { public const string AffectedFaction = "Faction", CustomGoodwill = "Goodwill"; }

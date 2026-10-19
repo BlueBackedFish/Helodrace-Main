@@ -4,7 +4,7 @@ using Verse;
 
 namespace Helodrace.Economy
 {
-    // Gifts fund this separate relationship. It shifts natural goodwill without
+    // Gifts and trading fund this separate relationship. It shifts natural goodwill without
     // granting an immediate diplomatic reward; recovery happens one point/day.
     public sealed class GameComponent_FinancialGoodwill : GameComponent
     {
@@ -43,7 +43,7 @@ namespace Helodrace.Economy
             return true;
         }
 
-        public int AddGift(Faction faction, int goodwill)
+        public int AddReward(Faction faction, int goodwill)
         {
             if (faction == null || faction == Faction.OfPlayer || goodwill <= 0) return 0;
             int previous = Get(faction);

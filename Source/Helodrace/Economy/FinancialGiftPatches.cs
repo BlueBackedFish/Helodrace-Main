@@ -15,15 +15,16 @@ namespace Helodrace.Economy
             => GameComponent_FinancialGoodwill.Current?.Get(faction) ?? 0;
     }
 
-    // Both caravan trading and transport-pod gifts eventually use this reason.
+    // Only positive economic goodwill becomes financial reputation. Other
+    // diplomacy changes and economic penalties remain on the vanilla path.
     [HarmonyPatch(typeof(Faction), nameof(Faction.TryAffectGoodwillWith))]
-    public static class Patch_FinancialGiftReward
+    public static class Patch_FinancialEconomicReward
     {
         [HarmonyPrefix]
         public static bool Prefix(Faction __instance, Faction other, int goodwillChange, HistoryEventDef reason, ref bool __result)
         {
             var ledger = GameComponent_FinancialGoodwill.Current;
-            if (reason != HistoryEventDefOf.GaveGift || goodwillChange <= 0 || ledger == null
+            if ((reason != HistoryEventDefOf.GaveGift && reason != HistoryEventDefOf.Traded) || goodwillChange <= 0 || ledger == null
                 || (__instance.IsPlayer == other.IsPlayer)) return true;
             if (!__instance.CanChangeGoodwillFor(other, goodwillChange))
             {
@@ -31,12 +32,13 @@ namespace Helodrace.Economy
                 return false;
             }
             Faction recipient = __instance.IsPlayer ? other : __instance;
-            int gained = ledger.AddGift(recipient, goodwillChange);
+            int gained = ledger.AddReward(recipient, goodwillChange);
             if (gained > 0)
             {
-                Find.HistoryEventsManager.RecordEvent(new HistoryEvent(HistoryEventDefOf.GaveGift,
+                Find.HistoryEventsManager.RecordEvent(new HistoryEvent(reason,
                     recipient.Named(HistoryEventArgsNames.AffectedFaction), gained.Named(HistoryEventArgsNames.CustomGoodwill)), true);
-                Messages.Message("HD_FinancialGift_Received".Translate(recipient.Name, gained, ledger.Get(recipient)), MessageTypeDefOf.PositiveEvent);
+                string message = reason == HistoryEventDefOf.Traded ? "HD_FinancialTrade_Received" : "HD_FinancialGift_Received";
+                Messages.Message(message.Translate(recipient.Name, gained, ledger.Get(recipient)), MessageTypeDefOf.PositiveEvent);
             }
             __result = true;
             return false;

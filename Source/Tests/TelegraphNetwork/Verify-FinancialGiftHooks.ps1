@@ -20,7 +20,7 @@ try {
     $mod = [Reflection.Assembly]::LoadFrom((Join-Path $RepositoryRoot 'Assemblies/Helodrace.dll'))
     $harmony = [HarmonyLib.Harmony]::new('Helodrace.Tests.FinancialGifts')
     $targets = @{
-        Patch_FinancialGiftReward = 1
+        Patch_FinancialEconomicReward = 1
         Patch_FinancialGiftValuation = 3
         Patch_FinancialGiftCapMessage = 1
         Patch_FinancialNaturalRecovery = 1
