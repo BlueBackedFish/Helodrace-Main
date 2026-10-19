@@ -193,7 +193,7 @@ internal static class Program
         GenDate.LocalHour = 8;
         Check(reloaded.Status() == TelegraphConnectionStatus.Online, "Same connection reopens without another installation fee");
         s.trader.Faction.Hostile = true;
-        Check(reloaded.Status() == TelegraphConnectionStatus.ProviderUnavailable, "Hostile LOW provider blocks an installed connection");
+        Check(reloaded.Status() == TelegraphConnectionStatus.Online, "An installed line stays available for financially authorized hostile trade requests");
         s.trader.Faction.Hostile = false;
 
         var other = Settlement(); Notes(other.map, 500);

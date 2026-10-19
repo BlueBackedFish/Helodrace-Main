@@ -208,37 +208,41 @@ internal static class Program
             && TelegraphCompanies.HarringtonDurationTicks == 60000, "Approved Harrington terms");
         Check(TelegraphCompanies.EliteGuard == "HD_GW_HelodEliteCaravanGuard"
             && TelegraphCompanies.EliteCaptain == "HD_GW_HelodEliteCaravanGuardCaptain", "Harrington uses elite caravan guards");
+        var bank = new[] { TelegraphCompany.NationalIndustrialCredit };
+        var shop = new[] { TelegraphCompany.CentralHardwareSupply };
+        var both = new[] { bank[0], shop[0] };
         var book = new CompanyDispatchBook();
-        Check(book.TrySchedule(0, true, false, 60000, 60000), "Financial caravan can be requested at game start");
-        Check(book.CanRequest(0, false, true), "Financial request does not block the commercial company");
-        Check(book.TrySchedule(0, false, true, 60000, 120000), "Both companies can be requested at the same tick");
-        Check(book.Financial.ArrivalTick == 60000 && book.Commercial.ArrivalTick == 120000, "Each caravan keeps its own arrival schedule");
-        Check(!book.TrySchedule(1, true, true, 60000, 60000), "In-transit caravans cannot be requested twice");
-        book.Financial.Complete();
-        Check(!book.Financial.CanRequest(239999), "Arrival does not skip the four-day cooldown");
-        Check(book.Financial.CanRequest(240000), "Cooldown ends at its exact boundary");
-        Check(book.Commercial.Pending && book.Commercial.ArrivalTick == 120000, "Completing one caravan never clears the other");
-        int before = book.Financial.LastRequestTick;
-        Check(!book.TrySchedule(240000, true, true, 60000, 60000), "A blocked member rejects a combined request");
-        Check(book.Financial.LastRequestTick == before && !book.Financial.Pending, "Combined rejection does not partially schedule or reset cooldowns");
-        book.Commercial.Complete();
-        Check(book.TrySchedule(240000, true, true, 60000, 120000), "Both companies can be requested atomically after cooldown");
-        Check(book.Financial.Retry(300000) && book.Financial.ArrivalTick == 302500, "Arrival failure retries after one hour");
-        Check(book.Commercial.ArrivalTick == 360000, "Retrying one company does not delay the other");
-        Check(!book.Financial.Retry(480000) && !book.Financial.Pending, "Impossible arrival expires instead of retrying forever");
-        var loaded = new CompanyDispatchSchedule
-        {
-            LastRequestTick = book.Commercial.LastRequestTick,
-            ArrivalTick = book.Commercial.ArrivalTick,
-            ExpiryTick = book.Commercial.ExpiryTick
-        };
-        Check(loaded.Pending && !loaded.CanRequest(360000), "Persisted company state retains a dispatched caravan");
-        loaded.Complete();
-        Check(!loaded.CanRequest(479999) && loaded.CanRequest(480000), "Persisted cooldown retains its original deadline");
+        Check(book.TrySchedule(0, bank, new[] { 60000 }, false), "Financial caravan can be requested at game start");
+        Check(book.CanRequest(0, shop), "Financial request does not block the commercial company");
+        Check(book.TrySchedule(0, shop, new[] { 120000 }, true), "Companies can be requested at the same tick with independent safe conduct");
+        var financial = book.Schedule(bank[0]); var commercial = book.Schedule(shop[0]);
+        Check(financial.ArrivalTick == 60000 && commercial.ArrivalTick == 120000 && !financial.SafeConduct && commercial.SafeConduct,
+            "Each caravan retains its arrival and paid safe-conduct status");
+        Check(!book.TrySchedule(1, both, new[] { 60000, 60000 }, false), "In-transit caravans cannot be requested twice");
+        financial.Complete();
+        Check(!financial.CanRequest(239999) && financial.CanRequest(240000), "Arrival does not skip the exact four-day cooldown");
+        Check(commercial.Pending && commercial.ArrivalTick == 120000, "Completing one caravan does not change another");
+        int before = financial.LastRequestTick;
+        Check(!book.TrySchedule(240000, both, new[] { 60000, 120000 }, false) && financial.LastRequestTick == before && !financial.Pending,
+            "A rejected combined request does not partially schedule or reset cooldowns");
+        commercial.Complete();
+        Check(book.TrySchedule(240000, both, new[] { 60000, 120000 }, true), "Companies can be scheduled atomically after their cooldowns");
+        Check(financial.Retry(300000) && financial.ArrivalTick == 302500 && commercial.ArrivalTick == 360000,
+            "One caravan retries after an hour without moving another arrival");
+        Check(!financial.Retry(480000) && !financial.Pending, "Impossible arrivals expire");
         var invalid = new CompanyDispatchBook();
-        Check(!invalid.TrySchedule(0, false, false, 60000, 60000), "Empty batch cannot charge or schedule a request");
-        Check(!invalid.TrySchedule(0, true, true, 60000, 59999)
-            && !invalid.Financial.Pending && !invalid.Commercial.Pending, "Invalid travel time rejects the entire batch");
+        Check(!invalid.TrySchedule(0, Array.Empty<TelegraphCompany>(), Array.Empty<int>(), false), "Empty requests are rejected");
+        Check(!invalid.TrySchedule(0, both, new[] { 60000, 59999 }, true) && !invalid.Schedule(bank[0]).Pending,
+            "Invalid travel times cannot partially schedule a combined request");
+        Check(!invalid.CanRequest(0, new[] { bank[0], bank[0] }), "Duplicate company selections cannot double-charge or double-dispatch");
+        Check(!invalid.CanRequest(0, new[] { TelegraphCompany.HarringtonProtective }), "Caravan requests cannot dispatch a security-service entry");
+        Check(!TelegraphTradeRules.CanRequest(49.5f, false, 1) && TelegraphTradeRules.CanRequest(50f, false, 1), "Non-hostile caravans require 50 financial reputation");
+        Check(!TelegraphTradeRules.CanRequest(79.5f, true, 1) && TelegraphTradeRules.CanRequest(80f, true, 1), "Hostile caravans require 80 financial reputation");
+        Check(TelegraphTradeRules.Cost(false, 2) == 0 && TelegraphTradeRules.Cost(true, 2) == 40, "Only hostile caravans charge 20 financial points per company");
+        Check(!TelegraphTradeRules.CanRequest(80f, true, 2) && TelegraphTradeRules.CanRequest(100f, true, 2),
+            "Combining requests cannot bypass the per-caravan hostile threshold");
+        Check(!TelegraphTradeRules.CanRequest(100f, true, 3), "A third hostile caravan cannot bypass the reduced balance");
+        Check(TelegraphTradeRules.CanRequest(50f, false, 4) && !TelegraphTradeRules.CanRequest(100f, false, 0), "Normal bulk requests preserve the 50-point threshold and reject zero selections");
     }
 
     private static void DirectorySelection()

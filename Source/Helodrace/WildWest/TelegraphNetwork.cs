@@ -23,7 +23,7 @@ namespace Helodrace
 
         public TelegraphConnectionStatus Status(bool hasPrimaryCell = true)
         {
-            bool available = Provider != null && !Provider.defeated && !Provider.HostileTo(Faction.OfPlayer);
+            bool available = Provider != null && !Provider.defeated;
             return TelegraphNetworkRules.Status(readyTick, Find.TickManager.TicksGame, LocalHour, available, hasPrimaryCell);
         }
 

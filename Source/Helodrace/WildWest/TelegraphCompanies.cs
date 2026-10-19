@@ -15,6 +15,8 @@ namespace Helodrace
     public static class TelegraphCompanies
     {
         public static readonly IReadOnlyList<TelegraphCompany> All = Array.AsReadOnly((TelegraphCompany[])Enum.GetValues(typeof(TelegraphCompany)));
+        public static readonly IReadOnlyList<TelegraphCompany> CaravanCompanies = Array.AsReadOnly(new[]
+            { TelegraphCompany.NationalIndustrialCredit, TelegraphCompany.CentralHardwareSupply });
         public const string FinancialTrader = "HD_WW_Caravan_HelodFinancial";
         public const string CommercialTrader = "HD_GW_Caravan_HelodCommercial";
         public const string EliteGuard = "HD_GW_HelodEliteCaravanGuard";
@@ -26,6 +28,28 @@ namespace Helodrace
         public static string NameKey(TelegraphCompany company) => "HD_Company_Name_" + company;
 
         public static string Name(TelegraphCompany company) => NameKey(company).Translate();
+
+        public static string TraderKind(TelegraphCompany company)
+        {
+            switch (company)
+            {
+                case TelegraphCompany.NationalIndustrialCredit: return FinancialTrader;
+                case TelegraphCompany.CentralHardwareSupply: return CommercialTrader;
+                default: return null;
+            }
+        }
+
+        public static string DescriptionKey(TelegraphCompany company)
+        {
+            switch (company)
+            {
+                case TelegraphCompany.NationalIndustrialCredit: return "HD_Company_FinancialDesc";
+                case TelegraphCompany.CentralHardwareSupply: return "HD_Company_CommercialDesc";
+                case TelegraphCompany.PioneerOverseasService: return "HD_Company_PioneerDesc";
+                case TelegraphCompany.HarringtonProtective: return "HD_Company_HarringtonDesc";
+                default: return "HD_Company_Service_Unavailable";
+            }
+        }
 
         public static string ServiceKey(TelegraphCompany company)
         {
@@ -48,14 +72,16 @@ namespace Helodrace
         public int LastRequestTick = -CooldownTicks;
         public int ArrivalTick = -1;
         public int ExpiryTick = -1;
+        public bool SafeConduct;
         public bool Pending => ArrivalTick >= 0;
         public bool CanRequest(int now) => !Pending && now >= LastRequestTick + CooldownTicks;
 
-        internal void Schedule(int now, int travelTicks)
+        internal void Schedule(int now, int travelTicks, bool safeConduct)
         {
             LastRequestTick = now;
             ArrivalTick = now + travelTicks;
             ExpiryTick = now + CooldownTicks;
+            SafeConduct = safeConduct;
         }
 
         public void Complete() => ArrivalTick = -1;
@@ -70,20 +96,45 @@ namespace Helodrace
 
     public sealed class CompanyDispatchBook
     {
-        public readonly CompanyDispatchSchedule Financial = new CompanyDispatchSchedule();
-        public readonly CompanyDispatchSchedule Commercial = new CompanyDispatchSchedule();
+        private readonly Dictionary<TelegraphCompany, CompanyDispatchSchedule> schedules = new Dictionary<TelegraphCompany, CompanyDispatchSchedule>();
 
-        public bool CanRequest(int now, bool financial, bool commercial)
-            => (financial || commercial) && (!financial || Financial.CanRequest(now)) && (!commercial || Commercial.CanRequest(now));
-
-        public bool TrySchedule(int now, bool financial, bool commercial, int financialTravel, int commercialTravel)
+        public CompanyDispatchBook()
         {
-            if (!CanRequest(now, financial, commercial)) return false;
-            if (financial && (financialTravel < CompanyDispatchSchedule.MinimumTravelTicks || financialTravel > CompanyDispatchSchedule.MaximumTravelTicks)) return false;
-            if (commercial && (commercialTravel < CompanyDispatchSchedule.MinimumTravelTicks || commercialTravel > CompanyDispatchSchedule.MaximumTravelTicks)) return false;
-            if (financial) Financial.Schedule(now, financialTravel);
-            if (commercial) Commercial.Schedule(now, commercialTravel);
+            foreach (TelegraphCompany company in TelegraphCompanies.CaravanCompanies) schedules.Add(company, new CompanyDispatchSchedule());
+        }
+
+        public CompanyDispatchSchedule Schedule(TelegraphCompany company) => schedules[company];
+
+        public bool CanRequest(int now, IReadOnlyList<TelegraphCompany> companies)
+        {
+            if (companies == null || companies.Count == 0) return false;
+            var unique = new HashSet<TelegraphCompany>();
+            foreach (TelegraphCompany company in companies)
+                if (!unique.Add(company) || !schedules.TryGetValue(company, out CompanyDispatchSchedule schedule) || !schedule.CanRequest(now)) return false;
             return true;
         }
+
+        public bool TrySchedule(int now, IReadOnlyList<TelegraphCompany> companies, int[] travelTicks, bool safeConduct)
+        {
+            if (!CanRequest(now, companies) || travelTicks == null || travelTicks.Length != companies.Count) return false;
+            foreach (int travel in travelTicks)
+                if (travel < CompanyDispatchSchedule.MinimumTravelTicks || travel > CompanyDispatchSchedule.MaximumTravelTicks) return false;
+            for (int i = 0; i < companies.Count; i++) schedules[companies[i]].Schedule(now, travelTicks[i], safeConduct);
+            return true;
+        }
+    }
+
+    public static class TelegraphTradeRules
+    {
+        public const int MinimumFinancial = 50;
+        public const int HostileMinimumFinancial = 80;
+        public const int HostileCaravanCost = 20;
+        public static int Cost(bool hostile, int count) => hostile ? HostileCaravanCost * count : 0;
+        // Every caravan in a combined request must satisfy the 80-point rule
+        // before its own fee. Combining requests cannot bypass that threshold.
+        public static int RequiredFinancial(bool hostile, int count)
+            => hostile ? HostileMinimumFinancial + HostileCaravanCost * System.Math.Max(0, count - 1) : MinimumFinancial;
+        public static bool CanRequest(float finance, bool hostile, int count)
+            => count > 0 && finance >= RequiredFinancial(hostile, count);
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Helodrace.Economy;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -12,14 +13,13 @@ namespace Helodrace
         private Faction caravanProvider;
         private int harringtonNextRequestTick;
         public MapComponent_TelegraphCompanies(Map map) : base(map) { }
-        public CompanyDispatchSchedule Schedule(bool financial) => financial ? dispatches.Financial : dispatches.Commercial;
+        public CompanyDispatchSchedule Schedule(TelegraphCompany company) => dispatches.Schedule(company);
         public int HarringtonWait => Mathf.Max(0, harringtonNextRequestTick - Find.TickManager.TicksGame);
 
         public override void ExposeData()
         {
             base.ExposeData();
-            ExposeSchedule("nationalIndustrialCredit", dispatches.Financial);
-            ExposeSchedule("centralHardwareSupply", dispatches.Commercial);
+            foreach (TelegraphCompany company in TelegraphCompanies.CaravanCompanies) ExposeSchedule(company.ToString(), dispatches.Schedule(company));
             Scribe_References.Look(ref caravanProvider, "companyCaravanProvider");
             Scribe_Values.Look(ref harringtonNextRequestTick, "harringtonNextRequestTick", 0);
         }
@@ -29,12 +29,13 @@ namespace Helodrace
             Scribe_Values.Look(ref schedule.LastRequestTick, key + "LastRequest", -CompanyDispatchSchedule.CooldownTicks);
             Scribe_Values.Look(ref schedule.ArrivalTick, key + "Arrival", -1);
             Scribe_Values.Look(ref schedule.ExpiryTick, key + "Expiry", -1);
+            Scribe_Values.Look(ref schedule.SafeConduct, key + "SafeConduct", false);
         }
 
-        private string ConnectionFailure(Pawn actor, CompTelegraphTable comp)
+        private string ConnectionFailure(Pawn actor, CompTelegraphTable comp, bool allowHostileTrade = false)
         {
             if (comp == null || comp.parent.Map != map) return "HD_Telegraph_Status_ProviderUnavailable".Translate();
-            string reason = comp.TransmissionFailure(comp.Network?.Provider);
+            string reason = comp.TransmissionFailure(comp.Network?.Provider, allowHostileTrade);
             if (reason != null) return reason;
             if (actor == null || !actor.Spawned || actor.Map != map || actor.Dead || actor.Downed
                 || actor.Faction != Faction.OfPlayer || !actor.health.capacities.CapableOf(PawnCapacityDefOf.Talking)
@@ -43,52 +44,51 @@ namespace Helodrace
             return null;
         }
 
-        public bool TryRequestCaravans(Pawn actor, CompTelegraphTable comp, bool financial, bool commercial, out string reason)
+        public string CaravanRequestFailure(CompTelegraphTable comp, IReadOnlyList<TelegraphCompany> requested)
         {
-            reason = ConnectionFailure(actor, comp);
-            if (reason != null) return false;
-            int now = Find.TickManager.TicksGame;
-            if (!dispatches.CanRequest(now, financial, commercial))
-            {
-                reason = "HD_Company_RequestUnavailable".Translate();
-                return false;
-            }
-            int count = (financial ? 1 : 0) + (commercial ? 1 : 0);
+            if (comp?.Network?.Provider == null) return "HD_Telegraph_Status_ProviderUnavailable".Translate();
+            if (!dispatches.CanRequest(Find.TickManager.TicksGame, requested)) return "HD_Company_RequestUnavailable".Translate();
             Faction provider = comp.Network.Provider;
-            if (provider.PlayerRelationKind != FactionRelationKind.Ally)
-            {
-                reason = "MustBeAlly".Translate();
-                return false;
-            }
+            bool hostile = provider.HostileTo(Faction.OfPlayer);
+            float finance = GameComponent_FinancialGoodwill.Current?.Get(provider) ?? 0f;
+            if (!TelegraphTradeRules.CanRequest(finance, hostile, requested.Count))
+                return "HD_Company_NeedsFinancial".Translate(TelegraphTradeRules.RequiredFinancial(hostile, requested.Count), finance.ToString("0.#"));
+            if (comp.StoredPrimaryCells < requested.Count) return "HD_Company_NeedsCells".Translate(requested.Count);
+            return null;
+        }
+
+        public bool TryRequestCaravans(Pawn actor, CompTelegraphTable comp, IReadOnlyList<TelegraphCompany> requested, out string reason)
+        {
+            reason = ConnectionFailure(actor, comp, true) ?? CaravanRequestFailure(comp, requested);
+            if (reason != null) return false;
+            Faction provider = comp.Network.Provider;
             if (!provider.def.allowedArrivalTemperatureRange.ExpandedBy(-4f).Includes(map.mapTemperature.SeasonalTemp))
             {
-                reason = "BadTemperature".Translate();
-                return false;
+                reason = "BadTemperature".Translate(); return false;
             }
-            if (comp.StoredPrimaryCells < count)
+            foreach (TelegraphCompany company in requested)
+                if (DefDatabase<TraderKindDef>.GetNamedSilentFail(TelegraphCompanies.TraderKind(company)) == null)
+                {
+                    reason = "HD_Company_RequestUnavailable".Translate(); return false;
+                }
+            bool hostile = provider.HostileTo(Faction.OfPlayer);
+            int cost = TelegraphTradeRules.Cost(hostile, requested.Count);
+            var ledger = GameComponent_FinancialGoodwill.Current;
+            if (cost > 0 && (ledger == null || !ledger.TrySpend(provider, cost)))
             {
-                reason = "HD_Company_NeedsCells".Translate(count);
+                reason = "HD_Company_NeedsFinancial".Translate(TelegraphTradeRules.RequiredFinancial(true, requested.Count), ledger?.Get(provider) ?? 0f);
                 return false;
             }
-            // Resolve exact trader kinds before consuming anything. The two requests
-            // have separate schedules and never touch Faction.lastTraderRequestTick.
-            if ((financial && DefDatabase<TraderKindDef>.GetNamedSilentFail(TelegraphCompanies.FinancialTrader) == null)
-                || (commercial && DefDatabase<TraderKindDef>.GetNamedSilentFail(TelegraphCompanies.CommercialTrader) == null))
+            int[] travel = new int[requested.Count];
+            for (int i = 0; i < travel.Length; i++) travel[i] = Rand.RangeInclusive(CompanyDispatchSchedule.MinimumTravelTicks, CompanyDispatchSchedule.MaximumTravelTicks);
+            if (!dispatches.TrySchedule(Find.TickManager.TicksGame, requested, travel, hostile))
             {
-                reason = "HD_Company_RequestUnavailable".Translate();
-                return false;
+                if (cost > 0) ledger.Adjust(provider, cost);
+                reason = "HD_Company_RequestUnavailable".Translate(); return false;
             }
-            if (!dispatches.TrySchedule(now, financial, commercial,
-                Rand.RangeInclusive(CompanyDispatchSchedule.MinimumTravelTicks, CompanyDispatchSchedule.MaximumTravelTicks),
-                Rand.RangeInclusive(CompanyDispatchSchedule.MinimumTravelTicks, CompanyDispatchSchedule.MaximumTravelTicks)))
-            {
-                reason = "HD_Company_RequestUnavailable".Translate();
-                return false;
-            }
-            for (int i = 0; i < count; i++) comp.ConsumePrimaryCell();
+            for (int i = 0; i < requested.Count; i++) comp.ConsumePrimaryCell();
             caravanProvider = provider;
-            provider.TryAffectGoodwillWith(Faction.OfPlayer, Faction.OfPlayer.CalculateAdjustedGoodwillChange(provider, -15) * count);
-            Messages.Message("HD_Company_CaravansRequested".Translate(count), actor, MessageTypeDefOf.PositiveEvent);
+            Messages.Message("HD_Company_CaravansRequested".Translate(requested.Count), actor, MessageTypeDefOf.PositiveEvent);
             return true;
         }
 
@@ -96,14 +96,13 @@ namespace Helodrace
         {
             int now = Find.TickManager.TicksGame;
             if (now % 250 != 0) return;
-            TryArrival(dispatches.Financial, TelegraphCompanies.FinancialTrader, TelegraphCompany.NationalIndustrialCredit, now);
-            TryArrival(dispatches.Commercial, TelegraphCompanies.CommercialTrader, TelegraphCompany.CentralHardwareSupply, now);
+            foreach (TelegraphCompany company in TelegraphCompanies.CaravanCompanies) TryArrival(dispatches.Schedule(company), company, now);
         }
 
-        private void TryArrival(CompanyDispatchSchedule schedule, string kindName, TelegraphCompany company, int now)
+        private void TryArrival(CompanyDispatchSchedule schedule, TelegraphCompany company, int now)
         {
             if (!schedule.Pending || now < schedule.ArrivalTick) return;
-            if (caravanProvider == null || caravanProvider.defeated || caravanProvider.HostileTo(Faction.OfPlayer))
+            if (caravanProvider == null || caravanProvider.defeated || (caravanProvider.HostileTo(Faction.OfPlayer) && !schedule.SafeConduct))
             {
                 schedule.Complete();
                 Messages.Message("HD_Company_DispatchCancelled".Translate(TelegraphCompanies.Name(company)), MessageTypeDefOf.NegativeEvent);
@@ -111,9 +110,12 @@ namespace Helodrace
             }
             IncidentParms parms = StorytellerUtility.DefaultParmsNow(IncidentDefOf.TraderCaravanArrival.category, map);
             parms.faction = caravanProvider;
-            parms.traderKind = DefDatabase<TraderKindDef>.GetNamed(kindName);
+            parms.traderKind = DefDatabase<TraderKindDef>.GetNamed(TelegraphCompanies.TraderKind(company));
             parms.forced = true;
-            if (IncidentDefOf.TraderCaravanArrival.Worker.TryExecute(parms)) schedule.Complete();
+            bool arrived;
+            using (FinancialCaravanScope.Enter(schedule.SafeConduct ? caravanProvider : null))
+                arrived = IncidentDefOf.TraderCaravanArrival.Worker.TryExecute(parms);
+            if (arrived) schedule.Complete();
             else if (!schedule.Retry(now))
                 Messages.Message("HD_Company_DispatchCancelled".Translate(TelegraphCompanies.Name(company)), MessageTypeDefOf.NegativeEvent);
         }

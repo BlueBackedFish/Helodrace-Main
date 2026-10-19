@@ -39,10 +39,12 @@ namespace Helodrace
             }
         }
 
-        public string TransmissionFailure(Faction target)
+        public string TransmissionFailure(Faction target, bool allowHostileTrade = false)
         {
             string reason = ConnectionFailure;
             if (reason != null) return reason;
+            if (!allowHostileTrade && target?.HostileTo(Faction.OfPlayer) == true)
+                return "HD_Company_HostileServiceUnavailable".Translate();
             return target != Network.Provider ? "HD_Telegraph_WrongProvider".Translate().ToString() : null;
         }
 
@@ -407,8 +409,7 @@ namespace Helodrace
                 return;
             }
             bool harrington = SelectedCompany == TelegraphCompany.HarringtonProtective;
-            string description = harrington ? "HD_Company_HarringtonDesc" : SelectedCompany == TelegraphCompany.NationalIndustrialCredit
-                ? "HD_Company_FinancialDesc" : "HD_Company_CommercialDesc";
+            string description = TelegraphCompanies.DescriptionKey(SelectedCompany);
             Widgets.Label(new Rect(rect.x, rect.y + 44f, rect.width, 82f), description.Translate());
             int now = Find.TickManager.TicksGame;
             if (harrington)
@@ -417,7 +418,7 @@ namespace Helodrace
                     ? "HD_Company_Cooldown".Translate(companies.HarringtonWait.ToStringTicksToPeriod())
                     : "HD_Company_Ready".Translate());
                 DrawCompanyButton(new Rect(rect.x, rect.y + 190f, rect.width, 42f), "HD_Company_HireHarrington".Translate(TelegraphCompanies.HarringtonCost),
-                    companies.HarringtonWait == 0, () => Find.WindowStack.Add(new Dialog_MessageBox(
+                    companies.HarringtonWait == 0 && comp.TransmissionFailure(comp.Network.Provider) == null, () => Find.WindowStack.Add(new Dialog_MessageBox(
                         "HD_Company_HarringtonConfirm".Translate(TelegraphCompanies.HarringtonGuardCount, TelegraphCompanies.HarringtonCost),
                         "Confirm".Translate(), () =>
                         {
@@ -425,35 +426,43 @@ namespace Helodrace
                         }, "CancelButton".Translate(), null)));
                 return;
             }
-            bool financial = SelectedCompany == TelegraphCompany.NationalIndustrialCredit;
-            if (financial)
-            {
-                Rect goodwillRect = new Rect(rect.x, rect.yMax - 38f, rect.width, 30f);
-                float financialGoodwill = Economy.GameComponent_FinancialGoodwill.Current?.Get(SelectedMilitaryFaction()) ?? 0;
-                Widgets.Label(goodwillRect, "HD_Company_FinancialGoodwill".Translate(financialGoodwill));
-                TooltipHandler.TipRegion(goodwillRect, "HD_Company_FinancialGoodwillTip".Translate());
-            }
-            CompanyDispatchSchedule schedule = companies.Schedule(financial);
+            Rect goodwillRect = new Rect(rect.x, rect.yMax - 38f, rect.width, 30f);
+            float financialGoodwill = Economy.GameComponent_FinancialGoodwill.Current?.Get(SelectedMilitaryFaction()) ?? 0f;
+            Widgets.Label(goodwillRect, "HD_Company_FinancialGoodwill".Translate(financialGoodwill.ToString("0.#")));
+            TooltipHandler.TipRegion(goodwillRect, "HD_Company_FinancialGoodwillTip".Translate());
+            CompanyDispatchSchedule schedule = companies.Schedule(SelectedCompany);
             string status = schedule.Pending
                 ? "HD_Company_InTransit".Translate(Mathf.Max(0, schedule.ArrivalTick - now).ToStringTicksToPeriod()).ToString()
                 : schedule.CanRequest(now) ? "HD_Company_Ready".Translate().ToString()
                 : "HD_Company_Cooldown".Translate(Mathf.Max(0, schedule.LastRequestTick + CompanyDispatchSchedule.CooldownTicks - now).ToStringTicksToPeriod()).ToString();
             Widgets.Label(new Rect(rect.x, rect.y + 134f, rect.width, 40f), status);
-            DrawCompanyButton(new Rect(rect.x, rect.y + 190f, rect.width, 42f), "HD_Company_RequestCaravan".Translate(),
-                schedule.CanRequest(now), () => ConfirmCaravanRequest(companies, comp, financial, !financial));
-            DrawCompanyButton(new Rect(rect.x, rect.y + 244f, rect.width, 42f), "HD_Company_RequestBoth".Translate(),
-                companies.Schedule(true).CanRequest(now) && companies.Schedule(false).CanRequest(now),
-                () => ConfirmCaravanRequest(companies, comp, true, true));
+            var requested = new[] { SelectedCompany };
+            Rect requestRect = new Rect(rect.x, rect.y + 190f, rect.width, 42f);
+            string failure = companies.CaravanRequestFailure(comp, requested);
+            DrawCompanyButton(requestRect, "HD_Company_RequestCaravan".Translate(), failure == null,
+                () => ConfirmCaravanRequest(companies, comp, requested));
+            if (failure != null) TooltipHandler.TipRegion(requestRect, failure);
+            if (SelectedCompany == TelegraphCompany.NationalIndustrialCredit || SelectedCompany == TelegraphCompany.CentralHardwareSupply)
+            {
+                var both = new[] { TelegraphCompany.NationalIndustrialCredit, TelegraphCompany.CentralHardwareSupply };
+                Rect bothRect = new Rect(rect.x, rect.y + 244f, rect.width, 42f);
+                string bothFailure = companies.CaravanRequestFailure(comp, both);
+                DrawCompanyButton(bothRect, "HD_Company_RequestBoth".Translate(), bothFailure == null,
+                    () => ConfirmCaravanRequest(companies, comp, both));
+                if (bothFailure != null) TooltipHandler.TipRegion(bothRect, bothFailure);
+            }
         }
 
-        private void ConfirmCaravanRequest(MapComponent_TelegraphCompanies companies, CompTelegraphTable comp, bool financial, bool commercial)
+        private void ConfirmCaravanRequest(MapComponent_TelegraphCompanies companies, CompTelegraphTable comp, IReadOnlyList<TelegraphCompany> requested)
         {
-            int count = (financial ? 1 : 0) + (commercial ? 1 : 0);
-            int goodwill = -Faction.OfPlayer.CalculateAdjustedGoodwillChange(comp.Network.Provider, -15) * count;
-            Find.WindowStack.Add(new Dialog_MessageBox("HD_Company_CaravanConfirm".Translate(count, goodwill), "Confirm".Translate(), () =>
-            {
-                if (!companies.TryRequestCaravans(operatorPawn, comp, financial, commercial, out string reason)) Messages.Message(reason, MessageTypeDefOf.RejectInput);
-            }, "CancelButton".Translate(), null));
+            var names = new List<string>();
+            foreach (TelegraphCompany company in requested) names.Add(TelegraphCompanies.Name(company));
+            int cost = TelegraphTradeRules.Cost(comp.Network.Provider.HostileTo(Faction.OfPlayer), requested.Count);
+            Find.WindowStack.Add(new Dialog_MessageBox("HD_Company_CaravanConfirm".Translate(string.Join(", ", names.ToArray()), requested.Count, cost),
+                "Confirm".Translate(), () =>
+                {
+                    if (!companies.TryRequestCaravans(operatorPawn, comp, requested, out string reason)) Messages.Message(reason, MessageTypeDefOf.RejectInput);
+                }, "CancelButton".Translate(), null));
         }
 
         private static void DrawCompanyButton(Rect rect, string label, bool available, Action action)
