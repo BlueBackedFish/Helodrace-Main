@@ -4,6 +4,7 @@ using RimWorld;
 using RimWorld.Planet;
 using Verse;
 using Verse.AI;
+using Verse.AI.Group;
 
 namespace Helodrace
 {
@@ -57,7 +58,16 @@ namespace Helodrace
             return trader != null && trader.Spawned && trader.Map == map && !trader.Dead && !trader.Downed
                 && TelegraphNetworkRules.IsProvider(trader.Faction?.def?.defName)
                 && !trader.Faction.defeated && !trader.HostileTo(Faction.OfPlayer)
-                && trader.trader?.CanTradeNow == true;
+                && trader.trader?.traderKind != null;
+        }
+
+        public static Pawn FindInstallationTrader(Pawn caravanMember, Map map)
+        {
+            if (caravanMember == null || !caravanMember.Spawned || caravanMember.Map != map
+                || !TelegraphNetworkRules.IsProvider(caravanMember.Faction?.def?.defName)) return null;
+            if (IsInstallationTrader(caravanMember, map)) return caravanMember;
+            return caravanMember.GetLord()?.ownedPawns.FirstOrDefault(p => p.Faction == caravanMember.Faction
+                && IsInstallationTrader(p, map));
         }
 
         public string InstallationRejection(Pawn trader)

@@ -53,6 +53,7 @@ namespace Verse
     {
         public bool Dead, Downed;
         public RimWorld.Pawn_TraderTracker trader;
+        public AI.Group.Lord Lord;
         public readonly Health health = new Health();
         public readonly Skills skills = new Skills();
         public bool HostileTo(RimWorld.Faction faction) => Faction?.HostileTo(faction) ?? false;
@@ -119,6 +120,11 @@ namespace Verse
     }
 }
 namespace Verse.AI { public enum PathEndMode { Touch } }
+namespace Verse.AI.Group
+{
+    public sealed class Lord { public readonly List<Verse.Pawn> ownedPawns = new List<Verse.Pawn>(); }
+    public static class LordUtility { public static Lord GetLord(this Verse.Pawn pawn) => pawn.Lord; }
+}
 namespace RimWorld
 {
     public sealed class FactionDef { public string defName; }
@@ -129,7 +135,8 @@ namespace RimWorld
         public bool defeated, Hostile;
         public bool HostileTo(Faction other) => Hostile;
     }
-    public sealed class Pawn_TraderTracker { public bool CanTradeNow = true; }
+    public sealed class TraderKindDef { }
+    public sealed class Pawn_TraderTracker { public bool CanTradeNow = true; public TraderKindDef traderKind = new TraderKindDef(); }
     public static class PawnCapacityDefOf { public static readonly object Talking = new object(); }
     public static class SkillDefOf { public static readonly object Social = new object(); }
     public static class LetterDefOf { public static readonly object PositiveEvent = new object(); }

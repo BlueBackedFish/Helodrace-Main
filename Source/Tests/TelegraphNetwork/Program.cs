@@ -3,6 +3,7 @@ using System.Linq;
 using Helodrace;
 using RimWorld;
 using Verse;
+using Verse.AI.Group;
 
 internal static class Program
 {
@@ -38,7 +39,36 @@ internal static class Program
         Check(TelegraphNetworkRules.Status(readyAt, readyAt, 20, true, false) == TelegraphConnectionStatus.RelayClosed, "Closed relay hides stations even without fuel");
         Check(TelegraphNetworkRules.Status(readyAt, readyAt + 60000, 8, true, true) == TelegraphConnectionStatus.Online, "The same installation reconnects the next morning");
         TransactionsAndPersistence();
+        CaravanContact();
         Console.WriteLine("PASS: " + checks + " telegraph network checks.");
+    }
+
+    private static void CaravanContact()
+    {
+        var s = Settlement();
+        s.trader.trader.CanTradeNow = false;
+        Check(MapComponent_TelegraphNetwork.IsInstallationTrader(s.trader, s.map),
+            "Installation is available independently of temporary merchandise-trading state");
+        Check(MapComponent_TelegraphNetwork.FindInstallationTrader(s.trader, s.map) == s.trader,
+            "Clicking the merchant resolves the installation contact");
+        var lord = new Lord();
+        var escort = new Pawn { Map = s.map, Faction = s.trader.Faction, Lord = lord };
+        lord.ownedPawns.Add(escort); lord.ownedPawns.Add(s.trader);
+        Check(MapComponent_TelegraphNetwork.FindInstallationTrader(escort, s.map) == s.trader,
+            "Clicking an escort resolves the same caravan's merchant");
+        Check(MapComponent_TelegraphNetwork.FindInstallationTrader(escort, new Map()) == null,
+            "Another map cannot use this caravan contact");
+        var visitor = new Pawn { Map = s.map, Faction = s.trader.Faction };
+        Check(MapComponent_TelegraphNetwork.FindInstallationTrader(visitor, s.map) == null,
+            "Unrelated LOW visitors do not borrow another caravan's merchant");
+        s.trader.trader.traderKind = null;
+        Check(!MapComponent_TelegraphNetwork.IsInstallationTrader(s.trader, s.map)
+            && MapComponent_TelegraphNetwork.FindInstallationTrader(escort, s.map) == null,
+            "A pawn without a trader kind cannot represent a caravan");
+        s.trader.trader.traderKind = new TraderKindDef();
+        s.trader.Faction.Hostile = true;
+        Check(MapComponent_TelegraphNetwork.FindInstallationTrader(escort, s.map) == null,
+            "Hostile caravan contacts stay unavailable");
     }
 
     private static (Map map, Pawn trader, Pawn actor, MapComponent_TelegraphNetwork network) Settlement()

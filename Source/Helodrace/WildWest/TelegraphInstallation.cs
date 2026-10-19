@@ -7,24 +7,25 @@ namespace Helodrace
 {
     public sealed class FloatMenuOptionProvider_TelegraphInstallation : FloatMenuOptionProvider
     {
-        protected override bool Drafted => false;
+        protected override bool Drafted => true;
         protected override bool Undrafted => true;
         protected override bool Multiselect => false;
-        protected override bool RequiresManipulation => true;
 
         protected override FloatMenuOption GetSingleOptionFor(Pawn clickedPawn, FloatMenuContext context)
         {
             Pawn actor = context.FirstSelectedPawn;
-            if (actor?.Faction != Faction.OfPlayer || !MapComponent_TelegraphNetwork.IsInstallationTrader(clickedPawn, actor.Map)) return null;
+            if (actor?.Faction != Faction.OfPlayer) return null;
+            Pawn trader = MapComponent_TelegraphNetwork.FindInstallationTrader(clickedPawn, actor.Map);
+            if (trader == null) return null;
             string label = "HD_Telegraph_RequestInstallation".Translate(TelegraphNetworkRules.InstallationCost);
-            string reason = actor.Map.GetComponent<MapComponent_TelegraphNetwork>().InstallationRejection(clickedPawn);
+            string reason = actor.Map.GetComponent<MapComponent_TelegraphNetwork>().InstallationRejection(trader);
             if (reason != null) return new FloatMenuOption(label + ": " + reason, null);
-            if (!actor.CanReserveAndReach(clickedPawn, PathEndMode.Touch, Danger.Deadly))
+            if (!actor.CanReserveAndReach(trader, PathEndMode.Touch, Danger.Deadly))
                 return new FloatMenuOption(label + ": " + "NoPath".Translate(), null);
             if (!actor.health.capacities.CapableOf(PawnCapacityDefOf.Talking) || actor.skills.GetSkill(SkillDefOf.Social).TotallyDisabled)
                 return new FloatMenuOption(label + ": " + "Incapable".Translate(), null);
             return new FloatMenuOption(label, () => actor.jobs.TryTakeOrderedJob(
-                JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_RequestTelegraphInstallation"), clickedPawn), JobTag.Misc));
+                JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_RequestTelegraphInstallation"), trader), JobTag.Misc));
         }
     }
 
