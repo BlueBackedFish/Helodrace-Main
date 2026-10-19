@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_Company_FinancialGoodwill>금융 우호도: {0}</HD_Company_FinancialGoodwill>
-  <HD_Company_FinancialGoodwillTip>일반 팩션 우호도와 별개인 -100~100 범위의 금융 관계 수치입니다. 현재 가격, 결제, 계약 조건이나 일반 우호도에는 영향을 주지 않습니다.</HD_Company_FinancialGoodwillTip>
+  <HD_Company_FinancialGoodwillTip>일반 팩션 우호도와 별개인 -100~100 범위의 금융 관계 수치입니다. 선물은 일반 우호도 대신 이 수치를 올립니다. 금융 우호도 1점당 일반 우호도의 기준점이 1점 올라가며, 일반 우호도는 해당 기준점까지 하루에 1점씩 회복합니다.</HD_Company_FinancialGoodwillTip>
   <HD_Company_FinancialDesc>National Industrial Credit Corporation의 금융 상단 방문을 요청합니다. LOW 팩션과 동맹이어야 합니다. 요청당 우호도 15와 일차 전지 1개가 필요하며, 1~2일 뒤 도착합니다. 재요청 대기시간은 이 회사에만 적용되는 4일입니다.</HD_Company_FinancialDesc>
   <HD_Company_CommercialDesc>Central Hardware &amp; Supply Co.의 상업 상단 방문을 요청합니다. LOW 팩션과 동맹이어야 합니다. 요청당 우호도 15와 일차 전지 1개가 필요하며, 1~2일 뒤 도착합니다. 재요청 대기시간은 이 회사에만 적용되는 4일입니다.</HD_Company_CommercialDesc>
   <HD_Company_PioneerDesc>LOW 헤로드 전진기지를 건설하고 체결한 계약을 확인합니다. 계약된 전진기지의 지원 서비스도 이 회사에 요청할 수 있습니다.</HD_Company_PioneerDesc>

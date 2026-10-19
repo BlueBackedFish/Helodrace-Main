@@ -9,8 +9,14 @@ namespace Verse
     public class GameComponent
     {
         public virtual void ExposeData() { }
+        public virtual void GameComponentTick() { }
+        public virtual void LoadedGame() { }
     }
-    public sealed class Game { public T GetComponent<T>() where T : GameComponent => null; }
+    public sealed class Game
+    {
+        public GameComponent Component;
+        public T GetComponent<T>() where T : GameComponent => Component as T;
+    }
     public static class Current { public static Game Game; }
     public class MapComponent
     {
@@ -84,6 +90,7 @@ namespace Verse
     }
     public static class TextExtensions
     {
+        public static object Named<T>(this T value, string key) => value;
         public static string Translate(this string key, params object[] args) => key;
         public static string ToStringTicksToPeriod(this int ticks) => ticks.ToString();
     }
@@ -92,6 +99,8 @@ namespace Verse
         public static readonly TickManager TickManager = new TickManager();
         public static readonly WorldGrid WorldGrid = new WorldGrid();
         public static readonly LetterStack LetterStack = new LetterStack();
+        public static readonly RimWorld.GoodwillSituationManager GoodwillSituationManager = new RimWorld.GoodwillSituationManager();
+        public static readonly RimWorld.HistoryEventsManager HistoryEventsManager = new RimWorld.HistoryEventsManager();
     }
     public sealed class TickManager { public int TicksGame; public long TicksAbs; }
     public sealed class WorldGrid { public Longitude LongLatOf(int tile) => new Longitude(); }
@@ -105,6 +114,8 @@ namespace Verse
     {
         public static int Count;
         public static void Message(string text, Pawn pawn, object def) { Count++; }
+        public static void Message(string text, object def) { Count++; }
+        public static void Message(string text, RimWorld.Planet.GlobalTargetInfo target, object def) { Count++; }
     }
     public static class Scribe
     {
@@ -131,8 +142,8 @@ namespace Verse
             ref List<K> keys, ref List<V> entries)
         {
             if (Scribe.Loading)
-                values = Scribe.Values.TryGetValue(key, out var saved) ? new Dictionary<K, V>((Dictionary<K, V>)saved) : null;
-            else Scribe.Values[key] = new Dictionary<K, V>(values);
+                values = Scribe.Values.TryGetValue(key, out var saved) && saved != null ? new Dictionary<K, V>((Dictionary<K, V>)saved) : null;
+            else Scribe.Values[key] = values == null ? null : new Dictionary<K, V>(values);
         }
     }
 }
@@ -144,21 +155,52 @@ namespace Verse.AI.Group
 }
 namespace RimWorld
 {
-    public sealed class FactionDef { public string defName; }
+    public sealed class FactionDef { public string defName; public bool permanentEnemy; }
     public sealed class Faction
     {
         public static readonly Faction OfPlayer = new Faction();
         public FactionDef def = new FactionDef();
-        public bool defeated, Hostile;
-        public int PlayerGoodwill;
+        public bool defeated, Hostile, temporary, HasGoodwill = true;
+        public bool CanChange = true;
+        public string Name = "Test faction";
+        public bool IsPlayer => ReferenceEquals(this, OfPlayer);
+        public int PlayerGoodwill, NativeNaturalGoodwill, MaxGoodwill = 100, GoodwillChanges;
+        public int NaturalGoodwill => NativeNaturalGoodwill + new Helodrace.Economy.GoodwillSituationWorker_Financial().GetNaturalGoodwillOffset(this);
+        public int BaseGoodwillWith(Faction other) => PlayerGoodwill;
+        public bool TryAffectGoodwillWith(Faction other, int amount, HistoryEventDef reason = null)
+        {
+            PlayerGoodwill += amount; GoodwillChanges++; return true;
+        }
         public bool HostileTo(Faction other) => Hostile;
+        public bool CanChangeGoodwillFor(Faction other, int change) => CanChange && other.CanChange;
     }
+    public class GoodwillSituationWorker { public virtual int GetNaturalGoodwillOffset(Faction faction) => 0; }
+    public sealed class GoodwillSituationManager
+    {
+        public int Recalculations;
+        public void RecalculateAll(bool canSendMessage) { Recalculations++; }
+        public int GetMaxGoodwill(Faction faction) => faction.MaxGoodwill;
+    }
+    public sealed class HistoryEventDef { }
+    public static class HistoryEventDefOf
+    {
+        public static readonly HistoryEventDef ReachNaturalGoodwill = new HistoryEventDef();
+        public static readonly HistoryEventDef GaveGift = new HistoryEventDef();
+    }
+    public sealed class HistoryEvent { public HistoryEvent(HistoryEventDef def, params object[] args) { } }
+    public static class HistoryEventArgsNames { public const string AffectedFaction = "Faction", CustomGoodwill = "Goodwill"; }
+    public sealed class HistoryEventsManager
+    {
+        public int Count;
+        public void RecordEvent(HistoryEvent entry, bool canApplySelfTookThoughts) { Count++; }
+    }
+    public sealed class Dialog_Trade { public void DoWindowContents() { } }
     public sealed class TraderKindDef { }
     public sealed class Pawn_TraderTracker { public bool CanTradeNow = true; public TraderKindDef traderKind = new TraderKindDef(); }
     public static class PawnCapacityDefOf { public static readonly object Talking = new object(); }
     public static class SkillDefOf { public static readonly object Social = new object(); }
     public static class LetterDefOf { public static readonly object PositiveEvent = new object(); }
-    public static class MessageTypeDefOf { public static readonly object PositiveEvent = new object(); }
+    public static class MessageTypeDefOf { public static readonly object PositiveEvent = new object(), NeutralEvent = new object(); }
     public static class GenDate
     {
         public static int LocalHour = 12;
@@ -168,5 +210,11 @@ namespace RimWorld
 namespace RimWorld.Planet
 {
     public sealed class GlobalTargetInfo { public GlobalTargetInfo(Verse.Position cell, Verse.Map map) { } }
+    public static class FactionGiftUtility
+    {
+        public static void GiveGift() { }
+        public static void OfferGiftsCommand() { }
+    }
+    public sealed class TransportersArrivalAction_GiveGift { public static void GetFloatMenuOptions() { } }
 }
 namespace Helodrace { public sealed class CompTelegraphTable { } }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_FinancialGift_Offer>Offer gifts for financial goodwill</HD_FinancialGift_Offer>
+  <HD_FinancialGift_Tip>Offer gifts to {0} for financial goodwill. Gifts raise the faction's natural goodwill target, rather than immediately changing diplomatic goodwill. Diplomatic goodwill recovers toward that target by 1 point per day.</HD_FinancialGift_Tip>
+  <HD_FinancialGift_CommandTip>Offer gifts for financial goodwill. Each financial goodwill point raises the natural goodwill target by 1. Diplomatic goodwill recovers toward that target by 1 point per day.</HD_FinancialGift_CommandTip>
+  <HD_FinancialGift_Pods>Give as a gift to {0} (financial goodwill {1})</HD_FinancialGift_Pods>
+  <HD_FinancialGift_Received>Gifts increased financial goodwill with {0} by {1} (now {2}). Diplomatic goodwill will recover gradually toward its new target.</HD_FinancialGift_Received>
+  <HD_FinancialGift_Maximum>{0}'s financial goodwill is already at its maximum. These gifts will not increase it further.</HD_FinancialGift_Maximum>
+</LanguageData>

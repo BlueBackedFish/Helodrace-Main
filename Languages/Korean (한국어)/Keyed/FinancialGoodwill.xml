@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_FinancialGift_Offer>금융 우호도 선물 제공</HD_FinancialGift_Offer>
+  <HD_FinancialGift_Tip>{0}에게 선물을 제공하여 금융 우호도를 올립니다. 선물은 일반 우호도를 즉시 바꾸지 않고 일반 우호도의 기준점을 올립니다. 일반 우호도는 해당 기준점까지 하루에 1점씩 회복합니다.</HD_FinancialGift_Tip>
+  <HD_FinancialGift_CommandTip>선물을 제공하여 금융 우호도를 올립니다. 금융 우호도 1점당 일반 우호도의 기준점이 1점 올라갑니다. 일반 우호도는 해당 기준점까지 하루에 1점씩 회복합니다.</HD_FinancialGift_CommandTip>
+  <HD_FinancialGift_Pods>{0}에게 선물 제공 (금융 우호도 {1})</HD_FinancialGift_Pods>
+  <HD_FinancialGift_Received>선물로 {0}의 금융 우호도가 {1}점 증가했습니다 (현재 {2}). 일반 우호도는 변경된 기준점까지 서서히 회복합니다.</HD_FinancialGift_Received>
+  <HD_FinancialGift_Maximum>{0}의 금융 우호도가 이미 최대입니다. 이 선물로 금융 우호도가 더 오르지는 않습니다.</HD_FinancialGift_Maximum>
+</LanguageData>
