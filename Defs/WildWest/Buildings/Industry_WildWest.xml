@@ -1656,7 +1656,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_TelegraphTable</defName>
     <label>telegraph</label>
-    <description>A telegraph terminal used to transmit commercial orders, frontier contracts, and military support requests. It uses primary cells as fuel.</description>
+    <description>A wired terminal for contacting LOW Helod communication stations, requesting caravans, and arranging forward base contracts and support. After construction, request paid line installation from a visiting LOW Helod caravan; the line opens in 2–3 days. Stations are listed only while the relay is open, from 08:00 to 18:00 local time. It uses primary cells for transmissions.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_TelegraphTable</texPath>

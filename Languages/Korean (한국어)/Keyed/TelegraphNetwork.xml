@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_Telegraph_RequestInstallation>전신 설치 요청 ({0} 스탈레르)</HD_Telegraph_RequestInstallation>
+  <HD_Telegraph_InstallationConfirm>{0} 스탈레르 지폐를 내고 이 정착지에 LOW 헤로드 상단 연합의 전신 회선을 설치할까요? 설치에는 2~3일이 걸립니다. 한 번 개통하면 이 정착지의 모든 전신기가 회선을 공유합니다.</HD_Telegraph_InstallationConfirm>
+  <HD_Telegraph_InstallationOrdered>{0} 스탈레르를 내고 전신 설치를 요청했습니다. 2~3일 뒤 회선이 개통됩니다.</HD_Telegraph_InstallationOrdered>
+  <HD_Telegraph_TraderUnavailable>LOW 헤로드 상단원과 더 이상 협의할 수 없습니다.</HD_Telegraph_TraderUnavailable>
+  <HD_Telegraph_AlreadyRequested>이 정착지는 이미 전신 설치를 요청했습니다.</HD_Telegraph_AlreadyRequested>
+  <HD_Telegraph_NeedsTerminal>먼저 이 정착지에 전신기를 건설하세요.</HD_Telegraph_NeedsTerminal>
+  <HD_Telegraph_NotEnoughMoney>이 정착지에 사용 가능한 스탈레르 지폐 {0}장이 필요합니다.</HD_Telegraph_NotEnoughMoney>
+  <HD_Telegraph_ActivatedTitle>전신 회선 개통</HD_Telegraph_ActivatedTitle>
+  <HD_Telegraph_Activated>{0}의 전신 회선이 개통되었습니다. LOW 헤로드 중계국은 정착지 현지 시각으로 매일 {1}:00~{2}:00에 영업합니다.</HD_Telegraph_Activated>
+  <HD_Telegraph_Installing>개통 대기 중: {0} 남음.</HD_Telegraph_Installing>
+  <HD_Telegraph_RelayClosed>중계국 영업 종료. 영업시간: {0}:00~{1}:00 (현지 시각).</HD_Telegraph_RelayClosed>
+  <HD_Telegraph_Status_NotInstalled>회선 미설치. 방문한 LOW 헤로드 상단에 전신 설치를 요청하세요.</HD_Telegraph_Status_NotInstalled>
+  <HD_Telegraph_Status_ProviderUnavailable>계약된 LOW 헤로드 중계국에 연결할 수 없습니다.</HD_Telegraph_Status_ProviderUnavailable>
+  <HD_Telegraph_Status_NoPrimaryCells>오프라인: 일차 전지를 1개 이상 충전하세요.</HD_Telegraph_Status_NoPrimaryCells>
+  <HD_Telegraph_Status_Online>중계국 연결됨</HD_Telegraph_Status_Online>
+  <HD_Telegraph_Directory>통신국 목록</HD_Telegraph_Directory>
+  <HD_Telegraph_LocalTime>현지 시각 {0}:00 | 일차 전지: {1}</HD_Telegraph_LocalTime>
+  <HD_Telegraph_OnlineProvider>{0} — 중계국 영업 중</HD_Telegraph_OnlineProvider>
+  <HD_Telegraph_OfflineDirectory>회선이 오프라인입니다. 통신국 정보를 조회할 수 없습니다.</HD_Telegraph_OfflineDirectory>
+  <HD_Telegraph_TradeOffice>상단 배차국</HD_Telegraph_TradeOffice>
+  <HD_Telegraph_TradeOfficeDesc>LOW 헤로드 상단 연합에 상단 방문과 일반 팩션 서비스를 요청합니다. 우호도 조건과 재요청 대기시간이 적용됩니다.</HD_Telegraph_TradeOfficeDesc>
+  <HD_Telegraph_ContractOffice>전진기지 계약국</HD_Telegraph_ContractOffice>
+  <HD_Telegraph_ContractOfficeDesc>LOW 헤로드 전진기지를 새로 계약하거나 기존 계약을 확인합니다.</HD_Telegraph_ContractOfficeDesc>
+  <HD_Telegraph_SupportOffice>군사 지원국</HD_Telegraph_SupportOffice>
+  <HD_Telegraph_SupportOfficeDesc>계약된 LOW 헤로드 전진기지에 지원 서비스를 요청합니다.</HD_Telegraph_SupportOfficeDesc>
+  <HD_Telegraph_Connect>연결</HD_Telegraph_Connect>
+  <HD_Telegraph_LeaderUnavailable>상단 연합의 연락 담당자가 응답할 수 없습니다.</HD_Telegraph_LeaderUnavailable>
+  <HD_Telegraph_OperatorUnavailable>조작자가 협상할 수 없는 상태입니다.</HD_Telegraph_OperatorUnavailable>
+  <HD_Telegraph_WrongProvider>전신기로는 회선을 계약한 LOW 헤로드 팩션에만 연락할 수 있습니다.</HD_Telegraph_WrongProvider>
+</LanguageData>

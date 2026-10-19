@@ -112,9 +112,10 @@ namespace Helodrace
             }
 
             if (!CanUseBase(map, forwardBase, service) || !cell.InBounds(map)) return false;
-            if (telegraphComp != null && !telegraphComp.HasPrimaryCell)
+            string transmissionFailure = telegraphComp?.TransmissionFailure(forwardBase?.Faction);
+            if (transmissionFailure != null)
             {
-                Messages.Message("HD_TelegraphTable_ActionNeedsPrimaryCell".Translate(), MessageTypeDefOf.RejectInput);
+                Messages.Message(transmissionFailure, MessageTypeDefOf.RejectInput);
                 return false;
             }
             if (!forwardBase.TryConsumeAmmunitionSupport(
@@ -175,9 +176,10 @@ namespace Helodrace
                 Messages.Message("HD_W48_Unavailable".Translate(), MessageTypeDefOf.RejectInput);
                 return;
             }
-            if (telegraphComp != null && !telegraphComp.HasPrimaryCell)
+            string transmissionFailure = telegraphComp?.TransmissionFailure(forwardBase?.Faction);
+            if (transmissionFailure != null)
             {
-                Messages.Message("HD_TelegraphTable_ActionNeedsPrimaryCell".Translate(), MessageTypeDefOf.RejectInput);
+                Messages.Message(transmissionFailure, MessageTypeDefOf.RejectInput);
                 return;
             }
 
@@ -209,6 +211,12 @@ namespace Helodrace
             CompTelegraphTable telegraphComp,
             Pawn radioOperator)
         {
+            string transmissionFailure = telegraphComp?.TransmissionFailure(forwardBase?.Faction);
+            if (transmissionFailure != null)
+            {
+                Messages.Message(transmissionFailure, MessageTypeDefOf.RejectInput);
+                return;
+            }
             if (radioOperator != null && SCR300RadioUtility.IsBlackout(map))
             {
                 Messages.Message("HD_SCR300_SolarFlare".Translate(), MessageTypeDefOf.RejectInput);

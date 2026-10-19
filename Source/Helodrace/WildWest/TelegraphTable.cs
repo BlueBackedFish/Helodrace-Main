@@ -21,28 +21,40 @@ namespace Helodrace
     public class CompTelegraphTable : ThingComp
     {
         private const string UseJobDefName = "HD_UseTelegraphTable";
-        private int legacyStoredPrimaryCells;
 
         private CompRefuelable Refuelable => parent.TryGetComp<CompRefuelable>();
 
         public int StoredPrimaryCells => Mathf.FloorToInt(Refuelable?.Fuel ?? 0f);
         public bool HasPrimaryCell => Refuelable?.Fuel >= 1f;
+        public MapComponent_TelegraphNetwork Network => parent.Map?.GetComponent<MapComponent_TelegraphNetwork>();
 
-        public override void PostExposeData()
+        public string ConnectionFailure
         {
-            base.PostExposeData();
-            Scribe_Values.Look(ref legacyStoredPrimaryCells, "storedPrimaryCells", 0);
-            if (Scribe.mode == LoadSaveMode.PostLoadInit && legacyStoredPrimaryCells > 0)
+            get
             {
-                Refuelable?.Refuel(legacyStoredPrimaryCells);
-                legacyStoredPrimaryCells = 0;
+                if (!parent.Spawned || parent.Faction != Faction.OfPlayer || Network == null)
+                    return "HD_Telegraph_Status_ProviderUnavailable".Translate();
+                TelegraphConnectionStatus status = Network.Status(HasPrimaryCell);
+                return status == TelegraphConnectionStatus.Online ? null : Network.StatusText(status);
             }
+        }
+
+        public string TransmissionFailure(Faction target)
+        {
+            string reason = ConnectionFailure;
+            if (reason != null) return reason;
+            return target != Network.Provider ? "HD_Telegraph_WrongProvider".Translate().ToString() : null;
+        }
+
+        public override string CompInspectStringExtra()
+        {
+            return ConnectionFailure ?? "HD_Telegraph_Status_Online".Translate().ToString();
         }
 
         public bool ConsumePrimaryCell()
         {
             CompRefuelable refuelable = Refuelable;
-            if (refuelable?.Fuel < 1f)
+            if (ConnectionFailure != null || refuelable == null || refuelable.Fuel < 1f)
             {
                 return false;
             }
@@ -64,6 +76,11 @@ namespace Helodrace
             }
 
             string label = "HD_TelegraphTable_Use_Label".Translate(parent.LabelShort);
+            if (Network?.InstallationRequested != true || Network.Status() == TelegraphConnectionStatus.Installing)
+            {
+                yield return new FloatMenuOption(label + ": " + ConnectionFailure, null);
+                yield break;
+            }
             if (!selPawn.CanReach(parent, PathEndMode.InteractionCell, Danger.Deadly))
             {
                 yield return new FloatMenuOption(label + ": " + "NoPath".Translate(), null);
@@ -137,7 +154,6 @@ namespace Helodrace
         private readonly Pawn operatorPawn;
         private TelegraphTab selectedTab;
         private MilitaryActivity selectedMilitaryActivity;
-        private string selectedMilitaryFactionDefName;
         private ForwardBaseKind selectedForwardBaseKind;
         private ContractCostKind selectedContractCostKind;
         private ContractDuration selectedContractDuration = ContractDuration.Days30;
@@ -217,7 +233,19 @@ namespace Helodrace
 
         public override void DoWindowContents(Rect inRect)
         {
-            if (selectedTab == TelegraphTab.Military && selectedMilitaryActivity == MilitaryActivity.ForwardBaseContract)
+            CompTelegraphTable comp = telegraphTable?.TryGetComp<CompTelegraphTable>();
+            string failure = comp?.ConnectionFailure ?? (comp == null ? "HD_Telegraph_Status_ProviderUnavailable".Translate().ToString() : null);
+            if (failure != null && selectedMilitaryActivity == MilitaryActivity.ForwardBaseContract)
+            {
+                selectedTab = TelegraphTab.Stations;
+                selectedMilitaryActivity = MilitaryActivity.None;
+                contractEntranceAnimating = false;
+                windowRect.size = TelegraphWindowSize;
+                windowRect.position = new Vector2(Mathf.Max(0f, (UI.screenWidth - windowRect.width) / 2f),
+                    Mathf.Max(0f, (UI.screenHeight - windowRect.height) / 2f));
+                return;
+            }
+            if (failure == null && selectedTab == TelegraphTab.Military && selectedMilitaryActivity == MilitaryActivity.ForwardBaseContract)
             {
                 UpdateContractEntranceAnimation();
                 closeOnClickedOutside = false;
@@ -236,65 +264,94 @@ namespace Helodrace
             Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 34f), "HD_TelegraphTable_Window_Title".Translate());
             Text.Font = GameFont.Small;
 
-            Rect statusRect = new Rect(inRect.x, inRect.y + 46f, inRect.width, 86f);
+            Rect statusRect = new Rect(inRect.x, inRect.y + 42f, inRect.width, 116f);
             Widgets.DrawMenuSection(statusRect);
-            Rect statusInner = statusRect.ContractedBy(12f);
-            CompTelegraphTable telegraphComp = telegraphTable.TryGetComp<CompTelegraphTable>();
-            Widgets.Label(new Rect(statusInner.x, statusInner.y, statusInner.width, 24f), "HD_TelegraphTable_Station".Translate(telegraphTable?.LabelCap ?? "Unknown".Translate()));
-            Widgets.Label(new Rect(statusInner.x, statusInner.y + 26f, statusInner.width, 24f), "HD_TelegraphTable_Operator".Translate(operatorPawn?.LabelShortCap ?? "Unknown".Translate()));
-            Widgets.Label(new Rect(statusInner.x, statusInner.y + 52f, statusInner.width, 24f), "HD_TelegraphTable_Status_Ready_WithCells".Translate(telegraphComp?.StoredPrimaryCells ?? 0));
+            Rect status = statusRect.ContractedBy(12f);
+            Widgets.Label(new Rect(status.x, status.y, status.width, 22f),
+                "HD_TelegraphTable_Operator".Translate(operatorPawn?.LabelShortCap ?? "Unknown".Translate()));
+            Widgets.Label(new Rect(status.x, status.y + 22f, status.width, 22f),
+                "HD_Telegraph_LocalTime".Translate(comp?.Network?.LocalHour ?? 0, comp?.StoredPrimaryCells ?? 0));
+            GUI.color = failure == null ? new Color(0.65f, 0.9f, 0.65f) : Color.gray;
+            Widgets.Label(new Rect(status.x, status.y + 46f, status.width, 44f), failure ??
+                "HD_Telegraph_OnlineProvider".Translate(SelectedMilitaryFaction().Name).ToString());
+            GUI.color = Color.white;
 
-            Rect tabRect = new Rect(inRect.x, statusRect.yMax + 10f, inRect.width, 32f);
-            DrawTabs(tabRect);
-
-            Rect bodyRect = new Rect(inRect.x, tabRect.yMax + 8f, inRect.width, inRect.height - statusRect.height - tabRect.height - 132f);
+            Rect navRect = new Rect(inRect.x, statusRect.yMax + 10f, inRect.width, 32f);
+            if (failure == null)
+            {
+                if (Widgets.ButtonText(new Rect(navRect.x, navRect.y, 180f, navRect.height), "HD_Telegraph_Directory".Translate()))
+                {
+                    selectedTab = TelegraphTab.Stations;
+                    selectedMilitaryActivity = MilitaryActivity.None;
+                }
+                if (selectedTab == TelegraphTab.Military)
+                    Widgets.Label(new Rect(navRect.x + 194f, navRect.y + 5f, navRect.width - 194f, 26f), "HD_Telegraph_ContractOffice".Translate());
+            }
+            Rect bodyRect = new Rect(inRect.x, navRect.yMax + 8f, inRect.width, inRect.yMax - navRect.yMax - 58f);
             Widgets.DrawMenuSection(bodyRect);
-            Rect bodyInner = bodyRect.ContractedBy(12f);
+            Rect inner = bodyRect.ContractedBy(12f);
+            if (failure != null)
+            {
+                selectedTab = TelegraphTab.Stations;
+                selectedMilitaryActivity = MilitaryActivity.None;
+                Text.Anchor = TextAnchor.MiddleCenter;
+                GUI.color = Color.gray;
+                Widgets.Label(inner, "HD_Telegraph_OfflineDirectory".Translate());
+                GUI.color = Color.white;
+                Text.Anchor = TextAnchor.UpperLeft;
+            }
+            else if (selectedTab == TelegraphTab.Military) DrawMilitaryTab(inner);
+            else DrawStationDirectory(inner);
 
-            if (selectedTab == TelegraphTab.Military)
-            {
-                DrawMilitaryTab(bodyInner);
-            }
-            else
-            {
-                DrawOrdersTab(bodyInner);
-            }
-
-            Rect closeRect = new Rect(inRect.xMax - 120f, inRect.yMax - 38f, 120f, 38f);
-            if (Widgets.ButtonText(closeRect, "CloseButton".Translate()))
-            {
-                Close();
-            }
+            if (Widgets.ButtonText(new Rect(inRect.xMax - 120f, inRect.yMax - 38f, 120f, 38f), "CloseButton".Translate())) Close();
         }
 
-        private void DrawTabs(Rect tabRect)
+        private void DrawStationDirectory(Rect rect)
         {
-            const float tabWidth = 140f;
-            Rect ordersRect = new Rect(tabRect.x, tabRect.y, tabWidth, tabRect.height);
-            if (Widgets.ButtonText(ordersRect, "HD_TelegraphTable_Tab_Orders".Translate(), selectedTab == TelegraphTab.Orders))
-            {
-                selectedTab = TelegraphTab.Orders;
-            }
-
-            Rect militaryRect = new Rect(ordersRect.xMax + 8f, tabRect.y, tabWidth, tabRect.height);
-            if (Widgets.ButtonText(militaryRect, "HD_TelegraphTable_Tab_Military".Translate(), selectedTab == TelegraphTab.Military))
+            float height = (rect.height - 20f) / 3f;
+            DrawStation(new Rect(rect.x, rect.y, rect.width, height), "TradeOffice", OpenFactionComms);
+            DrawStation(new Rect(rect.x, rect.y + height + 10f, rect.width, height), "ContractOffice", () =>
             {
                 selectedTab = TelegraphTab.Military;
-            }
+                selectedMilitaryActivity = MilitaryActivity.None;
+            });
+            DrawStation(new Rect(rect.x, rect.y + (height + 10f) * 2f, rect.width, height), "SupportOffice", () =>
+                Find.WindowStack.Add(new Dialog_ForwardBaseSupport(SelectedMilitaryFaction(), this,
+                    telegraphTable.TryGetComp<CompTelegraphTable>())));
         }
 
-        private void DrawOrdersTab(Rect bodyInner)
+        private static void DrawStation(Rect rect, string station, Action connect)
         {
+            Widgets.DrawMenuSection(rect);
+            Rect inner = rect.ContractedBy(12f);
+            const float buttonWidth = 118f;
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(bodyInner.x, bodyInner.y, bodyInner.width, 30f), "HD_TelegraphTable_Orders_Title".Translate());
+            Widgets.Label(new Rect(inner.x, inner.y, inner.width - buttonWidth - 18f, 28f), ("HD_Telegraph_" + station).Translate());
             Text.Font = GameFont.Small;
+            GUI.color = Color.gray;
+            Widgets.Label(new Rect(inner.x, inner.y + 34f, inner.width - buttonWidth - 18f, inner.height - 34f),
+                ("HD_Telegraph_" + station + "Desc").Translate());
+            GUI.color = Color.white;
+            if (Widgets.ButtonText(new Rect(inner.xMax - buttonWidth, inner.y + (inner.height - 36f) / 2f, buttonWidth, 36f),
+                "HD_Telegraph_Connect".Translate())) connect();
+        }
 
-            Rect descriptionRect = new Rect(bodyInner.x, bodyInner.y + 38f, bodyInner.width, 72f);
-            Widgets.Label(descriptionRect, "HD_TelegraphTable_Placeholder".Translate());
-
-            float buttonWidth = (bodyInner.width - 20f) / 3f;
-            float buttonY = bodyInner.yMax - 48f;
-            DrawDisabledButton(new Rect(bodyInner.x, buttonY, buttonWidth, 40f), "HD_TelegraphTable_Button_Contracts".Translate());
+        private void OpenFactionComms()
+        {
+            CompTelegraphTable comp = telegraphTable.TryGetComp<CompTelegraphTable>();
+            Faction faction = SelectedMilitaryFaction();
+            string reason = comp.TransmissionFailure(faction);
+            if (reason == null && (operatorPawn == null || !operatorPawn.Spawned || operatorPawn.Dead || operatorPawn.Downed
+                || operatorPawn.Map != telegraphTable.Map || !operatorPawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking)
+                || operatorPawn.skills.GetSkill(SkillDefOf.Social).TotallyDisabled))
+                reason = "HD_Telegraph_OperatorUnavailable".Translate();
+            if (reason == null && !Dialog_TelegraphFactionComms.CanContact(faction)) reason = "HD_Telegraph_LeaderUnavailable".Translate();
+            if (reason != null)
+            {
+                Messages.Message(reason, MessageTypeDefOf.RejectInput);
+                return;
+            }
+            if (comp.ConsumePrimaryCell()) Find.WindowStack.Add(new Dialog_TelegraphFactionComms(comp.Network, operatorPawn, faction));
         }
 
         private void DrawMilitaryTab(Rect bodyInner)
@@ -314,27 +371,14 @@ namespace Helodrace
             DrawMilitaryActivityList(bodyInner);
         }
 
-        private void DrawMilitaryActivityList(Rect bodyInner)
+        private void DrawMilitaryActivityList(Rect rect)
         {
-            EnsureSelectedMilitaryFaction();
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(bodyInner.x, bodyInner.y, bodyInner.width, 30f), "HD_TelegraphTable_Military_Title".Translate());
+            Widgets.Label(new Rect(rect.x, rect.y, rect.width, 30f), "HD_Telegraph_ContractOffice".Translate());
             Text.Font = GameFont.Small;
-
-            Rect factionLabelRect = new Rect(bodyInner.x, bodyInner.y + 38f, bodyInner.width, 24f);
-            Widgets.Label(factionLabelRect, "HD_TelegraphTable_Military_Faction".Translate());
-            DrawMilitaryFactionSelector(new Rect(bodyInner.x, bodyInner.y + 66f, bodyInner.width, 34f));
-
-            Rect descriptionRect = new Rect(bodyInner.x, bodyInner.y + 110f, bodyInner.width, 52f);
-            Widgets.Label(descriptionRect, "HD_TelegraphTable_Military_Placeholder".Translate());
-
-            float buttonWidth = (bodyInner.width - 20f) / 3f;
-            float buttonY = bodyInner.y + 176f;
-            if (Widgets.ButtonText(new Rect(bodyInner.x, buttonY, buttonWidth, 42f), "HD_TelegraphTable_Military_RequestSupport".Translate()))
-            {
-                Find.WindowStack.Add(new Dialog_ForwardBaseSupport(SelectedMilitaryFaction(), this, telegraphTable?.TryGetComp<CompTelegraphTable>()));
-            }
-            if (Widgets.ButtonText(new Rect(bodyInner.x + buttonWidth + 10f, buttonY, buttonWidth, 42f), "HD_TelegraphTable_Military_ForwardBase".Translate(), selectedMilitaryActivity == MilitaryActivity.ForwardBaseContract))
+            Widgets.Label(new Rect(rect.x, rect.y + 42f, rect.width, 50f), "HD_Telegraph_ContractOfficeDesc".Translate());
+            float width = (rect.width - 12f) / 2f;
+            if (Widgets.ButtonText(new Rect(rect.x, rect.y + 110f, width, 42f), "HD_TelegraphTable_Military_ForwardBase".Translate()))
             {
                 selectedMilitaryActivity = MilitaryActivity.ForwardBaseContract;
                 windowRect.size = ContractWindowSize;
@@ -343,116 +387,17 @@ namespace Helodrace
                 closeOnClickedOutside = false;
                 StartContractEntranceAnimation();
             }
-            if (Widgets.ButtonText(new Rect(bodyInner.x + (buttonWidth + 10f) * 2f, buttonY, buttonWidth, 42f), "HD_TelegraphTable_Military_ForwardBaseContracts".Translate(), selectedMilitaryActivity == MilitaryActivity.ForwardBaseContracts))
-            {
+            if (Widgets.ButtonText(new Rect(rect.x + width + 12f, rect.y + 110f, width, 42f), "HD_TelegraphTable_Military_ForwardBaseContracts".Translate()))
                 selectedMilitaryActivity = MilitaryActivity.ForwardBaseContracts;
-            }
-
-            Rect emptyRect = new Rect(bodyInner.x, buttonY + 58f, bodyInner.width, bodyInner.yMax - buttonY - 58f);
-            Text.Anchor = TextAnchor.MiddleCenter;
-            GUI.color = Color.gray;
-            Widgets.Label(emptyRect, "HD_TelegraphTable_Military_SelectActivity".Translate());
-            GUI.color = Color.white;
-            Text.Anchor = TextAnchor.UpperLeft;
         }
 
-        private void DrawMilitaryFactionSelector(Rect rect)
-        {
-            List<Faction> factions = MilitaryCooperationFactions();
-            if (factions.Count == 0)
-            {
-                DrawDisabledButton(rect, "HD_TelegraphTable_Military_FactionNone".Translate());
-                return;
-            }
+        private Faction SelectedMilitaryFaction() => telegraphTable?.TryGetComp<CompTelegraphTable>()?.Network?.Provider;
 
-            float gap = 8f;
-            float width = (rect.width - gap * (factions.Count - 1)) / factions.Count;
-            for (int i = 0; i < factions.Count; i++)
-            {
-                Faction faction = factions[i];
-                Rect buttonRect = new Rect(rect.x + (width + gap) * i, rect.y, width, rect.height);
-                bool selected = SelectedMilitaryFaction() == faction;
-                if (Widgets.ButtonText(buttonRect, MilitaryFactionLabel(faction), selected))
-                {
-                    selectedMilitaryFactionDefName = faction.def.defName;
-                }
-            }
-        }
-
-        private void EnsureSelectedMilitaryFaction()
-        {
-            if (SelectedMilitaryFaction() != null)
-            {
-                return;
-            }
-
-            List<Faction> factions = MilitaryCooperationFactions();
-            if (factions.Count > 0)
-            {
-                selectedMilitaryFactionDefName = factions[0].def.defName;
-            }
-        }
-
-        private Faction SelectedMilitaryFaction()
-        {
-            if (!selectedMilitaryFactionDefName.NullOrEmpty())
-            {
-                FactionDef selectedDef = DefDatabase<FactionDef>.GetNamedSilentFail(selectedMilitaryFactionDefName);
-                Faction selected = selectedDef == null ? null : Find.FactionManager.FirstFactionOfDef(selectedDef);
-                if (selected != null)
-                {
-                    return selected;
-                }
-            }
-
-            List<Faction> factions = MilitaryCooperationFactions();
-            return factions.Count > 0 ? factions[0] : null;
-        }
-
-        private string SelectedMilitaryFactionLabel()
-        {
-            return MilitaryFactionLabel(SelectedMilitaryFaction());
-        }
+        private string SelectedMilitaryFactionLabel() => MilitaryFactionLabel(SelectedMilitaryFaction());
 
         private static string MilitaryFactionLabel(Faction faction)
         {
             return faction == null ? "HD_TelegraphTable_Military_FactionNone".Translate().ToString() : faction.Name;
-        }
-
-        private static List<Faction> MilitaryCooperationFactions()
-        {
-            List<Faction> factions = new List<Faction>();
-            if (Find.FactionManager?.AllFactionsListForReading != null)
-            {
-                List<Faction> allFactions = Find.FactionManager.AllFactionsListForReading;
-                for (int i = 0; i < allFactions.Count; i++)
-                {
-                    Faction faction = allFactions[i];
-                    if (IsMilitaryCooperationFaction(faction))
-                    {
-                        factions.Add(faction);
-                    }
-                }
-            }
-
-            if (factions.Count == 0)
-            {
-                Faction fallback = FactionOfDef("HD_HelodCivilLowFaction");
-                if (fallback != null)
-                {
-                    factions.Add(fallback);
-                }
-            }
-
-            return factions;
-        }
-
-        private static bool IsMilitaryCooperationFaction(Faction faction)
-        {
-            return faction?.def?.defName != null
-                && faction != Faction.OfPlayer
-                && !faction.defeated
-                && faction.def.defName.StartsWith("HD_Helod");
         }
 
         private void DrawForwardBaseContracts(Rect rect)
@@ -518,7 +463,6 @@ namespace Helodrace
 
         private void DrawA4StandaloneForwardBaseContract(Rect inRect)
         {
-            EnsureSelectedMilitaryFaction();
             Faction selectedFaction = SelectedMilitaryFaction();
             float credit = MilitaryCredit(telegraphTable.Map, selectedFaction);
             bool hasSelectedTile = selectedForwardBaseTile >= 0;
@@ -542,7 +486,7 @@ namespace Helodrace
             }
 
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(content.x + 106f, y + 3f, content.width - 260f, 30f), ProviderCompanyName(selectedFaction));
+            Widgets.Label(new Rect(content.x + 106f, y + 3f, content.width - 260f, 30f), ProviderCompanyName());
             Text.Font = GameFont.Small;
             GUI.color = new Color(0.12f, 0.12f, 0.12f);
             Widgets.Label(new Rect(content.x + 106f, y + 38f, content.width - 260f, 22f), "EXPEDITIONARY LOGISTICS DIVISION");
@@ -563,13 +507,10 @@ namespace Helodrace
             y += DrawContractParagraph(new Rect(content.x, y, content.width, 80f), "This agreement records the terms under which the provider will establish and operate a forward base for the contracting party. Click any field to amend the draft.") + 12f;
 
             y = DrawContractArticleHeader(content, y, "1. PARTIES AND DESTINATION");
-            string providerValue = ProviderCompanyName(selectedFaction) + "  /  " + MilitaryFactionLabel(selectedFaction);
+            string providerValue = ProviderCompanyName() + "  /  " + MilitaryFactionLabel(selectedFaction);
             float providerHeight = ContractEditableRowHeight(providerValue, content.width);
             Rect providerRect = new Rect(content.x, y, content.width, providerHeight);
-            if (DrawContractEditableRow(providerRect, "PROVIDER", providerValue))
-            {
-                OpenProviderEditor();
-            }
+            Widgets.Label(providerRect, "PROVIDER: " + providerValue);
             y += providerHeight + 8f;
             string locationValue = hasSelectedTile
                 ? "Tile " + selectedForwardBaseTile + "  /  " + distance.ToString("F0") + " tiles from nearest settlement"
@@ -675,7 +616,6 @@ namespace Helodrace
 
         private void DrawStandaloneForwardBaseContract(Rect inRect)
         {
-            EnsureSelectedMilitaryFaction();
             Faction selectedFaction = SelectedMilitaryFaction();
             float credit = MilitaryCredit(telegraphTable.Map, selectedFaction);
             bool hasSelectedTile = selectedForwardBaseTile >= 0;
@@ -696,7 +636,7 @@ namespace Helodrace
             }
 
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(paper.x + 88f, y + 2f, paper.width - 90f, 30f), ProviderCompanyName(selectedFaction));
+            Widgets.Label(new Rect(paper.x + 88f, y + 2f, paper.width - 90f, 30f), ProviderCompanyName());
             Text.Font = GameFont.Small;
             GUI.color = new Color(0.12f, 0.12f, 0.12f);
             Widgets.Label(new Rect(paper.x + 88f, y + 36f, paper.width - 90f, 24f), "FORWARD BASE SERVICE AGREEMENT");
@@ -707,10 +647,7 @@ namespace Helodrace
             y += 16f;
 
             Rect providerRect = new Rect(paper.x, y, paper.width, 34f);
-            if (DrawContractEditableRow(providerRect, "PROVIDER", ProviderCompanyName(selectedFaction) + "  /  " + MilitaryFactionLabel(selectedFaction)))
-            {
-                OpenProviderEditor();
-            }
+            Widgets.Label(providerRect, "PROVIDER: " + ProviderCompanyName() + "  /  " + MilitaryFactionLabel(selectedFaction));
             y += 40f;
 
             Rect locationRect = new Rect(paper.x, y, paper.width, 34f);
@@ -862,40 +799,9 @@ namespace Helodrace
             }
         }
 
-        private static string ProviderCompanyName(Faction faction)
-        {
-            return IsHighProvider(faction) ? "Vanguard Expeditionary Group" : "Pioneer Overseas Service Company";
-        }
+        private static string ProviderCompanyName() => "Pioneer Overseas Service Company";
 
-        private static bool IsHighProvider(Faction faction)
-        {
-            return faction?.def?.defName != null && faction.def.defName.IndexOf("High", StringComparison.OrdinalIgnoreCase) >= 0;
-        }
-
-        private Texture2D SelectedProviderLogo()
-        {
-            return ContentFinder<Texture2D>.Get(IsHighProvider(SelectedMilitaryFaction()) ? "Icons/HD_VEG" : "Icons/HD_POSC", false);
-        }
-
-        private void OpenProviderEditor()
-        {
-            List<Faction> factions = MilitaryCooperationFactions();
-            List<FloatMenuOption> options = new List<FloatMenuOption>();
-            for (int i = 0; i < factions.Count; i++)
-            {
-                Faction faction = factions[i];
-                options.Add(new FloatMenuOption(ProviderCompanyName(faction) + "  /  " + MilitaryFactionLabel(faction), delegate
-                {
-                    selectedMilitaryFactionDefName = faction.def.defName;
-                }));
-            }
-
-            if (options.Count == 0)
-            {
-                options.Add(new FloatMenuOption("HD_TelegraphTable_Military_FactionNone".Translate(), null));
-            }
-            Find.WindowStack.Add(new FloatMenu(options));
-        }
+        private Texture2D SelectedProviderLogo() => ContentFinder<Texture2D>.Get("Icons/HD_POSC", false);
 
         private void OpenBaseKindEditor(float credit)
         {
@@ -955,6 +861,12 @@ namespace Helodrace
 
         private void TryStartForwardBaseConstructionContract(float credit, float distance)
         {
+            string connectionFailure = telegraphTable.TryGetComp<CompTelegraphTable>()?.TransmissionFailure(SelectedMilitaryFaction());
+            if (connectionFailure != null)
+            {
+                Messages.Message(connectionFailure, MessageTypeDefOf.RejectInput);
+                return;
+            }
             if (selectedForwardBaseTile < 0)
             {
                 Messages.Message("HD_TelegraphTable_ForwardBase_NoLocation".Translate(), telegraphTable, MessageTypeDefOf.RejectInput);
@@ -1031,7 +943,7 @@ namespace Helodrace
             return string.Join("\n", lines.ToArray());
         }
 
-        private static List<WorldObject> ForwardBaseContractObjects()
+        private List<WorldObject> ForwardBaseContractObjects()
         {
             List<WorldObject> contracts = new List<WorldObject>();
             if (Find.WorldObjects?.AllWorldObjects == null)
@@ -1042,7 +954,7 @@ namespace Helodrace
             for (int i = 0; i < Find.WorldObjects.AllWorldObjects.Count; i++)
             {
                 WorldObject worldObject = Find.WorldObjects.AllWorldObjects[i];
-                if (worldObject is HelodForwardBaseConstruction || worldObject is HelodForwardBase)
+                if ((worldObject is HelodForwardBaseConstruction || worldObject is HelodForwardBase) && worldObject.Faction == SelectedMilitaryFaction())
                 {
                     contracts.Add(worldObject);
                 }
@@ -1088,7 +1000,6 @@ namespace Helodrace
             ContractDuration duration = selectedContractDuration;
             bool[] selectedServices = SelectedServiceFlags();
             int[] selectedServiceUnitCounts = SelectedServiceUnitCounts();
-            string factionDefName = selectedMilitaryFactionDefName;
 
             Close(false);
             if (telegraphTable?.Map != null)
@@ -1101,16 +1012,16 @@ namespace Helodrace
                 if (target.Tile < 0)
                 {
                     Messages.Message("HD_TelegraphTable_ForwardBase_InvalidLocation".Translate(), MessageTypeDefOf.RejectInput);
-                    ReopenForwardBaseContract(baseKind, costKind, duration, selectedForwardBaseTile, selectedServices, selectedServiceUnitCounts, factionDefName);
+                    ReopenForwardBaseContract(baseKind, costKind, duration, selectedForwardBaseTile, selectedServices, selectedServiceUnitCounts);
                     return false;
                 }
 
-                ReopenForwardBaseContract(baseKind, costKind, duration, target.Tile, selectedServices, selectedServiceUnitCounts, factionDefName);
+                ReopenForwardBaseContract(baseKind, costKind, duration, target.Tile, selectedServices, selectedServiceUnitCounts);
                 return true;
             }, true);
         }
 
-        private void ReopenForwardBaseContract(ForwardBaseKind baseKind, ContractCostKind costKind, ContractDuration duration, int tile, bool[] selectedServices, int[] serviceUnitCounts, string factionDefName)
+        private void ReopenForwardBaseContract(ForwardBaseKind baseKind, ContractCostKind costKind, ContractDuration duration, int tile, bool[] selectedServices, int[] serviceUnitCounts)
         {
             Dialog_TelegraphTable dialog = new Dialog_TelegraphTable(telegraphTable, operatorPawn)
             {
@@ -1119,8 +1030,7 @@ namespace Helodrace
                 selectedForwardBaseKind = baseKind,
                 selectedContractCostKind = costKind,
                 selectedContractDuration = duration,
-                selectedForwardBaseTile = tile,
-                selectedMilitaryFactionDefName = factionDefName
+                selectedForwardBaseTile = tile
             };
             dialog.doWindowBackground = false;
             dialog.doCloseX = false;
@@ -1656,12 +1566,6 @@ namespace Helodrace
             return faction?.PlayerGoodwill ?? 0;
         }
 
-        private static Faction FactionOfDef(string defName)
-        {
-            FactionDef def = DefDatabase<FactionDef>.GetNamedSilentFail(defName);
-            return def == null ? null : Find.FactionManager.FirstFactionOfDef(def);
-        }
-
         private static float NearestMilitarySettlementDistance(int tile, Faction faction)
         {
             if (tile < 0 || faction == null || Find.WorldObjects?.Settlements == null || Find.WorldGrid == null)
@@ -1938,9 +1842,7 @@ namespace Helodrace
                 float y = content.y;
 
                 GUI.color = Color.black;
-                Texture2D logo = ContentFinder<Texture2D>.Get(
-                    Dialog_TelegraphTable.IsHighProvider(faction) ? "Icons/HD_VEG" : "Icons/HD_POSC",
-                    false);
+                Texture2D logo = ContentFinder<Texture2D>.Get("Icons/HD_POSC", false);
                 if (logo != null)
                 {
                     GUI.color = Color.white;
@@ -1949,7 +1851,7 @@ namespace Helodrace
                 }
 
                 Text.Font = GameFont.Medium;
-                Widgets.Label(new Rect(content.x + 106f, y + 3f, content.width - 260f, 30f), Dialog_TelegraphTable.ProviderCompanyName(faction));
+                Widgets.Label(new Rect(content.x + 106f, y + 3f, content.width - 260f, 30f), Dialog_TelegraphTable.ProviderCompanyName());
                 Text.Font = GameFont.Small;
                 Widgets.Label(new Rect(content.x + 106f, y + 38f, content.width - 260f, 22f), "FORWARD BASE SERVICE AGREEMENT");
                 Widgets.Label(new Rect(content.x + 106f, y + 61f, content.width - 260f, 22f), "EXECUTED CONTRACT RECORD");
@@ -1961,7 +1863,7 @@ namespace Helodrace
 
                 Widgets.Label(new Rect(content.x, y, content.width, 22f), "PROVIDER");
                 y += 24f;
-                Widgets.Label(new Rect(content.x + 12f, y, content.width - 12f, 24f), Dialog_TelegraphTable.ProviderCompanyName(faction) + "  /  " + (faction?.Name ?? "Unknown faction"));
+                Widgets.Label(new Rect(content.x + 12f, y, content.width - 12f, 24f), Dialog_TelegraphTable.ProviderCompanyName() + "  /  " + (faction?.Name ?? "Unknown faction"));
                 y += 36f;
                 Widgets.Label(new Rect(content.x, y, content.width, 22f), "STATUS");
                 y += 24f;
@@ -2123,7 +2025,7 @@ namespace Helodrace
 
         private enum TelegraphTab
         {
-            Orders,
+            Stations,
             Military
         }
 

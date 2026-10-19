@@ -52,6 +52,13 @@
     <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
   </JobDef>
 
+  <JobDef>
+    <defName>HD_RequestTelegraphInstallation</defName>
+    <driverClass>Helodrace.JobDriver_RequestTelegraphInstallation</driverClass>
+    <reportString>requesting telegraph installation.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
   <WorkGiverDef>
     <defName>DoBillsHD_BlastFurnace</defName>
     <label>use blast furnace</label>

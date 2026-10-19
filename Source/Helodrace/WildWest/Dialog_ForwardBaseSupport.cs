@@ -20,6 +20,12 @@ namespace Helodrace
 
         public override void DoWindowContents(Rect rect)
         {
+            string connectionFailure = telegraphComp?.TransmissionFailure(faction);
+            if (connectionFailure != null)
+            {
+                Widgets.Label(rect, connectionFailure);
+                return;
+            }
             Text.Font = GameFont.Medium;
             Widgets.Label(new Rect(rect.x, rect.y, rect.width, 32f), "HD_TelegraphTable_Support_Title".Translate());
             Text.Font = GameFont.Small;
@@ -168,6 +174,12 @@ namespace Helodrace
                     "HD_W48_Authorize".Translate(),
                     () =>
                     {
+                        string connectionFailure = telegraphComp?.TransmissionFailure(b.Faction);
+                        if (connectionFailure != null)
+                        {
+                            Messages.Message(connectionFailure, MessageTypeDefOf.RejectInput);
+                            return;
+                        }
                         if (b.TryAuthorizeW48(out string reason))
                         {
                             Messages.Message("HD_W48_Launched".Translate(), b, MessageTypeDefOf.ThreatBig);
@@ -268,6 +280,12 @@ namespace Helodrace
 
         public override void DoWindowContents(Rect rect)
         {
+            string connectionFailure = telegraphComp?.TransmissionFailure(forwardBase?.Faction);
+            if (connectionFailure != null)
+            {
+                Widgets.Label(rect, connectionFailure);
+                return;
+            }
             Text.Font = GameFont.Medium;
             Widgets.Label(new Rect(rect.x, rect.y, rect.width, 30f), service == HelodForwardBaseService.InfantryMortarSupport ? "HD_MortarSupport_SelectAmmoTitle".Translate() : "HD_ArtillerySupport_SelectAmmoTitle".Translate());
             Text.Font = GameFont.Small;

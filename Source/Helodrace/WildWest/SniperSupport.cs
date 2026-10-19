@@ -69,8 +69,8 @@ namespace Helodrace
             if (!IsBaseInRange(map, forwardBase)
                 || !forwardBase.HasServiceCapacity(HelodForwardBaseService.InfantrySniperSupport))
                 return "HD_SniperSupport_Unavailable".Translate().ToString();
-            if (telegraphComp != null && !telegraphComp.HasPrimaryCell)
-                return "HD_TelegraphTable_ActionNeedsPrimaryCell".Translate().ToString();
+            string transmissionFailure = telegraphComp?.TransmissionFailure(forwardBase?.Faction);
+            if (transmissionFailure != null) return transmissionFailure;
             if (caller != null && (caller.Dead || caller.Downed || !caller.Spawned || caller.Map != map))
                 return "HD_SniperSupport_CallerUnavailable".Translate().ToString();
             if (caller != null && SCR300RadioUtility.IsBlackout(map))

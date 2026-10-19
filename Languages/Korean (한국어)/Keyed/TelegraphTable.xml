@@ -7,17 +7,7 @@
   <HD_TelegraphTable_PrimaryCellsFull>일차 전지 보관함이 가득 참</HD_TelegraphTable_PrimaryCellsFull>
   <HD_TelegraphTable_PrimaryCellsStored>일차 전지: {0}/{1}</HD_TelegraphTable_PrimaryCellsStored>
   <HD_TelegraphTable_Window_Title>전신기</HD_TelegraphTable_Window_Title>
-  <HD_TelegraphTable_Station>전신국: {0}</HD_TelegraphTable_Station>
   <HD_TelegraphTable_Operator>조작자: {0}</HD_TelegraphTable_Operator>
-  <HD_TelegraphTable_Status_Ready>상태: 회선 준비됨</HD_TelegraphTable_Status_Ready>
-  <HD_TelegraphTable_Status_Ready_WithCells>상태: 회선 준비됨 | 일차 전지: {0}</HD_TelegraphTable_Status_Ready_WithCells>
-  <HD_TelegraphTable_Tab_Orders>업무</HD_TelegraphTable_Tab_Orders>
-  <HD_TelegraphTable_Tab_Military>군사 협력</HD_TelegraphTable_Tab_Military>
-  <HD_TelegraphTable_Orders_Title>전문 업무</HD_TelegraphTable_Orders_Title>
-  <HD_TelegraphTable_Placeholder>전신 선로가 준비되어 있습니다. 개척지 계약 기능은 나중에 이 화면에 연결됩니다.</HD_TelegraphTable_Placeholder>
-  <HD_TelegraphTable_Button_Contracts>계약</HD_TelegraphTable_Button_Contracts>
-  <HD_TelegraphTable_Military_Title>군사 협력</HD_TelegraphTable_Military_Title>
-  <HD_TelegraphTable_Military_Placeholder>군사 연락망이 열려 있습니다. 지원 요청과 전진기지 구축 계약은 나중에 이 화면에 연결됩니다.</HD_TelegraphTable_Military_Placeholder>
   <HD_TelegraphTable_Military_RequestSupport>지원 요청</HD_TelegraphTable_Military_RequestSupport>
   <HD_SniperSupport_ControlTitle>저격지원 통제</HD_SniperSupport_ControlTitle>
   <HD_SniperSupport_SetupDesc>맵 방면을 선택해 게임 내 {0}시간 동안 {1}회 행동할 저격지원을 요청합니다. 표적 요청마다 한 발씩 사격합니다.</HD_SniperSupport_SetupDesc>
@@ -86,8 +76,6 @@
   <HD_ForwardBase_WithdrawalCompleted>전진기지 철수가 완료되었습니다.</HD_ForwardBase_WithdrawalCompleted>
   <HD_TelegraphTable_Military_ForwardBase>전진기지 구축 계약</HD_TelegraphTable_Military_ForwardBase>
   <HD_TelegraphTable_Military_ForwardBaseContracts>전진기지 계약 목록</HD_TelegraphTable_Military_ForwardBaseContracts>
-  <HD_TelegraphTable_Military_SelectActivity>군사 협력 활동을 선택하십시오.</HD_TelegraphTable_Military_SelectActivity>
-  <HD_TelegraphTable_Military_Faction>협력 팩션</HD_TelegraphTable_Military_Faction>
   <HD_TelegraphTable_Military_FactionNone>사용 가능한 팩션 없음</HD_TelegraphTable_Military_FactionNone>
   <HD_TelegraphTable_ForwardBaseContracts_Title>전진기지 계약 목록</HD_TelegraphTable_ForwardBaseContracts_Title>
   <HD_TelegraphTable_ForwardBaseContracts_None>전진기지 계약이 없습니다.</HD_TelegraphTable_ForwardBaseContracts_None>

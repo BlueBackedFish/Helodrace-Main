@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_Telegraph_RequestInstallation>Request telegraph installation ({0} Sthaler)</HD_Telegraph_RequestInstallation>
+  <HD_Telegraph_InstallationConfirm>Pay {0} Sthaler banknotes to connect this settlement to the Helod Mercantile Association's telegraph network? Installation takes 2–3 days. One connection serves every telegraph in this settlement.</HD_Telegraph_InstallationConfirm>
+  <HD_Telegraph_InstallationOrdered>Telegraph installation ordered for {0} Sthaler. The line will open in 2–3 days.</HD_Telegraph_InstallationOrdered>
+  <HD_Telegraph_TraderUnavailable>The LOW Helod trader is no longer available.</HD_Telegraph_TraderUnavailable>
+  <HD_Telegraph_AlreadyRequested>Installation has already been ordered for this settlement.</HD_Telegraph_AlreadyRequested>
+  <HD_Telegraph_NeedsTerminal>Build a telegraph in this settlement first.</HD_Telegraph_NeedsTerminal>
+  <HD_Telegraph_NotEnoughMoney>Requires {0} accessible Sthaler banknotes in this settlement.</HD_Telegraph_NotEnoughMoney>
+  <HD_Telegraph_ActivatedTitle>Telegraph line connected</HD_Telegraph_ActivatedTitle>
+  <HD_Telegraph_Activated>The telegraph line at {0} is connected. The LOW Helod relay operates daily from {1}:00 to {2}:00, local settlement time.</HD_Telegraph_Activated>
+  <HD_Telegraph_Installing>Installation pending: {0} remaining.</HD_Telegraph_Installing>
+  <HD_Telegraph_RelayClosed>Relay closed. Business hours: {0}:00–{1}:00 (local time).</HD_Telegraph_RelayClosed>
+  <HD_Telegraph_Status_NotInstalled>Line not installed. Request installation from a visiting LOW Helod caravan.</HD_Telegraph_Status_NotInstalled>
+  <HD_Telegraph_Status_ProviderUnavailable>The contracted LOW Helod relay is unavailable.</HD_Telegraph_Status_ProviderUnavailable>
+  <HD_Telegraph_Status_NoPrimaryCells>Offline: load at least one primary cell.</HD_Telegraph_Status_NoPrimaryCells>
+  <HD_Telegraph_Status_Online>Relay online</HD_Telegraph_Status_Online>
+  <HD_Telegraph_Directory>Communication stations</HD_Telegraph_Directory>
+  <HD_Telegraph_LocalTime>Local time {0}:00 | Primary cells: {1}</HD_Telegraph_LocalTime>
+  <HD_Telegraph_OnlineProvider>{0} — relay online</HD_Telegraph_OnlineProvider>
+  <HD_Telegraph_OfflineDirectory>The line is offline. Station information is unavailable.</HD_Telegraph_OfflineDirectory>
+  <HD_Telegraph_TradeOffice>Caravan dispatch office</HD_Telegraph_TradeOffice>
+  <HD_Telegraph_TradeOfficeDesc>Contact the LOW Helod association for caravan requests and other standard faction services. Normal goodwill requirements and cooldowns apply.</HD_Telegraph_TradeOfficeDesc>
+  <HD_Telegraph_ContractOffice>Forward base contracting office</HD_Telegraph_ContractOffice>
+  <HD_Telegraph_ContractOfficeDesc>Arrange a new LOW Helod forward base contract or review existing contracts.</HD_Telegraph_ContractOfficeDesc>
+  <HD_Telegraph_SupportOffice>Military support dispatch office</HD_Telegraph_SupportOffice>
+  <HD_Telegraph_SupportOfficeDesc>Request available services from contracted LOW Helod forward bases.</HD_Telegraph_SupportOfficeDesc>
+  <HD_Telegraph_Connect>Connect</HD_Telegraph_Connect>
+  <HD_Telegraph_LeaderUnavailable>The association's representative is unavailable.</HD_Telegraph_LeaderUnavailable>
+  <HD_Telegraph_OperatorUnavailable>The operator cannot negotiate.</HD_Telegraph_OperatorUnavailable>
+  <HD_Telegraph_WrongProvider>The telegraph can only contact its contracted LOW Helod faction.</HD_Telegraph_WrongProvider>
+</LanguageData>

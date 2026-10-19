@@ -7,17 +7,7 @@
   <HD_TelegraphTable_PrimaryCellsFull>primary cell rack full</HD_TelegraphTable_PrimaryCellsFull>
   <HD_TelegraphTable_PrimaryCellsStored>Primary cells: {0}/{1}</HD_TelegraphTable_PrimaryCellsStored>
   <HD_TelegraphTable_Window_Title>Telegraph table</HD_TelegraphTable_Window_Title>
-  <HD_TelegraphTable_Station>Station: {0}</HD_TelegraphTable_Station>
   <HD_TelegraphTable_Operator>Operator: {0}</HD_TelegraphTable_Operator>
-  <HD_TelegraphTable_Status_Ready>Status: line ready</HD_TelegraphTable_Status_Ready>
-  <HD_TelegraphTable_Status_Ready_WithCells>Status: line ready | primary cells: {0}</HD_TelegraphTable_Status_Ready_WithCells>
-  <HD_TelegraphTable_Tab_Orders>Orders</HD_TelegraphTable_Tab_Orders>
-  <HD_TelegraphTable_Tab_Military>Military cooperation</HD_TelegraphTable_Tab_Military>
-  <HD_TelegraphTable_Orders_Title>Orders</HD_TelegraphTable_Orders_Title>
-  <HD_TelegraphTable_Placeholder>The telegraph line is ready. Frontier contracts will be connected to this screen later.</HD_TelegraphTable_Placeholder>
-  <HD_TelegraphTable_Button_Contracts>Contracts</HD_TelegraphTable_Button_Contracts>
-  <HD_TelegraphTable_Military_Title>Military cooperation</HD_TelegraphTable_Military_Title>
-  <HD_TelegraphTable_Military_Placeholder>Military liaison is available. Support requests and forward base contracts will be connected here later.</HD_TelegraphTable_Military_Placeholder>
   <HD_TelegraphTable_Military_RequestSupport>Request support</HD_TelegraphTable_Military_RequestSupport>
   <HD_SniperSupport_ControlTitle>Sniper support control</HD_SniperSupport_ControlTitle>
   <HD_SniperSupport_SetupDesc>Select a map edge and request support for {0} in-game hours with {1} actions. Each target request fires one shot.</HD_SniperSupport_SetupDesc>
@@ -86,8 +76,6 @@
   <HD_ForwardBase_WithdrawalCompleted>Forward base withdrawal completed.</HD_ForwardBase_WithdrawalCompleted>
   <HD_TelegraphTable_Military_ForwardBase>Forward base contract</HD_TelegraphTable_Military_ForwardBase>
   <HD_TelegraphTable_Military_ForwardBaseContracts>Forward base contracts</HD_TelegraphTable_Military_ForwardBaseContracts>
-  <HD_TelegraphTable_Military_SelectActivity>Select a military cooperation activity.</HD_TelegraphTable_Military_SelectActivity>
-  <HD_TelegraphTable_Military_Faction>Cooperation faction</HD_TelegraphTable_Military_Faction>
   <HD_TelegraphTable_Military_FactionNone>No available faction</HD_TelegraphTable_Military_FactionNone>
   <HD_TelegraphTable_ForwardBaseContracts_Title>Forward base contracts</HD_TelegraphTable_ForwardBaseContracts_Title>
   <HD_TelegraphTable_ForwardBaseContracts_None>No forward base contracts.</HD_TelegraphTable_ForwardBaseContracts_None>
