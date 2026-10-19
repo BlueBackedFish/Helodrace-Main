@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <HD_Company_FinancialGoodwill>Financial goodwill: {0}</HD_Company_FinancialGoodwill>
+  <HD_Company_FinancialGoodwillTip>A separate financial relationship score, from -100 to 100. It currently has no effect on prices, payments, contracts, or normal faction goodwill.</HD_Company_FinancialGoodwillTip>
   <HD_Company_FinancialDesc>Request the financial caravan operated by National Industrial Credit Corporation. Requires an allied LOW faction. Each request costs 15 goodwill and one primary cell; arrival takes 1–2 days. This company has its own four-day request cooldown.</HD_Company_FinancialDesc>
   <HD_Company_CommercialDesc>Request the commercial caravan operated by Central Hardware &amp; Supply Co. Requires an allied LOW faction. Each request costs 15 goodwill and one primary cell; arrival takes 1–2 days. This company has its own four-day request cooldown.</HD_Company_CommercialDesc>
   <HD_Company_PioneerDesc>Arrange LOW Helod forward base construction, review signed contracts, and request services from contracted forward bases.</HD_Company_PioneerDesc>

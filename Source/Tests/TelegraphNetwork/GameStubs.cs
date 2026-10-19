@@ -6,6 +6,12 @@ using System.Linq;
 // and persistence. UI/job discovery and vanilla diplomacy still need game checks.
 namespace Verse
 {
+    public class GameComponent
+    {
+        public virtual void ExposeData() { }
+    }
+    public sealed class Game { public T GetComponent<T>() where T : GameComponent => null; }
+    public static class Current { public static Game Game; }
     public class MapComponent
     {
         protected readonly Map map;
@@ -118,6 +124,17 @@ namespace Verse
     {
         public static void Look<T>(ref T value, string key) where T : class => Scribe.Look(ref value, key, default(T));
     }
+    public enum LookMode { Reference, Value }
+    public static class Scribe_Collections
+    {
+        public static void Look<K, V>(ref Dictionary<K, V> values, string key, LookMode keyMode, LookMode valueMode,
+            ref List<K> keys, ref List<V> entries)
+        {
+            if (Scribe.Loading)
+                values = Scribe.Values.TryGetValue(key, out var saved) ? new Dictionary<K, V>((Dictionary<K, V>)saved) : null;
+            else Scribe.Values[key] = new Dictionary<K, V>(values);
+        }
+    }
 }
 namespace Verse.AI { public enum PathEndMode { Touch } }
 namespace Verse.AI.Group
@@ -133,6 +150,7 @@ namespace RimWorld
         public static readonly Faction OfPlayer = new Faction();
         public FactionDef def = new FactionDef();
         public bool defeated, Hostile;
+        public int PlayerGoodwill;
         public bool HostileTo(Faction other) => Hostile;
     }
     public sealed class TraderKindDef { }

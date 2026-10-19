@@ -9,5 +9,6 @@
     <Compile Include="GameStubs.cs" />
     <Compile Include="../../Helodrace/WildWest/TelegraphNetworkRules.cs" Link="TelegraphNetworkRules.cs" />
     <Compile Include="../../Helodrace/WildWest/TelegraphNetwork.cs" Link="TelegraphNetwork.cs" />
+    <Compile Include="../../Helodrace/Economy/FinancialGoodwill.cs" Link="FinancialGoodwill.cs" />
   </ItemGroup>
 </Project>

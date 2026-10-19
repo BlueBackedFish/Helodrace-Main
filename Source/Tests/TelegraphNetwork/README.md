@@ -6,6 +6,8 @@ Run `Source/Tests/TelegraphNetwork/Verify-MenuProvider.ps1` in Windows PowerShel
 
 The tests compile the production connection rules and map component against minimal game stubs. They cover payment from accessible notes, insufficient funds, repeated requests, LOW faction restrictions, independent settlement connections, installation deadlines, persisted provider/deadline/notification state, and opening-hour boundaries. The stubs exercise `ExposeData`; they do not replace an in-game save/load check.
 
+The same suite compiles the production financial-goodwill component. It checks faction-specific neutral defaults, the -100 to 100 range, independent normal/financial goodwill, save/load, empty state, and resetting one relationship. The financial company tab displays the value read-only; no economic or diplomacy events currently change or consume it.
+
 In-game checks still required:
 
 1. Build and fuel a telegraph. Verify use is unavailable before installation and the inspect text explains how to connect.

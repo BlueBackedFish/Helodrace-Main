@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Helodrace;
+using Helodrace.Economy;
 using RimWorld;
 using Verse;
 using Verse.AI.Group;
@@ -40,7 +41,40 @@ internal static class Program
         Check(TelegraphNetworkRules.Status(readyAt, readyAt + 60000, 8, true, true) == TelegraphConnectionStatus.Online, "The same installation reconnects the next morning");
         TransactionsAndPersistence();
         CaravanContact();
+        FinancialGoodwill();
         Console.WriteLine("PASS: " + checks + " telegraph network checks.");
+    }
+
+    private static void FinancialGoodwill()
+    {
+        var ledger = new GameComponent_FinancialGoodwill(new Game());
+        var low = new Faction { PlayerGoodwill = 42 };
+        var other = new Faction { PlayerGoodwill = -20 };
+        Check(ledger.Get(low) == 0 && ledger.Get(other) == 0, "Financial goodwill starts neutral independently of diplomacy");
+        Check(ledger.TrySet(low, 35) && ledger.Get(low) == 35, "Financial value can be set through its separate API");
+        Check(ledger.Get(other) == 0, "A financial relationship does not change other factions");
+        Check(low.PlayerGoodwill == 42 && other.PlayerGoodwill == -20, "Financial goodwill never modifies vanilla goodwill");
+        low.PlayerGoodwill = -90;
+        Check(ledger.Get(low) == 35, "Vanilla goodwill changes do not derive or overwrite the financial value");
+        ledger.TrySet(low, 1000);
+        Check(ledger.Get(low) == 100, "Financial goodwill clamps at 100");
+        ledger.TrySet(other, -1000);
+        Check(ledger.Get(other) == -100, "Financial goodwill clamps at minus 100");
+        Check(!ledger.TrySet(null, 10) && !ledger.TrySet(Faction.OfPlayer, 10), "Invalid and self relationships cannot be written");
+        Check(ledger.Get(null) == 0 && ledger.Get(Faction.OfPlayer) == 0, "Invalid and self relationships read neutral");
+        Scribe.Values.Clear(); Scribe.Loading = false;
+        ledger.ExposeData();
+        var loaded = new GameComponent_FinancialGoodwill(new Game());
+        Scribe.Loading = true; loaded.ExposeData(); Scribe.Loading = false;
+        Check(loaded.Get(low) == 100 && loaded.Get(other) == -100, "Faction references and financial values survive ExposeData save/load");
+        loaded.TrySet(low, 0);
+        Check(loaded.Get(low) == 0 && loaded.Get(other) == -100, "Resetting one financial relationship leaves the other unchanged");
+        Check(ledger.Get(low) == 100, "A loaded ledger is independent of the saved in-memory snapshot");
+        Scribe.Values.Clear();
+        var empty = new GameComponent_FinancialGoodwill(new Game());
+        Scribe.Loading = true; empty.ExposeData(); Scribe.Loading = false;
+        Check(empty.Get(low) == 0, "An absent financial ledger reads as neutral");
+        Check(empty.TrySet(low, -10) && empty.Get(low) == -10, "An absent ledger can be initialized through the API");
     }
 
     private static void CaravanContact()
