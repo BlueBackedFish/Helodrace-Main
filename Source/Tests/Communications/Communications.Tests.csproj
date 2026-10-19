@@ -6,6 +6,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="DialogueStubs.cs" />
+    <Compile Include="../../Helodrace/WildWest/HamRadioDialog.cs" Link="HamRadioDialog.cs" />
     <Compile Include="../../Helodrace/WildWest/HamRadioSchedule.cs" Link="HamRadioSchedule.cs" />
     <Compile Include="../../Helodrace/WildWest/HamRadioRoutingRules.cs" Link="HamRadioRoutingRules.cs" />
     <Compile Include="../../Helodrace/WildWest/TelegraphCompanies.cs" Link="TelegraphCompanies.cs" />

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_HAM_Use>HAM 대역으로 {0}와 교신</HD_HAM_Use>
-  <HD_HAM_NoSignal>전력 공급 중단 또는 전파 간섭</HD_HAM_NoSignal>
+  <HD_HAM_Greeting>여기는 {0}의 HAM 통신원입니다. 신호 잘 들립니다. 잠깐 잡담을 나누시겠습니까, 아니면 전달할 의뢰가 있는지 확인하시겠습니까?</HD_HAM_Greeting>
+  <HD_HAM_Chat>HAM 대역에서 잡담한다</HD_HAM_Chat>
+  <HD_HAM_AskMission>전달할 임무가 있는지 묻는다</HD_HAM_AskMission>
+  <HD_HAM_NoMission>오늘 전달할 임무는 없습니다. 내일 다시 교신해 주세요.</HD_HAM_NoMission>
+  <HD_HAM_AlreadyChecked>오늘은 이미 정착지에서 HAM 임무 수신을 확인했습니다. 내일 다시 확인해 주세요.</HD_HAM_AlreadyChecked>
   <HD_HAM_MissionReceived>먼 곳의 HAM 통신원이 임무를 전해 왔습니다. 임무 탭을 확인하세요.</HD_HAM_MissionReceived>
   <HD_HAM_Chatter1>먼 곳의 통신원이 날씨 이야기를 나누다 잡음 속에서 교신을 마쳤습니다.</HD_HAM_Chatter1>
   <HD_HAM_Chatter2>HAM 대역에서 자작 안테나 성능을 비교하는 이야기가 들립니다. 긴급한 소식은 없습니다.</HD_HAM_Chatter2>

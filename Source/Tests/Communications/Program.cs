@@ -29,6 +29,7 @@ internal static class Program
         Check(restored.CanCheck(3), "Persisted state permits the next day");
         CompanyRequests();
         HamRouting();
+        HamDialogue();
         Definitions();
         Console.WriteLine("PASS: " + checks + " communications checks.");
     }
@@ -45,8 +46,35 @@ internal static class Program
         var english = XDocument.Load("Languages/English/Keyed/HamRadio.xml").Root.Elements().ToList();
         var korean = XDocument.Load("Languages/Korean (한국어)/Keyed/HamRadio.xml").Root.Elements().ToList();
         Check(english.Select(e => e.Name).SequenceEqual(korean.Select(e => e.Name)), "HAM translations have matching keys");
-        Check(english.Single(e => e.Name == "HD_HAM_Use").Value.Contains("{0}") && korean.Single(e => e.Name == "HD_HAM_Use").Value.Contains("{0}"),
-            "Each HAM contact option identifies the selected faction");
+        Check(english.Single(e => e.Name == "HD_HAM_Greeting").Value.Contains("{0}") && korean.Single(e => e.Name == "HD_HAM_Greeting").Value.Contains("{0}"),
+            "The HAM greeting identifies the selected faction");
+        Check(!File.Exists("Defs/WildWest/Jobs_HamRadio.xml"), "HAM retains the vanilla comms job instead of using a separate job definition");
+        Check(!File.Exists("Languages/Korean (한국어)/DefInjected/JobDef/Jobs_HamRadio.xml"), "The obsolete separate HAM job translation is removed");
+        foreach (Match key in Regex.Matches(File.ReadAllText("Source/Helodrace/WildWest/HamRadioDialog.cs")
+            + File.ReadAllText("Source/Helodrace/WildWest/HamRadio.cs"), "\"(HD_HAM_[A-Za-z]+)\""))
+            Check(english.Any(e => e.Name.LocalName == key.Groups[1].Value), "HAM dialogue and mission replies are translated");
+    }
+
+    private static void HamDialogue()
+    {
+        int conversations = 0, missionChecks = 0;
+        var root = HamRadioDialog.Create("Test Helod faction", () => "Chatter " + ++conversations, () => "Mission reply " + ++missionChecks);
+        Check(root.text.Contains("Test Helod faction"), "The vanilla negotiation window receives a faction-specific HAM greeting");
+        Check(root.options.Count == 3 && root.options[0].text == "HD_HAM_Chat" && root.options[1].text == "HD_HAM_AskMission",
+            "Root offers chatter, mission inquiry and disconnect instead of vanilla faction services");
+        Check(conversations == 0 && missionChecks == 0, "Opening the dialogue cannot silently consume the daily mission check");
+        var chatter = root.options[0].linkLateBind();
+        Check(chatter.text == "Chatter 1" && conversations == 1 && missionChecks == 0, "Choosing chatter displays a reply without rolling a mission");
+        Check(chatter.options.Count == 2 && chatter.options[0].link == root && !chatter.options[0].resolveTree,
+            "Chatter returns to the same root inside the existing dialogue window");
+        var mission = root.options[1].linkLateBind();
+        Check(mission.text == "Mission reply 1" && missionChecks == 1 && conversations == 1, "Mission inquiry executes once when selected and shows its result in the dialogue");
+        Check(mission.options.Count == 2 && mission.options[0].link == root, "Mission replies can return to the root without reopening comms");
+        Check(root.options[2].resolveTree && chatter.options[1].resolveTree && mission.options[1].resolveTree,
+            "Every dialogue stage can disconnect through the vanilla tree close behavior");
+        Check(root.options[2].link == null && root.options[2].linkLateBind == null, "Disconnect never triggers a new reply or mission check");
+        Check(!ReferenceEquals(chatter, mission) && !ReferenceEquals(chatter.options[1], root.options[2]),
+            "Response nodes and close options have independent dialogue ownership");
     }
 
     private static void Definitions()

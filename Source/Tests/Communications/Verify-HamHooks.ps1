@@ -18,14 +18,15 @@ try {
     $null = [Reflection.Assembly]::LoadFrom((Join-Path $managedDirectory 'Assembly-CSharp.dll'))
     $mod = [Reflection.Assembly]::LoadFrom((Join-Path $RepositoryRoot 'Assemblies/Helodrace.dll'))
     $harmony = [HarmonyLib.Harmony]::new('Helodrace.Tests.HamRouting')
-    $names = @('Patch_HamRadioJob', 'Patch_HamFactionCommsOption', 'Patch_HamFactionCommsDialog')
+    $names = @('Patch_HamFactionDialogue')
     foreach ($name in $names) {
         $type = $mod.GetType('Helodrace.' + $name, $true)
         $patched = $harmony.CreateClassProcessor($type).Patch()
         if ($patched.Count -ne 1) { throw "Expected one installed game method for $name" }
     }
     foreach ($obsolete in @('Patch_HamRadioMenu', 'Patch_HamRadioTargets', 'Patch_HamRadioExistingJob', 'Building_HamRadio',
-        'Patch_LowFactionVanillaCommsOption', 'Patch_LowFactionVanillaCommsDialog')) {
+        'Patch_LowFactionVanillaCommsOption', 'Patch_LowFactionVanillaCommsDialog', 'Patch_HamRadioJob',
+        'Patch_HamFactionCommsOption', 'Patch_HamFactionCommsDialog', 'JobDriver_UseHamRadio')) {
         if ($null -ne $mod.GetType('Helodrace.' + $obsolete)) { throw "Obsolete console replacement remains: $obsolete" }
     }
 
@@ -37,18 +38,27 @@ try {
         [RimWorld.Faction].GetField('def').SetValue($faction, $factionDef)
         $expectedHam = $defName -in @('HD_HelodCivilLowFaction', 'HD_HelodCivilHighFaction')
         if ([Helodrace.HamRadioUtility]::IsHamFaction($faction) -ne $expectedHam) { throw "Incorrect HAM scope for $defName" }
-        if ([Helodrace.Patch_HamFactionCommsDialog]::Prefix($faction, $null) -eq $expectedHam) { throw "Incorrect direct dialogue routing for $defName" }
         if (!$expectedHam) {
-            if (![Helodrace.Patch_HamRadioJob]::Prefix($null, $null, $faction)) { throw "Vanilla job was replaced for $defName" }
-            [Verse.FloatMenuOption]$option = $null
-            if (![Helodrace.Patch_HamFactionCommsOption]::Prefix($faction, $null, $null, [ref]$option)) { throw "Vanilla contact option was replaced for $defName" }
+            [Verse.DiaNode]$node = $null
+            if (![Helodrace.Patch_HamFactionDialogue]::Prefix($null, $faction, [ref]$node) -or $null -ne $node) {
+                throw "Vanilla dialogue content was replaced for $defName"
+            }
         }
     }
     $ship = [Runtime.Serialization.FormatterServices]::GetUninitializedObject([RimWorld.TradeShip])
-    if ([Helodrace.HamRadioUtility]::IsHamFaction($ship) -or ![Helodrace.Patch_HamRadioJob]::Prefix($null, $null, $ship)) {
-        throw 'Orbital trade must use vanilla comms jobs'
+    if ([Helodrace.HamRadioUtility]::IsHamFaction($ship)) {
+        throw 'Orbital trade must not use HAM dialogue'
     }
-    Write-Output 'PASS: All three faction-scoped HAM patches apply; LOW/HIGH route to HAM, other factions and orbital ships retain vanilla routes.'
+    # Our only registration is the dialogue-content factory. Vanilla owns the
+    # contact icon/goodwill, job, negotiation window and ambient sound.
+    $expectedTarget = [HarmonyLib.AccessTools]::Method([RimWorld.FactionDialogMaker], 'FactionDialogFor')
+    $ownedTargets = @($harmony.GetPatchedMethods() | Where-Object {
+        [HarmonyLib.Harmony]::GetPatchInfo($_).Owners -contains 'Helodrace.Tests.HamRouting'
+    })
+    if ($ownedTargets.Count -ne 1 -or $ownedTargets[0] -ne $expectedTarget) {
+        throw 'HAM must only patch faction dialogue content'
+    }
+    Write-Output 'PASS: HAM only patches LOW/HIGH dialogue content; vanilla contact presentation, jobs, windows, and other faction routes remain intact.'
 }
 finally {
     if ($null -ne $harmony) { $harmony.UnpatchAll('Helodrace.Tests.HamRouting') }

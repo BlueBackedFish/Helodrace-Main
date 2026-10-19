@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using RimWorld;
 using Verse;
-using Verse.AI;
 
 namespace Helodrace
 {
@@ -16,11 +14,14 @@ namespace Helodrace
             Scribe_Values.Look(ref schedule.LastCheckedDay, "hamLastQuestCheckDay", -1);
         }
 
-        public void Receive(Pawn operatorPawn, Faction faction)
+        public string TryReceiveMission(Pawn operatorPawn, Faction faction)
         {
-            if (operatorPawn == null || operatorPawn.Map != map || !HamRadioUtility.IsHamFaction(faction) || faction.defeated) return;
+            if (operatorPawn == null || operatorPawn.Map != map || !map.IsPlayerHome
+                || !HamRadioUtility.IsHamFaction(faction) || faction.defeated)
+                return "HD_HAM_NoMission".Translate();
             int day = Find.TickManager.TicksAbs / GenDate.TicksPerDay;
-            if (map.IsPlayerHome && schedule.CanCheck(day) && schedule.CheckDay(day, Rand.Value))
+            if (!schedule.CanCheck(day)) return "HD_HAM_AlreadyChecked".Translate();
+            if (schedule.CheckDay(day, Rand.Value))
             {
                 IncidentDef incident = IncidentDefOf.GiveQuest_Random;
                 IncidentParms parms = StorytellerUtility.DefaultParmsNow(incident.category, map);
@@ -28,23 +29,10 @@ namespace Helodrace
                 if (incident.Worker.TryExecute(parms))
                 {
                     Messages.Message("HD_HAM_MissionReceived".Translate(), operatorPawn, MessageTypeDefOf.PositiveEvent);
-                    return;
+                    return "HD_HAM_MissionReceived".Translate();
                 }
             }
-            Messages.Message(("HD_HAM_Chatter" + Rand.RangeInclusive(1, 6)).Translate(),
-                operatorPawn, MessageTypeDefOf.NeutralEvent);
-        }
-    }
-
-    public sealed class JobDriver_UseHamRadio : JobDriver
-    {
-        private Building_CommsConsole Radio => job.GetTarget(TargetIndex.A).Thing as Building_CommsConsole;
-        public override bool TryMakePreToilReservations(bool errorOnFailed)
-            => pawn.Reserve(Radio, job, 1, -1, null, errorOnFailed);
-
-        protected override IEnumerable<Toil> MakeNewToils()
-        {
-            return HamRadioUtility.UseToils(this, TargetIndex.A);
+            return "HD_HAM_NoMission".Translate();
         }
     }
 }

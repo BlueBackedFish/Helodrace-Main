@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Defs>
-  <JobDef>
-    <defName>HD_UseHamRadio</defName>
-    <driverClass>Helodrace.JobDriver_UseHamRadio</driverClass>
-    <reportString>chatting on the HAM band.</reportString>
-    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
-  </JobDef>
-</Defs>
