@@ -27,8 +27,20 @@ internal static class Program
         Check(!restored.CanCheck(2), "Persisted day prevents a same-day retry after loading");
         Check(restored.CanCheck(3), "Persisted state permits the next day");
         CompanyRequests();
+        HamRouting();
         Definitions();
         Console.WriteLine("PASS: " + checks + " communications checks.");
+    }
+
+    private static void HamRouting()
+    {
+        Check(HamRadioRoutingRules.IsHamConsole("CommsConsole", false), "A base-class vanilla console still routes to HAM");
+        Check(HamRadioRoutingRules.IsHamConsole("CommsConsole", true), "The patched HAM subclass routes to HAM");
+        Check(HamRadioRoutingRules.IsHamConsole("CustomHam", true), "A HAM-derived console remains HAM");
+        Check(!HamRadioRoutingRules.IsHamConsole("OtherConsole", false), "Unrelated console types retain their own behavior");
+        Check(HamRadioRoutingRules.BlocksVanillaFaction("HD_HelodCivilLowFaction"), "LOW cannot use the vanilla faction dialogue");
+        Check(!HamRadioRoutingRules.BlocksVanillaFaction("HD_HelodCivilHighFaction"), "The LOW restriction does not become a global faction restriction");
+        Check(!HamRadioRoutingRules.BlocksVanillaFaction(null), "Unspecified factions do not match LOW");
     }
 
     private static void Definitions()

@@ -2,6 +2,12 @@
 <Patch>
   <Operation Class="PatchOperationSequence">
     <operations>
+      <li Class="PatchOperationConditional">
+        <xpath>Defs/ThingDef[defName="CommsConsole"]/comps/li[@Class="CompProperties_Usable" or @Class="CompProperties_Useable_CallBossgroup"]</xpath>
+        <match Class="PatchOperationRemove">
+          <xpath>Defs/ThingDef[defName="CommsConsole"]/comps/li[@Class="CompProperties_Usable" or @Class="CompProperties_Useable_CallBossgroup"]</xpath>
+        </match>
+      </li>
       <li Class="PatchOperationReplace">
         <xpath>Defs/ThingDef[defName="CommsConsole"]/thingClass</xpath>
         <value><thingClass>Helodrace.Building_HamRadio</thingClass></value>

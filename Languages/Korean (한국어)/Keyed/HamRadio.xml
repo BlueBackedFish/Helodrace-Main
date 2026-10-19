@@ -2,6 +2,7 @@
 <LanguageData>
   <HD_HAM_Use>HAM 대역 사용</HD_HAM_Use>
   <HD_HAM_NoSignal>전력 공급 중단 또는 전파 간섭</HD_HAM_NoSignal>
+  <HD_HAM_DirectLowUnavailable>LOW 헤로드 팩션은 바닐라 통신 업무를 제공하지 않습니다. HAM 대역이나 전신기의 회사 탭을 이용하세요.</HD_HAM_DirectLowUnavailable>
   <HD_HAM_MissionReceived>먼 곳의 HAM 통신원이 임무를 전해 왔습니다. 임무 탭을 확인하세요.</HD_HAM_MissionReceived>
   <HD_HAM_Chatter1>먼 곳의 통신원이 날씨 이야기를 나누다 잡음 속에서 교신을 마쳤습니다.</HD_HAM_Chatter1>
   <HD_HAM_Chatter2>HAM 대역에서 자작 안테나 성능을 비교하는 이야기가 들립니다. 긴급한 소식은 없습니다.</HD_HAM_Chatter2>
