@@ -19,6 +19,7 @@ internal static class Program
         HamSchedule();
         HamRumors();
         CompanyRequests();
+        DirectorySelection();
         HamRouting();
         HamDialogue();
         Definitions();
@@ -201,6 +202,22 @@ internal static class Program
         Check(TelegraphCompanies.Name(TelegraphCompany.CentralHardwareSupply) == "Central Hardware & Supply Co.", "Commercial company name");
         Check(TelegraphCompanies.Name(TelegraphCompany.PioneerOverseasService) == "Pioneer Overseas Service Company", "Contract company name matches its contract");
         Check(TelegraphCompanies.Name(TelegraphCompany.HarringtonProtective) == "Harrington Protective Services", "Security company name");
+        Check(TelegraphCompanies.All.Count == Enum.GetValues<TelegraphCompany>().Length
+            && TelegraphCompanies.All.Distinct().Count() == TelegraphCompanies.All.Count, "The directory enumerates every registered company once without a fixed four-column layout");
+        var koreanCompanies = XDocument.Load("Languages/Korean (한국어)/Keyed/TelegraphCompanies.xml");
+        foreach (var company in TelegraphCompanies.All)
+            Check(koreanCompanies.Root.Element(TelegraphCompanies.NameKey(company)) != null
+                && koreanCompanies.Root.Element(TelegraphCompanies.ServiceKey(company)) != null, "Every company has a translated name and directory service label");
+        Verse.TranslationStub.Language = "Korean (한국어)";
+        Check(TelegraphCompanies.Name(TelegraphCompany.NationalIndustrialCredit) == "국영산업신용공사", "Financial company is localized at display time");
+        Check(TelegraphCompanies.Name(TelegraphCompany.CentralHardwareSupply) == "중앙 철물·보급상사", "Commercial company is localized at display time");
+        Check(TelegraphCompanies.Name(TelegraphCompany.PioneerOverseasService) == "파이오니어 해외사업회사", "Forward-base contract provider uses its localized name");
+        Check(TelegraphCompanies.Name(TelegraphCompany.HarringtonProtective) == "해링턴 경비회사", "Security company is localized at display time");
+        Check((string)XDocument.Load("Languages/Korean (한국어)/DefInjected/TraderKindDef/TraderKinds_Finance.xml").Root.Element(TelegraphCompanies.FinancialTrader + ".label")
+                == TelegraphCompanies.Name(TelegraphCompany.NationalIndustrialCredit)
+            && (string)XDocument.Load("Languages/Korean (한국어)/DefInjected/TraderKindDef/TraderKinds_Commercial.xml").Root.Element(TelegraphCompanies.CommercialTrader + ".label")
+                == TelegraphCompanies.Name(TelegraphCompany.CentralHardwareSupply), "Arriving Korean caravan names match the company directory");
+        Verse.TranslationStub.Language = "English";
         Check(TelegraphCompanies.FinancialTrader != TelegraphCompanies.CommercialTrader, "Companies use separate exact trader kinds");
         Check(TelegraphCompanies.HarringtonGuardCount == 6 && TelegraphCompanies.HarringtonCost == 500
             && TelegraphCompanies.HarringtonDurationTicks == 60000, "Approved Harrington terms");
@@ -237,5 +254,34 @@ internal static class Program
         Check(!invalid.TrySchedule(0, false, false, 60000, 60000), "Empty batch cannot charge or schedule a request");
         Check(!invalid.TrySchedule(0, true, true, 60000, 59999)
             && !invalid.Financial.Pending && !invalid.Commercial.Pending, "Invalid travel time rejects the entire batch");
+    }
+
+    private static void DirectorySelection()
+    {
+        var directory = new TelegraphDirectoryState();
+        Check(!directory.TabOpen && !directory.IsExpanded(1), "The directory opens with faction rows and no selected company tab");
+        directory.ToggleFaction(1);
+        Check(directory.IsExpanded(1) && !directory.TabOpen, "Expanding a faction exposes company rows without choosing a service");
+        directory.OpenCompany(1, TelegraphCompany.NationalIndustrialCredit);
+        Check(directory.TabOpen && directory.FactionId == 1 && directory.Company == TelegraphCompany.NationalIndustrialCredit,
+            "A company row opens that company's work tab under its faction");
+        directory.ToggleFaction(2);
+        Check(directory.IsExpanded(1) && directory.IsExpanded(2) && directory.FactionId == 1, "Expanding another faction preserves the selected company");
+        directory.ToggleFaction(2);
+        Check(directory.TabOpen && !directory.IsExpanded(2), "Collapsing another faction does not close the current company's tab");
+        directory.OpenCompany(2, TelegraphCompany.HarringtonProtective);
+        Check(directory.IsExpanded(2) && directory.FactionId == 2 && directory.Company == TelegraphCompany.HarringtonProtective,
+            "Switching companies tracks the selected faction and reopens its group");
+        directory.ToggleFaction(2);
+        Check(!directory.TabOpen && directory.FactionId == null && !directory.IsExpanded(2), "Collapsing the selected faction also closes its service tab");
+        directory.OpenCompany(1, TelegraphCompany.PioneerOverseasService);
+        directory.CloseTab();
+        Check(!directory.TabOpen && directory.IsExpanded(1), "Closing the work tab keeps its company list available");
+        for (int i = 1; i <= 100; i++) if (!directory.IsExpanded(i)) directory.ToggleFaction(i);
+        Check(Enumerable.Range(1, 100).All(directory.IsExpanded), "The directory can independently expand many faction groups");
+        directory.OpenCompany(99, TelegraphCompany.CentralHardwareSupply);
+        directory.Clear();
+        Check(!directory.TabOpen && directory.FactionId == null && !Enumerable.Range(1, 100).Any(directory.IsExpanded),
+            "Going offline clears every faction expansion and company selection");
     }
 }

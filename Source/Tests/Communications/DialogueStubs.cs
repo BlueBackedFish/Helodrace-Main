@@ -22,7 +22,12 @@ namespace Verse
 
     public static class TranslationStub
     {
+        public static string Language = "English";
         public static string Translate(this string key, params object[] arguments)
-            => key + (arguments.Length == 0 ? "" : ": " + string.Join(", ", arguments));
+        {
+            if (key.StartsWith("HD_Company_Name_"))
+                return (string)System.Xml.Linq.XDocument.Load("Languages/" + Language + "/Keyed/TelegraphCompanies.xml").Root.Element(key) ?? key;
+            return key + (arguments.Length == 0 ? "" : ": " + string.Join(", ", arguments));
+        }
     }
 }

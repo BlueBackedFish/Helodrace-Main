@@ -13,5 +13,6 @@
     <Compile Include="../../Helodrace/WildWest/HamRadioSchedule.cs" Link="HamRadioSchedule.cs" />
     <Compile Include="../../Helodrace/WildWest/HamRadioRoutingRules.cs" Link="HamRadioRoutingRules.cs" />
     <Compile Include="../../Helodrace/WildWest/TelegraphCompanies.cs" Link="TelegraphCompanies.cs" />
+    <Compile Include="../../Helodrace/WildWest/TelegraphDirectoryState.cs" Link="TelegraphDirectoryState.cs" />
   </ItemGroup>
 </Project>

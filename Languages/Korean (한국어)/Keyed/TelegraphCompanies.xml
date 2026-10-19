@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <HD_Company_Name_NationalIndustrialCredit>국영산업신용공사</HD_Company_Name_NationalIndustrialCredit>
+  <HD_Company_Name_CentralHardwareSupply>중앙 철물·보급상사</HD_Company_Name_CentralHardwareSupply>
+  <HD_Company_Name_PioneerOverseasService>파이오니어 해외사업회사</HD_Company_Name_PioneerOverseasService>
+  <HD_Company_Name_HarringtonProtective>해링턴 경비회사</HD_Company_Name_HarringtonProtective>
+  <HD_Company_Directory>세력 / 회사·단체</HD_Company_Directory>
+  <HD_Company_CloseTab>업무 탭 닫기</HD_Company_CloseTab>
+  <HD_Company_FactionGoodwill>{0} · 우호도 {1}</HD_Company_FactionGoodwill>
+  <HD_Company_Service_Financial>금융 상단</HD_Company_Service_Financial>
+  <HD_Company_Service_Commercial>상업 상단</HD_Company_Service_Commercial>
+  <HD_Company_Service_Pioneer>전진기지 계약·업무</HD_Company_Service_Pioneer>
+  <HD_Company_Service_Security>경비대 파견</HD_Company_Service_Security>
+  <HD_Company_Service_Unavailable>이용할 수 있는 업무 없음</HD_Company_Service_Unavailable>
   <HD_Company_FinancialGoodwill>금융 우호도: {0}</HD_Company_FinancialGoodwill>
   <HD_Company_FinancialGoodwillTip>일반 팩션 우호도와 별개인 -100~100 범위의 금융 관계 수치입니다. 선물과 거래 보상은 일반 우호도 대신 이 수치를 올립니다. 금융 우호도 1점당 일반 우호도의 기준점이 1점 올라가며, 일반 우호도는 해당 기준점까지 하루에 1점씩 회복합니다.</HD_Company_FinancialGoodwillTip>
-  <HD_Company_FinancialDesc>National Industrial Credit Corporation의 금융 상단 방문을 요청합니다. LOW 팩션과 동맹이어야 합니다. 요청당 우호도 15와 일차 전지 1개가 필요하며, 1~2일 뒤 도착합니다. 재요청 대기시간은 이 회사에만 적용되는 4일입니다.</HD_Company_FinancialDesc>
-  <HD_Company_CommercialDesc>Central Hardware &amp; Supply Co.의 상업 상단 방문을 요청합니다. LOW 팩션과 동맹이어야 합니다. 요청당 우호도 15와 일차 전지 1개가 필요하며, 1~2일 뒤 도착합니다. 재요청 대기시간은 이 회사에만 적용되는 4일입니다.</HD_Company_CommercialDesc>
+  <HD_Company_FinancialDesc>국영산업신용공사의 금융 상단 방문을 요청합니다. LOW 팩션과 동맹이어야 합니다. 요청당 우호도 15와 일차 전지 1개가 필요하며, 1~2일 뒤 도착합니다. 재요청 대기시간은 이 회사에만 적용되는 4일입니다.</HD_Company_FinancialDesc>
+  <HD_Company_CommercialDesc>중앙 철물·보급상사의 상업 상단 방문을 요청합니다. LOW 팩션과 동맹이어야 합니다. 요청당 우호도 15와 일차 전지 1개가 필요하며, 1~2일 뒤 도착합니다. 재요청 대기시간은 이 회사에만 적용되는 4일입니다.</HD_Company_CommercialDesc>
   <HD_Company_PioneerDesc>LOW 헤로드 전진기지를 건설하고 체결한 계약을 확인합니다. 계약된 전진기지의 지원 서비스도 이 회사에 요청할 수 있습니다.</HD_Company_PioneerDesc>
   <HD_Company_HarringtonDesc>고급 상단 경비 대장 1명을 포함한 고급 경비 6명을 하루 동안 고용합니다. 경비대는 맵 가장자리에서 진입해 정착지를 지원합니다. 비용은 500 스탈레르와 일차 전지 1개이며, 하루 뒤 다시 고용할 수 있습니다.</HD_Company_HarringtonDesc>
   <HD_Company_Ready>요청 가능</HD_Company_Ready>
@@ -16,8 +28,8 @@
   <HD_Company_RequestUnavailable>요청할 회사의 상단이 이미 이동 중이거나 재요청 대기 중입니다.</HD_Company_RequestUnavailable>
   <HD_Company_NeedsCells>이 요청에는 일차 전지 {0}개가 필요합니다.</HD_Company_NeedsCells>
   <HD_Company_DispatchCancelled>{0}의 상단이 방문 일정을 완료하지 못했습니다.</HD_Company_DispatchCancelled>
-  <HD_Company_HireHarrington>Harrington 경비대 고용 ({0} 스탈레르)</HD_Company_HireHarrington>
-  <HD_Company_HarringtonConfirm>{1} 스탈레르와 일차 전지 1개를 내고 Harrington Protective Services 경비대 {0}명을 고용할까요? 고급 경비 대장 1명과 고급 상단 경비 5명이 맵 가장자리에서 진입해 하루 동안 정착지를 지원합니다.</HD_Company_HarringtonConfirm>
-  <HD_Company_HarringtonArrived>Harrington Protective Services의 고급 경비 {0}명이 하루 동안 정착지를 지원하러 도착했습니다.</HD_Company_HarringtonArrived>
+  <HD_Company_HireHarrington>해링턴 경비대 고용 ({0} 스탈레르)</HD_Company_HireHarrington>
+  <HD_Company_HarringtonConfirm>{1} 스탈레르와 일차 전지 1개를 내고 해링턴 경비회사 경비대 {0}명을 고용할까요? 고급 경비 대장 1명과 고급 상단 경비 5명이 맵 가장자리에서 진입해 하루 동안 정착지를 지원합니다.</HD_Company_HarringtonConfirm>
+  <HD_Company_HarringtonArrived>해링턴 경비회사의 고급 경비 {0}명이 하루 동안 정착지를 지원하러 도착했습니다.</HD_Company_HarringtonArrived>
   <HD_Company_NoEntry>경비대가 안전하게 진입할 수 있는 맵 가장자리 경로가 없습니다.</HD_Company_NoEntry>
 </LanguageData>

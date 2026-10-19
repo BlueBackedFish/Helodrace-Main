@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using Verse;
+
 namespace Helodrace
 {
     public enum TelegraphCompany
@@ -10,6 +14,7 @@ namespace Helodrace
 
     public static class TelegraphCompanies
     {
+        public static readonly IReadOnlyList<TelegraphCompany> All = Array.AsReadOnly((TelegraphCompany[])Enum.GetValues(typeof(TelegraphCompany)));
         public const string FinancialTrader = "HD_WW_Caravan_HelodFinancial";
         public const string CommercialTrader = "HD_GW_Caravan_HelodCommercial";
         public const string EliteGuard = "HD_GW_HelodEliteCaravanGuard";
@@ -18,15 +23,19 @@ namespace Helodrace
         public const int HarringtonGuardCount = 6;
         public const int HarringtonDurationTicks = 60000;
 
-        public static string Name(TelegraphCompany company)
+        public static string NameKey(TelegraphCompany company) => "HD_Company_Name_" + company;
+
+        public static string Name(TelegraphCompany company) => NameKey(company).Translate();
+
+        public static string ServiceKey(TelegraphCompany company)
         {
             switch (company)
             {
-                case TelegraphCompany.NationalIndustrialCredit: return "National Industrial Credit Corporation";
-                case TelegraphCompany.CentralHardwareSupply: return "Central Hardware & Supply Co.";
-                case TelegraphCompany.PioneerOverseasService: return "Pioneer Overseas Service Company";
-                case TelegraphCompany.HarringtonProtective: return "Harrington Protective Services";
-                default: throw new System.ArgumentOutOfRangeException(nameof(company));
+                case TelegraphCompany.NationalIndustrialCredit: return "HD_Company_Service_Financial";
+                case TelegraphCompany.CentralHardwareSupply: return "HD_Company_Service_Commercial";
+                case TelegraphCompany.PioneerOverseasService: return "HD_Company_Service_Pioneer";
+                case TelegraphCompany.HarringtonProtective: return "HD_Company_Service_Security";
+                default: return "HD_Company_Service_Unavailable";
             }
         }
     }

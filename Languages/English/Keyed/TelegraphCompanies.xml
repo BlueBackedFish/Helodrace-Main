@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <HD_Company_Name_NationalIndustrialCredit>National Industrial Credit Corporation</HD_Company_Name_NationalIndustrialCredit>
+  <HD_Company_Name_CentralHardwareSupply>Central Hardware &amp; Supply Co.</HD_Company_Name_CentralHardwareSupply>
+  <HD_Company_Name_PioneerOverseasService>Pioneer Overseas Service Company</HD_Company_Name_PioneerOverseasService>
+  <HD_Company_Name_HarringtonProtective>Harrington Protective Services</HD_Company_Name_HarringtonProtective>
+  <HD_Company_Directory>Factions / companies and organizations</HD_Company_Directory>
+  <HD_Company_CloseTab>Close tab</HD_Company_CloseTab>
+  <HD_Company_FactionGoodwill>{0} · Goodwill {1}</HD_Company_FactionGoodwill>
+  <HD_Company_Service_Financial>Financial caravan</HD_Company_Service_Financial>
+  <HD_Company_Service_Commercial>Commercial caravan</HD_Company_Service_Commercial>
+  <HD_Company_Service_Pioneer>Forward base services</HD_Company_Service_Pioneer>
+  <HD_Company_Service_Security>Guard deployment</HD_Company_Service_Security>
+  <HD_Company_Service_Unavailable>No services available</HD_Company_Service_Unavailable>
   <HD_Company_FinancialGoodwill>Financial goodwill: {0}</HD_Company_FinancialGoodwill>
   <HD_Company_FinancialGoodwillTip>A separate financial relationship score, from -100 to 100. Gifts and trading raise this score instead of diplomatic goodwill. Each point raises the natural goodwill target by 1; diplomatic goodwill recovers toward that target by 1 point per day.</HD_Company_FinancialGoodwillTip>
   <HD_Company_FinancialDesc>Request the financial caravan operated by National Industrial Credit Corporation. Requires an allied LOW faction. Each request costs 15 goodwill and one primary cell; arrival takes 1–2 days. This company has its own four-day request cooldown.</HD_Company_FinancialDesc>
