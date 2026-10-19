@@ -35,13 +35,18 @@ internal static class Program
 
     private static void HamRouting()
     {
-        Check(HamRadioRoutingRules.IsHamConsole("CommsConsole", false), "A base-class vanilla console still routes to HAM");
-        Check(HamRadioRoutingRules.IsHamConsole("CommsConsole", true), "The patched HAM subclass routes to HAM");
-        Check(HamRadioRoutingRules.IsHamConsole("CustomHam", true), "A HAM-derived console remains HAM");
-        Check(!HamRadioRoutingRules.IsHamConsole("OtherConsole", false), "Unrelated console types retain their own behavior");
-        Check(HamRadioRoutingRules.BlocksVanillaFaction("HD_HelodCivilLowFaction"), "LOW cannot use the vanilla faction dialogue");
-        Check(!HamRadioRoutingRules.BlocksVanillaFaction("HD_HelodCivilHighFaction"), "The LOW restriction does not become a global faction restriction");
-        Check(!HamRadioRoutingRules.BlocksVanillaFaction(null), "Unspecified factions do not match LOW");
+        Check(HamRadioRoutingRules.IsHamFaction("HD_HelodCivilLowFaction"), "LOW uses HAM instead of vanilla faction services");
+        Check(HamRadioRoutingRules.IsHamFaction("HD_HelodCivilHighFaction"), "HIGH uses HAM instead of vanilla faction services");
+        foreach (string defName in new[] { null, "", "OutlanderCivil", "OutlanderRough", "TribeCivil", "Empire", "Pirate", "Mechanoid",
+            "HD_HelodPlayerColony", "HD_HelodCivilLowFactionOther", "CommsConsole" })
+            Check(!HamRadioRoutingRules.IsHamFaction(defName), "Only the exact LOW/HIGH faction definitions use HAM: " + defName);
+        Check(!File.Exists("Patches/HamRadio.xml"), "The global console class, label and boss-call XML replacement is removed");
+        Check(!File.Exists("Languages/Korean (한국어)/DefInjected/ThingDef/HamRadio.xml"), "The vanilla console keeps its normal translated label and description");
+        var english = XDocument.Load("Languages/English/Keyed/HamRadio.xml").Root.Elements().ToList();
+        var korean = XDocument.Load("Languages/Korean (한국어)/Keyed/HamRadio.xml").Root.Elements().ToList();
+        Check(english.Select(e => e.Name).SequenceEqual(korean.Select(e => e.Name)), "HAM translations have matching keys");
+        Check(english.Single(e => e.Name == "HD_HAM_Use").Value.Contains("{0}") && korean.Single(e => e.Name == "HD_HAM_Use").Value.Contains("{0}"),
+            "Each HAM contact option identifies the selected faction");
     }
 
     private static void Definitions()

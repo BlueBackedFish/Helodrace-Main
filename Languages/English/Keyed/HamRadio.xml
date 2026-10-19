@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_HAM_Use>Use HAM band</HD_HAM_Use>
+  <HD_HAM_Use>Contact {0} on the HAM band</HD_HAM_Use>
   <HD_HAM_NoSignal>No power or radio interference</HD_HAM_NoSignal>
-  <HD_HAM_DirectLowUnavailable>LOW Helod factions do not offer standard comms-console services. Use the HAM band or the telegraph's company tabs.</HD_HAM_DirectLowUnavailable>
   <HD_HAM_MissionReceived>A distant HAM operator has transmitted a mission. Check the quests tab.</HD_HAM_MissionReceived>
   <HD_HAM_Chatter1>A distant operator discusses the weather, then signs off through the static.</HD_HAM_Chatter1>
   <HD_HAM_Chatter2>Someone on the HAM band is comparing homemade antennas. No urgent traffic.</HD_HAM_Chatter2>

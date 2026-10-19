@@ -5,14 +5,6 @@ using Verse.AI;
 
 namespace Helodrace
 {
-    public sealed class Building_HamRadio : Building_CommsConsole
-    {
-        public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn pawn)
-        {
-            return HamRadioUtility.Options(this, pawn);
-        }
-    }
-
     public sealed class MapComponent_HamRadio : MapComponent
     {
         private readonly HamRadioSchedule schedule = new HamRadioSchedule();
@@ -24,8 +16,9 @@ namespace Helodrace
             Scribe_Values.Look(ref schedule.LastCheckedDay, "hamLastQuestCheckDay", -1);
         }
 
-        public void Receive(Pawn operatorPawn)
+        public void Receive(Pawn operatorPawn, Faction faction)
         {
+            if (operatorPawn == null || operatorPawn.Map != map || !HamRadioUtility.IsHamFaction(faction) || faction.defeated) return;
             int day = Find.TickManager.TicksAbs / GenDate.TicksPerDay;
             if (map.IsPlayerHome && schedule.CanCheck(day) && schedule.CheckDay(day, Rand.Value))
             {
