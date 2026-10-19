@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_HAM_Use>Use HAM band</HD_HAM_Use>
+  <HD_HAM_NoSignal>No power or radio interference</HD_HAM_NoSignal>
+  <HD_HAM_MissionReceived>A distant HAM operator has transmitted a mission. Check the quests tab.</HD_HAM_MissionReceived>
+  <HD_HAM_Chatter1>A distant operator discusses the weather, then signs off through the static.</HD_HAM_Chatter1>
+  <HD_HAM_Chatter2>Someone on the HAM band is comparing homemade antennas. No urgent traffic.</HD_HAM_Chatter2>
+  <HD_HAM_Chatter3>A caravan cook shares a recipe over the open band. The signal fades before the last ingredient.</HD_HAM_Chatter3>
+  <HD_HAM_Chatter4>Two operators trade stories about their settlements. Nothing requires action.</HD_HAM_Chatter4>
+  <HD_HAM_Chatter5>A voice asks for a signal report and thanks the colony for the reply.</HD_HAM_Chatter5>
+  <HD_HAM_Chatter6>The operator exchanges call signs with a distant station. The rest is quiet static.</HD_HAM_Chatter6>
+</LanguageData>

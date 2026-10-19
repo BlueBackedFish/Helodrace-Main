@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationSequence">
+    <operations>
+      <li Class="PatchOperationReplace">
+        <xpath>Defs/ThingDef[defName="CommsConsole"]/thingClass</xpath>
+        <value><thingClass>Helodrace.Building_HamRadio</thingClass></value>
+      </li>
+      <li Class="PatchOperationReplace">
+        <xpath>Defs/ThingDef[defName="CommsConsole"]/label</xpath>
+        <value><label>HAM radio</label></value>
+      </li>
+      <li Class="PatchOperationReplace">
+        <xpath>Defs/ThingDef[defName="CommsConsole"]/description</xpath>
+        <value><description>An amateur radio console for open-band conversations. Listening sometimes brings a mission from a distant operator. Company services and caravan requests use the Helod telegraph network.</description></value>
+      </li>
+    </operations>
+  </Operation>
+</Patch>
