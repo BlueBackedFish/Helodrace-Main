@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>../../../Assemblies/0Harmony.dll</HintPath>
+    </Reference>
+    <Compile Include="Program.cs" />
+    <Compile Include="GameStubs.cs" />
+    <Compile Include="../../Helodrace/Economy/FinancialCaravanAccess.cs" Link="FinancialCaravanAccess.cs" />
+    <Compile Include="../../Helodrace/Economy/FinancialCaravanScope.cs" Link="FinancialCaravanScope.cs" />
+  </ItemGroup>
+</Project>

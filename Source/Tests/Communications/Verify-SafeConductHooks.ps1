@@ -20,7 +20,8 @@ try {
     $mod = [Reflection.Assembly]::LoadFrom((Join-Path $RepositoryRoot 'Assemblies/Helodrace.dll'))
     $harmony = [HarmonyLib.Harmony]::new('Helodrace.Tests.SafeConduct')
     $names = @('Patch_FinancialCaravanGenerationHostility', 'Patch_FinancialCaravanLord', 'Patch_FinancialCaravanThingHostility',
-        'Patch_FinancialCaravanFactionHostility', 'Patch_FinancialCaravanCanTrade', 'Patch_FinancialCaravanPlayerDamage', 'Patch_FinancialCaravanDeparture')
+        'Patch_FinancialCaravanFactionHostility', 'Patch_FinancialCaravanCanTrade', 'Patch_FinancialCaravanPlayerDamage', 'Patch_FinancialCaravanDeparture',
+        'Patch_FinancialCaravanTradeMenu', 'Patch_FinancialCaravanDoorAccess')
     foreach ($name in $names) {
         $type = $mod.GetType('Helodrace.Economy.' + $name, $true)
         $patched = $harmony.CreateClassProcessor($type).Patch()
@@ -68,7 +69,7 @@ try {
         throw 'Loan cash delivery cannot bind the installed game caravan meeting state'
     }
     Write-Output 'PASS: Loan cash delivery binds the actual caravan meeting state and destination field.'
-    Write-Output 'PASS: Seven safe-conduct hooks register; generation overrides are limited to the requested faction, restore nested state, and do not leak.'
+    Write-Output 'PASS: Nine safe-conduct hooks register, including the native trade menu and door checks; faction scopes restore nested state and do not leak.'
 
 }
 finally {

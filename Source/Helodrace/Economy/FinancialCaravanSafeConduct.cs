@@ -10,20 +10,6 @@ using Verse.AI.Group;
 
 namespace Helodrace.Economy
 {
-    // The temporary faction exception exists only on the synchronous generation
-    // stack. Live diplomacy is unchanged; spawned pawns use their own lord.
-    public sealed class FinancialCaravanScope : IDisposable
-    {
-        [ThreadStatic] private static Faction current;
-        private readonly Faction previous;
-        private FinancialCaravanScope(Faction faction) { previous = current; current = faction; }
-        public static FinancialCaravanScope Enter(Faction faction) => new FinancialCaravanScope(faction);
-        public static bool IsGenerating(Faction faction) => current != null && current == faction;
-        public static bool Covers(Faction a, Faction b)
-            => current != null && ((a == current && b?.IsPlayer == true) || (b == current && a?.IsPlayer == true));
-        public void Dispose() { current = previous; }
-    }
-
     public sealed class LordJob_FinancialCaravan : LordJob_TradeWithColony
     {
         private bool breached;
