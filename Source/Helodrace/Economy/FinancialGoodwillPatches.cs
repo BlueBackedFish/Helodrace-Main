@@ -29,8 +29,8 @@ namespace Helodrace.Economy
             var ledger = GameComponent_FinancialGoodwill.Current;
             float gained = ledger?.Adjust(recipient, __state) ?? 0f;
             if (gained > 0f)
-                Messages.Message("HD_FinancialGoodwill_Received".Translate(recipient.Name, gained.ToString("0.#"),
-                    ledger.Get(recipient).ToString("0.#")), MessageTypeDefOf.PositiveEvent);
+                Messages.Message("HD_FinancialGoodwill_Received".Translate(recipient.Name, gained.ToString("0.##"),
+                    ledger.Get(recipient).ToString("0.##")), MessageTypeDefOf.PositiveEvent);
         }
     }
 }

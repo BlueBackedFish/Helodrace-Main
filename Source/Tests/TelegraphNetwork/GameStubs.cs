@@ -15,7 +15,8 @@ namespace Verse
     public sealed class Game
     {
         public GameComponent Component;
-        public T GetComponent<T>() where T : GameComponent => Component as T;
+        public readonly Dictionary<Type, GameComponent> Components = new Dictionary<Type, GameComponent>();
+        public T GetComponent<T>() where T : GameComponent => Components.TryGetValue(typeof(T), out var component) ? (T)component : Component as T;
     }
     public static class Current { public static Game Game; }
     public class MapComponent
@@ -33,6 +34,7 @@ namespace Verse
         public readonly Position Center = new Position();
         public readonly MapParent Parent = new MapParent();
         public readonly ListerThings listerThings = new ListerThings();
+        public readonly MapPawns mapPawns = new MapPawns();
     }
     public sealed class MapParent { public string LabelCap = "Test settlement"; }
     public sealed class ListerThings
@@ -60,10 +62,15 @@ namespace Verse
         }
         public void Destroy() { Destroyed = true; }
     }
-    public sealed class Position { public bool IsFogged; public bool Fogged(Map map) => IsFogged; }
+    public sealed class Position
+    {
+        public bool IsFogged;
+        public bool Fogged(Map map) => IsFogged;
+        public float DistanceTo(IntVec3 other) => 0f;
+    }
     public class Pawn : Thing
     {
-        public bool Dead, Downed;
+        public bool Dead, Downed, InMentalState;
         public RimWorld.Pawn_TraderTracker trader;
         public AI.Group.Lord Lord;
         public readonly Health health = new Health();
@@ -76,7 +83,7 @@ namespace Verse
     public sealed class Capacities { public bool CanTalk = true; public bool CapableOf(object capacity) => CanTalk; }
     public sealed class Skills { public readonly Skill Social = new Skill(); public Skill GetSkill(object def) => Social; }
     public sealed class Skill { public bool TotallyDisabled; }
-    public sealed class ThingDef { public string defName; }
+    public sealed class ThingDef { public string defName; public int stackLimit = 100; }
     public enum Danger { Deadly }
     public static class DefDatabase<T> where T : class
     {
@@ -101,6 +108,7 @@ namespace Verse
         public static readonly LetterStack LetterStack = new LetterStack();
         public static readonly RimWorld.GoodwillSituationManager GoodwillSituationManager = new RimWorld.GoodwillSituationManager();
         public static readonly RimWorld.HistoryEventsManager HistoryEventsManager = new RimWorld.HistoryEventsManager();
+        public static readonly List<Map> Maps = new List<Map>();
     }
     public sealed class TickManager { public int TicksGame; public long TicksAbs; }
     public sealed class WorldGrid { public Longitude LongLatOf(int tile) => new Longitude(); }
@@ -109,6 +117,7 @@ namespace Verse
     {
         public int Count;
         public void ReceiveLetter(string title, string body, object def, RimWorld.Planet.GlobalTargetInfo target) { Count++; }
+        public void ReceiveLetter(string title, string body, object def) { Count++; }
     }
     public static class Messages
     {
@@ -120,6 +129,7 @@ namespace Verse
     public static class Scribe
     {
         public static bool Loading;
+        public static LoadSaveMode mode => Loading ? LoadSaveMode.LoadingVars : LoadSaveMode.Saving;
         public static Dictionary<string, object> Values = new Dictionary<string, object>();
         public static void Look<T>(ref T value, string key, T defaultValue)
         {
@@ -129,15 +139,40 @@ namespace Verse
     }
     public static class Scribe_Values
     {
-        public static void Look<T>(ref T value, string key, T defaultValue) => Scribe.Look(ref value, key, defaultValue);
+        public static void Look<T>(ref T value, string key, T defaultValue = default) => Scribe.Look(ref value, key, defaultValue);
     }
     public static class Scribe_References
     {
         public static void Look<T>(ref T value, string key) where T : class => Scribe.Look(ref value, key, default(T));
     }
-    public enum LookMode { Reference, Value }
+    public enum LookMode { Reference, Value, Deep }
     public static class Scribe_Collections
     {
+        public static void Look<T>(ref List<T> values, string key, LookMode mode) where T : IExposable, new()
+        {
+            var outer = Scribe.Values;
+            if (Scribe.Loading)
+            {
+                values = new List<T>();
+                if (!outer.TryGetValue(key, out var saved)) return;
+                foreach (var item in (List<Dictionary<string, object>>)saved)
+                {
+                    Scribe.Values = item;
+                    var value = new T(); value.ExposeData(); values.Add(value);
+                }
+            }
+            else
+            {
+                var saved = new List<Dictionary<string, object>>();
+                foreach (T value in values)
+                {
+                    Scribe.Values = new Dictionary<string, object>();
+                    value.ExposeData(); saved.Add(Scribe.Values);
+                }
+                outer[key] = saved;
+            }
+            Scribe.Values = outer;
+        }
         public static void Look<K, V>(ref Dictionary<K, V> values, string key, LookMode keyMode, LookMode valueMode,
             ref List<K> keys, ref List<V> entries)
         {
@@ -150,7 +185,12 @@ namespace Verse
 namespace Verse.AI { public enum PathEndMode { Touch } }
 namespace Verse.AI.Group
 {
-    public sealed class Lord { public readonly List<Verse.Pawn> ownedPawns = new List<Verse.Pawn>(); }
+    public sealed class Lord
+    {
+        public readonly List<Verse.Pawn> ownedPawns = new List<Verse.Pawn>();
+        public LordJob LordJob;
+        public LordToil CurLordToil;
+    }
     public static class LordUtility { public static Lord GetLord(this Verse.Pawn pawn) => pawn.Lord; }
 }
 namespace RimWorld
@@ -201,7 +241,7 @@ namespace RimWorld
     public sealed class Pawn_TraderTracker { public bool CanTradeNow = true; public TraderKindDef traderKind = new TraderKindDef(); }
     public static class PawnCapacityDefOf { public static readonly object Talking = new object(); }
     public static class SkillDefOf { public static readonly object Social = new object(); }
-    public static class LetterDefOf { public static readonly object PositiveEvent = new object(); }
+    public static class LetterDefOf { public static readonly object PositiveEvent = new object(), NegativeEvent = new object(); }
     public static class MessageTypeDefOf { public static readonly object PositiveEvent = new object(), NeutralEvent = new object(); }
     public static class GenDate
     {
@@ -219,4 +259,3 @@ namespace RimWorld.Planet
     }
     public sealed class TransportersArrivalAction_GiveGift { public static void GetFloatMenuOptions() { } }
 }
-namespace Helodrace { public sealed class CompTelegraphTable { } }

@@ -6,7 +6,7 @@ using RimWorld;
 using Verse;
 using Verse.AI.Group;
 
-internal static class Program
+internal static partial class Program
 {
     private static int checks;
     private static void Check(bool condition, string message)
@@ -42,6 +42,7 @@ internal static class Program
         TransactionsAndPersistence();
         CaravanContact();
         FinancialGoodwill();
+        Loans();
         Console.WriteLine("PASS: " + checks + " telegraph network checks.");
     }
 

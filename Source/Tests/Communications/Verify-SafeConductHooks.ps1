@@ -59,6 +59,15 @@ try {
     }
     finally { $scope.Dispose() }
     if ([Helodrace.Economy.FinancialCaravanScope]::Covers($source, $player)) { throw 'Generation scope leaked after disposal' }
+    $loans = [Helodrace.Economy.GameComponent_Loans]::new($null)
+    $flags = [Reflection.BindingFlags]'NonPublic,Static'
+    $settled = $loans.GetType().GetField('SettledCaravanToil', $flags).GetValue($null)
+    $meeting = $loans.GetType().GetField('MeetingSpot', $flags).GetValue($null)
+    if ($settled.FullName -ne 'RimWorld.LordToil_DefendTraderCaravan' -or
+        $meeting.DeclaringType -ne [RimWorld.LordJob_TradeWithColony] -or $meeting.FieldType -ne [Verse.IntVec3]) {
+        throw 'Loan cash delivery cannot bind the installed game caravan meeting state'
+    }
+    Write-Output 'PASS: Loan cash delivery binds the actual caravan meeting state and destination field.'
     Write-Output 'PASS: Seven safe-conduct hooks register; generation overrides are limited to the requested faction, restore nested state, and do not leak.'
 
 }

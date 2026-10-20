@@ -428,7 +428,7 @@ namespace Helodrace
             }
             Rect goodwillRect = new Rect(rect.x, rect.yMax - 38f, rect.width, 30f);
             float financialGoodwill = Economy.GameComponent_FinancialGoodwill.Current?.Get(SelectedMilitaryFaction()) ?? 0f;
-            Widgets.Label(goodwillRect, "HD_Company_FinancialGoodwill".Translate(financialGoodwill.ToString("0.#")));
+            Widgets.Label(goodwillRect, "HD_Company_FinancialGoodwill".Translate(financialGoodwill.ToString("0.##")));
             TooltipHandler.TipRegion(goodwillRect, "HD_Company_FinancialGoodwillTip".Translate());
             CompanyDispatchSchedule schedule = companies.Schedule(SelectedCompany);
             string status = schedule.Pending
@@ -438,6 +438,13 @@ namespace Helodrace
             Widgets.Label(new Rect(rect.x, rect.y + 134f, rect.width, 40f), status);
             var requested = new[] { SelectedCompany };
             Rect requestRect = new Rect(rect.x, rect.y + 190f, rect.width, 42f);
+            if (SelectedCompany == TelegraphCompany.NationalIndustrialCredit)
+            {
+                requestRect.width = (rect.width - 12f) * 0.5f;
+                DrawCompanyButton(new Rect(requestRect.xMax + 12f, requestRect.y, requestRect.width, requestRect.height),
+                    "HD_Loan_Open".Translate(), comp.TransmissionFailure(comp.Network.Provider, true) == null,
+                    () => Find.WindowStack.Add(new Economy.Dialog_LoanContract(operatorPawn, comp)));
+            }
             string failure = companies.CaravanRequestFailure(comp, requested);
             DrawCompanyButton(requestRect, "HD_Company_RequestCaravan".Translate(), failure == null,
                 () => ConfirmCaravanRequest(companies, comp, requested));

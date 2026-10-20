@@ -7,14 +7,14 @@
   <HD_Company_Directory>Factions / companies and organizations</HD_Company_Directory>
   <HD_Company_CloseTab>Close tab</HD_Company_CloseTab>
   <HD_Company_FactionGoodwill>{0} · Goodwill {1}</HD_Company_FactionGoodwill>
-  <HD_Company_Service_Financial>Financial caravan</HD_Company_Service_Financial>
+  <HD_Company_Service_Financial>Financial caravan and loans</HD_Company_Service_Financial>
   <HD_Company_Service_Commercial>Commercial caravan</HD_Company_Service_Commercial>
   <HD_Company_Service_Pioneer>Forward base services</HD_Company_Service_Pioneer>
   <HD_Company_Service_Security>Guard deployment</HD_Company_Service_Security>
   <HD_Company_Service_Unavailable>No services available</HD_Company_Service_Unavailable>
   <HD_Company_FinancialGoodwill>Financial goodwill: {0}</HD_Company_FinancialGoodwill>
-  <HD_Company_FinancialGoodwillTip>A separate relationship from -100 to 100. Gifts and trading grant normal diplomatic goodwill plus half that evaluated reward as financial reputation, retaining 0.5 points. It does not change the natural goodwill target or grant diplomatic recovery.</HD_Company_FinancialGoodwillTip>
-  <HD_Company_FinancialDesc>National Industrial Credit Corporation financial caravan. Requires financial reputation 50 (80 if hostile). Each caravan uses one primary cell; hostile requests cost 20 financial points. Arrival: 1–2 days. Independent four-day cooldown.</HD_Company_FinancialDesc>
+  <HD_Company_FinancialGoodwillTip>A separate relationship from -100 to 100. Gifts and trading grant normal diplomatic goodwill plus half that evaluated reward as financial reputation. Paid services earn one point per 20 Sthaler. Loans deduct one point per 20 Sthaler and restore it upon repayment. Balances retain two decimal places. This does not change natural goodwill or grant diplomatic recovery.</HD_Company_FinancialGoodwillTip>
+  <HD_Company_FinancialDesc>Financial caravans and loan agreements. Caravan: financial goodwill 50 (80 if hostile, costing 20), one primary cell, arrival 1–2 days, four-day cooldown. Loans require combined diplomatic and financial goodwill 70 and follow separate contract terms.</HD_Company_FinancialDesc>
   <HD_Company_CommercialDesc>Central Hardware &amp; Supply Co. commercial caravan. Requires financial reputation 50 (80 if hostile). Each caravan uses one primary cell; hostile requests cost 20 financial points. Arrival: 1–2 days. Independent four-day cooldown.</HD_Company_CommercialDesc>
   <HD_Company_PioneerDesc>Arrange LOW Helod forward base construction, review signed contracts, and request services from contracted forward bases.</HD_Company_PioneerDesc>
   <HD_Company_HarringtonDesc>Hire six elite caravan guards, including one elite guard captain, for one day of colony assistance. The team enters from the map edge. Price: 500 Sthaler and one primary cell. Rehire is available after one day.</HD_Company_HarringtonDesc>
@@ -33,7 +33,7 @@
   <HD_Company_HarringtonArrived>Harrington Protective Services has sent {0} elite guards for one day of colony assistance.</HD_Company_HarringtonArrived>
   <HD_Company_NoEntry>No safe, reachable map edge is available for the guard detachment.</HD_Company_NoEntry>
   <HD_Company_NeedsFinancial>Requires financial reputation {0} (current: {1}).</HD_Company_NeedsFinancial>
-  <HD_Company_HostileServiceUnavailable>Only financially authorized caravan requests are available while hostile. Contracts and guard deployments are unavailable.</HD_Company_HostileServiceUnavailable>
+  <HD_Company_HostileServiceUnavailable>Only financially authorized caravan requests and loan agreements are available while hostile. Forward-base contracts and guard deployments are unavailable.</HD_Company_HostileServiceUnavailable>
   <HD_Company_SafeConductBroken>Safe conduct with {0} was broken by attacking its caravan. Diplomatic and financial goodwill both decreased by {1}.</HD_Company_SafeConductBroken>
   <HD_Company_Name_WhitmoreArms>Whitmore Arms &amp; Sporting Goods Co.</HD_Company_Name_WhitmoreArms>
   <HD_Company_Name_ContinentalPetroleum>Continental Petroleum Company</HD_Company_Name_ContinentalPetroleum>

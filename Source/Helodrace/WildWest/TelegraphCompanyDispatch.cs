@@ -52,7 +52,7 @@ namespace Helodrace
             bool hostile = provider.HostileTo(Faction.OfPlayer);
             float finance = GameComponent_FinancialGoodwill.Current?.Get(provider) ?? 0f;
             if (!TelegraphTradeRules.CanRequest(finance, hostile, requested.Count))
-                return "HD_Company_NeedsFinancial".Translate(TelegraphTradeRules.RequiredFinancial(hostile, requested.Count), finance.ToString("0.#"));
+                return "HD_Company_NeedsFinancial".Translate(TelegraphTradeRules.RequiredFinancial(hostile, requested.Count), finance.ToString("0.##"));
             if (comp.StoredPrimaryCells < requested.Count) return "HD_Company_NeedsCells".Translate(requested.Count);
             return null;
         }
