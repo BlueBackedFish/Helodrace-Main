@@ -9,6 +9,8 @@ Source/Tests/Communications/Verify-SafeConductHooks.ps1
 
 The standalone suite executes the production ledger and attack/drop/death tracking against minimal native-boundary stubs. It verifies player-only attribution, Helod caravan eligibility, actual merged-drop quantities, callback preservation, duplicate notifications, pre-attack pawn valuation, injury/death separation, nested hits, third-party damage, delayed bleeding deaths, departed/new visits, exception cleanup, faction filtering, deep serialization and translations.
 
+It also verifies the forward-base and loan arrears categories, silver conversion, contract-key deduplication after save/load and saved goodwill deductions. `TelegraphNetwork.Tests` executes the production default handler and financial penalties together with loan repayments.
+
 The native Harmony script registers the actual `TakeDamage`, `Kill`, `MakeDowned` and both full/partial `ThingOwner.TryDrop` overloads, together with the safe-conduct hooks. It does not execute a Unity combat scene.
 
 In-game checks:

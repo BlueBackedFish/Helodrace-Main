@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_CaravanLoss_Open>Caravan loss ledger</HD_CaravanLoss_Open>
-  <HD_CaravanLoss_Title>{0} — Caravan loss ledger</HD_CaravanLoss_Title>
-  <HD_CaravanLoss_Totals>Total recorded loss: {0} silver\nDropped items {1} / Injuries {2} / Deaths {3}</HD_CaravanLoss_Totals>
-  <HD_CaravanLoss_Explanation>Records player attacks on visiting LOW/HIGH caravans only. Values use silver market prices. Injuries are assessed from the pawn's pre-attack value and health-percentage loss. Death records the remaining pawn value after recorded injuries. Dropped items are recorded separately. This ledger is independent of goodwill penalties, loans and compensation obligations; it does not automatically charge anything.</HD_CaravanLoss_Explanation>
+  <HD_CaravanLoss_Open>Loss ledger</HD_CaravanLoss_Open>
+  <HD_CaravanLoss_Title>{0} — Loss ledger</HD_CaravanLoss_Title>
+  <HD_CaravanLoss_Totals>Total recorded loss: {0} silver\nDropped items {1} / Injuries {2} / Deaths {3}\nForward-base arrears {4} / Loan arrears {5}</HD_CaravanLoss_Totals>
+  <HD_CaravanLoss_Explanation>Records caravan attack losses and overdue forward-base bills and loans in silver. Pawn injury and death values are not counted twice. Arrears record unpaid Sthaler at the first default, converted to silver, and remain in the history after repayment. The ledger creates no additional debt or automatic charge.</HD_CaravanLoss_Explanation>
   <HD_CaravanLoss_Empty>No losses have been recorded.</HD_CaravanLoss_Empty>
   <HD_CaravanLoss_SelectFaction>Select faction</HD_CaravanLoss_SelectFaction>
   <HD_CaravanLoss_AllFactions>All records</HD_CaravanLoss_AllFactions>
   <HD_CaravanLoss_Kind_DroppedItem>Dropped due to attack</HD_CaravanLoss_Kind_DroppedItem>
   <HD_CaravanLoss_Kind_Injury>Injury</HD_CaravanLoss_Kind_Injury>
   <HD_CaravanLoss_Kind_Death>Death</HD_CaravanLoss_Kind_Death>
+  <HD_CaravanLoss_Kind_ForwardBaseOverdue>Forward-base arrears</HD_CaravanLoss_Kind_ForwardBaseOverdue>
+  <HD_CaravanLoss_Kind_LoanOverdue>Loan arrears</HD_CaravanLoss_Kind_LoanOverdue>
+  <HD_CaravanLoss_Arrears>Unpaid {0} Sthaler / Conversion rate {1} silver\nAdditional diplomatic penalty -{2} / Financial penalty -{3}</HD_CaravanLoss_Arrears>
   <HD_CaravanLoss_Time>Elapsed day {0}, hour {1}</HD_CaravanLoss_Time>
   <HD_CaravanLoss_Value>{0} silver</HD_CaravanLoss_Value>
   <HD_CaravanLoss_Item>{0} × {1} / Unit market value {2}</HD_CaravanLoss_Item>

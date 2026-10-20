@@ -174,7 +174,7 @@ namespace Helodrace
         }
     }
 
-    public class HelodForwardBase : WorldObject
+    public partial class HelodForwardBase : WorldObject
     {
         public const int W48DeliveryHours = 5;
         public const int W48AuthorizationHours = 5;
@@ -463,6 +463,7 @@ namespace Helodrace
             Scribe_Collections.Look(ref usageCounts, "usageCounts", LookMode.Value);
             Scribe_Collections.Look(ref totalUsageCounts, "totalUsageCounts", LookMode.Value);
             Scribe_Values.Look(ref mortarUsageCost, "mortarUsageCost", 0f);
+            ExposePaymentDefaultState();
             Scribe_Values.Look(ref w48OrderPending, "w48OrderPending", false);
             Scribe_Values.Look(ref w48ReadyNotified, "w48ReadyNotified", false);
             Scribe_Values.Look(ref w48TargetMapId, "w48TargetMapId", -1);
@@ -509,7 +510,9 @@ namespace Helodrace
         {
             base.Tick();
             EnsureUsagePeriod();
+            if (Destroyed) return;
             CheckContractEnd();
+            if (Destroyed) return;
             TickW48Order();
         }
 
@@ -706,6 +709,7 @@ namespace Helodrace
 
         private bool TrySettleUsagePeriod()
         {
+            if (paymentDefaultProcessed) return false;
             if (!UsesPeriodSettlement)
             {
                 return true;
@@ -770,17 +774,6 @@ namespace Helodrace
             return true;
         }
 
-        private void HandlePaymentFailure()
-        {
-            if (Faction != null && Faction != Faction.OfPlayer)
-            {
-                Faction.TryAffectGoodwillWith(Faction.OfPlayer, PaymentFailureGoodwillPenalty);
-            }
-
-            Messages.Message("HD_ForwardBase_PeriodPaymentDefaulted".Translate(), this, MessageTypeDefOf.NegativeEvent);
-            BeginWithdrawal();
-        }
-
         private void AwardContractCompletionGoodwill()
         {
             if (Faction != null && Faction != Faction.OfPlayer)
@@ -791,6 +784,7 @@ namespace Helodrace
 
         private void BeginWithdrawal()
         {
+            if (Destroyed) return;
             WorldObjectDef withdrawalDef = DefDatabase<WorldObjectDef>.GetNamedSilentFail("HD_ForwardBaseWithdrawal");
             if (withdrawalDef == null)
             {

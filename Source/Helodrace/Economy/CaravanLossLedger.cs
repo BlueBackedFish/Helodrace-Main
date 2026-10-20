@@ -6,7 +6,7 @@ using Verse;
 
 namespace Helodrace.Economy
 {
-    public enum CaravanLossKind { DroppedItem, Injury, Death }
+    public enum CaravanLossKind { DroppedItem, Injury, Death, ForwardBaseOverdue, LoanOverdue }
 
     public sealed class CaravanLossEntry : IExposable
     {
@@ -15,6 +15,8 @@ namespace Helodrace.Economy
         public int Tick, Count;
         public CaravanLossKind Kind;
         public double UnitValue, Value;
+        public int GoodwillPenalty;
+        public float FinancialPenalty;
         public void ExposeData()
         {
             Scribe_References.Look(ref Faction, "faction");
@@ -30,6 +32,8 @@ namespace Helodrace.Economy
             Scribe_Values.Look(ref Kind, "kind");
             Scribe_Values.Look(ref UnitValue, "unitValue");
             Scribe_Values.Look(ref Value, "value");
+            Scribe_Values.Look(ref GoodwillPenalty, "goodwillPenalty");
+            Scribe_Values.Look(ref FinancialPenalty, "financialPenalty");
         }
     }
 
@@ -67,6 +71,7 @@ namespace Helodrace.Economy
         private List<CaravanPawnLoss> victims = new List<CaravanPawnLoss>();
         private readonly Dictionary<string, CaravanPawnLoss> byVisit = new Dictionary<string, CaravanPawnLoss>();
         private readonly Dictionary<string, CaravanPawnLoss> latest = new Dictionary<string, CaravanPawnLoss>();
+        private readonly HashSet<string> arrears = new HashSet<string>();
         public GameComponent_CaravanLosses(Game game) { }
         public static GameComponent_CaravanLosses Current => Verse.Current.Game?.GetComponent<GameComponent_CaravanLosses>();
         public IEnumerable<CaravanLossEntry> Entries(Faction faction) => entries.Where(e => faction == null || e.Faction == faction);
@@ -117,6 +122,20 @@ namespace Helodrace.Economy
             Add(victim, CaravanLossKind.DroppedItem, label, count, Money(unitValue), Money(unitValue * count), defName);
         }
 
+        public CaravanLossEntry RecordArrears(Faction faction, CaravanLossKind kind, string contractKey, string label,
+            string location, int unpaidNotes, double silverPerNote)
+        {
+            if ((kind != CaravanLossKind.ForwardBaseOverdue && kind != CaravanLossKind.LoanOverdue)
+                || faction == null || string.IsNullOrEmpty(contractKey) || unpaidNotes <= 0
+                || silverPerNote <= 0 || double.IsNaN(silverPerNote) || double.IsInfinity(silverPerNote)) return null;
+            if (!arrears.Add(kind + "/" + contractKey)) return null;
+            var entry = new CaravanLossEntry { Faction = faction, FactionName = faction.Name, CaravanKey = contractKey,
+                Subject = label, MapName = location, Tick = Find.TickManager.TicksGame, Kind = kind, Count = unpaidNotes,
+                UnitValue = Money(silverPerNote), Value = Money(unpaidNotes * silverPerNote) };
+            entries.Add(entry);
+            return entry;
+        }
+
         private void Add(CaravanPawnLoss victim, CaravanLossKind kind, string subject, int count, double unitValue, double value, string itemDef = null)
         {
             entries.Add(new CaravanLossEntry { Faction = victim.Faction, FactionName = victim.Faction?.Name,
@@ -136,7 +155,10 @@ namespace Helodrace.Economy
             if (Scribe.mode != LoadSaveMode.PostLoadInit) return;
             if (entries == null) entries = new List<CaravanLossEntry>();
             if (victims == null) victims = new List<CaravanPawnLoss>();
-            byVisit.Clear(); latest.Clear();
+            byVisit.Clear(); latest.Clear(); arrears.Clear();
+            foreach (CaravanLossEntry entry in entries)
+                if (entry.Kind == CaravanLossKind.ForwardBaseOverdue || entry.Kind == CaravanLossKind.LoanOverdue)
+                    arrears.Add(entry.Kind + "/" + entry.CaravanKey);
             foreach (CaravanPawnLoss victim in victims)
             {
                 if (victim.PlayerWounds == null) victim.PlayerWounds = new List<string>();

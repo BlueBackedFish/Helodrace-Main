@@ -69,7 +69,7 @@
   <HD_ForwardBase_ServiceUsageUnit_Shot>shots</HD_ForwardBase_ServiceUsageUnit_Shot>
   <HD_ForwardBase_ServiceUsageReimbursable>Reimbursable usage total: {0}</HD_ForwardBase_ServiceUsageReimbursable>
   <HD_ForwardBase_PeriodPaymentFailed>Service period settlement failed: {0} HD_Money required.</HD_ForwardBase_PeriodPaymentFailed>
-  <HD_ForwardBase_PeriodPaymentDefaulted>Service period settlement failed. The forward base is withdrawing.</HD_ForwardBase_PeriodPaymentDefaulted>
+  <HD_ForwardBase_PeriodPaymentDefaulted>Service period settlement failed. The unpaid bill was recorded in the loss ledger. In addition to existing penalties, 30 diplomatic goodwill and 50% of the absolute financial-goodwill balance were deducted. The forward base is withdrawing.</HD_ForwardBase_PeriodPaymentDefaulted>
   <HD_ForwardBase_ContractTimeLeft>Contract time left: {0}</HD_ForwardBase_ContractTimeLeft>
   <HD_ForwardBase_ContractCompleted>Forward base contract completed. Goodwill improved slightly.</HD_ForwardBase_ContractCompleted>
   <HD_ForwardBase_WithdrawalTimeLeft>Withdrawal time left: {0}</HD_ForwardBase_WithdrawalTimeLeft>

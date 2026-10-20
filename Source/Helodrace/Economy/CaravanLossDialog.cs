@@ -31,13 +31,17 @@ namespace Helodrace.Economy
                 choices.Insert(0, new FloatMenuOption("HD_CaravanLoss_AllFactions".Translate(), () => { faction = null; scroll = Vector2.zero; }));
                 Find.WindowStack.Add(new FloatMenu(choices));
             }
-            Widgets.Label(new Rect(inRect.x, inRect.y + 42f, inRect.width, 54f), "HD_CaravanLoss_Totals".Translate(
+            string totals = "HD_CaravanLoss_Totals".Translate(
                 ledger.Total(faction).ToString("0.##"), ledger.Total(faction, CaravanLossKind.DroppedItem).ToString("0.##"),
-                ledger.Total(faction, CaravanLossKind.Injury).ToString("0.##"), ledger.Total(faction, CaravanLossKind.Death).ToString("0.##")));
+                ledger.Total(faction, CaravanLossKind.Injury).ToString("0.##"), ledger.Total(faction, CaravanLossKind.Death).ToString("0.##"),
+                ledger.Total(faction, CaravanLossKind.ForwardBaseOverdue).ToString("0.##"), ledger.Total(faction, CaravanLossKind.LoanOverdue).ToString("0.##"));
+            float totalsHeight = Text.CalcHeight(totals, inRect.width);
+            Widgets.Label(new Rect(inRect.x, inRect.y + 42f, inRect.width, totalsHeight), totals);
             string explanation = "HD_CaravanLoss_Explanation".Translate();
             float explanationHeight = Text.CalcHeight(explanation, inRect.width);
-            Widgets.Label(new Rect(inRect.x, inRect.y + 100f, inRect.width, explanationHeight), explanation);
-            float listY = inRect.y + 112f + explanationHeight;
+            float explanationY = inRect.y + 54f + totalsHeight;
+            Widgets.Label(new Rect(inRect.x, explanationY, inRect.width, explanationHeight), explanation);
+            float listY = explanationY + 12f + explanationHeight;
             var entries = ledger.Entries(faction).Reverse().ToList();
             Rect list = new Rect(inRect.x, listY, inRect.width, inRect.yMax - listY - 50f);
             Rect view = new Rect(0f, 0f, list.width - 18f, Mathf.Max(list.height, entries.Count * 116f));
@@ -53,11 +57,14 @@ namespace Helodrace.Economy
                 Widgets.DrawMenuSection(row);
                 string type = ("HD_CaravanLoss_Kind_" + entry.Kind).Translate();
                 string date = "HD_CaravanLoss_Time".Translate(entry.Tick / 60000 + 1, entry.Tick % 60000 / 2500);
-                Widgets.Label(new Rect(10f, y + 6f, view.width - 180f, 24f), date + "  /  " + type + "  /  " + entry.PawnName);
+                Widgets.Label(new Rect(10f, y + 6f, view.width - 180f, 24f), date + "  /  " + type + "  /  " + (entry.PawnName ?? entry.Subject));
                 Text.Anchor = TextAnchor.UpperRight;
                 Widgets.Label(new Rect(view.width - 166f, y + 6f, 156f, 24f), "HD_CaravanLoss_Value".Translate(entry.Value.ToString("0.##")));
                 Text.Anchor = TextAnchor.UpperLeft;
-                Widgets.Label(new Rect(10f, y + 32f, view.width - 20f, 44f), entry.Kind == CaravanLossKind.DroppedItem
+                bool arrears = entry.Kind == CaravanLossKind.ForwardBaseOverdue || entry.Kind == CaravanLossKind.LoanOverdue;
+                Widgets.Label(new Rect(10f, y + 32f, view.width - 20f, 44f), arrears
+                    ? "HD_CaravanLoss_Arrears".Translate(entry.Count, entry.UnitValue.ToString("0.##"), entry.GoodwillPenalty, entry.FinancialPenalty.ToString("0.##"))
+                    : entry.Kind == CaravanLossKind.DroppedItem
                     ? "HD_CaravanLoss_Item".Translate(entry.Subject, entry.Count, entry.UnitValue.ToString("0.##"))
                     : "HD_CaravanLoss_Pawn".Translate(entry.Subject, entry.UnitValue.ToString("0.##")));
                 Widgets.Label(new Rect(10f, y + 80f, view.width - 20f, 22f), (entry.Faction?.Name ?? entry.FactionName)

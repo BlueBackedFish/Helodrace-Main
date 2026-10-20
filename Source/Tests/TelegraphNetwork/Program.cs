@@ -43,6 +43,7 @@ internal static partial class Program
         CaravanContact();
         FinancialGoodwill();
         Loans();
+        Arrears();
         Console.WriteLine("PASS: " + checks + " telegraph network checks.");
     }
 

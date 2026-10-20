@@ -83,7 +83,7 @@ namespace Verse
     public sealed class Capacities { public bool CanTalk = true; public bool CapableOf(object capacity) => CanTalk; }
     public sealed class Skills { public readonly Skill Social = new Skill(); public Skill GetSkill(object def) => Social; }
     public sealed class Skill { public bool TotallyDisabled; }
-    public sealed class ThingDef { public string defName; public int stackLimit = 100; }
+    public sealed class ThingDef { public string defName; public int stackLimit = 100; public float BaseMarketValue = 5f; }
     public enum Danger { Deadly }
     public static class DefDatabase<T> where T : class
     {
@@ -123,13 +123,15 @@ namespace Verse
     {
         public static int Count;
         public static void Message(string text, Pawn pawn, object def) { Count++; }
+        public static void Message(string text, object target, object def) { Count++; }
         public static void Message(string text, object def) { Count++; }
         public static void Message(string text, RimWorld.Planet.GlobalTargetInfo target, object def) { Count++; }
     }
     public static class Scribe
     {
         public static bool Loading;
-        public static LoadSaveMode mode => Loading ? LoadSaveMode.LoadingVars : LoadSaveMode.Saving;
+        public static bool PostLoad;
+        public static LoadSaveMode mode => PostLoad ? LoadSaveMode.PostLoadInit : Loading ? LoadSaveMode.LoadingVars : LoadSaveMode.Saving;
         public static Dictionary<string, object> Values = new Dictionary<string, object>();
         public static void Look<T>(ref T value, string key, T defaultValue)
         {
@@ -148,9 +150,16 @@ namespace Verse
     public enum LookMode { Reference, Value, Deep }
     public static class Scribe_Collections
     {
-        public static void Look<T>(ref List<T> values, string key, LookMode mode) where T : IExposable, new()
+        public static void Look<T>(ref List<T> values, string key, LookMode mode)
         {
+            if (Scribe.PostLoad) return;
             var outer = Scribe.Values;
+            if (mode == LookMode.Value)
+            {
+                if (Scribe.Loading) values = outer.TryGetValue(key, out var saved) ? new List<T>((List<T>)saved) : null;
+                else outer[key] = values == null ? null : new List<T>(values);
+                return;
+            }
             if (Scribe.Loading)
             {
                 values = new List<T>();
@@ -158,7 +167,7 @@ namespace Verse
                 foreach (var item in (List<Dictionary<string, object>>)saved)
                 {
                     Scribe.Values = item;
-                    var value = new T(); value.ExposeData(); values.Add(value);
+                    var value = System.Activator.CreateInstance<T>(); ((IExposable)value).ExposeData(); values.Add(value);
                 }
             }
             else
@@ -167,7 +176,7 @@ namespace Verse
                 foreach (T value in values)
                 {
                     Scribe.Values = new Dictionary<string, object>();
-                    value.ExposeData(); saved.Add(Scribe.Values);
+                    ((IExposable)value).ExposeData(); saved.Add(Scribe.Values);
                 }
                 outer[key] = saved;
             }
@@ -210,7 +219,7 @@ namespace RimWorld
         public int CalculateAdjustedGoodwillChange(Faction other, int amount) => amount;
         public bool TryAffectGoodwillWith(Faction other, int amount, HistoryEventDef reason = null)
         {
-            PlayerGoodwill += amount; GoodwillChanges++; return true;
+            PlayerGoodwill = Math.Max(-100, Math.Min(100, PlayerGoodwill + amount)); GoodwillChanges++; return true;
         }
         public bool HostileTo(Faction other) => Hostile;
         public bool CanChangeGoodwillFor(Faction other, int change) => CanChange && other.CanChange;
@@ -243,7 +252,7 @@ namespace RimWorld
     public static class PawnCapacityDefOf { public static readonly object Talking = new object(); }
     public static class SkillDefOf { public static readonly object Social = new object(); }
     public static class LetterDefOf { public static readonly object PositiveEvent = new object(), NegativeEvent = new object(); }
-    public static class MessageTypeDefOf { public static readonly object PositiveEvent = new object(), NeutralEvent = new object(); }
+    public static class MessageTypeDefOf { public static readonly object PositiveEvent = new object(), NeutralEvent = new object(), NegativeEvent = new object(); }
     public static class GenDate
     {
         public static int LocalHour = 12;

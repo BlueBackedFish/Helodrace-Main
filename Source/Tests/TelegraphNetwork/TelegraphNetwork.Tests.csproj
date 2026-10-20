@@ -12,12 +12,17 @@
     <Compile Include="GameStubs.cs" />
     <Compile Include="LoanTests.cs" />
     <Compile Include="LoanGameStubs.cs" />
+    <Compile Include="ArrearsTests.cs" />
+    <Compile Include="ForwardBaseArrearsStubs.cs" />
     <Compile Include="../../Helodrace/WildWest/TelegraphNetworkRules.cs" Link="TelegraphNetworkRules.cs" />
     <Compile Include="../../Helodrace/WildWest/TelegraphNetwork.cs" Link="TelegraphNetwork.cs" />
     <Compile Include="../../Helodrace/Economy/FinancialGoodwill.cs" Link="FinancialGoodwill.cs" />
     <Compile Include="../../Helodrace/Economy/FinancialGoodwillRules.cs" Link="FinancialGoodwillRules.cs" />
     <Compile Include="../../Helodrace/Economy/FinancialGoodwillPatches.cs" Link="FinancialGoodwillPatches.cs" />
     <Compile Include="../../Helodrace/Economy/LoanAccount.cs" Link="LoanAccount.cs" />
+    <Compile Include="../../Helodrace/Economy/CaravanLossLedger.cs" Link="CaravanLossLedger.cs" />
+    <Compile Include="../../Helodrace/Economy/ContractArrears.cs" Link="ContractArrears.cs" />
+    <Compile Include="../../Helodrace/WildWest/ForwardBaseArrears.cs" Link="ForwardBaseArrears.cs" />
     <Compile Include="../../Helodrace/Economy/Loans.cs" Link="Loans.cs" />
     <Compile Include="../../Helodrace/WildWest/TelegraphCompanies.cs" Link="TelegraphCompanies.cs" />
   </ItemGroup>

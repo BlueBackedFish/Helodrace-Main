@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_CaravanLoss_Open>상단 손해 장부</HD_CaravanLoss_Open>
-  <HD_CaravanLoss_Title>{0} — 상단 손해 장부</HD_CaravanLoss_Title>
-  <HD_CaravanLoss_Totals>누적 손해액: 은화 {0}\n떨어뜨린 물품 {1} / 부상 {2} / 사망 {3}</HD_CaravanLoss_Totals>
-  <HD_CaravanLoss_Explanation>LOW·HIGH 방문 상단에 대한 플레이어 공격만 기록합니다. 금액은 은화 시가 기준입니다. 부상은 공격 전 폰 가치와 체력 비율 감소로 평가하고, 사망은 그 폰의 기준 가치에서 이미 기록한 부상액을 뺍니다. 떨어뜨린 물품은 별도로 기록합니다. 우호도 감소·대출·배상 의무와는 독립된 기록이며 자동 청구되지 않습니다.</HD_CaravanLoss_Explanation>
+  <HD_CaravanLoss_Open>손해 장부</HD_CaravanLoss_Open>
+  <HD_CaravanLoss_Title>{0} — 손해 장부</HD_CaravanLoss_Title>
+  <HD_CaravanLoss_Totals>누적 손해액: 은화 {0}\n떨어뜨린 물품 {1} / 부상 {2} / 사망 {3}\n전진기지 연체 {4} / 대출 연체 {5}</HD_CaravanLoss_Totals>
+  <HD_CaravanLoss_Explanation>상단 공격 피해와 전진기지·대출 연체를 은화 기준으로 기록합니다. 부상·사망은 폰 기준 가치를 중복 합산하지 않습니다. 연체액은 최초 연체 당시 미납 스탈레르를 은화로 환산한 기록이며, 상환 후에도 이력으로 남습니다. 장부가 별도의 빚이나 자동 청구를 만들지는 않습니다.</HD_CaravanLoss_Explanation>
   <HD_CaravanLoss_Empty>기록된 손해가 없습니다.</HD_CaravanLoss_Empty>
   <HD_CaravanLoss_SelectFaction>세력 선택</HD_CaravanLoss_SelectFaction>
   <HD_CaravanLoss_AllFactions>모든 기록</HD_CaravanLoss_AllFactions>
   <HD_CaravanLoss_Kind_DroppedItem>공격으로 떨어뜨린 물품</HD_CaravanLoss_Kind_DroppedItem>
   <HD_CaravanLoss_Kind_Injury>부상</HD_CaravanLoss_Kind_Injury>
   <HD_CaravanLoss_Kind_Death>사망</HD_CaravanLoss_Kind_Death>
+  <HD_CaravanLoss_Kind_ForwardBaseOverdue>전진기지 연체</HD_CaravanLoss_Kind_ForwardBaseOverdue>
+  <HD_CaravanLoss_Kind_LoanOverdue>대출 연체</HD_CaravanLoss_Kind_LoanOverdue>
+  <HD_CaravanLoss_Arrears>미납 {0} 스탈레르 / 환산 단가 은화 {1}\n추가 일반 우호도 -{2} / 금융 우호도 -{3}</HD_CaravanLoss_Arrears>
   <HD_CaravanLoss_Time>진행 {0}일차 {1}시</HD_CaravanLoss_Time>
   <HD_CaravanLoss_Value>은화 {0}</HD_CaravanLoss_Value>
   <HD_CaravanLoss_Item>{0} × {1} / 개당 시가 {2}</HD_CaravanLoss_Item>

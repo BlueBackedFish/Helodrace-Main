@@ -87,8 +87,34 @@ internal static class Program
         Check(victim.Dead && !ledger.RecordDeath(victim) && ledger.Total(faction) == 1250, "Death deduplication survives saving");
 
         DelayedAndNestedCases();
+        ArrearsRecords();
         DropHookAndLanguages();
         Console.WriteLine("PASS: " + checks + " caravan loss checks.");
+    }
+
+    private static void ArrearsRecords()
+    {
+        var ledger = NewLedger(); var faction = new Faction();
+        Check(ledger.RecordArrears(faction, CaravanLossKind.Injury, "Invalid", "", "", 20, 5) == null
+            && ledger.RecordArrears(faction, CaravanLossKind.LoanOverdue, "Zero", "", "", 0, 5) == null
+            && ledger.RecordArrears(faction, CaravanLossKind.LoanOverdue, "NaN", "", "", 20, double.NaN) == null,
+            "Only nonempty monetary arrears with valid conversion rates are recorded");
+        var loan = ledger.RecordArrears(faction, CaravanLossKind.LoanOverdue, "Loan_1", "NICC", "Colony", 120, 5);
+        Check(loan.Value == 600d && loan.Count == 120 && loan.UnitValue == 5 && loan.PawnName == null,
+            "Loan arrears record outstanding cash without inventing a pawn or dropped item");
+        loan.GoodwillPenalty = 30; loan.FinancialPenalty = 40;
+        Check(ledger.RecordArrears(faction, CaravanLossKind.LoanOverdue, "Loan_1", "NICC", "Colony", 120, 5) == null,
+            "Repeated checks of the same default cannot inflate historical losses");
+        Check(ledger.RecordArrears(faction, CaravanLossKind.ForwardBaseOverdue, "Base_1/60000", "Pioneer", "Base", 81, 5).Value == 405d,
+            "Forward-base unpaid bills are recorded separately at the note-rounded silver value");
+        ledger = Reload(ledger);
+        Check(ledger.Total(faction) == 1005d && ledger.Total(faction, CaravanLossKind.LoanOverdue) == 600d
+            && ledger.Total(faction, CaravanLossKind.ForwardBaseOverdue) == 405d,
+            "Saved ledgers preserve both new overdue categories and their totals");
+        Check(ledger.RecordArrears(faction, CaravanLossKind.LoanOverdue, "Loan_1", "NICC", "Colony", 120, 5) == null,
+            "Reloading restores the default deduplication index");
+        Check(ledger.Entries(faction).First().GoodwillPenalty == 30 && ledger.Entries(faction).First().FinancialPenalty == 40,
+            "Actual additional goodwill deductions remain attached to the historical arrears entry");
     }
 
     private static void DelayedAndNestedCases()

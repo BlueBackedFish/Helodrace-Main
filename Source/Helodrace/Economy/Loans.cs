@@ -8,6 +8,7 @@ namespace Helodrace.Economy
 {
     public sealed class LoanContract : IExposable
     {
+        public string ContractId = System.Guid.NewGuid().ToString("N");
         public LoanAccount Account = new LoanAccount();
         public Faction Lender;
         public Map Destination;
@@ -19,6 +20,7 @@ namespace Helodrace.Economy
 
         public void ExposeData()
         {
+            Scribe_Values.Look(ref ContractId, "contractId");
             Scribe_References.Look(ref Lender, "lender");
             Scribe_References.Look(ref Destination, "destination");
             Scribe_References.Look(ref Courier, "courier");
@@ -116,6 +118,7 @@ namespace Helodrace.Economy
                 reason = "HD_Loan_InvalidRepayment".Translate();
                 return false;
             }
+            ProcessOverdue(contract, Find.TickManager.TicksGame);
             if (!terminal.Network.TryPay(actor, amount, out reason)) return false;
             contract.Account.TryRepay(amount, out float restore);
             GameComponent_FinancialGoodwill.Current.Adjust(contract.Lender, restore);
@@ -131,13 +134,19 @@ namespace Helodrace.Economy
             foreach (LoanContract contract in contracts)
             {
                 if (!contract.Account.DeliveryFinished) TickDelivery(contract, now);
-                if (!contract.OverdueNotified && contract.Account.Overdue(now))
-                {
-                    contract.OverdueNotified = true;
-                    Find.LetterStack.ReceiveLetter("HD_Loan_OverdueTitle".Translate(),
-                        "HD_Loan_Overdue".Translate(contract.Lender?.Name ?? "?", contract.Account.Outstanding), LetterDefOf.NegativeEvent);
-                }
+                ProcessOverdue(contract, now);
             }
+        }
+
+        private static void ProcessOverdue(LoanContract contract, int now)
+        {
+            if (contract.OverdueNotified || !contract.Account.Overdue(now)) return;
+            contract.OverdueNotified = true;
+            ContractArrears.Process(contract.Lender, CaravanLossKind.LoanOverdue, "Loan_" + contract.ContractId,
+                TelegraphCompanies.Name(TelegraphCompany.NationalIndustrialCredit), contract.Destination?.Parent.LabelCap,
+                contract.Account.Outstanding);
+            Find.LetterStack.ReceiveLetter("HD_Loan_OverdueTitle".Translate(),
+                "HD_Loan_Overdue".Translate(contract.Lender?.Name ?? "?", contract.Account.Outstanding), LetterDefOf.NegativeEvent);
         }
 
         private void TickDelivery(LoanContract contract, int now)
