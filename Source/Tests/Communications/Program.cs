@@ -23,6 +23,7 @@ internal static class Program
         HamRouting();
         HamDialogue();
         Definitions();
+        NewCaravanDefinitions();
         Console.WriteLine("PASS: " + checks + " communications checks.");
     }
 
@@ -158,7 +159,9 @@ internal static class Program
         foreach (var entry in new[]
         {
             ("Defs/Finance/TraderKinds_Finance.xml", TelegraphCompanies.FinancialTrader, TelegraphCompany.NationalIndustrialCredit),
-            ("Defs/Finance/TraderKinds_Commercial.xml", TelegraphCompanies.CommercialTrader, TelegraphCompany.CentralHardwareSupply)
+            ("Defs/Finance/TraderKinds_Commercial.xml", TelegraphCompanies.CommercialTrader, TelegraphCompany.CentralHardwareSupply),
+            ("Defs/Finance/TraderKinds_Arms.xml", TelegraphCompanies.ArmsTrader, TelegraphCompany.WhitmoreArms),
+            ("Defs/Finance/TraderKinds_Petroleum.xml", TelegraphCompanies.PetroleumTrader, TelegraphCompany.ContinentalPetroleum)
         })
         {
             var def = XDocument.Load(entry.Item1).Root.Elements("TraderKindDef").Single(d => (string)d.Element("defName") == entry.Item2);
@@ -187,6 +190,8 @@ internal static class Program
         Check(TelegraphCompanies.Name(TelegraphCompany.CentralHardwareSupply) == "Central Hardware & Supply Co.", "Commercial company name");
         Check(TelegraphCompanies.Name(TelegraphCompany.PioneerOverseasService) == "Pioneer Overseas Service Company", "Contract company name matches its contract");
         Check(TelegraphCompanies.Name(TelegraphCompany.HarringtonProtective) == "Harrington Protective Services", "Security company name");
+        Check(TelegraphCompanies.Name(TelegraphCompany.WhitmoreArms) == "Whitmore Arms & Sporting Goods Co.", "Arms company name");
+        Check(TelegraphCompanies.Name(TelegraphCompany.ContinentalPetroleum) == "Continental Petroleum Company", "Petroleum company name");
         Check(TelegraphCompanies.All.Count == Enum.GetValues<TelegraphCompany>().Length
             && TelegraphCompanies.All.Distinct().Count() == TelegraphCompanies.All.Count, "The directory enumerates every registered company once without a fixed four-column layout");
         var koreanCompanies = XDocument.Load("Languages/Korean (한국어)/Keyed/TelegraphCompanies.xml");
@@ -194,10 +199,12 @@ internal static class Program
             Check(koreanCompanies.Root.Element(TelegraphCompanies.NameKey(company)) != null
                 && koreanCompanies.Root.Element(TelegraphCompanies.ServiceKey(company)) != null, "Every company has a translated name and directory service label");
         Verse.TranslationStub.Language = "Korean (한국어)";
-        Check(TelegraphCompanies.Name(TelegraphCompany.NationalIndustrialCredit) == "국영산업신용공사", "Financial company is localized at display time");
-        Check(TelegraphCompanies.Name(TelegraphCompany.CentralHardwareSupply) == "중앙 철물·보급상사", "Commercial company is localized at display time");
-        Check(TelegraphCompanies.Name(TelegraphCompany.PioneerOverseasService) == "파이오니어 해외사업회사", "Forward-base contract provider uses its localized name");
+        Check(TelegraphCompanies.Name(TelegraphCompany.NationalIndustrialCredit) == "전국산업신용회사", "Financial company is localized at display time");
+        Check(TelegraphCompanies.Name(TelegraphCompany.CentralHardwareSupply) == "센트럴 철물상사", "Commercial company is localized at display time");
+        Check(TelegraphCompanies.Name(TelegraphCompany.PioneerOverseasService) == "파이오니어 해외용역회사", "Forward-base contract provider uses its localized name");
         Check(TelegraphCompanies.Name(TelegraphCompany.HarringtonProtective) == "해링턴 경비회사", "Security company is localized at display time");
+        Check(TelegraphCompanies.Name(TelegraphCompany.WhitmoreArms) == "휘트모어 총포·사냥용품 회사", "Arms company is localized at display time");
+        Check(TelegraphCompanies.Name(TelegraphCompany.ContinentalPetroleum) == "콘티넨탈 석유회사", "Petroleum company is localized at display time");
         Check((string)XDocument.Load("Languages/Korean (한국어)/DefInjected/TraderKindDef/TraderKinds_Finance.xml").Root.Element(TelegraphCompanies.FinancialTrader + ".label")
                 == TelegraphCompanies.Name(TelegraphCompany.NationalIndustrialCredit)
             && (string)XDocument.Load("Languages/Korean (한국어)/DefInjected/TraderKindDef/TraderKinds_Commercial.xml").Root.Element(TelegraphCompanies.CommercialTrader + ".label")
@@ -236,6 +243,13 @@ internal static class Program
             "Invalid travel times cannot partially schedule a combined request");
         Check(!invalid.CanRequest(0, new[] { bank[0], bank[0] }), "Duplicate company selections cannot double-charge or double-dispatch");
         Check(!invalid.CanRequest(0, new[] { TelegraphCompany.HarringtonProtective }), "Caravan requests cannot dispatch a security-service entry");
+        var all = new CompanyDispatchBook();
+        var allCompanies = TelegraphCompanies.CaravanCompanies;
+        Check(allCompanies.Count == 4 && all.TrySchedule(0, allCompanies, allCompanies.Select(_ => 60000).ToArray(), false),
+            "All four trade companies can be dispatched at the same tick");
+        all.Schedule(TelegraphCompany.WhitmoreArms).Complete();
+        Check(all.Schedule(TelegraphCompany.ContinentalPetroleum).Pending && all.Schedule(TelegraphCompany.NationalIndustrialCredit).Pending,
+            "Completing the arms caravan does not clear petroleum or financial requests");
         Check(!TelegraphTradeRules.CanRequest(49.5f, false, 1) && TelegraphTradeRules.CanRequest(50f, false, 1), "Non-hostile caravans require 50 financial reputation");
         Check(!TelegraphTradeRules.CanRequest(79.5f, true, 1) && TelegraphTradeRules.CanRequest(80f, true, 1), "Hostile caravans require 80 financial reputation");
         Check(TelegraphTradeRules.Cost(false, 2) == 0 && TelegraphTradeRules.Cost(true, 2) == 40, "Only hostile caravans charge 20 financial points per company");
@@ -243,6 +257,62 @@ internal static class Program
             "Combining requests cannot bypass the per-caravan hostile threshold");
         Check(!TelegraphTradeRules.CanRequest(100f, true, 3), "A third hostile caravan cannot bypass the reduced balance");
         Check(TelegraphTradeRules.CanRequest(50f, false, 4) && !TelegraphTradeRules.CanRequest(100f, false, 0), "Normal bulk requests preserve the 50-point threshold and reject zero selections");
+    }
+
+    private static void NewCaravanDefinitions()
+    {
+        var low = XDocument.Load("Defs/Factions/Factions_Helod.xml").Root.Elements("FactionDef")
+            .Single(d => (string)d.Element("defName") == "HD_HelodCivilLowFaction");
+        var makers = low.Element("pawnGroupMakers").Elements("li").ToList();
+        var industry = makers.Single(d => (string)d.Element("traderKindDefName") == TelegraphCompanies.CommercialTrader);
+        foreach (var company in TelegraphCompanies.CaravanCompanies)
+        {
+            string kind = TelegraphCompanies.TraderKind(company);
+            Check(low.Element("caravanTraderKinds").Elements("li").Any(d => d.Value == kind), "Every caravan company is available to LOW's natural caravan selection");
+            Check(makers.Count(d => (string)d.Element("traderKindDefName") == kind) == 1, "Every company has one exact caravan composition");
+        }
+        var arms = makers.Single(d => (string)d.Element("traderKindDefName") == TelegraphCompanies.ArmsTrader);
+        var petroleum = makers.Single(d => (string)d.Element("traderKindDefName") == TelegraphCompanies.PetroleumTrader);
+        foreach (var section in new[] { "traders", "carriers", "guards" })
+            Check(XNode.DeepEquals(arms.Element(section), industry.Element(section)), "The arms caravan matches industrial caravan composition: " + section);
+        Check(XNode.DeepEquals(petroleum.Element("traders"), industry.Element("traders"))
+            && XNode.DeepEquals(petroleum.Element("carriers"), industry.Element("carriers")), "Petroleum uses the normal industrial merchant and carrier composition");
+        Check(petroleum.Element("guards").Elements().All(e => e.Name == TelegraphCompanies.EliteGuard || e.Name == TelegraphCompanies.EliteCaptain),
+            "Petroleum's escort pool contains only elite caravan guards and its elite captain");
+        Check((float)petroleum.Element("minimumGuardPoints") >= 260f, "Petroleum's elite escort can be generated even at low storyteller caravan points");
+
+        var stock = XDocument.Load("Defs/Finance/TraderKinds_Arms.xml").Root.Element("TraderKindDef").Element("stockGenerators")
+            .Elements("li").Select(d => (string)d.Element("thingDef")).ToHashSet();
+        var research = XDocument.Load("Defs/Research/ResearchProjects_Helod.xml").Root.Elements("ResearchProjectDef").ToDictionary(d => (string)d.Element("defName"));
+        var earlier = new System.Collections.Generic.HashSet<string>();
+        void AddPrerequisites(string name)
+        {
+            if (!research.TryGetValue(name, out XElement project)) return; // Core research is a leaf in the mod's local graph.
+            foreach (var requirement in project.Element("prerequisites")?.Elements("li") ?? Enumerable.Empty<XElement>())
+                if (earlier.Add(requirement.Value)) AddPrerequisites(requirement.Value);
+        }
+        AddPrerequisites("HelodSamiAutomaticPistol");
+        var recipes = XDocument.Load("Defs/Recipes/Recipes_Helod.xml").Root.Elements("RecipeDef").ToList();
+        var allowedGuns = recipes.Where(d => earlier.Contains((string)d.Element("researchPrerequisite") ?? ""))
+            .SelectMany(d => d.Element("products")?.Elements() ?? Enumerable.Empty<XElement>()).Select(d => d.Name.LocalName)
+            .Where(n => n.StartsWith("HD_Gun_")).Distinct().ToList();
+        Check(allowedGuns.Count >= 11 && allowedGuns.All(stock.Contains), "Arms stock covers the portable gun recipes from before the M1911 research");
+        var blockedGuns = recipes.Where(d => !earlier.Contains((string)d.Element("researchPrerequisite") ?? ""))
+            .SelectMany(d => d.Element("products")?.Elements() ?? Enumerable.Empty<XElement>()).Select(d => d.Name.LocalName).Where(n => n.StartsWith("HD_Gun_"));
+        Check(!blockedGuns.Any(stock.Contains), "M1911, Whitmore conversion, scoped and later weapons cannot leak into early arms stock");
+        Check(new[] { "HD_Apparel_CowboyHat", "HD_WildWestLeatherVest", "MedicineHerbal", "Pemmican", "Leather_Plain" }.All(stock.Contains),
+            "The arms caravan includes hunting clothing, medicine, provisions and leather");
+        var oilStock = XDocument.Load("Defs/Finance/TraderKinds_Petroleum.xml").Root.Element("TraderKindDef").Element("stockGenerators")
+            .Elements("li").Where(d => (string)d.Attribute("Class") == "StockGenerator_SingleDef").Select(d => (string)d.Element("thingDef")).ToHashSet();
+        Check(new[] { "HD_CrudeOil_Low", "HD_CrudeOil_High", "Chemfuel", "HD_Diesel", "HD_Kerosene", "HD_Naphtha", "HD_AromaticBaseOil" }.All(oilStock.Contains),
+            "Petroleum stock sells crude oils, refined fuels and aromatic base oil");
+        foreach (var entry in new[] { ("TraderKinds_Arms.xml", TelegraphCompanies.ArmsTrader, TelegraphCompany.WhitmoreArms),
+            ("TraderKinds_Petroleum.xml", TelegraphCompanies.PetroleumTrader, TelegraphCompany.ContinentalPetroleum) })
+        {
+            string localized = (string)XDocument.Load("Languages/Korean (한국어)/DefInjected/TraderKindDef/" + entry.Item1).Root.Element(entry.Item2 + ".label");
+            Check(localized == (string)XDocument.Load("Languages/Korean (한국어)/Keyed/TelegraphCompanies.xml").Root.Element(TelegraphCompanies.NameKey(entry.Item3)),
+                "New caravan Korean names match their directory company names");
+        }
     }
 
     private static void DirectorySelection()

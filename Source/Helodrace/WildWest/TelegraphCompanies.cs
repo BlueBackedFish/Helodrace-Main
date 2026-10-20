@@ -9,16 +9,20 @@ namespace Helodrace
         NationalIndustrialCredit,
         CentralHardwareSupply,
         PioneerOverseasService,
-        HarringtonProtective
+        HarringtonProtective,
+        WhitmoreArms,
+        ContinentalPetroleum
     }
 
     public static class TelegraphCompanies
     {
         public static readonly IReadOnlyList<TelegraphCompany> All = Array.AsReadOnly((TelegraphCompany[])Enum.GetValues(typeof(TelegraphCompany)));
         public static readonly IReadOnlyList<TelegraphCompany> CaravanCompanies = Array.AsReadOnly(new[]
-            { TelegraphCompany.NationalIndustrialCredit, TelegraphCompany.CentralHardwareSupply });
+            { TelegraphCompany.NationalIndustrialCredit, TelegraphCompany.CentralHardwareSupply, TelegraphCompany.WhitmoreArms, TelegraphCompany.ContinentalPetroleum });
         public const string FinancialTrader = "HD_WW_Caravan_HelodFinancial";
         public const string CommercialTrader = "HD_GW_Caravan_HelodCommercial";
+        public const string ArmsTrader = "HD_WW_Caravan_HelodArms";
+        public const string PetroleumTrader = "HD_WW_Caravan_HelodPetroleum";
         public const string EliteGuard = "HD_GW_HelodEliteCaravanGuard";
         public const string EliteCaptain = "HD_GW_HelodEliteCaravanGuardCaptain";
         public const int HarringtonCost = 500;
@@ -35,6 +39,8 @@ namespace Helodrace
             {
                 case TelegraphCompany.NationalIndustrialCredit: return FinancialTrader;
                 case TelegraphCompany.CentralHardwareSupply: return CommercialTrader;
+                case TelegraphCompany.WhitmoreArms: return ArmsTrader;
+                case TelegraphCompany.ContinentalPetroleum: return PetroleumTrader;
                 default: return null;
             }
         }
@@ -47,6 +53,8 @@ namespace Helodrace
                 case TelegraphCompany.CentralHardwareSupply: return "HD_Company_CommercialDesc";
                 case TelegraphCompany.PioneerOverseasService: return "HD_Company_PioneerDesc";
                 case TelegraphCompany.HarringtonProtective: return "HD_Company_HarringtonDesc";
+                case TelegraphCompany.WhitmoreArms: return "HD_Company_ArmsDesc";
+                case TelegraphCompany.ContinentalPetroleum: return "HD_Company_PetroleumDesc";
                 default: return "HD_Company_Service_Unavailable";
             }
         }
@@ -59,6 +67,8 @@ namespace Helodrace
                 case TelegraphCompany.CentralHardwareSupply: return "HD_Company_Service_Commercial";
                 case TelegraphCompany.PioneerOverseasService: return "HD_Company_Service_Pioneer";
                 case TelegraphCompany.HarringtonProtective: return "HD_Company_Service_Security";
+                case TelegraphCompany.WhitmoreArms: return "HD_Company_Service_Arms";
+                case TelegraphCompany.ContinentalPetroleum: return "HD_Company_Service_Petroleum";
                 default: return "HD_Company_Service_Unavailable";
             }
         }

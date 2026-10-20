@@ -12,9 +12,17 @@
 
 | 영문명 | 한국어 표시 |
 |---|---|
-| National Industrial Credit Corporation | 국영산업신용공사 |
-| Central Hardware & Supply Co. | 중앙 철물·보급상사 |
-| Pioneer Overseas Service Company | 파이오니어 해외사업회사 |
+| National Industrial Credit Corporation | 전국산업신용회사 |
+| Central Hardware & Supply Co. | 센트럴 철물상사 |
+| Pioneer Overseas Service Company | 파이오니어 해외용역회사 |
 | Harrington Protective Services | 해링턴 경비회사 |
+| Whitmore Arms & Sporting Goods Co. | 휘트모어 총포·사냥용품 회사 |
+| Continental Petroleum Company | 콘티넨탈 석유회사 |
+
+휘트모어는 `HelodSamiAutomaticPistol`의 선행 연구 단계에서 제작하는 휴대 화기 11종과 사브르, 카우보이 모자·가죽 조끼·약초·보존 식량·가죽을 취급한다. M1911과 휘트모어 장치, 저격총 및 후속 자동화기는 재고에서 제외한다. 상인·운반동물·경비 구성은 센트럴 산업 상단과 같다.
+
+콘티넨탈은 저급·고급 원유, 화학연료, 경유, 등유, 나프타와 방향족 기초유를 판매한다. 산업 상단과 같은 상인·운반동물을 사용하되 호위는 고급 상단 경비와 고급 경비 대장만 선택한다. 낮은 사건 포인트에서도 고급 호위를 생성하도록 경비 예산 하한을 260점으로 둔다. 대장 한 명 제한의 대체 경비도 고급 경비를 사용한다.
+
+두 회사 모두 LOW의 무작위 방문 상단과 전신기 요청 목록에 등록된다. 요청·이동·대기시간과 적대 시 통행 보장은 다른 상단 회사와 독립적으로 저장된다.
 
 검증은 `Communications.Tests`의 연락처 선택 상태·번역·상단 이름 검사와 모드 빌드를 사용한다. 게임 내 화면 배치와 클릭 동작은 별도 플레이 확인 대상이다.

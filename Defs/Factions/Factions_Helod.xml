@@ -56,6 +56,8 @@
     <caravanTraderKinds>
       <li>HD_WW_Caravan_HelodFinancial</li>
       <li>HD_GW_Caravan_HelodCommercial</li>
+      <li>HD_WW_Caravan_HelodArms</li>
+      <li>HD_WW_Caravan_HelodPetroleum</li>
     </caravanTraderKinds>
     <techLevel>Industrial</techLevel>
     <factionNameMaker>NamerFactionOutlander</factionNameMaker>
@@ -161,6 +163,44 @@
           <HD_GW_HelodEliteCaravanGuard>3</HD_GW_HelodEliteCaravanGuard>
           <HD_GW_HelodEliteCaravanGuardCaptain>1</HD_GW_HelodEliteCaravanGuardCaptain>
           <HD_GW_HelodCaravanLaborer>4</HD_GW_HelodCaravanLaborer>
+        </guards>
+      </li>
+      <li Class="Helodrace.Economy.TraderSpecificPawnGroupMaker">
+        <kindDef>Trader</kindDef>
+        <traderKindDefName>HD_WW_Caravan_HelodArms</traderKindDefName>
+        <traders>
+          <HD_GW_HelodCaravanMaster>1</HD_GW_HelodCaravanMaster>
+        </traders>
+        <carriers>
+          <Horse>18</Horse>
+          <Muffalo>2</Muffalo>
+          <Dromedary>1</Dromedary>
+          <Alpaca>1</Alpaca>
+        </carriers>
+        <guards>
+          <HD_GW_HelodCaravanGuard>12</HD_GW_HelodCaravanGuard>
+          <HD_GW_HelodCaravanGuardCaptain>2</HD_GW_HelodCaravanGuardCaptain>
+          <HD_GW_HelodEliteCaravanGuard>3</HD_GW_HelodEliteCaravanGuard>
+          <HD_GW_HelodEliteCaravanGuardCaptain>1</HD_GW_HelodEliteCaravanGuardCaptain>
+          <HD_GW_HelodCaravanLaborer>4</HD_GW_HelodCaravanLaborer>
+        </guards>
+      </li>
+      <li Class="Helodrace.Economy.TraderSpecificPawnGroupMaker">
+        <kindDef>Trader</kindDef>
+        <traderKindDefName>HD_WW_Caravan_HelodPetroleum</traderKindDefName>
+        <minimumGuardPoints>260</minimumGuardPoints>
+        <traders>
+          <HD_GW_HelodCaravanMaster>1</HD_GW_HelodCaravanMaster>
+        </traders>
+        <carriers>
+          <Horse>18</Horse>
+          <Muffalo>2</Muffalo>
+          <Dromedary>1</Dromedary>
+          <Alpaca>1</Alpaca>
+        </carriers>
+        <guards>
+          <HD_GW_HelodEliteCaravanGuard>12</HD_GW_HelodEliteCaravanGuard>
+          <HD_GW_HelodEliteCaravanGuardCaptain>2</HD_GW_HelodEliteCaravanGuardCaptain>
         </guards>
       </li>
       <li>

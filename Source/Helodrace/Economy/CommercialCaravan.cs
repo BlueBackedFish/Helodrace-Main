@@ -9,6 +9,7 @@ namespace Helodrace.Economy
     public sealed class TraderSpecificPawnGroupMaker : PawnGroupMaker
     {
         public string traderKindDefName;
+        public float minimumGuardPoints;
     }
 
     internal static class HelodCommercialCaravan
@@ -72,9 +73,11 @@ namespace Helodrace.Economy
                 parms.traderKind = kinds.RandomElementByWeight(kind => kind.commonality);
             }
 
-            pawnGroupMaker = parms.faction.def.pawnGroupMakers
+            TraderSpecificPawnGroupMaker selected = parms.faction.def.pawnGroupMakers
                 .OfType<TraderSpecificPawnGroupMaker>()
                 .FirstOrDefault(maker => maker.traderKindDefName == parms.traderKind.defName);
+            pawnGroupMaker = selected;
+            if (selected != null) parms.points = System.Math.Max(parms.points, selected.minimumGuardPoints);
             __result = pawnGroupMaker != null && pawnGroupMaker.CanGenerateFrom(parms);
             return false;
         }
@@ -90,7 +93,8 @@ namespace Helodrace.Economy
                 return;
 
             PawnGenOption regularGuard = options.FirstOrDefault(option =>
-                option.kind?.defName == "HD_GW_HelodCaravanGuard");
+                option.kind?.defName == "HD_GW_HelodCaravanGuard") ?? options.FirstOrDefault(option =>
+                option.kind?.defName == "HD_GW_HelodEliteCaravanGuard");
             if (regularGuard != null && options.Any(option =>
                 HelodCommercialCaravan.IsCaptain(option.kind)))
             {

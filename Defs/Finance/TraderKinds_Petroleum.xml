@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <TraderKindDef>
+    <defName>HD_WW_Caravan_HelodPetroleum</defName>
+    <label>Continental Petroleum Company</label>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>200~400</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_Money</thingDef>
+        <countRange>360~720</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_CrudeOil_Low</thingDef>
+        <countRange>200~400</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_CrudeOil_High</thingDef>
+        <countRange>100~200</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Chemfuel</thingDef>
+        <countRange>300~600</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_Diesel</thingDef>
+        <countRange>250~500</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_Kerosene</thingDef>
+        <countRange>200~400</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_Naphtha</thingDef>
+        <countRange>200~400</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_AromaticBaseOil</thingDef>
+        <countRange>40~80</countRange>
+      </li>
+    </stockGenerators>
+  </TraderKindDef>
+</Defs>

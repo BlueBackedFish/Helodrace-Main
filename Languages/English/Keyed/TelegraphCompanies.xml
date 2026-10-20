@@ -35,4 +35,10 @@
   <HD_Company_NeedsFinancial>Requires financial reputation {0} (current: {1}).</HD_Company_NeedsFinancial>
   <HD_Company_HostileServiceUnavailable>Only financially authorized caravan requests are available while hostile. Contracts and guard deployments are unavailable.</HD_Company_HostileServiceUnavailable>
   <HD_Company_SafeConductBroken>Safe conduct with {0} was broken by attacking its caravan. Diplomatic and financial goodwill both decreased by {1}.</HD_Company_SafeConductBroken>
+  <HD_Company_Name_WhitmoreArms>Whitmore Arms &amp; Sporting Goods Co.</HD_Company_Name_WhitmoreArms>
+  <HD_Company_Name_ContinentalPetroleum>Continental Petroleum Company</HD_Company_Name_ContinentalPetroleum>
+  <HD_Company_Service_Arms>Arms and hunting supplies</HD_Company_Service_Arms>
+  <HD_Company_Service_Petroleum>Petroleum products</HD_Company_Service_Petroleum>
+  <HD_Company_ArmsDesc>Whitmore Arms &amp; Sporting Goods Co. sells weapons from before the M1911 research and hunting supplies, with an industrial-style caravan. Requires financial reputation 50 (80 if hostile, costing 20). One primary cell; arrival 1–2 days; four-day cooldown.</HD_Company_ArmsDesc>
+  <HD_Company_PetroleumDesc>Continental Petroleum Company sells crude oil, refined fuels and aromatic base oil, escorted exclusively by elite guards. Requires financial reputation 50 (80 if hostile, costing 20). One primary cell; arrival 1–2 days; four-day cooldown.</HD_Company_PetroleumDesc>
 </LanguageData>
