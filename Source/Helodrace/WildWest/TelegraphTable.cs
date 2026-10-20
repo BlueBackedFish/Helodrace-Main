@@ -427,6 +427,12 @@ namespace Helodrace
                 return;
             }
             Rect goodwillRect = new Rect(rect.x, rect.yMax - 38f, rect.width, 30f);
+            if (SelectedCompany == TelegraphCompany.NationalIndustrialCredit)
+            {
+                goodwillRect.width -= 160f;
+                if (Widgets.ButtonText(new Rect(rect.xMax - 150f, goodwillRect.y, 150f, 30f), "HD_CaravanLoss_Open".Translate()))
+                    Find.WindowStack.Add(new Economy.Dialog_CaravanLosses(SelectedMilitaryFaction()));
+            }
             float financialGoodwill = Economy.GameComponent_FinancialGoodwill.Current?.Get(SelectedMilitaryFaction()) ?? 0f;
             Widgets.Label(goodwillRect, "HD_Company_FinancialGoodwill".Translate(financialGoodwill.ToString("0.##")));
             TooltipHandler.TipRegion(goodwillRect, "HD_Company_FinancialGoodwillTip".Translate());

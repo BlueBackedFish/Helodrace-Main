@@ -6,6 +6,7 @@ From the repository root, run:
 dotnet run --project Source/Tests/Communications/Communications.Tests.csproj
 dotnet run --project Source/Tests/TelegraphNetwork/TelegraphNetwork.Tests.csproj
 dotnet run --project Source/Tests/SafeConductAccess/SafeConductAccess.Tests.csproj
+dotnet run --project Source/Tests/CaravanLosses/CaravanLosses.Tests.csproj
 Source/Tests/Communications/Verify-HamHooks.ps1
 Source/Tests/Communications/Verify-SafeConductHooks.ps1
 ```

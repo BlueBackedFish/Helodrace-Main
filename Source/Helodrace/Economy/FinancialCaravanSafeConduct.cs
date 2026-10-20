@@ -183,7 +183,11 @@ namespace Helodrace.Economy
         [HarmonyPostfix]
         public static void Postfix(Pawn __instance)
         {
-            if (!__instance.Dead) FinancialCaravanUtility.ClearTags(__instance);
+            if (!__instance.Dead)
+            {
+                FinancialCaravanUtility.ClearTags(__instance);
+                GameComponent_CaravanLosses.Current?.MarkDeparture(__instance.GetUniqueLoadID());
+            }
         }
     }
 }

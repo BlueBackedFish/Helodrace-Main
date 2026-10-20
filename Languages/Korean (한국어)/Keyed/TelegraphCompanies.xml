@@ -13,7 +13,7 @@
   <HD_Company_Service_Security>경비대 파견</HD_Company_Service_Security>
   <HD_Company_Service_Unavailable>이용할 수 있는 업무 없음</HD_Company_Service_Unavailable>
   <HD_Company_FinancialGoodwill>금융 우호도: {0}</HD_Company_FinancialGoodwill>
-  <HD_Company_FinancialGoodwillTip>일반 우호도와 별개인 -100~100의 금융 관계 수치입니다. 선물·거래는 일반 우호도를 기존대로 올리며, 산정 보상의 절반을 금융 우호도로도 적립합니다. 유료 서비스는 지출 20 스탈레르당 1점을 적립합니다. 대출은 원금 20당 1점을 차감하고 상환 시 복구합니다. 소수 둘째 자리까지 유지하며 일반 우호도 기준점이나 자동 회복에는 영향을 주지 않습니다.</HD_Company_FinancialGoodwillTip>
+  <HD_Company_FinancialGoodwillTip>일반 우호도와 별개인 -100~100의 금융 관계 수치입니다. 선물·거래는 산정 보상의 절반을 금융 우호도로 적립합니다. 일반 우호도도 기존대로 오르지만, 임시 통행 보장 상단과의 거래는 금융 우호도만 오릅니다. 유료 서비스는 지출 20 스탈레르당 1점을 적립합니다. 대출은 원금 20당 1점을 차감하고 상환 시 복구합니다. 소수 둘째 자리까지 유지하며 일반 우호도 기준점이나 자동 회복에는 영향을 주지 않습니다.</HD_Company_FinancialGoodwillTip>
   <HD_Company_FinancialDesc>전국산업신용회사의 금융 상단·대출 계약입니다. 상단 요청은 금융 우호도 50 이상(적대 시 80 이상·20점 차감), 일차전지 1개가 필요합니다. 도착 1~2일·대기 4일입니다. 대출은 일반·금융 우호도 합 70 이상이며 별도 계약 조건을 따릅니다.</HD_Company_FinancialDesc>
   <HD_Company_CommercialDesc>센트럴 철물상사의 상업 상단입니다. 금융 우호도 50 이상(적대 시 80 이상)이 필요합니다. 상단당 일차 전지 1개를 쓰며, 적대 요청은 금융 우호도 20점도 차감합니다. 1~2일 뒤 도착하며 회사별 대기시간은 4일입니다.</HD_Company_CommercialDesc>
   <HD_Company_PioneerDesc>LOW 헤로드 전진기지를 건설하고 체결한 계약을 확인합니다. 계약된 전진기지의 지원 서비스도 이 회사에 요청할 수 있습니다.</HD_Company_PioneerDesc>

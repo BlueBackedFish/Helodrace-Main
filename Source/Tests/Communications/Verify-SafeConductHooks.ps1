@@ -21,11 +21,13 @@ try {
     $harmony = [HarmonyLib.Harmony]::new('Helodrace.Tests.SafeConduct')
     $names = @('Patch_FinancialCaravanGenerationHostility', 'Patch_FinancialCaravanLord', 'Patch_FinancialCaravanThingHostility',
         'Patch_FinancialCaravanFactionHostility', 'Patch_FinancialCaravanCanTrade', 'Patch_FinancialCaravanPlayerDamage', 'Patch_FinancialCaravanDeparture',
-        'Patch_FinancialCaravanTradeMenu', 'Patch_FinancialCaravanDoorAccess')
+        'Patch_FinancialCaravanTradeMenu', 'Patch_FinancialCaravanDoorAccess', 'Patch_CaravanLossDamage',
+        'Patch_CaravanLossDeath', 'Patch_CaravanLossDowned', 'Patch_CaravanLossDrops')
     foreach ($name in $names) {
         $type = $mod.GetType('Helodrace.Economy.' + $name, $true)
         $patched = $harmony.CreateClassProcessor($type).Patch()
-        if ($patched.Count -ne 1) { throw "Expected one method for $name" }
+        $expected = if ($name -eq 'Patch_CaravanLossDrops') { 2 } else { 1 }
+        if ($patched.Count -ne $expected) { throw "Expected $expected method(s) for $name" }
     }
     function New-FactionFixture([bool]$player) {
         $faction = [Runtime.Serialization.FormatterServices]::GetUninitializedObject([RimWorld.Faction])
@@ -69,7 +71,7 @@ try {
         throw 'Loan cash delivery cannot bind the installed game caravan meeting state'
     }
     Write-Output 'PASS: Loan cash delivery binds the actual caravan meeting state and destination field.'
-    Write-Output 'PASS: Nine safe-conduct hooks register, including the native trade menu and door checks; faction scopes restore nested state and do not leak.'
+    Write-Output 'PASS: Nine safe-conduct and five loss-accounting hooks register; faction scopes restore nested state and do not leak.'
 
 }
 finally {
