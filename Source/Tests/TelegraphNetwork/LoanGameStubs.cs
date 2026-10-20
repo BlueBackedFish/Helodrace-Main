@@ -78,6 +78,7 @@ namespace Helodrace
 }
 namespace Helodrace.Economy
 {
+    public static class FinancialCaravanUtility { public static bool IsProtected(Pawn pawn) => pawn?.Spawned == true && pawn.Protected; }
     internal static class HelodMoneyTrading { public static ThingDef MoneyDef => DefDatabase<ThingDef>.Value; }
     public sealed class FinancialCaravanScope : IDisposable
     {

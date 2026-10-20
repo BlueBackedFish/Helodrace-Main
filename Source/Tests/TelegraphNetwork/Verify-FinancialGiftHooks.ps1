@@ -26,7 +26,7 @@ try {
         'Patch_FinancialGiftTradeText', 'GoodwillSituationWorker_Financial')) {
         if ($null -ne $mod.GetType('Helodrace.Economy.' + $name)) { throw "Obsolete financial replacement remains: $name" }
     }
-    Write-Output 'PASS: Half-sized financial rewards supplement vanilla goodwill; obsolete gift valuation, UI and baseline patches are absent.'
+    Write-Output 'PASS: Economic reward hook registers, including financial-only safe-conduct trade; obsolete gift valuation, UI and baseline patches are absent.'
 
 }
 finally {

@@ -4,21 +4,30 @@ using Verse;
 
 namespace Helodrace.Economy
 {
-    // Vanilla still grants diplomatic goodwill and owns its messages/history.
+    // Ordinary trade/gifts retain vanilla diplomacy. Safe-conduct trade only
+    // grants financial credit; it must not repair the underlying hostile relation.
     // Financial credit is a separate half-sized reward, including at the normal
     // diplomatic cap. Do not replace or recalculate gift valuation.
     [HarmonyPatch(typeof(Faction), nameof(Faction.TryAffectGoodwillWith))]
     public static class Patch_FinancialEconomicReward
     {
         [HarmonyPrefix]
-        public static void Prefix(Faction __instance, Faction other, int goodwillChange, HistoryEventDef reason, ref float __state)
+        public static bool Prefix(Faction __instance, Faction other, int goodwillChange, HistoryEventDef reason, ref float __state, ref bool __result)
         {
             __state = 0f;
             if (GameComponent_FinancialGoodwill.Current == null || other == null
                 || (reason != HistoryEventDefOf.GaveGift && reason != HistoryEventDefOf.Traded)
                 || goodwillChange <= 0 || __instance.IsPlayer == other.IsPlayer
-                || !__instance.CanChangeGoodwillFor(other, goodwillChange)) return;
+                || !__instance.CanChangeGoodwillFor(other, goodwillChange)) return true;
             __state = FinancialGoodwillRules.HalfReward(__instance.CalculateAdjustedGoodwillChange(other, goodwillChange));
+            Faction recipient = __instance.IsPlayer ? other : __instance;
+            if (reason == HistoryEventDefOf.Traded && TradeSession.trader is Pawn trader
+                && trader.Faction == recipient && FinancialCaravanUtility.IsProtected(trader))
+            {
+                __result = true;
+                return false;
+            }
+            return true;
         }
 
         [HarmonyPostfix]

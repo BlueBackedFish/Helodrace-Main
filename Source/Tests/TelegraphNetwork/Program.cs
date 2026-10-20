@@ -62,33 +62,49 @@ internal static partial class Program
             "Service rewards respect the financial cap");
         ledger.TrySet(faction, 0f);
         float state = 0;
-        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 11, HistoryEventDefOf.GaveGift, ref state);
+        bool rewardResult = false;
+        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 11, HistoryEventDefOf.GaveGift, ref state, ref rewardResult);
         Check(state == 5.5f, "Gift credit is half the evaluated diplomatic award, retaining half-points");
         faction.TryAffectGoodwillWith(Faction.OfPlayer, 11, reason: HistoryEventDefOf.GaveGift);
         Patch_FinancialEconomicReward.Postfix(Faction.OfPlayer, faction, state);
         Check(faction.PlayerGoodwill == 31 && ledger.Get(faction) == 5.5f, "Gifts increase both vanilla goodwill and half-sized financial reputation");
-        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 3, HistoryEventDefOf.Traded, ref state);
+        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 3, HistoryEventDefOf.Traded, ref state, ref rewardResult);
         faction.TryAffectGoodwillWith(Faction.OfPlayer, 3, reason: HistoryEventDefOf.Traded);
         Patch_FinancialEconomicReward.Postfix(Faction.OfPlayer, faction, state);
         Check(faction.PlayerGoodwill == 34 && ledger.Get(faction) == 7f, "Trade goodwill stays vanilla and adds half its award to finance");
+        TradeSession.trader = new Pawn { Faction = faction, Protected = true };
+        bool runVanilla = Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 6, HistoryEventDefOf.Traded, ref state, ref rewardResult);
+        if (runVanilla) faction.TryAffectGoodwillWith(Faction.OfPlayer, 6, reason: HistoryEventDefOf.Traded);
+        Patch_FinancialEconomicReward.Postfix(Faction.OfPlayer, faction, state);
+        Check(!runVanilla && rewardResult && faction.PlayerGoodwill == 34 && ledger.Get(faction) == 10f,
+            "Safe-conduct trading adds only the normal half-sized financial reward and never diplomatic goodwill");
+        Check(Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 2, HistoryEventDefOf.GaveGift, ref state, ref rewardResult),
+            "Safe-conduct trade rules do not replace gift diplomacy");
+        Check(Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, new Faction(), 2, HistoryEventDefOf.Traded, ref state, ref rewardResult),
+            "A safe-conduct merchant cannot redirect another faction's diplomatic rewards");
+        TradeSession.trader.Protected = false;
+        Check(Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 2, HistoryEventDefOf.Traded, ref state, ref rewardResult),
+            "Ordinary or breached caravans keep vanilla diplomatic trade rewards");
+        TradeSession.trader = null;
+        ledger.TrySet(faction, 7f);
         Check(faction.NaturalGoodwill == -10, "Finance does not shift the natural diplomatic baseline");
         Find.TickManager.TicksGame = 999999; ledger.GameComponentTick(); ledger.LoadedGame();
         Check(faction.PlayerGoodwill == 34, "Financial reputation grants no automatic diplomatic recovery");
         faction.PlayerGoodwill = 100;
-        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 2, HistoryEventDefOf.Traded, ref state);
+        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 2, HistoryEventDefOf.Traded, ref state, ref rewardResult);
         Patch_FinancialEconomicReward.Postfix(Faction.OfPlayer, faction, state);
         Check(ledger.Get(faction) == 8f && faction.PlayerGoodwill == 100, "The separate half reward can still accumulate at the diplomatic cap");
         foreach (var reason in new[] { (HistoryEventDef)null, new HistoryEventDef(), HistoryEventDefOf.ReachNaturalGoodwill })
         {
-            Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 10, reason, ref state);
+            Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 10, reason, ref state, ref rewardResult);
             Check(state == 0f, "Non-economic diplomacy cannot award financial reputation");
         }
-        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, -10, HistoryEventDefOf.Traded, ref state);
+        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, -10, HistoryEventDefOf.Traded, ref state, ref rewardResult);
         Check(state == 0f, "Negative economic changes are not half-sized rewards");
-        Patch_FinancialEconomicReward.Prefix(faction, new Faction(), 10, HistoryEventDefOf.GaveGift, ref state);
+        Patch_FinancialEconomicReward.Prefix(faction, new Faction(), 10, HistoryEventDefOf.GaveGift, ref state, ref rewardResult);
         Check(state == 0f, "NPC-to-NPC gifts are not player financial rewards");
         faction.CanChange = false;
-        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 10, HistoryEventDefOf.GaveGift, ref state);
+        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 10, HistoryEventDefOf.GaveGift, ref state, ref rewardResult);
         Check(state == 0f, "Vanilla restrictions also gate financial rewards"); faction.CanChange = true;
         Check(!ledger.TrySet(null, 10) && !ledger.TrySet(Faction.OfPlayer, 10), "Invalid and self relationships cannot be written");
         Check(!ledger.TrySet(faction, float.NaN) && !ledger.TrySet(faction, float.PositiveInfinity), "Non-finite values cannot corrupt financial balances");
@@ -109,7 +125,7 @@ internal static partial class Program
             "Protected-caravan damage uses the vanilla damage-scaled goodwill penalty");
         Check(FinancialGoodwillRules.CaravanAttackPenalty(0) == 0, "Zero damage cannot deduct financial reputation");
         Current.Game = null;
-        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 10, HistoryEventDefOf.GaveGift, ref state);
+        Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 10, HistoryEventDefOf.GaveGift, ref state, ref rewardResult);
         Check(state == 0f, "The economic reward hook remains safe outside a game");
     }
 

@@ -70,7 +70,7 @@ namespace Verse
     }
     public class Pawn : Thing
     {
-        public bool Dead, Downed, InMentalState;
+        public bool Dead, Downed, InMentalState, Protected;
         public RimWorld.Pawn_TraderTracker trader;
         public AI.Group.Lord Lord;
         public readonly Health health = new Health();
@@ -238,6 +238,7 @@ namespace RimWorld
     }
     public sealed class Dialog_Trade { public void DoWindowContents() { } }
     public sealed class TraderKindDef { }
+    public static class TradeSession { public static Verse.Pawn trader; }
     public sealed class Pawn_TraderTracker { public bool CanTradeNow = true; public TraderKindDef traderKind = new TraderKindDef(); }
     public static class PawnCapacityDefOf { public static readonly object Talking = new object(); }
     public static class SkillDefOf { public static readonly object Social = new object(); }
