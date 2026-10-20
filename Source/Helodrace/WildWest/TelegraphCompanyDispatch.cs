@@ -151,6 +151,7 @@ namespace Helodrace
             foreach (Pawn pawn in squad)
                 GenSpawn.Spawn(pawn, CellFinder.RandomClosewalkCellNear(entry, map, 8), map);
             LordMaker.MakeNewLord(provider, new LordJob_Harrington(Faction.OfPlayer, actor.Position), map, squad);
+            GameComponent_FinancialGoodwill.Current?.RecordServicePayment(provider, TelegraphCompanies.HarringtonCost);
             comp.ConsumePrimaryCell();
             harringtonNextRequestTick = Find.TickManager.TicksGame + TelegraphCompanies.HarringtonDurationTicks;
             Messages.Message("HD_Company_HarringtonArrived".Translate(squad.Count), actor, MessageTypeDefOf.PositiveEvent);

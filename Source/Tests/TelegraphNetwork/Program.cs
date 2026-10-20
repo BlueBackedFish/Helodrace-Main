@@ -51,6 +51,15 @@ internal static class Program
         var ledger = new GameComponent_FinancialGoodwill(game); game.Component = ledger;
         var faction = new Faction { PlayerGoodwill = 20, NativeNaturalGoodwill = -10 };
         Check(ledger.Get(faction) == 0, "Financial reputation starts independently at zero");
+        Check(ledger.RecordServicePayment(faction, 25) == 1.25f && ledger.Get(faction) == 1.25f,
+            "Paid services award one financial point per 20 notes, preserving fractional payments");
+        Check(ledger.RecordServicePayment(faction, 0) == 0f && ledger.RecordServicePayment(faction, -20) == 0f,
+            "Zero or invalid payments cannot award financial reputation");
+        Check(faction.PlayerGoodwill == 20, "Service payments do not change diplomatic goodwill");
+        ledger.TrySet(faction, 99f);
+        Check(ledger.RecordServicePayment(faction, 500) == 1f && ledger.Get(faction) == 100f,
+            "Service rewards respect the financial cap");
+        ledger.TrySet(faction, 0f);
         float state = 0;
         Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, faction, 11, HistoryEventDefOf.GaveGift, ref state);
         Check(state == 5.5f, "Gift credit is half the evaluated diplomatic award, retaining half-points");

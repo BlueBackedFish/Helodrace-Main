@@ -761,7 +761,12 @@ namespace Helodrace
                 return false;
             }
 
-            ConsumeAvailableThing(preferredMap, moneyDef, moneyNeeded);
+            if (!ConsumeAvailableThing(preferredMap, moneyDef, moneyNeeded))
+            {
+                failReason = "HD_ForwardBase_PeriodPaymentFailed".Translate(moneyNeeded).ToString();
+                return false;
+            }
+            Economy.GameComponent_FinancialGoodwill.Current?.RecordServicePayment(Faction, moneyNeeded);
             return true;
         }
 

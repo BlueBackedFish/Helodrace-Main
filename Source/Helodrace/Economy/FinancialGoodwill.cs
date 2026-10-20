@@ -35,6 +35,9 @@ namespace Helodrace.Economy
             return TrySet(faction, previous + goodwill) ? Get(faction) - previous : 0f;
         }
 
+        public float RecordServicePayment(Faction faction, int paid)
+            => Adjust(faction, FinancialGoodwillRules.ServiceReward(paid));
+
         public bool TrySpend(Faction faction, float cost)
         {
             if (cost <= 0f || float.IsNaN(cost) || float.IsInfinity(cost) || Get(faction) < cost) return false;

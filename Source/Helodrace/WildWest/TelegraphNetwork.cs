@@ -95,6 +95,7 @@ namespace Helodrace
 
             if (!TryPay(negotiator, TelegraphNetworkRules.InstallationCost, out reason)) return false;
             provider = trader.Faction;
+            Economy.GameComponent_FinancialGoodwill.Current?.RecordServicePayment(provider, TelegraphNetworkRules.InstallationCost);
             readyTick = Find.TickManager.TicksGame + Rand.RangeInclusive(
                 TelegraphNetworkRules.MinimumInstallationTicks, TelegraphNetworkRules.MaximumInstallationTicks);
             activationNotified = false;
@@ -105,6 +106,7 @@ namespace Helodrace
         public bool TryPay(Pawn negotiator, int amount, out string reason)
         {
             reason = null;
+            if (amount <= 0) return false;
             if (negotiator == null || !negotiator.Spawned || negotiator.Map != map || negotiator.Faction != Faction.OfPlayer)
             {
                 reason = "HD_Telegraph_OperatorUnavailable".Translate();
