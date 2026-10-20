@@ -198,7 +198,6 @@ namespace Helodrace
         private int w48DeliveryTick;
         private int w48AuthorizationExpiryTick;
         private const int WithdrawalTicks = 3 * GenDate.TicksPerDay;
-        private const int PaymentFailureGoodwillPenalty = -12;
         private const int ContractCompleteGoodwillBonus = 6;
 
         public string ContractInfo => contractInfo;

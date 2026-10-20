@@ -15,11 +15,9 @@ namespace Helodrace
         {
             if (paymentDefaultProcessed) return;
             paymentDefaultProcessed = true;
-            if (Faction != null && Faction != Faction.OfPlayer)
-                Faction.TryAffectGoodwillWith(Faction.OfPlayer, PaymentFailureGoodwillPenalty);
             ContractArrears.Process(Faction, CaravanLossKind.ForwardBaseOverdue,
                 GetUniqueLoadID() + "/" + usagePeriodStartTick, TelegraphCompanies.Name(TelegraphCompany.PioneerOverseasService),
-                LabelCap, Mathf.CeilToInt(PeriodUsageCost()));
+                LabelCap, Mathf.CeilToInt(PeriodUsageCost()), 0f);
             Messages.Message("HD_ForwardBase_PeriodPaymentDefaulted".Translate(), this, MessageTypeDefOf.NegativeEvent);
             BeginWithdrawal();
         }

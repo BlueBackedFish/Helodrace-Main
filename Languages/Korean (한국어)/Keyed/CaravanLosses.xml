@@ -12,7 +12,7 @@
   <HD_CaravanLoss_Kind_Death>사망</HD_CaravanLoss_Kind_Death>
   <HD_CaravanLoss_Kind_ForwardBaseOverdue>전진기지 연체</HD_CaravanLoss_Kind_ForwardBaseOverdue>
   <HD_CaravanLoss_Kind_LoanOverdue>대출 연체</HD_CaravanLoss_Kind_LoanOverdue>
-  <HD_CaravanLoss_Arrears>미납 {0} 스탈레르 / 환산 단가 은화 {1}\n추가 일반 우호도 -{2} / 금융 우호도 -{3}</HD_CaravanLoss_Arrears>
+  <HD_CaravanLoss_Arrears>미납 {0} 스탈레르 / 환산 단가 은화 {1}\n일반 우호도 벌점 -{2} / 금융 우호도 벌점 -{3}</HD_CaravanLoss_Arrears>
   <HD_CaravanLoss_Time>진행 {0}일차 {1}시</HD_CaravanLoss_Time>
   <HD_CaravanLoss_Value>은화 {0}</HD_CaravanLoss_Value>
   <HD_CaravanLoss_Item>{0} × {1} / 개당 시가 {2}</HD_CaravanLoss_Item>

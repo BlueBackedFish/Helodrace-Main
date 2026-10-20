@@ -142,9 +142,11 @@ namespace Helodrace.Economy
         {
             if (contract.OverdueNotified || !contract.Account.Overdue(now)) return;
             contract.OverdueNotified = true;
+            // Undelivered funds had their collateral refunded; repayments do not
+            // reduce the collateral originally used by the funded loan.
             ContractArrears.Process(contract.Lender, CaravanLossKind.LoanOverdue, "Loan_" + contract.ContractId,
                 TelegraphCompanies.Name(TelegraphCompany.NationalIndustrialCredit), contract.Destination?.Parent.LabelCap,
-                contract.Account.Outstanding);
+                contract.Account.Outstanding, LoanRules.CreditFor(contract.Account.Disbursed));
             Find.LetterStack.ReceiveLetter("HD_Loan_OverdueTitle".Translate(),
                 "HD_Loan_Overdue".Translate(contract.Lender?.Name ?? "?", contract.Account.Outstanding), LetterDefOf.NegativeEvent);
         }

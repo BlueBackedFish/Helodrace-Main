@@ -14,7 +14,6 @@ namespace Helodrace
         public string Id = "Base_1", LabelCap = "Forward base";
         public int WithdrawalCount;
         public float Bill = 80.25f;
-        private const int PaymentFailureGoodwillPenalty = -12;
         private int usagePeriodStartTick = 60000;
         public string GetUniqueLoadID() => Id;
         private float PeriodUsageCost() => Bill;

@@ -100,19 +100,19 @@ internal static partial class Program
         var overdueEntry = losses.Entries(lender).Single(e => e.Kind == CaravanLossKind.LoanOverdue);
         Check(overdueEntry.Count == 599 && overdueEntry.Value == 2995d && overdueEntry.GoodwillPenalty == 30,
             "Only outstanding principal at default is recorded, converted from Sthaler to silver");
-        Check(lender.PlayerGoodwill == -10 && ledger.Get(lender) == 5.02f && overdueEntry.FinancialPenalty.ToString("0.##") == "5.03",
-            "Loan default applies the extra 30 diplomatic and rounded 50-percent financial penalty once");
+        Check(lender.PlayerGoodwill == -10 && ledger.Get(lender) == -9.95f && overdueEntry.FinancialPenalty.ToString("0.##") == "20",
+            "Loan default deducts half the original contract collateral even after partial repayment, once");
         var otherLender = new Faction { def = lender.def, PlayerGoodwill = 100 };
         ledger.TrySet(otherLender, 100f);
         Check(loans.BorrowFailure(otherLender, 20, 15) == "HD_Loan_OverdueBlock", "An overdue loan prevents new borrowing across lenders");
         loans = ReloadLoans(loans); contract = loans.OpenContract(lender); loans.GameComponentTick();
-        Check(Find.LetterStack.Count == letters + 1 && losses.Entries(lender).Count() == 1 && ledger.Get(lender) == 5.02f,
+        Check(Find.LetterStack.Count == letters + 1 && losses.Entries(lender).Count() == 1 && ledger.Get(lender) == -9.95f,
             "Reloading cannot duplicate an overdue notice, loss record or penalty");
-        Check(loans.TryRepay(actor, terminal, contract, 599, out _) && contract.Account.Closed && ledger.Get(lender) == 34.97f && Balance(map) == 0,
+        Check(loans.TryRepay(actor, terminal, contract, 599, out _) && contract.Account.Closed && ledger.Get(lender) == 20f && Balance(map) == 0,
             "Full overdue repayment restores collateral but keeps the default penalty and closes the debt");
         Check(loans.OpenContract(lender) == null && loans.BorrowFailure(otherLender, 20, 15) == null,
             "Clearing overdue principal removes the global borrowing restriction");
-        Check(!loans.TryRepay(actor, terminal, contract, 1, out _) && ledger.Get(lender) == 34.97f, "Closed contracts cannot restore collateral twice");
+        Check(!loans.TryRepay(actor, terminal, contract, 1, out _) && ledger.Get(lender) == 20f, "Closed contracts cannot restore collateral twice");
         Check(losses.Total(lender, CaravanLossKind.LoanOverdue) == 2995d, "Repaying arrears does not erase their historical loss record");
         ledger.TrySet(lender, 0f);
         for (int i = 0; i < 800; i++) ledger.Adjust(lender, LoanRules.CreditFor(1));

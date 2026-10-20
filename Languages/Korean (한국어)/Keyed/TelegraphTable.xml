@@ -69,7 +69,7 @@
   <HD_ForwardBase_ServiceUsageUnit_Shot>발</HD_ForwardBase_ServiceUsageUnit_Shot>
   <HD_ForwardBase_ServiceUsageReimbursable>비용 상환 누적액: {0}</HD_ForwardBase_ServiceUsageReimbursable>
   <HD_ForwardBase_PeriodPaymentFailed>서비스 기간 정산 실패: HD_Money {0}개가 필요합니다.</HD_ForwardBase_PeriodPaymentFailed>
-  <HD_ForwardBase_PeriodPaymentDefaulted>서비스 기간 정산에 실패했습니다. 미납액을 손해 장부에 기록하고 기존 벌점 외에 일반 우호도 30점과 금융 우호도 절댓값의 50%를 추가 차감했습니다. 전진기지가 철수합니다.</HD_ForwardBase_PeriodPaymentDefaulted>
+  <HD_ForwardBase_PeriodPaymentDefaulted>서비스 기간 정산에 실패했습니다. 미납액을 손해 장부에 기록하고 일반 우호도 15점과 금융 우호도 30점을 차감했습니다. 전진기지가 철수합니다.</HD_ForwardBase_PeriodPaymentDefaulted>
   <HD_ForwardBase_ContractTimeLeft>남은 계약 기간: {0}</HD_ForwardBase_ContractTimeLeft>
   <HD_ForwardBase_ContractCompleted>전진기지 계약이 종료되었습니다. 우호도가 조금 상승했습니다.</HD_ForwardBase_ContractCompleted>
   <HD_ForwardBase_WithdrawalTimeLeft>남은 철수 기간: {0}</HD_ForwardBase_WithdrawalTimeLeft>
