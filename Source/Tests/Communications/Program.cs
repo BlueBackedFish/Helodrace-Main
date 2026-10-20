@@ -304,8 +304,15 @@ internal static class Program
             "The arms caravan includes hunting clothing, medicine, provisions and leather");
         var oilStock = XDocument.Load("Defs/Finance/TraderKinds_Petroleum.xml").Root.Element("TraderKindDef").Element("stockGenerators")
             .Elements("li").Where(d => (string)d.Attribute("Class") == "StockGenerator_SingleDef").Select(d => (string)d.Element("thingDef")).ToHashSet();
-        Check(new[] { "HD_CrudeOil_Low", "HD_CrudeOil_High", "Chemfuel", "HD_Diesel", "HD_Kerosene", "HD_Naphtha", "HD_AromaticBaseOil" }.All(oilStock.Contains),
-            "Petroleum stock sells crude oils, refined fuels and aromatic base oil");
+        Check(new[] { "HD_CrudeOil_Low", "Chemfuel", "HD_Diesel", "HD_Kerosene", "HD_Naphtha", "HD_AromaticBaseOil" }.All(oilStock.Contains),
+            "Petroleum stock sells crude oil, refined fuels and aromatic base oil");
+        // Parse XML elements rather than matching text: commented-out item definitions are not loaded by the game.
+        var activeThings = Directory.EnumerateFiles("Defs", "*.xml", SearchOption.AllDirectories)
+            .SelectMany(path => XDocument.Load(path).Root.Elements("ThingDef"))
+            .Where(d => (string)d.Attribute("Abstract") != "True")
+            .Select(d => (string)d.Element("defName")).Where(n => n != null).ToHashSet();
+        foreach (string item in oilStock.Where(n => n.StartsWith("HD_")))
+            Check(activeThings.Contains(item), "Petroleum stock must reference an active ThingDef: " + item);
         foreach (var entry in new[] { ("TraderKinds_Arms.xml", TelegraphCompanies.ArmsTrader, TelegraphCompany.WhitmoreArms),
             ("TraderKinds_Petroleum.xml", TelegraphCompanies.PetroleumTrader, TelegraphCompany.ContinentalPetroleum) })
         {

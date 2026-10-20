@@ -17,10 +17,6 @@
         <countRange>200~400</countRange>
       </li>
       <li Class="StockGenerator_SingleDef">
-        <thingDef>HD_CrudeOil_High</thingDef>
-        <countRange>100~200</countRange>
-      </li>
-      <li Class="StockGenerator_SingleDef">
         <thingDef>Chemfuel</thingDef>
         <countRange>300~600</countRange>
       </li>
