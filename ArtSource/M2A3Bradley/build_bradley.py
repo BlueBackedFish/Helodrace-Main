@@ -190,11 +190,7 @@ for side in (-1,1):
         for yy in [y-.32,y+.32]:
             cylinder('Skirt fastener',(side*1.705,yy,1.39),.028,.015,edge,axis='X',vertices=8)
         rod('Skirt grab handle',(side*1.72,y-.13,1.17),(side*1.72,y+.13,1.17),.022)
-    for i in range(5):
-        y=-1.4+i*.84
-        profile('Upper side applique',[(y-.40,1.51),(y+.40,1.51),(y+.40,2.03),(y-.40,2.03)],side*1.51-.04,side*1.51+.04)
-        for yy in [y-.30,y+.30]:
-            cylinder('Upper armor bolt',(side*1.56,yy,1.92),.025,.018,edge,axis='X',vertices=8)
+    # Base configuration: continuous upper hull, no added rectangular tile row.
     box('Rear fender',(side*1.39,2.77,1.23),(.63,.5,.14))
     box('Front fender',(side*1.39,-2.85,1.18),(.62,.46,.13))
 
@@ -373,11 +369,15 @@ for side in [-1,1]:
     c,d=Vector(rings[2][edge_index]),Vector(rings[2][next_index])
     outward=(b-a).cross(c-a).normalized()
     if outward.dot((a+b+c+d)/4-Vector((-.18,-.38,2.6)))<0:outward=-outward
-    for i in range(3):
-        t=.22+i*.24
-        start=a.lerp(b,t).lerp(c.lerp(d,t),.66)
+    for i in range(4):
+        t=.16+i*.22
+        start=a.lerp(b,t).lerp(c.lerp(d,t),.49+(i%2)*.13)
         rod('Smoke launcher mounting boss',start-outward*.025,start+outward*.04,.062,parent=turret)
-        rod('Smoke grenade tube',start+outward*.025,start+outward*.22+Vector((0,0,.07)),.052,parent=turret)
+        end=start+outward*.26+Vector((0,0,.11))
+        direction=(end-start).normalized()
+        rod('Smoke grenade tube',start+outward*.025,end,.059,parent=turret)
+        rod('Smoke grenade black cap',end-direction*.018,end+direction*.027,.066,rubber,parent=turret)
+        rod('Smoke cap inset',end+direction*.027,end+direction*.031,.046,steel,parent=turret)
 
 # Blueprint fittings, before relocating the complete turret assembly.
 box('TOW launcher side cover',(-1.66,-.15,2.99),(.035,1.34,.44),parent=turret)
@@ -386,6 +386,32 @@ for y in [-.65,.37]:
     box('TOW cover latch',(-1.69,y,2.85),(.04,.08,.07),edge,parent=turret)
 box('TOW rear cap',(-1.43,.64,2.99),(.46,.06,.59),parent=turret)
 box('Main sight center mullion',(.34,-.833,3.28),(.035,.025,.25),parent=turret)
+# Museum M2A3 photographs: CIV rotation collar, antenna cage, lifting eyes,
+# mantlet-side grenade stowage and the casing-ejection flap above the gun.
+cylinder('CITV rotation collar',(.42,.53,3.22),.245,.12,parent=turret)
+box('CITV rear access plate',(.42,.74,3.40),(.27,.035,.18),parent=turret)
+for x in [.29,.55]:
+    for z in [3.32,3.47]:
+        cylinder('CITV cover fastener',(x,.765,z),.018,.012,edge,parent=turret,axis='Y',vertices=8)
+for x,y in [(-.84,.62),(.68,.42)]:
+    for dx in [-.11,.11]:
+        rod('Antenna guard upright',(x+dx,y,3.02),(x+dx,y,3.26),.018,parent=turret)
+    for k in range(12):
+        a=math.pi*k/12;b=math.pi*(k+1)/12
+        rod('Antenna guard arch',(x+.11*math.cos(a),y,3.26+.11*math.sin(a)),
+            (x+.11*math.cos(b),y,3.26+.11*math.sin(b)),.018,parent=turret)
+for x in [-.61,.25]:
+    box('Smoke grenade stowage box',(x,-1.22,2.36),(.29,.26,.19),parent=turret)
+    box('Smoke stowage lid',(x,-1.22,2.46),(.31,.28,.025),parent=turret)
+    box('Smoke stowage latch',(x,-1.36,2.39),(.055,.025,.09),edge,parent=turret)
+box('Casing ejection flap',(-.18,-1.21,2.91),(.24,.15,.045),parent=turret)
+for y in [-2.88,-2.74,-2.60,-2.46,-2.32,-2.18]:
+    rod('Cannon fluted rib',(-.137,y,2.69),(-.137,y+.10,2.69),.009,steel,parent=gun,vertices=6)
+for x in [-.79,.53]:
+    for k in range(12):
+        a=k*math.tau/12;b=(k+1)*math.tau/12
+        rod('Turret lifting eye',(x+.055*math.cos(a),.68,2.99+.065*math.sin(a)),
+            (x+.055*math.cos(b),.68,2.99+.065*math.sin(b)),.018,parent=turret)
 for i in [3,7]:
     j=(i+1)%n
     a=Vector(rings[1][i]).lerp(Vector(rings[1][j]),.48)
@@ -436,7 +462,7 @@ assert world_bounds(armor)[0][1]>-.8
 # Narrow painted highlights mimic the reference's crisp light panel rims.
 # Applied geometry keeps the exact same emission appearance in Blender and GLB.
 # Only substantial armor/hardware receives the treatment, not bolts or handles.
-rim_parts = ('Main hull', 'Deck rim', 'Side skirt panel', 'Upper side applique',
+rim_parts = ('Main hull', 'Deck rim', 'Side skirt panel',
              'Rear fender', 'Front fender', 'Driver hatch', 'Rear roof hatch',
              'Rear deck stowage', 'Ramp ', 'Personnel door', 'Rear door jamb',
              'Rear lintel', 'Faceted turret', 'Turret roof', 'Gun mantlet',
@@ -457,6 +483,49 @@ for obj in list(bpy.data.objects):
     bevel.material = len(obj.data.materials)-1
     bpy.context.view_layer.objects.active = obj
     bpy.ops.object.modifier_apply(modifier=bevel.name)
+
+# Camera-relative emission shading: facing surfaces and nearer depth are brighter,
+# without lights, AO or cast shadows. Paint on the turret gets a separate boost.
+def under(obj,parent):
+    while obj:
+        if obj==parent:return True
+        obj=obj.parent
+    return False
+turret_materials={}
+for obj in list(bpy.data.objects):
+    if obj.type=='MESH' and under(obj,turret):
+        for slot in obj.material_slots:
+            base=slot.material
+            if base.name.startswith('TAN |'):
+                if base.name not in turret_materials:
+                    m=base.copy();m.name='Turret '+base.name
+                    m.diffuse_color=tuple(min(v*1.18,.92) for v in base.diffuse_color[:3])+(1,)
+                    turret_materials[base.name]=m
+                slot.material=turret_materials[base.name]
+for m in bpy.data.materials:
+    if not m.use_nodes:continue
+    nodes=m.node_tree.nodes;links=m.node_tree.links
+    emission=next((n for n in nodes if n.type=='EMISSION'),None)
+    if not emission:continue
+    facing=nodes.new('ShaderNodeLayerWeight')
+    facing.inputs['Blend'].default_value=.5
+    inverse=nodes.new('ShaderNodeMath');inverse.operation='SUBTRACT';inverse.inputs[0].default_value=1
+    links.new(facing.outputs['Facing'],inverse.inputs[1])
+    strength=nodes.new('ShaderNodeMath');strength.operation='MULTIPLY_ADD'
+    strength.inputs[1].default_value=.24;strength.inputs[2].default_value=.82
+    links.new(inverse.outputs[0],strength.inputs[0])
+    camera=nodes.new('ShaderNodeCameraData')
+    depth=nodes.new('ShaderNodeMapRange');depth.clamp=True
+    depth.inputs['From Min'].default_value=12;depth.inputs['From Max'].default_value=20
+    depth.inputs['To Min'].default_value=1.04;depth.inputs['To Max'].default_value=.94
+    links.new(camera.outputs['View Z Depth'],depth.inputs['Value'])
+    product=nodes.new('ShaderNodeMath');product.operation='MULTIPLY'
+    links.new(strength.outputs[0],product.inputs[0]);links.new(depth.outputs['Result'],product.inputs[1])
+    color=nodes.new('ShaderNodeMixRGB');color.name='Camera paint modulation';color.blend_type='MULTIPLY'
+    color.inputs[0].default_value=1;color.inputs[1].default_value=m.diffuse_color
+    links.new(product.outputs[0],color.inputs[2]);links.new(color.outputs[0],emission.inputs['Color'])
+assert sum(o.name.startswith('Smoke grenade tube') for o in bpy.data.objects)==8
+assert not any(o.name.startswith('Upper side applique') for o in bpy.data.objects)
 
 # One reusable demonstration action per moving pivot; frame 1 is clean rest pose.
 scene.render.fps=24
@@ -508,6 +577,14 @@ for screen in bpy.data.screens:
             area.spaces.active.region_3d.view_perspective='CAMERA'
             area.spaces.active.shading.type='MATERIAL'
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(OUT,'m2a3_bradley.blend'))
+# glTF has no camera-relative shader equivalent. Export a constant-emission
+# fallback; the saved blend above retains the complete sprite shading setup.
+for m in bpy.data.materials:
+    if not m.use_nodes:continue
+    emission=next((n for n in m.node_tree.nodes if n.type=='EMISSION'),None)
+    if emission:
+        for link in list(emission.inputs['Color'].links):m.node_tree.links.remove(link)
+        emission.inputs['Color'].default_value=m.diffuse_color
 bpy.ops.export_scene.gltf(filepath=os.path.join(OUT,'m2a3_bradley.glb'),export_format='GLB',export_animations=True,export_cameras=False,export_lights=False)
 
 # Verify saved scene, pivot hierarchy, neutral rest pose and actual rendered alpha.
@@ -526,7 +603,8 @@ for name in ['iso_front','iso_rear','north','east','south','west','ramp_open','p
     assert len(xs)>0 and min(xs)>8 and max(xs)<1015 and min(ys)>8 and max(ys)<1015
     renders[name]={'size':[1024,1024],'alpha_bounds':[int(min(xs)),int(min(ys)),int(max(xs)),int(max(ys))]}
     bpy.data.images.remove(im)
-manifest={'front_axis':'-Y','up_axis':'Z','material':'Desaturated TAN emission, bright panel rims, charcoal tracks; no lights or cast shadows',
+manifest={'front_axis':'-Y','up_axis':'Z','material':'Camera-facing and depth-modulated TAN emission; turret paint 1.18 linear boost; no lights or cast shadows',
+          'smoke_launcher_tubes':8,'upper_side_addon_panels':0,'glb_material':'Constant emission fallback; camera shader retained in blend only',
           'blueprint_corrections':{'turret_rearward_shift':.75,'turret_armor_length':2.32,'barrel_shortened':.40,
                                    'road_wheel_diameter':.74,'road_wheel_centers':wheel_centers,
                                    'minimum_wheel_clearance':round(min(b-a for a,b in zip(wheel_centers,wheel_centers[1:]))-.74,3),

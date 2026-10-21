@@ -1,7 +1,7 @@
 {
   "front_axis": "-Y",
   "up_axis": "Z",
-  "material": "Desaturated TAN emission, bright panel rims, charcoal tracks; no lights or cast shadows",
+  "material": "Camera-facing and depth-modulated TAN emission; turret paint 1.18 linear boost; no lights or cast shadows",
   "blueprint_corrections": {
     "turret_rearward_shift": 0.75,
     "turret_armor_length": 2.32,
@@ -26,7 +26,7 @@
     25.9
   ],
   "style_reference": "Installed RimThunder - Desert Sabre - Continued 3724793908; M2A3 and M1A2 grayscale textures inspected, not copied",
-  "mesh_objects": 647,
+  "mesh_objects": 708,
   "renders": {
     "iso_front": {
       "size": [
@@ -126,5 +126,8 @@
     }
   },
   "animation": "120 frames at 24fps; rest frame 1, door demo 25, turret/elevation 40, ramp 80",
-  "validation": "Reopened blend, hierarchy, no lights, PNG RGBA bounds passed"
+  "validation": "Reopened blend, hierarchy, no lights, PNG RGBA bounds passed",
+  "smoke_launcher_tubes": 8,
+  "upper_side_addon_panels": 0,
+  "glb_material": "Constant emission fallback; camera shader retained in blend only"
 }
