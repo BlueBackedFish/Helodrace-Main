@@ -2,8 +2,15 @@
   "front_axis": "-Y",
   "up_axis": "Z",
   "material": "Desaturated TAN emission, bright panel rims, charcoal tracks; no lights or cast shadows",
+  "turret_front_side_slope_degrees_from_vertical": [
+    27.38,
+    30.47,
+    29.79,
+    24.62,
+    25.87
+  ],
   "style_reference": "Installed RimThunder - Desert Sabre - Continued 3724793908; M2A3 and M1A2 grayscale textures inspected, not copied",
-  "mesh_objects": 504,
+  "mesh_objects": 506,
   "renders": {
     "iso_front": {
       "size": [

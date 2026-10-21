@@ -1,6 +1,6 @@
 {
   "preview_east": {
-    "objects": 504,
+    "objects": 506,
     "alpha_bounds_bottom_origin": [
       141,
       263,
@@ -18,7 +18,7 @@
     ]
   },
   "turret_east_test": {
-    "objects": 53,
+    "objects": 55,
     "alpha_bounds_bottom_origin": [
       377,
       397,

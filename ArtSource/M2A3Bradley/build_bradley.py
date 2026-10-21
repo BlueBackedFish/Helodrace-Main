@@ -249,12 +249,54 @@ for x in [-1.27,1.27]:
 # Offset two-man faceted turret, long cannon, left-side twin TOW launcher.
 cylinder('Turret ring',(-.18,-.38,2.15),.95,.17,parent=turret,vertices=48)
 outline=[(-1.21,-.94),(-.82,-1.38),(.42,-1.38),(.88,-.98),(.91,.46),(.59,.79),(-.96,.79),(-1.30,.34)]
-loft('Faceted turret armor',outline,2.25,2.91,.85,parent=turret)
-loft('Turret roof',outline,2.91,2.96,.84,parent=turret)
-for side in [-1,1]:
-    x=-.18+side*.96
-    for y in [-.73,-.12,.49]:
-        cylinder('Turret applique bolt',(x,y,2.7),.031,.022,edge,parent=turret,axis='X',vertices=8)
+# Blueprint: broad lower cheeks, inward-sloping upper front/side armor and
+# relatively upright rear bustle. Explicit matched rings avoid a full-width
+# roof lip hiding the slope when viewed from the high game camera.
+roof_outline=[(-.99,-.79),(-.68,-1.08),(.32,-1.08),(.65,-.80),
+              (.69,.46),(.56,.78),(-.92,.78),(-1.05,.31)]
+lower_outline=[(-.18+(x+.18)*.88,-.38+(y+.38)*.90) for x,y in outline]
+rings=[[(x,y,2.25) for x,y in lower_outline],
+       [(x,y,2.40) for x,y in outline],
+       [(x,y,2.91) for x,y in roof_outline]]
+n=len(outline)
+verts=[v for ring in rings for v in ring]
+faces=[tuple(range(n-1,-1,-1))]
+for level in range(2):
+    faces.extend((level*n+i,level*n+(i+1)%n,(level+1)*n+(i+1)%n,(level+1)*n+i) for i in range(n))
+faces.append(tuple(range(2*n,3*n)))
+armor=mesh('Faceted turret armor',verts,faces,parent=turret)
+# Keep sloped armor distinct from the roof even where normals tilt upward.
+for p in armor.data.polygons:
+    if len(p.vertices)==4:
+        p.material_index=1 if abs(p.normal.y)>.5 else 2
+loft('Turret roof',roof_outline,2.91,2.96,1,parent=turret)
+armor['construction']='Narrow lower base / broad shoulder at Z2.40 / inset roof at Z2.91; matched roof perimeter'
+slope_angles=[]
+for i in [0,1,2,3,7]:
+    j=(i+1)%n
+    a,b=Vector(rings[1][i]),Vector(rings[1][j])
+    c=Vector(rings[2][i])
+    normal=(b-a).cross(c-a).normalized()
+    angle=math.degrees(math.asin(abs(normal.z)))
+    assert angle>15, (i,angle)
+    slope_angles.append(round(angle,2))
+armor['front_side_slope_degrees_from_vertical']=slope_angles
+# Fasteners follow the actual sloped plates instead of floating at fixed X.
+for i in [0,2,3,7]:
+    j=(i+1)%n
+    a,b=Vector(rings[1][i]),Vector(rings[1][j])
+    c,d=Vector(rings[2][i]),Vector(rings[2][j])
+    normal=(b-a).cross(c-a).normalized()
+    midpoint=(a+b+c+d)/4
+    if normal.dot(midpoint-Vector((-.18,-.38,2.6)))<0:
+        normal=-normal
+    for t in [.22,.75]:
+        lower=a.lerp(b,t); upper=c.lerp(d,t)
+        pos=lower.lerp(upper,.64)+normal*.012
+        bolt=cylinder('Turret applique bolt',pos,.026,.018,edge,parent=None,vertices=8)
+        bolt.rotation_euler=normal.to_track_quat('Z','Y').to_euler()
+        bpy.context.view_layer.update()
+        world=bolt.matrix_world.copy();bolt.parent=turret;bolt.matrix_world=world
 box('Gun mantlet',(-.18,-1.34,2.69),(.53,.4,.37),parent=gun)
 rod('Cannon base',(-.18,-1.4,2.69),(-.18,-1.93,2.69),.11,parent=gun,vertices=12)
 rod('25mm cannon',(-.18,-1.88,2.69),(-.18,-3.44,2.69),.044,mats=edge,parent=gun,vertices=12)
@@ -387,6 +429,7 @@ for name in ['iso_front','iso_rear','north','east','south','west','ramp_open','p
     renders[name]={'size':[1024,1024],'alpha_bounds':[int(min(xs)),int(min(ys)),int(max(xs)),int(max(ys))]}
     bpy.data.images.remove(im)
 manifest={'front_axis':'-Y','up_axis':'Z','material':'Desaturated TAN emission, bright panel rims, charcoal tracks; no lights or cast shadows',
+          'turret_front_side_slope_degrees_from_vertical':slope_angles,
           'style_reference':'Installed RimThunder - Desert Sabre - Continued 3724793908; M2A3 and M1A2 grayscale textures inspected, not copied',
           'mesh_objects':sum(o.type=='MESH' for o in bpy.data.objects),'renders':renders,
           'animation':'120 frames at 24fps; rest frame 1, door demo 25, turret/elevation 40, ramp 80',
