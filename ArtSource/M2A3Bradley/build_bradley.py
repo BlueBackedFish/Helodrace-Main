@@ -43,6 +43,7 @@ glasslight = [material('Optics reflection', (129,153,151))]
 red = [material('Tail lamp red', (137,48,40))]
 white = [material('Headlamp ivory', (239,234,215))]
 rim = material('TAN | painted edge highlight', (237,230,209))
+turret_rim = material('TAN | turret slope transition', (191,182,157))
 
 def finish(obj, name, mats, parent=None):
     obj.name = name
@@ -239,6 +240,9 @@ box('Compartment floor',(0,2.5,.65),(2.09,.86,.06),edge)
 for x in [-1.13,1.13]:
     box('Rear door jamb',(x,2.91,1.35),(.16,.15,1.45))
 box('Rear lintel',(0,2.91,2.01),(2.2,.16,.15))
+# Close the roof between the deck ending at Y2.68 and the rear lintel.
+# This belongs to the fixed hull, so lowering the ramp leaves a roof overhead.
+box('Rear roof closure',(0,2.805,2.065),(2.26,.43,.07))
 # Rounded personnel hatch at blueprint rear-view left (+X), with a true opening.
 def rear_panel(name,cx,cz,width,height,radius,y,depth,mats=tan,parent=ramp):
     outline=[]
@@ -473,7 +477,7 @@ for obj in list(bpy.data.objects):
         continue
     if len(obj.data.materials) != 4:
         continue
-    obj.data.materials.append(rim)
+    obj.data.materials.append(turret_rim if obj.name.startswith(('Faceted turret','Turret roof')) else rim)
     bevel = obj.modifiers.new('Painted bright panel rim', 'BEVEL')
     bevel.width = .012
     bevel.segments = 1
@@ -609,6 +613,13 @@ assert bpy.data.objects['TURRET_YAW'].parent.name=='HULL'
 assert bpy.data.objects['GUN_ELEVATION'].parent.name=='TURRET_YAW'
 assert bpy.data.objects['PERSONNEL_DOOR_HINGE'].parent.name=='REAR_RAMP_HINGE'
 assert not [o for o in bpy.data.objects if o.type=='LIGHT']
+roof=bpy.data.objects['Rear roof closure']
+assert roof.parent.name=='HULL'
+for x in [-1.04,0,1.04]:
+    for y in [2.66,2.80,2.98]:
+        local=roof.matrix_world.inverted()@Vector((x,y,3))
+        hit,point,normal,index=roof.ray_cast(local,Vector((0,0,-1)))
+        assert hit and abs((roof.matrix_world@point).z-2.10)<.001
 for m in bpy.data.materials:
     if not m.use_nodes or not any(n.type=='EMISSION' for n in m.node_tree.nodes):continue
     height=m.node_tree.nodes['Height darkening']

@@ -53,7 +53,7 @@
     25.9
   ],
   "style_reference": "Installed RimThunder - Desert Sabre - Continued 3724793908; M2A3 and M1A2 grayscale textures inspected, not copied",
-  "mesh_objects": 708,
+  "mesh_objects": 709,
   "renders": {
     "iso_front": {
       "size": [
@@ -112,7 +112,7 @@
         306,
         131,
         717,
-        859
+        860
       ]
     },
     "west": {
