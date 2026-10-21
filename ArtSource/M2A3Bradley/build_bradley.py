@@ -521,9 +521,20 @@ for m in bpy.data.materials:
     links.new(camera.outputs['View Z Depth'],depth.inputs['Value'])
     product=nodes.new('ShaderNodeMath');product.operation='MULTIPLY'
     links.new(strength.outputs[0],product.inputs[0]);links.new(depth.outputs['Result'],product.inputs[1])
+    # Continuous root-space height tint: only darken, never brighten the palette.
+    # A shared reference prevents each separate panel restarting the gradient.
+    coordinates=nodes.new('ShaderNodeTexCoord');coordinates.object=bpy.data.objects['BRADLEY_ROOT']
+    height_axis=nodes.new('ShaderNodeSeparateXYZ')
+    links.new(coordinates.outputs['Object'],height_axis.inputs[0])
+    height=nodes.new('ShaderNodeMapRange');height.name='Height darkening';height.clamp=True
+    height.inputs['From Min'].default_value=0; height.inputs['From Max'].default_value=4.2
+    height.inputs['To Min'].default_value=.90; height.inputs['To Max'].default_value=1
+    links.new(height_axis.outputs['Z'],height.inputs['Value'])
+    shaded=nodes.new('ShaderNodeMath');shaded.operation='MULTIPLY'
+    links.new(product.outputs[0],shaded.inputs[0]);links.new(height.outputs['Result'],shaded.inputs[1])
     color=nodes.new('ShaderNodeMixRGB');color.name='Camera paint modulation';color.blend_type='MULTIPLY'
     color.inputs[0].default_value=1;color.inputs[1].default_value=m.diffuse_color
-    links.new(product.outputs[0],color.inputs[2]);links.new(color.outputs[0],emission.inputs['Color'])
+    links.new(shaded.outputs[0],color.inputs[2]);links.new(color.outputs[0],emission.inputs['Color'])
 assert sum(o.name.startswith('Smoke grenade tube') for o in bpy.data.objects)==8
 assert not any(o.name.startswith('Upper side applique') for o in bpy.data.objects)
 
@@ -593,6 +604,14 @@ assert bpy.data.objects['TURRET_YAW'].parent.name=='HULL'
 assert bpy.data.objects['GUN_ELEVATION'].parent.name=='TURRET_YAW'
 assert bpy.data.objects['PERSONNEL_DOOR_HINGE'].parent.name=='REAR_RAMP_HINGE'
 assert not [o for o in bpy.data.objects if o.type=='LIGHT']
+for m in bpy.data.materials:
+    if not m.use_nodes or not any(n.type=='EMISSION' for n in m.node_tree.nodes):continue
+    height=m.node_tree.nodes['Height darkening']
+    assert height.clamp and height.interpolation_type=='LINEAR'
+    assert 0 < height.inputs['To Min'].default_value < height.inputs['To Max'].default_value <= 1
+    assert height.inputs['From Min'].default_value < height.inputs['From Max'].default_value
+    coordinates=next(n for n in m.node_tree.nodes if n.type=='TEX_COORD')
+    assert coordinates.object==bpy.data.objects['BRADLEY_ROOT']
 import numpy as np
 renders={}
 for name in ['iso_front','iso_rear','north','east','south','west','ramp_open','personnel_open']:
@@ -603,7 +622,8 @@ for name in ['iso_front','iso_rear','north','east','south','west','ramp_open','p
     assert len(xs)>0 and min(xs)>8 and max(xs)<1015 and min(ys)>8 and max(ys)<1015
     renders[name]={'size':[1024,1024],'alpha_bounds':[int(min(xs)),int(min(ys)),int(max(xs)),int(max(ys))]}
     bpy.data.images.remove(im)
-manifest={'front_axis':'-Y','up_axis':'Z','material':'Camera-facing and depth-modulated TAN emission; turret paint 1.18 linear boost; no lights or cast shadows',
+manifest={'front_axis':'-Y','up_axis':'Z','material':'Camera-facing, depth and continuous height-modulated TAN emission; turret paint 1.18 linear boost; no lights or cast shadows',
+          'height_shading':{'coordinate_space':'BRADLEY_ROOT','z_range':[0,4.2],'linear_rgb_multiplier':[.90,1.0],'interpolation':'continuous linear, clamped; darkening only'},
           'smoke_launcher_tubes':8,'upper_side_addon_panels':0,'glb_material':'Constant emission fallback; camera shader retained in blend only',
           'blueprint_corrections':{'turret_rearward_shift':.75,'turret_armor_length':2.32,'barrel_shortened':.40,
                                    'road_wheel_diameter':.74,'road_wheel_centers':wheel_centers,
@@ -613,6 +633,6 @@ manifest={'front_axis':'-Y','up_axis':'Z','material':'Camera-facing and depth-mo
           'style_reference':'Installed RimThunder - Desert Sabre - Continued 3724793908; M2A3 and M1A2 grayscale textures inspected, not copied',
           'mesh_objects':sum(o.type=='MESH' for o in bpy.data.objects),'renders':renders,
           'animation':'120 frames at 24fps; rest frame 1, door demo 25, turret/elevation 40, ramp 80',
-          'validation':'Reopened blend, hierarchy, no lights, PNG RGBA bounds passed'}
+          'validation':'Reopened blend, hierarchy, no lights, continuous darkening-only root-space height shader, PNG RGBA bounds passed'}
 with open(os.path.join(OUT,'manifest.json'),'w',encoding='utf-8') as f:json.dump(manifest,f,indent=2)
 print('BRADLEY VALIDATION PASSED')

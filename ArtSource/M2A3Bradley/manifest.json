@@ -1,7 +1,22 @@
 {
   "front_axis": "-Y",
   "up_axis": "Z",
-  "material": "Camera-facing and depth-modulated TAN emission; turret paint 1.18 linear boost; no lights or cast shadows",
+  "material": "Camera-facing, depth and continuous height-modulated TAN emission; turret paint 1.18 linear boost; no lights or cast shadows",
+  "height_shading": {
+    "coordinate_space": "BRADLEY_ROOT",
+    "z_range": [
+      0,
+      4.2
+    ],
+    "linear_rgb_multiplier": [
+      0.9,
+      1.0
+    ],
+    "interpolation": "continuous linear, clamped; darkening only"
+  },
+  "smoke_launcher_tubes": 8,
+  "upper_side_addon_panels": 0,
+  "glb_material": "Constant emission fallback; camera shader retained in blend only",
   "blueprint_corrections": {
     "turret_rearward_shift": 0.75,
     "turret_armor_length": 2.32,
@@ -126,8 +141,5 @@
     }
   },
   "animation": "120 frames at 24fps; rest frame 1, door demo 25, turret/elevation 40, ramp 80",
-  "validation": "Reopened blend, hierarchy, no lights, PNG RGBA bounds passed",
-  "smoke_launcher_tubes": 8,
-  "upper_side_addon_panels": 0,
-  "glb_material": "Constant emission fallback; camera shader retained in blend only"
+  "validation": "Reopened blend, hierarchy, no lights, continuous darkening-only root-space height shader, PNG RGBA bounds passed"
 }
