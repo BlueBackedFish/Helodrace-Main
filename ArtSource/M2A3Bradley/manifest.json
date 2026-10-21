@@ -1,0 +1,106 @@
+{
+  "front_axis": "-Y",
+  "up_axis": "Z",
+  "material": "TAN emission, no lights or cast shadows",
+  "mesh_objects": 504,
+  "renders": {
+    "iso_front": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bounds": [
+        139,
+        168,
+        880,
+        830
+      ]
+    },
+    "iso_rear": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bounds": [
+        143,
+        171,
+        884,
+        825
+      ]
+    },
+    "north": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bounds": [
+        306,
+        138,
+        717,
+        961
+      ]
+    },
+    "east": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bounds": [
+        79,
+        263,
+        882,
+        775
+      ]
+    },
+    "south": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bounds": [
+        306,
+        131,
+        717,
+        859
+      ]
+    },
+    "west": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bounds": [
+        141,
+        263,
+        944,
+        719
+      ]
+    },
+    "ramp_open": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bounds": [
+        121,
+        114,
+        920,
+        813
+      ]
+    },
+    "personnel_open": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bounds": [
+        143,
+        171,
+        884,
+        813
+      ]
+    }
+  },
+  "animation": "120 frames at 24fps; rest frame 1, door demo 25, turret/elevation 40, ramp 80",
+  "validation": "Reopened blend, hierarchy, no lights, PNG RGBA bounds passed"
+}
