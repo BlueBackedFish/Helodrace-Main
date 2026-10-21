@@ -27,17 +27,22 @@ def material(name, rgb):
     m.node_tree.links.new(e.outputs[0], out.inputs['Surface'])
     return m
 
-tan = [material('TAN | upper faces', (210,185,139)),
-       material('TAN | fore and aft faces', (181,151,104)),
-       material('TAN | side faces', (192,162,116)),
-       material('TAN | underside', (139,113,79))]
-edge = [material('Panel edges and recesses', (116,94,66))]
-rubber = [material('Track rubber', (56,54,47))]
-steel = [material('Track metal', (95,91,76))]
-glass = [material('Optics blue black', (43,68,70))]
-glasslight = [material('Optics reflection', (94,135,140))]
-red = [material('Tail lamp red', (150,49,37))]
-white = [material('Headlamp ivory', (239,220,171))]
+# Reference: installed RimThunder - Desert Sabre - Continued (3724793908),
+# M2A3 vehicle_east / vehicle_turret_full and M1A2 vehicle_south textures.
+# Their neutral value maps use bright rims, gray panels and almost black tracks.
+# Reinterpret that value separation with a desaturated TAN palette; no image reuse.
+tan = [material('TAN | upper faces', (213,204,180)),
+       material('TAN | fore and aft faces', (150,141,120)),
+       material('TAN | side faces', (169,159,135)),
+       material('TAN | underside', (101,96,83))]
+edge = [material('Panel edges and recesses', (83,80,70))]
+rubber = [material('Track rubber', (30,31,29))]
+steel = [material('Track metal', (78,79,73))]
+glass = [material('Optics blue black', (32,44,45))]
+glasslight = [material('Optics reflection', (129,153,151))]
+red = [material('Tail lamp red', (137,48,40))]
+white = [material('Headlamp ivory', (239,234,215))]
+rim = material('TAN | painted edge highlight', (237,230,209))
 
 def finish(obj, name, mats, parent=None):
     obj.name = name
@@ -288,6 +293,31 @@ for side in [-1,1]:
         x=-.18+side*(.67+i*.10)
         rod('Smoke grenade tube',(x,-1.05,2.76),(x+side*.06,-1.23,2.92),.052,parent=turret)
 
+# Narrow painted highlights mimic the reference's crisp light panel rims.
+# Applied geometry keeps the exact same emission appearance in Blender and GLB.
+# Only substantial armor/hardware receives the treatment, not bolts or handles.
+rim_parts = ('Main hull', 'Deck rim', 'Side skirt panel', 'Upper side applique',
+             'Rear fender', 'Front fender', 'Driver hatch', 'Rear roof hatch',
+             'Rear deck stowage', 'Ramp ', 'Personnel door', 'Rear door jamb',
+             'Rear lintel', 'Faceted turret', 'Turret roof', 'Gun mantlet',
+             'Crew hatch', 'Cupola rim', 'Main sight', 'CITV head',
+             'Twin TOW launcher', 'Turret rear basket', 'Road wheel TAN disc')
+for obj in list(bpy.data.objects):
+    if obj.type != 'MESH' or not obj.name.startswith(rim_parts):
+        continue
+    if len(obj.data.materials) != 4:
+        continue
+    obj.data.materials.append(rim)
+    bevel = obj.modifiers.new('Painted bright panel rim', 'BEVEL')
+    bevel.width = .012
+    bevel.segments = 1
+    bevel.affect = 'EDGES'
+    bevel.limit_method = 'ANGLE'
+    bevel.angle_limit = math.radians(35)
+    bevel.material = len(obj.data.materials)-1
+    bpy.context.view_layer.objects.active = obj
+    bpy.ops.object.modifier_apply(modifier=bevel.name)
+
 # One reusable demonstration action per moving pivot; frame 1 is clean rest pose.
 scene.render.fps=24
 scene.frame_start=1;scene.frame_end=120
@@ -356,7 +386,8 @@ for name in ['iso_front','iso_rear','north','east','south','west','ramp_open','p
     assert len(xs)>0 and min(xs)>8 and max(xs)<1015 and min(ys)>8 and max(ys)<1015
     renders[name]={'size':[1024,1024],'alpha_bounds':[int(min(xs)),int(min(ys)),int(max(xs)),int(max(ys))]}
     bpy.data.images.remove(im)
-manifest={'front_axis':'-Y','up_axis':'Z','material':'TAN emission, no lights or cast shadows',
+manifest={'front_axis':'-Y','up_axis':'Z','material':'Desaturated TAN emission, bright panel rims, charcoal tracks; no lights or cast shadows',
+          'style_reference':'Installed RimThunder - Desert Sabre - Continued 3724793908; M2A3 and M1A2 grayscale textures inspected, not copied',
           'mesh_objects':sum(o.type=='MESH' for o in bpy.data.objects),'renders':renders,
           'animation':'120 frames at 24fps; rest frame 1, door demo 25, turret/elevation 40, ramp 80',
           'validation':'Reopened blend, hierarchy, no lights, PNG RGBA bounds passed'}

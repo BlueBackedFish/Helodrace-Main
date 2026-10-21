@@ -1,7 +1,8 @@
 {
   "front_axis": "-Y",
   "up_axis": "Z",
-  "material": "TAN emission, no lights or cast shadows",
+  "material": "Desaturated TAN emission, bright panel rims, charcoal tracks; no lights or cast shadows",
+  "style_reference": "Installed RimThunder - Desert Sabre - Continued 3724793908; M2A3 and M1A2 grayscale textures inspected, not copied",
   "mesh_objects": 504,
   "renders": {
     "iso_front": {
@@ -10,9 +11,9 @@
         1024
       ],
       "alpha_bounds": [
-        139,
+        140,
         168,
-        880,
+        879,
         830
       ]
     },
@@ -22,9 +23,9 @@
         1024
       ],
       "alpha_bounds": [
-        143,
+        144,
         171,
-        884,
+        883,
         825
       ]
     },
@@ -49,7 +50,7 @@
         79,
         263,
         882,
-        775
+        774
       ]
     },
     "south": {
@@ -82,8 +83,8 @@
         1024
       ],
       "alpha_bounds": [
-        121,
-        114,
+        122,
+        116,
         920,
         813
       ]
@@ -94,9 +95,9 @@
         1024
       ],
       "alpha_bounds": [
-        143,
+        144,
         171,
-        884,
+        883,
         813
       ]
     }

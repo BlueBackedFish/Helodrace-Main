@@ -36,6 +36,17 @@
 
 ## 렌더
 
+설치된 **RimThunder - Desert Sabre - Continued** (Workshop ID `3724793908`)의
+`Textures/Vehicles/M2A3/vehicle_east.png`, `vehicle_turret_full.png`와
+`Textures/Vehicles/M1A2/vehicle_south.png`를 직접 비교해 채색했습니다.
+원본의 회색 명암 텍스처와 `CutoutComplexPattern` 셰이더를 참고하여,
+노란 기가 적은 TAN, 넓은 면 사이의 명도 차이, 밝은 패널 모서리와
+짙은 회색 궤도를 적용했습니다. 원본 이미지 자체를 복사하거나 포함하지 않았습니다.
+
+상면 RGB `(213,204,180)`, 측면 `(169,159,135)`, 전후면 `(150,141,120)`,
+모서리 `(237,230,209)`, 궤도 고무 `(30,31,29)`를 사용합니다.
+주요 장갑과 해치의 0.012m 모서리 면에 밝은 고정 색을 넣어 GLB에도 유지합니다.
+
 TAN 팔레트를 면 방향별로 배정한 Emission 재질입니다. 조명, 바닥,
 그림자와 AO를 사용하지 않으며 배경은 투명합니다. 면 사이의 명도 차이는
 입체감을 위한 고정 색상으로, 투사 그림자가 아닙니다.
