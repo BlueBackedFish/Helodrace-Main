@@ -1,0 +1,81 @@
+{
+  "preview_geometry_east": {
+    "objects": 743,
+    "alpha_bounds_bottom_origin": [
+      140,
+      263,
+      905,
+      777
+    ]
+  },
+  "vehicle_east": {
+    "objects": 570,
+    "alpha_bounds_bottom_origin": [
+      140,
+      263,
+      905,
+      743
+    ]
+  },
+  "turret_east_test": {
+    "objects": 155,
+    "alpha_bounds_bottom_origin": [
+      291,
+      418,
+      590,
+      777
+    ]
+  },
+  "barrel_east_test": {
+    "objects": 18,
+    "alpha_bounds_bottom_origin": [
+      557,
+      514,
+      809,
+      590
+    ]
+  },
+  "turret_top_east": {
+    "pivot_pixels": [
+      512,
+      512
+    ],
+    "elevation_degrees": 90,
+    "objects": 155
+  },
+  "barrel_top_east": {
+    "pivot_pixels": [
+      512,
+      512
+    ],
+    "elevation_degrees": 90,
+    "objects": 18
+  },
+  "turret_top_full_east": {
+    "pivot_pixels": [
+      512,
+      512
+    ],
+    "elevation_degrees": 90,
+    "objects": 173
+  },
+  "settings": {
+    "size": [
+      1024,
+      1024
+    ],
+    "front": "screen-right",
+    "elevation_degrees": 64,
+    "ortho_scale": 8.699999809265137,
+    "turret_pivot_pixels_top_origin": [
+      468.45,
+      498.02
+    ],
+    "turret_top_elevation": 90,
+    "top_pivot": [
+      512,
+      512
+    ],
+    "note": "preview_east composites hull 64 degrees and turret 90 degrees at projected yaw pivot; top sprites are pivot-centered, old *_test layers remain same-camera diagnostics."
+  }
+}

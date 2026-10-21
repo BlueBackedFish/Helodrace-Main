@@ -8,9 +8,9 @@ from mathutils import Vector
 from bpy_extras.object_utils import world_to_camera_view
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(ROOT, 'VF_East_Test')
+OUT = globals().get('OUTPUT_DIR',os.path.join(ROOT, 'VF_East_Test'))
 os.makedirs(OUT, exist_ok=True)
-bpy.ops.wm.open_mainfile(filepath=os.path.join(ROOT, 'm2a3_bradley.blend'))
+bpy.ops.wm.open_mainfile(filepath=globals().get('SOURCE_BLEND',os.path.join(ROOT, 'm2a3_bradley.blend')))
 scene = bpy.context.scene
 scene.frame_set(1)
 # Game East faces screen-right. The source camera names describe camera position,
