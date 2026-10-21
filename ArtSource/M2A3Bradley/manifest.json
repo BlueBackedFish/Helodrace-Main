@@ -4,15 +4,27 @@
   "material": "Camera-facing, depth and continuous height-modulated TAN emission; turret paint 1.18 linear boost; no lights or cast shadows",
   "height_shading": {
     "coordinate_space": "BRADLEY_ROOT",
-    "z_range": [
+    "hull_paint_z_range": [
+      2.1,
+      2.23
+    ],
+    "turret_paint_z_range": [
+      2.96,
+      3.09
+    ],
+    "paint_linear_rgb_multiplier": [
+      0.84,
+      1.0
+    ],
+    "nonpaint_z_range": [
       0,
       4.2
     ],
-    "linear_rgb_multiplier": [
+    "nonpaint_multiplier": [
       0.9,
       1.0
     ],
-    "interpolation": "continuous linear, clamped; darkening only"
+    "interpolation": "continuous linear, clamped; roof darkening to distinguish raised hatches"
   },
   "smoke_launcher_tubes": 8,
   "upper_side_addon_panels": 0,

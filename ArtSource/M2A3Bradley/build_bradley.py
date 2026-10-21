@@ -527,8 +527,13 @@ for m in bpy.data.materials:
     height_axis=nodes.new('ShaderNodeSeparateXYZ')
     links.new(coordinates.outputs['Object'],height_axis.inputs[0])
     height=nodes.new('ShaderNodeMapRange');height.name='Height darkening';height.clamp=True
-    height.inputs['From Min'].default_value=0; height.inputs['From Max'].default_value=4.2
-    height.inputs['To Min'].default_value=.90; height.inputs['To Max'].default_value=1
+    # Resolve centimetre-scale relief around each assembly's roof.
+    # Keep the raised hatch colour; darken its supporting roof instead.
+    painted='TAN |' in m.name
+    z_low,z_high=(2.96,3.09) if m.name.startswith('Turret TAN |') else (2.10,2.23)
+    if not painted:z_low,z_high=0,4.2
+    height.inputs['From Min'].default_value=z_low; height.inputs['From Max'].default_value=z_high
+    height.inputs['To Min'].default_value=.84 if painted else .90; height.inputs['To Max'].default_value=1
     links.new(height_axis.outputs['Z'],height.inputs['Value'])
     shaded=nodes.new('ShaderNodeMath');shaded.operation='MULTIPLY'
     links.new(product.outputs[0],shaded.inputs[0]);links.new(height.outputs['Result'],shaded.inputs[1])
@@ -623,7 +628,7 @@ for name in ['iso_front','iso_rear','north','east','south','west','ramp_open','p
     renders[name]={'size':[1024,1024],'alpha_bounds':[int(min(xs)),int(min(ys)),int(max(xs)),int(max(ys))]}
     bpy.data.images.remove(im)
 manifest={'front_axis':'-Y','up_axis':'Z','material':'Camera-facing, depth and continuous height-modulated TAN emission; turret paint 1.18 linear boost; no lights or cast shadows',
-          'height_shading':{'coordinate_space':'BRADLEY_ROOT','z_range':[0,4.2],'linear_rgb_multiplier':[.90,1.0],'interpolation':'continuous linear, clamped; darkening only'},
+          'height_shading':{'coordinate_space':'BRADLEY_ROOT','hull_paint_z_range':[2.10,2.23],'turret_paint_z_range':[2.96,3.09],'paint_linear_rgb_multiplier':[.84,1.0],'nonpaint_z_range':[0,4.2],'nonpaint_multiplier':[.90,1.0],'interpolation':'continuous linear, clamped; roof darkening to distinguish raised hatches'},
           'smoke_launcher_tubes':8,'upper_side_addon_panels':0,'glb_material':'Constant emission fallback; camera shader retained in blend only',
           'blueprint_corrections':{'turret_rearward_shift':.75,'turret_armor_length':2.32,'barrel_shortened':.40,
                                    'road_wheel_diameter':.74,'road_wheel_centers':wheel_centers,
