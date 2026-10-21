@@ -2,15 +2,31 @@
   "front_axis": "-Y",
   "up_axis": "Z",
   "material": "Desaturated TAN emission, bright panel rims, charcoal tracks; no lights or cast shadows",
+  "blueprint_corrections": {
+    "turret_rearward_shift": 0.75,
+    "turret_armor_length": 2.32,
+    "barrel_shortened": 0.4,
+    "road_wheel_diameter": 0.74,
+    "road_wheel_centers": [
+      -2.03,
+      -1.28,
+      -0.53,
+      0.48,
+      1.23,
+      1.98
+    ],
+    "minimum_wheel_clearance": 0.01,
+    "top_view_front_down": "engine left; driver hatch and TOW right"
+  },
   "turret_front_side_slope_degrees_from_vertical": [
     27.38,
     30.47,
     29.79,
-    24.62,
-    25.87
+    24.59,
+    25.9
   ],
   "style_reference": "Installed RimThunder - Desert Sabre - Continued 3724793908; M2A3 and M1A2 grayscale textures inspected, not copied",
-  "mesh_objects": 506,
+  "mesh_objects": 647,
   "renders": {
     "iso_front": {
       "size": [
@@ -21,7 +37,7 @@
         140,
         168,
         879,
-        830
+        871
       ]
     },
     "iso_rear": {
@@ -33,7 +49,7 @@
         144,
         171,
         883,
-        825
+        761
       ]
     },
     "north": {
@@ -45,7 +61,7 @@
         306,
         138,
         717,
-        961
+        843
       ]
     },
     "east": {
@@ -54,10 +70,10 @@
         1024
       ],
       "alpha_bounds": [
-        79,
+        118,
         263,
-        882,
-        774
+        883,
+        736
       ]
     },
     "south": {
@@ -78,10 +94,10 @@
         1024
       ],
       "alpha_bounds": [
-        141,
+        140,
         263,
-        944,
-        719
+        905,
+        777
       ]
     },
     "ramp_open": {
@@ -90,10 +106,10 @@
         1024
       ],
       "alpha_bounds": [
-        122,
-        116,
-        920,
-        813
+        125,
+        117,
+        883,
+        778
       ]
     },
     "personnel_open": {
@@ -105,7 +121,7 @@
         144,
         171,
         883,
-        813
+        760
       ]
     }
   },

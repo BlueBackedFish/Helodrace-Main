@@ -75,11 +75,11 @@ hull = empty('HULL', (0,0,0), root)
 turret = empty('TURRET_YAW', (-.18,-.38,2.19), hull)
 gun = empty('GUN_ELEVATION', (-.18,-1.27,2.68), turret)
 ramp = empty('REAR_RAMP_HINGE', (0,2.93,.64), hull)
-door = empty('PERSONNEL_DOOR_HINGE', (-.77,2.965,.71), ramp)
+door = empty('PERSONNEL_DOOR_HINGE', (.86,3.04,.71), ramp)
 turret['animation_axis'] = 'Local Z; independent turret yaw'
 gun['animation_axis'] = 'Local X; positive elevation'
 ramp['animation_axis'] = 'Local X; negative rotation lowers ramp outwards'
-door['animation_axis'] = 'Local Z; positive rotation opens rear personnel door outwards'
+door['animation_axis'] = 'Local Z; negative rotation opens rear personnel door outwards'
 
 def box(name, pos, size, mats=tan, parent=hull):
     bpy.ops.mesh.primitive_cube_add(size=1, location=pos)
@@ -142,12 +142,15 @@ def handle(name, x,y,z, parent=hull, width=.22):
 
 # Front is -Y, right is +X. Approximate silhouette from the supplied five-view drawing.
 profile('Lower armored tub',[(-3.15,.92),(-2.6,.45),(2.49,.45),(2.99,.91),(2.84,1.48),(-2.92,1.48)],-1.25,1.25)
-profile('Main hull sloped glacis',[(-3.25,1.17),(-3.16,1.42),(-1.87,2.04),(2.68,2.04),(2.99,1.67),(2.92,.94),(-2.83,.94)],-1.48,1.48)
-box('Deck rim',(0,.37,2.065),(2.86,4.62,.07))
+profile('Main hull sloped glacis',[(-3.25,1.17),(-3.16,1.42),(-2.32,2.04),(2.68,2.04),(2.99,1.67),(2.92,.94),(-2.83,.94)],-1.48,1.48)
+box('Deck rim',(0,.18,2.065),(2.86,5.0,.07))
 
 # Continuous track bands and individually modeled shoes, six road wheels per side.
 track_path=[(-2.55,.16),(2.47,.16),(2.95,.43),(3.03,.82),(2.71,1.13),(-2.57,1.13),(-3.04,.77),(-3.04,.47)]
 inner=[(-2.51,.27),(2.44,.27),(2.84,.49),(2.9,.79),(2.66,1.02),(-2.53,1.02),(-2.91,.73),(-2.91,.51)]
+wheel_centers=[-2.03,-1.28,-.53,.48,1.23,1.98]
+wheel_radius=.37
+assert min(b-a for a,b in zip(wheel_centers,wheel_centers[1:]))>2*wheel_radius
 for side in (-1,1):
     x=side*1.39
     n=len(track_path)
@@ -165,16 +168,21 @@ for side in (-1,1):
             t=(k+.5)/count
             shoe=box('Track shoe',(x,y+(yy-y)*t,z+(zz-z)*t),(.53,length/count*.83,.065),steel)
             shoe.rotation_euler.x=math.atan2(zz-z,yy-y)
-    for y in [-2.03,-1.22,-.41,.41,1.22,2.03]:
-        cylinder('Road wheel tire',(x,y,.64),.43,.37,rubber,axis='X')
-        cylinder('Road wheel TAN disc',(x+side*.205,y,.64),.335,.055,axis='X')
-        cylinder('Road wheel hub',(x+side*.245,y,.64),.12,.075,edge,axis='X')
+    for y in wheel_centers:
+        cylinder('Road wheel tire',(x,y,.60),wheel_radius,.37,rubber,axis='X')
+        cylinder('Road wheel TAN disc',(x+side*.205,y,.60),.30,.055,axis='X')
+        cylinder('Road wheel hub',(x+side*.245,y,.60),.105,.075,edge,axis='X')
         for a in range(8):
             ang=a*math.tau/8
-            cylinder('Hub bolt',(x+side*.29,y+.17*math.cos(ang),.64+.17*math.sin(ang)),.023,.012,tan,axis='X',vertices=8)
+            cylinder('Hub bolt',(x+side*.29,y+.15*math.cos(ang),.60+.15*math.sin(ang)),.023,.012,tan,axis='X',vertices=8)
     for y in [-2.68,2.66]:
         cylinder('Idler sprocket',(x,y,.73),.31,.35,steel,axis='X',vertices=16)
         cylinder('Sprocket cap',(x+side*.21,y,.73),.21,.06,axis='X',vertices=16)
+        if y<0:
+            for k in range(12):
+                a=k*math.tau/12
+                tooth=box('Drive sprocket tooth',(x+side*.18,y+.30*math.cos(a),.73+.30*math.sin(a)),(.11,.085,.085),steel)
+                tooth.rotation_euler.x=a
     # Skirt sections retain the characteristic low, exposed road wheels.
     for i in range(6):
         y=-2.36+i*.86
@@ -199,19 +207,25 @@ loft('Driver hatch',[(-1.16,-1.98),(-.69,-2.04),(-.47,-1.86),(-.49,-1.22),(-1.16
 box('Driver periscope housing',(-.87,-1.13,2.22),(.55,.16,.13))
 box('Driver periscope lens',(-.87,-1.22,2.24),(.43,.012,.065),glass)
 handle('Driver hatch handle',-.85,-1.72,2.21)
-loft('Glacis service panel',[(-.58,-3.03),(.58,-3.03),(.63,-2.57),(-.63,-2.57)],1.51,1.54)
+service_outline=[(-.58,-3.03),(.58,-3.03),(.63,-2.57),(-.63,-2.57)]
+def glacis_z(y):return 1.42+(y+3.16)*.62/.84
+service_verts=[(x,y,glacis_z(y)+dz) for dz in [.012,.038] for x,y in service_outline]
+mesh('Glacis service panel',service_verts,[(3,2,1,0),(4,5,6,7),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7)])
+for x,y in service_outline:
+    cylinder('Service panel bolt',(x*.9,y,glacis_z(y)+.047),.025,.016,edge,vertices=8)
 for side in (-1,1):
     box('Headlight housing',(side*1.23,-2.69,1.77),(.28,.22,.19))
     box('Headlight lens',(side*1.23,-2.81,1.77),(.2,.018,.11),white)
     rod('Front tow eye',(side*1.05,-3.22,1.02),(side*1.05,-3.29,1.15),.055)
-box('Rear roof hatch seam',(0,1.91,2.116),(1.88,1.16,.027),edge)
-box('Rear roof hatch',(0,1.91,2.15),(1.8,1.08,.055))
+box('Rear roof hatch seam',(0,2.20,2.116),(1.88,.90,.027),edge)
+loft('Rear roof hatch',[(-.90,1.79),(.90,1.79),(.90,2.61),(-.90,2.61)],2.13,2.22,.87)
 for x in [-.62,0,.62]:
-    cylinder('Roof hatch hinge',(x,2.46,2.19),.05,.23,axis='X')
-handle('Roof hatch pull',0,1.52,2.19)
+    cylinder('Roof hatch hinge',(x,2.58,2.23),.05,.23,axis='X')
+handle('Roof hatch pull',0,1.91,2.23)
 for x in [-1.13,1.13]:
-    box('Rear deck stowage box',(x,1.65,2.16),(.32,1.42,.16))
-    for y in [1.12,2.1]:
+    cy,length=(2.17,.82) if x>0 else (2.03,1.10)
+    box('Rear deck stowage box',(x,cy,2.16),(.32,length,.16))
+    for y in [cy-length*.32,cy+length*.32]:
         box('Stowage latch',(x,y,2.255),(.12,.08,.03),edge)
 
 # Rear frame leaves a true opening when the ramp lowers. Opaque main hull rear
@@ -229,17 +243,39 @@ box('Compartment floor',(0,2.5,.65),(2.09,.86,.06),edge)
 for x in [-1.13,1.13]:
     box('Rear door jamb',(x,2.91,1.35),(.16,.15,1.45))
 box('Rear lintel',(0,2.91,2.01),(2.2,.16,.15))
-# Ramp has a separately hinged inset personnel door, with no duplicate backing.
-box('Ramp right armor',(.61,2.96,1.34),(.87,.12,1.34),parent=ramp)
-box('Ramp left armor',(-.97,2.96,1.34),(.15,.12,1.34),parent=ramp)
-box('Ramp lower rail',(-.37,2.96,.73),(1.08,.12,.13),parent=ramp)
-box('Ramp upper rail',(-.37,2.96,1.94),(1.08,.12,.15),parent=ramp)
-box('Personnel door seal',(-.36,2.955,1.34),(.96,.125,1.11),edge,parent=door)
-box('Personnel door',(-.36,3.025,1.34),(.90,.08,1.05),parent=door)
-box('Personnel vision port',(-.36,3.072,1.65),(.27,.02,.12),edge,parent=door)
-handle('Personnel pull',-.04,3.08,1.28,parent=door,width=.12)
-for z in [.99,1.66]:
-    cylinder('Personnel hinge',(-.81,3.09,z),.042,.16,parent=ramp)
+# Rounded personnel hatch at blueprint rear-view left (+X), with a true opening.
+def rear_panel(name,cx,cz,width,height,radius,y,depth,mats=tan,parent=ramp):
+    outline=[]
+    for dx,dz,start in [(1,1,0),(-1,1,90),(-1,-1,180),(1,-1,270)]:
+        for k in range(7):
+            a=math.radians(start+k*15)
+            outline.append((cx+dx*(width/2-radius)+radius*math.cos(a),
+                            cz+dz*(height/2-radius)+radius*math.sin(a)))
+    n=len(outline)
+    verts=[(x,yy,z) for yy in [y-depth/2,y+depth/2] for x,z in outline]
+    faces=[tuple(range(n-1,-1,-1)),tuple(range(n,n*2))]+[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)]
+    return mesh(name,verts,faces,mats,parent)
+rear_armor=rear_panel('Ramp armor',0,1.34,2.08,1.36,.08,2.96,.12)
+cut=rear_panel('Temporary personnel opening',.43,1.34,.88,1.10,.25,2.96,.5,parent=None)
+bpy.context.view_layer.objects.active=rear_armor
+mod=rear_armor.modifiers.new('Personnel access aperture','BOOLEAN');mod.operation='DIFFERENCE';mod.object=cut
+bpy.ops.object.modifier_apply(modifier=mod.name)
+bpy.data.objects.remove(cut,do_unlink=True)
+rear_panel('Personnel door seal',.43,1.34,.86,1.08,.24,3.005,.075,edge,parent=door)
+rear_panel('Personnel door',.43,1.34,.82,1.04,.23,3.045,.06,parent=door)
+box('Personnel vision port',(.43,3.08,1.65),(.22,.02,.10),edge,parent=door)
+handle('Personnel pull',.12,3.09,1.28,parent=door,width=.12)
+for z in [1.04,1.65]:
+    cylinder('Personnel hinge',(.86,3.09,z),.042,.16,parent=ramp)
+# Large oval cover/retaining line alongside the hatch, prominent in the drawing.
+for k in range(40):
+    a=k*math.tau/40;b=(k+1)*math.tau/40
+    rod('Rear oval cover rim',(-.52+.39*math.cos(a),3.038,1.34+.51*math.sin(a)),
+        (-.52+.39*math.cos(b),3.038,1.34+.51*math.sin(b)),.018,edge,parent=ramp)
+for a in [0,.8,1.6,2.4,3.2,4,4.8,5.6]:
+    box('Oval cover retaining latch',(-.52+.40*math.cos(a),3.06,1.34+.52*math.sin(a)),(.065,.04,.09),parent=ramp)
+box('Oval cover plate',(-.52,3.04,1.54),(.27,.025,.16),parent=ramp)
+handle('Oval cover lower handle',-.52,3.07,.91,parent=ramp,width=.27)
 for x in [-.77,.77]:
     cylinder('Ramp lower hinge',(x,2.97,.64),.075,.27,axis='X')
 for x in [-1.27,1.27]:
@@ -248,12 +284,12 @@ for x in [-1.27,1.27]:
 
 # Offset two-man faceted turret, long cannon, left-side twin TOW launcher.
 cylinder('Turret ring',(-.18,-.38,2.15),.95,.17,parent=turret,vertices=48)
-outline=[(-1.21,-.94),(-.82,-1.38),(.42,-1.38),(.88,-.98),(.91,.46),(.59,.79),(-.96,.79),(-1.30,.34)]
+outline=[(-1.21,-.94),(-.82,-1.38),(.42,-1.38),(.88,-.98),(.91,.61),(.59,.94),(-.96,.94),(-1.30,.49)]
 # Blueprint: broad lower cheeks, inward-sloping upper front/side armor and
 # relatively upright rear bustle. Explicit matched rings avoid a full-width
 # roof lip hiding the slope when viewed from the high game camera.
 roof_outline=[(-.99,-.79),(-.68,-1.08),(.32,-1.08),(.65,-.80),
-              (.69,.46),(.56,.78),(-.92,.78),(-1.05,.31)]
+              (.69,.61),(.56,.93),(-.92,.93),(-1.05,.46)]
 lower_outline=[(-.18+(x+.18)*.88,-.38+(y+.38)*.90) for x,y in outline]
 rings=[[(x,y,2.25) for x,y in lower_outline],
        [(x,y,2.40) for x,y in outline],
@@ -299,10 +335,10 @@ for i in [0,2,3,7]:
         world=bolt.matrix_world.copy();bolt.parent=turret;bolt.matrix_world=world
 box('Gun mantlet',(-.18,-1.34,2.69),(.53,.4,.37),parent=gun)
 rod('Cannon base',(-.18,-1.4,2.69),(-.18,-1.93,2.69),.11,parent=gun,vertices=12)
-rod('25mm cannon',(-.18,-1.88,2.69),(-.18,-3.44,2.69),.044,mats=edge,parent=gun,vertices=12)
-rod('Muzzle brake',(-.18,-3.44,2.69),(-.18,-3.66,2.69),.064,parent=gun,vertices=12)
-cylinder('Muzzle bore',(-.18,-3.667,2.69),.034,.008,rubber,parent=gun,axis='Y')
-for y in [-3.48,-3.54,-3.60]:
+rod('25mm cannon',(-.18,-1.88,2.69),(-.18,-3.04,2.69),.044,mats=edge,parent=gun,vertices=12)
+rod('Muzzle brake',(-.18,-3.04,2.69),(-.18,-3.26,2.69),.064,parent=gun,vertices=12)
+cylinder('Muzzle bore',(-.18,-3.267,2.69),.034,.008,rubber,parent=gun,axis='Y')
+for y in [-3.08,-3.14,-3.20]:
     for x in [-.244,-.116]:
         box('Muzzle vent',(x,y,2.69),(.006,.026,.045),rubber,parent=gun)
 rod('Coax barrel',(.18,-1.36,2.64),(.18,-1.74,2.64),.025,mats=steel,parent=gun)
@@ -319,21 +355,83 @@ box('Main sight glint',(.27,-.829,3.28),(.035,.005,.18),glasslight,parent=turret
 box('CITV pedestal',(.42,.53,3.11),(.31,.31,.31),parent=turret)
 box('CITV head',(.42,.53,3.39),(.36,.39,.27),parent=turret)
 cylinder('CITV lens',(.42,.325,3.39),.10,.018,glass,parent=turret,axis='Y')
-box('TOW launcher bracket',(-1.2,-.05,2.79),(.27,.67,.17),parent=turret)
+box('TOW launcher bracket',(-1.06,-.05,2.79),(.80,.67,.17),parent=turret)
 box('Twin TOW launcher',(-1.43,-.15,2.99),(.43,1.55,.56),parent=turret)
 for z in [2.85,3.12]:
     cylinder('TOW tube front rim',(-1.43,-.935,z),.117,.04,edge,parent=turret,axis='Y',vertices=12)
     cylinder('TOW tube dark opening',(-1.43,-.96,z),.084,.01,glass,parent=turret,axis='Y',vertices=12)
-box('Turret rear basket',(-.25,.93,2.63),(1.55,.38,.37),parent=turret)
+box('Turret rear basket',(-.25,1.0,2.63),(1.55,.20,.37),parent=turret)
 for x in [-.85,-.35,.15,.55]:
-    box('Basket strap',(x,1.13,2.64),(.045,.025,.33),edge,parent=turret)
+    box('Basket strap',(x,1.11,2.64),(.045,.025,.33),edge,parent=turret)
 for x,y in [(-.84,.62),(.68,.42)]:
     cylinder('Antenna base',(x,y,3.01),.055,.14,parent=turret)
     rod('Whip antenna',(x,y,3.08),(x,y,4.15),.009,mats=steel,parent=turret,vertices=6)
 for side in [-1,1]:
+    edge_index=0 if side<0 else 2
+    next_index=(edge_index+1)%n
+    a,b=Vector(rings[1][edge_index]),Vector(rings[1][next_index])
+    c,d=Vector(rings[2][edge_index]),Vector(rings[2][next_index])
+    outward=(b-a).cross(c-a).normalized()
+    if outward.dot((a+b+c+d)/4-Vector((-.18,-.38,2.6)))<0:outward=-outward
     for i in range(3):
-        x=-.18+side*(.67+i*.10)
-        rod('Smoke grenade tube',(x,-1.05,2.76),(x+side*.06,-1.23,2.92),.052,parent=turret)
+        t=.22+i*.24
+        start=a.lerp(b,t).lerp(c.lerp(d,t),.66)
+        rod('Smoke launcher mounting boss',start-outward*.025,start+outward*.04,.062,parent=turret)
+        rod('Smoke grenade tube',start+outward*.025,start+outward*.22+Vector((0,0,.07)),.052,parent=turret)
+
+# Blueprint fittings, before relocating the complete turret assembly.
+box('TOW launcher side cover',(-1.66,-.15,2.99),(.035,1.34,.44),parent=turret)
+for y in [-.65,.37]:
+    cylinder('TOW cover hinge',(-1.69,y,3.0),.035,.18,parent=turret)
+    box('TOW cover latch',(-1.69,y,2.85),(.04,.08,.07),edge,parent=turret)
+box('TOW rear cap',(-1.43,.64,2.99),(.46,.06,.59),parent=turret)
+box('Main sight center mullion',(.34,-.833,3.28),(.035,.025,.25),parent=turret)
+for i in [3,7]:
+    j=(i+1)%n
+    a=Vector(rings[1][i]).lerp(Vector(rings[1][j]),.48)
+    b=Vector(rings[2][i]).lerp(Vector(rings[2][j]),.48)
+    direction=Vector((1 if i==3 else -1,0,0))*.013
+    rod('Turret armor panel joint',a+direction,b+direction,.012,edge,parent=turret)
+for side in [-1,1]:
+    # The reference's two sides differ; the large louver belongs to one side.
+    if side==-1:
+        box('Side louver surround',(side*1.58,.57,1.78),(.06,.89,.63))
+        box('Side louver recess',(side*1.617,.57,1.78),(.017,.78,.54),edge)
+        for k in range(9):
+            box('Side louver slat',(side*1.635,.57,1.54+k*.058),(.045,.76,.026))
+    # Raised light guards and proper loop-shaped front recovery fittings.
+    for xx in [side*1.23-.16,side*1.23+.16]:
+        rod('Headlight guard',(xx,-2.82,1.67),(xx,-2.82,1.91),.018)
+    rod('Headlight guard top',(side*1.23-.16,-2.82,1.91),(side*1.23+.16,-2.82,1.91),.018)
+    for k in range(16):
+        a=k*math.tau/16;b=(k+1)*math.tau/16
+        rod('Front recovery eye',(side*1.05+.07*math.cos(a),-3.28,1.07+.09*math.sin(a)),
+            (side*1.05+.07*math.cos(b),-3.28,1.07+.09*math.sin(b)),.022)
+
+# Mirror only blueprint-mismatched fittings, keeping the turret's lateral offset.
+# Reflect mesh vertices in world X, then repair winding; animation pivots remain
+# right-handed and their descendant meshes continue to rotate normally.
+from mathutils import Matrix
+import bmesh
+reflect=Matrix.Scale(-1,4,Vector((1,0,0)))
+for obj in list(bpy.data.objects):
+    if obj.type=='MESH' and obj.name.startswith(('Engine grille','Driver ', 'TOW ', 'Twin TOW', 'CITV')):
+        bpy.context.view_layer.update()
+        obj.data.transform(obj.matrix_world.inverted()@reflect@obj.matrix_world)
+        bm=bmesh.new();bm.from_mesh(obj.data)
+        bmesh.ops.recalc_face_normals(bm,faces=list(bm.faces))
+        bm.to_mesh(obj.data);bm.free();obj.data.update()
+turret.location.y+=.75
+bpy.context.view_layer.update()
+# Geometry checks from the audit: layout, barrel clearance, wheel spacing.
+def world_bounds(obj):
+    points=[obj.matrix_world@Vector(p) for p in obj.bound_box]
+    return [min(p[i] for p in points) for i in range(3)],[max(p[i] for p in points) for i in range(3)]
+assert world_bounds(bpy.data.objects['Engine grille recess'])[1][0]<0
+assert world_bounds(bpy.data.objects['Driver hatch'])[0][0]>0
+assert world_bounds(bpy.data.objects['Twin TOW launcher'])[0][0]>0
+assert world_bounds(bpy.data.objects['Muzzle bore'])[0][1]>-3.25
+assert world_bounds(armor)[0][1]>-.8
 
 # Narrow painted highlights mimic the reference's crisp light panel rims.
 # Applied geometry keeps the exact same emission appearance in Blender and GLB.
@@ -366,7 +464,7 @@ scene.frame_start=1;scene.frame_end=120
 for obj,axis,keys in [(turret,2,[(1,0),(40,45),(80,-35),(120,0)]),
                       (gun,0,[(1,0),(40,18),(80,0),(120,0)]),
                       (ramp,0,[(1,0),(40,0),(80,-100),(120,0)]),
-                      (door,2,[(1,0),(25,100),(40,0),(80,0),(120,0)])]:
+                      (door,2,[(1,0),(25,-100),(40,0),(80,0),(120,0)])]:
     for f,degrees in keys:
         obj.rotation_euler[axis]=math.radians(degrees)
         obj.keyframe_insert(data_path='rotation_euler',frame=f)
@@ -429,6 +527,10 @@ for name in ['iso_front','iso_rear','north','east','south','west','ramp_open','p
     renders[name]={'size':[1024,1024],'alpha_bounds':[int(min(xs)),int(min(ys)),int(max(xs)),int(max(ys))]}
     bpy.data.images.remove(im)
 manifest={'front_axis':'-Y','up_axis':'Z','material':'Desaturated TAN emission, bright panel rims, charcoal tracks; no lights or cast shadows',
+          'blueprint_corrections':{'turret_rearward_shift':.75,'turret_armor_length':2.32,'barrel_shortened':.40,
+                                   'road_wheel_diameter':.74,'road_wheel_centers':wheel_centers,
+                                   'minimum_wheel_clearance':round(min(b-a for a,b in zip(wheel_centers,wheel_centers[1:]))-.74,3),
+                                   'top_view_front_down':'engine left; driver hatch and TOW right'},
           'turret_front_side_slope_degrees_from_vertical':slope_angles,
           'style_reference':'Installed RimThunder - Desert Sabre - Continued 3724793908; M2A3 and M1A2 grayscale textures inspected, not copied',
           'mesh_objects':sum(o.type=='MESH' for o in bpy.data.objects),'renders':renders,

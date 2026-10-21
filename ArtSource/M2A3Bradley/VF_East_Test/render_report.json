@@ -1,37 +1,37 @@
 {
   "preview_east": {
-    "objects": 506,
+    "objects": 647,
     "alpha_bounds_bottom_origin": [
-      141,
+      140,
       263,
-      944,
-      719
+      905,
+      777
     ]
   },
   "vehicle_east": {
-    "objects": 439,
+    "objects": 565,
     "alpha_bounds_bottom_origin": [
-      141,
+      140,
       263,
       905,
       700
     ]
   },
   "turret_east_test": {
-    "objects": 55,
+    "objects": 70,
     "alpha_bounds_bottom_origin": [
-      377,
-      397,
-      674,
-      719
+      291,
+      418,
+      585,
+      777
     ]
   },
   "barrel_east_test": {
     "objects": 12,
     "alpha_bounds_bottom_origin": [
-      645,
+      557,
       514,
-      944,
+      809,
       590
     ]
   },
@@ -44,7 +44,7 @@
     "elevation_degrees": 64,
     "ortho_scale": 8.699999809265137,
     "turret_pivot_pixels_top_origin": [
-      556.73,
+      468.45,
       498.02
     ],
     "note": "East-only trial; turret and barrel layers share hull canvas, not rotation-centered production turret textures."
