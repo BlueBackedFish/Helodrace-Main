@@ -1,9 +1,9 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "geometry_source": "ReferenceFit/stage1_rimworld_base.blend",
   "geometry_sha256": "979a4f82fe07bd9276d264a2d87a700123ca3b307430010b502ea7d4bb7bb356",
   "role_registry": "bradley_roles.json",
-  "part_difference_multiplier": 3.0,
+  "part_difference_multiplier": 4.0,
   "paint_srgb_base": [
     221,
     207,
@@ -28,7 +28,7 @@
     "rear_stowage_bin": -0.04,
     "turret_roof_equipment": -0.035
   },
-  "notes": "Height is the main brightness rule within a pigment. Curved hatches allow interpolated height/normal tones. Selected equipment uses a distinct dark TAN pigment. Only roll_01, roll_02 and ex_decor_01 geometry may change.",
+  "notes": "Height-led paint with deliberately dark recesses and rear basket floor, bright hatch 02 upper hinge, stronger pigment/direction contrast. Gun paint is rebuilt from geometry normals rather than legacy triangle colors. Source smoke pods and connecting brackets are restored by exact OBJ face sets.",
   "role_top_differences": {
     "turret_hatch_a": 0.012,
     "turret_hatch_b": 0.012,
@@ -39,34 +39,54 @@
   },
   "dark_role_palettes": {
     "commander_sight_guard": [
-      163,
       145,
-      109
+      122,
+      84
     ],
     "tow_launcher": [
-      163,
       145,
-      109
+      122,
+      84
     ],
     "tow_mount": [
-      163,
       145,
-      109
+      122,
+      84
     ],
     "tow_end_cover": [
-      163,
       145,
-      109
+      122,
+      84
     ],
     "gun_upper_shroud": [
-      163,
       145,
-      109
+      122,
+      84
     ],
     "rear_stowage_bin": [
-      163,
       145,
-      109
+      122,
+      84
+    ],
+    "rear_basket_floor": [
+      126,
+      106,
+      75
+    ],
+    "smoke_launcher": [
+      155,
+      134,
+      94
+    ],
+    "smoke_mount": [
+      126,
+      108,
+      76
+    ],
+    "turret_linkage_support": [
+      167,
+      146,
+      106
     ]
   },
   "height_paint": {
@@ -81,5 +101,59 @@
     ],
     "curve_normal_strength": 0.14,
     "camera_gain_per_unit": 0.006
+  },
+  "directional_contrast": 1.4,
+  "accent_role_palettes": {
+    "hatch_upper_linkage": [
+      246,
+      228,
+      187
+    ]
+  },
+  "clean_directional_roles": {
+    "gun_mount": {
+      "srgb": [
+        194,
+        175,
+        136
+      ],
+      "wall_gain": 0.74
+    },
+    "main_barrel": {
+      "srgb": [
+        157,
+        140,
+        101
+      ],
+      "wall_gain": 0.82
+    },
+    "turret_front_upper_cover": {
+      "srgb": [
+        187,
+        166,
+        123
+      ],
+      "wall_gain": 0.76
+    },
+    "turret_front_lower_cover": {
+      "srgb": [
+        187,
+        166,
+        123
+      ],
+      "wall_gain": 0.76
+    }
+  },
+  "recess_paint": {
+    "gain": 0.62,
+    "minimum_edge_length": 0.022,
+    "minimum_crease_degrees": 25,
+    "maximum_patch_area": 0.15,
+    "excluded_roles": [
+      "driver_hatch",
+      "turret_hatch_a",
+      "turret_hatch_b",
+      "main_barrel"
+    ]
   }
 }

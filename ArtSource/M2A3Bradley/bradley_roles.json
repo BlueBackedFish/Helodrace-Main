@@ -6671,7 +6671,46 @@
     }
   ],
   "entries_state_snapshot": "stage1; runtime geometry is recorded separately",
-  "additional_roles": [],
+  "additional_roles": [
+    {
+      "role": "smoke_launcher",
+      "source_binding": "exact OBJ bone_turret face sets",
+      "objects": [
+        "WT_SmokeTube_00",
+        "WT_SmokeTube_01",
+        "WT_SmokeTube_02",
+        "WT_SmokeTube_03",
+        "WT_SmokeTube_04",
+        "WT_SmokeTube_05",
+        "WT_SmokeTube_06",
+        "WT_SmokeTube_07"
+      ]
+    },
+    {
+      "role": "smoke_mount",
+      "source_binding": "exact OBJ bone_turret face sets",
+      "objects": [
+        "WT_SmokeMount_00",
+        "WT_SmokeMount_01",
+        "WT_SmokeMount_02",
+        "WT_SmokeMount_03",
+        "WT_SmokeMount_04",
+        "WT_SmokeMount_05"
+      ]
+    },
+    {
+      "role": "turret_linkage_support",
+      "source_binding": "exact OBJ bone_turret face sets",
+      "objects": [
+        "WT_LinkageSupport_001",
+        "WT_LinkageSupport_021",
+        "WT_LinkageSupport_022",
+        "WT_LinkageSupport_025",
+        "WT_LinkageSupport_041",
+        "WT_LinkageSupport_066"
+      ]
+    }
+  ],
   "runtime_bindings": [
     {
       "object": "WT_@root",
@@ -7087,15 +7126,113 @@
       "object": "WT_rear_ramp",
       "role": "rear_ramp",
       "parent": "REAR_RAMP_HINGE"
-    }
-  ],
-  "restored_stage1_required": [],
-  "deferred_roles": [
+    },
     {
+      "object": "WT_LinkageSupport_001",
+      "role": "turret_linkage_support",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_LinkageSupport_021",
+      "role": "turret_linkage_support",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_LinkageSupport_022",
+      "role": "turret_linkage_support",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_LinkageSupport_025",
+      "role": "turret_linkage_support",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_LinkageSupport_041",
+      "role": "turret_linkage_support",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_LinkageSupport_066",
+      "role": "turret_linkage_support",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_SmokeTube_00",
       "role": "smoke_launcher",
-      "reason": "stage2 new geometry reverted; user requests original geometry and recolor only"
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_SmokeTube_01",
+      "role": "smoke_launcher",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_SmokeTube_02",
+      "role": "smoke_launcher",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_SmokeTube_03",
+      "role": "smoke_launcher",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_SmokeTube_04",
+      "role": "smoke_launcher",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_SmokeTube_05",
+      "role": "smoke_launcher",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_SmokeTube_06",
+      "role": "smoke_launcher",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_SmokeTube_07",
+      "role": "smoke_launcher",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_SmokeMount_00",
+      "role": "smoke_mount",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_SmokeMount_01",
+      "role": "smoke_mount",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_SmokeMount_02",
+      "role": "smoke_mount",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_SmokeMount_03",
+      "role": "smoke_mount",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_SmokeMount_04",
+      "role": "smoke_mount",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_SmokeMount_05",
+      "role": "smoke_mount",
+      "parent": "TURRET_YAW"
     }
   ],
+  "restored_stage1_required": [
+    "WT_roll_03",
+    "WT_ex_decor_02"
+  ],
+  "deferred_roles": [],
   "targeted_geometry_repairs": {
     "WT_roll_01": {
       "before_faces": 28,
@@ -7107,6 +7244,207 @@
       "before_faces": 47,
       "after_faces": 1067,
       "method": "exact OBJ group positions and faces",
+      "parent": "TURRET_YAW"
+    },
+    "WT_roll_03": {
+      "before_faces": 0,
+      "after_faces": 502,
+      "method": "exact OBJ group positions and faces",
+      "parent": "TURRET_YAW"
+    },
+    "WT_roll_06": {
+      "before_faces": 0,
+      "after_faces": 202,
+      "method": "exact OBJ group positions and faces",
+      "parent": "TURRET_YAW"
+    },
+    "WT_roll_07": {
+      "before_faces": 0,
+      "after_faces": 480,
+      "method": "exact OBJ group positions and faces",
+      "parent": "TURRET_YAW"
+    },
+    "WT_ex_decor_02": {
+      "before_faces": 0,
+      "after_faces": 488,
+      "method": "exact OBJ group positions and faces",
+      "parent": "TURRET_YAW"
+    },
+    "WT_ex_decor_03": {
+      "before_faces": 6,
+      "after_faces": 500,
+      "method": "exact OBJ group positions and faces",
+      "parent": "TURRET_YAW"
+    },
+    "WT_bone_gun": {
+      "before_faces": 855,
+      "after_faces": 1861,
+      "method": "exact OBJ group positions and faces",
+      "parent": "GUN_ELEVATION"
+    },
+    "WT_gun_barrel": {
+      "before_faces": 780,
+      "after_faces": 2632,
+      "method": "exact OBJ group positions and faces",
+      "parent": "GUN_ELEVATION"
+    },
+    "WT_hatch_02": {
+      "before_faces": 1083,
+      "after_faces": 2556,
+      "method": "exact OBJ group positions and faces",
+      "parent": "TURRET_YAW"
+    },
+    "WT_bone_turret": {
+      "before_faces": 5171,
+      "after_faces": 4852,
+      "method": "remove only reduced remnants of restored source regions",
+      "removed_faces": 319,
+      "replaced_regions": [
+        "WT_LinkageSupport_021",
+        "WT_LinkageSupport_041",
+        "WT_LinkageSupport_025",
+        "WT_LinkageSupport_022"
+      ],
+      "parent": "TURRET_YAW"
+    },
+    "WT_LinkageSupport_001": {
+      "before_faces": 0,
+      "after_faces": 692,
+      "method": "exact embedded OBJ component",
+      "source_component": 1,
+      "parent": "TURRET_YAW"
+    },
+    "WT_LinkageSupport_021": {
+      "before_faces": 0,
+      "after_faces": 140,
+      "method": "exact embedded OBJ component",
+      "source_component": 21,
+      "parent": "TURRET_YAW"
+    },
+    "WT_LinkageSupport_022": {
+      "before_faces": 0,
+      "after_faces": 140,
+      "method": "exact embedded OBJ component",
+      "source_component": 22,
+      "parent": "TURRET_YAW"
+    },
+    "WT_LinkageSupport_025": {
+      "before_faces": 0,
+      "after_faces": 130,
+      "method": "exact embedded OBJ component",
+      "source_component": 25,
+      "parent": "TURRET_YAW"
+    },
+    "WT_LinkageSupport_041": {
+      "before_faces": 0,
+      "after_faces": 110,
+      "method": "exact embedded OBJ component",
+      "source_component": 41,
+      "parent": "TURRET_YAW"
+    },
+    "WT_LinkageSupport_066": {
+      "before_faces": 0,
+      "after_faces": 78,
+      "method": "exact embedded OBJ component",
+      "source_component": 66,
+      "parent": "TURRET_YAW"
+    },
+    "WT_SmokeTube_00": {
+      "before_faces": 0,
+      "after_faces": 130,
+      "method": "exact embedded OBJ component",
+      "source_component": 26,
+      "parent": "TURRET_YAW"
+    },
+    "WT_SmokeTube_01": {
+      "before_faces": 0,
+      "after_faces": 130,
+      "method": "exact embedded OBJ component",
+      "source_component": 27,
+      "parent": "TURRET_YAW"
+    },
+    "WT_SmokeTube_02": {
+      "before_faces": 0,
+      "after_faces": 130,
+      "method": "exact embedded OBJ component",
+      "source_component": 28,
+      "parent": "TURRET_YAW"
+    },
+    "WT_SmokeTube_03": {
+      "before_faces": 0,
+      "after_faces": 130,
+      "method": "exact embedded OBJ component",
+      "source_component": 29,
+      "parent": "TURRET_YAW"
+    },
+    "WT_SmokeTube_04": {
+      "before_faces": 0,
+      "after_faces": 130,
+      "method": "exact embedded OBJ component",
+      "source_component": 30,
+      "parent": "TURRET_YAW"
+    },
+    "WT_SmokeTube_05": {
+      "before_faces": 0,
+      "after_faces": 130,
+      "method": "exact embedded OBJ component",
+      "source_component": 31,
+      "parent": "TURRET_YAW"
+    },
+    "WT_SmokeTube_06": {
+      "before_faces": 0,
+      "after_faces": 130,
+      "method": "exact embedded OBJ component",
+      "source_component": 32,
+      "parent": "TURRET_YAW"
+    },
+    "WT_SmokeTube_07": {
+      "before_faces": 0,
+      "after_faces": 130,
+      "method": "exact embedded OBJ component",
+      "source_component": 33,
+      "parent": "TURRET_YAW"
+    },
+    "WT_SmokeMount_00": {
+      "before_faces": 0,
+      "after_faces": 128,
+      "method": "exact embedded OBJ component",
+      "source_component": 35,
+      "parent": "TURRET_YAW"
+    },
+    "WT_SmokeMount_01": {
+      "before_faces": 0,
+      "after_faces": 128,
+      "method": "exact embedded OBJ component",
+      "source_component": 36,
+      "parent": "TURRET_YAW"
+    },
+    "WT_SmokeMount_02": {
+      "before_faces": 0,
+      "after_faces": 102,
+      "method": "exact embedded OBJ component",
+      "source_component": 43,
+      "parent": "TURRET_YAW"
+    },
+    "WT_SmokeMount_03": {
+      "before_faces": 0,
+      "after_faces": 60,
+      "method": "exact embedded OBJ component",
+      "source_component": 84,
+      "parent": "TURRET_YAW"
+    },
+    "WT_SmokeMount_04": {
+      "before_faces": 0,
+      "after_faces": 10,
+      "method": "exact embedded OBJ component",
+      "source_component": 706,
+      "parent": "TURRET_YAW"
+    },
+    "WT_SmokeMount_05": {
+      "before_faces": 0,
+      "after_faces": 10,
+      "method": "exact embedded OBJ component",
+      "source_component": 708,
       "parent": "TURRET_YAW"
     },
     "WT_ex_decor_01": {

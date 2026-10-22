@@ -7,6 +7,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parent
 ATTRIBUTE='Face depth tone'
 HEIGHT_ATTRIBUTE='Height and curve tone'
+RECESS_ATTRIBUTE='Recess paint'
 
 def height_gain(z,settings):
     return max(settings['minimum_gain'],min(settings['maximum_gain'],
@@ -53,7 +54,7 @@ def apply_face_depth_tone(scene):
             nodes=m.node_tree.nodes;links=m.node_tree.links
             emission=next((n for n in nodes if n.type=='EMISSION'),None)
             if not emission:continue
-            for name in (ATTRIBUTE,HEIGHT_ATTRIBUTE):
+            for name in (ATTRIBUTE,HEIGHT_ATTRIBUTE,RECESS_ATTRIBUTE):
                 if nodes.get(name):continue
                 a=nodes.new('ShaderNodeAttribute');a.name=name;a.attribute_name=name
                 multiply=nodes.new('ShaderNodeMixRGB');multiply.blend_type='MULTIPLY';multiply.inputs[0].default_value=1

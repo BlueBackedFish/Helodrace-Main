@@ -31,8 +31,8 @@ assert len(c['protected_components'])==5
 for part in c['protected_components']:
     assert part['role']=='rear_stowage_bin' and part['not_a_confirmed_smoke_launcher']
     assert all(0<=i<inventory[part['object']]['faces'] for i in part['source_polygon_indices'])
-assert c['additional_roles']==[]
+assert {r['role'] for r in c['additional_roles']}=={'smoke_launcher','smoke_mount','turret_linkage_support'}
 assert c['policy']['production_simplifier_uses_registry'] is True
 assert c['policy']['production_registry_scope']=='targeted_repairs_and_paint'
-assert set(c['targeted_geometry_repairs'])=={'WT_roll_01','WT_roll_02','WT_ex_decor_01'}
+assert len(c['targeted_geometry_repairs'])==32
 print('STAGE1 BASELINE ROLE VALIDATION PASSED: 112 groups, 83 baseline objects, exact source binding, complete material subsets, 5 protected rear bins')

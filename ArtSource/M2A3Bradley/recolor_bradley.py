@@ -18,7 +18,11 @@ before=geometry_hash()
 sys.path.insert(0,str(ROOT))
 from turret_repairs import apply_repairs
 repairs=apply_repairs()
+meshes=[o for o in s.objects if o.type=='MESH']
+for o in meshes:
+    if o.name not in entries:entries[o.name]={'role':o['art_role'],'parent':o.parent.name}
 repaired_hash=geometry_hash()
+from surface_accents import part_regions,region_role,apply_recess_paint
 def srgb(c):return 255*(12.92*c if c<=.0031308 else 1.055*c**(1/2.4)-.055)
 def linear(c):
     v=c/255;return v/12.92 if v<=.04045 else ((v+.055)/1.055)**2.4
@@ -35,12 +39,13 @@ def anchor(o,indices=None):
         if g is not None:weights[round(g,3)]+=p.area
     return max(weights,key=weights.get) if weights else None
 assembly={'hull':anchor(bpy.data.objects['WT_@root']),'turret':anchor(bpy.data.objects['WT_bone_turret'])}
-cache={};measurements=[];clamped=0
+cache={};measurements=[];clamped=0;accent_regions=[]
 def new_material(original,gain,palette=None):
     palette=palette or base
     key=(original.name,round(gain,5),tuple(palette))
     if key in cache:return cache[key]
-    m=bpy.data.materials.new(('Dark TAN ' if palette!=base else 'Part TAN ')+str(round(gain,4)));m.use_nodes=True
+    label='Part TAN ' if palette==base else 'Bright TAN ' if sum(palette)>sum(base) else 'Dark TAN '
+    m=bpy.data.materials.new(label+str(round(gain,4)));m.use_nodes=True
     color=tuple(linear(min(255,b*gain)) for b in palette)+(1,);m.diffuse_color=color
     nodes=m.node_tree.nodes;nodes.clear();e=nodes.new('ShaderNodeEmission');e.inputs['Color'].default_value=color
     out=nodes.new('ShaderNodeOutputMaterial');m.node_tree.links.new(e.outputs[0],out.inputs[0]);cache[key]=m
@@ -48,30 +53,15 @@ def new_material(original,gain,palette=None):
 for o in meshes:
     assert o.name in entries,o.name
     role=entries[o.name]['role'];ref=assembly['turret' if entries[o.name]['parent'] in {'TURRET_YAW','GUN_ELEVATION'} else 'hull']
-    grouped=collections.defaultdict(list)
-    if role=='turret_assembly':
-        # Read-only connectivity supplies separate colors for existing roof
-        # fixtures and the five rear bins; no vertices or faces are changed.
-        leaders=list(range(len(o.data.vertices)))
-        def find(i):
-            while leaders[i]!=i:leaders[i]=leaders[leaders[i]];i=leaders[i]
-            return i
-        for edge in o.data.edges:leaders[find(edge.vertices[0])]=find(edge.vertices[1])
-        for p in o.data.polygons:grouped[find(p.vertices[0])].append(p.index)
-    else:grouped[0]=list(range(len(o.data.polygons)))
     desired=[None]*len(o.data.polygons)
-    for indices in grouped.values():
-        part_role=role
-        if role=='turret_assembly':
-            ids={v for pi in indices for v in o.data.polygons[pi].vertices};pts=[o.matrix_world@o.data.vertices[v].co for v in ids]
-            lo=Vector(tuple(min(p[k] for p in pts) for k in range(3)));hi=Vector(tuple(max(p[k] for p in pts) for k in range(3)));center=(lo+hi)/2
-            for part in roles['protected_components']:
-                a,b=map(Vector,part['source_bounds'])
-                if all(a[k]-.015<=center[k]<=b[k]+.015 for k in range(3)) and max(hi-lo)<.60:
-                    part_role='rear_stowage_bin';break
-            if part_role==role and lo.z>2.69 and max(hi-lo)<.90:part_role='turret_roof_equipment'
+    for indices in part_regions(o,role):
+        part_role=region_role(o,role,indices,roles)
+        if part_role in {'rear_basket_floor','hatch_upper_linkage'}:
+            accent_regions.append({'object':o.name,'role':part_role,'polygon_indices':indices})
         minimum=cfg['minimum_role_differences'].get(part_role,0)
         dark_palette=cfg['dark_role_palettes'].get(part_role)
+        accent_palette=cfg['accent_role_palettes'].get(part_role)
+        uniform=cfg['clean_directional_roles'].get(part_role)
         top_delta=cfg['role_top_differences'].get(part_role)
         measured=anchor(o,set(indices));old_delta=(measured-ref) if measured is not None else 0
         delta=old_delta
@@ -84,29 +74,38 @@ for o in meshes:
         for pi in indices:
             p=o.data.polygons[pi];old=o.data.materials[p.material_index];g=paint_gain(old)
             if g is None:desired[pi]=old;continue
-            if top_delta is not None and measured is not None:
+            if uniform:
+                # Rebuild the gun's base color from its true surface direction.
+                # Old decimated triangle material assignments are discarded.
+                target=uniform['wall_gain']+(1-uniform['wall_gain'])*max(0,p.normal.z)
+            elif accent_palette:target=.88+.12*max(0,p.normal.z)
+            elif top_delta is not None and measured is not None:
                 # Do not inherit the old uniformly dark hatch tops. Curvature and
                 # actual vertex height now supply their separated tones.
                 target=ref+top_delta+.45*(g-measured)
             elif dark_palette:
                 # A separate brown TAN pigment remains dark even when high up.
                 target=1+.55*(g-(measured or ref))
-            else:target=g+offset
+            else:target=ref+cfg['directional_contrast']*(g-ref)+offset
             floor=min(g,cfg['paint_gain_floor']);new=max(floor,min(cfg['paint_gain_ceiling'],target))
             if abs(new-target)>1e-5:clamped+=1
-            desired[pi]=new_material(old,new,dark_palette)
+            desired[pi]=new_material(old,new,uniform['srgb'] if uniform else accent_palette or dark_palette)
     assert all(m is not None for m in desired)
     o.data.materials.clear();slots={}
     for m in desired:
         if m.name not in slots:slots[m.name]=len(slots);o.data.materials.append(m)
     for p,m in zip(o.data.polygons,desired):p.material_index=slots[m.name]
 assert geometry_hash()==repaired_hash
+recess_report={o.name:apply_recess_paint(o,cfg['recess_paint'],entries[o.name]['role']) for o in meshes}
 sys.path.insert(0,str(ROOT));from face_depth_tone import apply_face_depth_tone
 s.camera=bpy.data.objects['Camera_iso_front'];apply_face_depth_tone(s)
 for collection in (bpy.data.meshes,bpy.data.materials,bpy.data.images):
     for item in list(collection):
         if item.users==0:collection.remove(item)
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'bradley_rimworld.blend'),compress=True)
+# Blender finalizes mesh topology on save. Count that saved scene before the
+# exchange exporter evaluates its own temporary mesh data.
+saved_faces=sum(len(o.data.polygons) for o in bpy.context.scene.objects if o.type=='MESH')
 for m in bpy.data.materials:
     if not m.use_nodes:continue
     for n in m.node_tree.nodes:
@@ -117,7 +116,9 @@ bpy.ops.export_scene.gltf(filepath=str(OUT/'bradley_rimworld.glb'),export_format
 report={'mode':'targeted_turret_repairs_height_paint','geometry_source':cfg['geometry_source'],'baseline_geometry_sha256':before,'geometry_sha256':repaired_hash,
  'geometry_changes_limited_to':sorted(repairs),'geometry_repairs':repairs,'height_paint':cfg['height_paint'],
  'dark_role_palettes':cfg['dark_role_palettes'],'role_top_differences':cfg['role_top_differences'],
- 'meshes':len(meshes),'faces':sum(len(o.data.polygons) for o in meshes),
+ 'accent_role_palettes':cfg['accent_role_palettes'],'recess_paint':recess_report,
+ 'accent_regions':accent_regions,
+ 'meshes':len(meshes),'faces':saved_faces,
  'part_difference_multiplier':factor,'clamped_faces':clamped,'assembly_reference_gains':assembly,'part_adjustments':measurements,
  'stage2_geometry':'reverted_at_user_request','in_game_validation':'not_performed'}
 (OUT/'manifest.json').write_text(json.dumps(report,indent=2)+'\n')
@@ -125,8 +126,8 @@ roles['stage_status']='targeted_turret_repairs_height_paint'
 roles['policy']['production_registry_scope']='targeted_repairs_and_paint'
 roles['targeted_geometry_repairs']=repairs
 roles['runtime_bindings']=[{'object':o.name,'role':entries[o.name]['role'],'parent':o.parent.name} for o in meshes]
-roles['restored_stage1_required']=[]
-roles['additional_roles']=[]
-roles['deferred_roles']=[{'role':'smoke_launcher','reason':'stage2 new geometry reverted; user requests original geometry and recolor only'}]
+roles['restored_stage1_required']=['WT_roll_03','WT_ex_decor_02']
+roles['additional_roles']=[{'role':role,'source_binding':'exact OBJ bone_turret face sets','objects':[o.name for o in meshes if o.get('art_role')==role]} for role in ('smoke_launcher','smoke_mount','turret_linkage_support')]
+roles['deferred_roles']=[]
 (ROOT/cfg['role_registry']).write_text(json.dumps(roles,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 print('TARGETED REPAIR AND HEIGHT PAINT BUILD PASSED',report['faces'],'faces,',len(repairs),'repairs')

@@ -3,7 +3,7 @@ import bpy,json,sys
 from pathlib import Path
 from mathutils import Vector
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'RimWorld';sys.path.insert(0,str(ROOT))
-from turret_repairs import read_source_parts,REPAIRED
+from turret_repairs import read_source_parts,REPAIRED,ADDED,SOURCE_RESTORED,RESTORATION
 cfg=json.loads((ROOT/'part_contrast.json').read_text())
 
 def snapshot():
@@ -12,17 +12,23 @@ def snapshot():
         'world':[tuple(row) for row in o.matrix_world]} for o in bpy.context.scene.objects if o.type=='MESH'}
 bpy.ops.wm.open_mainfile(filepath=str(ROOT/cfg['geometry_source']));bpy.context.scene.frame_set(1);before=snapshot()
 bpy.ops.wm.open_mainfile(filepath=str(OUT/'bradley_rimworld.blend'));bpy.context.scene.frame_set(1);after=snapshot()
-assert set(before)==set(after)
+assert set(after)-set(before)==ADDED and set(before)<=set(after)
 assert {n for n in before if before[n]!=after[n]}==REPAIRED
 for name in REPAIRED:
     assert before[name]['parent']==after[name]['parent'] and before[name]['world']==after[name]['world']
 source=read_source_parts()
-for name in ('WT_roll_01','WT_roll_02'):
+for name in SOURCE_RESTORED:
     o=bpy.data.objects[name]
     assert len(o.data.polygons)==len(source[name])
     for p,(original,_) in zip(o.data.polygons,source[name]):
         assert len(p.vertices)==len(original)
         assert all((o.matrix_world@o.data.vertices[i].co-Vector(co)).length<2e-6 for i,co in zip(p.vertices,original))
+for part in RESTORATION['parts']:
+    o=bpy.data.objects[part['name']];assert o.parent.name=='TURRET_YAW'
+    assert len(o.data.polygons)==len(part['source_polygon_indices'])
+    for p,pi in zip(o.data.polygons,part['source_polygon_indices']):
+        coordinates=source['WT_bone_turret'][pi][0]
+        assert all((o.matrix_world@o.data.vertices[i].co-Vector(co)).length<2e-6 for i,co in zip(p.vertices,coordinates))
 cloth=bpy.data.objects['WT_ex_decor_01'];assert len(cloth.data.polygons)==6 and len(cloth.data.vertices)==8
 top=[cloth.matrix_world@v.co for v in cloth.data.vertices[:4]]
 assert abs((top[1]-top[0]).cross(top[2]-top[0]).normalized().dot(top[3]-top[0]))<1e-6
@@ -34,14 +40,32 @@ for name in ('WT_hatch_02','WT_hatch_03'):
     assert not any(m.name.startswith('Dark TAN') for m in o.data.materials)
 for name in ('WT_roll_05','WT_ex_decor_01','WT_ex_armor_03'):
     assert any(m.name.startswith('Dark TAN') for m in bpy.data.objects[name].data.materials),name
+manifest=json.loads((OUT/'manifest.json').read_text())
+accents=manifest['accent_regions']
+assert any(a['role']=='rear_basket_floor' for a in accents)
+assert any(a['role']=='hatch_upper_linkage' for a in accents)
+assert any(m.name.startswith('Bright TAN') for m in bpy.data.objects['WT_hatch_02'].data.materials)
+floor=next(a for a in accents if a['role']=='rear_basket_floor');o=bpy.data.objects[floor['object']]
+assert all(max(o.data.materials[o.data.polygons[i].material_index].diffuse_color[:3])<.25 for i in floor['polygon_indices'])
+assert sum(r['darkened_faces'] for r in manifest['recess_paint'].values())>0
+for name in ('WT_bone_gun','WT_gun_barrel'):
+    o=bpy.data.objects[name];planes={}
+    for p in o.data.polygons:
+        mat=o.data.materials[p.material_index]
+        if not mat.name.startswith('Dark TAN'):continue
+        key=tuple(round(v,3) for v in p.normal)+(round(p.normal.dot(p.center),3),)
+        planes.setdefault(key,[]).append(mat.diffuse_color[:3])
+    for colors in planes.values():assert all(max(c[i] for c in colors)-min(c[i] for c in colors)<.004 for i in range(3))
 # On a common paint material and equal normal, top vertices must get more gain.
 o=bpy.data.objects['WT_@root'];a=o.data.attributes['Height and curve tone']
 samples=[((o.matrix_world@o.data.vertices[l.vertex_index].co).z,a.data[l.index].value) for l in o.data.loops]
 samples.sort();assert samples[-1][1]>samples[0][1]+.15
 for (_,v0),(_,v1) in zip(samples,samples[1:]):assert v1>=v0-1e-5
-report={'source_roll_01_faces':354,'source_roll_02_faces':1067,'exact_source_face_positions':True,
- 'geometry_edits_limited_to':sorted(REPAIRED),'other_geometry_and_all_parenting_unchanged':True,
+report={'restored_source_groups':list(SOURCE_RESTORED),'restored_embedded_components':len(ADDED),'smoke_tubes':8,
+ 'exact_source_face_positions':True,'gun_coplanar_base_colors_consistent':True,
+ 'bright_hatch_upper_linkage':True,'dark_rear_basket_floor':True,'geometric_recess_paint':True,
+ 'geometry_edits_limited_to':sorted(REPAIRED|ADDED),'other_geometry_and_all_parenting_unchanged':True,
  'planar_cover_faces':6,'height_led_paint':True,'curved_hatches_use_interpolated_tones':True,
  'separate_dark_tan_equipment':True,'in_game_validation':'not_performed'}
 (OUT/'recolor_validation.json').write_text(json.dumps(report,indent=2)+'\n')
-print('TURRET REPAIR VALIDATION PASSED: exact OBJ parts, planar cover, unchanged other geometry, height and curved hatch tones')
+print('TURRET REPAIR VALIDATION PASSED: exact OBJ groups and smoke, gun paint continuity, bright hatch linkage, dark rear floor and recess paint')
