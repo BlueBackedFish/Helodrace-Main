@@ -461,12 +461,17 @@
     "remove_narrow_fittings_below_m": 0.13,
     "retained_rod_target_width_m": 0.055,
     "grille_wave_scale": 1.8,
-    "flat_face_levels": [
-      1,
-      0.7,
-      0.45,
-      0.29
-    ]
+    "face_levels": {
+      "roof": 0.98,
+      "front_slope": 0.86,
+      "rear_slope": 0.76,
+      "side_slope": 0.65,
+      "front_wall": 0.63,
+      "rear_wall": 0.56,
+      "side_wall": 0.47,
+      "underside": 0.29,
+      "rear_roof_hatch": 1.015
+    }
   },
   "surface_cleanup": "Preserve armor boundaries; coplanar dissolve 0.1 degrees; collapse only wheels; thicken standalone antenna/gun groups only"
 }

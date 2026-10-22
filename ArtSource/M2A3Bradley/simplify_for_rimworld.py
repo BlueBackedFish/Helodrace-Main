@@ -86,11 +86,26 @@ for o in list(scene.objects):
         elif 'recesses' in name:rgb=(77,71,57)
         elif 'net_f' in name:rgb=(100,96,80)
         else:
-            brightness=1 if n.z>.88 else .70 if n.z>.40 else .45 if n.z>-.35 else .29
-            if n.z<=.40 and n.x<-.35:brightness+=.06
-            brightness+=.045 if turret else 0
+            # Separate azimuth as well as elevation: the glacis and side armor
+            # must not share a color simply because their slopes are similar.
+            front=abs(n.y)>=abs(n.x) and n.y<0
+            rear=abs(n.y)>=abs(n.x) and n.y>=0
+            if n.z>.88:brightness=.98
+            elif n.z>.15:brightness=.86 if front else .76 if rear else .65
+            elif n.z>-.35:brightness=.63 if front else .56 if rear else .47
+            else:brightness=.29
+            if turret:
+                brightness+=.04
+                # Roof equipment reads as a separate solid, with pale top faces
+                # and distinctly darker vertical walls, without cast shadows.
+                if o.name in {'WT_bone_commander_sight_v','WT_ex_decor_02','WT_ex_decor_03','WT_rocket_mount_01','WT_ex_armor_03'}:
+                    brightness-=.075 if n.z>.88 else .035
             if o.name.startswith('WT_hatch_'):
-                brightness=(.72 if n.z>.35 else .40 if n.z>-.35 else .29)+(.045 if turret else 0)
+                if turret and n.z>.35:brightness=.91
+                elif o.name=='WT_hatch_01' and n.z>.35:brightness=.95
+                elif n.z>.88:brightness=1.015 if o.name=='WT_hatch_05' else .99
+                elif n.z>.15:brightness+=.015
+                else:brightness-=.025
             # Higher deck fixtures retain a small readable brightness difference.
             if n.z>.4:brightness-=.025 if z<(2.80 if turret else 2.10) else 0
             rgb=tuple(c*brightness for c in (221,207,172))
@@ -120,7 +135,7 @@ assert bpy.data.objects['WT_rear_ramp'].parent.name=='REAR_RAMP_HINGE'
 report['face_reduction_percent']=round(100*(1-report['faces']/223389),1)
 report['style_reference']='Legion Vehicles : Acies Gravitatis / 3786789710 / LGIFV east and turret textures; visual reference only, no pixels copied'
 report['ERA']='deferred; no ERA geometry in this output'
-report['low_resolution']={'small_component_cutoff_m':.32,'essential_equipment_cutoff_m':.16,'remove_narrow_fittings_below_m':.13,'retained_rod_target_width_m':.055,'grille_wave_scale':1.8,'flat_face_levels':[1,.70,.45,.29]}
+report['low_resolution']={'small_component_cutoff_m':.32,'essential_equipment_cutoff_m':.16,'remove_narrow_fittings_below_m':.13,'retained_rod_target_width_m':.055,'grille_wave_scale':1.8,'face_levels':{'roof':.98,'front_slope':.86,'rear_slope':.76,'side_slope':.65,'front_wall':.63,'rear_wall':.56,'side_wall':.47,'underside':.29,'rear_roof_hatch':1.015}}
 scene.camera=bpy.data.objects['Camera_iso_front']
 import sys
 sys.path.insert(0,ROOT)
