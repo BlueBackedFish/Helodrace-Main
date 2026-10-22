@@ -6,9 +6,9 @@ meshes=[o for o in s.objects if o.type=='MESH']
 with open(os.path.join(HERE,'manifest.json')) as f:manifest=json.load(f)
 faces=sum(len(o.data.polygons) for o in meshes)
 assert faces==manifest['faces'] and faces<150000
-assert manifest['role_registry_consumed']
-assert manifest['hull_geometry_unchanged']
-assert all(len(o.data.polygons)>0 for o in meshes if o.get('build_stage')==2)
+assert manifest['mode']=='pre_stage2_geometry_color_only'
+assert manifest['geometry_and_parenting_unchanged']
+assert faces==43344 and len(meshes)==83
 for o in meshes:
     attr=o.data.attributes.get('Face depth tone')
     assert attr and attr.domain=='FACE'

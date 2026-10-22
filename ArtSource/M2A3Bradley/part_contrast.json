@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "geometry_source": "ReferenceFit/stage1_rimworld_base.blend",
+  "geometry_sha256": "979a4f82fe07bd9276d264a2d87a700123ca3b307430010b502ea7d4bb7bb356",
+  "role_registry": "bradley_roles.json",
+  "part_difference_multiplier": 3.0,
+  "paint_srgb_base": [221, 207, 172],
+  "paint_gain_floor": 0.36,
+  "paint_gain_ceiling": 1.12,
+  "minimum_role_differences": {
+    "turret_hatch_a": -0.055,
+    "turret_hatch_b": -0.055,
+    "driver_hatch": -0.035,
+    "rear_roof_hatch": 0.035,
+    "front_service_panel": 0.0,
+    "commander_sight": -0.05,
+    "commander_sight_guard": -0.035,
+    "tow_launcher": -0.05,
+    "tow_mount": -0.04,
+    "tow_end_cover": -0.04,
+    "gun_upper_shroud": -0.035,
+    "turret_front_upper_cover": -0.035,
+    "turret_front_lower_cover": -0.035,
+    "rear_stowage_bin": -0.04,
+    "turret_roof_equipment": -0.035
+  },
+  "notes": "Triple measured part-to-roof brightness gaps; use semantic minimums when old colors were identical or reversed. Preserve geometry and existing face direction shading. Clamp only to prevent black paint or blown TAN."
+}

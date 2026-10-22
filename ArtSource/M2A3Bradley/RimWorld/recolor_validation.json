@@ -1,0 +1,9 @@
+{
+  "exact_pre_stage2_geometry_and_parenting": true,
+  "mesh_count": 83,
+  "faces": 43344,
+  "hatch_difference_multiplier": 3,
+  "stage2_new_geometry_removed": true,
+  "rear_roof_hatch_kept_brighter": true,
+  "in_game_validation": "not_performed"
+}

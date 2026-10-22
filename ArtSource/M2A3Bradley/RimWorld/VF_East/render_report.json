@@ -1,11 +1,11 @@
 {
   "preview_geometry_east": {
-    "objects": 154,
+    "objects": 83,
     "alpha_bounds_bottom_origin": [
       138,
       268,
       913,
-      707
+      699
     ]
   },
   "vehicle_east": {
@@ -18,21 +18,21 @@
     ]
   },
   "turret_east_test": {
-    "objects": 87,
+    "objects": 18,
     "alpha_bounds_bottom_origin": [
-      288,
-      393,
-      633,
-      707
+      292,
+      392,
+      632,
+      698
     ]
   },
   "barrel_east_test": {
-    "objects": 6,
+    "objects": 4,
     "alpha_bounds_bottom_origin": [
-      489,
+      498,
       471,
-      800,
-      581
+      787,
+      587
     ]
   },
   "turret_top_east": {
@@ -41,7 +41,7 @@
       512
     ],
     "elevation_degrees": 90,
-    "objects": 87
+    "objects": 18
   },
   "barrel_top_east": {
     "pivot_pixels": [
@@ -49,7 +49,7 @@
       512
     ],
     "elevation_degrees": 90,
-    "objects": 6
+    "objects": 4
   },
   "turret_top_full_east": {
     "pivot_pixels": [
@@ -57,7 +57,7 @@
       512
     ],
     "elevation_degrees": 90,
-    "objects": 93
+    "objects": 22
   },
   "settings": {
     "size": [
