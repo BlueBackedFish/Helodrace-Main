@@ -1,0 +1,19 @@
+{
+  "registered_groups": 112,
+  "source_faces": 223389,
+  "current_faces": 43344,
+  "states": {
+    "present": 68,
+    "empty_mesh": 15,
+    "missing_object": 29
+  },
+  "required_restore": [
+    "roll_03",
+    "ex_decor_02"
+  ],
+  "protected_rear_stowage_bins": 5,
+  "unresolved_required_roles": [
+    "smoke_launcher"
+  ],
+  "original_and_current_models_modified": false
+}
