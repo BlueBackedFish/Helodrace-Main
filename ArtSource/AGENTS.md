@@ -3,7 +3,8 @@
 이 절은 Vehicle Framework 차량 모델·차량 텍스처 작업에만 적용한다. 가구 등 다른 아트에는 적용하지 않는다.
 
 - 새 차량 제작과 기존 차량 수정 전에 `VEHICLE_ART_STYLE.md`를 읽고 적용한다.
-- 주 스타일 기준은 Legion Vehicles : Acies Gravitatis, 보조 기준은 RimThunder다.
+- 목표 아트 스타일·차량 외형·디테일 배치는 RimThunder를 기준으로 한다. Legion은 3D 모델 기반 렌더와 한 면 한 색의 표현 방식을 참고한다.
+- Legion의 별도 차량 디자인이나 생략 수준을 실제 Bradley의 형상 기준으로 사용하지 않는다. RimThunder에 가까운 식별력과 디테일을 단색 면으로 구현한다.
 - 사용자 제공 3D 파일은 비율·장비 배치의 근거, 청사진은 투영 검수와 디테일 선택의 근거로 사용한다. 두 자료의 차종/형식이 다르면 기록한다.
 - 현재 Bradley 출력이나 기존 스크립트 수치를 승인된 스타일 표준으로 간주하지 않는다.
 - 새 차량 폴더에 `VEHICLE_ART_BRIEF_TEMPLATE.md`를 복사해 `ART_BRIEF.md`를 작성한다. 미확인 값은 추측으로 확정하지 않는다.
