@@ -1,685 +1,2599 @@
 {
-  "count": 34,
-  "layout": "28 side modules and 6 frontal modules; cosmetic approximation, not an exact BRAT configuration",
+  "count": 96,
+  "layout": "BRAT-1 photo-matched silhouette: 55 side, 26 glacis, 15 turret; inferred exterior dimensions and family placement",
+  "contacts": [
+    {
+      "tile": "ERA_M5_L_LOW_01",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_LOW_02",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_LOW_03",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_LOW_04",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_LOW_05",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_LOW_06",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_LOW_07",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_LOW_08",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_LOW_09",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_LOW_10",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_LOW_11",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_LOW_12",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_LOW_13",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_LOW_14",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_LOW_15",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_LOW_16",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_HIGH_01",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_HIGH_02",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_HIGH_03",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_HIGH_04",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_HIGH_05",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_HIGH_06",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_HIGH_07",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_HIGH_08",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_HIGH_09",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_HIGH_10",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_HIGH_11",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_L_HIGH_12",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_LOW_01",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_LOW_02",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_LOW_03",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_LOW_04",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_LOW_05",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_LOW_06",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_LOW_07",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_LOW_08",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_LOW_09",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_LOW_10",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_LOW_11",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_LOW_12",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_LOW_13",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_LOW_14",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_LOW_15",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_HIGH_01",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_HIGH_02",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_HIGH_03",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_HIGH_04",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_HIGH_05",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_HIGH_06",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_HIGH_07",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_HIGH_08",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_HIGH_09",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_HIGH_10",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_HIGH_11",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M5_R_HIGH_12",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_1_1",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_1_2",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_1_3",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_1_4",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_1_5",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_1_6",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_2_1",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_2_2",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_2_3",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_2_4",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_2_5",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_2_6",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_3_1",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_3_2",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_3_3",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_3_4",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_3_5",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M3_FRONT_3_6",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M4_SHOULDER_L_1_1",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M4_SHOULDER_L_1_2",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M4_SHOULDER_L_2_1",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M4_SHOULDER_L_2_2",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M4_SHOULDER_R_1_1",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M4_SHOULDER_R_1_2",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M4_SHOULDER_R_2_1",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M4_SHOULDER_R_2_2",
+      "target": "Main hull sloped glacis",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M6_TURRET_L_01",
+      "target": "Faceted turret armor",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M6_TURRET_L_02",
+      "target": "Faceted turret armor",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M6_TURRET_L_03",
+      "target": "Faceted turret armor",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M6_TURRET_L_04",
+      "target": "Faceted turret armor",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M6_TURRET_R_01",
+      "target": "Faceted turret armor",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M6_TURRET_R_02",
+      "target": "Faceted turret armor",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M6_TURRET_R_03",
+      "target": "Faceted turret armor",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M7_CHEEK_0_1",
+      "target": "Faceted turret armor",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M7_CHEEK_0_2",
+      "target": "Faceted turret armor",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M7_CHEEK_2_1",
+      "target": "Faceted turret armor",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M7_CHEEK_2_2",
+      "target": "Faceted turret armor",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M7_CHEEK_1_1",
+      "target": "Faceted turret armor",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M7_CHEEK_1_2",
+      "target": "Faceted turret armor",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M7_CHEEK_1_3",
+      "target": "Faceted turret armor",
+      "mount_penetration": 0.005
+    },
+    {
+      "tile": "ERA_M7_CHEEK_1_4",
+      "target": "Faceted turret armor",
+      "mount_penetration": 0.005
+    }
+  ],
   "tiles": [
     {
-      "name": "ERA_L_LOW_01",
-      "file": "Tiles/ERA_L_LOW_01.glb",
+      "name": "ERA_M5_L_LOW_01",
+      "file": "Tiles/ERA_M5_L_LOW_01.glb",
       "position": [
-        -1.84,
-        -2.24,
-        1.22
+        -1.6449999809265137,
+        -2.4600000381469727,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.3213333333333333,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_L_LOW_02",
-      "file": "Tiles/ERA_L_LOW_02.glb",
+      "name": "ERA_M5_L_LOW_02",
+      "file": "Tiles/ERA_M5_L_LOW_02.glb",
       "position": [
-        -1.84,
-        -1.5200000000000002,
-        1.22
+        -1.6449999809265137,
+        -2.126666784286499,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.3213333333333333,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_L_LOW_03",
-      "file": "Tiles/ERA_L_LOW_03.glb",
+      "name": "ERA_M5_L_LOW_03",
+      "file": "Tiles/ERA_M5_L_LOW_03.glb",
       "position": [
-        -1.84,
-        -0.8000000000000003,
-        1.22
+        -1.6449999809265137,
+        -1.7933332920074463,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.3213333333333333,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_L_LOW_04",
-      "file": "Tiles/ERA_L_LOW_04.glb",
+      "name": "ERA_M5_L_LOW_04",
+      "file": "Tiles/ERA_M5_L_LOW_04.glb",
       "position": [
-        -1.84,
-        -0.08000000000000007,
-        1.22
+        -1.6449999809265137,
+        -1.4600000381469727,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.3213333333333333,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_L_LOW_05",
-      "file": "Tiles/ERA_L_LOW_05.glb",
+      "name": "ERA_M5_L_LOW_05",
+      "file": "Tiles/ERA_M5_L_LOW_05.glb",
       "position": [
-        -1.84,
-        0.6399999999999997,
-        1.22
+        -1.6449999809265137,
+        -1.1266666650772095,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.3213333333333333,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_L_LOW_06",
-      "file": "Tiles/ERA_L_LOW_06.glb",
+      "name": "ERA_M5_L_LOW_06",
+      "file": "Tiles/ERA_M5_L_LOW_06.glb",
       "position": [
-        -1.84,
-        1.3599999999999994,
-        1.22
+        -1.6449999809265137,
+        -0.7933333516120911,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.3213333333333333,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_L_LOW_07",
-      "file": "Tiles/ERA_L_LOW_07.glb",
+      "name": "ERA_M5_L_LOW_07",
+      "file": "Tiles/ERA_M5_L_LOW_07.glb",
       "position": [
-        -1.84,
-        2.08,
-        1.22
+        -1.6449999809265137,
+        -0.46000000834465027,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.3213333333333333,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_L_HIGH_01",
-      "file": "Tiles/ERA_L_HIGH_01.glb",
+      "name": "ERA_M5_L_LOW_08",
+      "file": "Tiles/ERA_M5_L_LOW_08.glb",
       "position": [
-        -1.84,
-        -2.24,
-        1.78
+        -1.6449999809265137,
+        -0.12666666507720947,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.3213333333333333,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_L_HIGH_02",
-      "file": "Tiles/ERA_L_HIGH_02.glb",
+      "name": "ERA_M5_L_LOW_09",
+      "file": "Tiles/ERA_M5_L_LOW_09.glb",
       "position": [
-        -1.84,
-        -1.5200000000000002,
-        1.78
+        -1.6449999809265137,
+        0.20666666328907013,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.3213333333333333,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_L_HIGH_03",
-      "file": "Tiles/ERA_L_HIGH_03.glb",
+      "name": "ERA_M5_L_LOW_10",
+      "file": "Tiles/ERA_M5_L_LOW_10.glb",
       "position": [
-        -1.84,
-        -0.8000000000000003,
-        1.78
+        -1.6449999809265137,
+        0.5400000214576721,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.3213333333333333,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_L_HIGH_04",
-      "file": "Tiles/ERA_L_HIGH_04.glb",
+      "name": "ERA_M5_L_LOW_11",
+      "file": "Tiles/ERA_M5_L_LOW_11.glb",
       "position": [
-        -1.84,
-        -0.08000000000000007,
-        1.78
+        -1.6449999809265137,
+        0.8733333349227905,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.3213333333333333,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_L_HIGH_05",
-      "file": "Tiles/ERA_L_HIGH_05.glb",
+      "name": "ERA_M5_L_LOW_12",
+      "file": "Tiles/ERA_M5_L_LOW_12.glb",
       "position": [
-        -1.84,
-        0.6399999999999997,
-        1.78
+        -1.6449999809265137,
+        1.2066667079925537,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.3213333333333333,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_L_HIGH_06",
-      "file": "Tiles/ERA_L_HIGH_06.glb",
+      "name": "ERA_M5_L_LOW_13",
+      "file": "Tiles/ERA_M5_L_LOW_13.glb",
       "position": [
-        -1.84,
-        1.3599999999999994,
-        1.78
+        -1.6449999809265137,
+        1.5399999618530273,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.3213333333333333,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_L_HIGH_07",
-      "file": "Tiles/ERA_L_HIGH_07.glb",
+      "name": "ERA_M5_L_LOW_14",
+      "file": "Tiles/ERA_M5_L_LOW_14.glb",
       "position": [
-        -1.84,
-        2.08,
-        1.78
+        -1.6449999809265137,
+        1.8733333349227905,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.3213333333333333,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_R_LOW_01",
-      "file": "Tiles/ERA_R_LOW_01.glb",
+      "name": "ERA_M5_L_LOW_15",
+      "file": "Tiles/ERA_M5_L_LOW_15.glb",
       "position": [
-        1.84,
-        -2.24,
-        1.22
+        -1.6449999809265137,
+        2.2066667079925537,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.3213333333333333,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_R_LOW_02",
-      "file": "Tiles/ERA_R_LOW_02.glb",
+      "name": "ERA_M5_L_LOW_16",
+      "file": "Tiles/ERA_M5_L_LOW_16.glb",
       "position": [
-        1.84,
-        -1.5200000000000002,
-        1.22
+        -1.6449999809265137,
+        2.5399999618530273,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.3213333333333333,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_R_LOW_03",
-      "file": "Tiles/ERA_R_LOW_03.glb",
+      "name": "ERA_M5_L_HIGH_01",
+      "file": "Tiles/ERA_M5_L_HIGH_01.glb",
       "position": [
-        1.84,
-        -0.8000000000000003,
-        1.22
+        -1.6449999809265137,
+        -1.2000000476837158,
+        1.9950000047683716
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.328,
+        0.31,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_R_LOW_04",
-      "file": "Tiles/ERA_R_LOW_04.glb",
+      "name": "ERA_M5_L_HIGH_02",
+      "file": "Tiles/ERA_M5_L_HIGH_02.glb",
       "position": [
-        1.84,
-        -0.08000000000000007,
-        1.22
+        -1.6449999809265137,
+        -0.8600000143051147,
+        1.9950000047683716
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.328,
+        0.31,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_R_LOW_05",
-      "file": "Tiles/ERA_R_LOW_05.glb",
+      "name": "ERA_M5_L_HIGH_03",
+      "file": "Tiles/ERA_M5_L_HIGH_03.glb",
       "position": [
-        1.84,
-        0.6399999999999997,
-        1.22
+        -1.6449999809265137,
+        -0.5199999809265137,
+        1.9950000047683716
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.328,
+        0.31,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_R_LOW_06",
-      "file": "Tiles/ERA_R_LOW_06.glb",
+      "name": "ERA_M5_L_HIGH_04",
+      "file": "Tiles/ERA_M5_L_HIGH_04.glb",
       "position": [
-        1.84,
-        1.3599999999999994,
-        1.22
+        -1.6449999809265137,
+        -0.18000000715255737,
+        1.9950000047683716
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.328,
+        0.31,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_R_LOW_07",
-      "file": "Tiles/ERA_R_LOW_07.glb",
+      "name": "ERA_M5_L_HIGH_05",
+      "file": "Tiles/ERA_M5_L_HIGH_05.glb",
       "position": [
-        1.84,
-        2.08,
-        1.22
+        -1.6449999809265137,
+        0.1599999964237213,
+        1.9950000047683716
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.328,
+        0.31,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_R_HIGH_01",
-      "file": "Tiles/ERA_R_HIGH_01.glb",
+      "name": "ERA_M5_L_HIGH_06",
+      "file": "Tiles/ERA_M5_L_HIGH_06.glb",
       "position": [
-        1.84,
-        -2.24,
-        1.78
+        -1.6449999809265137,
+        0.5,
+        1.9950000047683716
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.328,
+        0.31,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_R_HIGH_02",
-      "file": "Tiles/ERA_R_HIGH_02.glb",
+      "name": "ERA_M5_L_HIGH_07",
+      "file": "Tiles/ERA_M5_L_HIGH_07.glb",
       "position": [
-        1.84,
-        -1.5200000000000002,
-        1.78
+        -1.6449999809265137,
+        0.8399999737739563,
+        1.9950000047683716
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.328,
+        0.31,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_R_HIGH_03",
-      "file": "Tiles/ERA_R_HIGH_03.glb",
+      "name": "ERA_M5_L_HIGH_08",
+      "file": "Tiles/ERA_M5_L_HIGH_08.glb",
       "position": [
-        1.84,
-        -0.8000000000000003,
-        1.78
+        -1.6449999809265137,
+        1.1799999475479126,
+        1.9950000047683716
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.328,
+        0.31,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_R_HIGH_04",
-      "file": "Tiles/ERA_R_HIGH_04.glb",
+      "name": "ERA_M5_L_HIGH_09",
+      "file": "Tiles/ERA_M5_L_HIGH_09.glb",
       "position": [
-        1.84,
-        -0.08000000000000007,
-        1.78
+        -1.6449999809265137,
+        1.5199999809265137,
+        1.9950000047683716
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.328,
+        0.31,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_R_HIGH_05",
-      "file": "Tiles/ERA_R_HIGH_05.glb",
+      "name": "ERA_M5_L_HIGH_10",
+      "file": "Tiles/ERA_M5_L_HIGH_10.glb",
       "position": [
-        1.84,
-        0.6399999999999997,
-        1.78
+        -1.6449999809265137,
+        1.8600000143051147,
+        1.9950000047683716
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.328,
+        0.31,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_R_HIGH_06",
-      "file": "Tiles/ERA_R_HIGH_06.glb",
+      "name": "ERA_M5_L_HIGH_11",
+      "file": "Tiles/ERA_M5_L_HIGH_11.glb",
       "position": [
-        1.84,
-        1.3599999999999994,
-        1.78
+        -1.6449999809265137,
+        2.200000047683716,
+        1.9950000047683716
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.328,
+        0.31,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_R_HIGH_07",
-      "file": "Tiles/ERA_R_HIGH_07.glb",
+      "name": "ERA_M5_L_HIGH_12",
+      "file": "Tiles/ERA_M5_L_HIGH_12.glb",
       "position": [
-        1.84,
-        2.08,
-        1.78
+        -1.6449999809265137,
+        2.5399999618530273,
+        1.9950000047683716
       ],
       "rotation_euler": [
-        0,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        -1.5707963705062866
       ],
       "size": [
-        0.24,
-        0.68,
-        0.49
+        0.328,
+        0.31,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_FRONT_01",
-      "file": "Tiles/ERA_FRONT_01.glb",
+      "name": "ERA_M5_R_LOW_01",
+      "file": "Tiles/ERA_M5_R_LOW_01.glb",
       "position": [
-        -0.95,
-        -2.76,
-        1.85
+        1.6449999809265137,
+        -2.4600000381469727,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0.6358384235237452,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
       ],
       "size": [
-        0.35,
-        0.46,
-        0.18
+        0.34514285714285714,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_FRONT_02",
-      "file": "Tiles/ERA_FRONT_02.glb",
+      "name": "ERA_M5_R_LOW_02",
+      "file": "Tiles/ERA_M5_R_LOW_02.glb",
       "position": [
-        -0.57,
-        -2.76,
-        1.85
+        1.6449999809265137,
+        -2.1028571128845215,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0.6358384235237452,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
       ],
       "size": [
-        0.35,
-        0.46,
-        0.18
+        0.34514285714285714,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_FRONT_03",
-      "file": "Tiles/ERA_FRONT_03.glb",
+      "name": "ERA_M5_R_LOW_03",
+      "file": "Tiles/ERA_M5_R_LOW_03.glb",
       "position": [
-        -0.18999999999999995,
-        -2.76,
-        1.85
+        1.6449999809265137,
+        -1.7457143068313599,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0.6358384235237452,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
       ],
       "size": [
-        0.35,
-        0.46,
-        0.18
+        0.34514285714285714,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_FRONT_04",
-      "file": "Tiles/ERA_FRONT_04.glb",
+      "name": "ERA_M5_R_LOW_04",
+      "file": "Tiles/ERA_M5_R_LOW_04.glb",
       "position": [
-        0.19000000000000017,
-        -2.76,
-        1.85
+        1.6449999809265137,
+        -1.3885713815689087,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0.6358384235237452,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
       ],
       "size": [
-        0.35,
-        0.46,
-        0.18
+        0.34514285714285714,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_FRONT_05",
-      "file": "Tiles/ERA_FRONT_05.glb",
+      "name": "ERA_M5_R_LOW_05",
+      "file": "Tiles/ERA_M5_R_LOW_05.glb",
       "position": [
-        0.5700000000000001,
-        -2.76,
-        1.85
+        1.6449999809265137,
+        -1.031428575515747,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0.6358384235237452,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
       ],
       "size": [
-        0.35,
-        0.46,
-        0.18
+        0.34514285714285714,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
       "pivot": "tile center; standalone GLB at origin"
     },
     {
-      "name": "ERA_FRONT_06",
-      "file": "Tiles/ERA_FRONT_06.glb",
+      "name": "ERA_M5_R_LOW_06",
+      "file": "Tiles/ERA_M5_R_LOW_06.glb",
       "position": [
-        0.95,
-        -2.76,
-        1.85
+        1.6449999809265137,
+        -0.6742857098579407,
+        1.649999976158142
       ],
       "rotation_euler": [
-        0.6358384235237452,
-        0,
-        0
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
       ],
       "size": [
-        0.35,
-        0.46,
-        0.18
+        0.34514285714285714,
+        0.36,
+        0.25
       ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_LOW_07",
+      "file": "Tiles/ERA_M5_R_LOW_07.glb",
+      "position": [
+        1.6449999809265137,
+        -0.3171428442001343,
+        1.649999976158142
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.34514285714285714,
+        0.36,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_LOW_08",
+      "file": "Tiles/ERA_M5_R_LOW_08.glb",
+      "position": [
+        1.6449999809265137,
+        0.03999999910593033,
+        1.649999976158142
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.34514285714285714,
+        0.36,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_LOW_09",
+      "file": "Tiles/ERA_M5_R_LOW_09.glb",
+      "position": [
+        1.6449999809265137,
+        0.39714285731315613,
+        1.649999976158142
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.34514285714285714,
+        0.36,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_LOW_10",
+      "file": "Tiles/ERA_M5_R_LOW_10.glb",
+      "position": [
+        1.6449999809265137,
+        0.7542856931686401,
+        1.649999976158142
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.34514285714285714,
+        0.36,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_LOW_11",
+      "file": "Tiles/ERA_M5_R_LOW_11.glb",
+      "position": [
+        1.6449999809265137,
+        1.1114286184310913,
+        1.649999976158142
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.34514285714285714,
+        0.36,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_LOW_12",
+      "file": "Tiles/ERA_M5_R_LOW_12.glb",
+      "position": [
+        1.6449999809265137,
+        1.468571424484253,
+        1.649999976158142
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.34514285714285714,
+        0.36,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_LOW_13",
+      "file": "Tiles/ERA_M5_R_LOW_13.glb",
+      "position": [
+        1.6449999809265137,
+        1.8257142305374146,
+        1.649999976158142
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.34514285714285714,
+        0.36,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_LOW_14",
+      "file": "Tiles/ERA_M5_R_LOW_14.glb",
+      "position": [
+        1.6449999809265137,
+        2.182857036590576,
+        1.649999976158142
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.34514285714285714,
+        0.36,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_LOW_15",
+      "file": "Tiles/ERA_M5_R_LOW_15.glb",
+      "position": [
+        1.6449999809265137,
+        2.5399999618530273,
+        1.649999976158142
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.34514285714285714,
+        0.36,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_HIGH_01",
+      "file": "Tiles/ERA_M5_R_HIGH_01.glb",
+      "position": [
+        1.6449999809265137,
+        -1.2000000476837158,
+        1.9950000047683716
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.328,
+        0.31,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_HIGH_02",
+      "file": "Tiles/ERA_M5_R_HIGH_02.glb",
+      "position": [
+        1.6449999809265137,
+        -0.8600000143051147,
+        1.9950000047683716
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.328,
+        0.31,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_HIGH_03",
+      "file": "Tiles/ERA_M5_R_HIGH_03.glb",
+      "position": [
+        1.6449999809265137,
+        -0.5199999809265137,
+        1.9950000047683716
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.328,
+        0.31,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_HIGH_04",
+      "file": "Tiles/ERA_M5_R_HIGH_04.glb",
+      "position": [
+        1.6449999809265137,
+        -0.18000000715255737,
+        1.9950000047683716
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.328,
+        0.31,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_HIGH_05",
+      "file": "Tiles/ERA_M5_R_HIGH_05.glb",
+      "position": [
+        1.6449999809265137,
+        0.1599999964237213,
+        1.9950000047683716
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.328,
+        0.31,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_HIGH_06",
+      "file": "Tiles/ERA_M5_R_HIGH_06.glb",
+      "position": [
+        1.6449999809265137,
+        0.5,
+        1.9950000047683716
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.328,
+        0.31,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_HIGH_07",
+      "file": "Tiles/ERA_M5_R_HIGH_07.glb",
+      "position": [
+        1.6449999809265137,
+        0.8399999737739563,
+        1.9950000047683716
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.328,
+        0.31,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_HIGH_08",
+      "file": "Tiles/ERA_M5_R_HIGH_08.glb",
+      "position": [
+        1.6449999809265137,
+        1.1799999475479126,
+        1.9950000047683716
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.328,
+        0.31,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_HIGH_09",
+      "file": "Tiles/ERA_M5_R_HIGH_09.glb",
+      "position": [
+        1.6449999809265137,
+        1.5199999809265137,
+        1.9950000047683716
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.328,
+        0.31,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_HIGH_10",
+      "file": "Tiles/ERA_M5_R_HIGH_10.glb",
+      "position": [
+        1.6449999809265137,
+        1.8600000143051147,
+        1.9950000047683716
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.328,
+        0.31,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_HIGH_11",
+      "file": "Tiles/ERA_M5_R_HIGH_11.glb",
+      "position": [
+        1.6449999809265137,
+        2.200000047683716,
+        1.9950000047683716
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.328,
+        0.31,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M5_R_HIGH_12",
+      "file": "Tiles/ERA_M5_R_HIGH_12.glb",
+      "position": [
+        1.6449999809265137,
+        2.5399999618530273,
+        1.9950000047683716
+      ],
+      "rotation_euler": [
+        1.5707963705062866,
+        -0.0,
+        1.5707963705062866
+      ],
+      "size": [
+        0.328,
+        0.31,
+        0.25
+      ],
+      "parent": "ERA_KIT",
+      "family": "M5",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_1_1",
+      "file": "Tiles/ERA_M3_FRONT_1_1.glb",
+      "position": [
+        -0.824999988079071,
+        -3.0873546600341797,
+        1.6041229963302612
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_1_2",
+      "file": "Tiles/ERA_M3_FRONT_1_2.glb",
+      "position": [
+        -0.4950000047683716,
+        -3.0873546600341797,
+        1.6041229963302612
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_1_3",
+      "file": "Tiles/ERA_M3_FRONT_1_3.glb",
+      "position": [
+        -0.16500000655651093,
+        -3.0873546600341797,
+        1.6041231155395508
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_1_4",
+      "file": "Tiles/ERA_M3_FRONT_1_4.glb",
+      "position": [
+        0.16500000655651093,
+        -3.0873546600341797,
+        1.6041231155395508
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_1_5",
+      "file": "Tiles/ERA_M3_FRONT_1_5.glb",
+      "position": [
+        0.4950000047683716,
+        -3.0873546600341797,
+        1.6041229963302612
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_1_6",
+      "file": "Tiles/ERA_M3_FRONT_1_6.glb",
+      "position": [
+        0.824999988079071,
+        -3.0873546600341797,
+        1.6041229963302612
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_2_1",
+      "file": "Tiles/ERA_M3_FRONT_2_1.glb",
+      "position": [
+        -0.824999988079071,
+        -2.817354679107666,
+        1.8034088611602783
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_2_2",
+      "file": "Tiles/ERA_M3_FRONT_2_2.glb",
+      "position": [
+        -0.4950000047683716,
+        -2.817354440689087,
+        1.8034088611602783
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_2_3",
+      "file": "Tiles/ERA_M3_FRONT_2_3.glb",
+      "position": [
+        -0.16500000655651093,
+        -2.817354679107666,
+        1.8034088611602783
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_2_4",
+      "file": "Tiles/ERA_M3_FRONT_2_4.glb",
+      "position": [
+        0.16500000655651093,
+        -2.817354440689087,
+        1.8034088611602783
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_2_5",
+      "file": "Tiles/ERA_M3_FRONT_2_5.glb",
+      "position": [
+        0.4950000047683716,
+        -2.817354440689087,
+        1.8034088611602783
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_2_6",
+      "file": "Tiles/ERA_M3_FRONT_2_6.glb",
+      "position": [
+        0.824999988079071,
+        -2.817354440689087,
+        1.8034088611602783
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_3_1",
+      "file": "Tiles/ERA_M3_FRONT_3_1.glb",
+      "position": [
+        -0.824999988079071,
+        -2.5473544597625732,
+        2.002694606781006
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_3_2",
+      "file": "Tiles/ERA_M3_FRONT_3_2.glb",
+      "position": [
+        -0.4950000047683716,
+        -2.5473544597625732,
+        2.002694606781006
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_3_3",
+      "file": "Tiles/ERA_M3_FRONT_3_3.glb",
+      "position": [
+        -0.16500000655651093,
+        -2.5473544597625732,
+        2.002694606781006
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_3_4",
+      "file": "Tiles/ERA_M3_FRONT_3_4.glb",
+      "position": [
+        0.16500000655651093,
+        -2.5473544597625732,
+        2.002694606781006
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_3_5",
+      "file": "Tiles/ERA_M3_FRONT_3_5.glb",
+      "position": [
+        0.4950000047683716,
+        -2.5473544597625732,
+        2.002694606781006
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M3_FRONT_3_6",
+      "file": "Tiles/ERA_M3_FRONT_3_6.glb",
+      "position": [
+        0.824999988079071,
+        -2.5473544597625732,
+        2.002694606781006
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.318,
+        0.317,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M3",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M4_SHOULDER_L_1_1",
+      "file": "Tiles/ERA_M4_SHOULDER_L_1_1.glb",
+      "position": [
+        -1.0750000476837158,
+        -3.1023545265197754,
+        1.593051791191101
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.255,
+        0.245,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M4",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M4_SHOULDER_L_1_2",
+      "file": "Tiles/ERA_M4_SHOULDER_L_1_2.glb",
+      "position": [
+        -1.3450000286102295,
+        -3.1023545265197754,
+        1.593051791191101
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.255,
+        0.245,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M4",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M4_SHOULDER_L_2_1",
+      "file": "Tiles/ERA_M4_SHOULDER_L_2_1.glb",
+      "position": [
+        -1.0750000476837158,
+        -2.8923544883728027,
+        1.748051643371582
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.255,
+        0.245,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M4",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M4_SHOULDER_L_2_2",
+      "file": "Tiles/ERA_M4_SHOULDER_L_2_2.glb",
+      "position": [
+        -1.3450000286102295,
+        -2.8923544883728027,
+        1.7480517625808716
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.255,
+        0.245,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M4",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M4_SHOULDER_R_1_1",
+      "file": "Tiles/ERA_M4_SHOULDER_R_1_1.glb",
+      "position": [
+        1.0750000476837158,
+        -3.1023545265197754,
+        1.593051791191101
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.255,
+        0.245,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M4",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M4_SHOULDER_R_1_2",
+      "file": "Tiles/ERA_M4_SHOULDER_R_1_2.glb",
+      "position": [
+        1.3450000286102295,
+        -3.1023545265197754,
+        1.593051791191101
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.255,
+        0.245,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M4",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M4_SHOULDER_R_2_1",
+      "file": "Tiles/ERA_M4_SHOULDER_R_2_1.glb",
+      "position": [
+        1.0750000476837158,
+        -2.8923544883728027,
+        1.7480517625808716
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.255,
+        0.245,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M4",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M4_SHOULDER_R_2_2",
+      "file": "Tiles/ERA_M4_SHOULDER_R_2_2.glb",
+      "position": [
+        1.3450000286102295,
+        -2.8923544883728027,
+        1.7480517625808716
+      ],
+      "rotation_euler": [
+        0.6358383297920227,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.255,
+        0.245,
+        0.13
+      ],
+      "parent": "ERA_KIT",
+      "family": "M4",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M6_TURRET_L_01",
+      "file": "Tiles/ERA_M6_TURRET_L_01.glb",
+      "position": [
+        -1.2211477756500244,
+        0.8872691988945007,
+        2.7666900157928467
+      ],
+      "rotation_euler": [
+        1.117779016494751,
+        -8.618656011094572e-08,
+        -1.5224642753601074
+      ],
+      "size": [
+        0.255,
+        0.32,
+        0.13
+      ],
+      "parent": "ERA_TURRET_KIT",
+      "family": "M6",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M6_TURRET_L_02",
+      "file": "Tiles/ERA_M6_TURRET_L_02.glb",
+      "position": [
+        -1.2081176042556763,
+        0.623792290687561,
+        2.7672770023345947
+      ],
+      "rotation_euler": [
+        1.117779016494751,
+        -8.618656011094572e-08,
+        -1.5224642753601074
+      ],
+      "size": [
+        0.255,
+        0.32,
+        0.13
+      ],
+      "parent": "ERA_TURRET_KIT",
+      "family": "M6",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M6_TURRET_L_03",
+      "file": "Tiles/ERA_M6_TURRET_L_03.glb",
+      "position": [
+        -1.195616602897644,
+        0.35892871022224426,
+        2.76456880569458
+      ],
+      "rotation_euler": [
+        1.148526906967163,
+        3.586443142467033e-09,
+        -1.5082237720489502
+      ],
+      "size": [
+        0.255,
+        0.32,
+        0.13
+      ],
+      "parent": "ERA_TURRET_KIT",
+      "family": "M6",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M6_TURRET_L_04",
+      "file": "Tiles/ERA_M6_TURRET_L_04.glb",
+      "position": [
+        -1.1795257329940796,
+        0.09561708569526672,
+        2.763665199279785
+      ],
+      "rotation_euler": [
+        1.148526906967163,
+        3.586443142467033e-09,
+        -1.5082237720489502
+      ],
+      "size": [
+        0.255,
+        0.32,
+        0.13
+      ],
+      "parent": "ERA_TURRET_KIT",
+      "family": "M6",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M6_TURRET_R_01",
+      "file": "Tiles/ERA_M6_TURRET_R_01.glb",
+      "position": [
+        0.8411464095115662,
+        0.24949771165847778,
+        2.7644033432006836
+      ],
+      "rotation_euler": [
+        1.139258861541748,
+        -3.163911088677196e-08,
+        1.5426697731018066
+      ],
+      "size": [
+        0.31,
+        0.32,
+        0.13
+      ],
+      "parent": "ERA_TURRET_KIT",
+      "family": "M6",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M6_TURRET_R_02",
+      "file": "Tiles/ERA_M6_TURRET_R_02.glb",
+      "position": [
+        0.8533353805541992,
+        0.6925833225250244,
+        2.7650039196014404
+      ],
+      "rotation_euler": [
+        1.139258861541748,
+        -3.163911088677196e-08,
+        1.5426697731018066
+      ],
+      "size": [
+        0.31,
+        0.32,
+        0.13
+      ],
+      "parent": "ERA_TURRET_KIT",
+      "family": "M6",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M6_TURRET_R_03",
+      "file": "Tiles/ERA_M6_TURRET_R_03.glb",
+      "position": [
+        0.8638682961463928,
+        1.1365811824798584,
+        2.7620432376861572
+      ],
+      "rotation_euler": [
+        1.1634095907211304,
+        6.061188173589471e-08,
+        1.5517470836639404
+      ],
+      "size": [
+        0.31,
+        0.32,
+        0.13
+      ],
+      "parent": "ERA_TURRET_KIT",
+      "family": "M6",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M7_CHEEK_0_1",
+      "file": "Tiles/ERA_M7_CHEEK_0_1.glb",
+      "position": [
+        -1.0065714120864868,
+        -0.23994982242584229,
+        2.811727285385132
+      ],
+      "rotation_euler": [
+        1.0975258350372314,
+        8.238325577281103e-09,
+        -0.7548041939735413
+      ],
+      "size": [
+        0.2,
+        0.26,
+        0.11
+      ],
+      "parent": "ERA_TURRET_KIT",
+      "family": "M7",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M7_CHEEK_0_2",
+      "file": "Tiles/ERA_M7_CHEEK_0_2.glb",
+      "position": [
+        -0.8686157464981079,
+        -0.3700734078884125,
+        2.8157248497009277
+      ],
+      "rotation_euler": [
+        1.0350462198257446,
+        -2.6236882888497348e-08,
+        -0.844089925289154
+      ],
+      "size": [
+        0.2,
+        0.26,
+        0.11
+      ],
+      "parent": "ERA_TURRET_KIT",
+      "family": "M7",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M7_CHEEK_2_1",
+      "file": "Tiles/ERA_M7_CHEEK_2_1.glb",
+      "position": [
+        0.5107171535491943,
+        -0.3815458118915558,
+        2.817579984664917
+      ],
+      "rotation_euler": [
+        1.0489592552185059,
+        -2.3687338313038708e-08,
+        0.7039821743965149
+      ],
+      "size": [
+        0.2,
+        0.26,
+        0.11
+      ],
+      "parent": "ERA_TURRET_KIT",
+      "family": "M7",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M7_CHEEK_2_2",
+      "file": "Tiles/ERA_M7_CHEEK_2_2.glb",
+      "position": [
+        0.6655241847038269,
+        -0.25006309151649475,
+        2.816983461380005
+      ],
+      "rotation_euler": [
+        1.0583808422088623,
+        -1.1455524528969363e-08,
+        0.7155590653419495
+      ],
+      "size": [
+        0.2,
+        0.26,
+        0.11
+      ],
+      "parent": "ERA_TURRET_KIT",
+      "family": "M7",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M7_CHEEK_1_1",
+      "file": "Tiles/ERA_M7_CHEEK_1_1.glb",
+      "position": [
+        -0.6331607699394226,
+        -0.49423691630363464,
+        2.818166971206665
+      ],
+      "rotation_euler": [
+        1.0390721559524536,
+        9.386997845424027e-15,
+        1.2159671314293519e-07
+      ],
+      "size": [
+        0.16,
+        0.26,
+        0.11
+      ],
+      "parent": "ERA_TURRET_KIT",
+      "family": "M7",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M7_CHEEK_1_2",
+      "file": "Tiles/ERA_M7_CHEEK_1_2.glb",
+      "position": [
+        -0.4732784032821655,
+        -0.49423691630363464,
+        2.818166971206665
+      ],
+      "rotation_euler": [
+        1.0390721559524536,
+        9.386997845424027e-15,
+        1.2159671314293519e-07
+      ],
+      "size": [
+        0.16,
+        0.26,
+        0.11
+      ],
+      "parent": "ERA_TURRET_KIT",
+      "family": "M7",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M7_CHEEK_1_3",
+      "file": "Tiles/ERA_M7_CHEEK_1_3.glb",
+      "position": [
+        0.11295682191848755,
+        -0.4942367672920227,
+        2.818166971206665
+      ],
+      "rotation_euler": [
+        1.039072036743164,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.16,
+        0.26,
+        0.11
+      ],
+      "parent": "ERA_TURRET_KIT",
+      "family": "M7",
+      "pivot": "tile center; standalone GLB at origin"
+    },
+    {
+      "name": "ERA_M7_CHEEK_1_4",
+      "file": "Tiles/ERA_M7_CHEEK_1_4.glb",
+      "position": [
+        0.272839218378067,
+        -0.4942367672920227,
+        2.818166971206665
+      ],
+      "rotation_euler": [
+        1.039072036743164,
+        -0.0,
+        0.0
+      ],
+      "size": [
+        0.16,
+        0.26,
+        0.11
+      ],
+      "parent": "ERA_TURRET_KIT",
+      "family": "M7",
       "pivot": "tile center; standalone GLB at origin"
     }
   ]

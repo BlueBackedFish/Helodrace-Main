@@ -26,57 +26,133 @@ tiles=[]
 records=[]
 
 def cube(location,dimensions,materials):
-    bpy.ops.mesh.primitive_cube_add(size=1,location=location)
-    o=bpy.context.object
-    o.dimensions=dimensions
-    bpy.ops.object.transform_apply(location=False,rotation=False,scale=True)
+    # Direct mesh construction avoids hundreds of scene-wide operator updates.
+    x,y,z=(v/2 for v in dimensions)
+    verts=[(xx,yy,zz) for zz in [-z,z] for yy in [-y,y] for xx in [-x,x]]
+    faces=[(0,2,3,1),(4,5,7,6),(0,1,5,4),(1,3,7,5),(3,2,6,7),(2,0,4,6)]
+    data=bpy.data.meshes.new('ERA component');data.from_pydata(verts,[],faces);data.update()
+    o=bpy.data.objects.new('ERA component',data);scene.collection.objects.link(o)
+    o.location=location
     for m in materials:o.data.materials.append(m)
     if len(materials)==4:
         for p in o.data.polygons:
             p.material_index=0 if p.normal.z>.45 else 3 if p.normal.z<-.45 else 1 if abs(p.normal.y)>.5 else 2
     return o
 
-def tile(name,position,size,rotation=(0,0,0),side=None):
-    # A complete tile, including visible fasteners, is one removable mesh.
-    body=cube((0,0,0),size,mats)
+def group(name,parent):
+    o=bpy.data.objects.new(name,None);kit.objects.link(o)
+    o.parent=parent
+    bpy.context.view_layer.update()
+    o.matrix_world.identity()
+    return o
+
+turret_rack=group('ERA_TURRET_KIT',bpy.data.objects['TURRET_YAW'])
+contacts=[]
+
+def tile(name,hint,normal,width,height,depth,target,parent=rack,family='M5'):
+    # Snap to the actual armor mesh; never position a box by bounding width alone.
+    normal=Vector(normal).normalized();hint=Vector(hint)
+    inv=target.matrix_world.inverted()
+    hit,p,n,face=target.ray_cast(inv@(hint+normal),inv.to_3x3()@(-normal))
+    assert hit, (name,'missing armor backing')
+    surface=target.matrix_world@p
+    normal=(target.matrix_world.to_3x3()@n).normalized()
+    if normal.dot(hint+Vector(normal)-surface)<0:normal=-normal
+    # Horizontal direction on each armor face, with local +Y toward the roof.
+    up=Vector((0,0,1))
+    if abs(normal.z)>.95:up=Vector((0,1,0))
+    right=up.cross(normal).normalized();up=normal.cross(right).normalized()
+    from mathutils import Matrix
+    rotation=Matrix((right,up,normal)).transposed().to_quaternion()
+    center=surface+normal*(.04+depth/2)
+    body=cube((0,0,0),(width,height,depth),mats)
+    # Slight chamfered casing rather than the previous oversized flat slabs.
     body.data.materials.append(rim)
-    mod=body.modifiers.new('Soft painted tile edges','BEVEL')
-    mod.width=.012;mod.segments=1;mod.material=4
+    mod=body.modifiers.new('ERA casing chamfer','BEVEL')
+    mod.width=.008;mod.segments=1;mod.material=4
     bpy.context.view_layer.objects.active=body
     bpy.ops.object.modifier_apply(modifier=mod.name)
     pieces=[body]
-    if side is not None:
-        for y in [-size[1]*.34,size[1]*.34]:
-            for z in [-size[2]*.31,size[2]*.31]:
-                pieces.append(cube((side*(size[0]/2+.004),y,z),(.009,.032,.032),[dark]))
-    else:
-        for x in [-size[0]*.32,size[0]*.32]:
-            for y in [-size[1]*.32,size[1]*.32]:
-                pieces.append(cube((x,y,size[2]/2+.004),(.028,.028,.009),[dark]))
+    for x in [-width*.35,width*.35]:
+        # Two rear mounting channels physically overlap the receiving armor.
+        pieces.append(cube((x,0,-depth/2-.0175),(.036,height*.92,.055),mats))
+        # Top attachment ears, visible in the manufacturer and installation photos.
+        pieces.append(cube((x,height/2+.018,-depth/2+.015),(.037,.055,.027),mats))
+        for y in [-height*.34,height*.34]:
+            pieces.append(cube((x,y,depth/2+.003),(.016,.016,.007),[dark]))
     bpy.ops.object.select_all(action='DESELECT')
     for o in pieces:o.select_set(True)
-    bpy.context.view_layer.objects.active=body
-    bpy.ops.object.join()
+    bpy.context.view_layer.objects.active=body;bpy.ops.object.join()
     body.name=name;body.data.name=name+'_mesh'
-    body.location=position;body.rotation_euler=rotation;body.parent=rack
+    body.parent=parent
+    body.matrix_world=Matrix.Translation(center)@rotation.to_matrix().to_4x4()
     for c in list(body.users_collection):c.objects.unlink(body)
     kit.objects.link(body)
-    body['removable_tile']=True
-    body['asset_purpose']='Cosmetic game mesh; approximate exterior only'
+    body['removable_tile']=True;body['visual_family']=family
+    body['asset_purpose']='Photo-matched exterior game mesh; dimensions inferred'
     tiles.append(body)
-    records.append({'name':name,'file':'Tiles/'+name+'.glb','position':list(position),'rotation_euler':list(rotation),'size':list(size),'pivot':'tile center; standalone GLB at origin'})
+    # Rear mounting channels end 5 mm inside the struck armor surface.
+    mount_tip=center-normal*(depth/2+.045)
+    error=(mount_tip-surface).dot(normal)
+    assert abs(error+.005)<1e-5
+    contacts.append({'tile':name,'target':target.name,'mount_penetration':round(-error,5)})
+    records.append({'name':name,'file':'Tiles/'+name+'.glb','position':list(center),
+                    'rotation_euler':list(rotation.to_euler()),'size':[width,height,depth],
+                    'parent':parent.name,'family':family,'pivot':'tile center; standalone GLB at origin'})
 
-# Two spaced side rows, leaving the front lights and rear ramp clear.
+# BRAT-1 style silhouette in the GD/Rafael brochure and Army photograph:
+# upper hull belt, stepped down at the bow; original lower skirt stays exposed.
+# No later BUSK/XM33 lower-wheel panels are mixed into this configuration.
+hull_mesh=bpy.data.objects['Main hull sloped glacis']
+for side,label,count in [(-1,'L',16),(1,'R',15)]:
+    for i in range(count):
+        y=-2.46+i*(5.00/(count-1))
+        tile(f'ERA_M5_{label}_LOW_{i+1:02d}',(side*1.48,y,1.65),(side,0,0),5.00/(count-1)-.012,.36,.25,hull_mesh)
+    for i in range(12):
+        y=-1.20+i*.34
+        tile(f'ERA_M5_{label}_HIGH_{i+1:02d}',(side*1.48,y,1.995),(side,0,0),.328,.31,.25,hull_mesh)
+# Three rows of small center modules conform to the glacis, not a single rail.
+glacis_normal=Vector((0,-.62,.84)).normalized()
+for row,y in enumerate([-3.025,-2.755,-2.485]):
+    for col in range(6):
+        x=-.825+col*.33
+        tile(f'ERA_M3_FRONT_{row+1}_{col+1}',(x,y,1.42+(y+3.16)*.62/.84),glacis_normal,.318,.317,.13,hull_mesh,family='M3')
+# Narrow shoulder blocks stop short of the headlight housings.
 for side,label in [(-1,'L'),(1,'R')]:
-    for row,z in [('LOW',1.22),('HIGH',1.78)]:
-        for i in range(7):
-            tile(f'ERA_{label}_{row}_{i+1:02d}',(side*1.84,-2.24+i*.72,z),(.24,.68,.49),side=side)
-# Six modules over the lower frontal glacis, below the driver and engine deck.
-for i in range(6):
-    tile(f'ERA_FRONT_{i+1:02d}',(-.95+i*.38,-2.76,1.85),(.35,.46,.18),(math.atan2(.62,.84),0,0))
+    for row,y in enumerate([-3.04,-2.83]):
+        for col,x in enumerate([1.075,1.345]):
+            tile(f'ERA_M4_SHOULDER_{label}_{row+1}_{col+1}',(side*x,y,1.42+(y+3.16)*.62/.84),glacis_normal,.255,.245,.13,hull_mesh,family='M4')
+# Turret tiles follow its individual sloped facets and rotate with the turret.
+armor=bpy.data.objects['Faceted turret armor']
+lower=[(-1.21,-.94),(-.82,-1.38),(.42,-1.38),(.88,-.98),(.91,.61),(.59,.94),(-.96,.94),(-1.30,.49)]
+upper=[(-.99,-.79),(-.68,-1.08),(.32,-1.08),(.65,-.80),(.69,.61),(.56,.93),(-.92,.93),(-1.05,.46)]
+def turret_face(index,t,z=2.72):
+    j=(index+1)%8;f=(z-2.4)/.51
+    a=Vector((*lower[index],2.4)).lerp(Vector((*upper[index],2.91)),f)
+    b=Vector((*lower[j],2.4)).lerp(Vector((*upper[j],2.91)),f)
+    point=a.lerp(b,t);point.y+=.75
+    edge=b-a;rise=Vector((*upper[index],2.91))-Vector((*lower[index],2.4))
+    normal=edge.cross(rise).normalized()
+    if normal.dot(point-Vector((-.18,.37,2.6)))<0:normal=-normal
+    return point,normal
+for face,count,label in [(7,4,'L'),(3,3,'R')]:
+    for i in range(count):
+        p,n=turret_face(face,.25+i*.60/(count-1))
+        tile(f'ERA_M6_TURRET_{label}_{i+1:02d}',p,n,.255 if count==4 else .31,.32,.13,armor,turret_rack,'M6')
+for face,ts in [(0,[.30,.72]),(2,[.30,.72]),(1,[.08,.23,.78,.93])]:
+    for i,t in enumerate(ts):
+        p,n=turret_face(face,t,2.77)
+        tile(f'ERA_M7_CHEEK_{face}_{i+1}',p,n,.16 if face==1 else .20,.26,.11,armor,turret_rack,'M7')
+# The reference has headlights above the front kit, not buried behind the tiles.
+for o in list(scene.objects):
+    if o.name.startswith('Headlight '):o.location.z+=.30
+for side in [-1,1]:
+    pedestal=cube((side*1.23,-2.69,1.87),(.29,.20,.22),mats)
+    pedestal.name='ERA headlamp pedestal '+str(side)
+    pedestal.parent=bpy.data.objects['HULL']
 bpy.context.view_layer.update()
-assert len(tiles)==34 and len({o.data.as_pointer() for o in tiles})==34
-assert all(o.parent==rack for o in tiles)
+assert len(tiles)==96 and len({o.data.as_pointer() for o in tiles})==96
+assert sum(o.parent==turret_rack for o in tiles)==15
 assert not any(o.type=='LIGHT' for o in scene.objects)
 scene.camera=bpy.data.objects['Camera_west']
 blend=os.path.join(OUT,'m2a3_bradley_era.blend')
@@ -113,6 +189,12 @@ for entry in records:
     assert len(payload['meshes'])==1
     assert sum('mesh' in n for n in payload['nodes'])==1
 with open(os.path.join(OUT,'tile_manifest.json'),'w',encoding='utf-8') as f:
-    json.dump({'count':len(tiles),'layout':'28 side modules and 6 frontal modules; cosmetic approximation, not an exact BRAT configuration','tiles':records},f,indent=2)
+    json.dump({'count':len(tiles),'layout':'BRAT-1 photo-matched silhouette: 55 side, 26 glacis, 15 turret; inferred exterior dimensions and family placement','contacts':contacts,'tiles':records},f,indent=2)
+bpy.ops.wm.open_mainfile(filepath=blend)
+scene=bpy.context.scene
+for camera in ['iso_front','iso_rear','east']:
+    scene.camera=bpy.data.objects['Camera_'+camera]
+    scene.render.filepath=os.path.join(OUT,'audit_'+camera+'.png')
+    bpy.ops.render.render(write_still=True)
 runpy.run_path(os.path.join(ROOT,'render_vf_east.py'),init_globals={'SOURCE_BLEND':blend,'OUTPUT_DIR':os.path.join(OUT,'VF_East')})
-print('ERA VALIDATION PASSED: 34 independently removable meshes and 34 single-mesh GLBs')
+print('ERA VALIDATION PASSED: 96 independent tiles; all rear mounts contact armor; 96 single-mesh GLBs')
