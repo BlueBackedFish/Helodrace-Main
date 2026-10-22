@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": 1,
-  "stage_status": "role_registry_complete_with_unresolved_smoke_locator",
+  "stage_status": "stage2_turret_geometry_complete_hull_pending",
   "target": {
     "geometry_basis": "user_supplied_M3A3_OBJ",
     "blueprint": "user_supplied_M2A3",
@@ -22,8 +22,9 @@
     ]
   },
   "current_snapshot": {
-    "blend": "RimWorld/bradley_rimworld.blend",
-    "blend_sha256": "979a4f82fe07bd9276d264a2d87a700123ca3b307430010b502ea7d4bb7bb356"
+    "blend": "ReferenceFit/stage1_rimworld_base.blend",
+    "blend_sha256": "979a4f82fe07bd9276d264a2d87a700123ca3b307430010b502ea7d4bb7bb356",
+    "description": "Frozen stage-one baseline, not the latest rebuilt output"
   },
   "policy": {
     "unmapped_group": "error",
@@ -32,7 +33,8 @@
     "essential_roles_ignore_size_cutoff": true,
     "optics_and_lamp_lenses": "preserve_material_subsets",
     "missing_essential_part": "restore_or_replace_before_style_signoff",
-    "production_simplifier_uses_registry": false
+    "production_simplifier_uses_registry": true,
+    "production_registry_scope": "turret"
   },
   "role_surfaces": {
     "hull_assembly": [
@@ -3193,15 +3195,7 @@
       "not_a_confirmed_smoke_launcher": true
     }
   ],
-  "unresolved_required_roles": [
-    {
-      "role": "smoke_launcher",
-      "required": true,
-      "source_binding": null,
-      "status": "not_identified_do_not_substitute_rear_stowage_bins",
-      "next_action": "identify real launcher in supplied source/reference before adding geometry; do not invent a location"
-    }
-  ],
+  "unresolved_required_roles": [],
   "entries": [
     {
       "source_group": "@root",
@@ -6675,5 +6669,490 @@
       "protect_from_size_filter": true,
       "restore_required": false
     }
+  ],
+  "entries_state_snapshot": "stage1; runtime geometry is recorded separately",
+  "additional_roles": [
+    {
+      "role": "smoke_launcher",
+      "source_binding": "reference_layout_new_geometry",
+      "status": "resolved_general_layout_exact_A3_mount_is_artist_fit",
+      "count": 8,
+      "evidence": [
+        "https://afvdatabase.com/usa/pics/m2bradley/m2turret1-14.jpg",
+        "https://www.globalsecurity.org/military/library/policy/army/accp/in0503/ch1.htm"
+      ],
+      "coordinates": "RimWorld/stage2_manifest.json#smoke_anchors"
+    }
+  ],
+  "runtime_bindings": [
+    {
+      "object": "WT_bone_turret",
+      "role": "turret_assembly",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Turret_Roof",
+      "role": "turret_assembly",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Turret_Ring",
+      "role": "turret_assembly",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Turret_RearShelf",
+      "role": "turret_assembly",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Turret_RearWall",
+      "role": "turret_assembly",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Turret_SightPlinth",
+      "role": "turret_assembly",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_hatch_02",
+      "role": "turret_hatch_a",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "turret_hatch_a_HandleFoot-1",
+      "role": "hatch_handle",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "turret_hatch_a_HandleFoot1",
+      "role": "hatch_handle",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "turret_hatch_a_Handle",
+      "role": "hatch_handle",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "turret_hatch_a_Hinge",
+      "role": "hatch_hinge",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_hatch_03",
+      "role": "turret_hatch_b",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "turret_hatch_b_HandleFoot-1",
+      "role": "hatch_handle",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "turret_hatch_b_HandleFoot1",
+      "role": "hatch_handle",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "turret_hatch_b_Handle",
+      "role": "hatch_handle",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "turret_hatch_b_Hinge",
+      "role": "hatch_hinge",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "GunnerSightBody",
+      "role": "gunner_sight",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "GunnerSight_OriginalOptics",
+      "role": "turret_assembly",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "GunnerSight_Window0.1",
+      "role": "optics",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "GunnerSight_Window0.37",
+      "role": "optics",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_ex_decor_02",
+      "role": "turret_front_upper_cover",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_ex_decor_03",
+      "role": "turret_front_lower_cover",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_bone_gun",
+      "role": "gun_mount",
+      "parent": "GUN_ELEVATION"
+    },
+    {
+      "object": "WT_ex_decor_01",
+      "role": "gun_upper_shroud",
+      "parent": "GUN_ELEVATION"
+    },
+    {
+      "object": "WT_bone_commander_sight_v",
+      "role": "commander_sight",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "CommanderSight_MainLens",
+      "role": "optics",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "CommanderSight_AuxLens",
+      "role": "optics",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_ex_armor_03",
+      "role": "commander_sight_guard",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "SightGuard_Side-1.5694999809265138",
+      "role": "commander_sight_guard",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "SightGuard_Side-0.9664000158309937",
+      "role": "commander_sight_guard",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_roll_05",
+      "role": "tow_launcher",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "TOW_Port2.3138499183654786",
+      "role": "tow_port",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "TOW_Port2.6298499183654784",
+      "role": "tow_port",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "TOW_Band-0.2278999865055084",
+      "role": "tow_strap",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "TOW_Band0.6180000066757202",
+      "role": "tow_strap",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_rocket_mount_01",
+      "role": "tow_mount",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "TOW_Hinge",
+      "role": "tow_hinge",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_roll_03",
+      "role": "tow_linkage",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_roll_04",
+      "role": "tow_end_cover",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin1_Floor",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin1_WallY-0.07261246740818024",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin1_WallY0.07135422080755234",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin1_WallX-0.17213404476642608",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin1_WallX0.17018826603889464",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin1_Bracket",
+      "role": "rear_bin_bracket",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin2_Floor",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin2_WallY-0.07509480714797974",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin2_WallY0.07308981865644455",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin2_WallX-0.17520574033260344",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin2_WallX0.16764650046825408",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin2_Bracket",
+      "role": "rear_bin_bracket",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin3_Floor",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin3_WallY-0.06937499642372132",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin3_WallY0.06868687570095063",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin3_WallX-0.17128232419490813",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin3_WallX0.17017911672592162",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin3_Bracket",
+      "role": "rear_bin_bracket",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin4_Floor",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin4_WallY-0.0822900414466858",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin4_WallY0.08254406899213791",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin4_WallX-0.1689322769641876",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin4_WallX0.17512066960334777",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin4_Bracket",
+      "role": "rear_bin_bracket",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin5_Floor",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin5_WallY-0.09301226139068604",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin5_WallY0.09375205934047699",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin5_WallX-0.16601611971855162",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin5_WallX0.17789516150951384",
+      "role": "rear_stowage_bin",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "RearBin5_Bracket",
+      "role": "rear_bin_bracket",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_gun_barrel",
+      "role": "main_barrel",
+      "parent": "GUN_ELEVATION"
+    },
+    {
+      "object": "MainGun_Mantlet",
+      "role": "gun_mount",
+      "parent": "GUN_ELEVATION"
+    },
+    {
+      "object": "MainGun_Muzzle",
+      "role": "muzzle",
+      "parent": "GUN_ELEVATION"
+    },
+    {
+      "object": "WT_mg_twin",
+      "role": "coax_machine_gun",
+      "parent": "GUN_ELEVATION"
+    },
+    {
+      "object": "WT_antenna_01",
+      "role": "antenna",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_antenna_01_Base",
+      "role": "antenna_base",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_antenna_02",
+      "role": "antenna",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "WT_antenna_02_Base",
+      "role": "antenna_base",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Smoke_R0",
+      "role": "smoke_launcher",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Smoke_R0_Mouth",
+      "role": "smoke_mouth",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Smoke_R1",
+      "role": "smoke_launcher",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Smoke_R1_Mouth",
+      "role": "smoke_mouth",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Smoke_R2",
+      "role": "smoke_launcher",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Smoke_R2_Mouth",
+      "role": "smoke_mouth",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Smoke_R3",
+      "role": "smoke_launcher",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Smoke_R3_Mouth",
+      "role": "smoke_mouth",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Smoke_L0",
+      "role": "smoke_launcher",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Smoke_L0_Mouth",
+      "role": "smoke_mouth",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Smoke_L1",
+      "role": "smoke_launcher",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Smoke_L1_Mouth",
+      "role": "smoke_mouth",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Smoke_L2",
+      "role": "smoke_launcher",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Smoke_L2_Mouth",
+      "role": "smoke_mouth",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Smoke_L3",
+      "role": "smoke_launcher",
+      "parent": "TURRET_YAW"
+    },
+    {
+      "object": "Smoke_L3_Mouth",
+      "role": "smoke_mouth",
+      "parent": "TURRET_YAW"
+    }
+  ],
+  "restored_stage1_required": [
+    "WT_roll_03",
+    "WT_ex_decor_02"
   ]
 }

@@ -4,7 +4,7 @@ import json,hashlib
 ROOT=Path(__file__).resolve().parent
 c=json.loads((ROOT/'bradley_roles.json').read_text(encoding='utf-8'))
 inventory=json.loads((ROOT/'Audit/Stage1/source_inventory.json').read_text())
-current=json.loads((ROOT/'Audit/current_model_stats.json').read_text())
+current=json.loads((ROOT/'Audit/Stage1/current_model_stats.json').read_text())
 assert len(c['entries'])==112
 assert {e['object'] for e in c['entries']}==set(inventory)
 assert len({e['object'] for e in c['entries']})==112
@@ -31,6 +31,8 @@ assert len(c['protected_components'])==5
 for part in c['protected_components']:
     assert part['role']=='rear_stowage_bin' and part['not_a_confirmed_smoke_launcher']
     assert all(0<=i<inventory[part['object']]['faces'] for i in part['source_polygon_indices'])
-assert c['unresolved_required_roles'][0]['source_binding'] is None
-assert c['policy']['production_simplifier_uses_registry'] is False
-print('STAGE1 ROLE VALIDATION PASSED: 112 groups, 83 current objects, exact source binding, complete material subsets, 5 protected rear bins')
+assert c['additional_roles'][0]['role']=='smoke_launcher'
+assert c['additional_roles'][0]['source_binding']=='reference_layout_new_geometry'
+assert c['policy']['production_simplifier_uses_registry'] is True
+assert c['policy']['production_registry_scope']=='turret'
+print('STAGE1 BASELINE ROLE VALIDATION PASSED: 112 groups, 83 baseline objects, exact source binding, complete material subsets, 5 protected rear bins')

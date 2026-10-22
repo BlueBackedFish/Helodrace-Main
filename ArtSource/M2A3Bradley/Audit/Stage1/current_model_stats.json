@@ -1,0 +1,712 @@
+{
+  "meshes": 83,
+  "faces": 43344,
+  "empty_meshes": [
+    "WT_wheel_r_top_01",
+    "WT_wheel_r_top_03",
+    "WT_wheel_l_top_01",
+    "WT_wheel_l_top_03",
+    "WT_ex_decor_l_01",
+    "WT_ex_decor_r_01",
+    "WT_ex_decor_l_02",
+    "WT_ex_decor_r_02",
+    "WT_ex_decor_04",
+    "WT_ex_decor_l_05",
+    "WT_ex_decor_r_06",
+    "WT_roll_06",
+    "WT_roll_03",
+    "WT_ex_decor_02",
+    "WT_roll_07"
+  ],
+  "largest_meshes": [
+    {
+      "name": "WT_@root",
+      "faces": 9400,
+      "materials": 13,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_bone_turret",
+      "faces": 5171,
+      "materials": 13,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_track_l",
+      "faces": 2490,
+      "materials": 1,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_track_r",
+      "faces": 2435,
+      "materials": 1,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_decor_01",
+      "faces": 1647,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "GUN_ELEVATION"
+    },
+    {
+      "name": "WT_rear_ramp",
+      "faces": 1439,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "REAR_RAMP_HINGE"
+    },
+    {
+      "name": "WT_mg_twin",
+      "faces": 1172,
+      "materials": 1,
+      "degenerate_faces": 0,
+      "parent": "GUN_ELEVATION"
+    },
+    {
+      "name": "WT_hatch_02",
+      "faces": 1083,
+      "materials": 9,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_ex_decor_l_09",
+      "faces": 955,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_decor_r_04",
+      "faces": 952,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_lantern_l_01",
+      "faces": 921,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_bone_gun",
+      "faces": 855,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "GUN_ELEVATION"
+    },
+    {
+      "name": "WT_gun_barrel",
+      "faces": 780,
+      "materials": 10,
+      "degenerate_faces": 0,
+      "parent": "GUN_ELEVATION"
+    },
+    {
+      "name": "WT_ex_armor_02",
+      "faces": 747,
+      "materials": 10,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_hatch_01",
+      "faces": 712,
+      "materials": 9,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    }
+  ],
+  "all_meshes": [
+    {
+      "name": "WT_@root",
+      "faces": 9400,
+      "materials": 13,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_armor_l_07",
+      "faces": 18,
+      "materials": 5,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_hatch_05",
+      "faces": 465,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_l_drive",
+      "faces": 645,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_l_top_02",
+      "faces": 180,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_l_back",
+      "faces": 688,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_r_top_02",
+      "faces": 180,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_r_back",
+      "faces": 691,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_r_top_01",
+      "faces": 0,
+      "materials": 0,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_r_top_03",
+      "faces": 0,
+      "materials": 0,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_l_top_01",
+      "faces": 0,
+      "materials": 0,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_l_top_03",
+      "faces": 0,
+      "materials": 0,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_decor_l_01",
+      "faces": 0,
+      "materials": 0,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_decor_r_01",
+      "faces": 0,
+      "materials": 0,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_decor_l_02",
+      "faces": 0,
+      "materials": 0,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_decor_r_02",
+      "faces": 0,
+      "materials": 0,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_armor_01",
+      "faces": 661,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_armor_02",
+      "faces": 747,
+      "materials": 10,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_hatch_06",
+      "faces": 128,
+      "materials": 4,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_decor_r_04",
+      "faces": 952,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_decor_l_09",
+      "faces": 955,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_decor_r_03",
+      "faces": 41,
+      "materials": 6,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_decor_l_03",
+      "faces": 41,
+      "materials": 6,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_hatch_04",
+      "faces": 451,
+      "materials": 9,
+      "degenerate_faces": 0,
+      "parent": "PERSONNEL_DOOR_HINGE"
+    },
+    {
+      "name": "WT_ex_armor_l_01",
+      "faces": 24,
+      "materials": 6,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_armor_l_02",
+      "faces": 12,
+      "materials": 5,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_armor_l_03",
+      "faces": 12,
+      "materials": 5,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_armor_l_04",
+      "faces": 12,
+      "materials": 5,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_armor_l_05",
+      "faces": 13,
+      "materials": 5,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_armor_l_06",
+      "faces": 13,
+      "materials": 5,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_armor_r_07",
+      "faces": 17,
+      "materials": 5,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_armor_r_01",
+      "faces": 26,
+      "materials": 6,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_armor_r_02",
+      "faces": 12,
+      "materials": 5,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_armor_r_03",
+      "faces": 12,
+      "materials": 5,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_armor_r_04",
+      "faces": 12,
+      "materials": 5,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_armor_r_05",
+      "faces": 14,
+      "materials": 5,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_armor_r_06",
+      "faces": 13,
+      "materials": 5,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_lantern_l_01",
+      "faces": 921,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_decor_r_05",
+      "faces": 171,
+      "materials": 10,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_decor_l_04",
+      "faces": 170,
+      "materials": 10,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_hatch_01",
+      "faces": 712,
+      "materials": 9,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_lantern_r_01",
+      "faces": 577,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_decor_04",
+      "faces": 0,
+      "materials": 0,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_decor_l_05",
+      "faces": 0,
+      "materials": 0,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_ex_decor_r_06",
+      "faces": 0,
+      "materials": 0,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_r_01",
+      "faces": 353,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_r_02",
+      "faces": 360,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_r_03",
+      "faces": 359,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_r_04",
+      "faces": 354,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_r_05",
+      "faces": 356,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_r_06",
+      "faces": 360,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_l_01",
+      "faces": 356,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_l_02",
+      "faces": 355,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_l_03",
+      "faces": 373,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_l_04",
+      "faces": 366,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_l_05",
+      "faces": 354,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_wheel_l_06",
+      "faces": 362,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_bone_turret",
+      "faces": 5171,
+      "materials": 13,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_bone_gun",
+      "faces": 855,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "GUN_ELEVATION"
+    },
+    {
+      "name": "WT_gun_barrel",
+      "faces": 780,
+      "materials": 10,
+      "degenerate_faces": 0,
+      "parent": "GUN_ELEVATION"
+    },
+    {
+      "name": "WT_roll_01",
+      "faces": 28,
+      "materials": 6,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_mg_twin",
+      "faces": 1172,
+      "materials": 1,
+      "degenerate_faces": 0,
+      "parent": "GUN_ELEVATION"
+    },
+    {
+      "name": "WT_rocket_mount_01",
+      "faces": 273,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_roll_06",
+      "faces": 0,
+      "materials": 0,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_roll_03",
+      "faces": 0,
+      "materials": 0,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_roll_05",
+      "faces": 592,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_roll_04",
+      "faces": 74,
+      "materials": 7,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_roll_02",
+      "faces": 47,
+      "materials": 1,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_ex_decor_02",
+      "faces": 0,
+      "materials": 0,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_ex_decor_03",
+      "faces": 6,
+      "materials": 3,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_hatch_03",
+      "faces": 188,
+      "materials": 5,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_hatch_02",
+      "faces": 1083,
+      "materials": 9,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_ex_armor_03",
+      "faces": 199,
+      "materials": 8,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_bone_commander_sight_v",
+      "faces": 358,
+      "materials": 9,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_wheel_r_drive",
+      "faces": 633,
+      "materials": 12,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_roll_08",
+      "faces": 450,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_roll_07",
+      "faces": 0,
+      "materials": 0,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_antenna_01",
+      "faces": 60,
+      "materials": 4,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_antenna_02",
+      "faces": 70,
+      "materials": 4,
+      "degenerate_faces": 0,
+      "parent": "TURRET_YAW"
+    },
+    {
+      "name": "WT_ex_decor_01",
+      "faces": 1647,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "GUN_ELEVATION"
+    },
+    {
+      "name": "WT_track_r",
+      "faces": 2435,
+      "materials": 1,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_track_l",
+      "faces": 2490,
+      "materials": 1,
+      "degenerate_faces": 0,
+      "parent": "HULL"
+    },
+    {
+      "name": "WT_rear_ramp",
+      "faces": 1439,
+      "materials": 11,
+      "degenerate_faces": 0,
+      "parent": "REAR_RAMP_HINGE"
+    }
+  ],
+  "lights": 0
+}

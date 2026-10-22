@@ -2,6 +2,10 @@
 from pathlib import Path
 import json,hashlib,collections
 ROOT=Path(__file__).resolve().parent
+if (ROOT/'bradley_roles.json').exists():
+    live=json.loads((ROOT/'bradley_roles.json').read_text(encoding='utf-8'))
+    if live['policy']['production_simplifier_uses_registry']:
+        raise SystemExit('Stage-one registry is frozen and used by the production rebuild. Edit bradley_roles.json rather than regenerating it from the old inventory.')
 OUT=ROOT/'Audit/Stage1'
 inventory=json.loads((OUT/'source_inventory.json').read_text())
 current=json.loads((ROOT/'Audit/current_model_stats.json').read_text())

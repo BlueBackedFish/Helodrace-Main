@@ -1,0 +1,13 @@
+{
+  "hull_geometry_and_parenting_unchanged": true,
+  "all_essential_turret_roles_present": true,
+  "empty_turret_meshes": 0,
+  "faces": 3654,
+  "smoke_tubes": 8,
+  "ray_attached_smoke_mounts": 8,
+  "rear_bins": 5,
+  "hatch_handles": 2,
+  "source_geometry_placement": "source armor and equipment bounds retained; new smoke mounting is an art fit",
+  "final_palette": "pending_stage4",
+  "in_game_validation": "not_performed"
+}

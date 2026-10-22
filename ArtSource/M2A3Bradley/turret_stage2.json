@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "role_registry": "bradley_roles.json",
+  "baseline": "ReferenceFit/stage1_rimworld_base.blend",
+  "scope": "turret_only_hull_stage3_pending",
+  "palette_status": "provisional_face_colors_final_palette_stage4",
+  "palette_srgb": {
+    "roof": [225, 211, 175],
+    "hatch_top": [214, 200, 164],
+    "hatch_rim": [182, 165, 129],
+    "equipment_top": [216, 201, 163],
+    "front_slope": [198, 180, 141],
+    "side_slope": [174, 155, 116],
+    "rear_slope": [185, 167, 129],
+    "wall": [144, 126, 93],
+    "rim": [159, 139, 100],
+    "recess": [79, 71, 54],
+    "optics": [39, 57, 62],
+    "metal": [79, 77, 66]
+  },
+  "geometry": {
+    "hatch_segments": 16,
+    "port_segments": 12,
+    "handle_width": 0.04,
+    "hatch_rim_width": 0.045,
+    "rear_bin_wall_thickness": 0.025,
+    "smoke_pods": {
+      "count": 2,
+      "tubes_per_pod": 4,
+      "radius": 0.046,
+      "length": 0.18,
+      "placement_status": "artist_fit_to_source_front_cheeks_not_measured_M3A3_coordinates",
+      "layout_evidence": [
+        "https://afvdatabase.com/usa/pics/m2bradley/m2turret1-14.jpg",
+        "https://www.globalsecurity.org/military/library/policy/army/accp/in0503/ch1.htm"
+      ],
+      "evidence_scope": "labeled Bradley turret illustration and US Army IN0503 search excerpt; exact A3 mount inferred visually"
+    }
+  }
+}

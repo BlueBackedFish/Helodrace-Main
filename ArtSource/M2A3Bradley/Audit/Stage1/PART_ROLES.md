@@ -1,4 +1,6 @@
-# Bradley 원본 부품 역할표 — 1차
+# Bradley 원본 부품 역할표 — 1차 스냅샷
+
+이 표의 현재면/상태는 1차 당시 기록이다. 2차 실행 결과는 `../../RimWorld/stage2_manifest.json`과 차량별 설정의 runtime_bindings를 참조한다.
 
 RimThunder 목표 스타일 / Legion 한 면 한 색. 111개 원본 그룹과 root에서 추출한 램프 1개를 모두 등록했다.
 상태: present=면 존재, empty_mesh=빈 메시, missing_object=현 작업본에서 객체 삭제.
