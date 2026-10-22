@@ -1,0 +1,21 @@
+{
+  "geometry_and_all_parent_matrices_unchanged": true,
+  "production_sources_unchanged": true,
+  "constant_emission_paint_materials": 24,
+  "fixed_palette_no_vertex_interpolation": true,
+  "same_faces_sampled_in_two_camera_angles": 304,
+  "second_view_sun_energy": 100,
+  "max_actual_pixel_srgb_channel_difference_0_to_255": 0.0,
+  "bright_plate_verified_in_both_views": {
+    "faces": 2,
+    "actual_display_y_range": [
+      229.94997822728368,
+      229.94997822728368
+    ],
+    "target": 230
+  },
+  "four_control_animations_and_glb_animations": true,
+  "glb_unlit_without_vertex_color_multiplication": true,
+  "transparent_no_scene_lights": true,
+  "in_game_validation": "not_performed"
+}

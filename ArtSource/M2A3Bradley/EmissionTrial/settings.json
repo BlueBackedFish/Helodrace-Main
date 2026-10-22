@@ -1,0 +1,20 @@
+{
+  "baseline_commit": "6f47cc88",
+  "baseline_blend": "RimWorld/bradley_rimworld.blend",
+  "trial_only": true,
+  "palette_step": 12,
+  "broad_lid_top_normal": 0.35,
+  "broad_lid_rim_drop": 36,
+  "brighter_plate": {
+    "object": "WT_ex_decor_02",
+    "minimum_normal_z": 0.35,
+    "display_luminance": 230,
+    "description": "Upper front plate immediately adjacent to the coax machine gun; preserve its vertical walls and the gun aperture."
+  },
+  "samples": 128,
+  "baseline_sha256": {
+    "RimWorld/bradley_rimworld.blend": "7e9107a0af810a6a6e6cf166ddbe617c2e7b5327a919a4740e4a88f3bb0d8604",
+    "RimWorld/bradley_rimworld.glb": "3354d6ce658434c3befb71e5cfc835bb6121e86fc249398fa5b2c2b4aad279d7",
+    "part_contrast.json": "bc4e6c91682cebad593b2b41283e0c76b8d07b46ac50f1e81fec6bc744abefa8"
+  }
+}

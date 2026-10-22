@@ -1,0 +1,17 @@
+{
+  "size": [
+    256,
+    256
+  ],
+  "top_pivot": [
+    128.0,
+    128.0
+  ],
+  "turret_pivot_pixels_top_origin": [
+    116.23,
+    128.015
+  ],
+  "hull_elevation": 64,
+  "turret_elevation": 90,
+  "resize": "linear-light float premultiplied Lanczos"
+}
