@@ -34,6 +34,7 @@ top=[cloth.matrix_world@v.co for v in cloth.data.vertices[:4]]
 assert abs((top[1]-top[0]).cross(top[2]-top[0]).normalized().dot(top[3]-top[0]))<1e-6
 from height_palette import COLOR_ATTRIBUTE,LUMINANCE_ATTRIBUTE,SATURATION_ATTRIBUTE,display,WEIGHTS,height_luminance,final_paint,contrast_luminance,contrast_levels
 from cel_patches import CEL_ATTRIBUTE,BAND_ATTRIBUTE,BROAD_ATTRIBUTE
+from local_panel_paint import LOCAL_ATTRIBUTE
 from mesh_regions import regions
 
 def final_y(o,p):
@@ -56,7 +57,7 @@ for o in bpy.context.scene.objects:
         assert abs(final_y(o,p)-expected)<.002,(o.name,p.index)
         # All flat, upward painted plates share a monotonic height ramp. Curve
         # normals and the two requested pigment accents have separate checks.
-        if p.normal.z>.9999 and not o.data.attributes[BROAD_ATTRIBUTE].data[p.index].value and o.data.attributes[CEL_ATTRIBUTE].data[p.index].value<0 and m.get('paint_role') not in {'hatch_lid_handle','rear_basket_floor','main_barrel'}:
+        if p.normal.z>.9999 and not o.data.attributes[LOCAL_ATTRIBUTE].data[p.index].value and not o.data.attributes[BROAD_ATTRIBUTE].data[p.index].value and o.data.attributes[CEL_ATTRIBUTE].data[p.index].value<0 and m.get('paint_role') not in {'hatch_lid_handle','rear_basket_floor','main_barrel'}:
             expected=sum(contrast_luminance(height_luminance((o.matrix_world@o.data.vertices[v].co).z,cfg['height_first_paint']),cfg['height_first_paint']) for v in p.vertices)/len(p.vertices)
             assert abs(final_y(o,p)-expected)<.002,(o.name,p.index,final_y(o,p),expected)
 
@@ -138,6 +139,6 @@ report={'restored_source_groups':list(SOURCE_RESTORED),'restored_embedded_compon
  'hatch_03_original_detail_faces':1071,'planar_cover_faces':6,'front_side_slope_test_difference':front-side,
  'curved_patches_use_two_flat_colors':cel_summary,'contrast_levels':levels,'contrast_steps':steps,'in_game_validation':'not_performed'}
 (OUT/'recolor_validation.json').write_text(json.dumps(report,indent=2)+'\n')
-(ROOT/'Audit/SurfaceRules/after_analysis.json').write_text(json.dumps({'samples':samples,'hatch_03_faces':1071,
+(ROOT/'Audit/GunPanels/after_analysis.json').write_text(json.dumps({'samples':samples,'hatch_03_faces':1071,
  'settings':manifest['render_quality'],'validation':'final emitted RGB, not gain coefficients'},indent=2)+'\n')
 print('HEIGHT-FIRST FINAL EMISSION AND SOURCE GEOMETRY VALIDATION PASSED',json.dumps(samples))

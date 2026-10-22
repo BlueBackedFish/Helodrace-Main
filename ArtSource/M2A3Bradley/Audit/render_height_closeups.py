@@ -4,4 +4,4 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent
 sys.argv.append('--after')
 runpy.run_path(str(HERE/'inspect_turret_followup.py'),run_name='__main__',
-    init_globals={'OUTPUT_DIR':HERE/'SurfaceRules','RENDER_SAMPLES':128})
+    init_globals={'OUTPUT_DIR':HERE/'GunPanels','RENDER_SAMPLES':128})

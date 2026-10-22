@@ -91,6 +91,7 @@ with tempfile.TemporaryDirectory(prefix='.export-',dir=OUT) as staging:
 report={'mode':'targeted_turret_repairs_height_paint','geometry_source':cfg['geometry_source'],'baseline_geometry_sha256':before,'geometry_sha256':repaired_hash,
  'geometry_changes_limited_to':sorted(repairs),'geometry_repairs':repairs,'height_first_paint':cfg['height_first_paint'],
  'render_quality':quality,'recess_paint':recess_report,'cel_paint':cel_report,
+ 'local_panel_paint':{o.name:json.loads(o['local_panel_report']) for o in meshes if o.get('local_panel_report')!='[]'},
  'accent_regions':accent_regions,
  'paint_pipeline':'height -> final linear RGB corner attribute -> emission, no later gains',
  'meshes':len(meshes),'faces':saved_faces,

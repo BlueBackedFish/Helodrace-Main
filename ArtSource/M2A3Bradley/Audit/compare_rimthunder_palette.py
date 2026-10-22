@@ -3,7 +3,7 @@ from pathlib import Path
 import sys,json,hashlib,os,tempfile
 import numpy as np
 from PIL import Image,ImageDraw
-ROOT=Path(__file__).resolve().parent.parent;OUT=ROOT/'Audit/SurfaceRules';sys.path.insert(0,str(ROOT))
+ROOT=Path(__file__).resolve().parent.parent;OUT=ROOT/'Audit/GunPanels';sys.path.insert(0,str(ROOT))
 cfg=json.loads((ROOT/'part_contrast.json').read_text());ref=Path(json.loads((ROOT/'rimthunder_palette_samples.json').read_text())['reference_root'])
 board=Image.new('RGB',(1100,1000),(79,79,79));d=ImageDraw.Draw(board)
 d.text((25,15),'RimThunder | same TAN tint study (not a game capture)',fill='white')

@@ -10,6 +10,7 @@ from collections import defaultdict
 import bpy,json
 from height_palette import COLOR_ATTRIBUTE,LUMINANCE_ATTRIBUTE,SATURATION_ATTRIBUTE,final_paint
 from cel_patches import patch_colors,BROAD_ATTRIBUTE
+from local_panel_paint import apply_local_panels
 ROOT=Path(__file__).resolve().parent
 RECESS_ATTRIBUTE='Recess paint'
 
@@ -56,6 +57,7 @@ def apply_face_depth_tone(scene):
                     color=tuple(mat.diffuse_color[:3]) if mat else (0,0,0)
                 colors.data[li].color=(*color,1)
                 luminance.data[li].value=y;saturation.data[li].value=sat
+        o['local_panel_report']=json.dumps(apply_local_panels(o,settings))
         for m in me.materials:
             if not m or not m.use_nodes:continue
             nodes=m.node_tree.nodes;links=m.node_tree.links

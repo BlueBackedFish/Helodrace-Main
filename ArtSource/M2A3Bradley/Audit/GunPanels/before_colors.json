@@ -1,0 +1,707 @@
+{
+  "WT_@root": {
+    "faces": [],
+    "outside_hash": "1b11b59f373a524965b7ebad6c269a4becc87177c789c72b35a006c94951cc3c",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_l_07": {
+    "faces": [],
+    "outside_hash": "908cc39deb7317d4f0203e1e4b7ba1cd31dd1a1a98fe93c9865a008eb7999067",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_hatch_05": {
+    "faces": [],
+    "outside_hash": "fa0915c99e220709a687ca03972be6c4bcd324ceded78505bcb50e429d97822d",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_l_drive": {
+    "faces": [],
+    "outside_hash": "1dc1ab547239c16d173b9a15ac88b6eea1145156bd3bac652172084075b69de6",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_l_top_02": {
+    "faces": [],
+    "outside_hash": "4b232f06de31ce05972376a2e76989f5a105e89e01341c2ef085d0f7347580ed",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_l_back": {
+    "faces": [],
+    "outside_hash": "8311de65306d22dc8cb8d18e60028a19318afbce4e378cd004994c49d77fb7b6",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_r_top_02": {
+    "faces": [],
+    "outside_hash": "2c968a525456b9497b03cf7d38093f392dc00050b03ecb24de2720400c8e59ac",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_r_back": {
+    "faces": [],
+    "outside_hash": "68796c5bb3c53aad034bff34dcb8df7f9ef2cde95e61b16c37ce51924d707deb",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_r_top_01": {
+    "faces": [],
+    "outside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_r_top_03": {
+    "faces": [],
+    "outside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_l_top_01": {
+    "faces": [],
+    "outside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_l_top_03": {
+    "faces": [],
+    "outside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_decor_l_01": {
+    "faces": [],
+    "outside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_decor_r_01": {
+    "faces": [],
+    "outside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_decor_l_02": {
+    "faces": [],
+    "outside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_decor_r_02": {
+    "faces": [],
+    "outside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_01": {
+    "faces": [],
+    "outside_hash": "e106572763a3fe8d4820c7f6aaaaec092ecf910d7cf9551abeea85be05daa7a4",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_02": {
+    "faces": [],
+    "outside_hash": "d044fffcf5ace196a0c204f1b423daff3d76c9eeec08843328c8c0666bc1e855",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_hatch_06": {
+    "faces": [],
+    "outside_hash": "3920e21da1e439f8c51c398dff7bd355169a754ae5459388515b81c2b6e39fca",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_decor_r_04": {
+    "faces": [],
+    "outside_hash": "456bd94286ac09c71e41348c418fef6f80c1c6c36c2460e5e57b8a7212ee14ca",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_decor_l_09": {
+    "faces": [],
+    "outside_hash": "bf8bc71f581c707de9a363de3fbcfe291e3999fd4ab235ee2a7ee56911ae030e",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_decor_r_03": {
+    "faces": [],
+    "outside_hash": "9180eefbcdaba12796e008ab97ac6ffdebc1420554adefffb9de4d07d19be7a8",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_decor_l_03": {
+    "faces": [],
+    "outside_hash": "edd2d73213dad6448bf05e62cc2c8b3808cbe7c2eb04f13e92106a1caa39f837",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_hatch_04": {
+    "faces": [],
+    "outside_hash": "c0cfd36458819dfcc3823b0855131ae66c3ef8dfbeb6441f00b53cdb6cfb10c5",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_l_01": {
+    "faces": [],
+    "outside_hash": "d00b75d948c23451c97ce150080447d64593b66c89a7ad35a0ec1081ec54eb0d",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_l_02": {
+    "faces": [],
+    "outside_hash": "68b4589cc4f00651a60aafd51dd574562f8e13fc4b445e61017927439ee49f48",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_l_03": {
+    "faces": [],
+    "outside_hash": "c00ebe41b27417e5a293bc482ac9669240002e2d9eb7af2ffc857563cb317eac",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_l_04": {
+    "faces": [],
+    "outside_hash": "c00ebe41b27417e5a293bc482ac9669240002e2d9eb7af2ffc857563cb317eac",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_l_05": {
+    "faces": [],
+    "outside_hash": "695f3d59c8114708d2e9dffe69d3037b57baec6c10b99bea28fea243332c8063",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_l_06": {
+    "faces": [],
+    "outside_hash": "ab87c225858a0cfd1ac311c332bcec311e116d804a857dca931f45683d06c2f2",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_r_07": {
+    "faces": [],
+    "outside_hash": "c5516839377ceb15733997127df4966ebc0fc3a12a445030ac2ff90582a4f299",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_r_01": {
+    "faces": [],
+    "outside_hash": "586fecc2c8f97c049df4f8a9c7f1b24eb830290c3eb31d9157922c1c653b833b",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_r_02": {
+    "faces": [],
+    "outside_hash": "f70da5a841ad10afd3b82b9e4a7aea674db9d7f542df9435ecbbcf3251d3c81e",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_r_03": {
+    "faces": [],
+    "outside_hash": "e7ca53ddc03b318ebe7f7d83f4a2e96c844e352d651187180253698b0760650c",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_r_04": {
+    "faces": [],
+    "outside_hash": "e7ca53ddc03b318ebe7f7d83f4a2e96c844e352d651187180253698b0760650c",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_r_05": {
+    "faces": [],
+    "outside_hash": "d47b53f8a2ed6f26a56ccbe03ebb34fd3d144f25d353bcf3798a3be3e335580b",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_r_06": {
+    "faces": [],
+    "outside_hash": "e799a1d909c4c93179ddd995ba13988e3c4551ef8b21afc000be6a6f1e6d5a87",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_lantern_l_01": {
+    "faces": [],
+    "outside_hash": "68678c66ad04c605fc502bcd6ca030b46150ea9def0b7ef80c8c7c3bab2205c4",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_decor_r_05": {
+    "faces": [],
+    "outside_hash": "1b36387f4458245cdec506ffd526165509b4d865238d42230d05731edfa22a03",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_decor_l_04": {
+    "faces": [],
+    "outside_hash": "5e51cdfcd9c62e218ee6e70beff2d606d20e1914dc2e939c257b39c3fa72e26b",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_hatch_01": {
+    "faces": [],
+    "outside_hash": "ae1c719eb1276404766f101bd65071a127aeb09d4e8c480bcca7aec4fc458550",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_lantern_r_01": {
+    "faces": [],
+    "outside_hash": "da1ffe73a0b889a9ad79b3a8e4aff16bc34b46a886991e3afc45069891d1d973",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_decor_04": {
+    "faces": [],
+    "outside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_decor_l_05": {
+    "faces": [],
+    "outside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_decor_r_06": {
+    "faces": [],
+    "outside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_r_01": {
+    "faces": [],
+    "outside_hash": "8b8d5ca2979738b471b7b542a0f6254bc2928eab5423fa4e3bf0983a5a53b3f0",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_r_02": {
+    "faces": [],
+    "outside_hash": "5af463ca305f3a35f2935f5469f59c12f9738e2cbbaf82d36931ec8a051ec3c4",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_r_03": {
+    "faces": [],
+    "outside_hash": "3ab7f63dd3774b3208c0277f2caa54f5071f4e493ad87739fca85161cef89f80",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_r_04": {
+    "faces": [],
+    "outside_hash": "f9de1a10b83fded33ea509b7ed4d647973725a233a36729421d0d33534127c2d",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_r_05": {
+    "faces": [],
+    "outside_hash": "9f626acda7376ff0571d76a4baf3d20787b79be547a84eba0f3d987c8f2d8f38",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_r_06": {
+    "faces": [],
+    "outside_hash": "8705434d02e65257fa07c8a1ce30df845be314fbc7e2dc55c2aeaa2ba55773c0",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_l_01": {
+    "faces": [],
+    "outside_hash": "477a91d90cb89cf6d446f26fff823c7f016d4b0e52e004c5671178fd483dac70",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_l_02": {
+    "faces": [],
+    "outside_hash": "b7996bda15637969296c31306087451e104e87945765d54a7f938c816e9e8196",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_l_03": {
+    "faces": [],
+    "outside_hash": "cf47559f27cfb918a682bd0b19c8fecfe112529b11144820ff6fb4a26922e156",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_l_04": {
+    "faces": [],
+    "outside_hash": "850b4386b89e002e59f6be26190790623db50251d149a8d1fb3a2be525914b05",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_l_05": {
+    "faces": [],
+    "outside_hash": "70448b1b979f9ed83601603e14c2b6c8b0143ea8fe37864baa73d7174a14cd53",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_l_06": {
+    "faces": [],
+    "outside_hash": "6ba3faa57013b7edf4d216a643bd77b599a71820ae40f63bbe03f62efc719bdc",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_bone_turret": {
+    "faces": [],
+    "outside_hash": "1a4fd275a871ab29ad3ab2a63edca0feb6dcf492bcc9f1489a015289da27b880",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_bone_gun": {
+    "faces": [
+      829,
+      830,
+      831,
+      832,
+      833,
+      834,
+      835,
+      836,
+      837,
+      838,
+      839,
+      840,
+      841,
+      842,
+      843,
+      844,
+      845,
+      846,
+      847,
+      848,
+      849,
+      850,
+      851,
+      852,
+      853,
+      854,
+      855,
+      856,
+      857,
+      858,
+      859,
+      860,
+      861,
+      862,
+      863,
+      864,
+      865,
+      866,
+      867,
+      868,
+      869,
+      870,
+      871,
+      872,
+      873,
+      874,
+      875,
+      876,
+      877,
+      878,
+      879,
+      880,
+      881,
+      882,
+      883,
+      884,
+      885,
+      886,
+      887,
+      888,
+      889,
+      890,
+      891,
+      892,
+      893,
+      894,
+      895,
+      896,
+      897,
+      898,
+      899,
+      900,
+      901,
+      902,
+      903,
+      904,
+      905,
+      906
+    ],
+    "outside_hash": "3b96ccf95d1d2fa23bdc57e4548976c655fe71f0d040dd80c54b8c558335ca2b",
+    "inside_hash": "58e66b8424d34cab582f5db5b03778693567612b1092834606916363ed6ba39f",
+    "luminance_range": [
+      167.02615413243623,
+      197.0260589773039
+    ]
+  },
+  "WT_gun_barrel": {
+    "faces": [],
+    "outside_hash": "631cfd6a9b9378182643483757ff1465cebb49434880e2ea131611221e4128e2",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_roll_01": {
+    "faces": [],
+    "outside_hash": "19b9316663700d96a4527e6ac251945d4f9d44d3b7346922536b34b66782ee8f",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_mg_twin": {
+    "faces": [],
+    "outside_hash": "950cfb21d0d826ad5373adccfbbe837d8b31089198c2e9160d03341e0d2530d8",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_rocket_mount_01": {
+    "faces": [],
+    "outside_hash": "97a14fe90c3a6e82917bb6c7613667ca680848d50f95b2661e94ddd90f342a0b",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_roll_06": {
+    "faces": [],
+    "outside_hash": "05a22d22571e61c9289b1d89ee20cc87bca925132c889386300f1e323073d5d7",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_roll_03": {
+    "faces": [],
+    "outside_hash": "964e518e9d549339e4d3aa0c3693cd4ccb6b2e9da9e0d1f49cefcfa6c43bd690",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_roll_05": {
+    "faces": [],
+    "outside_hash": "6dcc993dca3e66e8c0d15208b8bffc4bc885e83500915f10bdd251eaf9cbcf0c",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_roll_04": {
+    "faces": [],
+    "outside_hash": "d1053fa0647f497300a2a3b76884e6731ad70f8e370a1e98c93260ab815bf7a8",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_roll_02": {
+    "faces": [],
+    "outside_hash": "d7872489399e678ebd221fb9b13458e7328ca9de0e4dff28c7d2efcbfb8e0762",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_decor_02": {
+    "faces": [],
+    "outside_hash": "3547418f86acb2c82e6e24076d4ccf4a1a4d3f299f744b9d5aa99efbd548d0f3",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_decor_03": {
+    "faces": [],
+    "outside_hash": "5c238f1554e7ce0bff7a793a9fd91e9e2e577be6ab994b8d05ee711608ffe903",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_hatch_03": {
+    "faces": [],
+    "outside_hash": "56f9a65a6beaa3df9b861adb013a58af09fbbfcf50da662ccedbac4d7b15426e",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_hatch_02": {
+    "faces": [],
+    "outside_hash": "26ca14eabab44fab00cb0e2cbab7f8870143dc6c36fa30bc998f4c8db78a9222",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_armor_03": {
+    "faces": [],
+    "outside_hash": "aef441e55bcc26801e461b718e24a28bf70d0fc11ee60f87498d131184ad96c5",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_bone_commander_sight_v": {
+    "faces": [],
+    "outside_hash": "3cb556e7734db0e4d31f6b9cd706e03a38a6729af1d187709ae3b062e62e5c5c",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_wheel_r_drive": {
+    "faces": [],
+    "outside_hash": "3baf3f7262f11767362c792e07733c1a6b2e83216886a4b6a9ae6d3bf065b296",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_roll_08": {
+    "faces": [],
+    "outside_hash": "573e064a7b7dca42c77fcf1c28caf8d957061a9241dda71017e3c2e64a73d173",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_roll_07": {
+    "faces": [],
+    "outside_hash": "76976f0e5272fcfbeab9df6779e9200e0fea20eb32fe09a6369e8937fcb6d2a8",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_antenna_01": {
+    "faces": [],
+    "outside_hash": "c19a8e53731240320f0ed28b695b9250f40778d8acc0535bbf047e16e5171dc3",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_antenna_02": {
+    "faces": [],
+    "outside_hash": "67c4eb21325baa1c74612ac09c1739ae765a71b8e775be1fddabfdcfe0469fd7",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_ex_decor_01": {
+    "faces": [
+      0
+    ],
+    "outside_hash": "8b892b6dba4e4e62c3ee5e43e37c0b10f569a3c4eae20d6b6cd3158883f8dfe5",
+    "inside_hash": "189cc332eb313d27c6801e34cdb68d23cd3964e23070b62400d895746ed66d92",
+    "luminance_range": [
+      197.1257438484536,
+      202.88628518944333
+    ]
+  },
+  "WT_track_r": {
+    "faces": [],
+    "outside_hash": "5d64d44b1a7392a5fb828b4851b2ac191ba9a26bf8a18f6bb4555a62566264bd",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_track_l": {
+    "faces": [],
+    "outside_hash": "ae37b92205ee0425385135efac2a425b8ecd14a52bc29c2828297d3208c9f635",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_rear_ramp": {
+    "faces": [],
+    "outside_hash": "bb2f26fabf95f76cde980da3f52f53b14f9569ccf35102e705669177760e7792",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_LinkageSupport_001": {
+    "faces": [],
+    "outside_hash": "be8860c013b269ff888f6d97a4e3ac62efbd81c1c5d3b4661dcfabaa3a4272b4",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_LinkageSupport_021": {
+    "faces": [],
+    "outside_hash": "05e351c7acd815e8495d970a47136c04fc984243f48f1bece9349af477595998",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_LinkageSupport_022": {
+    "faces": [],
+    "outside_hash": "0b4e552349e250cf58d47bde7b3d426786de220dad237a09db5b48dd32ec103a",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_LinkageSupport_025": {
+    "faces": [],
+    "outside_hash": "c9d4b907bfc3e8a1fa124d28115acac4b08e625b28efd7ca5896a8750ef11fd1",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_LinkageSupport_041": {
+    "faces": [],
+    "outside_hash": "5dd80cb1e1d7e443c763307640107aad8b693eb9a9bc707c19177c0b2d1d2ba7",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_LinkageSupport_066": {
+    "faces": [],
+    "outside_hash": "6c395bc18055aacffd8e0926aeba38ce6e310c19b48a048db6449bc91368546e",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_SmokeTube_00": {
+    "faces": [],
+    "outside_hash": "7486dac0ea673df9f7944f960209ed95a3b4c77fbc8b0c89076c9ab71d4ca369",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_SmokeTube_01": {
+    "faces": [],
+    "outside_hash": "404e6bdeae74e1f822fdd026d1a4797bcf0324947e14991d95043b59c5aed6c6",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_SmokeTube_02": {
+    "faces": [],
+    "outside_hash": "fe74ecc2c692f49bd64bce1e7fd317ece6fce7a0ade7853b82bfcc3ea7b7e861",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_SmokeTube_03": {
+    "faces": [],
+    "outside_hash": "1034c249030f041358a9b2b6f10aedc4bf163b092dff5f20e4dc7ca158dfb481",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_SmokeTube_04": {
+    "faces": [],
+    "outside_hash": "8549e28cac826687ae83fbfd4811fce7f0c36307886af1915c0ae150584b3b18",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_SmokeTube_05": {
+    "faces": [],
+    "outside_hash": "6e6a9c29a1e17ef4014a561b1fbc7c6aca44650501ec474aa3f138ce557604d3",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_SmokeTube_06": {
+    "faces": [],
+    "outside_hash": "2d7086f437356f8770f6a87560dc0898d1320460376617498aa1909a8f10ec02",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_SmokeTube_07": {
+    "faces": [],
+    "outside_hash": "5c74ef9f0053a28ddcc6722536be0a221c2bafb8c9d13f7491852dff29a46019",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_SmokeMount_00": {
+    "faces": [],
+    "outside_hash": "783b285de43e76bb92a29888ebeb100d4c0b1bdede00f155619b944e52de7e47",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_SmokeMount_01": {
+    "faces": [],
+    "outside_hash": "6fdd178425bef06fff92664b9cdb76c73a505a2192160587511a8f0f586c8b40",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_SmokeMount_02": {
+    "faces": [],
+    "outside_hash": "93eb1db17f0920ad6c39a3eab9f9e6fc7e8f8e71a4fb0934a6a484aa7d1ffdbf",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_SmokeMount_03": {
+    "faces": [],
+    "outside_hash": "d8ef34fc90298a1b43124041836e6d983148a7bdc522947a78727fe1adc9bbea",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_SmokeMount_04": {
+    "faces": [],
+    "outside_hash": "52b0484a1927ec9c0d5d97aa2914306ace0267e34f72fcf04d27a4c648a85bb5",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  },
+  "WT_SmokeMount_05": {
+    "faces": [],
+    "outside_hash": "957bc0b39ad587d94c4b20e13e7e260c680cb07f325312c276ab22473be69536",
+    "inside_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "luminance_range": null
+  }
+}

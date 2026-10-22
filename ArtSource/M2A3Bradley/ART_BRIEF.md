@@ -1,6 +1,6 @@
 # Bradley 아트 작업 기록
 
-2026-10-23 최신 요청: 넓은 해치 본판은 이전의 부드러운 명도 표현을 사용하고, 반복 채색의 판단 규칙을 RimThunder에 맞춰 정리한다. 작은 힌지·관측장치 원통 측면의 2구간 채색과 이전 높이 단계 대비는 유지한다.
+2026-10-23 최신 요청: 포 덮개와 기총 구멍 주변 덮개의 미세한 높이 차이가 읽히도록 해당 부위만 마무리한다.
 공통 기준은 `ArtSource/VEHICLE_ART_STYLE.md` v1.8이다. 한 면 한 색 제한은 취소된 상태다.
 
 ## 현재 모델과 근거
@@ -11,6 +11,14 @@
 - 입력: `ReferenceFit/stage1_rimworld_base.blend`. 2차 전체 포탑 재구성은 철회 상태다. 요청된 연결부·덮개·주포·해치 부속과 원본 연막탄 8개·장착대 복구를 유지한다.
 - `WT_hatch_03`의 앞선 원본 손잡이·힌지 복구(188→1,071면)를 유지한다. 이번 형상 변경은 없다. 다른 형상·부모·피벗을 보존한다. ERA는 보류한다.
 - M2A3 청사진과 M3A3 OBJ의 형식 차이는 `Audit/Stage1/FORMAT_BASELINE.md`에 기록되어 있다.
+
+## 포 덮개·기총 주변의 국소 단차 마무리
+
+`local_raised_panels`로 `WT_bone_gun`의 기총 주변 셀 표면(원본 829~906면)과 `WT_ex_decor_01`의 윗판 0번 면만 조정한다. 형상과 구멍 내부 재질은 변경하지 않는다.
+
+기준 지붕 명도 약 196에서 기총 덮개 약 202, 그보다 높은 포 덮개 약 208의 두 미세 단계를 둔다. 상위 해치 기준 명도 약 212보다 낮게 제한한다. 포 덮개의 완만한 면 색 변화와 기총 덮개의 두 색 간격 30은 유지한다. 전역 높이 대비·해치 본판·힌지·관측장치 설정을 바꾸지 않는다.
+
+`Audit/check_gun_panel_contrast.py`는 기준 커밋 `6a7ab6f6`과 비교해 대상 79면 외의 모든 코너 색이 동일함을 확인한다. `--pixels`는 저장된 상면 PNG의 실제 두 덮개 명도를 검사한다. 이번 비교/검증은 `Audit/GunPanels/REPORT.md`를 기준으로 한다.
 
 ## 표면별 표현과 반복 채색 기준
 
@@ -47,7 +55,7 @@ RimThunder M2A3 대응 부품 20개 영역의 명도 측정은 `rimthunder_palet
 이 값들은 재질·가독성 참고 자료이며 현재 부품별 기본색으로 직접 사용하지 않는다. 사용하지 않는 이전 부품별 채색 알고리즘은 제거했다. 과거 구현은 Git 커밋 `63b47c69`에 남아 있다.
 실제 설정은 `part_contrast.json`, 최종 색 계산은 `height_palette.py`, 코너 색 적용은 `face_depth_tone.py`, 곡면 두 구간 분할은 `cel_patches.py`에 있다.
 
-현재 검수는 `Audit/SurfaceRules/REPORT.md`와 표면 모드·최종 색·PNG 측정 JSON을 기준으로 한다. 이전 최소 대비/일괄 셀 채색 결과는 `Audit/CelContrast/`, 높이 역전 진단은 `Audit/HeightQuality/`에 보존한다.
+현재 검수는 `Audit/GunPanels/REPORT.md`와 국소 단차·최종 색·PNG 측정 JSON을 기준으로 한다. 앞선 본판/작은 부속 구분 기록은 `Audit/SurfaceRules/`에 보존한다. 이전 최소 대비/일괄 셀 채색 결과는 `Audit/CelContrast/`, 높이 역전 진단은 `Audit/HeightQuality/`에 보존한다.
 `recolor_validation.json`은 최종 Emission RGB의 높이 순서, 작은 부속의 두 색, 원본 부품·부모 보존, 손잡이 위치를 검증한다.
 `Audit/check_surface_modes.py`는 넓은 본판의 명도 보간과 수정 대상 밖의 코너 색 보존을 검사한다.
 `Audit/validate_height_renders.py`는 가려지지 않은 상면의 실제 PNG 픽셀과 합성 색을 검사한다.
