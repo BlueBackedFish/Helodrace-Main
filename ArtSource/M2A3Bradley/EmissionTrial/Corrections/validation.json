@@ -1,0 +1,68 @@
+{
+  "compared_with": "b3fdf6f6",
+  "only_requested_faces_changed": true,
+  "changed_faces": {
+    "WT_bone_turret": 3,
+    "WT_ex_decor_02": 201,
+    "WT_hatch_02": 268,
+    "WT_LinkageSupport_001": 508,
+    "WT_LinkageSupport_025": 36
+  },
+  "wt_bone_gun_all_colors_unchanged": true,
+  "bright_surfaces": {
+    "linkage_025_upper": {
+      "object": "WT_LinkageSupport_025",
+      "faces": 36,
+      "range": [
+        229.9999992033208,
+        229.9999992033208
+      ]
+    },
+    "turret_plate_beside_coax": {
+      "object": "WT_bone_turret",
+      "faces": 3,
+      "range": [
+        229.9999992033208,
+        229.9999992033208
+      ]
+    }
+  },
+  "handle_display_y": [
+    207.9999978644527,
+    231.99999732164196
+  ],
+  "linkage_001_colors": [
+    120,
+    156,
+    192
+  ],
+  "linkage_001_coherent_regions": 92,
+  "wrong_previous_target_restored": true,
+  "in_game_validation": "not_performed",
+  "front_image_boxes": {
+    "handle": [
+      222.1142349243164,
+      319.8065643310547,
+      383.53433990478516,
+      423.9719467163086
+    ],
+    "linkage_001": [
+      389.41896057128906,
+      362.21868896484375,
+      432.21624755859375,
+      424.6641311645508
+    ],
+    "linkage_025": [
+      349.9804000854492,
+      468.4398880004883,
+      490.0181579589844,
+      581.074836730957
+    ],
+    "turret_plate": [
+      251.9886245727539,
+      484.93883514404297,
+      385.1835021972656,
+      529.1657867431641
+    ]
+  }
+}

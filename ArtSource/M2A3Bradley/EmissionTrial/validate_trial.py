@@ -84,10 +84,15 @@ def read_view(name,pose):
 poses=json.loads((OUT/'camera_views.json').read_text());a=read_view('closeup_front',poses['closeup_front']);b=read_view('closeup_angle',poses['closeup_angle'])
 common=set(a)&set(b);assert len(common)>30,len(common)
 errors=[float(np.max(abs(a[k]-b[k]))) for k in common];assert max(errors)<1.5,max(errors)
-plate=report['brighter_plate'];keys=[k for k in common if k[0]==plate['object'] and k[1] in plate['faces']]
-assert keys,'Brightened plate must be verified in both camera angles'
-plate_values=[float(np.dot(a[k],WEIGHTS)) for k in keys]
-assert all(abs(y-plate['display_luminance'])<1 for y in plate_values)
+plate_results={}
+for plate in report['correction_settings']['bright_surfaces']:
+    entries=report['surface_corrections'][plate['object']]
+    ids=next(entry['faces'] for entry in entries if entry['name']==plate['name'])
+    keys=[k for k in common if k[0]==plate['object'] and k[1] in ids]
+    assert keys,('Brightened plate must be verified in both camera angles',plate['name'])
+    values=[float(np.dot(a[k],WEIGHTS)) for k in keys]
+    assert all(abs(y-plate['display_luminance'])<1 for y in values)
+    plate_results[plate['name']]={'faces':len(keys),'actual_display_y_range':[min(values),max(values)],'target':plate['display_luminance']}
 with open(OUT/'bradley_emission_trial.glb','rb') as f:
     assert f.read(4)==b'glTF';f.read(8);length,kind=struct.unpack('<II',f.read(8));g=json.loads(f.read(length))
 assert len(g['animations'])==4
@@ -97,7 +102,7 @@ validation={'geometry_and_all_parent_matrices_unchanged':True,'production_source
 'constant_emission_paint_materials':len(fixed),'fixed_palette_no_vertex_interpolation':True,
 'same_faces_sampled_in_two_camera_angles':len(common),'second_view_sun_energy':poses['closeup_angle']['sun_energy'],
 'max_actual_pixel_srgb_channel_difference_0_to_255':max(errors),
-'bright_plate_verified_in_both_views':{'faces':len(keys),'actual_display_y_range':[min(plate_values),max(plate_values)],'target':plate['display_luminance']},
+'bright_plates_verified_in_both_views':plate_results,
 'four_control_animations_and_glb_animations':True,'glb_unlit_without_vertex_color_multiplication':True,'transparent_no_scene_lights':True,
 'in_game_validation':'not_performed'}
 (OUT/'validation.json').write_text(json.dumps(validation,indent=2)+'\n')

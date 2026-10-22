@@ -3,8 +3,10 @@ import bpy,json,sys,hashlib,shutil,tempfile,os
 from pathlib import Path
 from mathutils import Vector
 ROOT=Path(__file__).resolve().parent.parent;OUT=Path(__file__).resolve().parent;sys.path.insert(0,str(ROOT))
+sys.path.insert(0,str(OUT))
 from height_palette import COLOR_ATTRIBUTE,LUMINANCE_ATTRIBUTE,WEIGHTS,display,final_paint,top_luminance
 from cel_patches import BROAD_ATTRIBUTE
+from paint_corrections import authored_values
 cfg=json.loads((OUT/'settings.json').read_text(encoding='utf-8-sig'))
 paint=json.loads((ROOT/'part_contrast.json').read_text())['height_first_paint']
 source=ROOT/cfg['baseline_blend']
@@ -26,7 +28,7 @@ for src,dst in [('Audit/ContactPaint/after_front.png','before_front.png'),('RimW
 old_mats={m.name:m for o in meshes for m in o.data.materials if m}
 baseline_nodes={name:[n.type for n in m.node_tree.nodes] for name,m in old_mats.items() if m.use_nodes}
 assert all('EMISSION' in types and not any(t.startswith('BSDF_') for t in types) for types in baseline_nodes.values())
-materials={};plate_faces=[];broad_faces=0;changed_faces=0;curved_before_faces=0
+materials={};broad_faces=0;changed_faces=0;curved_before_faces=0;surface_reports={}
 def fixed(role,y):
     key=('metal' if role=='main_barrel' else 'tan',round(y,3))
     if key in materials:return materials[key]
@@ -39,6 +41,8 @@ def fixed(role,y):
     materials[key]=m;return m
 for obj in meshes:
     me=obj.data;colors=me.color_attributes[COLOR_ATTRIBUTE];broad=me.attributes[BROAD_ATTRIBUTE];desired=[]
+    overrides,correction_report=authored_values(obj,cfg['corrections'])
+    if correction_report:surface_reports[obj.name]=correction_report
     for p in me.polygons:
         old=me.materials[p.material_index];role=old.get('paint_role')
         if not role:desired.append(old);continue
@@ -49,9 +53,10 @@ for obj in meshes:
             y=top_luminance(role,paint)-(0 if p.normal.z>=cfg['broad_lid_top_normal'] else cfg['broad_lid_rim_drop'])
             broad_faces+=1
         y=round(y/cfg['palette_step'])*cfg['palette_step']
-        target=cfg['brighter_plate']
-        if obj.name==target['object'] and p.normal.z>=target['minimum_normal_z']:
-            y=target['display_luminance'];plate_faces.append(p.index)
+        handle=cfg['corrections']['handle']
+        if role==handle['paint_role']:
+            y=handle['light'] if y>=handle['bright_threshold'] else handle['dark']
+        if p.index in overrides:y=overrides[p.index]
         y=max(paint['minimum_luminance'],min(paint['maximum_luminance'],y))
         m=fixed(role,y);desired.append(m)
         rgb=m.diffuse_color[:3]
@@ -62,7 +67,7 @@ for obj in meshes:
     for m in desired:
         if m.name not in slots:slots[m.name]=len(slots);me.materials.append(m)
     for p,m in zip(me.polygons,desired):p.material_index=slots[m.name]
-assert plate_faces and before==geometry_hash()
+assert surface_reports and before==geometry_hash()
 assert not any(o.type=='LIGHT' for o in s.objects)
 for m in materials.values():
     assert {n.type for n in m.node_tree.nodes}=={'EMISSION','OUTPUT_MATERIAL'}
@@ -84,9 +89,9 @@ with tempfile.TemporaryDirectory(prefix='.export-',dir=OUT) as staging:
     os.replace(path,OUT/'bradley_emission_trial.glb')
 report={'baseline_commit':cfg['baseline_commit'],'baseline_already_emission':True,'baseline_material_nodes':baseline_nodes,
 'trial_fixed_paint_materials':len(materials),'flat_broad_lid_faces':broad_faces,'formerly_interpolated_faces':curved_before_faces,
-'changed_painted_faces':changed_faces,'brighter_plate':dict(cfg['brighter_plate'],faces=plate_faces),
+'changed_painted_faces':changed_faces,'surface_corrections':surface_reports,'correction_settings':cfg['corrections'],
 'geometry_sha256_including_parent_and_world_matrix':before,'geometry_unchanged':True,'faces':sum(len(o.data.polygons) for o in meshes),'meshes':len(meshes),
 'production_source_sha256':sources,'trial_only':True,'grille':'Existing position-based emission stripe pattern preserved in BLEND; solid fallback in GLB.',
 'no_camera_or_normal_shader_input':True,'no_render_time_recolor':True,'in_game_validation':'not_performed'}
 (OUT/'manifest.json').write_text(json.dumps(report,indent=2)+'\n')
-print('FIXED EMISSION TRIAL BUILT',len(materials),'fixed paint colors,',len(plate_faces),'bright plate faces')
+print('FIXED EMISSION TRIAL BUILT',len(materials),'fixed paint colors,',len(surface_reports),'corrected objects')
