@@ -5,8 +5,13 @@ s=bpy.context.scene;s.frame_set(1)
 meshes=[o for o in s.objects if o.type=='MESH']
 with open(os.path.join(HERE,'manifest.json')) as f:manifest=json.load(f)
 faces=sum(len(o.data.polygons) for o in meshes)
-assert faces==manifest['faces'] and faces<28227
+assert faces==manifest['faces'] and faces<150000
 assert manifest['thickened_components']>0
+for o in meshes:
+    attr=o.data.attributes.get('Face depth tone')
+    assert attr and attr.domain=='FACE'
+    assert all(.879<=v.value<=1.081 for v in attr.data)
+    assert all(p.area>1e-12 for p in o.data.polygons)
 assert not any(o.type=='LIGHT' for o in s.objects)
 assert s.render.film_transparent
 for mesh,control,frame in [('WT_bone_turret','TURRET_YAW',40),('WT_bone_gun','GUN_ELEVATION',40),('WT_rear_ramp','REAR_RAMP_HINGE',80),('WT_hatch_04','PERSONNEL_DOOR_HINGE',25)]:

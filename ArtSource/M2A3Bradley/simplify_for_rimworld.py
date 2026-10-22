@@ -34,7 +34,7 @@ for o in list(scene.objects):
         ext=sorted(max(v.co[k] for v in component)-min(v.co[k] for v in component) for k in range(3))
         if ext[2]<.16 or (ext[1]<.035 and ext[2]<.45):
             remove.extend(component);report['removed_small_components']+=1
-        elif ext[2]>3*max(ext[1],.001) and ext[1]<.14:
+        elif o.name in {'WT_antenna_01','WT_antenna_02','WT_gun_barrel','WT_mg_twin'} and ext[2]>3*max(ext[1],.001) and ext[1]<.14:
             # Enlarge cross-sections in principal axes; leave length and endpoints
             # along the main axis unchanged. Applies to antennae and retained rods.
             verts=list(component);points=np.array([tuple(v.co) for v in verts]);center=points.mean(axis=0)
@@ -47,12 +47,24 @@ for o in list(scene.objects):
                 for v,point in zip(verts,local@axes.T+center):v.co=point
                 report['thickened_components']+=1
     if remove:bmesh.ops.delete(bm,geom=remove,context='VERTS')
-    bmesh.ops.dissolve_limit(bm,angle_limit=math.radians(3),use_dissolve_boundaries=False,verts=list(bm.verts),edges=list(bm.edges),delimit={'MATERIAL','NORMAL'})
+    # Only truly coplanar faces may merge. Broad near-planar ngons and collapse
+    # decimation can fold thin armor sheets and move their boundary vertices.
+    bmesh.ops.dissolve_degenerate(bm,dist=.00001,edges=list(bm.edges))
+    bmesh.ops.dissolve_limit(bm,angle_limit=math.radians(.1),use_dissolve_boundaries=False,verts=list(bm.verts),edges=list(bm.edges),delimit={'MATERIAL','NORMAL'})
     bm.to_mesh(o.data);bm.free();o.data.update()
     bpy.ops.object.select_all(action='DESELECT');o.select_set(True);bpy.context.view_layer.objects.active=o
-    if len(o.data.polygons)>250:
-        mod=o.modifiers.new('Sprite simplification','DECIMATE');mod.ratio=.32
+    if o.name.startswith('WT_wheel_') and len(o.data.polygons)>250:
+        mod=o.modifiers.new('Sprite simplification','DECIMATE');mod.ratio=.6
         bpy.ops.object.modifier_apply(modifier=mod.name)
+    valid=[p for p in o.data.polygons if p.area>1e-10]
+    report['degenerate_faces_removed']=report.get('degenerate_faces_removed',0)+len(o.data.polygons)-len(valid)
+    if len(valid)!=len(o.data.polygons):
+        original=o.data;indices=[p.material_index for p in valid]
+        fresh=bpy.data.meshes.new(original.name+' clean')
+        fresh.from_pydata([v.co[:] for v in original.vertices],[],[list(p.vertices) for p in valid]);fresh.update()
+        for m in original.materials:fresh.materials.append(m)
+        for p,index in zip(fresh.polygons,indices):p.material_index=index
+        o.data=fresh
     old=list(o.data.materials)
     # Face shading is baked as flat colors: broad roofs, intermediate slopes,
     # darker skirts and undersides, with a subtle local height step for hatches.
@@ -94,7 +106,7 @@ for o in list(scene.objects):
     for p,m in zip(o.data.polygons,colors):p.material_index=slots[m.name];p.use_smooth=False
     report['objects'][o.name]={'before':before,'after':len(o.data.polygons),'parent':o.parent.name}
 report['faces']=sum(len(o.data.polygons) for o in scene.objects if o.type=='MESH')
-assert report['faces']<80000
+assert report['faces']<150000
 assert not any(o.type=='LIGHT' for o in scene.objects)
 assert bpy.data.objects['WT_hatch_04'].parent.name=='PERSONNEL_DOOR_HINGE'
 assert bpy.data.objects['WT_rear_ramp'].parent.name=='REAR_RAMP_HINGE'
@@ -103,6 +115,11 @@ report['style_reference']='Legion Vehicles : Acies Gravitatis / 3786789710 / LGI
 report['ERA']='deferred; no ERA geometry in this output'
 report['low_resolution']={'small_component_cutoff_m':.16,'retained_rod_target_width_m':.055,'grille_wave_scale':1.8,'flat_face_levels':[1,.78,.55,.36]}
 scene.camera=bpy.data.objects['Camera_iso_front']
+import sys
+sys.path.insert(0,ROOT)
+from face_depth_tone import apply_face_depth_tone
+apply_face_depth_tone(scene)
+report['surface_cleanup']='Preserve armor boundaries; coplanar dissolve 0.1 degrees; collapse only wheels; thicken standalone antenna/gun groups only'
 for collection in [bpy.data.materials,bpy.data.meshes,bpy.data.images]:
     for item in list(collection):
         if collection==bpy.data.materials:item.use_fake_user=False

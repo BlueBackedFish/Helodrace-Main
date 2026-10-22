@@ -43,6 +43,7 @@ for name, objects in groups.items():
     for obj in meshes:
         obj.hide_render = obj not in objects
     scene.render.filepath = os.path.join(OUT, name + '.png')
+    if globals().get('PREPARE_RENDER'):PREPARE_RENDER(scene)
     bpy.ops.render.render(write_still=True)
     im = bpy.data.images.load(scene.render.filepath, check_existing=False)
     pixels = np.array(im.pixels[:]).reshape(1024, 1024, 4)
@@ -69,6 +70,7 @@ top_groups={'turret_top_east':groups['turret_east_test'],
 for name,objects in top_groups.items():
     for obj in meshes:obj.hide_render=obj not in objects
     scene.render.filepath=os.path.join(OUT,name+'.png')
+    if globals().get('PREPARE_RENDER'):PREPARE_RENDER(scene)
     bpy.ops.render.render(write_still=True)
     im=bpy.data.images.load(scene.render.filepath,check_existing=False)
     pixels=np.array(im.pixels[:]).reshape(1024,1024,4)
