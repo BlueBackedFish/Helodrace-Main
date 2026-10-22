@@ -1,9 +1,9 @@
 {
-  "schema_version": 6,
+  "schema_version": 7,
   "geometry_source": "ReferenceFit/stage1_rimworld_base.blend",
   "geometry_sha256": "979a4f82fe07bd9276d264a2d87a700123ca3b307430010b502ea7d4bb7bb356",
   "role_registry": "bradley_roles.json",
-  "notes": "Height-ordered contrast levels use a minimum step plus logarithmic gap response. Curved patches use exactly two face-constant cel tones; no interpolated normal gradients.",
+  "notes": "Height-step contrast retained. Broad hatch lid surfaces use smooth height/curvature paint; small hinges and cylindrical equipment surfaces retain two-tone cel paint. Surface scale and function determine the mode.",
   "recess_paint": {
     "gain": 0.62,
     "minimum_edge_length": 0.022,
@@ -131,6 +131,16 @@
       "side_light_drop": 24,
       "top_light_drop": 0,
       "whole_small_hatch_components": true
+    },
+    "broad_hatch_paint": {
+      "roles": [
+        "turret_hatch_a",
+        "turret_hatch_b",
+        "driver_hatch",
+        "rear_roof_hatch"
+      ],
+      "component_selection": "largest_upward_projected_area",
+      "normal_smoothing_degrees": 50
     }
   },
   "render_quality": {

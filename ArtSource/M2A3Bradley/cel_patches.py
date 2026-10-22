@@ -6,19 +6,28 @@ from mesh_regions import regions,position_key
 from height_palette import height_luminance,contrast_luminance
 CEL_ATTRIBUTE='Cel paint patch'
 BAND_ATTRIBUTE='Cel paint band'
+BROAD_ATTRIBUTE='Broad hatch paint'
 
-def curved_patches(obj,role,settings):
+def broad_hatch_faces(obj,role,settings):
+    """Select the lid by projected top area, independent of polygon density."""
+    if role not in settings['broad_hatch_paint']['roles']:return set()
+    me=obj.data;groups=regions(me)
+    if not groups:return set()
+    main=max(groups,key=lambda ids:sum(me.polygons[i].area*max(0,me.polygons[i].normal.z) for i in ids))
+    return {i for i in main if me.materials[me.polygons[i].material_index].get('paint_role')==role}
+
+def curved_patches(obj,role,settings,broad):
     c=settings['cel_shading'];me=obj.data
     if role not in c['roles']:return []
     paint={p.index for p in me.polygons if me.materials[p.material_index].get('paint_role')}
     if not paint:return []
-    whole=[];used=set()
+    whole=[];used=set(broad)
     # Hatch pins/hinges are disconnected mechanical components. Include their
     # end caps in the same two-color palette, while preserving the lid itself.
     if role in {'turret_hatch_a','turret_hatch_b','driver_hatch','rear_roof_hatch'} and c['whole_small_hatch_components']:
         groups=regions(me)
-        for group in groups[1:]:
-            ids=[i for i in group if i in paint]
+        for group in groups:
+            ids=[i for i in group if i in paint and i not in broad]
             if not ids:continue
             material_roles={me.materials[me.polygons[i].material_index].get('paint_role') for i in ids}
             if len(material_roles)!=1:continue
@@ -48,12 +57,15 @@ def curved_patches(obj,role,settings):
 
 def patch_colors(obj,role,settings):
     c=settings['cel_shading'];me=obj.data;result={};report=[]
+    broad=broad_hatch_faces(obj,role,settings)
+    if not me.attributes.get(BROAD_ATTRIBUTE):me.attributes.new(BROAD_ATTRIBUTE,'INT','FACE')
+    for p in me.polygons:me.attributes[BROAD_ATTRIBUTE].data[p.index].value=int(p.index in broad)
     for name in (CEL_ATTRIBUTE,BAND_ATTRIBUTE):
         if not me.attributes.get(name):me.attributes.new(name,'INT','FACE')
         for v in me.attributes[name].data:v.value=-1
     axis=Vector(c['direction_axis']).normalized();normal_matrix=obj.matrix_world.to_3x3().inverted().transposed()
     recess=me.attributes.get('Recess paint')
-    for index,ids in enumerate(curved_patches(obj,role,settings)):
+    for index,ids in enumerate(curved_patches(obj,role,settings,broad)):
         z=max((obj.matrix_world@me.vertices[v].co).z for i in ids for v in me.polygons[i].vertices)
         up=max((normal_matrix@me.polygons[i].normal).normalized().z for i in ids)>.85
         bright=contrast_luminance(height_luminance(z,settings),settings)-(c['top_light_drop'] if up else c['side_light_drop'])

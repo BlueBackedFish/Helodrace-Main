@@ -39,7 +39,7 @@
       "object": "WT_hatch_02",
       "faces": 134,
       "height": 2.8887657304781955,
-      "final_display_luminance": 231.95677235056976
+      "final_display_luminance": 219.54153017104667
     },
     "commander_sight_top": {
       "object": "WT_bone_commander_sight_v",
@@ -93,12 +93,12 @@
   "front_side_slope_test_difference": 12.434728932232531,
   "curved_patches_use_two_flat_colors": {
     "WT_hatch_05": {
-      "patches": 8,
-      "two_band_patches": 4
+      "patches": 2,
+      "two_band_patches": 2
     },
     "WT_hatch_01": {
-      "patches": 11,
-      "two_band_patches": 7
+      "patches": 4,
+      "two_band_patches": 4
     },
     "WT_bone_gun": {
       "patches": 40,
@@ -121,12 +121,12 @@
       "two_band_patches": 17
     },
     "WT_hatch_03": {
-      "patches": 23,
-      "two_band_patches": 21
+      "patches": 14,
+      "two_band_patches": 14
     },
     "WT_hatch_02": {
-      "patches": 47,
-      "two_band_patches": 43
+      "patches": 39,
+      "two_band_patches": 39
     },
     "WT_ex_armor_03": {
       "patches": 5,

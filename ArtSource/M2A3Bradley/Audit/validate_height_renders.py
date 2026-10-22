@@ -81,5 +81,5 @@ mask=(overlay[:,:,3]<.00001)&(body[:,:,3]>.9999)
 assert float(np.max(abs(preview[mask,:3]-body[mask,:3])))<.0002
 report={'actual_png_height_samples':samples,'opaque_composite_linear_rgb_max_error':error,
  'method':'Visible BVH-verified cap centroids, stable opaque 3x3 pixel patches; compare final emission then assert height order.'}
-(ROOT/'Audit/CelContrast/render_validation.json').write_text(json.dumps(report,indent=2)+'\n')
+(ROOT/'Audit/SurfaceRules/render_validation.json').write_text(json.dumps(report,indent=2)+'\n')
 print('ACTUAL PNG HEIGHT ORDER AND COMPOSITE COLOR VALIDATION PASSED',json.dumps(report))

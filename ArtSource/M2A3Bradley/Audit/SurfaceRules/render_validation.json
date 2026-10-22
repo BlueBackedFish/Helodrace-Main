@@ -1,0 +1,31 @@
+{
+  "actual_png_height_samples": {
+    "hull_roof": {
+      "visible_patch_count": 51,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 178.58861730971654
+    },
+    "turret_roof": {
+      "visible_patch_count": 19,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 195.9293064022421
+    },
+    "hatch_03": {
+      "visible_patch_count": 21,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 212.25759249240937
+    },
+    "hatch_02": {
+      "visible_patch_count": 17,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 228.53712467817294
+    },
+    "commander_sight_top": {
+      "visible_patch_count": 17,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 246.3835362532719
+    }
+  },
+  "opaque_composite_linear_rgb_max_error": 3.522634506225586e-05,
+  "method": "Visible BVH-verified cap centroids, stable opaque 3x3 pixel patches; compare final emission then assert height order."
+}

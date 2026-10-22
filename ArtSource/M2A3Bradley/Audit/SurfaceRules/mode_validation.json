@@ -1,0 +1,30 @@
+{
+  "broad_lids": {
+    "WT_hatch_05": {
+      "faces": 247,
+      "unique_corner_colors": 301,
+      "interpolated_faces": 245,
+      "changed_from_cel": true
+    },
+    "WT_hatch_01": {
+      "faces": 487,
+      "unique_corner_colors": 469,
+      "interpolated_faces": 486,
+      "changed_from_cel": true
+    },
+    "WT_hatch_03": {
+      "faces": 612,
+      "unique_corner_colors": 328,
+      "interpolated_faces": 331,
+      "changed_from_cel": true
+    },
+    "WT_hatch_02": {
+      "faces": 1222,
+      "unique_corner_colors": 835,
+      "interpolated_faces": 1166,
+      "changed_from_cel": true
+    }
+  },
+  "all_non_lid_corner_colors_match_baseline": true,
+  "method": "Compare every non-lid painted corner RGB hash, rounded to 6 decimals, against commit 7956c9a3 baseline."
+}

@@ -4,9 +4,12 @@ The public function name is retained for the render callbacks. No camera- or
 part-baseline multiplier follows the final color attribute in the shader.
 """
 from pathlib import Path
+from math import cos,radians
+from mathutils import Vector
+from collections import defaultdict
 import bpy,json
 from height_palette import COLOR_ATTRIBUTE,LUMINANCE_ATTRIBUTE,SATURATION_ATTRIBUTE,final_paint
-from cel_patches import patch_colors
+from cel_patches import patch_colors,BROAD_ATTRIBUTE
 ROOT=Path(__file__).resolve().parent
 RECESS_ATTRIBUTE='Recess paint'
 
@@ -30,13 +33,23 @@ def apply_face_depth_tone(scene):
         luminance=me.attributes[LUMINANCE_ATTRIBUTE];saturation=me.attributes[SATURATION_ATTRIBUTE]
         cel,patch_report=patch_colors(o,role,settings)
         if patch_report:report[o.name]=patch_report
+        broad=me.attributes[BROAD_ATTRIBUTE]
+        adjacent=defaultdict(list)
+        for p in me.polygons:
+            if not broad.data[p.index].value:continue
+            for v in p.vertices:
+                adjacent[tuple(round(c,5) for c in me.vertices[v].co)].append((p.normal.copy(),p.area))
+        threshold=cos(radians(settings['broad_hatch_paint']['normal_smoothing_degrees']))
         normal_matrix=o.matrix_world.to_3x3().inverted().transposed()
         recess=me.attributes.get(RECESS_ATTRIBUTE)
         for p in me.polygons:
             mat=me.materials[p.material_index];paint_role=mat.get('paint_role') if mat else None
             for li in p.loop_indices:
                 co=me.vertices[me.loops[li].vertex_index].co
-                normal=(normal_matrix@p.normal).normalized()
+                normal=p.normal
+                if broad.data[p.index].value:
+                    normal=sum((n*a for n,a in adjacent[tuple(round(c,5) for c in co)] if n.dot(p.normal)>=threshold),Vector()).normalized()
+                normal=(normal_matrix@normal).normalized()
                 color,y,sat=final_paint((o.matrix_world@co).z,normal,paint_role or role,
                     recess.data[p.index].value if recess else 1,settings,cel.get(p.index))
                 if not paint_role:

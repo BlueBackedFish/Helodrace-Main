@@ -1,0 +1,61 @@
+{
+  "baseline_commit": "7956c9a3",
+  "geometry_sha256": "c35798b5657c64e0743ccfa501bc60842ee5699f3fbf2fc1c0aeb51b56ffab77",
+  "geometry_unchanged": true,
+  "height_contrast_settings_unchanged": true,
+  "small_cel_settings_unchanged": true,
+  "all_non_lid_corner_colors_unchanged": true,
+  "broad_lids": {
+    "WT_hatch_05": {
+      "faces": 247,
+      "unique_corner_colors": 301,
+      "interpolated_faces": 245,
+      "changed_from_cel": true
+    },
+    "WT_hatch_01": {
+      "faces": 487,
+      "unique_corner_colors": 469,
+      "interpolated_faces": 486,
+      "changed_from_cel": true
+    },
+    "WT_hatch_03": {
+      "faces": 612,
+      "unique_corner_colors": 328,
+      "interpolated_faces": 331,
+      "changed_from_cel": true
+    },
+    "WT_hatch_02": {
+      "faces": 1222,
+      "unique_corner_colors": 835,
+      "interpolated_faces": 1166,
+      "changed_from_cel": true
+    }
+  },
+  "actual_png_samples": {
+    "hull_roof": {
+      "visible_patch_count": 51,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 178.58861730971654
+    },
+    "turret_roof": {
+      "visible_patch_count": 19,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 195.9293064022421
+    },
+    "hatch_03": {
+      "visible_patch_count": 21,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 212.25759249240937
+    },
+    "hatch_02": {
+      "visible_patch_count": 17,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 228.53712467817294
+    },
+    "commander_sight_top": {
+      "visible_patch_count": 17,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 246.3835362532719
+    }
+  }
+}
