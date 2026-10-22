@@ -18,7 +18,7 @@ def material(rgb):
     palette[key]=m;return m
 for o in list(scene.objects):
     if o.type!='MESH':continue
-    if o.name=='WT_turret_inside':
+    if o.name=='WT_turret_inside' or o.name.startswith('WT_suspension'):
         report['removed_objects'].append(o.name);bpy.data.objects.remove(o,do_unlink=True);continue
     before=len(o.data.polygons)
     bm=bmesh.new();bm.from_mesh(o.data)
@@ -32,7 +32,14 @@ for o in list(scene.objects):
                 q=edge.other_vert(v)
                 if q in pending:pending.remove(q);component.add(q);stack.append(q)
         ext=sorted(max(v.co[k] for v in component)-min(v.co[k] for v in component) for k in range(3))
-        if ext[2]<.16 or (ext[1]<.035 and ext[2]<.45):
+        essential=o.name in {'WT_antenna_01','WT_antenna_02','WT_gun_barrel','WT_mg_twin','WT_bone_gun','WT_bone_commander_sight_v'} or o.name.startswith('WT_ex_lantern')
+        optical=any('Optics' in o.data.materials[f.material_index].name for v in component for f in v.link_faces if f.material_index<len(o.data.materials))
+        essential=essential or optical
+        # Blueprint reading scale: keep large panels and equipment silhouettes,
+        # discard disconnected hooks, latches, wiring and narrow stowage rails.
+        cutoff=.04 if optical else .16 if essential else .32
+        skinny=not essential and ext[1]<.13 and ext[2]<1.8
+        if ext[2]<cutoff or skinny:
             remove.extend(component);report['removed_small_components']+=1
         elif o.name in {'WT_antenna_01','WT_antenna_02','WT_gun_barrel','WT_mg_twin'} and ext[2]>3*max(ext[1],.001) and ext[1]<.14:
             # Enlarge cross-sections in principal axes; leave length and endpoints
@@ -79,11 +86,11 @@ for o in list(scene.objects):
         elif 'recesses' in name:rgb=(77,71,57)
         elif 'net_f' in name:rgb=(100,96,80)
         else:
-            brightness=1 if n.z>.88 else .78 if n.z>.40 else .55 if n.z>-.35 else .36
+            brightness=1 if n.z>.88 else .70 if n.z>.40 else .45 if n.z>-.35 else .29
             if n.z<=.40 and n.x<-.35:brightness+=.06
             brightness+=.045 if turret else 0
             if o.name.startswith('WT_hatch_'):
-                brightness=(.79 if n.z>.35 else .49 if n.z>-.35 else .34)+(.045 if turret else 0)
+                brightness=(.72 if n.z>.35 else .40 if n.z>-.35 else .29)+(.045 if turret else 0)
             # Higher deck fixtures retain a small readable brightness difference.
             if n.z>.4:brightness-=.025 if z<(2.80 if turret else 2.10) else 0
             rgb=tuple(c*brightness for c in (221,207,172))
@@ -113,7 +120,7 @@ assert bpy.data.objects['WT_rear_ramp'].parent.name=='REAR_RAMP_HINGE'
 report['face_reduction_percent']=round(100*(1-report['faces']/223389),1)
 report['style_reference']='Legion Vehicles : Acies Gravitatis / 3786789710 / LGIFV east and turret textures; visual reference only, no pixels copied'
 report['ERA']='deferred; no ERA geometry in this output'
-report['low_resolution']={'small_component_cutoff_m':.16,'retained_rod_target_width_m':.055,'grille_wave_scale':1.8,'flat_face_levels':[1,.78,.55,.36]}
+report['low_resolution']={'small_component_cutoff_m':.32,'essential_equipment_cutoff_m':.16,'remove_narrow_fittings_below_m':.13,'retained_rod_target_width_m':.055,'grille_wave_scale':1.8,'flat_face_levels':[1,.70,.45,.29]}
 scene.camera=bpy.data.objects['Camera_iso_front']
 import sys
 sys.path.insert(0,ROOT)

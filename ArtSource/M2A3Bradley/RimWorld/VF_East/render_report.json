@@ -1,6 +1,6 @@
 {
   "preview_geometry_east": {
-    "objects": 111,
+    "objects": 83,
     "alpha_bounds_bottom_origin": [
       138,
       268,
@@ -9,7 +9,7 @@
     ]
   },
   "vehicle_east": {
-    "objects": 89,
+    "objects": 61,
     "alpha_bounds_bottom_origin": [
       138,
       268,

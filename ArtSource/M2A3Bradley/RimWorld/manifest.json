@@ -1,114 +1,142 @@
 {
   "source_faces": 223389,
   "removed_objects": [
+    "WT_suspension_r_01",
+    "WT_suspension_r_01_02",
+    "WT_suspension_r_02",
+    "WT_suspension_r_02_02",
+    "WT_suspension_r_03",
+    "WT_suspension_r_03_02",
+    "WT_suspension_r_04",
+    "WT_suspension_r_05",
+    "WT_suspension_r_06",
+    "WT_suspension_r_06_02",
+    "WT_suspension_r_01_01",
+    "WT_suspension_r_02_01",
+    "WT_suspension_r_03_01",
+    "WT_suspension_r_06_01",
+    "WT_suspension_l_01",
+    "WT_suspension_l_01_02",
+    "WT_suspension_l_02",
+    "WT_suspension_l_02_02",
+    "WT_suspension_l_03",
+    "WT_suspension_l_03_02",
+    "WT_suspension_l_04",
+    "WT_suspension_l_05",
+    "WT_suspension_l_06",
+    "WT_suspension_l_06_02",
+    "WT_suspension_l_01_01",
+    "WT_suspension_l_02_01",
+    "WT_suspension_l_03_01",
+    "WT_suspension_l_06_01",
     "WT_turret_inside"
   ],
-  "removed_small_components": 4261,
-  "thickened_components": 5,
+  "removed_small_components": 4677,
+  "thickened_components": 8,
   "objects": {
     "WT_@root": {
       "before": 73954,
-      "after": 13991,
+      "after": 9400,
       "parent": "HULL"
     },
     "WT_ex_armor_l_07": {
       "before": 1208,
-      "after": 527,
+      "after": 18,
       "parent": "HULL"
     },
     "WT_hatch_05": {
       "before": 2716,
-      "after": 909,
+      "after": 465,
       "parent": "HULL"
     },
     "WT_wheel_l_drive": {
       "before": 2440,
-      "after": 674,
+      "after": 645,
       "parent": "HULL"
     },
     "WT_wheel_l_top_02": {
       "before": 544,
-      "after": 181,
+      "after": 180,
       "parent": "HULL"
     },
     "WT_wheel_l_back": {
       "before": 2520,
-      "after": 884,
+      "after": 688,
       "parent": "HULL"
     },
     "WT_wheel_r_top_02": {
       "before": 544,
-      "after": 181,
+      "after": 180,
       "parent": "HULL"
     },
     "WT_wheel_r_back": {
       "before": 2520,
-      "after": 884,
+      "after": 691,
       "parent": "HULL"
     },
     "WT_wheel_r_top_01": {
       "before": 432,
-      "after": 89,
+      "after": 0,
       "parent": "HULL"
     },
     "WT_wheel_r_top_03": {
       "before": 432,
-      "after": 90,
+      "after": 0,
       "parent": "HULL"
     },
     "WT_wheel_l_top_01": {
       "before": 432,
-      "after": 89,
+      "after": 0,
       "parent": "HULL"
     },
     "WT_wheel_l_top_03": {
       "before": 432,
-      "after": 88,
+      "after": 0,
       "parent": "HULL"
     },
     "WT_ex_decor_l_01": {
       "before": 352,
-      "after": 227,
+      "after": 0,
       "parent": "HULL"
     },
     "WT_ex_decor_r_01": {
       "before": 352,
-      "after": 228,
+      "after": 0,
       "parent": "HULL"
     },
     "WT_ex_decor_l_02": {
       "before": 336,
-      "after": 220,
+      "after": 0,
       "parent": "HULL"
     },
     "WT_ex_decor_r_02": {
       "before": 336,
-      "after": 224,
+      "after": 0,
       "parent": "HULL"
     },
     "WT_ex_armor_01": {
       "before": 878,
-      "after": 706,
+      "after": 661,
       "parent": "HULL"
     },
     "WT_ex_armor_02": {
       "before": 890,
-      "after": 764,
+      "after": 747,
       "parent": "HULL"
     },
     "WT_hatch_06": {
       "before": 4224,
-      "after": 242,
+      "after": 128,
       "parent": "HULL"
     },
     "WT_ex_decor_r_04": {
       "before": 3551,
-      "after": 1448,
+      "after": 952,
       "parent": "HULL"
     },
     "WT_ex_decor_l_09": {
       "before": 3542,
-      "after": 1447,
+      "after": 955,
       "parent": "HULL"
     },
     "WT_ex_decor_r_03": {
@@ -123,72 +151,72 @@
     },
     "WT_hatch_04": {
       "before": 1320,
-      "after": 559,
+      "after": 451,
       "parent": "PERSONNEL_DOOR_HINGE"
     },
     "WT_ex_armor_l_01": {
       "before": 1236,
-      "after": 529,
+      "after": 24,
       "parent": "HULL"
     },
     "WT_ex_armor_l_02": {
       "before": 888,
-      "after": 286,
+      "after": 12,
       "parent": "HULL"
     },
     "WT_ex_armor_l_03": {
       "before": 524,
-      "after": 286,
+      "after": 12,
       "parent": "HULL"
     },
     "WT_ex_armor_l_04": {
       "before": 524,
-      "after": 296,
+      "after": 12,
       "parent": "HULL"
     },
     "WT_ex_armor_l_05": {
       "before": 888,
-      "after": 281,
+      "after": 13,
       "parent": "HULL"
     },
     "WT_ex_armor_l_06": {
       "before": 888,
-      "after": 290,
+      "after": 13,
       "parent": "HULL"
     },
     "WT_ex_armor_r_07": {
       "before": 896,
-      "after": 285,
+      "after": 17,
       "parent": "HULL"
     },
     "WT_ex_armor_r_01": {
       "before": 924,
-      "after": 303,
+      "after": 26,
       "parent": "HULL"
     },
     "WT_ex_armor_r_02": {
       "before": 888,
-      "after": 288,
+      "after": 12,
       "parent": "HULL"
     },
     "WT_ex_armor_r_03": {
       "before": 524,
-      "after": 282,
+      "after": 12,
       "parent": "HULL"
     },
     "WT_ex_armor_r_04": {
       "before": 836,
-      "after": 521,
+      "after": 12,
       "parent": "HULL"
     },
     "WT_ex_armor_r_05": {
       "before": 1200,
-      "after": 525,
+      "after": 14,
       "parent": "HULL"
     },
     "WT_ex_armor_r_06": {
       "before": 880,
-      "after": 280,
+      "after": 13,
       "parent": "HULL"
     },
     "WT_ex_lantern_l_01": {
@@ -208,7 +236,7 @@
     },
     "WT_hatch_01": {
       "before": 2080,
-      "after": 857,
+      "after": 712,
       "parent": "HULL"
     },
     "WT_ex_lantern_r_01": {
@@ -218,222 +246,82 @@
     },
     "WT_ex_decor_04": {
       "before": 653,
-      "after": 480,
+      "after": 0,
       "parent": "HULL"
     },
     "WT_ex_decor_l_05": {
       "before": 292,
-      "after": 211,
+      "after": 0,
       "parent": "HULL"
     },
     "WT_ex_decor_r_06": {
       "before": 292,
-      "after": 213,
-      "parent": "HULL"
-    },
-    "WT_suspension_r_01": {
-      "before": 268,
-      "after": 117,
-      "parent": "HULL"
-    },
-    "WT_suspension_r_01_02": {
-      "before": 100,
-      "after": 24,
-      "parent": "HULL"
-    },
-    "WT_suspension_r_02": {
-      "before": 268,
-      "after": 118,
-      "parent": "HULL"
-    },
-    "WT_suspension_r_02_02": {
-      "before": 100,
-      "after": 24,
-      "parent": "HULL"
-    },
-    "WT_suspension_r_03": {
-      "before": 268,
-      "after": 117,
-      "parent": "HULL"
-    },
-    "WT_suspension_r_03_02": {
-      "before": 100,
-      "after": 24,
-      "parent": "HULL"
-    },
-    "WT_suspension_r_04": {
-      "before": 268,
-      "after": 117,
-      "parent": "HULL"
-    },
-    "WT_suspension_r_05": {
-      "before": 268,
-      "after": 120,
-      "parent": "HULL"
-    },
-    "WT_suspension_r_06": {
-      "before": 268,
-      "after": 118,
-      "parent": "HULL"
-    },
-    "WT_suspension_r_06_02": {
-      "before": 100,
-      "after": 23,
+      "after": 0,
       "parent": "HULL"
     },
     "WT_wheel_r_01": {
       "before": 1304,
-      "after": 366,
+      "after": 353,
       "parent": "HULL"
     },
     "WT_wheel_r_02": {
       "before": 1304,
-      "after": 373,
+      "after": 360,
       "parent": "HULL"
     },
     "WT_wheel_r_03": {
       "before": 1304,
-      "after": 370,
+      "after": 359,
       "parent": "HULL"
     },
     "WT_wheel_r_04": {
       "before": 1304,
-      "after": 367,
+      "after": 354,
       "parent": "HULL"
     },
     "WT_wheel_r_05": {
       "before": 1304,
-      "after": 370,
+      "after": 356,
       "parent": "HULL"
     },
     "WT_wheel_r_06": {
       "before": 1320,
-      "after": 373,
-      "parent": "HULL"
-    },
-    "WT_suspension_r_01_01": {
-      "before": 94,
-      "after": 23,
-      "parent": "HULL"
-    },
-    "WT_suspension_r_02_01": {
-      "before": 94,
-      "after": 24,
-      "parent": "HULL"
-    },
-    "WT_suspension_r_03_01": {
-      "before": 94,
-      "after": 23,
-      "parent": "HULL"
-    },
-    "WT_suspension_r_06_01": {
-      "before": 94,
-      "after": 33,
-      "parent": "HULL"
-    },
-    "WT_suspension_l_01": {
-      "before": 268,
-      "after": 107,
-      "parent": "HULL"
-    },
-    "WT_suspension_l_01_02": {
-      "before": 100,
-      "after": 26,
+      "after": 360,
       "parent": "HULL"
     },
     "WT_wheel_l_01": {
       "before": 1304,
-      "after": 370,
-      "parent": "HULL"
-    },
-    "WT_suspension_l_02": {
-      "before": 268,
-      "after": 115,
-      "parent": "HULL"
-    },
-    "WT_suspension_l_02_02": {
-      "before": 100,
-      "after": 24,
+      "after": 356,
       "parent": "HULL"
     },
     "WT_wheel_l_02": {
       "before": 1304,
-      "after": 371,
-      "parent": "HULL"
-    },
-    "WT_suspension_l_03": {
-      "before": 268,
-      "after": 114,
-      "parent": "HULL"
-    },
-    "WT_suspension_l_03_02": {
-      "before": 100,
-      "after": 26,
+      "after": 355,
       "parent": "HULL"
     },
     "WT_wheel_l_03": {
       "before": 1304,
-      "after": 389,
-      "parent": "HULL"
-    },
-    "WT_suspension_l_04": {
-      "before": 268,
-      "after": 114,
+      "after": 373,
       "parent": "HULL"
     },
     "WT_wheel_l_04": {
       "before": 1304,
-      "after": 378,
-      "parent": "HULL"
-    },
-    "WT_suspension_l_05": {
-      "before": 268,
-      "after": 114,
+      "after": 366,
       "parent": "HULL"
     },
     "WT_wheel_l_05": {
       "before": 1304,
-      "after": 367,
-      "parent": "HULL"
-    },
-    "WT_suspension_l_06": {
-      "before": 268,
-      "after": 114,
-      "parent": "HULL"
-    },
-    "WT_suspension_l_06_02": {
-      "before": 100,
-      "after": 26,
+      "after": 354,
       "parent": "HULL"
     },
     "WT_wheel_l_06": {
       "before": 1304,
-      "after": 373,
-      "parent": "HULL"
-    },
-    "WT_suspension_l_01_01": {
-      "before": 94,
-      "after": 24,
-      "parent": "HULL"
-    },
-    "WT_suspension_l_02_01": {
-      "before": 94,
-      "after": 24,
-      "parent": "HULL"
-    },
-    "WT_suspension_l_03_01": {
-      "before": 94,
-      "after": 30,
-      "parent": "HULL"
-    },
-    "WT_suspension_l_06_01": {
-      "before": 94,
-      "after": 30,
+      "after": 362,
       "parent": "HULL"
     },
     "WT_bone_turret": {
       "before": 28494,
-      "after": 9273,
+      "after": 5171,
       "parent": "TURRET_YAW"
     },
     "WT_bone_gun": {
@@ -443,7 +331,7 @@
     },
     "WT_gun_barrel": {
       "before": 2632,
-      "after": 754,
+      "after": 780,
       "parent": "GUN_ELEVATION"
     },
     "WT_roll_01": {
@@ -453,12 +341,12 @@
     },
     "WT_mg_twin": {
       "before": 5515,
-      "after": 1121,
+      "after": 1172,
       "parent": "GUN_ELEVATION"
     },
     "WT_rocket_mount_01": {
       "before": 1293,
-      "after": 293,
+      "after": 273,
       "parent": "TURRET_YAW"
     },
     "WT_roll_06": {
@@ -473,7 +361,7 @@
     },
     "WT_roll_05": {
       "before": 4688,
-      "after": 830,
+      "after": 592,
       "parent": "TURRET_YAW"
     },
     "WT_roll_04": {
@@ -483,32 +371,32 @@
     },
     "WT_roll_02": {
       "before": 1067,
-      "after": 71,
+      "after": 47,
       "parent": "TURRET_YAW"
     },
     "WT_ex_decor_02": {
       "before": 488,
-      "after": 11,
+      "after": 0,
       "parent": "TURRET_YAW"
     },
     "WT_ex_decor_03": {
       "before": 500,
-      "after": 23,
+      "after": 6,
       "parent": "TURRET_YAW"
     },
     "WT_hatch_03": {
       "before": 1071,
-      "after": 257,
+      "after": 188,
       "parent": "TURRET_YAW"
     },
     "WT_hatch_02": {
       "before": 2556,
-      "after": 1139,
+      "after": 1083,
       "parent": "TURRET_YAW"
     },
     "WT_ex_armor_03": {
       "before": 1830,
-      "after": 326,
+      "after": 199,
       "parent": "TURRET_YAW"
     },
     "WT_bone_commander_sight_v": {
@@ -518,7 +406,7 @@
     },
     "WT_wheel_r_drive": {
       "before": 2440,
-      "after": 662,
+      "after": 633,
       "parent": "HULL"
     },
     "WT_roll_08": {
@@ -558,24 +446,26 @@
     },
     "WT_rear_ramp": {
       "before": 6831,
-      "after": 1569,
+      "after": 1439,
       "parent": "REAR_RAMP_HINGE"
     }
   },
   "degenerate_faces_removed": 2,
-  "faces": 63842,
-  "face_reduction_percent": 71.4,
+  "faces": 43344,
+  "face_reduction_percent": 80.6,
   "style_reference": "Legion Vehicles : Acies Gravitatis / 3786789710 / LGIFV east and turret textures; visual reference only, no pixels copied",
   "ERA": "deferred; no ERA geometry in this output",
   "low_resolution": {
-    "small_component_cutoff_m": 0.16,
+    "small_component_cutoff_m": 0.32,
+    "essential_equipment_cutoff_m": 0.16,
+    "remove_narrow_fittings_below_m": 0.13,
     "retained_rod_target_width_m": 0.055,
     "grille_wave_scale": 1.8,
     "flat_face_levels": [
       1,
-      0.78,
-      0.55,
-      0.36
+      0.7,
+      0.45,
+      0.29
     ]
   },
   "surface_cleanup": "Preserve armor boundaries; coplanar dissolve 0.1 degrees; collapse only wheels; thicken standalone antenna/gun groups only"
