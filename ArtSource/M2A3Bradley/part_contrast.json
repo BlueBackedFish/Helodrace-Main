@@ -1,94 +1,9 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "geometry_source": "ReferenceFit/stage1_rimworld_base.blend",
   "geometry_sha256": "979a4f82fe07bd9276d264a2d87a700123ca3b307430010b502ea7d4bb7bb356",
   "role_registry": "bradley_roles.json",
-  "part_difference_multiplier": 4.0,
-  "paint_srgb_base": [
-    221,
-    207,
-    172
-  ],
-  "paint_gain_floor": 0.36,
-  "paint_gain_ceiling": 1.12,
-  "minimum_role_differences": {
-    "turret_hatch_a": -0.055,
-    "turret_hatch_b": -0.055,
-    "driver_hatch": -0.035,
-    "rear_roof_hatch": 0.035,
-    "front_service_panel": 0.0,
-    "commander_sight": -0.05,
-    "commander_sight_guard": -0.035,
-    "tow_launcher": -0.05,
-    "tow_mount": -0.04,
-    "tow_end_cover": -0.04,
-    "gun_upper_shroud": -0.035,
-    "turret_front_upper_cover": -0.035,
-    "turret_front_lower_cover": -0.035,
-    "rear_stowage_bin": -0.04,
-    "turret_roof_equipment": -0.035
-  },
-  "notes": "Height-led paint with deliberately dark recesses and rear basket floor, bright hatch 02 upper hinge, stronger pigment/direction contrast. Gun paint is rebuilt from geometry normals rather than legacy triangle colors. Source smoke pods and connecting brackets are restored by exact OBJ face sets.",
-  "role_top_differences": {
-    "turret_hatch_a": 0.012,
-    "turret_hatch_b": 0.012,
-    "driver_hatch": 0.008,
-    "rear_roof_hatch": 0.025,
-    "turret_front_linkage": 0,
-    "turret_front_mechanism": 0
-  },
-  "dark_role_palettes": {
-    "commander_sight_guard": [
-      145,
-      122,
-      84
-    ],
-    "tow_launcher": [
-      145,
-      122,
-      84
-    ],
-    "tow_mount": [
-      145,
-      122,
-      84
-    ],
-    "tow_end_cover": [
-      145,
-      122,
-      84
-    ],
-    "gun_upper_shroud": [
-      145,
-      122,
-      84
-    ],
-    "rear_stowage_bin": [
-      145,
-      122,
-      84
-    ],
-    "rear_basket_floor": [
-      126,
-      106,
-      75
-    ],
-    "smoke_launcher": [
-      155,
-      134,
-      94
-    ],
-    "smoke_mount": [
-      126,
-      108,
-      76
-    ],
-    "turret_linkage_support": [
-      167,
-      146,
-      106
-    ]
-  },
+  "notes": "RimThunder-part brightness mapping replaces the previous arbitrary brown part palette. Bright hatch 02 arch on the lid, normal rear hinge. Shape-darkened tones lose saturation; preserve geometry, source smoke and animation.",
   "height_paint": {
     "reference_z": 2.1,
     "linear_gain_per_unit": 0.22,
@@ -102,47 +17,12 @@
     "curve_normal_strength": 0.14,
     "camera_gain_per_unit": 0.006
   },
-  "directional_contrast": 1.4,
   "accent_role_palettes": {
-    "hatch_upper_linkage": [
+    "hatch_lid_handle": [
       246,
-      228,
-      187
+      234,
+      204
     ]
-  },
-  "clean_directional_roles": {
-    "gun_mount": {
-      "srgb": [
-        194,
-        175,
-        136
-      ],
-      "wall_gain": 0.74
-    },
-    "main_barrel": {
-      "srgb": [
-        157,
-        140,
-        101
-      ],
-      "wall_gain": 0.82
-    },
-    "turret_front_upper_cover": {
-      "srgb": [
-        187,
-        166,
-        123
-      ],
-      "wall_gain": 0.76
-    },
-    "turret_front_lower_cover": {
-      "srgb": [
-        187,
-        166,
-        123
-      ],
-      "wall_gain": 0.76
-    }
   },
   "recess_paint": {
     "gain": 0.62,
@@ -155,5 +35,26 @@
       "turret_hatch_b",
       "main_barrel"
     ]
-  }
+  },
+  "reference_paint": {
+    "samples": "rimthunder_palette_samples.json",
+    "tan_tint_srgb": [
+      225,
+      213,
+      183
+    ],
+    "method": "corresponding-part grayscale medians with procedural direction and height; user overrides for the bright lid handle and dark rear floor"
+  },
+  "shade_desaturation": {
+    "strength": 1.2,
+    "minimum_saturation": 0.18,
+    "height_strength": 0.72,
+    "height_minimum_saturation": 0.28,
+    "note": "Only directional/height darkening lowers saturation; different part pigments and deliberate recess contrast retain separate intent."
+  },
+  "source_paint_srgb_base": [
+    221,
+    207,
+    172
+  ]
 }

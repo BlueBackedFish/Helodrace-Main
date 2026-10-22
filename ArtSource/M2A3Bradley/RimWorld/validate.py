@@ -17,6 +17,9 @@ for o in meshes:
     height=o.data.attributes.get('Height and curve tone')
     assert height and height.domain=='CORNER'
     assert all(.53<=v.value<=1.181 for v in height.data)
+    saturation=o.data.attributes.get('Height saturation')
+    assert saturation and saturation.domain=='CORNER'
+    assert all(.279<=v.value<=1.001 for v in saturation.data)
     recess=o.data.attributes.get('Recess paint')
     assert recess and recess.domain=='FACE'
     assert all(.619<=v.value<=1.001 for v in recess.data)

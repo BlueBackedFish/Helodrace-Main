@@ -14,8 +14,9 @@ def region_role(obj,role,indices,registry):
     pts=[obj.matrix_world@me.vertices[i].co for i in ids]
     lo=Vector(tuple(min(p[k] for p in pts) for k in range(3)));hi=Vector(tuple(max(p[k] for p in pts) for k in range(3)));center=(lo+hi)/2
     if role=='turret_hatch_a':
-        # Rear hinge/handle assembly above hatch 02, including its end brackets.
-        if center.y>.76 and center.z>2.79 and max(hi-lo)<.5:return 'hatch_upper_linkage'
+        # The broad arch carried on the lid, not the cylindrical rear hinge.
+        if .6<hi.x-lo.x<.8 and .44<lo.y and hi.y<.87 and lo.z>2.77:
+            return 'hatch_lid_handle'
     if role=='turret_assembly':
         for part in registry['protected_components']:
             a,b=map(Vector,part['source_bounds'])

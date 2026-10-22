@@ -8,6 +8,7 @@ ROOT=Path(__file__).resolve().parent
 ATTRIBUTE='Face depth tone'
 HEIGHT_ATTRIBUTE='Height and curve tone'
 RECESS_ATTRIBUTE='Recess paint'
+SATURATION_ATTRIBUTE='Height saturation'
 
 def height_gain(z,settings):
     return max(settings['minimum_gain'],min(settings['maximum_gain'],
@@ -33,6 +34,8 @@ def apply_face_depth_tone(scene):
             gain=max(.985,min(1.015,1+settings['camera_gain_per_unit']*toward.dot(world-Vector((0,0,2.1)))))
             for p in polygons:attr.data[p.index].value=gain
         height=me.attributes.get(HEIGHT_ATTRIBUTE) or me.attributes.new(HEIGHT_ATTRIBUTE,'FLOAT','CORNER')
+        saturation=me.attributes.get(SATURATION_ATTRIBUTE) or me.attributes.new(SATURATION_ATTRIBUTE,'FLOAT','CORNER')
+        height=me.attributes[HEIGHT_ATTRIBUTE]
         curved=roles.get(o.name) in settings['curved_roles']
         smooth=collections.defaultdict(Vector)
         if curved:
@@ -49,6 +52,9 @@ def apply_face_depth_tone(scene):
                 normal=(normal_matrix@smooth[tuple(round(c,5) for c in co)]).normalized()
                 gain*=1-settings['curve_normal_strength']*(1-max(0,normal.z))
             height.data[loop.index].value=gain
+            sat=cfg['shade_desaturation']
+            saturation.data[loop.index].value=max(sat['height_minimum_saturation'],min(1,
+                1-sat['height_strength']*max(0,1-gain)/(1-settings['minimum_gain'])))
         for m in me.materials:
             if not m or not m.use_nodes:continue
             nodes=m.node_tree.nodes;links=m.node_tree.links
@@ -61,3 +67,9 @@ def apply_face_depth_tone(scene):
                 if emission.inputs['Color'].links:links.new(emission.inputs['Color'].links[0].from_socket,multiply.inputs[1])
                 else:multiply.inputs[1].default_value=emission.inputs['Color'].default_value
                 links.new(a.outputs['Fac'],multiply.inputs[2]);links.new(multiply.outputs[0],emission.inputs['Color'])
+            if m.get('height_desaturation') and not nodes.get(SATURATION_ATTRIBUTE):
+                a=nodes.new('ShaderNodeAttribute');a.name=SATURATION_ATTRIBUTE;a.attribute_name=SATURATION_ATTRIBUTE
+                original=emission.inputs['Color'].links[0].from_socket
+                gray=nodes.new('ShaderNodeRGBToBW');links.new(original,gray.inputs[0])
+                mix=nodes.new('ShaderNodeMixRGB');links.new(a.outputs['Fac'],mix.inputs[0])
+                links.new(gray.outputs[0],mix.inputs[1]);links.new(original,mix.inputs[2]);links.new(mix.outputs[0],emission.inputs['Color'])

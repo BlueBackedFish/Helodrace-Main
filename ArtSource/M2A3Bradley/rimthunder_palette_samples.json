@@ -1,0 +1,262 @@
+{
+  "reference_root": "C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\294100\\3724793908\\Textures\\Vehicles\\M2A3",
+  "files": {
+    "vehicle_east.png": {
+      "sha256": "c150f0d6d9fb35e6282ef80bb3f7a7392c280123ab884dcc936dc8fa1aed5f27",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "vehicle_turret_full.png": {
+      "sha256": "0861906370986ec12c6b37e33ddbef95e67a0f2e97eb63af624d4076abf91ec6",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  },
+  "samples": {
+    "hull_roof": {
+      "file": "vehicle_east.png",
+      "pixel_box": [
+        432,
+        389,
+        500,
+        434
+      ],
+      "median_gray": 255.0,
+      "p10_gray": 255.0,
+      "p90_gray": 255.0
+    },
+    "hull_front_slope": {
+      "file": "vehicle_east.png",
+      "pixel_box": [
+        775,
+        400,
+        850,
+        470
+      ],
+      "median_gray": 212.0,
+      "p10_gray": 212.0,
+      "p90_gray": 212.0
+    },
+    "hull_side_slope": {
+      "file": "vehicle_east.png",
+      "pixel_box": [
+        380,
+        560,
+        500,
+        585
+      ],
+      "median_gray": 224.0,
+      "p10_gray": 218.0,
+      "p90_gray": 228.0
+    },
+    "hull_wall": {
+      "file": "vehicle_east.png",
+      "pixel_box": [
+        320,
+        640,
+        430,
+        665
+      ],
+      "median_gray": 147.0,
+      "p10_gray": 147.0,
+      "p90_gray": 147.0
+    },
+    "hull_skirt": {
+      "file": "vehicle_east.png",
+      "pixel_box": [
+        330,
+        688,
+        420,
+        705
+      ],
+      "median_gray": 179.0,
+      "p10_gray": 147.0,
+      "p90_gray": 179.0
+    },
+    "rear_roof_hatch": {
+      "file": "vehicle_east.png",
+      "pixel_box": [
+        219,
+        426,
+        260,
+        466
+      ],
+      "median_gray": 233.0,
+      "p10_gray": 196.0,
+      "p90_gray": 255.0
+    },
+    "track": {
+      "file": "vehicle_east.png",
+      "pixel_box": [
+        325,
+        727,
+        450,
+        733
+      ],
+      "median_gray": 43.0,
+      "p10_gray": 43.0,
+      "p90_gray": 43.0
+    },
+    "turret_roof": {
+      "file": "vehicle_turret_full.png",
+      "pixel_box": [
+        489,
+        477,
+        522,
+        501
+      ],
+      "median_gray": 233.0,
+      "p10_gray": 233.0,
+      "p90_gray": 233.0
+    },
+    "turret_front_slope": {
+      "file": "vehicle_turret_full.png",
+      "pixel_box": [
+        598,
+        401,
+        634,
+        430
+      ],
+      "median_gray": 160.0,
+      "p10_gray": 152.0,
+      "p90_gray": 237.7
+    },
+    "turret_side_slope": {
+      "file": "vehicle_turret_full.png",
+      "pixel_box": [
+        401,
+        617,
+        420,
+        642
+      ],
+      "median_gray": 149.0,
+      "p10_gray": 131.0,
+      "p90_gray": 166.6
+    },
+    "turret_rear_slope": {
+      "file": "vehicle_turret_full.png",
+      "pixel_box": [
+        443,
+        632,
+        479,
+        651
+      ],
+      "median_gray": 147.0,
+      "p10_gray": 137.0,
+      "p90_gray": 156.0
+    },
+    "turret_wall": {
+      "file": "vehicle_turret_full.png",
+      "pixel_box": [
+        664,
+        434,
+        675,
+        473
+      ],
+      "median_gray": 119.0,
+      "p10_gray": 117.0,
+      "p90_gray": 123.0
+    },
+    "tow_roof": {
+      "file": "vehicle_turret_full.png",
+      "pixel_box": [
+        311,
+        426,
+        372,
+        465
+      ],
+      "median_gray": 233.0,
+      "p10_gray": 233.0,
+      "p90_gray": 233.0
+    },
+    "tow_body": {
+      "file": "vehicle_turret_full.png",
+      "pixel_box": [
+        318,
+        503,
+        369,
+        537
+      ],
+      "median_gray": 255.0,
+      "p10_gray": 255.0,
+      "p90_gray": 255.0
+    },
+    "gun_shroud": {
+      "file": "vehicle_turret_full.png",
+      "pixel_box": [
+        489,
+        417,
+        524,
+        445
+      ],
+      "median_gray": 179.0,
+      "p10_gray": 179.0,
+      "p90_gray": 179.0
+    },
+    "gun_mantlet": {
+      "file": "vehicle_turret_full.png",
+      "pixel_box": [
+        503,
+        350,
+        520,
+        384
+      ],
+      "median_gray": 198.0,
+      "p10_gray": 164.0,
+      "p90_gray": 207.0
+    },
+    "barrel": {
+      "file": "vehicle_turret_full.png",
+      "pixel_box": [
+        509,
+        202,
+        514,
+        294
+      ],
+      "median_gray": 92.5,
+      "p10_gray": 84.0,
+      "p90_gray": 100.0
+    },
+    "hatch_dome": {
+      "file": "vehicle_turret_full.png",
+      "pixel_box": [
+        541,
+        535,
+        566,
+        557
+      ],
+      "median_gray": 220.83,
+      "p10_gray": 211.0,
+      "p90_gray": 233.0
+    },
+    "rear_basket_floor": {
+      "file": "vehicle_turret_full.png",
+      "pixel_box": [
+        436,
+        665,
+        538,
+        685
+      ],
+      "median_gray": 189.0,
+      "p10_gray": 175.0,
+      "p90_gray": 199.0
+    },
+    "rear_bin_wall": {
+      "file": "vehicle_turret_full.png",
+      "pixel_box": [
+        489,
+        716,
+        513,
+        724
+      ],
+      "median_gray": 174.0,
+      "p10_gray": 0.0,
+      "p90_gray": 255.0
+    }
+  },
+  "method": "opaque-pixel grayscale medians at manually checked corresponding parts; numerical palette, not UV projection"
+}

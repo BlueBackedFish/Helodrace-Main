@@ -15,7 +15,9 @@
   "smoke_tubes": 8,
   "exact_source_face_positions": true,
   "gun_coplanar_base_colors_consistent": true,
-  "bright_hatch_upper_linkage": true,
+  "bright_lid_handle_not_rear_hinge": true,
+  "direction_and_height_darkening_desaturates": true,
+  "rimthunder_part_palette_applied": true,
   "dark_rear_basket_floor": true,
   "geometric_recess_paint": true,
   "geometry_edits_limited_to": [

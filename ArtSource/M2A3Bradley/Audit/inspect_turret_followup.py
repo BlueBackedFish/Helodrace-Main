@@ -2,7 +2,7 @@
 import bpy,json,collections,sys
 from pathlib import Path
 from mathutils import Vector
-ROOT=Path(__file__).resolve().parent.parent;OUT=ROOT/'Audit/TurretFollowup';OUT.mkdir(exist_ok=True)
+ROOT=Path(__file__).resolve().parent.parent;OUT=Path(globals().get('OUTPUT_DIR',ROOT/'Audit/TurretFollowup'));OUT.mkdir(exist_ok=True)
 sys.path.insert(0,str(ROOT))
 
 def components(obj):

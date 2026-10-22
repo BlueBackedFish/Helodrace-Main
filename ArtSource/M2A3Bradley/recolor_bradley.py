@@ -1,12 +1,12 @@
 """Preserve source proportions, repair requested parts and apply height-led paint."""
-import bpy,json,math,hashlib,collections,sys
+import bpy,json,hashlib,sys
 from pathlib import Path
 from mathutils import Vector
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'RimWorld'
 cfg=json.loads((ROOT/'part_contrast.json').read_text());roles=json.loads((ROOT/cfg['role_registry']).read_text(encoding='utf-8'))
 assert hashlib.sha256((ROOT/cfg['geometry_source']).read_bytes()).hexdigest()==cfg['geometry_sha256']
 bpy.ops.wm.open_mainfile(filepath=str(ROOT/cfg['geometry_source']));s=bpy.context.scene;s.frame_set(1)
-entries={e['object']:e for e in roles['entries']};base=cfg['paint_srgb_base'];factor=cfg['part_difference_multiplier']
+entries={e['object']:e for e in roles['entries']};base=cfg['source_paint_srgb_base']
 meshes=[o for o in s.objects if o.type=='MESH']
 def geometry_hash():
     h=hashlib.sha256()
@@ -23,6 +23,7 @@ for o in meshes:
     if o.name not in entries:entries[o.name]={'role':o['art_role'],'parent':o.parent.name}
 repaired_hash=geometry_hash()
 from surface_accents import part_regions,region_role,apply_recess_paint
+from rimthunder_paint import reference_tone,desaturate_shade
 def srgb(c):return 255*(12.92*c if c<=.0031308 else 1.055*c**(1/2.4)-.055)
 def linear(c):
     v=c/255;return v/12.92 if v<=.04045 else ((v+.055)/1.055)**2.4
@@ -30,66 +31,39 @@ def paint_gain(m):
     if 'Game grille' in m.name:return None
     rgb=[srgb(v) for v in m.diffuse_color[:3]];gain=sum(c/b for c,b in zip(rgb,base))/3
     return gain if max(abs(c-b*gain) for c,b in zip(rgb,base))<1.2 else None
-def anchor(o,indices=None):
-    weights=collections.defaultdict(float)
-    for p in o.data.polygons:
-        if indices is not None and p.index not in indices:continue
-        if p.normal.z<.75:continue
-        g=paint_gain(o.data.materials[p.material_index])
-        if g is not None:weights[round(g,3)]+=p.area
-    return max(weights,key=weights.get) if weights else None
-assembly={'hull':anchor(bpy.data.objects['WT_@root']),'turret':anchor(bpy.data.objects['WT_bone_turret'])}
-cache={};measurements=[];clamped=0;accent_regions=[]
-def new_material(original,gain,palette=None):
-    palette=palette or base
-    key=(original.name,round(gain,5),tuple(palette))
+cache={};accent_regions=[]
+def new_material(gain,palette,shade_ratio,part_role):
+    gain=min(255,round(gain*255/4)*4)/255
+    shade_ratio=round(shade_ratio*16)/16
+    key=(part_role,round(gain,5),tuple(palette),round(shade_ratio,5))
     if key in cache:return cache[key]
-    label='Part TAN ' if palette==base else 'Bright TAN ' if sum(palette)>sum(base) else 'Dark TAN '
+    label='RT '+part_role+' '
     m=bpy.data.materials.new(label+str(round(gain,4)));m.use_nodes=True
-    color=tuple(linear(min(255,b*gain)) for b in palette)+(1,);m.diffuse_color=color
+    rgb=[min(255,b*gain) for b in palette]
+    rgb=desaturate_shade(rgb,shade_ratio,cfg['shade_desaturation'])
+    m['paint_role']=part_role;m['height_desaturation']=True
+    m['reference_gray']=gain*255;m['direction_shade_ratio']=shade_ratio
+    color=tuple(linear(c) for c in rgb)+(1,);m.diffuse_color=color
     nodes=m.node_tree.nodes;nodes.clear();e=nodes.new('ShaderNodeEmission');e.inputs['Color'].default_value=color
     out=nodes.new('ShaderNodeOutputMaterial');m.node_tree.links.new(e.outputs[0],out.inputs[0]);cache[key]=m
     return m
 for o in meshes:
     assert o.name in entries,o.name
-    role=entries[o.name]['role'];ref=assembly['turret' if entries[o.name]['parent'] in {'TURRET_YAW','GUN_ELEVATION'} else 'hull']
+    role=entries[o.name]['role']
     desired=[None]*len(o.data.polygons)
     for indices in part_regions(o,role):
         part_role=region_role(o,role,indices,roles)
-        if part_role in {'rear_basket_floor','hatch_upper_linkage'}:
+        if part_role in {'rear_basket_floor','hatch_lid_handle'}:
             accent_regions.append({'object':o.name,'role':part_role,'polygon_indices':indices})
-        minimum=cfg['minimum_role_differences'].get(part_role,0)
-        dark_palette=cfg['dark_role_palettes'].get(part_role)
-        accent_palette=cfg['accent_role_palettes'].get(part_role)
-        uniform=cfg['clean_directional_roles'].get(part_role)
-        top_delta=cfg['role_top_differences'].get(part_role)
-        measured=anchor(o,set(indices));old_delta=(measured-ref) if measured is not None else 0
-        delta=old_delta
-        if minimum:
-            # A direction-specific minimum also separates formerly identical tops.
-            delta=min(old_delta,minimum) if minimum<0 else max(old_delta,minimum)
-            offset=factor*delta-old_delta
-        else:offset=0
-        if offset:measurements.append({'object':o.name,'role':part_role,'reference_gain':ref,'old_top_gain':measured,'old_top_delta':old_delta,'target_delta':factor*delta,'offset':offset})
         for pi in indices:
             p=o.data.polygons[pi];old=o.data.materials[p.material_index];g=paint_gain(old)
-            if g is None:desired[pi]=old;continue
-            if uniform:
-                # Rebuild the gun's base color from its true surface direction.
-                # Old decimated triangle material assignments are discarded.
-                target=uniform['wall_gain']+(1-uniform['wall_gain'])*max(0,p.normal.z)
-            elif accent_palette:target=.88+.12*max(0,p.normal.z)
-            elif top_delta is not None and measured is not None:
-                # Do not inherit the old uniformly dark hatch tops. Curvature and
-                # actual vertex height now supply their separated tones.
-                target=ref+top_delta+.45*(g-measured)
-            elif dark_palette:
-                # A separate brown TAN pigment remains dark even when high up.
-                target=1+.55*(g-(measured or ref))
-            else:target=ref+cfg['directional_contrast']*(g-ref)+offset
-            floor=min(g,cfg['paint_gain_floor']);new=max(floor,min(cfg['paint_gain_ceiling'],target))
-            if abs(new-target)>1e-5:clamped+=1
-            desired[pi]=new_material(old,new,uniform['srgb'] if uniform else accent_palette or dark_palette)
+            if g is None:
+                if 'grille' in old.name.lower():old['height_desaturation']=True
+                desired[pi]=old;continue
+            normal=Vector(tuple(round(v,3) for v in p.normal))
+            gain,ratio=reference_tone(part_role,normal,cfg['reference_paint'])
+            palette=cfg['accent_role_palettes'].get(part_role,cfg['reference_paint']['tan_tint_srgb'])
+            desired[pi]=new_material(gain,palette,ratio,part_role)
     assert all(m is not None for m in desired)
     o.data.materials.clear();slots={}
     for m in desired:
@@ -115,11 +89,11 @@ for m in bpy.data.materials:
 bpy.ops.export_scene.gltf(filepath=str(OUT/'bradley_rimworld.glb'),export_format='GLB',export_animations=True,export_cameras=False,export_lights=False)
 report={'mode':'targeted_turret_repairs_height_paint','geometry_source':cfg['geometry_source'],'baseline_geometry_sha256':before,'geometry_sha256':repaired_hash,
  'geometry_changes_limited_to':sorted(repairs),'geometry_repairs':repairs,'height_paint':cfg['height_paint'],
- 'dark_role_palettes':cfg['dark_role_palettes'],'role_top_differences':cfg['role_top_differences'],
  'accent_role_palettes':cfg['accent_role_palettes'],'recess_paint':recess_report,
  'accent_regions':accent_regions,
+ 'reference_paint':cfg['reference_paint'],'shade_desaturation':cfg['shade_desaturation'],
  'meshes':len(meshes),'faces':saved_faces,
- 'part_difference_multiplier':factor,'clamped_faces':clamped,'assembly_reference_gains':assembly,'part_adjustments':measurements,
+ 'shared_paint_materials':len(cache),
  'stage2_geometry':'reverted_at_user_request','in_game_validation':'not_performed'}
 (OUT/'manifest.json').write_text(json.dumps(report,indent=2)+'\n')
 roles['stage_status']='targeted_turret_repairs_height_paint'
