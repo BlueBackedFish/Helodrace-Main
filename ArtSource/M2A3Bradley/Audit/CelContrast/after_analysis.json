@@ -1,0 +1,42 @@
+{
+  "samples": {
+    "hull_roof": {
+      "object": "WT_@root",
+      "faces": 197,
+      "height": 2.0420140655454273,
+      "final_display_luminance": 178.06158016456482
+    },
+    "turret_roof": {
+      "object": "WT_bone_turret",
+      "faces": 61,
+      "height": 2.726363739752453,
+      "final_display_luminance": 196.40343252146423
+    },
+    "hatch_03": {
+      "object": "WT_hatch_03",
+      "faces": 37,
+      "height": 2.7934999465942383,
+      "final_display_luminance": 212.28400653932678
+    },
+    "hatch_02": {
+      "object": "WT_hatch_02",
+      "faces": 134,
+      "height": 2.8887657304781955,
+      "final_display_luminance": 231.95677235056976
+    },
+    "commander_sight_top": {
+      "object": "WT_bone_commander_sight_v",
+      "faces": 40,
+      "height": 3.317376568484099,
+      "final_display_luminance": 245.95448564205032
+    }
+  },
+  "hatch_03_faces": 1071,
+  "settings": {
+    "samples": 128,
+    "filter_size": 0.85,
+    "color_depth": "16",
+    "lowres_resize": "linear-light premultiplied float Lanczos"
+  },
+  "validation": "final emitted RGB, not gain coefficients"
+}

@@ -1,0 +1,38 @@
+{
+  "0_0": {
+    "source_alpha_bbox": [
+      91,
+      273,
+      936,
+      752
+    ],
+    "comparison_visible_width": 490
+  },
+  "0_1": {
+    "source_alpha_bbox": [
+      139,
+      325,
+      913,
+      756
+    ],
+    "comparison_visible_width": 490
+  },
+  "1_0": {
+    "source_alpha_bbox": [
+      276,
+      292,
+      893,
+      706
+    ],
+    "comparison_visible_width": 490
+  },
+  "1_1": {
+    "source_alpha_bbox": [
+      339,
+      343,
+      847,
+      668
+    ],
+    "comparison_visible_width": 490
+  }
+}

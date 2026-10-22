@@ -1,0 +1,35 @@
+{
+  "commit": "e28f5f01",
+  "samples": {
+    "hull_roof": {
+      "object": "WT_@root",
+      "faces": 197,
+      "height": 2.0420140655454273,
+      "final_display_luminance": 193.47554360212843
+    },
+    "turret_roof": {
+      "object": "WT_bone_turret",
+      "faces": 61,
+      "height": 2.726363739752453,
+      "final_display_luminance": 212.73506085506216
+    },
+    "hatch_03": {
+      "object": "WT_hatch_03",
+      "faces": 37,
+      "height": 2.7934999465942383,
+      "final_display_luminance": 220.53888036214485
+    },
+    "hatch_02": {
+      "object": "WT_hatch_02",
+      "faces": 134,
+      "height": 2.8887657304781955,
+      "final_display_luminance": 225.6808258676981
+    },
+    "commander_sight_top": {
+      "object": "WT_bone_commander_sight_v",
+      "faces": 40,
+      "height": 3.317376568484099,
+      "final_display_luminance": 246.15810882527987
+    }
+  }
+}

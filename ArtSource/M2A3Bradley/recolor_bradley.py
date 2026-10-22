@@ -63,7 +63,7 @@ for o in meshes:
 assert geometry_hash()==repaired_hash
 recess_report={o.name:apply_recess_paint(o,cfg['recess_paint'],entries[o.name]['role']) for o in meshes}
 sys.path.insert(0,str(ROOT));from face_depth_tone import apply_face_depth_tone
-s.camera=bpy.data.objects['Camera_iso_front'];apply_face_depth_tone(s)
+s.camera=bpy.data.objects['Camera_iso_front'];cel_report=apply_face_depth_tone(s)
 quality=cfg['render_quality']
 s.eevee.taa_render_samples=quality['samples'];s.render.filter_size=quality['filter_size']
 s.render.image_settings.color_depth=quality['color_depth']
@@ -90,7 +90,7 @@ with tempfile.TemporaryDirectory(prefix='.export-',dir=OUT) as staging:
     os.replace(path,OUT/'bradley_rimworld.glb')
 report={'mode':'targeted_turret_repairs_height_paint','geometry_source':cfg['geometry_source'],'baseline_geometry_sha256':before,'geometry_sha256':repaired_hash,
  'geometry_changes_limited_to':sorted(repairs),'geometry_repairs':repairs,'height_first_paint':cfg['height_first_paint'],
- 'render_quality':quality,'recess_paint':recess_report,
+ 'render_quality':quality,'recess_paint':recess_report,'cel_paint':cel_report,
  'accent_regions':accent_regions,
  'paint_pipeline':'height -> final linear RGB corner attribute -> emission, no later gains',
  'meshes':len(meshes),'faces':saved_faces,

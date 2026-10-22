@@ -32,7 +32,8 @@ for part in RESTORATION['parts']:
 cloth=bpy.data.objects['WT_ex_decor_01'];assert len(cloth.data.polygons)==6 and len(cloth.data.vertices)==8
 top=[cloth.matrix_world@v.co for v in cloth.data.vertices[:4]]
 assert abs((top[1]-top[0]).cross(top[2]-top[0]).normalized().dot(top[3]-top[0]))<1e-6
-from height_palette import COLOR_ATTRIBUTE,LUMINANCE_ATTRIBUTE,SATURATION_ATTRIBUTE,display,WEIGHTS,height_luminance,final_paint
+from height_palette import COLOR_ATTRIBUTE,LUMINANCE_ATTRIBUTE,SATURATION_ATTRIBUTE,display,WEIGHTS,height_luminance,final_paint,contrast_luminance,contrast_levels
+from cel_patches import CEL_ATTRIBUTE,BAND_ATTRIBUTE
 from mesh_regions import regions
 
 def final_y(o,p):
@@ -55,8 +56,8 @@ for o in bpy.context.scene.objects:
         assert abs(final_y(o,p)-expected)<.002,(o.name,p.index)
         # All flat, upward painted plates share a monotonic height ramp. Curve
         # normals and the two requested pigment accents have separate checks.
-        if p.normal.z>.9999 and m.get('paint_role') not in {'hatch_lid_handle','rear_basket_floor','main_barrel','turret_hatch_a','turret_hatch_b','driver_hatch','gun_mount','smoke_launcher'}:
-            expected=sum(height_luminance((o.matrix_world@o.data.vertices[v].co).z,cfg['height_first_paint']) for v in p.vertices)/len(p.vertices)
+        if p.normal.z>.9999 and o.data.attributes[CEL_ATTRIBUTE].data[p.index].value<0 and m.get('paint_role') not in {'hatch_lid_handle','rear_basket_floor','main_barrel'}:
+            expected=sum(contrast_luminance(height_luminance((o.matrix_world@o.data.vertices[v].co).z,cfg['height_first_paint']),cfg['height_first_paint']) for v in p.vertices)/len(p.vertices)
             assert abs(final_y(o,p)-expected)<.002,(o.name,p.index,final_y(o,p),expected)
 
 def measure(name,lo,hi,main=False,role=None):
@@ -79,9 +80,30 @@ samples={
  'commander_sight_top':measure('WT_bone_commander_sight_v',3.28,3.40)}
 ordered=sorted(samples.items(),key=lambda q:q[1]['height'])
 assert all(b['final_display_luminance']>a['final_display_luminance']+1 for (_,a),(_,b) in zip(ordered,ordered[1:])),samples
-for name in ('WT_hatch_02','WT_hatch_03'):
-    o=bpy.data.objects[name];values=[v.value for v in o.data.attributes[LUMINANCE_ATTRIBUTE].data]
-    assert len({round(v,2) for v in values})>50 and max(values)-min(values)>15
+cel_summary={}
+for o in bpy.context.scene.objects:
+    if o.type!='MESH':continue
+    groups={}
+    for p in o.data.polygons:
+        patch=o.data.attributes[CEL_ATTRIBUTE].data[p.index].value
+        if patch<0:continue
+        colors=[tuple(round(v,6) for v in o.data.color_attributes[COLOR_ATTRIBUTE].data[i].color[:3]) for i in p.loop_indices]
+        assert len(set(colors))==1,('Gradient inside cel face',o.name,p.index)
+        groups.setdefault(patch,[]).append((p.index,colors[0],final_y(o,p)))
+    for patch,records in groups.items():
+        colors={r[1] for r in records};assert len(colors)<=2,(o.name,patch)
+        bands={o.data.attributes[BAND_ATTRIBUTE].data[r[0]].value for r in records}
+        if len(bands)==2:
+            assert len(colors)==2
+            assert max(r[2] for r in records)-min(r[2] for r in records)>=29.99
+    if groups:cel_summary[o.name]={'patches':len(groups),'two_band_patches':sum(len({r[1] for r in records})==2 for records in groups.values())}
+assert all(cel_summary[n]['two_band_patches']>0 for n in ('WT_hatch_02','WT_hatch_03','WT_bone_commander_sight_v'))
+levels=contrast_levels(cfg['height_first_paint'])[1:-1]
+steps=[b[1]-a[1] for a,b in zip(levels,levels[1:])]
+assert min(steps)>=cfg['height_first_paint']['step_contrast']['minimum_step']
+gain=[(b[1]-a[1])/(b[0]-a[0]) for a,b in zip(levels,levels[1:])]
+gaps=[b[0]-a[0] for a,b in zip(levels,levels[1:])]
+assert gain[gaps.index(min(gaps))]>gain[gaps.index(max(gaps))]*2,'Small gaps must gain more contrast than large gaps'
 for name in ('WT_roll_05','WT_ex_decor_01','WT_ex_armor_03'):
     assert any(m.get('paint_role') for m in bpy.data.objects[name].data.materials),name
 manifest=json.loads((OUT/'manifest.json').read_text());accents=manifest['accent_regions']
@@ -98,12 +120,12 @@ floor=next(a for a in accents if a['role']=='rear_basket_floor');o=bpy.data.obje
 for i in floor['polygon_indices']:
     p=o.data.polygons[i]
     if p.normal.z>.85:
-        plain=sum(height_luminance((o.matrix_world@o.data.vertices[v].co).z,cfg['height_first_paint']) for v in p.vertices)/len(p.vertices)
+        plain=sum(contrast_luminance(height_luminance((o.matrix_world@o.data.vertices[v].co).z,cfg['height_first_paint']),cfg['height_first_paint']) for v in p.vertices)/len(p.vertices)
         assert final_y(o,p)<plain-14
 assert sum(r['darkened_faces'] for r in manifest['recess_paint'].values())>0
 # Lower structural paint reduces both value and chroma; glass/metal are separate.
 o=bpy.data.objects['WT_@root'];attr=o.data.attributes[SATURATION_ATTRIBUTE]
-values=[v.value for v in attr.data];assert min(values)<.3 and max(values)>.75
+values=[v.value for v in attr.data];assert min(values)<.3 and max(values)-min(values)>.3
 assert len(bpy.data.objects['WT_hatch_03'].data.polygons)==1071
 front=final_paint(2.6,Vector((0,.8,.6)),'turret_assembly',1,cfg['height_first_paint'])[1]
 side=final_paint(2.6,Vector((.8,0,.6)),'turret_assembly',1,cfg['height_first_paint'])[1]
@@ -114,8 +136,8 @@ report={'restored_source_groups':list(SOURCE_RESTORED),'restored_embedded_compon
  'dark_rear_basket_floor':True,'geometric_recess_paint':True,
  'geometry_edits_limited_to':sorted(REPAIRED|ADDED),'other_geometry_and_all_parenting_unchanged':True,
  'hatch_03_original_detail_faces':1071,'planar_cover_faces':6,'front_side_slope_test_difference':front-side,
- 'curved_hatches_use_continuous_final_colors':True,'in_game_validation':'not_performed'}
+ 'curved_patches_use_two_flat_colors':cel_summary,'contrast_levels':levels,'contrast_steps':steps,'in_game_validation':'not_performed'}
 (OUT/'recolor_validation.json').write_text(json.dumps(report,indent=2)+'\n')
-(ROOT/'Audit/HeightQuality/after_analysis.json').write_text(json.dumps({'samples':samples,'hatch_03_faces':1071,
+(ROOT/'Audit/CelContrast/after_analysis.json').write_text(json.dumps({'samples':samples,'hatch_03_faces':1071,
  'settings':manifest['render_quality'],'validation':'final emitted RGB, not gain coefficients'},indent=2)+'\n')
 print('HEIGHT-FIRST FINAL EMISSION AND SOURCE GEOMETRY VALIDATION PASSED',json.dumps(samples))

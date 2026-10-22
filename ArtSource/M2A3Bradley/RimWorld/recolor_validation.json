@@ -21,31 +21,31 @@
       "object": "WT_@root",
       "faces": 197,
       "height": 2.0420140655454273,
-      "final_display_luminance": 193.47554360212843
+      "final_display_luminance": 178.06158016456482
     },
     "turret_roof": {
       "object": "WT_bone_turret",
       "faces": 61,
       "height": 2.726363739752453,
-      "final_display_luminance": 212.73506085506216
+      "final_display_luminance": 196.40343252146423
     },
     "hatch_03": {
       "object": "WT_hatch_03",
       "faces": 37,
       "height": 2.7934999465942383,
-      "final_display_luminance": 220.53888036214485
+      "final_display_luminance": 212.28400653932678
     },
     "hatch_02": {
       "object": "WT_hatch_02",
       "faces": 134,
       "height": 2.8887657304781955,
-      "final_display_luminance": 225.6808258676981
+      "final_display_luminance": 231.95677235056976
     },
     "commander_sight_top": {
       "object": "WT_bone_commander_sight_v",
       "faces": 40,
       "height": 3.317376568484099,
-      "final_display_luminance": 246.15810882527987
+      "final_display_luminance": 245.95448564205032
     }
   },
   "bright_lid_handle_not_rear_hinge": true,
@@ -90,7 +90,144 @@
   "other_geometry_and_all_parenting_unchanged": true,
   "hatch_03_original_detail_faces": 1071,
   "planar_cover_faces": 6,
-  "front_side_slope_test_difference": 13.688179857145741,
-  "curved_hatches_use_continuous_final_colors": true,
+  "front_side_slope_test_difference": 12.434728932232531,
+  "curved_patches_use_two_flat_colors": {
+    "WT_hatch_05": {
+      "patches": 8,
+      "two_band_patches": 4
+    },
+    "WT_hatch_01": {
+      "patches": 11,
+      "two_band_patches": 7
+    },
+    "WT_bone_gun": {
+      "patches": 40,
+      "two_band_patches": 13
+    },
+    "WT_gun_barrel": {
+      "patches": 44,
+      "two_band_patches": 22
+    },
+    "WT_roll_06": {
+      "patches": 5,
+      "two_band_patches": 5
+    },
+    "WT_roll_03": {
+      "patches": 13,
+      "two_band_patches": 8
+    },
+    "WT_roll_05": {
+      "patches": 29,
+      "two_band_patches": 17
+    },
+    "WT_hatch_03": {
+      "patches": 23,
+      "two_band_patches": 21
+    },
+    "WT_hatch_02": {
+      "patches": 47,
+      "two_band_patches": 43
+    },
+    "WT_ex_armor_03": {
+      "patches": 5,
+      "two_band_patches": 4
+    },
+    "WT_bone_commander_sight_v": {
+      "patches": 15,
+      "two_band_patches": 3
+    },
+    "WT_roll_08": {
+      "patches": 12,
+      "two_band_patches": 6
+    },
+    "WT_roll_07": {
+      "patches": 20,
+      "two_band_patches": 0
+    },
+    "WT_LinkageSupport_001": {
+      "patches": 4,
+      "two_band_patches": 3
+    },
+    "WT_LinkageSupport_021": {
+      "patches": 6,
+      "two_band_patches": 1
+    },
+    "WT_LinkageSupport_022": {
+      "patches": 5,
+      "two_band_patches": 0
+    },
+    "WT_LinkageSupport_025": {
+      "patches": 4,
+      "two_band_patches": 0
+    },
+    "WT_LinkageSupport_041": {
+      "patches": 6,
+      "two_band_patches": 2
+    },
+    "WT_LinkageSupport_066": {
+      "patches": 2,
+      "two_band_patches": 1
+    },
+    "WT_SmokeTube_00": {
+      "patches": 6,
+      "two_band_patches": 2
+    },
+    "WT_SmokeTube_01": {
+      "patches": 5,
+      "two_band_patches": 2
+    },
+    "WT_SmokeTube_02": {
+      "patches": 6,
+      "two_band_patches": 2
+    },
+    "WT_SmokeTube_03": {
+      "patches": 5,
+      "two_band_patches": 2
+    },
+    "WT_SmokeTube_04": {
+      "patches": 6,
+      "two_band_patches": 2
+    },
+    "WT_SmokeTube_05": {
+      "patches": 6,
+      "two_band_patches": 2
+    },
+    "WT_SmokeTube_06": {
+      "patches": 5,
+      "two_band_patches": 2
+    },
+    "WT_SmokeTube_07": {
+      "patches": 6,
+      "two_band_patches": 2
+    }
+  },
+  "contrast_levels": [
+    [
+      194.14,
+      178.65154999039984
+    ],
+    [
+      212.9111111111111,
+      196.2751954528678
+    ],
+    [
+      220.53888888888886,
+      212.28402070062722
+    ],
+    [
+      231.41454545454545,
+      228.85931531398438
+    ],
+    [
+      246.2048780487805,
+      246.0
+    ]
+  ],
+  "contrast_steps": [
+    17.623645462467948,
+    16.008825247759432,
+    16.57529461335716,
+    17.140684686015618
+  ],
   "in_game_validation": "not_performed"
 }

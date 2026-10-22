@@ -1,9 +1,9 @@
 {
-  "schema_version": 5,
+  "schema_version": 6,
   "geometry_source": "ReferenceFit/stage1_rimworld_base.blend",
   "geometry_sha256": "979a4f82fe07bd9276d264a2d87a700123ca3b307430010b502ea7d4bb7bb356",
   "role_registry": "bradley_roles.json",
-  "notes": "Final painted top-plate luminance is monotonic in physical height. RimThunder supplies style and material roles, not independent part medians. Curved forms interpolate final color without quantized material steps. Glass, metal barrel, recessed sides, rear floor and requested lid-handle highlight are explicit exceptions.",
+  "notes": "Height-ordered contrast levels use a minimum step plus logarithmic gap response. Curved patches use exactly two face-constant cel tones; no interpolated normal gradients.",
   "recess_paint": {
     "gain": 0.62,
     "minimum_edge_length": 0.022,
@@ -86,16 +86,52 @@
     "handle_highlight": 6,
     "handle_highlight_ceiling": 239,
     "rear_floor_darkening": 15,
-    "smooth_roles": [
-      "turret_hatch_a",
-      "turret_hatch_b",
-      "driver_hatch",
-      "gun_mount",
-      "main_barrel",
-      "smoke_launcher"
-    ],
-    "normal_smoothing_degrees": 50,
-    "form_exponent": 0.8
+    "form_exponent": 0.8,
+    "step_contrast": {
+      "reference_heights": [
+        2.042,
+        2.726,
+        2.7935,
+        2.8888,
+        3.3174
+      ],
+      "minimum_step": 14,
+      "log_gain": 3,
+      "soft_gap": 8,
+      "top_level_luminance": 246
+    },
+    "cel_shading": {
+      "roles": [
+        "driver_hatch",
+        "rear_roof_hatch",
+        "turret_hatch_a",
+        "turret_hatch_b",
+        "gun_mount",
+        "main_barrel",
+        "smoke_launcher",
+        "tow_hinge_cap",
+        "tow_hinge_collar",
+        "tow_handle",
+        "tow_linkage",
+        "commander_sight",
+        "commander_sight_guard",
+        "tow_launcher",
+        "turret_linkage_support"
+      ],
+      "smooth_patch_angle_degrees": 35,
+      "minimum_patch_area": 0.00015,
+      "minimum_normal_directions": 4,
+      "direction_axis": [
+        -0.45,
+        -0.3,
+        0.84
+      ],
+      "split_dot": 0.22,
+      "tone_gap": 30,
+      "side_light_drop": 24,
+      "top_light_drop": 0,
+      "whole_small_hatch_components": true
+    }
   },
   "render_quality": {
     "samples": 128,

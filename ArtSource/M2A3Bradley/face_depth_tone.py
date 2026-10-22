@@ -1,14 +1,12 @@
-"""Bake final unlit paint from height, with continuous curved forms.
+"""Bake height contrast and two-tone curved patches into final unlit paint.
 
 The public function name is retained for the render callbacks. No camera- or
 part-baseline multiplier follows the final color attribute in the shader.
 """
-from mathutils import Vector
-from collections import defaultdict
-from math import cos, radians
 from pathlib import Path
 import bpy,json
 from height_palette import COLOR_ATTRIBUTE,LUMINANCE_ATTRIBUTE,SATURATION_ATTRIBUTE,final_paint
+from cel_patches import patch_colors
 ROOT=Path(__file__).resolve().parent
 RECESS_ATTRIBUTE='Recess paint'
 
@@ -17,7 +15,7 @@ def apply_face_depth_tone(scene):
     registry=json.loads((ROOT/'bradley_roles.json').read_text(encoding='utf-8'))
     roles={e['object']:e['role'] for e in registry['entries']}
     bpy.context.view_layer.update()
-    threshold=cos(radians(settings['normal_smoothing_degrees']))
+    report={}
     for o in scene.objects:
         if o.type!='MESH':continue
         me=o.data;role=o.get('art_role',roles.get(o.name,''))
@@ -30,22 +28,17 @@ def apply_face_depth_tone(scene):
             if not me.attributes.get(name):me.attributes.new(name,'FLOAT','CORNER')
         colors=me.color_attributes[COLOR_ATTRIBUTE]
         luminance=me.attributes[LUMINANCE_ATTRIBUTE];saturation=me.attributes[SATURATION_ATTRIBUTE]
-        adjacent=defaultdict(list);curved=role in settings['smooth_roles']
-        if curved:
-            for p in me.polygons:
-                for vi in p.vertices:
-                    adjacent[tuple(round(c,5) for c in me.vertices[vi].co)].append((p.normal.copy(),p.area))
+        cel,patch_report=patch_colors(o,role,settings)
+        if patch_report:report[o.name]=patch_report
         normal_matrix=o.matrix_world.to_3x3().inverted().transposed()
         recess=me.attributes.get(RECESS_ATTRIBUTE)
         for p in me.polygons:
             mat=me.materials[p.material_index];paint_role=mat.get('paint_role') if mat else None
             for li in p.loop_indices:
-                co=me.vertices[me.loops[li].vertex_index].co;normal=p.normal
-                if curved:
-                    normal=sum((n*a for n,a in adjacent[tuple(round(c,5) for c in co)] if n.dot(p.normal)>=threshold),Vector()).normalized()
-                normal=(normal_matrix@normal).normalized()
+                co=me.vertices[me.loops[li].vertex_index].co
+                normal=(normal_matrix@p.normal).normalized()
                 color,y,sat=final_paint((o.matrix_world@co).z,normal,paint_role or role,
-                    recess.data[p.index].value if recess else 1,settings)
+                    recess.data[p.index].value if recess else 1,settings,cel.get(p.index))
                 if not paint_role:
                     color=tuple(mat.diffuse_color[:3]) if mat else (0,0,0)
                 colors.data[li].color=(*color,1)
@@ -66,3 +59,4 @@ def apply_face_depth_tone(scene):
             else:
                 for link in list(emission.inputs['Color'].links):links.remove(link)
                 emission.inputs['Color'].default_value=m.diffuse_color
+    return report

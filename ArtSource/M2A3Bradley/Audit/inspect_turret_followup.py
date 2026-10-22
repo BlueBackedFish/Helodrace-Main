@@ -1,5 +1,5 @@
 """Source/current turret comparison and welded component inventory for repairs."""
-import bpy,json,collections,sys
+import bpy,json,collections,sys,tempfile,os
 from pathlib import Path
 from mathutils import Vector
 ROOT=Path(__file__).resolve().parent.parent;OUT=Path(globals().get('OUTPUT_DIR',ROOT/'Audit/TurretFollowup'));OUT.mkdir(exist_ok=True)
@@ -43,8 +43,10 @@ def render(name,back=False):
         from face_depth_tone import apply_face_depth_tone
         apply_face_depth_tone(s)
     s.render.resolution_x=s.render.resolution_y=768;s.render.resolution_percentage=100
-    s.eevee.taa_render_samples=globals().get('RENDER_SAMPLES',16);s.render.filepath=str(OUT/(name+'.png'))
-    bpy.ops.render.render(write_still=True)
+    s.eevee.taa_render_samples=globals().get('RENDER_SAMPLES',16)
+    with tempfile.TemporaryDirectory(prefix='.closeup-',dir=OUT) as staging:
+        target=Path(staging)/(name+'.png');s.render.filepath=str(target)
+        bpy.ops.render.render(write_still=True);os.replace(target,OUT/(name+'.png'))
 
 if __name__=='__main__':
     bpy.ops.wm.open_mainfile(filepath=str(ROOT/'RimWorld/bradley_rimworld.blend'));bpy.context.scene.frame_set(1)
