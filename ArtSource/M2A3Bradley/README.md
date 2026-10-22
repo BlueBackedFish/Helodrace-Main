@@ -1,3 +1,14 @@
+# 최신 림월드용 단순화본
+
+현재 권장본은 [RimWorld/README.md](RimWorld/README.md)입니다.
+OBJ 기반 형상을 28,227면으로 정리하고 레기온 차량 텍스처의 면별 명도 표현을 참고했습니다.
+ERA는 후속 작업으로 보류합니다.
+
+# OBJ 기반 고밀도 참조본
+
+사용자가 제공한 War Thunder M3A3 OBJ를 기준으로 전체를 재구성한 파일은
+[ReferenceFit/README.md](ReferenceFit/README.md)에 있습니다. 아래 내용은 이전 수작업 근사형의 설명입니다.
+
 # M2A3 Bradley — TAN
 
 제공된 5면 도면을 참고한 림월드 차량 스프라이트용 3D 아트 모델입니다.
