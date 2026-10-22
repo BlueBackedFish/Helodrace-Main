@@ -1,0 +1,10 @@
+{
+  "mesh_count": 112,
+  "source_faces_preserved": 223389,
+  "all_source_group_bounds": "passed",
+  "turret_door_ramp_animation": "passed",
+  "glb_meshes": 112,
+  "glb_animations": 4,
+  "packed_textures": true,
+  "unlit": true
+}

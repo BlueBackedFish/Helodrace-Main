@@ -1,0 +1,13 @@
+{
+  "source": "C:\\Users\\human\\Downloads\\Dagor-Asset-Explorer-1.0.0\\Dagor-Asset-Explorer-1.0.0\\ext\\m3a3_bradley_0.obj",
+  "source_sha256": "8cf128f1c44037f3caff8db7104a83ff6c6e70b05d06a1e89dbe5b5ab420b813",
+  "reference_variant": "War Thunder M3A3 user-supplied extracted OBJ",
+  "source_group_count": 111,
+  "output_meshes": 112,
+  "preserved_faces": 223389,
+  "axis_conversion": "OBJ (X,Y,Z) -> Blender (-Z,-X,Y+0.012)",
+  "reconstruction": "Full source exterior geometry and UVs retained; static root ramp extracted by connectivity",
+  "paint": "Unlit TAN; source detail modulation limited to 0.90-1.00; engine mesh alpha used as grille pattern",
+  "glb": "Constant emission fallback; full sprite material in packed blend",
+  "animation_pivots": "Estimated from source geometry; 24fps frames1-120"
+}
