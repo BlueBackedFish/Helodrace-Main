@@ -1,0 +1,16 @@
+{
+  "size": [
+    512,
+    512
+  ],
+  "top_pivot": [
+    256.0,
+    256.0
+  ],
+  "turret_pivot_pixels_top_origin": [
+    232.46,
+    256.03
+  ],
+  "hull_elevation": 64,
+  "turret_elevation": 90
+}

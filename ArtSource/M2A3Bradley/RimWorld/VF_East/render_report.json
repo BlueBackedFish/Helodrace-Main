@@ -29,9 +29,9 @@
   "barrel_east_test": {
     "objects": 4,
     "alpha_bounds_bottom_origin": [
-      490,
+      498,
       471,
-      800,
+      787,
       587
     ]
   },
