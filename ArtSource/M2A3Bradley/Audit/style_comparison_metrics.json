@@ -1,0 +1,98 @@
+{
+  "Legion hull": {
+    "source_alpha_bbox": [
+      31,
+      254,
+      993,
+      770
+    ],
+    "cropped_size_before_normalization": [
+      962,
+      516
+    ],
+    "comparison_width": 400
+  },
+  "Current hull": {
+    "source_alpha_bbox": [
+      138,
+      325,
+      914,
+      756
+    ],
+    "cropped_size_before_normalization": [
+      776,
+      431
+    ],
+    "comparison_width": 400
+  },
+  "RimThunder hull": {
+    "source_alpha_bbox": [
+      91,
+      273,
+      936,
+      752
+    ],
+    "cropped_size_before_normalization": [
+      845,
+      479
+    ],
+    "comparison_width": 400
+  },
+  "Legion turret": {
+    "source_alpha_bbox": [
+      251,
+      188,
+      716,
+      789
+    ],
+    "cropped_size_before_normalization": [
+      601,
+      465
+    ],
+    "comparison_width": 300
+  },
+  "Current turret": {
+    "source_alpha_bbox": [
+      339,
+      342,
+      835,
+      669
+    ],
+    "cropped_size_before_normalization": [
+      496,
+      327
+    ],
+    "comparison_width": 300
+  },
+  "RimThunder turret": {
+    "source_alpha_bbox": [
+      292,
+      131,
+      706,
+      748
+    ],
+    "cropped_size_before_normalization": [
+      617,
+      414
+    ],
+    "comparison_width": 300
+  },
+  "256": {
+    "alpha_bbox": [
+      34,
+      81,
+      229,
+      189
+    ],
+    "visible_width": 195
+  },
+  "512": {
+    "alpha_bbox": [
+      69,
+      162,
+      457,
+      378
+    ],
+    "visible_width": 388
+  }
+}
