@@ -1,9 +1,16 @@
 {
-  "exact_pre_stage2_geometry_and_parenting": true,
-  "mesh_count": 83,
-  "faces": 43344,
-  "hatch_difference_multiplier": 3,
-  "stage2_new_geometry_removed": true,
-  "rear_roof_hatch_kept_brighter": true,
+  "source_roll_01_faces": 354,
+  "source_roll_02_faces": 1067,
+  "exact_source_face_positions": true,
+  "geometry_edits_limited_to": [
+    "WT_ex_decor_01",
+    "WT_roll_01",
+    "WT_roll_02"
+  ],
+  "other_geometry_and_all_parenting_unchanged": true,
+  "planar_cover_faces": 6,
+  "height_led_paint": true,
+  "curved_hatches_use_interpolated_tones": true,
+  "separate_dark_tan_equipment": true,
   "in_game_validation": "not_performed"
 }

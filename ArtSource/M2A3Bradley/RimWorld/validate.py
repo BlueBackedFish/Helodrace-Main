@@ -6,13 +6,16 @@ meshes=[o for o in s.objects if o.type=='MESH']
 with open(os.path.join(HERE,'manifest.json')) as f:manifest=json.load(f)
 faces=sum(len(o.data.polygons) for o in meshes)
 assert faces==manifest['faces'] and faces<150000
-assert manifest['mode']=='pre_stage2_geometry_color_only'
-assert manifest['geometry_and_parenting_unchanged']
-assert faces==43344 and len(meshes)==83
+assert manifest['mode']=='targeted_turret_repairs_height_paint'
+assert set(manifest['geometry_changes_limited_to'])=={'WT_roll_01','WT_roll_02','WT_ex_decor_01'}
+assert faces==43049 and len(meshes)==83
 for o in meshes:
     attr=o.data.attributes.get('Face depth tone')
     assert attr and attr.domain=='FACE'
     assert all(.879<=v.value<=1.081 for v in attr.data)
+    height=o.data.attributes.get('Height and curve tone')
+    assert height and height.domain=='CORNER'
+    assert all(.53<=v.value<=1.181 for v in height.data)
     assert all(p.area>1e-12 for p in o.data.polygons)
 assert not any(o.type=='LIGHT' for o in s.objects)
 assert s.render.film_transparent

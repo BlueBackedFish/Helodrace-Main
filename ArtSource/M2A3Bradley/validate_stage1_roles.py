@@ -33,5 +33,6 @@ for part in c['protected_components']:
     assert all(0<=i<inventory[part['object']]['faces'] for i in part['source_polygon_indices'])
 assert c['additional_roles']==[]
 assert c['policy']['production_simplifier_uses_registry'] is True
-assert c['policy']['production_registry_scope']=='color_only'
+assert c['policy']['production_registry_scope']=='targeted_repairs_and_paint'
+assert set(c['targeted_geometry_repairs'])=={'WT_roll_01','WT_roll_02','WT_ex_decor_01'}
 print('STAGE1 BASELINE ROLE VALIDATION PASSED: 112 groups, 83 baseline objects, exact source binding, complete material subsets, 5 protected rear bins')

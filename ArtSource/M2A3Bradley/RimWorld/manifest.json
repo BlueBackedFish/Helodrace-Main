@@ -1,12 +1,96 @@
 {
-  "mode": "pre_stage2_geometry_color_only",
+  "mode": "targeted_turret_repairs_height_paint",
   "geometry_source": "ReferenceFit/stage1_rimworld_base.blend",
-  "geometry_sha256": "d10a37e1acaf9ce67efd1036b97d2d2ecb92e9153c38a6b7aa98a1f1cdc4492e",
-  "geometry_and_parenting_unchanged": true,
+  "baseline_geometry_sha256": "d10a37e1acaf9ce67efd1036b97d2d2ecb92e9153c38a6b7aa98a1f1cdc4492e",
+  "geometry_sha256": "1ac10f0e4025f14248a84c7bf362d4f8f125b391b5f439a87f4576af343a0159",
+  "geometry_changes_limited_to": [
+    "WT_ex_decor_01",
+    "WT_roll_01",
+    "WT_roll_02"
+  ],
+  "geometry_repairs": {
+    "WT_roll_01": {
+      "before_faces": 28,
+      "after_faces": 354,
+      "method": "exact OBJ group positions and faces",
+      "parent": "TURRET_YAW"
+    },
+    "WT_roll_02": {
+      "before_faces": 47,
+      "after_faces": 1067,
+      "method": "exact OBJ group positions and faces",
+      "parent": "TURRET_YAW"
+    },
+    "WT_ex_decor_01": {
+      "before_faces": 1647,
+      "after_faces": 6,
+      "method": "planar thin cover; source XY footprint and fitted mounting slope",
+      "thickness": 0.008,
+      "plane": [
+        -0.02958339901608736,
+        0.04133081302166053,
+        2.7523913760029446
+      ],
+      "parent": "GUN_ELEVATION"
+    }
+  },
+  "height_paint": {
+    "reference_z": 2.1,
+    "linear_gain_per_unit": 0.22,
+    "minimum_gain": 0.62,
+    "maximum_gain": 1.18,
+    "curved_roles": [
+      "turret_hatch_a",
+      "turret_hatch_b",
+      "driver_hatch"
+    ],
+    "curve_normal_strength": 0.14,
+    "camera_gain_per_unit": 0.006
+  },
+  "dark_role_palettes": {
+    "commander_sight_guard": [
+      163,
+      145,
+      109
+    ],
+    "tow_launcher": [
+      163,
+      145,
+      109
+    ],
+    "tow_mount": [
+      163,
+      145,
+      109
+    ],
+    "tow_end_cover": [
+      163,
+      145,
+      109
+    ],
+    "gun_upper_shroud": [
+      163,
+      145,
+      109
+    ],
+    "rear_stowage_bin": [
+      163,
+      145,
+      109
+    ]
+  },
+  "role_top_differences": {
+    "turret_hatch_a": 0.012,
+    "turret_hatch_b": 0.012,
+    "driver_hatch": 0.008,
+    "rear_roof_hatch": 0.025,
+    "turret_front_linkage": 0,
+    "turret_front_mechanism": 0
+  },
   "meshes": 83,
-  "faces": 43344,
+  "faces": 43049,
   "part_difference_multiplier": 3.0,
-  "clamped_faces": 2589,
+  "clamped_faces": 203,
   "assembly_reference_gains": {
     "hull": 0.955,
     "turret": 0.995
@@ -241,10 +325,10 @@
       "object": "WT_ex_decor_01",
       "role": "gun_upper_shroud",
       "reference_gain": 0.995,
-      "old_top_gain": 0.995,
-      "old_top_delta": 0.0,
-      "target_delta": -0.10500000000000001,
-      "offset": -0.10500000000000001
+      "old_top_gain": 0.512,
+      "old_top_delta": -0.483,
+      "target_delta": -1.4489999999999998,
+      "offset": -0.9659999999999999
     }
   ],
   "stage2_geometry": "reverted_at_user_request",

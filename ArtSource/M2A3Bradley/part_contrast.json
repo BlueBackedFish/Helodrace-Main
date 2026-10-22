@@ -1,10 +1,14 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "geometry_source": "ReferenceFit/stage1_rimworld_base.blend",
   "geometry_sha256": "979a4f82fe07bd9276d264a2d87a700123ca3b307430010b502ea7d4bb7bb356",
   "role_registry": "bradley_roles.json",
   "part_difference_multiplier": 3.0,
-  "paint_srgb_base": [221, 207, 172],
+  "paint_srgb_base": [
+    221,
+    207,
+    172
+  ],
   "paint_gain_floor": 0.36,
   "paint_gain_ceiling": 1.12,
   "minimum_role_differences": {
@@ -24,5 +28,58 @@
     "rear_stowage_bin": -0.04,
     "turret_roof_equipment": -0.035
   },
-  "notes": "Triple measured part-to-roof brightness gaps; use semantic minimums when old colors were identical or reversed. Preserve geometry and existing face direction shading. Clamp only to prevent black paint or blown TAN."
+  "notes": "Height is the main brightness rule within a pigment. Curved hatches allow interpolated height/normal tones. Selected equipment uses a distinct dark TAN pigment. Only roll_01, roll_02 and ex_decor_01 geometry may change.",
+  "role_top_differences": {
+    "turret_hatch_a": 0.012,
+    "turret_hatch_b": 0.012,
+    "driver_hatch": 0.008,
+    "rear_roof_hatch": 0.025,
+    "turret_front_linkage": 0,
+    "turret_front_mechanism": 0
+  },
+  "dark_role_palettes": {
+    "commander_sight_guard": [
+      163,
+      145,
+      109
+    ],
+    "tow_launcher": [
+      163,
+      145,
+      109
+    ],
+    "tow_mount": [
+      163,
+      145,
+      109
+    ],
+    "tow_end_cover": [
+      163,
+      145,
+      109
+    ],
+    "gun_upper_shroud": [
+      163,
+      145,
+      109
+    ],
+    "rear_stowage_bin": [
+      163,
+      145,
+      109
+    ]
+  },
+  "height_paint": {
+    "reference_z": 2.1,
+    "linear_gain_per_unit": 0.22,
+    "minimum_gain": 0.62,
+    "maximum_gain": 1.18,
+    "curved_roles": [
+      "turret_hatch_a",
+      "turret_hatch_b",
+      "driver_hatch"
+    ],
+    "curve_normal_strength": 0.14,
+    "camera_gain_per_unit": 0.006
+  }
 }

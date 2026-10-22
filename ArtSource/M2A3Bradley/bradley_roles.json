@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": 1,
-  "stage_status": "pre_stage2_geometry_restored_color_only",
+  "stage_status": "targeted_turret_repairs_height_paint",
   "target": {
     "geometry_basis": "user_supplied_M3A3_OBJ",
     "blueprint": "user_supplied_M2A3",
@@ -34,7 +34,7 @@
     "optics_and_lamp_lenses": "preserve_material_subsets",
     "missing_essential_part": "restore_or_replace_before_style_signoff",
     "production_simplifier_uses_registry": true,
-    "production_registry_scope": "color_only"
+    "production_registry_scope": "targeted_repairs_and_paint"
   },
   "role_surfaces": {
     "hull_assembly": [
@@ -7095,5 +7095,31 @@
       "role": "smoke_launcher",
       "reason": "stage2 new geometry reverted; user requests original geometry and recolor only"
     }
-  ]
+  ],
+  "targeted_geometry_repairs": {
+    "WT_roll_01": {
+      "before_faces": 28,
+      "after_faces": 354,
+      "method": "exact OBJ group positions and faces",
+      "parent": "TURRET_YAW"
+    },
+    "WT_roll_02": {
+      "before_faces": 47,
+      "after_faces": 1067,
+      "method": "exact OBJ group positions and faces",
+      "parent": "TURRET_YAW"
+    },
+    "WT_ex_decor_01": {
+      "before_faces": 1647,
+      "after_faces": 6,
+      "method": "planar thin cover; source XY footprint and fitted mounting slope",
+      "thickness": 0.008,
+      "plane": [
+        -0.02958339901608736,
+        0.04133081302166053,
+        2.7523913760029446
+      ],
+      "parent": "GUN_ELEVATION"
+    }
+  }
 }
