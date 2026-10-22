@@ -1,5 +1,5 @@
 """Validate source-part restoration, limited edits, and rendered height/curve paint."""
-import bpy,json,sys,colorsys
+import bpy,json,sys
 from pathlib import Path
 from mathutils import Vector
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'RimWorld';sys.path.insert(0,str(ROOT))
@@ -32,59 +32,90 @@ for part in RESTORATION['parts']:
 cloth=bpy.data.objects['WT_ex_decor_01'];assert len(cloth.data.polygons)==6 and len(cloth.data.vertices)==8
 top=[cloth.matrix_world@v.co for v in cloth.data.vertices[:4]]
 assert abs((top[1]-top[0]).cross(top[2]-top[0]).normalized().dot(top[3]-top[0]))<1e-6
+from height_palette import COLOR_ATTRIBUTE,LUMINANCE_ATTRIBUTE,SATURATION_ATTRIBUTE,display,WEIGHTS,height_luminance,final_paint
+from mesh_regions import regions
+
+def final_y(o,p):
+    colors=o.data.color_attributes[COLOR_ATTRIBUTE].data
+    return sum(sum(display(v)*w for v,w in zip(colors[i].color[:3],WEIGHTS)) for i in p.loop_indices)/len(p.loop_indices)
+
+# Audit the color that actually feeds emission, not a positive gain upstream.
+for o in bpy.context.scene.objects:
+    if o.type!='MESH':continue
+    for m in o.data.materials:
+        if not m.get('paint_role'):continue
+        emission=next(n for n in m.node_tree.nodes if n.type=='EMISSION')
+        incoming=emission.inputs['Color'].links
+        assert len(incoming)==1 and incoming[0].from_node.type=='VERTEX_COLOR'
+        assert incoming[0].from_node.layer_name==COLOR_ATTRIBUTE
+    for p in o.data.polygons:
+        m=o.data.materials[p.material_index]
+        if not m.get('paint_role'):continue
+        expected=sum(o.data.attributes[LUMINANCE_ATTRIBUTE].data[i].value for i in p.loop_indices)/len(p.loop_indices)
+        assert abs(final_y(o,p)-expected)<.002,(o.name,p.index)
+        # All flat, upward painted plates share a monotonic height ramp. Curve
+        # normals and the two requested pigment accents have separate checks.
+        if p.normal.z>.9999 and m.get('paint_role') not in {'hatch_lid_handle','rear_basket_floor','main_barrel','turret_hatch_a','turret_hatch_b','driver_hatch','gun_mount','smoke_launcher'}:
+            expected=sum(height_luminance((o.matrix_world@o.data.vertices[v].co).z,cfg['height_first_paint']) for v in p.vertices)/len(p.vertices)
+            assert abs(final_y(o,p)-expected)<.002,(o.name,p.index,final_y(o,p),expected)
+
+def measure(name,lo,hi,main=False,role=None):
+    o=bpy.data.objects[name];ids=set(regions(o.data)[0]) if main else None;values=[]
+    for p in o.data.polygons:
+        z=(o.matrix_world@p.center).z;m=o.data.materials[p.material_index]
+        if ids is not None and p.index not in ids:continue
+        if p.normal.z<.85 or not lo<=z<=hi or not m.get('paint_role') or role and m['paint_role']!=role:continue
+        values.append((p.area,z,final_y(o,p)))
+    assert values,name
+    area=sum(a for a,z,y in values)
+    return {'object':name,'faces':len(values),'height':sum(a*z for a,z,y in values)/area,
+        'final_display_luminance':sum(a*y for a,z,y in values)/area}
+
+samples={
+ 'hull_roof':measure('WT_@root',1.98,2.16,role='hull_assembly'),
+ 'turret_roof':measure('WT_bone_turret',2.715,2.745,role='turret_assembly'),
+ 'hatch_03':measure('WT_hatch_03',2.77,2.90,True),
+ 'hatch_02':measure('WT_hatch_02',2.85,3.0,True),
+ 'commander_sight_top':measure('WT_bone_commander_sight_v',3.28,3.40)}
+ordered=sorted(samples.items(),key=lambda q:q[1]['height'])
+assert all(b['final_display_luminance']>a['final_display_luminance']+1 for (_,a),(_,b) in zip(ordered,ordered[1:])),samples
 for name in ('WT_hatch_02','WT_hatch_03'):
-    o=bpy.data.objects[name];attribute=o.data.attributes['Height and curve tone']
-    values=[v.value for v in attribute.data]
-    assert max(values)-min(values)>.03 and len({round(v,4) for v in values})>=4
-    assert all(m.node_tree.nodes.get('Height and curve tone') for m in o.data.materials)
-    assert all(m.get('height_desaturation') for m in o.data.materials)
+    o=bpy.data.objects[name];values=[v.value for v in o.data.attributes[LUMINANCE_ATTRIBUTE].data]
+    assert len({round(v,2) for v in values})>50 and max(values)-min(values)>15
 for name in ('WT_roll_05','WT_ex_decor_01','WT_ex_armor_03'):
     assert any(m.get('paint_role') for m in bpy.data.objects[name].data.materials),name
-manifest=json.loads((OUT/'manifest.json').read_text())
-accents=manifest['accent_regions']
-assert any(a['role']=='rear_basket_floor' for a in accents)
+manifest=json.loads((OUT/'manifest.json').read_text());accents=manifest['accent_regions']
 handles=[a for a in accents if a['role']=='hatch_lid_handle']
 assert len(handles)==1 and len(handles[0]['polygon_indices'])==268
 o=bpy.data.objects['WT_hatch_02']
 points=[o.matrix_world@o.data.vertices[v].co for i in handles[0]['polygon_indices'] for v in o.data.polygons[i].vertices]
 assert min(p.y for p in points)>.44 and max(p.y for p in points)<.87
 assert not any(a['role']=='hatch_upper_linkage' for a in accents)
-handle_colors=[m.diffuse_color[0] for m in o.data.materials if m.get('paint_role')=='hatch_lid_handle']
-lid_colors=[m.diffuse_color[0] for m in o.data.materials if m.get('paint_role')=='turret_hatch_a']
-assert max(handle_colors)>max(lid_colors)+.04
+lid=[final_y(o,p) for p in o.data.polygons if o.data.materials[p.material_index].get('paint_role')=='turret_hatch_a']
+handle=[final_y(o,o.data.polygons[i]) for i in handles[0]['polygon_indices']]
+assert max(handle)>max(lid)+1
 floor=next(a for a in accents if a['role']=='rear_basket_floor');o=bpy.data.objects[floor['object']]
-assert all(max(o.data.materials[o.data.polygons[i].material_index].diffuse_color[:3])<.25 for i in floor['polygon_indices'])
+for i in floor['polygon_indices']:
+    p=o.data.polygons[i]
+    if p.normal.z>.85:
+        plain=sum(height_luminance((o.matrix_world@o.data.vertices[v].co).z,cfg['height_first_paint']) for v in p.vertices)/len(p.vertices)
+        assert final_y(o,p)<plain-14
 assert sum(r['darkened_faces'] for r in manifest['recess_paint'].values())>0
-for name in ('WT_bone_gun','WT_gun_barrel'):
-    o=bpy.data.objects[name];planes={}
-    for p in o.data.polygons:
-        mat=o.data.materials[p.material_index]
-        if not mat.get('paint_role'):continue
-        key=tuple(round(v,3) for v in p.normal)+(round(p.normal.dot(p.center),3),)
-        planes.setdefault(key,[]).append(mat.diffuse_color[:3])
-    for colors in planes.values():assert all(max(c[i] for c in colors)-min(c[i] for c in colors)<.004 for i in range(3))
-# On a common paint material and equal normal, top vertices must get more gain.
-o=bpy.data.objects['WT_@root'];a=o.data.attributes['Height and curve tone']
-samples=[((o.matrix_world@o.data.vertices[l.vertex_index].co).z,a.data[l.index].value) for l in o.data.loops]
-samples.sort();assert samples[-1][1]>samples[0][1]+.15
-for (_,v0),(_,v1) in zip(samples,samples[1:]):assert v1>=v0-1e-5
-saturation=o.data.attributes['Height saturation']
-values=[v.value for v in saturation.data];assert min(values)<.6 and max(values)>.99
-def hsv_saturation(mat):
-    rgb=[12.92*v if v<=.0031308 else 1.055*v**(1/2.4)-.055 for v in mat.diffuse_color[:3]]
-    return colorsys.rgb_to_hsv(*rgb)[1]
-paint=[m for m in o.data.materials if m.get('paint_role')=='hull_assembly']
-top=max(paint,key=lambda m:m['reference_gray']);wall=min(paint,key=lambda m:abs(m['reference_gray']-148))
-assert hsv_saturation(wall)<hsv_saturation(top)*.7
-assert all(m.node_tree.nodes.get('Height saturation') for m in paint)
-assert manifest['reference_paint']['samples']=='rimthunder_palette_samples.json'
-assert max(m['reference_gray'] for m in bpy.data.objects['WT_roll_05'].data.materials if m.get('paint_role'))>220
+# Lower structural paint reduces both value and chroma; glass/metal are separate.
+o=bpy.data.objects['WT_@root'];attr=o.data.attributes[SATURATION_ATTRIBUTE]
+values=[v.value for v in attr.data];assert min(values)<.3 and max(values)>.75
+assert len(bpy.data.objects['WT_hatch_03'].data.polygons)==1071
+front=final_paint(2.6,Vector((0,.8,.6)),'turret_assembly',1,cfg['height_first_paint'])[1]
+side=final_paint(2.6,Vector((.8,0,.6)),'turret_assembly',1,cfg['height_first_paint'])[1]
+assert front-side>12
 report={'restored_source_groups':list(SOURCE_RESTORED),'restored_embedded_components':len(ADDED),'smoke_tubes':8,
- 'exact_source_face_positions':True,'gun_coplanar_base_colors_consistent':True,
- 'bright_lid_handle_not_rear_hinge':True,'direction_and_height_darkening_desaturates':True,
- 'rimthunder_part_palette_applied':True,'dark_rear_basket_floor':True,'geometric_recess_paint':True,
+ 'exact_source_face_positions':True,'final_emission_color_checked':True,'height_order_samples':samples,
+ 'bright_lid_handle_not_rear_hinge':True,'lower_paint_desaturates':True,
+ 'dark_rear_basket_floor':True,'geometric_recess_paint':True,
  'geometry_edits_limited_to':sorted(REPAIRED|ADDED),'other_geometry_and_all_parenting_unchanged':True,
- 'planar_cover_faces':6,'height_led_paint':True,'curved_hatches_use_interpolated_tones':True,
- 'separate_dark_tan_equipment':True,'in_game_validation':'not_performed'}
+ 'hatch_03_original_detail_faces':1071,'planar_cover_faces':6,'front_side_slope_test_difference':front-side,
+ 'curved_hatches_use_continuous_final_colors':True,'in_game_validation':'not_performed'}
 (OUT/'recolor_validation.json').write_text(json.dumps(report,indent=2)+'\n')
-print('TURRET AND PALETTE VALIDATION PASSED: exact geometry, lid handle not hinge, RimThunder part tones, lower saturation in shape-darkened tones')
+(ROOT/'Audit/HeightQuality/after_analysis.json').write_text(json.dumps({'samples':samples,'hatch_03_faces':1071,
+ 'settings':manifest['render_quality'],'validation':'final emitted RGB, not gain coefficients'},indent=2)+'\n')
+print('HEIGHT-FIRST FINAL EMISSION AND SOURCE GEOMETRY VALIDATION PASSED',json.dumps(samples))

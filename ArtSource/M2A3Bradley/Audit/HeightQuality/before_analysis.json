@@ -1,0 +1,51 @@
+{
+  "samples": {
+    "hull_roof": {
+      "object": "WT_@root",
+      "faces": 197,
+      "height": 2.0420140655454273,
+      "final_display_luminance": 210.9104966703295
+    },
+    "turret_roof": {
+      "object": "WT_bone_turret",
+      "faces": 61,
+      "height": 2.726363739752453,
+      "final_display_luminance": 203.96385729290685
+    },
+    "hatch_02": {
+      "object": "WT_hatch_02",
+      "faces": 134,
+      "height": 2.8887657304781955,
+      "final_display_luminance": 196.52943045064927
+    },
+    "hatch_03": {
+      "object": "WT_hatch_03",
+      "faces": 1,
+      "height": 2.7934987545013428,
+      "final_display_luminance": 227.31215247540712
+    },
+    "commander_sight_top": {
+      "object": "WT_bone_commander_sight_v",
+      "faces": 40,
+      "height": 3.317376568484099,
+      "final_display_luminance": 208.7096450432215
+    }
+  },
+  "settings": {
+    "engine": "BLENDER_EEVEE",
+    "samples": 64,
+    "resolution": [
+      1024,
+      1024
+    ],
+    "view_transform": "Standard",
+    "look": "None"
+  },
+  "hatch_03_faces": 188,
+  "causes": [
+    "Per-part measured pixel medians are multiplied by height, so their baseline differences override height order.",
+    "Hard normal thresholds and quantized materials flatten or facet curved forms.",
+    "The simplified hatch 03 lost its original handle and hinge detail.",
+    "Earlier validation checks the height multiplier, not final emitted color."
+  ]
+}

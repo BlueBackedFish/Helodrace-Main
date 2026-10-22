@@ -1,5 +1,5 @@
 """Preserve source proportions, repair requested parts and apply height-led paint."""
-import bpy,json,hashlib,sys
+import bpy,json,hashlib,sys,tempfile,os
 from pathlib import Path
 from mathutils import Vector
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'RimWorld'
@@ -23,27 +23,21 @@ for o in meshes:
     if o.name not in entries:entries[o.name]={'role':o['art_role'],'parent':o.parent.name}
 repaired_hash=geometry_hash()
 from surface_accents import part_regions,region_role,apply_recess_paint
-from rimthunder_paint import reference_tone,desaturate_shade
+from height_palette import final_paint,COLOR_ATTRIBUTE
 def srgb(c):return 255*(12.92*c if c<=.0031308 else 1.055*c**(1/2.4)-.055)
-def linear(c):
-    v=c/255;return v/12.92 if v<=.04045 else ((v+.055)/1.055)**2.4
 def paint_gain(m):
     if 'Game grille' in m.name:return None
     rgb=[srgb(v) for v in m.diffuse_color[:3]];gain=sum(c/b for c,b in zip(rgb,base))/3
     return gain if max(abs(c-b*gain) for c,b in zip(rgb,base))<1.2 else None
 cache={};accent_regions=[]
-def new_material(gain,palette,shade_ratio,part_role):
-    gain=min(255,round(gain*255/4)*4)/255
-    shade_ratio=round(shade_ratio*16)/16
-    key=(part_role,round(gain,5),tuple(palette),round(shade_ratio,5))
+def new_material(part_role,z,normal):
+    key=part_role
     if key in cache:return cache[key]
     label='RT '+part_role+' '
-    m=bpy.data.materials.new(label+str(round(gain,4)));m.use_nodes=True
-    rgb=[min(255,b*gain) for b in palette]
-    rgb=desaturate_shade(rgb,shade_ratio,cfg['shade_desaturation'])
-    m['paint_role']=part_role;m['height_desaturation']=True
-    m['reference_gray']=gain*255;m['direction_shade_ratio']=shade_ratio
-    color=tuple(linear(c) for c in rgb)+(1,);m.diffuse_color=color
+    m=bpy.data.materials.new(label.strip());m.use_nodes=True
+    m['paint_role']=part_role;m['final_height_color']=True
+    rgb,_,_=final_paint(z,normal,part_role,1,cfg['height_first_paint'])
+    color=(*rgb,1);m.diffuse_color=color
     nodes=m.node_tree.nodes;nodes.clear();e=nodes.new('ShaderNodeEmission');e.inputs['Color'].default_value=color
     out=nodes.new('ShaderNodeOutputMaterial');m.node_tree.links.new(e.outputs[0],out.inputs[0]);cache[key]=m
     return m
@@ -58,12 +52,9 @@ for o in meshes:
         for pi in indices:
             p=o.data.polygons[pi];old=o.data.materials[p.material_index];g=paint_gain(old)
             if g is None:
-                if 'grille' in old.name.lower():old['height_desaturation']=True
                 desired[pi]=old;continue
             normal=Vector(tuple(round(v,3) for v in p.normal))
-            gain,ratio=reference_tone(part_role,normal,cfg['reference_paint'])
-            palette=cfg['accent_role_palettes'].get(part_role,cfg['reference_paint']['tan_tint_srgb'])
-            desired[pi]=new_material(gain,palette,ratio,part_role)
+            desired[pi]=new_material(part_role,(o.matrix_world@p.center).z,normal)
     assert all(m is not None for m in desired)
     o.data.materials.clear();slots={}
     for m in desired:
@@ -73,6 +64,9 @@ assert geometry_hash()==repaired_hash
 recess_report={o.name:apply_recess_paint(o,cfg['recess_paint'],entries[o.name]['role']) for o in meshes}
 sys.path.insert(0,str(ROOT));from face_depth_tone import apply_face_depth_tone
 s.camera=bpy.data.objects['Camera_iso_front'];apply_face_depth_tone(s)
+quality=cfg['render_quality']
+s.eevee.taa_render_samples=quality['samples'];s.render.filter_size=quality['filter_size']
+s.render.image_settings.color_depth=quality['color_depth']
 for collection in (bpy.data.meshes,bpy.data.materials,bpy.data.images):
     for item in list(collection):
         if item.users==0:collection.remove(item)
@@ -80,18 +74,25 @@ bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'bradley_rimworld.blend'),compress=
 # Blender finalizes mesh topology on save. Count that saved scene before the
 # exchange exporter evaluates its own temporary mesh data.
 saved_faces=sum(len(o.data.polygons) for o in bpy.context.scene.objects if o.type=='MESH')
+# After saving the editable scene, use the exporter's recognized unlit color
+# graph. Emission alone exports an emissive white factor, which loses COLOR_0.
 for m in bpy.data.materials:
     if not m.use_nodes:continue
-    for n in m.node_tree.nodes:
-        if n.type=='EMISSION':
-            for link in list(n.inputs['Color'].links):m.node_tree.links.remove(link)
-            n.inputs['Color'].default_value=m.diffuse_color
-bpy.ops.export_scene.gltf(filepath=str(OUT/'bradley_rimworld.glb'),export_format='GLB',export_animations=True,export_cameras=False,export_lights=False)
+    nodes=m.node_tree.nodes;nodes.clear();out=nodes.new('ShaderNodeOutputMaterial')
+    if m.get('paint_role'):
+        color=nodes.new('ShaderNodeVertexColor');color.layer_name=COLOR_ATTRIBUTE
+    else:
+        color=nodes.new('ShaderNodeRGB');color.outputs[0].default_value=m.diffuse_color
+    m.node_tree.links.new(color.outputs[0],out.inputs['Surface'])
+with tempfile.TemporaryDirectory(prefix='.export-',dir=OUT) as staging:
+    path=Path(staging)/'bradley_rimworld.glb'
+    bpy.ops.export_scene.gltf(filepath=str(path),export_format='GLB',export_animations=True,export_cameras=False,export_lights=False)
+    os.replace(path,OUT/'bradley_rimworld.glb')
 report={'mode':'targeted_turret_repairs_height_paint','geometry_source':cfg['geometry_source'],'baseline_geometry_sha256':before,'geometry_sha256':repaired_hash,
- 'geometry_changes_limited_to':sorted(repairs),'geometry_repairs':repairs,'height_paint':cfg['height_paint'],
- 'accent_role_palettes':cfg['accent_role_palettes'],'recess_paint':recess_report,
+ 'geometry_changes_limited_to':sorted(repairs),'geometry_repairs':repairs,'height_first_paint':cfg['height_first_paint'],
+ 'render_quality':quality,'recess_paint':recess_report,
  'accent_regions':accent_regions,
- 'reference_paint':cfg['reference_paint'],'shade_desaturation':cfg['shade_desaturation'],
+ 'paint_pipeline':'height -> final linear RGB corner attribute -> emission, no later gains',
  'meshes':len(meshes),'faces':saved_faces,
  'shared_paint_materials':len(cache),
  'stage2_geometry':'reverted_at_user_request','in_game_validation':'not_performed'}

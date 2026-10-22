@@ -1,29 +1,9 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "geometry_source": "ReferenceFit/stage1_rimworld_base.blend",
   "geometry_sha256": "979a4f82fe07bd9276d264a2d87a700123ca3b307430010b502ea7d4bb7bb356",
   "role_registry": "bradley_roles.json",
-  "notes": "RimThunder-part brightness mapping replaces the previous arbitrary brown part palette. Bright hatch 02 arch on the lid, normal rear hinge. Shape-darkened tones lose saturation; preserve geometry, source smoke and animation.",
-  "height_paint": {
-    "reference_z": 2.1,
-    "linear_gain_per_unit": 0.22,
-    "minimum_gain": 0.62,
-    "maximum_gain": 1.18,
-    "curved_roles": [
-      "turret_hatch_a",
-      "turret_hatch_b",
-      "driver_hatch"
-    ],
-    "curve_normal_strength": 0.14,
-    "camera_gain_per_unit": 0.006
-  },
-  "accent_role_palettes": {
-    "hatch_lid_handle": [
-      246,
-      234,
-      204
-    ]
-  },
+  "notes": "Final painted top-plate luminance is monotonic in physical height. RimThunder supplies style and material roles, not independent part medians. Curved forms interpolate final color without quantized material steps. Glass, metal barrel, recessed sides, rear floor and requested lid-handle highlight are explicit exceptions.",
   "recess_paint": {
     "gain": 0.62,
     "minimum_edge_length": 0.022,
@@ -36,25 +16,91 @@
       "main_barrel"
     ]
   },
-  "reference_paint": {
-    "samples": "rimthunder_palette_samples.json",
+  "source_paint_srgb_base": [
+    221,
+    207,
+    172
+  ],
+  "height_first_paint": {
     "tan_tint_srgb": [
       225,
       213,
       183
     ],
-    "method": "corresponding-part grayscale medians with procedural direction and height; user overrides for the bright lid handle and dark rear floor"
+    "height_luminance_ramp": [
+      [
+        0.3,
+        42
+      ],
+      [
+        0.8,
+        88
+      ],
+      [
+        1.4,
+        132
+      ],
+      [
+        1.95,
+        190
+      ],
+      [
+        2.15,
+        199
+      ],
+      [
+        2.65,
+        207
+      ],
+      [
+        2.74,
+        214
+      ],
+      [
+        2.83,
+        225
+      ],
+      [
+        2.94,
+        237
+      ],
+      [
+        3.35,
+        247
+      ],
+      [
+        4.85,
+        249
+      ]
+    ],
+    "minimum_luminance": 25,
+    "maximum_luminance": 249,
+    "minimum_saturation": 0.24,
+    "upward_normal_threshold": 0.96,
+    "wall_darkening": 52,
+    "side_darkening": 30,
+    "barrel_luminance": [
+      78,
+      122
+    ],
+    "handle_highlight": 6,
+    "handle_highlight_ceiling": 239,
+    "rear_floor_darkening": 15,
+    "smooth_roles": [
+      "turret_hatch_a",
+      "turret_hatch_b",
+      "driver_hatch",
+      "gun_mount",
+      "main_barrel",
+      "smoke_launcher"
+    ],
+    "normal_smoothing_degrees": 50,
+    "form_exponent": 0.8
   },
-  "shade_desaturation": {
-    "strength": 1.2,
-    "minimum_saturation": 0.18,
-    "height_strength": 0.72,
-    "height_minimum_saturation": 0.28,
-    "note": "Only directional/height darkening lowers saturation; different part pigments and deliberate recess contrast retain separate intent."
-  },
-  "source_paint_srgb_base": [
-    221,
-    207,
-    172
-  ]
+  "render_quality": {
+    "samples": 128,
+    "filter_size": 0.85,
+    "color_depth": "16",
+    "lowres_resize": "linear-light premultiplied float Lanczos"
+  }
 }

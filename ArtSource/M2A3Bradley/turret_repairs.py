@@ -8,7 +8,7 @@ from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parent
 SOURCE_RESTORED = ('WT_roll_01','WT_roll_02','WT_roll_03','WT_roll_06','WT_roll_07',
-    'WT_ex_decor_02','WT_ex_decor_03','WT_bone_gun','WT_gun_barrel','WT_hatch_02')
+    'WT_ex_decor_02','WT_ex_decor_03','WT_bone_gun','WT_gun_barrel','WT_hatch_02','WT_hatch_03')
 REPAIRED = set(SOURCE_RESTORED)|{'WT_ex_decor_01','WT_bone_turret'}
 RESTORATION=json.loads((ROOT/'turret_restoration.json').read_text())
 ADDED={p['name'] for p in RESTORATION['parts']}

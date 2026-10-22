@@ -7294,6 +7294,12 @@
       "method": "exact OBJ group positions and faces",
       "parent": "TURRET_YAW"
     },
+    "WT_hatch_03": {
+      "before_faces": 188,
+      "after_faces": 1071,
+      "method": "exact OBJ group positions and faces",
+      "parent": "TURRET_YAW"
+    },
     "WT_bone_turret": {
       "before_faces": 5171,
       "after_faces": 4852,

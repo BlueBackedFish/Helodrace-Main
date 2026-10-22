@@ -1,75 +1,68 @@
-"""Height-led unlit paint, with curved hatch tones and a weak camera correction."""
-from mathutils import Vector
-import bpy
-import collections
-import json
-from pathlib import Path
-ROOT=Path(__file__).resolve().parent
-ATTRIBUTE='Face depth tone'
-HEIGHT_ATTRIBUTE='Height and curve tone'
-RECESS_ATTRIBUTE='Recess paint'
-SATURATION_ATTRIBUTE='Height saturation'
+"""Bake final unlit paint from height, with continuous curved forms.
 
-def height_gain(z,settings):
-    return max(settings['minimum_gain'],min(settings['maximum_gain'],
-        1+settings['linear_gain_per_unit']*(z-settings['reference_z'])))
+The public function name is retained for the render callbacks. No camera- or
+part-baseline multiplier follows the final color attribute in the shader.
+"""
+from mathutils import Vector
+from collections import defaultdict
+from math import cos, radians
+from pathlib import Path
+import bpy,json
+from height_palette import COLOR_ATTRIBUTE,LUMINANCE_ATTRIBUTE,SATURATION_ATTRIBUTE,final_paint
+ROOT=Path(__file__).resolve().parent
+RECESS_ATTRIBUTE='Recess paint'
 
 def apply_face_depth_tone(scene):
-    cfg=json.loads((ROOT/'part_contrast.json').read_text());settings=cfg['height_paint']
+    cfg=json.loads((ROOT/'part_contrast.json').read_text());settings=cfg['height_first_paint']
     registry=json.loads((ROOT/'bradley_roles.json').read_text(encoding='utf-8'))
     roles={e['object']:e['role'] for e in registry['entries']}
     bpy.context.view_layer.update()
-    toward=scene.camera.matrix_world.to_quaternion()@Vector((0,0,1))
+    threshold=cos(radians(settings['normal_smoothing_degrees']))
     for o in scene.objects:
         if o.type!='MESH':continue
-        me=o.data;groups=collections.defaultdict(list)
-        for p in me.polygons:
-            key=tuple(round(v,3) for v in p.normal)+(round(p.normal.dot(p.center),3),)
-            groups[key].append(p)
-        attr=me.attributes.get(ATTRIBUTE) or me.attributes.new(ATTRIBUTE,'FLOAT','FACE')
-        for polygons in groups.values():
-            area=sum(p.area for p in polygons)
-            center=sum((p.center*p.area for p in polygons),Vector())/max(area,1e-12)
-            world=o.matrix_world@center
-            gain=max(.985,min(1.015,1+settings['camera_gain_per_unit']*toward.dot(world-Vector((0,0,2.1)))))
-            for p in polygons:attr.data[p.index].value=gain
-        height=me.attributes.get(HEIGHT_ATTRIBUTE) or me.attributes.new(HEIGHT_ATTRIBUTE,'FLOAT','CORNER')
-        saturation=me.attributes.get(SATURATION_ATTRIBUTE) or me.attributes.new(SATURATION_ATTRIBUTE,'FLOAT','CORNER')
-        height=me.attributes[HEIGHT_ATTRIBUTE]
-        curved=roles.get(o.name) in settings['curved_roles']
-        smooth=collections.defaultdict(Vector)
+        me=o.data;role=o.get('art_role',roles.get(o.name,''))
+        for name in ('Face depth tone','Height and curve tone','Height saturation'):
+            if me.attributes.get(name):me.attributes.remove(me.attributes[name])
+        if not me.color_attributes.get(COLOR_ATTRIBUTE):
+            me.color_attributes.new(name=COLOR_ATTRIBUTE,type='FLOAT_COLOR',domain='CORNER')
+        me.color_attributes.active_color_name=COLOR_ATTRIBUTE
+        for name in (LUMINANCE_ATTRIBUTE,SATURATION_ATTRIBUTE):
+            if not me.attributes.get(name):me.attributes.new(name,'FLOAT','CORNER')
+        colors=me.color_attributes[COLOR_ATTRIBUTE]
+        luminance=me.attributes[LUMINANCE_ATTRIBUTE];saturation=me.attributes[SATURATION_ATTRIBUTE]
+        adjacent=defaultdict(list);curved=role in settings['smooth_roles']
         if curved:
-            # Weld only for shading: source UV seams keep identical corner tone.
             for p in me.polygons:
                 for vi in p.vertices:
-                    key=tuple(round(c,5) for c in me.vertices[vi].co)
-                    smooth[key]+=p.normal*p.area
+                    adjacent[tuple(round(c,5) for c in me.vertices[vi].co)].append((p.normal.copy(),p.area))
         normal_matrix=o.matrix_world.to_3x3().inverted().transposed()
-        for loop in me.loops:
-            co=me.vertices[loop.vertex_index].co
-            gain=height_gain((o.matrix_world@co).z,settings)
-            if curved:
-                normal=(normal_matrix@smooth[tuple(round(c,5) for c in co)]).normalized()
-                gain*=1-settings['curve_normal_strength']*(1-max(0,normal.z))
-            height.data[loop.index].value=gain
-            sat=cfg['shade_desaturation']
-            saturation.data[loop.index].value=max(sat['height_minimum_saturation'],min(1,
-                1-sat['height_strength']*max(0,1-gain)/(1-settings['minimum_gain'])))
+        recess=me.attributes.get(RECESS_ATTRIBUTE)
+        for p in me.polygons:
+            mat=me.materials[p.material_index];paint_role=mat.get('paint_role') if mat else None
+            for li in p.loop_indices:
+                co=me.vertices[me.loops[li].vertex_index].co;normal=p.normal
+                if curved:
+                    normal=sum((n*a for n,a in adjacent[tuple(round(c,5) for c in co)] if n.dot(p.normal)>=threshold),Vector()).normalized()
+                normal=(normal_matrix@normal).normalized()
+                color,y,sat=final_paint((o.matrix_world@co).z,normal,paint_role or role,
+                    recess.data[p.index].value if recess else 1,settings)
+                if not paint_role:
+                    color=tuple(mat.diffuse_color[:3]) if mat else (0,0,0)
+                colors.data[li].color=(*color,1)
+                luminance.data[li].value=y;saturation.data[li].value=sat
         for m in me.materials:
             if not m or not m.use_nodes:continue
             nodes=m.node_tree.nodes;links=m.node_tree.links
             emission=next((n for n in nodes if n.type=='EMISSION'),None)
             if not emission:continue
-            for name in (ATTRIBUTE,HEIGHT_ATTRIBUTE,RECESS_ATTRIBUTE):
-                if nodes.get(name):continue
-                a=nodes.new('ShaderNodeAttribute');a.name=name;a.attribute_name=name
-                multiply=nodes.new('ShaderNodeMixRGB');multiply.blend_type='MULTIPLY';multiply.inputs[0].default_value=1
-                if emission.inputs['Color'].links:links.new(emission.inputs['Color'].links[0].from_socket,multiply.inputs[1])
-                else:multiply.inputs[1].default_value=emission.inputs['Color'].default_value
-                links.new(a.outputs['Fac'],multiply.inputs[2]);links.new(multiply.outputs[0],emission.inputs['Color'])
-            if m.get('height_desaturation') and not nodes.get(SATURATION_ATTRIBUTE):
-                a=nodes.new('ShaderNodeAttribute');a.name=SATURATION_ATTRIBUTE;a.attribute_name=SATURATION_ATTRIBUTE
-                original=emission.inputs['Color'].links[0].from_socket
-                gray=nodes.new('ShaderNodeRGBToBW');links.new(original,gray.inputs[0])
-                mix=nodes.new('ShaderNodeMixRGB');links.new(a.outputs['Fac'],mix.inputs[0])
-                links.new(gray.outputs[0],mix.inputs[1]);links.new(original,mix.inputs[2]);links.new(mix.outputs[0],emission.inputs['Color'])
+            if m.get('paint_role'):
+                if not nodes.get(COLOR_ATTRIBUTE):
+                    a=nodes.new('ShaderNodeVertexColor');a.name=COLOR_ATTRIBUTE;a.layer_name=COLOR_ATTRIBUTE
+                    links.new(a.outputs['Color'],emission.inputs['Color'])
+            elif 'grille' in m.name.lower():
+                ramp=next((n for n in nodes if n.type=='VALTORGB'),None)
+                assert ramp,'Missing grille pattern'
+                links.new(ramp.outputs['Color'],emission.inputs['Color'])
+            else:
+                for link in list(emission.inputs['Color'].links):links.remove(link)
+                emission.inputs['Color'].default_value=m.diffuse_color

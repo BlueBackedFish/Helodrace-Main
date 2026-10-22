@@ -43,7 +43,7 @@ def render(name,back=False):
         from face_depth_tone import apply_face_depth_tone
         apply_face_depth_tone(s)
     s.render.resolution_x=s.render.resolution_y=768;s.render.resolution_percentage=100
-    s.eevee.taa_render_samples=16;s.render.filepath=str(OUT/(name+'.png'))
+    s.eevee.taa_render_samples=globals().get('RENDER_SAMPLES',16);s.render.filepath=str(OUT/(name+'.png'))
     bpy.ops.render.render(write_still=True)
 
 if __name__=='__main__':

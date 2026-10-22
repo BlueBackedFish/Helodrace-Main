@@ -34,5 +34,5 @@ for part in c['protected_components']:
 assert {r['role'] for r in c['additional_roles']}=={'smoke_launcher','smoke_mount','turret_linkage_support'}
 assert c['policy']['production_simplifier_uses_registry'] is True
 assert c['policy']['production_registry_scope']=='targeted_repairs_and_paint'
-assert len(c['targeted_geometry_repairs'])==32
+assert len(c['targeted_geometry_repairs'])==33
 print('STAGE1 BASELINE ROLE VALIDATION PASSED: 112 groups, 83 baseline objects, exact source binding, complete material subsets, 5 protected rear bins')

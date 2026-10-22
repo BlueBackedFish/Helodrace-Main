@@ -5,7 +5,7 @@
       138,
       268,
       913,
-      699
+      698
     ]
   },
   "vehicle_east": {
@@ -14,14 +14,14 @@
       138,
       268,
       913,
-      699
+      698
     ]
   },
   "turret_east_test": {
     "objects": 38,
     "alpha_bounds_bottom_origin": [
       292,
-      392,
+      393,
       633,
       698
     ]

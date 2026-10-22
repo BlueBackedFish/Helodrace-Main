@@ -11,15 +11,15 @@ assert len(meshes)==103
 assert len([o for o in meshes if o.get('art_role')=='smoke_launcher'])==8
 assert len([o for o in meshes if o.get('art_role')=='smoke_mount'])==6
 for o in meshes:
-    attr=o.data.attributes.get('Face depth tone')
-    assert attr and attr.domain=='FACE'
-    assert all(.879<=v.value<=1.081 for v in attr.data)
-    height=o.data.attributes.get('Height and curve tone')
+    color=o.data.color_attributes.get('Vehicle final paint')
+    assert color and color.domain=='CORNER' and color.data_type=='FLOAT_COLOR'
+    assert all(0<=c<=1 for v in color.data for c in v.color)
+    height=o.data.attributes.get('Final paint luminance')
     assert height and height.domain=='CORNER'
-    assert all(.53<=v.value<=1.181 for v in height.data)
-    saturation=o.data.attributes.get('Height saturation')
+    assert all(24.99<=v.value<=249.01 for v in height.data)
+    saturation=o.data.attributes.get('Paint saturation')
     assert saturation and saturation.domain=='CORNER'
-    assert all(.279<=v.value<=1.001 for v in saturation.data)
+    assert all(.079<=v.value<=1.001 for v in saturation.data)
     recess=o.data.attributes.get('Recess paint')
     assert recess and recess.domain=='FACE'
     assert all(.619<=v.value<=1.001 for v in recess.data)
@@ -35,5 +35,10 @@ s.frame_set(1)
 with open(os.path.join(HERE,'bradley_rimworld.glb'),'rb') as f:
     assert f.read(4)==b'glTF';f.read(8);size,kind=struct.unpack('<II',f.read(8));g=json.loads(f.read(size))
 assert len(g['animations'])==4
+assert 'KHR_materials_unlit' in g['extensionsUsed']
+assert all('KHR_materials_unlit' in m['extensions'] for m in g['materials'])
+for mesh in g['meshes']:
+    for p in mesh['primitives']:
+        if g['materials'][p['material']]['name'].startswith('RT '):assert 'COLOR_0' in p['attributes']
 with open(os.path.join(HERE,'validation.json'),'w') as f:json.dump({'faces':faces,'animations':4,'saved_hierarchy_and_motion':'passed','unlit':True,'transparent':True,'era_included':False},f,indent=2)
 print('SIMPLIFIED SAVED MODEL VALIDATION PASSED')

@@ -83,10 +83,11 @@ for name,objects in top_groups.items():
 def read_rgba(name):
     im=bpy.data.images.load(os.path.join(OUT,name+'.png'),check_existing=False)
     a=np.array(im.pixels[:],dtype=np.float32).reshape(1024,1024,4)
-    # Byte-buffer PNG pixels are sRGB; the float-buffer output below is linear.
-    # Decode before alpha-over so save_render does not apply the display curve twice.
-    c=a[:,:,:3]
-    a[:,:,:3]=np.where(c<=.04045,c/12.92,((c+.055)/1.055)**2.4)
+    # Blender exposes 8-bit byte PNG buffers as sRGB, but 16-bit PNGs as
+    # scene-linear float buffers. Decoding the latter again darkens the preview.
+    if not im.is_float:
+        c=a[:,:,:3]
+        a[:,:,:3]=np.where(c<=.04045,c/12.92,((c+.055)/1.055)**2.4)
     bpy.data.images.remove(im);return a
 body=read_rgba('vehicle_east');top=read_rgba('turret_top_full_east')
 overlay=np.zeros_like(top);dx,dy=anchor[0]-512,anchor[1]-512
