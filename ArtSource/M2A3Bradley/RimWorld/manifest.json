@@ -277,52 +277,6 @@
       213,
       183
     ],
-    "height_luminance_ramp": [
-      [
-        0.3,
-        42
-      ],
-      [
-        0.8,
-        88
-      ],
-      [
-        1.4,
-        132
-      ],
-      [
-        1.95,
-        190
-      ],
-      [
-        2.15,
-        199
-      ],
-      [
-        2.65,
-        207
-      ],
-      [
-        2.74,
-        214
-      ],
-      [
-        2.83,
-        225
-      ],
-      [
-        2.94,
-        237
-      ],
-      [
-        3.35,
-        247
-      ],
-      [
-        4.85,
-        249
-      ]
-    ],
     "minimum_luminance": 25,
     "maximum_luminance": 249,
     "minimum_saturation": 0.24,
@@ -333,23 +287,8 @@
       78,
       122
     ],
-    "handle_highlight": 6,
-    "handle_highlight_ceiling": 239,
     "rear_floor_darkening": 15,
     "form_exponent": 0.8,
-    "step_contrast": {
-      "reference_heights": [
-        2.042,
-        2.726,
-        2.7935,
-        2.8888,
-        3.3174
-      ],
-      "minimum_step": 14,
-      "log_gain": 3,
-      "soft_gap": 8,
-      "top_level_luminance": 246
-    },
     "cel_shading": {
       "roles": [
         "driver_hatch",
@@ -380,7 +319,9 @@
       "tone_gap": 30,
       "side_light_drop": 24,
       "top_light_drop": 0,
-      "whole_small_hatch_components": true
+      "whole_small_hatch_components": true,
+      "cylinder_side_drop": 36,
+      "cylinder_cap_gap": 24
     },
     "broad_hatch_paint": {
       "roles": [
@@ -390,31 +331,106 @@
         "rear_roof_hatch"
       ],
       "component_selection": "largest_upward_projected_area",
-      "normal_smoothing_degrees": 50
+      "normal_smoothing_degrees": 50,
+      "upward_normal_threshold": 0.85
     },
     "local_raised_panels": {
-      "roof_reference_height": 2.723,
-      "higher_lid_reference_height": 2.7935,
-      "higher_lid_margin": 1.5,
-      "step": 6,
       "targets": [
         {
           "name": "coax_port_cover",
           "object": "WT_bone_gun",
           "selection": "cel_patch",
           "anchor_polygon": 845,
-          "tier": 1,
-          "gradient_gain": 1
+          "node": "turret_raised"
         },
         {
           "name": "gun_upper_shroud",
           "object": "WT_ex_decor_01",
           "selection": "upward_faces",
           "minimum_normal_z": 0.96,
-          "tier": 2,
-          "gradient_gain": 0.5
+          "node": "turret_raised"
         }
       ]
+    },
+    "contact_palette": {
+      "minimum_step": 24,
+      "default_node": "hull",
+      "nodes": {
+        "hull": {
+          "base": 170
+        },
+        "turret": {
+          "support": "hull"
+        },
+        "hull_raised": {
+          "support": "hull",
+          "curve_headroom": 6
+        },
+        "turret_raised": {
+          "support": "turret",
+          "curve_headroom": 6
+        },
+        "lid_handle": {
+          "support": "turret_raised"
+        },
+        "dark_equipment": {
+          "base": 166,
+          "pigment_exception": "TOW body and fittings"
+        },
+        "running_gear": {
+          "base": 110,
+          "pigment_exception": "lower mechanical equipment"
+        }
+      },
+      "roles": {
+        "hull_assembly": "hull",
+        "side_skirt": "hull",
+        "front_mudguard": "hull",
+        "headlamp_assembly": "hull",
+        "rear_ramp": "hull",
+        "personnel_door": "hull",
+        "turret_assembly": "turret",
+        "gun_mount": "turret",
+        "turret_front_linkage": "turret",
+        "turret_front_mechanism": "turret",
+        "turret_front_lower_cover": "turret",
+        "turret_linkage_support": "turret",
+        "tow_mount": "turret",
+        "rear_stowage_bin": "turret",
+        "rear_basket_floor": "turret",
+        "smoke_launcher": "turret",
+        "driver_hatch": "hull_raised",
+        "rear_roof_hatch": "hull_raised",
+        "turret_hatch_a": "turret_raised",
+        "turret_hatch_b": "turret_raised",
+        "commander_sight": "turret_raised",
+        "commander_sight_guard": "turret_raised",
+        "turret_roof_equipment": "turret_raised",
+        "gun_upper_shroud": "turret_raised",
+        "turret_front_upper_cover": "turret_raised",
+        "hatch_lid_handle": "lid_handle",
+        "tow_launcher": "dark_equipment",
+        "tow_end_cover": "dark_equipment",
+        "tow_hinge_cap": "dark_equipment",
+        "tow_hinge_collar": "dark_equipment",
+        "tow_handle": "dark_equipment",
+        "tow_linkage": "dark_equipment",
+        "smoke_mount": "dark_equipment",
+        "road_wheel": "running_gear",
+        "drive_sprocket": "running_gear",
+        "rear_towing_connector": "running_gear",
+        "rear_towing_eye": "running_gear",
+        "track": "running_gear",
+        "antenna": "running_gear"
+      }
+    },
+    "armor_plane_contrast": {
+      "roles": [
+        "hull_assembly",
+        "turret_assembly"
+      ],
+      "step": 28,
+      "wall_normal_threshold": 0.35
     }
   },
   "render_quality": {
@@ -838,6 +854,1448 @@
     }
   },
   "cel_paint": {
+    "WT_@root": [
+      {
+        "patch": 0,
+        "faces": 24,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 12,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 2,
+        "faces": 14,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 3,
+        "faces": 11,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 4,
+        "faces": 19,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 5,
+        "faces": 32,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 6,
+        "faces": 12,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 7,
+        "faces": 32,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 8,
+        "faces": 19,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 9,
+        "faces": 11,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 10,
+        "faces": 8,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 11,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 12,
+        "faces": 32,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 13,
+        "faces": 33,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 14,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 15,
+        "faces": 12,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 16,
+        "faces": 36,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 17,
+        "faces": 16,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 18,
+        "faces": 14,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 19,
+        "faces": 13,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 20,
+        "faces": 16,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 21,
+        "faces": 7,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 22,
+        "faces": 25,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 23,
+        "faces": 14,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 24,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 25,
+        "faces": 12,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 26,
+        "faces": 28,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 27,
+        "faces": 25,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 28,
+        "faces": 36,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 29,
+        "faces": 26,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 30,
+        "faces": 8,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 31,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 32,
+        "faces": 13,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 33,
+        "faces": 26,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 34,
+        "faces": 7,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 35,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 36,
+        "faces": 15,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 37,
+        "faces": 89,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 38,
+        "faces": 15,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 39,
+        "faces": 27,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 40,
+        "faces": 15,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 41,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 42,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 43,
+        "faces": 25,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 44,
+        "faces": 18,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 45,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 46,
+        "faces": 14,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 47,
+        "faces": 16,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 48,
+        "faces": 12,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 49,
+        "faces": 7,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 50,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 51,
+        "faces": 11,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 52,
+        "faces": 11,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 53,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 54,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 55,
+        "faces": 32,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 56,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 57,
+        "faces": 19,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 58,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 59,
+        "faces": 5,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 60,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 61,
+        "faces": 16,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 62,
+        "faces": 7,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 63,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 64,
+        "faces": 7,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 65,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 66,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 67,
+        "faces": 13,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 68,
+        "faces": 12,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 69,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 70,
+        "faces": 11,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 71,
+        "faces": 25,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 72,
+        "faces": 12,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 73,
+        "faces": 8,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 74,
+        "faces": 11,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 75,
+        "faces": 12,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 76,
+        "faces": 87,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 77,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 78,
+        "faces": 32,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 79,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 80,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 81,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 82,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 83,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 84,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 85,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 86,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 87,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 88,
+        "faces": 30,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 89,
+        "faces": 12,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 90,
+        "faces": 17,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 91,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 92,
+        "faces": 12,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 93,
+        "faces": 5,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 94,
+        "faces": 16,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 95,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 96,
+        "faces": 12,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 97,
+        "faces": 14,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 98,
+        "faces": 4,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 99,
+        "faces": 11,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 100,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 101,
+        "faces": 18,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 102,
+        "faces": 13,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 103,
+        "faces": 12,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 104,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 105,
+        "faces": 30,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 106,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 107,
+        "faces": 7,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 108,
+        "faces": 7,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 109,
+        "faces": 17,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 110,
+        "faces": 14,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 111,
+        "faces": 16,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 112,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 113,
+        "faces": 23,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 114,
+        "faces": 12,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 115,
+        "faces": 14,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 116,
+        "faces": 14,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 117,
+        "faces": 8,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 118,
+        "faces": 8,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 119,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
     "WT_hatch_05": [
       {
         "patch": 0,
@@ -847,10 +2305,10 @@
           1
         ],
         "luminance": [
-          154.76172055552914,
-          184.76172055552914
+          164,
+          194
         ],
-        "height": 2.253000020980835
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
@@ -860,10 +2318,802 @@
           1
         ],
         "luminance": [
-          129.87692707561877,
-          159.87692707561877
+          158,
+          182
         ],
-        "height": 2.1940999031066895
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_wheel_l_drive": [
+      {
+        "patch": 0,
+        "faces": 37,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 22,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 2,
+        "faces": 22,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_wheel_l_back": [
+      {
+        "patch": 0,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 2,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 3,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 4,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 5,
+        "faces": 8,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 6,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 7,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 8,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 9,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 10,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 11,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_wheel_r_back": [
+      {
+        "patch": 0,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 2,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 3,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 4,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 5,
+        "faces": 8,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 6,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 7,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 8,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 9,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 10,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 11,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_ex_armor_01": [
+      {
+        "patch": 0,
+        "faces": 27,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 23,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_ex_armor_02": [
+      {
+        "patch": 0,
+        "faces": 27,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 27,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_hatch_06": [
+      {
+        "patch": 0,
+        "faces": 25,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 15,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 2,
+        "faces": 31,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_ex_decor_r_04": [
+      {
+        "patch": 0,
+        "faces": 23,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 20,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 2,
+        "faces": 15,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 3,
+        "faces": 22,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 4,
+        "faces": 13,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 5,
+        "faces": 21,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_ex_decor_l_09": [
+      {
+        "patch": 0,
+        "faces": 22,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 22,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 2,
+        "faces": 13,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 3,
+        "faces": 16,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 4,
+        "faces": 21,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 5,
+        "faces": 21,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_hatch_04": [
+      {
+        "patch": 0,
+        "faces": 41,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 2,
+        "faces": 59,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 3,
+        "faces": 50,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 4,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 5,
+        "faces": 29,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 6,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 7,
+        "faces": 27,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 8,
+        "faces": 4,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_ex_lantern_l_01": [
+      {
+        "patch": 0,
+        "faces": 21,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 2,
+        "faces": 4,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 3,
+        "faces": 20,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 4,
+        "faces": 4,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 5,
+        "faces": 15,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 6,
+        "faces": 20,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_ex_decor_r_05": [
+      {
+        "patch": 0,
+        "faces": 8,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_ex_decor_l_04": [
+      {
+        "patch": 0,
+        "faces": 8,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
       }
     ],
     "WT_hatch_01": [
@@ -875,10 +3125,10 @@
           1
         ],
         "luminance": [
-          153.51490115104508,
-          183.51490115104508
+          158,
+          182
         ],
-        "height": 2.1700000762939453
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 1,
@@ -888,10 +3138,10 @@
           1
         ],
         "luminance": [
-          152.08218083259928,
-          182.08218083259928
+          158,
+          182
         ],
-        "height": 2.123199939727783
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 2,
@@ -901,10 +3151,10 @@
           1
         ],
         "luminance": [
-          148.9261722368959,
-          178.9261722368959
+          164,
+          194
         ],
-        "height": 2.0485000610351562
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 3,
@@ -914,10 +3164,842 @@
           1
         ],
         "luminance": [
-          149.85987791481045,
-          179.85987791481045
+          158,
+          182
         ],
-        "height": 2.0706000328063965
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_ex_lantern_r_01": [
+      {
+        "patch": 0,
+        "faces": 32,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 39,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 2,
+        "faces": 8,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 3,
+        "faces": 5,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 4,
+        "faces": 5,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 5,
+        "faces": 8,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 6,
+        "faces": 19,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 7,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_wheel_r_01": [
+      {
+        "patch": 0,
+        "faces": 18,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_wheel_r_02": [
+      {
+        "patch": 0,
+        "faces": 17,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_wheel_r_03": [
+      {
+        "patch": 0,
+        "faces": 17,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_wheel_r_04": [
+      {
+        "patch": 0,
+        "faces": 19,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_wheel_r_05": [
+      {
+        "patch": 0,
+        "faces": 17,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_wheel_r_06": [
+      {
+        "patch": 0,
+        "faces": 18,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_wheel_l_01": [
+      {
+        "patch": 0,
+        "faces": 16,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_wheel_l_02": [
+      {
+        "patch": 0,
+        "faces": 16,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_wheel_l_03": [
+      {
+        "patch": 0,
+        "faces": 19,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_wheel_l_04": [
+      {
+        "patch": 0,
+        "faces": 18,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_wheel_l_05": [
+      {
+        "patch": 0,
+        "faces": 16,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_wheel_l_06": [
+      {
+        "patch": 0,
+        "faces": 17,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_bone_turret": [
+      {
+        "patch": 0,
+        "faces": 16,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 55,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          182,
+          206
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 2,
+        "faces": 21,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 3,
+        "faces": 32,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 4,
+        "faces": 21,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 5,
+        "faces": 26,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 6,
+        "faces": 19,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 7,
+        "faces": 28,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 8,
+        "faces": 32,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 9,
+        "faces": 22,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 10,
+        "faces": 36,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 11,
+        "faces": 8,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 12,
+        "faces": 26,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          182,
+          206
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 13,
+        "faces": 5,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 14,
+        "faces": 20,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 15,
+        "faces": 42,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 16,
+        "faces": 21,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 17,
+        "faces": 12,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 18,
+        "faces": 18,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 19,
+        "faces": 27,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 20,
+        "faces": 20,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          182,
+          206
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 21,
+        "faces": 58,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          182,
+          206
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 22,
+        "faces": 30,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 23,
+        "faces": 14,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 24,
+        "faces": 20,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 25,
+        "faces": 58,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          182,
+          206
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 26,
+        "faces": 5,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 27,
+        "faces": 32,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 28,
+        "faces": 33,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          182,
+          206
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 29,
+        "faces": 5,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 30,
+        "faces": 23,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 31,
+        "faces": 21,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 32,
+        "faces": 21,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 33,
+        "faces": 14,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 34,
+        "faces": 13,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 35,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 36,
+        "faces": 20,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 37,
+        "faces": 7,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 38,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 39,
+        "faces": 16,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 40,
+        "faces": 5,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 41,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 42,
+        "faces": 9,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 43,
+        "faces": 19,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          182,
+          206
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 44,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 45,
+        "faces": 23,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 46,
+        "faces": 17,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
       }
     ],
     "WT_bone_gun": [
@@ -929,10 +4011,10 @@
           1
         ],
         "luminance": [
-          134.99339682619194,
-          164.99339682619194
+          140,
+          170
         ],
-        "height": 2.5346999168395996
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
@@ -942,10 +4024,10 @@
           1
         ],
         "luminance": [
-          160.05244496404543,
-          190.05244496404543
+          164,
+          194
         ],
-        "height": 2.6052000522613525
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 2,
@@ -954,10 +4036,10 @@
           0
         ],
         "luminance": [
-          133.998944754657,
-          163.998944754657
+          140,
+          170
         ],
-        "height": 2.4684998989105225
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 3,
@@ -966,10 +4048,10 @@
           1
         ],
         "luminance": [
-          133.97941837665917,
-          163.97941837665917
+          140,
+          170
         ],
-        "height": 2.4672000408172607
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 4,
@@ -978,10 +4060,10 @@
           1
         ],
         "luminance": [
-          135.72046072300915,
-          165.72046072300915
+          140,
+          170
         ],
-        "height": 2.5831000804901123
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 5,
@@ -990,23 +4072,22 @@
           0
         ],
         "luminance": [
-          131.52183102053888,
-          161.52183102053888
+          140,
+          170
         ],
-        "height": 2.3036000728607178
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 6,
         "faces": 18,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          157.3379811572396,
-          187.3379811572396
+          158,
+          182
         ],
-        "height": 2.424499988555908
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 7,
@@ -1015,10 +4096,10 @@
           1
         ],
         "luminance": [
-          133.35450623208956,
-          163.35450623208956
+          140,
+          170
         ],
-        "height": 2.425600051879883
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 8,
@@ -1027,23 +4108,22 @@
           0
         ],
         "luminance": [
-          133.05556855924584,
-          163.05556855924584
+          140,
+          170
         ],
-        "height": 2.4056999683380127
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 9,
         "faces": 46,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          165.80054891071882,
-          195.80054891071882
+          158,
+          182
         ],
-        "height": 2.7195000648498535
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 10,
@@ -1052,10 +4132,10 @@
           0
         ],
         "luminance": [
-          141.80054891071882,
-          171.80054891071882
+          140,
+          170
         ],
-        "height": 2.7195000648498535
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 11,
@@ -1064,23 +4144,22 @@
           0
         ],
         "luminance": [
-          141.72021868575374,
-          171.72021868575374
+          140,
+          170
         ],
-        "height": 2.718400001525879
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 12,
         "faces": 46,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          165.72021868575374,
-          195.72021868575374
+          158,
+          182
         ],
-        "height": 2.718400001525879
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 13,
@@ -1089,10 +4168,10 @@
           0
         ],
         "luminance": [
-          159.2442635075671,
-          189.2442635075671
+          164,
+          194
         ],
-        "height": 2.5513999462127686
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 14,
@@ -1101,10 +4180,10 @@
           1
         ],
         "luminance": [
-          136.53765325194578,
-          166.53765325194578
+          140,
+          170
         ],
-        "height": 2.637500047683716
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 15,
@@ -1113,10 +4192,10 @@
           0
         ],
         "luminance": [
-          136.44602038674506,
-          166.44602038674506
+          140,
+          170
         ],
-        "height": 2.6314001083374023
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 16,
@@ -1125,10 +4204,10 @@
           1
         ],
         "luminance": [
-          142.8954914032071,
-          172.8954914032071
+          140,
+          170
         ],
-        "height": 2.72979998588562
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 17,
@@ -1137,10 +4216,10 @@
           1
         ],
         "luminance": [
-          141.14333485302365,
-          171.14333485302365
+          140,
+          170
         ],
-        "height": 2.7105000019073486
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 18,
@@ -1149,10 +4228,10 @@
           0
         ],
         "luminance": [
-          141.23095991202865,
-          171.23095991202865
+          140,
+          170
         ],
-        "height": 2.711699962615967
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 19,
@@ -1161,49 +4240,46 @@
           0
         ],
         "luminance": [
-          136.0659651542402,
-          166.0659651542402
+          158,
+          182
         ],
-        "height": 2.606100082397461
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 20,
         "faces": 84,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          158.77558029451671,
-          188.77558029451671
+          158,
+          182
         ],
-        "height": 2.52020001411438
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 21,
         "faces": 78,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          167.02610217924854,
-          197.02610217924854
+          158,
+          182
         ],
-        "height": 2.730600118637085
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 22,
         "faces": 40,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          160.50460310224588,
-          190.50460310224588
+          158,
+          182
         ],
-        "height": 2.6352999210357666
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 23,
@@ -1212,10 +4288,10 @@
           1
         ],
         "luminance": [
-          136.3033116454206,
-          166.3033116454206
+          140,
+          170
         ],
-        "height": 2.6219000816345215
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 24,
@@ -1224,10 +4300,10 @@
           1
         ],
         "luminance": [
-          136.3033116454206,
-          166.3033116454206
+          140,
+          170
         ],
-        "height": 2.6219000816345215
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 25,
@@ -1236,10 +4312,10 @@
           0
         ],
         "luminance": [
-          132.42164534221794,
-          162.42164534221794
+          140,
+          170
         ],
-        "height": 2.3635001182556152
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 26,
@@ -1248,10 +4324,10 @@
           0
         ],
         "luminance": [
-          131.62848472750827,
-          161.62848472750827
+          140,
+          170
         ],
-        "height": 2.310699939727783
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 27,
@@ -1260,36 +4336,34 @@
           0
         ],
         "luminance": [
-          132.39760984648365,
-          162.39760984648365
+          140,
+          170
         ],
-        "height": 2.3619000911712646
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 28,
         "faces": 56,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          165.17254900939366,
-          195.17254900939366
+          158,
+          182
         ],
-        "height": 2.710900068283081
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 29,
         "faces": 12,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          136.1846383998304,
-          166.1846383998304
+          158,
+          182
         ],
-        "height": 2.614000082015991
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 30,
@@ -1298,10 +4372,10 @@
           0
         ],
         "luminance": [
-          136.34537286757876,
-          166.34537286757876
+          158,
+          182
         ],
-        "height": 2.6247000694274902
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 31,
@@ -1310,10 +4384,10 @@
           0
         ],
         "luminance": [
-          140.4131028145085,
-          170.4131028145085
+          140,
+          170
         ],
-        "height": 2.700500011444092
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 32,
@@ -1322,10 +4396,10 @@
           0
         ],
         "luminance": [
-          131.49328998857547,
-          161.49328998857547
+          140,
+          170
         ],
-        "height": 2.3017001152038574
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 33,
@@ -1334,10 +4408,10 @@
           0
         ],
         "luminance": [
-          141.21635283384362,
-          171.21635283384362
+          140,
+          170
         ],
-        "height": 2.7114999294281006
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 34,
@@ -1347,10 +4421,10 @@
           1
         ],
         "luminance": [
-          134.8056255595614,
-          164.8056255595614
+          140,
+          170
         ],
-        "height": 2.522200107574463
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 35,
@@ -1360,10 +4434,10 @@
           1
         ],
         "luminance": [
-          159.92926260071877,
-          189.92926260071877
+          164,
+          194
         ],
-        "height": 2.5969998836517334
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 36,
@@ -1373,10 +4447,10 @@
           1
         ],
         "luminance": [
-          159.8075880519807,
-          189.8075880519807
+          164,
+          194
         ],
-        "height": 2.588900089263916
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 37,
@@ -1385,10 +4459,10 @@
           1
         ],
         "luminance": [
-          142.8954914032071,
-          172.8954914032071
+          140,
+          170
         ],
-        "height": 2.72979998588562
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 38,
@@ -1397,10 +4471,10 @@
           1
         ],
         "luminance": [
-          142.24598644988887,
-          172.24598644988887
+          140,
+          170
         ],
-        "height": 2.725600004196167
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 39,
@@ -1409,10 +4483,10 @@
           0
         ],
         "luminance": [
-          140.54454910806857,
-          170.54454910806857
+          140,
+          170
         ],
-        "height": 2.7023000717163086
+        "mode": "two_tone_small_curve"
       }
     ],
     "WT_gun_barrel": [
@@ -1426,7 +4500,7 @@
           92,
           122
         ],
-        "height": 2.507999897003174
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
@@ -1438,20 +4512,19 @@
           92,
           122
         ],
-        "height": 2.4784998893737793
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 2,
         "faces": 10,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.4821999073028564
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 3,
@@ -1464,7 +4537,7 @@
           92,
           122
         ],
-        "height": 2.4783999919891357
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 4,
@@ -1476,20 +4549,19 @@
           92,
           122
         ],
-        "height": 2.4784998893737793
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 5,
         "faces": 10,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.4784998893737793
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 6,
@@ -1502,7 +4574,7 @@
           92,
           122
         ],
-        "height": 2.4783999919891357
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 7,
@@ -1515,7 +4587,7 @@
           92,
           122
         ],
-        "height": 2.4783999919891357
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 8,
@@ -1527,20 +4599,19 @@
           92,
           122
         ],
-        "height": 2.4784998893737793
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 9,
         "faces": 10,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.4784998893737793
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 10,
@@ -1553,7 +4624,7 @@
           92,
           122
         ],
-        "height": 2.4783999919891357
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 11,
@@ -1565,7 +4636,7 @@
           92,
           122
         ],
-        "height": 2.50819993019104
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 12,
@@ -1577,20 +4648,19 @@
           92,
           122
         ],
-        "height": 2.50819993019104
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 13,
         "faces": 10,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.4821999073028564
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 14,
@@ -1602,20 +4672,19 @@
           92,
           122
         ],
-        "height": 2.4784998893737793
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 15,
         "faces": 10,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.4784998893737793
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 16,
@@ -1628,19 +4697,19 @@
           92,
           122
         ],
-        "height": 2.4783999919891357
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 17,
         "faces": 8,
         "bands": [
-          1
+          0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.50819993019104
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 18,
@@ -1652,20 +4721,19 @@
           92,
           122
         ],
-        "height": 2.5081000328063965
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 19,
         "faces": 10,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.4784998893737793
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 20,
@@ -1678,19 +4746,19 @@
           92,
           122
         ],
-        "height": 2.4783999919891357
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 21,
         "faces": 8,
         "bands": [
-          1
+          0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.5081000328063965
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 22,
@@ -1702,19 +4770,19 @@
           92,
           122
         ],
-        "height": 2.5081000328063965
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 23,
         "faces": 8,
         "bands": [
-          1
+          0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.5081000328063965
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 24,
@@ -1726,7 +4794,7 @@
           92,
           122
         ],
-        "height": 2.5081000328063965
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 25,
@@ -1738,20 +4806,19 @@
           92,
           122
         ],
-        "height": 2.5000998973846436
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 26,
         "faces": 32,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.496799945831299
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 27,
@@ -1760,48 +4827,46 @@
           0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.463900089263916
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 28,
         "faces": 8,
         "bands": [
-          1
+          0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.591399908065796
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 29,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.5434999465942383
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 30,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.5738000869750977
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 31,
@@ -1814,7 +4879,7 @@
           92,
           122
         ],
-        "height": 2.56820011138916
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 32,
@@ -1826,7 +4891,7 @@
           92,
           122
         ],
-        "height": 2.5738000869750977
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 33,
@@ -1839,7 +4904,7 @@
           92,
           122
         ],
-        "height": 2.5632998943328857
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 34,
@@ -1851,20 +4916,19 @@
           92,
           122
         ],
-        "height": 2.5655999183654785
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 35,
         "faces": 712,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.517899990081787
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 36,
@@ -1876,20 +4940,19 @@
           92,
           122
         ],
-        "height": 2.5596001148223877
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 37,
         "faces": 281,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.50819993019104
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 38,
@@ -1902,7 +4965,7 @@
           92,
           122
         ],
-        "height": 2.5041000843048096
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 39,
@@ -1914,7 +4977,7 @@
           92,
           122
         ],
-        "height": 2.526599884033203
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 40,
@@ -1927,7 +4990,7 @@
           92,
           122
         ],
-        "height": 2.57069993019104
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 41,
@@ -1939,7 +5002,7 @@
           92,
           122
         ],
-        "height": 2.517899990081787
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 42,
@@ -1951,20 +5014,93 @@
           92,
           122
         ],
-        "height": 2.4927000999450684
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 43,
         "faces": 48,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          92,
-          122
+          78,
+          102
         ],
-        "height": 2.4927000999450684
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_rocket_mount_01": [
+      {
+        "patch": 0,
+        "faces": 20,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 56,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 2,
+        "faces": 7,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 3,
+        "faces": 8,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 4,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 5,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
       }
     ],
     "WT_roll_06": [
@@ -1972,66 +5108,61 @@
         "patch": 0,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          136.2131794317938,
-          166.2131794317938
+          130,
+          154
         ],
-        "height": 2.6159000396728516
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 1,
         "faces": 18,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          162.99644256192815,
-          192.99644256192815
+          130,
+          154
         ],
-        "height": 2.6810998916625977
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 2,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          162.77738861946818,
-          192.77738861946818
+          130,
+          154
         ],
-        "height": 2.678100109100342
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 3,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          162.77738861946818,
-          192.77738861946818
+          130,
+          154
         ],
-        "height": 2.678100109100342
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 4,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          162.39765681697304,
-          192.39765681697304
+          130,
+          154
         ],
-        "height": 2.6728999614715576
+        "mode": "single_cylinder_side"
       }
     ],
     "WT_roll_03": [
@@ -2043,10 +5174,10 @@
           1
         ],
         "luminance": [
-          157.61889310365945,
-          187.61889310365945
+          136,
+          166
         ],
-        "height": 2.44320011138916
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
@@ -2056,10 +5187,10 @@
           1
         ],
         "luminance": [
-          133.59635825949908,
-          163.59635825949908
+          112,
+          142
         ],
-        "height": 2.441699981689453
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 2,
@@ -2069,10 +5200,10 @@
           1
         ],
         "luminance": [
-          133.54228108022744,
-          163.54228108022744
+          112,
+          142
         ],
-        "height": 2.4381000995635986
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 3,
@@ -2082,10 +5213,10 @@
           1
         ],
         "luminance": [
-          133.59635825949908,
-          163.59635825949908
+          112,
+          142
         ],
-        "height": 2.441699981689453
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 4,
@@ -2095,10 +5226,10 @@
           1
         ],
         "luminance": [
-          133.54228108022744,
-          163.54228108022744
+          112,
+          142
         ],
-        "height": 2.4381000995635986
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 5,
@@ -2107,10 +5238,10 @@
           1
         ],
         "luminance": [
-          133.3890570333634,
-          163.3890570333634
+          112,
+          142
         ],
-        "height": 2.4279000759124756
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 6,
@@ -2119,10 +5250,10 @@
           0
         ],
         "luminance": [
-          132.61392572658494,
-          162.61392572658494
+          112,
+          142
         ],
-        "height": 2.376300096511841
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 7,
@@ -2131,10 +5262,10 @@
           0
         ],
         "luminance": [
-          132.91285981792134,
-          162.91285981792134
+          112,
+          142
         ],
-        "height": 2.396199941635132
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 8,
@@ -2143,10 +5274,10 @@
           1
         ],
         "luminance": [
-          133.08410959120926,
-          163.08410959120926
+          112,
+          142
         ],
-        "height": 2.407599925994873
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 9,
@@ -2156,10 +5287,10 @@
           1
         ],
         "luminance": [
-          156.65147783100664,
-          186.65147783100664
+          136,
+          166
         ],
-        "height": 2.3787999153137207
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 10,
@@ -2169,10 +5300,10 @@
           1
         ],
         "luminance": [
-          132.60941660884848,
-          162.60941660884848
+          112,
+          142
         ],
-        "height": 2.375999927520752
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 11,
@@ -2182,10 +5313,10 @@
           1
         ],
         "luminance": [
-          156.65147783100664,
-          186.65147783100664
+          136,
+          166
         ],
-        "height": 2.3787999153137207
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 12,
@@ -2194,10 +5325,10 @@
           0
         ],
         "luminance": [
-          132.60791595727454,
-          162.60791595727454
+          112,
+          142
         ],
-        "height": 2.3759000301361084
+        "mode": "two_tone_small_curve"
       }
     ],
     "WT_roll_05": [
@@ -2205,27 +5336,25 @@
         "patch": 0,
         "faces": 6,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          136.71641344611803,
-          166.71641344611803
+          130,
+          154
         ],
-        "height": 2.649399995803833
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 1,
         "faces": 16,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          163.98227235352343,
-          193.98227235352343
+          130,
+          154
         ],
-        "height": 2.6946001052856445
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 2,
@@ -2234,49 +5363,46 @@
           0
         ],
         "luminance": [
-          157.40708275978727,
-          187.40708275978727
+          130,
+          154
         ],
-        "height": 2.4291000366210938
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 3,
         "faces": 16,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          160.93719273994276,
-          190.93719273994276
+          130,
+          154
         ],
-        "height": 2.652899980545044
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 4,
         "faces": 8,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          164.2524423645784,
-          194.2524423645784
+          130,
+          154
         ],
-        "height": 2.6982998847961426
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 5,
         "faces": 16,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          163.21551391449321,
-          193.21551391449321
+          130,
+          154
         ],
-        "height": 2.6840999126434326
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 6,
@@ -2285,49 +5411,46 @@
           0
         ],
         "luminance": [
-          165.64720070493377,
-          195.64720070493377
+          130,
+          154
         ],
-        "height": 2.717400074005127
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 7,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          160.93719273994276,
-          190.93719273994276
+          130,
+          154
         ],
-        "height": 2.652899980545044
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 8,
         "faces": 16,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          156.16176400687718,
-          186.16176400687718
+          130,
+          154
         ],
-        "height": 2.3461999893188477
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 9,
         "faces": 16,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          158.23629124583738,
-          188.23629124583738
+          130,
+          154
         ],
-        "height": 2.484299898147583
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 10,
@@ -2336,23 +5459,22 @@
           0
         ],
         "luminance": [
-          145.6634877954662,
-          175.6634877954662
+          112,
+          142
         ],
-        "height": 2.74429988861084
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 11,
         "faces": 16,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          156.16176400687718,
-          186.16176400687718
+          130,
+          154
         ],
-        "height": 2.3461999893188477
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 12,
@@ -2361,36 +5483,34 @@
           0
         ],
         "luminance": [
-          130.53488936988828,
-          160.53488936988828
+          112,
+          142
         ],
-        "height": 2.2379000186920166
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 13,
         "faces": 16,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          156.16176400687718,
-          186.16176400687718
+          130,
+          154
         ],
-        "height": 2.3461999893188477
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 14,
         "faces": 34,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          181.15534019597672,
-          211.15534019597672
+          130,
+          154
         ],
-        "height": 2.789099931716919
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 15,
@@ -2399,10 +5519,10 @@
           0
         ],
         "luminance": [
-          157.0014672248494,
-          187.0014672248494
+          112,
+          142
         ],
-        "height": 2.7885000705718994
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 16,
@@ -2411,10 +5531,10 @@
           0
         ],
         "luminance": [
-          144.74006649536616,
-          174.74006649536616
+          112,
+          142
         ],
-        "height": 2.7407000064849854
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 17,
@@ -2423,10 +5543,10 @@
           0
         ],
         "luminance": [
-          148.40824890206218,
-          178.40824890206218
+          130,
+          154
         ],
-        "height": 2.755000114440918
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 18,
@@ -2435,61 +5555,58 @@
           0
         ],
         "luminance": [
-          144.6118186335005,
-          174.6118186335005
+          112,
+          142
         ],
-        "height": 2.7402000427246094
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 19,
         "faces": 8,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          157.34248669346874,
-          187.34248669346874
+          130,
+          154
         ],
-        "height": 2.424799919128418
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 20,
         "faces": 16,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          157.19527241591513,
-          187.19527241591513
+          130,
+          154
         ],
-        "height": 2.4149999618530273
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 21,
         "faces": 5,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          136.678857760189,
-          166.678857760189
+          130,
+          154
         ],
-        "height": 2.646899938583374
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 22,
         "faces": 13,
         "bands": [
-          1
+          0
         ],
         "luminance": [
-          179.97536201436657,
-          209.97536201436657
+          130,
+          154
         ],
-        "height": 2.7844998836517334
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 23,
@@ -2499,36 +5616,34 @@
           1
         ],
         "luminance": [
-          142.18026330310883,
-          172.18026330310883
+          112,
+          142
         ],
-        "height": 2.7246999740600586
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 24,
         "faces": 5,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          140.2524423645784,
-          170.2524423645784
+          130,
+          154
         ],
-        "height": 2.6982998847961426
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 25,
         "faces": 5,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          133.34248669346874,
-          163.34248669346874
+          130,
+          154
         ],
-        "height": 2.424799919128418
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 26,
@@ -2537,10 +5652,10 @@
           1
         ],
         "luminance": [
-          145.6634877954662,
-          175.6634877954662
+          112,
+          142
         ],
-        "height": 2.74429988861084
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 27,
@@ -2549,10 +5664,10 @@
           1
         ],
         "luminance": [
-          145.6634877954662,
-          175.6634877954662
+          112,
+          142
         ],
-        "height": 2.74429988861084
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 28,
@@ -2561,10 +5676,126 @@
           0
         ],
         "luminance": [
-          157.15534019597672,
-          187.15534019597672
+          112,
+          142
         ],
-        "height": 2.789099931716919
+        "mode": "two_tone_small_curve"
+      }
+    ],
+    "WT_roll_04": [
+      {
+        "patch": 0,
+        "faces": 42,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          130,
+          154
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_roll_02": [
+      {
+        "patch": 0,
+        "faces": 32,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 32,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_ex_decor_02": [
+      {
+        "patch": 0,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          182,
+          206
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          182,
+          206
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 2,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          182,
+          206
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 3,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          182,
+          206
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_ex_decor_03": [
+      {
+        "patch": 0,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          158,
+          182
+        ],
+        "mode": "single_cylinder_side"
       }
     ],
     "WT_hatch_03": [
@@ -2576,10 +5807,10 @@
           1
         ],
         "luminance": [
-          168.33197642814463,
-          198.33197642814463
+          188,
+          218
         ],
-        "height": 2.738600015640259
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
@@ -2589,10 +5820,10 @@
           1
         ],
         "luminance": [
-          168.13609918266891,
-          198.13609918266891
+          182,
+          206
         ],
-        "height": 2.7374000549316406
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 2,
@@ -2602,10 +5833,10 @@
           1
         ],
         "luminance": [
-          190.163774310809,
-          220.163774310809
+          182,
+          206
         ],
-        "height": 2.8364999294281006
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 3,
@@ -2615,10 +5846,10 @@
           1
         ],
         "luminance": [
-          187.7418807737428,
-          217.7418807737428
+          182,
+          206
         ],
-        "height": 2.8227999210357666
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 4,
@@ -2628,10 +5859,10 @@
           1
         ],
         "luminance": [
-          188.89680342925647,
-          218.89680342925647
+          182,
+          206
         ],
-        "height": 2.8289999961853027
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 5,
@@ -2641,10 +5872,10 @@
           1
         ],
         "luminance": [
-          189.16619227453342,
-          219.16619227453342
+          182,
+          206
         ],
-        "height": 2.8304998874664307
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 6,
@@ -2654,10 +5885,10 @@
           1
         ],
         "luminance": [
-          183.56932575236908,
-          213.56932575236908
+          182,
+          206
         ],
-        "height": 2.8004000186920166
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 7,
@@ -2667,10 +5898,10 @@
           1
         ],
         "luminance": [
-          143.53212163994317,
-          173.53212163994317
+          182,
+          206
         ],
-        "height": 2.7337000370025635
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 8,
@@ -2680,10 +5911,10 @@
           1
         ],
         "luminance": [
-          143.53212163994317,
-          173.53212163994317
+          182,
+          206
         ],
-        "height": 2.7337000370025635
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 9,
@@ -2693,10 +5924,10 @@
           1
         ],
         "luminance": [
-          185.58108066294244,
-          215.58108066294244
+          182,
+          206
         ],
-        "height": 2.811199903488159
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 10,
@@ -2706,10 +5937,10 @@
           1
         ],
         "luminance": [
-          185.58108066294244,
-          215.58108066294244
+          182,
+          206
         ],
-        "height": 2.811199903488159
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 11,
@@ -2719,10 +5950,10 @@
           1
         ],
         "luminance": [
-          185.58108066294244,
-          215.58108066294244
+          182,
+          206
         ],
-        "height": 2.811199903488159
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 12,
@@ -2732,23 +5963,22 @@
           1
         ],
         "luminance": [
-          185.58108066294244,
-          215.58108066294244
+          182,
+          206
         ],
-        "height": 2.811199903488159
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 13,
         "faces": 12,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          187.33209529624133,
-          217.33209529624133
+          182,
+          206
         ],
-        "height": 2.8206000328063965
+        "mode": "single_cylinder_side"
       }
     ],
     "WT_hatch_02": [
@@ -2760,10 +5990,10 @@
           1
         ],
         "luminance": [
-          207.50162273567878,
-          237.50162273567878
+          218,
+          248
         ],
-        "height": 2.9096999168395996
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
@@ -2773,10 +6003,10 @@
           1
         ],
         "luminance": [
-          143.77695846714127,
-          173.77695846714127
+          182,
+          206
         ],
-        "height": 2.7351999282836914
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 2,
@@ -2786,10 +6016,10 @@
           1
         ],
         "luminance": [
-          183.83011044120497,
-          213.83011044120497
+          188,
+          218
         ],
-        "height": 2.801800012588501
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 3,
@@ -2799,10 +6029,10 @@
           1
         ],
         "luminance": [
-          199.74431655422768,
-          229.74431655422768
+          188,
+          218
         ],
-        "height": 2.8958001136779785
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 4,
@@ -2812,10 +6042,10 @@
           1
         ],
         "luminance": [
-          202.03261254172412,
-          232.03261254172412
+          182,
+          206
         ],
-        "height": 2.9138998985290527
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 5,
@@ -2825,10 +6055,10 @@
           1
         ],
         "luminance": [
-          199.82015501653524,
-          229.82015501653524
+          182,
+          206
         ],
-        "height": 2.896399974822998
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 6,
@@ -2838,10 +6068,10 @@
           1
         ],
         "luminance": [
-          167.76065157942932,
-          197.76065157942932
+          182,
+          206
         ],
-        "height": 2.735100030899048
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 7,
@@ -2851,10 +6081,10 @@
           1
         ],
         "luminance": [
-          187.98405701833101,
-          217.98405701833101
+          182,
+          206
         ],
-        "height": 2.8241000175476074
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 8,
@@ -2864,10 +6094,10 @@
           1
         ],
         "luminance": [
-          187.98405701833101,
-          217.98405701833101
+          182,
+          206
         ],
-        "height": 2.8241000175476074
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 9,
@@ -2877,10 +6107,10 @@
           1
         ],
         "luminance": [
-          197.1468089246669,
-          227.1468089246669
+          182,
+          206
         ],
-        "height": 2.878499984741211
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 10,
@@ -2890,23 +6120,22 @@
           1
         ],
         "luminance": [
-          201.02121199948724,
-          231.02121199948724
+          182,
+          206
         ],
-        "height": 2.905900001525879
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 11,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          198.5766659393096,
-          228.5766659393096
+          182,
+          206
         ],
-        "height": 2.8870999813079834
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 12,
@@ -2916,10 +6145,10 @@
           1
         ],
         "luminance": [
-          203.7520296344945,
-          233.7520296344945
+          182,
+          206
         ],
-        "height": 2.927500009536743
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 13,
@@ -2929,10 +6158,10 @@
           1
         ],
         "luminance": [
-          201.67861933769385,
-          231.67861933769385
+          182,
+          206
         ],
-        "height": 2.911099910736084
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 14,
@@ -2942,10 +6171,10 @@
           1
         ],
         "luminance": [
-          143.1240213426932,
-          173.1240213426932
+          182,
+          206
         ],
-        "height": 2.7311999797821045
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 15,
@@ -2955,10 +6184,10 @@
           1
         ],
         "luminance": [
-          143.1240213426932,
-          173.1240213426932
+          182,
+          206
         ],
-        "height": 2.7311999797821045
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 16,
@@ -2968,10 +6197,10 @@
           1
         ],
         "luminance": [
-          187.79779492960867,
-          217.79779492960867
+          182,
+          206
         ],
-        "height": 2.8231000900268555
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 17,
@@ -2981,10 +6210,10 @@
           1
         ],
         "luminance": [
-          187.51835738496368,
-          217.51835738496368
+          182,
+          206
         ],
-        "height": 2.8215999603271484
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 18,
@@ -2994,10 +6223,10 @@
           1
         ],
         "luminance": [
-          187.79779492960867,
-          217.79779492960867
+          182,
+          206
         ],
-        "height": 2.8231000900268555
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 19,
@@ -3007,10 +6236,10 @@
           1
         ],
         "luminance": [
-          187.51835738496368,
-          217.51835738496368
+          182,
+          206
         ],
-        "height": 2.8215999603271484
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 20,
@@ -3020,10 +6249,10 @@
           1
         ],
         "luminance": [
-          186.6056109740382,
-          216.6056109740382
+          182,
+          206
         ],
-        "height": 2.816699981689453
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 21,
@@ -3033,10 +6262,10 @@
           1
         ],
         "luminance": [
-          186.30756498514558,
-          216.30756498514558
+          182,
+          206
         ],
-        "height": 2.8150999546051025
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 22,
@@ -3046,10 +6275,10 @@
           1
         ],
         "luminance": [
-          199.73165671552766,
-          229.73165671552766
+          182,
+          206
         ],
-        "height": 2.895699977874756
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 23,
@@ -3059,10 +6288,10 @@
           1
         ],
         "luminance": [
-          199.52937057858568,
-          229.52937057858568
+          182,
+          206
         ],
-        "height": 2.8940999507904053
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 24,
@@ -3072,10 +6301,10 @@
           1
         ],
         "luminance": [
-          199.46616181250502,
-          229.46616181250502
+          182,
+          206
         ],
-        "height": 2.8935999870300293
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 25,
@@ -3085,10 +6314,10 @@
           1
         ],
         "luminance": [
-          199.263875675563,
-          229.263875675563
+          182,
+          206
         ],
-        "height": 2.8919999599456787
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 26,
@@ -3098,10 +6327,10 @@
           1
         ],
         "luminance": [
-          187.1271803517099,
-          217.1271803517099
+          182,
+          206
         ],
-        "height": 2.819499969482422
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 27,
@@ -3111,10 +6340,10 @@
           1
         ],
         "luminance": [
-          186.82913436281729,
-          216.82913436281729
+          182,
+          206
         ],
-        "height": 2.8178999423980713
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 28,
@@ -3124,10 +6353,10 @@
           1
         ],
         "luminance": [
-          188.37523405158475,
-          218.37523405158475
+          182,
+          206
         ],
-        "height": 2.826200008392334
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 29,
@@ -3137,10 +6366,10 @@
           1
         ],
         "luminance": [
-          188.11444936274893,
-          218.11444936274893
+          182,
+          206
         ],
-        "height": 2.8248000144958496
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 30,
@@ -3150,10 +6379,10 @@
           1
         ],
         "luminance": [
-          188.39384249583244,
-          218.39384249583244
+          182,
+          206
         ],
-        "height": 2.8262999057769775
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 31,
@@ -3163,10 +6392,10 @@
           1
         ],
         "luminance": [
-          188.13305780699656,
-          218.13305780699656
+          182,
+          206
         ],
-        "height": 2.824899911880493
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 32,
@@ -3176,10 +6405,10 @@
           1
         ],
         "luminance": [
-          162.0840415963665,
-          192.0840415963665
+          182,
+          206
         ],
-        "height": 2.8138999938964844
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 33,
@@ -3189,10 +6418,10 @@
           1
         ],
         "luminance": [
-          188.5614961403071,
-          218.5614961403071
+          182,
+          206
         ],
-        "height": 2.827199935913086
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 34,
@@ -3202,10 +6431,10 @@
           1
         ],
         "luminance": [
-          201.261417367583,
-          231.261417367583
+          188,
+          218
         ],
-        "height": 2.9077999591827393
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 35,
@@ -3215,10 +6444,10 @@
           1
         ],
         "luminance": [
-          199.36503381527058,
-          229.36503381527058
+          188,
+          218
         ],
-        "height": 2.8928000926971436
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 36,
@@ -3228,10 +6457,10 @@
           1
         ],
         "luminance": [
-          199.07424937732102,
-          229.07424937732102
+          188,
+          218
         ],
-        "height": 2.890500068664551
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 37,
@@ -3241,10 +6470,10 @@
           1
         ],
         "luminance": [
-          201.31199643743676,
-          231.31199643743676
+          182,
+          206
         ],
-        "height": 2.9082000255584717
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 38,
@@ -3254,10 +6483,10 @@
           1
         ],
         "luminance": [
-          188.5614961403071,
-          218.5614961403071
+          182,
+          206
         ],
-        "height": 2.827199935913086
+        "mode": "single_cylinder_side"
       }
     ],
     "WT_ex_armor_03": [
@@ -3265,40 +6494,37 @@
         "patch": 0,
         "faces": 38,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          165.04580421792207,
-          195.04580421792207
+          182,
+          206
         ],
-        "height": 2.8297998905181885
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 1,
         "faces": 17,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          215.9689048620346,
-          245.9689048620346
+          182,
+          206
         ],
-        "height": 3.3162999153137207
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 2,
         "faces": 28,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          215.89541420430825,
-          245.89541420430825
+          182,
+          206
         ],
-        "height": 3.313699960708618
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 3,
@@ -3307,23 +6533,22 @@
           0
         ],
         "luminance": [
-          186.91774807520537,
-          216.91774807520537
+          164,
+          194
         ],
-        "height": 3.1375999450683594
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 4,
         "faces": 17,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          215.58448908046407,
-          245.58448908046407
+          182,
+          206
         ],
-        "height": 3.3027000427246094
+        "mode": "single_cylinder_side"
       }
     ],
     "WT_bone_commander_sight_v": [
@@ -3334,10 +6559,10 @@
           1
         ],
         "luminance": [
-          192.45549751201847,
-          222.45549751201847
+          164,
+          194
         ],
-        "height": 3.3348000049591064
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
@@ -3347,23 +6572,22 @@
           1
         ],
         "luminance": [
-          191.72581623160386,
-          221.72581623160386
+          164,
+          194
         ],
-        "height": 3.3076999187469482
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 2,
         "faces": 69,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          215.49403592979894,
-          245.49403592979894
+          182,
+          206
         ],
-        "height": 3.299499988555908
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 3,
@@ -3372,10 +6596,10 @@
           0
         ],
         "luminance": [
-          192.4109968714689,
-          222.4109968714689
+          164,
+          194
         ],
-        "height": 3.3331000804901123
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 4,
@@ -3384,10 +6608,10 @@
           1
         ],
         "luminance": [
-          216.45549751201847,
-          246.45549751201847
+          188,
+          218
         ],
-        "height": 3.3348000049591064
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 5,
@@ -3396,10 +6620,10 @@
           0
         ],
         "luminance": [
-          191.23963897074236,
-          221.23963897074236
+          164,
+          194
         ],
-        "height": 3.2904999256134033
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 6,
@@ -3408,10 +6632,10 @@
           0
         ],
         "luminance": [
-          192.36911134570056,
-          222.36911134570056
+          164,
+          194
         ],
-        "height": 3.3315000534057617
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 7,
@@ -3420,10 +6644,10 @@
           0
         ],
         "luminance": [
-          192.45288239723723,
-          222.45288239723723
+          164,
+          194
         ],
-        "height": 3.334700107574463
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 8,
@@ -3432,23 +6656,22 @@
           1
         ],
         "luminance": [
-          192.41361198625015,
-          222.41361198625015
+          164,
+          194
         ],
-        "height": 3.333199977874756
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 9,
         "faces": 36,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          213.00661472153305,
-          243.00661472153305
+          182,
+          206
         ],
-        "height": 3.2114999294281006
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 10,
@@ -3457,10 +6680,10 @@
           0
         ],
         "luminance": [
-          192.4109968714689,
-          222.4109968714689
+          164,
+          194
         ],
-        "height": 3.3331000804901123
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 11,
@@ -3469,10 +6692,10 @@
           0
         ],
         "luminance": [
-          191.49403592979894,
-          221.49403592979894
+          164,
+          194
         ],
-        "height": 3.299499988555908
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 12,
@@ -3481,10 +6704,10 @@
           1
         ],
         "luminance": [
-          215.23963897074236,
-          245.23963897074236
+          188,
+          218
         ],
-        "height": 3.2904999256134033
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 13,
@@ -3493,10 +6716,10 @@
           1
         ],
         "luminance": [
-          216.41361198625015,
-          246.41361198625015
+          188,
+          218
         ],
-        "height": 3.333199977874756
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 14,
@@ -3505,10 +6728,60 @@
           0
         ],
         "luminance": [
-          191.67776594370025,
-          221.67776594370025
+          164,
+          194
         ],
-        "height": 3.305999994277954
+        "mode": "two_tone_small_curve"
+      }
+    ],
+    "WT_wheel_r_drive": [
+      {
+        "patch": 0,
+        "faces": 37,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 20,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 2,
+        "faces": 22,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 3,
+        "faces": 22,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          74,
+          98
+        ],
+        "mode": "single_cylinder_side"
       }
     ],
     "WT_roll_08": [
@@ -3520,10 +6793,10 @@
           1
         ],
         "luminance": [
-          139.9019421285584,
-          169.9019421285584
+          112,
+          142
         ],
-        "height": 2.69350004196167
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
@@ -3532,10 +6805,10 @@
           0
         ],
         "luminance": [
-          147.4847664441834,
-          177.4847664441834
+          112,
+          142
         ],
-        "height": 2.7513999938964844
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 2,
@@ -3545,10 +6818,10 @@
           1
         ],
         "luminance": [
-          147.33083231527743,
-          177.33083231527743
+          112,
+          142
         ],
-        "height": 2.7507998943328857
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 3,
@@ -3557,23 +6830,22 @@
           0
         ],
         "luminance": [
-          139.9019421285584,
-          169.9019421285584
+          130,
+          154
         ],
-        "height": 2.69350004196167
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 4,
         "faces": 18,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          139.20821908045323,
-          169.20821908045323
+          130,
+          154
         ],
-        "height": 2.684000015258789
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 5,
@@ -3583,10 +6855,10 @@
           1
         ],
         "luminance": [
-          139.4272904330183,
-          169.4272904330183
+          112,
+          142
         ],
-        "height": 2.687000036239624
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 6,
@@ -3596,10 +6868,10 @@
           1
         ],
         "luminance": [
-          149.56254081663195,
-          179.56254081663195
+          112,
+          142
         ],
-        "height": 2.759500026702881
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 7,
@@ -3608,10 +6880,10 @@
           1
         ],
         "luminance": [
-          173.56254081663195,
-          203.56254081663195
+          136,
+          166
         ],
-        "height": 2.759500026702881
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 8,
@@ -3621,10 +6893,10 @@
           1
         ],
         "luminance": [
-          149.48560433106832,
-          179.48560433106832
+          112,
+          142
         ],
-        "height": 2.759200096130371
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 9,
@@ -3633,10 +6905,10 @@
           0
         ],
         "luminance": [
-          145.35568069543288,
-          175.35568069543288
+          112,
+          142
         ],
-        "height": 2.7430999279022217
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 10,
@@ -3645,10 +6917,10 @@
           0
         ],
         "luminance": [
-          148.58780814022984,
-          178.58780814022984
+          112,
+          142
         ],
-        "height": 2.75570011138916
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 11,
@@ -3657,10 +6929,10 @@
           0
         ],
         "luminance": [
-          146.56134514408336,
-          176.56134514408336
+          112,
+          142
         ],
-        "height": 2.74780011177063
+        "mode": "two_tone_small_curve"
       }
     ],
     "WT_roll_07": [
@@ -3671,10 +6943,10 @@
           0
         ],
         "luminance": [
-          135.80007404958903,
-          165.80007404958903
+          112,
+          142
         ],
-        "height": 2.588399887084961
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
@@ -3683,10 +6955,10 @@
           1
         ],
         "luminance": [
-          159.83011931463372,
-          189.83011931463372
+          136,
+          166
         ],
-        "height": 2.590399980545044
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 2,
@@ -3695,10 +6967,10 @@
           0
         ],
         "luminance": [
-          135.86166523125237,
-          165.86166523125237
+          112,
+          142
         ],
-        "height": 2.5924999713897705
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 3,
@@ -3707,10 +6979,10 @@
           1
         ],
         "luminance": [
-          159.8902062632158,
-          189.8902062632158
+          136,
+          166
         ],
-        "height": 2.594399929046631
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 4,
@@ -3719,10 +6991,10 @@
           0
         ],
         "luminance": [
-          135.6799001524249,
-          165.6799001524249
+          112,
+          142
         ],
-        "height": 2.580399990081787
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 5,
@@ -3731,10 +7003,10 @@
           1
         ],
         "luminance": [
-          159.7099454174696,
-          189.7099454174696
+          136,
+          166
         ],
-        "height": 2.58240008354187
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 6,
@@ -3743,10 +7015,10 @@
           0
         ],
         "luminance": [
-          135.73998710100696,
-          165.73998710100696
+          112,
+          142
         ],
-        "height": 2.584399938583374
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 7,
@@ -3755,10 +7027,10 @@
           1
         ],
         "luminance": [
-          159.77003236605168,
-          189.77003236605168
+          136,
+          166
         ],
-        "height": 2.586400032043457
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 8,
@@ -3767,10 +7039,10 @@
           0
         ],
         "luminance": [
-          135.4966344220235,
-          165.4966344220235
+          112,
+          142
         ],
-        "height": 2.56820011138916
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 9,
@@ -3779,10 +7051,10 @@
           1
         ],
         "luminance": [
-          159.52667610556085,
-          189.52667610556085
+          136,
+          166
         ],
-        "height": 2.570199966430664
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 10,
@@ -3791,10 +7063,10 @@
           0
         ],
         "luminance": [
-          135.61981320384282,
-          165.61981320384282
+          112,
+          142
         ],
-        "height": 2.5764000415802
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 11,
@@ -3803,10 +7075,10 @@
           1
         ],
         "luminance": [
-          159.64835423580627,
-          189.64835423580627
+          136,
+          166
         ],
-        "height": 2.5782999992370605
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 12,
@@ -3815,10 +7087,10 @@
           0
         ],
         "luminance": [
-          135.55972625526078,
-          165.55972625526078
+          112,
+          142
         ],
-        "height": 2.5724000930786133
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 13,
@@ -3827,10 +7099,10 @@
           1
         ],
         "luminance": [
-          159.5882672872242,
-          189.5882672872242
+          136,
+          166
         ],
-        "height": 2.5743000507354736
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 14,
@@ -3839,10 +7111,10 @@
           0
         ],
         "luminance": [
-          135.98184270992382,
-          165.98184270992382
+          112,
+          142
         ],
-        "height": 2.6005001068115234
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 15,
@@ -3851,10 +7123,10 @@
           1
         ],
         "luminance": [
-          160.0118843934612,
-          190.0118843934612
+          136,
+          166
         ],
-        "height": 2.6024999618530273
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 16,
@@ -3863,10 +7135,10 @@
           0
         ],
         "luminance": [
-          135.92175217983444,
-          165.92175217983444
+          112,
+          142
         ],
-        "height": 2.5964999198913574
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 17,
@@ -3875,10 +7147,10 @@
           1
         ],
         "luminance": [
-          159.95179744487913,
-          189.95179744487913
+          136,
+          166
         ],
-        "height": 2.5985000133514404
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 18,
@@ -3887,10 +7159,10 @@
           0
         ],
         "luminance": [
-          136.0419296585059,
-          166.0419296585059
+          112,
+          142
         ],
-        "height": 2.6045000553131104
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 19,
@@ -3899,10 +7171,252 @@
           1
         ],
         "luminance": [
-          160.07497622669845,
-          190.07497622669845
+          136,
+          166
         ],
-        "height": 2.6066999435424805
+        "mode": "two_tone_small_curve"
+      }
+    ],
+    "WT_rear_ramp": [
+      {
+        "patch": 0,
+        "faces": 18,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 1,
+        "faces": 44,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 2,
+        "faces": 7,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 3,
+        "faces": 5,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 4,
+        "faces": 105,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 5,
+        "faces": 18,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 6,
+        "faces": 50,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 7,
+        "faces": 16,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 8,
+        "faces": 21,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 9,
+        "faces": 17,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 10,
+        "faces": 10,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 11,
+        "faces": 6,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 12,
+        "faces": 7,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 13,
+        "faces": 26,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 14,
+        "faces": 17,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 15,
+        "faces": 20,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 16,
+        "faces": 16,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 17,
+        "faces": 18,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 18,
+        "faces": 5,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
+      },
+      {
+        "patch": 19,
+        "faces": 5,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          134,
+          158
+        ],
+        "mode": "single_cylinder_side"
       }
     ],
     "WT_LinkageSupport_001": [
@@ -3914,36 +7428,34 @@
           1
         ],
         "luminance": [
-          205.96835276766714,
-          235.96835276766714
+          164,
+          194
         ],
-        "height": 2.9625000953674316
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
         "faces": 30,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          205.55566616453197,
-          235.55566616453197
+          158,
+          182
         ],
-        "height": 2.9479000568389893
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 2,
         "faces": 48,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          145.81742192437224,
-          175.81742192437224
+          158,
+          182
         ],
-        "height": 2.7448999881744385
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 3,
@@ -3952,10 +7464,10 @@
           0
         ],
         "luminance": [
-          181.51326330177045,
-          211.51326330177045
+          140,
+          170
         ],
-        "height": 2.9463999271392822
+        "mode": "two_tone_small_curve"
       }
     ],
     "WT_LinkageSupport_021": [
@@ -3967,10 +7479,10 @@
           1
         ],
         "luminance": [
-          167.82595696745003,
-          197.82595696745003
+          164,
+          194
         ],
-        "height": 2.7355000972747803
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
@@ -3979,10 +7491,10 @@
           0
         ],
         "luminance": [
-          143.35255128217938,
-          173.35255128217938
+          158,
+          182
         ],
-        "height": 2.732599973678589
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 2,
@@ -3991,10 +7503,10 @@
           1
         ],
         "luminance": [
-          143.82595696745003,
-          173.82595696745003
+          140,
+          170
         ],
-        "height": 2.7355000972747803
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 3,
@@ -4003,10 +7515,10 @@
           0
         ],
         "luminance": [
-          143.82595696745003,
-          173.82595696745003
+          140,
+          170
         ],
-        "height": 2.7355000972747803
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 4,
@@ -4015,10 +7527,10 @@
           0
         ],
         "luminance": [
-          143.82595696745003,
-          173.82595696745003
+          140,
+          170
         ],
-        "height": 2.7355000972747803
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 5,
@@ -4027,10 +7539,10 @@
           0
         ],
         "luminance": [
-          143.82595696745003,
-          173.82595696745003
+          140,
+          170
         ],
-        "height": 2.7355000972747803
+        "mode": "two_tone_small_curve"
       }
     ],
     "WT_LinkageSupport_022": [
@@ -4041,10 +7553,10 @@
           0
         ],
         "luminance": [
-          161.52521091863804,
-          191.52521091863804
+          140,
+          170
         ],
-        "height": 2.8108999729156494
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
@@ -4053,22 +7565,22 @@
           0
         ],
         "luminance": [
-          162.17717264072766,
-          192.17717264072766
+          140,
+          170
         ],
-        "height": 2.8143999576568604
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 2,
         "faces": 22,
         "bands": [
-          1
+          0
         ],
         "luminance": [
-          162.17717264072766,
-          192.17717264072766
+          158,
+          182
         ],
-        "height": 2.8143999576568604
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 3,
@@ -4077,10 +7589,10 @@
           0
         ],
         "luminance": [
-          162.17717264072766,
-          192.17717264072766
+          158,
+          182
         ],
-        "height": 2.8143999576568604
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 4,
@@ -4089,10 +7601,10 @@
           0
         ],
         "luminance": [
-          161.52521091863804,
-          191.52521091863804
+          158,
+          182
         ],
-        "height": 2.8108999729156494
+        "mode": "single_cylinder_side"
       }
     ],
     "WT_LinkageSupport_025": [
@@ -4103,10 +7615,10 @@
           0
         ],
         "luminance": [
-          143.80961116115165,
-          173.80961116115165
+          140,
+          170
         ],
-        "height": 2.7353999614715576
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
@@ -4115,10 +7627,10 @@
           0
         ],
         "luminance": [
-          134.34444918588804,
-          164.34444918588804
+          140,
+          170
         ],
-        "height": 2.491499900817871
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 2,
@@ -4127,10 +7639,10 @@
           1
         ],
         "luminance": [
-          144.63744374276212,
-          174.63744374276212
+          140,
+          170
         ],
-        "height": 2.740299940109253
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 3,
@@ -4139,10 +7651,10 @@
           0
         ],
         "luminance": [
-          136.5361490188645,
-          166.5361490188645
+          140,
+          170
         ],
-        "height": 2.637399911880493
+        "mode": "two_tone_small_curve"
       }
     ],
     "WT_LinkageSupport_041": [
@@ -4153,23 +7665,22 @@
           1
         ],
         "luminance": [
-          135.76552682982253,
-          165.76552682982253
+          140,
+          170
         ],
-        "height": 2.5861001014709473
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
         "faces": 12,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          137.04673712127783,
-          167.04673712127783
+          158,
+          182
         ],
-        "height": 2.654400110244751
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 2,
@@ -4178,10 +7689,10 @@
           0
         ],
         "luminance": [
-          144.81700298092986,
-          174.81700298092986
+          140,
+          170
         ],
-        "height": 2.740999937057495
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 3,
@@ -4190,23 +7701,22 @@
           0
         ],
         "luminance": [
-          143.7443057731309,
-          173.7443057731309
+          140,
+          170
         ],
-        "height": 2.734999895095825
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 4,
         "faces": 20,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          169.53523993360054,
-          199.53523993360054
+          158,
+          182
         ],
-        "height": 2.743799924850464
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 5,
@@ -4215,10 +7725,10 @@
           0
         ],
         "luminance": [
-          134.49016281186772,
-          164.49016281186772
+          158,
+          182
         ],
-        "height": 2.501199960708618
+        "mode": "single_cylinder_side"
       }
     ],
     "WT_LinkageSupport_066": [
@@ -4229,10 +7739,10 @@
           1
         ],
         "luminance": [
-          154.43632651419978,
-          184.43632651419978
+          140,
+          170
         ],
-        "height": 2.7785000801086426
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
@@ -4242,10 +7752,10 @@
           1
         ],
         "luminance": [
-          161.15268674119335,
-          191.15268674119335
+          140,
+          170
         ],
-        "height": 2.8089001178741455
+        "mode": "two_tone_small_curve"
       }
     ],
     "WT_SmokeTube_00": [
@@ -4256,23 +7766,22 @@
           0
         ],
         "luminance": [
-          156.19931969280623,
-          186.19931969280623
+          158,
+          182
         ],
-        "height": 2.3487000465393066
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 1,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          156.27893660089345,
-          186.27893660089345
+          158,
+          182
         ],
-        "height": 2.3540000915527344
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 2,
@@ -4281,23 +7790,22 @@
           0
         ],
         "luminance": [
-          132.12120343629294,
-          162.12120343629294
+          140,
+          170
         ],
-        "height": 2.3434998989105225
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 3,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          156.0926624043295,
-          186.0926624043295
+          158,
+          182
         ],
-        "height": 2.341599941253662
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 4,
@@ -4306,10 +7814,10 @@
           1
         ],
         "luminance": [
-          132.27893660089345,
-          162.27893660089345
+          140,
+          170
         ],
-        "height": 2.3540000915527344
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 5,
@@ -4318,10 +7826,10 @@
           1
         ],
         "luminance": [
-          131.42568903760173,
-          161.42568903760173
+          140,
+          170
         ],
-        "height": 2.2971999645233154
+        "mode": "two_tone_small_curve"
       }
     ],
     "WT_SmokeTube_01": [
@@ -4329,14 +7837,13 @@
         "patch": 0,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          155.2063682728452,
-          185.2063682728452
+          158,
+          182
         ],
-        "height": 2.282599925994873
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 1,
@@ -4345,10 +7852,10 @@
           0
         ],
         "luminance": [
-          155.12675136475798,
-          185.12675136475798
+          158,
+          182
         ],
-        "height": 2.2772998809814453
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 2,
@@ -4357,10 +7864,10 @@
           0
         ],
         "luminance": [
-          131.0621588799468,
-          161.0621588799468
+          140,
+          170
         ],
-        "height": 2.2730000019073486
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 3,
@@ -4369,23 +7876,22 @@
           1
         ],
         "luminance": [
-          131.2063682728452,
-          161.2063682728452
+          140,
+          170
         ],
-        "height": 2.282599925994873
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 4,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          155.03511849955729,
-          185.03511849955729
+          158,
+          182
         ],
-        "height": 2.271199941635132
+        "mode": "single_cylinder_side"
       }
     ],
     "WT_SmokeTube_02": [
@@ -4396,10 +7902,10 @@
           0
         ],
         "luminance": [
-          131.59393392623443,
-          161.59393392623443
+          140,
+          170
         ],
-        "height": 2.3083999156951904
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
@@ -4408,10 +7914,10 @@
           0
         ],
         "luminance": [
-          155.757673278638,
-          185.757673278638
+          158,
+          182
         ],
-        "height": 2.3192999362945557
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 2,
@@ -4420,36 +7926,34 @@
           1
         ],
         "luminance": [
-          131.83278465049608,
-          161.83278465049608
+          140,
+          170
         ],
-        "height": 2.3243000507354736
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 3,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          155.56689712735226,
-          185.56689712735226
+          158,
+          182
         ],
-        "height": 2.3066000938415527
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 4,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          155.83278465049608,
-          185.83278465049608
+          158,
+          182
         ],
-        "height": 2.3243000507354736
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 5,
@@ -4458,10 +7962,10 @@
           1
         ],
         "luminance": [
-          130.60098608778074,
-          160.60098608778074
+          140,
+          170
         ],
-        "height": 2.242300033569336
+        "mode": "two_tone_small_curve"
       }
     ],
     "WT_SmokeTube_03": [
@@ -4472,23 +7976,22 @@
           0
         ],
         "luminance": [
-          132.15725847064806,
-          162.15725847064806
+          140,
+          170
         ],
-        "height": 2.345900058746338
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          156.31498805374122,
-          186.31498805374122
+          158,
+          182
         ],
-        "height": 2.3564000129699707
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 2,
@@ -4497,23 +8000,22 @@
           0
         ],
         "luminance": [
-          156.23687537873528,
-          186.23687537873528
+          158,
+          182
         ],
-        "height": 2.3512001037597656
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 3,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          156.13021809025855,
-          186.13021809025855
+          158,
+          182
         ],
-        "height": 2.344099998474121
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 4,
@@ -4522,10 +8024,10 @@
           1
         ],
         "luminance": [
-          132.31498805374122,
-          162.31498805374122
+          140,
+          170
         ],
-        "height": 2.3564000129699707
+        "mode": "two_tone_small_curve"
       }
     ],
     "WT_SmokeTube_04": [
@@ -4536,36 +8038,34 @@
           1
         ],
         "luminance": [
-          133.04355260213237,
-          163.04355260213237
+          140,
+          170
         ],
-        "height": 2.404900074005127
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 1,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          156.7596357710573,
-          186.7596357710573
+          158,
+          182
         ],
-        "height": 2.385999917984009
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 2,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          157.04355260213237,
-          187.04355260213237
+          158,
+          182
         ],
-        "height": 2.404900074005127
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 3,
@@ -4574,10 +8074,10 @@
           0
         ],
         "luminance": [
-          156.96994546335554,
-          186.96994546335554
+          158,
+          182
         ],
-        "height": 2.4000000953674316
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 4,
@@ -4586,10 +8086,10 @@
           0
         ],
         "luminance": [
-          132.7836712667916,
-          162.7836712667916
+          140,
+          170
         ],
-        "height": 2.3875999450683594
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 5,
@@ -4598,10 +8098,10 @@
           1
         ],
         "luminance": [
-          131.7141114049059,
-          161.7141114049059
+          140,
+          170
         ],
-        "height": 2.3164000511169434
+        "mode": "two_tone_small_curve"
       }
     ],
     "WT_SmokeTube_05": [
@@ -4609,27 +8109,25 @@
         "patch": 0,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          155.7171162895611,
-          185.7171162895611
+          158,
+          182
         ],
-        "height": 2.3166000843048096
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 1,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          155.98600869736012,
-          185.98600869736012
+          158,
+          182
         ],
-        "height": 2.3345000743865967
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 2,
@@ -4638,10 +8136,10 @@
           0
         ],
         "luminance": [
-          155.91089732550205,
-          185.91089732550205
+          158,
+          182
         ],
-        "height": 2.3294999599456787
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 3,
@@ -4650,10 +8148,10 @@
           0
         ],
         "luminance": [
-          131.74415308844326,
-          161.74415308844326
+          140,
+          170
         ],
-        "height": 2.3183999061584473
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 4,
@@ -4662,10 +8160,10 @@
           1
         ],
         "luminance": [
-          131.98600869736012,
-          161.98600869736012
+          140,
+          170
         ],
-        "height": 2.3345000743865967
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 5,
@@ -4674,10 +8172,10 @@
           1
         ],
         "luminance": [
-          130.73468017513963,
-          160.73468017513963
+          140,
+          170
         ],
-        "height": 2.251199960708618
+        "mode": "two_tone_small_curve"
       }
     ],
     "WT_SmokeTube_06": [
@@ -4688,10 +8186,10 @@
           0
         ],
         "luminance": [
-          155.05464845906243,
-          185.05464845906243
+          158,
+          182
         ],
-        "height": 2.2725000381469727
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 1,
@@ -4700,10 +8198,10 @@
           0
         ],
         "luminance": [
-          130.99155662582518,
-          160.99155662582518
+          140,
+          170
         ],
-        "height": 2.2683000564575195
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 2,
@@ -4712,36 +8210,34 @@
           1
         ],
         "luminance": [
-          131.1357660187236,
-          161.1357660187236
+          140,
+          170
         ],
-        "height": 2.277899980545044
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 3,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          154.96451624543568,
-          184.96451624543568
+          158,
+          182
         ],
-        "height": 2.2664999961853027
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 4,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          155.1357660187236,
-          185.1357660187236
+          158,
+          182
         ],
-        "height": 2.277899980545044
+        "mode": "single_cylinder_side"
       }
     ],
     "WT_SmokeTube_07": [
@@ -4752,10 +8248,10 @@
           0
         ],
         "luminance": [
-          156.7686504250229,
-          186.7686504250229
+          158,
+          182
         ],
-        "height": 2.3866000175476074
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 1,
@@ -4764,10 +8260,10 @@
           0
         ],
         "luminance": [
-          132.6034104210454,
-          162.6034104210454
+          140,
+          170
         ],
-        "height": 2.3756000995635986
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 2,
@@ -4776,36 +8272,34 @@
           1
         ],
         "luminance": [
-          132.84375821537367,
-          162.84375821537367
+          140,
+          170
         ],
-        "height": 2.3915998935699463
+        "mode": "two_tone_small_curve"
       },
       {
         "patch": 3,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          156.57637004065592,
-          186.57637004065592
+          158,
+          182
         ],
-        "height": 2.373800039291382
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 4,
         "faces": 24,
         "bands": [
-          0,
-          1
+          0
         ],
         "luminance": [
-          156.84375821537367,
-          186.84375821537367
+          158,
+          182
         ],
-        "height": 2.3915998935699463
+        "mode": "single_cylinder_side"
       },
       {
         "patch": 5,
@@ -4814,10 +8308,38 @@
           1
         ],
         "luminance": [
-          131.60595346485525,
-          161.60595346485525
+          140,
+          170
         ],
-        "height": 2.3092000484466553
+        "mode": "two_tone_small_curve"
+      }
+    ],
+    "WT_SmokeMount_02": [
+      {
+        "patch": 0,
+        "faces": 8,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          130,
+          154
+        ],
+        "mode": "single_cylinder_side"
+      }
+    ],
+    "WT_SmokeMount_03": [
+      {
+        "patch": 0,
+        "faces": 8,
+        "bands": [
+          0
+        ],
+        "luminance": [
+          130,
+          154
+        ],
+        "mode": "single_cylinder_side"
       }
     ]
   },
@@ -4905,17 +8427,15 @@
           905,
           906
         ],
-        "tier": 1,
+        "node": "turret_raised",
         "before": [
-          167.02610778808594,
-          197.02610778808594
+          158.0,
+          158.0
         ],
         "after": [
-          172.05612182617188,
-          202.05612182617188
-        ],
-        "roof_luminance": 196.05612563239197,
-        "ceiling": 210.78402070062722
+          218.0,
+          218.0
+        ]
       }
     ],
     "WT_ex_decor_01": [
@@ -4924,17 +8444,15 @@
         "faces": [
           0
         ],
-        "tier": 2,
+        "node": "turret_raised",
         "before": [
-          197.1257781982422,
-          202.88632202148438
+          218.0,
+          218.0
         ],
         "after": [
-          206.71847534179688,
-          209.59873962402344
-        ],
-        "roof_luminance": 196.05612563239197,
-        "ceiling": 210.78402070062722
+          218.0,
+          218.0
+        ]
       }
     ]
   },
@@ -5300,7 +8818,7 @@
       ]
     }
   ],
-  "paint_pipeline": "height -> final linear RGB corner attribute -> emission, no later gains",
+  "paint_pipeline": "authored support graph / independent pigment roles -> final linear RGB corner attribute -> emission; no absolute-height ramp",
   "meshes": 103,
   "faces": 52878,
   "shared_paint_materials": 44,

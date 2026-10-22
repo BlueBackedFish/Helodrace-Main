@@ -1,0 +1,67 @@
+{
+  "actual_png_contact_samples": {
+    "hull_roof": {
+      "visible_patch_count": 50,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 169.97780585544498
+    },
+    "driver_hatch": {
+      "visible_patch_count": 30,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 199.31997529907426
+    },
+    "rear_roof_hatch": {
+      "visible_patch_count": 10,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 197.10054308766055
+    },
+    "turret_roof": {
+      "visible_patch_count": 25,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 193.97536552672727
+    },
+    "hatch_03": {
+      "visible_patch_count": 20,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 217.96404708028888
+    },
+    "hatch_02": {
+      "visible_patch_count": 95,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 222.91577019849348
+    },
+    "commander_sight_top": {
+      "visible_patch_count": 18,
+      "boundary_patches_rejected": 0,
+      "actual_png_luminance": 217.96404708028888
+    }
+  },
+  "actual_png_contact_gaps": {
+    "hull_roof -> turret_roof": 23.99755967128229,
+    "hull_roof -> driver_hatch": 29.342169443629274,
+    "hull_roof -> rear_roof_hatch": 27.12273723221557,
+    "turret_roof -> hatch_03": 23.988681553561605,
+    "turret_roof -> hatch_02": 28.940404671766203,
+    "turret_roof -> commander_sight_top": 23.988681553561605
+  },
+  "gun_panel_pixels": {
+    "coax_port_cover": {
+      "actual_png_luminance": 217.96404708028888,
+      "expected": 218.00000142056544,
+      "pixel": [
+        590,
+        562
+      ]
+    },
+    "gun_upper_shroud": {
+      "actual_png_luminance": 217.96404708028888,
+      "expected": 218.00000142056544,
+      "pixel": [
+        601,
+        512
+      ]
+    }
+  },
+  "opaque_composite_linear_rgb_max_error": 3.522634506225586e-05,
+  "method": "Visible BVH-verified cap centroids and stable opaque 3x3 patches; compare final emission, then only direct support pairs. Independent equipment is not height sorted."
+}

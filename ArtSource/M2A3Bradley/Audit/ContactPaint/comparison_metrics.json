@@ -1,0 +1,50 @@
+{
+  "0_0": {
+    "file": "vehicle_east.png",
+    "reference_sha256": "c150f0d6d9fb35e6282ef80bb3f7a7392c280123ab884dcc936dc8fa1aed5f27",
+    "source_alpha_bbox": [
+      91,
+      273,
+      936,
+      752
+    ],
+    "comparison_visible_width": 490,
+    "scale_basis": "body without long barrel"
+  },
+  "0_1": {
+    "file": "vehicle_east.png",
+    "reference_sha256": null,
+    "source_alpha_bbox": [
+      139,
+      325,
+      913,
+      756
+    ],
+    "comparison_visible_width": 490,
+    "scale_basis": "body without long barrel"
+  },
+  "1_0": {
+    "file": "vehicle_turret.png",
+    "reference_sha256": "a532e66a91aa2a7c1d79764b99cbbd9fa160d303ff0dfae31fbe4e4370f91a1c",
+    "source_alpha_bbox": [
+      276,
+      292,
+      698,
+      706
+    ],
+    "comparison_visible_width": 490,
+    "scale_basis": "body without long barrel"
+  },
+  "1_1": {
+    "file": "turret_top_east.png",
+    "reference_sha256": null,
+    "source_alpha_bbox": [
+      339,
+      343,
+      681,
+      668
+    ],
+    "comparison_visible_width": 490,
+    "scale_basis": "body without long barrel"
+  }
+}

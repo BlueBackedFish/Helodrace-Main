@@ -3,7 +3,7 @@ from pathlib import Path
 import sys,json,hashlib,os,tempfile
 import numpy as np
 from PIL import Image,ImageDraw
-ROOT=Path(__file__).resolve().parent.parent;OUT=ROOT/'Audit/GunPanels';sys.path.insert(0,str(ROOT))
+ROOT=Path(__file__).resolve().parent.parent;OUT=ROOT/'Audit/ContactPaint';sys.path.insert(0,str(ROOT))
 cfg=json.loads((ROOT/'part_contrast.json').read_text());ref=Path(json.loads((ROOT/'rimthunder_palette_samples.json').read_text())['reference_root'])
 board=Image.new('RGB',(1100,1000),(79,79,79));d=ImageDraw.Draw(board)
 d.text((25,15),'RimThunder | same TAN tint study (not a game capture)',fill='white')
@@ -25,7 +25,7 @@ for row,(name,ours,rotate) in enumerate([('vehicle_east.png','vehicle_east.png',
         board.paste(im,(x,y),im)
         metrics[f'{row}_{col}']={'file':name if col==0 else ours,'reference_sha256':hashlib.sha256((ref/name).read_bytes()).hexdigest() if col==0 else None,'source_alpha_bbox':box,'comparison_visible_width':width,'scale_basis':'body without long barrel'}
     d.text((25,55+row*400),'Hull' if row==0 else 'Turret body, long barrel excluded',fill='white')
-d.text((25,980),'Height-first final paint; reference is a TAN study, not sampled game colors. Geometry/details differ.',fill='white')
+d.text((25,980),'Local contact contrast; reference is a TAN study, not sampled game colors. Geometry/details differ.',fill='white')
 with tempfile.TemporaryDirectory(prefix='.comparison-',dir=OUT) as staging:
     target=Path(staging)/'comparison.png';board.save(target)
     os.replace(target,OUT/'rimthunder_color_comparison.png')

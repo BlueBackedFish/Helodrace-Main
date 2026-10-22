@@ -1,4 +1,4 @@
-"""Preserve source proportions, repair requested parts and apply height-led paint."""
+"""Preserve source proportions, repair requested parts and apply contact-led paint."""
 import bpy,json,hashlib,sys,tempfile,os
 from pathlib import Path
 from mathutils import Vector
@@ -30,13 +30,13 @@ def paint_gain(m):
     rgb=[srgb(v) for v in m.diffuse_color[:3]];gain=sum(c/b for c,b in zip(rgb,base))/3
     return gain if max(abs(c-b*gain) for c,b in zip(rgb,base))<1.2 else None
 cache={};accent_regions=[]
-def new_material(part_role,z,normal):
+def new_material(part_role,normal):
     key=part_role
     if key in cache:return cache[key]
     label='RT '+part_role+' '
     m=bpy.data.materials.new(label.strip());m.use_nodes=True
     m['paint_role']=part_role;m['final_height_color']=True
-    rgb,_,_=final_paint(z,normal,part_role,1,cfg['height_first_paint'])
+    rgb,_,_=final_paint(normal,part_role,1,cfg['height_first_paint'])
     color=(*rgb,1);m.diffuse_color=color
     nodes=m.node_tree.nodes;nodes.clear();e=nodes.new('ShaderNodeEmission');e.inputs['Color'].default_value=color
     out=nodes.new('ShaderNodeOutputMaterial');m.node_tree.links.new(e.outputs[0],out.inputs[0]);cache[key]=m
@@ -54,7 +54,7 @@ for o in meshes:
             if g is None:
                 desired[pi]=old;continue
             normal=Vector(tuple(round(v,3) for v in p.normal))
-            desired[pi]=new_material(part_role,(o.matrix_world@p.center).z,normal)
+            desired[pi]=new_material(part_role,normal)
     assert all(m is not None for m in desired)
     o.data.materials.clear();slots={}
     for m in desired:
@@ -93,7 +93,7 @@ report={'mode':'targeted_turret_repairs_height_paint','geometry_source':cfg['geo
  'render_quality':quality,'recess_paint':recess_report,'cel_paint':cel_report,
  'local_panel_paint':{o.name:json.loads(o['local_panel_report']) for o in meshes if o.get('local_panel_report')!='[]'},
  'accent_regions':accent_regions,
- 'paint_pipeline':'height -> final linear RGB corner attribute -> emission, no later gains',
+ 'paint_pipeline':'authored support graph / independent pigment roles -> final linear RGB corner attribute -> emission; no absolute-height ramp',
  'meshes':len(meshes),'faces':saved_faces,
  'shared_paint_materials':len(cache),
  'stage2_geometry':'reverted_at_user_request','in_game_validation':'not_performed'}

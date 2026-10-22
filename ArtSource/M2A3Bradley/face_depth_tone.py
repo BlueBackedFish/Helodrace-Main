@@ -1,4 +1,4 @@
-"""Bake height contrast and two-tone curved patches into final unlit paint.
+"""Bake local contact contrast and surface-specific colors into unlit paint.
 
 The public function name is retained for the render callbacks. No camera- or
 part-baseline multiplier follows the final color attribute in the shader.
@@ -35,12 +35,18 @@ def apply_face_depth_tone(scene):
         cel,patch_report=patch_colors(o,role,settings)
         if patch_report:report[o.name]=patch_report
         broad=me.attributes[BROAD_ATTRIBUTE]
+        crown=[(o.matrix_world@me.vertices[v].co).z for p in me.polygons
+            if broad.data[p.index].value and p.normal.z>.85 for v in p.vertices]
+        lo,hi=(min(crown),max(crown)) if crown else (0,0)
+        palette=settings['contact_palette'];node=palette['roles'].get(role,palette['default_node'])
+        headroom=palette['nodes'][node].get('curve_headroom',0)
         adjacent=defaultdict(list)
         for p in me.polygons:
             if not broad.data[p.index].value:continue
             for v in p.vertices:
                 adjacent[tuple(round(c,5) for c in me.vertices[v].co)].append((p.normal.copy(),p.area))
         threshold=cos(radians(settings['broad_hatch_paint']['normal_smoothing_degrees']))
+        broad_settings=dict(settings,upward_normal_threshold=settings['broad_hatch_paint']['upward_normal_threshold'])
         normal_matrix=o.matrix_world.to_3x3().inverted().transposed()
         recess=me.attributes.get(RECESS_ATTRIBUTE)
         for p in me.polygons:
@@ -51,8 +57,9 @@ def apply_face_depth_tone(scene):
                 if broad.data[p.index].value:
                     normal=sum((n*a for n,a in adjacent[tuple(round(c,5) for c in co)] if n.dot(p.normal)>=threshold),Vector()).normalized()
                 normal=(normal_matrix@normal).normalized()
-                color,y,sat=final_paint((o.matrix_world@co).z,normal,paint_role or role,
-                    recess.data[p.index].value if recess else 1,settings,cel.get(p.index))
+                curve=headroom*max(0,min(1,((o.matrix_world@co).z-lo)/(hi-lo))) if broad.data[p.index].value and hi-lo>1e-6 else 0
+                color,y,sat=final_paint(normal,paint_role or role,
+                    recess.data[p.index].value if recess else 1,broad_settings if broad.data[p.index].value else settings,cel.get(p.index),curve_offset=curve)
                 if not paint_role:
                     color=tuple(mat.diffuse_color[:3]) if mat else (0,0,0)
                 colors.data[li].color=(*color,1)

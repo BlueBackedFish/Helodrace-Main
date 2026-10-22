@@ -58,6 +58,8 @@ hull_tree,hull_index=bvh([o for o in meshes if not under(o,turret)])
 top_tree,top_index=bvh([o for o in meshes if under(o,turret)])
 camera=bpy.data.objects['Camera_west']
 samples={'hull_roof':measure('WT_@root',1.98,2.16,body,camera,hull_tree,hull_index,role='hull_assembly')}
+samples['driver_hatch']=measure('WT_hatch_01',0,5,body,camera,hull_tree,hull_index,main=True,role='driver_hatch')
+samples['rear_roof_hatch']=measure('WT_hatch_05',0,5,body,camera,hull_tree,hull_index,main=True,role='rear_roof_hatch')
 data=bpy.data.cameras.new('Audit top');data.type='ORTHO';data.ortho_scale=camera.data.ortho_scale
 topcam=bpy.data.objects.new('Audit top',data);s.collection.objects.link(topcam)
 topcam.location=turret.matrix_world.translation+Vector((0,0,16));topcam.rotation_euler=(0,0,-np.pi/2)
@@ -67,8 +69,22 @@ for label,name,lo,hi,main,role in (
  ('hatch_02','WT_hatch_02',2.85,3.,True,None),
  ('commander_sight_top','WT_bone_commander_sight_v',3.28,3.4,False,None)):
     samples[label]=measure(name,lo,hi,top,topcam,top_tree,top_index,main,role)
-ys=[v['actual_png_luminance'] for v in samples.values()]
-assert all(b>a+1 for a,b in zip(ys,ys[1:])),samples
+# Compare only actual support pairs. Independent hatches/sight need no order.
+pairs=[('hull_roof','turret_roof'),('hull_roof','driver_hatch'),('hull_roof','rear_roof_hatch'),('turret_roof','hatch_03'),('turret_roof','hatch_02'),('turret_roof','commander_sight_top')]
+gaps={a+' -> '+b:samples[b]['actual_png_luminance']-samples[a]['actual_png_luminance'] for a,b in pairs}
+assert min(gaps.values())>=23,('PNG contact gap, allowing one display level for sampling',gaps)
+assert abs(samples['hatch_03']['actual_png_luminance']-samples['commander_sight_top']['actual_png_luminance'])<1
+barrel=read('barrel_top_east');panel_samples={}
+for label,name,face in [('coax_port_cover','WT_bone_gun',845),('gun_upper_shroud','WT_ex_decor_01',0)]:
+    o=bpy.data.objects[name];p=o.data.polygons[face];s.camera=topcam;bpy.context.view_layer.update()
+    v=world_to_camera_view(s,topcam,o.matrix_world@p.center);x,y=int(v.x*1024),int(v.y*1024)
+    patch=barrel[y-1:y+2,x-1:x+2];assert patch[:,:,3].min()>.999
+    actual=float(np.median([display_y(c) for c in patch[:,:,:3].reshape(-1,3)]))
+    expected=display_y(np.mean([o.data.color_attributes[COLOR_ATTRIBUTE].data[i].color[:3] for i in p.loop_indices],axis=0))
+    assert abs(actual-expected)<1.5,(name,actual,expected)
+    assert actual-samples['turret_roof']['actual_png_luminance']>=23
+    panel_samples[label]={'actual_png_luminance':actual,'expected':expected,'pixel':[x,1023-y]}
+assert abs(panel_samples['coax_port_cover']['actual_png_luminance']-panel_samples['gun_upper_shroud']['actual_png_luminance'])<1.5
 # Opaque source pixels must survive compositing without gamma/exposure changes.
 s.camera=camera;bpy.context.view_layer.update();p=world_to_camera_view(s,camera,turret.matrix_world.translation)
 dx,dy=round(p.x*1024)-512,round(p.y*1024)-512
@@ -79,7 +95,7 @@ error=float(np.max(abs(preview[mask,:3]-overlay[mask,:3])))
 assert error<.0002,error
 mask=(overlay[:,:,3]<.00001)&(body[:,:,3]>.9999)
 assert float(np.max(abs(preview[mask,:3]-body[mask,:3])))<.0002
-report={'actual_png_height_samples':samples,'opaque_composite_linear_rgb_max_error':error,
- 'method':'Visible BVH-verified cap centroids, stable opaque 3x3 pixel patches; compare final emission then assert height order.'}
-(ROOT/'Audit/GunPanels/render_validation.json').write_text(json.dumps(report,indent=2)+'\n')
-print('ACTUAL PNG HEIGHT ORDER AND COMPOSITE COLOR VALIDATION PASSED',json.dumps(report))
+report={'actual_png_contact_samples':samples,'actual_png_contact_gaps':gaps,'gun_panel_pixels':panel_samples,'opaque_composite_linear_rgb_max_error':error,
+ 'method':'Visible BVH-verified cap centroids and stable opaque 3x3 patches; compare final emission, then only direct support pairs. Independent equipment is not height sorted.'}
+(ROOT/'Audit/ContactPaint/render_validation.json').write_text(json.dumps(report,indent=2)+'\n')
+print('ACTUAL PNG CONTACT CONTRAST AND COMPOSITE COLOR VALIDATION PASSED',json.dumps(report))

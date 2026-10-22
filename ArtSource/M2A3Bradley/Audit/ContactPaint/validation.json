@@ -1,0 +1,185 @@
+{
+  "geometry_unchanged_from": "04b091e3",
+  "geometry_sha256": "c35798b5657c64e0743ccfa501bc60842ee5699f3fbf2fc1c0aeb51b56ffab77",
+  "actual_final_rgb_samples": {
+    "hull": {
+      "object": "WT_@root",
+      "faces": 110,
+      "minimum": 170.00000103264117,
+      "maximum": 170.00000103264117,
+      "area_mean": 170.00000103264117
+    },
+    "turret": {
+      "object": "WT_bone_turret",
+      "faces": 52,
+      "minimum": 194.00000168176967,
+      "maximum": 194.0000016817697,
+      "area_mean": 194.00000168176967
+    },
+    "driver_hatch": {
+      "object": "WT_hatch_01",
+      "faces": 28,
+      "minimum": 195.13332845696925,
+      "maximum": 199.98056805797646,
+      "area_mean": 198.4958377629304
+    },
+    "rear_roof_hatch": {
+      "object": "WT_hatch_05",
+      "faces": 23,
+      "minimum": 195.67475638558156,
+      "maximum": 200.0000020886469,
+      "area_mean": 198.4759433187239
+    },
+    "hatch_a": {
+      "object": "WT_hatch_02",
+      "faces": 35,
+      "minimum": 221.82488861251605,
+      "maximum": 224.00000237382395,
+      "area_mean": 223.48145702159167
+    },
+    "hatch_b": {
+      "object": "WT_hatch_03",
+      "faces": 37,
+      "minimum": 218.00000142056544,
+      "maximum": 218.00000142056544,
+      "area_mean": 218.00000142056544
+    },
+    "sight": {
+      "object": "WT_bone_commander_sight_v",
+      "faces": 24,
+      "minimum": 218.00000142056544,
+      "maximum": 218.00000142056544,
+      "area_mean": 218.00000142056544
+    },
+    "handle": {
+      "object": "WT_hatch_02",
+      "faces": 42,
+      "minimum": 248.00000177986112,
+      "maximum": 248.00000177986112,
+      "area_mean": 248.00000177986115
+    },
+    "coax_port_cover": {
+      "object": "WT_bone_gun",
+      "faces": 78,
+      "minimum": 218.00000142056544,
+      "maximum": 218.00000142056544,
+      "area_mean": 218.00000142056544
+    },
+    "gun_upper_shroud": {
+      "object": "WT_ex_decor_01",
+      "faces": 1,
+      "minimum": 218.00000142056544,
+      "maximum": 218.00000142056544,
+      "area_mean": 218.00000142056544
+    }
+  },
+  "contact_gaps": {
+    "hull -> turret": 24.00000064912851,
+    "hull -> driver_hatch": 25.133327424328087,
+    "hull -> rear_roof_hatch": 25.674755352940394,
+    "turret -> hatch_a": 27.824886930746345,
+    "turret -> hatch_b": 23.999999738795736,
+    "turret -> sight": 23.999999738795736,
+    "turret -> coax_port_cover": 23.999999738795736,
+    "turret -> gun_upper_shroud": 23.999999738795736,
+    "hatch_a -> handle": 23.999999406037176
+  },
+  "minimum_contact_gap": 23.999999406037176,
+  "independent_hatch_b_and_sight_share_color": true,
+  "independent_coax_and_gun_cover_share_color": true,
+  "single_color_cylinder_side_groups": {
+    "WT_@root": 120,
+    "WT_hatch_05": 1,
+    "WT_wheel_l_drive": 3,
+    "WT_wheel_l_back": 12,
+    "WT_wheel_r_back": 12,
+    "WT_ex_armor_01": 2,
+    "WT_ex_armor_02": 2,
+    "WT_hatch_06": 3,
+    "WT_ex_decor_r_04": 6,
+    "WT_ex_decor_l_09": 6,
+    "WT_hatch_04": 9,
+    "WT_ex_lantern_l_01": 7,
+    "WT_ex_decor_r_05": 1,
+    "WT_ex_decor_l_04": 1,
+    "WT_hatch_01": 3,
+    "WT_ex_lantern_r_01": 8,
+    "WT_wheel_r_01": 1,
+    "WT_wheel_r_02": 1,
+    "WT_wheel_r_03": 1,
+    "WT_wheel_r_04": 1,
+    "WT_wheel_r_05": 1,
+    "WT_wheel_r_06": 1,
+    "WT_wheel_l_01": 1,
+    "WT_wheel_l_02": 1,
+    "WT_wheel_l_03": 1,
+    "WT_wheel_l_04": 1,
+    "WT_wheel_l_05": 1,
+    "WT_wheel_l_06": 1,
+    "WT_bone_turret": 47,
+    "WT_bone_gun": 10,
+    "WT_gun_barrel": 17,
+    "WT_rocket_mount_01": 6,
+    "WT_roll_06": 5,
+    "WT_roll_05": 20,
+    "WT_roll_04": 1,
+    "WT_roll_02": 2,
+    "WT_ex_decor_02": 4,
+    "WT_ex_decor_03": 2,
+    "WT_hatch_03": 13,
+    "WT_hatch_02": 33,
+    "WT_ex_armor_03": 4,
+    "WT_bone_commander_sight_v": 2,
+    "WT_wheel_r_drive": 4,
+    "WT_roll_08": 2,
+    "WT_rear_ramp": 20,
+    "WT_LinkageSupport_001": 2,
+    "WT_LinkageSupport_021": 1,
+    "WT_LinkageSupport_022": 3,
+    "WT_LinkageSupport_041": 3,
+    "WT_SmokeTube_00": 3,
+    "WT_SmokeTube_01": 3,
+    "WT_SmokeTube_02": 3,
+    "WT_SmokeTube_03": 3,
+    "WT_SmokeTube_04": 3,
+    "WT_SmokeTube_05": 3,
+    "WT_SmokeTube_06": 3,
+    "WT_SmokeTube_07": 3,
+    "WT_SmokeMount_02": 1,
+    "WT_SmokeMount_03": 1
+  },
+  "broad_hatch_paint": {
+    "WT_hatch_05": {
+      "range": [
+        69.67153392676292,
+        200.0000020886469
+      ],
+      "retains_gradient": true
+    },
+    "WT_hatch_01": {
+      "range": [
+        112.23488944077617,
+        199.98056805797646
+      ],
+      "retains_gradient": true
+    },
+    "WT_hatch_03": {
+      "range": [
+        137.97620638095827,
+        218.00000142056544
+      ],
+      "retains_gradient": true
+    },
+    "WT_hatch_02": {
+      "range": [
+        136.1491212999713,
+        224.00000237382395
+      ],
+      "retains_gradient": true
+    }
+  },
+  "world_height_not_a_global_palette_input": true,
+  "independent_sight_virtual_height_shift": 0.7,
+  "all_vehicle_colors_max_error_after_virtual_height_shift": 0.0,
+  "in_game_validation": "not_performed"
+}
