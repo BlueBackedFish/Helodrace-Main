@@ -1,0 +1,23 @@
+{
+  "size": [
+    1024,
+    1024
+  ],
+  "hull_turret_anchor": [
+    465.0,
+    512.0
+  ],
+  "unrounded_hull_turret_anchor": [
+    464.92,
+    512.06
+  ],
+  "turret_top_pivot": [
+    512.0,
+    512.0
+  ],
+  "turret_full_includes_barrel": true,
+  "hull_elevation_degrees": 64,
+  "turret_elevation_degrees": 90,
+  "filter": "linear light premultiplied alpha Lanczos",
+  "outline_pixels": 0
+}

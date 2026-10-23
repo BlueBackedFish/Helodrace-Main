@@ -1,0 +1,43 @@
+{
+  "status": "exterior draft; dimensioned real-vehicle blueprint unavailable",
+  "source_hash_unchanged": true,
+  "base_meshes": 147,
+  "base_faces": 70380,
+  "base_geometry_color_parent_unchanged": true,
+  "base_transform_exceptions": [
+    "WT_ex_lantern_l_01",
+    "WT_ex_lantern_r_01"
+  ],
+  "independent_case_meshes_and_glbs": 124,
+  "counts": {
+    "M5": 55,
+    "LOWER_SKIRT": 28,
+    "M3": 18,
+    "M4": 8,
+    "M6": 7,
+    "M7": 8
+  },
+  "case_body_collision_tolerance_m": 0.002,
+  "case_body_collisions": [],
+  "mount_reach_checked": true,
+  "turret_cases_follow_yaw": 15,
+  "hull_cases_remain_fixed": 109,
+  "preserved_action_bindings": {
+    "TURRET_YAW": "TURRET_YAW_DEMO.001",
+    "GUN_ELEVATION": "GUN_ELEVATION_DEMO.001",
+    "REAR_RAMP_HINGE": "REAR_RAMP_HINGE_DEMO.001",
+    "PERSONNEL_DOOR_HINGE": "PERSONNEL_DOOR_HINGE_DEMO.001",
+    "TOW_DEPLOY": "TOW_DEPLOY_OPEN_CLOSE"
+  },
+  "glb_animation_clips": 5,
+  "glb_all_materials_unlit": true,
+  "glb_packed_grille_texture": true,
+  "engineering_dimensions_verified": false,
+  "game_validation_performed": false,
+  "target_busk_kit_inventory_verified": false,
+  "limitations": [
+    "No full animation sweep collision test",
+    "No certified family-to-location mapping",
+    "Lower skirt divisions are replica exterior observations, not XM33 inventory"
+  ]
+}

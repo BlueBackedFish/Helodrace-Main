@@ -1,0 +1,17 @@
+{
+  "source": "../EmissionTrial/TOWDeploy/bradley_tow_deploy.blend",
+  "source_sha256": "9626560c347450ddc43a292efcf3580aefeff4e916c7dd7330f8e8186eee9e44",
+  "variant": "Bradley A3 BUSK III exterior draft / provisional 96-case BRAT arrangement + extended lower skirts",
+  "units": "metres in the source-derived Blender scene",
+  "engineering_dimensions_verified": false,
+  "dimension_basis": "Source OBJ proportions and MENG SS-004/SS-006 external arrangement; no dimensioned real-vehicle installation blueprint obtained",
+  "replica_envelope_width": 3.7555,
+  "width_basis": "107.3mm at 1:35 in MENG model specification; replica-derived, not a certified full-size dimension",
+  "upper_counts": {"M3": 18, "M4": 8, "M5": 55, "M6": 7, "M7": 8},
+  "lower_skirt_columns_per_side": 14,
+  "lower_count_basis": "14 visible columns in MENG SS-004 page 19 Q1/Q12. Model as 28 removable outer skirt segments; do not call this a confirmed XM33 tile inventory",
+  "family_assignment_verified": false,
+  "target_busk_kit_inventory_verified": false,
+  "external_only": true,
+  "outline_width_at_256": 1
+}

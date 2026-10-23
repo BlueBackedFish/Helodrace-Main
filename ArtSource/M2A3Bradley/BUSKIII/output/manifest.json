@@ -1,0 +1,6009 @@
+{
+  "source": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\M2A3Bradley\\EmissionTrial\\TOWDeploy\\bradley_tow_deploy.blend",
+  "source_sha256": "9626560c347450ddc43a292efcf3580aefeff4e916c7dd7330f8e8186eee9e44",
+  "base_faces": 70380,
+  "base_meshes": 147,
+  "base_geometry_paint_parent_unchanged": true,
+  "base_transforms_unchanged_except": [
+    {
+      "object": "WT_ex_lantern_l_01",
+      "world_raise_z": 0.32,
+      "reason": "Front ERA clearance; source housing geometry and paint preserved"
+    },
+    {
+      "object": "WT_ex_lantern_r_01",
+      "world_raise_z": 0.32,
+      "reason": "Front ERA clearance; source housing geometry and paint preserved"
+    }
+  ],
+  "counts": {
+    "M5": 55,
+    "LOWER_SKIRT": 28,
+    "M3": 18,
+    "M4": 8,
+    "M6": 7,
+    "M7": 8
+  },
+  "upper_total": 96,
+  "lower_visual_segments": 28,
+  "dimension_status": "provisional: no dimensioned full-size installation blueprint",
+  "family_position_status": "photo/replica-derived; family quantities confirmed, exact mapping not certified",
+  "target_busk_kit_inventory_verified": false,
+  "objects": [
+    {
+      "name": "BRAT_M5_L_LOW_01",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        -2.619999885559082,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.361,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 6082,
+          "gap": 0.10724985599517822,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 6082,
+          "gap": 0.10724985599517822,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_LOW_01.glb"
+    },
+    {
+      "name": "BRAT_M5_L_LOW_02",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        -2.244999885559082,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.361,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1758,
+          "gap": 0.1049572229385376,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1767,
+          "gap": 0.0413898229598999,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_LOW_02.glb"
+    },
+    {
+      "name": "BRAT_M5_L_LOW_03",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        -1.8700000047683716,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.361,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1776,
+          "gap": 0.023880600929260254,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1780,
+          "gap": 0.03642117977142334,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_LOW_03.glb"
+    },
+    {
+      "name": "BRAT_M5_L_LOW_04",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        -1.4950000047683716,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.361,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1787,
+          "gap": 0.06565392017364502,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725033283233643,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_LOW_04.glb"
+    },
+    {
+      "name": "BRAT_M5_L_LOW_05",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        -1.1200000047683716,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.361,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10724985599517822,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725033283233643,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_LOW_05.glb"
+    },
+    {
+      "name": "BRAT_M5_L_LOW_06",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        -0.7450000047683716,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.361,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725033283233643,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725033283233643,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_LOW_06.glb"
+    },
+    {
+      "name": "BRAT_M5_L_LOW_07",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        -0.3700000047683716,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.361,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 5009,
+          "gap": 0.06231820583343506,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 5009,
+          "gap": 0.06231796741485596,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_LOW_07.glb"
+    },
+    {
+      "name": "BRAT_M5_L_LOW_08",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        0.004999999888241291,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.361,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 5009,
+          "gap": 0.06231796741485596,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 5009,
+          "gap": 0.06231820583343506,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_LOW_08.glb"
+    },
+    {
+      "name": "BRAT_M5_L_LOW_09",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        0.3799999952316284,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.361,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725009441375732,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10724961757659912,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_LOW_09.glb"
+    },
+    {
+      "name": "BRAT_M5_L_LOW_10",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        0.7549999952316284,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.361,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725009441375732,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725009441375732,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_LOW_10.glb"
+    },
+    {
+      "name": "BRAT_M5_L_LOW_11",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        1.1299999952316284,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.361,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725057125091553,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725033283233643,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_LOW_11.glb"
+    },
+    {
+      "name": "BRAT_M5_L_LOW_12",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        1.5049999952316284,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.361,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725033283233643,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725033283233643,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_LOW_12.glb"
+    },
+    {
+      "name": "BRAT_M5_L_LOW_13",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        1.8799999952316284,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.361,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725009441375732,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 6177,
+          "gap": 0.10725009441375732,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_LOW_13.glb"
+    },
+    {
+      "name": "BRAT_M5_L_LOW_14",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        2.255000114440918,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.361,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 6177,
+          "gap": 0.10725009441375732,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 6177,
+          "gap": 0.10724961757659912,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_LOW_14.glb"
+    },
+    {
+      "name": "BRAT_M5_L_LOW_15",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        2.630000114440918,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.361,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 6177,
+          "gap": 0.10724985599517822,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 6177,
+          "gap": 0.10724961757659912,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_LOW_15.glb"
+    },
+    {
+      "name": "BRAT_M5_L_HIGH_01",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        -0.949999988079071,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 6380,
+          "gap": 0.4796105623245239,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 6380,
+          "gap": 0.43115389347076416,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_HIGH_01.glb"
+    },
+    {
+      "name": "BRAT_M5_L_HIGH_02",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        -0.6240000128746033,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725009441375732,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7158,
+          "gap": 0.056124091148376465,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_HIGH_02.glb"
+    },
+    {
+      "name": "BRAT_M5_L_HIGH_03",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        -0.2980000078678131,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 7158,
+          "gap": 0.05612385272979736,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7158,
+          "gap": 0.056124091148376465,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_HIGH_03.glb"
+    },
+    {
+      "name": "BRAT_M5_L_HIGH_04",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        0.02800000086426735,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 7158,
+          "gap": 0.056124091148376465,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7158,
+          "gap": 0.056124091148376465,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_HIGH_04.glb"
+    },
+    {
+      "name": "BRAT_M5_L_HIGH_05",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        0.3540000021457672,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725033283233643,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725009441375732,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_HIGH_05.glb"
+    },
+    {
+      "name": "BRAT_M5_L_HIGH_06",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        0.6800000071525574,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725033283233643,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725009441375732,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_HIGH_06.glb"
+    },
+    {
+      "name": "BRAT_M5_L_HIGH_07",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        1.00600004196167,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725033283233643,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725033283233643,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_HIGH_07.glb"
+    },
+    {
+      "name": "BRAT_M5_L_HIGH_08",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        1.3320000171661377,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725033283233643,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725009441375732,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_HIGH_08.glb"
+    },
+    {
+      "name": "BRAT_M5_L_HIGH_09",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        1.6579999923706055,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10724985599517822,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.10725033283233643,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_HIGH_09.glb"
+    },
+    {
+      "name": "BRAT_M5_L_HIGH_10",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        1.9839999675750732,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 6177,
+          "gap": 0.10725009441375732,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 6177,
+          "gap": 0.10725009441375732,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_HIGH_10.glb"
+    },
+    {
+      "name": "BRAT_M5_L_HIGH_11",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        2.309999942779541,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 6177,
+          "gap": 0.10725009441375732,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 6177,
+          "gap": 0.10725009441375732,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_HIGH_11.glb"
+    },
+    {
+      "name": "BRAT_M5_L_HIGH_12",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.7577500343322754,
+        2.635999917984009,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 6177,
+          "gap": 0.10725009441375732,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 4223,
+          "gap": 0.7979589700698853,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_L_HIGH_12.glb"
+    },
+    {
+      "name": "BUSK_LOWER_L_01",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.8602499961853027,
+        -2.189642906188965,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1760,
+          "gap": 0.30364692211151123,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1771,
+          "gap": 0.23707044124603271,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_L_01.glb"
+    },
+    {
+      "name": "BUSK_LOWER_L_02",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.8602499961853027,
+        -1.8289285898208618,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1776,
+          "gap": 0.23422467708587646,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1784,
+          "gap": 0.24652469158172607,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_L_02.glb"
+    },
+    {
+      "name": "BUSK_LOWER_L_03",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.8602499961853027,
+        -1.4682142734527588,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1791,
+          "gap": 0.288110613822937,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.3122504949569702,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_L_03.glb"
+    },
+    {
+      "name": "BUSK_LOWER_L_04",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.8602499961853027,
+        -1.1074999570846558,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.3122497797012329,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.312250018119812,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_L_04.glb"
+    },
+    {
+      "name": "BUSK_LOWER_L_05",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.8602499961853027,
+        -0.7467857003211975,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.312250018119812,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.312250018119812,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_L_05.glb"
+    },
+    {
+      "name": "BUSK_LOWER_L_06",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.8602499961853027,
+        -0.38607141375541687,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1686,
+          "gap": 0.26096975803375244,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1686,
+          "gap": 0.26096951961517334,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_L_06.glb"
+    },
+    {
+      "name": "BUSK_LOWER_L_07",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.8602499961853027,
+        -0.025357142090797424,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1686,
+          "gap": 0.26096904277801514,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1686,
+          "gap": 0.26096904277801514,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_L_07.glb"
+    },
+    {
+      "name": "BUSK_LOWER_L_08",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.8602499961853027,
+        0.335357129573822,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.312250018119812,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.312250018119812,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_L_08.glb"
+    },
+    {
+      "name": "BUSK_LOWER_L_09",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.8602499961853027,
+        0.696071445941925,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.312250018119812,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.3122502565383911,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_L_09.glb"
+    },
+    {
+      "name": "BUSK_LOWER_L_10",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.8602499961853027,
+        1.0567857027053833,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.3122497797012329,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.312250018119812,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_L_10.glb"
+    },
+    {
+      "name": "BUSK_LOWER_L_11",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.8602499961853027,
+        1.4175000190734863,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.312250018119812,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.312250018119812,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_L_11.glb"
+    },
+    {
+      "name": "BUSK_LOWER_L_12",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.8602499961853027,
+        1.7782143354415894,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 2808,
+          "gap": 0.3122502565383911,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 6177,
+          "gap": 0.312250018119812,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_L_12.glb"
+    },
+    {
+      "name": "BUSK_LOWER_L_13",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.8602499961853027,
+        2.1389286518096924,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 6177,
+          "gap": 0.312250018119812,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 6177,
+          "gap": 0.3122502565383911,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_L_13.glb"
+    },
+    {
+      "name": "BUSK_LOWER_L_14",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.8602499961853027,
+        2.499642848968506,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 6177,
+          "gap": 0.3122497797012329,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 6177,
+          "gap": 0.312250018119812,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_L_14.glb"
+    },
+    {
+      "name": "BRAT_M5_R_LOW_01",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        -2.619999885559082,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.33599999999999997,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1066,
+          "gap": 0.004050135612487793,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1066,
+          "gap": 0.004049897193908691,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_LOW_01.glb"
+    },
+    {
+      "name": "BRAT_M5_R_LOW_02",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        -2.2699999809265137,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.33599999999999997,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1608,
+          "gap": 0.048018813133239746,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1066,
+          "gap": 0.004050135612487793,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_LOW_02.glb"
+    },
+    {
+      "name": "BRAT_M5_R_LOW_03",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        -1.9199999570846558,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.33599999999999997,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 666,
+          "gap": 0.025907158851623535,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1672,
+          "gap": 0.020287156105041504,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_LOW_03.glb"
+    },
+    {
+      "name": "BRAT_M5_R_LOW_04",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        -1.5700000524520874,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.33599999999999997,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1187,
+          "gap": 0.10235035419464111,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1628,
+          "gap": 0.05057871341705322,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_LOW_04.glb"
+    },
+    {
+      "name": "BRAT_M5_R_LOW_05",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        -1.2200000286102295,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.33599999999999997,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1187,
+          "gap": 0.10235059261322021,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1187,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_LOW_05.glb"
+    },
+    {
+      "name": "BRAT_M5_R_LOW_06",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        -0.8700000047683716,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.33599999999999997,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1187,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1187,
+          "gap": 0.10234987735748291,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_LOW_06.glb"
+    },
+    {
+      "name": "BRAT_M5_R_LOW_07",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        -0.5199999809265137,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.33599999999999997,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 9324,
+          "gap": 0.05769312381744385,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1187,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_LOW_07.glb"
+    },
+    {
+      "name": "BRAT_M5_R_LOW_08",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        -0.17000000178813934,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.33599999999999997,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 9324,
+          "gap": 0.05769312381744385,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 9324,
+          "gap": 0.05769312381744385,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_LOW_08.glb"
+    },
+    {
+      "name": "BRAT_M5_R_LOW_09",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        0.18000000715255737,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.33599999999999997,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 9324,
+          "gap": 0.05769312381744385,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_LOW_09.glb"
+    },
+    {
+      "name": "BRAT_M5_R_LOW_10",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        0.5299999713897705,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.33599999999999997,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10235035419464111,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_LOW_10.glb"
+    },
+    {
+      "name": "BRAT_M5_R_LOW_11",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        0.8799999952316284,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.33599999999999997,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_LOW_11.glb"
+    },
+    {
+      "name": "BRAT_M5_R_LOW_12",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        1.2300000190734863,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.33599999999999997,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10234987735748291,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10234987735748291,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_LOW_12.glb"
+    },
+    {
+      "name": "BRAT_M5_R_LOW_13",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        1.5800000429153442,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.33599999999999997,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10234963893890381,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_LOW_13.glb"
+    },
+    {
+      "name": "BRAT_M5_R_LOW_14",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        1.9299999475479126,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.33599999999999997,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_LOW_14.glb"
+    },
+    {
+      "name": "BRAT_M5_R_LOW_15",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        2.2799999713897705,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.33599999999999997,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_LOW_15.glb"
+    },
+    {
+      "name": "BRAT_M5_R_LOW_16",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        2.630000114440918,
+        1.559999942779541
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.33599999999999997,
+        0.35,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.10235059261322021,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_LOW_16.glb"
+    },
+    {
+      "name": "BRAT_M5_R_HIGH_01",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        -0.949999988079071,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1187,
+          "gap": 0.10235035419464111,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1187,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_HIGH_01.glb"
+    },
+    {
+      "name": "BRAT_M5_R_HIGH_02",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        -0.6240000128746033,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 5101,
+          "gap": 0.05152404308319092,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1187,
+          "gap": 0.10235035419464111,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_HIGH_02.glb"
+    },
+    {
+      "name": "BRAT_M5_R_HIGH_03",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        -0.2980000078678131,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 5101,
+          "gap": 0.05152451992034912,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 5101,
+          "gap": 0.05152451992034912,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_HIGH_03.glb"
+    },
+    {
+      "name": "BRAT_M5_R_HIGH_04",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        0.02800000086426735,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 5101,
+          "gap": 0.05152404308319092,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 5101,
+          "gap": 0.05152404308319092,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_HIGH_04.glb"
+    },
+    {
+      "name": "BRAT_M5_R_HIGH_05",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        0.3540000021457672,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10235035419464111,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_HIGH_05.glb"
+    },
+    {
+      "name": "BRAT_M5_R_HIGH_06",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        0.6800000071525574,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10234987735748291,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_HIGH_06.glb"
+    },
+    {
+      "name": "BRAT_M5_R_HIGH_07",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        1.00600004196167,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10234987735748291,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_HIGH_07.glb"
+    },
+    {
+      "name": "BRAT_M5_R_HIGH_08",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        1.3320000171661377,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10234987735748291,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10234987735748291,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_HIGH_08.glb"
+    },
+    {
+      "name": "BRAT_M5_R_HIGH_09",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        1.6579999923706055,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.10234987735748291,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.10234987735748291,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_HIGH_09.glb"
+    },
+    {
+      "name": "BRAT_M5_R_HIGH_10",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        1.9839999675750732,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.10235035419464111,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.10235035419464111,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_HIGH_10.glb"
+    },
+    {
+      "name": "BRAT_M5_R_HIGH_11",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        2.309999942779541,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.10235035419464111,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.10235035419464111,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_HIGH_11.glb"
+    },
+    {
+      "name": "BRAT_M5_R_HIGH_12",
+      "family": "M5",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.7577500343322754,
+        2.635999917984009,
+        1.909999966621399
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.312,
+        0.34,
+        0.24
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 4378,
+          "gap": 0.794843316078186,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.10235011577606201,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M5_R_HIGH_12.glb"
+    },
+    {
+      "name": "BUSK_LOWER_R_01",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.8602499961853027,
+        -2.189642906188965,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1608,
+          "gap": 0.23248803615570068,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1622,
+          "gap": 0.3026498556137085,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_R_01.glb"
+    },
+    {
+      "name": "BUSK_LOWER_R_02",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.8602499961853027,
+        -1.8289285898208618,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1627,
+          "gap": 0.2440730333328247,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1672,
+          "gap": 0.22170937061309814,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_R_02.glb"
+    },
+    {
+      "name": "BUSK_LOWER_R_03",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.8602499961853027,
+        -1.4682142734527588,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1187,
+          "gap": 0.3073500394821167,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1642,
+          "gap": 0.2760406732559204,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_R_03.glb"
+    },
+    {
+      "name": "BUSK_LOWER_R_04",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.8602499961853027,
+        -1.1074999570846558,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1187,
+          "gap": 0.3073502779006958,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1187,
+          "gap": 0.3073500394821167,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_R_04.glb"
+    },
+    {
+      "name": "BUSK_LOWER_R_05",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.8602499961853027,
+        -0.7467857003211975,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1187,
+          "gap": 0.3073502779006958,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1187,
+          "gap": 0.3073500394821167,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_R_05.glb"
+    },
+    {
+      "name": "BUSK_LOWER_R_06",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.8602499961853027,
+        -0.38607141375541687,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 4944,
+          "gap": 0.2563270330429077,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 4944,
+          "gap": 0.2563270330429077,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_R_06.glb"
+    },
+    {
+      "name": "BUSK_LOWER_R_07",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.8602499961853027,
+        -0.025357142090797424,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 4944,
+          "gap": 0.2563270330429077,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 4944,
+          "gap": 0.2563267946243286,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_R_07.glb"
+    },
+    {
+      "name": "BUSK_LOWER_R_08",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.8602499961853027,
+        0.335357129573822,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.3073498010635376,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.3073498010635376,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_R_08.glb"
+    },
+    {
+      "name": "BUSK_LOWER_R_09",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.8602499961853027,
+        0.696071445941925,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.3073498010635376,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.3073502779006958,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_R_09.glb"
+    },
+    {
+      "name": "BUSK_LOWER_R_10",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.8602499961853027,
+        1.0567857027053833,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.3073500394821167,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.3073498010635376,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_R_10.glb"
+    },
+    {
+      "name": "BUSK_LOWER_R_11",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.8602499961853027,
+        1.4175000190734863,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.3073500394821167,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.3073498010635376,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_R_11.glb"
+    },
+    {
+      "name": "BUSK_LOWER_R_12",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.8602499961853027,
+        1.7782143354415894,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.3073500394821167,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7165,
+          "gap": 0.3073500394821167,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_R_12.glb"
+    },
+    {
+      "name": "BUSK_LOWER_R_13",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.8602499961853027,
+        2.1389286518096924,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.3073500394821167,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.3073500394821167,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_R_13.glb"
+    },
+    {
+      "name": "BUSK_LOWER_R_14",
+      "family": "LOWER_SKIRT",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.8602499961853027,
+        2.499642848968506,
+        1.100000023841858
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "size": [
+        0.3527142857142857,
+        0.53,
+        0.035
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.3073502779006958,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1155,
+          "gap": 0.3073500394821167,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BUSK_LOWER_R_14.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_1_1",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -0.8000209331512451,
+        -3.0046792030334473,
+        1.4353846311569214
+      ],
+      "rotation": [
+        [
+          0.9999998807907104,
+          0.00034754356602206826,
+          -0.00020914367632940412
+        ],
+        [
+          -0.00040561999776400626,
+          0.8568205237388611,
+          -0.5156147480010986
+        ],
+        [
+          0.0,
+          0.5156148076057434,
+          0.8568205237388611
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 8,
+          "gap": 0.03500019631627371,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_hatch_06",
+          "face": 8,
+          "gap": 0.03500085010472109,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_1_1.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_1_2",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -0.48002761602401733,
+        -3.004873037338257,
+        1.435351848602295
+      ],
+      "rotation": [
+        [
+          0.9999998807907104,
+          0.00045733360457234085,
+          -0.0002762791991699487
+        ],
+        [
+          -0.000534307211637497,
+          0.8559374213218689,
+          -0.51707923412323
+        ],
+        [
+          0.0,
+          0.5170792937278748,
+          0.8559375405311584
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 8,
+          "gap": 0.034999692686333184,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.03499981562914667,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_1_2.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_1_3",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -0.1600276231765747,
+        -3.0049309730529785,
+        1.4354195594787598
+      ],
+      "rotation": [
+        [
+          0.9999998807907104,
+          0.00045733360457234085,
+          -0.0002762791991699487
+        ],
+        [
+          -0.000534307211637497,
+          0.8559374213218689,
+          -0.51707923412323
+        ],
+        [
+          0.0,
+          0.5170792937278748,
+          0.8559375405311584
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.03499956975998697,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.03499956975587004,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_1_3.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_1_4",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        0.15997236967086792,
+        -3.0049891471862793,
+        1.4354875087738037
+      ],
+      "rotation": [
+        [
+          0.9999998807907104,
+          0.00045733360457234085,
+          -0.0002762791991699487
+        ],
+        [
+          -0.000534307211637497,
+          0.8559374213218689,
+          -0.51707923412323
+        ],
+        [
+          0.0,
+          0.5170792937278748,
+          0.8559375405311584
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.034999897581416306,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.034999897585533235,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_1_4.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_1_5",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        0.4799235165119171,
+        -2.988415479660034,
+        1.4188162088394165
+      ],
+      "rotation": [
+        [
+          0.9999991059303284,
+          0.0011438406072556973,
+          -0.0006908375071361661
+        ],
+        [
+          -0.0013362737372517586,
+          0.8559919595718384,
+          -0.5169875621795654
+        ],
+        [
+          0.0,
+          0.5169880390167236,
+          0.8559926152229309
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0.010698023577962058,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.012033503658880562,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 7957,
+          "gap": 0.0685289177164421,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_1_5.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_1_6",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        0.7999225854873657,
+        -2.983029365539551,
+        1.4098254442214966
+      ],
+      "rotation": [
+        [
+          0.9999988675117493,
+          0.0012817394454032183,
+          -0.0007741538574919105
+        ],
+        [
+          -0.0014973877696320415,
+          0.8559826612472534,
+          -0.5170023441314697
+        ],
+        [
+          0.0,
+          0.5170028209686279,
+          0.8559837341308594
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 5343,
+          "gap": 0.03687611476747321,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1910,
+          "gap": 0.03499998109728075,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_1_6.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_2_1",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -0.8000252842903137,
+        -2.748351573944092,
+        1.5902197360992432
+      ],
+      "rotation": [
+        [
+          0.9999998807907104,
+          0.00041824387153610587,
+          -0.00025269153411500156
+        ],
+        [
+          -0.0004886521492153406,
+          0.8559131622314453,
+          -0.5171194076538086
+        ],
+        [
+          0.0,
+          0.5171195268630981,
+          0.8559131622314453
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 6,
+          "gap": 0.03499991857415674,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_hatch_06",
+          "face": 6,
+          "gap": 0.034999838480415324,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_2_1.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_2_2",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -0.48002761602401733,
+        -2.7484030723571777,
+        1.5902869701385498
+      ],
+      "rotation": [
+        [
+          0.9999998807907104,
+          0.00045733360457234085,
+          -0.0002762791991699487
+        ],
+        [
+          -0.000534307211637497,
+          0.8559374213218689,
+          -0.51707923412323
+        ],
+        [
+          0.0,
+          0.5170792937278748,
+          0.8559375405311584
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.0349998975772996,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.03500022354843435,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_2_2.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_2_3",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -0.1600276231765747,
+        -2.7484614849090576,
+        1.590355396270752
+      ],
+      "rotation": [
+        [
+          0.9999998807907104,
+          0.00045733360457234085,
+          -0.0002762791991699487
+        ],
+        [
+          -0.000534307211637497,
+          0.8559374213218689,
+          -0.51707923412323
+        ],
+        [
+          0.0,
+          0.5170792937278748,
+          0.8559375405311584
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.035000470348916624,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.035000470344799695,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_2_3.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_2_4",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        0.15997236967086792,
+        -2.7485198974609375,
+        1.590423583984375
+      ],
+      "rotation": [
+        [
+          0.9999998807907104,
+          0.00045733360457234085,
+          -0.0002762791991699487
+        ],
+        [
+          -0.000534307211637497,
+          0.8559374213218689,
+          -0.51707923412323
+        ],
+        [
+          0.0,
+          0.5170792937278748,
+          0.8559375405311584
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.03500042843528384,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.035000428439400766,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_2_4.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_2_5",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        0.4799234867095947,
+        -2.731940984725952,
+        1.5737543106079102
+      ],
+      "rotation": [
+        [
+          0.9999991059303284,
+          0.0011438406072556973,
+          -0.0006908375071361661
+        ],
+        [
+          -0.0013362737372517586,
+          0.8559919595718384,
+          -0.5169875621795654
+        ],
+        [
+          0.0,
+          0.5169880390167236,
+          0.8559926152229309
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0.010730244769391429,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.012033402144719929,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1494,
+          "gap": 0.045772982274575824,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_2_5.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_2_6",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        0.7999225854873657,
+        -2.7265419960021973,
+        1.5647398233413696
+      ],
+      "rotation": [
+        [
+          0.9999988675117493,
+          0.0012817394454032183,
+          -0.0007741538574919105
+        ],
+        [
+          -0.0014973877696320415,
+          0.8559826612472534,
+          -0.5170023441314697
+        ],
+        [
+          0.0,
+          0.5170028209686279,
+          0.8559837341308594
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 5343,
+          "gap": 0.03696717399317073,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1910,
+          "gap": 0.03500235224455572,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_2_6.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_3_1",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -0.8000291585922241,
+        -2.4998373985290527,
+        1.758318305015564
+      ],
+      "rotation": [
+        [
+          0.9999998807907104,
+          0.00041824387153610587,
+          -0.00025269153411500156
+        ],
+        [
+          -0.0004886521492153406,
+          0.8559131622314453,
+          -0.5171194076538086
+        ],
+        [
+          0.0,
+          0.5171195268630981,
+          0.8559131622314453
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0.015366300814237083,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 6,
+          "gap": 0.050365931783675544,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_hatch_06",
+          "face": 6,
+          "gap": 0.05036617858415782,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_3_1.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_3_2",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -0.4800252616405487,
+        -2.4919445514678955,
+        1.7452285289764404
+      ],
+      "rotation": [
+        [
+          0.9999998807907104,
+          0.00041824387153610587,
+          -0.00025269153411500156
+        ],
+        [
+          -0.0004886521492153406,
+          0.8559131622314453,
+          -0.5171194076538086
+        ],
+        [
+          0.0,
+          0.5171195268630981,
+          0.8559131622314453
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 6,
+          "gap": 0.03500004150873659,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_hatch_06",
+          "face": 6,
+          "gap": 0.035000041501205725,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_3_2.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_3_3",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -0.16002526879310608,
+        -2.4919981956481934,
+        1.7452912330627441
+      ],
+      "rotation": [
+        [
+          0.9999998807907104,
+          0.00041824387153610587,
+          -0.00025269153411500156
+        ],
+        [
+          -0.0004886521492153406,
+          0.8559131622314453,
+          -0.5171194076538086
+        ],
+        [
+          0.0,
+          0.5171195268630981,
+          0.8559131622314453
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 6,
+          "gap": 0.03500065431145982,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_hatch_06",
+          "face": 6,
+          "gap": 0.03500037025619185,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_3_3.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_3_4",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        0.15997236967086792,
+        -2.4920499324798584,
+        1.745358943939209
+      ],
+      "rotation": [
+        [
+          0.9999998807907104,
+          0.00045733360457234085,
+          -0.0002762791991699487
+        ],
+        [
+          -0.000534307211637497,
+          0.8559374213218689,
+          -0.51707923412323
+        ],
+        [
+          0.0,
+          0.5170792937278748,
+          0.8559375405311584
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.035000470344799695,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.03500014438601551,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_3_4.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_3_5",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        0.4799234867095947,
+        -2.4754669666290283,
+        1.7286925315856934
+      ],
+      "rotation": [
+        [
+          0.9999991059303284,
+          0.0011438406072556973,
+          -0.0006908375071361661
+        ],
+        [
+          -0.0013362737372517586,
+          0.8559919595718384,
+          -0.5169875621795654
+        ],
+        [
+          0.0,
+          0.5169880390167236,
+          0.8559926152229309
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0.010761687936636444,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.012033278977309436,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1497,
+          "gap": 0.04573658987247242,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_3_5.glb"
+    },
+    {
+      "name": "BRAT_M3_FRONT_3_6",
+      "family": "M3",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        0.7999284267425537,
+        -2.4700310230255127,
+        1.719599723815918
+      ],
+      "rotation": [
+        [
+          0.9999990463256836,
+          0.0011850163573399186,
+          -0.0007160285604186356
+        ],
+        [
+          -0.0013845434878021479,
+          0.8558887243270874,
+          -0.5171580910682678
+        ],
+        [
+          0.0,
+          0.517158567905426,
+          0.8558896780014038
+        ]
+      ],
+      "size": [
+        0.307,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1910,
+          "gap": 0.03499995660674493,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1910,
+          "gap": 0.03499995660674493,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M3_FRONT_3_6.glb"
+    },
+    {
+      "name": "BRAT_M4_SHOULDER_L_1_1",
+      "family": "M4",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.0899345874786377,
+        -2.961627960205078,
+        1.4229943752288818
+      ],
+      "rotation": [
+        [
+          0.9999992251396179,
+          0.001083112321794033,
+          -0.00065418123267591
+        ],
+        [
+          -0.001265340019017458,
+          0.8559845089912415,
+          -0.5169999599456787
+        ],
+        [
+          0.0,
+          0.5170003175735474,
+          0.8559852838516235
+        ]
+      ],
+      "size": [
+        0.24,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1910,
+          "gap": 0.034993149412011704,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1465,
+          "gap": 0.03502128187302311,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M4_SHOULDER_L_1_1.glb"
+    },
+    {
+      "name": "BRAT_M4_SHOULDER_L_1_2",
+      "family": "M4",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.3499062061309814,
+        -2.9617197513580322,
+        1.4231202602386475
+      ],
+      "rotation": [
+        [
+          0.9999983906745911,
+          0.001553594833239913,
+          -0.0009380905539728701
+        ],
+        [
+          -0.0018148473463952541,
+          0.8560457229614258,
+          -0.5168969631195068
+        ],
+        [
+          0.0,
+          0.5168978571891785,
+          0.8560470938682556
+        ]
+      ],
+      "size": [
+        0.24,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 4348,
+          "gap": 0.034999765475081546,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 4348,
+          "gap": 0.034999438580857856,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M4_SHOULDER_L_1_2.glb"
+    },
+    {
+      "name": "BRAT_M4_SHOULDER_L_2_1",
+      "family": "M4",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.089925765991211,
+        -2.7000138759613037,
+        1.5810139179229736
+      ],
+      "rotation": [
+        [
+          0.999998927116394,
+          0.0012301784008741379,
+          -0.0007429772522300482
+        ],
+        [
+          -0.001437133876606822,
+          0.855993390083313,
+          -0.5169848799705505
+        ],
+        [
+          0.0,
+          0.5169854164123535,
+          0.8559942841529846
+        ]
+      ],
+      "size": [
+        0.24,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1910,
+          "gap": 0.0349997922145171,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1910,
+          "gap": 0.03501349103826712,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M4_SHOULDER_L_2_1.glb"
+    },
+    {
+      "name": "BRAT_M4_SHOULDER_L_2_2",
+      "family": "M4",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        1.3499693870544434,
+        -2.7001094818115234,
+        1.5810892581939697
+      ],
+      "rotation": [
+        [
+          0.9999997615814209,
+          0.0005073721404187381,
+          -0.00030659843469038606
+        ],
+        [
+          -0.0005928145255893469,
+          0.8558697700500488,
+          -0.5171910524368286
+        ],
+        [
+          0.0,
+          0.5171911120414734,
+          0.8558699488639832
+        ]
+      ],
+      "size": [
+        0.24,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 4348,
+          "gap": 0.03499952287600738,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 4348,
+          "gap": 0.034957161668701,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M4_SHOULDER_L_2_2.glb"
+    },
+    {
+      "name": "BRAT_M4_SHOULDER_R_1_1",
+      "family": "M4",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.0900276899337769,
+        -2.983224868774414,
+        1.4482324123382568
+      ],
+      "rotation": [
+        [
+          0.9999998807907104,
+          0.00045733360457234085,
+          -0.0002762791991699487
+        ],
+        [
+          -0.000534307211637497,
+          0.8559374213218689,
+          -0.51707923412323
+        ],
+        [
+          0.0,
+          0.5170792937278748,
+          0.8559375405311584
+        ]
+      ],
+      "size": [
+        0.24,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.03499981562091303,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_hatch_06",
+          "face": 7,
+          "gap": 0.034999692686333184,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M4_SHOULDER_R_1_1.glb"
+    },
+    {
+      "name": "BRAT_M4_SHOULDER_R_1_2",
+      "family": "M4",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.3504652976989746,
+        -2.96065092086792,
+        1.4220153093338013
+      ],
+      "rotation": [
+        [
+          0.9999593496322632,
+          0.00772201269865036,
+          -0.004652818664908409
+        ],
+        [
+          -0.009015442803502083,
+          0.8564969301223755,
+          -0.5160733461380005
+        ],
+        [
+          0.0,
+          0.5160943269729614,
+          0.8565317392349243
+        ]
+      ],
+      "size": [
+        0.24,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1245,
+          "gap": 0.03503319074548017,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1251,
+          "gap": 0.03499970262498664,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M4_SHOULDER_R_1_2.glb"
+    },
+    {
+      "name": "BRAT_M4_SHOULDER_R_2_1",
+      "family": "M4",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.0900253057479858,
+        -2.7216382026672363,
+        1.606274127960205
+      ],
+      "rotation": [
+        [
+          0.9999998807907104,
+          0.00041824387153610587,
+          -0.00025269153411500156
+        ],
+        [
+          -0.0004886521492153406,
+          0.8559131622314453,
+          -0.5171194076538086
+        ],
+        [
+          0.0,
+          0.5171195268630981,
+          0.8559131622314453
+        ]
+      ],
+      "size": [
+        0.24,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_hatch_06",
+          "face": 6,
+          "gap": 0.035000246384641276,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_hatch_06",
+          "face": 6,
+          "gap": 0.035000246384641276,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M4_SHOULDER_R_2_1.glb"
+    },
+    {
+      "name": "BRAT_M4_SHOULDER_R_2_2",
+      "family": "M4",
+      "parent": "BUSK_HULL_KIT",
+      "case_center": [
+        -1.350338101387024,
+        -2.6988484859466553,
+        1.579749345779419
+      ],
+      "rotation": [
+        [
+          0.9999785423278809,
+          0.005604814272373915,
+          -0.0033802136313170195
+        ],
+        [
+          -0.006545210722833872,
+          0.8563045859336853,
+          -0.5164296627044678
+        ],
+        [
+          0.0,
+          0.5164406895637512,
+          0.8563229441642761
+        ]
+      ],
+      "size": [
+        0.24,
+        0.3,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_@root",
+          "face": 1243,
+          "gap": 0.035109566994009356,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_@root",
+          "face": 1247,
+          "gap": 0.03492086319315035,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M4_SHOULDER_R_2_2.glb"
+    },
+    {
+      "name": "BRAT_M6_TURRET_R_01",
+      "family": "M6",
+      "parent": "BUSK_TURRET_KIT",
+      "case_center": [
+        -1.4051899909973145,
+        -0.3499999940395355,
+        2.5875728130340576
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.48011311888694763,
+          -0.877206563949585
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.8772066831588745,
+          0.48011305928230286
+        ]
+      ],
+      "size": [
+        0.266,
+        0.34,
+        0.13
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_bone_turret",
+          "face": 730,
+          "gap": 0.05374528095126152,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_bone_turret",
+          "face": 3921,
+          "gap": 0.10632041282951832,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M6_TURRET_R_01.glb"
+    },
+    {
+      "name": "BRAT_M6_TURRET_R_02",
+      "family": "M6",
+      "parent": "BUSK_TURRET_KIT",
+      "case_center": [
+        -1.424259066581726,
+        -0.07000000029802322,
+        2.5980098247528076
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.48011311888694763,
+          -0.877206563949585
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.8772066831588745,
+          0.48011305928230286
+        ]
+      ],
+      "size": [
+        0.266,
+        0.34,
+        0.13
+      ],
+      "surface_fit_offset": 0.0404537966363132,
+      "mounts": [
+        {
+          "receiver": "WT_bone_turret",
+          "face": 730,
+          "gap": 0.07543615810573101,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_bone_turret",
+          "face": 730,
+          "gap": 0.07545984722673893,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M6_TURRET_R_02.glb"
+    },
+    {
+      "name": "BRAT_M6_TURRET_R_03",
+      "family": "M6",
+      "parent": "BUSK_TURRET_KIT",
+      "case_center": [
+        -1.3987646102905273,
+        0.20999999344348907,
+        2.5840561389923096
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.48011311888694763,
+          -0.877206563949585
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.8772066831588745,
+          0.48011305928230286
+        ]
+      ],
+      "size": [
+        0.266,
+        0.34,
+        0.13
+      ],
+      "surface_fit_offset": 0.03974938428774476,
+      "mounts": [
+        {
+          "receiver": "WT_bone_turret",
+          "face": 3386,
+          "gap": 0.07335544936358929,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_bone_turret",
+          "face": 2041,
+          "gap": 0.07474945113062859,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M6_TURRET_R_03.glb"
+    },
+    {
+      "name": "BRAT_M6_TURRET_R_04",
+      "family": "M6",
+      "parent": "BUSK_TURRET_KIT",
+      "case_center": [
+        -1.3987642526626587,
+        0.49000000953674316,
+        2.5840559005737305
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.48011311888694763,
+          -0.877206563949585
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.8772066831588745,
+          0.48011305928230286
+        ]
+      ],
+      "size": [
+        0.266,
+        0.34,
+        0.13
+      ],
+      "surface_fit_offset": 0.03936281463876366,
+      "mounts": [
+        {
+          "receiver": "WT_bone_turret",
+          "face": 32,
+          "gap": 0.07433609664440155,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_bone_turret",
+          "face": 2759,
+          "gap": 0.061664262786507607,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M6_TURRET_R_04.glb"
+    },
+    {
+      "name": "BRAT_M6_TURRET_R_05",
+      "family": "M6",
+      "parent": "BUSK_TURRET_KIT",
+      "case_center": [
+        -1.6337271928787231,
+        0.7699999809265137,
+        2.712655782699585
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.48011311888694763,
+          -0.877206563949585
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.8772066831588745,
+          0.48011305928230286
+        ]
+      ],
+      "size": [
+        0.266,
+        0.34,
+        0.13
+      ],
+      "surface_fit_offset": 0.3152125681638718,
+      "mounts": [
+        {
+          "receiver": "WT_bone_turret",
+          "face": 1057,
+          "gap": 0.17766683548688889,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_bone_turret",
+          "face": 32,
+          "gap": 0.3421497121453285,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M6_TURRET_R_05.glb"
+    },
+    {
+      "name": "BRAT_M6_TURRET_R_06",
+      "family": "M6",
+      "parent": "BUSK_TURRET_KIT",
+      "case_center": [
+        -1.6337274312973022,
+        1.0499999523162842,
+        2.712656259536743
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.48011311888694763,
+          -0.877206563949585
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.8772066831588745,
+          0.48011305928230286
+        ]
+      ],
+      "size": [
+        0.266,
+        0.34,
+        0.13
+      ],
+      "surface_fit_offset": 0.039716409415006634,
+      "mounts": [
+        {
+          "receiver": "WT_bone_turret",
+          "face": 1635,
+          "gap": 0.27031033486127853,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_bone_turret",
+          "face": 1708,
+          "gap": 0.0762066151946783,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M6_TURRET_R_06.glb"
+    },
+    {
+      "name": "BRAT_M6_TURRET_R_07",
+      "family": "M6",
+      "parent": "BUSK_TURRET_KIT",
+      "case_center": [
+        -1.5927828550338745,
+        1.3300000429153442,
+        2.690246105194092
+      ],
+      "rotation": [
+        [
+          0.0,
+          0.48011311888694763,
+          -0.877206563949585
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.8772066831588745,
+          0.48011305928230286
+        ]
+      ],
+      "size": [
+        0.266,
+        0.34,
+        0.13
+      ],
+      "surface_fit_offset": 0.4255887771844864,
+      "mounts": [
+        {
+          "receiver": "WT_bone_turret",
+          "face": 924,
+          "gap": 0.5408108159899712,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_bone_turret",
+          "face": 1424,
+          "gap": 0.38837869465351105,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M6_TURRET_R_07.glb"
+    },
+    {
+      "name": "BRAT_M7_FRONT_R_1_1",
+      "family": "M7",
+      "parent": "BUSK_TURRET_KIT",
+      "case_center": [
+        -1.121446967124939,
+        -0.6931675672531128,
+        2.477283000946045
+      ],
+      "rotation": [
+        [
+          0.800983726978302,
+          0.36613211035728455,
+          -0.4736795127391815
+        ],
+        [
+          -0.5986860394477844,
+          0.48984917998313904,
+          -0.6337371468544006
+        ],
+        [
+          0.0,
+          0.7911985516548157,
+          0.6115593910217285
+        ]
+      ],
+      "size": [
+        0.215,
+        0.195,
+        0.105
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_bone_turret",
+          "face": 390,
+          "gap": 0.03499993681907654,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_bone_turret",
+          "face": 390,
+          "gap": 0.0350002134218812,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M7_FRONT_R_1_1.glb"
+    },
+    {
+      "name": "BRAT_M7_FRONT_R_1_2",
+      "family": "M7",
+      "parent": "BUSK_TURRET_KIT",
+      "case_center": [
+        -0.8814617395401001,
+        -0.8567640781402588,
+        2.493633270263672
+      ],
+      "rotation": [
+        [
+          0.8008729815483093,
+          0.36615538597106934,
+          -0.47384878993034363
+        ],
+        [
+          -0.598834216594696,
+          0.4896913766860962,
+          -0.6337190866470337
+        ],
+        [
+          0.0,
+          0.7912853956222534,
+          0.6114469766616821
+        ]
+      ],
+      "size": [
+        0.215,
+        0.195,
+        0.105
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_bone_turret",
+          "face": 390,
+          "gap": 0.034990970976650715,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_bone_turret",
+          "face": 267,
+          "gap": 0.08101176284253597,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M7_FRONT_R_1_2.glb"
+    },
+    {
+      "name": "BRAT_M7_FRONT_R_2_1",
+      "family": "M7",
+      "parent": "BUSK_TURRET_KIT",
+      "case_center": [
+        -1.121437907218933,
+        -0.5097246170043945,
+        2.6689348220825195
+      ],
+      "rotation": [
+        [
+          0.8010976314544678,
+          0.3660166263580322,
+          -0.4735760986804962
+        ],
+        [
+          -0.598533570766449,
+          0.48988908529281616,
+          -0.6338502764701843
+        ],
+        [
+          0.0,
+          0.7912272810935974,
+          0.6115222573280334
+        ]
+      ],
+      "size": [
+        0.215,
+        0.195,
+        0.105
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_bone_turret",
+          "face": 3921,
+          "gap": 0.034999798983335495,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_bone_turret",
+          "face": 390,
+          "gap": 0.035937837325036526,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M7_FRONT_R_2_1.glb"
+    },
+    {
+      "name": "BRAT_M7_FRONT_R_2_2",
+      "family": "M7",
+      "parent": "BUSK_TURRET_KIT",
+      "case_center": [
+        -0.8814617395401001,
+        -0.6719739437103271,
+        2.6851541996002197
+      ],
+      "rotation": [
+        [
+          0.8008729815483093,
+          0.36615538597106934,
+          -0.47384878993034363
+        ],
+        [
+          -0.598834216594696,
+          0.4896913766860962,
+          -0.6337190866470337
+        ],
+        [
+          0.0,
+          0.7912853956222534,
+          0.6114469766616821
+        ]
+      ],
+      "size": [
+        0.215,
+        0.195,
+        0.105
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_bone_turret",
+          "face": 390,
+          "gap": 0.03500046953558922,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_bone_turret",
+          "face": 267,
+          "gap": 0.08058484829962254,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M7_FRONT_R_2_2.glb"
+    },
+    {
+      "name": "BRAT_M7_FRONT_L_1_1",
+      "family": "M7",
+      "parent": "BUSK_TURRET_KIT",
+      "case_center": [
+        0.21750545501708984,
+        -0.8499061465263367,
+        2.4966423511505127
+      ],
+      "rotation": [
+        [
+          0.9085508584976196,
+          -0.2751738727092743,
+          0.314348042011261
+        ],
+        [
+          0.4177742898464203,
+          0.5984318852424622,
+          -0.6836255788803101
+        ],
+        [
+          -0.0,
+          0.7524350881576538,
+          0.6586663722991943
+        ]
+      ],
+      "size": [
+        0.215,
+        0.195,
+        0.105
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_bone_turret",
+          "face": 2738,
+          "gap": 0.08414811920374632,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_bone_turret",
+          "face": 1861,
+          "gap": 0.02163212141022086,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M7_FRONT_L_1_1.glb"
+    },
+    {
+      "name": "BRAT_M7_FRONT_L_1_2",
+      "family": "M7",
+      "parent": "BUSK_TURRET_KIT",
+      "case_center": [
+        0.4575372338294983,
+        -0.7670495510101318,
+        2.4883036613464355
+      ],
+      "rotation": [
+        [
+          0.9084556698799133,
+          -0.2750728726387024,
+          0.314711332321167
+        ],
+        [
+          0.41798123717308044,
+          0.597853422164917,
+          -0.684005081653595
+        ],
+        [
+          -0.0,
+          0.7529317140579224,
+          0.6580986380577087
+        ]
+      ],
+      "size": [
+        0.215,
+        0.195,
+        0.105
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_bone_turret",
+          "face": 1861,
+          "gap": 0.03500003251247108,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_bone_turret",
+          "face": 1861,
+          "gap": 0.03499952098354697,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M7_FRONT_L_1_2.glb"
+    },
+    {
+      "name": "BRAT_M7_FRONT_L_2_1",
+      "family": "M7",
+      "parent": "BUSK_TURRET_KIT",
+      "case_center": [
+        0.21750545501708984,
+        -0.6653544306755066,
+        2.68818736076355
+      ],
+      "rotation": [
+        [
+          0.9085508584976196,
+          -0.2751738727092743,
+          0.314348042011261
+        ],
+        [
+          0.4177742898464203,
+          0.5984318852424622,
+          -0.6836255788803101
+        ],
+        [
+          -0.0,
+          0.7524350881576538,
+          0.6586663722991943
+        ]
+      ],
+      "size": [
+        0.215,
+        0.195,
+        0.105
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_bone_turret",
+          "face": 2738,
+          "gap": 0.0944429449737072,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_bone_turret",
+          "face": 1861,
+          "gap": 0.021453382214531302,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M7_FRONT_L_2_1.glb"
+    },
+    {
+      "name": "BRAT_M7_FRONT_L_2_2",
+      "family": "M7",
+      "parent": "BUSK_TURRET_KIT",
+      "case_center": [
+        0.4575265347957611,
+        -0.5828583240509033,
+        2.6798760890960693
+      ],
+      "rotation": [
+        [
+          0.9085490703582764,
+          -0.274904727935791,
+          0.3145887851715088
+        ],
+        [
+          0.4177783131599426,
+          0.5978396534919739,
+          -0.6841411590576172
+        ],
+        [
+          -0.0,
+          0.7530040740966797,
+          0.6580158472061157
+        ]
+      ],
+      "size": [
+        0.215,
+        0.195,
+        0.105
+      ],
+      "surface_fit_offset": 0,
+      "mounts": [
+        {
+          "receiver": "WT_bone_turret",
+          "face": 11,
+          "gap": 0.034999753814190626,
+          "penetration": 0.003
+        },
+        {
+          "receiver": "WT_bone_turret",
+          "face": 11,
+          "gap": 0.03500036965124309,
+          "penetration": 0.003
+        }
+      ],
+      "independent_file": "Tiles/BRAT_M7_FRONT_L_2_2.glb"
+    }
+  ],
+  "settings": {
+    "source": "../EmissionTrial/TOWDeploy/bradley_tow_deploy.blend",
+    "source_sha256": "9626560c347450ddc43a292efcf3580aefeff4e916c7dd7330f8e8186eee9e44",
+    "variant": "Bradley A3 BUSK III exterior draft / provisional 96-case BRAT arrangement + extended lower skirts",
+    "units": "metres in the source-derived Blender scene",
+    "engineering_dimensions_verified": false,
+    "dimension_basis": "Source OBJ proportions and MENG SS-004/SS-006 external arrangement; no dimensioned real-vehicle installation blueprint obtained",
+    "replica_envelope_width": 3.7555,
+    "width_basis": "107.3mm at 1:35 in MENG model specification; replica-derived, not a certified full-size dimension",
+    "upper_counts": {
+      "M3": 18,
+      "M4": 8,
+      "M5": 55,
+      "M6": 7,
+      "M7": 8
+    },
+    "lower_skirt_columns_per_side": 14,
+    "lower_count_basis": "14 visible columns in MENG SS-004 page 19 Q1/Q12. Model as 28 removable outer skirt segments; do not call this a confirmed XM33 tile inventory",
+    "family_assignment_verified": false,
+    "target_busk_kit_inventory_verified": false,
+    "external_only": true,
+    "outline_width_at_256": 1
+  }
+}

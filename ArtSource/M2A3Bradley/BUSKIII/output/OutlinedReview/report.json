@@ -1,0 +1,197 @@
+{
+  "model_sha256": "ef64c2633ee3f107b2d3d540114f6c9c8ee36e214832497fac7aca92da2145f2",
+  "source_hashes": {
+    "vehicle_east": "44ae3f16d982298db8e518679d432d2f9344d2bc37bc768cd8a23c56fefdbf6d",
+    "turret_top_east": "c61255ac15cf75b71292861dfcd381d09ce6fff2d8aae4459120336d73ea9163",
+    "barrel_top_east": "866b736f04d202443153a067fb957f1490d031f21cfb19146b35038ac7c99457",
+    "turret_top_full_east": "55748b3c3394c241ad220a9585064c5fd22fa40b43136cfcb5fe77eb66137e8a"
+  },
+  "source_raw_layers_unchanged": true,
+  "composition": "outline hull and full turret separately before original-pivot composition",
+  "opaque_source_pixels_preserved": true,
+  "outline_pixels_at_256": 1,
+  "alpha_bounds": {
+    "VF_East/256/hull_east": [
+      32,
+      69,
+      231,
+      191
+    ],
+    "VF_East/256/turret_east": [
+      82,
+      83,
+      173,
+      176
+    ],
+    "VF_East/256/barrel_east": [
+      134,
+      115,
+      214,
+      145
+    ],
+    "VF_East/256/turret_full_east": [
+      82,
+      83,
+      214,
+      176
+    ],
+    "VF_East/256/preview_east": [
+      32,
+      69,
+      231,
+      191
+    ],
+    "OutlinedReview/256/hull_east": [
+      31,
+      68,
+      232,
+      192
+    ],
+    "OutlinedReview/256/turret_east": [
+      81,
+      82,
+      174,
+      177
+    ],
+    "OutlinedReview/256/barrel_east": [
+      133,
+      114,
+      215,
+      146
+    ],
+    "OutlinedReview/256/turret_full_east": [
+      81,
+      82,
+      215,
+      177
+    ],
+    "OutlinedReview/256/preview_east": [
+      31,
+      68,
+      232,
+      192
+    ],
+    "VF_East/512/hull_east": [
+      67,
+      140,
+      459,
+      380
+    ],
+    "VF_East/512/turret_east": [
+      167,
+      169,
+      343,
+      350
+    ],
+    "VF_East/512/barrel_east": [
+      270,
+      232,
+      426,
+      288
+    ],
+    "VF_East/512/turret_full_east": [
+      167,
+      169,
+      426,
+      350
+    ],
+    "VF_East/512/preview_east": [
+      67,
+      140,
+      459,
+      380
+    ],
+    "OutlinedReview/512/hull_east": [
+      65,
+      138,
+      461,
+      382
+    ],
+    "OutlinedReview/512/turret_east": [
+      165,
+      167,
+      345,
+      352
+    ],
+    "OutlinedReview/512/barrel_east": [
+      268,
+      230,
+      428,
+      290
+    ],
+    "OutlinedReview/512/turret_full_east": [
+      165,
+      167,
+      428,
+      352
+    ],
+    "OutlinedReview/512/preview_east": [
+      65,
+      138,
+      461,
+      382
+    ],
+    "VF_East/1024/hull_east": [
+      138,
+      285,
+      914,
+      756
+    ],
+    "VF_East/1024/turret_east": [
+      339,
+      342,
+      681,
+      695
+    ],
+    "VF_East/1024/barrel_east": [
+      545,
+      469,
+      848,
+      571
+    ],
+    "VF_East/1024/turret_full_east": [
+      339,
+      342,
+      848,
+      695
+    ],
+    "VF_East/1024/preview_east": [
+      138,
+      285,
+      914,
+      756
+    ],
+    "OutlinedReview/1024/hull_east": [
+      134,
+      281,
+      918,
+      760
+    ],
+    "OutlinedReview/1024/turret_east": [
+      335,
+      338,
+      685,
+      699
+    ],
+    "OutlinedReview/1024/barrel_east": [
+      541,
+      465,
+      852,
+      575
+    ],
+    "OutlinedReview/1024/turret_full_east": [
+      335,
+      338,
+      852,
+      699
+    ],
+    "OutlinedReview/1024/preview_east": [
+      134,
+      281,
+      918,
+      760
+    ]
+  },
+  "game_drawSize": "not verified",
+  "vehicle_width_at_256": 201
+}
