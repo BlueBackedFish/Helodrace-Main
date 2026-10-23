@@ -13,6 +13,7 @@
 - `WT_LinkageSupport_025`: 위쪽 36면을 명도 230으로 밝혔다.
 - `WT_bone_turret`: 기총 옆 얕게 올라온 판의 2021/2891/2892번 3면만 230으로 밝혔다. 같은 평면에 이어져 있는 포탑 뒤쪽 지붕까지 밝히지 않는다.
 - `WT_LinkageSupport_001`: 동일 방향의 표면에 남아 있던 홈/셀 채색 차이를 제거했다. UV 이음새를 넘겨 연결된 표면을 묶어 192/156/120의 세 색으로 정돈한다. 원본 692면과 부속 형상은 유지한다.
+- `WT_roll_01`·`WT_roll_02`는 페인트 상면과 측면을 192로, `WT_roll_08`은 168로 통일했다. 광학창은 보존하며 원통 테두리 명암선을 제거했다. `FlatRolls/`에서 ce465c14와 나머지 색이 같음을 검사한다.
 - 앞서 잘못 밝힌 `WT_ex_decor_02`의 201면은 기본 팔레트로 복원했다. `WT_bone_gun` 전체 색은 직전 시험본과 같다.
 
 기총 구멍과 광학창은 원래 암색 재질을 유지한다. 위의 면 집합 밖 색상은 직전 시험 커밋 `b3fdf6f6`과 비교해 동일함을 검사했다.
@@ -27,7 +28,7 @@
 - `manifest.json`, `validation.json`: 원본 재질·기본본 파일 해시·형상·픽셀·동작 검수.
 
 실제 PNG에서 3×3 픽셀 모두 같은 면을 보는 영역만 BVH로 확인해 비교했다.
-두 시점에서 공통으로 보이는 304면의 최대 픽셀 RGB 채널 차이는 **0.0/255**였다.
+두 시점에서 공통으로 보이는 305면의 최대 픽셀 RGB 채널 차이는 **0.0/255**였다.
 지정한 두 판은 두 시점에서 각각 약 229.95 명도로 측정됐다. 실루엣·가림·안티앨리어싱 경계는 시점에 따라 달라지므로 비교에서 제외한다.
 저장된 모델은 광원 없이 투명 배경을 사용한다. 52,878면·103개 메시와 4개 애니메이션을 확인했다.
 256/512px의 선형 RGB·알파 선곱 축소와 시각 검수를 완료했으며 실제 게임 내 검증은 미실시다.
@@ -36,7 +37,7 @@
 
 1. Blender에서 `--python-exit-code 1 --python build_trial.py` 실행. `settings.json`의 기준 파일 해시와 일치할 때만 빌드한다.
 2. 별도 Blender 프로세스에서 같은 옵션으로 `render_trial.py` 실행.
-3. Blender로 `validate_trial.py`와 `check_corrections.py` 실행. 저장된 b3fdf6f6 색 기준을 다시 캡처하지 않는다.
+3. Blender로 `validate_trial.py`, `check_corrections.py`, `FlatRolls/check_rolls.py` 실행. 저장된 b3fdf6f6 색 기준을 다시 캡처하지 않는다.
 4. Pillow/numpy가 있는 Python으로 `compare_trial.py` 실행.
 
 Blender는 `C:/Program Files/Blender Foundation/Blender 5.1/blender.exe`를 사용했다.

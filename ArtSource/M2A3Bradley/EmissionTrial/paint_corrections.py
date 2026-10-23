@@ -33,6 +33,12 @@ def smooth_regions(mesh,degrees):
 
 def authored_values(obj,corrections):
     values={};report=[];repair=corrections['uniform_linkage']
+    for target in corrections.get('uniform_rolls',[]):
+        if obj.name!=target['object']:continue
+        ids=[p.index for p in obj.data.polygons if obj.data.materials[p.material_index].get('paint_role')]
+        assert ids
+        for i in ids:values[i]=target['display_luminance']
+        report.append(dict(target,name='uniform_roll_cap_and_side',faces=ids))
     if obj.name==repair['object']:
         groups=smooth_regions(obj.data,repair['smooth_angle_degrees'])
         for ids in groups:

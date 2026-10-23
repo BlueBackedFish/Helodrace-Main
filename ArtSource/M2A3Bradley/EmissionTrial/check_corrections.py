@@ -7,8 +7,10 @@ sys.path[:0]=[str(ROOT),str(OUT)]
 from height_palette import display,WEIGHTS
 from paint_corrections import allowed_faces,select_faces
 cfg=json.loads((OUT/'settings.json').read_text())['corrections']
+uniform_rolls={t['object'] for t in cfg.get('uniform_rolls',[])}
+legacy_cfg={k:v for k,v in cfg.items() if k!='uniform_rolls'}
 bpy.ops.wm.open_mainfile(filepath=str(ROOT/'RimWorld/bradley_rimworld.blend'));bpy.context.scene.frame_set(1)
-allowed=allowed_faces(bpy.context.scene,cfg)
+allowed=allowed_faces(bpy.context.scene,legacy_cfg)
 bpy.ops.wm.open_mainfile(filepath=str(OUT/'bradley_emission_trial.blend'));bpy.context.scene.frame_set(1)
 def color(obj,p):return tuple(round(c,6) for c in obj.data.materials[p.material_index].diffuse_color[:3])
 def snapshot():
@@ -31,6 +33,9 @@ before=json.loads((AUDIT/'before_colors.json').read_text());assert before['allow
 assert before['objects'].keys()==current.keys()
 changes={}
 for name,record in current.items():
+    # These three entire painted objects now have a separate ce465c14 audit;
+    # the older b3fdf6f6 snapshot cannot mask their newly requested changes.
+    if name in uniform_rolls:continue
     assert record['outside_hash']==before['objects'][name]['outside_hash'],('Unrelated paint changed',name)
     previous=before['objects'][name]['inside']
     changed=sum(tuple(rgb)!=tuple(previous[i]) for i,rgb in record['inside'].items())
@@ -63,6 +68,7 @@ validation={'compared_with':cfg['previous_trial_commit'],'only_requested_faces_c
 'wt_bone_gun_all_colors_unchanged':True,'bright_surfaces':measured,
 'handle_display_y':[min(handles),max(handles)],'linkage_001_colors':sorted({round(v) for v in values}),
 'linkage_001_coherent_regions':len(report),'wrong_previous_target_restored':True,'in_game_validation':'not_performed'}
+validation['uniform_roll_objects_checked_by']='FlatRolls/check_rolls.py'
 pose=json.loads((OUT/'camera_views.json').read_text())['closeup_front']
 s=bpy.context.scene;camera=bpy.data.objects['Camera_iso_front'];camera.location=pose['location'];camera.rotation_euler=pose['rotation_euler']
 camera.data.ortho_scale=pose['ortho_scale'];s.camera=camera;s.render.resolution_x=s.render.resolution_y=pose['size'];bpy.context.view_layer.update()

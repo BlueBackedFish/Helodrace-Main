@@ -52,6 +52,20 @@
     "reverted_wrong_target": {
       "object": "WT_ex_decor_02",
       "minimum_normal_z": 0.35
-    }
+    },
+    "uniform_rolls": [
+      {
+        "object": "WT_roll_01",
+        "display_luminance": 192
+      },
+      {
+        "object": "WT_roll_02",
+        "display_luminance": 192
+      },
+      {
+        "object": "WT_roll_08",
+        "display_luminance": 168
+      }
+    ]
   }
 }

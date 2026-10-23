@@ -39,6 +39,7 @@
   "linkage_001_coherent_regions": 92,
   "wrong_previous_target_restored": true,
   "in_game_validation": "not_performed",
+  "uniform_roll_objects_checked_by": "FlatRolls/check_rolls.py",
   "front_image_boxes": {
     "handle": [
       222.1142349243164,

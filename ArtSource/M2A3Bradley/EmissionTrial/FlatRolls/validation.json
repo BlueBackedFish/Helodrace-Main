@@ -1,0 +1,21 @@
+{
+  "compared_with": "ce465c14",
+  "other_objects_and_all_optics_unchanged": true,
+  "rolls": {
+    "WT_roll_01": {
+      "painted_faces": 354,
+      "display_y": 192,
+      "caps_and_sides_identical": true
+    },
+    "WT_roll_02": {
+      "painted_faces": 1011,
+      "display_y": 192,
+      "caps_and_sides_identical": true
+    },
+    "WT_roll_08": {
+      "painted_faces": 450,
+      "display_y": 168,
+      "caps_and_sides_identical": true
+    }
+  }
+}
