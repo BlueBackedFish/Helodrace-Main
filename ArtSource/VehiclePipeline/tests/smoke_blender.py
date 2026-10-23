@@ -1,0 +1,107 @@
+"""A second vehicle with unrelated names: end-to-end Blender integration fixture.
+
+Run with the same external Python as pipeline.py. Generated files stay in ignored
+.codex-staging; the script prints their path for visual review.
+"""
+from pathlib import Path
+import json
+import subprocess
+import sys
+import tempfile
+import shutil
+
+from PIL import Image, ImageDraw
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from pipeline import read_json, write_json
+
+
+def main():
+    staging = ROOT.parents[1]/".codex-staging"
+    staging.mkdir(exist_ok=True)
+    directory = Path(tempfile.mkdtemp(prefix="vehicle-pipeline-", dir=staging))
+    vertices, groups = [], []
+
+    def box(name, low, high):
+        start = len(vertices)+1
+        x, y, z = low
+        X, Y, Z = high
+        vertices.extend([(x, y, z), (X, y, z), (X, Y, z), (x, Y, z),
+                         (x, y, Z), (X, y, Z), (X, Y, Z), (x, Y, Z)])
+        faces = [[0, 3, 2, 1], [4, 5, 6, 7], [0, 1, 5, 4],
+                 [1, 2, 6, 5], [2, 3, 7, 6], [3, 0, 4, 7]]
+        groups.append((name, [[start+i for i in face] for face in faces]))
+
+    box("chassis", (-1.3, -2.8, .3), (1.3, 2.6, 1.2))
+    box("cupola", (-.8, -.4, 1.2), (.8, 1.0, 1.9))
+    box("lid", (-.5, -.2, 1.9), (.1, .5, 2.0))
+    box("grip", (-.4, 0, 2.0), (-.1, .1, 2.12))
+    box("pipe", (-.12, -3.1, 1.5), (.12, -.4, 1.75))
+    box("back_gate", (-1, 2.6, .4), (1, 2.7, 1.1))
+    # One planar grille, copied UVs are also tested by the regular OBJ parser unit test.
+    start = len(vertices)+1
+    vertices += [(.3, 1.3, 1.201), (1.1, 1.3, 1.201), (1.1, 2.3, 1.201), (.3, 2.3, 1.201)]
+    groups.append(("air_intake", [[start+i for i in range(4)]]))
+    source = directory/"source.obj"
+    text = ["v "+" ".join(map(str, v)) for v in vertices]
+    for name, faces in groups:
+        text.append("g "+name)
+        text += ["f "+" ".join(map(str, f)) for f in faces]
+    source.write_text("\n".join(text)+"\n", encoding="utf-8")
+    blueprint = Image.new("RGB", (600, 300), "white")
+    draw = ImageDraw.Draw(blueprint)
+    draw.text((15, 15), "Synthetic test fixture / not a real vehicle blueprint", fill="black")
+    draw.rectangle((60, 110, 540, 240), outline="black", width=3)
+    draw.rectangle((240, 55, 400, 110), outline="black", width=3)
+    blueprint.save(directory/"blueprint.png")
+    project = directory/"Fixture"
+    subprocess.run([sys.executable, str(ROOT/"pipeline.py"), "prepare", "--obj", str(source),
+                    "--blueprint", str(directory/"blueprint.png"), "--output", str(project),
+                    "--forward=-y", "--up=z"], check=True)
+    path = project/"vehicle.json"
+    profile = read_json(path)
+    profile["axes"]["confirmed"] = True
+    for i, part in enumerate(profile["parts"]):
+        part["confirmed"] = True
+        part["layer"] = "turret" if i in {1, 2, 3} else "barrel" if i == 4 else "hull"
+    profile["parts"][4].update(mode="cylinder", cylinder_axis=[0, 1, 0], side=84, cap=84, top=84, role="metal")
+    profile["parts"][6].update(mode="flat", grid={"cell_pixels": 6, "bar_fraction": .3})
+    profile["contacts"] = [{"lower": "g0001", "upper": "g0002"}, {"lower": "g0002", "upper": "g0003"}]
+    profile["rigs"] = [
+        {"id": "turret_yaw", "usage": "turret_yaw", "pivot": [0, .3, 1.2], "axis": "z",
+         "parts": ["g0001", "g0002", "g0003"], "confirmed": True, "animate": True, "angle": 30},
+        {"id": "elevation", "parent": "turret_yaw", "pivot": [0, -.4, 1.6], "axis": "x",
+         "parts": ["g0004"], "confirmed": True, "animate": True, "angle": 12},
+        {"id": "ramp", "pivot": [0, 2.6, .4], "axis": "x", "parts": ["g0005"],
+         "confirmed": True, "animate": True, "angle": 65}]
+    write_json(path, profile)
+    subprocess.run([sys.executable, str(ROOT/"pipeline.py"), "build", str(path)], check=True)
+    report = read_json(project/"output/report.json")
+    assert report["source_faces"] == report["preserved_faces"] == 37
+    assert report["mesh_count"] == 7
+    assert report["paint"]["g0001"]["top"] == 168
+    assert report["paint"]["g0002"]["top"] == 192
+    assert report["paint"]["g0003"]["top"] == 216
+    assert report["unlit_glb"] and report["postprocess_passed"]
+    assert report["lighting_max_difference_255"] == 0
+    assert report["glb_animation_count"] == 3 and report["rig_demo_angles_and_rest_return"]
+    assert [edge["actual_upward_gap"] for edge in report["contact_checks"]] == [24, 24]
+    assert report["status"] == "draft" and not report["game_verified"]
+    # Regression: authored top levels can be correct while an explicit surface override
+    # reverses the actual roof relationship. This must fail before publishing a report.
+    bad = directory/"BadContact"
+    bad.mkdir()
+    shutil.copyfile(project/"style.json", bad/"style.json")
+    profile["parts"][2]["planes"] = {"roof": 120}
+    write_json(bad/"vehicle.json", profile)
+    rejected = subprocess.run([sys.executable, str(ROOT/"pipeline.py"), "build", str(bad/"vehicle.json")],
+                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace")
+    assert rejected.returncode != 0 and "Actual upward paint reverses/weakens contact" in rejected.stdout
+    assert not (bad/"output/report.json").exists()
+    print("Rejected an actual roof-color inversion despite valid authored top levels")
+    print("SMOKE_OUTPUT="+str(project))
+
+
+if __name__ == "__main__":
+    main()

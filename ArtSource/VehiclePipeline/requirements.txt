@@ -1,0 +1,4 @@
+# Versions used for the external Python image / orchestration step.
+# Blender uses its own Python and does not need these packages installed there.
+Pillow==12.3.0
+numpy==2.3.5
