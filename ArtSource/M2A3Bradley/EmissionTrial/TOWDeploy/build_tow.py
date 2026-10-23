@@ -5,6 +5,8 @@ from mathutils import Matrix,Vector
 from pathlib import Path
 HERE=Path(__file__).resolve().parent;TRIAL=HERE.parent;ROOT=TRIAL.parent;sys.path.insert(0,str(ROOT))
 from mesh_regions import regions
+sys.path.insert(0,str(TRIAL/'GrilleGrid'))
+from grid_material import prepare_export
 cfg=json.loads((HERE/'settings.json').read_text(encoding='utf-8-sig'))
 source=TRIAL/cfg['source'];source_sha=hashlib.sha256(source.read_bytes()).hexdigest()
 bpy.ops.wm.open_mainfile(filepath=str(source));s=bpy.context.scene;s.frame_set(1)
@@ -62,6 +64,7 @@ s['tow_deployment']='Independent simplified hinge; WT_roll_04 front protective p
 bpy.ops.wm.save_as_mainfile(filepath=str(HERE/'bradley_tow_deploy.blend'),compress=True)
 def export_unlit(path):
     for m in {m.name:m for o in bpy.context.scene.objects if o.type=='MESH' for m in o.data.materials if m}.values():
+        if prepare_export(m):continue
         nodes=m.node_tree.nodes;nodes.clear();color=nodes.new('ShaderNodeRGB');color.outputs[0].default_value=m.diffuse_color
         output=nodes.new('ShaderNodeOutputMaterial');m.node_tree.links.new(color.outputs[0],output.inputs['Surface'])
     for obj in bpy.context.scene.objects:

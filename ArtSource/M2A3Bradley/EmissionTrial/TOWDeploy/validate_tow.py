@@ -64,6 +64,9 @@ for name,animations in [('bradley_tow_deploy.glb',5),('tow_launcher.glb',1)]:
         assert f.read(4)==b'glTF';f.read(8);size,kind=struct.unpack('<II',f.read(8));g=json.loads(f.read(size))
     assert len(g['animations'])==animations,(name,[a['name'] for a in g['animations']])
     assert all('KHR_materials_unlit' in m['extensions'] for m in g['materials'])
+    if name=='bradley_tow_deploy.glb':
+        grille=next(m for m in g['materials'] if m['name']=='Game grille')
+        assert 'baseColorTexture' in grille['pbrMetallicRoughness'],'Do not replace the grille grid with a solid GLB fallback'
     assert all('COLOR_0' not in p['attributes'] for m in g['meshes'] for p in m['primitives'])
     exports[name]={'animations':[a['name'] for a in g['animations']],'unlit':True}
 validation={'original_stowed_surfaces_and_colors_preserved':True,'only_fixed_bracket_faces_split':142,'total_vehicle_faces':report['source_faces'],

@@ -44218,6 +44218,78 @@
     "roof_to_slope_gap_after": 36,
     "scope": "broad exterior side slopes only; no turret-based contrast compensation"
   },
+  "grille_grid": {
+    "targets": {
+      "WT_@root": [
+        1379,
+        4393,
+        4394,
+        4396,
+        4398,
+        4399,
+        4401,
+        7097,
+        7207
+      ]
+    },
+    "planar_groups": [
+      {
+        "object": "WT_@root",
+        "faces": [
+          1379,
+          4393,
+          4394,
+          4396,
+          4398,
+          4399,
+          4401,
+          7207
+        ],
+        "u": [
+          0.9422347545623779,
+          -0.00034282938577234745,
+          0.3349529802799225
+        ],
+        "v": [
+          0.0,
+          0.9999995231628418,
+          0.0010235144291073084
+        ],
+        "normal": [
+          -0.3349531888961792,
+          -0.0009643908124417067,
+          0.942234218120575
+        ]
+      },
+      {
+        "object": "WT_@root",
+        "faces": [
+          7097
+        ],
+        "u": [
+          1.0,
+          -2.7490159038023876e-09,
+          0.00010695647506508976
+        ],
+        "v": [
+          0.0,
+          1.0,
+          2.5702192942844704e-05
+        ],
+        "normal": [
+          -0.00010695647506508976,
+          -2.5702192942844704e-05,
+          1.0
+        ]
+      }
+    ],
+    "pitch": 0.12,
+    "bar_fraction": 0.3,
+    "tile": "GrilleGrid/grille_square_tile.png",
+    "packed": true,
+    "export": "KHR_materials_unlit baseColorTexture",
+    "original_geometry_and_diffuse_colors_preserved": true
+  },
   "faces": 70380,
   "meshes": 146,
   "production_source_sha256": {
@@ -44226,7 +44298,7 @@
     "part_contrast.json": "bc4e6c91682cebad593b2b41283e0c76b8d07b46ac50f1e81fec6bc744abefa8"
   },
   "trial_only": true,
-  "grille": "Existing position-based emission stripe pattern preserved in BLEND; solid fallback in GLB.",
+  "grille": "Packed fixed-Emission square lattice, 0.12-unit pitch, preserved in unlit GLB.",
   "no_camera_or_normal_shader_input": true,
   "no_render_time_recolor": true,
   "in_game_validation": "not_performed"

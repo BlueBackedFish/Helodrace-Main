@@ -1,0 +1,13 @@
+{
+  "baseline": "d88bba54",
+  "all_146_objects_geometry_parenting_and_diffuse_colors_unchanged": true,
+  "original_uvs_unchanged": true,
+  "only_grille_shader_and_new_grille_uv_added": true,
+  "grille_faces": 9,
+  "planar_frames": 2,
+  "square_cell_pitch": 0.12,
+  "bar_fraction": 0.3,
+  "packed_emission_texture": true,
+  "glb_unlit_grid_texture_embedded": true,
+  "in_game_validation": "not_performed"
+}

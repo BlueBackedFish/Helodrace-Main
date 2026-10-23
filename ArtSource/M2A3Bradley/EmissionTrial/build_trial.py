@@ -76,6 +76,9 @@ from hull_details import apply as restore_hull_details
 hull_report=restore_hull_details(fixed)
 from side_slopes import apply as brighten_side_slopes
 slope_report=brighten_side_slopes(fixed)
+sys.path.insert(0,str(OUT/'GrilleGrid'))
+from grid_material import apply as apply_grid,prepare_export
+grid_report=apply_grid()
 meshes=[o for o in s.objects if o.type=='MESH']
 final_geometry=geometry_hash()
 final_faces=sum(len(o.data.polygons) for o in meshes)
@@ -89,6 +92,7 @@ s.render.image_settings.color_depth='16';s.eevee.taa_render_samples=cfg['samples
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'bradley_emission_trial.blend'),compress=True)
 # Export constant unlit colors through glTF's recognized RGB -> output graph.
 for m in {m.name:m for o in meshes for m in o.data.materials if m}.values():
+    if prepare_export(m):continue
     nodes=m.node_tree.nodes;nodes.clear();color=nodes.new('ShaderNodeRGB');color.outputs[0].default_value=m.diffuse_color
     output=nodes.new('ShaderNodeOutputMaterial');m.node_tree.links.new(color.outputs[0],output.inputs['Surface'])
 for obj in meshes:
@@ -106,8 +110,9 @@ report={'baseline_commit':cfg['baseline_commit'],'baseline_already_emission':Tru
 'geometry_before_requested_detail_repair':before,'source_detail_repairs':detail_report,
 'hull_detail_repairs':hull_report,
 'hull_slope_paint':slope_report,
+'grille_grid':grid_report,
 'faces':final_faces,'meshes':final_meshes,
-'production_source_sha256':sources,'trial_only':True,'grille':'Existing position-based emission stripe pattern preserved in BLEND; solid fallback in GLB.',
+'production_source_sha256':sources,'trial_only':True,'grille':'Packed fixed-Emission square lattice, 0.12-unit pitch, preserved in unlit GLB.',
 'no_camera_or_normal_shader_input':True,'no_render_time_recolor':True,'in_game_validation':'not_performed'}
 (OUT/'manifest.json').write_text(json.dumps(report,indent=2)+'\n')
 print('FIXED EMISSION TRIAL BUILT',len(materials),'fixed paint colors,',len(surface_reports),'corrected objects')

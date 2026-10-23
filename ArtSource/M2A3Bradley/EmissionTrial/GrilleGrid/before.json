@@ -1,0 +1,699 @@
+{
+  "commit": "d88bba54",
+  "objects": {
+    "WT_@root": {
+      "model": "8e9652cd79483332923842b02f807618c553ac6f2f8d55fc371ccd63dabe60e5",
+      "uvs": {
+        "Source UV": "659c4744ae62ab45e84e4e1c24e46e2e5dd98239ed77ffec3ac8958f98790bf2"
+      }
+    },
+    "WT_ex_armor_l_07": {
+      "model": "b7be7e3cc15211e8476b3d111b665179097dd02cb7334873a0499020f445f8a9",
+      "uvs": {
+        "Source UV": "432b341414b6c0d2fc3b2dab48f70d0db79089e82f0abeea8256483180231189"
+      }
+    },
+    "WT_hatch_05": {
+      "model": "15a92a39a7f6ee4bf8f9fa5b9d9bdedab0d4c3a5d3c76584a975ce35c5aea530",
+      "uvs": {}
+    },
+    "WT_wheel_l_drive": {
+      "model": "0ad808efa73e1f6e7060a0a76a6d4bebbe045a65cb7beacf92cd4a6389c3a921",
+      "uvs": {
+        "Source UV": "db437027bc4be8d1bab783ca41c8b3b0d46af8264b70857c43b11a50405f93d2"
+      }
+    },
+    "WT_wheel_l_top_02": {
+      "model": "370e7e49f29478f4889baf623a08e8378cbecfa2197515a2c446e32f3aa4e4b4",
+      "uvs": {
+        "Source UV": "16ada9e5288a5b6ac0108b76106706db110c04afd863502c4172f0714b674bc7"
+      }
+    },
+    "WT_wheel_l_back": {
+      "model": "3b2a91b5c1354dd564e38660e1801c15dad9257588103f839ee69158f28b18f1",
+      "uvs": {
+        "Source UV": "02836f25e1f85aa4061ea8ac1d3022ddd888163096e5152e7ee86e013f390c6a"
+      }
+    },
+    "WT_wheel_r_top_02": {
+      "model": "347ceb62b63cebe0c917b2da8e68fd03c289aba1e4b596578f05e1893d2333eb",
+      "uvs": {
+        "Source UV": "e7b882301e9d9889151bb4d29d94de15e303a36cc858dfbca15f22ee4357633b"
+      }
+    },
+    "WT_wheel_r_back": {
+      "model": "0cd88bcde016efb5ce19754d280fd47a8ea726b12bbb8c80f9a9cb37a2909456",
+      "uvs": {
+        "Source UV": "444a71de60f9e17ede65f3c05addb5f146dfe9e093feac83224b5c95253c8c24"
+      }
+    },
+    "WT_wheel_r_top_01": {
+      "model": "2c16cff822844699bdeaddaca0203d2aa09e9515b51f8ec545d6e24ceb539dd8",
+      "uvs": {
+        "Source UV": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "WT_wheel_r_top_03": {
+      "model": "2c16cff822844699bdeaddaca0203d2aa09e9515b51f8ec545d6e24ceb539dd8",
+      "uvs": {
+        "Source UV": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "WT_wheel_l_top_01": {
+      "model": "2c16cff822844699bdeaddaca0203d2aa09e9515b51f8ec545d6e24ceb539dd8",
+      "uvs": {
+        "Source UV": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "WT_wheel_l_top_03": {
+      "model": "2c16cff822844699bdeaddaca0203d2aa09e9515b51f8ec545d6e24ceb539dd8",
+      "uvs": {
+        "Source UV": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "WT_ex_decor_l_01": {
+      "model": "4c112af5a1e31d9be06fa48c152199baa8441489246998447221381dfe5bcb25",
+      "uvs": {}
+    },
+    "WT_ex_decor_r_01": {
+      "model": "02ed3107a8b941078a7c95c743f31f16becd0369895fc9a3338e201e46fb7c1b",
+      "uvs": {}
+    },
+    "WT_ex_decor_l_02": {
+      "model": "107dde806698fd0f2ebf7110edcb34c98e0e3c3d3fcd41ff7d600d85505a6d97",
+      "uvs": {}
+    },
+    "WT_ex_decor_r_02": {
+      "model": "17d249e90150968e3987fcb6c3e1f32f0d0762f9d75fb4401bc755e04f8f94f3",
+      "uvs": {}
+    },
+    "WT_ex_armor_01": {
+      "model": "0077917e08469c0d190dfb86127037132ba5cd85be9a59f108d714443de3c2c8",
+      "uvs": {
+        "Source UV": "0c73dc209b872c439961ff52eea3f998852b026ef1c744d303c24495c1c7e974"
+      }
+    },
+    "WT_ex_armor_02": {
+      "model": "9b02d0a25dcaa1fe16883b5a26d83f674e0c4c89a392b8f1167cf87f638a6b7b",
+      "uvs": {
+        "Source UV": "2bed2a993ae45b21968e6ad4f01461e84ac1d112df53353f19fd451fd3f4f530"
+      }
+    },
+    "WT_hatch_06": {
+      "model": "043910fefab1f17d16d479ae0e6f645a7c3186cb5659bc6c18e54764f801f5ff",
+      "uvs": {}
+    },
+    "WT_ex_decor_r_04": {
+      "model": "92caae5da218cdeacd791acb28792334b46c92b60b8c9ece6dcdacc1a173c177",
+      "uvs": {
+        "Source UV": "e528dbff557867d2b751b7079031ee15764a8217fe607e4daaf1556fa52d9aca"
+      }
+    },
+    "WT_ex_decor_l_09": {
+      "model": "78b871149b82af250a955f295d99c607f62304685bf6f982cec9c05ca2654957",
+      "uvs": {
+        "Source UV": "c490cbc88a13ad3775bbc76cedb23334a1815d0ebaddc7f16dbb96ac8d6f4c72"
+      }
+    },
+    "WT_ex_decor_r_03": {
+      "model": "e222610ba7cbe52d3f3c8eee3059dadfe66b2b84a2cbaad4a918516d1b1bbdd9",
+      "uvs": {
+        "Source UV": "b576887d0577a6342570050dbfab2604cdafdf0cc712d8fe43306a2c476cf9a9"
+      }
+    },
+    "WT_ex_decor_l_03": {
+      "model": "3c5a45c36ab81ff906563d30e79b09bdecfc7517cfa13673cd2dee0f7aa65de2",
+      "uvs": {
+        "Source UV": "3242fe8530b86571602706907bf15218ec01168739784a82d56b92947689c221"
+      }
+    },
+    "WT_hatch_04": {
+      "model": "4d9fcddc24f60883741a772dd6341377ef0f897f7a2a036e063e87a0b4b4a113",
+      "uvs": {}
+    },
+    "WT_ex_armor_l_01": {
+      "model": "eaa5cb7af393a242f63f4c0c397df10737678bd54a3e52b7e48ab460b8a795c2",
+      "uvs": {
+        "Source UV": "053b26d3bad47e8627fa0c6d9466fca401d3542136a15d82b34df467304bf080"
+      }
+    },
+    "WT_ex_armor_l_02": {
+      "model": "1723f7884ff0e80ae6b2c217779b95e3540e345285e8b5ef8e92471dc80996ff",
+      "uvs": {
+        "Source UV": "1925a77c6232735388d7bcf880146133cc4e0e93eb626cd618437de11624d925"
+      }
+    },
+    "WT_ex_armor_l_03": {
+      "model": "406215b3661d2d7728483d372dd61e8388ef62fbd7207633b1bd29bac2e0946d",
+      "uvs": {
+        "Source UV": "c73807958ee17ecc75b3a0259f29c6051cdd1926a5e6e42f60c8298f24c4a6e3"
+      }
+    },
+    "WT_ex_armor_l_04": {
+      "model": "b8148ff13d0c121d1c91c413579ce49fadb0991fdc09fdba3d1a2d606dd2b8b3",
+      "uvs": {
+        "Source UV": "8be668a59512d8d289ae68b51dc68dfe51d14613e13a6a3ecdf262da51e7eb83"
+      }
+    },
+    "WT_ex_armor_l_05": {
+      "model": "977ccfbe03868c1618c628995fd93e81632fbb3855364b27d96ae2ca565a3aca",
+      "uvs": {
+        "Source UV": "7298ff8347f2c65db62139d24df87108721602cccfd3e6a7e5cea238711efa9e"
+      }
+    },
+    "WT_ex_armor_l_06": {
+      "model": "8dc87ad213de0c959e0ffa613f701626cae85d65aa14c8b2f2c049ca7eda97a4",
+      "uvs": {
+        "Source UV": "9d9d862102048a58409bfea05e6887238d2605fe1a9000a188382d25a083b230"
+      }
+    },
+    "WT_ex_armor_r_07": {
+      "model": "f05b15b1bfc9b92cc6635582fd33379cdd3e518a44b3ac9e0888eeaf24b6c58b",
+      "uvs": {
+        "Source UV": "2337091c5568cc635774d499ea61bff3540715e00b01c957e6a8105b2c170e35"
+      }
+    },
+    "WT_ex_armor_r_01": {
+      "model": "e1cedee1542f9e6bff4be3b954cc3694f8bde2c9cdc34f9b5699acd0776dc9e9",
+      "uvs": {
+        "Source UV": "ceda538e6be9d19a3ada02477c8e4e844205d6078c76a10bc6dee9f1db6d52cc"
+      }
+    },
+    "WT_ex_armor_r_02": {
+      "model": "f1e04102462671692208f92ac515095cba21a21ffd2f77b75bb4485d905c1a56",
+      "uvs": {
+        "Source UV": "546058ea0c5a87bb4cd1091bc74a6f3da5ce1982e4792bba5575c275a4c890d2"
+      }
+    },
+    "WT_ex_armor_r_03": {
+      "model": "179a91f84a9d18499e8300542f3511ec20a43b97d7269dbf5d83cfcf0a0d814d",
+      "uvs": {
+        "Source UV": "88a653accb17f75a3c4d2ed0cf23773731955cb0e78393fb82bf79e9175f959c"
+      }
+    },
+    "WT_ex_armor_r_04": {
+      "model": "e771276e4d943bb9fa6aa652b49b77c760572bb0aa59cc43312518e348342085",
+      "uvs": {
+        "Source UV": "88a653accb17f75a3c4d2ed0cf23773731955cb0e78393fb82bf79e9175f959c"
+      }
+    },
+    "WT_ex_armor_r_05": {
+      "model": "0aeb36db7d3f6f4884990720e2adacb09229557040830d5169ef82a9767f36c9",
+      "uvs": {
+        "Source UV": "492922c1406067af24ebfed0e1937deca7c0c3ef259ed971f333d590b7bf0dfc"
+      }
+    },
+    "WT_ex_armor_r_06": {
+      "model": "dcc3f0a5efa39e73e216889a1ea1ca069e3425ae295db1eb84994fdf776beced",
+      "uvs": {
+        "Source UV": "113b290531a5c91abf8c96e231b3bd53c661cf840cca3a0a5845b11b3ad90563"
+      }
+    },
+    "WT_ex_lantern_l_01": {
+      "model": "4688935b3448bf4520bfbb6549166cc8adb9fc5d02461730163725ba326e4974",
+      "uvs": {}
+    },
+    "WT_ex_decor_r_05": {
+      "model": "8dd9f666bd20e730c47606f126f24d298be89815b7824dee7ba529c0f07062a9",
+      "uvs": {
+        "Source UV": "bc0dcd8a47b281c632c1941357c42c4bd878f3031123f843cb8367aef8d50f7e"
+      }
+    },
+    "WT_ex_decor_l_04": {
+      "model": "36582cdfd615e07b2e8e8ce9b0139ff62d0c75bca007f13a07de92cb4de92d2f",
+      "uvs": {
+        "Source UV": "d6bd6776c2a5b084c38bf97649c6c7c5c277db4ebfe950456e050d65aafbbde1"
+      }
+    },
+    "WT_hatch_01": {
+      "model": "9f58f25086c6b74488366e66bc4efb6c9ef93116986ea236e999a0531f6ab0b0",
+      "uvs": {}
+    },
+    "WT_ex_lantern_r_01": {
+      "model": "f7cb5b04724e7034a6b0232e7666714dce0f1212d841292b4808a6cac778a6a9",
+      "uvs": {}
+    },
+    "WT_ex_decor_04": {
+      "model": "d263276539ae3413994960d6513187a2018bc59c2a92ad84295b7bfdcc93b0b6",
+      "uvs": {}
+    },
+    "WT_ex_decor_l_05": {
+      "model": "5adfcc822be85ef04f82b300efdd199ee3582d7799b5e8c2e35c01b983e94cbf",
+      "uvs": {}
+    },
+    "WT_ex_decor_r_06": {
+      "model": "cb939aca59fe4bcc5f23a0e65794af42963e1945d19a34adec0f4bb28f855590",
+      "uvs": {}
+    },
+    "WT_wheel_r_01": {
+      "model": "2e181bbe04734aea4b5cedf14f0bb484651d8d91f4e56cf2132f989a2329d257",
+      "uvs": {
+        "Source UV": "ca0532bb3612fb0b2467860e117c8a223d7f4c91922261750f9054d5cc73ef77"
+      }
+    },
+    "WT_wheel_r_02": {
+      "model": "431646f3666029437a4e87eb866ee0d4f5b354a2e6bb830ca664a8d0e643163f",
+      "uvs": {
+        "Source UV": "580b46b10a504e8d63ff22d0d4d5e1114ba96b8c44d7b96c0fde4d4891a105a7"
+      }
+    },
+    "WT_wheel_r_03": {
+      "model": "c83370789a60c45b527f83d7f7d105712036ef62f429f1d69bbfdf04d9634c80",
+      "uvs": {
+        "Source UV": "c2c886a5fd67cdd6f333e3790460387b57ef4dd4fc3521969f417ffad4e05984"
+      }
+    },
+    "WT_wheel_r_04": {
+      "model": "40af74fb0064a39e8780e01652aac1bd2a1f39a010c7c6d7f6548c075452972f",
+      "uvs": {
+        "Source UV": "110f5f3266df78a2a6eff3b84e83879efa13cb74206f255e2a8904bd982cb9fc"
+      }
+    },
+    "WT_wheel_r_05": {
+      "model": "96241ad5aad2aaf0015088e4efc589124347e7922f3fc931facc1f18718d38cc",
+      "uvs": {
+        "Source UV": "ac8b8a4ae2e70dc5d7a6036110a84f46fe543b946759be2908340b438820dfab"
+      }
+    },
+    "WT_wheel_r_06": {
+      "model": "2eca6c56099014a79b6ec20239e0cb7b7df5a5c89b623d53993fc993b2537ab6",
+      "uvs": {
+        "Source UV": "bfcd5424934fb7d1e94be8ad27ed937caed21f1e22c62a60d1add3ef682171e8"
+      }
+    },
+    "WT_wheel_l_01": {
+      "model": "7a84fa2b13cf59c2d5d98e4651bb61af104bae255c460c3714768ad4d731f6f7",
+      "uvs": {
+        "Source UV": "92472496d09e29c3b909a408d0af3b72d61446c81c5f2c7738aaee694f9d874e"
+      }
+    },
+    "WT_wheel_l_02": {
+      "model": "fbd79000ecc16c421c1d97ac1ed0aa43b77f12ff7d9f570f88a2233e80243ec2",
+      "uvs": {
+        "Source UV": "7c73b0f54d142b10535569e6039878e6991ac295439d77d1c514a93bded777b4"
+      }
+    },
+    "WT_wheel_l_03": {
+      "model": "c9e20803b5dec21636d57b4e1dab3a243c54d88541e3db97965dc775ceb6a498",
+      "uvs": {
+        "Source UV": "dba42357aba6c63ef8ccad33e5ef80472511ece1e2a36eb42bdfcf8a41b98297"
+      }
+    },
+    "WT_wheel_l_04": {
+      "model": "a000601100c82797723f4844f7fa458818850f1b9d87e6876e08773cefc6f9f5",
+      "uvs": {
+        "Source UV": "e2cc89a20b6d7ec7d7565fe8ce4e3d98b849fe64986133396ae166760433dd90"
+      }
+    },
+    "WT_wheel_l_05": {
+      "model": "6de0a9298cabfc9fc9ee2bb749eeda33ce66b238f65b2e6342802ef4c04f5041",
+      "uvs": {
+        "Source UV": "0b6c5b7ae791bb3c9d8644ea90e2c10275a327d6642b4770e1cc646679b0d56f"
+      }
+    },
+    "WT_wheel_l_06": {
+      "model": "c732d09c16b9d79b7b3b3438dbd60c08f14f94c66e304c51a40de6795bc029d4",
+      "uvs": {
+        "Source UV": "a84a5cd16826ceba45cc9a28f6ce68c62b37ed49ce120b083488c1b1b51cc670"
+      }
+    },
+    "WT_bone_turret": {
+      "model": "17bc4fe5b519323b8f66ef7287b3e02fadb5a6544af280b5a203a69ed1f25510",
+      "uvs": {}
+    },
+    "WT_bone_gun": {
+      "model": "4212c78e9d58069b8d93928e93050da210458cd62046ae17d36cb51b5b44d259",
+      "uvs": {}
+    },
+    "WT_gun_barrel": {
+      "model": "e76ec4d1e9126d8ca7a423498606028dd146a74cbab80cbb2552539688c7f87e",
+      "uvs": {}
+    },
+    "WT_roll_01": {
+      "model": "4de1be2a77cc04dbf46d1122dfea387663e77577e8c21070dc93742b65e6ad3d",
+      "uvs": {}
+    },
+    "WT_mg_twin": {
+      "model": "abb55b79b5a741b4fef32c7169fbb2c1578f8ba7d5b31d08044e4e1739125a51",
+      "uvs": {
+        "Source UV": "2cc336b5d402611c07e39584b40efef8de37e3f53d18fbfeba036d5df39fe482"
+      }
+    },
+    "WT_rocket_mount_01": {
+      "model": "d1cddc63da6da970cf8d2615444a4fea49301f6d7491fc4c952007deac988ce6",
+      "uvs": {
+        "Source UV": "8b9b49cb83fce1d799f0a0a3b62f12b6c5ba225d5707983f29b17ea91dab2197"
+      }
+    },
+    "WT_roll_06": {
+      "model": "a15fcf18e757deadf0b2840b9f1a115502da4bcd53088e62906645e9e75a2511",
+      "uvs": {}
+    },
+    "WT_roll_03": {
+      "model": "d0398476795311929286c04586babcc1995a004aa6197b1b0a0dd77722e2df3f",
+      "uvs": {}
+    },
+    "WT_roll_05": {
+      "model": "c940036838e5a69ef84182cf3f77ae0fc53570c7838cca1c6978980ae646631b",
+      "uvs": {}
+    },
+    "WT_roll_04": {
+      "model": "e7a9f19268ff5006b2075935523ce870a47a178a7a186087fa8040ef9d1c5b26",
+      "uvs": {
+        "Source UV": "5a6f697e9f449d2aae86391e14fd977cd09908794893b86d4171e01dc4988faf"
+      }
+    },
+    "WT_roll_02": {
+      "model": "3f238cee7d4faff290a71e70f9043dcb3d925d7dc7122d1b855044706db50232",
+      "uvs": {}
+    },
+    "WT_ex_decor_02": {
+      "model": "8dd06a422fa95438ae2eae39f88c733db6164e8c603fd7627a1e8208264841d4",
+      "uvs": {}
+    },
+    "WT_ex_decor_03": {
+      "model": "def26a244b0e202ba1e13f95aa0baa71914160cb7000e3aa75896e7f439d7e0f",
+      "uvs": {}
+    },
+    "WT_hatch_03": {
+      "model": "92b556087acdefe462b723964e68249759f5e3871945c6686ed18901815b2776",
+      "uvs": {}
+    },
+    "WT_hatch_02": {
+      "model": "f88f012067891ec6ddf12f7bda12d75d37fa6e4785b2c99f3cc94fe99050e473",
+      "uvs": {}
+    },
+    "WT_ex_armor_03": {
+      "model": "e8103e739da7e685662d2c3d710f97c23053ff77fd0054d6e3dd554c184e3148",
+      "uvs": {
+        "Source UV": "706b2068e7adb64f12390a21a0c0c7c25c7968787c915ecee3ee235c66b5b3e5"
+      }
+    },
+    "WT_bone_commander_sight_v": {
+      "model": "8f2bf0abd2d2a11a6d6f210fcbdf065f765eb52252d78ba20a426d0e3ec90a15",
+      "uvs": {}
+    },
+    "WT_wheel_r_drive": {
+      "model": "69f33729a0b4de6ce1e055efad11f1234199eda0ffefa6b6658ebd4f689bfcf5",
+      "uvs": {
+        "Source UV": "bf514b6d7abe92ba2922e497c70814fbc90075f75983a335976094dd470ec034"
+      }
+    },
+    "WT_roll_08": {
+      "model": "3261b501026c93acec4351acfd95c30584c7f674562fe77a562a46c2ae8ccb1d",
+      "uvs": {
+        "Source UV": "436591e5c3a6edd7972c53892c4925f815855889e192f09d296b9b9371c8ec4f"
+      }
+    },
+    "WT_roll_07": {
+      "model": "1bf56264a3a68f42603229f40274036ba87e957e491d757513377b4c1ff67c28",
+      "uvs": {}
+    },
+    "WT_antenna_01": {
+      "model": "89fe88ce214c37822bfdc0392d9a1d30bc75a0c68064107b377a8f6ccd424d83",
+      "uvs": {
+        "Source UV": "203c11235df2a4535936f136570bb9378835811da06f4cb001ad6677321a0acd"
+      }
+    },
+    "WT_antenna_02": {
+      "model": "49051efd136a27c290213501ebaa358291f312b5602819a330d579574abc12a6",
+      "uvs": {
+        "Source UV": "ca48b05d896805c99925f44c1feada5d62d0251720f362b18df7660d42e5686f"
+      }
+    },
+    "WT_ex_decor_01": {
+      "model": "2301853be88c37eb2c74d73d7d223aff16e9ce8d7ac2c8b24c390c047c93de74",
+      "uvs": {}
+    },
+    "WT_track_r": {
+      "model": "9610ccf48e85555fa6e356e6af93bdd7bf285cea2b9de66ecff1e71b3cb6226e",
+      "uvs": {
+        "Source UV": "adf88ada6b8fda201dedd2e95683b6a4224dd26c1d1912e90c2e8b192f5d510a"
+      }
+    },
+    "WT_track_l": {
+      "model": "16c446d2762d4d9059e4c639bddfaec5cb7f70f8d27b54cbcfe10e66a75c12fa",
+      "uvs": {
+        "Source UV": "ad9e47ef4b0a0b8e135d8671be5dce01ea49ff5637c049d1c4cabce55150c4b8"
+      }
+    },
+    "WT_rear_ramp": {
+      "model": "76a979211e89ec690ad6be327ff42fd169ac6092ba2a7a7379a25caa2bd26df5",
+      "uvs": {
+        "Source UV": "91c9e822d96cf0a6101373fa19ea22b16942222ac24781ba09b396b1586982e3"
+      }
+    },
+    "WT_LinkageSupport_001": {
+      "model": "a3332cd8cbac1d2b60714fc3728fac55ea50451a412593a019cd10403d5cd053",
+      "uvs": {}
+    },
+    "WT_LinkageSupport_021": {
+      "model": "00fc29bb20ccdb3b51ead4203f49e47b1c38fd764af0d35643fdb3b461d97b14",
+      "uvs": {}
+    },
+    "WT_LinkageSupport_022": {
+      "model": "f34d91b66be9c9755ba89c2ca83b7589e03e3fda6cf649e0279cd70f163d81fa",
+      "uvs": {}
+    },
+    "WT_LinkageSupport_025": {
+      "model": "d633492b6cb5722cb4b7c9eb0afa80f547cc21cb5b2154e385b7e29f058bb578",
+      "uvs": {}
+    },
+    "WT_LinkageSupport_041": {
+      "model": "e3c290f7fecd9d04b819ab02da6b090caa7ce9333fb8470bf18ccf2ada64baa1",
+      "uvs": {}
+    },
+    "WT_LinkageSupport_066": {
+      "model": "db479703f36f79502504c93bede729fcc4e680e207b9dfca094b8b1e7a58713b",
+      "uvs": {}
+    },
+    "WT_SmokeTube_00": {
+      "model": "b46f510debd89a8f5ee422c108eecfa0013aeff5e0c8d48910b40ff7f02d42f5",
+      "uvs": {}
+    },
+    "WT_SmokeTube_01": {
+      "model": "3683a8fb38a221cb5c0450bf4468479eaec40470134c4e5f32d3fa2d4e3ade0a",
+      "uvs": {}
+    },
+    "WT_SmokeTube_02": {
+      "model": "bfda039f5c856b25d7d6ef0c2ce42e6c6fdbc92557565bd214ea8b895fa9b737",
+      "uvs": {}
+    },
+    "WT_SmokeTube_03": {
+      "model": "b933063864bccf6c5f826ef41c033861290f6cd4ed6e6b4c57c1d973d0db30f8",
+      "uvs": {}
+    },
+    "WT_SmokeTube_04": {
+      "model": "95ee367611ea0cf0223fe9048380b5612366c7bc3f00f5cb372eca59c47da519",
+      "uvs": {}
+    },
+    "WT_SmokeTube_05": {
+      "model": "4aea6e31aafd208780a7430b6e1014b15c9718e720b3e66682c1c4937b3b6efc",
+      "uvs": {}
+    },
+    "WT_SmokeTube_06": {
+      "model": "3e9a15ce050b89fbbdf758dea71fe83a2636c40e0c633463eb51d4d05d8d261f",
+      "uvs": {}
+    },
+    "WT_SmokeTube_07": {
+      "model": "c493bd6185bdcec6f8daeec4e7ccaba6c4bda2b9c766c90b982df4062062829e",
+      "uvs": {}
+    },
+    "WT_SmokeMount_00": {
+      "model": "d6f1fe7310ba6ce9b230bbc8f30d6c392daf95a51aa7bc5dcff307a578191330",
+      "uvs": {}
+    },
+    "WT_SmokeMount_01": {
+      "model": "8a601c20a4dd08f954e37bd3e375fab917d4adc0f63cc9823e49fb315bcd5309",
+      "uvs": {}
+    },
+    "WT_SmokeMount_02": {
+      "model": "cb15790122158d6fbafc2f62d59423fb9f7c2f3992fdd11e3a0ef3da078cbdd2",
+      "uvs": {}
+    },
+    "WT_SmokeMount_03": {
+      "model": "28ba5d37201bf5ac580f54af775fd425a6dffde955c38718d5584f380d1f7e01",
+      "uvs": {}
+    },
+    "WT_SmokeMount_04": {
+      "model": "ff6513efc29db22b486b112f9d7cd5bdc06907ead9f2d12822bc886b9a60c407",
+      "uvs": {}
+    },
+    "WT_SmokeMount_05": {
+      "model": "127e6b4897a49e7b8f852028cdfac46c71c8dea939f8a8da177deda0b6210aca",
+      "uvs": {}
+    },
+    "WT_GunnerSight_Door_L": {
+      "model": "7d6db4a28dcc5db2d535d887fdd4c18f841d076ad4b3257ee477a47389b61c9b",
+      "uvs": {}
+    },
+    "WT_GunnerSight_Door_R": {
+      "model": "f8dc381e7e243689e8892e645e304f5f61b32a5879d46f58ed9460ab8b3d5f94",
+      "uvs": {}
+    },
+    "WT_GunnerSight_Hinge_L": {
+      "model": "563717337a03ba9ecf6a881011de983acafdf08adbc46186fb8b1943cb1fe6f9",
+      "uvs": {}
+    },
+    "WT_GunnerSight_Hinge_R": {
+      "model": "b6ec8a33240f5fb565c8d60f388bd4b2eaefac2109fd5874a7eb0f68296fd3ef",
+      "uvs": {}
+    },
+    "WT_GunnerSight_UpperMount": {
+      "model": "73238df765f1030394f83a5d558a5f4cbf875d16a64ece5ce15a63c0c4558c38",
+      "uvs": {}
+    },
+    "WT_GunnerSight_UpperCover": {
+      "model": "466c0425286898ce5f7b7206097b2f58f22c36a4980cade5f93a3b436ed1b77c",
+      "uvs": {}
+    },
+    "WT_GunnerSight_UpperCap": {
+      "model": "07704e42135dbed928da0e4c0fcfe7ff845208067c84f93690d716f8e8ebd66d",
+      "uvs": {}
+    },
+    "WT_GunnerSight_RearFittings": {
+      "model": "cf827a491965ae05cdd44b8ad3a37eb0100627d7b08f639940a5fa4cce591266",
+      "uvs": {}
+    },
+    "WT_GunnerSight_FrontPort": {
+      "model": "7c853afd8986ee0c0a6b7304f9b373ec761acf6563990ad3e9cbd53343a56ddc",
+      "uvs": {}
+    },
+    "WT_Antenna02_BasePlate": {
+      "model": "6121138ade1cb8c3d66d9efc47c1eeecf6243d82e47643bc981fb3299e9f4f58",
+      "uvs": {}
+    },
+    "WT_Antenna02_Spring": {
+      "model": "20b1d88ff56047d45ec94e6278f7d24e7cd0ce05c43935107585797e265d0dee",
+      "uvs": {}
+    },
+    "WT_Antenna02_Connector": {
+      "model": "eca45b5c99f92c1ff67997a3cf93b972c191fd0f3ba253486749a26072f35188",
+      "uvs": {}
+    },
+    "WT_Antenna02_CableClamp": {
+      "model": "eb925f2e370251cd9f72deb25572b5d638ae99c6a16b899ab0931bf9e014ca95",
+      "uvs": {}
+    },
+    "WT_Hull_DriverRearLinkage": {
+      "model": "cd756fcdd9b16db3743082af19a2faead0176f3105851d1cf2ebde1d43050bf3",
+      "uvs": {}
+    },
+    "WT_Hull_RoofHatchFixedHinges": {
+      "model": "a6e9071c95e629f16f20185dbf8af3c4df7621de52497f7411c4b0db3ac71da6",
+      "uvs": {}
+    },
+    "WT_Hull_LiftEye_FL": {
+      "model": "2269c389e1c693da75b3fcba985c7284fa30c5adecc265d0973049b1967ebc10",
+      "uvs": {}
+    },
+    "WT_Hull_LiftEye_FR": {
+      "model": "3024341be5f3900b4b536af4874167590977fd848f7085a42e05d0cbd590c094",
+      "uvs": {}
+    },
+    "WT_Hull_LiftEye_RL": {
+      "model": "b94fe9d9d137f7b98905fdbd6882da80379cb89db1c7099a40279c8536b7b7bc",
+      "uvs": {}
+    },
+    "WT_Hull_LiftEye_RR": {
+      "model": "30a4795bd81ab295897dcdbf4084c78488ae547a73130b082b71b09754bbe73d",
+      "uvs": {}
+    },
+    "WT_Hull_FillerBase": {
+      "model": "47d506f5fcc791f7739cafa63b74c4092af66c511521f2ead9ecb723dba21906",
+      "uvs": {}
+    },
+    "WT_Hull_FillerCap": {
+      "model": "c5a6c607d6957e905bdd94f7f607b261490a5878feab6ea73ad3ba08b2157507",
+      "uvs": {}
+    },
+    "WT_Hull_FillerLatch": {
+      "model": "e2304f138025a01e9ddcd89e786a1853cddf39793419fc390bc3b9685c651111",
+      "uvs": {}
+    },
+    "WT_Hull_FrontRoofHousing": {
+      "model": "ad7ecaff94fb1741af65918240f5dcfa08ee481b63e163b9d104dc56069fa73c",
+      "uvs": {}
+    },
+    "WT_Hull_FrontRoofCover": {
+      "model": "7e4ea2a8c582164abfe030f8c27f4f4359642df96a34b14be1eaa2393e7308a7",
+      "uvs": {}
+    },
+    "WT_Hull_LeftRoofHandle": {
+      "model": "dca471da2d0b8f32605a3e0243aeb84ebae926f19b30b4e1e3a2d3726743926d",
+      "uvs": {}
+    },
+    "WT_Hull_RampLatchUpper": {
+      "model": "e07da55ffc5745c261ab786ba6ad5ef38a560b707c1102b93a9d4439cf503420",
+      "uvs": {}
+    },
+    "WT_Hull_RampLatchLower": {
+      "model": "ce230cf73f5530b5aa5d6567202063cbb14ee91291d1a98e13495983a5393d92",
+      "uvs": {}
+    },
+    "WT_Hull_TailLamp_L": {
+      "model": "51413d743715d02d5ae7acc4d63a45d3385609d02c9bc0aef97d3e78ea1f908b",
+      "uvs": {}
+    },
+    "WT_Hull_TailLamp_R": {
+      "model": "4f009cc1bc05f00f85b54d12147783fa530f7c9d22b0fe690c79bef318748479",
+      "uvs": {}
+    },
+    "WT_Hull_SkirtHandle_l_07": {
+      "model": "52c8f59d47c3ad8cb9bc7635a8ec285b80755ffee0ed06a9e1fd79722f6429f0",
+      "uvs": {}
+    },
+    "WT_Hull_SkirtHandle_l_01": {
+      "model": "7200a6cb6dbdc456a77684b62b2b3202a8073d48b0d330d1c2c2ce345b81ff62",
+      "uvs": {}
+    },
+    "WT_Hull_SkirtHandle_l_02": {
+      "model": "e0f8748ea95af0ada984052fbaa39eebdbdf1d20ec438993670421859bad10bf",
+      "uvs": {}
+    },
+    "WT_Hull_SkirtHandle_l_03": {
+      "model": "607175590077486cb2b6132b9bcdb8b194da386e8c7cedc58fcafad4e560d913",
+      "uvs": {}
+    },
+    "WT_Hull_SkirtHandle_l_04": {
+      "model": "2157802ce893b578d56d01e26f875a8a70b052e79b46d179fa538a6f09702b70",
+      "uvs": {}
+    },
+    "WT_Hull_SkirtHandle_l_05": {
+      "model": "30523bfd0a0516505e05025890016bfe89451041141b8d23fd54b5ccc83897ad",
+      "uvs": {}
+    },
+    "WT_Hull_SkirtHandle_l_06": {
+      "model": "666c84d4ac2a3063451075e2e8e5b0c19b4e46719250c874a0fec9e2f64696b5",
+      "uvs": {}
+    },
+    "WT_Hull_SkirtHandle_r_07": {
+      "model": "4de43282434069362ef0b688f5a19bae3d9f5c416fce33c123d5e47f94a71894",
+      "uvs": {}
+    },
+    "WT_Hull_SkirtHandle_r_01": {
+      "model": "87eeaa3c3750e51288fccda472a2297899b207bb6510ecb6d12e848b8fe8a589",
+      "uvs": {}
+    },
+    "WT_Hull_SkirtHandle_r_02": {
+      "model": "325458e4d654c561a6742d5801849b4b05dff2fa74d4f7a64faf677b69d57a9a",
+      "uvs": {}
+    },
+    "WT_Hull_SkirtHandle_r_03": {
+      "model": "0ada237daa5bdd1754acba3e98b56782a4a1476b9da059f11d9db0ffe949266f",
+      "uvs": {}
+    },
+    "WT_Hull_SkirtHandle_r_04": {
+      "model": "4e0b1afd9fdcfd4eaa6af62b296f546268d05ca71453559649fb1f93b1ab341e",
+      "uvs": {}
+    },
+    "WT_Hull_SkirtHandle_r_05": {
+      "model": "5312a847e44dd81d534fbee46960da3597d18e12045ee4da90f98015445cd86b",
+      "uvs": {}
+    },
+    "WT_Hull_SkirtHandle_r_06": {
+      "model": "5de6dd721b4a6af7a1683e7b12991873ca8761c95be1e02322a615b256c85865",
+      "uvs": {}
+    }
+  }
+}
