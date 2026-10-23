@@ -8,6 +8,8 @@ from mathutils import Vector
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from check_cases import overlaps
+sys.path.insert(0, str(HERE.parent))
+from height_palette import final_paint
 
 OUT = HERE/'output'
 manifest = json.loads((OUT/'manifest.json').read_text())
@@ -20,8 +22,9 @@ def snapshot(obj):
         'geometry': hashlib.sha256(repr((
             [tuple(v.co) for v in obj.data.vertices],
             [tuple(p.vertices) for p in obj.data.polygons],
-            [tuple(obj.data.materials[p.material_index].diffuse_color) for p in obj.data.polygons]
         )).encode()).hexdigest(),
+        'paint':[(obj.data.materials[p.material_index].name,
+                  tuple(obj.data.materials[p.material_index].diffuse_color)) for p in obj.data.polygons],
         'parent': obj.parent.name if obj.parent else None,
         'matrix': obj.matrix_world.copy(),
     }
@@ -47,10 +50,27 @@ scene = bpy.context.scene
 scene.frame_set(1)
 bpy.context.view_layer.update()
 changes = {c['object']:c for c in manifest['base_transforms_unchanged_except']}
+lamp_cfg = manifest['settings']['headlamp_paint']
+paint = json.loads((HERE.parent/'part_contrast.json').read_text())['height_first_paint']
+lamp_face_changes = {}
 assert len(base) == manifest['base_meshes']
 for name, old in base.items():
     now = snapshot(bpy.data.objects[name])
     assert now['geometry'] == old['geometry'] and now['parent'] == old['parent'], name
+    if name not in lamp_cfg['objects']:
+        assert now['paint'] == old['paint'], name
+    else:
+        changed = 0
+        for (old_mat,old_rgb),(new_mat,new_rgb) in zip(old['paint'],now['paint']):
+            if old_mat in lamp_cfg['preserve_materials']:
+                assert old_mat == new_mat and old_rgb == new_rgb, (name,'Lens changed')
+            else:
+                value = lamp_cfg['luminance_by_source_material'][old_mat]
+                rgb,_,_ = final_paint(Vector((0,0,1)),'hull_assembly',1,paint,final_value=value)
+                assert max(abs(a-b) for a,b in zip((*rgb,1),new_rgb)) < 1e-6
+                assert old_rgb != new_rgb
+                changed += 1
+        lamp_face_changes[name] = changed
     expected = old['matrix'].copy()
     if name in changes:
         expected.translation.z += changes[name]['world_raise_z']
@@ -112,7 +132,8 @@ assert all('KHR_materials_unlit' in m.get('extensions', {}) for m in full['mater
 result = {
     'status':'exterior draft; dimensioned real-vehicle blueprint unavailable',
     'source_hash_unchanged':True, 'base_meshes':len(base), 'base_faces':manifest['base_faces'],
-    'base_geometry_color_parent_unchanged':True, 'base_transform_exceptions':list(changes),
+    'base_geometry_parent_unchanged':True, 'base_transform_exceptions':list(changes),
+    'base_paint_unchanged_except':lamp_face_changes, 'headlamp_lenses_unchanged':True,
     'independent_case_meshes_and_glbs':len(records), 'counts':dict(counts),
     'case_body_collision_tolerance_m':.002, 'case_body_collisions':[],
     'mount_reach_checked':True, 'turret_cases_follow_yaw':moved, 'hull_cases_remain_fixed':109,

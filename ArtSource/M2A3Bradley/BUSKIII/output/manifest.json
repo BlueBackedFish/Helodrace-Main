@@ -3,17 +3,67 @@
   "source_sha256": "9626560c347450ddc43a292efcf3580aefeff4e916c7dd7330f8e8186eee9e44",
   "base_faces": 70380,
   "base_meshes": 147,
-  "base_geometry_paint_parent_unchanged": true,
+  "base_geometry_parent_unchanged": true,
+  "base_paint_unchanged_except": [
+    {
+      "object": "WT_ex_lantern_l_01",
+      "slot": 0,
+      "source_material": "Fixed Emission tan Y144",
+      "display_luminance": 156
+    },
+    {
+      "object": "WT_ex_lantern_l_01",
+      "slot": 1,
+      "source_material": "Fixed Emission tan Y168",
+      "display_luminance": 180
+    },
+    {
+      "object": "WT_ex_lantern_l_01",
+      "slot": 2,
+      "source_material": "Fixed Emission tan Y108",
+      "display_luminance": 120
+    },
+    {
+      "object": "WT_ex_lantern_l_01",
+      "slot": 3,
+      "source_material": "Fixed Emission tan Y192",
+      "display_luminance": 216
+    },
+    {
+      "object": "WT_ex_lantern_r_01",
+      "slot": 0,
+      "source_material": "Fixed Emission tan Y192",
+      "display_luminance": 216
+    },
+    {
+      "object": "WT_ex_lantern_r_01",
+      "slot": 1,
+      "source_material": "Fixed Emission tan Y108",
+      "display_luminance": 120
+    },
+    {
+      "object": "WT_ex_lantern_r_01",
+      "slot": 2,
+      "source_material": "Fixed Emission tan Y168",
+      "display_luminance": 180
+    },
+    {
+      "object": "WT_ex_lantern_r_01",
+      "slot": 3,
+      "source_material": "Fixed Emission tan Y144",
+      "display_luminance": 156
+    }
+  ],
   "base_transforms_unchanged_except": [
     {
       "object": "WT_ex_lantern_l_01",
       "world_raise_z": 0.32,
-      "reason": "Front ERA clearance; source housing geometry and paint preserved"
+      "reason": "Front ERA clearance; source housing geometry preserved"
     },
     {
       "object": "WT_ex_lantern_r_01",
       "world_raise_z": 0.32,
-      "reason": "Front ERA clearance; source housing geometry and paint preserved"
+      "reason": "Front ERA clearance; source housing geometry preserved"
     }
   ],
   "counts": {
@@ -6004,6 +6054,21 @@
     "family_assignment_verified": false,
     "target_busk_kit_inventory_verified": false,
     "external_only": true,
+    "headlamp_paint": {
+      "objects": [
+        "WT_ex_lantern_l_01",
+        "WT_ex_lantern_r_01"
+      ],
+      "luminance_by_source_material": {
+        "Fixed Emission tan Y108": 120,
+        "Fixed Emission tan Y144": 156,
+        "Fixed Emission tan Y168": 180,
+        "Fixed Emission tan Y192": 216
+      },
+      "preserve_materials": [
+        "Hull fixed headlamp glass"
+      ]
+    },
     "outline_width_at_256": 1
   }
 }

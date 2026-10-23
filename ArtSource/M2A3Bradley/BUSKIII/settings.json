@@ -13,5 +13,15 @@
   "family_assignment_verified": false,
   "target_busk_kit_inventory_verified": false,
   "external_only": true,
+  "headlamp_paint": {
+    "objects": ["WT_ex_lantern_l_01", "WT_ex_lantern_r_01"],
+    "luminance_by_source_material": {
+      "Fixed Emission tan Y108": 120,
+      "Fixed Emission tan Y144": 156,
+      "Fixed Emission tan Y168": 180,
+      "Fixed Emission tan Y192": 216
+    },
+    "preserve_materials": ["Hull fixed headlamp glass"]
+  },
   "outline_width_at_256": 1
 }

@@ -1,10 +1,10 @@
 {
-  "model_sha256": "ef64c2633ee3f107b2d3d540114f6c9c8ee36e214832497fac7aca92da2145f2",
+  "model_sha256": "878ca87dd1786801ff0d00a9f18765674864dcb30f515db8cc413bf0142202f7",
   "source_hashes": {
-    "vehicle_east": "44ae3f16d982298db8e518679d432d2f9344d2bc37bc768cd8a23c56fefdbf6d",
-    "turret_top_east": "c61255ac15cf75b71292861dfcd381d09ce6fff2d8aae4459120336d73ea9163",
-    "barrel_top_east": "866b736f04d202443153a067fb957f1490d031f21cfb19146b35038ac7c99457",
-    "turret_top_full_east": "55748b3c3394c241ad220a9585064c5fd22fa40b43136cfcb5fe77eb66137e8a"
+    "vehicle_east": "f014421a92643fcb177324f4ecb1b0f652f45db464f2edb7b7254d37f8647345",
+    "turret_top_east": "e6b9cb038b02752645a56a3241839026b6a29a7f3f9f12960e28e5e3536fbc49",
+    "barrel_top_east": "870fa7414b4ddf6a80ce996e9e4d2af326bbac800bc218e9fe03ff0f63c8f68e",
+    "turret_top_full_east": "d1d835f41e7f436ba570c658c304b159e32b18c601444dfdaae0dd985a14aaf4"
   },
   "source_raw_layers_unchanged": true,
   "composition": "outline hull and full turret separately before original-pivot composition",

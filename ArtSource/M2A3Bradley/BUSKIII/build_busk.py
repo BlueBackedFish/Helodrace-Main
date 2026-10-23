@@ -279,7 +279,7 @@ for name in ['WT_ex_lantern_l_01','WT_ex_lantern_r_01']:
     for dx in [-.08,.08]:
         box_mesh(vertices,faces,(x+dx-.02,y-.065,z-.008),(x+dx+.02,y+.065,z+.325))
     object_mesh('BUSK_RAISED_LAMP_BRACKET_'+name,vertices,faces,hull_parent,[192,168,144,108])
-    changes.append({'object':name,'world_raise_z':.32,'reason':'Front ERA clearance; source housing geometry and paint preserved'})
+    changes.append({'object':name,'world_raise_z':.32,'reason':'Front ERA clearance; source housing geometry preserved'})
 
 counts=Counter(r['family'] for r in records)
 assert {key:counts[key] for key in cfg['upper_counts']} == cfg['upper_counts']
@@ -294,9 +294,24 @@ for name,digest in baseline.items():
     assert fingerprint(obj)==digest,('Unexpected base geometry/paint/parent/transform change',name)
     obj.matrix_world=current
 assert not any(o.type=='LIGHT' for o in scene.objects)
+# This variant's raised lamp tops sit against the bright ERA faces. Give the
+# housings a small, explicit palette lift; shared source materials stay untouched.
+lamp_paint_changes = []
+lamp_cfg = cfg['headlamp_paint']
+for name in lamp_cfg['objects']:
+    lamp = bpy.data.objects[name]
+    assert lamp.data.users == 1, ('Shared lamp mesh must not be recolored', name)
+    for index, material in enumerate(lamp.data.materials):
+        if material.name in lamp_cfg['preserve_materials']:
+            continue
+        value = lamp_cfg['luminance_by_source_material'][material.name]
+        lamp_paint_changes.append({'object':name,'slot':index,'source_material':material.name,
+                                   'display_luminance':value})
+        lamp.data.materials[index] = fixed(value, 'HEADLAMP TAN')
 source_faces=sum(len(o.data.polygons) for o in originals)
 manifest={'source':str(source),'source_sha256':cfg['source_sha256'],'base_faces':source_faces,
-          'base_meshes':len(originals),'base_geometry_paint_parent_unchanged':True,
+          'base_meshes':len(originals),'base_geometry_parent_unchanged':True,
+          'base_paint_unchanged_except':lamp_paint_changes,
           'base_transforms_unchanged_except':changes,
           'counts':dict(counts),'upper_total':96,'lower_visual_segments':28,
           'dimension_status':'provisional: no dimensioned full-size installation blueprint',

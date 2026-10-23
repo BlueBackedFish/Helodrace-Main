@@ -3,11 +3,16 @@
   "source_hash_unchanged": true,
   "base_meshes": 147,
   "base_faces": 70380,
-  "base_geometry_color_parent_unchanged": true,
+  "base_geometry_parent_unchanged": true,
   "base_transform_exceptions": [
     "WT_ex_lantern_l_01",
     "WT_ex_lantern_r_01"
   ],
+  "base_paint_unchanged_except": {
+    "WT_ex_lantern_l_01": 1969,
+    "WT_ex_lantern_r_01": 1767
+  },
+  "headlamp_lenses_unchanged": true,
   "independent_case_meshes_and_glbs": 124,
   "counts": {
     "M5": 55,
