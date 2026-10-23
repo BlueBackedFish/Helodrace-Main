@@ -1,0 +1,1675 @@
+{
+  "variant": "Standard",
+  "outline": false,
+  "directions": {
+    "east": {
+      "composition": {
+        "moving_hull_roof_closed_ramp_closed": {
+          "stable_pixels": 42777,
+          "stable_pixels_error_over_2": 0,
+          "stable_max_rgb_error_255": 0,
+          "all_pixels_max_rgb_error_255": 174,
+          "alpha_max_error_255": 64
+        },
+        "moving_hull_roof_closed_ramp_open": {
+          "stable_pixels": 46970,
+          "stable_pixels_error_over_2": 0,
+          "stable_max_rgb_error_255": 1,
+          "all_pixels_max_rgb_error_255": 174,
+          "alpha_max_error_255": 64
+        },
+        "moving_hull_roof_open_ramp_closed": {
+          "stable_pixels": 41947,
+          "stable_pixels_error_over_2": 0,
+          "stable_max_rgb_error_255": 0,
+          "all_pixels_max_rgb_error_255": 174,
+          "alpha_max_error_255": 64
+        },
+        "moving_hull_roof_open_ramp_open": {
+          "stable_pixels": 46139,
+          "stable_pixels_error_over_2": 0,
+          "stable_max_rgb_error_255": 1,
+          "all_pixels_max_rgb_error_255": 227,
+          "alpha_max_error_255": 64
+        },
+        "moving_turret_stowed": {
+          "stable_pixels": 13979,
+          "stable_pixels_error_over_2": 0,
+          "stable_max_rgb_error_255": 1,
+          "all_pixels_max_rgb_error_255": 227,
+          "alpha_max_error_255": 62
+        },
+        "moving_turret_deployed": {
+          "stable_pixels": 15418,
+          "stable_pixels_error_over_2": 0,
+          "stable_max_rgb_error_255": 1,
+          "all_pixels_max_rgb_error_255": 227,
+          "alpha_max_error_255": 62
+        }
+      },
+      "era_module_count": 0,
+      "invisible_modules": 0
+    },
+    "west": {
+      "composition": {
+        "moving_hull_roof_closed_ramp_closed": {
+          "stable_pixels": 44899,
+          "stable_pixels_error_over_2": 0,
+          "stable_max_rgb_error_255": 0,
+          "all_pixels_max_rgb_error_255": 174,
+          "alpha_max_error_255": 64
+        },
+        "moving_hull_roof_closed_ramp_open": {
+          "stable_pixels": 48633,
+          "stable_pixels_error_over_2": 0,
+          "stable_max_rgb_error_255": 1,
+          "all_pixels_max_rgb_error_255": 175,
+          "alpha_max_error_255": 64
+        },
+        "moving_hull_roof_open_ramp_closed": {
+          "stable_pixels": 43941,
+          "stable_pixels_error_over_2": 0,
+          "stable_max_rgb_error_255": 0,
+          "all_pixels_max_rgb_error_255": 174,
+          "alpha_max_error_255": 64
+        },
+        "moving_hull_roof_open_ramp_open": {
+          "stable_pixels": 47675,
+          "stable_pixels_error_over_2": 0,
+          "stable_max_rgb_error_255": 1,
+          "all_pixels_max_rgb_error_255": 228,
+          "alpha_max_error_255": 64
+        },
+        "moving_turret_stowed": {
+          "stable_pixels": 13781,
+          "stable_pixels_error_over_2": 0,
+          "stable_max_rgb_error_255": 0,
+          "all_pixels_max_rgb_error_255": 227,
+          "alpha_max_error_255": 64
+        },
+        "moving_turret_deployed": {
+          "stable_pixels": 14999,
+          "stable_pixels_error_over_2": 0,
+          "stable_max_rgb_error_255": 0,
+          "all_pixels_max_rgb_error_255": 227,
+          "alpha_max_error_255": 64
+        }
+      },
+      "era_module_count": 0,
+      "invisible_modules": 0
+    }
+  },
+  "layers": {
+    "256/Assembled/hull_roof_closed_ramp_closed_east.png": {
+      "bounds": [
+        32,
+        79,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Assembled/hull_roof_closed_ramp_closed_west.png": {
+      "bounds": [
+        25,
+        79,
+        224,
+        191
+      ],
+      "visible": true
+    },
+    "256/Assembled/hull_roof_closed_ramp_open_east.png": {
+      "bounds": [
+        7,
+        79,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Assembled/hull_roof_closed_ramp_open_west.png": {
+      "bounds": [
+        25,
+        79,
+        249,
+        191
+      ],
+      "visible": true
+    },
+    "256/Assembled/hull_roof_open_ramp_closed_east.png": {
+      "bounds": [
+        32,
+        79,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Assembled/hull_roof_open_ramp_closed_west.png": {
+      "bounds": [
+        25,
+        79,
+        224,
+        191
+      ],
+      "visible": true
+    },
+    "256/Assembled/hull_roof_open_ramp_open_east.png": {
+      "bounds": [
+        7,
+        79,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Assembled/hull_roof_open_ramp_open_west.png": {
+      "bounds": [
+        25,
+        79,
+        249,
+        191
+      ],
+      "visible": true
+    },
+    "256/Assembled/turret_deployed_east.png": {
+      "bounds": [
+        82,
+        78,
+        214,
+        170
+      ],
+      "visible": true
+    },
+    "256/Assembled/turret_deployed_west.png": {
+      "bounds": [
+        42,
+        86,
+        174,
+        178
+      ],
+      "visible": true
+    },
+    "256/Assembled/turret_stowed_east.png": {
+      "bounds": [
+        82,
+        83,
+        214,
+        170
+      ],
+      "visible": true
+    },
+    "256/Assembled/turret_stowed_west.png": {
+      "bounds": [
+        42,
+        86,
+        174,
+        173
+      ],
+      "visible": true
+    },
+    "256/Hull/hull_roof_closed_ramp_closed_east.png": {
+      "bounds": [
+        32,
+        79,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Hull/hull_roof_closed_ramp_closed_west.png": {
+      "bounds": [
+        25,
+        79,
+        224,
+        191
+      ],
+      "visible": true
+    },
+    "256/Hull/hull_roof_closed_ramp_open_east.png": {
+      "bounds": [
+        7,
+        79,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Hull/hull_roof_closed_ramp_open_west.png": {
+      "bounds": [
+        25,
+        79,
+        249,
+        191
+      ],
+      "visible": true
+    },
+    "256/Hull/hull_roof_open_ramp_closed_east.png": {
+      "bounds": [
+        32,
+        79,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Hull/hull_roof_open_ramp_closed_west.png": {
+      "bounds": [
+        25,
+        79,
+        224,
+        191
+      ],
+      "visible": true
+    },
+    "256/Hull/hull_roof_open_ramp_open_east.png": {
+      "bounds": [
+        7,
+        79,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Hull/hull_roof_open_ramp_open_west.png": {
+      "bounds": [
+        25,
+        79,
+        249,
+        191
+      ],
+      "visible": true
+    },
+    "256/Hull/hull_static_east.png": {
+      "bounds": [
+        32,
+        79,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Hull/hull_static_west.png": {
+      "bounds": [
+        25,
+        79,
+        224,
+        191
+      ],
+      "visible": true
+    },
+    "256/Parts/gun_east.png": {
+      "bounds": [
+        142,
+        115,
+        214,
+        145
+      ],
+      "visible": true
+    },
+    "256/Parts/gun_west.png": {
+      "bounds": [
+        42,
+        111,
+        114,
+        141
+      ],
+      "visible": true
+    },
+    "256/Parts/rear_ramp_closed_east.png": {
+      "bounds": [
+        39,
+        98,
+        52,
+        159
+      ],
+      "visible": true
+    },
+    "256/Parts/rear_ramp_closed_west.png": {
+      "bounds": [
+        204,
+        98,
+        217,
+        160
+      ],
+      "visible": true
+    },
+    "256/Parts/rear_ramp_open_east.png": {
+      "bounds": [
+        7,
+        116,
+        52,
+        172
+      ],
+      "visible": true
+    },
+    "256/Parts/rear_ramp_open_west.png": {
+      "bounds": [
+        204,
+        116,
+        249,
+        172
+      ],
+      "visible": true
+    },
+    "256/Parts/roof_hatch_closed_east.png": {
+      "bounds": [
+        47,
+        100,
+        81,
+        144
+      ],
+      "visible": true
+    },
+    "256/Parts/roof_hatch_closed_west.png": {
+      "bounds": [
+        175,
+        99,
+        208,
+        143
+      ],
+      "visible": true
+    },
+    "256/Parts/roof_hatch_open_east.png": {
+      "bounds": [
+        44,
+        91,
+        58,
+        141
+      ],
+      "visible": true
+    },
+    "256/Parts/roof_hatch_open_west.png": {
+      "bounds": [
+        198,
+        90,
+        212,
+        140
+      ],
+      "visible": true
+    },
+    "256/Parts/tow_deployed_east.png": {
+      "bounds": [
+        115,
+        78,
+        155,
+        101
+      ],
+      "visible": true
+    },
+    "256/Parts/tow_deployed_west.png": {
+      "bounds": [
+        101,
+        155,
+        141,
+        178
+      ],
+      "visible": true
+    },
+    "256/Parts/tow_stowed_east.png": {
+      "bounds": [
+        115,
+        83,
+        155,
+        100
+      ],
+      "visible": true
+    },
+    "256/Parts/tow_stowed_west.png": {
+      "bounds": [
+        101,
+        156,
+        141,
+        173
+      ],
+      "visible": true
+    },
+    "256/Preview/roof_closed_ramp_closed_tow_deployed_east.png": {
+      "bounds": [
+        32,
+        78,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Preview/roof_closed_ramp_closed_tow_deployed_west.png": {
+      "bounds": [
+        25,
+        75,
+        224,
+        191
+      ],
+      "visible": true
+    },
+    "256/Preview/roof_closed_ramp_closed_tow_stowed_east.png": {
+      "bounds": [
+        32,
+        79,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Preview/roof_closed_ramp_closed_tow_stowed_west.png": {
+      "bounds": [
+        25,
+        75,
+        224,
+        191
+      ],
+      "visible": true
+    },
+    "256/Preview/roof_closed_ramp_open_tow_deployed_east.png": {
+      "bounds": [
+        7,
+        78,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Preview/roof_closed_ramp_open_tow_deployed_west.png": {
+      "bounds": [
+        25,
+        75,
+        249,
+        191
+      ],
+      "visible": true
+    },
+    "256/Preview/roof_closed_ramp_open_tow_stowed_east.png": {
+      "bounds": [
+        7,
+        79,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Preview/roof_closed_ramp_open_tow_stowed_west.png": {
+      "bounds": [
+        25,
+        75,
+        249,
+        191
+      ],
+      "visible": true
+    },
+    "256/Preview/roof_open_ramp_closed_tow_deployed_east.png": {
+      "bounds": [
+        32,
+        78,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Preview/roof_open_ramp_closed_tow_deployed_west.png": {
+      "bounds": [
+        25,
+        75,
+        224,
+        191
+      ],
+      "visible": true
+    },
+    "256/Preview/roof_open_ramp_closed_tow_stowed_east.png": {
+      "bounds": [
+        32,
+        79,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Preview/roof_open_ramp_closed_tow_stowed_west.png": {
+      "bounds": [
+        25,
+        75,
+        224,
+        191
+      ],
+      "visible": true
+    },
+    "256/Preview/roof_open_ramp_open_tow_deployed_east.png": {
+      "bounds": [
+        7,
+        78,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Preview/roof_open_ramp_open_tow_deployed_west.png": {
+      "bounds": [
+        25,
+        75,
+        249,
+        191
+      ],
+      "visible": true
+    },
+    "256/Preview/roof_open_ramp_open_tow_stowed_east.png": {
+      "bounds": [
+        7,
+        79,
+        231,
+        191
+      ],
+      "visible": true
+    },
+    "256/Preview/roof_open_ramp_open_tow_stowed_west.png": {
+      "bounds": [
+        25,
+        75,
+        249,
+        191
+      ],
+      "visible": true
+    },
+    "256/Turret/turret_base_east.png": {
+      "bounds": [
+        82,
+        87,
+        173,
+        170
+      ],
+      "visible": true
+    },
+    "256/Turret/turret_base_west.png": {
+      "bounds": [
+        83,
+        86,
+        174,
+        169
+      ],
+      "visible": true
+    },
+    "256/Turret/turret_deployed_east.png": {
+      "bounds": [
+        82,
+        78,
+        214,
+        170
+      ],
+      "visible": true
+    },
+    "256/Turret/turret_deployed_west.png": {
+      "bounds": [
+        42,
+        86,
+        174,
+        178
+      ],
+      "visible": true
+    },
+    "256/Turret/turret_stowed_east.png": {
+      "bounds": [
+        82,
+        83,
+        214,
+        170
+      ],
+      "visible": true
+    },
+    "256/Turret/turret_stowed_west.png": {
+      "bounds": [
+        42,
+        86,
+        174,
+        173
+      ],
+      "visible": true
+    },
+    "512/Assembled/hull_roof_closed_ramp_closed_east.png": {
+      "bounds": [
+        67,
+        160,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Assembled/hull_roof_closed_ramp_closed_west.png": {
+      "bounds": [
+        53,
+        160,
+        445,
+        380
+      ],
+      "visible": true
+    },
+    "512/Assembled/hull_roof_closed_ramp_open_east.png": {
+      "bounds": [
+        18,
+        160,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Assembled/hull_roof_closed_ramp_open_west.png": {
+      "bounds": [
+        53,
+        160,
+        494,
+        380
+      ],
+      "visible": true
+    },
+    "512/Assembled/hull_roof_open_ramp_closed_east.png": {
+      "bounds": [
+        67,
+        160,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Assembled/hull_roof_open_ramp_closed_west.png": {
+      "bounds": [
+        53,
+        160,
+        445,
+        380
+      ],
+      "visible": true
+    },
+    "512/Assembled/hull_roof_open_ramp_open_east.png": {
+      "bounds": [
+        18,
+        160,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Assembled/hull_roof_open_ramp_open_west.png": {
+      "bounds": [
+        53,
+        160,
+        494,
+        380
+      ],
+      "visible": true
+    },
+    "512/Assembled/turret_deployed_east.png": {
+      "bounds": [
+        167,
+        158,
+        426,
+        337
+      ],
+      "visible": true
+    },
+    "512/Assembled/turret_deployed_west.png": {
+      "bounds": [
+        86,
+        175,
+        345,
+        354
+      ],
+      "visible": true
+    },
+    "512/Assembled/turret_stowed_east.png": {
+      "bounds": [
+        167,
+        169,
+        426,
+        337
+      ],
+      "visible": true
+    },
+    "512/Assembled/turret_stowed_west.png": {
+      "bounds": [
+        86,
+        175,
+        345,
+        343
+      ],
+      "visible": true
+    },
+    "512/Hull/hull_roof_closed_ramp_closed_east.png": {
+      "bounds": [
+        67,
+        160,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Hull/hull_roof_closed_ramp_closed_west.png": {
+      "bounds": [
+        53,
+        160,
+        445,
+        380
+      ],
+      "visible": true
+    },
+    "512/Hull/hull_roof_closed_ramp_open_east.png": {
+      "bounds": [
+        18,
+        160,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Hull/hull_roof_closed_ramp_open_west.png": {
+      "bounds": [
+        53,
+        160,
+        494,
+        380
+      ],
+      "visible": true
+    },
+    "512/Hull/hull_roof_open_ramp_closed_east.png": {
+      "bounds": [
+        67,
+        160,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Hull/hull_roof_open_ramp_closed_west.png": {
+      "bounds": [
+        53,
+        160,
+        445,
+        380
+      ],
+      "visible": true
+    },
+    "512/Hull/hull_roof_open_ramp_open_east.png": {
+      "bounds": [
+        18,
+        160,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Hull/hull_roof_open_ramp_open_west.png": {
+      "bounds": [
+        53,
+        160,
+        494,
+        380
+      ],
+      "visible": true
+    },
+    "512/Hull/hull_static_east.png": {
+      "bounds": [
+        67,
+        160,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Hull/hull_static_west.png": {
+      "bounds": [
+        53,
+        160,
+        445,
+        380
+      ],
+      "visible": true
+    },
+    "512/Parts/gun_east.png": {
+      "bounds": [
+        287,
+        232,
+        426,
+        287
+      ],
+      "visible": true
+    },
+    "512/Parts/gun_west.png": {
+      "bounds": [
+        86,
+        225,
+        225,
+        280
+      ],
+      "visible": true
+    },
+    "512/Parts/rear_ramp_closed_east.png": {
+      "bounds": [
+        81,
+        199,
+        101,
+        316
+      ],
+      "visible": true
+    },
+    "512/Parts/rear_ramp_closed_west.png": {
+      "bounds": [
+        410,
+        199,
+        431,
+        317
+      ],
+      "visible": true
+    },
+    "512/Parts/rear_ramp_open_east.png": {
+      "bounds": [
+        18,
+        234,
+        101,
+        341
+      ],
+      "visible": true
+    },
+    "512/Parts/rear_ramp_open_west.png": {
+      "bounds": [
+        410,
+        234,
+        494,
+        341
+      ],
+      "visible": true
+    },
+    "512/Parts/roof_hatch_closed_east.png": {
+      "bounds": [
+        97,
+        203,
+        159,
+        286
+      ],
+      "visible": true
+    },
+    "512/Parts/roof_hatch_closed_west.png": {
+      "bounds": [
+        353,
+        201,
+        415,
+        284
+      ],
+      "visible": true
+    },
+    "512/Parts/roof_hatch_open_east.png": {
+      "bounds": [
+        90,
+        185,
+        114,
+        280
+      ],
+      "visible": true
+    },
+    "512/Parts/roof_hatch_open_west.png": {
+      "bounds": [
+        398,
+        183,
+        422,
+        278
+      ],
+      "visible": true
+    },
+    "512/Parts/tow_deployed_east.png": {
+      "bounds": [
+        233,
+        158,
+        307,
+        199
+      ],
+      "visible": true
+    },
+    "512/Parts/tow_deployed_west.png": {
+      "bounds": [
+        205,
+        313,
+        279,
+        354
+      ],
+      "visible": true
+    },
+    "512/Parts/tow_stowed_east.png": {
+      "bounds": [
+        233,
+        169,
+        307,
+        198
+      ],
+      "visible": true
+    },
+    "512/Parts/tow_stowed_west.png": {
+      "bounds": [
+        205,
+        314,
+        279,
+        343
+      ],
+      "visible": true
+    },
+    "512/Preview/roof_closed_ramp_closed_tow_deployed_east.png": {
+      "bounds": [
+        67,
+        158,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Preview/roof_closed_ramp_closed_tow_deployed_west.png": {
+      "bounds": [
+        53,
+        152,
+        445,
+        380
+      ],
+      "visible": true
+    },
+    "512/Preview/roof_closed_ramp_closed_tow_stowed_east.png": {
+      "bounds": [
+        67,
+        160,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Preview/roof_closed_ramp_closed_tow_stowed_west.png": {
+      "bounds": [
+        53,
+        152,
+        445,
+        380
+      ],
+      "visible": true
+    },
+    "512/Preview/roof_closed_ramp_open_tow_deployed_east.png": {
+      "bounds": [
+        18,
+        158,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Preview/roof_closed_ramp_open_tow_deployed_west.png": {
+      "bounds": [
+        53,
+        152,
+        494,
+        380
+      ],
+      "visible": true
+    },
+    "512/Preview/roof_closed_ramp_open_tow_stowed_east.png": {
+      "bounds": [
+        18,
+        160,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Preview/roof_closed_ramp_open_tow_stowed_west.png": {
+      "bounds": [
+        53,
+        152,
+        494,
+        380
+      ],
+      "visible": true
+    },
+    "512/Preview/roof_open_ramp_closed_tow_deployed_east.png": {
+      "bounds": [
+        67,
+        158,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Preview/roof_open_ramp_closed_tow_deployed_west.png": {
+      "bounds": [
+        53,
+        152,
+        445,
+        380
+      ],
+      "visible": true
+    },
+    "512/Preview/roof_open_ramp_closed_tow_stowed_east.png": {
+      "bounds": [
+        67,
+        160,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Preview/roof_open_ramp_closed_tow_stowed_west.png": {
+      "bounds": [
+        53,
+        152,
+        445,
+        380
+      ],
+      "visible": true
+    },
+    "512/Preview/roof_open_ramp_open_tow_deployed_east.png": {
+      "bounds": [
+        18,
+        158,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Preview/roof_open_ramp_open_tow_deployed_west.png": {
+      "bounds": [
+        53,
+        152,
+        494,
+        380
+      ],
+      "visible": true
+    },
+    "512/Preview/roof_open_ramp_open_tow_stowed_east.png": {
+      "bounds": [
+        18,
+        160,
+        459,
+        380
+      ],
+      "visible": true
+    },
+    "512/Preview/roof_open_ramp_open_tow_stowed_west.png": {
+      "bounds": [
+        53,
+        152,
+        494,
+        380
+      ],
+      "visible": true
+    },
+    "512/Turret/turret_base_east.png": {
+      "bounds": [
+        167,
+        177,
+        343,
+        337
+      ],
+      "visible": true
+    },
+    "512/Turret/turret_base_west.png": {
+      "bounds": [
+        169,
+        175,
+        345,
+        335
+      ],
+      "visible": true
+    },
+    "512/Turret/turret_deployed_east.png": {
+      "bounds": [
+        167,
+        158,
+        426,
+        337
+      ],
+      "visible": true
+    },
+    "512/Turret/turret_deployed_west.png": {
+      "bounds": [
+        86,
+        175,
+        345,
+        354
+      ],
+      "visible": true
+    },
+    "512/Turret/turret_stowed_east.png": {
+      "bounds": [
+        167,
+        169,
+        426,
+        337
+      ],
+      "visible": true
+    },
+    "512/Turret/turret_stowed_west.png": {
+      "bounds": [
+        86,
+        175,
+        345,
+        343
+      ],
+      "visible": true
+    },
+    "1024/Assembled/hull_roof_closed_ramp_closed_east.png": {
+      "bounds": [
+        138,
+        325,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Assembled/hull_roof_closed_ramp_closed_west.png": {
+      "bounds": [
+        110,
+        324,
+        886,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Assembled/hull_roof_closed_ramp_open_east.png": {
+      "bounds": [
+        40,
+        325,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Assembled/hull_roof_closed_ramp_open_west.png": {
+      "bounds": [
+        110,
+        324,
+        984,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Assembled/hull_roof_open_ramp_closed_east.png": {
+      "bounds": [
+        138,
+        325,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Assembled/hull_roof_open_ramp_closed_west.png": {
+      "bounds": [
+        110,
+        324,
+        886,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Assembled/hull_roof_open_ramp_open_east.png": {
+      "bounds": [
+        40,
+        325,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Assembled/hull_roof_open_ramp_open_west.png": {
+      "bounds": [
+        110,
+        324,
+        984,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Assembled/turret_deployed_east.png": {
+      "bounds": [
+        339,
+        320,
+        848,
+        669
+      ],
+      "visible": true
+    },
+    "1024/Assembled/turret_deployed_west.png": {
+      "bounds": [
+        176,
+        355,
+        685,
+        704
+      ],
+      "visible": true
+    },
+    "1024/Assembled/turret_stowed_east.png": {
+      "bounds": [
+        339,
+        342,
+        848,
+        669
+      ],
+      "visible": true
+    },
+    "1024/Assembled/turret_stowed_west.png": {
+      "bounds": [
+        176,
+        355,
+        685,
+        682
+      ],
+      "visible": true
+    },
+    "1024/Hull/hull_roof_closed_ramp_closed_east.png": {
+      "bounds": [
+        138,
+        325,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Hull/hull_roof_closed_ramp_closed_west.png": {
+      "bounds": [
+        110,
+        324,
+        886,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Hull/hull_roof_closed_ramp_open_east.png": {
+      "bounds": [
+        40,
+        325,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Hull/hull_roof_closed_ramp_open_west.png": {
+      "bounds": [
+        110,
+        324,
+        984,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Hull/hull_roof_open_ramp_closed_east.png": {
+      "bounds": [
+        138,
+        325,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Hull/hull_roof_open_ramp_closed_west.png": {
+      "bounds": [
+        110,
+        324,
+        886,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Hull/hull_roof_open_ramp_open_east.png": {
+      "bounds": [
+        40,
+        325,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Hull/hull_roof_open_ramp_open_west.png": {
+      "bounds": [
+        110,
+        324,
+        984,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Hull/hull_static_east.png": {
+      "bounds": [
+        138,
+        325,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Hull/hull_static_west.png": {
+      "bounds": [
+        110,
+        324,
+        886,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Parts/gun_east.png": {
+      "bounds": [
+        580,
+        469,
+        848,
+        568
+      ],
+      "visible": true
+    },
+    "1024/Parts/gun_west.png": {
+      "bounds": [
+        176,
+        456,
+        444,
+        555
+      ],
+      "visible": true
+    },
+    "1024/Parts/rear_ramp_closed_east.png": {
+      "bounds": [
+        167,
+        402,
+        198,
+        627
+      ],
+      "visible": true
+    },
+    "1024/Parts/rear_ramp_closed_west.png": {
+      "bounds": [
+        826,
+        402,
+        857,
+        629
+      ],
+      "visible": true
+    },
+    "1024/Parts/rear_ramp_open_east.png": {
+      "bounds": [
+        40,
+        474,
+        198,
+        677
+      ],
+      "visible": true
+    },
+    "1024/Parts/rear_ramp_open_west.png": {
+      "bounds": [
+        826,
+        473,
+        984,
+        676
+      ],
+      "visible": true
+    },
+    "1024/Parts/roof_hatch_closed_east.png": {
+      "bounds": [
+        200,
+        411,
+        313,
+        568
+      ],
+      "visible": true
+    },
+    "1024/Parts/roof_hatch_closed_west.png": {
+      "bounds": [
+        711,
+        406,
+        824,
+        564
+      ],
+      "visible": true
+    },
+    "1024/Parts/roof_hatch_open_east.png": {
+      "bounds": [
+        185,
+        375,
+        223,
+        555
+      ],
+      "visible": true
+    },
+    "1024/Parts/roof_hatch_open_west.png": {
+      "bounds": [
+        801,
+        370,
+        839,
+        552
+      ],
+      "visible": true
+    },
+    "1024/Parts/tow_deployed_east.png": {
+      "bounds": [
+        471,
+        320,
+        610,
+        392
+      ],
+      "visible": true
+    },
+    "1024/Parts/tow_deployed_west.png": {
+      "bounds": [
+        414,
+        632,
+        553,
+        704
+      ],
+      "visible": true
+    },
+    "1024/Parts/tow_stowed_east.png": {
+      "bounds": [
+        471,
+        342,
+        610,
+        392
+      ],
+      "visible": true
+    },
+    "1024/Parts/tow_stowed_west.png": {
+      "bounds": [
+        414,
+        632,
+        553,
+        682
+      ],
+      "visible": true
+    },
+    "1024/Preview/roof_closed_ramp_closed_tow_deployed_east.png": {
+      "bounds": [
+        138,
+        320,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Preview/roof_closed_ramp_closed_tow_deployed_west.png": {
+      "bounds": [
+        110,
+        309,
+        886,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Preview/roof_closed_ramp_closed_tow_stowed_east.png": {
+      "bounds": [
+        138,
+        325,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Preview/roof_closed_ramp_closed_tow_stowed_west.png": {
+      "bounds": [
+        110,
+        309,
+        886,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Preview/roof_closed_ramp_open_tow_deployed_east.png": {
+      "bounds": [
+        40,
+        320,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Preview/roof_closed_ramp_open_tow_deployed_west.png": {
+      "bounds": [
+        110,
+        309,
+        984,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Preview/roof_closed_ramp_open_tow_stowed_east.png": {
+      "bounds": [
+        40,
+        325,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Preview/roof_closed_ramp_open_tow_stowed_west.png": {
+      "bounds": [
+        110,
+        309,
+        984,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Preview/roof_open_ramp_closed_tow_deployed_east.png": {
+      "bounds": [
+        138,
+        320,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Preview/roof_open_ramp_closed_tow_deployed_west.png": {
+      "bounds": [
+        110,
+        309,
+        886,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Preview/roof_open_ramp_closed_tow_stowed_east.png": {
+      "bounds": [
+        138,
+        325,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Preview/roof_open_ramp_closed_tow_stowed_west.png": {
+      "bounds": [
+        110,
+        309,
+        886,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Preview/roof_open_ramp_open_tow_deployed_east.png": {
+      "bounds": [
+        40,
+        320,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Preview/roof_open_ramp_open_tow_deployed_west.png": {
+      "bounds": [
+        110,
+        309,
+        984,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Preview/roof_open_ramp_open_tow_stowed_east.png": {
+      "bounds": [
+        40,
+        325,
+        914,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Preview/roof_open_ramp_open_tow_stowed_west.png": {
+      "bounds": [
+        110,
+        309,
+        984,
+        756
+      ],
+      "visible": true
+    },
+    "1024/Turret/turret_base_east.png": {
+      "bounds": [
+        339,
+        358,
+        681,
+        669
+      ],
+      "visible": true
+    },
+    "1024/Turret/turret_base_west.png": {
+      "bounds": [
+        343,
+        355,
+        685,
+        666
+      ],
+      "visible": true
+    },
+    "1024/Turret/turret_deployed_east.png": {
+      "bounds": [
+        339,
+        320,
+        848,
+        669
+      ],
+      "visible": true
+    },
+    "1024/Turret/turret_deployed_west.png": {
+      "bounds": [
+        176,
+        355,
+        685,
+        704
+      ],
+      "visible": true
+    },
+    "1024/Turret/turret_stowed_east.png": {
+      "bounds": [
+        339,
+        342,
+        848,
+        669
+      ],
+      "visible": true
+    },
+    "1024/Turret/turret_stowed_west.png": {
+      "bounds": [
+        176,
+        355,
+        685,
+        682
+      ],
+      "visible": true
+    }
+  },
+  "source_unchanged": true,
+  "PNG_count_per_size": 58,
+  "filter": "linear light premultiplied alpha Lanczos; no outline",
+  "game_validation_performed": false,
+  "status": "passed"
+}

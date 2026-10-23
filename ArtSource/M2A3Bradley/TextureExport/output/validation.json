@@ -1,0 +1,67 @@
+{
+  "status": "passed",
+  "variants": {
+    "Standard": {
+      "source_unchanged": true,
+      "sizes": {
+        "256": {
+          "PNGs": 58,
+          "ERA_modules_per_direction": 0,
+          "states_per_direction": 8,
+          "outline": false,
+          "rgba_transparent": true
+        },
+        "512": {
+          "PNGs": 58,
+          "ERA_modules_per_direction": 0,
+          "states_per_direction": 8,
+          "outline": false,
+          "rgba_transparent": true
+        },
+        "1024": {
+          "PNGs": 58,
+          "ERA_modules_per_direction": 0,
+          "states_per_direction": 8,
+          "outline": false,
+          "rgba_transparent": true
+        }
+      },
+      "stable_composition_max_error_255": 1
+    },
+    "BUSK": {
+      "source_unchanged": true,
+      "sizes": {
+        "256": {
+          "PNGs": 320,
+          "ERA_modules_per_direction": 124,
+          "states_per_direction": 8,
+          "outline": false,
+          "rgba_transparent": true
+        },
+        "512": {
+          "PNGs": 320,
+          "ERA_modules_per_direction": 124,
+          "states_per_direction": 8,
+          "outline": false,
+          "rgba_transparent": true
+        },
+        "1024": {
+          "PNGs": 320,
+          "ERA_modules_per_direction": 124,
+          "states_per_direction": 8,
+          "outline": false,
+          "rgba_transparent": true
+        }
+      },
+      "stable_composition_max_error_255": 1
+    }
+  },
+  "archive_entries": 762,
+  "camera_directions_independent": true,
+  "module_neighbors_not_baked_as_holdouts": true,
+  "small_personnel_door": "closed, included in rear ramp",
+  "outline": false,
+  "shadows": false,
+  "game_validation_performed": false,
+  "AA_note": "Independent source-over layers have subpixel boundary differences; full-state renders are also supplied"
+}

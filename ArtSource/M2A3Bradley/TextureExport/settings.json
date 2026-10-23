@@ -1,0 +1,18 @@
+{
+  "sources": {
+    "Standard": {"path":"../EmissionTrial/TOWDeploy/bradley_tow_deploy.blend", "sha256":"9626560c347450ddc43a292efcf3580aefeff4e916c7dd7330f8e8186eee9e44"},
+    "BUSK": {"path":"../BUSKIII/output/bradley_busk_iii.blend", "sha256":"878ca87dd1786801ff0d00a9f18765674864dcb30f515db8cc413bf0142202f7"}
+  },
+  "master":1024,
+  "sizes":[256,512,1024],
+  "samples":64,
+  "directions":["east","west"],
+  "hull_camera":{"east":"Camera_west","west":"Camera_east"},
+  "turret_top_rotation_z_degrees":{"east":-90,"west":90},
+  "roof_hatch":{"object":"WT_hatch_05","pivot":[0,2.50,2.06],"axis":"X","open_degrees":-100,"basis":"Source rear hinge location; simplified game-art opening, not an engineering linkage"},
+  "rear_ramp":{"control":"REAR_RAMP_HINGE","axis":"X","open_degrees":-100,"include_personnel_door":true},
+  "tow":{"control":"TOW_DEPLOY","moving_objects":["WT_roll_05"],"axis":"Y","deployed_degrees":-90,"fixed_front_plate":"WT_roll_04"},
+  "outline":false,
+  "shadows":false,
+  "notes":"User requested no outlines, both real camera directions, individual reactive-armor sprites, TOW/roof hatch/rear ramp states. Small personnel door stays closed in the large ramp."
+}
