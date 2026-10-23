@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT.parent/"VehiclePipeline"))
 from images import font
 from pipeline import read_json, write_json
+from outline_review import build_review
 
 
 def trim(image):
@@ -25,6 +26,7 @@ def fit_width(image, width):
 def main():
     profile = read_json(ROOT/"vehicle.json")
     output = ROOT/"output"
+    outlined = build_review(ROOT/"vehicle.json")
     reference = Path(profile["style_references"]["rimthunder"])
     board = Image.new("RGB", (1040, 840), (65, 68, 71))
     draw = ImageDraw.Draw(board)
@@ -32,8 +34,8 @@ def main():
     for x, title, hull, turret in [
         (20, "RimThunder (원본 무채색 텍스처)", Image.open(reference/"vehicle_east.png"),
          Image.open(reference/"vehicle_turret.png").rotate(-90, expand=True)),
-        (540, "OBJ 기반 / 고정 Emission / TAN", Image.open(output/"hull_east.png"),
-         Image.open(output/"turret_east.png"))]:
+        (540, "OBJ 기반 / TAN + 검은 윤곽선", Image.open(outlined/"1024/hull_east.png"),
+         Image.open(outlined/"1024/turret_east.png"))]:
         draw.text((x, 58), title, font=font(), fill="white")
         hull = fit_width(hull, 460)
         turret = fit_width(turret, 360)
@@ -42,7 +44,7 @@ def main():
     draw.text((20, 760), "차체 외피 폭 460px / 포탑 외피 길이 360px로 각각 정렬한 검수용 비교", font=font(), fill="white")
     draw.text((20, 790), "직접 텍스처 복사 없음 · 청사진 미제공 · 피벗 일부 임시 · 게임 검수 미실시", font=font(), fill=(215, 215, 215))
     board.save(output/"style_comparison.png")
-    sprite = Image.open(output/"512/preview_east.png").convert("RGBA")
+    sprite = Image.open(outlined/"512/preview_east.png").convert("RGBA")
     backgrounds = Image.new("RGB", (3*512, 550))
     draw = ImageDraw.Draw(backgrounds)
     for i, (color, title) in enumerate([((245, 245, 242), "밝은 배경"), ((125, 128, 130), "중간 배경"), ((30, 32, 35), "어두운 배경")]):
@@ -58,8 +60,15 @@ def main():
     report["trial_review"] = {"native_sizes": [256, 512], "reference_comparison": "style_comparison.png",
                               "alpha_review": "alpha_backgrounds.png", "transparent_rgb_zero": True,
                               "blueprint": "not supplied", "game": "not tested",
+                              "outline": {"path": "OutlinedReview", "width_at_256": 1,
+                                          "method": "black hull and full-turret outlines before compositing"},
                               "note": "First art trial; source detail density and local surface paint remain refinable"}
     write_json(output/"report.json", report)
+    # Record the final report hash after adding review metadata, avoiding a stale pointer.
+    from pipeline import sha256
+    outline_report = read_json(outlined/"report.json")
+    outline_report["source_report_sha256"] = sha256(output/"report.json")
+    write_json(outlined/"report.json", outline_report)
     print("Comparison and alpha-background review images saved")
 
 

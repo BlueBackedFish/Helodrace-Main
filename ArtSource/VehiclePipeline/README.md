@@ -119,7 +119,9 @@ python ArtSource/VehiclePipeline/pipeline.py components ArtSource/NewVehicle/veh
 | `preview_east.png`, `256/`, `512/`, `pivots.json` | 정수 앵커 합성 미리보기, 선형광·알파 선곱 Lanczos 축소, 레이어 정렬 |
 | `review_sheet.png`, `native_sizes.png`, `report.json` | 청사진 비교판·실제 크기·기계 검증과 미확인 항목 |
 
-`turret_full_east`에는 포신도 포함한다. 이것을 합성할 때 포신 레이어를 다시 올리지 않는다. 모든 레이어는 공통 스케일을 쓰며 임의로 trim하지 않는다. 포탑 피벗이 없으면 임시 중심으로 초안을 만들고 blocker로 보고한다. 포탑/차체 외곽선 후처리와 추가 장비 전용 독립 스프라이트, 게임 XML 연결은 이 공통 빌더에 아직 포함하지 않는다.
+`turret_full_east`에는 포신도 포함한다. 이것을 합성할 때 포신 레이어를 다시 올리지 않는다. 모든 레이어는 공통 스케일을 쓰며 임의로 trim하지 않는다. 포탑 피벗이 없으면 임시 중심으로 초안을 만들고 blocker로 보고한다. 추가 장비 전용 독립 스프라이트와 게임 XML 연결은 이 공통 빌더에 아직 포함하지 않는다.
+
+검수할 때는 `python ArtSource/VehiclePipeline/outline_review.py ArtSource/NewVehicle/vehicle.json`을 실행한다. 차체/포탑의 검은 윤곽선을 **각 레이어에 먼저 적용하고 원래 피벗으로 합성**해 `output/OutlinedReview/`에 저장한다. 256px에서 1px, 512px에서 2px가 기본이며 `--width-256`으로 조절한다. 원본 불투명 픽셀의 색·원본 레이어 파일 불변과 여백을 검사한다. 검수용 PNG 후처리이므로 GLB/BLEND에는 윤곽선이 들어가지 않는다.
 
 `report.status == reviewed`도 사용자의 아트 승인 인증은 아니다. 작성자가 실제 검수한 플래그가 모두 채워진 상태다. `postprocess_passed`도 함께 확인한다. 게임 미검수는 draft와 blocker로 남긴다. 자동 검사는 원본 좌표·면 보존과 조명 불변 등을 검사하며, 원본에 이미 있던 모든 self-intersection·뒤집힌 면·개구부를 자동 진단하거나 수리하지 않는다. 원본의 퇴화 면은 위치와 함께 보고한다. OBJ의 선/점/곡면 객체는 조용히 버리지 않고 mesh 변환을 요구한다.
 

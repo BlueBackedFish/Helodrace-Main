@@ -2089,6 +2089,11 @@
     "transparent_rgb_zero": true,
     "blueprint": "not supplied",
     "game": "not tested",
+    "outline": {
+      "path": "OutlinedReview",
+      "width_at_256": 1,
+      "method": "black hull and full-turret outlines before compositing"
+    },
     "note": "First art trial; source detail density and local surface paint remain refinable"
   }
 }

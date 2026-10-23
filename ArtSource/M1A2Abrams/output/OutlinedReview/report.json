@@ -1,0 +1,112 @@
+{
+  "source_report_sha256": "37cac533771432dcf34cb65448d33c6ae666ac56fb9c2accf133077caa9db33b",
+  "source_layer_sha256": {
+    "hull_east": "932d9e0cb8e9d93f41b74575f4fd51f6009407757170bc39cf90c16e80d1b292",
+    "turret_east": "263a1d32b9d0193f7d6b6876066919444ac4181a8776a046e642ead39dc86b86",
+    "barrel_east": "de6236e293d67d96f2ee68527a4ed19f0a062c43f33b6f8975665299018a1e0b",
+    "turret_full_east": "fca5ab9a042dda10c1a2ea9e36e0deb060fce98b16239362da32b0bd78bd9f07"
+  },
+  "outline_width_at_256": 1,
+  "color": [
+    0,
+    0,
+    0
+  ],
+  "method": "circular alpha dilation; black beneath each original layer",
+  "composition": "outline hull and full turret separately, then composite at original pivot",
+  "source_pixels_opaque_unchanged": true,
+  "source_files_unchanged": true,
+  "alpha_bounds": {
+    "1024/hull_east": [
+      154,
+      387,
+      738,
+      678
+    ],
+    "1024/turret_east": [
+      240,
+      390,
+      658,
+      644
+    ],
+    "1024/barrel_east": [
+      473,
+      465,
+      906,
+      555
+    ],
+    "1024/turret_full_east": [
+      240,
+      390,
+      906,
+      644
+    ],
+    "1024/preview_east": [
+      154,
+      387,
+      869,
+      678
+    ],
+    "256/hull_east": [
+      36,
+      94,
+      187,
+      172
+    ],
+    "256/turret_east": [
+      57,
+      95,
+      167,
+      163
+    ],
+    "256/barrel_east": [
+      116,
+      114,
+      229,
+      141
+    ],
+    "256/turret_full_east": [
+      57,
+      95,
+      229,
+      163
+    ],
+    "256/preview_east": [
+      36,
+      94,
+      220,
+      172
+    ],
+    "512/hull_east": [
+      75,
+      191,
+      371,
+      341
+    ],
+    "512/turret_east": [
+      118,
+      193,
+      331,
+      324
+    ],
+    "512/barrel_east": [
+      234,
+      230,
+      455,
+      280
+    ],
+    "512/turret_full_east": [
+      118,
+      193,
+      455,
+      324
+    ],
+    "512/preview_east": [
+      75,
+      191,
+      437,
+      341
+    ]
+  },
+  "outline_is_review_postprocess": true
+}
