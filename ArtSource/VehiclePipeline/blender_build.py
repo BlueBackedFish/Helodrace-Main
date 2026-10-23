@@ -414,6 +414,8 @@ def build(profile_path):
     if animation_count != sum(bool(r.get("animate")) for r in rigs.values()):
         raise AssertionError("GLB animation count differs from the configured rigs")
     blockers = []
+    if "blueprint" not in profile["sources"]:
+        blockers.append("blueprint not supplied; OBJ-only draft")
     if not profile["axes"]["confirmed"]:
         blockers.append("axes / scale")
     blockers.extend("part: "+p["id"] for p in profile["parts"] if not p["confirmed"])

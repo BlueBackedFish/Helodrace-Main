@@ -3,15 +3,33 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
+from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from pipeline import (read_obj, transform, partition, paint_levels, paint_rgb,
-                      components, dot, cross, read_json, ROOT)
+                      components, dot, cross, read_json, prepare, ROOT)
 from images import resize_linear, composite_linear
 from PIL import Image
 
 
 class PipelineTests(unittest.TestCase):
+    def test_obj_only_intake_does_not_invent_blueprint_or_mark_review_complete(self):
+        staging = ROOT.parents[1]/".codex-staging"
+        staging.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=staging) as directory:
+            source = Path(directory)/"source.obj"
+            source.write_text("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n", encoding="utf-8")
+            target = Path(directory)/"project"
+            with patch("images.parts_atlas"):
+                prepare(SimpleNamespace(output=target, obj=source, blueprint=None,
+                                        name="OBJ-only test", forward="-y", up="z", scale=1))
+            profile = read_json(target/"vehicle.json")
+            self.assertEqual(set(profile["sources"]), {"obj"})
+            self.assertFalse(profile["review"]["blueprint"])
+            self.assertIn("미제공", (target/"ART_BRIEF.md").read_text(encoding="utf-8"))
+            self.assertEqual(source.read_text().count("f 1 2 3"), 1)
+
     def test_obj_negative_indices_uv_seams_repeated_groups_and_multiple_membership(self):
         staging = ROOT.parents[1]/".codex-staging"
         staging.mkdir(exist_ok=True)

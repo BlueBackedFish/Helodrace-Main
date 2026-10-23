@@ -4,7 +4,7 @@
 
 ## 코드 검사
 
-`python -m unittest discover -s ArtSource/VehiclePipeline/tests -v`: 6개 통과.
+`python -m unittest discover -s ArtSource/VehiclePipeline/tests -v`: 7개 통과.
 
 - 음수 OBJ 인덱스, UV/normal 인덱스, 반복 group 선언, 여러 group에 속한 한 면의 중복 방지.
 - 앞/위 축 변환과 좌표계의 handedness 보존. Bradley `(X,Y,Z) → (-Z,-X,Y)` 확인.
@@ -12,6 +12,7 @@
 - 직접 겹침 그래프만 밝기 순서를 생성. 독립 부품 같은 명도 허용. 순환·팔레트 상한 초과 거절.
 - UV seam의 중복 위치를 연결 성분 선택에 사용하면서 원본 데이터 불변.
 - 선형광 축소/합성의 50% 흑백 명도 약 188, 투명 검정 경계의 암색 번짐 방지.
+- OBJ만 입력한 초안에서 가짜 청사진 경로를 만들지 않고, 청사진 미제공과 미검수 상태를 유지. M1A2 실제 입력에서도 비교판·분리 출력 생성 확인. 기존 청사진 포함 fixture의 전체 렌더도 재검증.
 
 ## 다른 이름/형상의 차량으로 통합 검사
 

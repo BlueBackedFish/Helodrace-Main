@@ -232,12 +232,14 @@ def prepare(args):
     target = Path(args.output).resolve()
     if target.exists():
         raise ValueError("Output already exists; edit vehicle.json and rebuild instead of resetting it")
-    obj, blueprint = Path(args.obj).resolve(), Path(args.blueprint).resolve()
+    obj = Path(args.obj).resolve()
+    blueprint = Path(args.blueprint).resolve() if args.blueprint else None
     # Validate both inputs before creating a project. The original stays untouched.
-    with Image.open(blueprint) as reference:
-        reference.verify()
+    if blueprint:
+        with Image.open(blueprint) as reference:
+            reference.verify()
     model = read_obj(obj)
-    blueprint_hash = sha256(blueprint)
+    blueprint_hash = sha256(blueprint) if blueprint else None
     axes = {"forward": args.forward, "up": args.up, "scale": args.scale, "confirmed": False}
     catalog = inventory(model, axes)
     parts = []
@@ -254,12 +256,13 @@ def prepare(args):
     target.mkdir(parents=True)
     shutil.copyfile(ROOT/"presets/rimthunder_tan.json", target/"style.json")
     profile = {"schema": 1, "name": args.name or target.name,
-               "sources": {"obj": {"path": str(obj), "sha256": sha256(obj)},
-                           "blueprint": {"path": str(blueprint), "sha256": blueprint_hash}},
+               "sources": {"obj": {"path": str(obj), "sha256": sha256(obj)}},
                "axes": axes, "style": "style.json", "variant_notes": "미확인",
                "blueprint_views": {}, "parts": parts, "rigs": [], "contacts": [],
                "review": {"blueprint": False, "style_reference": False,
                           "native_size": False, "geometry": False, "game": False}}
+    if blueprint:
+        profile["sources"]["blueprint"] = {"path": str(blueprint), "sha256": blueprint_hash}
     write_json(target/"vehicle.json", profile)
     write_json(target/"inventory.json", catalog)
     parts_atlas(model, axes, target/"analysis")
@@ -267,7 +270,7 @@ def prepare(args):
     brief = brief.replace("<차량명/형식>", profile["name"], 1)
     for placeholder, value in {
         "- 원본 3D 경로 및 파일 버전/해시:": f"- 원본 3D 경로 및 파일 버전/해시: `{obj}` / SHA256 `{profile['sources']['obj']['sha256']}`",
-        "- 청사진 경로:": f"- 청사진 경로: `{blueprint}` / SHA256 `{blueprint_hash}`",
+        "- 청사진 경로:": f"- 청사진 경로: `{blueprint}` / SHA256 `{blueprint_hash}`" if blueprint else "- 청사진 경로: 미제공 — OBJ 초안만 생성, 청사진 비율 검수 미실시",
         "- 원본 단위·앞 방향·위 방향:": f"- 원본 단위·앞 방향·위 방향: 단위 미확인 / 임시 앞 {axes['forward']}, 위 {axes['up']} (검수 필요)",
         "- 팔레트/재질 설정 위치:": "- 팔레트/재질 설정 위치: `style.json`; 부품별 예외 `vehicle.json`",
     }.items():
@@ -397,7 +400,7 @@ def main():
     commands = parser.add_subparsers(dest="command", required=True)
     init = commands.add_parser("prepare", help="Create a new vehicle project; never overwrite one")
     init.add_argument("--obj", required=True)
-    init.add_argument("--blueprint", required=True)
+    init.add_argument("--blueprint", help="Optional for OBJ-only drafts; absence remains a review blocker")
     init.add_argument("--output", required=True)
     init.add_argument("--name")
     init.add_argument("--forward", choices=["x", "-x", "y", "-y", "z", "-z"], default="z")

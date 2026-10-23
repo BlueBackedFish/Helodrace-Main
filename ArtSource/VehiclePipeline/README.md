@@ -50,6 +50,8 @@ python ArtSource/VehiclePipeline/pipeline.py build ArtSource/NewVehicle/vehicle.
 
 Blender는 PATH와 `C:/Program Files/Blender Foundation/Blender */blender.exe`에서 찾는다. 필요하면 `build`에 `--blender '절대 경로/blender.exe'`를 지정한다. `--threads 8`이 기본값이다. `prepare`는 기존 폴더를 덮어쓰지 않는다. 이후에는 JSON을 고치고 `build`만 실행한다. 원본 파일 해시가 달라지면 중단한다. 면 번호를 새 원본에 조용히 재사용하지 않는다.
 
+시험 제작에 OBJ만 제공된 경우 `--blueprint`를 생략해 초안부터 만든다. 청사진 미제공을 작업 기록·비교판·blocker에 표시하며, 다른 차량의 도면이나 스타일 텍스처를 청사진인 것처럼 대신 등록하지 않는다. 이후 청사진을 받으면 `sources.blueprint`에 실제 경로·SHA256을 추가하고 비율 검수를 진행한다.
+
 현재 Bradley 원본의 축 변환은 `--forward=x --up=y`, 즉 `(X,Y,Z) → (-Z,-X,Y)`다. **다른 차량의 기본 축이라는 뜻은 아니다.** 스케일은 `--scale` 또는 `axes.scale`에 기록한다. 현재 도구는 원본의 절대 위치를 보존하며 자동으로 지면에 붙이지 않는다.
 
 ## 차량별 설정

@@ -144,10 +144,15 @@ def finish(profile_path):
                    "hull_elevation": render["hull_elevation"], "turret_elevation": 90,
                    "filter": "linear-light premultiplied-alpha Lanczos",
                    "turret_full_includes_barrel": True})
-    blueprint = Image.open(profile["sources"]["blueprint"]["path"]).convert("RGBA")
-    cells = [("청사진 전체 / 자동 비율 판정 안 함", blueprint)]
+    blueprint = (Image.open(profile["sources"]["blueprint"]["path"]).convert("RGBA")
+                 if "blueprint" in profile["sources"] else None)
+    cells = [("청사진 전체 / 자동 비율 판정 안 함", blueprint)] if blueprint else []
+    if blueprint is None:
+        notice = Image.new("RGB", (360, 240), (66, 69, 72))
+        ImageDraw.Draw(notice).text((15, 80), "청사진 미제공\nOBJ 기반 시험 렌더\n청사진 비율 검수 미실시", font=font(), fill="white")
+        cells.append(("OBJ 초안 / 청사진 미확인", notice))
     for view in ("top", "side", "front"):
-        if view in profile["blueprint_views"]:
+        if blueprint is not None and view in profile["blueprint_views"]:
             crop = profile["blueprint_views"][view]
             if len(crop) != 4 or not (0 <= crop[0] < crop[2] <= blueprint.width and
                                       0 <= crop[1] < crop[3] <= blueprint.height):
