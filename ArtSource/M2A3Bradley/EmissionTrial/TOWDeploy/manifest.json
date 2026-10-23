@@ -1,5 +1,5 @@
 {
-  "source_sha256": "84f6fac4fc78dae52813187cdc2f4272538bd703fb27a8982ab6af6b409c4b8e",
+  "source_sha256": "109e1a555b2ec86d97c10ae86bbeb2b5da2e6a875016a4bc7f6830ab0bec5d59",
   "source": "bradley_emission_trial.blend",
   "config": {
     "source": "bradley_emission_trial.blend",
@@ -58,8 +58,8 @@
     ],
     "fit_note": "Game-art pivot fitted to the source upper inboard launcher edge; 90-degree simplified deployment, not measured engineering linkage. WT_roll_04 front protective plate stays fixed to the turret at the user's request."
   },
-  "source_faces": 54680,
-  "full_meshes": 117,
+  "source_faces": 70380,
+  "full_meshes": 147,
   "moving_faces": 450,
   "fixed_bracket_faces": 142,
   "split_face_provenance": {

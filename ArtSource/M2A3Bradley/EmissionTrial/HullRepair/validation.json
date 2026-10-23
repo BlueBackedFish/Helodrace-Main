@@ -1,0 +1,301 @@
+{
+  "baseline": "cbf17877",
+  "source_sha256": "8cf128f1c44037f3caff8db7104a83ff6c6e70b05d06a1e89dbe5b5ab420b813",
+  "untouched_objects_identical": 103,
+  "all_turret_geometry_and_colors_preserved": true,
+  "hull_shell_tracks_wheels_and_grilles_preserved": true,
+  "restored_parts": {
+    "WT_hatch_01": {
+      "source_faces": 1165,
+      "parent": "HULL",
+      "source_group": "WT_hatch_01"
+    },
+    "WT_hatch_05": {
+      "source_faces": 1084,
+      "parent": "HULL",
+      "source_group": "WT_hatch_05"
+    },
+    "WT_hatch_06": {
+      "source_faces": 452,
+      "parent": "HULL",
+      "source_group": "WT_hatch_06"
+    },
+    "WT_hatch_04": {
+      "source_faces": 928,
+      "parent": "PERSONNEL_DOOR_HINGE",
+      "source_group": "WT_hatch_04"
+    },
+    "WT_ex_lantern_l_01": {
+      "source_faces": 2155,
+      "parent": "HULL",
+      "source_group": "WT_ex_lantern_l_01"
+    },
+    "WT_ex_lantern_r_01": {
+      "source_faces": 1953,
+      "parent": "HULL",
+      "source_group": "WT_ex_lantern_r_01"
+    },
+    "WT_ex_decor_l_01": {
+      "source_faces": 288,
+      "parent": "HULL",
+      "source_group": "WT_ex_decor_l_01"
+    },
+    "WT_ex_decor_r_01": {
+      "source_faces": 288,
+      "parent": "HULL",
+      "source_group": "WT_ex_decor_r_01"
+    },
+    "WT_ex_decor_l_02": {
+      "source_faces": 272,
+      "parent": "HULL",
+      "source_group": "WT_ex_decor_l_02"
+    },
+    "WT_ex_decor_r_02": {
+      "source_faces": 272,
+      "parent": "HULL",
+      "source_group": "WT_ex_decor_r_02"
+    },
+    "WT_ex_decor_l_05": {
+      "source_faces": 292,
+      "parent": "HULL",
+      "source_group": "WT_ex_decor_l_05"
+    },
+    "WT_ex_decor_r_06": {
+      "source_faces": 292,
+      "parent": "HULL",
+      "source_group": "WT_ex_decor_r_06"
+    },
+    "WT_ex_decor_04": {
+      "source_faces": 621,
+      "parent": "HULL",
+      "source_group": "WT_ex_decor_04"
+    },
+    "WT_Hull_DriverRearLinkage": {
+      "source_faces": 142,
+      "parent": "HULL",
+      "source_group": "WT_@root"
+    },
+    "WT_Hull_RoofHatchFixedHinges": {
+      "source_faces": 1114,
+      "parent": "HULL",
+      "source_group": "WT_@root"
+    },
+    "WT_Hull_LiftEye_FL": {
+      "source_faces": 200,
+      "parent": "HULL",
+      "source_group": "WT_@root"
+    },
+    "WT_Hull_LiftEye_FR": {
+      "source_faces": 200,
+      "parent": "HULL",
+      "source_group": "WT_@root"
+    },
+    "WT_Hull_LiftEye_RL": {
+      "source_faces": 200,
+      "parent": "HULL",
+      "source_group": "WT_@root"
+    },
+    "WT_Hull_LiftEye_RR": {
+      "source_faces": 200,
+      "parent": "HULL",
+      "source_group": "WT_@root"
+    },
+    "WT_Hull_FillerBase": {
+      "source_faces": 96,
+      "parent": "HULL",
+      "source_group": "WT_@root"
+    },
+    "WT_Hull_FillerCap": {
+      "source_faces": 98,
+      "parent": "HULL",
+      "source_group": "WT_@root"
+    },
+    "WT_Hull_FillerLatch": {
+      "source_faces": 100,
+      "parent": "HULL",
+      "source_group": "WT_@root"
+    },
+    "WT_Hull_FrontRoofHousing": {
+      "source_faces": 86,
+      "parent": "HULL",
+      "source_group": "WT_@root"
+    },
+    "WT_Hull_FrontRoofCover": {
+      "source_faces": 54,
+      "parent": "HULL",
+      "source_group": "WT_@root"
+    },
+    "WT_Hull_LeftRoofHandle": {
+      "source_faces": 120,
+      "parent": "HULL",
+      "source_group": "WT_@root"
+    },
+    "WT_Hull_RampLatchUpper": {
+      "source_faces": 176,
+      "parent": "REAR_RAMP_HINGE",
+      "source_group": "WT_@root"
+    },
+    "WT_Hull_RampLatchLower": {
+      "source_faces": 176,
+      "parent": "REAR_RAMP_HINGE",
+      "source_group": "WT_@root"
+    },
+    "WT_Hull_TailLamp_L": {
+      "source_faces": 753,
+      "parent": "HULL",
+      "source_group": "WT_ex_decor_l_09"
+    },
+    "WT_Hull_TailLamp_R": {
+      "source_faces": 753,
+      "parent": "HULL",
+      "source_group": "WT_ex_decor_r_04"
+    },
+    "WT_Hull_SkirtHandle_l_07": {
+      "source_faces": 316,
+      "parent": "HULL",
+      "source_group": "WT_ex_armor_l_07"
+    },
+    "WT_Hull_SkirtHandle_l_01": {
+      "source_faces": 316,
+      "parent": "HULL",
+      "source_group": "WT_ex_armor_l_01"
+    },
+    "WT_Hull_SkirtHandle_l_02": {
+      "source_faces": 316,
+      "parent": "HULL",
+      "source_group": "WT_ex_armor_l_02"
+    },
+    "WT_Hull_SkirtHandle_l_03": {
+      "source_faces": 316,
+      "parent": "HULL",
+      "source_group": "WT_ex_armor_l_03"
+    },
+    "WT_Hull_SkirtHandle_l_04": {
+      "source_faces": 316,
+      "parent": "HULL",
+      "source_group": "WT_ex_armor_l_04"
+    },
+    "WT_Hull_SkirtHandle_l_05": {
+      "source_faces": 316,
+      "parent": "HULL",
+      "source_group": "WT_ex_armor_l_05"
+    },
+    "WT_Hull_SkirtHandle_l_06": {
+      "source_faces": 316,
+      "parent": "HULL",
+      "source_group": "WT_ex_armor_l_06"
+    },
+    "WT_Hull_SkirtHandle_r_07": {
+      "source_faces": 316,
+      "parent": "HULL",
+      "source_group": "WT_ex_armor_r_07"
+    },
+    "WT_Hull_SkirtHandle_r_01": {
+      "source_faces": 316,
+      "parent": "HULL",
+      "source_group": "WT_ex_armor_r_01"
+    },
+    "WT_Hull_SkirtHandle_r_02": {
+      "source_faces": 316,
+      "parent": "HULL",
+      "source_group": "WT_ex_armor_r_02"
+    },
+    "WT_Hull_SkirtHandle_r_03": {
+      "source_faces": 316,
+      "parent": "HULL",
+      "source_group": "WT_ex_armor_r_03"
+    },
+    "WT_Hull_SkirtHandle_r_04": {
+      "source_faces": 316,
+      "parent": "HULL",
+      "source_group": "WT_ex_armor_r_04"
+    },
+    "WT_Hull_SkirtHandle_r_05": {
+      "source_faces": 316,
+      "parent": "HULL",
+      "source_group": "WT_ex_armor_r_05"
+    },
+    "WT_Hull_SkirtHandle_r_06": {
+      "source_faces": 316,
+      "parent": "HULL",
+      "source_group": "WT_ex_armor_r_06"
+    }
+  },
+  "no_duplicate_restored_faces": true,
+  "all_restored_faces_positive_area": true,
+  "constant_emission": true,
+  "roles_display_y": {
+    "hatch": [
+      120.0,
+      168.0,
+      192.0
+    ],
+    "fitting": [
+      144.0,
+      192.0,
+      216.0
+    ],
+    "raised_lid": [
+      144.0,
+      192.0,
+      216.0
+    ],
+    "service_panel": [
+      120.0,
+      168.0
+    ],
+    "rear_door": [
+      108.0,
+      132.0,
+      156.0
+    ],
+    "door_handle": [
+      180.0
+    ],
+    "door_panel": [
+      144.0,
+      180.0
+    ],
+    "lamp": [
+      108.0,
+      144.0,
+      168.0,
+      192.0
+    ],
+    "tow_eye": [
+      156.0
+    ],
+    "tow_connector": [
+      120.0
+    ],
+    "lift_eye": [
+      168.0,
+      192.0
+    ],
+    "roof_handle": [
+      216.0
+    ],
+    "tail_lamp": [
+      132.0,
+      168.0
+    ],
+    "skirt_handle": [
+      168.0
+    ]
+  },
+  "door_and_ramp_motion": {
+    "REAR_RAMP_HINGE": [
+      "WT_rear_ramp",
+      "WT_Hull_RampLatchUpper",
+      "WT_Hull_RampLatchLower"
+    ],
+    "PERSONNEL_DOOR_HINGE": [
+      "WT_hatch_04"
+    ]
+  },
+  "skirt_handles": 14,
+  "ERA": "not added",
+  "faces": 70380,
+  "meshes": 146,
+  "in_game_validation": "not_performed"
+}

@@ -1,0 +1,27 @@
+{
+  "display_sizes": [
+    256,
+    512
+  ],
+  "hull_only_views": [
+    "front",
+    "rear",
+    "top"
+  ],
+  "reference_commit": "cbf17877",
+  "resize": "linear-light premultiplied Lanczos",
+  "native_EAST_vehicle_bounds": {
+    "256": [
+      32,
+      79,
+      231,
+      191
+    ],
+    "512": [
+      67,
+      160,
+      459,
+      380
+    ]
+  }
+}

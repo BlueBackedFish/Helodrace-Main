@@ -1,7 +1,8 @@
 {
   "compared_with": "ce465c14",
-  "other_objects_and_all_optics_unchanged_except_requested_source_details": true,
+  "other_objects_and_all_optics_unchanged_except_requested_source_details_and_hull": true,
   "detail_check": "DetailRepair/validate_details.py",
+  "hull_check": "HullRepair/validate_hull.py",
   "rolls": {
     "WT_roll_01": {
       "painted_faces": 354,

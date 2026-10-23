@@ -26,7 +26,8 @@ DETAILS=[
 COMMANDER_COMPONENT_SEEDS=[578,112,488,678,0,16,26]
 
 
-def read_parts():
+def read_parts(groups=None):
+    if groups is None:groups={'WT_bone_turret','WT_bone_commander_sight_v'}
     manifest=json.loads((ROOT/'ReferenceFit/manifest.json').read_text())
     source=Path(manifest['source'])
     assert hashlib.sha256(source.read_bytes()).hexdigest()==manifest['source_sha256']
@@ -38,7 +39,7 @@ def read_parts():
             x,y,z=map(float,t[1:4]);vertices.append((-z,-x,y+.012))
         elif t[0]=='g':group='WT_'+t[1]
         elif t[0]=='usemtl':material=t[1]
-        elif t[0]=='f' and group in {'WT_bone_turret','WT_bone_commander_sight_v'}:
+        elif t[0]=='f' and group in groups:
             ids=[int(v.split('/')[0]) for v in t[1:]]
             parts.setdefault(group,[]).append(([vertices[i-1 if i>0 else i] for i in ids],material))
     return parts,manifest

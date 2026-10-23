@@ -23,9 +23,10 @@ if '--capture' in sys.argv:
     print('DETAIL REPAIR BASELINE CAPTURED');sys.exit(0)
 before=json.loads(baseline.read_text())['objects']
 report=json.loads((TRIAL/'manifest.json').read_text())['source_detail_repairs']
-assert set(current)==set(before)|set(report['added_objects'])
+hull=json.loads((TRIAL/'manifest.json').read_text())['hull_detail_repairs']
+assert set(current)==set(before)|set(report['added_objects'])|set(hull['added_objects'])
 for name,digest in before.items():
-    if name not in report['replaced_objects']:assert current[name]==digest,('Unrelated object changed',name)
+    if name not in report['replaced_objects']+hull['replaced_objects']:assert current[name]==digest,('Unrelated object changed',name)
 parts,manifest=read_parts();records={}
 for name,record in report['parts'].items():
     obj=bpy.data.objects[name];expected=[parts[record['source_group']][i] for i in record['source_polygon_indices']]
@@ -48,7 +49,8 @@ for name,record in report['parts'].items():
         for p in other.data.polygons:
             assert key([other.matrix_world@other.data.vertices[v].co for v in p.vertices]) not in own,('Duplicate face',name,other.name,p.index)
     records[name]={'exact_source_faces':len(expected),'source_group':record['source_group'],'parent':obj.parent.name}
-validation={'source_sha256':manifest['source_sha256'],'untouched_objects_identical_to_38a4fd44':len(before)-len(report['replaced_objects']),
+validation={'source_sha256':manifest['source_sha256'],'untouched_objects_identical_to_38a4fd44_except_hull_repair':len(before)-len(report['replaced_objects'])-len(hull['replaced_objects']),
+            'hull_changes_checked_by':'HullRepair/validate_hull.py',
             'restored_parts':records,'no_duplicate_source_faces':True,'constant_emission_and_original_optics':True,
             'faces':sum(len(o.data.polygons) for o in s.objects if o.type=='MESH'),
             'meshes':len(current),'in_game_validation':'not_performed'}

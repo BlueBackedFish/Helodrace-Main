@@ -28,18 +28,19 @@
 - `manifest.json`, `validation.json`: 원본 재질·기본본 파일 해시·형상·픽셀·동작 검수.
 - `TOWDeploy/`: 이 시험본에서 파생한 TOW 전개 모델과 독립 발사기. 고정 브래킷을 분리하고 전개 축/동작을 추가했다. 편집법과 EAST 레이어는 `TOWDeploy/README.md`를 따른다.
 - `DetailRepair/`: 원본 OBJ의 관측장비 덮개·개폐판·상부 부속과 안테나 2의 받침·스프링·연결부 복구. 대상 밖 102개 메시의 형상/색/부모 보존 및 중복 면 검수.
+- `HullRepair/`: 같은 원본 대조 방식으로 차체 해치·조명·견인 고리·스커트 손잡이·잠금부 복구. 13개 오브젝트 교체와 30개 메시 추가, 기존 103개 메시 보존. 포탑은 그대로 유지한다.
 
 실제 PNG에서 3×3 픽셀 모두 같은 면을 보는 영역만 BVH로 확인해 비교했다.
 두 시점에서 공통으로 보이는 312면의 최대 픽셀 RGB 채널 차이는 **0.0/255**였다.
 지정한 두 판은 두 시점에서 각각 약 229.95 명도로 측정됐다. 실루엣·가림·안티앨리어싱 경계는 시점에 따라 달라지므로 비교에서 제외한다.
-저장된 모델은 광원 없이 투명 배경을 사용한다. 디테일 복구 후 54,680면·116개 메시와 4개 애니메이션을 확인했다.
+저장된 모델은 광원 없이 투명 배경을 사용한다. 차체 복구 후 70,380면·146개 메시와 4개 애니메이션을 확인했다. 페인트 28색 외에 전조등 유리·후미등 렌즈는 별도 고정색이다.
 256/512px의 선형 RGB·알파 선곱 축소와 시각 검수를 완료했으며 실제 게임 내 검증은 미실시다.
 
 재생성 순서:
 
 1. Blender에서 `--python-exit-code 1 --python build_trial.py` 실행. `settings.json`의 기준 파일 해시와 일치할 때만 빌드한다.
 2. 별도 Blender 프로세스에서 같은 옵션으로 `render_trial.py` 실행.
-3. Blender로 `validate_trial.py`, `check_corrections.py`, `FlatRolls/check_rolls.py`, `DetailRepair/validate_details.py` 실행. 저장된 이전 색/형상 기준을 다시 캡처하지 않는다.
+3. Blender로 `validate_trial.py`, `check_corrections.py`, `FlatRolls/check_rolls.py`, `DetailRepair/validate_details.py`, `HullRepair/validate_hull.py` 실행. 저장된 이전 색/형상 기준을 다시 캡처하지 않는다.
 4. Pillow/numpy가 있는 Python으로 `compare_trial.py` 실행.
 
 Blender는 `C:/Program Files/Blender Foundation/Blender 5.1/blender.exe`를 사용했다.

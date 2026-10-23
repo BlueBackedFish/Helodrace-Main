@@ -1,8 +1,8 @@
 {
   "original_stowed_surfaces_and_colors_preserved": true,
   "only_fixed_bracket_faces_split": 142,
-  "total_vehicle_faces": 54680,
-  "full_meshes": 117,
+  "total_vehicle_faces": 70380,
+  "full_meshes": 147,
   "moving_parts": [
     "WT_roll_05"
   ],

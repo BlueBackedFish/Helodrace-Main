@@ -41,6 +41,7 @@
   "in_game_validation": "not_performed",
   "uniform_roll_objects_checked_by": "FlatRolls/check_rolls.py",
   "requested_obj_detail_restoration_checked_by": "DetailRepair/validate_details.py",
+  "requested_hull_restoration_checked_by": "HullRepair/validate_hull.py",
   "front_image_boxes": {
     "handle": [
       222.1142349243164,
