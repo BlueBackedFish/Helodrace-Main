@@ -1,4 +1,4 @@
-"""Two real camera directions, independent armor, and registered moving parts.
+"""Four real camera directions, independent armor, and registered moving parts.
 
 Run with Blender --python-exit-code 1 --python render_textures.py -- Standard|BUSK.
 Only the loaded in-memory scene is modified; input .blend files are never saved.
@@ -11,8 +11,11 @@ from mathutils import Matrix, Vector
 from bpy_extras.object_utils import world_to_camera_view
 
 HERE=Path(__file__).resolve().parent
+sys.path.insert(0,str(HERE))
+from tow_pose_paint import prepare_tow_palette
 cfg=json.loads((HERE/'settings.json').read_text())
 variant=sys.argv[sys.argv.index('--')+1] if '--' in sys.argv else 'Standard'
+tow_only='--tow-only' in sys.argv
 spec=cfg['sources'][variant]
 source=(HERE/spec['path']).resolve()
 assert hashlib.sha256(source.read_bytes()).hexdigest()==spec['sha256']
@@ -73,6 +76,8 @@ assert bpy.data.objects[cfg['tow']['fixed_front_plate']] in fixed_top
 assert sum(map(len,[hull,top,era]))==len(meshes)
 assert len(era)==(124 if variant=='BUSK' else 0)
 assert len(ramp_parts)>=2
+paint_settings=json.loads((HERE.parent/'part_contrast.json').read_text())['height_first_paint']
+apply_tow_paint,tow_paint_report=prepare_tow_palette(tow,tow_parts,cfg['tow_deployed_paint'],paint_settings,cfg['tow']['deployed_degrees'])
 saved_slots={o.name:list(o.data.materials) for o in meshes}
 hold=bpy.data.materials.new('Export-only holdout')
 hold.use_nodes=True
@@ -83,12 +88,18 @@ current_modes={}
 jobs=[]
 files={}
 catalog={}
+if tow_only:
+    previous=json.loads((OUT/'render_manifest.json').read_text())
+    assert previous['source_sha256']==spec['sha256']
+    files=previous['files']
+    catalog=previous['directions']
 
 
 def pose(roof_open=False,ramp_open=False,tow_open=False):
     roof_axis.rotation_euler.x=math.radians(cfg['roof_hatch']['open_degrees']) if roof_open else 0
     ramp.rotation_euler.x=math.radians(cfg['rear_ramp']['open_degrees']) if ramp_open else 0
     tow.rotation_euler.y=math.radians(cfg['tow']['deployed_degrees']) if tow_open else 0
+    apply_tow_paint(tow_open)
     bpy.context.view_layer.update()
 
 
@@ -150,12 +161,28 @@ def rendered_or_default(relative,obj,occluders,default):
 
 for direction in cfg['directions']:
     pose()
+    if tow_only:
+        info=catalog[direction]
+        data=bpy.data.cameras.new('TOW repaint top '+direction)
+        data.type='ORTHO';data.ortho_scale=info['ortho_scale']
+        cam=bpy.data.objects.new('TOW repaint top '+direction,data);scene.collection.objects.link(cam)
+        cam.location=turret.matrix_world.translation+Vector((0,0,16))
+        cam.rotation_euler=(0,0,math.radians(cfg['turret_top_rotation_z_degrees'][direction]))
+        scene.camera=cam
+        pose(tow_open=True)
+        render(info['parts']['tow_deployed'],tow_parts,fixed_top+gun_parts)
+        render(info['turret_states']['deployed']['file'],top)
+        top_era=[o for o in era if under(o,turret)]
+        if top_era:
+            render(info['turret_states']['deployed']['installed_reference'],top+top_era)
+        print('TOW_REPAINT_COMPLETE',variant,direction,flush=True)
+        continue
     scene.camera=bpy.data.objects[cfg['hull_camera'][direction]]
     scale=scene.camera.data.ortho_scale
     p=world_to_camera_view(scene,scene.camera,turret.matrix_world.translation)
     direction_info={'hull_turret_anchor':[p.x*1024,(1-p.y)*1024],
                     'turret_pivot':[512,512],'hull_elevation':64,'turret_elevation':90,
-                    'ortho_scale':scale,'front':'screen-right' if direction=='east' else 'screen-left',
+                    'ortho_scale':scale,'front':{'east':'screen-right','west':'screen-left','north':'screen-up','south':'screen-down'}[direction],
                     'hull_states':{},'turret_states':{},'era':{},'parts':{}}
     direction_info['hull_control_pivots']={'roof_hatch':pivot_pixels(roof_axis),'rear_ramp':pivot_pixels(ramp)}
     catalog[direction]=direction_info
@@ -255,6 +282,8 @@ report={'variant':variant,'source':str(source),'source_sha256':spec['sha256'],'s
         'source_faces':source_faces,'master':1024,'outline':False,'shadows':False,
         'camera_directions_rendered_independently':True,'empty_occluded_tiles_kept':True,
         'directions':catalog,'files':files,'settings':cfg,
+        'tow_deployed_paint':tow_paint_report,
+        'BUSK_body_includes_ERA':False,
         'roof_hatch_motion':'New render-only hinge; source geometry and face colors unchanged',
         'rear_door_scope':'large ramp with small personnel door closed',
         'compositing':'body-state image, then listed ERA files far to near; validate against installed references',

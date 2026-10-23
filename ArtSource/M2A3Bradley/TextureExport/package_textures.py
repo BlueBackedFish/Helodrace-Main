@@ -13,6 +13,14 @@ verify_only='--verify-only' in sys.argv
 variants=[] if '--archive-only' in sys.argv else ([v for v in sys.argv[1:] if not v.startswith('--')] or list(cfg['sources']))
 
 
+def save_png(image,path):
+    # Replace complete files so previews/readers never observe a partial PNG.
+    path=Path(path)
+    staging=path.with_name('.'+path.name+'.tmp.png')
+    image.save(staging,format='PNG')
+    staging.replace(path)
+
+
 def decode(rgb):
     return np.where(rgb<=.04045,rgb/12.92,((rgb+.055)/1.055)**2.4)
 
@@ -92,7 +100,7 @@ for variant in variants:
             assembled=assemble(root,spec['file'],spec['era_files'])
             destination=f'Assembled/hull_{state}_{direction}.png'
             (root/destination).parent.mkdir(exist_ok=True)
-            assembled.save(root/destination)
+            save_png(assembled,root/destination)
             spec['assembled']=destination
             if spec.get('installed_reference'):
                 tests['era_hull_'+state]=compare(assembled,Image.open(root/spec['installed_reference']),root,[spec['file']]+spec['era_files'])
@@ -104,7 +112,7 @@ for variant in variants:
         for state,spec in info['turret_states'].items():
             assembled=assemble(root,spec['file'],spec['era_files'])
             destination=f'Assembled/turret_{state}_{direction}.png'
-            assembled.save(root/destination)
+            save_png(assembled,root/destination)
             spec['assembled']=destination
             if spec.get('installed_reference'):
                 tests['era_turret_'+state]=compare(assembled,Image.open(root/spec['installed_reference']),root,[spec['file']]+spec['era_files'])
@@ -120,7 +128,7 @@ for variant in variants:
             preview=composite_linear(body,top,offset)
             destination=f'Preview/{hs}_tow_{ts}_{direction}.png'
             (root/destination).parent.mkdir(exist_ok=True)
-            preview.save(root/destination)
+            save_png(preview,root/destination)
             info['previews'][hs+'_tow_'+ts]=destination
         validation['directions'][direction]={'composition':tests,
             'era_module_count':len(info['era']),
@@ -137,7 +145,7 @@ for variant in variants:
             if size!=1024:
                 im=resize_linear(im,size)
                 (target/relative).parent.mkdir(parents=True,exist_ok=True)
-                im.save(target/relative)
+                save_png(im,target/relative)
             bounds=check_margin(im,str(relative))
             validation['layers'][f'{size}/{relative.as_posix()}']={'bounds':bounds,'visible':bool(bounds)}
         scale=size/1024
@@ -166,10 +174,12 @@ for variant in variants:
     print('PACKAGED',variant,len(masters),'PNGs per size;',validation['status'],flush=True)
 
 # Make a native 256px contact sheet when both variant packages are present.
-if all((OUT/'256'/v/'index.json').exists() for v in cfg['sources']):
-    board=Image.new('RGB',(4*280,4*294+44),(68,71,74))
+if all((OUT/'256'/v/'index.json').exists() and
+       set(json.loads((OUT/'256'/v/'index.json').read_text())['directions'])==set(cfg['directions'])
+       for v in cfg['sources']):
+    board=Image.new('RGB',(4*280,len(cfg['sources'])*len(cfg['directions'])*294+44),(68,71,74))
     draw=ImageDraw.Draw(board)
-    draw.text((12,10),'Bradley / EAST & WEST / 윤곽선 없음 / 256px 실제 크기',font=font(18),fill='white')
+    draw.text((12,10),'Bradley / EAST · WEST · NORTH · SOUTH / 윤곽선 없음 / 256px 실제 크기',font=font(18),fill='white')
     for row,(variant,direction) in enumerate(itertools.product(cfg['sources'],cfg['directions'])):
         root=OUT/'256'/variant
         index=json.loads((root/'index.json').read_text())
@@ -183,12 +193,25 @@ if all((OUT/'256'/v/'index.json').exists() for v in cfg['sources']):
             image=Image.open(root/info['previews'][key])
             board.paste(image,(x+12,y+32),image)
             draw.text((x+12,y+7),f'{variant} {direction.upper()} / {label}',font=font(13),fill='white')
-    board.save(OUT/'review_native_256.png')
-    # Runtime package: native 256/512 assets and indices. 1024 masters stay outside.
+    save_png(board,OUT/'review_native_256.png')
+    # Runtime ZIP intentionally contains no assembled installed sprites: its
+    # BUSK base can never be mistaken for a sprite with ERA already baked in.
     with zipfile.ZipFile(OUT/'Bradley_TexturePackage.zip','w',zipfile.ZIP_DEFLATED,compresslevel=6) as archive:
         for size in [256,512]:
-            for path in sorted((OUT/str(size)).rglob('*')):
-                if path.is_file():archive.write(path,path.relative_to(OUT).as_posix())
+            for variant in cfg['sources']:
+                runtime=OUT/str(size)/variant
+                for folder in ['Hull','Turret','Parts','ERA']:
+                    for path in sorted((runtime/folder).rglob('*.png')):
+                        archive.write(path,path.relative_to(OUT).as_posix())
+                index=json.loads((runtime/'index.json').read_text())
+                index['runtime_assets_only']=True
+                for info in index['directions'].values():
+                    info.pop('previews',None)
+                    for group in ['hull_states','turret_states']:
+                        for state in info[group].values():
+                            state.pop('assembled',None)
+                            state.pop('installed_reference',None)
+                archive.writestr(f'{size}/{variant}/index.json',json.dumps(index,indent=2)+'\n')
         archive.write(HERE/'README.md','README.md')
         archive.write(HERE.parent/'BUSKIII/REFERENCES.md','BUSK_REFERENCES.md')
     print('TEXTURE_PACKAGE_READY',OUT/'Bradley_TexturePackage.zip',flush=True)

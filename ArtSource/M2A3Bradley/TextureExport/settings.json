@@ -6,13 +6,24 @@
   "master":1024,
   "sizes":[256,512,1024],
   "samples":64,
-  "directions":["east","west"],
-  "hull_camera":{"east":"Camera_west","west":"Camera_east"},
-  "turret_top_rotation_z_degrees":{"east":-90,"west":90},
+  "directions":["east","west","north","south"],
+  "hull_camera":{"east":"Camera_west","west":"Camera_east","north":"Camera_north","south":"Camera_south"},
+  "turret_top_rotation_z_degrees":{"east":-90,"west":90,"north":180,"south":0},
   "roof_hatch":{"object":"WT_hatch_05","pivot":[0,2.50,2.06],"axis":"X","open_degrees":-100,"basis":"Source rear hinge location; simplified game-art opening, not an engineering linkage"},
   "rear_ramp":{"control":"REAR_RAMP_HINGE","axis":"X","open_degrees":-100,"include_personnel_door":true},
   "tow":{"control":"TOW_DEPLOY","moving_objects":["WT_roll_05"],"axis":"Y","deployed_degrees":-90,"fixed_front_plate":"WT_roll_04"},
+  "tow_deployed_paint":{
+    "top_luminance":216,
+    "slope_luminance":188,
+    "wall_luminance":156,
+    "bottom_luminance":108,
+    "ring_luminance":156,
+    "ring_face_max_area":0.03,
+    "preserve_materials":["Fixed Emission tan Y48","Fixed Emission tan Y60","Fixed Emission tan Y72"],
+    "ring_material":"Fixed Emission tan Y132",
+    "note":"Separate baked face palette for deployed pose; stowed face colors are restored exactly. Never recolor by viewing direction."
+  },
   "outline":false,
   "shadows":false,
-  "notes":"User requested no outlines, both real camera directions, individual reactive-armor sprites, TOW/roof hatch/rear ramp states. Small personnel door stays closed in the large ramp."
+  "notes":"No outlines; four real camera directions; BUSK body excludes all reactive modules; individual module sprites; separate deployed TOW paint. Small personnel door stays closed in the large ramp."
 }

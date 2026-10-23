@@ -217,6 +217,216 @@
         466.0
       ],
       "canvas_origin": "top-left; full hull canvas or yaw-centered turret canvas"
+    },
+    "north": {
+      "hull_turret_anchor": [
+        537.894287109375,
+        531.0971374511719
+      ],
+      "turret_pivot": [
+        512.0,
+        512.0
+      ],
+      "hull_elevation": 64,
+      "turret_elevation": 90,
+      "ortho_scale": 8.699999809265137,
+      "front": "screen-up",
+      "hull_states": {
+        "roof_closed_ramp_closed": {
+          "file": "Hull/hull_roof_closed_ramp_closed_north.png",
+          "roof_open": false,
+          "ramp_open": false,
+          "era_files": [],
+          "assembled": "Assembled/hull_roof_closed_ramp_closed_north.png"
+        },
+        "roof_closed_ramp_open": {
+          "file": "Hull/hull_roof_closed_ramp_open_north.png",
+          "roof_open": false,
+          "ramp_open": true,
+          "era_files": [],
+          "assembled": "Assembled/hull_roof_closed_ramp_open_north.png"
+        },
+        "roof_open_ramp_closed": {
+          "file": "Hull/hull_roof_open_ramp_closed_north.png",
+          "roof_open": true,
+          "ramp_open": false,
+          "era_files": [],
+          "assembled": "Assembled/hull_roof_open_ramp_closed_north.png"
+        },
+        "roof_open_ramp_open": {
+          "file": "Hull/hull_roof_open_ramp_open_north.png",
+          "roof_open": true,
+          "ramp_open": true,
+          "era_files": [],
+          "assembled": "Assembled/hull_roof_open_ramp_open_north.png"
+        }
+      },
+      "turret_states": {
+        "stowed": {
+          "file": "Turret/turret_stowed_north.png",
+          "tow_open": false,
+          "era_files": [],
+          "assembled": "Assembled/turret_stowed_north.png"
+        },
+        "deployed": {
+          "file": "Turret/turret_deployed_north.png",
+          "tow_open": true,
+          "era_files": [],
+          "assembled": "Assembled/turret_deployed_north.png"
+        }
+      },
+      "era": {},
+      "parts": {
+        "hull_static": "Hull/hull_static_north.png",
+        "roof_hatch_closed": "Parts/roof_hatch_closed_north.png",
+        "rear_ramp_closed": "Parts/rear_ramp_closed_north.png",
+        "roof_hatch_open": "Parts/roof_hatch_open_north.png",
+        "rear_ramp_open": "Parts/rear_ramp_open_north.png",
+        "turret_base": "Turret/turret_base_north.png",
+        "gun": "Parts/gun_north.png",
+        "tow_stowed": "Parts/tow_stowed_north.png",
+        "tow_deployed": "Parts/tow_deployed_north.png"
+      },
+      "hull_control_pivots": {
+        "roof_hatch": [
+          512.0,
+          750.158447265625
+        ],
+        "rear_ramp": [
+          512.0,
+          840.8161773681641
+        ]
+      },
+      "turret_control_pivots": {
+        "tow": [
+          389.7791442871094,
+          456.02130126953125
+        ],
+        "gun": [
+          512.0,
+          423.72412109375
+        ]
+      },
+      "previews": {
+        "roof_closed_ramp_closed_tow_stowed": "Preview/roof_closed_ramp_closed_tow_stowed_north.png",
+        "roof_closed_ramp_closed_tow_deployed": "Preview/roof_closed_ramp_closed_tow_deployed_north.png",
+        "roof_closed_ramp_open_tow_stowed": "Preview/roof_closed_ramp_open_tow_stowed_north.png",
+        "roof_closed_ramp_open_tow_deployed": "Preview/roof_closed_ramp_open_tow_deployed_north.png",
+        "roof_open_ramp_closed_tow_stowed": "Preview/roof_open_ramp_closed_tow_stowed_north.png",
+        "roof_open_ramp_closed_tow_deployed": "Preview/roof_open_ramp_closed_tow_deployed_north.png",
+        "roof_open_ramp_open_tow_stowed": "Preview/roof_open_ramp_open_tow_stowed_north.png",
+        "roof_open_ramp_open_tow_deployed": "Preview/roof_open_ramp_open_tow_deployed_north.png"
+      },
+      "rounded_master_hull_turret_anchor": [
+        538.0,
+        531.0
+      ],
+      "canvas_origin": "top-left; full hull canvas or yaw-centered turret canvas"
+    },
+    "south": {
+      "hull_turret_anchor": [
+        486.1057434082031,
+        446.46575927734375
+      ],
+      "turret_pivot": [
+        512.0,
+        512.0
+      ],
+      "hull_elevation": 64,
+      "turret_elevation": 90,
+      "ortho_scale": 8.699999809265137,
+      "front": "screen-down",
+      "hull_states": {
+        "roof_closed_ramp_closed": {
+          "file": "Hull/hull_roof_closed_ramp_closed_south.png",
+          "roof_open": false,
+          "ramp_open": false,
+          "era_files": [],
+          "assembled": "Assembled/hull_roof_closed_ramp_closed_south.png"
+        },
+        "roof_closed_ramp_open": {
+          "file": "Hull/hull_roof_closed_ramp_open_south.png",
+          "roof_open": false,
+          "ramp_open": true,
+          "era_files": [],
+          "assembled": "Assembled/hull_roof_closed_ramp_open_south.png"
+        },
+        "roof_open_ramp_closed": {
+          "file": "Hull/hull_roof_open_ramp_closed_south.png",
+          "roof_open": true,
+          "ramp_open": false,
+          "era_files": [],
+          "assembled": "Assembled/hull_roof_open_ramp_closed_south.png"
+        },
+        "roof_open_ramp_open": {
+          "file": "Hull/hull_roof_open_ramp_open_south.png",
+          "roof_open": true,
+          "ramp_open": true,
+          "era_files": [],
+          "assembled": "Assembled/hull_roof_open_ramp_open_south.png"
+        }
+      },
+      "turret_states": {
+        "stowed": {
+          "file": "Turret/turret_stowed_south.png",
+          "tow_open": false,
+          "era_files": [],
+          "assembled": "Assembled/turret_stowed_south.png"
+        },
+        "deployed": {
+          "file": "Turret/turret_deployed_south.png",
+          "tow_open": true,
+          "era_files": [],
+          "assembled": "Assembled/turret_deployed_south.png"
+        }
+      },
+      "era": {},
+      "parts": {
+        "hull_static": "Hull/hull_static_south.png",
+        "roof_hatch_closed": "Parts/roof_hatch_closed_south.png",
+        "rear_ramp_closed": "Parts/rear_ramp_closed_south.png",
+        "roof_hatch_open": "Parts/roof_hatch_open_south.png",
+        "rear_ramp_open": "Parts/rear_ramp_open_south.png",
+        "turret_base": "Turret/turret_base_south.png",
+        "gun": "Parts/gun_south.png",
+        "tow_stowed": "Parts/tow_stowed_south.png",
+        "tow_deployed": "Parts/tow_deployed_south.png"
+      },
+      "hull_control_pivots": {
+        "roof_hatch": [
+          512.0,
+          221.21282958984375
+        ],
+        "rear_ramp": [
+          512.0,
+          282.2496337890625
+        ]
+      },
+      "turret_control_pivots": {
+        "tow": [
+          634.2208862304688,
+          567.9786682128906
+        ],
+        "gun": [
+          512.0,
+          600.27587890625
+        ]
+      },
+      "previews": {
+        "roof_closed_ramp_closed_tow_stowed": "Preview/roof_closed_ramp_closed_tow_stowed_south.png",
+        "roof_closed_ramp_closed_tow_deployed": "Preview/roof_closed_ramp_closed_tow_deployed_south.png",
+        "roof_closed_ramp_open_tow_stowed": "Preview/roof_closed_ramp_open_tow_stowed_south.png",
+        "roof_closed_ramp_open_tow_deployed": "Preview/roof_closed_ramp_open_tow_deployed_south.png",
+        "roof_open_ramp_closed_tow_stowed": "Preview/roof_open_ramp_closed_tow_stowed_south.png",
+        "roof_open_ramp_closed_tow_deployed": "Preview/roof_open_ramp_closed_tow_deployed_south.png",
+        "roof_open_ramp_open_tow_stowed": "Preview/roof_open_ramp_open_tow_stowed_south.png",
+        "roof_open_ramp_open_tow_deployed": "Preview/roof_open_ramp_open_tow_deployed_south.png"
+      },
+      "rounded_master_hull_turret_anchor": [
+        486.0,
+        446.0
+      ],
+      "canvas_origin": "top-left; full hull canvas or yaw-centered turret canvas"
     }
   }
 }

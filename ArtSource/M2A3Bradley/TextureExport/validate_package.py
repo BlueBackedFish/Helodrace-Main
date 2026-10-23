@@ -17,13 +17,17 @@ for variant,source in cfg['sources'].items():
     for name,metadata in rendered['files'].items():
         if name.startswith('ERA/'):
             assert not (set(metadata['holdout_objects'])&tile_ids),'A neighboring module was baked into a tile mask'
+        if name.startswith(('Hull/','Turret/','Parts/')):
+            assert not (set(metadata['visible_objects'])&tile_ids),'ERA baked into base sprite'
+    assert rendered['BUSK_body_includes_ERA'] is False
+    assert rendered['tow_deployed_paint'][0]['repainted_faces']>0
     results[variant]={'source_unchanged':True,'sizes':{},'stable_composition_max_error_255':max(
         t['stable_max_rgb_error_255'] for d in quality['directions'].values() for t in d['composition'].values())}
     for size in cfg['sizes']:
         root=OUT/str(size)/variant
         index=json.loads((root/'index.json').read_text())
         assert not index['outline'] and not index['shadows']
-        assert set(index['directions'])=={'east','west'}
+        assert set(index['directions'])=={'east','west','north','south'}
         files=list(root.rglob('*.png'))
         assert len(files)==quality['PNG_count_per_size']
         for file in files:
@@ -51,21 +55,41 @@ for variant,source in cfg['sources'].items():
                     for file in actual:assert (root/file).is_file(),file
             for entry in info['era'].values():
                 assert (root/entry['default_file']).is_file()
+                assert entry['default_file'].endswith('_'+direction+'.png')
                 assert entry['family'] in expected
         east=Image.open(root/index['directions']['east']['hull_states']['roof_closed_ramp_closed']['file']).convert('RGBA')
         west=Image.open(root/index['directions']['west']['hull_states']['roof_closed_ramp_closed']['file']).convert('RGBA')
         assert east.transpose(Image.Transpose.FLIP_LEFT_RIGHT).tobytes()!=west.tobytes(),'WEST is only a mirrored EAST'
+        north=Image.open(root/index['directions']['north']['hull_states']['roof_closed_ramp_closed']['file']).convert('RGBA')
+        south=Image.open(root/index['directions']['south']['hull_states']['roof_closed_ramp_closed']['file']).convert('RGBA')
+        assert north.transpose(Image.Transpose.ROTATE_180).tobytes()!=south.tobytes(),'SOUTH is only a rotated NORTH'
         results[variant]['sizes'][str(size)]={'PNGs':len(files),'ERA_modules_per_direction':len(index['directions']['east']['era']),
+                                            'default_ERA_views':sum(len(info['era']) for info in index['directions'].values()),
                                             'states_per_direction':8,'outline':False,'rgba_transparent':True}
 with zipfile.ZipFile(OUT/'Bradley_TexturePackage.zip') as archive:
     assert archive.testzip() is None
+    assert not any('/'+folder+'/' in name for name in archive.namelist() for folder in ['Assembled','ReferenceInstalled','Preview'])
     for size in [256,512]:
-        for file in (OUT/str(size)).rglob('*'):
-            if file.is_file():assert archive.read(file.relative_to(OUT).as_posix())==file.read_bytes(),file
+        for variant in cfg['sources']:
+            root=OUT/str(size)/variant
+            for folder in ['Hull','Turret','Parts','ERA']:
+                for file in (root/folder).rglob('*.png'):
+                    assert archive.read(file.relative_to(OUT).as_posix())==file.read_bytes(),file
+            runtime=json.loads(archive.read(f'{size}/{variant}/index.json'))
+            assert runtime['runtime_assets_only']
+            assert set(runtime['directions'])==set(cfg['directions'])
+            for info in runtime['directions'].values():
+                assert 'previews' not in info
+                for group in ['hull_states','turret_states']:
+                    for state in info[group].values():
+                        assert 'assembled' not in state and 'installed_reference' not in state
+                        for file in [state['file'],*state['era_files']]:
+                            assert f'{size}/{variant}/{file}' in archive.namelist()
     assert archive.read('README.md')==(HERE/'README.md').read_bytes()
     assert 'BUSK_REFERENCES.md' in archive.namelist()
     archive_entries=len(archive.namelist())
 result={'status':'passed','variants':results,'archive_entries':archive_entries,
+        'archive_contains_only_unarmored_bases_and_separate_modules':True,
         'camera_directions_independent':True,'module_neighbors_not_baked_as_holdouts':True,
         'small_personnel_door':'closed, included in rear ramp',
         'outline':False,'shadows':False,'game_validation_performed':False,
