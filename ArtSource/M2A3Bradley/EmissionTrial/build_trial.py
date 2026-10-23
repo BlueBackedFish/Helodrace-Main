@@ -74,6 +74,8 @@ detail_report=restore_source_details(fixed)
 sys.path.insert(0,str(OUT/'HullRepair'))
 from hull_details import apply as restore_hull_details
 hull_report=restore_hull_details(fixed)
+from side_slopes import apply as brighten_side_slopes
+slope_report=brighten_side_slopes(fixed)
 meshes=[o for o in s.objects if o.type=='MESH']
 final_geometry=geometry_hash()
 final_faces=sum(len(o.data.polygons) for o in meshes)
@@ -103,6 +105,7 @@ report={'baseline_commit':cfg['baseline_commit'],'baseline_already_emission':Tru
 'geometry_sha256_including_parent_and_world_matrix':final_geometry,'geometry_unchanged':False,
 'geometry_before_requested_detail_repair':before,'source_detail_repairs':detail_report,
 'hull_detail_repairs':hull_report,
+'hull_slope_paint':slope_report,
 'faces':final_faces,'meshes':final_meshes,
 'production_source_sha256':sources,'trial_only':True,'grille':'Existing position-based emission stripe pattern preserved in BLEND; solid fallback in GLB.',
 'no_camera_or_normal_shader_input':True,'no_render_time_recolor':True,'in_game_validation':'not_performed'}

@@ -37,7 +37,7 @@ changes={}
 for name,record in current.items():
     # These three entire painted objects now have a separate ce465c14 audit;
     # the older b3fdf6f6 snapshot cannot mask their newly requested changes.
-    if name in uniform_rolls or name in details['added_objects']+details['replaced_objects']+hull['added_objects']+hull['replaced_objects']:continue
+    if name=='WT_@root' or name in uniform_rolls or name in details['added_objects']+details['replaced_objects']+hull['added_objects']+hull['replaced_objects']:continue
     assert record['outside_hash']==before['objects'][name]['outside_hash'],('Unrelated paint changed',name)
     previous=before['objects'][name]['inside']
     changed=sum(tuple(rgb)!=tuple(previous[i]) for i,rgb in record['inside'].items())
@@ -73,6 +73,7 @@ validation={'compared_with':cfg['previous_trial_commit'],'only_requested_faces_c
 validation['uniform_roll_objects_checked_by']='FlatRolls/check_rolls.py'
 validation['requested_obj_detail_restoration_checked_by']='DetailRepair/validate_details.py'
 validation['requested_hull_restoration_checked_by']='HullRepair/validate_hull.py'
+validation['local_side_slope_colors_checked_by']='HullRepair/check_side_slopes.py'
 pose=json.loads((OUT/'camera_views.json').read_text())['closeup_front']
 s=bpy.context.scene;camera=bpy.data.objects['Camera_iso_front'];camera.location=pose['location'];camera.rotation_euler=pose['rotation_euler']
 camera.data.ortho_scale=pose['ortho_scale'];s.camera=camera;s.render.resolution_x=s.render.resolution_y=pose['size'];bpy.context.view_layer.update()

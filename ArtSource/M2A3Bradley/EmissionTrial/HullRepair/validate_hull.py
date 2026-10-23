@@ -19,6 +19,7 @@ objects={o.name:o for o in s.objects if o.type=='MESH'}
 assert set(objects)==set(before)|set(report['added_objects'])
 unchanged=[]
 for name,old in before.items():
+    if name=='WT_@root':continue # Geometry and exact local paint scope: check_side_slopes.py
     if name not in report['replaced_objects']:
         assert digest(objects[name])==old,('Unrelated geometry/paint/parent changed',name)
         unchanged.append(name)
@@ -44,7 +45,7 @@ for name,record in report['parts'].items():
             role_values[role].add(round(y,3))
     records[name]={'source_faces':len(ids),'parent':obj.parent.name,'source_group':record['source_group']}
 assert len([n for n in report['added_objects'] if 'SkirtHandle_' in n])==14
-assert 'WT_@root' in unchanged,'Hull shell and simplified grilles must remain intact'
+assert 'WT_@root' not in report['replaced_objects'],'Hull shell must remain intact'
 assert all(digest(o)==before[o.name] for o in objects.values() if o.name in before and o.name.startswith(('WT_GunnerSight_','WT_Antenna02_','WT_roll_')))
 # Doors retain their original pivots; recovered fixtures follow the corresponding door.
 motion={}
@@ -63,7 +64,7 @@ assert 192 in role_values['hatch'] and 216 in role_values['raised_lid'] and 216 
 assert role_values['skirt_handle']=={168},'No cylindrical side-shading bands on skirt handles'
 validation={'baseline':'cbf17877','source_sha256':source['source_sha256'],
  'untouched_objects_identical':len(unchanged),'all_turret_geometry_and_colors_preserved':True,
- 'hull_shell_tracks_wheels_and_grilles_preserved':True,'restored_parts':records,
+ 'hull_shell_geometry_tracks_wheels_and_grilles_preserved':True,'local_side_slope_check':'HullRepair/check_side_slopes.py','restored_parts':records,
  'no_duplicate_restored_faces':True,'all_restored_faces_positive_area':True,
  'constant_emission':True,'roles_display_y':{k:sorted(v) for k,v in role_values.items()},
  'door_and_ramp_motion':motion,'skirt_handles':14,'ERA':'not added',

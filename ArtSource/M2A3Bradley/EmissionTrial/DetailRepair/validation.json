@@ -1,6 +1,7 @@
 {
   "source_sha256": "8cf128f1c44037f3caff8db7104a83ff6c6e70b05d06a1e89dbe5b5ab420b813",
-  "untouched_objects_identical_to_38a4fd44_except_hull_repair": 89,
+  "untouched_objects_identical_to_38a4fd44_except_hull_repair_and_side_slope_paint": 88,
+  "local_side_slope_paint_checked_by": "HullRepair/check_side_slopes.py",
   "hull_changes_checked_by": "HullRepair/validate_hull.py",
   "restored_parts": {
     "WT_GunnerSight_Door_L": {

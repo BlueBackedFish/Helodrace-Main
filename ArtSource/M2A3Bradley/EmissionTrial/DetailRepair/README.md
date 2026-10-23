@@ -14,7 +14,7 @@
 - `source_details.py`: 원본 메시의 연결 영역 선택과 복구/채색. 상위 `build_trial.py`가 호출한다.
 - `source_audit.json`: 원본 연결 영역·면 번호·위치와 수정 전 좌표 잔존 현황.
 - `before_objects.json`: 변경 전 오브젝트별 형상/색/부모 SHA256. 덮어쓰지 않는다.
-- `validate_details.py`, `validation.json`: 원본 면 좌표 일치, 양수 면적, 중복 면 없음, 고정 Emission/유리 보존 검사. 처음 보존한 102개 메시 중 이후 의도적으로 수정한 차체 13개는 `HullRepair/validate_hull.py`에 넘기고 나머지 89개는 종전 해시로 검사한다.
+- `validate_details.py`, `validation.json`: 원본 면 좌표 일치, 양수 면적, 중복 면 없음, 고정 Emission/유리 보존 검사. 처음 보존한 102개 메시 중 이후 복구한 차체 13개는 `HullRepair/validate_hull.py`, 본체 측면 경사 색 변경은 `HullRepair/check_side_slopes.py`에 넘기고 나머지 88개는 종전 해시로 검사한다.
 - `current_front/rear.png`: 수정 전. `source_front/rear.png`: 원본 형상 비교용. `after_front/rear.png`: 복구 후 동일 카메라.
 - `before_after.png`: 복구 전후 정면/후면 비교. 원본 비교 렌더의 색은 형상 확인을 위한 임시색이며 최종 팔레트가 아니다.
 

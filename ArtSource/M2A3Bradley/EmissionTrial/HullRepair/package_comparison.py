@@ -21,6 +21,17 @@ for col,(version,label) in enumerate([('before','수정 전'),('after','차체 �
     im=Image.open(path).convert('RGBA');assert im.size==(256,256);board.paste(im,(x+128,1122),im)
 draw.text((14,1384),'포탑 숨김 차체 비교 / 해치·견인 고리·손잡이·조명 복구 / 원본 좌표 보존',font=small,fill='white')
 board.save(HERE/'before_after.png')
+side=HERE/'SideSlopes'
+if (side/'before_front.png').exists():
+    board=Image.new('RGB',(1040,870),(58,63,68));draw=ImageDraw.Draw(board)
+    for col,(label,front,game) in enumerate([
+        ('측면 경사 수정 전 · 108',side/'before_front.png',side/'before_east_256.png'),
+        ('측면 경사 수정 후 · 132',HERE/'after_front.png',TRIAL/'VF_East/256/preview_east.png')]):
+        x=12+520*col;draw.text((x,8),label,font=font,fill=(241,237,220))
+        im=resize_linear(Image.open(front),512);board.paste(im,(x,44),im)
+        draw.text((x+80,562),'EAST 합성 · 256px 실제 크기',font=small,fill='white')
+        im=Image.open(game).convert('RGBA');board.paste(im,(x+128,590),im)
+    board.save(side/'before_after.png')
 for size in (256,512):
     out=HERE/str(size);out.mkdir(exist_ok=True)
     for name in ['after_front','after_rear','after_top']:

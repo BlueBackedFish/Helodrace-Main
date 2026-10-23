@@ -29,6 +29,7 @@
 - `TOWDeploy/`: 이 시험본에서 파생한 TOW 전개 모델과 독립 발사기. 고정 브래킷을 분리하고 전개 축/동작을 추가했다. 편집법과 EAST 레이어는 `TOWDeploy/README.md`를 따른다.
 - `DetailRepair/`: 원본 OBJ의 관측장비 덮개·개폐판·상부 부속과 안테나 2의 받침·스프링·연결부 복구. 대상 밖 102개 메시의 형상/색/부모 보존 및 중복 면 검수.
 - `HullRepair/`: 같은 원본 대조 방식으로 차체 해치·조명·견인 고리·스커트 손잡이·잠금부 복구. 13개 오브젝트 교체와 30개 메시 추가, 기존 103개 메시 보존. 포탑은 그대로 유지한다.
+- `HullRepair/SideSlopes/`: 좌우 외부 경사 89면만 108 → 132로 밝힌 후속 조정. 지붕과의 큰 명도 점프를 줄이고 포탑 밝기를 이유로 한 추가 보정은 하지 않는다. `HullRepair/check_side_slopes.py`로 정확한 수정 범위를 검사한다.
 
 실제 PNG에서 3×3 픽셀 모두 같은 면을 보는 영역만 BVH로 확인해 비교했다.
 두 시점에서 공통으로 보이는 312면의 최대 픽셀 RGB 채널 차이는 **0.0/255**였다.
@@ -40,7 +41,7 @@
 
 1. Blender에서 `--python-exit-code 1 --python build_trial.py` 실행. `settings.json`의 기준 파일 해시와 일치할 때만 빌드한다.
 2. 별도 Blender 프로세스에서 같은 옵션으로 `render_trial.py` 실행.
-3. Blender로 `validate_trial.py`, `check_corrections.py`, `FlatRolls/check_rolls.py`, `DetailRepair/validate_details.py`, `HullRepair/validate_hull.py` 실행. 저장된 이전 색/형상 기준을 다시 캡처하지 않는다.
+3. Blender로 `validate_trial.py`, `check_corrections.py`, `FlatRolls/check_rolls.py`, `DetailRepair/validate_details.py`, `HullRepair/validate_hull.py`, `HullRepair/check_side_slopes.py` 실행. 저장된 이전 색/형상 기준을 다시 캡처하지 않는다.
 4. Pillow/numpy가 있는 Python으로 `compare_trial.py` 실행.
 
 Blender는 `C:/Program Files/Blender Foundation/Blender 5.1/blender.exe`를 사용했다.

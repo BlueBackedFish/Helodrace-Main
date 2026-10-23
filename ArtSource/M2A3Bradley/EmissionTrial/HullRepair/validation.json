@@ -1,9 +1,10 @@
 {
   "baseline": "cbf17877",
   "source_sha256": "8cf128f1c44037f3caff8db7104a83ff6c6e70b05d06a1e89dbe5b5ab420b813",
-  "untouched_objects_identical": 103,
+  "untouched_objects_identical": 102,
   "all_turret_geometry_and_colors_preserved": true,
-  "hull_shell_tracks_wheels_and_grilles_preserved": true,
+  "hull_shell_geometry_tracks_wheels_and_grilles_preserved": true,
+  "local_side_slope_check": "HullRepair/check_side_slopes.py",
   "restored_parts": {
     "WT_hatch_01": {
       "source_faces": 1165,
