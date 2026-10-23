@@ -40,7 +40,7 @@ namespace Helodrace
                     if (thing is Projectile_Tow missile
                         && !missile.Destroyed
                         && missile.Spawned
-                        && missile.LauncherBuilding == parent)
+                        && missile.LauncherPlatform == parent)
                     {
                         activeMissile = missile;
                         break;

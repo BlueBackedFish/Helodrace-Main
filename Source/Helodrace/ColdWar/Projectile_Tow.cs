@@ -1,5 +1,6 @@
 using RimWorld;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -46,7 +47,7 @@ namespace Helodrace
         private Vector3 exactPosition;
         private Vector3 flightDirection;
         private Vector3 initialGuidanceDirection;
-        private Building_TurretGun launcherBuilding;
+        private ThingWithComps launcherPlatform;
         private List<Vector3> wirePath;
         private Vector3 lastTrackedTargetPosition;
         private Vector3 trackedTargetVelocity;
@@ -63,7 +64,10 @@ namespace Helodrace
         private TowProjectileExtension Extension => def.GetModExtension<TowProjectileExtension>();
 
         public bool GuidanceActive => guidanceActive;
-        public Building_TurretGun LauncherBuilding => launcherBuilding;
+        public ThingWithComps LauncherPlatform => launcherPlatform;
+        private ITowGuidanceSource GuidanceSource => launcherPlatform?.AllComps.OfType<ITowGuidanceSource>().FirstOrDefault();
+        private bool LauncherAvailable => launcherPlatform != null && !launcherPlatform.Destroyed &&
+            launcherPlatform.Map == Map && (GuidanceSource?.CanGuideTow ?? true);
         public override Vector3 ExactPosition => flightInitialized ? exactPosition : base.ExactPosition;
         public override Vector3 DrawPos => ExactPosition;
 
@@ -93,7 +97,7 @@ namespace Helodrace
             initialGuidanceDirection = flightDirection;
             flightInitialized = true;
             flightTicks = 0;
-            launcherBuilding = ResolveLauncherBuilding(launcher, equipment);
+            launcherPlatform = ResolveLauncherPlatform(launcher, equipment);
             RegisterWithLauncher();
         }
 
@@ -106,7 +110,7 @@ namespace Helodrace
             Scribe_Values.Look(ref exactPosition, "towExactPosition");
             Scribe_Values.Look(ref flightDirection, "towFlightDirection");
             Scribe_Values.Look(ref initialGuidanceDirection, "towInitialGuidanceDirection");
-            Scribe_References.Look(ref launcherBuilding, "towLauncherBuilding");
+            Scribe_References.Look(ref launcherPlatform, "towLauncherPlatform");
             Scribe_Collections.Look(ref wirePath, "towWirePath", LookMode.Value);
             Scribe_Values.Look(ref lastTrackedTargetPosition, "towLastTrackedTargetPosition");
             Scribe_Values.Look(ref trackedTargetVelocity, "towTrackedTargetVelocity");
@@ -133,10 +137,10 @@ namespace Helodrace
 
             if (guidanceActive)
             {
-                if (launcherBuilding == null || launcherBuilding.Destroyed || launcherBuilding.Map != Map)
+                if (!LauncherAvailable)
                 {
-                    // Allow several ticks for old saves and unusual turret verb
-                    // paths to recover their physical launcher reference.
+                    // Unusual turret verbs can expose the manning pawn or held gun first;
+                    // give equipment/holder resolution a few flight ticks to find the source.
                     if (flightTicks >= 10)
                     {
                         SeverGuidanceWire();
@@ -257,21 +261,21 @@ namespace Helodrace
 
         private void RegisterWithLauncher()
         {
-            if (launcherBuilding == null)
+            if (launcherPlatform == null)
             {
-                launcherBuilding = ResolveLauncherBuilding(Launcher, equipment);
+                launcherPlatform = ResolveLauncherPlatform(Launcher, equipment);
             }
 
-            CompTowLauncher launcherComp = launcherBuilding?.TryGetComp<CompTowLauncher>();
+            CompTowLauncher launcherComp = launcherPlatform?.TryGetComp<CompTowLauncher>();
             if (launcherComp?.ActiveMissile != this)
             {
                 launcherComp?.SetActiveMissile(this);
             }
         }
 
-        private Building_TurretGun ResolveLauncherBuilding(Thing launcher, Thing equipmentThing)
+        private ThingWithComps ResolveLauncherPlatform(Thing launcher, Thing equipmentThing)
         {
-            if (launcher is Building_TurretGun directLauncher
+            if (launcher is ThingWithComps directLauncher
                 && directLauncher.TryGetComp<CompTowLauncher>() != null)
             {
                 return directLauncher;
@@ -280,7 +284,7 @@ namespace Helodrace
             IThingHolder holder = equipmentThing?.ParentHolder;
             for (int depth = 0; holder != null && depth < 5; depth++)
             {
-                if (holder is Building_TurretGun turret
+                if (holder is ThingWithComps turret
                     && turret.TryGetComp<CompTowLauncher>() != null)
                 {
                     return turret;
@@ -631,7 +635,7 @@ namespace Helodrace
 
                 Building edifice = cell.GetEdifice(Map);
                 if (edifice != null
-                    && edifice != launcherBuilding
+                    && edifice != launcherPlatform
                     && edifice != Launcher
                     && edifice.def.Fillage == FillCategory.Full)
                 {
@@ -651,7 +655,7 @@ namespace Helodrace
             }
 
             guidanceActive = false;
-            if (Map != null && launcherBuilding?.Faction == Faction.OfPlayer)
+            if (Map != null && launcherPlatform?.Faction == Faction.OfPlayer)
             {
                 string reason = obstruction == null
                     ? "TOW guidance wire was severed."
@@ -740,7 +744,7 @@ namespace Helodrace
 
                         foreach (Thing thing in cell.GetThingList(Map))
                         {
-                            if (thing == launcherBuilding || thing == Launcher || thing == equipment || thing == this)
+                            if (thing == launcherPlatform || thing == Launcher || thing == equipment || thing == this)
                             {
                                 continue;
                             }
@@ -762,21 +766,17 @@ namespace Helodrace
         {
             launcherPoint = default;
             missilePoint = default;
-            if (Map == null
-                || launcherBuilding == null
-                || launcherBuilding.Destroyed
-                || launcherBuilding.Map != Map)
+            if (Map == null || !LauncherAvailable) return false;
+            ITowGuidanceSource source = GuidanceSource;
+            if (source != null)
             {
-                return false;
+                launcherPoint = source.TowWireOrigin;
             }
-
-            launcherPoint = launcherBuilding.DrawPos;
-            if (launcherBuilding.Top != null)
+            else
             {
-                Quaternion launcherRotation = Quaternion.AngleAxis(
-                    launcherBuilding.Top.CurRotation,
-                    Vector3.up);
-                launcherPoint += launcherRotation * Vector3.forward * 0.25f;
+                launcherPoint = launcherPlatform.DrawPos;
+                if (launcherPlatform is Building_TurretGun building && building.Top != null)
+                    launcherPoint += Quaternion.AngleAxis(building.Top.CurRotation, Vector3.up) * Vector3.forward * 0.25f;
             }
             missilePoint = ExactPosition;
             launcherPoint.y = 0f;
