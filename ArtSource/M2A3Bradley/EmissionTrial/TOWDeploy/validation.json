@@ -1,0 +1,72 @@
+{
+  "original_stowed_surfaces_and_colors_preserved": true,
+  "only_fixed_bracket_faces_split": 142,
+  "total_vehicle_faces": 52878,
+  "full_meshes": 104,
+  "moving_parts": [
+    "WT_roll_05",
+    "WT_roll_04"
+  ],
+  "fixed_mounts_stable_through_motion": true,
+  "closes_exactly_to_original_pose": true,
+  "pose_bounds_world": {
+    "20": [
+      [
+        0.8064000010490417,
+        -0.4514999985694885,
+        2.154599905014038
+      ],
+      [
+        1.2156000137329102,
+        0.7426000237464905,
+        2.755000114440918
+      ]
+    ],
+    "60": [
+      [
+        0.8024000525474548,
+        -0.4514999985694885,
+        2.7270002365112305
+      ],
+      [
+        1.4028003215789795,
+        0.7426000237464905,
+        3.136200189590454
+      ]
+    ],
+    "120": [
+      [
+        0.8064000010490417,
+        -0.4514999985694885,
+        2.154599905014038
+      ],
+      [
+        1.2156000137329102,
+        0.7426000237464905,
+        2.755000114440918
+      ]
+    ]
+  },
+  "standalone_meshes": 8,
+  "standalone_hinge_at_origin": true,
+  "exports": {
+    "bradley_tow_deploy.glb": {
+      "animations": [
+        "REAR_RAMP_HINGE_DEMO.001",
+        "PERSONNEL_DOOR_HINGE_DEMO.001",
+        "TURRET_YAW_DEMO.001",
+        "GUN_ELEVATION_DEMO.001",
+        "TOW_DEPLOY_OPEN_CLOSE"
+      ],
+      "unlit": true
+    },
+    "tow_launcher.glb": {
+      "animations": [
+        "TOW_DEPLOY_OPEN_CLOSE"
+      ],
+      "unlit": true
+    }
+  },
+  "pivot_fit": "source-based approximate game animation; not engineering kinematics",
+  "in_game_validation": "not_performed"
+}
