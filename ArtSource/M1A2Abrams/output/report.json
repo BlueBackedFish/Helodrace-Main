@@ -1,0 +1,2094 @@
+{
+  "status": "draft",
+  "postprocess_passed": true,
+  "blockers": [
+    "blueprint not supplied; OBJ-only draft",
+    "rig: GUN_ELEVATION",
+    "rig: LOADER_HATCH",
+    "rig: COMMANDER_HATCH",
+    "rig: DRIVER_HATCH",
+    "review: blueprint",
+    "review: native_size",
+    "review: geometry",
+    "review: game"
+  ],
+  "sources": {
+    "obj": {
+      "path": "C:\\Users\\human\\Downloads\\Dagor-Asset-Explorer-1.0.0\\Dagor-Asset-Explorer-1.0.0\\ext\\m1a2\\m1a2_abrams_0.obj",
+      "sha256": "9be0eba409b70c69ab75392898971e0789551a6cba1b94b3b84abb1fb2122faf"
+    }
+  },
+  "profile_sha256": "98492a3531beaa8b3645c89d1f1fff7f8a254505b1cdfbe8b829ff4aa9766a52",
+  "style_sha256": "6c5ddf651d2f584b81bcc25066bd33e57f7ebee910516d471e7475bf5ff57d48",
+  "source_faces": 172552,
+  "preserved_faces": 172312,
+  "explicitly_omitted_faces": 240,
+  "degenerate_source_faces": [],
+  "source_coordinates_preserved": true,
+  "unlit_glb": true,
+  "glb_animation_count": 1,
+  "mesh_count": 137,
+  "paint": {
+    "g0000": {
+      "top": 168,
+      "luminances": {
+        "108": 8161,
+        "72": 8753,
+        "144": 3487,
+        "132": 1620,
+        "120": 4479,
+        "168": 4738
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 31238
+    },
+    "g0000_interior": {
+      "top": 64,
+      "luminances": {
+        "64": 1848
+      },
+      "upward_min_max": [
+        64,
+        64
+      ],
+      "source_faces": 1848
+    },
+    "g0000_grille_patch_00": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 1
+    },
+    "g0000_grille_patch_01": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 1
+    },
+    "g0000_grille_patch_02": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 1
+    },
+    "g0000_grille_patch_03": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 1
+    },
+    "g0000_grille_patch_04": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 1
+    },
+    "g0000_grille_patch_05": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 1
+    },
+    "g0000_grille_patch_06": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 1
+    },
+    "g0000_grille_patch_07": {
+      "top": 96,
+      "luminances": {
+        "96": 5
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 5
+    },
+    "g0000_grille_patch_08": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 2
+    },
+    "g0000_grille_patch_09": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "upward_min_max": null,
+      "source_faces": 2
+    },
+    "g0000_grille_patch_10": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": null,
+      "source_faces": 1
+    },
+    "g0000_grille_patch_11": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": null,
+      "source_faces": 1
+    },
+    "g0000_grille_patch_12": {
+      "top": 96,
+      "luminances": {
+        "96": 4
+      },
+      "upward_min_max": null,
+      "source_faces": 4
+    },
+    "g0000_grille_patch_13": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "upward_min_max": null,
+      "source_faces": 2
+    },
+    "g0000_grille_patch_14": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "upward_min_max": null,
+      "source_faces": 2
+    },
+    "g0000_grille_patch_15": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 1
+    },
+    "g0001": {
+      "top": 108,
+      "luminances": {
+        "60": 832,
+        "108": 530
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 1362
+    },
+    "g0002": {
+      "top": 76,
+      "luminances": {
+        "76": 371
+      },
+      "upward_min_max": [
+        76,
+        76
+      ],
+      "source_faces": 371
+    },
+    "g0003": {
+      "top": 108,
+      "luminances": {
+        "60": 832,
+        "108": 530
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 1362
+    },
+    "g0004": {
+      "top": 76,
+      "luminances": {
+        "76": 182
+      },
+      "upward_min_max": [
+        76,
+        76
+      ],
+      "source_faces": 182
+    },
+    "g0005": {
+      "top": 108,
+      "luminances": {
+        "60": 832,
+        "108": 530
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 1362
+    },
+    "g0006": {
+      "top": 76,
+      "luminances": {
+        "76": 182
+      },
+      "upward_min_max": [
+        76,
+        76
+      ],
+      "source_faces": 182
+    },
+    "g0007": {
+      "top": 108,
+      "luminances": {
+        "60": 832,
+        "108": 530
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 1362
+    },
+    "g0008": {
+      "top": 76,
+      "luminances": {
+        "76": 182
+      },
+      "upward_min_max": [
+        76,
+        76
+      ],
+      "source_faces": 182
+    },
+    "g0009": {
+      "top": 108,
+      "luminances": {
+        "60": 832,
+        "108": 530
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 1362
+    },
+    "g0010": {
+      "top": 76,
+      "luminances": {
+        "76": 182
+      },
+      "upward_min_max": [
+        76,
+        76
+      ],
+      "source_faces": 182
+    },
+    "g0011": {
+      "top": 108,
+      "luminances": {
+        "60": 832,
+        "108": 530
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 1362
+    },
+    "g0012": {
+      "top": 76,
+      "luminances": {
+        "76": 371
+      },
+      "upward_min_max": [
+        76,
+        76
+      ],
+      "source_faces": 371
+    },
+    "g0013": {
+      "top": 108,
+      "luminances": {
+        "60": 832,
+        "108": 530
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 1362
+    },
+    "g0014": {
+      "top": 76,
+      "luminances": {
+        "76": 182
+      },
+      "upward_min_max": [
+        76,
+        76
+      ],
+      "source_faces": 182
+    },
+    "g0015": {
+      "top": 108,
+      "luminances": {
+        "60": 832,
+        "108": 530
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 1362
+    },
+    "g0016": {
+      "top": 76,
+      "luminances": {
+        "76": 182
+      },
+      "upward_min_max": [
+        76,
+        76
+      ],
+      "source_faces": 182
+    },
+    "g0017": {
+      "top": 108,
+      "luminances": {
+        "60": 832,
+        "108": 530
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 1362
+    },
+    "g0018": {
+      "top": 76,
+      "luminances": {
+        "76": 182
+      },
+      "upward_min_max": [
+        76,
+        76
+      ],
+      "source_faces": 182
+    },
+    "g0019": {
+      "top": 108,
+      "luminances": {
+        "60": 832,
+        "108": 530
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 1362
+    },
+    "g0020": {
+      "top": 76,
+      "luminances": {
+        "76": 182
+      },
+      "upward_min_max": [
+        76,
+        76
+      ],
+      "source_faces": 182
+    },
+    "g0021": {
+      "top": 180,
+      "luminances": {
+        "180": 5168,
+        "156": 2189,
+        "84": 7574,
+        "120": 5294,
+        "132": 5658,
+        "144": 2332
+      },
+      "upward_min_max": [
+        180,
+        180
+      ],
+      "source_faces": 28215
+    },
+    "g0021_interior": {
+      "top": 64,
+      "luminances": {
+        "64": 2391
+      },
+      "upward_min_max": [
+        64,
+        64
+      ],
+      "source_faces": 2391
+    },
+    "g0021_grille_patch_00": {
+      "top": 96,
+      "luminances": {
+        "96": 38
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 38
+    },
+    "g0022": {
+      "top": 204,
+      "luminances": {
+        "168": 587,
+        "204": 137
+      },
+      "upward_min_max": [
+        204,
+        204
+      ],
+      "source_faces": 724
+    },
+    "g0023": {
+      "top": 64,
+      "luminances": {
+        "64": 2427
+      },
+      "upward_min_max": [
+        64,
+        64
+      ],
+      "source_faces": 2427
+    },
+    "g0023_gunmetal": {
+      "top": 64,
+      "luminances": {
+        "64": 6715
+      },
+      "upward_min_max": [
+        64,
+        64
+      ],
+      "source_faces": 6715
+    },
+    "g0024_gunmetal": {
+      "top": 64,
+      "luminances": {
+        "64": 2483
+      },
+      "upward_min_max": [
+        64,
+        64
+      ],
+      "source_faces": 2483
+    },
+    "g0025": {
+      "top": 204,
+      "luminances": {
+        "168": 1697,
+        "204": 448
+      },
+      "upward_min_max": [
+        204,
+        204
+      ],
+      "source_faces": 2145
+    },
+    "g0026": {
+      "top": 204,
+      "luminances": {
+        "168": 656,
+        "204": 176
+      },
+      "upward_min_max": [
+        204,
+        204
+      ],
+      "source_faces": 832
+    },
+    "g0027": {
+      "top": 192,
+      "luminances": {
+        "156": 1314,
+        "192": 390
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 1704
+    },
+    "g0028": {
+      "top": 180,
+      "luminances": {
+        "156": 74,
+        "120": 544,
+        "132": 485,
+        "84": 461,
+        "144": 98,
+        "180": 405
+      },
+      "upward_min_max": [
+        180,
+        180
+      ],
+      "source_faces": 2067
+    },
+    "g0029": {
+      "top": 156,
+      "luminances": {
+        "156": 2426
+      },
+      "upward_min_max": [
+        156,
+        156
+      ],
+      "source_faces": 2426
+    },
+    "g0029_bore": {
+      "top": 40,
+      "luminances": {
+        "40": 70
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 70
+    },
+    "g0030_gunmetal": {
+      "top": 64,
+      "luminances": {
+        "64": 52
+      },
+      "upward_min_max": [
+        64,
+        64
+      ],
+      "source_faces": 52
+    },
+    "g0031": {
+      "top": 204,
+      "luminances": {
+        "168": 226,
+        "204": 84
+      },
+      "upward_min_max": [
+        204,
+        204
+      ],
+      "source_faces": 310
+    },
+    "g0032": {
+      "top": 204,
+      "luminances": {
+        "204": 84,
+        "168": 226
+      },
+      "upward_min_max": [
+        204,
+        204
+      ],
+      "source_faces": 310
+    },
+    "g0033": {
+      "top": 180,
+      "luminances": {
+        "132": 82,
+        "144": 81,
+        "180": 104,
+        "84": 232,
+        "156": 73,
+        "120": 6
+      },
+      "upward_min_max": [
+        180,
+        180
+      ],
+      "source_faces": 578
+    },
+    "g0034": {
+      "top": 180,
+      "luminances": {
+        "120": 247,
+        "180": 138,
+        "132": 148,
+        "84": 253,
+        "156": 99,
+        "144": 74
+      },
+      "upward_min_max": [
+        180,
+        180
+      ],
+      "source_faces": 959
+    },
+    "g0035": {
+      "top": 180,
+      "luminances": {
+        "132": 87,
+        "144": 82,
+        "180": 104,
+        "84": 229,
+        "156": 71,
+        "120": 5
+      },
+      "upward_min_max": [
+        180,
+        180
+      ],
+      "source_faces": 578
+    },
+    "g0036": {
+      "top": 180,
+      "luminances": {
+        "120": 245,
+        "132": 148,
+        "180": 138,
+        "84": 255,
+        "156": 99,
+        "144": 74
+      },
+      "upward_min_max": [
+        180,
+        180
+      ],
+      "source_faces": 959
+    },
+    "g0037": {
+      "top": 144,
+      "luminances": {
+        "144": 72,
+        "120": 412
+      },
+      "upward_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 484
+    },
+    "g0037_stowage": {
+      "top": 132,
+      "luminances": {
+        "132": 981
+      },
+      "upward_min_max": [
+        132,
+        132
+      ],
+      "source_faces": 981
+    },
+    "g0038": {
+      "top": 144,
+      "luminances": {
+        "144": 72,
+        "120": 412
+      },
+      "upward_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 484
+    },
+    "g0038_stowage": {
+      "top": 132,
+      "luminances": {
+        "132": 981
+      },
+      "upward_min_max": [
+        132,
+        132
+      ],
+      "source_faces": 981
+    },
+    "g0039": {
+      "top": 144,
+      "luminances": {
+        "120": 330,
+        "144": 52
+      },
+      "upward_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 382
+    },
+    "g0039_stowage": {
+      "top": 132,
+      "luminances": {
+        "132": 981
+      },
+      "upward_min_max": [
+        132,
+        132
+      ],
+      "source_faces": 981
+    },
+    "g0040": {
+      "top": 144,
+      "luminances": {
+        "120": 331,
+        "144": 51
+      },
+      "upward_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 382
+    },
+    "g0040_stowage": {
+      "top": 132,
+      "luminances": {
+        "132": 981
+      },
+      "upward_min_max": [
+        132,
+        132
+      ],
+      "source_faces": 981
+    },
+    "g0041_stowage": {
+      "top": 132,
+      "luminances": {
+        "132": 2114
+      },
+      "upward_min_max": [
+        132,
+        132
+      ],
+      "source_faces": 2114
+    },
+    "g0042_stowage": {
+      "top": 132,
+      "luminances": {
+        "132": 912
+      },
+      "upward_min_max": [
+        132,
+        132
+      ],
+      "source_faces": 912
+    },
+    "g0043_stowage": {
+      "top": 132,
+      "luminances": {
+        "132": 912
+      },
+      "upward_min_max": [
+        132,
+        132
+      ],
+      "source_faces": 912
+    },
+    "g0044_stowage": {
+      "top": 132,
+      "luminances": {
+        "132": 912
+      },
+      "upward_min_max": [
+        132,
+        132
+      ],
+      "source_faces": 912
+    },
+    "g0045": {
+      "top": 204,
+      "luminances": {
+        "168": 1076,
+        "204": 332
+      },
+      "upward_min_max": [
+        204,
+        204
+      ],
+      "source_faces": 1408
+    },
+    "g0046": {
+      "top": 216,
+      "luminances": {
+        "180": 1427,
+        "216": 330
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "source_faces": 1757
+    },
+    "g0047": {
+      "top": 204,
+      "luminances": {
+        "156": 453,
+        "204": 249
+      },
+      "upward_min_max": [
+        204,
+        204
+      ],
+      "source_faces": 702
+    },
+    "g0048": {
+      "top": 180,
+      "luminances": {
+        "84": 1021,
+        "144": 297,
+        "180": 449,
+        "156": 304,
+        "120": 632,
+        "132": 643
+      },
+      "upward_min_max": [
+        180,
+        180
+      ],
+      "source_faces": 3346
+    },
+    "g0048_grille_patch_00": {
+      "top": 96,
+      "luminances": {
+        "96": 4
+      },
+      "upward_min_max": null,
+      "source_faces": 4
+    },
+    "g0049": {
+      "top": 108,
+      "luminances": {
+        "60": 832,
+        "108": 530
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 1362
+    },
+    "g0050": {
+      "top": 76,
+      "luminances": {
+        "76": 182
+      },
+      "upward_min_max": [
+        76,
+        76
+      ],
+      "source_faces": 182
+    },
+    "g0051": {
+      "top": 108,
+      "luminances": {
+        "60": 832,
+        "108": 530
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 1362
+    },
+    "g0052": {
+      "top": 76,
+      "luminances": {
+        "76": 182
+      },
+      "upward_min_max": [
+        76,
+        76
+      ],
+      "source_faces": 182
+    },
+    "g0053": {
+      "top": 108,
+      "luminances": {
+        "60": 832,
+        "108": 530
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 1362
+    },
+    "g0054": {
+      "top": 76,
+      "luminances": {
+        "76": 182
+      },
+      "upward_min_max": [
+        76,
+        76
+      ],
+      "source_faces": 182
+    },
+    "g0055": {
+      "top": 108,
+      "luminances": {
+        "60": 832,
+        "108": 530
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 1362
+    },
+    "g0056": {
+      "top": 76,
+      "luminances": {
+        "76": 182
+      },
+      "upward_min_max": [
+        76,
+        76
+      ],
+      "source_faces": 182
+    },
+    "g0057": {
+      "top": 168,
+      "luminances": {
+        "120": 129,
+        "108": 182,
+        "168": 83,
+        "72": 149,
+        "144": 68,
+        "132": 35
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 646
+    },
+    "g0058": {
+      "top": 168,
+      "luminances": {
+        "72": 74,
+        "120": 80,
+        "168": 45,
+        "108": 80,
+        "144": 40,
+        "132": 18
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 337
+    },
+    "g0059": {
+      "top": 168,
+      "luminances": {
+        "120": 77,
+        "168": 59,
+        "72": 94,
+        "108": 87,
+        "132": 30,
+        "144": 33
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 380
+    },
+    "g0060": {
+      "top": 168,
+      "luminances": {
+        "108": 46,
+        "120": 56,
+        "144": 8,
+        "72": 50,
+        "168": 26,
+        "132": 16
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 202
+    },
+    "g0061": {
+      "top": 168,
+      "luminances": {
+        "120": 111,
+        "108": 77,
+        "72": 107,
+        "168": 59,
+        "132": 29,
+        "144": 31
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 414
+    },
+    "g0062": {
+      "top": 168,
+      "luminances": {
+        "144": 34,
+        "108": 108,
+        "72": 96,
+        "168": 86,
+        "120": 164,
+        "132": 36
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 524
+    },
+    "g0063": {
+      "top": 168,
+      "luminances": {
+        "120": 136,
+        "168": 64,
+        "108": 114,
+        "72": 84,
+        "132": 16,
+        "144": 10
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 424
+    },
+    "g0064": {
+      "top": 168,
+      "luminances": {
+        "168": 82,
+        "132": 34,
+        "72": 149,
+        "108": 180,
+        "144": 69,
+        "120": 128
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 642
+    },
+    "g0065": {
+      "top": 168,
+      "luminances": {
+        "108": 72,
+        "72": 80,
+        "120": 80,
+        "168": 40,
+        "144": 45,
+        "132": 20
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 337
+    },
+    "g0066": {
+      "top": 168,
+      "luminances": {
+        "168": 85,
+        "120": 113,
+        "72": 112,
+        "108": 123,
+        "144": 37,
+        "132": 20
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 490
+    },
+    "g0067": {
+      "top": 168,
+      "luminances": {
+        "108": 64,
+        "120": 66,
+        "72": 30,
+        "168": 36,
+        "144": 10,
+        "132": 14
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 220
+    },
+    "g0068": {
+      "top": 168,
+      "luminances": {
+        "120": 96,
+        "108": 69,
+        "72": 92,
+        "168": 48,
+        "132": 26,
+        "144": 45
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 376
+    },
+    "g0069": {
+      "top": 168,
+      "luminances": {
+        "108": 112,
+        "72": 118,
+        "168": 78,
+        "144": 44,
+        "120": 162,
+        "132": 32
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 546
+    },
+    "g0070": {
+      "top": 168,
+      "luminances": {
+        "120": 138,
+        "168": 67,
+        "108": 114,
+        "72": 84,
+        "132": 13,
+        "144": 8
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 424
+    },
+    "g0071": {
+      "top": 168,
+      "luminances": {
+        "120": 83,
+        "108": 31,
+        "132": 36,
+        "168": 40,
+        "72": 58,
+        "144": 4
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 252
+    },
+    "g0072": {
+      "top": 168,
+      "luminances": {
+        "120": 76,
+        "72": 245,
+        "108": 188,
+        "168": 115,
+        "144": 95,
+        "132": 51
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 770
+    },
+    "g0073": {
+      "top": 168,
+      "luminances": {
+        "120": 92,
+        "108": 37,
+        "132": 42,
+        "168": 40,
+        "72": 87,
+        "144": 10
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 308
+    },
+    "g0074": {
+      "top": 168,
+      "luminances": {
+        "72": 247,
+        "120": 76,
+        "108": 186,
+        "168": 116,
+        "144": 94,
+        "132": 51
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 770
+    },
+    "g0075": {
+      "top": 180,
+      "luminances": {
+        "144": 526,
+        "180": 272
+      },
+      "upward_min_max": [
+        180,
+        180
+      ],
+      "source_faces": 798
+    },
+    "g0075_headlamp_lens": {
+      "top": 204,
+      "luminances": {
+        "204": 178
+      },
+      "upward_min_max": [
+        204,
+        204
+      ],
+      "source_faces": 178
+    },
+    "g0076": {
+      "top": 180,
+      "luminances": {
+        "144": 526,
+        "180": 272
+      },
+      "upward_min_max": [
+        180,
+        180
+      ],
+      "source_faces": 798
+    },
+    "g0076_headlamp_lens": {
+      "top": 204,
+      "luminances": {
+        "204": 178
+      },
+      "upward_min_max": [
+        204,
+        204
+      ],
+      "source_faces": 178
+    },
+    "g0077": {
+      "top": 180,
+      "luminances": {
+        "144": 574,
+        "180": 152
+      },
+      "upward_min_max": [
+        180,
+        180
+      ],
+      "source_faces": 726
+    },
+    "g0078": {
+      "top": 180,
+      "luminances": {
+        "180": 166,
+        "144": 618
+      },
+      "upward_min_max": [
+        180,
+        180
+      ],
+      "source_faces": 784
+    },
+    "g0079": {
+      "top": 192,
+      "luminances": {
+        "156": 972,
+        "192": 560
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 1532
+    },
+    "g0079_interior": {
+      "top": 64,
+      "luminances": {
+        "64": 250
+      },
+      "upward_min_max": null,
+      "source_faces": 250
+    },
+    "g0080": {
+      "top": 192,
+      "luminances": {
+        "192": 90,
+        "156": 406
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 496
+    },
+    "g0081": {
+      "top": 192,
+      "luminances": {
+        "156": 257,
+        "192": 91
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 348
+    },
+    "g0082": {
+      "top": 192,
+      "luminances": {
+        "192": 116,
+        "156": 358
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 474
+    },
+    "g0083": {
+      "top": 192,
+      "luminances": {
+        "156": 399,
+        "192": 243
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 642
+    },
+    "g0083_grille_patch_00": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 2
+    },
+    "g0084": {
+      "top": 192,
+      "luminances": {
+        "192": 240,
+        "156": 386
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 626
+    },
+    "g0084_grille_patch_00": {
+      "top": 96,
+      "luminances": {
+        "96": 3
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 3
+    },
+    "g0085": {
+      "top": 192,
+      "luminances": {
+        "192": 246,
+        "156": 706
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 952
+    },
+    "g0085_grille_patch_00": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 2
+    },
+    "g0086": {
+      "top": 192,
+      "luminances": {
+        "192": 248,
+        "156": 410
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 658
+    },
+    "g0086_grille_patch_00": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 2
+    },
+    "g0087": {
+      "top": 192,
+      "luminances": {
+        "156": 490,
+        "192": 166
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 656
+    },
+    "g0088": {
+      "top": 192,
+      "luminances": {
+        "156": 533,
+        "192": 187
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 720
+    },
+    "g0089": {
+      "top": 192,
+      "luminances": {
+        "156": 806,
+        "192": 206
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 1012
+    },
+    "g0090": {
+      "top": 192,
+      "luminances": {
+        "156": 1302,
+        "192": 311
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 1613
+    },
+    "g0091": {
+      "top": 108,
+      "luminances": {
+        "60": 1620,
+        "108": 1110
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 2730
+    },
+    "g0092": {
+      "top": 108,
+      "luminances": {
+        "60": 832,
+        "108": 530
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 1362
+    },
+    "g0093": {
+      "top": 108,
+      "luminances": {
+        "108": 262,
+        "60": 272
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 534
+    },
+    "g0094": {
+      "top": 108,
+      "luminances": {
+        "108": 262,
+        "60": 272
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 534
+    },
+    "g0095": {
+      "top": 108,
+      "luminances": {
+        "60": 1617,
+        "108": 1113
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 2730
+    },
+    "g0096": {
+      "top": 108,
+      "luminances": {
+        "60": 832,
+        "108": 530
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 1362
+    },
+    "g0097": {
+      "top": 108,
+      "luminances": {
+        "108": 262,
+        "60": 272
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 534
+    },
+    "g0098": {
+      "top": 108,
+      "luminances": {
+        "108": 262,
+        "60": 272
+      },
+      "upward_min_max": [
+        60,
+        60
+      ],
+      "source_faces": 534
+    },
+    "g0099": {
+      "top": 168,
+      "luminances": {
+        "120": 102,
+        "72": 120,
+        "108": 130,
+        "168": 81,
+        "132": 28,
+        "144": 35
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 496
+    },
+    "g0101": {
+      "top": 56,
+      "luminances": {
+        "56": 5376
+      },
+      "upward_min_max": [
+        56,
+        56
+      ],
+      "source_faces": 5376
+    },
+    "g0102": {
+      "top": 56,
+      "luminances": {
+        "56": 5376
+      },
+      "upward_min_max": [
+        56,
+        56
+      ],
+      "source_faces": 5376
+    },
+    "g0000_front_glacis": {
+      "top": 144,
+      "luminances": {
+        "144": 289
+      },
+      "upward_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 289
+    },
+    "g0000_side_shoulders": {
+      "top": 132,
+      "luminances": {
+        "132": 130
+      },
+      "upward_min_max": [
+        132,
+        132
+      ],
+      "source_faces": 130
+    }
+  },
+  "contact_checks": [
+    {
+      "lower": "g0021",
+      "upper": "g0045",
+      "actual_upward_gap": 24
+    },
+    {
+      "lower": "g0021",
+      "upper": "g0046",
+      "actual_upward_gap": 36
+    },
+    {
+      "lower": "g0021",
+      "upper": "g0047",
+      "actual_upward_gap": 24
+    },
+    {
+      "lower": "g0021",
+      "upper": "g0031",
+      "actual_upward_gap": 24
+    },
+    {
+      "lower": "g0021",
+      "upper": "g0032",
+      "actual_upward_gap": 24
+    }
+  ],
+  "grids": {
+    "g0000_grille_patch_00": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_01": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_02": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_03": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_04": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_05": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_06": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_07": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_08": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_09": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_10": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_11": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_12": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_13": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_14": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_15": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0021_grille_patch_00": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0048_grille_patch_00": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0083_grille_patch_00": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0084_grille_patch_00": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0085_grille_patch_00": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0086_grille_patch_00": {
+      "pitch_world": 0.2785446122288704,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    }
+  },
+  "rigs": [
+    {
+      "id": "TURRET_YAW",
+      "usage": "turret_yaw",
+      "pivot": [
+        0.00335,
+        -0.032036,
+        1.56
+      ],
+      "axis": "z",
+      "parts": [
+        "g0021",
+        "g0021_interior",
+        "g0021_grille_patch_00",
+        "g0022",
+        "g0023",
+        "g0023_gunmetal",
+        "g0024",
+        "g0024_gunmetal",
+        "g0025",
+        "g0026",
+        "g0027",
+        "g0030",
+        "g0030_gunmetal",
+        "g0031",
+        "g0032",
+        "g0033",
+        "g0034",
+        "g0035",
+        "g0036",
+        "g0037",
+        "g0037_stowage",
+        "g0038",
+        "g0038_stowage",
+        "g0039",
+        "g0039_stowage",
+        "g0040",
+        "g0040_stowage",
+        "g0041",
+        "g0041_stowage",
+        "g0042",
+        "g0042_stowage",
+        "g0043",
+        "g0043_stowage",
+        "g0044",
+        "g0044_stowage",
+        "g0047",
+        "g0048",
+        "g0048_grille_patch_00",
+        "g0100"
+      ],
+      "confirmed": true,
+      "animate": true,
+      "angle": 35,
+      "evidence": "Source annular component seed 78837; fitted radius 0.997369, residual 0.000067; anchor Z is hull attachment plane"
+    },
+    {
+      "id": "GUN_ELEVATION",
+      "parent": "TURRET_YAW",
+      "pivot": [
+        -0.02,
+        -1.03,
+        1.9
+      ],
+      "axis": "x",
+      "parts": [
+        "g0028",
+        "g0029",
+        "g0029_bore"
+      ],
+      "confirmed": false,
+      "animate": false,
+      "evidence": "Provisional source mantlet/trunnion axis; independent group preserved, engineering motion not verified"
+    },
+    {
+      "id": "LOADER_HATCH",
+      "parent": "TURRET_YAW",
+      "pivot": [
+        0.3,
+        0.98,
+        2.42
+      ],
+      "axis": "x",
+      "parts": [
+        "g0045"
+      ],
+      "confirmed": false,
+      "animate": false,
+      "evidence": "Provisional rear hinge line from source connected components"
+    },
+    {
+      "id": "COMMANDER_HATCH",
+      "parent": "TURRET_YAW",
+      "pivot": [
+        -0.51,
+        0.96,
+        2.64
+      ],
+      "axis": "x",
+      "parts": [
+        "g0046"
+      ],
+      "confirmed": false,
+      "animate": false,
+      "evidence": "Provisional rear support line; source hatch and cupola remain distinct"
+    },
+    {
+      "id": "DRIVER_HATCH",
+      "pivot": [
+        -0.42,
+        -1.55,
+        1.48
+      ],
+      "axis": "z",
+      "parts": [
+        "g0079",
+        "g0079_interior"
+      ],
+      "confirmed": false,
+      "animate": false,
+      "evidence": "Driver hatch needs lift/swing mechanism; do not fake a simple fully tested hinge"
+    }
+  ],
+  "rig_demo_angles_and_rest_return": true,
+  "game_verified": false,
+  "render": {
+    "master": 1024,
+    "sizes": [
+      256,
+      512
+    ],
+    "hull_elevation": 64,
+    "turret_elevation": 90,
+    "padding": 0.12,
+    "ortho_scale": 14.261484146118164,
+    "hull_target": [
+      5.0008296966552734e-05,
+      -0.5460999011993408,
+      1.5448499917984009
+    ],
+    "turret_pivot": [
+      0.0033499998971819878,
+      -0.03203599900007248,
+      1.559999942779541
+    ],
+    "turret_anchor_pixels_top_origin": [
+      475.08935546875,
+      511.31011962890625
+    ],
+    "top_pivot_pixels": [
+      512.0,
+      512.0
+    ],
+    "note": "turret_full includes barrel; never composite barrel twice"
+  },
+  "lighting_max_difference_255": 0,
+  "alpha_bounds": {
+    "256/hull_east": [
+      37,
+      95,
+      186,
+      171
+    ],
+    "256/preview_east": [
+      37,
+      95,
+      219,
+      171
+    ],
+    "256/turret_east": [
+      58,
+      96,
+      166,
+      162
+    ],
+    "256/barrel_east": [
+      117,
+      115,
+      228,
+      140
+    ],
+    "256/turret_full_east": [
+      58,
+      96,
+      228,
+      162
+    ],
+    "512/hull_east": [
+      77,
+      193,
+      369,
+      339
+    ],
+    "512/preview_east": [
+      77,
+      193,
+      435,
+      339
+    ],
+    "512/turret_east": [
+      120,
+      195,
+      329,
+      322
+    ],
+    "512/barrel_east": [
+      236,
+      232,
+      453,
+      278
+    ],
+    "512/turret_full_east": [
+      120,
+      195,
+      453,
+      322
+    ]
+  },
+  "model_sha256": "3c8932ac761bba9eb9ae22a16a61178ed9a8aebd1b71829de92887ad64c61d86",
+  "trial_review": {
+    "native_sizes": [
+      256,
+      512
+    ],
+    "reference_comparison": "style_comparison.png",
+    "alpha_review": "alpha_backgrounds.png",
+    "transparent_rgb_zero": true,
+    "blueprint": "not supplied",
+    "game": "not tested",
+    "note": "First art trial; source detail density and local surface paint remain refinable"
+  }
+}

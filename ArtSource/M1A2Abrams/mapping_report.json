@@ -1,0 +1,25 @@
+{
+  "source_sha256": "9be0eba409b70c69ab75392898971e0789551a6cba1b94b3b84abb1fb2122faf",
+  "ring_radius": 0.9973690613064164,
+  "ring_residual": 6.662002084423246e-05,
+  "yaw_pivot": [
+    0.00335,
+    -0.032036,
+    1.56
+  ],
+  "omissions": [
+    {
+      "part": "g0100",
+      "reason": "3.44m thin whip is subpixel in the 256px vehicle sprite; retain source mapping, omit only the separate whip group",
+      "faces": 240
+    }
+  ],
+  "source_faces": 172552,
+  "parts": 144,
+  "provisional_rigs": [
+    "GUN_ELEVATION",
+    "LOADER_HATCH",
+    "COMMANDER_HATCH",
+    "DRIVER_HATCH"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "rimthunder_tan_emission_v1",
+  "description": "Current working direction, not a measured or approved RimThunder palette",
+  "tint": [225, 213, 183],
+  "minimum": 25,
+  "maximum": 240,
+  "contact_step": 24,
+  "planes": {"roof": 168, "front_slope": 144, "side_slope": 132, "front_wall": 120, "side_wall": 108, "underside": 72},
+  "roles": {"paint": null, "hatch": null, "equipment": null, "rubber": 48, "track": 64, "metal": 84, "optics": 32, "recess": 60},
+  "render": {"master": 1024, "sizes": [256, 512], "hull_elevation": 64, "turret_elevation": 90, "padding": 0.12}
+}
