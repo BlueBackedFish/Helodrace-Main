@@ -12,6 +12,8 @@ for name,digest in report['production_source_sha256'].items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==digest,('Production changed',name)
 bpy.ops.wm.open_mainfile(filepath=str(OUT/'bradley_emission_trial.blend'));s=bpy.context.scene;s.frame_set(1)
 meshes=[o for o in s.objects if o.type=='MESH']
+assert len(meshes)==report['meshes']
+assert sum(len(o.data.polygons) for o in meshes)==report['faces']
 h=hashlib.sha256()
 for o in sorted(meshes,key=lambda o:o.name):
     h.update(o.name.encode());h.update(str([tuple(v.co) for v in o.data.vertices]).encode())
@@ -98,7 +100,7 @@ with open(OUT/'bradley_emission_trial.glb','rb') as f:
 assert len(g['animations'])==4
 assert all('KHR_materials_unlit' in m['extensions'] for m in g['materials'])
 assert all('COLOR_0' not in p['attributes'] for mesh in g['meshes'] for p in mesh['primitives']),'Do not multiply constant unlit color by old vertex paint'
-validation={'geometry_and_all_parent_matrices_unchanged':True,'production_sources_unchanged':True,
+validation={'geometry_matches_requested_detail_repair_manifest':True,'production_sources_unchanged':True,
 'constant_emission_paint_materials':len(fixed),'fixed_palette_no_vertex_interpolation':True,
 'same_faces_sampled_in_two_camera_angles':len(common),'second_view_sun_energy':poses['closeup_angle']['sun_energy'],
 'max_actual_pixel_srgb_channel_difference_0_to_255':max(errors),

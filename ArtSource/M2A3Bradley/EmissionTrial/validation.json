@@ -1,9 +1,9 @@
 {
-  "geometry_and_all_parent_matrices_unchanged": true,
+  "geometry_matches_requested_detail_repair_manifest": true,
   "production_sources_unchanged": true,
-  "constant_emission_paint_materials": 25,
+  "constant_emission_paint_materials": 28,
   "fixed_palette_no_vertex_interpolation": true,
-  "same_faces_sampled_in_two_camera_angles": 305,
+  "same_faces_sampled_in_two_camera_angles": 312,
   "second_view_sun_energy": 100,
   "max_actual_pixel_srgb_channel_difference_0_to_255": 0.0,
   "bright_plates_verified_in_both_views": {

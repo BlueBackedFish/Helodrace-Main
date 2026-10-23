@@ -1,6 +1,6 @@
 # TOW 분리 및 전개 시험본
 
-색 통일을 마친 `../bradley_emission_trial.blend`에서 만든 별도 모델이다. 원본의 접힌 형상과 고정 Emission 색을 보존하고 TOW 전개 축을 추가했다. ERA 작업은 포함하지 않는다.
+관측장비·안테나 2 복구를 마친 `../bradley_emission_trial.blend`에서 만든 별도 모델이다. 원본의 접힌 형상과 고정 Emission 색을 보존하고 TOW 전개 축을 추가했다. ERA 작업은 포함하지 않는다.
 
 - `bradley_tow_deploy.blend` / `.glb`: 차량 전체. 기존 4개 동작과 `TOW_DEPLOY_OPEN_CLOSE`를 포함한다.
 - `tow_launcher.blend` / `.glb`: 발사기와 장착대만 있는 독립 모델. 힌지 원점은 `(0, 0, 0)`이며 TOW 동작 1개만 포함한다.
@@ -15,19 +15,19 @@
 | 부품 | 역할 |
 |---|---|
 | `WT_roll_05` | 전개되는 발사기 본체, 450면 |
-| `WT_roll_04` | 별도 메시인 앞 방진 덮개, 본체와 함께 전개 |
+| `WT_roll_04` | 정면 보호판. **포탑에 고정되어 전개 중 움직이지 않음** |
 | `WT_TOW_FIXED_BRACKET` | 기존 `WT_roll_05`에서 분리한 고정 브래킷 142면 |
 | `WT_rocket_mount_01`, `WT_roll_03/06/07/08` | 포탑에 고정되는 기존 장착 부품 |
 
-앞 덮개는 개별 숨김/편집이 가능하지만 열리는 힌지를 새로 만들지는 않았다. 원본 면을 복제하거나 삭제하지 않고 분리해 전체 52,878면을 유지했다. 메시 수는 103개에서 104개가 됐다.
-전개 중 고정 장착대의 변환이 유지되고, 닫힐 때 원래 위치와 색이 복원되는지 검사했다. 독립 모델은 8개 메시다.
+사용자 지적에 따라 정면 보호판을 움직이는 축에서 제외했다. 이제 `WT_roll_05`만 전개된다. 원본 면을 복제하거나 삭제하지 않고 브래킷만 분리해 상위 시험본의 54,680면을 유지했다. 메시 수는 116개에서 117개가 됐다.
+전개 중 정면 보호판을 포함한 고정 장착대의 변환이 유지되고, 닫힐 때 원래 위치와 색이 복원되는지 검사했다. 독립 모델은 8개 메시다.
 
 ## EAST 텍스처
 
 1024px 마스터와 `256/`, `512/` PNG를 함께 저장했다. 배경은 투명하며 그림자/광원을 사용하지 않는다. `pivots.json`은 왼쪽 위 원점의 픽셀 좌표다.
 
-- `turret_base_top_east.png`: 움직이는 본체와 앞 덮개를 제외한 고정 포탑.
-- `tow_stowed_top_east.png`, `tow_deployed_top_east.png`: 움직이는 두 메시만 렌더한 레이어. 고정 포탑은 holdout으로 가림을 처리했다.
+- `turret_base_top_east.png`: 움직이는 본체를 제외한 고정 포탑. 정면 보호판을 포함한다.
+- `tow_stowed_top_east.png`, `tow_deployed_top_east.png`: 움직이는 본체 한 메시만 렌더한 레이어. 고정 포탑은 holdout으로 가림을 처리했다.
 - `turret_stowed_top_east.png`, `turret_deployed_top_east.png`: 해당 자세의 포탑 전체를 한 번에 렌더한 대안.
 - `preview_stowed_east.png`, `preview_deployed_east.png`: 기존 차체 64°와 포탑 90°의 합성 확인용.
 
@@ -39,7 +39,7 @@
 ## 근거와 범위
 
 [실제 전개 사진](https://www.dvidshub.net/image/5007679/bradley-tow-missile)과 [M2A3 장착부 사진](https://www.dvidshub.net/image/1635149/cav-conducts-tow-missile-training)을 확인했다. [Army OD1609 외부 구조 설명](https://armyordnance.tpub.com/Od1609/Tow-Launcher-Exterior-34.htm)은 방진 덮개가 탈착되는 부품임을 확인하는 데 사용했다.
-전개 방향은 실물 사진을 참고했으며 축 위치와 90° 회전은 제공된 메시 상단 안쪽 모서리에 맞춘 **게임용 근사 동작**이다. 실측 링크 기구를 재현한 것은 아니다. Vehicle Framework 정의나 게임 코드는 변경하지 않았으며 게임 내 검증은 미실시다.
+전개 방향은 실물 사진을 참고했으며 축 위치와 90° 회전은 제공된 메시 상단 안쪽 모서리에 맞춘 **게임용 근사 동작**이다. 정면 보호판의 고정은 최신 사용자 요청을 따른다. 실측 링크 기구를 재현한 것은 아니다. Vehicle Framework 정의나 게임 코드는 변경하지 않았으며 게임 내 검증은 미실시다.
 
 재생성 순서:
 

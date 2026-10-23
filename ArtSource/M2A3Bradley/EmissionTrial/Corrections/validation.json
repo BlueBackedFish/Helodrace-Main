@@ -40,6 +40,7 @@
   "wrong_previous_target_restored": true,
   "in_game_validation": "not_performed",
   "uniform_roll_objects_checked_by": "FlatRolls/check_rolls.py",
+  "requested_obj_detail_restoration_checked_by": "DetailRepair/validate_details.py",
   "front_image_boxes": {
     "handle": [
       222.1142349243164,

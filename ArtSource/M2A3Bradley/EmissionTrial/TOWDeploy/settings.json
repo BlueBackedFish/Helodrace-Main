@@ -5,16 +5,16 @@
   "axis": "Y",
   "stowed_degrees": 0,
   "deployed_degrees": -90,
-  "moving_objects": ["WT_roll_05", "WT_roll_04"],
+  "moving_objects": ["WT_roll_05"],
   "split_source": "WT_roll_05",
   "fixed_component_seed_faces": [0, 24],
   "fixed_bracket_object": "WT_TOW_FIXED_BRACKET",
-  "static_objects": ["WT_rocket_mount_01", "WT_roll_03", "WT_roll_06", "WT_roll_07", "WT_roll_08"],
+  "static_objects": ["WT_rocket_mount_01", "WT_roll_03", "WT_roll_06", "WT_roll_07", "WT_roll_08", "WT_roll_04"],
   "keyframes": [[1, 0], [20, 0], [60, -90], [90, -90], [120, 0]],
   "reference_urls": [
     "https://www.dvidshub.net/image/5007679/bradley-tow-missile",
     "https://www.dvidshub.net/image/1635149/cav-conducts-tow-missile-training",
     "https://armyordnance.tpub.com/Od1609/Tow-Launcher-Exterior-34.htm"
   ],
-  "fit_note": "Game-art pivot fitted to the source upper inboard launcher edge; 90-degree simplified deployment, not measured engineering linkage. Front dust cover remains a separate mesh, not automatically removed."
+  "fit_note": "Game-art pivot fitted to the source upper inboard launcher edge; 90-degree simplified deployment, not measured engineering linkage. WT_roll_04 front protective plate stays fixed to the turret at the user's request."
 }

@@ -2,7 +2,7 @@
   "stowed": {
     "stable_opaque_layer_reconstruction_max_linear_rgb_error": 0.00047916173934936523,
     "max_stable_display_channel_error_0_to_255": 0.077789306640625,
-    "stable_pixels": 55336,
+    "stable_pixels": 53915,
     "including_antialias_boundary_max_error": 0.00879359245300293,
     "bounds": [
       339,
@@ -14,7 +14,7 @@
   "deployed": {
     "stable_opaque_layer_reconstruction_max_linear_rgb_error": 0.00047916173934936523,
     "max_stable_display_channel_error_0_to_255": 0.077789306640625,
-    "stable_pixels": 58680,
+    "stable_pixels": 57259,
     "including_antialias_boundary_max_error": 0.00879359245300293,
     "bounds": [
       339,

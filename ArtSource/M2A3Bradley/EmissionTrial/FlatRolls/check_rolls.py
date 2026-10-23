@@ -15,8 +15,11 @@ current=snapshot()
 if '--capture' in sys.argv:
  assert not (OUT/'before.json').exists()
  (OUT/'before.json').write_text(json.dumps({'commit':'ce465c14','objects':current},indent=2)+'\n');print('FLAT ROLL BASELINE CAPTURED');sys.exit(0)
-before=json.loads((OUT/'before.json').read_text())['objects'];assert current.keys()==before.keys()
+before=json.loads((OUT/'before.json').read_text())['objects']
+details=json.loads((ROOT/'manifest.json').read_text())['source_detail_repairs']
+assert set(current)==set(before)|set(details['added_objects'])
 for name,record in current.items():
+ if name in details['added_objects']+details['replaced_objects']:continue
  if name not in names:assert record['all_hash']==before[name]['all_hash'],name
  assert json.loads(json.dumps(record['protected']))==before[name]['protected'],('Optics changed',name)
 report={}
@@ -25,5 +28,5 @@ for target in json.loads((ROOT/'settings.json').read_text())['corrections']['uni
  assert len({tuple(m.diffuse_color[:3]) for m in mats})==1
  assert all(abs(m['display_luminance']-target['display_luminance'])<.01 for m in mats)
  report[o.name]={'painted_faces':len(mats),'display_y':target['display_luminance'],'caps_and_sides_identical':True}
-(OUT/'validation.json').write_text(json.dumps({'compared_with':'ce465c14','other_objects_and_all_optics_unchanged':True,'rolls':report},indent=2)+'\n')
+(OUT/'validation.json').write_text(json.dumps({'compared_with':'ce465c14','other_objects_and_all_optics_unchanged_except_requested_source_details':True,'detail_check':'DetailRepair/validate_details.py','rolls':report},indent=2)+'\n')
 print('FLAT ROLL PAINT VALIDATED',report)

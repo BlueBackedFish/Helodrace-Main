@@ -68,6 +68,13 @@ for obj in meshes:
         if m.name not in slots:slots[m.name]=len(slots);me.materials.append(m)
     for p,m in zip(me.polygons,desired):p.material_index=slots[m.name]
 assert surface_reports and before==geometry_hash()
+sys.path.insert(0,str(OUT/'DetailRepair'))
+from source_details import apply as restore_source_details
+detail_report=restore_source_details(fixed)
+meshes=[o for o in s.objects if o.type=='MESH']
+final_geometry=geometry_hash()
+final_faces=sum(len(o.data.polygons) for o in meshes)
+final_meshes=len(meshes)
 assert not any(o.type=='LIGHT' for o in s.objects)
 for m in materials.values():
     assert {n.type for n in m.node_tree.nodes}=={'EMISSION','OUTPUT_MATERIAL'}
@@ -90,7 +97,9 @@ with tempfile.TemporaryDirectory(prefix='.export-',dir=OUT) as staging:
 report={'baseline_commit':cfg['baseline_commit'],'baseline_already_emission':True,'baseline_material_nodes':baseline_nodes,
 'trial_fixed_paint_materials':len(materials),'flat_broad_lid_faces':broad_faces,'formerly_interpolated_faces':curved_before_faces,
 'changed_painted_faces':changed_faces,'surface_corrections':surface_reports,'correction_settings':cfg['corrections'],
-'geometry_sha256_including_parent_and_world_matrix':before,'geometry_unchanged':True,'faces':sum(len(o.data.polygons) for o in meshes),'meshes':len(meshes),
+'geometry_sha256_including_parent_and_world_matrix':final_geometry,'geometry_unchanged':False,
+'geometry_before_requested_detail_repair':before,'source_detail_repairs':detail_report,
+'faces':final_faces,'meshes':final_meshes,
 'production_source_sha256':sources,'trial_only':True,'grille':'Existing position-based emission stripe pattern preserved in BLEND; solid fallback in GLB.',
 'no_camera_or_normal_shader_input':True,'no_render_time_recolor':True,'in_game_validation':'not_performed'}
 (OUT/'manifest.json').write_text(json.dumps(report,indent=2)+'\n')

@@ -30,12 +30,13 @@ if '--capture' in sys.argv:
     (AUDIT/'before_colors.json').write_text(json.dumps({'commit':cfg['previous_trial_commit'],'allowed_faces':allowed,'objects':current},indent=2)+'\n')
     print('CORRECTION BASELINE CAPTURED',sum(len(v) for v in allowed.values()),'allowed faces');sys.exit(0)
 before=json.loads((AUDIT/'before_colors.json').read_text());assert before['allowed_faces']==allowed
-assert before['objects'].keys()==current.keys()
+details=json.loads((OUT/'manifest.json').read_text())['source_detail_repairs']
+assert set(current)==set(before['objects'])|set(details['added_objects'])
 changes={}
 for name,record in current.items():
     # These three entire painted objects now have a separate ce465c14 audit;
     # the older b3fdf6f6 snapshot cannot mask their newly requested changes.
-    if name in uniform_rolls:continue
+    if name in uniform_rolls or name in details['added_objects']+details['replaced_objects']:continue
     assert record['outside_hash']==before['objects'][name]['outside_hash'],('Unrelated paint changed',name)
     previous=before['objects'][name]['inside']
     changed=sum(tuple(rgb)!=tuple(previous[i]) for i,rgb in record['inside'].items())
@@ -69,6 +70,7 @@ validation={'compared_with':cfg['previous_trial_commit'],'only_requested_faces_c
 'handle_display_y':[min(handles),max(handles)],'linkage_001_colors':sorted({round(v) for v in values}),
 'linkage_001_coherent_regions':len(report),'wrong_previous_target_restored':True,'in_game_validation':'not_performed'}
 validation['uniform_roll_objects_checked_by']='FlatRolls/check_rolls.py'
+validation['requested_obj_detail_restoration_checked_by']='DetailRepair/validate_details.py'
 pose=json.loads((OUT/'camera_views.json').read_text())['closeup_front']
 s=bpy.context.scene;camera=bpy.data.objects['Camera_iso_front'];camera.location=pose['location'];camera.rotation_euler=pose['rotation_euler']
 camera.data.ortho_scale=pose['ortho_scale'];s.camera=camera;s.render.resolution_x=s.render.resolution_y=pose['size'];bpy.context.view_layer.update()

@@ -41,8 +41,8 @@ with tempfile.TemporaryDirectory(prefix='.render-',dir=HERE) as staging:
         s.frame_set(frame)
         for o in moving:o.hide_render=False
         render('turret_'+name+'_top_east')
-        # Base stays present as a holdout so the independent moving sprite has
-        # correct occlusion at the hinge, rather than drawing hidden surfaces.
+        # Base, including the fixed WT_roll_04 front plate, stays as a holdout
+        # so the moving body sprite has correct occlusion at the hinge.
         for o in fixed:
             for i in range(len(o.data.materials)):o.data.materials[i]=hold
         render('tow_'+name+'_top_east')

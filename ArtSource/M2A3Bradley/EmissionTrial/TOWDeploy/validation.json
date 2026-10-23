@@ -1,19 +1,19 @@
 {
   "original_stowed_surfaces_and_colors_preserved": true,
   "only_fixed_bracket_faces_split": 142,
-  "total_vehicle_faces": 52878,
-  "full_meshes": 104,
+  "total_vehicle_faces": 54680,
+  "full_meshes": 117,
   "moving_parts": [
-    "WT_roll_05",
-    "WT_roll_04"
+    "WT_roll_05"
   ],
+  "front_protective_plate_fixed": true,
   "fixed_mounts_stable_through_motion": true,
   "closes_exactly_to_original_pose": true,
   "pose_bounds_world": {
     "20": [
       [
         0.8064000010490417,
-        -0.4514999985694885,
+        -0.4278999865055084,
         2.154599905014038
       ],
       [
@@ -25,7 +25,7 @@
     "60": [
       [
         0.8024000525474548,
-        -0.4514999985694885,
+        -0.4278999865055084,
         2.7270002365112305
       ],
       [
@@ -37,7 +37,7 @@
     "120": [
       [
         0.8064000010490417,
-        -0.4514999985694885,
+        -0.4278999865055084,
         2.154599905014038
       ],
       [

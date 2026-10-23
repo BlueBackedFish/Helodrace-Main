@@ -1,0 +1,81 @@
+{
+  "source_sha256": "8cf128f1c44037f3caff8db7104a83ff6c6e70b05d06a1e89dbe5b5ab420b813",
+  "untouched_objects_identical_to_38a4fd44": 102,
+  "restored_parts": {
+    "WT_GunnerSight_Door_L": {
+      "exact_source_faces": 118,
+      "source_group": "WT_bone_turret",
+      "parent": "TURRET_YAW"
+    },
+    "WT_GunnerSight_Door_R": {
+      "exact_source_faces": 116,
+      "source_group": "WT_bone_turret",
+      "parent": "TURRET_YAW"
+    },
+    "WT_GunnerSight_Hinge_L": {
+      "exact_source_faces": 70,
+      "source_group": "WT_bone_turret",
+      "parent": "TURRET_YAW"
+    },
+    "WT_GunnerSight_Hinge_R": {
+      "exact_source_faces": 70,
+      "source_group": "WT_bone_turret",
+      "parent": "TURRET_YAW"
+    },
+    "WT_GunnerSight_UpperMount": {
+      "exact_source_faces": 216,
+      "source_group": "WT_bone_turret",
+      "parent": "TURRET_YAW"
+    },
+    "WT_GunnerSight_UpperCover": {
+      "exact_source_faces": 144,
+      "source_group": "WT_bone_turret",
+      "parent": "TURRET_YAW"
+    },
+    "WT_GunnerSight_UpperCap": {
+      "exact_source_faces": 102,
+      "source_group": "WT_bone_turret",
+      "parent": "TURRET_YAW"
+    },
+    "WT_GunnerSight_RearFittings": {
+      "exact_source_faces": 288,
+      "source_group": "WT_bone_turret",
+      "parent": "TURRET_YAW"
+    },
+    "WT_GunnerSight_FrontPort": {
+      "exact_source_faces": 166,
+      "source_group": "WT_bone_turret",
+      "parent": "TURRET_YAW"
+    },
+    "WT_Antenna02_BasePlate": {
+      "exact_source_faces": 46,
+      "source_group": "WT_bone_turret",
+      "parent": "TURRET_YAW"
+    },
+    "WT_Antenna02_Spring": {
+      "exact_source_faces": 34,
+      "source_group": "WT_bone_turret",
+      "parent": "TURRET_YAW"
+    },
+    "WT_Antenna02_Connector": {
+      "exact_source_faces": 38,
+      "source_group": "WT_bone_turret",
+      "parent": "TURRET_YAW"
+    },
+    "WT_Antenna02_CableClamp": {
+      "exact_source_faces": 40,
+      "source_group": "WT_bone_turret",
+      "parent": "TURRET_YAW"
+    },
+    "WT_bone_commander_sight_v": {
+      "exact_source_faces": 712,
+      "source_group": "WT_bone_commander_sight_v",
+      "parent": "TURRET_YAW"
+    }
+  },
+  "no_duplicate_source_faces": true,
+  "constant_emission_and_original_optics": true,
+  "faces": 54680,
+  "meshes": 116,
+  "in_game_validation": "not_performed"
+}

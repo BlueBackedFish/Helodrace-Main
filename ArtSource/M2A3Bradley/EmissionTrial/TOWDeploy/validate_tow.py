@@ -26,11 +26,12 @@ for name,record in before.items():
 for name,ids in report['split_face_provenance'].items():
     assert same_faces(after[name]['faces'],[before[cfg['split_source']]['faces'][i] for i in ids])
     assert after[name]['colors']==[before[cfg['split_source']]['colors'][i] for i in ids]
-assert sum(len(o.data.polygons) for o in s.objects if o.type=='MESH')==52878
-assert len(after)==104
+assert sum(len(o.data.polygons) for o in s.objects if o.type=='MESH')==report['source_faces']
+assert len(after)==report['full_meshes']
 assert bpy.data.objects[cfg['control']].parent.name=='TURRET_YAW'
 assert all(bpy.data.objects[n].parent.name==cfg['control'] for n in cfg['moving_objects'])
-assert bpy.data.objects['WT_roll_04'].data.polygons,'Separate dust cover lost'
+assert bpy.data.objects['WT_roll_04'].data.polygons,'Separate front protective plate lost'
+assert bpy.data.objects['WT_roll_04'].parent.name=='TURRET_YAW','Front protective plate must be fixed to the turret'
 for o in s.objects:
     if o.name!=cfg['control'] and o.animation_data:o.animation_data.action=None
 s.frame_set(1);bpy.context.view_layer.update();fixed={o.name:o.matrix_world.copy() for o in s.objects if o.type=='MESH' and o.name not in cfg['moving_objects']}
@@ -65,8 +66,9 @@ for name,animations in [('bradley_tow_deploy.glb',5),('tow_launcher.glb',1)]:
     assert all('KHR_materials_unlit' in m['extensions'] for m in g['materials'])
     assert all('COLOR_0' not in p['attributes'] for m in g['meshes'] for p in m['primitives'])
     exports[name]={'animations':[a['name'] for a in g['animations']],'unlit':True}
-validation={'original_stowed_surfaces_and_colors_preserved':True,'only_fixed_bracket_faces_split':142,'total_vehicle_faces':52878,
-    'full_meshes':104,'moving_parts':cfg['moving_objects'],'fixed_mounts_stable_through_motion':True,'closes_exactly_to_original_pose':True,
+validation={'original_stowed_surfaces_and_colors_preserved':True,'only_fixed_bracket_faces_split':142,'total_vehicle_faces':report['source_faces'],
+    'full_meshes':report['full_meshes'],'moving_parts':cfg['moving_objects'],'front_protective_plate_fixed':True,
+    'fixed_mounts_stable_through_motion':True,'closes_exactly_to_original_pose':True,
     'pose_bounds_world':bounds,'standalone_meshes':8,'standalone_hinge_at_origin':True,'exports':exports,
     'pivot_fit':'source-based approximate game animation; not engineering kinematics','in_game_validation':'not_performed'}
 (HERE/'validation.json').write_text(json.dumps(validation,indent=2)+'\n')
