@@ -101,31 +101,23 @@ def radio(name,x,width,height):
         cube(name+'_rear_vent',(x,rear+.002,z0+height*.39+i*.031),(width-.080,.008,.011),black)
 radio('Collins_32V3',-.238,.44,.19)
 radio('Collins_75A3',.233,.43,.165)
+for obj in list(scene.objects):
+    if obj.type=='MESH' and obj.name.startswith('Collins_'):
+        obj.location.y+=.16
 scene['radio_style']='shallow_sloped_sprite_panels'
-# Single prominent desk microphone: rounded grille, fork mount and low oval foot.
+# Single prominent desk microphone: rounded head, three grille bars and oval foot.
 base=cyl('Microphone_base',(.325,-.326,.539),.077,.028,black)
 base.scale.x=1.16;base.scale.y=.83
-base=cyl('Microphone_base_inset',(.325,-.326,.555),.063,.009,panel)
-base.scale.x=1.16;base.scale.y=.83
 cyl('Microphone_stem',(.325,-.326,.605),.014,.095,steel)
-cyl('Microphone_collar',(.325,-.326,.574),.024,.022,black)
-for x in [.254,.396]:
-    cube('Microphone_fork',(x,-.326,.661),(.013,.026,.100),steel)
-cube('Microphone_fork_bridge',(.325,-.326,.618),(.151,.026,.015),steel)
 mic=cube('Microphone_capsule',(.325,-.326,.737),(.125,.079,.180),steel)
-bevel=mic.modifiers.new('Rounded_metal_head','BEVEL');bevel.width=.030;bevel.segments=3
-for z,w in [(.683,.066),(.708,.092),(.733,.099),(.758,.092),(.783,.066)]:
+bevel=mic.modifiers.new('Rounded_metal_head','BEVEL');bevel.width=.030;bevel.segments=2
+for z,w in [(.705,.083),(.737,.099),(.769,.083)]:
     cube('Microphone_grille',(.325,-.367,z),(w,.006,.012),black)
-cube('Microphone_grille_spine',(.325,-.372,.733),(.009,.005,.110),steel)
 tilt=Matrix.Rotation(math.radians(-30),3,'X');pivot=Vector((.325,-.326,.699))
 for obj in list(scene.objects):
     if obj.name=='Microphone_capsule' or obj.name.startswith('Microphone_grille'):
         obj.location=pivot+tilt@(obj.location-pivot)
         obj.rotation_euler=(tilt@obj.rotation_euler.to_matrix()).to_euler()
-for x in [.253,.397]:
-    pivot=cyl('Microphone_pivot',(x,-.326,.699),.018,.012,black)
-    pivot.rotation_euler.y=math.pi/2
-cube('Microphone_talk_button',(.325,-.370,.563),(.029,.024,.009),black)
 # Cameras retain the existing presentation and framing.
 target=Vector((0,0,.42));scale=1.47
 for name,az in [('North',90),('East',0),('South',270)]:
