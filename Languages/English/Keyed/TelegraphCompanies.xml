@@ -22,7 +22,6 @@
   <HD_Company_Cooldown>Next request available in {0}</HD_Company_Cooldown>
   <HD_Company_InTransit>Caravan dispatched. Arrival in approximately {0}</HD_Company_InTransit>
   <HD_Company_RequestCaravan>Request this company's caravan</HD_Company_RequestCaravan>
-  <HD_Company_RequestBoth>Request financial and commercial caravans together</HD_Company_RequestBoth>
   <HD_Company_CaravanConfirm>Request {0}? Cost: {1} primary cell(s) and {2} financial reputation. No diplomatic goodwill fee. Each company has its own 1–2 day arrival and four-day cooldown. Attacking a safe-conduct caravan reduces both diplomatic and financial goodwill and breaks its protection.</HD_Company_CaravanConfirm>
   <HD_Company_CaravansRequested>{0} company caravan request(s) sent. Estimated arrival: 1–2 days.</HD_Company_CaravansRequested>
   <HD_Company_RequestUnavailable>A requested company already has a caravan in transit or is on cooldown.</HD_Company_RequestUnavailable>

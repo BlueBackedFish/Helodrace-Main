@@ -22,7 +22,6 @@
   <HD_Company_Cooldown>다음 요청까지 {0}</HD_Company_Cooldown>
   <HD_Company_InTransit>상단 이동 중. 예상 도착까지 {0}</HD_Company_InTransit>
   <HD_Company_RequestCaravan>이 회사 상단 요청</HD_Company_RequestCaravan>
-  <HD_Company_RequestBoth>금융·상업 상단 동시 요청</HD_Company_RequestBoth>
   <HD_Company_CaravanConfirm>{0}에 상단을 요청할까요? 일차 전지 {1}개와 금융 우호도 {2}점을 사용합니다. 일반 우호도 요청 비용은 없습니다. 회사마다 1~2일의 도착 일정과 4일 대기시간은 별개입니다. 통행 보장 상단을 공격하면 일반·금융 우호도가 함께 감소하고 통행 보장이 깨집니다.</HD_Company_CaravanConfirm>
   <HD_Company_CaravansRequested>회사 상단 {0}개에 요청을 보냈습니다. 1~2일 뒤 도착할 예정입니다.</HD_Company_CaravansRequested>
   <HD_Company_RequestUnavailable>요청할 회사의 상단이 이미 이동 중이거나 재요청 대기 중입니다.</HD_Company_RequestUnavailable>
