@@ -13,23 +13,24 @@
     "outboard bearing pedestals",
     "flat-belt pulley"
   ],
-  "mesh_objects": 46,
+  "mesh_objects": 74,
   "design_period": "1900-1925 open-field DC dynamo",
-  "orthographic_scale": 3.675024554133415,
+  "orthographic_scale": 3.6336799234151838,
+  "outline_pixels": 6,
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 54,
+      "minimum_margin": 49,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 33,
+      "minimum_margin": 27,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 54,
+      "minimum_margin": 49,
       "mask_alpha_matches": true
     }
   },

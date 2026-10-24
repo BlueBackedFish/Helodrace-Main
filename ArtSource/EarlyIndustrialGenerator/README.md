@@ -7,3 +7,5 @@ Original c.1900–1925 belt-driven dynamo on a 3×3 cast skid. Two arched magnet
 ```
 
 Scene: `HD_EarlyIndustrialGenerator.blend`; independent `Buildings/HD_EarlyIndustrialGenerator` texture prefix. Footprint and behavior are retained. North/East/South 512px color/mask pairs use a common orthographic scale and 64° downward elevation. Copper, brass and insulation are fixed-color. The build reopens the saved scene and checks camera elevation, safe margins and mask alpha before writing review sheets and `validation.json`. No in-game test is claimed.
+
+Density/style correction: the broad rectangular slab is replaced by a 1.32×1.84 central casting and two 0.77×0.88 bearing wings, reducing top area by 39.3%. Neutral gray iron and the exported 6px black silhouette match the workshop family. Three broad armature conductors, coil binding strips, pole-foot gussets, a brush-carrier crossbar/spring blocks and split-bearing caps give the open machine a visible mechanical structure at sprite scale.
