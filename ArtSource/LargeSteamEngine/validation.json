@@ -5,18 +5,20 @@
     3
   ],
   "features": [
-    "twin working cylinders",
-    "large rear spoked flywheel",
-    "central governor",
-    "upper steam arch",
-    "copper drains"
+    "1900-1920 tandem compound cylinders",
+    "low crankshaft",
+    "flywheel bottom enters a real below-floor pit",
+    "dark recessed slot and concrete edges",
+    "brass governor",
+    "exposed crosshead"
   ],
-  "mesh_objects": 80,
-  "orthographic_scale": 5.071609222888946,
+  "mesh_objects": 72,
+  "design_period": "1900-1920 horizontal compound mill engine",
+  "orthographic_scale": 4.557399789988994,
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 59,
+      "minimum_margin": 37,
       "mask_alpha_matches": true
     },
     "East": {
@@ -26,7 +28,7 @@
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 59,
+      "minimum_margin": 37,
       "mask_alpha_matches": true
     }
   },

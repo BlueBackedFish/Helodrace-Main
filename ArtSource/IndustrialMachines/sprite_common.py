@@ -26,6 +26,42 @@ def start():
     copper=pal('Copper_',[(159,107,60),(143,91,48),(133,83,43)],False)
     rubber=pal('Insulator_', [55,49,45],False)
 
+def period_start():
+    """Restrained cast-iron/enamel palette for the 1900-1950 redesign set."""
+    global bed,cast,steel,dark,brass,copper,stone,pit
+    start()
+    bed=pal('Cast_bed_', [149,140,126])
+    cast=pal('Muted_foundry_paint_',[(153,164,153),(139,150,140),(130,141,132)])
+    steel=pal('Machined_iron_', [217,211,198])
+    dark=pal('Cast_recess_', [86,84,75])
+    brass=pal('Brass_fitting_',[(202,161,83),(184,143,69),(175,135,62)],False)
+    copper=pal('Copper_winding_',[(164,113,66),(147,96,52),(138,88,46)],False)
+    stone=pal('Concrete_', [137,132,121],False)
+    pit=pal('Pit_interior_', [49,47,41],False)
+
+def quad(name,points,material):
+    mesh=bpy.data.meshes.new(name);mesh.from_pydata(points,[],[tuple(range(len(points)))]);mesh.update()
+    obj=bpy.data.objects.new(name,mesh);scene.collection.objects.link(obj);mesh.materials.append(material)
+    return obj
+
+def arch(name,p,outer,inner,depth,mats):
+    """Upper half of a cast magnetic yoke, in the Y/Z plane."""
+    n=20;verts=[];faces=[]
+    for dx in [-depth/2,depth/2]:
+        for radius in [outer,inner]:
+            verts.extend([(p[0]+dx,p[1]+radius*math.cos(i*math.pi/n),p[2]+radius*math.sin(i*math.pi/n)) for i in range(n+1)])
+    k=n+1
+    for i in range(n):
+        j=i+1
+        faces.extend([(i,j,2*k+j,2*k+i),(k+i,3*k+i,3*k+j,k+j),
+                      (i,k+i,k+j,j),(2*k+i,2*k+j,3*k+j,3*k+i)])
+    faces.extend([(0,2*k,3*k,k),(n,k+n,3*k+n,2*k+n)])
+    mesh=bpy.data.meshes.new(name);mesh.from_pydata(verts,[],faces);mesh.update()
+    obj=bpy.data.objects.new(name,mesh);scene.collection.objects.link(obj)
+    for m in mats:mesh.materials.append(m)
+    for f in mesh.polygons:f.material_index=0 if abs(f.normal.x)>.9 else 1
+    return obj
+
 def cube(name,p,size,mats):
     bpy.ops.mesh.primitive_cube_add(size=1,location=p);o=bpy.context.object;o.name=name;o.dimensions=size
     bpy.ops.object.transform_apply(location=False,rotation=False,scale=True)
@@ -101,7 +137,7 @@ def bounds(o):
     p=[o.matrix_world@v.co for v in o.data.vertices]
     return [[min(v[i] for v in p),max(v[i] for v in p)] for i in range(3)]
 
-def export(out,stem,footprint,features):
+def export(out,stem,footprint,features,blend_name=None):
     tex=os.path.abspath(os.path.join(out,'../../Textures/Buildings'))
     bpy.context.view_layer.update()
     meshes=[o for o in scene.objects if o.type=='MESH']
@@ -143,7 +179,7 @@ def export(out,stem,footprint,features):
         for file in os.listdir(reference):
             if file.endswith('.png'):bpy.data.images.load(os.path.join(reference,file)).pack()
     bpy.context.preferences.filepaths.save_version=0
-    blend=os.path.join(out,stem+'.blend');bpy.ops.wm.save_as_mainfile(filepath=blend)
+    blend=os.path.join(out,blend_name or stem+'.blend');bpy.ops.wm.save_as_mainfile(filepath=blend)
     bpy.ops.wm.open_mainfile(filepath=blend)
     previews=[];checks={}
     for name,az in dirs:
@@ -165,4 +201,5 @@ def export(out,stem,footprint,features):
     count=len([o for o in bpy.context.scene.objects if o.type=='MESH'])
     with open(os.path.join(out,'validation.json'),'w') as f:
         json.dump({'asset':stem,'footprint':footprint,'features':features,'mesh_objects':count,
+                   'design_period':bpy.context.scene.get('design_period',''),
                    'orthographic_scale':scale,'cameras':checks,'in_game_tested':False},f,indent=2)

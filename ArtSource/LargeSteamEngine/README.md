@@ -1,11 +1,11 @@
-# Large steam engine
+# Period large steam engine
 
-4×3 reference-led reconstruction of `HD_LargeSteamEngine`. Original north image and material mask are preserved in `Reference/` and packed into the Blender scene. Main retained traits: one large rear spoked flywheel, left/right working cylinders, exposed central crossheads/crank links, brass governor, right-hand overhead steam arch and copper drains. The cylinders, shaft and flywheel are actual 3D geometry, not image planes. This is a simplified game asset rather than an engineering model.
+Original c.1900–1920 horizontal tandem-compound design, 4×3. Two cylinders of differing bores drive a crosshead, low crankshaft and large ten-spoke flywheel. Brass governor, steam header, copper drain and compact cast bed provide the major details. The source reference sprite is preserved in `Reference/` for provenance; this is now a full redesign under the user's period brief.
 
-Build individually from the repository root:
+The flywheel has radius 1.04 and axle z=0.70. The concrete floor is z=0.22; the wheel bottom is z=-0.34, so 0.56 of its lower portion enters the ground. Four separate floor blocks leave an actual rectangular slot, with below-floor walls and a dark bottom at z=-0.49. No opaque foundation slab cuts across the opening. The complete wheel exists below the floor and is occluded naturally by the pit/foundation geometry. Pit lips and bearing plinths make the installation readable from all three views.
 
 ```powershell
 & 'C:\Program Files\Blender Foundation\Blender 5.1\blender.exe' -b --threads 2 --python-exit-code 1 --python ArtSource/LargeSteamEngine/build_engine.py
 ```
 
-Scene: `HD_LargeSteamEngine.blend`. Outputs: `Textures/Buildings/HD_LargeSteamEngine_{north,east,south}.png` and corresponding `{direction}m.png`. The existing building definition and 4×3 footprint remain unchanged. North is active because the building is non-rotatable; other views are supplied for review. See `validation.json` and the two preview sheets. In-game verification has not been performed.
+Scene: `HD_LargeSteamEngine.blend`. Existing `Buildings/HD_LargeSteamEngine` texture prefix, 4×3 footprint and mechanics remain unchanged. North/East/South PNGs and masks use 64° and a common scale; copper/brass, concrete and pit interior are unselected in the material masks. See `validation.json`, review sheets and `../IndustrialMachines/PERIOD_DESIGN.md`. No in-game verification is claimed.
