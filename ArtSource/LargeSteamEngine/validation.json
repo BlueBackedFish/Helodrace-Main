@@ -1,0 +1,34 @@
+{
+  "asset": "HD_LargeSteamEngine",
+  "footprint": [
+    4,
+    3
+  ],
+  "features": [
+    "twin working cylinders",
+    "large rear spoked flywheel",
+    "central governor",
+    "upper steam arch",
+    "copper drains"
+  ],
+  "mesh_objects": 80,
+  "orthographic_scale": 5.071609222888946,
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 59,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 33,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 59,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false
+}
