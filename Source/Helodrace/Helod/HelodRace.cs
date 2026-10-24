@@ -29,6 +29,7 @@ namespace Helodrace
         public float drawScale = 0.8f;
         public float maleProbability = 0.0000001f;
         public float socialFightDamageLimit = 6f;
+        public HelodConfrontationSettings confrontation = new HelodConfrontationSettings();
         public float refugeeChance = 0.15f;
         public float slaveChance = 0.15f;
         public float wandererChance = 0.15f;

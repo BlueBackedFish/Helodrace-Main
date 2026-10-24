@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Confrontation_Started>{FIRST_labelShort} and {SECOND_labelShort} are confronting each other.</HD_Confrontation_Started>
+  <HD_Confrontation_Mediator>{FIRST_labelShort} is stepping in to mediate {SECOND_labelShort}'s confrontation.</HD_Confrontation_Mediator>
+  <HD_Confrontation_Reconciled>{FIRST_labelShort} and {SECOND_labelShort} settled their differences.</HD_Confrontation_Reconciled>
+  <HD_Confrontation_Dispersed>{FIRST_labelShort} and {SECOND_labelShort} walked away without fighting.</HD_Confrontation_Dispersed>
+</LanguageData>

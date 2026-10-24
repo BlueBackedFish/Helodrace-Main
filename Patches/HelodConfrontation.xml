@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationInsert">
+    <xpath>/Defs/ThinkTreeDef[defName="MentalStateCritical"]/thinkRoot/subNodes/li[state="SocialFighting"]</xpath>
+    <value>
+      <li Class="ThinkNode_ConditionalMentalState">
+        <state>HD_HelodConfrontation</state>
+        <subNodes>
+          <li Class="Helodrace.JobGiver_HelodConfrontation" />
+        </subNodes>
+      </li>
+    </value>
+  </Operation>
+</Patch>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <RulePackDef>
+    <defName>HD_Sentence_HelodConfrontationStarted</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>sent->This led to a tense confrontation.</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <MentalStateDef ParentName="BaseMentalState">
+    <defName>HD_HelodConfrontation</defName>
+    <stateClass>Helodrace.MentalState_HelodConfrontation</stateClass>
+    <label>confrontation</label>
+    <category>Misc</category>
+    <baseInspectLine>Confronting another Helod</baseInspectLine>
+    <nameColor>(0.88,0.65,0.16)</nameColor>
+    <blockRandomInteraction>true</blockRandomInteraction>
+    <requiredCapacities>
+      <li>Consciousness</li>
+      <li>Moving</li>
+    </requiredCapacities>
+  </MentalStateDef>
+
+  <JobDef>
+    <defName>HD_HelodConfront</defName>
+    <driverClass>Helodrace.JobDriver_HelodConfront</driverClass>
+    <reportString>confronting TargetA.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+    <neverShowWeapon>true</neverShowWeapon>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_HelodMediate</defName>
+    <driverClass>Helodrace.JobDriver_HelodMediate</driverClass>
+    <reportString>mediating a confrontation between TargetA and TargetB.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+    <neverShowWeapon>true</neverShowWeapon>
+  </JobDef>
+
+  <ThoughtDef>
+    <defName>HD_HelodReconciled</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>1</stackLimit>
+    <stackLimitForSameOtherPawn>1</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>settled our differences</label>
+        <baseOpinionOffset>12</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+</Defs>

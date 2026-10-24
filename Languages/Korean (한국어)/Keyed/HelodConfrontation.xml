@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Confrontation_Started>{FIRST_labelShort}와(과) {SECOND_labelShort}의 대치가 시작되었습니다.</HD_Confrontation_Started>
+  <HD_Confrontation_Mediator>{FIRST_labelShort}이(가) {SECOND_labelShort}의 대치를 중재하러 나섰습니다.</HD_Confrontation_Mediator>
+  <HD_Confrontation_Reconciled>{FIRST_labelShort}와(과) {SECOND_labelShort}이(가) 서로 화해했습니다.</HD_Confrontation_Reconciled>
+  <HD_Confrontation_Dispersed>{FIRST_labelShort}와(과) {SECOND_labelShort}이(가) 싸우지 않고 해산했습니다.</HD_Confrontation_Dispersed>
+</LanguageData>

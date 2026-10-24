@@ -63,6 +63,12 @@
     </appendageOffsets>
     <maleProbability>0.0000001</maleProbability>
     <socialFightDamageLimit>6</socialFightDamageLimit>
+    <confrontation>
+      <mediatorRadius>6</mediatorRadius>
+      <mediatorJoinChance>0.45</mediatorJoinChance>
+      <durationTicks>360~600</durationTicks>
+      <fullMediationTicks>120</fullMediationTicks>
+    </confrontation>
     <refugeeChance>0.15</refugeeChance>
     <slaveChance>0.15</slaveChance>
     <wandererChance>0.15</wandererChance>
