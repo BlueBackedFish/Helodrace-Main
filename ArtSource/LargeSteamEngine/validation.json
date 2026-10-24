@@ -12,23 +12,24 @@
     "brass governor",
     "exposed crosshead"
   ],
-  "mesh_objects": 72,
+  "mesh_objects": 109,
   "design_period": "1900-1920 horizontal compound mill engine",
-  "orthographic_scale": 4.557399789988994,
+  "orthographic_scale": 4.443702261149883,
+  "outline_pixels": 6,
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 37,
+      "minimum_margin": 32,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 33,
+      "minimum_margin": 27,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 37,
+      "minimum_margin": 32,
       "mask_alpha_matches": true
     }
   },
