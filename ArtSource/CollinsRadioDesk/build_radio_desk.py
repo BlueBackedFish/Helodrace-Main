@@ -37,7 +37,10 @@ def cyl(name,pos,r,depth,mats,front=False):
     if front:o.rotation_euler.x=math.pi/2
     bpy.ops.object.transform_apply(location=False,rotation=True,scale=False)
     for m in mats:o.data.materials.append(m)
-    for f in o.data.polygons:f.material_index=0 if f.normal.z>.4 else (1 if f.normal.y<-.4 else 2)
+    # Vehicle-style small cylinders: one continuous barrel color, separate caps.
+    for f in o.data.polygons:
+        cap=abs(f.normal.y)>.9 if front else abs(f.normal.z)>.9
+        f.material_index=0 if cap else 1
     return o
 # Square footprint with broad untextured wooden masses.
 cube('Desk_top',(0,0,.48),(1,1,.085),wood)
@@ -54,7 +57,8 @@ def radio(name,x,width,height):
     faces=[(0,3,2,1),(4,5,6,7),(0,1,5,4),(1,2,6,5),(3,7,6,2),(0,4,7,3)]
     mesh=bpy.data.meshes.new(name+'_wedge');mesh.from_pydata(verts,[],faces);mesh.update()
     obj=bpy.data.objects.new(name+'_cabinet',mesh);scene.collection.objects.link(obj)
-    for m in [case[0],case[2],black[0]]:mesh.materials.append(m)
+    # The raised panel rim is painted casework; reserve black for real recesses.
+    for m in [case[0],case[2],case[2]]:mesh.materials.append(m)
     for f in mesh.polygons:f.material_index=0 if f.index==4 else (2 if f.index==5 else 1)
     rotation=Matrix.Rotation(-math.pi/4,3,'X')
     origin=Vector((x,y0,z0));length=height*math.sqrt(2)

@@ -1,0 +1,12 @@
+{
+  "baseline_commit": "93679faa",
+  "same_objects_geometry_transforms_cameras": true,
+  "changed_face_counts": {
+    "Collins_32V3_cabinet": 1,
+    "Collins_75A3_cabinet": 1,
+    "Collins_32V3_dial_hub": 18,
+    "Collins_75A3_dial_hub": 18,
+    "Microphone_base_inset": 11,
+    "Microphone_stem": 11
+  }
+}
