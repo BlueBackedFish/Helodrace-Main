@@ -3,8 +3,19 @@
     2,
     2
   ],
-  "mesh_objects": 52,
-  "vertices": 1788,
+  "mesh_objects": 78,
+  "vertices": 2956,
+  "small_boiler_size": [
+    0.5,
+    0.5,
+    0.9399999976158142
+  ],
+  "fuel_casing_size": [
+    0.6399999856948853,
+    1.2000000476837158,
+    0.6299999952316284
+  ],
+  "rivet_heads": 16,
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,

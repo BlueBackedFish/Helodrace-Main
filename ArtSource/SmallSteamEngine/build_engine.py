@@ -71,20 +71,28 @@ for y in [-.43,.43]:cube('03_Bearing_pedestal',(-.43,y,.405),(.28,.25,.46),cast)
 cylinder('04_Common_crankshaft',(-.43,0,.83),.065,1.48,steel,'Y')
 wheel('05_Front_flywheel',-.61);wheel('06_Rear_flywheel',.61)
 # Upright engine casing and simple steam chest at the right of the flywheels.
-cube('07_Right_engine_plinth',(.55,0,.26),(.65,1.57,.12),cast)
-cube('08_Engine_block',(.55,.035,.635),(.50,.92,.63),cast)
-cube('09_Steam_chest',(.55,.035,1.015),(.46,.50,.17),steel)
-cube('10_Front_inspection_border',(.55,-.437,.645),(.39,.030,.43),recess)
-cube('11_Front_inspection_plate',(.55,-.458,.645),(.33,.015,.36),cast)
-cylinder('12_Piston_gland',(.55,-.478,.70),.062,.035,steel,'Y')
+cube('07_Right_engine_plinth',(.55,0,.26),(.76,1.57,.12),cast)
+# The fuel casing is a deep solid body, close to the flywheel pair's overall span.
+cube('08_Engine_block',(.55,.035,.635),(.64,1.20,.63),cast)
+cube('09_Steam_chest',(.55,.035,1.015),(.60,.73,.17),steel)
+cube('10_Front_inspection_border',(.55,-.580,.645),(.51,.030,.43),recess)
+cube('11_Front_inspection_plate',(.55,-.601,.645),(.45,.015,.36),cast)
+cylinder('12_Piston_gland',(.55,-.626,.70),.062,.035,steel,'Y')
 cube('13_Crosshead_slide',(.53,-.73,.36),(.61,.13,.085),recess)
 cube('14_Crosshead',(.56,-.73,.43),(.11,.11,.13),steel)
-rod('15_Piston_rod',(.55,-.49,.70),(.56,-.73,.43),.022,steel)
+rod('15_Piston_rod',(.55,-.645,.70),(.56,-.73,.43),.022,steel)
 rod('16_Connecting_link',(-.28,-.70,.96),(.56,-.73,.43),.026,steel)
 cylinder('17_Crank_pin',(-.28,-.70,.96),.052,.035,steel,'Y')
 rod('18_Brown_crank_arm',(-.43,-.70,.83),(-.28,-.70,.96),.044,copper)
-# Large flared stack behind the wheel: omit tiny rivets and fine plumbing.
-cylinder('19_Stack_base',(-.68,.25,.55),.175,.66,cast)
+# Small boiler between the wheels, below the axle, connected to the fuel casing.
+cylinder('33_Small_boiler',(-.43,.02,.52),.25,.94,cast,'Y')
+for y in [-.43,.02,.47]:
+    cylinder('34_Boiler_band',(-.43,y,.52),.265,.040,steel,'Y')
+cylinder('35_Boiler_front_cap',(-.43,-.465,.52),.235,.026,cast,'Y')
+rod('36_Boiler_to_firebox',(-.24,.02,.52),(.32,.02,.52),.105,cast)
+cylinder('37_Firebox_connection_flange',(.235,.02,.52),.135,.032,steel,'X')
+# Short stack neck visibly enters the boiler shell instead of reaching the bed.
+cylinder('19_Stack_base',(-.68,.25,.72),.15,.34,cast)
 cylinder('20_Stack_tube',(-.68,.25,1.13),.135,.66,cast)
 cylinder('21_Stack_flare',(-.68,.25,1.53),.135,.22,cast,r2=.195)
 for z,r in [(1.40,.153),(1.64,.202)]:cylinder('22_Stack_band',(-.68,.25,z),r,.045,steel)
@@ -101,6 +109,18 @@ cylinder('29_Governor_cap',(.55,.035,1.435),.042,.035,brass)
 rod('30_Steam_pipe',(.82,.33,.42),(.82,.33,1.17),.037,cast)
 rod('31_Pipe_elbow',(.82,.33,1.17),(.66,.33,1.17),.037,cast)
 cylinder('32_Pipe_valve',(.82,.33,1.22),.054,.045,brass)
+# Sprite-sized rivet heads on meaningful plates; no dense field of tiny screws.
+for x in [.325,.775]:
+    for z in [.475,.645,.815]:
+        cylinder('38_Fuel_door_rivet',(x,-.617,z),.014,.012,recess,'Y')
+for z in [.54,.77]:cube('39_Fuel_door_hinge',(.338,-.625,z),(.035,.026,.068),steel)
+rod('40_Fuel_door_handle',(.715,-.637,.57),(.715,-.637,.70),.014,recess)
+for x in [.25,.85]:
+    for y in [-.68,.68]:
+        cylinder('41_Plinth_rivet',(x,y,.326),.018,.012,recess)
+for i in range(6):
+    a=i*math.tau/6
+    cylinder('42_Boiler_cap_rivet',(-.43+.190*math.cos(a),-.489,.52+.190*math.sin(a)),.012,.012,recess,'Y')
 target=Vector((0,0,.70));scale=2.75
 for name,az in [('North',-90),('East',0),('South',90)]:
     a=math.radians(az);e=math.radians(64)
@@ -131,6 +151,9 @@ for name in ['HD_SmallSteamEngine_north.png','HD_SmallSteamEngine_northm.png']:
     image=bpy.data.images.load(os.path.join(OUT,'Reference',name));image.pack()
 bpy.context.preferences.filepaths.save_version=0
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(OUT,'small_steam_engine.blend'))
+bpy.ops.wm.open_mainfile(filepath=os.path.join(OUT,'small_steam_engine.blend'))
+scene=bpy.context.scene
+objects=[o for o in scene.objects if o.type=='MESH']
 checks={};images=[]
 def pixels(path):
     im=bpy.data.images.load(path,check_existing=False);im.colorspace_settings.name='Non-Color'
@@ -149,4 +172,8 @@ im=bpy.data.images.new('North_East_South',1536,512,alpha=True);im.colorspace_set
 im.pixels.foreach_set(combined.ravel());im.file_format='PNG';im.filepath_raw=os.path.join(OUT,'preview_north_east_south.png');im.save()
 im.scale(768,256);im.filepath_raw=os.path.join(OUT,'preview_256px.png');im.save()
 with open(os.path.join(OUT,'validation.json'),'w') as f:
-    json.dump({'footprint':[2,2],'mesh_objects':len(objects),'vertices':sum(len(o.data.vertices) for o in objects),'cameras':checks,'game_tested':False},f,indent=2)
+    json.dump({'footprint':[2,2],'mesh_objects':len(objects),'vertices':sum(len(o.data.vertices) for o in objects),
+               'small_boiler_size':list(bpy.data.objects['33_Small_boiler'].dimensions),
+               'fuel_casing_size':list(bpy.data.objects['08_Engine_block'].dimensions),
+               'rivet_heads':sum('rivet' in o.name for o in objects),
+               'cameras':checks,'game_tested':False},f,indent=2)
