@@ -50,20 +50,42 @@ for x in [-.40,.40]:
     for y in [-.39,.39]:cube('Desk_leg',(x,y,.225),(.10,.10,.45),wood)
 cube('Front_apron',(0,-.40,.395),(.88,.065,.12),wood)
 cube('Rear_apron',(0,.40,.395),(.88,.065,.12),wood)
-# Two separate tabletop cabinets. Stylized sloped panels expose identity at 64 degrees.
+# Two separate tabletop cabinets. Vertical front panels on rectangular cases.
 def radio(name,x,width,height):
     y0=-.045; z0=.535; rear=.245
-    # A shallow wedge replaces the large empty lid. Broad dark rim frames the panel.
-    verts=[(x+dx,y,z) for dx in [-width/2,width/2]
-           for y,z in [(y0,.525),(rear,.525),(rear,z0+height),(y0+height,z0+height)]]
-    faces=[(0,3,2,1),(4,5,6,7),(0,1,5,4),(1,2,6,5),(3,7,6,2),(0,4,7,3)]
-    mesh=bpy.data.meshes.new(name+'_wedge');mesh.from_pydata(verts,[],faces);mesh.update()
+    length=height*math.sqrt(2);top=z0+length
+    left=x-width/2;right=x+width/2
+    verts=[];faces=[];colors=[]
+    def quad(points,color):
+        start=len(verts);verts.extend(points)
+        faces.append(tuple(range(start,start+4)));colors.append(color)
+    quad([(left,y0,.525),(right,y0,.525),(right,y0,top),(left,y0,top)],1)
+    quad([(left,y0,.525),(left,rear,.525),(right,rear,.525),(right,y0,.525)],2)
+    quad([(left,y0,.525),(left,y0,top),(left,rear,top),(left,rear,.525)],2)
+    quad([(right,y0,.525),(right,rear,.525),(right,rear,top),(right,y0,top)],2)
+    # Partition the actual case surfaces: dark vent faces share the exact lid/rear
+    # planes. No raised bars, decal overlays, thickness, or coplanar duplicates.
+    slots=[(y0+.065+i*.055,y0+.077+i*.055) for i in range(3)]
+    bounds=sorted([y0,rear]+[v for pair in slots for v in pair])
+    xs=[left,x-width*.30,x+width*.30,right]
+    for ya,yb in zip(bounds,bounds[1:]):
+        vent=any(a<(ya+yb)/2<b for a,b in slots)
+        for j,(xa,xb) in enumerate(zip(xs,xs[1:])):
+            quad([(xa,ya,top),(xb,ya,top),(xb,yb,top),(xa,yb,top)],3 if vent and j==1 else 0)
+    slots=[(z0+.065+i*.043,z0+.076+i*.043) for i in range(3)]
+    bounds=sorted([.525,top]+[v for pair in slots for v in pair])
+    xs=[left,left+.040,right-.040,right]
+    for za,zb in zip(bounds,bounds[1:]):
+        vent=any(a<(za+zb)/2<b for a,b in slots)
+        for j,(xa,xb) in enumerate(zip(xs,xs[1:])):
+            quad([(xb,rear,za),(xa,rear,za),(xa,rear,zb),(xb,rear,zb)],3 if vent and j==1 else 1)
+    mesh=bpy.data.meshes.new(name+'_rectangular_case');mesh.from_pydata(verts,[],faces);mesh.update()
     obj=bpy.data.objects.new(name+'_cabinet',mesh);scene.collection.objects.link(obj)
     # The raised panel rim is painted casework; reserve black for real recesses.
-    for m in [case[0],case[2],case[2]]:mesh.materials.append(m)
-    for f in mesh.polygons:f.material_index=0 if f.index==4 else (2 if f.index==5 else 1)
-    rotation=Matrix.Rotation(-math.pi/4,3,'X')
-    origin=Vector((x,y0,z0));length=height*math.sqrt(2)
+    for m in [case[0],case[1],case[2],black[0]]:mesh.materials.append(m)
+    for f,c in zip(mesh.polygons,colors):f.material_index=c
+    rotation=Matrix.Identity(3)
+    origin=Vector((x,y0,z0))
     def block(label,u,v,w,size,mats):
         o=cube(name+'_'+label,origin+rotation@Vector((u,v,w)),size,mats)
         o.rotation_euler=rotation.to_euler();return o
@@ -97,16 +119,12 @@ def radio(name,x,width,height):
         block('switch',u,-.035,.070,(.009,.012,.027),steel)
     for u in [-width/2+.026,width/2-.026]:
         block('panel_grip',u,-.030,length*.57,(.012,.016,length*.33),steel)
-    # A few broad slots give the shallow case a readable mechanical surface.
-    for i in range(3):
-        cube(name+'_lid_vent',(x,y0+height+.023+i*.027,z0+height+.002),(width*.60,.009,.004),black)
-        cube(name+'_rear_vent',(x,rear+.002,z0+height*.39+i*.031),(width-.080,.008,.011),black)
 radio('Collins_32V3',-.238,.44,.19)
 radio('Collins_75A3',.233,.43,.165)
 for obj in list(scene.objects):
     if obj.type=='MESH' and obj.name.startswith('Collins_'):
         obj.location.y+=.16
-scene['radio_style']='shallow_sloped_sprite_panels'
+scene['radio_style']='rectangular_cases_vertical_panels_flush_vents'
 # Single prominent desk microphone: rounded head, three grille bars and oval foot.
 base=cyl('Microphone_base',(.325,-.326,.539),.077,.028,black)
 base.scale.x=1.16;base.scale.y=.83
@@ -142,6 +160,18 @@ scene.camera=bpy.data.objects['Camera_South']
 bpy.context.preferences.filepaths.save_version=0
 blend=os.path.join(OUT,'collins_radio_desk.blend');bpy.ops.wm.save_as_mainfile(filepath=blend)
 bpy.ops.wm.open_mainfile(filepath=blend)
+vent_faces=0
+for name in ['Collins_32V3','Collins_75A3']:
+    cabinet=bpy.data.objects[name+'_cabinet']
+    top=max(v.co.z for v in cabinet.data.vertices);rear=max(v.co.y for v in cabinet.data.vertices)
+    assert max(abs(a) for a in bpy.data.objects[name+'_panel'].rotation_euler)<1e-6
+    for face in cabinet.data.polygons:
+        if face.material_index==3:
+            points=[cabinet.data.vertices[i].co for i in face.vertices]
+            assert all(abs(v.z-top)<1e-6 for v in points) or all(abs(v.y-rear)<1e-6 for v in points)
+            vent_faces+=1
+assert vent_faces==12
+assert not any('_lid_vent' in o.name or '_rear_vent' in o.name for o in bpy.context.scene.objects)
 checks={};images=[]
 for name in ['North','East','South']:
     c=bpy.data.objects['Camera_'+name];f=c.rotation_euler.to_quaternion()@Vector((0,0,-1))
@@ -158,4 +188,4 @@ im.colorspace_settings.name='Non-Color';im.pixels.foreach_set(np.concatenate(ima
 im.filepath_raw=os.path.join(OUT,'preview_north_east_south.png');im.file_format='PNG';im.save()
 im.scale(384,128)
 im.filepath_raw=os.path.join(OUT,'preview_128px.png');im.save()
-with open(os.path.join(OUT,'validation.json'),'w') as f:json.dump({'footprint':[1,1],'wood_rgb':[133,97,67],'color_mask':False,'cameras':checks},f,indent=2)
+with open(os.path.join(OUT,'validation.json'),'w') as f:json.dump({'footprint':[1,1],'wood_rgb':[133,97,67],'color_mask':False,'vertical_front_panels':True,'coplanar_vent_faces':vent_faces,'cameras':checks},f,indent=2)

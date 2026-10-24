@@ -9,6 +9,8 @@
     67
   ],
   "color_mask": false,
+  "vertical_front_panels": true,
+  "coplanar_vent_faces": 12,
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
