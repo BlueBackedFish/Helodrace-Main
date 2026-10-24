@@ -1,5 +1,6 @@
 """Verify five period machine scenes, definition links and geometric requirements."""
 import bpy,os,json,math,xml.etree.ElementTree as ET
+import numpy as np
 from mathutils import Vector
 OUT=os.path.dirname(os.path.abspath(__file__))
 ROOT=os.path.abspath(os.path.join(OUT,'../..'))
@@ -10,6 +11,10 @@ assets=[('HD_SmallSteamEngine','SmallSteamEngine','(2,2)','small_steam_engine.bl
         ('HD_IndustrialDieselEngine','IndustrialDieselEngine','(4,3)','HD_IndustrialDieselEngine.blend'),
         ('HD_EarlyIndustrialGenerator','EarlyIndustrialGenerator','(3,3)','HD_EarlyIndustrialGenerator.blend'),
         ('HD_EarlyIndustrialLargeMotor','EarlyIndustrialMotor','(3,3)','HD_EarlyIndustrialLargeMotor.blend')]
+def bounds(obj):
+    points=[obj.matrix_world@v.co for v in obj.data.vertices]
+    return [(min(v[i] for v in points),max(v[i] for v in points)) for i in range(3)]
+prior_base_areas=dict(zip([a[0] for a in assets],[3.515,9.816,9.625,6.235,6.042]))
 report={}
 for stem,folder,size,blend in assets:
     node=defs[stem];assert node.findtext('graphicData/texPath')=='Buildings/'+stem
@@ -18,9 +23,10 @@ for stem,folder,size,blend in assets:
         for suffix in ['', 'm']:
             assert os.path.isfile(os.path.join(ROOT,'Textures/Buildings',stem+'_'+direction+suffix+'.png'))
     with open(os.path.join(ROOT,'ArtSource',folder,'validation.json')) as f:checks=json.load(f)
-    assert checks['design_period']
+    assert checks['design_period'] and checks['outline_pixels']==6
     assert all(c['mask_alpha_matches'] and abs(c['downward_degrees']-64)<.001 and c['minimum_margin']>=24 for c in checks['cameras'].values())
     bpy.ops.wm.open_mainfile(filepath=os.path.join(ROOT,'ArtSource',folder,blend))
+    bpy.context.view_layer.update()
     cameras=[bpy.data.objects['Camera_'+d] for d in ['North','East','South']]
     assert all(c.data.type=='ORTHO' for c in cameras)
     assert max(c.data.ortho_scale for c in cameras)-min(c.data.ortho_scale for c in cameras)<1e-6
@@ -28,11 +34,26 @@ for stem,folder,size,blend in assets:
         forward=c.rotation_euler.to_quaternion()@Vector((0,0,-1))
         assert abs(math.degrees(math.asin(-forward.z))-64)<.001
     report[stem]={'definition_texture_resolves':True,'footprint_unchanged':size,'color_and_mask_files':6,'saved_scene_cameras_verified':3,'common_scale':cameras[0].data.ortho_scale,'design_period':checks['design_period']}
+    base_bounds=[bounds(o) for o in bpy.context.scene.objects if o.type=='MESH' and o.name.startswith('01_')]
+    area=sum((b[0][1]-b[0][0])*(b[1][1]-b[1][0]) for b in base_bounds)
+    assert area<prior_base_areas[stem]
+    report[stem]['foundation_top_area']=area
+    report[stem]['foundation_area_reduction_percent']=100*(1-area/prior_base_areas[stem])
+    painted={m for o in bpy.context.scene.objects if o.type=='MESH' for m in o.data.materials if m.name.startswith('Neutral_cast_iron_')}
+    assert painted and all(max(m.diffuse_color[:3])-min(m.diffuse_color[:3])<1e-6 for m in painted)
+    for direction in ['north','east','south']:
+        pair=[]
+        for suffix in ['', 'm']:
+            im=bpy.data.images.load(os.path.join(ROOT,'Textures/Buildings',stem+'_'+direction+suffix+'.png'),check_existing=False)
+            assert tuple(im.size)==(512,512);im.colorspace_settings.name='Non-Color'
+            p=np.empty(512*512*4,np.float32);im.pixels.foreach_get(p);pair.append(p.reshape(512,512,4))
+        color,mask=pair;assert np.max(abs(color[:,:,3]-mask[:,:,3]))<.001
+        stroke=(color[:,:,:3].max(axis=2)<.001)&(color[:,:,3]>.95)
+        # A colored antialiased edge can round to black while retaining 1/255 mask red.
+        assert stroke.sum()>1000 and np.max(mask[:,:,:3][stroke])<=1.01/255
+    report[stem]['neutral_body_and_unselected_black_outline_verified']=True
 assert defs['HD_EarlyIndustrialGenerator'].findtext('graphicData/texPath')!=defs['HD_EarlyIndustrialLargeMotor'].findtext('graphicData/texPath')
 # Test actual wheel geometry and the physical opening, not only scene metadata.
-def bounds(obj):
-    points=[obj.matrix_world@v.co for v in obj.data.vertices]
-    return [(min(v[i] for v in points),max(v[i] for v in points)) for i in range(3)]
 bpy.ops.wm.open_mainfile(filepath=os.path.join(ROOT,'ArtSource/LargeSteamEngine/HD_LargeSteamEngine.blend'))
 bpy.context.view_layer.update()
 rim=bounds(bpy.data.objects['05_Partly_buried_flywheel_rim'])
@@ -41,7 +62,7 @@ floor=bpy.context.scene['pit_floor_level']
 assert pit_bottom<rim[2][0]<floor<rim[2][1]
 assert rim[0][0]>-1.80 and rim[0][1]<.50 and rim[1][0]>.24 and rim[1][1]<.72
 floor_blocks=[o for o in bpy.context.scene.objects if o.name.startswith('01_')]
-assert len(floor_blocks)==4
+assert len(floor_blocks)==5
 for block in floor_blocks:
     b=bounds(block)
     overlap_x=max(0,min(b[0][1],.50)-max(b[0][0],-1.80))

@@ -10,7 +10,9 @@ User direction, 2026-10-25: redesign all five machines as equipment from roughly
 | Generator, 3×3 | c.1900–1925 belt-driven DC dynamo | arched field yokes, copper field coils, exposed armature/commutator, carbon brushes and separate bearing pedestals |
 | Motor, 3×3 | c.1920–1940 cast-frame electric motor | smooth cast stator, heavy vented end shields, outboard bearings, small side terminal box, belt-output pulley |
 
-The finished objects are original sprite-proxy designs guided by these period families, not exact museum reconstructions. Fixed muted foundry paint, machined iron, brass and copper regions replace the earlier nearly-white scheme. Cast iron remains selected in material masks; concrete, deep pit interiors and accent materials keep their fixed colors. No PBR reflections, lighting, AO, rust noise, logos or fine realistic clutter. Shapes and functional groupings take priority over bolts.
+The finished objects are original sprite-proxy designs guided by these period families, not exact museum reconstructions. Following the user's density/style correction, neutral gray cast iron and brighter machined metal replace the low-contrast green paint. Their values are compared against the existing milling machine, press and rolling mill in `family_palette_audit_before.json` and the current `family_palette_audit.json`. Cast iron remains selected in material masks; concrete, deep pit interiors and accent materials keep their fixed colors. Exported color images receive a 6px black silhouette at 512px; the corresponding mask stroke is unselected. No PBR reflections, lighting, AO, rust noise or logos. Connected pumps, guide rails, belts, broad conductors and service covers provide readable mechanical density.
+
+Foundations follow the equipment rather than filling each building footprint with a slab. Top areas are reduced by about 10% for the small plant, 46% for the large engine, 26% for the diesel, 39% for the generator and 48% for the motor. The five XML building sizes remain unchanged. The large engine retains its genuine below-floor flywheel pit.
 
 Primary historical references consulted:
 

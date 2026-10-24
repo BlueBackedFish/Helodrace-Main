@@ -5,39 +5,54 @@
     "color_and_mask_files": 6,
     "saved_scene_cameras_verified": 3,
     "common_scale": 2.717658281326294,
-    "design_period": "1900-1920 compact workshop steam plant"
+    "design_period": "1900-1920 compact workshop steam plant",
+    "foundation_top_area": 3.1539998970031746,
+    "foundation_area_reduction_percent": 10.270273200478675,
+    "neutral_body_and_unselected_black_outline_verified": true
   },
   "HD_LargeSteamEngine": {
     "definition_texture_resolves": true,
     "footprint_unchanged": "(4,3)",
     "color_and_mask_files": 6,
     "saved_scene_cameras_verified": 3,
-    "common_scale": 4.557399749755859,
-    "design_period": "1900-1920 horizontal compound mill engine"
+    "common_scale": 4.443702220916748,
+    "design_period": "1900-1920 horizontal compound mill engine",
+    "foundation_top_area": 5.343199966180336,
+    "foundation_area_reduction_percent": 45.56642251242526,
+    "neutral_body_and_unselected_black_outline_verified": true
   },
   "HD_IndustrialDieselEngine": {
     "definition_texture_resolves": true,
     "footprint_unchanged": "(4,3)",
     "color_and_mask_files": 6,
     "saved_scene_cameras_verified": 3,
-    "common_scale": 4.878772735595703,
-    "design_period": "1920-1940 three-cylinder stationary diesel"
+    "common_scale": 4.827092170715332,
+    "design_period": "1920-1940 three-cylinder stationary diesel",
+    "foundation_top_area": 7.1439998922348025,
+    "foundation_area_reduction_percent": 25.77662449626179,
+    "neutral_body_and_unselected_black_outline_verified": true
   },
   "HD_EarlyIndustrialGenerator": {
     "definition_texture_resolves": true,
     "footprint_unchanged": "(3,3)",
     "color_and_mask_files": 6,
     "saved_scene_cameras_verified": 3,
-    "common_scale": 3.6750245094299316,
-    "design_period": "1900-1925 open-field DC dynamo"
+    "common_scale": 3.6336798667907715,
+    "design_period": "1900-1925 open-field DC dynamo",
+    "foundation_top_area": 3.784000099658968,
+    "foundation_area_reduction_percent": 39.31034322920661,
+    "neutral_body_and_unselected_black_outline_verified": true
   },
   "HD_EarlyIndustrialLargeMotor": {
     "definition_texture_resolves": true,
     "footprint_unchanged": "(3,3)",
     "color_and_mask_files": 6,
     "saved_scene_cameras_verified": 3,
-    "common_scale": 3.5608320236206055,
-    "design_period": "1920-1940 cast-frame electric motor"
+    "common_scale": 3.5393991470336914,
+    "design_period": "1920-1940 cast-frame electric motor",
+    "foundation_top_area": 3.1480001277923577,
+    "foundation_area_reduction_percent": 47.89804488923605,
+    "neutral_body_and_unselected_black_outline_verified": true
   },
   "large_flywheel_pit": {
     "physical_floor_opening_verified": true,
