@@ -5,19 +5,21 @@
     3
   ],
   "features": [
-    "large horizontal cylinder",
-    "left front flywheel",
-    "rear exhaust manifold and silencer",
-    "speed governor",
-    "right auxiliary pump",
-    "exposed connecting link"
+    "1920-1940 stationary oil engine",
+    "three individual upright cylinder heads",
+    "common inspection-door crankcase",
+    "end flywheel and belt pulley",
+    "exhaust manifold and silencer",
+    "cooling-water tank",
+    "simplified injection pump and lines"
   ],
-  "mesh_objects": 78,
-  "orthographic_scale": 5.0423111617565155,
+  "mesh_objects": 76,
+  "design_period": "1920-1940 three-cylinder stationary diesel",
+  "orthographic_scale": 4.878772670030593,
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 57,
+      "minimum_margin": 54,
       "mask_alpha_matches": true
     },
     "East": {
@@ -27,7 +29,7 @@
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 57,
+      "minimum_margin": 54,
       "mask_alpha_matches": true
     }
   },
