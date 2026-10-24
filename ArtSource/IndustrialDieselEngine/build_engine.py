@@ -1,0 +1,42 @@
+"""Stationary slow-speed industrial diesel, following the existing north sprite."""
+import os,sys,math
+OUT=os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0,os.path.join(OUT,'../IndustrialMachines'))
+import sprite_common as s
+s.start()
+s.cube('01_Heavy_bed',(0,0,.16),(3.90,2.75,.32),s.bed)
+for x in [-1.45,-.45,.55,1.45]:
+    s.cube('02_Frame_foot',(x,-.94,.39),(.30,.46,.30),s.cast)
+    s.rivets('03_Foot_stud',[(x,-.98,.55)],r=.032)
+# The large horizontal cylinder is the dominant reference mass.
+s.cube('04_Crankcase_base',(.15,.05,.59),(2.76,1.20,.54),s.cast)
+s.cyl('05_Horizontal_cylinder',(.20,.08,1.17),.54,2.30,s.cast,'X',large=True)
+for x in [-.98,1.38]:s.cyl('06_Cylinder_end',(x,.08,1.17),.575,.13,s.steel,'X')
+for x in [-.70,.96]:s.cyl('07_Cylinder_band',(x,.08,1.17),.56,.065,s.dark,'X')
+# Reference flywheel sits to the left, facing the North operating side.
+s.cube('08_Flywheel_bearing',(-1.05,-.55,.69),(.38,.34,.74),s.cast)
+s.cyl('09_Flywheel_shaft',(-1.05,-.40,1.19),.085,1.65,s.steel,'Y')
+s.wheel('10_Flywheel',(-1.05,-.83,1.19),.82,s.cast)
+s.cube('11_Inspection_rim',(.45,-.571,.77),(1.10,.035,.40),s.dark)
+s.cube('12_Inspection_plate',(.45,-.597,.77),(1.00,.02,.31),s.cast)
+s.cube('13_Slide_guide',(.82,-.79,.68),(.70,.21,.10),s.dark)
+s.cube('14_Crosshead',(.83,-.79,.83),(.20,.19,.23),s.steel)
+s.rod('15_Connecting_link',(-.90,-.94,1.03),(.83,-.79,.83),.042,s.steel)
+s.cyl('16_Crank_pin',(-.90,-.94,1.03),.07,.05,s.steel,'Y')
+s.path('17_Control_pipe',[(.83,-.62,.88),(.83,-.62,1.54),(.58,-.62,1.54)],.025,s.dark)
+s.cube('18_Governor_mount',(.53,.08,1.77),(.34,.35,.16),s.steel)
+s.governor('19_Speed_governor',(.53,.08,1.85),.48)
+# Exhaust manifold actually reaches the rear stack; no floating elbow.
+s.cyl('20_Exhaust_stack',(-1.52,.63,1.30),.10,1.96,s.dark)
+s.path('21_Exhaust_manifold',[(-.18,.23,1.62),(-.18,.23,1.96),(-1.52,.23,1.96),(-1.52,.63,1.96)],.07,s.cast)
+s.cyl('22_Silencer',(-1.52,.63,2.11),.22,.40,s.cast)
+for z in [1.90,2.32]:s.cyl('23_Silencer_rim',(-1.52,.63,z),.235,.045,s.steel)
+s.cube('24_Auxiliary_pump',(1.61,.08,.88),(.40,.62,.78),s.cast)
+s.cyl('25_Pump_head',(1.61,.08,1.38),.13,.22,s.dark)
+s.cyl('26_Output_flange',(1.88,.08,.89),.19,.16,s.steel,'X')
+s.cyl('27_Brass_oiler',(-.73,.08,1.79),.065,.17,s.brass)
+s.path('28_Oil_return',[(1.61,-.26,1.04),(1.61,-.57,1.04),(1.10,-.57,1.04)],.027,s.cast)
+s.rivets('29_Inspection_rivet',[(x,-.615,z) for x in [.015,.885] for z in [.66,.88]],'Y',.021)
+s.rivets('30_Base_rivet',[(x,y,.33) for x in [-1.68,-.50,.50,1.68] for y in [-1.16,1.16]],r=.024)
+s.rivets('31_End_stud',[(1.457,.08+.45*math.cos(i*math.tau/8),1.17+.45*math.sin(i*math.tau/8)) for i in range(8)],'X',.022)
+s.export(OUT,'HD_IndustrialDieselEngine',[4,3],['large horizontal cylinder','left front flywheel','rear exhaust manifold and silencer','speed governor','right auxiliary pump','exposed connecting link'])

@@ -1,0 +1,35 @@
+{
+  "asset": "HD_IndustrialDieselEngine",
+  "footprint": [
+    4,
+    3
+  ],
+  "features": [
+    "large horizontal cylinder",
+    "left front flywheel",
+    "rear exhaust manifold and silencer",
+    "speed governor",
+    "right auxiliary pump",
+    "exposed connecting link"
+  ],
+  "mesh_objects": 78,
+  "orthographic_scale": 5.0423111617565155,
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 57,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 33,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 57,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false
+}

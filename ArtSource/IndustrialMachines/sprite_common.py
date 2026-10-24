@@ -166,4 +166,3 @@ def export(out,stem,footprint,features):
     with open(os.path.join(out,'validation.json'),'w') as f:
         json.dump({'asset':stem,'footprint':footprint,'features':features,'mesh_objects':count,
                    'orthographic_scale':scale,'cameras':checks,'in_game_tested':False},f,indent=2)
-
