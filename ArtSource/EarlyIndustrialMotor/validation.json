@@ -12,23 +12,24 @@
     "flat-belt output pulley",
     "small side terminal box with porcelain studs"
   ],
-  "mesh_objects": 35,
+  "mesh_objects": 57,
   "design_period": "1920-1940 cast-frame electric motor",
-  "orthographic_scale": 3.5608321279287334,
+  "orthographic_scale": 3.539399233460426,
+  "outline_pixels": 6,
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 51,
+      "minimum_margin": 47,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 33,
+      "minimum_margin": 27,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 51,
+      "minimum_margin": 47,
       "mask_alpha_matches": true
     }
   },

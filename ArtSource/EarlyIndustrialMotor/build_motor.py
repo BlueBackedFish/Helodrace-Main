@@ -4,7 +4,8 @@ OUT=os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0,os.path.join(OUT,'../IndustrialMachines'))
 import sprite_common as s
 s.period_start();s.scene['design_period']='1920-1940 cast-frame electric motor'
-s.cube('01_Cast_motor_skid',(0,0,.10),(2.85,2.12,.20),s.bed)
+s.cube('01_Cast_motor_skid',(0,0,.10),(1.50,1.44,.20),s.bed)
+for x in [-1.075,1.075]:s.cube('01_Bearing_wing',(x,0,.10),(.65,.76,.20),s.bed)
 for x in [-.43,.43]:
     s.cube('02_Integral_motor_foot',(x,0,.34),(.26,1.16,.28),s.cast)
     for y in [-.48,.48]:s.rivets('03_Foot_bolt',[(x,y,.49)],r=.025)
@@ -40,5 +41,20 @@ for x in [-.115,.115]:
     s.cyl('17_Porcelain_insulator',(x,-.53,1.285),.042,.095,ceramic)
     s.cyl('18_Terminal_nut',(x,-.53,1.35),.024,.045,s.brass)
 s.cube('19_Nameplate',(0,-.565,.91),(.28,.012,.12),s.dark)
-s.rivets('20_Base_stud',[(x,y,.211) for x in [-1.24,1.24] for y in [-.90,.90]],r=.027)
+s.rivets('20_Base_stud',[(x,y,.211) for x in [-1.24,1.24] for y in [-.30,.30]],r=.027)
+# Broad casting ribs, service lid and lifting lug make the rounded casing readable.
+for a in [math.pi/4,math.pi*3/4]:
+    o=s.cube('21_Long_casting_rib',(0,.565*math.cos(a),.91+.565*math.sin(a)),(.72,.065,.045),s.cast)
+    o.rotation_euler.x=a-math.pi/2
+s.cube('22_Stator_service_border',(0,-.12,1.465),(.48,.47,.030),s.dark)
+s.cube('23_Stator_service_lid',(0,-.12,1.49),(.39,.38,.020),s.steel)
+s.rivets('24_Service_lid_stud',[(x,y,1.513) for x in [-.14,.14] for y in [-.24,.0]],r=.020)
+s.ring('25_Lifting_eye',(0,.29,1.495),.105,.062,.060,s.cast,'X')
+s.cube('26_Terminal_ceramic_bridge',(0,-.53,1.25),(.35,.16,.025),s.dark)
+for x in [-1.22,1.22]:
+    s.cube('27_Bearing_split_cap',(x,0,.99),(.28,.29,.075),s.cast)
+    s.rivets('28_Cap_fastener',[(x,y,1.04) for y in [-.105,.105]],r=.022)
+for x in [-.55,.55]:
+    for a in [math.pi/4,math.pi*3/4]:
+        s.cyl('29_End_shield_tie_bolt',(x,.46*math.cos(a),.91+.46*math.sin(a)),.027,.045,s.dark,'X')
 s.export(OUT,'HD_EarlyIndustrialLargeMotor',[3,3],['1920-1940 smooth cast-frame motor','two broad casting bands','four large flush end-shield vents','outboard split bearings','flat-belt output pulley','small side terminal box with porcelain studs'])
