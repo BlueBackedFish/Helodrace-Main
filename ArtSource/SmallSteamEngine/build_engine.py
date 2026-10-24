@@ -67,30 +67,33 @@ def wheel(name,y):
 # Broad bed, two flywheels and exposed shaft retain the original arrangement.
 cube('01_Foundation',(0,0,.10),(1.92,1.90,.20),bed)
 for y in [-.72,.72]:cube('02_Raised_bed_rail',(0,y,.235),(1.78,.11,.070),recess)
-for y in [-.43,.43]:cube('03_Bearing_pedestal',(-.43,y,.405),(.28,.25,.46),cast)
+for y in [-.43,.56]:cube('03_Bearing_pedestal',(-.43,y,.405),(.28,.12,.46),cast)
 cylinder('04_Common_crankshaft',(-.43,0,.83),.065,1.48,steel,'Y')
 wheel('05_Front_flywheel',-.61);wheel('06_Rear_flywheel',.61)
-# Upright engine casing and simple steam chest at the right of the flywheels.
+# Right-hand combustion chamber; North (-Y) wall is an uninterrupted flat face.
 cube('07_Right_engine_plinth',(.55,0,.26),(.76,1.57,.12),cast)
 # The fuel casing is a deep solid body, close to the flywheel pair's overall span.
-cube('08_Engine_block',(.55,.035,.635),(.64,1.20,.63),cast)
-cube('09_Steam_chest',(.55,.035,1.015),(.60,.73,.17),steel)
-cube('10_Front_inspection_border',(.55,-.580,.645),(.51,.030,.43),recess)
-cube('11_Front_inspection_plate',(.55,-.601,.645),(.45,.015,.36),cast)
-cylinder('12_Piston_gland',(.55,-.626,.70),.062,.035,steel,'Y')
+cube('08_Firebox',(.55,.035,.635),(.64,1.20,.63),cast)
+cube('09_Firebox_top',(.55,.035,1.015),(.60,.73,.17),steel)
+cube('10_Right_fuel_door_border',(.885,.035,.645),(.030,.80,.43),recess)
+cube('11_Right_fuel_door_plate',(.906,.035,.645),(.015,.70,.36),cast)
 cube('13_Crosshead_slide',(.53,-.73,.36),(.61,.13,.085),recess)
 cube('14_Crosshead',(.56,-.73,.43),(.11,.11,.13),steel)
-rod('15_Piston_rod',(.55,-.645,.70),(.56,-.73,.43),.022,steel)
 rod('16_Connecting_link',(-.28,-.70,.96),(.56,-.73,.43),.026,steel)
 cylinder('17_Crank_pin',(-.28,-.70,.96),.052,.035,steel,'Y')
 rod('18_Brown_crank_arm',(-.43,-.70,.83),(-.28,-.70,.96),.044,copper)
-# Small boiler between the wheels, below the axle, connected to the fuel casing.
-cylinder('33_Small_boiler',(-.43,.02,.52),.25,.94,cast,'Y')
-for y in [-.43,.02,.47]:
-    cylinder('34_Boiler_band',(-.43,y,.52),.265,.040,steel,'Y')
-cylinder('35_Boiler_front_cap',(-.43,-.465,.52),.235,.026,cast,'Y')
-rod('36_Boiler_to_firebox',(-.24,.02,.52),(.32,.02,.52),.105,cast)
-cylinder('37_Firebox_connection_flange',(.235,.02,.52),.135,.032,steel,'X')
+# The boiler runs left/right (X), from the firebox directly to the stack end.
+# Its underside is z=.30, leaving .10 of clear space above the bed (z=.20).
+cylinder('33_Small_boiler',(-.225,.25,.51),.21,1.00,cast,'X')
+for x in [-.69,-.25,.22]:
+    cylinder('34_Boiler_band',(x,.25,.51),.225,.035,steel,'X')
+cylinder('35_Boiler_end_cap',(-.738,.25,.51),.202,.024,cast,'X')
+cylinder('37_Firebox_connection_flange',(.235,.25,.51),.235,.032,steel,'X')
+# A dedicated two-legged saddle supports the free end beside the chimney.
+for y in [.11,.39]:
+    cube('36_Boiler_end_leg',(-.65,y,.285),(.11,.085,.17),cast)
+    cube('36_Boiler_end_foot',(-.65,y,.218),(.17,.14,.036),recess)
+cube('36_Boiler_end_saddle',(-.65,.25,.325),(.14,.38,.060),cast)
 # Short stack neck visibly enters the boiler shell instead of reaching the bed.
 cylinder('19_Stack_base',(-.68,.25,.72),.15,.34,cast)
 cylinder('20_Stack_tube',(-.68,.25,1.13),.135,.66,cast)
@@ -110,17 +113,17 @@ rod('30_Steam_pipe',(.82,.33,.42),(.82,.33,1.17),.037,cast)
 rod('31_Pipe_elbow',(.82,.33,1.17),(.66,.33,1.17),.037,cast)
 cylinder('32_Pipe_valve',(.82,.33,1.22),.054,.045,brass)
 # Sprite-sized rivet heads on meaningful plates; no dense field of tiny screws.
-for x in [.325,.775]:
+for y in [-.31,.38]:
     for z in [.475,.645,.815]:
-        cylinder('38_Fuel_door_rivet',(x,-.617,z),.014,.012,recess,'Y')
-for z in [.54,.77]:cube('39_Fuel_door_hinge',(.338,-.625,z),(.035,.026,.068),steel)
-rod('40_Fuel_door_handle',(.715,-.637,.57),(.715,-.637,.70),.014,recess)
+        cylinder('38_Fuel_door_rivet',(.922,y,z),.014,.012,recess,'X')
+for z in [.54,.77]:cube('39_Fuel_door_hinge',(.930,-.30,z),(.026,.035,.068),steel)
+rod('40_Fuel_door_handle',(.942,.28,.57),(.942,.28,.70),.014,recess)
 for x in [.25,.85]:
     for y in [-.68,.68]:
         cylinder('41_Plinth_rivet',(x,y,.326),.018,.012,recess)
 for i in range(6):
     a=i*math.tau/6
-    cylinder('42_Boiler_cap_rivet',(-.43+.190*math.cos(a),-.489,.52+.190*math.sin(a)),.012,.012,recess,'Y')
+    cylinder('42_Boiler_cap_rivet',(-.758,.25+.16*math.cos(a),.51+.16*math.sin(a)),.012,.012,recess,'X')
 target=Vector((0,0,.70));scale=2.75
 for name,az in [('North',-90),('East',0),('South',90)]:
     a=math.radians(az);e=math.radians(64)
@@ -178,6 +181,9 @@ def world_size(obj):
 with open(os.path.join(OUT,'validation.json'),'w') as f:
     json.dump({'footprint':[2,2],'mesh_objects':len(objects),'vertices':sum(len(o.data.vertices) for o in objects),
                'small_boiler_size':world_size(bpy.data.objects['33_Small_boiler']),
-               'fuel_casing_size':world_size(bpy.data.objects['08_Engine_block']),
+               'firebox_size':world_size(bpy.data.objects['08_Firebox']),
+               'boiler_axis':'X, from right firebox to left chimney',
+               'fuel_door_wall':'+X (right / East), North wall is plain',
+               'boiler_clearance_above_bed':.10,
                'rivet_heads':sum('rivet' in o.name for o in objects),
                'cameras':checks,'game_tested':False},f,indent=2)
