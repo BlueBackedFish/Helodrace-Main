@@ -24,3 +24,5 @@ Painting reference: `ArtSource/VEHICLE_ART_STYLE.md` sections 4–6 and 14, plus
 Desk shading reference: HD_TelegraphTable_south.png, sampled at image coordinates top (300,330), edge (200,361), and leg (160,392): RGB 255, 217, 217 respectively. recolor_desk.py changes only desk materials and checks that geometry, cameras and device colors are preserved; desk_color_validation.json records the result. No mask is needed.
 
 The dual-paddle key uses a broad dark foot, gray base, paired metal levers/pivots and two large black finger pieces. Its controls face the working side (-Y); add_telegraph_key.py updates only this addition in the saved scene. It is a simplified paddle key, inspired by the general dual-lever layout rather than an exact product model. Form reference: https://museumkesher.org.il/en/catalog/bencher-by-1-black-base-iambic/ .
+
+Render the current saved model without rebuilding: run Blender in background with --python ArtSource/CollinsRadioDesk/render_views.py. This writes the three PNGs, previews and validation.json while leaving the Blender scene file unchanged.
