@@ -18,12 +18,12 @@ def mat(name,rgb):
     o=m.node_tree.nodes.new('ShaderNodeOutputMaterial');m.node_tree.links.new(e.outputs[0],o.inputs['Surface'])
     return m
 def palette(name,colors): return [mat(name+str(i),c) for i,c in enumerate(colors)]
-wood=palette('Vanilla_wood',[(133,97,67),(108,77,51),(94,66,44)])
-case=palette('Charcoal_case',[(85,90,91),(59,63,65),(45,49,51)])
-panel=palette('Gray_panel',[(123,126,122),(107,110,106),(85,89,87)])
+wood=palette('Vanilla_wood',[(133,97,67),(125,90,61),(119,85,57)])
+case=palette('Charcoal_case',[(85,90,91),(81,86,87),(77,82,83)])
+panel=palette('Gray_panel',[(123,126,122),(119,122,118),(115,118,114)])
 black=palette('Dark',[(34,37,37)]*3)
 cream=palette('Warm_meter',[(219,207,164)]*3)
-steel=palette('Mic_metal',[(165,172,167),(125,134,131),(103,111,108)])
+steel=palette('Mic_metal',[(165,172,167),(157,164,159),(149,156,151)])
 def cube(name,pos,size,mats):
     bpy.ops.mesh.primitive_cube_add(size=1,location=pos)
     o=bpy.context.object;o.name=name;o.dimensions=size
@@ -67,9 +67,16 @@ def radio(name,x,width,height):
         block(label+'_rim',u,-.021,w,(ww+.014,.012,hh+.014),black)
         block(label+'_glass',u,-.029,w,(ww,.006,hh),cream)
         block(label+'_needle',u+.012,-.034,w,(.006,.004,hh*.65),black)
+        for i in [-1,0,1]:
+            block(label+'_tick',u+i*ww*.28,-.034,w+hh*.32,(.004,.004,hh*.20),black)
     def knob(label,u,w,r):
         o=cyl(name+'_'+label,origin+rotation@Vector((u,-.037,w)),r,.022,black,True)
         o.rotation_euler=(rotation@o.rotation_euler.to_matrix()).to_euler()
+        if r>.04:
+            # Broad concentric dial face and pointer instead of a solid black dot.
+            cap=cyl(name+'_dial_hub',origin+rotation@Vector((u,-.051,w)),r*.69,.007,panel,True)
+            cap.rotation_euler=(rotation@cap.rotation_euler.to_matrix()).to_euler()
+            block('dial_pointer',u,-.057,w+r*.35,(.007,.005,r*.54),cream)
     if '32V3' in name:
         window('left_meter',-.103,length-.061,.101,.060)
         window('right_meter',.103,length-.061,.101,.060)
@@ -79,20 +86,43 @@ def radio(name,x,width,height):
         window('signal_meter',.123,length-.060,.066,.058)
     knob('main_tuning',0,.066,.049)
     for u in [-.137,.137]:knob('control',u,.059,.025)
-    # One wide rear vent band remains legible from the back without micro-detail.
-    cube(name+'_rear_band',(x,rear+.002,z0+height*.57),(width-.062,.008,.031),black)
+    for u in [-.075,.075]:
+        block('switch_socket',u,-.024,.065,(.024,.012,.032),black)
+        block('switch',u,-.035,.070,(.009,.012,.027),steel)
+    for u in [-width/2+.026,width/2-.026]:
+        block('panel_grip',u,-.030,length*.57,(.012,.016,length*.33),steel)
+    # A few broad slots give the shallow case a readable mechanical surface.
+    for i in range(3):
+        cube(name+'_lid_vent',(x,y0+height+.023+i*.027,z0+height+.002),(width*.60,.009,.004),black)
+        cube(name+'_rear_vent',(x,rear+.002,z0+height*.39+i*.031),(width-.080,.008,.011),black)
 radio('Collins_32V3',-.238,.44,.19)
 radio('Collins_75A3',.233,.43,.165)
 scene['radio_style']='shallow_sloped_sprite_panels'
-# Single prominent desk microphone. Broad grille stripes survive sprite reduction.
-cyl('Microphone_base',(.325,-.326,.54),.081,.035,black)
-cyl('Microphone_stem',(.325,-.326,.61),.016,.13,steel)
-mic=cube('Microphone_capsule',(.325,-.326,.726),(.09,.06,.135),steel)
-bevel=mic.modifiers.new('Simple_rounded_capsule','BEVEL');bevel.width=.02;bevel.segments=1
-for z in [.692,.719,.746,.773]:cube('Microphone_grille',(.325,-.359,z),(.063,.004,.009),black)
-# One broad tuning note, deliberately without microtext.
-cube('Operating_card',(-.22,-.31,.527),(.20,.16,.006),cream)
-for y in [-.27,-.30,-.33]:cube('Card_mark',(-.23,y,.531),(.12,.006,.002),panel)
+# Single prominent desk microphone: rounded grille, fork mount and low oval foot.
+base=cyl('Microphone_base',(.325,-.326,.539),.077,.028,black)
+base.scale.x=1.16;base.scale.y=.83
+base=cyl('Microphone_base_inset',(.325,-.326,.555),.063,.009,panel)
+base.scale.x=1.16;base.scale.y=.83
+cyl('Microphone_stem',(.325,-.326,.605),.014,.095,steel)
+cyl('Microphone_collar',(.325,-.326,.574),.024,.022,black)
+for x in [.254,.396]:
+    cube('Microphone_fork',(x,-.326,.661),(.013,.026,.100),steel)
+cube('Microphone_fork_bridge',(.325,-.326,.618),(.151,.026,.015),steel)
+mic=cube('Microphone_capsule',(.325,-.326,.737),(.125,.079,.180),steel)
+bevel=mic.modifiers.new('Rounded_metal_head','BEVEL');bevel.width=.030;bevel.segments=3
+for z,w in [(.683,.066),(.708,.092),(.733,.099),(.758,.092),(.783,.066)]:
+    cube('Microphone_grille',(.325,-.367,z),(w,.006,.012),black)
+cube('Microphone_grille_spine',(.325,-.372,.733),(.009,.005,.110),steel)
+tilt=Matrix.Rotation(math.radians(-30),3,'X');pivot=Vector((.325,-.326,.699))
+for obj in list(scene.objects):
+    if obj.name=='Microphone_capsule' or obj.name.startswith('Microphone_grille'):
+        obj.location=pivot+tilt@(obj.location-pivot)
+        obj.rotation_euler=(tilt@obj.rotation_euler.to_matrix()).to_euler()
+for x in [.253,.397]:
+    pivot=cyl('Microphone_pivot',(x,-.326,.699),.018,.012,black)
+    pivot.rotation_euler.y=math.pi/2
+cube('Microphone_talk_button',(.325,-.370,.563),(.029,.024,.009),black)
+# Cameras retain the existing presentation and framing.
 target=Vector((0,0,.42));scale=1.47
 for name,az in [('North',90),('East',0),('South',270)]:
     a=math.radians(az);e=math.radians(64)
