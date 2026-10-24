@@ -1,0 +1,26 @@
+{
+  "footprint": [
+    2,
+    2
+  ],
+  "mesh_objects": 52,
+  "vertices": 1788,
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "margin_px": 40,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 63.99999334484027,
+      "margin_px": 30,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "margin_px": 40,
+      "mask_alpha_matches": true
+    }
+  },
+  "game_tested": false
+}
