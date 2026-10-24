@@ -19,5 +19,7 @@ for obj in scene.objects:
     if obj.type=='MESH' and (obj.name.startswith('Desk_') or obj.name in ('Front_apron','Rear_apron')):
         obj.data.materials.clear()
         for material in wood:obj.data.materials.append(material)
+        for face in obj.data.polygons:
+            face.material_index=0 if face.normal.z>.5 else (1 if abs(face.normal.y)>.5 else 2)
 assert not any(o.name.startswith(('Operating_card','Card_mark')) for o in scene.objects)
 exec(compile(source[source.index('scene.render.engine='):],__file__,'exec'))

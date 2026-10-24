@@ -26,6 +26,8 @@ for o in scene.objects:
     if o.type=='MESH' and is_desk(o):
         o.data.materials.clear()
         for material in wood:o.data.materials.append(material)
+        for face in o.data.polygons:
+            face.material_index=0 if face.normal.z>.5 else (1 if abs(face.normal.y)>.5 else 2)
 assert snapshot()==before,'Unrelated geometry, device colors or camera changed'
 with open(os.path.join(OUT,'desk_color_validation.json'),'w') as f:
     json.dump({'reference':'Textures/Buildings/HD_TelegraphTable_south.png',
