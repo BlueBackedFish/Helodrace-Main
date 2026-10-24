@@ -3,8 +3,8 @@
     2,
     2
   ],
-  "mesh_objects": 80,
-  "vertices": 2852,
+  "mesh_objects": 82,
+  "vertices": 2948,
   "small_boiler_size": [
     1.0000000596046448,
     1.0399999618530273,
@@ -19,21 +19,23 @@
   "fuel_door_wall": "+X (right / East), North wall is plain",
   "boiler_clearance_above_bed": 0.10999999999999993,
   "boiler_diameter_to_flywheel_gap": 0.920353982300885,
+  "shaft_clearance_above_boiler_and_bands": 0.059999942779541016,
+  "chimney_centered_on_boiler_crown": true,
   "rivet_heads": 16,
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "margin_px": 40,
+      "margin_px": 32,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 63.99999334484027,
-      "margin_px": 30,
+      "margin_px": 23,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "margin_px": 40,
+      "margin_px": 32,
       "mask_alpha_matches": true
     }
   },

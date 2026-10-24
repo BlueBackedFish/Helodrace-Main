@@ -43,8 +43,9 @@ def cylinder(name,p,r,depth,mats,axis='Z',r2=None):
 def rod(name,a,b,r,mats):
     a,b=Vector(a),Vector(b);o=cylinder(name,(a+b)/2,r,(b-a).length,mats)
     o.rotation_euler=(b-a).to_track_quat('Z','Y').to_euler();return o
+AXLE_Z=1.49
 def wheel(name,y):
-    x=-.43;z=.83;outer=.65;inner=.565;half=.045;n=40
+    x=-.43;z=AXLE_Z;outer=.65;inner=.565;half=.045;n=40
     verts=[(x+r*math.cos(i*math.tau/n),y+dy,z+r*math.sin(i*math.tau/n))
            for dy in [-half,half] for r in [outer,inner] for i in range(n)]
     faces=[];colors=[]
@@ -67,8 +68,12 @@ def wheel(name,y):
 # Broad bed, two flywheels and exposed shaft retain the original arrangement.
 cube('01_Foundation',(0,0,.10),(1.92,1.90,.20),bed)
 for y in [-.72,.72]:cube('02_Raised_bed_rail',(0,y,.235),(1.78,.11,.070),recess)
-for y in [-.56,.56]:cube('03_Bearing_pedestal',(-.43,y,.405),(.28,.10,.46),cast)
-cylinder('04_Common_crankshaft',(-.43,0,.83),.065,1.48,steel,'Y')
+# Bearing plates fit in the narrow gaps between the boiler bands and wheel rims.
+for y in [-.55,.55]:
+    height=AXLE_Z-.09-.20
+    cube('03_Bearing_pedestal',(-.43,y,.20+height/2),(.22,.022,height),cast)
+    cylinder('03_Bearing_cap',(-.43,y,AXLE_Z),.10,.04,recess,'Y')
+cylinder('04_Common_crankshaft',(-.43,0,AXLE_Z),.065,1.48,steel,'Y')
 wheel('05_Front_flywheel',-.61);wheel('06_Rear_flywheel',.61)
 # Right-hand combustion chamber; North (-Y) wall is an uninterrupted flat face.
 cube('07_Right_engine_plinth',(.55,0,.26),(.76,1.57,.12),cast)
@@ -79,9 +84,9 @@ cube('10_Right_fuel_door_border',(.885,.035,.645),(.030,.80,.43),recess)
 cube('11_Right_fuel_door_plate',(.906,.035,.645),(.015,.70,.36),cast)
 cube('13_Crosshead_slide',(.53,-.73,.36),(.61,.13,.085),recess)
 cube('14_Crosshead',(.56,-.73,.43),(.11,.11,.13),steel)
-rod('16_Connecting_link',(-.28,-.70,.96),(.56,-.73,.43),.026,steel)
-cylinder('17_Crank_pin',(-.28,-.70,.96),.052,.035,steel,'Y')
-rod('18_Brown_crank_arm',(-.43,-.70,.83),(-.28,-.70,.96),.044,copper)
+rod('16_Connecting_link',(-.28,-.70,AXLE_Z+.13),(.56,-.73,.43),.026,steel)
+cylinder('17_Crank_pin',(-.28,-.70,AXLE_Z+.13),.052,.035,steel,'Y')
+rod('18_Brown_crank_arm',(-.43,-.70,AXLE_Z),(-.28,-.70,AXLE_Z+.13),.044,copper)
 # The boiler runs left/right (X), from the firebox directly to the stack end.
 # Diameter 1.04 fills 92% of the 1.13 clear gap between the two flywheel rims.
 # Center it between the wheels; the raised shell still clears the bed by .11.
@@ -98,12 +103,12 @@ for y in [-.34,.34]:
     cube('36_Boiler_end_leg',(-.65,y,.330),(.11,.085,.26),cast)
     cube('36_Boiler_end_foot',(-.65,y,.218),(.17,.14,.036),recess)
 cube('36_Boiler_end_saddle',(-.65,BOILER_Y,.340),(.14,.80,.060),cast)
-# Short stack neck visibly enters the boiler shell instead of reaching the bed.
-cylinder('19_Stack_base',(-.68,.25,1.30),.15,.12,cast)
-cylinder('20_Stack_tube',(-.68,.25,1.395),.135,.19,cast)
-cylinder('21_Stack_flare',(-.68,.25,1.53),.135,.22,cast,r2=.195)
-for z,r in [(1.40,.153),(1.64,.202)]:cylinder('22_Stack_band',(-.68,.25,z),r,.045,steel)
-cylinder('23_Stack_dark_mouth',(-.68,.25,1.664),.168,.003,recess)
+# The whole chimney is centered on the crown, not offset onto the barrel side.
+cylinder('19_Stack_base',(-.68,BOILER_Y,1.39),.15,.12,cast)
+cylinder('20_Stack_tube',(-.68,BOILER_Y,1.72),.135,.62,cast)
+cylinder('21_Stack_flare',(-.68,BOILER_Y,2.12),.135,.22,cast,r2=.195)
+for z,r in [(1.44,.153),(2.23,.202)]:cylinder('22_Stack_band',(-.68,BOILER_Y,z),r,.045,steel)
+cylinder('23_Stack_dark_mouth',(-.68,BOILER_Y,2.254),.168,.003,recess)
 # Governor's paired brass balls are the characteristic colored accents.
 cylinder('24_Governor_mount',(.55,.035,1.135),.075,.09,brass)
 cylinder('25_Governor_spindle',(.55,.035,1.295),.025,.27,brass)
@@ -128,7 +133,7 @@ for x in [.25,.85]:
 for i in range(6):
     a=i*math.tau/6
     cylinder('42_Boiler_cap_rivet',(-.758,BOILER_Y+.435*math.cos(a),BOILER_Z+.435*math.sin(a)),.012,.012,recess,'X')
-target=Vector((0,0,.70));scale=2.75
+target=Vector((0,0,1.00));scale=2.95
 for name,az in [('North',-90),('East',0),('South',90)]:
     a=math.radians(az);e=math.radians(64)
     data=bpy.data.cameras.new('Camera_'+name);data.type='ORTHO';data.ortho_scale=scale
@@ -182,6 +187,15 @@ im.scale(768,256);im.filepath_raw=os.path.join(OUT,'preview_256px.png');im.save(
 def world_size(obj):
     points=[obj.matrix_world@v.co for v in obj.data.vertices]
     return [max(v[i] for v in points)-min(v[i] for v in points) for i in range(3)]
+shaft=bpy.data.objects['04_Common_crankshaft']
+shaft_bottom=min((shaft.matrix_world@v.co).z for v in shaft.data.vertices)
+barrel_parts=[o for o in objects if o.name.startswith(('33_','34_','35_','37_'))]
+barrel_top=max((o.matrix_world@v.co).z for o in barrel_parts for v in o.data.vertices)
+shaft_gap=shaft_bottom-barrel_top
+assert shaft_gap>.04,'Crankshaft intersects the boiler shell or bands'
+chimney=bpy.data.objects['19_Stack_base']
+assert abs(chimney.location.y-BOILER_Y)<1e-6
+assert -.725<chimney.location.x<.275
 with open(os.path.join(OUT,'validation.json'),'w') as f:
     json.dump({'footprint':[2,2],'mesh_objects':len(objects),'vertices':sum(len(o.data.vertices) for o in objects),
                'small_boiler_size':world_size(bpy.data.objects['33_Small_boiler']),
@@ -190,5 +204,7 @@ with open(os.path.join(OUT,'validation.json'),'w') as f:
                'fuel_door_wall':'+X (right / East), North wall is plain',
                'boiler_clearance_above_bed':BOILER_Z-BOILER_RADIUS-.20,
                'boiler_diameter_to_flywheel_gap':2*BOILER_RADIUS/1.13,
+               'shaft_clearance_above_boiler_and_bands':shaft_gap,
+               'chimney_centered_on_boiler_crown':True,
                'rivet_heads':sum('rivet' in o.name for o in objects),
                'cameras':checks,'game_tested':False},f,indent=2)
