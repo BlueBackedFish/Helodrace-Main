@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <JoyKindDef>
+    <defName>HD_RadioListening</defName>
+    <label>radio listening</label>
+  </JoyKindDef>
+  <JobDef>
+    <defName>HD_ListenRadio</defName>
+    <driverClass>Helodrace.JobDriver_ListenRadio</driverClass>
+    <reportString>listening to the radio.</reportString>
+    <joyDuration>4000</joyDuration>
+    <joyMaxParticipants>1</joyMaxParticipants>
+    <joyKind>HD_RadioListening</joyKind>
+  </JobDef>
+  <JobDef>
+    <defName>HD_ChatOnRadio</defName>
+    <driverClass>Helodrace.JobDriver_ChatOnRadio</driverClass>
+    <reportString>chatting on a HAM radio channel.</reportString>
+    <joyDuration>4000</joyDuration>
+    <joyMaxParticipants>1</joyMaxParticipants>
+    <joyKind>Social</joyKind>
+  </JobDef>
+  <JoyGiverDef>
+    <defName>HD_ListenRadio</defName>
+    <giverClass>Helodrace.JoyGiver_Radio</giverClass>
+    <baseChance>3</baseChance>
+    <thingDefs><li>HD_Radio</li></thingDefs>
+    <jobDef>HD_ListenRadio</jobDef>
+    <joyKind>HD_RadioListening</joyKind>
+    <requiredCapacities><li>Hearing</li></requiredCapacities>
+  </JoyGiverDef>
+  <JoyGiverDef>
+    <defName>HD_ChatOnRadio</defName>
+    <giverClass>Helodrace.JoyGiver_RadioChat</giverClass>
+    <baseChance>2</baseChance>
+    <thingDefs><li>HD_Radio</li></thingDefs>
+    <jobDef>HD_ChatOnRadio</jobDef>
+    <joyKind>Social</joyKind>
+    <requiredCapacities>
+      <li>Hearing</li>
+      <li>Talking</li>
+    </requiredCapacities>
+  </JoyGiverDef>
+</Defs>

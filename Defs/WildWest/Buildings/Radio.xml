@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_Radio</defName>
+    <label>radio</label>
+    <description>A powered radio for chatting with LOW and HIGH Helod HAM operators and listening to broadcasts for recreation. Channels are available at any hour, without telegraph installation or primary cells.</description>
+    <thingClass>Helodrace.Building_Radio</thingClass>
+    <graphicData>
+      <texPath>Buildings/HD_Radio</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <!-- Half the milling machine's 3x3 graphic, with its default zero offset. -->
+      <drawSize>(1.5,1.5)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <size>(1,1)</size>
+    <rotatable>true</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>42</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <statBases>
+      <MaxHitPoints>120</MaxHitPoints>
+      <WorkToBuild>3000</WorkToBuild>
+      <Mass>12</Mass>
+      <Flammability>0.5</Flammability>
+      <JoyGainFactor>1.1</JoyGainFactor>
+    </statBases>
+    <costList>
+      <Steel>40</Steel>
+      <HD_BasicElectricalComponents>4</HD_BasicElectricalComponents>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>80</basePowerConsumption>
+        <shortCircuitInRain>true</shortCircuitInRain>
+      </li>
+      <li Class="CompProperties_Flickable" />
+    </comps>
+    <building>
+      <joyKind>HD_RadioListening</joyKind>
+    </building>
+    <designationCategory>Joy</designationCategory>
+    <uiOrder>2460</uiOrder>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <researchPrerequisites>
+      <li>HelodWireless</li>
+    </researchPrerequisites>
+  </ThingDef>
+</Defs>

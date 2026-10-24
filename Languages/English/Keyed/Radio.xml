@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Radio_Listen>Listen to the radio</HD_Radio_Listen>
+  <HD_Radio_Channel>Chat on {0}'s channel</HD_Radio_Channel>
+  <HD_Radio_NoChannels>No HAM channels available</HD_Radio_NoChannels>
+  <HD_Radio_NoPower>Radio requires power</HD_Radio_NoPower>
+  <HD_Radio_NoHearing>Unable to hear the radio</HD_Radio_NoHearing>
+  <HD_Radio_NoTalking>Unable to talk over the radio</HD_Radio_NoTalking>
+</LanguageData>

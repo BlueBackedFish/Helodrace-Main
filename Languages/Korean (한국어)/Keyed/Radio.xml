@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Radio_Listen>라디오 청취</HD_Radio_Listen>
+  <HD_Radio_Channel>{0} 채널에서 대화</HD_Radio_Channel>
+  <HD_Radio_NoChannels>수신 가능한 HAM 채널 없음</HD_Radio_NoChannels>
+  <HD_Radio_NoPower>무전기에 전력이 필요함</HD_Radio_NoPower>
+  <HD_Radio_NoHearing>라디오를 들을 수 없음</HD_Radio_NoHearing>
+  <HD_Radio_NoTalking>무전으로 말할 수 없음</HD_Radio_NoTalking>
+</LanguageData>
