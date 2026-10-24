@@ -133,7 +133,7 @@ namespace Helodrace
                 shellDef,
                 forwardBase,
                 radioOperator);
-            telegraphComp?.ConsumePrimaryCell();
+            telegraphComp?.TryTransmit();
             Messages.Message("HD_MortarSupport_Called".Translate(VolleyCount * ShellsPerVolley), MessageTypeDefOf.NeutralEvent);
             return true;
         }
@@ -228,7 +228,7 @@ namespace Helodrace
                 return;
             }
 
-            telegraphComp?.ConsumePrimaryCell();
+            telegraphComp?.TryTransmit();
             Messages.Message("HD_W48_Requested".Translate(
                 HelodForwardBase.W48DeliveryHours,
                 HelodForwardBase.W48AuthorizationHours), forwardBase, MessageTypeDefOf.CautionInput);

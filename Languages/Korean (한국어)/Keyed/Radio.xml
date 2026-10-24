@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_Radio_Listen>라디오 청취</HD_Radio_Listen>
-  <HD_Radio_Channel>{0} 채널에서 대화</HD_Radio_Channel>
-  <HD_Radio_NoChannels>수신 가능한 HAM 채널 없음</HD_Radio_NoChannels>
+  <HD_Radio_Use>{0} 회사 채널 이용</HD_Radio_Use>
+  <HD_Radio_WindowTitle>무전기 회사 채널</HD_Radio_WindowTitle>
+  <HD_Radio_ServiceHours>채널 24시간 이용 가능 | 전력 사용</HD_Radio_ServiceHours>
+  <HD_Radio_CompanyChannel>{0} — 회사 채널 연결됨</HD_Radio_CompanyChannel>
+  <HD_Radio_OfflineDirectory>채널에 연결할 수 없어 회사·단체 목록을 조회할 수 없습니다.</HD_Radio_OfflineDirectory>
   <HD_Radio_NoPower>무전기에 전력이 필요함</HD_Radio_NoPower>
-  <HD_Radio_NoHearing>라디오를 들을 수 없음</HD_Radio_NoHearing>
-  <HD_Radio_NoTalking>무전으로 말할 수 없음</HD_Radio_NoTalking>
+  <HD_Radio_NoCompanyChannel>이용 가능한 LOW 헤로드 회사 채널 없음</HD_Radio_NoCompanyChannel>
+  <HD_Radio_WrongProvider>회사 채널로는 LOW 헤로드 팩션에만 연락할 수 있습니다.</HD_Radio_WrongProvider>
+  <HD_Radio_Online>무전 채널 연결됨</HD_Radio_Online>
+  <HD_Radio_TransmissionCost>전력 연결</HD_Radio_TransmissionCost>
+  <HD_Radio_CaravanConfirm>무전으로 {0}에 상단을 요청할까요? 금융 우호도 {2}점을 사용합니다. 회사마다 1~2일의 도착 일정과 4일 대기시간은 별개입니다. 통행 보장 상단을 공격하면 일반·금융 우호도가 함께 감소하고 통행 보장이 깨집니다.</HD_Radio_CaravanConfirm>
 </LanguageData>

@@ -48,7 +48,7 @@
   <JobDef>
     <defName>HD_UseTelegraphTable</defName>
     <driverClass>Helodrace.JobDriver_UseTelegraphTable</driverClass>
-    <reportString>using telegraph table.</reportString>
+    <reportString>using TargetA.</reportString>
     <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
   </JobDef>
 

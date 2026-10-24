@@ -10,106 +10,6 @@ using ForwardBaseService = Helodrace.HelodForwardBaseService;
 
 namespace Helodrace
 {
-    public class CompProperties_TelegraphTable : CompProperties
-    {
-        public CompProperties_TelegraphTable()
-        {
-            compClass = typeof(CompTelegraphTable);
-        }
-    }
-
-    public class CompTelegraphTable : ThingComp
-    {
-        private const string UseJobDefName = "HD_UseTelegraphTable";
-
-        private CompRefuelable Refuelable => parent.TryGetComp<CompRefuelable>();
-
-        public int StoredPrimaryCells => Mathf.FloorToInt(Refuelable?.Fuel ?? 0f);
-        public bool HasPrimaryCell => Refuelable?.Fuel >= 1f;
-        public MapComponent_TelegraphNetwork Network => parent.Map?.GetComponent<MapComponent_TelegraphNetwork>();
-
-        public string ConnectionFailure
-        {
-            get
-            {
-                if (!parent.Spawned || parent.Faction != Faction.OfPlayer || Network == null)
-                    return "HD_Telegraph_Status_ProviderUnavailable".Translate();
-                TelegraphConnectionStatus status = Network.Status(HasPrimaryCell);
-                return status == TelegraphConnectionStatus.Online ? null : Network.StatusText(status);
-            }
-        }
-
-        public string TransmissionFailure(Faction target, bool allowHostileTrade = false)
-        {
-            string reason = ConnectionFailure;
-            if (reason != null) return reason;
-            if (!allowHostileTrade && target?.HostileTo(Faction.OfPlayer) == true)
-                return "HD_Company_HostileServiceUnavailable".Translate();
-            return target != Network.Provider ? "HD_Telegraph_WrongProvider".Translate().ToString() : null;
-        }
-
-        public override string CompInspectStringExtra()
-        {
-            return ConnectionFailure ?? "HD_Telegraph_Status_Online".Translate().ToString();
-        }
-
-        public bool ConsumePrimaryCell()
-        {
-            CompRefuelable refuelable = Refuelable;
-            if (ConnectionFailure != null || refuelable == null || refuelable.Fuel < 1f)
-            {
-                return false;
-            }
-
-            refuelable.ConsumeFuel(1f);
-            return true;
-        }
-
-        public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn selPawn)
-        {
-            foreach (FloatMenuOption option in base.CompFloatMenuOptions(selPawn))
-            {
-                yield return option;
-            }
-
-            if (selPawn == null || selPawn.Faction != Faction.OfPlayer)
-            {
-                yield break;
-            }
-
-            string label = "HD_TelegraphTable_Use_Label".Translate(parent.LabelShort);
-            if (Network?.InstallationRequested != true || Network.Status() == TelegraphConnectionStatus.Installing)
-            {
-                yield return new FloatMenuOption(label + ": " + ConnectionFailure, null);
-                yield break;
-            }
-            if (!selPawn.CanReach(parent, PathEndMode.InteractionCell, Danger.Deadly))
-            {
-                yield return new FloatMenuOption(label + ": " + "NoPath".Translate(), null);
-                yield break;
-            }
-
-            if (!selPawn.CanReserve(parent))
-            {
-                yield return new FloatMenuOption(label + ": " + "Reserved".Translate(), null);
-                yield break;
-            }
-
-            yield return new FloatMenuOption(label, delegate
-            {
-                JobDef jobDef = DefDatabase<JobDef>.GetNamedSilentFail(UseJobDefName);
-                if (jobDef == null)
-                {
-                    Log.ErrorOnce("Helodrace: HD_UseTelegraphTable JobDef is missing.", 72851041);
-                    return;
-                }
-
-                Job job = JobMaker.MakeJob(jobDef, parent);
-                selPawn.jobs.TryTakeOrderedJob(job);
-            });
-        }
-    }
-
     public class JobDriver_UseTelegraphTable : JobDriver
     {
         private const TargetIndex TableInd = TargetIndex.A;
@@ -270,7 +170,8 @@ namespace Helodrace
             doCloseX = true;
             draggable = true;
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 34f), "HD_TelegraphTable_Window_Title".Translate());
+            Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 34f),
+                (comp?.IsWireless == true ? "HD_Radio_WindowTitle" : "HD_TelegraphTable_Window_Title").Translate());
             Text.Font = GameFont.Small;
 
             Rect statusRect = new Rect(inRect.x, inRect.y + 42f, inRect.width, 116f);
@@ -279,10 +180,12 @@ namespace Helodrace
             Widgets.Label(new Rect(status.x, status.y, status.width, 22f),
                 "HD_TelegraphTable_Operator".Translate(operatorPawn?.LabelShortCap ?? "Unknown".Translate()));
             Widgets.Label(new Rect(status.x, status.y + 22f, status.width, 22f),
-                "HD_Telegraph_LocalTime".Translate(comp?.Network?.LocalHour ?? 0, comp?.StoredPrimaryCells ?? 0));
+                comp?.IsWireless == true ? "HD_Radio_ServiceHours".Translate()
+                    : "HD_Telegraph_LocalTime".Translate(comp?.Network?.LocalHour ?? 0, comp?.StoredPrimaryCells ?? 0));
             GUI.color = failure == null ? new Color(0.65f, 0.9f, 0.65f) : Color.gray;
             Widgets.Label(new Rect(status.x, status.y + 46f, status.width, 44f), failure ??
-                "HD_Telegraph_OnlineProvider".Translate(SelectedMilitaryFaction().Name).ToString());
+                (comp?.IsWireless == true ? "HD_Radio_CompanyChannel" : "HD_Telegraph_OnlineProvider")
+                    .Translate(SelectedMilitaryFaction().Name).ToString());
             GUI.color = Color.white;
 
             float contentY = statusRect.yMax + 10f;
@@ -294,7 +197,8 @@ namespace Helodrace
                 Widgets.DrawMenuSection(offlineRect);
                 Text.Anchor = TextAnchor.MiddleCenter;
                 GUI.color = Color.gray;
-                Widgets.Label(offlineRect.ContractedBy(12f), "HD_Telegraph_OfflineDirectory".Translate());
+                Widgets.Label(offlineRect.ContractedBy(12f),
+                    (comp?.IsWireless == true ? "HD_Radio_OfflineDirectory" : "HD_Telegraph_OfflineDirectory").Translate());
                 GUI.color = Color.white;
                 Text.Anchor = TextAnchor.UpperLeft;
             }
@@ -403,6 +307,7 @@ namespace Helodrace
             Widgets.Label(new Rect(rect.x, rect.y, rect.width, 32f), TelegraphCompanies.Name(SelectedCompany));
             Text.Font = GameFont.Small;
             if (SelectedCompany != TelegraphCompany.NationalIndustrialCredit && SelectedCompany != TelegraphCompany.CentralHardwareSupply
+                && SelectedCompany != TelegraphCompany.WhitmoreArms && SelectedCompany != TelegraphCompany.ContinentalPetroleum
                 && SelectedCompany != TelegraphCompany.HarringtonProtective)
             {
                 Widgets.Label(new Rect(rect.x, rect.y + 44f, rect.width, 82f), "HD_Company_Service_Unavailable".Translate());
@@ -410,7 +315,7 @@ namespace Helodrace
             }
             bool harrington = SelectedCompany == TelegraphCompany.HarringtonProtective;
             string description = TelegraphCompanies.DescriptionKey(SelectedCompany);
-            Widgets.Label(new Rect(rect.x, rect.y + 44f, rect.width, 82f), description.Translate());
+            Widgets.Label(new Rect(rect.x, rect.y + 44f, rect.width, 82f), description.Translate(comp.TransmissionCostLabel));
             int now = Find.TickManager.TicksGame;
             if (harrington)
             {
@@ -418,8 +323,8 @@ namespace Helodrace
                     ? "HD_Company_Cooldown".Translate(companies.HarringtonWait.ToStringTicksToPeriod())
                     : "HD_Company_Ready".Translate());
                 DrawCompanyButton(new Rect(rect.x, rect.y + 190f, rect.width, 42f), "HD_Company_HireHarrington".Translate(TelegraphCompanies.HarringtonCost),
-                    companies.HarringtonWait == 0 && comp.TransmissionFailure(comp.Network.Provider) == null, () => Find.WindowStack.Add(new Dialog_MessageBox(
-                        "HD_Company_HarringtonConfirm".Translate(TelegraphCompanies.HarringtonGuardCount, TelegraphCompanies.HarringtonCost),
+                    companies.HarringtonWait == 0 && comp.TransmissionFailure(comp.Provider) == null, () => Find.WindowStack.Add(new Dialog_MessageBox(
+                        "HD_Company_HarringtonConfirm".Translate(TelegraphCompanies.HarringtonGuardCount, TelegraphCompanies.HarringtonCost, comp.TransmissionCostLabel),
                         "Confirm".Translate(), () =>
                         {
                             if (!companies.TryRequestHarrington(operatorPawn, comp, out string reason)) Messages.Message(reason, MessageTypeDefOf.RejectInput);
@@ -448,7 +353,7 @@ namespace Helodrace
             {
                 requestRect.width = (rect.width - 12f) * 0.5f;
                 DrawCompanyButton(new Rect(requestRect.xMax + 12f, requestRect.y, requestRect.width, requestRect.height),
-                    "HD_Loan_Open".Translate(), comp.TransmissionFailure(comp.Network.Provider, true) == null,
+                    "HD_Loan_Open".Translate(), comp.TransmissionFailure(comp.Provider, true) == null,
                     () => Find.WindowStack.Add(new Economy.Dialog_LoanContract(operatorPawn, comp)));
             }
             string failure = companies.CaravanRequestFailure(comp, requested);
@@ -470,8 +375,9 @@ namespace Helodrace
         {
             var names = new List<string>();
             foreach (TelegraphCompany company in requested) names.Add(TelegraphCompanies.Name(company));
-            int cost = TelegraphTradeRules.Cost(comp.Network.Provider.HostileTo(Faction.OfPlayer), requested.Count);
-            Find.WindowStack.Add(new Dialog_MessageBox("HD_Company_CaravanConfirm".Translate(string.Join(", ", names.ToArray()), requested.Count, cost),
+            int cost = TelegraphTradeRules.Cost(comp.Provider.HostileTo(Faction.OfPlayer), requested.Count);
+            Find.WindowStack.Add(new Dialog_MessageBox((comp.IsWireless ? "HD_Radio_CaravanConfirm" : "HD_Company_CaravanConfirm")
+                .Translate(string.Join(", ", names.ToArray()), requested.Count, cost),
                 "Confirm".Translate(), () =>
                 {
                     if (!companies.TryRequestCaravans(operatorPawn, comp, requested, out string reason)) Messages.Message(reason, MessageTypeDefOf.RejectInput);
@@ -525,7 +431,7 @@ namespace Helodrace
                     telegraphTable.TryGetComp<CompTelegraphTable>()));
         }
 
-        private Faction SelectedMilitaryFaction() => telegraphTable?.TryGetComp<CompTelegraphTable>()?.Network?.Provider;
+        private Faction SelectedMilitaryFaction() => telegraphTable?.TryGetComp<CompTelegraphTable>()?.Provider;
 
         private string SelectedMilitaryFactionLabel() => MilitaryFactionLabel(SelectedMilitaryFaction());
 
@@ -1021,7 +927,7 @@ namespace Helodrace
             }
 
             CompTelegraphTable telegraphComp = telegraphTable.TryGetComp<CompTelegraphTable>();
-            if (telegraphComp?.HasPrimaryCell != true)
+            if (telegraphComp?.HasTransmissionCapacity() != true)
             {
                 Messages.Message("HD_TelegraphTable_ActionNeedsPrimaryCell".Translate(), telegraphTable, MessageTypeDefOf.RejectInput);
                 return;
@@ -1049,7 +955,7 @@ namespace Helodrace
             construction.SetContractServices(SelectedServices(), SelectedServiceUnitCounts());
             construction.ConfigureContract(ToForwardBaseCostKind(selectedContractCostKind), ContractDurationDays(selectedContractDuration), credit);
             Find.WorldObjects.Add(construction);
-            telegraphComp.ConsumePrimaryCell();
+            telegraphComp.TryTransmit();
             Messages.Message("HD_TelegraphTable_ForwardBase_ConstructionStarted".Translate(7), construction, MessageTypeDefOf.PositiveEvent);
             Close();
         }

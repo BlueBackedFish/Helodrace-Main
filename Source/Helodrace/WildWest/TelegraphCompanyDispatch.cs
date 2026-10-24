@@ -35,7 +35,7 @@ namespace Helodrace
         private string ConnectionFailure(Pawn actor, CompTelegraphTable comp, bool allowHostileTrade = false)
         {
             if (comp == null || comp.parent.Map != map) return "HD_Telegraph_Status_ProviderUnavailable".Translate();
-            string reason = comp.TransmissionFailure(comp.Network?.Provider, allowHostileTrade);
+            string reason = comp.TransmissionFailure(comp.Provider, allowHostileTrade);
             if (reason != null) return reason;
             if (actor == null || !actor.Spawned || actor.Map != map || actor.Dead || actor.Downed
                 || actor.Faction != Faction.OfPlayer || !actor.health.capacities.CapableOf(PawnCapacityDefOf.Talking)
@@ -46,14 +46,14 @@ namespace Helodrace
 
         public string CaravanRequestFailure(CompTelegraphTable comp, IReadOnlyList<TelegraphCompany> requested)
         {
-            if (comp?.Network?.Provider == null) return "HD_Telegraph_Status_ProviderUnavailable".Translate();
+            if (comp?.Provider == null) return "HD_Telegraph_Status_ProviderUnavailable".Translate();
             if (!dispatches.CanRequest(Find.TickManager.TicksGame, requested)) return "HD_Company_RequestUnavailable".Translate();
-            Faction provider = comp.Network.Provider;
+            Faction provider = comp.Provider;
             bool hostile = provider.HostileTo(Faction.OfPlayer);
             float finance = GameComponent_FinancialGoodwill.Current?.Get(provider) ?? 0f;
             if (!TelegraphTradeRules.CanRequest(finance, hostile, requested.Count))
                 return "HD_Company_NeedsFinancial".Translate(TelegraphTradeRules.RequiredFinancial(hostile, requested.Count), finance.ToString("0.##"));
-            if (comp.StoredPrimaryCells < requested.Count) return "HD_Company_NeedsCells".Translate(requested.Count);
+            if (!comp.HasTransmissionCapacity(requested.Count)) return "HD_Company_NeedsCells".Translate(requested.Count);
             return null;
         }
 
@@ -61,7 +61,7 @@ namespace Helodrace
         {
             reason = ConnectionFailure(actor, comp, true) ?? CaravanRequestFailure(comp, requested);
             if (reason != null) return false;
-            Faction provider = comp.Network.Provider;
+            Faction provider = comp.Provider;
             if (!provider.def.allowedArrivalTemperatureRange.ExpandedBy(-4f).Includes(map.mapTemperature.SeasonalTemp))
             {
                 reason = "BadTemperature".Translate(); return false;
@@ -86,7 +86,7 @@ namespace Helodrace
                 if (cost > 0) ledger.Adjust(provider, cost);
                 reason = "HD_Company_RequestUnavailable".Translate(); return false;
             }
-            for (int i = 0; i < requested.Count; i++) comp.ConsumePrimaryCell();
+            for (int i = 0; i < requested.Count; i++) comp.TryTransmit();
             caravanProvider = provider;
             Messages.Message("HD_Company_CaravansRequested".Translate(requested.Count), actor, MessageTypeDefOf.PositiveEvent);
             return true;
@@ -136,7 +136,7 @@ namespace Helodrace
                 return false;
             }
             var squad = new List<Pawn>();
-            Faction provider = comp.Network.Provider;
+            Faction provider = comp.Provider;
             for (int i = 0; i < TelegraphCompanies.HarringtonGuardCount; i++)
             {
                 PawnKindDef kind = DefDatabase<PawnKindDef>.GetNamed(i == 0 ? TelegraphCompanies.EliteCaptain : TelegraphCompanies.EliteGuard);
@@ -152,7 +152,7 @@ namespace Helodrace
                 GenSpawn.Spawn(pawn, CellFinder.RandomClosewalkCellNear(entry, map, 8), map);
             LordMaker.MakeNewLord(provider, new LordJob_Harrington(Faction.OfPlayer, actor.Position), map, squad);
             GameComponent_FinancialGoodwill.Current?.RecordServicePayment(provider, TelegraphCompanies.HarringtonCost);
-            comp.ConsumePrimaryCell();
+            comp.TryTransmit();
             harringtonNextRequestTick = Find.TickManager.TicksGame + TelegraphCompanies.HarringtonDurationTicks;
             Messages.Message("HD_Company_HarringtonArrived".Translate(squad.Count), actor, MessageTypeDefOf.PositiveEvent);
             return true;

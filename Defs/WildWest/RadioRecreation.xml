@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-  <JoyKindDef>
-    <defName>HD_RadioListening</defName>
-    <label>radio listening</label>
-  </JoyKindDef>
   <JobDef>
     <defName>HD_ListenRadio</defName>
     <driverClass>Helodrace.JobDriver_ListenRadio</driverClass>
     <reportString>listening to the radio.</reportString>
     <joyDuration>4000</joyDuration>
-    <joyMaxParticipants>1</joyMaxParticipants>
-    <joyKind>HD_RadioListening</joyKind>
+    <joyMaxParticipants>8</joyMaxParticipants>
+    <joyKind>Television</joyKind>
+    <isCrawlingIfDowned>false</isCrawlingIfDowned>
   </JobDef>
   <JobDef>
     <defName>HD_ChatOnRadio</defName>
@@ -22,11 +19,12 @@
   </JobDef>
   <JoyGiverDef>
     <defName>HD_ListenRadio</defName>
-    <giverClass>Helodrace.JoyGiver_Radio</giverClass>
+    <giverClass>Helodrace.JoyGiver_RadioListening</giverClass>
     <baseChance>3</baseChance>
     <thingDefs><li>HD_Radio</li></thingDefs>
     <jobDef>HD_ListenRadio</jobDef>
-    <joyKind>HD_RadioListening</joyKind>
+    <joyKind>Television</joyKind>
+    <canDoWhileInBed>true</canDoWhileInBed>
     <requiredCapacities><li>Hearing</li></requiredCapacities>
   </JoyGiverDef>
   <JoyGiverDef>

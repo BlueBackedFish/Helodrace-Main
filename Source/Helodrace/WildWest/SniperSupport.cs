@@ -542,7 +542,7 @@ namespace Helodrace
                 return false;
             }
             session.TryConsumeAction(now);
-            telegraphComp?.ConsumePrimaryCell();
+            telegraphComp?.TryTransmit();
             effects.Add(new SniperSupportEffect(target, mode, now, now + HelodSniperSupportUtility.AimTicks,
                 forwardBase, session.Direction, sourceCell));
             return true;

@@ -3,7 +3,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Radio</defName>
     <label>radio</label>
-    <description>A powered radio for chatting with LOW and HIGH Helod HAM operators and listening to broadcasts for recreation. Channels are available at any hour, without telegraph installation or primary cells.</description>
+    <description>An upgraded wireless terminal for all LOW Helod company services, including caravan requests, loans, forward-base contracts and security. Power replaces wired installation and primary cells, with channels available around the clock. Colonists can also chat with LOW and HIGH HAM operators or listen to broadcasts during recreation.</description>
     <thingClass>Helodrace.Building_Radio</thingClass>
     <graphicData>
       <texPath>Buildings/HD_Radio</texPath>
@@ -34,6 +34,9 @@
       <HD_BasicElectricalComponents>4</HD_BasicElectricalComponents>
     </costList>
     <comps>
+      <li Class="Helodrace.CompProperties_TelegraphTable">
+        <wireless>true</wireless>
+      </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
         <basePowerConsumption>80</basePowerConsumption>
@@ -42,8 +45,12 @@
       <li Class="CompProperties_Flickable" />
     </comps>
     <building>
-      <joyKind>HD_RadioListening</joyKind>
+      <joyKind>Television</joyKind>
+      <watchBuildingStandDistanceRange>2~4</watchBuildingStandDistanceRange>
+      <watchBuildingStandRectWidth>5</watchBuildingStandRectWidth>
+      <watchBuildingInSameRoom>true</watchBuildingInSameRoom>
     </building>
+    <placeWorkers><li>PlaceWorker_WatchArea</li></placeWorkers>
     <designationCategory>Joy</designationCategory>
     <uiOrder>2460</uiOrder>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>

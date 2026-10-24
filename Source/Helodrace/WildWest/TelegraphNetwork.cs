@@ -74,7 +74,8 @@ namespace Helodrace
         {
             if (!IsInstallationTrader(trader, map)) return "HD_Telegraph_TraderUnavailable".Translate();
             if (InstallationRequested) return "HD_Telegraph_AlreadyRequested".Translate();
-            if (!map.IsPlayerHome || !map.listerThings.AllThings.Any(t => t.Faction == Faction.OfPlayer && t.TryGetComp<CompTelegraphTable>() != null))
+            if (!map.IsPlayerHome || !map.listerThings.AllThings.Any(t => t.Faction == Faction.OfPlayer
+                && t.TryGetComp<CompTelegraphTable>() is CompTelegraphTable terminal && !terminal.IsWireless))
                 return "HD_Telegraph_NeedsTerminal".Translate();
             return null;
         }

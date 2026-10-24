@@ -20,7 +20,7 @@ namespace Helodrace.Economy
         {
             this.actor = actor;
             this.terminal = terminal;
-            contract = GameComponent_Loans.Current.OpenContract(terminal.Network.Provider);
+            contract = GameComponent_Loans.Current.OpenContract(terminal.Provider);
             repayment = contract?.Account.Outstanding ?? 0;
             repaymentBuffer = repayment.ToString();
             forcePause = true;
@@ -32,12 +32,12 @@ namespace Helodrace.Economy
         public override void DoWindowContents(Rect inRect)
         {
             var loans = GameComponent_Loans.Current;
-            Faction lender = contract?.Lender ?? terminal.Network?.Provider;
+            Faction lender = contract?.Lender ?? terminal.Provider;
             float financial = GameComponent_FinancialGoodwill.Current?.Get(lender) ?? 0f;
             Rect viewport = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 48f);
             Text.Font = GameFont.Small;
             float contentWidth = viewport.width - 78f;
-            string terms = (contract == null ? "HD_Loan_Terms" : "HD_Loan_RepaymentTerms").Translate();
+            string terms = (contract == null ? "HD_Loan_Terms" : "HD_Loan_RepaymentTerms").Translate(terminal.TransmissionCostLabel);
             float termsHeight = Text.CalcHeight(terms, contentWidth) + 8f;
             string draftFailure = contract == null
                 ? terminal.TransmissionFailure(lender, true) ?? loans.BorrowFailure(lender, amount, days) : null;

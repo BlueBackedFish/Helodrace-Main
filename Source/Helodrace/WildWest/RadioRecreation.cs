@@ -5,17 +5,34 @@ using Verse.AI;
 
 namespace Helodrace
 {
-    public class JobDriver_ListenRadio : JobDriver
+    public sealed class JobDriver_ListenRadio : JobDriver_WatchTelevision
     {
-        protected Building_Radio Radio => TargetThingA as Building_Radio;
-        protected virtual bool CanContinue => Radio?.CanUseNow == true
-            && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Hearing);
+        protected override IEnumerable<Toil> MakeNewToils()
+        {
+            this.FailOn(() => !(TargetThingA is Building_Radio radio) || !radio.CanUseNow
+                || !pawn.health.capacities.CapableOf(PawnCapacityDefOf.Hearing));
+            foreach (Toil toil in base.MakeNewToils()) yield return toil;
+        }
+    }
+
+    public sealed class JobDriver_ChatOnRadio : JobDriver
+    {
+        private bool conversationStarted;
+        private Building_Radio Radio => TargetThingA as Building_Radio;
+        private bool CanContinue => Radio?.CanUseNow == true
+            && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Hearing)
+            && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking)
+            && Building_Radio.IsChannelAvailable(job.commTarget as Faction);
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
             => pawn.Reserve(job.targetA, job, 1, -1, null, errorOnFailed)
                 && pawn.ReserveSittableOrSpot(job.targetB.Cell, job, errorOnFailed);
 
-        protected virtual void StartRadio() { }
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref conversationStarted, "radioConversationStarted", false);
+        }
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
@@ -24,54 +41,24 @@ namespace Helodrace
             this.FailOn(() => !CanContinue);
             yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.OnCell);
 
-            Toil listen = ToilMaker.MakeToil("RadioRecreation");
-            listen.initAction = StartRadio;
-            listen.defaultCompleteMode = ToilCompleteMode.Delay;
-            listen.defaultDuration = job.def.joyDuration;
-            listen.handlingFacing = true;
-            listen.tickIntervalAction = delta =>
+            Toil chat = ToilMaker.MakeToil("RadioChat");
+            chat.initAction = () =>
+            {
+                if (conversationStarted) return;
+                conversationStarted = true;
+                Radio.Map.GetComponent<MapComponent_HamRadio>().Chat(pawn, (Faction)job.commTarget);
+            };
+            chat.defaultCompleteMode = ToilCompleteMode.Delay;
+            chat.defaultDuration = job.def.joyDuration;
+            chat.handlingFacing = true;
+            chat.tickIntervalAction = delta =>
             {
                 pawn.rotationTracker.FaceTarget(Radio);
                 pawn.GainComfortFromCellIfPossible(delta);
                 JoyUtility.JoyTickCheckEnd(pawn, delta, JoyTickFullJoyAction.EndJob, 1f, Radio);
             };
-            listen.AddFinishAction(() => JoyUtility.TryGainRecRoomThought(pawn));
-            yield return listen;
-        }
-    }
-
-    public sealed class JobDriver_ChatOnRadio : JobDriver_ListenRadio
-    {
-        private bool conversationStarted;
-
-        // Clicking the channel during automatic chatter must still open its window.
-        public override bool? IsSameJobAs(Job other) => other.playerForced ? false : (bool?)null;
-
-        protected override bool CanContinue => base.CanContinue
-            && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking)
-            && Building_Radio.IsChannelAvailable(job.commTarget as Faction);
-
-        public override void ExposeData()
-        {
-            base.ExposeData();
-            Scribe_Values.Look(ref conversationStarted, "radioConversationStarted", false);
-        }
-
-        protected override void StartRadio()
-        {
-            if (conversationStarted) return;
-            conversationStarted = true;
-            Faction channel = (Faction)job.commTarget;
-            if (job.playerForced)
-            {
-                // The existing HAM patch supplies chatter inside the vanilla negotiation window.
-                channel.TryOpenComms(pawn);
-            }
-            else
-            {
-                // Automatic recreation must not interrupt play with dialogue windows.
-                Radio.Map.GetComponent<MapComponent_HamRadio>().Chat(pawn, channel);
-            }
+            chat.AddFinishAction(() => JoyUtility.TryGainRecRoomThought(pawn));
+            yield return chat;
         }
     }
 }

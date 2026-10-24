@@ -61,6 +61,8 @@ namespace Helodrace
         public Thing parent;
         public MapComponent_TelegraphNetwork Network;
         public int Cells = 10;
+        public bool IsWireless;
+        public Faction Provider => Network?.Provider;
         public string TransmissionFailure(Faction target, bool allowHostileTrade = false)
         {
             if (parent == null || !parent.Spawned || parent.Faction != Faction.OfPlayer || Network?.Provider != target)
@@ -69,7 +71,7 @@ namespace Helodrace
             if (status != TelegraphConnectionStatus.Online) return status.ToString();
             return !allowHostileTrade && target.Hostile ? "hostile" : null;
         }
-        public bool ConsumePrimaryCell()
+        public bool TryTransmit()
         {
             if (TransmissionFailure(Network.Provider, true) != null) return false;
             Cells--; return true;

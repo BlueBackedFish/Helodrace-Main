@@ -14,10 +14,10 @@
   <HD_Company_Service_Unavailable>이용할 수 있는 업무 없음</HD_Company_Service_Unavailable>
   <HD_Company_FinancialGoodwill>금융 우호도: {0}</HD_Company_FinancialGoodwill>
   <HD_Company_FinancialGoodwillTip>일반 우호도와 별개인 -100~100의 금융 관계 수치입니다. 선물·거래는 산정 보상의 절반을 금융 우호도로 적립합니다. 일반 우호도도 기존대로 오르지만, 임시 통행 보장 상단과의 거래는 금융 우호도만 오릅니다. 유료 서비스는 지출 20 스탈레르당 1점을 적립합니다. 대출은 원금 20당 1점을 차감하고 상환 시 복구합니다. 소수 둘째 자리까지 유지하며 일반 우호도 기준점이나 자동 회복에는 영향을 주지 않습니다.</HD_Company_FinancialGoodwillTip>
-  <HD_Company_FinancialDesc>전국산업신용회사의 금융 상단·대출 계약입니다. 상단 요청은 금융 우호도 50 이상(적대 시 80 이상·20점 차감), 일차전지 1개가 필요합니다. 도착 1~2일·대기 4일입니다. 대출은 일반·금융 우호도 합 70 이상이며 별도 계약 조건을 따릅니다.</HD_Company_FinancialDesc>
-  <HD_Company_CommercialDesc>센트럴 철물상사의 상업 상단입니다. 금융 우호도 50 이상(적대 시 80 이상)이 필요합니다. 상단당 일차 전지 1개를 쓰며, 적대 요청은 금융 우호도 20점도 차감합니다. 1~2일 뒤 도착하며 회사별 대기시간은 4일입니다.</HD_Company_CommercialDesc>
+  <HD_Company_FinancialDesc>전국산업신용회사의 금융 상단·대출 계약입니다. 상단 요청은 금융 우호도 50 이상(적대 시 80 이상·20점 차감), {0} 조건을 충족해야 합니다. 도착 1~2일·대기 4일입니다. 대출은 일반·금융 우호도 합 70 이상이며 별도 계약 조건을 따릅니다.</HD_Company_FinancialDesc>
+  <HD_Company_CommercialDesc>센트럴 철물상사의 상업 상단입니다. 금융 우호도 50 이상(적대 시 80 이상)이 필요합니다. 상단당 {0}를 쓰며, 적대 요청은 금융 우호도 20점도 차감합니다. 1~2일 뒤 도착하며 회사별 대기시간은 4일입니다.</HD_Company_CommercialDesc>
   <HD_Company_PioneerDesc>LOW 헤로드 전진기지를 건설하고 체결한 계약을 확인합니다. 계약된 전진기지의 지원 서비스도 이 회사에 요청할 수 있습니다.</HD_Company_PioneerDesc>
-  <HD_Company_HarringtonDesc>고급 상단 경비 대장 1명을 포함한 고급 경비 6명을 하루 동안 고용합니다. 경비대는 맵 가장자리에서 진입해 정착지를 지원합니다. 비용은 500 스탈레르와 일차 전지 1개이며, 하루 뒤 다시 고용할 수 있습니다.</HD_Company_HarringtonDesc>
+  <HD_Company_HarringtonDesc>고급 상단 경비 대장 1명을 포함한 고급 경비 6명을 하루 동안 고용합니다. 경비대는 맵 가장자리에서 진입해 정착지를 지원합니다. 비용은 500 스탈레르와 {0}이며, 하루 뒤 다시 고용할 수 있습니다.</HD_Company_HarringtonDesc>
   <HD_Company_Ready>요청 가능</HD_Company_Ready>
   <HD_Company_Cooldown>다음 요청까지 {0}</HD_Company_Cooldown>
   <HD_Company_InTransit>상단 이동 중. 예상 도착까지 {0}</HD_Company_InTransit>
@@ -29,7 +29,7 @@
   <HD_Company_NeedsCells>이 요청에는 일차 전지 {0}개가 필요합니다.</HD_Company_NeedsCells>
   <HD_Company_DispatchCancelled>{0}의 상단이 방문 일정을 완료하지 못했습니다.</HD_Company_DispatchCancelled>
   <HD_Company_HireHarrington>해링턴 경비대 고용 ({0} 스탈레르)</HD_Company_HireHarrington>
-  <HD_Company_HarringtonConfirm>{1} 스탈레르와 일차 전지 1개를 내고 해링턴 경비회사 경비대 {0}명을 고용할까요? 고급 경비 대장 1명과 고급 상단 경비 5명이 맵 가장자리에서 진입해 하루 동안 정착지를 지원합니다.</HD_Company_HarringtonConfirm>
+  <HD_Company_HarringtonConfirm>{1} 스탈레르와 {2}를 내고 해링턴 경비회사 경비대 {0}명을 고용할까요? 고급 경비 대장 1명과 고급 상단 경비 5명이 맵 가장자리에서 진입해 하루 동안 정착지를 지원합니다.</HD_Company_HarringtonConfirm>
   <HD_Company_HarringtonArrived>해링턴 경비회사의 고급 경비 {0}명이 하루 동안 정착지를 지원하러 도착했습니다.</HD_Company_HarringtonArrived>
   <HD_Company_NoEntry>경비대가 안전하게 진입할 수 있는 맵 가장자리 경로가 없습니다.</HD_Company_NoEntry>
   <HD_Company_NeedsFinancial>금융 우호도 {0} 이상이 필요합니다 (현재 {1}).</HD_Company_NeedsFinancial>
@@ -41,4 +41,5 @@
   <HD_Company_Service_Petroleum>석유제품 상단</HD_Company_Service_Petroleum>
   <HD_Company_ArmsDesc>휘트모어 총포·사냥용품 회사는 M1911 연구 이전 단계의 무기와 사냥용품을 판매합니다. 산업 상단과 같은 편성입니다. 금융 우호도 50 이상(적대 80 이상·20점 차감), 전지 1개가 필요하며 1~2일 뒤 도착합니다. 대기시간은 4일입니다.</HD_Company_ArmsDesc>
   <HD_Company_PetroleumDesc>콘티넨탈 석유회사는 원유·정제 연료·방향족 기초유를 판매하고 고급 상단 경비만 호위합니다. 금융 우호도 50 이상(적대 80 이상·20점 차감), 전지 1개가 필요하며 1~2일 뒤 도착합니다. 대기시간은 4일입니다.</HD_Company_PetroleumDesc>
+  <HD_Company_TransmissionCost>일차 전지 1개</HD_Company_TransmissionCost>
 </LanguageData>

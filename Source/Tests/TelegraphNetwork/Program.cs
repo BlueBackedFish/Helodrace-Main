@@ -182,6 +182,11 @@ internal static partial class Program
         DefDatabase<ThingDef>.Value = new ThingDef { defName = "HD_Money" };
         Find.TickManager.TicksGame = 1000;
         var s = Settlement();
+        var terminal = (CompTelegraphTable)s.map.listerThings.AllThings[0].Comp;
+        terminal.IsWireless = true;
+        Check(s.network.InstallationRejection(s.trader) != null,
+            "A wireless radio alone does not invite redundant wired installation");
+        terminal.IsWireless = false;
         Notes(s.map, 200);
         Check(!s.network.TryRequestInstallation(s.trader, s.actor, out _), "Insufficient funds reject installation");
         Check(!s.network.InstallationRequested && Balance(s.map) == 200, "Failed payment leaves state and balance unchanged");

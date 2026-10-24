@@ -55,7 +55,7 @@ namespace Helodrace.Economy
 
         private static string ConnectionFailure(Pawn actor, CompTelegraphTable terminal)
         {
-            string failure = terminal?.TransmissionFailure(terminal.Network?.Provider, true);
+            string failure = terminal?.TransmissionFailure(terminal.Provider, true);
             if (terminal == null) return "HD_Telegraph_Status_ProviderUnavailable".Translate();
             if (failure != null) return failure;
             if (actor == null || !actor.Spawned || actor.Map != terminal.parent.Map || actor.Dead || actor.Downed
@@ -81,17 +81,17 @@ namespace Helodrace.Economy
 
         public bool TryBorrow(Pawn actor, CompTelegraphTable terminal, int amount, int days, out string reason)
         {
-            reason = ConnectionFailure(actor, terminal) ?? BorrowFailure(terminal.Network.Provider, amount, days);
+            reason = ConnectionFailure(actor, terminal) ?? BorrowFailure(terminal.Provider, amount, days);
             if (reason != null) return false;
             var ledger = GameComponent_FinancialGoodwill.Current;
-            Faction lender = terminal.Network.Provider;
+            Faction lender = terminal.Provider;
             float cost = LoanRules.CreditFor(amount);
             if (ledger == null || !ledger.TrySpend(lender, cost))
             {
                 reason = "HD_Loan_InvalidTerms".Translate(LoanRules.MaximumDays, ledger?.Get(lender) ?? 0f);
                 return false;
             }
-            if (!terminal.ConsumePrimaryCell())
+            if (!terminal.TryTransmit())
             {
                 ledger.Adjust(lender, cost);
                 reason = "HD_Company_NeedsCells".Translate(1);
@@ -112,7 +112,7 @@ namespace Helodrace.Economy
         {
             reason = ConnectionFailure(actor, terminal);
             if (reason != null) return false;
-            if (contract == null || !contracts.Contains(contract) || contract.Lender != terminal.Network.Provider
+            if (contract == null || !contracts.Contains(contract) || contract.Lender != terminal.Provider
                 || !contract.Account.DeliveryFinished || amount <= 0 || amount > contract.Account.Outstanding)
             {
                 reason = "HD_Loan_InvalidRepayment".Translate();

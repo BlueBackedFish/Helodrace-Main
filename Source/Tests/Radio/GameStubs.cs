@@ -15,6 +15,8 @@ namespace Verse
         public bool Spawned = true;
         public IntVec3 InteractionCell;
         public RimWorld.CompPowerTrader Power = new RimWorld.CompPowerTrader();
+        public RimWorld.CompRefuelable Fuel;
+        public string LabelShort = "radio";
     }
     public class Building : Thing
     {
@@ -44,7 +46,8 @@ namespace Verse
     {
         public readonly Conditions gameConditionManager = new Conditions();
         public readonly Helodrace.MapComponent_HamRadio Ham = new Helodrace.MapComponent_HamRadio();
-        public T GetComponent<T>() => (T)(object)Ham;
+        public readonly Helodrace.MapComponent_TelegraphNetwork Network = new Helodrace.MapComponent_TelegraphNetwork();
+        public T GetComponent<T>() => (T)(object)(typeof(T) == typeof(Helodrace.MapComponent_TelegraphNetwork) ? (object)Network : Ham);
     }
     public sealed class Conditions { public bool Disabled; public bool ElectricityDisabled(Map map) => Disabled; }
     public sealed class FloatMenuOption
@@ -59,17 +62,19 @@ namespace Verse
     public static class DefDatabase<T> where T : JobDef, new()
     {
         public static T GetNamed(string name) => new T { defName = name };
+        public static T GetNamedSilentFail(string name) => GetNamed(name);
     }
     public static class Find { public static readonly RimWorld.FactionManager FactionManager = new RimWorld.FactionManager(); }
     public static class JobMaker
     {
+        public static AI.Job MakeJob(JobDef def, Thing thing) => MakeJob(def, thing, thing.InteractionCell);
         public static AI.Job MakeJob(JobDef def, Thing thing, IntVec3 cell)
             => new AI.Job { def = def, targetA = new LocalTargetInfo { Thing = thing }, targetB = new LocalTargetInfo { Cell = cell } };
     }
     public struct LocalTargetInfo { public Thing Thing; public IntVec3 Cell; public static implicit operator LocalTargetInfo(Thing thing) => new LocalTargetInfo { Thing = thing }; }
     public static class GameExtensions
     {
-        public static T TryGetComp<T>(this Thing thing) => (T)(object)thing.Power;
+        public static T TryGetComp<T>(this Thing thing) => (T)(typeof(T) == typeof(RimWorld.CompRefuelable) ? (object)thing.Fuel : thing.Power);
         public static bool CanReach(this Pawn pawn, Thing thing, AI.PathEndMode mode, Danger danger) => pawn.Reachable;
         public static bool CanReserve(this Pawn pawn, LocalTargetInfo thing) => pawn.Reservable;
         public static bool CanReserveSittableOrSpot(this Pawn pawn, IntVec3 cell) => pawn.SpotAvailable;
@@ -80,6 +85,15 @@ namespace Verse
         public static bool TryRandomElement<T>(this IEnumerable<T> values, out T value) { value = values.FirstOrDefault(); return values.Any(); }
     }
     public static class ToilMaker { public static AI.Toil MakeToil(string name) => new AI.Toil(); }
+    public class CompProperties { public Type compClass; }
+    public class ThingComp
+    {
+        public Thing parent;
+        public CompProperties props;
+        public virtual string CompInspectStringExtra() => null;
+        public virtual IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn pawn) { yield break; }
+    }
+    public static class Log { public static void ErrorOnce(string text, int id) => throw new Exception(text); }
     public static class Scribe_Values
     {
         public static bool Loading;
@@ -132,11 +146,14 @@ namespace Verse.AI
 namespace RimWorld
 {
     public sealed class CompPowerTrader { public bool PowerOn = true; }
+    public sealed class CompRefuelable { public float Fuel; public void ConsumeFuel(float amount) => Fuel -= amount; }
     public sealed class FactionDef { public string defName; public object FactionIcon = new object(); }
     public sealed class Faction
     {
         public static readonly Faction OfPlayer = new Faction { IsPlayer = true };
         public bool IsPlayer, defeated;
+        public bool Hostile;
+        public bool HostileTo(Faction other) => Hostile;
         public string Name;
         public int PlayerGoodwill, Calls;
         public object Color = new object();
@@ -153,8 +170,16 @@ namespace RimWorld
     {
         public readonly JoyGiverDef def = new JoyGiverDef();
         protected virtual bool CanInteractWith(Verse.Pawn pawn, Verse.Thing thing, bool inBed) => pawn.Reservable;
-        protected virtual Verse.AI.Job TryGivePlayJob(Verse.Pawn pawn, Verse.Thing thing) => Verse.JobMaker.MakeJob(def.jobDef, thing, thing.InteractionCell);
+        protected virtual Verse.AI.Job TryGivePlayJob(Verse.Pawn pawn, Verse.Thing thing) => pawn.SpotAvailable && pawn.Reachable
+            ? Verse.JobMaker.MakeJob(def.jobDef, thing, thing.InteractionCell) : null;
         public Verse.AI.Job Play(Verse.Pawn pawn, Verse.Thing thing) => CanInteractWith(pawn, thing, false) ? TryGivePlayJob(pawn, thing) : null;
+    }
+    public class JoyGiver_WatchBuilding : JoyGiver_InteractBuildingInteractionCell { }
+    public class JobDriver_WatchTelevision : Verse.AI.JobDriver
+    {
+        public static readonly Verse.AI.Toil NativeToil = new Verse.AI.Toil();
+        public override bool TryMakePreToilReservations(bool errorOnFailed) => true;
+        protected override IEnumerable<Verse.AI.Toil> MakeNewToils() { yield return NativeToil; }
     }
     public enum JoyTickFullJoyAction { EndJob }
     public static class JoyUtility
@@ -167,10 +192,23 @@ namespace RimWorld
 }
 namespace Helodrace
 {
+    public sealed class MapComponent_TelegraphNetwork
+    {
+        public int Ready = -1, Hour;
+        public RimWorld.Faction Provider;
+        public bool InstallationRequested => Ready >= 0;
+        public TelegraphConnectionStatus Status(bool hasPrimaryCell = true)
+            => TelegraphNetworkRules.Status(Ready, 100, Hour, Provider != null && !Provider.defeated, hasPrimaryCell);
+        public string StatusText(TelegraphConnectionStatus status) => status.ToString();
+    }
     public static class HamRadioUtility { public static bool IsHamFaction(RimWorld.Faction faction) => HamRadioRoutingRules.IsHamFaction(faction.def?.defName); }
     public sealed class MapComponent_HamRadio
     {
         public int Calls;
         public string Chat(Verse.Pawn pawn, RimWorld.Faction faction) { Calls++; return "Chatter"; }
     }
+}
+namespace UnityEngine
+{
+    public static class Mathf { public static int FloorToInt(float value) => (int)Math.Floor(value); }
 }
