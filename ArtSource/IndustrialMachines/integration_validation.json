@@ -1,29 +1,52 @@
 {
+  "HD_SmallSteamEngine": {
+    "definition_texture_resolves": true,
+    "footprint_unchanged": "(2,2)",
+    "color_and_mask_files": 6,
+    "saved_scene_cameras_verified": 3,
+    "common_scale": 2.717658281326294,
+    "design_period": "1900-1920 compact workshop steam plant"
+  },
   "HD_LargeSteamEngine": {
     "definition_texture_resolves": true,
     "footprint_unchanged": "(4,3)",
     "color_and_mask_files": 6,
-    "validated_views": 3
+    "saved_scene_cameras_verified": 3,
+    "common_scale": 4.557399749755859,
+    "design_period": "1900-1920 horizontal compound mill engine"
   },
   "HD_IndustrialDieselEngine": {
     "definition_texture_resolves": true,
     "footprint_unchanged": "(4,3)",
     "color_and_mask_files": 6,
-    "validated_views": 3
+    "saved_scene_cameras_verified": 3,
+    "common_scale": 4.878772735595703,
+    "design_period": "1920-1940 three-cylinder stationary diesel"
   },
   "HD_EarlyIndustrialGenerator": {
     "definition_texture_resolves": true,
     "footprint_unchanged": "(3,3)",
     "color_and_mask_files": 6,
-    "validated_views": 3
+    "saved_scene_cameras_verified": 3,
+    "common_scale": 3.6750245094299316,
+    "design_period": "1900-1925 open-field DC dynamo"
   },
   "HD_EarlyIndustrialLargeMotor": {
     "definition_texture_resolves": true,
     "footprint_unchanged": "(3,3)",
     "color_and_mask_files": 6,
-    "validated_views": 3
+    "saved_scene_cameras_verified": 3,
+    "common_scale": 3.5608320236206055,
+    "design_period": "1920-1940 cast-frame electric motor"
   },
-  "motor_fan_vent_faces_coplanar": true,
+  "large_flywheel_pit": {
+    "physical_floor_opening_verified": true,
+    "wheel_bottom": -0.3399999737739563,
+    "floor_level": 0.22,
+    "buried_depth": 0.5599999737739563,
+    "pit_bottom_clearance": 0.15000000596046448
+  },
+  "motor_vent_faces_coplanar": true,
   "generator_and_motor_use_distinct_textures": true,
   "in_game_tested": false
 }

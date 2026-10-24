@@ -1,10 +1,12 @@
 {
   "top_row": [
+    "HD_SmallSteamEngine",
     "HD_LargeSteamEngine",
     "HD_IndustrialDieselEngine"
   ],
   "bottom_row": [
     "HD_EarlyIndustrialGenerator",
-    "HD_EarlyIndustrialLargeMotor"
+    "HD_EarlyIndustrialLargeMotor",
+    null
   ]
 }
