@@ -1,7 +1,7 @@
 """Blender background build: 1x1 Collins radio desk, baked colors, no mask."""
 import bpy, math, os, json
 import numpy as np
-from mathutils import Vector
+from mathutils import Vector, Matrix
 
 OUT=os.path.dirname(os.path.abspath(__file__))
 TEX=os.path.abspath(os.path.join(OUT,'../../Textures/Buildings'))
@@ -45,35 +45,45 @@ for x in [-.40,.40]:
     for y in [-.39,.39]:cube('Desk_leg',(x,y,.225),(.10,.10,.45),wood)
 cube('Front_apron',(0,-.40,.395),(.88,.065,.12),wood)
 cube('Rear_apron',(0,.40,.395),(.88,.065,.12),wood)
-# Two separate tabletop cabinets. Front is -Y, feed/work side of desk.
+# Two separate tabletop cabinets. Stylized sloped panels expose identity at 64 degrees.
 def radio(name,x,width,height):
-    z=.525+height/2
-    cube(name+'_cabinet',(x,.19,z),(width,.43,height),case)
-    cube(name+'_front',(x,-.034,z),(width-.028,.022,height-.025),panel)
-    return z
-z=radio('Collins_32V3',-.238,.44,.35)
-def window(name,x,z,w,h):
-    cube(name+'_rim',(x,-.049,z),(w+.012,.012,h+.012),black)
-    cube(name+'_glass',(x,-.057,z),(w,.005,h),cream)
-    cube(name+'_needle',(x+.008,-.061,z),(.004,.004,h*.58),black)
-window('32V3_left_meter',-.365,.795,.074,.047)
-window('32V3_right_meter',-.111,.795,.074,.047)
-window('32V3_tuning_window',-.238,.755,.084,.05)
-cyl('32V3_main_tuning',(-.238,-.071,.657),.043,.034,black,True)
-for x in [-.385,-.31,-.166,-.091]:cyl('32V3_control',(x,-.066,.597),.017,.022,black,True)
-z=radio('Collins_75A3',.233,.43,.275)
-window('75A3_signal_meter',.355,.748,.055,.038)
-window('75A3_tuning_scale',.196,.735,.125,.051)
-cyl('75A3_main_tuning',(.196,-.071,.625),.043,.034,black,True)
-for x in [.072,.325,.4]:cyl('75A3_control',(x,-.065,.593),.018,.022,black,True)
-# Flatten only the two radio assemblies around their front edge and tabletop.
-for obj in list(scene.objects):
-    if obj.type=='MESH' and obj.name.startswith(('Collins_', '32V3_', '75A3_')):
-        obj.location.y=-.035+(obj.location.y+.035)*.72
-        obj.location.z=.525+(obj.location.z-.525)*.75
-        obj.scale.y*=.72
-        obj.scale.z*=.75
-scene['radios_flattened']=True
+    y0=-.045; z0=.535; rear=.245
+    # A shallow wedge replaces the large empty lid. Broad dark rim frames the panel.
+    verts=[(x+dx,y,z) for dx in [-width/2,width/2]
+           for y,z in [(y0,.525),(rear,.525),(rear,z0+height),(y0+height,z0+height)]]
+    faces=[(0,3,2,1),(4,5,6,7),(0,1,5,4),(1,2,6,5),(3,7,6,2),(0,4,7,3)]
+    mesh=bpy.data.meshes.new(name+'_wedge');mesh.from_pydata(verts,[],faces);mesh.update()
+    obj=bpy.data.objects.new(name+'_cabinet',mesh);scene.collection.objects.link(obj)
+    for m in [case[0],case[2],black[0]]:mesh.materials.append(m)
+    for f in mesh.polygons:f.material_index=0 if f.index==4 else (2 if f.index==5 else 1)
+    rotation=Matrix.Rotation(-math.pi/4,3,'X')
+    origin=Vector((x,y0,z0));length=height*math.sqrt(2)
+    def block(label,u,v,w,size,mats):
+        o=cube(name+'_'+label,origin+rotation@Vector((u,v,w)),size,mats)
+        o.rotation_euler=rotation.to_euler();return o
+    block('panel',0,-.009,length/2,(width-.032,.014,length-.025),panel)
+    block('lower_shadow',0,-.018,.023,(width-.03,.008,.025),black)
+    def window(label,u,w,ww,hh):
+        block(label+'_rim',u,-.021,w,(ww+.014,.012,hh+.014),black)
+        block(label+'_glass',u,-.029,w,(ww,.006,hh),cream)
+        block(label+'_needle',u+.012,-.034,w,(.006,.004,hh*.65),black)
+    def knob(label,u,w,r):
+        o=cyl(name+'_'+label,origin+rotation@Vector((u,-.037,w)),r,.022,black,True)
+        o.rotation_euler=(rotation@o.rotation_euler.to_matrix()).to_euler()
+    if '32V3' in name:
+        window('left_meter',-.103,length-.061,.101,.060)
+        window('right_meter',.103,length-.061,.101,.060)
+        window('tuning_scale',0,length-.129,.110,.025)
+    else:
+        window('tuning_scale',-.065,length-.060,.157,.058)
+        window('signal_meter',.123,length-.060,.066,.058)
+    knob('main_tuning',0,.066,.049)
+    for u in [-.137,.137]:knob('control',u,.059,.025)
+    # One wide rear vent band remains legible from the back without micro-detail.
+    cube(name+'_rear_band',(x,rear+.002,z0+height*.57),(width-.062,.008,.031),black)
+radio('Collins_32V3',-.238,.44,.19)
+radio('Collins_75A3',.233,.43,.165)
+scene['radio_style']='shallow_sloped_sprite_panels'
 # Single prominent desk microphone. Broad grille stripes survive sprite reduction.
 cyl('Microphone_base',(.325,-.326,.54),.081,.035,black)
 cyl('Microphone_stem',(.325,-.326,.61),.016,.13,steel)
@@ -118,4 +128,6 @@ for name in ['North','East','South']:
 im=bpy.data.images.new('Preview_North_East_South',width=1536,height=512,alpha=True)
 im.colorspace_settings.name='Non-Color';im.pixels.foreach_set(np.concatenate(images,axis=1).ravel())
 im.filepath_raw=os.path.join(OUT,'preview_north_east_south.png');im.file_format='PNG';im.save()
+im.scale(384,128)
+im.filepath_raw=os.path.join(OUT,'preview_128px.png');im.save()
 with open(os.path.join(OUT,'validation.json'),'w') as f:json.dump({'footprint':[1,1],'wood_rgb':[133,97,67],'color_mask':False,'cameras':checks},f,indent=2)
