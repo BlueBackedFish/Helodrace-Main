@@ -4,7 +4,7 @@ OUT=os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0,os.path.join(OUT,'../IndustrialMachines'))
 import sprite_common as s
 s.period_start();s.scene['design_period']='1900-1920 compact workshop steam plant'
-s.cube('01_Cast_skid',(0,0,.09),(1.90,1.85,.18),s.bed)
+s.cube('01_Cast_skid',(0,-.04,.09),(1.90,1.66,.18),s.bed)
 for x in [-.57,.34]:s.cube('02_Boiler_saddle',(x,.29,.43),(.18,.58,.50),s.cast)
 s.cyl('03_Horizontal_boiler',(-.11,.29,.82),.34,1.26,s.cast,'X',large=True)
 for x in [-.76,.51]:
@@ -40,5 +40,18 @@ s.path('30_Steam_line',[(.16,.29,1.25),(.38,.29,1.25),(.38,-.52,1.25),(.53,-.52,
 s.governor('31_Flyball_governor',(.72,-.20,.87),.32)
 s.cube('32_Governor_bracket',(.72,-.20,.80),(.15,.16,.18),s.cast)
 s.rivets('33_Front_firebox_rivet',[(x,-.128,z) for x in [.51,.81] for z in [.39,.69,1.05]],'Y',.019)
-s.rivets('34_Base_fastener',[(x,y,.191) for x in [-.79,.79] for y in [-.80,.80]],r=.024)
+s.rivets('34_Base_fastener',[(x,y,.191) for x in [-.79,.79] for y in [-.77,.70]],r=.024)
+s.ring('35_Central_boiler_strap',(-.22,.29,.82),.357,.335,.050,s.steel,'X')
+s.cube('36_Firebox_crown_hatch_border',(.66,.29,1.26),(.34,.60,.018),s.dark)
+s.cube('37_Firebox_crown_hatch',(.66,.29,1.277),(.27,.49,.018),s.cast)
+for y in [.06,.52]:s.cube('38_Hatch_hinge',(.51,y,1.281),(.07,.06,.045),s.steel)
+s.rod('39_Crown_latch',(.71,.23,1.30),(.71,.36,1.30),.018,s.dark)
+s.cyl('40_Boiler_pressure_takeoff',(-.06,.05,1.15),.036,.18,s.brass)
+s.gauge('41_Boiler_pressure_gauge',(-.06,.05,1.30),.095)
+# A small driven feed-water pump occupies the front service edge of the skid.
+s.cube('42_Feed_pump_foot',(.32,-.77,.245),(.53,.17,.13),s.dark)
+s.cyl('43_Feed_water_pump',(.30,-.77,.40),.074,.38,s.brass,'X')
+s.path('44_Feed_water_line',[(.49,-.77,.40),(.82,-.77,.40),(.82,.0,.40),(.45,.0,.73)],.025,s.copper)
+s.rod('45_Pump_drive',(.10,-.77,.40),(-.35,-.77,.70),.023,s.steel)
+s.cube('46_Crosshead_bed_insert',(.08,-.52,.565),(.31,.14,.018),s.dark)
 s.export(OUT,'HD_SmallSteamEngine',[2,2],['1900-1920 riveted horizontal boiler','side-loading firebox','single six-spoke flywheel','separate front working cylinder','short chimney','flyball governor'],blend_name='small_steam_engine.blend')

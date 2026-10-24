@@ -12,23 +12,24 @@
     "short chimney",
     "flyball governor"
   ],
-  "mesh_objects": 80,
+  "mesh_objects": 98,
   "design_period": "1900-1920 compact workshop steam plant",
   "orthographic_scale": 2.717658212780952,
+  "outline_pixels": 6,
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 36,
+      "minimum_margin": 47,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 33,
+      "minimum_margin": 27,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 36,
+      "minimum_margin": 46,
       "mask_alpha_matches": true
     }
   },

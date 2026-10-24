@@ -27,17 +27,53 @@ def start():
     rubber=pal('Insulator_', [55,49,45],False)
 
 def period_start():
-    """Restrained cast-iron/enamel palette for the 1900-1950 redesign set."""
+    """Neutral metal values matched to neighboring workshop sprites."""
     global bed,cast,steel,dark,brass,copper,stone,pit
     start()
-    bed=pal('Cast_bed_', [149,140,126])
-    cast=pal('Muted_foundry_paint_',[(153,164,153),(139,150,140),(130,141,132)])
-    steel=pal('Machined_iron_', [217,211,198])
-    dark=pal('Cast_recess_', [86,84,75])
+    bed=pal('Cast_bed_', [167,141,126])
+    cast=pal('Neutral_cast_iron_', [211,191,176])
+    steel=pal('Machined_iron_', [238,217,199])
+    dark=pal('Cast_recess_', [83,70,61])
     brass=pal('Brass_fitting_',[(202,161,83),(184,143,69),(175,135,62)],False)
     copper=pal('Copper_winding_',[(164,113,66),(147,96,52),(138,88,46)],False)
-    stone=pal('Concrete_', [137,132,121],False)
+    stone=pal('Concrete_', [154,137,123],False)
     pit=pal('Pit_interior_', [49,47,41],False)
+    scene['outline_pixels']=6
+
+def gauge(name,p,r=.09):
+    """Large pressure dial facing the working side (-Y)."""
+    x,y,z=p
+    cyl(name+'_rim',p,r,.040,dark,'Y')
+    cyl(name+'_face',(x,y-.025,z),r*.78,.012,steel,'Y')
+    rod(name+'_needle',(x,y-.036,z),(x+r*.42,y-.036,z+r*.37),r*.095,dark)
+    cyl(name+'_hub',(x,y-.040,z),r*.15,.016,dark,'Y')
+
+def belt_drive(name,a,b,r1,r2):
+    """Two pulleys and broad belt runs, all in one X/Z plane."""
+    a,b=Vector(a),Vector(b)
+    cyl(name+'_driver',a,r1,.07,dark,'Y')
+    cyl(name+'_driven',b,r2,.07,dark,'Y')
+    direction=(b-a).normalized();side=Vector((-direction.z,0,direction.x))
+    for sign in [-1,1]:rod(name+'_belt',a+sign*side*r1,b+sign*side*r2,.018,rubber)
+
+def outline_file(color_path,mask_path,radius):
+    """Black alpha-dilation beneath the render; mask stroke stays unselected."""
+    def read(path):
+        im=bpy.data.images.load(path,check_existing=False);im.colorspace_settings.name='Non-Color'
+        w,h=im.size;p=np.empty(w*h*4,np.float32);im.pixels.foreach_get(p)
+        return p.reshape(h,w,4)
+    color,mask=read(color_path),read(mask_path)
+    assert np.max(abs(color[:,:,3]-mask[:,:,3]))<.001
+    h,w=color.shape[:2];a=color[:,:,3];padded=np.pad(a,radius);grown=np.zeros_like(a)
+    for dy in range(-radius,radius+1):
+        for dx in range(-radius,radius+1):
+            if dx*dx+dy*dy<=radius*radius:
+                np.maximum(grown,padded[radius+dy:radius+dy+h,radius+dx:radius+dx+w],out=grown)
+    ratio=np.divide(a,grown,out=np.zeros_like(a),where=grown>0)
+    for pixels,path in [(color,color_path),(mask,mask_path)]:
+        result=pixels.copy();result[:,:,:3]*=ratio[:,:,None];result[:,:,3]=grown
+        im=bpy.data.images.new('Outlined_export',w,h,alpha=True);im.colorspace_settings.name='Non-Color'
+        im.pixels.foreach_set(result.ravel());im.file_format='PNG';im.filepath_raw=path;im.save()
 
 def quad(name,points,material):
     mesh=bpy.data.meshes.new(name);mesh.from_pydata(points,[],[tuple(range(len(points)))]);mesh.update()
@@ -173,6 +209,8 @@ def export(out,stem,footprint,features,blend_name=None):
         scene.render.filepath=os.path.join(tex,stem+'_'+direction+'m.png');bpy.ops.render.render(write_still=True)
         for o in meshes:
             for i,m in enumerate(originals[o.name]):o.data.materials[i]=m
+        if scene.get('outline_pixels',0):
+            outline_file(os.path.join(tex,stem+'_'+direction+'.png'),scene.render.filepath,int(scene['outline_pixels']))
     scene.camera=cameras[0]
     reference=os.path.join(out,'Reference')
     if os.path.isdir(reference):
@@ -202,4 +240,5 @@ def export(out,stem,footprint,features,blend_name=None):
     with open(os.path.join(out,'validation.json'),'w') as f:
         json.dump({'asset':stem,'footprint':footprint,'features':features,'mesh_objects':count,
                    'design_period':bpy.context.scene.get('design_period',''),
-                   'orthographic_scale':scale,'cameras':checks,'in_game_tested':False},f,indent=2)
+                   'orthographic_scale':scale,'outline_pixels':bpy.context.scene.get('outline_pixels',0),
+                   'cameras':checks,'in_game_tested':False},f,indent=2)
