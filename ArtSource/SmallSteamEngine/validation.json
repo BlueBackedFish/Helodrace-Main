@@ -1,46 +1,36 @@
 {
+  "asset": "HD_SmallSteamEngine",
   "footprint": [
     2,
     2
   ],
-  "mesh_objects": 94,
-  "vertices": 3524,
-  "small_boiler_size": [
-    1.0000000596046448,
-    1.0399999618530273,
-    1.0400000512599945
+  "features": [
+    "1900-1920 riveted horizontal boiler",
+    "side-loading firebox",
+    "single six-spoke flywheel",
+    "separate front working cylinder",
+    "short chimney",
+    "flyball governor"
   ],
-  "firebox_size": [
-    0.6399999856948853,
-    1.2000000476837158,
-    1.1000000834465027
-  ],
-  "boiler_axis": "X, from right firebox to left chimney",
-  "fuel_door_wall": "+X (right / East), North wall is plain",
-  "boiler_clearance_above_bed": 0.10999999999999993,
-  "boiler_diameter_to_flywheel_gap": 0.920353982300885,
-  "shaft_clearance_above_boiler_and_bands": 0.059999942779541016,
-  "chimney_centered_on_boiler_crown": true,
-  "chimney_whole_neck_footprint_inside_barrel": true,
-  "firebox_above_boiler_and_bands": 0.05500006675720215,
-  "north_front_wall_rivets": 12,
-  "rivet_heads": 28,
+  "mesh_objects": 80,
+  "design_period": "1900-1920 compact workshop steam plant",
+  "orthographic_scale": 2.717658212780952,
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "margin_px": 32,
+      "minimum_margin": 36,
       "mask_alpha_matches": true
     },
     "East": {
-      "downward_degrees": 63.99999334484027,
-      "margin_px": 23,
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 33,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "margin_px": 32,
+      "minimum_margin": 36,
       "mask_alpha_matches": true
     }
   },
-  "game_tested": false
+  "in_game_tested": false
 }
