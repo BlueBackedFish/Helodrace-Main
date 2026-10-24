@@ -153,6 +153,7 @@ bpy.context.preferences.filepaths.save_version=0
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(OUT,'small_steam_engine.blend'))
 bpy.ops.wm.open_mainfile(filepath=os.path.join(OUT,'small_steam_engine.blend'))
 scene=bpy.context.scene
+bpy.context.view_layer.update()
 objects=[o for o in scene.objects if o.type=='MESH']
 checks={};images=[]
 def pixels(path):
