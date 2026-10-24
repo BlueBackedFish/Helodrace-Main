@@ -12,7 +12,7 @@
   <JobDef>
     <defName>HD_ChatOnRadio</defName>
     <driverClass>Helodrace.JobDriver_ChatOnRadio</driverClass>
-    <reportString>chatting on a HAM radio channel.</reportString>
+    <reportString>chatting on a HAM radio frequency.</reportString>
     <joyDuration>4000</joyDuration>
     <joyMaxParticipants>1</joyMaxParticipants>
     <joyKind>Social</joyKind>

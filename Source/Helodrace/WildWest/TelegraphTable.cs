@@ -174,17 +174,18 @@ namespace Helodrace
                 (comp?.IsWireless == true ? "HD_Radio_WindowTitle" : "HD_TelegraphTable_Window_Title").Translate());
             Text.Font = GameFont.Small;
 
-            Rect statusRect = new Rect(inRect.x, inRect.y + 42f, inRect.width, 116f);
+            bool wireless = comp?.IsWireless == true;
+            Rect statusRect = new Rect(inRect.x, inRect.y + 42f, inRect.width, wireless ? 94f : 116f);
             Widgets.DrawMenuSection(statusRect);
             Rect status = statusRect.ContractedBy(12f);
             Widgets.Label(new Rect(status.x, status.y, status.width, 22f),
                 "HD_TelegraphTable_Operator".Translate(operatorPawn?.LabelShortCap ?? "Unknown".Translate()));
-            Widgets.Label(new Rect(status.x, status.y + 22f, status.width, 22f),
-                comp?.IsWireless == true ? "HD_Radio_ServiceHours".Translate()
-                    : "HD_Telegraph_LocalTime".Translate(comp?.Network?.LocalHour ?? 0, comp?.StoredPrimaryCells ?? 0));
+            if (!wireless)
+                Widgets.Label(new Rect(status.x, status.y + 22f, status.width, 22f),
+                    "HD_Telegraph_LocalTime".Translate(comp?.Network?.LocalHour ?? 0, comp?.StoredPrimaryCells ?? 0));
             GUI.color = failure == null ? new Color(0.65f, 0.9f, 0.65f) : Color.gray;
-            Widgets.Label(new Rect(status.x, status.y + 46f, status.width, 44f), failure ??
-                (comp?.IsWireless == true ? "HD_Radio_CompanyChannel" : "HD_Telegraph_OnlineProvider")
+            Widgets.Label(new Rect(status.x, status.y + (wireless ? 24f : 46f), status.width, 44f), failure ??
+                (comp?.IsWireless == true ? "HD_Radio_CompanyFrequency" : "HD_Telegraph_OnlineProvider")
                     .Translate(SelectedMilitaryFaction().Name).ToString());
             GUI.color = Color.white;
 

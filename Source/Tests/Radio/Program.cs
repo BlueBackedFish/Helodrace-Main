@@ -22,12 +22,12 @@ internal static class Program
         var other = Channel("OutlanderCivil");
         Find.FactionManager.AllFactionsVisibleInViewOrder.AddRange(new[] { low, high, other });
         var radio = new Building_Radio();
-        var pawn = new Pawn();
+        var pawn = new Pawn { Map = radio.Map };
         var terminal = new CompTelegraphTable { parent = radio, props = new CompProperties_TelegraphTable { wireless = true } };
         Check(radio.CanUseNow && terminal.ConnectionFailure == null && terminal.Provider == low,
             "An uninstalled radio discovers LOW company services without a saved wired provider");
-        Check(Building_Radio.Channels.SequenceEqual(new[] { low, high }), "Recreation uses only LOW/HIGH HAM channels");
-        Check(!Building_Radio.IsChannelAvailable(null), "Missing HAM channels are unavailable");
+        Check(Building_Radio.Frequencies.SequenceEqual(new[] { low, high }), "Recreation uses only LOW/HIGH HAM frequencies");
+        Check(!Building_Radio.IsFrequencyAvailable(null), "Missing HAM frequencies are unavailable");
         Check(terminal.HasTransmissionCapacity(4) && terminal.TryTransmit() && terminal.StoredPrimaryCells == 0,
             "All company requests can transmit on power alone without fuel");
         foreach (int hour in new[] { 0, 7, 8, 17, 18, 23 })
@@ -67,6 +67,7 @@ internal static class Program
 
         var listenGiver = new JoyGiver_RadioListening();
         var chatGiver = new JoyGiver_RadioChat();
+        ListeningArea(radio, pawn, listenGiver);
         Check(listenGiver.Play(pawn, radio) != null && chatGiver.Play(pawn, radio)?.commTarget == low,
             "Both activities can be autonomously selected by the recreation system");
         pawn.health.capacities.Talking = false;
@@ -76,7 +77,7 @@ internal static class Program
         pawn.health.capacities.Hearing = pawn.health.capacities.Talking = true;
         low.defeated = high.defeated = true;
         Check(chatGiver.Play(pawn, radio) == null && listenGiver.Play(pawn, radio) != null,
-            "Broadcast listening does not need an existing faction channel");
+            "Broadcast listening does not need an existing faction frequency");
         low.defeated = high.defeated = false;
         var job = chatGiver.Play(pawn, radio);
         var driver = new JobDriver_ChatOnRadio { pawn = pawn, job = job };
@@ -99,13 +100,38 @@ internal static class Program
         Definitions();
         Console.WriteLine("PASS: " + checks + " radio checks.");
     }
+    private static void ListeningArea(Building_Radio radio, Pawn pawn, JoyGiver_RadioListening giver)
+    {
+        foreach (var cell in new[] { new IntVec3(4, 0, 0), new IntVec3(-4, 0, 0), new IntVec3(0, 0, 4), new IntVec3(0, 0, -4), new IntVec3(2, 0, 2) })
+            Check(RadioListeningUtility.InRange(radio, cell), "All directions and nearby diagonals are inside the listening circle");
+        Check(!RadioListeningUtility.InRange(radio, new IntVec3(4, 0, 4))
+            && !RadioListeningUtility.InRange(radio, new IntVec3(0, 0, 5)), "The circle excludes square corners and cells past its radius");
+        var chairCell = new IntVec3(0, 0, -3);
+        var chair = new Building { Map = radio.Map, Position = chairCell };
+        chair.def.building.isSittable = true;
+        radio.Map.Seats.Add(chairCell, chair);
+        var job = giver.Play(pawn, radio);
+        Check(job.targetB.Cell.Equals(chairCell) && job.targetC.Thing == chair, "Listening prefers an available chair behind the radio");
+        radio.Map.Forbidden.Add(chairCell);
+        Check(!giver.Play(pawn, radio).targetB.Cell.Equals(chairCell), "Forbidden chairs cannot be selected");
+        radio.Map.Forbidden.Clear(); radio.Map.Reserved.Add(chairCell);
+        Check(!giver.Play(pawn, radio).targetB.Cell.Equals(chairCell), "Reserved destinations cannot be selected");
+        radio.Map.Reserved.Clear(); radio.Map.Rooms.Add(chairCell, new object());
+        Check(!giver.Play(pawn, radio).targetB.Cell.Equals(chairCell), "Listening stays in the radio's room");
+        radio.Map.Rooms.Clear(); pawn.Position = chairCell;
+        Check(giver.CanPlayInBed(pawn, radio), "A bed behind the radio is eligible within the listening circle");
+        pawn.Position = new IntVec3(4, 0, 4);
+        Check(!giver.CanPlayInBed(pawn, radio), "Beds outside the circle are rejected");
+        pawn.Position = new IntVec3(0, 0, 0); radio.Map.Seats.Clear();
+    }
     private static void Definitions()
     {
         var radio = XDocument.Load("Defs/WildWest/Buildings/Radio.xml").Root.Element("ThingDef");
         Check((string)radio.Element("size") == "(1,1)" && (string)radio.Element("graphicData").Element("drawSize") == "(1.5,1.5)", "Radio footprint and half-size texture are preserved");
         Check(radio.Element("comps").Elements().Any(e => (string)e.Element("wireless") == "true"), "The radio is configured as a wireless company terminal");
         Check((string)radio.Element("building").Element("joyKind") == "Television"
-            && (string)radio.Element("building").Element("watchBuildingStandDistanceRange") == "2~4", "Radio listening uses TV recreation and its nearby viewing area");
+            && (float)radio.Element("specialDisplayRadius") == 4f && radio.Element("placeWorkers") == null,
+            "Radio uses TV recreation with a circular radius overlay, without the rectangular TV viewing area");
         var defs = XDocument.Load("Defs/WildWest/RadioRecreation.xml").Root;
         var listen = defs.Elements("JoyGiverDef").Single(e => (string)e.Element("defName") == "HD_ListenRadio");
         Check((string)listen.Element("canDoWhileInBed") == "true" && (string)listen.Element("joyKind") == "Television",
@@ -116,7 +142,8 @@ internal static class Program
                 && (string)j.Element("joyKind") == (string)giver.Element("joyKind")), "Automatic giver and job categories match");
         var english = XDocument.Load("Languages/English/Keyed/Radio.xml").Root.Elements();
         var korean = XDocument.Load("Languages/Korean (한국어)/Keyed/Radio.xml").Root.Elements();
-        Check(english.Select(e => e.Name).SequenceEqual(korean.Select(e => e.Name)), "Company channel translations match");
-        Check(korean.Any(e => e.Value.Contains("채널")) && !korean.Any(e => e.Value.Contains("회선")), "Radio controls consistently use channels");
+        Check(english.Select(e => e.Name).SequenceEqual(korean.Select(e => e.Name)), "Company frequency translations match");
+        Check(korean.Any(e => e.Value.Contains("주파수")) && !korean.Any(e => e.Value.Contains("회선") || e.Value.Contains("채널")), "Radio controls consistently use frequencies");
+        Check(!english.Any(e => e.Value.Contains("24")) && !korean.Any(e => e.Value.Contains("24")), "The radio header has no 24-hour display");
     }
 }

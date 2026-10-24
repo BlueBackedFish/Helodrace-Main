@@ -5,15 +5,28 @@ using System.Linq;
 // Exercise the real radio menus, joy selection and job callbacks without Unity.
 namespace Verse
 {
-    public enum Danger { Deadly }
+    public enum Danger { None, Deadly }
     public enum TimeSpeed { Paused }
-    public struct IntVec3 { }
+    public struct IntVec3
+    {
+        public int x, z;
+        public IntVec3(int x, int y, int z) { this.x = x; this.z = z; }
+        public int LengthHorizontalSquared => x * x + z * z;
+        public static IntVec3 operator -(IntVec3 a, IntVec3 b) => new IntVec3(a.x - b.x, 0, a.z - b.z);
+    }
+    public sealed class ThingDef
+    {
+        public float specialDisplayRadius = 4f;
+        public readonly RimWorld.BuildingProperties building = new RimWorld.BuildingProperties();
+    }
     public class Thing
     {
         public RimWorld.Faction Faction = RimWorld.Faction.OfPlayer;
         public Map Map = new Map();
         public bool Spawned = true;
         public IntVec3 InteractionCell;
+        public IntVec3 Position;
+        public ThingDef def = new ThingDef();
         public RimWorld.CompPowerTrader Power = new RimWorld.CompPowerTrader();
         public RimWorld.CompRefuelable Fuel;
         public string LabelShort = "radio";
@@ -44,10 +57,27 @@ namespace Verse
     public sealed class RotationTracker { public void FaceTarget(Thing target) { } }
     public sealed class Map
     {
+        public readonly object Room = new object();
+        public readonly Dictionary<IntVec3, object> Rooms = new Dictionary<IntVec3, object>();
+        public readonly Dictionary<IntVec3, Building> Seats = new Dictionary<IntVec3, Building>();
+        public readonly HashSet<IntVec3> Blocked = new HashSet<IntVec3>(), Forbidden = new HashSet<IntVec3>(), Reserved = new HashSet<IntVec3>();
+        public readonly DestinationReservations pawnDestinationReservationManager = new DestinationReservations();
         public readonly Conditions gameConditionManager = new Conditions();
         public readonly Helodrace.MapComponent_HamRadio Ham = new Helodrace.MapComponent_HamRadio();
         public readonly Helodrace.MapComponent_TelegraphNetwork Network = new Helodrace.MapComponent_TelegraphNetwork();
         public T GetComponent<T>() => (T)(object)(typeof(T) == typeof(Helodrace.MapComponent_TelegraphNetwork) ? (object)Network : Ham);
+    }
+    public sealed class DestinationReservations { public bool CanReserve(IntVec3 cell, Pawn pawn) => !pawn.Map.Reserved.Contains(cell); }
+    public static class GenRadial
+    {
+        public static IEnumerable<IntVec3> RadialCellsAround(IntVec3 center, float radius, bool useCenter)
+        {
+            int limit = (int)Math.Ceiling(radius);
+            for (int x = -limit; x <= limit; x++)
+                for (int z = -limit; z <= limit; z++)
+                    if (x * x + z * z <= radius * radius && (useCenter || x != 0 || z != 0))
+                        yield return new IntVec3(center.x + x, 0, center.z + z);
+        }
     }
     public sealed class Conditions { public bool Disabled; public bool ElectricityDisabled(Map map) => Disabled; }
     public sealed class FloatMenuOption
@@ -67,6 +97,10 @@ namespace Verse
     public static class Find { public static readonly RimWorld.FactionManager FactionManager = new RimWorld.FactionManager(); }
     public static class JobMaker
     {
+        public static AI.Job MakeJob(JobDef def, Thing thing, IntVec3 cell, Thing seat)
+        {
+            var job = MakeJob(def, thing, cell); job.targetC = seat; return job;
+        }
         public static AI.Job MakeJob(JobDef def, Thing thing) => MakeJob(def, thing, thing.InteractionCell);
         public static AI.Job MakeJob(JobDef def, Thing thing, IntVec3 cell)
             => new AI.Job { def = def, targetA = new LocalTargetInfo { Thing = thing }, targetB = new LocalTargetInfo { Cell = cell } };
@@ -76,8 +110,15 @@ namespace Verse
     {
         public static T TryGetComp<T>(this Thing thing) => (T)(typeof(T) == typeof(RimWorld.CompRefuelable) ? (object)thing.Fuel : thing.Power);
         public static bool CanReach(this Pawn pawn, Thing thing, AI.PathEndMode mode, Danger danger) => pawn.Reachable;
+        public static bool CanReach(this Pawn pawn, IntVec3 cell, AI.PathEndMode mode, Danger danger) => pawn.Reachable;
         public static bool CanReserve(this Pawn pawn, LocalTargetInfo thing) => pawn.Reservable;
         public static bool CanReserveSittableOrSpot(this Pawn pawn, IntVec3 cell) => pawn.SpotAvailable;
+        public static bool InBounds(this IntVec3 cell, Map map) => Math.Abs(cell.x) < 50 && Math.Abs(cell.z) < 50;
+        public static bool Standable(this IntVec3 cell, Map map) => !map.Blocked.Contains(cell);
+        public static object GetRoom(this IntVec3 cell, Map map) => map.Rooms.TryGetValue(cell, out var room) ? room : map.Room;
+        public static object GetRoom(this Thing thing) => thing.Position.GetRoom(thing.Map);
+        public static Building GetEdifice(this IntVec3 cell, Map map) => map.Seats.TryGetValue(cell, out var seat) ? seat : null;
+        public static bool IsForbidden(this IntVec3 cell, Pawn pawn) => pawn.Map.Forbidden.Contains(cell);
         public static bool Reserve(this Pawn pawn, LocalTargetInfo thing, AI.Job job, int count, int stack, object layer, bool error) => pawn.Reservable;
         public static bool ReserveSittableOrSpot(this Pawn pawn, IntVec3 cell, AI.Job job, bool error) => pawn.SpotAvailable;
         public static string Translate(this string key, params object[] args) => key + (args.Length == 0 ? "" : ": " + string.Join(", ", args));
@@ -109,7 +150,7 @@ namespace Verse.AI
     public class Job
     {
         public JobDef def;
-        public LocalTargetInfo targetA, targetB;
+        public LocalTargetInfo targetA, targetB, targetC;
         public object commTarget;
         public bool playerForced;
     }
@@ -145,6 +186,7 @@ namespace Verse.AI
 }
 namespace RimWorld
 {
+    public sealed class BuildingProperties { public bool isSittable; }
     public sealed class CompPowerTrader { public bool PowerOn = true; }
     public sealed class CompRefuelable { public float Fuel; public void ConsumeFuel(float amount) => Fuel -= amount; }
     public sealed class FactionDef { public string defName; public object FactionIcon = new object(); }
@@ -166,15 +208,16 @@ namespace RimWorld
     public sealed class FactionManager { public readonly List<Faction> AllFactionsVisibleInViewOrder = new List<Faction>(); }
     public static class PawnCapacityDefOf { public static readonly object Hearing = new object(), Talking = new object(); }
     public sealed class JoyGiverDef { public Verse.JobDef jobDef = new Verse.JobDef(); }
-    public class JoyGiver_InteractBuildingInteractionCell
+    public class JoyGiver_InteractBuilding
     {
         public readonly JoyGiverDef def = new JoyGiverDef();
         protected virtual bool CanInteractWith(Verse.Pawn pawn, Verse.Thing thing, bool inBed) => pawn.Reservable;
         protected virtual Verse.AI.Job TryGivePlayJob(Verse.Pawn pawn, Verse.Thing thing) => pawn.SpotAvailable && pawn.Reachable
             ? Verse.JobMaker.MakeJob(def.jobDef, thing, thing.InteractionCell) : null;
         public Verse.AI.Job Play(Verse.Pawn pawn, Verse.Thing thing) => CanInteractWith(pawn, thing, false) ? TryGivePlayJob(pawn, thing) : null;
+        public bool CanPlayInBed(Verse.Pawn pawn, Verse.Thing thing) => CanInteractWith(pawn, thing, true);
     }
-    public class JoyGiver_WatchBuilding : JoyGiver_InteractBuildingInteractionCell { }
+    public class JoyGiver_InteractBuildingInteractionCell : JoyGiver_InteractBuilding { }
     public class JobDriver_WatchTelevision : Verse.AI.JobDriver
     {
         public static readonly Verse.AI.Toil NativeToil = new Verse.AI.Toil();

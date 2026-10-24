@@ -6,6 +6,7 @@
   <ItemGroup>
     <Compile Include="../../Helodrace/WildWest/Building_Radio.cs" Link="Building_Radio.cs" />
     <Compile Include="../../Helodrace/WildWest/RadioRecreation.cs" Link="RadioRecreation.cs" />
+    <Compile Include="../../Helodrace/WildWest/RadioListeningUtility.cs" Link="RadioListeningUtility.cs" />
     <Compile Include="../../Helodrace/WildWest/HamRadioRoutingRules.cs" Link="HamRadioRoutingRules.cs" />
     <Compile Include="../../Helodrace/WildWest/CommunicationTerminal.cs" Link="CommunicationTerminal.cs" />
     <Compile Include="../../Helodrace/WildWest/TelegraphNetworkRules.cs" Link="TelegraphNetworkRules.cs" />

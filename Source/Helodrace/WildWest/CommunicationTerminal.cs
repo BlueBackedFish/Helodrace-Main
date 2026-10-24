@@ -41,7 +41,7 @@ namespace Helodrace
                 if (IsWireless)
                 {
                     if (!(parent is Building_Radio radio) || !radio.CanUseNow) return "HD_Radio_NoPower".Translate();
-                    return Provider == null ? "HD_Radio_NoCompanyChannel".Translate().ToString() : null;
+                    return Provider == null ? "HD_Radio_NoCompanyFrequency".Translate().ToString() : null;
                 }
                 if (!parent.Spawned || parent.Faction != Faction.OfPlayer || Network == null)
                     return "HD_Telegraph_Status_ProviderUnavailable".Translate();

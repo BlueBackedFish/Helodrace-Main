@@ -10,6 +10,7 @@ namespace Helodrace
         protected override IEnumerable<Toil> MakeNewToils()
         {
             this.FailOn(() => !(TargetThingA is Building_Radio radio) || !radio.CanUseNow
+                || !RadioListeningUtility.InRange(radio, job.targetB.Cell)
                 || !pawn.health.capacities.CapableOf(PawnCapacityDefOf.Hearing));
             foreach (Toil toil in base.MakeNewToils()) yield return toil;
         }
@@ -22,7 +23,7 @@ namespace Helodrace
         private bool CanContinue => Radio?.CanUseNow == true
             && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Hearing)
             && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking)
-            && Building_Radio.IsChannelAvailable(job.commTarget as Faction);
+            && Building_Radio.IsFrequencyAvailable(job.commTarget as Faction);
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
             => pawn.Reserve(job.targetA, job, 1, -1, null, errorOnFailed)

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_Radio_Use>Use {0} company channels</HD_Radio_Use>
-  <HD_Radio_WindowTitle>Radio company channels</HD_Radio_WindowTitle>
-  <HD_Radio_ServiceHours>Channels available 24 hours | Uses electrical power</HD_Radio_ServiceHours>
-  <HD_Radio_CompanyChannel>{0} — company channel connected</HD_Radio_CompanyChannel>
-  <HD_Radio_OfflineDirectory>Channels unavailable. Company and organization directory cannot be accessed.</HD_Radio_OfflineDirectory>
+  <HD_Radio_Use>Use {0} company frequencies</HD_Radio_Use>
+  <HD_Radio_WindowTitle>Radio company frequencies</HD_Radio_WindowTitle>
+  <HD_Radio_CompanyFrequency>{0} — company frequency connected</HD_Radio_CompanyFrequency>
+  <HD_Radio_OfflineDirectory>Frequencies unavailable. Company and organization directory cannot be accessed.</HD_Radio_OfflineDirectory>
   <HD_Radio_NoPower>Radio requires power</HD_Radio_NoPower>
-  <HD_Radio_NoCompanyChannel>No LOW Helod company channel available</HD_Radio_NoCompanyChannel>
-  <HD_Radio_WrongProvider>Company channels are available for LOW Helod only.</HD_Radio_WrongProvider>
-  <HD_Radio_Online>Radio channels connected</HD_Radio_Online>
+  <HD_Radio_NoCompanyFrequency>No LOW Helod company frequency available</HD_Radio_NoCompanyFrequency>
+  <HD_Radio_WrongProvider>Company frequencies are available for LOW Helod only.</HD_Radio_WrongProvider>
+  <HD_Radio_Online>Radio frequencies connected</HD_Radio_Online>
   <HD_Radio_TransmissionCost>electrical power</HD_Radio_TransmissionCost>
   <HD_Radio_CaravanConfirm>Request {0} via radio? Financial reputation cost: {2}. Each company arrives independently in 1–2 days and has a four-day cooldown. Attacking a safe-conduct caravan reduces diplomatic and financial goodwill and ends its protection.</HD_Radio_CaravanConfirm>
 </LanguageData>
