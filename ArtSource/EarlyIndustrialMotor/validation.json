@@ -1,0 +1,35 @@
+{
+  "asset": "HD_EarlyIndustrialLargeMotor",
+  "footprint": [
+    3,
+    3
+  ],
+  "features": [
+    "enclosed stator",
+    "eight long cooling ribs",
+    "raised terminal box",
+    "flat-vent fan cover",
+    "shaft output coupling",
+    "two saddle feet"
+  ],
+  "mesh_objects": 33,
+  "orthographic_scale": 3.6814815938472747,
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 44,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 33,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 44,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false
+}

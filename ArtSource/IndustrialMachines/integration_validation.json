@@ -1,0 +1,29 @@
+{
+  "HD_LargeSteamEngine": {
+    "definition_texture_resolves": true,
+    "footprint_unchanged": "(4,3)",
+    "color_and_mask_files": 6,
+    "validated_views": 3
+  },
+  "HD_IndustrialDieselEngine": {
+    "definition_texture_resolves": true,
+    "footprint_unchanged": "(4,3)",
+    "color_and_mask_files": 6,
+    "validated_views": 3
+  },
+  "HD_EarlyIndustrialGenerator": {
+    "definition_texture_resolves": true,
+    "footprint_unchanged": "(3,3)",
+    "color_and_mask_files": 6,
+    "validated_views": 3
+  },
+  "HD_EarlyIndustrialLargeMotor": {
+    "definition_texture_resolves": true,
+    "footprint_unchanged": "(3,3)",
+    "color_and_mask_files": 6,
+    "validated_views": 3
+  },
+  "motor_fan_vent_faces_coplanar": true,
+  "generator_and_motor_use_distinct_textures": true,
+  "in_game_tested": false
+}
