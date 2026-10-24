@@ -1,9 +1,9 @@
-# Independent early industrial generator
+# Period open-field DC generator
 
-New 3×3 open-field dynamo design for the existing `HD_EarlyIndustrialGenerator` definition. The old shared motor image/mask are preserved as family/style references, not reconstruction targets. The generator has an open iron yoke, two prominent copper field coils, an exposed armature, copper commutator with dark carbon brushes, a large belt-input pulley, and an output terminal board. It is mechanically and visually distinct from the new enclosed motor.
+Original c.1900–1925 belt-driven dynamo on a 3×3 cast skid. Two arched magnetic yokes join upright iron poles wrapped in broad copper field coils. The open central armature, copper commutator, two carbon brushes, insulated terminal bridge and separate bearing pedestals distinguish it from the enclosed electric motor. Shapes are enlarged and simplified for sprites; this is not a precise electrical engineering reconstruction. Historical guidance and the five-machine brief are in `../IndustrialMachines/PERIOD_DESIGN.md`. Original sprite references remain packed and in `Reference/`.
 
 ```powershell
 & 'C:\Program Files\Blender Foundation\Blender 5.1\blender.exe' -b --threads 2 --python-exit-code 1 --python ArtSource/EarlyIndustrialGenerator/build_generator.py
 ```
 
-The scene is `HD_EarlyIndustrialGenerator.blend`; texture prefix is `Buildings/HD_EarlyIndustrialGenerator`, referenced only by the generator building. Three 64° orthographic views and corresponding color masks are supplied. Iron is tintable; copper windings/commutator, dark brushes and insulating board retain their fixed colors. The building's existing mechanical-to-electric behavior and 3×3 footprint are unchanged. Rendering/mask checks are recorded in `validation.json`; no in-game test is claimed.
+Scene: `HD_EarlyIndustrialGenerator.blend`; independent `Buildings/HD_EarlyIndustrialGenerator` texture prefix. Footprint and behavior are retained. North/East/South 512px color/mask pairs use a common orthographic scale and 64° downward elevation. Copper, brass and insulation are fixed-color. The build reopens the saved scene and checks camera elevation, safe margins and mask alpha before writing review sheets and `validation.json`. No in-game test is claimed.

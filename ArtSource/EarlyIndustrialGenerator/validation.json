@@ -5,19 +5,21 @@
     3
   ],
   "features": [
-    "open field frame",
-    "two exposed copper field coils",
-    "exposed armature",
-    "copper commutator and carbon brushes",
-    "large belt input pulley",
-    "two output terminals"
+    "1900-1925 open-field DC dynamo",
+    "arched magnetic yokes",
+    "two copper field windings",
+    "visible armature and commutator",
+    "carbon brushes and brass terminals",
+    "outboard bearing pedestals",
+    "flat-belt pulley"
   ],
-  "mesh_objects": 56,
-  "orthographic_scale": 3.5575475722551344,
+  "mesh_objects": 46,
+  "design_period": "1900-1925 open-field DC dynamo",
+  "orthographic_scale": 3.675024554133415,
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 46,
+      "minimum_margin": 54,
       "mask_alpha_matches": true
     },
     "East": {
@@ -27,7 +29,7 @@
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 46,
+      "minimum_margin": 54,
       "mask_alpha_matches": true
     }
   },
