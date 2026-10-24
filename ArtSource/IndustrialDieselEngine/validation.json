@@ -13,23 +13,24 @@
     "cooling-water tank",
     "simplified injection pump and lines"
   ],
-  "mesh_objects": 76,
+  "mesh_objects": 113,
   "design_period": "1920-1940 three-cylinder stationary diesel",
-  "orthographic_scale": 4.878772670030593,
+  "orthographic_scale": 4.827092224359512,
+  "outline_pixels": 6,
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 54,
+      "minimum_margin": 48,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 33,
+      "minimum_margin": 27,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 54,
+      "minimum_margin": 48,
       "mask_alpha_matches": true
     }
   },

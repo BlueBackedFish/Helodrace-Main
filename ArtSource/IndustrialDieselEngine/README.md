@@ -7,3 +7,5 @@ Original c.1920–1940 three-cylinder oil-engine design on a 4×3 skid. Three se
 ```
 
 Scene: `HD_IndustrialDieselEngine.blend`. The existing texture prefix, 4×3 footprint and mechanics are retained. North/East/South color/mask pairs use 512px transparency, 64° downward orthographic cameras and one common scale. Brass/copper/insulators remain fixed-color; cast body and metalwork are selected in material masks. `validation.json` records saved-scene, framing and mask-alpha checks; 512px and 256px review sheets are generated. RimWorld testing is not included.
+
+Density/style correction: skid top area is reduced by 25.8%, from 3.85×2.50 to 3.80×1.88. Neutral gray metal and a 6px black export silhouette match neighboring workshop machinery. Dark cylinder-neck flanges, bordered rocker-service lids, oil cups, a connected lubricator reservoir, stiffened side rails, transverse anchor ribs and a cooling-tank inspection lid break up broad surfaces with readable functional parts.
