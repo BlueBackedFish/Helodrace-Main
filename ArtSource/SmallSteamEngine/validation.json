@@ -6,9 +6,9 @@
   "mesh_objects": 80,
   "vertices": 2852,
   "small_boiler_size": [
-    1.0000000298023224,
-    0.41999997198581696,
-    0.4200000464916229
+    1.0000000596046448,
+    1.0399999618530273,
+    1.0400000512599945
   ],
   "firebox_size": [
     0.6399999856948853,
@@ -17,7 +17,8 @@
   ],
   "boiler_axis": "X, from right firebox to left chimney",
   "fuel_door_wall": "+X (right / East), North wall is plain",
-  "boiler_clearance_above_bed": 0.1,
+  "boiler_clearance_above_bed": 0.10999999999999993,
+  "boiler_diameter_to_flywheel_gap": 0.920353982300885,
   "rivet_heads": 16,
   "cameras": {
     "North": {

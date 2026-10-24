@@ -67,7 +67,7 @@ def wheel(name,y):
 # Broad bed, two flywheels and exposed shaft retain the original arrangement.
 cube('01_Foundation',(0,0,.10),(1.92,1.90,.20),bed)
 for y in [-.72,.72]:cube('02_Raised_bed_rail',(0,y,.235),(1.78,.11,.070),recess)
-for y in [-.43,.56]:cube('03_Bearing_pedestal',(-.43,y,.405),(.28,.12,.46),cast)
+for y in [-.56,.56]:cube('03_Bearing_pedestal',(-.43,y,.405),(.28,.10,.46),cast)
 cylinder('04_Common_crankshaft',(-.43,0,.83),.065,1.48,steel,'Y')
 wheel('05_Front_flywheel',-.61);wheel('06_Rear_flywheel',.61)
 # Right-hand combustion chamber; North (-Y) wall is an uninterrupted flat face.
@@ -83,20 +83,24 @@ rod('16_Connecting_link',(-.28,-.70,.96),(.56,-.73,.43),.026,steel)
 cylinder('17_Crank_pin',(-.28,-.70,.96),.052,.035,steel,'Y')
 rod('18_Brown_crank_arm',(-.43,-.70,.83),(-.28,-.70,.96),.044,copper)
 # The boiler runs left/right (X), from the firebox directly to the stack end.
-# Its underside is z=.30, leaving .10 of clear space above the bed (z=.20).
-cylinder('33_Small_boiler',(-.225,.25,.51),.21,1.00,cast,'X')
+# Diameter 1.04 fills 92% of the 1.13 clear gap between the two flywheel rims.
+# Center it between the wheels; the raised shell still clears the bed by .11.
+BOILER_RADIUS=.52
+BOILER_Y=0.0
+BOILER_Z=.83
+cylinder('33_Small_boiler',(-.225,BOILER_Y,BOILER_Z),BOILER_RADIUS,1.00,cast,'X')
 for x in [-.69,-.25,.22]:
-    cylinder('34_Boiler_band',(x,.25,.51),.225,.035,steel,'X')
-cylinder('35_Boiler_end_cap',(-.738,.25,.51),.202,.024,cast,'X')
-cylinder('37_Firebox_connection_flange',(.235,.25,.51),.235,.032,steel,'X')
+    cylinder('34_Boiler_band',(x,BOILER_Y,BOILER_Z),.535,.035,steel,'X')
+cylinder('35_Boiler_end_cap',(-.738,BOILER_Y,BOILER_Z),.505,.024,cast,'X')
+cylinder('37_Firebox_connection_flange',(.235,BOILER_Y,BOILER_Z),.535,.032,steel,'X')
 # A dedicated two-legged saddle supports the free end beside the chimney.
-for y in [.11,.39]:
-    cube('36_Boiler_end_leg',(-.65,y,.285),(.11,.085,.17),cast)
+for y in [-.34,.34]:
+    cube('36_Boiler_end_leg',(-.65,y,.330),(.11,.085,.26),cast)
     cube('36_Boiler_end_foot',(-.65,y,.218),(.17,.14,.036),recess)
-cube('36_Boiler_end_saddle',(-.65,.25,.325),(.14,.38,.060),cast)
+cube('36_Boiler_end_saddle',(-.65,BOILER_Y,.340),(.14,.80,.060),cast)
 # Short stack neck visibly enters the boiler shell instead of reaching the bed.
-cylinder('19_Stack_base',(-.68,.25,.72),.15,.34,cast)
-cylinder('20_Stack_tube',(-.68,.25,1.13),.135,.66,cast)
+cylinder('19_Stack_base',(-.68,.25,1.30),.15,.12,cast)
+cylinder('20_Stack_tube',(-.68,.25,1.395),.135,.19,cast)
 cylinder('21_Stack_flare',(-.68,.25,1.53),.135,.22,cast,r2=.195)
 for z,r in [(1.40,.153),(1.64,.202)]:cylinder('22_Stack_band',(-.68,.25,z),r,.045,steel)
 cylinder('23_Stack_dark_mouth',(-.68,.25,1.664),.168,.003,recess)
@@ -123,7 +127,7 @@ for x in [.25,.85]:
         cylinder('41_Plinth_rivet',(x,y,.326),.018,.012,recess)
 for i in range(6):
     a=i*math.tau/6
-    cylinder('42_Boiler_cap_rivet',(-.758,.25+.16*math.cos(a),.51+.16*math.sin(a)),.012,.012,recess,'X')
+    cylinder('42_Boiler_cap_rivet',(-.758,BOILER_Y+.435*math.cos(a),BOILER_Z+.435*math.sin(a)),.012,.012,recess,'X')
 target=Vector((0,0,.70));scale=2.75
 for name,az in [('North',-90),('East',0),('South',90)]:
     a=math.radians(az);e=math.radians(64)
@@ -184,6 +188,7 @@ with open(os.path.join(OUT,'validation.json'),'w') as f:
                'firebox_size':world_size(bpy.data.objects['08_Firebox']),
                'boiler_axis':'X, from right firebox to left chimney',
                'fuel_door_wall':'+X (right / East), North wall is plain',
-               'boiler_clearance_above_bed':.10,
+               'boiler_clearance_above_bed':BOILER_Z-BOILER_RADIUS-.20,
+               'boiler_diameter_to_flywheel_gap':2*BOILER_RADIUS/1.13,
                'rivet_heads':sum('rivet' in o.name for o in objects),
                'cameras':checks,'game_tested':False},f,indent=2)
