@@ -5,19 +5,20 @@
     3
   ],
   "features": [
-    "enclosed stator",
-    "eight long cooling ribs",
-    "raised terminal box",
-    "flat-vent fan cover",
-    "shaft output coupling",
-    "two saddle feet"
+    "1920-1940 smooth cast-frame motor",
+    "two broad casting bands",
+    "four large flush end-shield vents",
+    "outboard split bearings",
+    "flat-belt output pulley",
+    "small side terminal box with porcelain studs"
   ],
-  "mesh_objects": 33,
-  "orthographic_scale": 3.6814815938472747,
+  "mesh_objects": 35,
+  "design_period": "1920-1940 cast-frame electric motor",
+  "orthographic_scale": 3.5608321279287334,
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 44,
+      "minimum_margin": 51,
       "mask_alpha_matches": true
     },
     "East": {
@@ -27,7 +28,7 @@
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 44,
+      "minimum_margin": 51,
       "mask_alpha_matches": true
     }
   },
