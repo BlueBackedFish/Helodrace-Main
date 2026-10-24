@@ -1,0 +1,35 @@
+{
+  "asset": "HD_EarlyIndustrialGenerator",
+  "footprint": [
+    3,
+    3
+  ],
+  "features": [
+    "open field frame",
+    "two exposed copper field coils",
+    "exposed armature",
+    "copper commutator and carbon brushes",
+    "large belt input pulley",
+    "two output terminals"
+  ],
+  "mesh_objects": 56,
+  "orthographic_scale": 3.5575475722551344,
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 46,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 33,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 46,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false
+}

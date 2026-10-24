@@ -412,7 +412,7 @@
     <description>An early industrial generator that converts line-shaft rotation into electricity. Efficiency falls when the mechanical input moves away from its rated load.</description>
     <thingClass>Building</thingClass>
     <graphicData>
-      <texPath>Buildings/HD_EarlyIndustrialLargeMotor</texPath>
+      <texPath>Buildings/HD_EarlyIndustrialGenerator</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>CutoutComplex</shaderType>
       <drawSize>(3.3,3.3)</drawSize>
