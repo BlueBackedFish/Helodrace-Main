@@ -172,9 +172,12 @@ combined=np.concatenate(images,axis=1)
 im=bpy.data.images.new('North_East_South',1536,512,alpha=True);im.colorspace_settings.name='Non-Color'
 im.pixels.foreach_set(combined.ravel());im.file_format='PNG';im.filepath_raw=os.path.join(OUT,'preview_north_east_south.png');im.save()
 im.scale(768,256);im.filepath_raw=os.path.join(OUT,'preview_256px.png');im.save()
+def world_size(obj):
+    points=[obj.matrix_world@v.co for v in obj.data.vertices]
+    return [max(v[i] for v in points)-min(v[i] for v in points) for i in range(3)]
 with open(os.path.join(OUT,'validation.json'),'w') as f:
     json.dump({'footprint':[2,2],'mesh_objects':len(objects),'vertices':sum(len(o.data.vertices) for o in objects),
-               'small_boiler_size':list(bpy.data.objects['33_Small_boiler'].dimensions),
-               'fuel_casing_size':list(bpy.data.objects['08_Engine_block'].dimensions),
+               'small_boiler_size':world_size(bpy.data.objects['33_Small_boiler']),
+               'fuel_casing_size':world_size(bpy.data.objects['08_Engine_block']),
                'rivet_heads':sum('rivet' in o.name for o in objects),
                'cameras':checks,'game_tested':False},f,indent=2)
