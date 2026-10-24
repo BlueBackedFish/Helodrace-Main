@@ -138,6 +138,15 @@ for obj in list(scene.objects):
     if obj.name=='Microphone_capsule' or obj.name.startswith('Microphone_grille'):
         obj.location=pivot+tilt@(obj.location-pivot)
         obj.rotation_euler=(tilt@obj.rotation_euler.to_matrix()).to_euler()
+# Twin paddle telegraph key: broad base, two metal arms and paired finger pieces.
+cube('TelegraphKey_foot',(-.22,-.295,.536),(.255,.255,.027),black)
+cube('TelegraphKey_base',(-.22,-.295,.553),(.230,.230,.009),case)
+cube('TelegraphKey_pivot_block',(-.22,-.225,.580),(.140,.055,.046),case)
+for x in [-.260,-.180]:
+    cube('TelegraphKey_lever',(x,-.285,.593),(.016,.140,.018),steel)
+    cyl('TelegraphKey_pivot',(x,-.225,.610),.021,.018,steel)
+    paddle=cube('TelegraphKey_paddle',(x,-.370,.596),(.027,.065,.072),black)
+    bevel=paddle.modifiers.new('Simple_finger_edges','BEVEL');bevel.width=.009;bevel.segments=1
 # Cameras retain the existing presentation and framing.
 target=Vector((0,0,.42));scale=1.47
 for name,az in [('North',90),('East',0),('South',270)]:
