@@ -1,0 +1,24 @@
+{
+  "reference": "Textures/Buildings/HD_TelegraphTable_south.png",
+  "reference_top_rgb": [
+    255,
+    255,
+    255
+  ],
+  "reference_edge_and_leg_rgb": [
+    217,
+    217,
+    217
+  ],
+  "wood_top_rgb": [
+    133,
+    97,
+    67
+  ],
+  "wood_edge_and_leg_rgb": [
+    113,
+    83,
+    57
+  ],
+  "all_geometry_cameras_and_device_colors_preserved": true
+}

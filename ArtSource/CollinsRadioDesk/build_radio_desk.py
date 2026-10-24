@@ -18,7 +18,9 @@ def mat(name,rgb):
     o=m.node_tree.nodes.new('ShaderNodeOutputMaterial');m.node_tree.links.new(e.outputs[0],o.inputs['Surface'])
     return m
 def palette(name,colors): return [mat(name+str(i),c) for i,c in enumerate(colors)]
-wood=palette('Vanilla_wood',[(133,97,67),(125,90,61),(119,85,57)])
+# Telegraph desk reference: white top 255, both edge and legs 217 (~85%).
+# Bake the same relationship into vanilla wood; no material color mask.
+wood=palette('Vanilla_wood',[(133,97,67),(113,83,57),(113,83,57)])
 case=palette('Charcoal_case',[(85,90,91),(81,86,87),(77,82,83)])
 panel=palette('Gray_panel',[(123,126,122),(119,122,118),(115,118,114)])
 black=palette('Dark',[(34,37,37)]*3)
