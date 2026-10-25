@@ -1,0 +1,4 @@
+__pycache__/
+*.blend[1-9]
+.*.tmp.png
+output/.*.render.tmp.png

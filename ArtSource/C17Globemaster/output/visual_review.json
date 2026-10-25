@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-25",
+  "status": "reviewed",
+  "artifacts": {
+    "style_comparison.png": "38b50c7afc37e881a3e2ae2c8ac2899aab2ce7eb779d462ff40d2394e98bbe8e",
+    "native_sizes.png": "1cebbb32b1041d16abc458584ffc40cc96391cd325c4f3fa10cb7c72e187ee43",
+    "alpha_backgrounds.png": "4134ce321f380188a45716e7b9b970771c2ff84305b044aed3cfa9772a3fcdf3",
+    "HD_C17.png": "ddd95eaa0db9016c62cacc2feef7418ef28c3ddc4cc506f98f8957833785b6b0"
+  },
+  "checks": [
+    "Main P47/A10C/MH60 and Arsenal P47/DH4 inspected",
+    "Same visible wingspan in style comparison",
+    "128/256/512px native size labels and silhouette inspected",
+    "Bright/mid/dark alpha backgrounds inspected",
+    "Four engines, swept wings, cockpit glass and T tail retained",
+    "No external cast shadow or shaded material gradient",
+    "Single black exterior silhouette, muted internal control-surface lines"
+  ],
+  "remaining": [
+    "No blueprint or production-airframe dimension validation",
+    "No aircraft gameplay integration or in-game display validation",
+    "No national markings, serial numbers or fine fuselage panel artwork"
+  ],
+  "game_validation_performed": false
+}

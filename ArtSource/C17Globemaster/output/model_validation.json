@@ -1,0 +1,1005 @@
+{
+  "source_sha256": "7bb6263fd9685db6a67328596292314f2e5ea94a90beceecb8b9c33987db7c7f",
+  "source_groups": 161,
+  "source_faces": 486906,
+  "preserved_faces": 486906,
+  "omitted_faces": 0,
+  "original_coordinates_and_uv_preserved": true,
+  "lighting": "Fixed RGB to Emission; no light objects or image albedo",
+  "projection": "Orthographic; camera rotation (0,0,180 degrees), directly above +Z",
+  "canonical_axes": {
+    "forward": "z",
+    "up": "y",
+    "scale": 1,
+    "confirmed": true
+  },
+  "source_units": "Unverified Roblox export units; ratios retained",
+  "used_bounds": [
+    [
+      84.9005,
+      -149.083,
+      0.262042
+    ],
+    [
+      323.013,
+      94.9883,
+      80.9133
+    ]
+  ],
+  "ortho_scale": 277.353759765625,
+  "pixel_anchor": [
+    1024,
+    1024
+  ],
+  "model_sha256": "0e8043bbb69897e8b4b66d1a67be5a30102c751d44a609282495e14c6aea7552",
+  "parts": [
+    {
+      "id": "g0000",
+      "label": "Meshpart1",
+      "faces": 148,
+      "role": "ramp"
+    },
+    {
+      "id": "g0001",
+      "label": "Meshpart2",
+      "faces": 22,
+      "role": "ramp"
+    },
+    {
+      "id": "g0002",
+      "label": "Meshpart3",
+      "faces": 438,
+      "role": "ramp"
+    },
+    {
+      "id": "g0003",
+      "label": "Main1",
+      "faces": 50,
+      "role": "ramp"
+    },
+    {
+      "id": "g0004",
+      "label": "Rightaileron1",
+      "faces": 780,
+      "role": "control"
+    },
+    {
+      "id": "g0005",
+      "label": "Leftaileron1",
+      "faces": 780,
+      "role": "control"
+    },
+    {
+      "id": "g0006",
+      "label": "Wheel21",
+      "faces": 396,
+      "role": "rubber"
+    },
+    {
+      "id": "g0007",
+      "label": "Main2",
+      "faces": 8801,
+      "role": "body"
+    },
+    {
+      "id": "g0008",
+      "label": "Wheel1",
+      "faces": 396,
+      "role": "rubber"
+    },
+    {
+      "id": "g0009",
+      "label": "Wheel51",
+      "faces": 396,
+      "role": "rubber"
+    },
+    {
+      "id": "g0010",
+      "label": "Wheel41",
+      "faces": 396,
+      "role": "rubber"
+    },
+    {
+      "id": "g0011",
+      "label": "Wheel31",
+      "faces": 396,
+      "role": "rubber"
+    },
+    {
+      "id": "g0012",
+      "label": "Main3",
+      "faces": 9115,
+      "role": "body"
+    },
+    {
+      "id": "g0013",
+      "label": "Wheel42",
+      "faces": 396,
+      "role": "rubber"
+    },
+    {
+      "id": "g0014",
+      "label": "Rr1",
+      "faces": 456,
+      "role": "body"
+    },
+    {
+      "id": "g0015",
+      "label": "Lr1",
+      "faces": 3370,
+      "role": "body"
+    },
+    {
+      "id": "g0016",
+      "label": "Lf1",
+      "faces": 3046,
+      "role": "body"
+    },
+    {
+      "id": "g0017",
+      "label": "Main4",
+      "faces": 8801,
+      "role": "body"
+    },
+    {
+      "id": "g0018",
+      "label": "Wheel32",
+      "faces": 396,
+      "role": "rubber"
+    },
+    {
+      "id": "g0019",
+      "label": "Wheel22",
+      "faces": 396,
+      "role": "rubber"
+    },
+    {
+      "id": "g0020",
+      "label": "Wheel2",
+      "faces": 396,
+      "role": "rubber"
+    },
+    {
+      "id": "g0021",
+      "label": "Dp1",
+      "faces": 456,
+      "role": "body"
+    },
+    {
+      "id": "g0022",
+      "label": "Fl1",
+      "faces": 80,
+      "role": "body"
+    },
+    {
+      "id": "g0023",
+      "label": "Fr1",
+      "faces": 80,
+      "role": "body"
+    },
+    {
+      "id": "g0024",
+      "label": "Main5",
+      "faces": 8801,
+      "role": "body"
+    },
+    {
+      "id": "g0025",
+      "label": "Main6",
+      "faces": 1240,
+      "role": "body"
+    },
+    {
+      "id": "g0026",
+      "label": "Meshpart4",
+      "faces": 464,
+      "role": "rubber"
+    },
+    {
+      "id": "g0027",
+      "label": "Meshpart5",
+      "faces": 468,
+      "role": "rubber"
+    },
+    {
+      "id": "g0028",
+      "label": "Rf1",
+      "faces": 3048,
+      "role": "body"
+    },
+    {
+      "id": "g0029",
+      "label": "Rff1",
+      "faces": 3365,
+      "role": "body"
+    },
+    {
+      "id": "g0030",
+      "label": "Wheel3",
+      "faces": 396,
+      "role": "rubber"
+    },
+    {
+      "id": "g0031",
+      "label": "Wheel23",
+      "faces": 396,
+      "role": "rubber"
+    },
+    {
+      "id": "g0032",
+      "label": "Wheel33",
+      "faces": 396,
+      "role": "rubber"
+    },
+    {
+      "id": "g0033",
+      "label": "Meshpart6",
+      "faces": 3400,
+      "role": "engine_fan"
+    },
+    {
+      "id": "g0034",
+      "label": "Meshpart7",
+      "faces": 3400,
+      "role": "engine_fan"
+    },
+    {
+      "id": "g0035",
+      "label": "Meshpart8",
+      "faces": 3400,
+      "role": "engine_fan"
+    },
+    {
+      "id": "g0036",
+      "label": "Meshpart9",
+      "faces": 3400,
+      "role": "engine_fan"
+    },
+    {
+      "id": "g0037",
+      "label": "P21",
+      "faces": 70,
+      "role": "body"
+    },
+    {
+      "id": "g0038",
+      "label": "P11",
+      "faces": 1228,
+      "role": "body"
+    },
+    {
+      "id": "g0039",
+      "label": "Meshpart10",
+      "faces": 477,
+      "role": "control"
+    },
+    {
+      "id": "g0040",
+      "label": "Meshpart11",
+      "faces": 3686,
+      "role": "control"
+    },
+    {
+      "id": "g0041",
+      "label": "Meshpart12",
+      "faces": 3020,
+      "role": "engine_lip"
+    },
+    {
+      "id": "g0042",
+      "label": "Meshpart13",
+      "faces": 2995,
+      "role": "engine_lip"
+    },
+    {
+      "id": "g0043",
+      "label": "Meshpart14",
+      "faces": 3192,
+      "role": "engine"
+    },
+    {
+      "id": "g0044",
+      "label": "Meshpart15",
+      "faces": 2720,
+      "role": "body"
+    },
+    {
+      "id": "g0045",
+      "label": "Meshpart16",
+      "faces": 3392,
+      "role": "engine"
+    },
+    {
+      "id": "g0046",
+      "label": "Meshpart17",
+      "faces": 6668,
+      "role": "engine_aft"
+    },
+    {
+      "id": "g0047",
+      "label": "Meshpart18",
+      "faces": 3804,
+      "role": "engine_aft"
+    },
+    {
+      "id": "g0048",
+      "label": "Meshpart19",
+      "faces": 3192,
+      "role": "engine"
+    },
+    {
+      "id": "g0049",
+      "label": "Meshpart20",
+      "faces": 3448,
+      "role": "tail"
+    },
+    {
+      "id": "g0050",
+      "label": "Meshpart21",
+      "faces": 4309,
+      "role": "wing"
+    },
+    {
+      "id": "g0051",
+      "label": "Meshpart22",
+      "faces": 8733,
+      "role": "body"
+    },
+    {
+      "id": "g0052",
+      "label": "Meshpart23",
+      "faces": 48,
+      "role": "body"
+    },
+    {
+      "id": "g0053",
+      "label": "Meshpart24",
+      "faces": 48,
+      "role": "body"
+    },
+    {
+      "id": "g0054",
+      "label": "Meshpart25",
+      "faces": 7072,
+      "role": "body"
+    },
+    {
+      "id": "g0055",
+      "label": "Meshpart26",
+      "faces": 7063,
+      "role": "body"
+    },
+    {
+      "id": "g0056",
+      "label": "Meshpart27",
+      "faces": 4044,
+      "role": "body"
+    },
+    {
+      "id": "g0057",
+      "label": "Meshpart28",
+      "faces": 60,
+      "role": "body"
+    },
+    {
+      "id": "g0058",
+      "label": "Meshpart29",
+      "faces": 7713,
+      "role": "body"
+    },
+    {
+      "id": "g0059",
+      "label": "Meshpart30",
+      "faces": 9510,
+      "role": "body"
+    },
+    {
+      "id": "g0060",
+      "label": "Meshpart31",
+      "faces": 3946,
+      "role": "body"
+    },
+    {
+      "id": "g0061",
+      "label": "Meshpart32",
+      "faces": 8008,
+      "role": "body"
+    },
+    {
+      "id": "g0062",
+      "label": "Meshpart33",
+      "faces": 1851,
+      "role": "body"
+    },
+    {
+      "id": "g0063",
+      "label": "Meshpart34",
+      "faces": 5477,
+      "role": "body"
+    },
+    {
+      "id": "g0064",
+      "label": "Meshpart35",
+      "faces": 5388,
+      "role": "body"
+    },
+    {
+      "id": "g0065",
+      "label": "Meshpart36",
+      "faces": 5632,
+      "role": "body"
+    },
+    {
+      "id": "g0066",
+      "label": "Meshpart37",
+      "faces": 2919,
+      "role": "body"
+    },
+    {
+      "id": "g0067",
+      "label": "Meshpart38",
+      "faces": 221,
+      "role": "body"
+    },
+    {
+      "id": "g0068",
+      "label": "Meshpart39",
+      "faces": 1131,
+      "role": "body"
+    },
+    {
+      "id": "g0069",
+      "label": "Meshpart40",
+      "faces": 193,
+      "role": "body"
+    },
+    {
+      "id": "g0070",
+      "label": "Meshpart41",
+      "faces": 3692,
+      "role": "body"
+    },
+    {
+      "id": "g0071",
+      "label": "Meshpart42",
+      "faces": 2842,
+      "role": "body"
+    },
+    {
+      "id": "g0072",
+      "label": "Meshpart43",
+      "faces": 797,
+      "role": "body"
+    },
+    {
+      "id": "g0073",
+      "label": "Meshpart44",
+      "faces": 4158,
+      "role": "body"
+    },
+    {
+      "id": "g0074",
+      "label": "Meshpart45",
+      "faces": 3858,
+      "role": "body"
+    },
+    {
+      "id": "g0075",
+      "label": "Meshpart46",
+      "faces": 356,
+      "role": "body"
+    },
+    {
+      "id": "g0076",
+      "label": "Meshpart47",
+      "faces": 8114,
+      "role": "body"
+    },
+    {
+      "id": "g0077",
+      "label": "Meshpart48",
+      "faces": 3802,
+      "role": "body"
+    },
+    {
+      "id": "g0078",
+      "label": "Meshpart49",
+      "faces": 8738,
+      "role": "body"
+    },
+    {
+      "id": "g0079",
+      "label": "Meshpart50",
+      "faces": 3062,
+      "role": "body"
+    },
+    {
+      "id": "g0080",
+      "label": "Meshpart51",
+      "faces": 9478,
+      "role": "body"
+    },
+    {
+      "id": "g0081",
+      "label": "Meshpart52",
+      "faces": 3096,
+      "role": "body"
+    },
+    {
+      "id": "g0082",
+      "label": "Meshpart53",
+      "faces": 8308,
+      "role": "body"
+    },
+    {
+      "id": "g0083",
+      "label": "Meshpart54",
+      "faces": 918,
+      "role": "body"
+    },
+    {
+      "id": "g0084",
+      "label": "Meshpart55",
+      "faces": 3852,
+      "role": "body"
+    },
+    {
+      "id": "g0085",
+      "label": "Meshpart56",
+      "faces": 6858,
+      "role": "body"
+    },
+    {
+      "id": "g0086",
+      "label": "Meshpart57",
+      "faces": 1732,
+      "role": "body"
+    },
+    {
+      "id": "g0087",
+      "label": "Meshpart58",
+      "faces": 5750,
+      "role": "body"
+    },
+    {
+      "id": "g0088",
+      "label": "Meshpart59",
+      "faces": 6674,
+      "role": "body"
+    },
+    {
+      "id": "g0089",
+      "label": "Meshpart60",
+      "faces": 5825,
+      "role": "body"
+    },
+    {
+      "id": "g0090",
+      "label": "Meshpart61",
+      "faces": 6610,
+      "role": "body"
+    },
+    {
+      "id": "g0091",
+      "label": "Meshpart62",
+      "faces": 300,
+      "role": "body"
+    },
+    {
+      "id": "g0092",
+      "label": "Meshpart63",
+      "faces": 3152,
+      "role": "body"
+    },
+    {
+      "id": "g0093",
+      "label": "Meshpart64",
+      "faces": 1152,
+      "role": "body"
+    },
+    {
+      "id": "g0094",
+      "label": "Meshpart65",
+      "faces": 248,
+      "role": "body"
+    },
+    {
+      "id": "g0095",
+      "label": "Meshpart66",
+      "faces": 5564,
+      "role": "body"
+    },
+    {
+      "id": "g0096",
+      "label": "Meshpart67",
+      "faces": 112,
+      "role": "body"
+    },
+    {
+      "id": "g0097",
+      "label": "Meshpart68",
+      "faces": 100,
+      "role": "body"
+    },
+    {
+      "id": "g0098",
+      "label": "Meshpart69",
+      "faces": 4824,
+      "role": "body"
+    },
+    {
+      "id": "g0099",
+      "label": "Meshpart70",
+      "faces": 4907,
+      "role": "body"
+    },
+    {
+      "id": "g0100",
+      "label": "Meshpart71",
+      "faces": 1576,
+      "role": "body"
+    },
+    {
+      "id": "g0101",
+      "label": "Meshpart72",
+      "faces": 212,
+      "role": "body"
+    },
+    {
+      "id": "g0102",
+      "label": "Meshpart73",
+      "faces": 7130,
+      "role": "body"
+    },
+    {
+      "id": "g0103",
+      "label": "Meshpart74",
+      "faces": 6848,
+      "role": "body"
+    },
+    {
+      "id": "g0104",
+      "label": "Meshpart75",
+      "faces": 9237,
+      "role": "body"
+    },
+    {
+      "id": "g0105",
+      "label": "Meshpart76",
+      "faces": 1913,
+      "role": "body"
+    },
+    {
+      "id": "g0106",
+      "label": "Meshpart77",
+      "faces": 8428,
+      "role": "body"
+    },
+    {
+      "id": "g0107",
+      "label": "Meshpart78",
+      "faces": 94,
+      "role": "body"
+    },
+    {
+      "id": "g0108",
+      "label": "Meshpart79",
+      "faces": 7961,
+      "role": "body"
+    },
+    {
+      "id": "g0109",
+      "label": "Meshpart80",
+      "faces": 3962,
+      "role": "body"
+    },
+    {
+      "id": "g0110",
+      "label": "Meshpart81",
+      "faces": 9813,
+      "role": "body"
+    },
+    {
+      "id": "g0111",
+      "label": "Meshpart82",
+      "faces": 184,
+      "role": "glass"
+    },
+    {
+      "id": "g0112",
+      "label": "Meshpart83",
+      "faces": 1800,
+      "role": "body"
+    },
+    {
+      "id": "g0113",
+      "label": "Meshpart84",
+      "faces": 9718,
+      "role": "body"
+    },
+    {
+      "id": "g0114",
+      "label": "Meshpart85",
+      "faces": 13,
+      "role": "body"
+    },
+    {
+      "id": "g0115",
+      "label": "Meshpart86",
+      "faces": 348,
+      "role": "body"
+    },
+    {
+      "id": "g0116",
+      "label": "Meshpart87",
+      "faces": 2406,
+      "role": "body"
+    },
+    {
+      "id": "g0117",
+      "label": "Meshpart88",
+      "faces": 111,
+      "role": "body"
+    },
+    {
+      "id": "g0118",
+      "label": "Meshpart89",
+      "faces": 111,
+      "role": "body"
+    },
+    {
+      "id": "g0119",
+      "label": "Meshpart90",
+      "faces": 477,
+      "role": "control"
+    },
+    {
+      "id": "g0120",
+      "label": "Meshpart91",
+      "faces": 102,
+      "role": "body"
+    },
+    {
+      "id": "g0121",
+      "label": "Meshpart92",
+      "faces": 529,
+      "role": "body"
+    },
+    {
+      "id": "g0122",
+      "label": "Meshpart93",
+      "faces": 5464,
+      "role": "engine_lip"
+    },
+    {
+      "id": "g0123",
+      "label": "Meshpart94",
+      "faces": 152,
+      "role": "rudder"
+    },
+    {
+      "id": "g0124",
+      "label": "Meshpart95",
+      "faces": 835,
+      "role": "body"
+    },
+    {
+      "id": "g0125",
+      "label": "Meshpart96",
+      "faces": 22,
+      "role": "fin_detail"
+    },
+    {
+      "id": "g0126",
+      "label": "Meshpart97",
+      "faces": 3200,
+      "role": "body"
+    },
+    {
+      "id": "g0127",
+      "label": "Meshpart98",
+      "faces": 100,
+      "role": "body"
+    },
+    {
+      "id": "g0128",
+      "label": "Meshpart99",
+      "faces": 3474,
+      "role": "wing_detail"
+    },
+    {
+      "id": "g0129",
+      "label": "Meshpart100",
+      "faces": 258,
+      "role": "body"
+    },
+    {
+      "id": "g0130",
+      "label": "Meshpart101",
+      "faces": 233,
+      "role": "glass"
+    },
+    {
+      "id": "g0131",
+      "label": "Meshpart102",
+      "faces": 3366,
+      "role": "body"
+    },
+    {
+      "id": "g0132",
+      "label": "Meshpart103",
+      "faces": 4350,
+      "role": "body"
+    },
+    {
+      "id": "g0133",
+      "label": "Meshpart104",
+      "faces": 5764,
+      "role": "body"
+    },
+    {
+      "id": "g0134",
+      "label": "Meshpart105",
+      "faces": 6098,
+      "role": "body"
+    },
+    {
+      "id": "g0135",
+      "label": "Meshpart106",
+      "faces": 4961,
+      "role": "body"
+    },
+    {
+      "id": "g0136",
+      "label": "Meshpart107",
+      "faces": 6493,
+      "role": "body"
+    },
+    {
+      "id": "g0137",
+      "label": "Meshpart108",
+      "faces": 3082,
+      "role": "body"
+    },
+    {
+      "id": "g0138",
+      "label": "Meshpart109",
+      "faces": 2054,
+      "role": "body"
+    },
+    {
+      "id": "g0139",
+      "label": "Meshpart110",
+      "faces": 784,
+      "role": "wing_detail"
+    },
+    {
+      "id": "g0140",
+      "label": "Meshpart111",
+      "faces": 2400,
+      "role": "wing_detail"
+    },
+    {
+      "id": "g0141",
+      "label": "Meshpart112",
+      "faces": 6940,
+      "role": "body"
+    },
+    {
+      "id": "g0142",
+      "label": "Meshpart113",
+      "faces": 4515,
+      "role": "body"
+    },
+    {
+      "id": "g0143",
+      "label": "Meshpart114",
+      "faces": 440,
+      "role": "body"
+    },
+    {
+      "id": "g0144",
+      "label": "Meshpart115",
+      "faces": 10,
+      "role": "body"
+    },
+    {
+      "id": "g0145",
+      "label": "Meshpart116",
+      "faces": 198,
+      "role": "body"
+    },
+    {
+      "id": "g0146",
+      "label": "Meshpart117",
+      "faces": 42,
+      "role": "body"
+    },
+    {
+      "id": "g0147",
+      "label": "Meshpart118",
+      "faces": 300,
+      "role": "body"
+    },
+    {
+      "id": "g0148",
+      "label": "Meshpart119",
+      "faces": 2478,
+      "role": "body"
+    },
+    {
+      "id": "g0149",
+      "label": "Meshpart120",
+      "faces": 3686,
+      "role": "control"
+    },
+    {
+      "id": "g0150",
+      "label": "Meshpart121",
+      "faces": 120,
+      "role": "body"
+    },
+    {
+      "id": "g0151",
+      "label": "Meshpart122",
+      "faces": 4309,
+      "role": "wing"
+    },
+    {
+      "id": "g0152",
+      "label": "Meshpart123",
+      "faces": 1824,
+      "role": "body"
+    },
+    {
+      "id": "g0153",
+      "label": "Meshpart124",
+      "faces": 60,
+      "role": "rudder"
+    },
+    {
+      "id": "g0154",
+      "label": "Meshpart125",
+      "faces": 224,
+      "role": "body"
+    },
+    {
+      "id": "g0155",
+      "label": "Meshpart126",
+      "faces": 3392,
+      "role": "engine"
+    },
+    {
+      "id": "g0156",
+      "label": "Meshpart127",
+      "faces": 9332,
+      "role": "body"
+    },
+    {
+      "id": "g0157",
+      "label": "Meshpart128",
+      "faces": 334,
+      "role": "body"
+    },
+    {
+      "id": "g0158",
+      "label": "Meshpart129",
+      "faces": 3345,
+      "role": "engine_aft"
+    },
+    {
+      "id": "g0159",
+      "label": "Meshpart130",
+      "faces": 3804,
+      "role": "engine_aft"
+    },
+    {
+      "id": "g0160",
+      "label": "Meshpart131",
+      "faces": 3192,
+      "role": "engine"
+    }
+  ],
+  "game_validation_performed": false,
+  "blueprint_validation_performed": false
+}

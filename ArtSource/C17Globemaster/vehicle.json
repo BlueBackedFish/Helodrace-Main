@@ -1,0 +1,1645 @@
+{
+  "schema": 1,
+  "name": "C-17 aircraft top-view trial",
+  "sources": {
+    "obj": {
+      "path": "C:\\Users\\human\\Downloads\\Dagor-Asset-Explorer-1.0.0\\Dagor-Asset-Explorer-1.0.0\\ext\\c-17-globemaster-iii\\source\\C-17\\C17.obj",
+      "sha256": "7bb6263fd9685db6a67328596292314f2e5ea94a90beceecb8b9c33987db7c7f"
+    },
+    "mtl": {
+      "path": "C:\\Users\\human\\Downloads\\Dagor-Asset-Explorer-1.0.0\\Dagor-Asset-Explorer-1.0.0\\ext\\c-17-globemaster-iii\\source\\C-17\\C17.mtl",
+      "sha256": "2d5ce37a4a9b00d7e44a2f52ef7e08f8d0df9852aa266636f76c63f8b6b8d1be"
+    }
+  },
+  "axes": {
+    "forward": "z",
+    "up": "y",
+    "scale": 1,
+    "confirmed": true
+  },
+  "style": "style.json",
+  "variant_notes": "Supplied Roblox-export C-17; top-view art trial only. Original units unverified; no blueprint or aircraft gameplay added.",
+  "blueprint_views": {},
+  "parts": [
+    {
+      "id": "g0000",
+      "source_group": "g0000",
+      "label": "Meshpart1",
+      "role": "ramp",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0001",
+      "source_group": "g0001",
+      "label": "Meshpart2",
+      "role": "ramp",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0002",
+      "source_group": "g0002",
+      "label": "Meshpart3",
+      "role": "ramp",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0003",
+      "source_group": "g0003",
+      "label": "Main1",
+      "role": "ramp",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0004",
+      "source_group": "g0004",
+      "label": "Rightaileron1",
+      "role": "control",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0005",
+      "source_group": "g0005",
+      "label": "Leftaileron1",
+      "role": "control",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0006",
+      "source_group": "g0006",
+      "label": "Wheel21",
+      "role": "rubber",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0007",
+      "source_group": "g0007",
+      "label": "Main2",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0008",
+      "source_group": "g0008",
+      "label": "Wheel1",
+      "role": "rubber",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0009",
+      "source_group": "g0009",
+      "label": "Wheel51",
+      "role": "rubber",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0010",
+      "source_group": "g0010",
+      "label": "Wheel41",
+      "role": "rubber",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0011",
+      "source_group": "g0011",
+      "label": "Wheel31",
+      "role": "rubber",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0012",
+      "source_group": "g0012",
+      "label": "Main3",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0013",
+      "source_group": "g0013",
+      "label": "Wheel42",
+      "role": "rubber",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0014",
+      "source_group": "g0014",
+      "label": "Rr1",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0015",
+      "source_group": "g0015",
+      "label": "Lr1",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0016",
+      "source_group": "g0016",
+      "label": "Lf1",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0017",
+      "source_group": "g0017",
+      "label": "Main4",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0018",
+      "source_group": "g0018",
+      "label": "Wheel32",
+      "role": "rubber",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0019",
+      "source_group": "g0019",
+      "label": "Wheel22",
+      "role": "rubber",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0020",
+      "source_group": "g0020",
+      "label": "Wheel2",
+      "role": "rubber",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0021",
+      "source_group": "g0021",
+      "label": "Dp1",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0022",
+      "source_group": "g0022",
+      "label": "Fl1",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0023",
+      "source_group": "g0023",
+      "label": "Fr1",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0024",
+      "source_group": "g0024",
+      "label": "Main5",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0025",
+      "source_group": "g0025",
+      "label": "Main6",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0026",
+      "source_group": "g0026",
+      "label": "Meshpart4",
+      "role": "rubber",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0027",
+      "source_group": "g0027",
+      "label": "Meshpart5",
+      "role": "rubber",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0028",
+      "source_group": "g0028",
+      "label": "Rf1",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0029",
+      "source_group": "g0029",
+      "label": "Rff1",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0030",
+      "source_group": "g0030",
+      "label": "Wheel3",
+      "role": "rubber",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0031",
+      "source_group": "g0031",
+      "label": "Wheel23",
+      "role": "rubber",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0032",
+      "source_group": "g0032",
+      "label": "Wheel33",
+      "role": "rubber",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0033",
+      "source_group": "g0033",
+      "label": "Meshpart6",
+      "role": "engine_fan",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0034",
+      "source_group": "g0034",
+      "label": "Meshpart7",
+      "role": "engine_fan",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0035",
+      "source_group": "g0035",
+      "label": "Meshpart8",
+      "role": "engine_fan",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0036",
+      "source_group": "g0036",
+      "label": "Meshpart9",
+      "role": "engine_fan",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0037",
+      "source_group": "g0037",
+      "label": "P21",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0038",
+      "source_group": "g0038",
+      "label": "P11",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0039",
+      "source_group": "g0039",
+      "label": "Meshpart10",
+      "role": "control",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0040",
+      "source_group": "g0040",
+      "label": "Meshpart11",
+      "role": "control",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0041",
+      "source_group": "g0041",
+      "label": "Meshpart12",
+      "role": "engine_lip",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0042",
+      "source_group": "g0042",
+      "label": "Meshpart13",
+      "role": "engine_lip",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0043",
+      "source_group": "g0043",
+      "label": "Meshpart14",
+      "role": "engine",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0044",
+      "source_group": "g0044",
+      "label": "Meshpart15",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0045",
+      "source_group": "g0045",
+      "label": "Meshpart16",
+      "role": "engine",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0046",
+      "source_group": "g0046",
+      "label": "Meshpart17",
+      "role": "engine_aft",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0047",
+      "source_group": "g0047",
+      "label": "Meshpart18",
+      "role": "engine_aft",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0048",
+      "source_group": "g0048",
+      "label": "Meshpart19",
+      "role": "engine",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0049",
+      "source_group": "g0049",
+      "label": "Meshpart20",
+      "role": "tail",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0050",
+      "source_group": "g0050",
+      "label": "Meshpart21",
+      "role": "wing",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0051",
+      "source_group": "g0051",
+      "label": "Meshpart22",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0052",
+      "source_group": "g0052",
+      "label": "Meshpart23",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0053",
+      "source_group": "g0053",
+      "label": "Meshpart24",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0054",
+      "source_group": "g0054",
+      "label": "Meshpart25",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0055",
+      "source_group": "g0055",
+      "label": "Meshpart26",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0056",
+      "source_group": "g0056",
+      "label": "Meshpart27",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0057",
+      "source_group": "g0057",
+      "label": "Meshpart28",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0058",
+      "source_group": "g0058",
+      "label": "Meshpart29",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0059",
+      "source_group": "g0059",
+      "label": "Meshpart30",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0060",
+      "source_group": "g0060",
+      "label": "Meshpart31",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0061",
+      "source_group": "g0061",
+      "label": "Meshpart32",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0062",
+      "source_group": "g0062",
+      "label": "Meshpart33",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0063",
+      "source_group": "g0063",
+      "label": "Meshpart34",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0064",
+      "source_group": "g0064",
+      "label": "Meshpart35",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0065",
+      "source_group": "g0065",
+      "label": "Meshpart36",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0066",
+      "source_group": "g0066",
+      "label": "Meshpart37",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0067",
+      "source_group": "g0067",
+      "label": "Meshpart38",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0068",
+      "source_group": "g0068",
+      "label": "Meshpart39",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0069",
+      "source_group": "g0069",
+      "label": "Meshpart40",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0070",
+      "source_group": "g0070",
+      "label": "Meshpart41",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0071",
+      "source_group": "g0071",
+      "label": "Meshpart42",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0072",
+      "source_group": "g0072",
+      "label": "Meshpart43",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0073",
+      "source_group": "g0073",
+      "label": "Meshpart44",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0074",
+      "source_group": "g0074",
+      "label": "Meshpart45",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0075",
+      "source_group": "g0075",
+      "label": "Meshpart46",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0076",
+      "source_group": "g0076",
+      "label": "Meshpart47",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0077",
+      "source_group": "g0077",
+      "label": "Meshpart48",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0078",
+      "source_group": "g0078",
+      "label": "Meshpart49",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0079",
+      "source_group": "g0079",
+      "label": "Meshpart50",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0080",
+      "source_group": "g0080",
+      "label": "Meshpart51",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0081",
+      "source_group": "g0081",
+      "label": "Meshpart52",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0082",
+      "source_group": "g0082",
+      "label": "Meshpart53",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0083",
+      "source_group": "g0083",
+      "label": "Meshpart54",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0084",
+      "source_group": "g0084",
+      "label": "Meshpart55",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0085",
+      "source_group": "g0085",
+      "label": "Meshpart56",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0086",
+      "source_group": "g0086",
+      "label": "Meshpart57",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0087",
+      "source_group": "g0087",
+      "label": "Meshpart58",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0088",
+      "source_group": "g0088",
+      "label": "Meshpart59",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0089",
+      "source_group": "g0089",
+      "label": "Meshpart60",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0090",
+      "source_group": "g0090",
+      "label": "Meshpart61",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0091",
+      "source_group": "g0091",
+      "label": "Meshpart62",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0092",
+      "source_group": "g0092",
+      "label": "Meshpart63",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0093",
+      "source_group": "g0093",
+      "label": "Meshpart64",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0094",
+      "source_group": "g0094",
+      "label": "Meshpart65",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0095",
+      "source_group": "g0095",
+      "label": "Meshpart66",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0096",
+      "source_group": "g0096",
+      "label": "Meshpart67",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0097",
+      "source_group": "g0097",
+      "label": "Meshpart68",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0098",
+      "source_group": "g0098",
+      "label": "Meshpart69",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0099",
+      "source_group": "g0099",
+      "label": "Meshpart70",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0100",
+      "source_group": "g0100",
+      "label": "Meshpart71",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0101",
+      "source_group": "g0101",
+      "label": "Meshpart72",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0102",
+      "source_group": "g0102",
+      "label": "Meshpart73",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0103",
+      "source_group": "g0103",
+      "label": "Meshpart74",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0104",
+      "source_group": "g0104",
+      "label": "Meshpart75",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0105",
+      "source_group": "g0105",
+      "label": "Meshpart76",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0106",
+      "source_group": "g0106",
+      "label": "Meshpart77",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0107",
+      "source_group": "g0107",
+      "label": "Meshpart78",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0108",
+      "source_group": "g0108",
+      "label": "Meshpart79",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0109",
+      "source_group": "g0109",
+      "label": "Meshpart80",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0110",
+      "source_group": "g0110",
+      "label": "Meshpart81",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0111",
+      "source_group": "g0111",
+      "label": "Meshpart82",
+      "role": "glass",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0112",
+      "source_group": "g0112",
+      "label": "Meshpart83",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0113",
+      "source_group": "g0113",
+      "label": "Meshpart84",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0114",
+      "source_group": "g0114",
+      "label": "Meshpart85",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0115",
+      "source_group": "g0115",
+      "label": "Meshpart86",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0116",
+      "source_group": "g0116",
+      "label": "Meshpart87",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0117",
+      "source_group": "g0117",
+      "label": "Meshpart88",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0118",
+      "source_group": "g0118",
+      "label": "Meshpart89",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0119",
+      "source_group": "g0119",
+      "label": "Meshpart90",
+      "role": "control",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0120",
+      "source_group": "g0120",
+      "label": "Meshpart91",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0121",
+      "source_group": "g0121",
+      "label": "Meshpart92",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0122",
+      "source_group": "g0122",
+      "label": "Meshpart93",
+      "role": "engine_lip",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0123",
+      "source_group": "g0123",
+      "label": "Meshpart94",
+      "role": "rudder",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0124",
+      "source_group": "g0124",
+      "label": "Meshpart95",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0125",
+      "source_group": "g0125",
+      "label": "Meshpart96",
+      "role": "fin_detail",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0126",
+      "source_group": "g0126",
+      "label": "Meshpart97",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0127",
+      "source_group": "g0127",
+      "label": "Meshpart98",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0128",
+      "source_group": "g0128",
+      "label": "Meshpart99",
+      "role": "wing_detail",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0129",
+      "source_group": "g0129",
+      "label": "Meshpart100",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0130",
+      "source_group": "g0130",
+      "label": "Meshpart101",
+      "role": "glass",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0131",
+      "source_group": "g0131",
+      "label": "Meshpart102",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0132",
+      "source_group": "g0132",
+      "label": "Meshpart103",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0133",
+      "source_group": "g0133",
+      "label": "Meshpart104",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0134",
+      "source_group": "g0134",
+      "label": "Meshpart105",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0135",
+      "source_group": "g0135",
+      "label": "Meshpart106",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0136",
+      "source_group": "g0136",
+      "label": "Meshpart107",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0137",
+      "source_group": "g0137",
+      "label": "Meshpart108",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0138",
+      "source_group": "g0138",
+      "label": "Meshpart109",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0139",
+      "source_group": "g0139",
+      "label": "Meshpart110",
+      "role": "wing_detail",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0140",
+      "source_group": "g0140",
+      "label": "Meshpart111",
+      "role": "wing_detail",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0141",
+      "source_group": "g0141",
+      "label": "Meshpart112",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0142",
+      "source_group": "g0142",
+      "label": "Meshpart113",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0143",
+      "source_group": "g0143",
+      "label": "Meshpart114",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0144",
+      "source_group": "g0144",
+      "label": "Meshpart115",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0145",
+      "source_group": "g0145",
+      "label": "Meshpart116",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0146",
+      "source_group": "g0146",
+      "label": "Meshpart117",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0147",
+      "source_group": "g0147",
+      "label": "Meshpart118",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0148",
+      "source_group": "g0148",
+      "label": "Meshpart119",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0149",
+      "source_group": "g0149",
+      "label": "Meshpart120",
+      "role": "control",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0150",
+      "source_group": "g0150",
+      "label": "Meshpart121",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0151",
+      "source_group": "g0151",
+      "label": "Meshpart122",
+      "role": "wing",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0152",
+      "source_group": "g0152",
+      "label": "Meshpart123",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0153",
+      "source_group": "g0153",
+      "label": "Meshpart124",
+      "role": "rudder",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0154",
+      "source_group": "g0154",
+      "label": "Meshpart125",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0155",
+      "source_group": "g0155",
+      "label": "Meshpart126",
+      "role": "engine",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0156",
+      "source_group": "g0156",
+      "label": "Meshpart127",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0157",
+      "source_group": "g0157",
+      "label": "Meshpart128",
+      "role": "body",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0158",
+      "source_group": "g0158",
+      "label": "Meshpart129",
+      "role": "engine_aft",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0159",
+      "source_group": "g0159",
+      "label": "Meshpart130",
+      "role": "engine_aft",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    },
+    {
+      "id": "g0160",
+      "source_group": "g0160",
+      "label": "Meshpart131",
+      "role": "engine",
+      "mode": "flat",
+      "layer": "hull",
+      "confirmed": true,
+      "paint_basis": "Source group/part atlas; constant aircraft role color, no surface-normal or height shading"
+    }
+  ],
+  "rigs": [],
+  "contacts": [],
+  "review": {
+    "blueprint": false,
+    "style_reference": true,
+    "native_size": true,
+    "geometry": true,
+    "game": false
+  },
+  "render_pipeline": "build_trial.py, then package_trial.py; aircraft-specific style, not the ground-vehicle renderer"
+}
