@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <SoundDef Name="HD_HelodDogSoundBase" Abstract="True">
+    <context>MapOnly</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <maxVoices>1</maxVoices>
+    <priorityMode>PrioritizeNearest</priorityMode>
+  </SoundDef>
+  <SoundDef ParentName="HD_HelodDogSoundBase">
+    <defName>HD_HelodDogIdle</defName>
+    <subSounds><li>
+      <grains>
+        <li Class="AudioGrain_Clip"><clipPath>Effects/MCDog/Wolf_idle1</clipPath></li>
+        <li Class="AudioGrain_Clip"><clipPath>Effects/MCDog/Wolf_idle2</clipPath></li>
+        <li Class="AudioGrain_Clip"><clipPath>Effects/MCDog/Wolf_idle3</clipPath></li>
+      </grains>
+      <volumeRange>14~18</volumeRange>
+      <pitchRange>0.95~1.05</pitchRange>
+      <distRange>0~22</distRange>
+    </li></subSounds>
+  </SoundDef>
+  <SoundDef ParentName="HD_HelodDogSoundBase">
+    <defName>HD_HelodDogGrowl</defName>
+    <subSounds><li>
+      <grains>
+        <li Class="AudioGrain_Clip"><clipPath>Effects/MCDog/Wolf_growl1</clipPath></li>
+        <li Class="AudioGrain_Clip"><clipPath>Effects/MCDog/Wolf_growl2</clipPath></li>
+        <li Class="AudioGrain_Clip"><clipPath>Effects/MCDog/Wolf_growl3</clipPath></li>
+      </grains>
+      <volumeRange>14~18</volumeRange>
+      <pitchRange>0.95~1.05</pitchRange>
+      <distRange>0~22</distRange>
+    </li></subSounds>
+  </SoundDef>
+  <SoundDef ParentName="HD_HelodDogSoundBase">
+    <defName>HD_HelodDogHurt</defName>
+    <subSounds><li>
+      <grains>
+        <li Class="AudioGrain_Clip"><clipPath>Effects/MCDog/Wolf_hurt1</clipPath></li>
+        <li Class="AudioGrain_Clip"><clipPath>Effects/MCDog/Wolf_hurt2</clipPath></li>
+        <li Class="AudioGrain_Clip"><clipPath>Effects/MCDog/Wolf_hurt3</clipPath></li>
+      </grains>
+      <volumeRange>14~18</volumeRange>
+      <pitchRange>0.95~1.05</pitchRange>
+      <distRange>0~22</distRange>
+    </li></subSounds>
+  </SoundDef>
+  <SoundDef ParentName="HD_HelodDogSoundBase">
+    <defName>HD_HelodDogWhine</defName>
+    <subSounds><li>
+      <grains><li Class="AudioGrain_Clip"><clipPath>Effects/MCDog/Wolf_whine</clipPath></li></grains>
+      <volumeRange>14~18</volumeRange>
+      <pitchRange>0.95~1.05</pitchRange>
+      <distRange>0~22</distRange>
+    </li></subSounds>
+  </SoundDef>
+  <SoundDef ParentName="HD_HelodDogSoundBase">
+    <defName>HD_HelodDogPanting</defName>
+    <subSounds><li>
+      <grains><li Class="AudioGrain_Clip"><clipPath>Effects/MCDog/Wolf_panting</clipPath></li></grains>
+      <volumeRange>12~16</volumeRange>
+      <pitchRange>0.95~1.05</pitchRange>
+      <distRange>0~18</distRange>
+    </li></subSounds>
+  </SoundDef>
+  <SoundDef ParentName="HD_HelodDogSoundBase">
+    <defName>HD_HelodDogDeath</defName>
+    <subSounds><li>
+      <grains><li Class="AudioGrain_Clip"><clipPath>Effects/MCDog/Wolf_death</clipPath></li></grains>
+      <volumeRange>14~18</volumeRange>
+      <pitchRange>0.95~1.05</pitchRange>
+      <distRange>0~22</distRange>
+    </li></subSounds>
+  </SoundDef>
+</Defs>
