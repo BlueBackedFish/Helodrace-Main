@@ -1,5 +1,9 @@
 # HELLVADS 중장비 강하 아트
 
+2026-10-25 LVADS 외형 수정: 기존 밝은 천의 폐쇄 돔을 올리브색 원형 화물 낙하산으로 바꾸고 중앙 벤트, 32개 방사형 보강선과 원주 보강 띠를 추가했다. Type V 계열을 참고한 금속 데크·측면 레일·결속 슬롯·끝단 부재를 사용하며, 크라프트색 층상 허니컴 완충재는 차량 궤도와 팔레트 사이에 배치했다. 4개 낙하산과 기존 게임 중량·크기는 유지한다. 실제 장비의 정확한 결속·치수·인증 형식을 복제한 모델은 아니다.
+
+외형 참고: [미 육군 LVADS 화물 낙하산 시험 사진](https://www.army.mil/article/230124/82nd_airborne_soldiers_test_forklift_after_cargo_aircraft_airdrop), [ALVADS/G-16 시험 자료](https://www.army.mil/article/188703/airborne_testers_ensure_army_equipment_survivability_when_dropped_from_above), [차량과 금속 팔레트 사이 허니컴 완충재 설명](https://www.army.mil/article/264240/us_army_tests_cutting_edge_parachute_system). 새 RRDAS의 에어백 방식과 기존 LVADS의 허니컴 방식을 혼합하지 않았다.
+
 M8 AGS LEVEL 3, 기본형 M3A3, BUSK M3A3에 각각 맞춘 팔레트·완충 블록·고정끈·현수줄·낙하산 모델과 동서남북 텍스처다. 원본 차량의 메시와 UV는 변경하지 않고, 별도 루트에 균일 배율만 적용한다. 차량 자체는 장비 텍스처에 굽지 않는다.
 
 `output/{m8,bradley,bradley_busk}/vehicle_drop_rig.blend`에서 실제 차량에 연결된 끈 모델을 확인할 수 있다. 팔레트와 고정끈은 착륙 후 차량 위에 남고, 현수줄과 낙하산은 강하 중에만 표시한다. `output/manifest.json`에는 잘라낸 각 레이어의 실제 타일 크기, 차량 중심 기준 오프셋, 파일 해시가 들어 있다.

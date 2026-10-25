@@ -7,14 +7,14 @@
       "key": "m8:north:pallet",
       "file": "output/m8/Textures/pallet_north.png",
       "size": [
-        3.7265625,
-        5.572265625
+        3.76171875,
+        5.701171875
       ],
       "offset": [
         -1.6093254089355469e-06,
-        -0.37838655710220337
+        -0.44283968210220337
       ],
-      "sha256": "f5d5229958d5a5c815107c383394bf4e9cee280653738381e1a40f8c5c3a058a"
+      "sha256": "a7a0354448537a91e6f28d00622608688cbca26bcff2d48e8b01e294504dadbd"
     },
     {
       "key": "m8:north:restraints",
@@ -27,7 +27,7 @@
         -1.6093254089355469e-06,
         -0.00045686960220336914
       ],
-      "sha256": "497f6057b791863d204445ae783db59e701041368c601b9e45c2e1f61d8f394f"
+      "sha256": "59924df21e31b9f96463e0c342e74ab1fc87ba2f5c50ebc55b30c19b3c5d74f9"
     },
     {
       "key": "m8:north:lines",
@@ -40,7 +40,7 @@
         -1.6093254089355469e-06,
         3.1460275053977966
       ],
-      "sha256": "4f5e4dc661bc5e218b1fde2440e2bfde978e73657515c3547865c826d46ada78"
+      "sha256": "a74224d137f6314d22464fcb1ecac240241742e73429854907ce20d9f42f7b07"
     },
     {
       "key": "m8:north:canopy",
@@ -53,20 +53,20 @@
         -1.6093254089355469e-06,
         5.322785317897797
       ],
-      "sha256": "c003188114239168cf78f5c33906c34fe8e4a65e9ae04e4b212d4728d69f4583"
+      "sha256": "2ca2c765baaa21c4804f87e6d82e2abac78936ce29d4f9e6461c93930d080f22"
     },
     {
       "key": "m8:east:pallet",
       "file": "output/m8/Textures/pallet_east.png",
       "size": [
         6.0234375,
-        3.52734375
+        3.65625
       ],
       "offset": [
         5.0961971282958984e-06,
-        -0.3354995548725128
+        -0.3999526798725128
       ],
-      "sha256": "f1e697cc6905d49c608eb59f3dbddcac9c2a5ccb6de27ce6651f58673210e68d"
+      "sha256": "b4d55bc5d6718472376b1a258fb2b71a9bc2e261ef0f33386d5aec74c62a4ccb"
     },
     {
       "key": "m8:east:restraints",
@@ -79,7 +79,7 @@
         5.0961971282958984e-06,
         -0.2915542423725128
       ],
-      "sha256": "8f3bd8fccd5eedef018ea3d6525d1f710e84c20a5967cba79c8826f93f62eca2"
+      "sha256": "078fca6546884d5cd481b02e7325ced070944e7c4bbfc6cdde542f28da610599"
     },
     {
       "key": "m8:east:lines",
@@ -92,7 +92,7 @@
         5.0961971282958984e-06,
         3.517039507627487
       ],
-      "sha256": "bca697298993166db7fbfad8b8148d604b38cff20e70169fe9112ecafde19165"
+      "sha256": "3d0da211ba45b11ac31b3dffc4e6404c9abd154435758fbef2a845c1ce9ebcde"
     },
     {
       "key": "m8:east:canopy",
@@ -105,20 +105,20 @@
         5.0961971282958984e-06,
         5.351023882627487
       ],
-      "sha256": "a501cc0526587c1a81df7a9242609d7e584c1793d73b4ced1f8cc0e4d7dfa2b2"
+      "sha256": "3dd15428ec1b4309c157493427e833152fc3ded8ad17c829e757d0d224bf6fb8"
     },
     {
       "key": "m8:south:pallet",
       "file": "output/m8/Textures/pallet_south.png",
       "size": [
-        3.7265625,
-        5.572265625
+        3.76171875,
+        5.701171875
       ],
       "offset": [
         -2.682209014892578e-07,
-        -0.32200437784194946
+        -0.38645750284194946
       ],
-      "sha256": "66598c19b9bcee368462fec79de0305a7c75a1319c4068f0ef3267e35c86d39a"
+      "sha256": "89aa7a92b000e4abf8177528c5522f5d60a5a728fab39a49766e834d79efb80b"
     },
     {
       "key": "m8:south:restraints",
@@ -131,7 +131,7 @@
         -2.682209014892578e-07,
         0.009050309658050537
       ],
-      "sha256": "81743e7dcb098129afe3bdf75635b0a0a15cec6a0a198f247c2591fa75a41a29"
+      "sha256": "77a6395e8a130f7ea1a8b623a497e83aac5aae130cec643cda544a7c3c234462"
     },
     {
       "key": "m8:south:lines",
@@ -144,7 +144,7 @@
         -2.682209014892578e-07,
         3.2024096846580505
       ],
-      "sha256": "b38c2748da28f3c72950ca9ab79a63f295f2c1eb3bd258d04632d053217e3606"
+      "sha256": "f28ba435a162382df60de26a48f8cec16d09ccc86f9a00660c3789de0f49a38f"
     },
     {
       "key": "m8:south:canopy",
@@ -157,20 +157,20 @@
         -2.682209014892578e-07,
         5.3791674971580505
       ],
-      "sha256": "fc757a06ef575f61dbd29c612f2f20e32de4215f5f76e6999d8cc4d950f2882f"
+      "sha256": "5bdc6082bc793b53a4032d724f40100082c192efd99c13a99782cedbe7c3945d"
     },
     {
       "key": "m8:west:pallet",
       "file": "output/m8/Textures/pallet_west.png",
       "size": [
         6.0234375,
-        3.52734375
+        3.65625
       ],
       "offset": [
         -4.827976226806641e-06,
-        -0.3360346555709839
+        -0.4004877805709839
       ],
-      "sha256": "340fea48b965d70a266cea4afa59c521a4eb467ded6fd28d7218cd57bb7f1d44"
+      "sha256": "ccc4c16021ea87318df4b1a6d93ff621d36cb80afbcad5d180d201a96c59e753"
     },
     {
       "key": "m8:west:restraints",
@@ -183,7 +183,7 @@
         -4.827976226806641e-06,
         -0.2950190305709839
       ],
-      "sha256": "64d3a36a230e7b2d0261f6e81e7af139eaf2ddc33265c6b73b269eab9859aa8e"
+      "sha256": "6b6a02e59f7361d21be660655e653ac15544b2983189ff0c1413345f7db522a8"
     },
     {
       "key": "m8:west:lines",
@@ -196,7 +196,7 @@
         -4.827976226806641e-06,
         3.516504406929016
       ],
-      "sha256": "6eced900672085953ec20cd4610b783efbc403932d8e130f60b14bc8e1fca11c"
+      "sha256": "eccd66098f9fb9a520f26fa9621d077b71e2ce90dd547e2d159845737e2152ae"
     },
     {
       "key": "m8:west:canopy",
@@ -209,20 +209,20 @@
         -4.827976226806641e-06,
         5.353418469429016
       ],
-      "sha256": "8da3b913ac5cf6dd58eebb822ee288dd4671ec7b561f8f54b5a59c647b408c92"
+      "sha256": "9888cddc129d3cf3b892c0694c66fc60fe05dbf2abc017eed5e85f8e894964cb"
     },
     {
       "key": "bradley:north:pallet",
       "file": "output/bradley/Textures/pallet_north.png",
       "size": [
-        3.71484375,
-        5.572265625
+        3.76171875,
+        5.6953125
       ],
       "offset": [
         -1.341104507446289e-06,
-        -0.46030282974243164
+        -0.5218262672424316
       ],
-      "sha256": "919cac28265f1dad854e5881bbab39988206d5f2bebf42eb5afe6fe65de34b97"
+      "sha256": "68e44e0adde85cf0e96914d5f83d71c43de7418cb3749cac02c82d903123e438"
     },
     {
       "key": "bradley:north:restraints",
@@ -235,20 +235,20 @@
         -1.341104507446289e-06,
         -0.16440439224243164
       ],
-      "sha256": "2bd5034d6281d53cf998fa90bd99262c8aa366cde6f2955c70c49b476d805f43"
+      "sha256": "566ccac5456011b74d5327a94de57a3d20ae15c848fa73f0d82aaa63e5ba17e6"
     },
     {
       "key": "bradley:north:lines",
       "file": "output/bradley/Textures/lines_north.png",
       "size": [
-        7.8046875,
+        7.79296875,
         11.90625
       ],
       "offset": [
         -1.341104507446289e-06,
         3.0641112327575684
       ],
-      "sha256": "5c5231afb17814c370ebfbba08b4f5c14f326c51667bfb41e4c9288b6b3197f9"
+      "sha256": "9450be9b94b02ff5d1116414ca9489f70d34b8e99175415b9d852c85534673ee"
     },
     {
       "key": "bradley:north:canopy",
@@ -261,33 +261,33 @@
         -1.341104507446289e-06,
         5.240869045257568
       ],
-      "sha256": "2dcec56d4640e3e948748f00cdf71fa7ddda7c830119a0c90b57cb4d2c315ff8"
+      "sha256": "0472b34ee34db052803c61c68e902f93183a7749a04f8d5abad8df15ba657539"
     },
     {
       "key": "bradley:east:pallet",
       "file": "output/bradley/Textures/pallet_east.png",
       "size": [
         6.01171875,
-        3.52734375
+        3.65625
       ],
       "offset": [
         5.0961971282958984e-06,
-        -0.3728291988372803
+        -0.4372823238372803
       ],
-      "sha256": "b71c9ee934a33d53b55de86b1c5475a000cef5e84896175fc8a25a97a2b2181c"
+      "sha256": "96d2738f1d7089d8dba994591ef827287f98386cefd6e5ad7aec1197e89d6966"
     },
     {
       "key": "bradley:east:restraints",
       "file": "output/bradley/Textures/restraints_east.png",
       "size": [
-        3.421875,
+        3.427734375,
         3.169921875
       ],
       "offset": [
-        5.0961971282958984e-06,
+        -0.002924591302871704,
         -0.3288838863372803
       ],
-      "sha256": "e984ce808beef28e2a3fd8e0d00f0d9e20efc2ea711a16f7029fc19b78986ce9"
+      "sha256": "9638f78f5f034b16d949704122179f160668f891bf9ba51b74f28cc71f4f23a6"
     },
     {
       "key": "bradley:east:lines",
@@ -300,7 +300,7 @@
         5.0961971282958984e-06,
         3.4797098636627197
       ],
-      "sha256": "895d0c418799a96ac92c24629b9ccbc771eb473e5dcb3f6ab161ad9c5ac5eeb5"
+      "sha256": "f6758c2e994297175b1d2efb7ec6d4987681ed93c23eac9a759163ec3c556bd7"
     },
     {
       "key": "bradley:east:canopy",
@@ -313,20 +313,20 @@
         5.0961971282958984e-06,
         5.31369423866272
       ],
-      "sha256": "88b0ee92145a989d4b5f2d4f4bef7c9d722ae484f6ea5764f42677e712375207"
+      "sha256": "6a5c8e8acde2e06542f2392289626c76dc5b3fe93479160434e32cbb04860f92"
     },
     {
       "key": "bradley:south:pallet",
       "file": "output/bradley/Textures/pallet_south.png",
       "size": [
-        3.71484375,
-        5.572265625
+        3.76171875,
+        5.6953125
       ],
       "offset": [
         -2.682209014892578e-07,
-        -0.32915085554122925
+        -0.39067429304122925
       ],
-      "sha256": "8a9a6e2efa7228c74285e6c5247c2b7465fe8baf5e69327d2a1de0da2e87a967"
+      "sha256": "077823617bdce1d9d550e2804925c5095135f11f9629c342667e9ec70ae7de87"
     },
     {
       "key": "bradley:south:restraints",
@@ -339,20 +339,20 @@
         -2.682209014892578e-07,
         0.05756789445877075
       ],
-      "sha256": "28cc74624fdc69df30785359f5631b2d5744fd89826952240c53fab909702cab"
+      "sha256": "291b572e341e12738384b02b1d13e09bebe38b3194c6a3caf29888af04e48ef8"
     },
     {
       "key": "bradley:south:lines",
       "file": "output/bradley/Textures/lines_south.png",
       "size": [
-        7.8046875,
+        7.79296875,
         11.90625
       ],
       "offset": [
         -2.682209014892578e-07,
         3.1952632069587708
       ],
-      "sha256": "07ef018ad5a9ef59f7f95b28538f17880f388dee65a346c5fe67c3d6433b3232"
+      "sha256": "174e315e99fe02c71c66b97ce108b9d61cbfa652762aa8e91e0deac584a126c2"
     },
     {
       "key": "bradley:south:canopy",
@@ -365,20 +365,20 @@
         -2.682209014892578e-07,
         5.372021019458771
       ],
-      "sha256": "53446af62bf66c9358dadd7b46d3eaaf8e68fb7da24b7be2a3e2845c385a309b"
+      "sha256": "ae69cab9a2354699368bb698822e7a40b088b7df89fa1c113f4733eb08d6b1a1"
     },
     {
       "key": "bradley:west:pallet",
       "file": "output/bradley/Textures/pallet_west.png",
       "size": [
         6.01171875,
-        3.52734375
+        3.65625
       ],
       "offset": [
         -4.827976226806641e-06,
-        -0.34915468096733093
+        -0.41360780596733093
       ],
-      "sha256": "95ab0ed93c59707d4ff638c583ddbcaea0443f9e0dcac148da8f0eb1f4cefa81"
+      "sha256": "e1d667acedd6e600df6e72038b173138108c658b7d315906ee3b7912a59e3da8"
     },
     {
       "key": "bradley:west:restraints",
@@ -391,7 +391,7 @@
         -0.0029345154762268066,
         -0.30520936846733093
       ],
-      "sha256": "05e7266ebf52e7b82491da095bed999adeef65a4820d1ccad859e93c182c3868"
+      "sha256": "e59af1e8455ec03ef82be7033b6a760ab9004dd3cf3c8a5b314e1ff0a9939457"
     },
     {
       "key": "bradley:west:lines",
@@ -404,7 +404,7 @@
         -4.827976226806641e-06,
         3.503384381532669
       ],
-      "sha256": "c3d4208fc1eb40f248727314e32171c1ab156cf8012f6ac91434e372f2958ba8"
+      "sha256": "80717db792c5b201dafe7e0e6b6d23948dd8be1e2d5402d1ee200e6a59e89b8c"
     },
     {
       "key": "bradley:west:canopy",
@@ -417,20 +417,20 @@
         -4.827976226806641e-06,
         5.337368756532669
       ],
-      "sha256": "1fba46ed37c747d4fcdea74d09e5029ab8da34423ef713c4a18abc9e7c8d8509"
+      "sha256": "d955a52107fa29f7badbd3606c1b210631456ad349b61d378e4b280204252d98"
     },
     {
       "key": "bradley_busk:north:pallet",
       "file": "output/bradley_busk/Textures/pallet_north.png",
       "size": [
-        3.71484375,
-        5.572265625
+        3.76171875,
+        5.6953125
       ],
       "offset": [
         -1.6093254089355469e-06,
-        -0.46030282974243164
+        -0.5218262672424316
       ],
-      "sha256": "919cac28265f1dad854e5881bbab39988206d5f2bebf42eb5afe6fe65de34b97"
+      "sha256": "68e44e0adde85cf0e96914d5f83d71c43de7418cb3749cac02c82d903123e438"
     },
     {
       "key": "bradley_busk:north:restraints",
@@ -443,20 +443,20 @@
         -1.6093254089355469e-06,
         -0.03256845474243164
       ],
-      "sha256": "67fc018eceb7d47b0a833d0989ab76263023e05076668282194e9f5fc500dd65"
+      "sha256": "8df01fc48f81cbb0ee231126191e9d7aa00617b9ed7b1777c40a1bed1fb1297b"
     },
     {
       "key": "bradley_busk:north:lines",
       "file": "output/bradley_busk/Textures/lines_north.png",
       "size": [
-        7.8046875,
+        7.79296875,
         11.90625
       ],
       "offset": [
         -1.6093254089355469e-06,
         3.0641112327575684
       ],
-      "sha256": "5c5231afb17814c370ebfbba08b4f5c14f326c51667bfb41e4c9288b6b3197f9"
+      "sha256": "9450be9b94b02ff5d1116414ca9489f70d34b8e99175415b9d852c85534673ee"
     },
     {
       "key": "bradley_busk:north:canopy",
@@ -469,33 +469,33 @@
         -1.6093254089355469e-06,
         5.240869045257568
       ],
-      "sha256": "2dcec56d4640e3e948748f00cdf71fa7ddda7c830119a0c90b57cb4d2c315ff8"
+      "sha256": "0472b34ee34db052803c61c68e902f93183a7749a04f8d5abad8df15ba657539"
     },
     {
       "key": "bradley_busk:east:pallet",
       "file": "output/bradley_busk/Textures/pallet_east.png",
       "size": [
         6.01171875,
-        3.52734375
+        3.65625
       ],
       "offset": [
         5.0961971282958984e-06,
-        -0.4166819751262665
+        -0.4811351001262665
       ],
-      "sha256": "b71c9ee934a33d53b55de86b1c5475a000cef5e84896175fc8a25a97a2b2181c"
+      "sha256": "96d2738f1d7089d8dba994591ef827287f98386cefd6e5ad7aec1197e89d6966"
     },
     {
       "key": "bradley_busk:east:restraints",
       "file": "output/bradley_busk/Textures/restraints_east.png",
       "size": [
-        3.421875,
+        3.427734375,
         3.416015625
       ],
       "offset": [
-        5.0961971282958984e-06,
+        -0.002924591302871704,
         -0.2614085376262665
       ],
-      "sha256": "4395554b9b2761d5905c38c89ce3ef0d94214641653ecda8e3fda4d8b8e08f56"
+      "sha256": "d3727039899bf8e5cf3839061fc944e43bb4b1b9fd4d10a34ef2188de5a58796"
     },
     {
       "key": "bradley_busk:east:lines",
@@ -508,7 +508,7 @@
         5.0961971282958984e-06,
         3.4358570873737335
       ],
-      "sha256": "895d0c418799a96ac92c24629b9ccbc771eb473e5dcb3f6ab161ad9c5ac5eeb5"
+      "sha256": "f6758c2e994297175b1d2efb7ec6d4987681ed93c23eac9a759163ec3c556bd7"
     },
     {
       "key": "bradley_busk:east:canopy",
@@ -521,20 +521,20 @@
         5.0961971282958984e-06,
         5.2698414623737335
       ],
-      "sha256": "88b0ee92145a989d4b5f2d4f4bef7c9d722ae484f6ea5764f42677e712375207"
+      "sha256": "6a5c8e8acde2e06542f2392289626c76dc5b3fe93479160434e32cbb04860f92"
     },
     {
       "key": "bradley_busk:south:pallet",
       "file": "output/bradley_busk/Textures/pallet_south.png",
       "size": [
-        3.71484375,
-        5.572265625
+        3.76171875,
+        5.6953125
       ],
       "offset": [
         0.0,
-        -0.32915085554122925
+        -0.39067429304122925
       ],
-      "sha256": "8a9a6e2efa7228c74285e6c5247c2b7465fe8baf5e69327d2a1de0da2e87a967"
+      "sha256": "077823617bdce1d9d550e2804925c5095135f11f9629c342667e9ec70ae7de87"
     },
     {
       "key": "bradley_busk:south:restraints",
@@ -547,20 +547,20 @@
         0.0,
         0.05756789445877075
       ],
-      "sha256": "34a0c7268503077127e6c67f0fb132035906e164168594a750bd333323c50051"
+      "sha256": "17375c2ed70f23444ac3863e1f877b0ae7280e987ec4d6af67ed52f7b301c654"
     },
     {
       "key": "bradley_busk:south:lines",
       "file": "output/bradley_busk/Textures/lines_south.png",
       "size": [
-        7.8046875,
+        7.79296875,
         11.90625
       ],
       "offset": [
         0.0,
         3.1952632069587708
       ],
-      "sha256": "07ef018ad5a9ef59f7f95b28538f17880f388dee65a346c5fe67c3d6433b3232"
+      "sha256": "174e315e99fe02c71c66b97ce108b9d61cbfa652762aa8e91e0deac584a126c2"
     },
     {
       "key": "bradley_busk:south:canopy",
@@ -573,33 +573,33 @@
         0.0,
         5.372021019458771
       ],
-      "sha256": "53446af62bf66c9358dadd7b46d3eaaf8e68fb7da24b7be2a3e2845c385a309b"
+      "sha256": "ae69cab9a2354699368bb698822e7a40b088b7df89fa1c113f4733eb08d6b1a1"
     },
     {
       "key": "bradley_busk:west:pallet",
       "file": "output/bradley_busk/Textures/pallet_west.png",
       "size": [
         6.01171875,
-        3.52734375
+        3.65625
       ],
       "offset": [
         -4.827976226806641e-06,
-        -0.4166819751262665
+        -0.4811351001262665
       ],
-      "sha256": "95ab0ed93c59707d4ff638c583ddbcaea0443f9e0dcac148da8f0eb1f4cefa81"
+      "sha256": "e1d667acedd6e600df6e72038b173138108c658b7d315906ee3b7912a59e3da8"
     },
     {
       "key": "bradley_busk:west:restraints",
       "file": "output/bradley_busk/Textures/restraints_west.png",
       "size": [
-        3.421875,
+        3.427734375,
         3.416015625
       ],
       "offset": [
-        -4.827976226806641e-06,
+        -0.0029345154762268066,
         -0.2614085376262665
       ],
-      "sha256": "2fff1354eb188858623a5c679adbda858277dd2127063174547bd1fd0552bf4e"
+      "sha256": "18bb689aad01f829944d34292352e44211f435842bd608a8e67663a6e3bab495"
     },
     {
       "key": "bradley_busk:west:lines",
@@ -612,7 +612,7 @@
         -4.827976226806641e-06,
         3.4358570873737335
       ],
-      "sha256": "c3d4208fc1eb40f248727314e32171c1ab156cf8012f6ac91434e372f2958ba8"
+      "sha256": "80717db792c5b201dafe7e0e6b6d23948dd8be1e2d5402d1ee200e6a59e89b8c"
     },
     {
       "key": "bradley_busk:west:canopy",
@@ -625,7 +625,7 @@
         -4.827976226806641e-06,
         5.2698414623737335
       ],
-      "sha256": "1fba46ed37c747d4fcdea74d09e5029ab8da34423ef713c4a18abc9e7c8d8509"
+      "sha256": "d955a52107fa29f7badbd3606c1b210631456ad349b61d378e4b280204252d98"
     }
   ],
   "variants": {
