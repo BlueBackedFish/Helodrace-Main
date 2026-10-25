@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "resolution": 1024,
+  "states": 48,
+  "unique_exact_master_crops": 578,
+  "layer_references": 2008,
+  "armor_modules": 124,
+  "independent_barrels": true,
+  "m2hb_role_ammo_parts": true,
+  "world_scale_preserved": true
+}
