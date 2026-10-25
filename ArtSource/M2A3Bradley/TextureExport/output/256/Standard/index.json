@@ -6,7 +6,7 @@
   ],
   "outline": false,
   "shadows": false,
-  "source_sha256": "9626560c347450ddc43a292efcf3580aefeff4e916c7dd7330f8e8186eee9e44",
+  "source_sha256": "6b280f8bef602817106202d92056df56b87e9aefee30aebea4881989a1c248dd",
   "directions": {
     "east": {
       "hull_turret_anchor": [
@@ -27,6 +27,17 @@
           "roof_open": false,
           "ramp_open": false,
           "era_files": [],
+          "installed_reference": "ReferenceInstalled/hull_roof_closed_ramp_closed_east.png",
+          "overlays": [
+            {
+              "file": "Components/leftHeadlight_east.png",
+              "component": "leftHeadlight"
+            },
+            {
+              "file": "Components/rightHeadlight_east.png",
+              "component": "rightHeadlight"
+            }
+          ],
           "assembled": "Assembled/hull_roof_closed_ramp_closed_east.png"
         },
         "roof_closed_ramp_open": {
@@ -34,6 +45,17 @@
           "roof_open": false,
           "ramp_open": true,
           "era_files": [],
+          "installed_reference": "ReferenceInstalled/hull_roof_closed_ramp_open_east.png",
+          "overlays": [
+            {
+              "file": "Components/leftHeadlight_east.png",
+              "component": "leftHeadlight"
+            },
+            {
+              "file": "Components/rightHeadlight_east.png",
+              "component": "rightHeadlight"
+            }
+          ],
           "assembled": "Assembled/hull_roof_closed_ramp_open_east.png"
         },
         "roof_open_ramp_closed": {
@@ -41,6 +63,17 @@
           "roof_open": true,
           "ramp_open": false,
           "era_files": [],
+          "installed_reference": "ReferenceInstalled/hull_roof_open_ramp_closed_east.png",
+          "overlays": [
+            {
+              "file": "Components/leftHeadlight_east.png",
+              "component": "leftHeadlight"
+            },
+            {
+              "file": "Components/rightHeadlight_east.png",
+              "component": "rightHeadlight"
+            }
+          ],
           "assembled": "Assembled/hull_roof_open_ramp_closed_east.png"
         },
         "roof_open_ramp_open": {
@@ -48,6 +81,17 @@
           "roof_open": true,
           "ramp_open": true,
           "era_files": [],
+          "installed_reference": "ReferenceInstalled/hull_roof_open_ramp_open_east.png",
+          "overlays": [
+            {
+              "file": "Components/leftHeadlight_east.png",
+              "component": "leftHeadlight"
+            },
+            {
+              "file": "Components/rightHeadlight_east.png",
+              "component": "rightHeadlight"
+            }
+          ],
           "assembled": "Assembled/hull_roof_open_ramp_open_east.png"
         }
       },
@@ -66,6 +110,24 @@
         }
       },
       "era": {},
+      "components": {
+        "leftHeadlight": {
+          "file": "Components/leftHeadlight_east.png",
+          "parent": "hull",
+          "pivot_pixel": [
+            213.14059448242188,
+            95.14949035644531
+          ]
+        },
+        "rightHeadlight": {
+          "file": "Components/rightHeadlight_east.png",
+          "parent": "hull",
+          "pivot_pixel": [
+            212.66537475585938,
+            164.57881927490234
+          ]
+        }
+      },
       "parts": {
         "hull_static": "Hull/hull_static_east.png",
         "roof_hatch_closed": "Parts/roof_hatch_closed_east.png",
@@ -132,6 +194,17 @@
           "roof_open": false,
           "ramp_open": false,
           "era_files": [],
+          "installed_reference": "ReferenceInstalled/hull_roof_closed_ramp_closed_west.png",
+          "overlays": [
+            {
+              "file": "Components/leftHeadlight_west.png",
+              "component": "leftHeadlight"
+            },
+            {
+              "file": "Components/rightHeadlight_west.png",
+              "component": "rightHeadlight"
+            }
+          ],
           "assembled": "Assembled/hull_roof_closed_ramp_closed_west.png"
         },
         "roof_closed_ramp_open": {
@@ -139,6 +212,17 @@
           "roof_open": false,
           "ramp_open": true,
           "era_files": [],
+          "installed_reference": "ReferenceInstalled/hull_roof_closed_ramp_open_west.png",
+          "overlays": [
+            {
+              "file": "Components/leftHeadlight_west.png",
+              "component": "leftHeadlight"
+            },
+            {
+              "file": "Components/rightHeadlight_west.png",
+              "component": "rightHeadlight"
+            }
+          ],
           "assembled": "Assembled/hull_roof_closed_ramp_open_west.png"
         },
         "roof_open_ramp_closed": {
@@ -146,6 +230,17 @@
           "roof_open": true,
           "ramp_open": false,
           "era_files": [],
+          "installed_reference": "ReferenceInstalled/hull_roof_open_ramp_closed_west.png",
+          "overlays": [
+            {
+              "file": "Components/leftHeadlight_west.png",
+              "component": "leftHeadlight"
+            },
+            {
+              "file": "Components/rightHeadlight_west.png",
+              "component": "rightHeadlight"
+            }
+          ],
           "assembled": "Assembled/hull_roof_open_ramp_closed_west.png"
         },
         "roof_open_ramp_open": {
@@ -153,6 +248,17 @@
           "roof_open": true,
           "ramp_open": true,
           "era_files": [],
+          "installed_reference": "ReferenceInstalled/hull_roof_open_ramp_open_west.png",
+          "overlays": [
+            {
+              "file": "Components/leftHeadlight_west.png",
+              "component": "leftHeadlight"
+            },
+            {
+              "file": "Components/rightHeadlight_west.png",
+              "component": "rightHeadlight"
+            }
+          ],
           "assembled": "Assembled/hull_roof_open_ramp_open_west.png"
         }
       },
@@ -171,6 +277,24 @@
         }
       },
       "era": {},
+      "components": {
+        "leftHeadlight": {
+          "file": "Components/leftHeadlight_west.png",
+          "parent": "hull",
+          "pivot_pixel": [
+            42.859397888183594,
+            162.82278442382812
+          ]
+        },
+        "rightHeadlight": {
+          "file": "Components/rightHeadlight_west.png",
+          "parent": "hull",
+          "pivot_pixel": [
+            43.334625244140625,
+            92.87232971191406
+          ]
+        }
+      },
       "parts": {
         "hull_static": "Hull/hull_static_west.png",
         "roof_hatch_closed": "Parts/roof_hatch_closed_west.png",
@@ -237,6 +361,17 @@
           "roof_open": false,
           "ramp_open": false,
           "era_files": [],
+          "installed_reference": "ReferenceInstalled/hull_roof_closed_ramp_closed_north.png",
+          "overlays": [
+            {
+              "file": "Components/leftHeadlight_north.png",
+              "component": "leftHeadlight"
+            },
+            {
+              "file": "Components/rightHeadlight_north.png",
+              "component": "rightHeadlight"
+            }
+          ],
           "assembled": "Assembled/hull_roof_closed_ramp_closed_north.png"
         },
         "roof_closed_ramp_open": {
@@ -244,6 +379,17 @@
           "roof_open": false,
           "ramp_open": true,
           "era_files": [],
+          "installed_reference": "ReferenceInstalled/hull_roof_closed_ramp_open_north.png",
+          "overlays": [
+            {
+              "file": "Components/leftHeadlight_north.png",
+              "component": "leftHeadlight"
+            },
+            {
+              "file": "Components/rightHeadlight_north.png",
+              "component": "rightHeadlight"
+            }
+          ],
           "assembled": "Assembled/hull_roof_closed_ramp_open_north.png"
         },
         "roof_open_ramp_closed": {
@@ -251,6 +397,17 @@
           "roof_open": true,
           "ramp_open": false,
           "era_files": [],
+          "installed_reference": "ReferenceInstalled/hull_roof_open_ramp_closed_north.png",
+          "overlays": [
+            {
+              "file": "Components/leftHeadlight_north.png",
+              "component": "leftHeadlight"
+            },
+            {
+              "file": "Components/rightHeadlight_north.png",
+              "component": "rightHeadlight"
+            }
+          ],
           "assembled": "Assembled/hull_roof_open_ramp_closed_north.png"
         },
         "roof_open_ramp_open": {
@@ -258,6 +415,17 @@
           "roof_open": true,
           "ramp_open": true,
           "era_files": [],
+          "installed_reference": "ReferenceInstalled/hull_roof_open_ramp_open_north.png",
+          "overlays": [
+            {
+              "file": "Components/leftHeadlight_north.png",
+              "component": "leftHeadlight"
+            },
+            {
+              "file": "Components/rightHeadlight_north.png",
+              "component": "rightHeadlight"
+            }
+          ],
           "assembled": "Assembled/hull_roof_open_ramp_open_north.png"
         }
       },
@@ -276,6 +444,24 @@
         }
       },
       "era": {},
+      "components": {
+        "leftHeadlight": {
+          "file": "Components/leftHeadlight_north.png",
+          "parent": "hull",
+          "pivot_pixel": [
+            90.35330963134766,
+            52.4622802734375
+          ]
+        },
+        "rightHeadlight": {
+          "file": "Components/rightHeadlight_north.png",
+          "parent": "hull",
+          "pivot_pixel": [
+            167.89041137695312,
+            52.62886047363281
+          ]
+        }
+      },
       "parts": {
         "hull_static": "Hull/hull_static_north.png",
         "roof_hatch_closed": "Parts/roof_hatch_closed_north.png",
@@ -342,6 +528,17 @@
           "roof_open": false,
           "ramp_open": false,
           "era_files": [],
+          "installed_reference": "ReferenceInstalled/hull_roof_closed_ramp_closed_south.png",
+          "overlays": [
+            {
+              "file": "Components/leftHeadlight_south.png",
+              "component": "leftHeadlight"
+            },
+            {
+              "file": "Components/rightHeadlight_south.png",
+              "component": "rightHeadlight"
+            }
+          ],
           "assembled": "Assembled/hull_roof_closed_ramp_closed_south.png"
         },
         "roof_closed_ramp_open": {
@@ -349,6 +546,17 @@
           "roof_open": false,
           "ramp_open": true,
           "era_files": [],
+          "installed_reference": "ReferenceInstalled/hull_roof_closed_ramp_open_south.png",
+          "overlays": [
+            {
+              "file": "Components/leftHeadlight_south.png",
+              "component": "leftHeadlight"
+            },
+            {
+              "file": "Components/rightHeadlight_south.png",
+              "component": "rightHeadlight"
+            }
+          ],
           "assembled": "Assembled/hull_roof_closed_ramp_open_south.png"
         },
         "roof_open_ramp_closed": {
@@ -356,6 +564,17 @@
           "roof_open": true,
           "ramp_open": false,
           "era_files": [],
+          "installed_reference": "ReferenceInstalled/hull_roof_open_ramp_closed_south.png",
+          "overlays": [
+            {
+              "file": "Components/leftHeadlight_south.png",
+              "component": "leftHeadlight"
+            },
+            {
+              "file": "Components/rightHeadlight_south.png",
+              "component": "rightHeadlight"
+            }
+          ],
           "assembled": "Assembled/hull_roof_open_ramp_closed_south.png"
         },
         "roof_open_ramp_open": {
@@ -363,6 +582,17 @@
           "roof_open": true,
           "ramp_open": true,
           "era_files": [],
+          "installed_reference": "ReferenceInstalled/hull_roof_open_ramp_open_south.png",
+          "overlays": [
+            {
+              "file": "Components/leftHeadlight_south.png",
+              "component": "leftHeadlight"
+            },
+            {
+              "file": "Components/rightHeadlight_south.png",
+              "component": "rightHeadlight"
+            }
+          ],
           "assembled": "Assembled/hull_roof_open_ramp_open_south.png"
         }
       },
@@ -381,6 +611,24 @@
         }
       },
       "era": {},
+      "components": {
+        "leftHeadlight": {
+          "file": "Components/leftHeadlight_south.png",
+          "parent": "hull",
+          "pivot_pixel": [
+            165.64671325683594,
+            205.5099983215332
+          ]
+        },
+        "rightHeadlight": {
+          "file": "Components/rightHeadlight_south.png",
+          "parent": "hull",
+          "pivot_pixel": [
+            88.10961151123047,
+            204.8222999572754
+          ]
+        }
+      },
       "parts": {
         "hull_static": "Hull/hull_static_south.png",
         "roof_hatch_closed": "Parts/roof_hatch_closed_south.png",

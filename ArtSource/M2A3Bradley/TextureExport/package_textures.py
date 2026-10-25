@@ -38,7 +38,8 @@ def assemble(root,base,files):
     a=np.asarray(image,dtype=np.float32)/255
     alpha=a[:,:,3:4].copy()
     color=decode(a[:,:,:3])*alpha
-    for name in files:
+    for entry in files:
+        name=entry['file'] if isinstance(entry,dict) else entry
         part=Image.open(root/name).convert('RGBA')
         box=part.getchannel('A').getbbox()
         if not box:continue
@@ -97,13 +98,14 @@ for variant in variants:
     for direction,info in report['directions'].items():
         tests={}
         for state,spec in info['hull_states'].items():
-            assembled=assemble(root,spec['file'],spec['era_files'])
+            overlay_files=[entry['file'] for entry in spec['overlays']]
+            assembled=assemble(root,spec['file'],spec['overlays'])
             destination=f'Assembled/hull_{state}_{direction}.png'
             (root/destination).parent.mkdir(exist_ok=True)
             save_png(assembled,root/destination)
             spec['assembled']=destination
             if spec.get('installed_reference'):
-                tests['era_hull_'+state]=compare(assembled,Image.open(root/spec['installed_reference']),root,[spec['file']]+spec['era_files'])
+                tests['era_hull_'+state]=compare(assembled,Image.open(root/spec['installed_reference']),root,[spec['file']]+overlay_files)
             parts=info['parts']
             independent=assemble(root,parts['hull_static'],[
                 parts['rear_ramp_'+('open' if spec['ramp_open'] else 'closed')],
@@ -160,6 +162,8 @@ for variant in variants:
                 data[group]={name:[v*scale for v in pivot] for name,pivot in info[group].items()}
             for entry in data['era'].values():
                 entry['pivot_pixel']=[v*scale for v in entry['pivot_pixel']]
+            for entry in data['components'].values():
+                entry['pivot_pixel']=[v*scale for v in entry['pivot_pixel']]
             # Body-space control pivots are fixed; images stay on parent canvases.
             data['canvas_origin']='top-left; full hull canvas or yaw-centered turret canvas'
             index['directions'][direction]=data
@@ -200,7 +204,7 @@ if all((OUT/'256'/v/'index.json').exists() and
         for size in [256,512]:
             for variant in cfg['sources']:
                 runtime=OUT/str(size)/variant
-                for folder in ['Hull','Turret','Parts','ERA']:
+                for folder in ['Hull','Turret','Parts','ERA','Components']:
                     for path in sorted((runtime/folder).rglob('*.png')):
                         archive.write(path,path.relative_to(OUT).as_posix())
                 index=json.loads((runtime/'index.json').read_text())

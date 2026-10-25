@@ -5,56 +5,56 @@
     "east": {
       "composition": {
         "era_hull_roof_closed_ramp_closed": {
-          "stable_pixels": 42673,
+          "stable_pixels": 42985,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 201,
-          "alpha_max_error_255": 64
+          "alpha_max_error_255": 58
         },
         "moving_hull_roof_closed_ramp_closed": {
-          "stable_pixels": 43166,
+          "stable_pixels": 43893,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 174,
           "alpha_max_error_255": 64
         },
         "era_hull_roof_closed_ramp_open": {
-          "stable_pixels": 46803,
+          "stable_pixels": 47115,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 201,
-          "alpha_max_error_255": 64
+          "alpha_max_error_255": 58
         },
         "moving_hull_roof_closed_ramp_open": {
-          "stable_pixels": 47359,
+          "stable_pixels": 48086,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 1,
           "all_pixels_max_rgb_error_255": 174,
           "alpha_max_error_255": 64
         },
         "era_hull_roof_open_ramp_closed": {
-          "stable_pixels": 41788,
+          "stable_pixels": 42100,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 201,
-          "alpha_max_error_255": 64
+          "alpha_max_error_255": 58
         },
         "moving_hull_roof_open_ramp_closed": {
-          "stable_pixels": 42336,
+          "stable_pixels": 43063,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 174,
           "alpha_max_error_255": 64
         },
         "era_hull_roof_open_ramp_open": {
-          "stable_pixels": 45917,
+          "stable_pixels": 46229,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 227,
-          "alpha_max_error_255": 64
+          "alpha_max_error_255": 58
         },
         "moving_hull_roof_open_ramp_open": {
-          "stable_pixels": 46528,
+          "stable_pixels": 47255,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 1,
           "all_pixels_max_rgb_error_255": 227,
@@ -95,56 +95,56 @@
     "west": {
       "composition": {
         "era_hull_roof_closed_ramp_closed": {
-          "stable_pixels": 44626,
+          "stable_pixels": 44594,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 227,
           "alpha_max_error_255": 64
         },
         "moving_hull_roof_closed_ramp_closed": {
-          "stable_pixels": 45382,
+          "stable_pixels": 45811,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
-          "all_pixels_max_rgb_error_255": 227,
+          "all_pixels_max_rgb_error_255": 174,
           "alpha_max_error_255": 64
         },
         "era_hull_roof_closed_ramp_open": {
-          "stable_pixels": 48352,
+          "stable_pixels": 48320,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 227,
           "alpha_max_error_255": 64
         },
         "moving_hull_roof_closed_ramp_open": {
-          "stable_pixels": 49116,
+          "stable_pixels": 49545,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 1,
-          "all_pixels_max_rgb_error_255": 227,
+          "all_pixels_max_rgb_error_255": 175,
           "alpha_max_error_255": 64
         },
         "era_hull_roof_open_ramp_closed": {
-          "stable_pixels": 43620,
+          "stable_pixels": 43588,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 227,
           "alpha_max_error_255": 64
         },
         "moving_hull_roof_open_ramp_closed": {
-          "stable_pixels": 44424,
+          "stable_pixels": 44853,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
-          "all_pixels_max_rgb_error_255": 227,
+          "all_pixels_max_rgb_error_255": 174,
           "alpha_max_error_255": 64
         },
         "era_hull_roof_open_ramp_open": {
-          "stable_pixels": 47346,
+          "stable_pixels": 47314,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 228,
           "alpha_max_error_255": 64
         },
         "moving_hull_roof_open_ramp_open": {
-          "stable_pixels": 48158,
+          "stable_pixels": 48587,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 1,
           "all_pixels_max_rgb_error_255": 228,
@@ -185,59 +185,59 @@
     "north": {
       "composition": {
         "era_hull_roof_closed_ramp_closed": {
-          "stable_pixels": 39087,
+          "stable_pixels": 39132,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 227,
           "alpha_max_error_255": 72
         },
         "moving_hull_roof_closed_ramp_closed": {
-          "stable_pixels": 40633,
+          "stable_pixels": 40924,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
-          "all_pixels_max_rgb_error_255": 227,
+          "all_pixels_max_rgb_error_255": 187,
           "alpha_max_error_255": 46
         },
         "era_hull_roof_closed_ramp_open": {
-          "stable_pixels": 43998,
+          "stable_pixels": 44043,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 227,
           "alpha_max_error_255": 72
         },
         "moving_hull_roof_closed_ramp_open": {
-          "stable_pixels": 45542,
+          "stable_pixels": 45836,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
-          "all_pixels_max_rgb_error_255": 227,
+          "all_pixels_max_rgb_error_255": 175,
           "alpha_max_error_255": 56
         },
         "era_hull_roof_open_ramp_closed": {
-          "stable_pixels": 38994,
+          "stable_pixels": 39039,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 227,
           "alpha_max_error_255": 72
         },
         "moving_hull_roof_open_ramp_closed": {
-          "stable_pixels": 40529,
+          "stable_pixels": 40820,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
-          "all_pixels_max_rgb_error_255": 227,
+          "all_pixels_max_rgb_error_255": 187,
           "alpha_max_error_255": 46
         },
         "era_hull_roof_open_ramp_open": {
-          "stable_pixels": 43905,
+          "stable_pixels": 43950,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 227,
           "alpha_max_error_255": 72
         },
         "moving_hull_roof_open_ramp_open": {
-          "stable_pixels": 45438,
+          "stable_pixels": 45732,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
-          "all_pixels_max_rgb_error_255": 227,
+          "all_pixels_max_rgb_error_255": 175,
           "alpha_max_error_255": 56
         },
         "era_turret_stowed": {
@@ -275,56 +275,56 @@
     "south": {
       "composition": {
         "era_hull_roof_closed_ramp_closed": {
-          "stable_pixels": 41912,
+          "stable_pixels": 42093,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 200,
           "alpha_max_error_255": 82
         },
         "moving_hull_roof_closed_ramp_closed": {
-          "stable_pixels": 44104,
+          "stable_pixels": 44861,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 175,
           "alpha_max_error_255": 62
         },
         "era_hull_roof_closed_ramp_open": {
-          "stable_pixels": 42387,
+          "stable_pixels": 42568,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 200,
           "alpha_max_error_255": 82
         },
         "moving_hull_roof_closed_ramp_open": {
-          "stable_pixels": 44543,
+          "stable_pixels": 45300,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 175,
           "alpha_max_error_255": 62
         },
         "era_hull_roof_open_ramp_closed": {
-          "stable_pixels": 42030,
+          "stable_pixels": 42211,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 201,
           "alpha_max_error_255": 82
         },
         "moving_hull_roof_open_ramp_closed": {
-          "stable_pixels": 44462,
+          "stable_pixels": 45219,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 201,
           "alpha_max_error_255": 63
         },
         "era_hull_roof_open_ramp_open": {
-          "stable_pixels": 41898,
+          "stable_pixels": 42079,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 200,
           "alpha_max_error_255": 82
         },
         "moving_hull_roof_open_ramp_open": {
-          "stable_pixels": 44499,
+          "stable_pixels": 45256,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 175,
@@ -577,6 +577,78 @@
         80,
         174,
         173
+      ],
+      "visible": true
+    },
+    "256/Components/leftHeadlight_east.png": {
+      "bounds": [
+        206,
+        82,
+        220,
+        101
+      ],
+      "visible": true
+    },
+    "256/Components/leftHeadlight_north.png": {
+      "bounds": [
+        82,
+        41,
+        98,
+        55
+      ],
+      "visible": true
+    },
+    "256/Components/leftHeadlight_south.png": {
+      "bounds": [
+        158,
+        192,
+        174,
+        211
+      ],
+      "visible": true
+    },
+    "256/Components/leftHeadlight_west.png": {
+      "bounds": [
+        36,
+        149,
+        50,
+        169
+      ],
+      "visible": true
+    },
+    "256/Components/rightHeadlight_east.png": {
+      "bounds": [
+        205,
+        152,
+        220,
+        169
+      ],
+      "visible": true
+    },
+    "256/Components/rightHeadlight_north.png": {
+      "bounds": [
+        160,
+        42,
+        176,
+        56
+      ],
+      "visible": true
+    },
+    "256/Components/rightHeadlight_south.png": {
+      "bounds": [
+        80,
+        192,
+        96,
+        210
+      ],
+      "visible": true
+    },
+    "256/Components/rightHeadlight_west.png": {
+      "bounds": [
+        36,
+        79,
+        51,
+        99
       ],
       "visible": true
     },
@@ -1258,8 +1330,8 @@
     "256/ERA/Hull/BRAT_M4_SHOULDER_L_1_1_west.png": {
       "bounds": [
         33,
-        152,
-        43,
+        151,
+        48,
         166
       ],
       "visible": true
@@ -1267,7 +1339,7 @@
     "256/ERA/Hull/BRAT_M4_SHOULDER_L_1_2_east.png": {
       "bounds": [
         208,
-        88,
+        86,
         223,
         101
       ],
@@ -1276,7 +1348,7 @@
     "256/ERA/Hull/BRAT_M4_SHOULDER_L_1_2_north.png": {
       "bounds": [
         82,
-        47,
+        45,
         94,
         58
       ],
@@ -1285,7 +1357,7 @@
     "256/ERA/Hull/BRAT_M4_SHOULDER_L_1_2_south.png": {
       "bounds": [
         162,
-        203,
+        201,
         174,
         215
       ],
@@ -1294,7 +1366,7 @@
     "256/ERA/Hull/BRAT_M4_SHOULDER_L_1_2_west.png": {
       "bounds": [
         33,
-        159,
+        158,
         48,
         172
       ],
@@ -1329,7 +1401,7 @@
     },
     "256/ERA/Hull/BRAT_M4_SHOULDER_L_2_1_west.png": {
       "bounds": [
-        44,
+        41,
         149,
         56,
         164
@@ -1340,7 +1412,7 @@
       "bounds": [
         200,
         84,
-        214,
+        215,
         99
       ],
       "visible": true
@@ -1359,7 +1431,7 @@
         162,
         192,
         174,
-        204
+        206
       ],
       "visible": true
     },
@@ -1374,7 +1446,7 @@
     },
     "256/ERA/Hull/BRAT_M4_SHOULDER_R_1_1_east.png": {
       "bounds": [
-        209,
+        208,
         151,
         223,
         166
@@ -1411,7 +1483,7 @@
     "256/ERA/Hull/BRAT_M4_SHOULDER_R_1_2_east.png": {
       "bounds": [
         208,
-        159,
+        158,
         223,
         173
       ],
@@ -1419,8 +1491,8 @@
     },
     "256/ERA/Hull/BRAT_M4_SHOULDER_R_1_2_north.png": {
       "bounds": [
-        163,
-        49,
+        162,
+        45,
         174,
         58
       ],
@@ -1438,7 +1510,7 @@
     "256/ERA/Hull/BRAT_M4_SHOULDER_R_1_2_west.png": {
       "bounds": [
         33,
-        88,
+        87,
         48,
         101
       ],
@@ -1492,7 +1564,7 @@
     "256/ERA/Hull/BRAT_M4_SHOULDER_R_2_2_north.png": {
       "bounds": [
         162,
-        51,
+        50,
         174,
         63
       ],
@@ -5074,7 +5146,7 @@
     "256/Hull/hull_roof_closed_ramp_closed_north.png": {
       "bounds": [
         75,
-        41,
+        43,
         181,
         221
       ],
@@ -5110,7 +5182,7 @@
     "256/Hull/hull_roof_closed_ramp_open_north.png": {
       "bounds": [
         75,
-        41,
+        43,
         181,
         254
       ],
@@ -5146,7 +5218,7 @@
     "256/Hull/hull_roof_open_ramp_closed_north.png": {
       "bounds": [
         75,
-        41,
+        43,
         181,
         221
       ],
@@ -5182,7 +5254,7 @@
     "256/Hull/hull_roof_open_ramp_open_north.png": {
       "bounds": [
         75,
-        41,
+        43,
         181,
         254
       ],
@@ -5218,7 +5290,7 @@
     "256/Hull/hull_static_north.png": {
       "bounds": [
         75,
-        41,
+        43,
         181,
         221
       ],
@@ -6322,6 +6394,78 @@
       ],
       "visible": true
     },
+    "512/Components/leftHeadlight_east.png": {
+      "bounds": [
+        414,
+        166,
+        438,
+        198
+      ],
+      "visible": true
+    },
+    "512/Components/leftHeadlight_north.png": {
+      "bounds": [
+        167,
+        85,
+        194,
+        108
+      ],
+      "visible": true
+    },
+    "512/Components/leftHeadlight_south.png": {
+      "bounds": [
+        318,
+        387,
+        345,
+        419
+      ],
+      "visible": true
+    },
+    "512/Components/leftHeadlight_west.png": {
+      "bounds": [
+        74,
+        301,
+        98,
+        335
+      ],
+      "visible": true
+    },
+    "512/Components/rightHeadlight_east.png": {
+      "bounds": [
+        413,
+        306,
+        438,
+        335
+      ],
+      "visible": true
+    },
+    "512/Components/rightHeadlight_north.png": {
+      "bounds": [
+        323,
+        86,
+        349,
+        110
+      ],
+      "visible": true
+    },
+    "512/Components/rightHeadlight_south.png": {
+      "bounds": [
+        163,
+        387,
+        189,
+        418
+      ],
+      "visible": true
+    },
+    "512/Components/rightHeadlight_west.png": {
+      "bounds": [
+        74,
+        161,
+        99,
+        195
+      ],
+      "visible": true
+    },
     "512/ERA/Hull/BRAT_M3_FRONT_1_1_east.png": {
       "bounds": [
         421,
@@ -6750,7 +6894,7 @@
         83,
         284,
         108,
-        311
+        312
       ],
       "visible": true
     },
@@ -7000,8 +7144,8 @@
     "512/ERA/Hull/BRAT_M4_SHOULDER_L_1_1_west.png": {
       "bounds": [
         69,
-        306,
-        84,
+        305,
+        94,
         329
       ],
       "visible": true
@@ -7009,7 +7153,7 @@
     "512/ERA/Hull/BRAT_M4_SHOULDER_L_1_2_east.png": {
       "bounds": [
         418,
-        178,
+        176,
         443,
         200
       ],
@@ -7036,7 +7180,7 @@
     "512/ERA/Hull/BRAT_M4_SHOULDER_L_1_2_west.png": {
       "bounds": [
         69,
-        321,
+        318,
         94,
         342
       ],
@@ -7071,7 +7215,7 @@
     },
     "512/ERA/Hull/BRAT_M4_SHOULDER_L_2_1_west.png": {
       "bounds": [
-        91,
+        85,
         300,
         109,
         325
@@ -7082,7 +7226,7 @@
       "bounds": [
         403,
         171,
-        425,
+        427,
         196
       ],
       "visible": true
@@ -7101,7 +7245,7 @@
         326,
         386,
         345,
-        408
+        410
       ],
       "visible": true
     },
@@ -7116,7 +7260,7 @@
     },
     "512/ERA/Hull/BRAT_M4_SHOULDER_R_1_1_east.png": {
       "bounds": [
-        421,
+        419,
         304,
         444,
         329
@@ -7153,7 +7297,7 @@
     "512/ERA/Hull/BRAT_M4_SHOULDER_R_1_2_east.png": {
       "bounds": [
         418,
-        321,
+        318,
         443,
         343
       ],
@@ -7162,7 +7306,7 @@
     "512/ERA/Hull/BRAT_M4_SHOULDER_R_1_2_north.png": {
       "bounds": [
         326,
-        101,
+        92,
         345,
         114
       ],
@@ -10816,7 +10960,7 @@
     "512/Hull/hull_roof_closed_ramp_closed_north.png": {
       "bounds": [
         152,
-        85,
+        89,
         360,
         440
       ],
@@ -10852,7 +10996,7 @@
     "512/Hull/hull_roof_closed_ramp_open_north.png": {
       "bounds": [
         152,
-        85,
+        89,
         360,
         506
       ],
@@ -10888,7 +11032,7 @@
     "512/Hull/hull_roof_open_ramp_closed_north.png": {
       "bounds": [
         152,
-        85,
+        89,
         360,
         440
       ],
@@ -10924,7 +11068,7 @@
     "512/Hull/hull_roof_open_ramp_open_north.png": {
       "bounds": [
         152,
-        85,
+        89,
         360,
         506
       ],
@@ -10960,7 +11104,7 @@
     "512/Hull/hull_static_north.png": {
       "bounds": [
         152,
-        85,
+        89,
         360,
         440
       ],
@@ -12064,6 +12208,78 @@
       ],
       "visible": true
     },
+    "1024/Components/leftHeadlight_east.png": {
+      "bounds": [
+        833,
+        337,
+        872,
+        394
+      ],
+      "visible": true
+    },
+    "1024/Components/leftHeadlight_north.png": {
+      "bounds": [
+        339,
+        175,
+        384,
+        211
+      ],
+      "visible": true
+    },
+    "1024/Components/leftHeadlight_south.png": {
+      "bounds": [
+        640,
+        779,
+        685,
+        833
+      ],
+      "visible": true
+    },
+    "1024/Components/leftHeadlight_west.png": {
+      "bounds": [
+        152,
+        607,
+        190,
+        666
+      ],
+      "visible": true
+    },
+    "1024/Components/rightHeadlight_east.png": {
+      "bounds": [
+        830,
+        616,
+        871,
+        666
+      ],
+      "visible": true
+    },
+    "1024/Components/rightHeadlight_north.png": {
+      "bounds": [
+        650,
+        176,
+        693,
+        214
+      ],
+      "visible": true
+    },
+    "1024/Components/rightHeadlight_south.png": {
+      "bounds": [
+        331,
+        779,
+        374,
+        832
+      ],
+      "visible": true
+    },
+    "1024/Components/rightHeadlight_west.png": {
+      "bounds": [
+        153,
+        327,
+        194,
+        386
+      ],
+      "visible": true
+    },
     "1024/ERA/Hull/BRAT_M3_FRONT_1_1_east.png": {
       "bounds": [
         846,
@@ -12285,7 +12501,7 @@
         816,
         571,
         855,
-        617
+        618
       ],
       "visible": true
     },
@@ -12492,7 +12708,7 @@
         171,
         572,
         211,
-        617
+        620
       ],
       "visible": true
     },
@@ -12742,8 +12958,8 @@
     "1024/ERA/Hull/BRAT_M4_SHOULDER_L_1_1_west.png": {
       "bounds": [
         144,
-        617,
-        163,
+        614,
+        183,
         654
       ],
       "visible": true
@@ -12751,7 +12967,7 @@
     "1024/ERA/Hull/BRAT_M4_SHOULDER_L_1_2_east.png": {
       "bounds": [
         841,
-        361,
+        356,
         880,
         396
       ],
@@ -12778,7 +12994,7 @@
     "1024/ERA/Hull/BRAT_M4_SHOULDER_L_1_2_west.png": {
       "bounds": [
         144,
-        646,
+        641,
         183,
         680
       ],
@@ -12813,10 +13029,10 @@
     },
     "1024/ERA/Hull/BRAT_M4_SHOULDER_L_2_1_west.png": {
       "bounds": [
-        187,
+        174,
         606,
         214,
-        645
+        646
       ],
       "visible": true
     },
@@ -12824,7 +13040,7 @@
       "bounds": [
         810,
         347,
-        846,
+        850,
         388
       ],
       "visible": true
@@ -12858,7 +13074,7 @@
     },
     "1024/ERA/Hull/BRAT_M4_SHOULDER_R_1_1_east.png": {
       "bounds": [
-        846,
+        843,
         612,
         883,
         653
@@ -12895,7 +13111,7 @@
     "1024/ERA/Hull/BRAT_M4_SHOULDER_R_1_2_east.png": {
       "bounds": [
         841,
-        646,
+        641,
         880,
         682
       ],
@@ -12904,7 +13120,7 @@
     "1024/ERA/Hull/BRAT_M4_SHOULDER_R_1_2_north.png": {
       "bounds": [
         656,
-        203,
+        189,
         686,
         222
       ],
@@ -12933,7 +13149,7 @@
         813,
         604,
         852,
-        643
+        644
       ],
       "visible": true
     },
@@ -16558,7 +16774,7 @@
     "1024/Hull/hull_roof_closed_ramp_closed_north.png": {
       "bounds": [
         309,
-        175,
+        182,
         715,
         875
       ],
@@ -16594,7 +16810,7 @@
     "1024/Hull/hull_roof_closed_ramp_open_north.png": {
       "bounds": [
         309,
-        175,
+        182,
         715,
         1006
       ],
@@ -16630,7 +16846,7 @@
     "1024/Hull/hull_roof_open_ramp_closed_north.png": {
       "bounds": [
         309,
-        175,
+        182,
         715,
         875
       ],
@@ -16666,7 +16882,7 @@
     "1024/Hull/hull_roof_open_ramp_open_north.png": {
       "bounds": [
         309,
-        175,
+        182,
         715,
         1006
       ],
@@ -16702,7 +16918,7 @@
     "1024/Hull/hull_static_north.png": {
       "bounds": [
         309,
-        175,
+        182,
         715,
         875
       ],
@@ -17592,7 +17808,7 @@
     }
   },
   "source_unchanged": true,
-  "PNG_count_per_size": 638,
+  "PNG_count_per_size": 646,
   "filter": "linear light premultiplied alpha Lanczos; no outline",
   "game_validation_performed": false,
   "status": "passed"

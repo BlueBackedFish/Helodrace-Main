@@ -5,7 +5,7 @@
       "source_unchanged": true,
       "sizes": {
         "256": {
-          "PNGs": 116,
+          "PNGs": 140,
           "ERA_modules_per_direction": 0,
           "default_ERA_views": 0,
           "states_per_direction": 8,
@@ -13,7 +13,7 @@
           "rgba_transparent": true
         },
         "512": {
-          "PNGs": 116,
+          "PNGs": 140,
           "ERA_modules_per_direction": 0,
           "default_ERA_views": 0,
           "states_per_direction": 8,
@@ -21,7 +21,7 @@
           "rgba_transparent": true
         },
         "1024": {
-          "PNGs": 116,
+          "PNGs": 140,
           "ERA_modules_per_direction": 0,
           "default_ERA_views": 0,
           "states_per_direction": 8,
@@ -35,7 +35,7 @@
       "source_unchanged": true,
       "sizes": {
         "256": {
-          "PNGs": 638,
+          "PNGs": 646,
           "ERA_modules_per_direction": 124,
           "default_ERA_views": 496,
           "states_per_direction": 8,
@@ -43,7 +43,7 @@
           "rgba_transparent": true
         },
         "512": {
-          "PNGs": 638,
+          "PNGs": 646,
           "ERA_modules_per_direction": 124,
           "default_ERA_views": 496,
           "states_per_direction": 8,
@@ -51,7 +51,7 @@
           "rgba_transparent": true
         },
         "1024": {
-          "PNGs": 638,
+          "PNGs": 646,
           "ERA_modules_per_direction": 124,
           "default_ERA_views": 496,
           "states_per_direction": 8,
@@ -62,7 +62,7 @@
       "stable_composition_max_error_255": 1
     }
   },
-  "archive_entries": 1242,
+  "archive_entries": 1274,
   "archive_contains_only_unarmored_bases_and_separate_modules": true,
   "camera_directions_independent": true,
   "module_neighbors_not_baked_as_holdouts": true,

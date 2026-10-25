@@ -14,11 +14,15 @@ for variant,source in cfg['sources'].items():
     quality=json.loads((OUT/'1024'/variant/'package_validation.json').read_text())
     assert quality['status']=='passed',(variant,quality['status'])
     rendered=json.loads((OUT/'1024'/variant/'render_manifest.json').read_text())
+    lamp_objects={'WT_ex_lantern_l_01','WT_ex_lantern_r_01'}
     for name,metadata in rendered['files'].items():
         if name.startswith('ERA/'):
             assert not (set(metadata['holdout_objects'])&tile_ids),'A neighboring module was baked into a tile mask'
+            assert not (set(metadata['holdout_objects'])&lamp_objects),'A destructible lamp left a permanent hole in an ERA sprite'
         if name.startswith(('Hull/','Turret/','Parts/')):
             assert not (set(metadata['visible_objects'])&tile_ids),'ERA baked into base sprite'
+        if name.startswith('Hull/'):
+            assert not (set(metadata['visible_objects'])&lamp_objects),'Headlight baked into base hull'
     assert rendered['BUSK_body_includes_ERA'] is False
     assert rendered['tow_deployed_paint'][0]['repainted_faces']>0
     results[variant]={'source_unchanged':True,'sizes':{},'stable_composition_max_error_255':max(
@@ -26,6 +30,11 @@ for variant,source in cfg['sources'].items():
     for size in cfg['sizes']:
         root=OUT/str(size)/variant
         index=json.loads((root/'index.json').read_text())
+        for direction,view in index['directions'].items():
+            assert set(view['components'])=={'leftHeadlight','rightHeadlight'}
+            for state in view['hull_states'].values():
+                assert {l['component'] for l in state['overlays'] if 'component' in l}=={'leftHeadlight','rightHeadlight'}
+                assert all((root/l['file']).is_file() for l in state['overlays'])
         assert not index['outline'] and not index['shadows']
         assert set(index['directions'])=={'east','west','north','south'}
         files=list(root.rglob('*.png'))
@@ -72,7 +81,7 @@ with zipfile.ZipFile(OUT/'Bradley_TexturePackage.zip') as archive:
     for size in [256,512]:
         for variant in cfg['sources']:
             root=OUT/str(size)/variant
-            for folder in ['Hull','Turret','Parts','ERA']:
+            for folder in ['Hull','Turret','Parts','ERA','Components']:
                 for file in (root/folder).rglob('*.png'):
                     assert archive.read(file.relative_to(OUT).as_posix())==file.read_bytes(),file
             runtime=json.loads(archive.read(f'{size}/{variant}/index.json'))

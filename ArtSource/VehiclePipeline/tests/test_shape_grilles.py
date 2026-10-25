@@ -35,6 +35,11 @@ class FittedGrilles(unittest.TestCase):
         with self.assertRaises(ValueError):
             fit_panel([[0, 0, 0], [1, 0, 0], [2, 0, 0]])
 
+    def test_display_rgb_rejects_double_255_conversion(self):
+        frame = fit_panel([[0,0,0],[1,0,0],[1,1,0],[0,1,0]])
+        with self.assertRaises(ValueError):
+            artwork(frame,dict(pattern="louvers"),[[72*255]*3,[112*255]*3,[144*255]*3])
+
 
 if __name__ == "__main__":
     unittest.main()

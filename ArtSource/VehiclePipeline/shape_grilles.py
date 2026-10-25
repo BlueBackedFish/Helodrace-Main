@@ -100,7 +100,7 @@ def artwork(frame, spec, colors, size=256):
         for ring in np.linspace(.45, .83, int(spec.get("rings", 2))):
             bars |= abs(radius-ring) < .035
     rgb = np.array(colors, dtype=float)
-    if rgb.shape != (3, 3):
+    if rgb.shape != (3, 3) or not np.isfinite(rgb).all() or np.any(rgb < 0) or np.any(rgb > 255+1e-6):
         raise ValueError("Supply recess, bar and edge-frame display RGB")
     result = np.zeros((size, size, 4), dtype=np.float32)
     result[..., :3] = rgb[0]/255

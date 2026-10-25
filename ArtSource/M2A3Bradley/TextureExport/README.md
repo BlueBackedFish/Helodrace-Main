@@ -1,10 +1,12 @@
 # Bradley 4방향 분리 텍스처 — Standard / BUSK
 
+2026-10-25 갱신: `../SurfaceDetails/`의 모서리 맞춤 그릴·램프 로프 단색을 사용한다. 좌우 전조등은 기본 차체에서 제외하고 `Components/leftHeadlight_*`, `rightHeadlight_*`로 분리했다. `hull_states.*.overlays`의 순서로 전조등(`component`)과 ERA(`module`)를 함께 합성한다. 전조등을 파괴할 때 해당 component 레이어만 제외하며, 고정 BUSK 받침과 다른 장갑은 유지한다. 이전 사용법의 `era_files`만 얹으면 전조등이 빠지므로 전체 `overlays`를 사용한다. 포탑은 기존 `era_files`를 유지한다.
+
 사용자 요청에 따라 EAST·WEST·NORTH·SOUTH를 **서로 다른 실제 카메라 방향에서** 렌더했다. 좌우 반전으로 대체하지 않았다. 모든 PNG는 투명 배경, 고정 TAN Emission, 그림자 없음, **윤곽선 없음**이다. 윤곽선은 사용자가 조립 후 별도로 처리한다.
 
 ## 바로 사용할 파일
 
-`output/Bradley_TexturePackage.zip`에는 `256/`, `512/`의 **ERA 없는 본체(Hull/Turret/Parts)와 개별 ERA PNG**, 각 변형의 `index.json`, 이 설명서가 들어 있다. ERA가 합쳐진 Assembled/ReferenceInstalled/Preview 이미지는 ZIP에서 제외해 본체와 혼동하지 않게 했다. 검수 이미지는 ZIP 바깥 output 폴더에 보존한다. `output/1024/`에는 원본 크기 렌더와 검증 기록이 별도로 있다. 파일을 사용할 모드의 Textures 폴더에 복사한 뒤 해당 모드의 그래픽 정의에 연결한다. 이번 작업은 기존 모드 정의/코드/설치 파일을 바꾸지 않는다.
+`output/Bradley_TexturePackage.zip`에는 `256/`, `512/`의 **ERA 없는 본체(Hull/Turret/Parts), 독립 전조등(Components), 개별 ERA PNG**, 각 변형의 `index.json`, 이 설명서가 들어 있다. ERA가 합쳐진 Assembled/ReferenceInstalled/Preview 이미지는 ZIP에서 제외해 본체와 혼동하지 않게 했다. 검수 이미지는 ZIP 바깥 output 폴더에 보존한다. `output/1024/`에는 원본 크기 렌더와 검증 기록이 별도로 있다. 아스널의 `Tools/Import-BradleyArt.py`가 이 패키지를 게임용 crop·메타데이터로 변환하며, 독립 부품 피해와 표시는 아스널의 차량 코드에서 처리한다.
 
 각 해상도 폴더 안의 `Standard/`는 비장착형, `BUSK/`는 직전 전조등 색 수정까지 반영한 장착형이다. 모든 부품 PNG는 동일한 정사각 캔버스를 유지한다. 개별 부품의 투명 여백을 잘라내면 정렬이 어긋나므로 자르지 않는다.
 
@@ -12,11 +14,12 @@
 |---|---|
 | `Hull/` | `hull_static_*`: 후방 상부 해치와 램프를 제외한 고정 차체. `hull_roof_CLOSED_ramp_CLOSED_*` 등의 소문자 상태명 파일 4조합은 해치/램프를 포함한 완성 차체이며, BUSK도 반응장갑은 제외되어 있다. |
 | `Parts/` | `roof_hatch_closed/open_*`, `rear_ramp_closed/open_*`, `tow_stowed/deployed_*`, `gun_*`: 개별 움직임/포신 레이어. 큰 후방 램프 안의 작은 출입문은 닫힌 상태로 포함된다. |
+| `Components/` | 좌우 독립 전조등. Standard/BUSK 각각의 높이와 고정 차체 가림을 반영하며, ERA 케이스와는 별개의 부품이다. |
 | `Turret/` | `turret_base_*`: TOW 가동 본체와 포신을 제외한 고정 포탑. `turret_stowed/deployed_*`: TOW와 **포신까지 포함**한 완성 포탑. BUSK도 반응장갑은 제외되어 있다. |
 | `ERA/Hull/` | BUSK 차체 장갑 81개와 하부 스커트 28구획의 개별 PNG. |
 | `ERA/Turret/` | BUSK 포탑 장갑 15개의 개별 PNG. |
 | `Assembled/` (ZIP 외부) | 해당 상태의 차체/포탑에 모든 개별 장갑을 합성한 확인용 결과. Standard에는 장갑이 없다. |
-| `ReferenceInstalled/` (ZIP 외부) | BUSK의 모든 장갑을 한 번에 렌더한 가림 검수용 대조본. 동적 ERA 시스템의 바탕 텍스처로 쓰면 장갑이 중복된다. |
+| `ReferenceInstalled/` (ZIP 외부) | 독립 전조등과 BUSK의 모든 장갑을 함께 렌더한 가림 검수용 대조본. 동적 시스템의 바탕 텍스처로 쓰면 부품이 중복된다. |
 | `Preview/` (ZIP 외부) | 상부 해치 2 × 램프 2 × TOW 2 = 8조합의 차체/포탑 합성 미리보기. 방향마다 따로 있다. |
 
 파일의 `_east`는 화면 오른쪽, `_west`는 왼쪽, `_north`는 위쪽, `_south`는 아래쪽이 전방이다. 차체 카메라는 기존 64° 고각, 포탑/포신/TOW/포탑 ERA는 90° 상면이다. BUSK의 비반응성 고정 외장(차장 보호 구조·전조등 받침·외부 하부판)은 BUSK의 고정 차체/포탑에 남긴다. **BUSK의 Hull/Turret/Parts 본체 텍스처에는 ERA를 한 개도 포함하지 않는다.**

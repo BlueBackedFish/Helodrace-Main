@@ -1,0 +1,12 @@
+{
+  "sources": {
+    "Standard": {"path": "../EmissionTrial/TOWDeploy/bradley_tow_deploy.blend", "sha256": "9626560c347450ddc43a292efcf3580aefeff4e916c7dd7330f8e8186eee9e44"},
+    "BUSK": {"path": "../BUSKIII/output/bradley_busk_iii.blend", "sha256": "878ca87dd1786801ff0d00a9f18765674864dcb30f515db8cc413bf0142202f7"}
+  },
+  "grilles": [
+    {"name": "engine_deck_intake", "object": "WT_@root", "faces": [7097], "pattern": "slots", "rows": 6, "columns": 2, "values": [72, 120, 144]},
+    {"name": "sloped_engine_exhaust", "object": "WT_@root", "faces": [1379,4393,4394,4396,4398,4399,4401,7207], "pattern": "louvers", "rows": 9, "columns": 1, "values": [60, 108, 132]}
+  ],
+  "ramp_rope": {"object": "WT_rear_ramp", "component_seed": 9, "expected_faces": 625, "luminance": 132},
+  "headlights": {"leftHeadlight": "WT_ex_lantern_l_01", "rightHeadlight": "WT_ex_lantern_r_01"}
+}

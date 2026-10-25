@@ -16,15 +16,38 @@ from tow_pose_paint import prepare_tow_palette
 cfg=json.loads((HERE/'settings.json').read_text())
 variant=sys.argv[sys.argv.index('--')+1] if '--' in sys.argv else 'Standard'
 tow_only='--tow-only' in sys.argv
+body_only='--body-only' in sys.argv
 spec=cfg['sources'][variant]
 source=(HERE/spec['path']).resolve()
 assert hashlib.sha256(source.read_bytes()).hexdigest()==spec['sha256']
 OUT=HERE/'output/1024'/variant
 OUT.mkdir(parents=True,exist_ok=True)
+previous=None
+def render_geometry_fingerprint():
+    digest=hashlib.sha256()
+    for obj in sorted((o for o in bpy.context.scene.objects if o.type=='MESH'),key=lambda o:o.name):
+        record=(obj.name,obj.parent.name if obj.parent else None,
+            [tuple(v.co) for v in obj.data.vertices],[tuple(p.vertices) for p in obj.data.polygons],
+            [tuple(row) for row in obj.matrix_world],
+            [[tuple(x.uv) for x in uv.data] for uv in obj.data.uv_layers],
+            obj.get('removable_tile'),obj.get('vehicle_component'))
+        if obj.get('removable_tile'):
+            record+=(tuple(tuple(obj.data.materials[p.material_index].diffuse_color) for p in obj.data.polygons),)
+        digest.update(repr(record).encode())
+    return digest.hexdigest()
+if body_only:
+    previous=json.loads((OUT/'render_manifest.json').read_text())
+    backup=source.with_name(source.name+'1')
+    assert hashlib.sha256(backup.read_bytes()).hexdigest()==previous['source_sha256'],'Previous rendered model backup is missing'
+    bpy.ops.wm.open_mainfile(filepath=str(backup))
+    bpy.context.scene.frame_set(1);bpy.context.view_layer.update()
+    previous_geometry=render_geometry_fingerprint()
 bpy.ops.wm.open_mainfile(filepath=str(source))
 scene=bpy.context.scene
 scene.frame_set(1)
 bpy.context.view_layer.update()
+if body_only:
+    assert render_geometry_fingerprint()==previous_geometry,'Cannot reuse armor sprites after geometry, UV, hierarchy or armor colors changed'
 source_faces=sum(len(o.data.polygons) for o in scene.objects if o.type=='MESH')
 for obj in scene.objects:
     if obj.animation_data:
@@ -64,7 +87,9 @@ def under(obj,parent):
 
 meshes=[o for o in scene.objects if o.type=='MESH' and o.data.polygons]
 era=[o for o in meshes if o.get('removable_tile')]
-hull=[o for o in meshes if not under(o,turret) and o not in era]
+headlights={o['vehicle_component']:o for o in meshes if o.get('vehicle_component') in ('leftHeadlight','rightHeadlight')}
+assert len(headlights)==2
+hull=[o for o in meshes if not under(o,turret) and o not in era and o not in headlights.values()]
 top=[o for o in meshes if under(o,turret) and o not in era]
 roof_parts=[roof]
 ramp_parts=[o for o in hull if under(o,ramp)]
@@ -73,7 +98,7 @@ tow_parts=[bpy.data.objects[name] for name in cfg['tow']['moving_objects']]
 fixed_hull=[o for o in hull if o not in roof_parts+ramp_parts]
 fixed_top=[o for o in top if o not in gun_parts+tow_parts]
 assert bpy.data.objects[cfg['tow']['fixed_front_plate']] in fixed_top
-assert sum(map(len,[hull,top,era]))==len(meshes)
+assert sum(map(len,[hull,top,era]))+len(headlights)==len(meshes)
 assert len(era)==(124 if variant=='BUSK' else 0)
 assert len(ramp_parts)>=2
 paint_settings=json.loads((HERE.parent/'part_contrast.json').read_text())['height_first_paint']
@@ -93,6 +118,8 @@ if tow_only:
     assert previous['source_sha256']==spec['sha256']
     files=previous['files']
     catalog=previous['directions']
+elif body_only:
+    files=previous['files'].copy()
 
 
 def pose(roof_open=False,ramp_open=False,tow_open=False):
@@ -132,8 +159,10 @@ def render(relative,visible,occluders=(),allow_empty=False):
             for i,mat in enumerate(saved_slots[obj.name]):
                 obj.data.materials[i]=mat if mode=='color' else hold
         current_modes[obj.name]=mode
-    scene.render.filepath=str(path)
+    temporary=path.with_name('.'+path.stem+'.render.tmp.png')
+    scene.render.filepath=str(temporary)
     bpy.ops.render.render(write_still=True)
+    temporary.replace(path)
     im=bpy.data.images.load(str(path),check_existing=False)
     rgba=np.asarray(im.pixels[:],dtype=np.float32).reshape(1024,1024,4)
     ys,xs=np.where(rgba[:,:,3]>.01)
@@ -183,11 +212,22 @@ for direction in cfg['directions']:
     direction_info={'hull_turret_anchor':[p.x*1024,(1-p.y)*1024],
                     'turret_pivot':[512,512],'hull_elevation':64,'turret_elevation':90,
                     'ortho_scale':scale,'front':{'east':'screen-right','west':'screen-left','north':'screen-up','south':'screen-down'}[direction],
-                    'hull_states':{},'turret_states':{},'era':{},'parts':{}}
+                    'hull_states':{},'turret_states':{},'era':{},'components':{},'parts':{}}
     direction_info['hull_control_pivots']={'roof_hatch':pivot_pixels(roof_axis),'rear_ramp':pivot_pixels(ramp)}
     catalog[direction]=direction_info
     path=lambda folder,name:f'{folder}/{name}_{direction}.png'
     direction_info['parts']['hull_static']=render(path('Hull','hull_static'),fixed_hull)
+    hull_era=[o for o in era if not under(o,turret)]
+    for key,obj in headlights.items():
+        lamp_file=render(path('Components',key),[obj],hull)
+        center=obj.matrix_world@sum((Vector(c) for c in obj.bound_box),Vector())/8
+        point=world_to_camera_view(scene,scene.camera,center)
+        direction_info['components'][key]={'file':lamp_file,'parent':'hull',
+            'pivot_pixel':[point.x*1024,(1-point.y)*1024]}
+        for armor in hull_era:
+            if not overlap(screen_bbox([obj]),screen_bbox([armor])):continue
+            clipped=rendered_or_default(path('Components/Occluded',key+'_'+armor.name),obj,hull+[armor],lamp_file)
+            assert clipped==lamp_file,('Headlight intersects armor; revise overlay visibility before exporting',key,armor.name,direction)
     for opened in [False,True]:
         state='open' if opened else 'closed'
         pose(roof_open=opened)
@@ -203,8 +243,7 @@ for direction in cfg['directions']:
         full=render(path('Hull','hull_'+state),hull)
         info={'file':full,'roof_open':roof_open,'ramp_open':ramp_open,'era_files':[]}
         direction_info['hull_states'][state]=info
-        if hull_era:
-            info['installed_reference']=render(path('ReferenceInstalled','hull_'+state),hull+hull_era)
+        info['installed_reference']=render(path('ReferenceInstalled','hull_'+state),hull+hull_era+list(headlights.values()))
     pose()
     changed_bounds=[]
     for parts,kwargs in [(roof_parts,{'roof_open':True}),(ramp_parts,{'ramp_open':True})]:
@@ -215,6 +254,11 @@ for direction in cfg['directions']:
     camera_inverse=scene.camera.matrix_world.inverted()
     hull_era.sort(key=lambda o:(camera_inverse@o.matrix_world.translation).z)
     for obj in hull_era:
+        if body_only:
+            direction_info['era'][obj.name]=previous['directions'][direction]['era'][obj.name]
+            for state,info in direction_info['hull_states'].items():
+                info['era_files'].append(direction_info['era'][obj.name]['states'][state])
+            continue
         default=render(path('ERA/Hull',obj.name),[obj],hull,allow_empty=True)
         entry={'name':obj.name,'family':obj['visual_family'],'parent':'hull','default_file':default,
                'pivot_pixel':list(world_to_camera_view(scene,scene.camera,obj.matrix_world.translation))[:2],
@@ -230,6 +274,16 @@ for direction in cfg['directions']:
             entry['states'][state]=use
         pose()
         direction_info['era'][obj.name]=entry
+    # The per-case holdout comparison above verifies both housings sit above the
+    # armor in these models. Draw them last without baking holes into the cases.
+    for state,info in direction_info['hull_states'].items():
+        overlays=[]
+        for obj in hull_era:
+            overlays.append(((camera_inverse@obj.matrix_world.translation).z,
+                {'file':direction_info['era'][obj.name]['states'][state],'module':obj.name}))
+        info['overlays']=[entry for _,entry in sorted(overlays,key=lambda item:item[0])]
+        for key,obj in headlights.items():
+            info['overlays'].append({'file':direction_info['components'][key]['file'],'component':key})
     pose()
     data=bpy.data.cameras.new('Export turret top '+direction)
     data.type='ORTHO';data.ortho_scale=scale
@@ -261,6 +315,11 @@ for direction in cfg['directions']:
     inverse=scene.camera.matrix_world.inverted()
     top_era.sort(key=lambda o:(inverse@o.matrix_world.translation).z)
     for obj in top_era:
+        if body_only:
+            direction_info['era'][obj.name]=previous['directions'][direction]['era'][obj.name]
+            for state,info in direction_info['turret_states'].items():
+                info['era_files'].append(direction_info['era'][obj.name]['states'][state])
+            continue
         default=render(path('ERA/Turret',obj.name),[obj],top,allow_empty=True)
         p=world_to_camera_view(scene,scene.camera,obj.matrix_world.translation)
         entry={'name':obj.name,'family':obj['visual_family'],'parent':'turret','default_file':default,
@@ -277,6 +336,11 @@ for direction in cfg['directions']:
     pose()
     print('DIRECTION_COMPLETE',variant,direction,flush=True)
 
+for view in catalog.values():
+    for group,parent in [('hull_states','hull'),('turret_states','turret')]:
+        for state,info in view[group].items():
+            expected={entry['states'][state] for entry in view['era'].values() if entry['parent']==parent}
+            assert len(info['era_files'])==len(expected) and set(info['era_files'])==expected,(group,state)
 assert hashlib.sha256(source.read_bytes()).hexdigest()==spec['sha256']
 report={'variant':variant,'source':str(source),'source_sha256':spec['sha256'],'source_unchanged':True,
         'source_faces':source_faces,'master':1024,'outline':False,'shadows':False,
@@ -287,6 +351,7 @@ report={'variant':variant,'source':str(source),'source_sha256':spec['sha256'],'s
         'roof_hatch_motion':'New render-only hinge; source geometry and face colors unchanged',
         'rear_door_scope':'large ramp with small personnel door closed',
         'compositing':'body-state image, then listed ERA files far to near; validate against installed references',
-        'game_validation_performed':False}
+        'game_validation_performed':False,'headlights_clear_of_armor_verified_per_case':True}
+if body_only:report['armor_sprites_reused_after_exact_geometry_uv_hierarchy_and_armor_color_check']=True
 (OUT/'render_manifest.json').write_text(json.dumps(report,indent=2)+'\n')
 print('TEXTURE_RENDER_COMPLETE',variant,len(files),'PNGs',flush=True)
