@@ -1,0 +1,91 @@
+{
+  "status": "passed",
+  "draw_size_tiles": [
+    19,
+    19
+  ],
+  "game_resolution": [
+    3243,
+    3243
+  ],
+  "outline_requested_pixels": 12,
+  "horizontal_boundary_samples": [
+    {
+      "row": 454,
+      "side": "left",
+      "width_pixels": 13
+    },
+    {
+      "row": 454,
+      "side": "right",
+      "width_pixels": 12
+    },
+    {
+      "row": 519,
+      "side": "left",
+      "width_pixels": 12
+    },
+    {
+      "row": 519,
+      "side": "right",
+      "width_pixels": 12
+    },
+    {
+      "row": 584,
+      "side": "left",
+      "width_pixels": 12
+    },
+    {
+      "row": 584,
+      "side": "right",
+      "width_pixels": 12
+    },
+    {
+      "row": 649,
+      "side": "left",
+      "width_pixels": 12
+    },
+    {
+      "row": 649,
+      "side": "right",
+      "width_pixels": 12
+    },
+    {
+      "row": 2173,
+      "side": "left",
+      "width_pixels": 12
+    },
+    {
+      "row": 2173,
+      "side": "right",
+      "width_pixels": 12
+    },
+    {
+      "row": 2270,
+      "side": "left",
+      "width_pixels": 12
+    },
+    {
+      "row": 2270,
+      "side": "right",
+      "width_pixels": 12
+    },
+    {
+      "row": 2367,
+      "side": "left",
+      "width_pixels": 12
+    },
+    {
+      "row": 2367,
+      "side": "right",
+      "width_pixels": 12
+    }
+  ],
+  "absolute_density_matches_radio_and_machines": true,
+  "original_alpha_exactly_preserved_after_resampling": true,
+  "detail_pixels": 153685,
+  "source_faces_preserved": 486906,
+  "source_geometry_changed": false,
+  "no_old_low_density_game_candidates": true,
+  "in_game_tested": false
+}

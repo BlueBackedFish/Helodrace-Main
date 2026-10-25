@@ -1,16 +1,16 @@
 {
-  "schema": 1,
-  "kind": "flat-aircraft-trial",
-  "master_size": 2048,
-  "frame_fill": 0.88,
-  "sizes": [
-    1024,
-    512,
-    256,
-    128
+  "schema": 2,
+  "kind": "flat-aircraft-absolute-scale",
+  "master_size": 4096,
+  "game_draw_size_tiles": [
+    19,
+    19
   ],
-  "silhouette_outline_pixels_at_1024": 10,
-  "internal_panel_pixels_at_1024": 2,
+  "reference_pixels_per_tile": 170.66666666666666,
+  "game_resolution": 3243,
+  "transparent_margin_game_pixels": 16,
+  "silhouette_outline_game_pixels": 12,
+  "internal_panel_game_pixels": 4,
   "internal_panel_rgb": [
     117,
     123,
@@ -94,6 +94,64 @@
     "engine_lip",
     "glass"
   ],
+  "surface_mask_roles": {
+    "body": [
+      "body",
+      "ramp"
+    ],
+    "wing": [
+      "wing",
+      "wing_detail",
+      "control"
+    ],
+    "engine": [
+      "engine",
+      "engine_aft",
+      "engine_lip"
+    ],
+    "tail": [
+      "tail",
+      "rudder",
+      "control"
+    ]
+  },
+  "detail_colors": {
+    "seam": [
+      137,
+      146,
+      154
+    ],
+    "hatch": [
+      177,
+      184,
+      190
+    ],
+    "hatch_border": [
+      115,
+      127,
+      138
+    ],
+    "latch": [
+      97,
+      111,
+      122
+    ],
+    "vent": [
+      93,
+      108,
+      120
+    ],
+    "lip": [
+      79,
+      96,
+      110
+    ],
+    "fastener": [
+      121,
+      134,
+      145
+    ]
+  },
   "silhouette_rule": "One black outside silhouette for the entire aircraft. Internal panels use muted gray; no separate black outlines around every mesh.",
   "projection": "Orthographic, exactly top-down, nose up. No lights, AO, shadows, normal shading or source photographic albedo."
 }

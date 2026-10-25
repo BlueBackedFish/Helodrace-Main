@@ -1,0 +1,104 @@
+{
+  "status": "passed",
+  "projection": "Exactly top-down orthographic; nose points up",
+  "raw_render_sha256": "b524a41da433b77b8a331bc2886d8f96767fee13dd40feb86a394974749373f9",
+  "raw_render_unchanged": true,
+  "files": {
+    "Plain/1024": {
+      "bounds": [
+        70,
+        59,
+        954,
+        965
+      ],
+      "visible_width": 884,
+      "outline_pixels": 0,
+      "sha256": "f26803238fd25a88635e1edb0a274f5865c10a753a64d128879ce763c88d1b4f"
+    },
+    "Plain/512": {
+      "bounds": [
+        34,
+        28,
+        478,
+        484
+      ],
+      "visible_width": 444,
+      "outline_pixels": 0,
+      "sha256": "fff1b05cbaab389852d959d816e6ac743ba19994132ffb8534c75f752435181e"
+    },
+    "Plain/256": {
+      "bounds": [
+        15,
+        13,
+        241,
+        243
+      ],
+      "visible_width": 226,
+      "outline_pixels": 0,
+      "sha256": "9fdad2391e1d34dcd260e51d3227bc4c1a92765ab8c2eb4863d38cbc665a8425"
+    },
+    "Plain/128": {
+      "bounds": [
+        6,
+        5,
+        122,
+        123
+      ],
+      "visible_width": 116,
+      "outline_pixels": 0,
+      "sha256": "eea7dab37e1de7e5cfd94d948991ed87a2ff2f2b0a7a952ff391d997f882cae2"
+    },
+    "Outlined/1024": {
+      "bounds": [
+        60,
+        49,
+        964,
+        975
+      ],
+      "visible_width": 904,
+      "outline_pixels": 10.0,
+      "sha256": "ddd95eaa0db9016c62cacc2feef7418ef28c3ddc4cc506f98f8957833785b6b0"
+    },
+    "Outlined/512": {
+      "bounds": [
+        29,
+        23,
+        483,
+        489
+      ],
+      "visible_width": 454,
+      "outline_pixels": 5.0,
+      "sha256": "673d8044af528f478ed8dcf2056438106068936a52bda2b17a99b4ccbbcfe071"
+    },
+    "Outlined/256": {
+      "bounds": [
+        13,
+        10,
+        243,
+        246
+      ],
+      "visible_width": 230,
+      "outline_pixels": 2.5,
+      "sha256": "d7a6750eedf83381f0c0032e33e7b3609adef36fd9971ffc6cb5f824fc2107d3"
+    },
+    "Outlined/128": {
+      "bounds": [
+        5,
+        4,
+        123,
+        124
+      ],
+      "visible_width": 118,
+      "outline_pixels": 1.25,
+      "sha256": "8f700a855b036996b92619cfe4c0fee1d8c8d43ad0e8e80f027adc308ff99c7a"
+    }
+  },
+  "silhouette": "Black circular alpha dilation beneath the entire aircraft, before downsampling",
+  "internal_lines": "Muted gray inside selected control-surface/wing-detail/engine-lip/glass boundaries",
+  "filter": "Linear-light premultiplied-alpha Lanczos",
+  "pivot": "Canvas center at each resolution; no trim or per-size recentering",
+  "native_size_visual_review": true,
+  "reference_style_visual_review": true,
+  "game_validation_performed": false,
+  "blueprint_validation_performed": false
+}

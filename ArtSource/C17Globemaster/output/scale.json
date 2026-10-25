@@ -1,0 +1,102 @@
+{
+  "draw_size_tiles": [
+    19,
+    19
+  ],
+  "resolution": [
+    3243,
+    3243
+  ],
+  "reference_pixels_per_tile": 170.66666666666666,
+  "actual_pixels_per_tile": 170.68421052631578,
+  "rounding_error_pixels": 0.3333333333334849,
+  "outline_pixels": 12,
+  "outline_world_tiles": 0.07030527289546716,
+  "internal_panel_pixels": 4,
+  "reference_assets": {
+    "HD_TreadleLathe": {
+      "definition": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Defs\\WildWest\\Buildings\\Industry_WildWest.xml",
+      "texture": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Textures\\Buildings\\HD_TreadleLathe_south.png",
+      "size": [
+        512,
+        512
+      ],
+      "draw_size_tiles": [
+        3.0,
+        3.0
+      ],
+      "pixels_per_tile": [
+        170.66666666666666,
+        170.66666666666666
+      ],
+      "sha256": "d824b03d9b75562ff955a9c9a11f71b33b69cfdc20c739b7323912c8eb593d82"
+    },
+    "HD_LineShaftTurretLathe": {
+      "definition": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Defs\\WildWest\\Buildings\\Industry_WildWest.xml",
+      "texture": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Textures\\Buildings\\HD_LineShaftTurretLathe_south.png",
+      "size": [
+        512,
+        512
+      ],
+      "draw_size_tiles": [
+        3.0,
+        3.0
+      ],
+      "pixels_per_tile": [
+        170.66666666666666,
+        170.66666666666666
+      ],
+      "sha256": "ff98866bda3f28561a574ae4f53e9c8e58aa16c42b14c37900cce0065bb31c21"
+    },
+    "HD_LineShaftMillingMachine": {
+      "definition": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Defs\\WildWest\\Buildings\\Industry_WildWest.xml",
+      "texture": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Textures\\Buildings\\HD_LineShaftMillingMachine_south.png",
+      "size": [
+        512,
+        512
+      ],
+      "draw_size_tiles": [
+        3.0,
+        3.0
+      ],
+      "pixels_per_tile": [
+        170.66666666666666,
+        170.66666666666666
+      ],
+      "sha256": "6d36182b07b2a78a317329f2f7f1eed81d60ad6f8349a40b1acec41fcb013737"
+    },
+    "HD_Radio": {
+      "definition": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Defs\\WildWest\\Buildings\\Radio.xml",
+      "texture": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Textures\\Buildings\\HD_Radio_south.png",
+      "size": [
+        256,
+        256
+      ],
+      "draw_size_tiles": [
+        1.5,
+        1.5
+      ],
+      "pixels_per_tile": [
+        170.66666666666666,
+        170.66666666666666
+      ],
+      "sha256": "8a3d783df35ca2cd7c165751d0a5607d86e6a8a6efac842e77eba4404f672f63"
+    }
+  },
+  "pivot_pixels": [
+    1621.5,
+    1621.5
+  ],
+  "pivot_normalized": [
+    0.5,
+    0.5
+  ],
+  "alpha_bounds_pixels": [
+    52,
+    13,
+    3191,
+    3230
+  ],
+  "transparent_margin_note": "The 19x19 world canvas includes a small transparent AA margin; source aspect ratio is preserved.",
+  "integration": "Use drawSize (19,19), Graphic_Single, scale 1. This is a texture specification, not a new aircraft definition."
+}

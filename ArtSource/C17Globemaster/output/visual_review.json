@@ -1,25 +1,25 @@
 {
   "date": "2026-10-25",
   "status": "reviewed",
+  "revision": "19x19 absolute-scale delivery",
   "artifacts": {
-    "style_comparison.png": "38b50c7afc37e881a3e2ae2c8ac2899aab2ce7eb779d462ff40d2394e98bbe8e",
-    "native_sizes.png": "1cebbb32b1041d16abc458584ffc40cc96391cd325c4f3fa10cb7c72e187ee43",
-    "alpha_backgrounds.png": "4134ce321f380188a45716e7b9b970771c2ff84305b044aed3cfa9772a3fcdf3",
-    "HD_C17.png": "ddd95eaa0db9016c62cacc2feef7418ef28c3ddc4cc506f98f8957833785b6b0"
+    "absolute_scale.png": "746b87af9f42da805180dc9c9bebf2d58308e328ef19108ba0f8abeb257d5c5b",
+    "detail_review.png": "548866b53b2ec581e89676689e8d943334cb5d227b99c02458cd6195008a1eec",
+    "before_after_19tiles.png": "5ba48d42ec73a7f529c149a7c88d972d08fef90b1bd4c59748801722f8d1161f",
+    "alpha_backgrounds.png": "426e2430e4b02e13267ace6d3519ee7f05c9ee3bec1a654a0cc6df3b1e86ca7e",
+    "HD_C17.png": "e328b9b3e02b43bcbb62bc3cf63b2a91f6e1323e7a2251fb4765c5d281497be4"
   },
   "checks": [
-    "Main P47/A10C/MH60 and Arsenal P47/DH4 inspected",
-    "Same visible wingspan in style comparison",
-    "128/256/512px native size labels and silhouette inspected",
-    "Bright/mid/dark alpha backgrounds inspected",
-    "Four engines, swept wings, cockpit glass and T tail retained",
-    "No external cast shadow or shaded material gradient",
-    "Single black exterior silhouette, muted internal control-surface lines"
+    "Radio 256px/1.5 tiles and workshop machines 512px/3 tiles measured from actual defs/assets",
+    "19x19 tile canvas at 3243px with a fixed 12px external stroke",
+    "Absolute-size comparison uses common 64 screen pixels per tile, not matching aircraft visible widths",
+    "Native 1:1 fuselage, nacelle and wing detail crops inspected",
+    "Three alpha backgrounds inspected; original source silhouette coverage preserved",
+    "Original 161 groups and 486906 faces retained; flat top projection and fixed colors maintained"
   ],
   "remaining": [
-    "No blueprint or production-airframe dimension validation",
-    "No aircraft gameplay integration or in-game display validation",
-    "No national markings, serial numbers or fine fuselage panel artwork"
+    "No gameplay definition/install changes or in-game display validation",
+    "Inspection-panel layout is stylized, not a certified airframe maintenance layout"
   ],
   "game_validation_performed": false
 }

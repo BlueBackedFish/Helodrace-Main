@@ -84,7 +84,9 @@ for group in model['groups']:
 assert sum(len(o.data.polygons) for o in objects)==len(model['faces'])
 data=bpy.data.cameras.new('Exact top orthographic')
 data.type='ORTHO'
-data.ortho_scale=max(high[0]-low[0],high[1]-low[1])/style['frame_fill']
+game_size=style['game_resolution']
+frame_fill=(game_size-2*(style['silhouette_outline_game_pixels']+style['transparent_margin_game_pixels']))/game_size
+data.ortho_scale=max(high[0]-low[0],high[1]-low[1])/frame_fill
 camera=bpy.data.objects.new('Exact top orthographic',data)
 scene.collection.objects.link(camera)
 camera.location=(center.x,center.y,high[2]+500)
@@ -101,12 +103,16 @@ def render(name):
     bpy.ops.render.render(write_still=True)
     temp.replace(target)
 
-render('top_plain_2048.png')
+render('top_plain_4096.png')
 white=material('Panel mask white',[255,255,255])
 black=material('Panel mask occluder',[0,0,0])
 for obj in objects:
     obj.data.materials[0]=white if obj['paint_role'] in style['panel_roles'] else black
-render('panel_mask_2048.png')
+render('panel_mask_4096.png')
+for name,roles in style['surface_mask_roles'].items():
+    for obj in objects:
+        obj.data.materials[0]=white if obj['paint_role'] in roles else black
+    render(name+'_mask_4096.png')
 for obj in objects:
     obj.data.materials[0]=materials[obj['paint_role']]
 assert not any(o.type=='LIGHT' for o in scene.objects)
@@ -116,7 +122,10 @@ validation=dict(source_sha256=sha256(source),source_groups=len(objects),source_f
     original_coordinates_and_uv_preserved=True,lighting='Fixed RGB to Emission; no light objects or image albedo',
     projection='Orthographic; camera rotation (0,0,180 degrees), directly above +Z',
     canonical_axes=profile['axes'],source_units='Unverified Roblox export units; ratios retained',
-    used_bounds=[low,high],ortho_scale=data.ortho_scale,pixel_anchor=[1024,1024],
+    used_bounds=[low,high],ortho_scale=data.ortho_scale,
+    master_size=style['master_size'],camera_center=list(center),
+    pixel_anchor=[style['master_size']/2]*2,
+    draw_size_tiles=style['game_draw_size_tiles'],game_resolution=game_size,
     model_sha256=sha256(out/'aircraft.blend'),parts=report,
     game_validation_performed=False,blueprint_validation_performed=False)
 (out/'model_validation.json').write_text(json.dumps(validation,indent=2)+'\n',encoding='utf-8')

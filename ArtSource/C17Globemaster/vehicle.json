@@ -18,7 +18,7 @@
     "confirmed": true
   },
   "style": "style.json",
-  "variant_notes": "Supplied Roblox-export C-17; top-view art trial only. Original units unverified; no blueprint or aircraft gameplay added.",
+  "variant_notes": "Supplied Roblox-export C-17; flat top view on a 19x19-tile drawing canvas. Original units unverified; artwork only, no aircraft gameplay added.",
   "blueprint_views": {},
   "parts": [
     {
@@ -1641,5 +1641,9 @@
     "geometry": true,
     "game": false
   },
-  "render_pipeline": "build_trial.py, then package_trial.py; aircraft-specific style, not the ground-vehicle renderer"
+  "render_pipeline": "build_trial.py, then package_trial.py; aircraft-specific style, not the ground-vehicle renderer",
+  "draw_size_tiles": [
+    19,
+    19
+  ]
 }

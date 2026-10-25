@@ -1,104 +1,181 @@
 {
   "status": "passed",
-  "projection": "Exactly top-down orthographic; nose points up",
-  "raw_render_sha256": "b524a41da433b77b8a331bc2886d8f96767fee13dd40feb86a394974749373f9",
-  "raw_render_unchanged": true,
+  "projection": "Exact top orthographic, nose up",
+  "raw_render_sha256": "106148c7a394b5f516f254c01924dbc5b1c3731bae4b18cd9c4eb0f89dbb4f8b",
+  "source_render_unchanged": true,
+  "source_silhouette_alpha_preserved": true,
   "files": {
-    "Plain/1024": {
-      "bounds": [
-        70,
-        59,
-        954,
-        965
+    "Plain": {
+      "size": [
+        3243,
+        3243
       ],
-      "visible_width": 884,
-      "outline_pixels": 0,
-      "sha256": "f26803238fd25a88635e1edb0a274f5865c10a753a64d128879ce763c88d1b4f"
-    },
-    "Plain/512": {
       "bounds": [
-        34,
-        28,
-        478,
-        484
+        64,
+        25,
+        3179,
+        3218
       ],
-      "visible_width": 444,
       "outline_pixels": 0,
-      "sha256": "fff1b05cbaab389852d959d816e6ac743ba19994132ffb8534c75f752435181e"
+      "sha256": "11d199e69235d67e0a366d17c26ff80822276057eb5a5be480f5c28e994a1f7f"
     },
-    "Plain/256": {
+    "Outlined": {
+      "size": [
+        3243,
+        3243
+      ],
       "bounds": [
-        15,
+        52,
         13,
-        241,
-        243
+        3191,
+        3230
       ],
-      "visible_width": 226,
-      "outline_pixels": 0,
-      "sha256": "9fdad2391e1d34dcd260e51d3227bc4c1a92765ab8c2eb4863d38cbc665a8425"
-    },
-    "Plain/128": {
-      "bounds": [
-        6,
-        5,
-        122,
-        123
-      ],
-      "visible_width": 116,
-      "outline_pixels": 0,
-      "sha256": "eea7dab37e1de7e5cfd94d948991ed87a2ff2f2b0a7a952ff391d997f882cae2"
-    },
-    "Outlined/1024": {
-      "bounds": [
-        60,
-        49,
-        964,
-        975
-      ],
-      "visible_width": 904,
-      "outline_pixels": 10.0,
-      "sha256": "ddd95eaa0db9016c62cacc2feef7418ef28c3ddc4cc506f98f8957833785b6b0"
-    },
-    "Outlined/512": {
-      "bounds": [
-        29,
-        23,
-        483,
-        489
-      ],
-      "visible_width": 454,
-      "outline_pixels": 5.0,
-      "sha256": "673d8044af528f478ed8dcf2056438106068936a52bda2b17a99b4ccbbcfe071"
-    },
-    "Outlined/256": {
-      "bounds": [
-        13,
-        10,
-        243,
-        246
-      ],
-      "visible_width": 230,
-      "outline_pixels": 2.5,
-      "sha256": "d7a6750eedf83381f0c0032e33e7b3609adef36fd9971ffc6cb5f824fc2107d3"
-    },
-    "Outlined/128": {
-      "bounds": [
-        5,
-        4,
-        123,
-        124
-      ],
-      "visible_width": 118,
-      "outline_pixels": 1.25,
-      "sha256": "8f700a855b036996b92619cfe4c0fee1d8c8d43ad0e8e80f027adc308ff99c7a"
+      "outline_pixels": 12,
+      "sha256": "e328b9b3e02b43bcbb62bc3cf63b2a91f6e1323e7a2251fb4765c5d281497be4"
     }
   },
-  "silhouette": "Black circular alpha dilation beneath the entire aircraft, before downsampling",
-  "internal_lines": "Muted gray inside selected control-surface/wing-detail/engine-lip/glass boundaries",
+  "scale": {
+    "draw_size_tiles": [
+      19,
+      19
+    ],
+    "resolution": [
+      3243,
+      3243
+    ],
+    "reference_pixels_per_tile": 170.66666666666666,
+    "actual_pixels_per_tile": 170.68421052631578,
+    "rounding_error_pixels": 0.3333333333334849,
+    "outline_pixels": 12,
+    "outline_world_tiles": 0.07030527289546716,
+    "internal_panel_pixels": 4,
+    "reference_assets": {
+      "HD_TreadleLathe": {
+        "definition": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Defs\\WildWest\\Buildings\\Industry_WildWest.xml",
+        "texture": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Textures\\Buildings\\HD_TreadleLathe_south.png",
+        "size": [
+          512,
+          512
+        ],
+        "draw_size_tiles": [
+          3.0,
+          3.0
+        ],
+        "pixels_per_tile": [
+          170.66666666666666,
+          170.66666666666666
+        ],
+        "sha256": "d824b03d9b75562ff955a9c9a11f71b33b69cfdc20c739b7323912c8eb593d82"
+      },
+      "HD_LineShaftTurretLathe": {
+        "definition": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Defs\\WildWest\\Buildings\\Industry_WildWest.xml",
+        "texture": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Textures\\Buildings\\HD_LineShaftTurretLathe_south.png",
+        "size": [
+          512,
+          512
+        ],
+        "draw_size_tiles": [
+          3.0,
+          3.0
+        ],
+        "pixels_per_tile": [
+          170.66666666666666,
+          170.66666666666666
+        ],
+        "sha256": "ff98866bda3f28561a574ae4f53e9c8e58aa16c42b14c37900cce0065bb31c21"
+      },
+      "HD_LineShaftMillingMachine": {
+        "definition": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Defs\\WildWest\\Buildings\\Industry_WildWest.xml",
+        "texture": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Textures\\Buildings\\HD_LineShaftMillingMachine_south.png",
+        "size": [
+          512,
+          512
+        ],
+        "draw_size_tiles": [
+          3.0,
+          3.0
+        ],
+        "pixels_per_tile": [
+          170.66666666666666,
+          170.66666666666666
+        ],
+        "sha256": "6d36182b07b2a78a317329f2f7f1eed81d60ad6f8349a40b1acec41fcb013737"
+      },
+      "HD_Radio": {
+        "definition": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Defs\\WildWest\\Buildings\\Radio.xml",
+        "texture": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Textures\\Buildings\\HD_Radio_south.png",
+        "size": [
+          256,
+          256
+        ],
+        "draw_size_tiles": [
+          1.5,
+          1.5
+        ],
+        "pixels_per_tile": [
+          170.66666666666666,
+          170.66666666666666
+        ],
+        "sha256": "8a3d783df35ca2cd7c165751d0a5607d86e6a8a6efac842e77eba4404f672f63"
+      }
+    },
+    "pivot_pixels": [
+      1621.5,
+      1621.5
+    ],
+    "pivot_normalized": [
+      0.5,
+      0.5
+    ],
+    "alpha_bounds_pixels": [
+      52,
+      13,
+      3191,
+      3230
+    ],
+    "transparent_margin_note": "The 19x19 world canvas includes a small transparent AA margin; source aspect ratio is preserved.",
+    "integration": "Use drawSize (19,19), Graphic_Single, scale 1. This is a texture specification, not a new aircraft definition."
+  },
+  "details": {
+    "operations": {
+      "body": 93,
+      "wing": 42,
+      "engine": 80,
+      "tail": 6
+    },
+    "visible_bounds": {
+      "body": [
+        1873,
+        479,
+        2224,
+        3353
+      ],
+      "wing": [
+        117,
+        1350,
+        3981,
+        2199
+      ],
+      "engine": [
+        884,
+        901,
+        3213,
+        1665
+      ],
+      "tail": [
+        1387,
+        3764,
+        2710,
+        4012
+      ]
+    },
+    "scope": "Stylized painted skin/inspection panels, wing control divisions, nacelle covers/lips/vents and position lamps; not a certified C-17 maintenance diagram",
+    "source_geometry_modified": false,
+    "source_projection_preserved": true
+  },
   "filter": "Linear-light premultiplied-alpha Lanczos",
-  "pivot": "Canvas center at each resolution; no trim or per-size recentering",
-  "native_size_visual_review": true,
-  "reference_style_visual_review": true,
+  "native_detail_visual_review": true,
+  "absolute_scale_visual_review": true,
   "game_validation_performed": false,
   "blueprint_validation_performed": false
 }

@@ -26,12 +26,23 @@
       80.9133
     ]
   ],
-  "ortho_scale": 277.353759765625,
-  "pixel_anchor": [
-    1024,
-    1024
+  "ortho_scale": 248.35997009277344,
+  "master_size": 4096,
+  "camera_center": [
+    203.95675659179688,
+    -27.04734992980957,
+    40.587669372558594
   ],
-  "model_sha256": "0e8043bbb69897e8b4b66d1a67be5a30102c751d44a609282495e14c6aea7552",
+  "pixel_anchor": [
+    2048.0,
+    2048.0
+  ],
+  "draw_size_tiles": [
+    19,
+    19
+  ],
+  "game_resolution": 3243,
+  "model_sha256": "bee4601bacd000f0510eecaaee41d414e4aea1530607276289a41714104ea67a",
   "parts": [
     {
       "id": "g0000",
