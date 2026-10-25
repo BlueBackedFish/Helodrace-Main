@@ -99,6 +99,14 @@ python ArtSource/VehiclePipeline/pipeline.py components ArtSource/NewVehicle/veh
 
 ## 그릴
 
+형상별 그릴에는 `grid` 반복 타일 대신 `grille`을 사용한다. 연결된 실제 패널의 면 집합을 한 part로 선택하면 패널 경계와 모서리에 UV 0..1을 맞춘다. 월드 좌표로 무늬를 반복하지 않으며, 소스 UV·메시·원래 면색은 다른 부위에서 유지한다. M8의 `configure_vehicle.py`와 Bradley `SurfaceDetails/settings.json`이 차량별 선택과 종류를 지정한다.
+
+```json
+"grille": {"pattern":"louvers", "rows":5, "columns":2, "border_fraction":0.075, "values":[60,112,144]}
+```
+
+종류는 `louvers`(루버), `slots`(칸으로 분리된 흡기 슬롯), `diamond`(망), `radial`(원형 팬·링)이다. 팬은 `spokes`, `rings`, `hub`를 지정한다. 도형별 테두리는 해당 면 집합의 투영 경계에 맞추고, 이미지의 샘플링은 `EXTEND`로 고정한다. 원본이 얇은 앞/뒤/베벨 면으로 구성된 경우 같은 연결 패널에 투영해 삼각형마다 무늬가 다시 시작하지 않게 한다. 실제 크기에서 행/열 수와 모서리를 검수한다. 반복 타일의 기존 `grid` 옵션은 기존 M1A2 등 명시적으로 사용하는 작업용으로 남긴다.
+
 평면 그릴을 별도 면 집합으로 추출한 뒤 해당 part에 다음을 추가한다.
 
 ```json

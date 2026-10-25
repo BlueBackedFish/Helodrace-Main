@@ -1,5 +1,5 @@
 {
-  "source_model_sha256": "6b3950724f1d5a17c13388a17710daabc8c1592237b588b118c9a3d97e2cfb76",
+  "source_model_sha256": "d556335ca313411f9d05aa6b461fb8c4a5408e9205dcd4e41d448674d4c9a65f",
   "master": 1024,
   "ortho_scale": 16.206403732299805,
   "note": "Original source geometry and fixed emission materials; no model resave or baked outlines",

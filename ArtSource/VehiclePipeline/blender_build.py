@@ -332,6 +332,11 @@ def build(profile_path):
     for part in profile["parts"]:
         if "grid" in part and part["id"] in objects:
             grids[part["id"]] = add_grid(objects[part["id"]], part, style, camera_data.ortho_scale)
+        elif "grille" in part and part["id"] in objects:
+            from shape_grilles import bind
+            obj = objects[part["id"]]
+            colors = [paint_rgb(y, "paint", style) for y in part["grille"].get("values", [64, 112, 144])]
+            grids[part["id"]] = bind(obj, list(range(len(obj.data.polygons))), part["grille"], colors, part["id"])
 
     def render(name, elevation, azimuth=180, layers=None, target=None):
         for obj in objects.values():
@@ -406,7 +411,7 @@ def build(profile_path):
     if any("COLOR_0" in p["attributes"] for m in gltf["meshes"] for p in m["primitives"]):
         raise AssertionError("Unexpected vertex colors modulate the GLB palette")
     for key in grids:
-        mat = next(m for m in gltf["materials"] if m["name"] == key+" fixed grid")
+        mat = next(m for m in gltf["materials"] if m["name"] == grids[key].get("material_name", key+" fixed grid"))
         pbr = mat["pbrMetallicRoughness"]
         if "baseColorTexture" not in pbr or pbr.get("baseColorFactor", [1, 1, 1, 1]) != [1, 1, 1, 1]:
             raise AssertionError("GLB lost or tinted its grid texture")

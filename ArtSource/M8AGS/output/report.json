@@ -17,7 +17,7 @@
       "sha256": "df6a1a92cfda9c34648b8bea3aec285caa3cfd65a43ae9c75e9660a6120750ca"
     }
   },
-  "profile_sha256": "56e333c0556445a40fd653c9f2f38bcd07366b65a8c9f244177bcba2e1f7364f",
+  "profile_sha256": "9ccac9bf399c3a3255342020a558e898f3830564b0eb5e7172f64de0f24c250a",
   "style_sha256": "6c5ddf651d2f584b81bcc25066bd33e57f7ebee910516d471e7475bf5ff57d48",
   "source_faces": 203803,
   "preserved_faces": 198849,
@@ -32,7 +32,7 @@
   "source_coordinates_preserved": true,
   "unlit_glb": true,
   "glb_animation_count": 1,
-  "mesh_count": 511,
+  "mesh_count": 194,
   "paint": {
     "g0000": {
       "top": 168,
@@ -53,13 +53,35 @@
     "g0000_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 51
+        "96": 46
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 51
+      "source_faces": 46
+    },
+    "g0000_grille_01": {
+      "top": 96,
+      "luminances": {
+        "96": 3
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 3
+    },
+    "g0000_grille_02": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 2
     },
     "g0001": {
       "top": 120,
@@ -1096,453 +1118,46 @@
     "g0072_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 4
+        "96": 208
       },
-      "upward_min_max": null,
-      "source_faces": 4
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 208
     },
     "g0072_grille_01": {
       "top": 96,
       "luminances": {
-        "96": 14
+        "96": 112
       },
-      "upward_min_max": null,
-      "source_faces": 14
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 112
     },
     "g0072_grille_02": {
       "top": 96,
       "luminances": {
-        "96": 8
+        "96": 76
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 8
+      "source_faces": 76
     },
     "g0072_grille_03": {
       "top": 96,
       "luminances": {
-        "96": 8
-      },
-      "upward_min_max": null,
-      "source_faces": 8
-    },
-    "g0072_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 10
-      },
-      "upward_min_max": null,
-      "source_faces": 10
-    },
-    "g0072_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0072_grille_06": {
-      "top": 96,
-      "luminances": {
-        "96": 6
+        "96": 32
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 6
-    },
-    "g0072_grille_07": {
-      "top": 96,
-      "luminances": {
-        "96": 11
-      },
-      "upward_min_max": null,
-      "source_faces": 11
-    },
-    "g0072_grille_08": {
-      "top": 96,
-      "luminances": {
-        "96": 12
-      },
-      "upward_min_max": null,
-      "source_faces": 12
-    },
-    "g0072_grille_09": {
-      "top": 96,
-      "luminances": {
-        "96": 12
-      },
-      "upward_min_max": null,
-      "source_faces": 12
-    },
-    "g0072_grille_10": {
-      "top": 96,
-      "luminances": {
-        "96": 12
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 12
-    },
-    "g0072_grille_11": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_12": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_13": {
-      "top": 96,
-      "luminances": {
-        "96": 78
-      },
-      "upward_min_max": null,
-      "source_faces": 78
-    },
-    "g0072_grille_14": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0072_grille_15": {
-      "top": 96,
-      "luminances": {
-        "96": 78
-      },
-      "upward_min_max": null,
-      "source_faces": 78
-    },
-    "g0072_grille_16": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0072_grille_17": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0072_grille_18": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0072_grille_19": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_20": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0072_grille_21": {
-      "top": 96,
-      "luminances": {
-        "96": 3
-      },
-      "upward_min_max": null,
-      "source_faces": 3
-    },
-    "g0072_grille_22": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0072_grille_23": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0072_grille_24": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_25": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_26": {
-      "top": 96,
-      "luminances": {
-        "96": 24
-      },
-      "upward_min_max": null,
-      "source_faces": 24
-    },
-    "g0072_grille_27": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0072_grille_28": {
-      "top": 96,
-      "luminances": {
-        "96": 25
-      },
-      "upward_min_max": null,
-      "source_faces": 25
-    },
-    "g0072_grille_29": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_30": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_31": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_32": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_33": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_34": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_35": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_36": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_37": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_38": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_39": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_40": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_41": {
-      "top": 96,
-      "luminances": {
-        "96": 3
-      },
-      "upward_min_max": null,
-      "source_faces": 3
-    },
-    "g0072_grille_42": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_43": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_44": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 4
-    },
-    "g0072_grille_45": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0072_grille_46": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 4
-    },
-    "g0072_grille_47": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 4
-    },
-    "g0072_grille_48": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 4
-    },
-    "g0072_grille_49": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 4
-    },
-    "g0072_grille_50": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 4
-    },
-    "g0072_grille_51": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0072_grille_52": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
+      "source_faces": 32
     },
     "g0073": {
       "top": 180,
@@ -2637,61 +2252,13 @@
     "g0149_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 2
+        "96": 16
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 2
-    },
-    "g0149_grille_01": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0149_grille_02": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0149_grille_03": {
-      "top": 96,
-      "luminances": {
-        "96": 3
-      },
-      "upward_min_max": null,
-      "source_faces": 3
-    },
-    "g0149_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 3
-      },
-      "upward_min_max": null,
-      "source_faces": 3
-    },
-    "g0149_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0149_grille_06": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
+      "source_faces": 16
     },
     "g0150": {
       "top": 168,
@@ -2710,53 +2277,13 @@
     "g0151_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0151_grille_01": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0151_grille_02": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0151_grille_03": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0151_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 2
+        "96": 12
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 2
-    },
-    "g0151_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
+      "source_faces": 12
     },
     "g0152": {
       "top": 168,
@@ -2775,136 +2302,24 @@
     "g0153_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0153_grille_01": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0153_grille_02": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0153_grille_03": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0153_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0153_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0153_grille_06": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0153_grille_07": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0153_grille_08": {
-      "top": 96,
-      "luminances": {
-        "96": 6
-      },
-      "upward_min_max": null,
-      "source_faces": 6
-    },
-    "g0153_grille_09": {
-      "top": 96,
-      "luminances": {
-        "96": 6
+        "96": 28
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 6
+      "source_faces": 28
     },
     "g0154_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0154_grille_01": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0154_grille_02": {
-      "top": 96,
-      "luminances": {
-        "96": 2
+        "96": 12
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 2
-    },
-    "g0154_grille_03": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0154_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0154_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
+      "source_faces": 12
     },
     "g0155": {
       "top": 168,
@@ -2938,53 +2353,13 @@
     "g0156_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0156_grille_01": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0156_grille_02": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0156_grille_03": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0156_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 2
+        "96": 12
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 2
-    },
-    "g0156_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
+      "source_faces": 12
     },
     "g0157": {
       "top": 168,
@@ -3003,456 +2378,13 @@
     "g0158_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 5
-      },
-      "upward_min_max": null,
-      "source_faces": 5
-    },
-    "g0158_grille_01": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_02": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_03": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_06": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_07": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_08": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_09": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_10": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_11": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_12": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_13": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_14": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_15": {
-      "top": 96,
-      "luminances": {
-        "96": 5
-      },
-      "upward_min_max": null,
-      "source_faces": 5
-    },
-    "g0158_grille_16": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0158_grille_17": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_18": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_19": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_20": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_21": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_22": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_23": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_24": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_25": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_26": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_27": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_28": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_29": {
-      "top": 96,
-      "luminances": {
-        "96": 3
-      },
-      "upward_min_max": null,
-      "source_faces": 3
-    },
-    "g0158_grille_30": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0158_grille_31": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_32": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_33": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_34": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_35": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_36": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0158_grille_37": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0158_grille_38": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0158_grille_39": {
-      "top": 96,
-      "luminances": {
-        "96": 3
+        "96": 80
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 3
-    },
-    "g0158_grille_40": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2
-    },
-    "g0158_grille_41": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0158_grille_42": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_43": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0158_grille_44": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2
-    },
-    "g0158_grille_45": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2
-    },
-    "g0158_grille_46": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2
-    },
-    "g0158_grille_47": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2
-    },
-    "g0158_grille_48": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2
-    },
-    "g0158_grille_49": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0158_grille_50": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0158_grille_51": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0158_grille_52": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
+      "source_faces": 80
     },
     "g0159": {
       "top": 168,
@@ -3472,53 +2404,13 @@
     "g0160_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0160_grille_01": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0160_grille_02": {
-      "top": 96,
-      "luminances": {
-        "96": 2
+        "96": 12
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 2
-    },
-    "g0160_grille_03": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0160_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0160_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
+      "source_faces": 12
     },
     "g0161": {
       "top": 168,
@@ -3537,53 +2429,13 @@
     "g0162_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0162_grille_01": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0162_grille_02": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0162_grille_03": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0162_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0162_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 2
+        "96": 12
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 2
+      "source_faces": 12
     },
     "g0163": {
       "top": 168,
@@ -3602,462 +2454,13 @@
     "g0164_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0164_grille_01": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_02": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_03": {
-      "top": 96,
-      "luminances": {
-        "96": 5
-      },
-      "upward_min_max": null,
-      "source_faces": 5
-    },
-    "g0164_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_06": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_07": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_08": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_09": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_10": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_11": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_12": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_13": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_14": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_15": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_16": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_17": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_18": {
-      "top": 96,
-      "luminances": {
-        "96": 5
-      },
-      "upward_min_max": null,
-      "source_faces": 5
-    },
-    "g0164_grille_19": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0164_grille_20": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_21": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_22": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_23": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_24": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_25": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_26": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_27": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_28": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_29": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_30": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_31": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_32": {
-      "top": 96,
-      "luminances": {
-        "96": 3
+        "96": 80
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 3
-    },
-    "g0164_grille_33": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2
-    },
-    "g0164_grille_34": {
-      "top": 96,
-      "luminances": {
-        "96": 3
-      },
-      "upward_min_max": null,
-      "source_faces": 3
-    },
-    "g0164_grille_35": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0164_grille_36": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0164_grille_37": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0164_grille_38": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0164_grille_39": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0164_grille_40": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0164_grille_41": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0164_grille_42": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0164_grille_43": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0164_grille_44": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0164_grille_45": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0164_grille_46": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0164_grille_47": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0164_grille_48": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0164_grille_49": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2
-    },
-    "g0164_grille_50": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2
-    },
-    "g0164_grille_51": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2
-    },
-    "g0164_grille_52": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
+      "source_faces": 80
     },
     "g0165": {
       "top": 168,
@@ -4092,929 +2495,35 @@
     "g0167_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 3
-      },
-      "upward_min_max": null,
-      "source_faces": 3
-    },
-    "g0167_grille_01": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0167_grille_02": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0167_grille_03": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_06": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_07": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_08": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_09": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_10": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_11": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0167_grille_12": {
-      "top": 96,
-      "luminances": {
-        "96": 3
-      },
-      "upward_min_max": null,
-      "source_faces": 3
-    },
-    "g0167_grille_13": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0167_grille_14": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0167_grille_15": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_16": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_17": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_18": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_19": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_20": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_21": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_22": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_23": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0167_grille_24": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0167_grille_25": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0167_grille_26": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0167_grille_27": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0167_grille_28": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0167_grille_29": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0167_grille_30": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_31": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0167_grille_32": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0167_grille_33": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0167_grille_34": {
-      "top": 96,
-      "luminances": {
-        "96": 1
+        "96": 72
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 1
-    },
-    "g0167_grille_35": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0167_grille_36": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0167_grille_37": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0167_grille_38": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0167_grille_39": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0167_grille_40": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0167_grille_41": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0167_grille_42": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0167_grille_43": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0167_grille_44": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0167_grille_45": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0167_grille_46": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2
-    },
-    "g0167_grille_47": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2
-    },
-    "g0167_grille_48": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
+      "source_faces": 72
     },
     "g0168_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 3
-      },
-      "upward_min_max": null,
-      "source_faces": 3
-    },
-    "g0168_grille_01": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0168_grille_02": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0168_grille_03": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_06": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_07": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_08": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_09": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_10": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_11": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0168_grille_12": {
-      "top": 96,
-      "luminances": {
-        "96": 3
-      },
-      "upward_min_max": null,
-      "source_faces": 3
-    },
-    "g0168_grille_13": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0168_grille_14": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0168_grille_15": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_16": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_17": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_18": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_19": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_20": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_21": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_22": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_23": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0168_grille_24": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0168_grille_25": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0168_grille_26": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0168_grille_27": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0168_grille_28": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0168_grille_29": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_30": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "source_faces": 1
-    },
-    "g0168_grille_31": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0168_grille_32": {
-      "top": 96,
-      "luminances": {
-        "96": 4
-      },
-      "upward_min_max": null,
-      "source_faces": 4
-    },
-    "g0168_grille_33": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0168_grille_34": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0168_grille_35": {
-      "top": 96,
-      "luminances": {
-        "96": 1
+        "96": 72
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 1
-    },
-    "g0168_grille_36": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0168_grille_37": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0168_grille_38": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0168_grille_39": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0168_grille_40": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0168_grille_41": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0168_grille_42": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0168_grille_43": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0168_grille_44": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0168_grille_45": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0168_grille_46": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0168_grille_47": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2
-    },
-    "g0168_grille_48": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2
+      "source_faces": 72
     },
     "g0169_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 2
+        "96": 16
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 2
-    },
-    "g0169_grille_01": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0169_grille_02": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0169_grille_03": {
-      "top": 96,
-      "luminances": {
-        "96": 3
-      },
-      "upward_min_max": null,
-      "source_faces": 3
-    },
-    "g0169_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 3
-      },
-      "upward_min_max": null,
-      "source_faces": 3
-    },
-    "g0169_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0169_grille_06": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
+      "source_faces": 16
     },
     "g0170": {
       "top": 168,
@@ -5033,53 +2542,13 @@
     "g0171_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0171_grille_01": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0171_grille_02": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0171_grille_03": {
-      "top": 96,
-      "luminances": {
-        "96": 2
+        "96": 12
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 2
-    },
-    "g0171_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0171_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
+      "source_faces": 12
     },
     "g0172": {
       "top": 168,
@@ -5098,136 +2567,24 @@
     "g0173_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0173_grille_01": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0173_grille_02": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0173_grille_03": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0173_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0173_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0173_grille_06": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0173_grille_07": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0173_grille_08": {
-      "top": 96,
-      "luminances": {
-        "96": 6
+        "96": 28
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 6
-    },
-    "g0173_grille_09": {
-      "top": 96,
-      "luminances": {
-        "96": 6
-      },
-      "upward_min_max": null,
-      "source_faces": 6
+      "source_faces": 28
     },
     "g0174_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0174_grille_01": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0174_grille_02": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0174_grille_03": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0174_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0174_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 2
+        "96": 12
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 2
+      "source_faces": 12
     },
     "g0175": {
       "top": 168,
@@ -5261,53 +2618,13 @@
     "g0176_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0176_grille_01": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0176_grille_02": {
-      "top": 96,
-      "luminances": {
-        "96": 2
+        "96": 12
       },
       "upward_min_max": [
         96,
         96
       ],
-      "source_faces": 2
-    },
-    "g0176_grille_03": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0176_grille_04": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
-    },
-    "g0176_grille_05": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "source_faces": 2
+      "source_faces": 12
     },
     "g0179": {
       "top": 56,
@@ -5367,2044 +2684,1864 @@
   ],
   "grids": {
     "g0000_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0000_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0000_grille_00",
+      "pattern": {
+        "pattern": "radial",
+        "spokes": 8,
+        "rings": 2,
+        "hub": 0.18,
+        "values": [
+          48,
+          112,
+          144
+        ]
+      },
+      "frame": {
+        "center": [
+          0.8519895846645037,
+          2.4906229426463447,
+          1.789199948310852
+        ],
+        "u": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "low": [
+          -0.31808956215778983,
+          -0.3180229117472968
+        ],
+        "extent": [
+          0.6360999345779419,
+          0.6361000537872314
+        ],
+        "outline": [
+          [
+            0.0,
+            0.4999214766733246
+          ],
+          [
+            0.0044018048749314325,
+            0.43468002400302547
+          ],
+          [
+            0.01713561093502184,
+            0.3706964438115935
+          ],
+          [
+            0.0380442777942175,
+            0.308599297525447
+          ],
+          [
+            0.0671278054525184,
+            0.2499605509301547
+          ],
+          [
+            0.10344278937397407,
+            0.19556656173151618
+          ],
+          [
+            0.1465178084004233,
+            0.14636073428868174
+          ],
+          [
+            0.19572392617456583,
+            0.10328572333477136
+          ],
+          [
+            0.2501179255669938,
+            0.06697046510921864
+          ],
+          [
+            0.30875649574502817,
+            0.03804427066447226
+          ],
+          [
+            0.3706964195792611,
+            0.01713570142695063
+          ],
+          [
+            0.43483733955423104,
+            0.004244382583638588
+          ],
+          [
+            0.5000786170446625,
+            0.0
+          ],
+          [
+            0.565319894535094,
+            0.004244382583638588
+          ],
+          [
+            0.629460814510064,
+            0.01713570142695063
+          ],
+          [
+            0.6914007383442969,
+            0.03804427066447226
+          ],
+          [
+            0.7500394022256026,
+            0.06697046510921864
+          ],
+          [
+            0.8044334016180306,
+            0.10328572333477136
+          ],
+          [
+            0.8534821915995767,
+            0.14636073428868174
+          ],
+          [
+            0.896714444715351,
+            0.19556656173151618
+          ],
+          [
+            0.9330295223400781,
+            0.2499605509301547
+          ],
+          [
+            0.9619557222057825,
+            0.308599297525447
+          ],
+          [
+            0.9830215294510319,
+            0.3706964438115935
+          ],
+          [
+            0.9957554292143936,
+            0.43468002400302547
+          ],
+          [
+            1.0,
+            0.4999214766733246
+          ],
+          [
+            0.9957554292143936,
+            0.5651625545306086
+          ],
+          [
+            0.9830215294510319,
+            0.6293035561884065
+          ],
+          [
+            0.9619557222057825,
+            0.691400702474553
+          ],
+          [
+            0.9330295223400781,
+            0.7498820276034793
+          ],
+          [
+            0.896714444715351,
+            0.8042760168021178
+          ],
+          [
+            0.8534821915995767,
+            0.8536392657113183
+          ],
+          [
+            0.8044334016180306,
+            0.8967142766652286
+          ],
+          [
+            0.7500394022256026,
+            0.9328721134244155
+          ],
+          [
+            0.6914007383442969,
+            0.9617983078691618
+          ],
+          [
+            0.629460814510064,
+            0.9828642985730494
+          ],
+          [
+            0.565319894535094,
+            0.9955981959499954
+          ],
+          [
+            0.5000786170446625,
+            1.0
+          ],
+          [
+            0.43483733955423104,
+            0.9955981959499954
+          ],
+          [
+            0.3706964195792611,
+            0.9828642985730494
+          ],
+          [
+            0.30875649574502817,
+            0.9617983078691618
+          ],
+          [
+            0.2501179255669938,
+            0.9328721134244155
+          ],
+          [
+            0.19572392617456583,
+            0.8967142766652286
+          ],
+          [
+            0.1465178084004233,
+            0.8536392657113183
+          ],
+          [
+            0.10344278937397407,
+            0.8042760168021178
+          ],
+          [
+            0.0671278054525184,
+            0.7498820276034793
+          ],
+          [
+            0.0380442777942175,
+            0.691400702474553
+          ],
+          [
+            0.01713561093502184,
+            0.6293035561884065
+          ],
+          [
+            0.0044018048749314325,
+            0.5651625545306086
+          ]
+        ],
+        "plane_deviation": 0.0
+      },
+      "face_count": 46,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
+    },
+    "g0000_grille_01": {
+      "material_name": "g0000_grille_01 fixed grille",
+      "uv_name": "Fitted grille g0000_grille_01",
+      "pattern": {
+        "pattern": "slots",
+        "rows": 1,
+        "columns": 3,
+        "values": [
+          56,
+          108,
+          136
+        ]
+      },
+      "frame": {
+        "center": [
+          -0.7492999911308289,
+          1.1275799512863158,
+          1.5365999937057495
+        ],
+        "u": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "low": [
+          -0.3229999661445617,
+          -0.07548000812530509
+        ],
+        "extent": [
+          0.5699999332427979,
+          0.1632000207901001
+        ],
+        "outline": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.8333333681898548,
+            0.0
+          ],
+          [
+            1.0,
+            0.31249995434693845
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.0
+      },
+      "face_count": 3,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
+    },
+    "g0000_grille_02": {
+      "material_name": "g0000_grille_02 fixed grille",
+      "uv_name": "Fitted grille g0000_grille_02",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 2,
+        "values": [
+          60,
+          120,
+          144
+        ]
+      },
+      "frame": {
+        "center": [
+          -0.10165001451969147,
+          2.480149984359741,
+          1.7884000539779663
+        ],
+        "u": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "low": [
+          -0.47495000064373016,
+          -0.37765002250671387
+        ],
+        "extent": [
+          0.9499000012874603,
+          0.7553000450134277
+        ],
+        "outline": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.0
+      },
+      "face_count": 2,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0072_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0072_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0072_grille_00",
+      "pattern": {
+        "pattern": "diamond",
+        "rows": 2,
+        "columns": 6,
+        "values": [
+          56,
+          108,
+          132
+        ]
+      },
+      "frame": {
+        "center": [
+          -0.06441922865521449,
+          1.5324221150233195,
+          1.9643624940743813
+        ],
+        "u": [
+          0.9999999988293354,
+          -4.838204529008524e-05,
+          -7.11910872713832e-07
+        ],
+        "v": [
+          0.0,
+          0.01471276818057637,
+          -0.9998917613684316
+        ],
+        "low": [
+          -0.7915810075140182,
+          -0.16512297149221322
+        ],
+        "extent": [
+          1.5488004494906984,
+          0.35587632076714326
+        ],
+        "outline": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            2.9056287432435186e-07,
+            0.9998965289954835
+          ],
+          [
+            0.008458180071997109,
+            0.6953625222509281
+          ],
+          [
+            0.02782827996903133,
+            0.0
+          ],
+          [
+            0.903215439519058,
+            4.13492237296815e-06
+          ],
+          [
+            0.9254907480319992,
+            0.22987982068411936
+          ],
+          [
+            0.9705575713206439,
+            0.6953583873285551
+          ],
+          [
+            1.0,
+            0.9998882640791313
+          ],
+          [
+            0.9999997125614838,
+            0.9999876001612749
+          ]
+        ],
+        "plane_deviation": 0.004836695309328299
+      },
+      "face_count": 208,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0072_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0072_grille_01 fixed grille",
+      "uv_name": "Fitted grille g0072_grille_01",
+      "pattern": {
+        "pattern": "diamond",
+        "rows": 2,
+        "columns": 6,
+        "values": [
+          56,
+          108,
+          132
+        ]
+      },
+      "frame": {
+        "center": [
+          -0.017794642464390824,
+          1.4907250042472566,
+          1.963532139148031
+        ],
+        "u": [
+          0.9999999989261203,
+          -4.633894291944494e-05,
+          -6.794504192397444e-07
+        ],
+        "v": [
+          1.0587911840678754e-22,
+          0.014661046408109077,
+          -0.9998925210832509
+        ],
+        "low": [
+          -0.7976055826920665,
+          -0.16541813713484618
+        ],
+        "extent": [
+          1.435000441126796,
+          0.3559408470674569
+        ],
+        "outline": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            3.0036215509104657e-07,
+            0.9998978993488378
+          ],
+          [
+            0.030104537356574663,
+            0.0
+          ],
+          [
+            0.8955398019044931,
+            8.239278730254376e-06
+          ],
+          [
+            1.0,
+            0.9998896649802856
+          ],
+          [
+            0.9999996996378449,
+            0.9999917656314478
+          ]
+        ],
+        "plane_deviation": 0.004823311239064484
+      },
+      "face_count": 112,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0072_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0072_grille_02 fixed grille",
+      "uv_name": "Fitted grille g0072_grille_02",
+      "pattern": {
+        "pattern": "diamond",
+        "rows": 2,
+        "columns": 6,
+        "values": [
+          56,
+          108,
+          132
+        ]
+      },
+      "frame": {
+        "center": [
+          -0.20738500356674194,
+          1.478212508559227,
+          2.2518000066280366
+        ],
+        "u": [
+          0.9999999999821161,
+          -5.121989277016091e-06,
+          -3.0875697781900447e-06
+        ],
+        "v": [
+          4.235164736271502e-22,
+          0.5162621610334808,
+          -0.8564306049441721
+        ],
+        "low": [
+          -0.5971150078783073,
+          -0.15019728614829062
+        ],
+        "extent": [
+          1.3472000317148098,
+          0.2976875543978785
+        ],
+        "outline": [
+          [
+            0.0,
+            0.1585490198023634
+          ],
+          [
+            4.1187753609734055e-08,
+            0.15819722698189648
+          ],
+          [
+            0.05849169822087285,
+            0.0
+          ],
+          [
+            0.7939430044385843,
+            0.0
+          ],
+          [
+            0.9812202934395233,
+            0.45103638160876564
+          ],
+          [
+            0.9907214643360722,
+            0.7277401231147634
+          ],
+          [
+            0.999999958964102,
+            0.999891626550517
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0011876653330383962,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.004683118734323572
+      },
+      "face_count": 76,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0072_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_06": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_07": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_08": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_09": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_10": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_11": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_12": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_13": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_14": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_15": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_16": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_17": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_18": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_19": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_20": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_21": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_22": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_23": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_24": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_25": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_26": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_27": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_28": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_29": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_30": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_31": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_32": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_33": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_34": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_35": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_36": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_37": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_38": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_39": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_40": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_41": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_42": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_43": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_44": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_45": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_46": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_47": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_48": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_49": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_50": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_51": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0072_grille_52": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0072_grille_03 fixed grille",
+      "uv_name": "Fitted grille g0072_grille_03",
+      "pattern": {
+        "pattern": "diamond",
+        "rows": 2,
+        "columns": 6,
+        "values": [
+          56,
+          108,
+          132
+        ]
+      },
+      "frame": {
+        "center": [
+          -0.09418888886769612,
+          1.440383301840888,
+          2.2378055254618325
+        ],
+        "u": [
+          0.9999999999470294,
+          8.814217357681906e-06,
+          5.315164765463102e-06
+        ],
+        "v": [
+          0.0,
+          0.516397188970181,
+          -0.8563491946768533
+        ],
+        "low": [
+          -0.677611140118398,
+          -0.16660812947683717
+        ],
+        "extent": [
+          1.2628000731338198,
+          0.2977083794157992
+        ],
+        "outline": [
+          [
+            0.0,
+            0.620535922321936
+          ],
+          [
+            7.534489313452414e-08,
+            0.6204317663031479
+          ],
+          [
+            0.03650614358155626,
+            0.0
+          ],
+          [
+            0.8211117546404963,
+            0.0
+          ],
+          [
+            0.9714126602230133,
+            0.3393593393130694
+          ],
+          [
+            0.9999999250765815,
+            0.7276836714176769
+          ],
+          [
+            1.0,
+            0.727867553023548
+          ],
+          [
+            0.9999999996528846,
+            1.0
+          ],
+          [
+            0.0005543961148306382,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.00464300244763521
+      },
+      "face_count": 32,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0149_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0149_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0149_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0149_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0149_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0149_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0149_grille_06": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0149_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0149_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "values": [
+          60,
+          112,
+          140
+        ]
+      },
+      "frame": {
+        "center": [
+          -1.3490999937057495,
+          2.7090400218963624,
+          1.4412399768829345
+        ],
+        "u": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "low": [
+          -0.2695399284362794,
+          -0.4027400255203246
+        ],
+        "extent": [
+          0.4986999034881592,
+          0.7071000337600708
+        ],
+        "outline": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.7024261138911478,
+            0.0
+          ],
+          [
+            1.0,
+            0.847829205853073
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.0034999847412109375
+      },
+      "face_count": 16,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0151_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0151_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0151_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0151_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0151_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0151_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0151_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0151_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "values": [
+          60,
+          112,
+          140
+        ]
+      },
+      "frame": {
+        "center": [
+          -1.3490999937057495,
+          2.1896499395370483,
+          1.3920499682426453
+        ],
+        "u": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "low": [
+          -0.24794995784759521,
+          -0.3535500168800354
+        ],
+        "extent": [
+          0.49589991569519043,
+          0.7071000337600708
+        ],
+        "outline": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.0034999847412109375
+      },
+      "face_count": 12,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0153_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0153_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0153_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0153_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0153_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0153_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0153_grille_06": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0153_grille_07": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0153_grille_08": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0153_grille_09": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0153_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0153_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "values": [
+          60,
+          112,
+          140
+        ]
+      },
+      "frame": {
+        "center": [
+          -1.2932937517762184,
+          1.3643499910831451,
+          1.272599995136261
+        ],
+        "u": [
+          -0.10600279308718916,
+          0.9943658320001374,
+          -2.8963978243446624e-06
+        ],
+        "v": [
+          -2.7323787788130403e-05,
+          0.0,
+          0.9999999996267054
+        ],
+        "low": [
+          -0.3361159401325111,
+          -0.22920065608859871
+        ],
+        "extent": [
+          0.916289391033606,
+          0.4584024874428359
+        ],
+        "outline": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.21705349619845482,
+            5.961643501920993e-09
+          ],
+          [
+            0.24960102752778177,
+            1.1324990868684738e-07
+          ],
+          [
+            1.0,
+            5.245372242891687e-06
+          ],
+          [
+            0.9999985509944103,
+            0.9999995827489092
+          ],
+          [
+            0.9998316492890827,
+            1.0
+          ],
+          [
+            0.0008083566343345266,
+            0.9999947546206515
+          ],
+          [
+            1.0121616547440298e-05,
+            0.9999943433383097
+          ]
+        ],
+        "plane_deviation": 0.016656910550214954
+      },
+      "face_count": 28,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0154_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0154_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0154_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0154_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0154_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0154_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0154_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0154_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "values": [
+          60,
+          112,
+          140
+        ]
+      },
+      "frame": {
+        "center": [
+          -1.3184750080108643,
+          1.6212999820709229,
+          1.5707250237464905
+        ],
+        "u": [
+          -0.1252381292264502,
+          0.992126711155307,
+          -1.1374847164293699e-07
+        ],
+        "v": [
+          -9.082575118733607e-07,
+          0.0,
+          0.9999999999995876
+        ],
+        "low": [
+          -0.3219995225852274,
+          -0.06692502898239108
+        ],
+        "extent": [
+          0.6439927874715152,
+          0.24560006468593085
+        ],
+        "outline": [
+          [
+            0.0,
+            0.08998360023408886
+          ],
+          [
+            3.903518914396299e-09,
+            2.5516825751029763e-08
+          ],
+          [
+            4.47353786740648e-05,
+            0.0
+          ],
+          [
+            1.0,
+            2.980677892725095e-07
+          ],
+          [
+            0.9999999566196648,
+            0.9999999741128603
+          ],
+          [
+            0.9999746986866178,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.0035290795711076023
+      },
+      "face_count": 12,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0156_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0156_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0156_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0156_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0156_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0156_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0156_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0156_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "values": [
+          60,
+          112,
+          140
+        ]
+      },
+      "frame": {
+        "center": [
+          -1.3192999958992004,
+          1.5929250121116638,
+          0.8539999723434448
+        ],
+        "u": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "low": [
+          -0.5748249888420105,
+          -0.18299996852874756
+        ],
+        "extent": [
+          1.2820000648498535,
+          0.3659999370574951
+        ],
+        "outline": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.7935256154899911,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.003500044345855713
+      },
+      "face_count": 12,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0158_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_06": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_07": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_08": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_09": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_10": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_11": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_12": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_13": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_14": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_15": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_16": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_17": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_18": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_19": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_20": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_21": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_22": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_23": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_24": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_25": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_26": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_27": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_28": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_29": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_30": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_31": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_32": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_33": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_34": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_35": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_36": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_37": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_38": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_39": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_40": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_41": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_42": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_43": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_44": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_45": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_46": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_47": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_48": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_49": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_50": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_51": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0158_grille_52": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0158_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0158_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "values": [
+          60,
+          112,
+          140
+        ]
+      },
+      "frame": {
+        "center": [
+          -0.6543999967120943,
+          3.1185333217893327,
+          1.3504809481757027
+        ],
+        "u": [
+          0.9374878729770578,
+          0.3464710201009041,
+          -0.032776824910154476
+        ],
+        "v": [
+          0.0,
+          -0.0941814226953956,
+          -0.9955550510238353
+        ],
+        "low": [
+          -0.22303925126148103,
+          -0.3413756694949691
+        ],
+        "extent": [
+          0.45961350051467587,
+          0.784982004427214
+        ],
+        "outline": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.13255217311104314,
+            0.00503909960453095
+          ],
+          [
+            0.14045071841974405,
+            0.004159866180683197
+          ],
+          [
+            0.16808744991079397,
+            0.0028109679471633076
+          ],
+          [
+            0.19966464706601106,
+            0.0019368415362522673
+          ],
+          [
+            0.2376830280358816,
+            0.001259774901132755
+          ],
+          [
+            0.2852975541569313,
+            0.0005638951549961955
+          ],
+          [
+            0.3389291766593074,
+            0.0001439701879519202
+          ],
+          [
+            0.3989859094233844,
+            0.0
+          ],
+          [
+            0.4711924516607977,
+            0.0
+          ],
+          [
+            0.9478506840938488,
+            0.08479808266791684
+          ],
+          [
+            1.0,
+            0.9717689135916006
+          ],
+          [
+            0.9947232042476253,
+            0.972608763525689
+          ]
+        ],
+        "plane_deviation": 0.09850908809129402
+      },
+      "face_count": 80,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0160_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0160_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0160_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0160_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0160_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0160_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0160_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0160_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "values": [
+          60,
+          112,
+          140
+        ]
+      },
+      "frame": {
+        "center": [
+          -0.21332500030985102,
+          3.142699956893921,
+          1.2741999924182892
+        ],
+        "u": [
+          1.0,
+          9.625980454184335e-10,
+          7.015917455479052e-12
+        ],
+        "v": [
+          0.0,
+          0.007288328856005388,
+          -0.9999734397785207
+        ],
+        "low": [
+          -0.2126749987397959,
+          -0.34993441430367234
+        ],
+        "extent": [
+          0.4249999990054707,
+          0.6998688286073447
+        ],
+        "outline": [
+          [
+            0.0,
+            0.9999281436856121
+          ],
+          [
+            0.0016470516467781188,
+            0.0
+          ],
+          [
+            0.9999999999843717,
+            0.0
+          ],
+          [
+            1.0,
+            7.185631438794741e-05
+          ],
+          [
+            0.999999999999999,
+            1.0
+          ],
+          [
+            1.562821771079898e-11,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.003450192537830123
+      },
+      "face_count": 12,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0162_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0162_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0162_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0162_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0162_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0162_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0162_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0162_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "values": [
+          60,
+          112,
+          140
+        ]
+      },
+      "frame": {
+        "center": [
+          0.21132499625673518,
+          3.142699956893921,
+          1.2741999924182892
+        ],
+        "u": [
+          1.0,
+          -9.80996929467933e-10,
+          -7.150018134767994e-12
+        ],
+        "v": [
+          -8.077935669463161e-28,
+          0.007288328856014495,
+          -0.9999734397785206
+        ],
+        "low": [
+          -0.21032499621262246,
+          -0.34993441430367234
+        ],
+        "extent": [
+          0.420999990899366,
+          0.6998688286073447
+        ],
+        "outline": [
+          [
+            0.0,
+            7.185631438810604e-05
+          ],
+          [
+            1.607825810150849e-11,
+            0.0
+          ],
+          [
+            0.9983372993744076,
+            0.0
+          ],
+          [
+            1.0,
+            0.9999281436856118
+          ],
+          [
+            0.9999999999839219,
+            1.0
+          ],
+          [
+            1.2526269550989282e-15,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.0034501925397779063
+      },
+      "face_count": 12,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0164_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_06": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_07": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_08": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_09": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_10": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_11": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_12": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_13": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_14": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_15": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_16": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_17": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_18": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_19": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_20": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_21": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_22": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_23": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_24": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_25": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_26": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_27": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_28": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_29": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_30": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_31": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_32": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_33": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_34": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_35": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_36": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_37": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_38": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_39": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_40": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_41": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_42": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_43": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_44": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_45": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_46": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_47": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_48": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_49": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_50": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_51": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0164_grille_52": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0164_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0164_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "values": [
+          60,
+          112,
+          140
+        ]
+      },
+      "frame": {
+        "center": [
+          0.6543928555079869,
+          3.1185333217893327,
+          1.3504809481757027
+        ],
+        "u": [
+          0.9374787031027007,
+          -0.3464955250812105,
+          0.03278005990804032
+        ],
+        "v": [
+          -3.469446951953614e-18,
+          -0.09418403343163054,
+          -0.9955548040397122
+        ],
+        "low": [
+          -0.2365675973120454,
+          -0.3413756510954304
+        ],
+        "extent": [
+          0.4596155683279004,
+          0.7849824163169177
+        ],
+        "outline": [
+          [
+            0.0,
+            0.9717681458313334
+          ],
+          [
+            0.05215426404611406,
+            0.0847980157935954
+          ],
+          [
+            0.5288062314826428,
+            0.0
+          ],
+          [
+            0.6010117425898456,
+            0.0
+          ],
+          [
+            0.6610676905517321,
+            0.00014397410330208106
+          ],
+          [
+            0.7146987595920871,
+            0.0005639104904419511
+          ],
+          [
+            0.7623129577647291,
+            0.0012598091614194687
+          ],
+          [
+            0.8003316577247946,
+            0.0019369225869724296
+          ],
+          [
+            0.83190897598694,
+            0.0028110798656061802
+          ],
+          [
+            0.8593421776240947,
+            0.004160018330853695
+          ],
+          [
+            0.8672402190806765,
+            0.0050392366456778045
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.005277145224188394,
+            0.9726080186056132
+          ]
+        ],
+        "plane_deviation": 0.09849971326200868
+      },
+      "face_count": 80,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0167_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_06": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_07": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_08": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_09": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_10": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_11": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_12": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_13": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_14": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_15": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_16": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_17": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_18": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_19": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_20": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_21": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_22": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_23": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_24": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_25": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_26": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_27": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_28": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_29": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_30": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_31": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_32": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_33": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_34": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_35": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_36": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_37": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_38": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_39": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_40": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_41": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_42": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_43": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_44": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_45": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_46": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_47": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0167_grille_48": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0167_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0167_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "values": [
+          60,
+          112,
+          140
+        ]
+      },
+      "frame": {
+        "center": [
+          -0.5341236850884008,
+          3.033355286246852,
+          0.8098184246765939
+        ],
+        "u": [
+          0.9944566111209083,
+          0.08075416288702882,
+          -0.067341025937639
+        ],
+        "v": [
+          6.938893903907228e-18,
+          -0.6404419321130328,
+          -0.7680065960597772
+        ],
+        "low": [
+          -0.26732743275398607,
+          -0.18359036915432142
+        ],
+        "extent": [
+          0.800908479611798,
+          0.34275951995482484
+        ],
+        "outline": [
+          [
+            0.0,
+            0.5006953257891747
+          ],
+          [
+            0.13893646975872054,
+            0.17043078865794248
+          ],
+          [
+            0.164779781751546,
+            0.12338390740454341
+          ],
+          [
+            0.194317224994323,
+            0.08153293315516316
+          ],
+          [
+            0.22705886323934657,
+            0.045512461641101246
+          ],
+          [
+            0.26133351060231425,
+            0.020178547075685817
+          ],
+          [
+            0.2968458299023108,
+            0.004858428568732321
+          ],
+          [
+            0.3326195457645778,
+            0.0
+          ],
+          [
+            0.9987705144532372,
+            0.0
+          ],
+          [
+            1.0,
+            0.8281454786289338
+          ],
+          [
+            0.9990838897007962,
+            0.82878748462005
+          ],
+          [
+            0.8724443242527851,
+            0.9079782920345788
+          ],
+          [
+            0.12212219208406808,
+            0.999257243017019
+          ],
+          [
+            0.1159921215074944,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.13302072317321528
+      },
+      "face_count": 72,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0168_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_06": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_07": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_08": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_09": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_10": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_11": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_12": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_13": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_14": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_15": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_16": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_17": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_18": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_19": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_20": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_21": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_22": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_23": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_24": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_25": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_26": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_27": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_28": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_29": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_30": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_31": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_32": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_33": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_34": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_35": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_36": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_37": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_38": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_39": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_40": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_41": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_42": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_43": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_44": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_45": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_46": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_47": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0168_grille_48": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0168_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0168_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "values": [
+          60,
+          112,
+          140
+        ]
+      },
+      "frame": {
+        "center": [
+          0.5341000008690906,
+          3.033355286246852,
+          0.8098184246765939
+        ],
+        "u": [
+          0.9944562010755056,
+          -0.08075684002830985,
+          0.06734387077615607
+        ],
+        "v": [
+          -6.938893903907228e-18,
+          -0.6404453670933329,
+          -0.7680037316111726
+        ],
+        "low": [
+          -0.533557466897017,
+          -0.18359049357964846
+        ],
+        "extent": [
+          0.8009089577345191,
+          0.3427599245928562
+        ],
+        "outline": [
+          [
+            0.0,
+            0.8281443787694283
+          ],
+          [
+            0.0012296968403001925,
+            0.0
+          ],
+          [
+            0.6673799931787978,
+            0.0
+          ],
+          [
+            0.7031536817340209,
+            0.004858448891139755
+          ],
+          [
+            0.7386659852936917,
+            0.020178611105280526
+          ],
+          [
+            0.7728164436347379,
+            0.04551259496598194
+          ],
+          [
+            0.8056822822780743,
+            0.08153316825192515
+          ],
+          [
+            0.8350955696671136,
+            0.12338427681170137
+          ],
+          [
+            0.8610631166362018,
+            0.17043132633272817
+          ],
+          [
+            1.0,
+            0.5006971267614014
+          ],
+          [
+            0.8840074404815692,
+            1.0
+          ],
+          [
+            0.877877397681866,
+            0.9992573010345271
+          ],
+          [
+            0.12743139205442616,
+            0.9079771756652052
+          ],
+          [
+            0.000916143410675175,
+            0.8287864750569943
+          ]
+        ],
+        "plane_deviation": 0.13301726378532425
+      },
+      "face_count": 72,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0169_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0169_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0169_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0169_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0169_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0169_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0169_grille_06": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0169_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0169_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "values": [
+          60,
+          112,
+          140
+        ]
+      },
+      "frame": {
+        "center": [
+          1.3490999937057495,
+          2.7090400218963624,
+          1.4412399768829345
+        ],
+        "u": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "low": [
+          -0.2695399284362794,
+          -0.4027400255203246
+        ],
+        "extent": [
+          0.4986999034881592,
+          0.7071000337600708
+        ],
+        "outline": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.7024261138911478,
+            0.0
+          ],
+          [
+            1.0,
+            0.847829205853073
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.0034999847412109375
+      },
+      "face_count": 16,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0171_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0171_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0171_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0171_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0171_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0171_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0171_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0171_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "values": [
+          60,
+          112,
+          140
+        ]
+      },
+      "frame": {
+        "center": [
+          1.3490999937057495,
+          2.1896499395370483,
+          1.3920499682426453
+        ],
+        "u": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "low": [
+          -0.24794995784759521,
+          -0.3535500168800354
+        ],
+        "extent": [
+          0.49589991569519043,
+          0.7071000337600708
+        ],
+        "outline": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.0034999847412109375
+      },
+      "face_count": 12,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0173_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0173_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0173_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0173_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0173_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0173_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0173_grille_06": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0173_grille_07": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0173_grille_08": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0173_grille_09": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0173_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0173_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "values": [
+          60,
+          112,
+          140
+        ]
+      },
+      "frame": {
+        "center": [
+          1.2932624965906143,
+          1.3643499910831451,
+          1.272599995136261
+        ],
+        "u": [
+          0.10597443119945327,
+          0.9943688550693612,
+          0.0
+        ],
+        "v": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "low": [
+          -0.3361135679887335,
+          -0.22919994592666626
+        ],
+        "extent": [
+          0.91628965253086,
+          0.4583998918533325
+        ],
+        "outline": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.016672196643173976
+      },
+      "face_count": 28,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0174_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0174_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0174_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0174_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0174_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0174_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0174_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0174_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "values": [
+          60,
+          112,
+          140
+        ]
+      },
+      "frame": {
+        "center": [
+          1.318450003862381,
+          1.6212999820709229,
+          1.5707250237464905
+        ],
+        "u": [
+          0.12516153283618012,
+          0.9921363770662157,
+          -1.4721988029705922e-07
+        ],
+        "v": [
+          1.176239032560018e-06,
+          -2.6469779601696886e-23,
+          0.9999999999993083
+        ],
+        "low": [
+          -0.32199665915994413,
+          -0.06692504068384253
+        ],
+        "extent": [
+          0.6439933273115022,
+          0.24560008804339808
+        ],
+        "outline": [
+          [
+            0.0,
+            0.08998359920503667
+          ],
+          [
+            5.052156699532537e-09,
+            3.3045565998148946e-08
+          ],
+          [
+            4.5570677177727005e-05,
+            0.0
+          ],
+          [
+            1.0,
+            3.860127002729926e-07
+          ],
+          [
+            0.999999943854697,
+            0.9999999669538632
+          ],
+          [
+            0.999954401398266,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.003479532647210574
+      },
+      "face_count": 12,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
     "g0176_grille_00": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0176_grille_01": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0176_grille_02": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0176_grille_03": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0176_grille_04": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0176_grille_05": {
-      "pitch_world": 0.31653132289648056,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+      "material_name": "g0176_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0176_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "values": [
+          60,
+          112,
+          140
+        ]
+      },
+      "frame": {
+        "center": [
+          1.3192999958992004,
+          1.5929250121116638,
+          0.8539999723434448
+        ],
+        "u": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "low": [
+          -0.5748249888420105,
+          -0.18299996852874756
+        ],
+        "extent": [
+          1.2820000648498535,
+          0.3659999370574951
+        ],
+        "outline": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.7935256154899911,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.003500044345855713
+      },
+      "face_count": 12,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     }
   },
   "rigs": [
@@ -7465,55 +4602,6 @@
         "g0072_grille_01",
         "g0072_grille_02",
         "g0072_grille_03",
-        "g0072_grille_04",
-        "g0072_grille_05",
-        "g0072_grille_06",
-        "g0072_grille_07",
-        "g0072_grille_08",
-        "g0072_grille_09",
-        "g0072_grille_10",
-        "g0072_grille_11",
-        "g0072_grille_12",
-        "g0072_grille_13",
-        "g0072_grille_14",
-        "g0072_grille_15",
-        "g0072_grille_16",
-        "g0072_grille_17",
-        "g0072_grille_18",
-        "g0072_grille_19",
-        "g0072_grille_20",
-        "g0072_grille_21",
-        "g0072_grille_22",
-        "g0072_grille_23",
-        "g0072_grille_24",
-        "g0072_grille_25",
-        "g0072_grille_26",
-        "g0072_grille_27",
-        "g0072_grille_28",
-        "g0072_grille_29",
-        "g0072_grille_30",
-        "g0072_grille_31",
-        "g0072_grille_32",
-        "g0072_grille_33",
-        "g0072_grille_34",
-        "g0072_grille_35",
-        "g0072_grille_36",
-        "g0072_grille_37",
-        "g0072_grille_38",
-        "g0072_grille_39",
-        "g0072_grille_40",
-        "g0072_grille_41",
-        "g0072_grille_42",
-        "g0072_grille_43",
-        "g0072_grille_44",
-        "g0072_grille_45",
-        "g0072_grille_46",
-        "g0072_grille_47",
-        "g0072_grille_48",
-        "g0072_grille_49",
-        "g0072_grille_50",
-        "g0072_grille_51",
-        "g0072_grille_52",
         "g0073",
         "g0074",
         "g0075",
@@ -7694,18 +4782,18 @@
       312
     ]
   },
-  "model_sha256": "6b3950724f1d5a17c13388a17710daabc8c1592237b588b118c9a3d97e2cfb76",
+  "model_sha256": "d556335ca313411f9d05aa6b461fb8c4a5408e9205dcd4e41d448674d4c9a65f",
   "visual_review": {
     "date": "2026-10-25",
     "artifacts": {
-      "cardinal_review.png": "d877d3cd85da2f8d062b37d366f9fee75f60ecab9827cde78fa6fed71597b242",
-      "style_comparison.png": "32ba359ea67d2aba1447b5dd4dec4e55973e886b71dff23d54a5de3cf26e377c",
-      "alpha_backgrounds.png": "f4041a6376b559e6e8ac11aeeb329894315be2acd4b85e6ea3f4a6a862312141",
-      "OutlinedReview/native_sizes.png": "00eacbf57225bca800f664244fc3f1bf1d02d422399a036fc6c24a9ec0404ab7",
-      "iso_front.png": "f8a14b3a0be8fdd84843fe7f05785c8c8afc5cec6f93bd8620e1725bab7f464b",
-      "iso_rear.png": "28795bfd4f6b89d7652a2486a99e5ccff374dcc7677d993598acb5a02d96f86f"
+      "cardinal_review.png": "8e4c7c6934168b94b558eb65a829dc46b69b97cc48a94a3fa9609a554086d3d6",
+      "style_comparison.png": "6f08b2cab7eab14c7f47cf65407af5f07b12b9bbfd36c56001bb0f9952b79ee8",
+      "alpha_backgrounds.png": "58ead285e71cf6eff7cdf58834251e53f482765a4db48ce4420eb199e90b9005",
+      "OutlinedReview/native_sizes.png": "a9f574f64e8b59022f74aa67944bf5123b1f7ecdc633ab0e8a36e163d6058254",
+      "iso_front.png": "980cb1bebc149776e24bba914248afd698459b073b34be54f53cfd4f33e8fe2f",
+      "iso_rear.png": "7ffeff0652fc1e6b5d7964a98003764ba1fda25c9bab8fecc1d930c389c54f24"
     },
-    "previous_build_profile_sha256": "465bc54acdeff738a40856e4195539e0fec584cdcde3f0c144972290427d5f59",
+    "previous_build_profile_sha256": "77756599664f68054e346a41c8dd9b54c529cd893eb609bb72c7f9a63b7ff6b8",
     "metadata_only_review_update": true,
     "scope": "Four cardinal previews, 256/512 native size, same-body-width RimThunder style comparison, three backgrounds, source part atlas and front/rear isometric geometry inspection",
     "limits": "No blueprint certification, exhaustive self-intersection audit, exact hatch/elevation mechanism or in-game validation; five source zero-area faces retained"

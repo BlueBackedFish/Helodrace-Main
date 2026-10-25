@@ -91,17 +91,22 @@ def configure():
                 subsets["bore"].append(face)
         for key, faces in subsets.items():
             if key == "grille":
-                planes = []
-                for face in faces:
-                    n = normal(face)
-                    cluster = next((c for c in planes if np.dot(c[0], n) > .9999), None)
-                    if cluster is None:
-                        planes.append((n, [face]))
+                # Connected panels share one corner frame across all source triangles
+                # and thin back/bevel faces. Never restart a tile on each triangle.
+                for i, selection in enumerate(common.components(model, faces, 1e-6)):
+                    seed = min(selection)
+                    if group["id"] == "g0000":
+                        grille = {
+                            7217: dict(pattern="radial", spokes=8, rings=2, hub=.18, values=[48, 112, 144]),
+                            7212: dict(pattern="louvers", rows=5, columns=2, values=[60, 120, 144]),
+                            7214: dict(pattern="slots", rows=1, columns=3, values=[56, 108, 136]),
+                        }[seed]
+                    elif group["id"] == "g0072":
+                        grille = dict(pattern="diamond", rows=2, columns=6, values=[56, 108, 132])
                     else:
-                        cluster[1].append(face)
-                for i, (_, selection) in enumerate(planes):
+                        grille = dict(pattern="louvers", rows=5, columns=1, values=[60, 112, 140])
                     extract(group, f"grille_{i:02d}", selection, role="paint", mode="flat", top=96,
-                            grid=dict(cell_pixels=5, bar_fraction=.3, values=[84, 120]))
+                            grille=grille)
             else:
                 role, top = {"optics": ("optics", 36), "headlight": ("optics", 192),
                              "gunmetal": ("metal", 68), "bore": ("recess", 32)}[key]

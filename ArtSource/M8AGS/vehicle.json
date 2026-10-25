@@ -37,11 +37,6 @@
       "top": 96,
       "confirmed": true,
       "faces": [
-        7212,
-        7213,
-        7214,
-        7215,
-        7216,
         7217,
         7218,
         7219,
@@ -89,12 +84,64 @@
         7261,
         7262
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "radial",
+        "spokes": 8,
+        "rings": 2,
+        "hub": 0.18,
         "values": [
-          84,
-          120
+          48,
+          112,
+          144
+        ]
+      }
+    },
+    {
+      "id": "g0000_grille_01",
+      "source_group": "g0000",
+      "label": "@root / grille_01",
+      "role": "paint",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 96,
+      "confirmed": true,
+      "faces": [
+        7214,
+        7215,
+        7216
+      ],
+      "grille": {
+        "pattern": "slots",
+        "rows": 1,
+        "columns": 3,
+        "values": [
+          56,
+          108,
+          136
+        ]
+      }
+    },
+    {
+      "id": "g0000_grille_02",
+      "source_group": "g0000",
+      "label": "@root / grille_02",
+      "role": "paint",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 96,
+      "confirmed": true,
+      "faces": [
+        7212,
+        7213
+      ],
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 2,
+        "values": [
+          60,
+          120,
+          144
         ]
       }
     },
@@ -3653,373 +3700,34 @@
       "top": 96,
       "confirmed": true,
       "faces": [
-        114359,
-        114360,
-        114365,
-        114366
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_01",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114361,
-        114362,
-        114371,
-        114372,
-        114383,
-        114384,
-        114539,
-        114540,
-        114551,
-        114552,
-        114575,
-        114576,
-        114581,
-        114582
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_02",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114363,
-        114364,
-        114375,
-        114376,
-        114533,
-        114534,
-        114555,
-        114556
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_03",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114367,
-        114368,
-        114369,
-        114370,
-        114377,
-        114378,
-        114535,
-        114536
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_04",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114373,
-        114374,
-        114379,
-        114380,
-        114545,
-        114546,
-        114561,
-        114562,
-        114569,
-        114570
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_05",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114381,
-        114382
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_06",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_06",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114385,
-        114386,
-        114527,
-        114528,
-        114543,
-        114544
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_07",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_07",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
         114387,
         114388,
-        114403,
-        114404,
-        114407,
-        114408,
-        114415,
-        114416,
-        114713,
-        114715,
-        114761
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_08",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_08",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
         114389,
         114390,
-        114399,
-        114400,
-        114405,
-        114406,
-        114413,
-        114414,
-        114421,
-        114422,
-        114557,
-        114558
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_09",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_09",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
         114391,
         114392,
+        114393,
+        114394,
         114395,
         114396,
         114397,
         114398,
-        114417,
-        114418,
-        114722,
-        114724,
-        114770,
-        114772
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_10",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_10",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114393,
-        114394,
-        114411,
-        114412,
-        114419,
-        114420,
-        114565,
-        114566,
-        114571,
-        114572,
-        114577,
-        114578
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_11",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_11",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        114399,
+        114400,
         114401,
         114402,
-        114563,
-        114564
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_12",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_12",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        114403,
+        114404,
+        114405,
+        114406,
+        114407,
+        114408,
         114409,
         114410,
-        114583,
-        114584
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_13",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_13",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        114411,
+        114412,
+        114413,
+        114414,
         114423,
         114424,
         114425,
@@ -4036,7 +3744,9 @@
         114436,
         114437,
         114438,
+        114439,
         114440,
+        114441,
         114442,
         114443,
         114444,
@@ -4070,76 +3780,6 @@
         114472,
         114473,
         114474,
-        114635,
-        114636,
-        114637,
-        114638,
-        114639,
-        114640,
-        114641,
-        114642,
-        114643,
-        114644,
-        114645,
-        114646,
-        114647,
-        114648,
-        114649,
-        114650,
-        114651,
-        114652,
-        114653,
-        114654,
-        114655,
-        114656,
-        114657,
-        114658,
-        114659,
-        114660,
-        114661,
-        114662
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_14",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_14",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114439,
-        114441
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_15",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_15",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
         114475,
         114476,
         114477,
@@ -4148,6 +3788,7 @@
         114480,
         114481,
         114482,
+        114483,
         114484,
         114485,
         114486,
@@ -4189,7 +3830,142 @@
         114522,
         114523,
         114524,
+        114525,
         114526,
+        114557,
+        114558,
+        114559,
+        114560,
+        114561,
+        114562,
+        114563,
+        114564,
+        114565,
+        114566,
+        114567,
+        114568,
+        114569,
+        114570,
+        114571,
+        114572,
+        114573,
+        114574,
+        114575,
+        114576,
+        114577,
+        114578,
+        114579,
+        114580,
+        114581,
+        114582,
+        114583,
+        114584,
+        114691,
+        114692,
+        114693,
+        114694,
+        114695,
+        114696,
+        114697,
+        114698,
+        114699,
+        114700,
+        114701,
+        114702,
+        114703,
+        114704,
+        114705,
+        114706,
+        114707,
+        114708,
+        114709,
+        114710,
+        114711,
+        114712,
+        114713,
+        114714,
+        114715,
+        114716,
+        114717,
+        114718,
+        114719,
+        114720,
+        114721,
+        114722,
+        114723,
+        114724,
+        114725,
+        114726,
+        114727,
+        114728,
+        114729,
+        114730,
+        114731,
+        114732,
+        114733,
+        114734,
+        114735,
+        114736,
+        114737,
+        114738
+      ],
+      "grille": {
+        "pattern": "diamond",
+        "rows": 2,
+        "columns": 6,
+        "values": [
+          56,
+          108,
+          132
+        ]
+      }
+    },
+    {
+      "id": "g0072_grille_01",
+      "source_group": "g0072",
+      "label": "turret_03 / grille_01",
+      "role": "paint",
+      "mode": "flat",
+      "layer": "turret",
+      "top": 96,
+      "confirmed": true,
+      "faces": [
+        114415,
+        114416,
+        114417,
+        114418,
+        114419,
+        114420,
+        114421,
+        114422,
+        114635,
+        114636,
+        114637,
+        114638,
+        114639,
+        114640,
+        114641,
+        114642,
+        114643,
+        114644,
+        114645,
+        114646,
+        114647,
+        114648,
+        114649,
+        114650,
+        114651,
+        114652,
+        114653,
+        114654,
+        114655,
+        114656,
+        114657,
+        114658,
+        114659,
+        114660,
+        114661,
+        114662,
         114663,
         114664,
         114665,
@@ -4217,251 +3993,117 @@
         114687,
         114688,
         114689,
-        114690
+        114690,
+        114739,
+        114740,
+        114741,
+        114742,
+        114743,
+        114744,
+        114745,
+        114746,
+        114747,
+        114748,
+        114749,
+        114750,
+        114751,
+        114752,
+        114753,
+        114754,
+        114755,
+        114756,
+        114757,
+        114758,
+        114759,
+        114760,
+        114761,
+        114762,
+        114763,
+        114764,
+        114765,
+        114766,
+        114767,
+        114768,
+        114769,
+        114770,
+        114771,
+        114772,
+        114773,
+        114774,
+        114775,
+        114776,
+        114777,
+        114778,
+        114779,
+        114780,
+        114781,
+        114782,
+        114783,
+        114784,
+        114785,
+        114786
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "diamond",
+        "rows": 2,
+        "columns": 6,
         "values": [
-          84,
-          120
+          56,
+          108,
+          132
         ]
       }
     },
     {
-      "id": "g0072_grille_16",
+      "id": "g0072_grille_02",
       "source_group": "g0072",
-      "label": "turret_03 / grille_16",
+      "label": "turret_03 / grille_02",
       "role": "paint",
       "mode": "flat",
       "layer": "turret",
       "top": 96,
       "confirmed": true,
       "faces": [
-        114483
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_17",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_17",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114525
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_18",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_18",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        114359,
+        114360,
+        114361,
+        114362,
+        114363,
+        114364,
+        114365,
+        114366,
+        114367,
+        114368,
+        114369,
+        114370,
+        114371,
+        114372,
+        114527,
+        114528,
         114529,
-        114530
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_19",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_19",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        114530,
         114531,
         114532,
-        114553,
-        114554
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_20",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_20",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        114533,
+        114534,
+        114535,
+        114536,
         114537,
-        114538
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_21",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_21",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        114538,
+        114539,
+        114540,
         114541,
         114542,
-        114549
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_22",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_22",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        114543,
+        114544,
+        114545,
+        114546,
         114547,
-        114548
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_23",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_23",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114550
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_24",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_24",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114559,
-        114560,
-        114567,
-        114568
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_25",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_25",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114573,
-        114574,
-        114579,
-        114580
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_26",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_26",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        114548,
+        114549,
+        114550,
+        114551,
+        114552,
         114585,
         114586,
         114587,
@@ -4470,6 +4112,7 @@
         114590,
         114591,
         114592,
+        114593,
         114594,
         114595,
         114596,
@@ -4479,54 +4122,6 @@
         114600,
         114601,
         114602,
-        114603,
-        114604,
-        114605,
-        114606,
-        114607,
-        114608,
-        114609
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_27",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_27",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114593
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_28",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_28",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
         114610,
         114611,
         114612,
@@ -4544,7 +4139,54 @@
         114624,
         114625,
         114626,
-        114627,
+        114627
+      ],
+      "grille": {
+        "pattern": "diamond",
+        "rows": 2,
+        "columns": 6,
+        "values": [
+          56,
+          108,
+          132
+        ]
+      }
+    },
+    {
+      "id": "g0072_grille_03",
+      "source_group": "g0072",
+      "label": "turret_03 / grille_03",
+      "role": "paint",
+      "mode": "flat",
+      "layer": "turret",
+      "top": 96,
+      "confirmed": true,
+      "faces": [
+        114373,
+        114374,
+        114375,
+        114376,
+        114377,
+        114378,
+        114379,
+        114380,
+        114381,
+        114382,
+        114383,
+        114384,
+        114385,
+        114386,
+        114553,
+        114554,
+        114555,
+        114556,
+        114603,
+        114604,
+        114605,
+        114606,
+        114607,
+        114608,
+        114609,
         114628,
         114629,
         114630,
@@ -4553,581 +4195,14 @@
         114633,
         114634
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "diamond",
+        "rows": 2,
+        "columns": 6,
         "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_29",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_29",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114691,
-        114692,
-        114739,
-        114740
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_30",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_30",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114693,
-        114695,
-        114741,
-        114743
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_31",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_31",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114694,
-        114696,
-        114742,
-        114744
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_32",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_32",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114697,
-        114699,
-        114745,
-        114747
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_33",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_33",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114698,
-        114700,
-        114746,
-        114748
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_34",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_34",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114701,
-        114703,
-        114749,
-        114751
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_35",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_35",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114702,
-        114704,
-        114750,
-        114752
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_36",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_36",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114705,
-        114707,
-        114753,
-        114755
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_37",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_37",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114706,
-        114708,
-        114754,
-        114756
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_38",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_38",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114709,
-        114711,
-        114757,
-        114759
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_39",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_39",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114710,
-        114712,
-        114758,
-        114760
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_40",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_40",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114714,
-        114716,
-        114762,
-        114764
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_41",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_41",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114717,
-        114719,
-        114767
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_42",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_42",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114718,
-        114720,
-        114766,
-        114768
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_43",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_43",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114721,
-        114723,
-        114769,
-        114771
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_44",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_44",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114725,
-        114727,
-        114773,
-        114775
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_45",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_45",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114726,
-        114728,
-        114774,
-        114776
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_46",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_46",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114729,
-        114731,
-        114777,
-        114779
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_47",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_47",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114730,
-        114732,
-        114778,
-        114780
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_48",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_48",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114733,
-        114735,
-        114781,
-        114783
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_49",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_49",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114734,
-        114736,
-        114782,
-        114784
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_50",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_50",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114737,
-        114738,
-        114785,
-        114786
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_51",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_51",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114763
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0072_grille_52",
-      "source_group": "g0072",
-      "label": "turret_03 / grille_52",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "turret",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        114765
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
+          56,
+          108,
+          132
         ]
       }
     },
@@ -8882,148 +7957,30 @@
       "confirmed": true,
       "faces": [
         194559,
-        194560
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0149_grille_01",
-      "source_group": "g0149",
-      "label": "ex_armor_body_r_11 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194560,
         194561,
-        194562
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0149_grille_02",
-      "source_group": "g0149",
-      "label": "ex_armor_body_r_11 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194562,
         194563,
-        194564
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0149_grille_03",
-      "source_group": "g0149",
-      "label": "ex_armor_body_r_11 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194564,
         194565,
         194566,
-        194567
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0149_grille_04",
-      "source_group": "g0149",
-      "label": "ex_armor_body_r_11 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194567,
         194568,
         194569,
-        194570
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0149_grille_05",
-      "source_group": "g0149",
-      "label": "ex_armor_body_r_11 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194570,
         194571,
-        194572
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0149_grille_06",
-      "source_group": "g0149",
-      "label": "ex_armor_body_r_11 / grille_06",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194572,
         194573,
         194574
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
         "values": [
-          84,
-          120
+          60,
+          112,
+          140
         ]
       }
     },
@@ -9058,124 +8015,26 @@
       "confirmed": true,
       "faces": [
         194591,
-        194592
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0151_grille_01",
-      "source_group": "g0151",
-      "label": "ex_armor_body_r_14 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194592,
         194593,
-        194594
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0151_grille_02",
-      "source_group": "g0151",
-      "label": "ex_armor_body_r_14 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194594,
         194595,
-        194596
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0151_grille_03",
-      "source_group": "g0151",
-      "label": "ex_armor_body_r_14 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194596,
         194597,
-        194598
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0151_grille_04",
-      "source_group": "g0151",
-      "label": "ex_armor_body_r_14 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194598,
         194599,
-        194600
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0151_grille_05",
-      "source_group": "g0151",
-      "label": "ex_armor_body_r_14 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194600,
         194601,
         194602
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
         "values": [
-          84,
-          120
+          60,
+          112,
+          140
         ]
       }
     },
@@ -9210,207 +8069,27 @@
       "confirmed": true,
       "faces": [
         194615,
-        194616
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0153_grille_01",
-      "source_group": "g0153",
-      "label": "ex_armor_body_r_18 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194616,
         194617,
-        194618
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0153_grille_02",
-      "source_group": "g0153",
-      "label": "ex_armor_body_r_18 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194618,
         194619,
-        194620
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0153_grille_03",
-      "source_group": "g0153",
-      "label": "ex_armor_body_r_18 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194620,
         194621,
-        194622
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0153_grille_04",
-      "source_group": "g0153",
-      "label": "ex_armor_body_r_18 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194622,
         194623,
-        194624
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0153_grille_05",
-      "source_group": "g0153",
-      "label": "ex_armor_body_r_18 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194624,
         194625,
-        194626
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0153_grille_06",
-      "source_group": "g0153",
-      "label": "ex_armor_body_r_18 / grille_06",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194626,
         194627,
-        194628
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0153_grille_07",
-      "source_group": "g0153",
-      "label": "ex_armor_body_r_18 / grille_07",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194628,
         194629,
-        194630
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0153_grille_08",
-      "source_group": "g0153",
-      "label": "ex_armor_body_r_18 / grille_08",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194630,
         194631,
         194632,
         194633,
         194634,
         194635,
-        194636
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0153_grille_09",
-      "source_group": "g0153",
-      "label": "ex_armor_body_r_18 / grille_09",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194636,
         194637,
         194638,
         194639,
@@ -9418,12 +8097,14 @@
         194641,
         194642
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
         "values": [
-          84,
-          120
+          60,
+          112,
+          140
         ]
       }
     },
@@ -9448,124 +8129,26 @@
       "confirmed": true,
       "faces": [
         194643,
-        194644
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0154_grille_01",
-      "source_group": "g0154",
-      "label": "ex_armor_body_r_17 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194644,
         194645,
-        194646
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0154_grille_02",
-      "source_group": "g0154",
-      "label": "ex_armor_body_r_17 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194646,
         194647,
-        194648
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0154_grille_03",
-      "source_group": "g0154",
-      "label": "ex_armor_body_r_17 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194648,
         194649,
-        194650
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0154_grille_04",
-      "source_group": "g0154",
-      "label": "ex_armor_body_r_17 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194650,
         194651,
-        194652
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0154_grille_05",
-      "source_group": "g0154",
-      "label": "ex_armor_body_r_17 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194652,
         194653,
         194654
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
         "values": [
-          84,
-          120
+          60,
+          112,
+          140
         ]
       }
     },
@@ -9600,124 +8183,26 @@
       "confirmed": true,
       "faces": [
         194711,
-        194712
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0156_grille_01",
-      "source_group": "g0156",
-      "label": "ex_armor_body_r_20 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194712,
         194713,
-        194714
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0156_grille_02",
-      "source_group": "g0156",
-      "label": "ex_armor_body_r_20 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194714,
         194715,
-        194716
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0156_grille_03",
-      "source_group": "g0156",
-      "label": "ex_armor_body_r_20 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194716,
         194717,
-        194718
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0156_grille_04",
-      "source_group": "g0156",
-      "label": "ex_armor_body_r_20 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194718,
         194719,
-        194720
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0156_grille_05",
-      "source_group": "g0156",
-      "label": "ex_armor_body_r_20 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194720,
         194721,
         194722
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
         "values": [
-          84,
-          120
+          60,
+          112,
+          140
         ]
       }
     },
@@ -9755,1129 +8240,91 @@
         194800,
         194801,
         194802,
-        194804
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_01",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194803
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_02",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194805
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_03",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194806
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_04",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194807
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_05",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194808
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_06",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_06",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194809
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_07",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_07",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194810
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_08",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_08",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194811
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_09",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_09",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194812
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_10",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_10",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194813
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_11",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_11",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194814
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_12",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_12",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194815
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_13",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_13",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194816
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_14",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_14",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194817
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_15",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_15",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194803,
+        194804,
+        194805,
+        194806,
+        194807,
+        194808,
+        194809,
+        194810,
+        194811,
+        194812,
+        194813,
+        194814,
+        194815,
+        194816,
+        194817,
         194818,
         194819,
         194820,
         194821,
-        194823
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_16",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_16",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
         194822,
-        194825
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_17",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_17",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194824
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_18",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_18",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194826
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_19",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_19",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194827
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_20",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_20",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194828
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_21",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_21",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194829
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_22",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_22",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194830
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_23",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_23",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194831
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_24",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_24",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194832
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_25",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_25",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194833
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_26",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_26",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194834
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_27",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_27",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194835
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_28",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_28",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194836
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_29",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_29",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194823,
+        194824,
+        194825,
+        194826,
+        194827,
+        194828,
+        194829,
+        194830,
+        194831,
+        194832,
+        194833,
+        194834,
+        194835,
+        194836,
         194837,
         194838,
-        194839
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_30",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_30",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194839,
         194840,
-        194841
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_31",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_31",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194842
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_32",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_32",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194843
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_33",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_33",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194844
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_34",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_34",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194845
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_35",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_35",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194846
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_36",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_36",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194841,
+        194842,
+        194843,
+        194844,
+        194845,
+        194846,
         194847,
-        194848
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_37",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_37",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194848,
         194849,
-        194850
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_38",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_38",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194850,
         194851,
-        194852
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_39",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_39",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194852,
         194853,
         194854,
-        194863
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_40",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_40",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
         194855,
-        194856
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_41",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_41",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194856,
         194857,
         194858,
-        194875,
-        194876
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_42",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_42",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194859
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_43",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_43",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194860
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_44",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_44",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194859,
+        194860,
         194861,
-        194862
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_45",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_45",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194862,
+        194863,
         194864,
-        194865
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_46",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_46",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194865,
         194866,
-        194867
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_47",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_47",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194867,
         194868,
-        194869
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_48",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_48",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194869,
         194870,
-        194871
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_49",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_49",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194872
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_50",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_50",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194873
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_51",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_51",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        194874
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0158_grille_52",
-      "source_group": "g0158",
-      "label": "ex_armor_body_r_06 / grille_52",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194871,
+        194872,
+        194873,
+        194874,
+        194875,
+        194876,
         194877,
         194878
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
         "values": [
-          84,
-          120
+          60,
+          112,
+          140
         ]
       }
     },
@@ -10912,124 +8359,26 @@
       "confirmed": true,
       "faces": [
         194951,
-        194952
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0160_grille_01",
-      "source_group": "g0160",
-      "label": "ex_armor_body_r_03 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194952,
         194953,
-        194954
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0160_grille_02",
-      "source_group": "g0160",
-      "label": "ex_armor_body_r_03 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194954,
         194955,
-        194956
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0160_grille_03",
-      "source_group": "g0160",
-      "label": "ex_armor_body_r_03 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194956,
         194957,
-        194958
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0160_grille_04",
-      "source_group": "g0160",
-      "label": "ex_armor_body_r_03 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194958,
         194959,
-        194960
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0160_grille_05",
-      "source_group": "g0160",
-      "label": "ex_armor_body_r_03 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194960,
         194961,
         194962
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
         "values": [
-          84,
-          120
+          60,
+          112,
+          140
         ]
       }
     },
@@ -11064,124 +8413,26 @@
       "confirmed": true,
       "faces": [
         194975,
-        194976
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0162_grille_01",
-      "source_group": "g0162",
-      "label": "ex_armor_body_l_03 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194976,
         194977,
-        194978
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0162_grille_02",
-      "source_group": "g0162",
-      "label": "ex_armor_body_l_03 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194978,
         194979,
-        194980
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0162_grille_03",
-      "source_group": "g0162",
-      "label": "ex_armor_body_l_03 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194980,
         194981,
-        194982
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0162_grille_04",
-      "source_group": "g0162",
-      "label": "ex_armor_body_l_03 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194982,
         194983,
-        194984
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0162_grille_05",
-      "source_group": "g0162",
-      "label": "ex_armor_body_l_03 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        194984,
         194985,
         194986
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
         "values": [
-          84,
-          120
+          60,
+          112,
+          140
         ]
       }
     },
@@ -11217,1131 +8468,93 @@
       "faces": [
         194999,
         195000,
-        195075,
-        195076
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_01",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195001
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_02",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195002
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_03",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195001,
+        195002,
         195003,
         195004,
         195005,
         195006,
-        195008
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_04",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195007
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_05",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195009
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_06",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_06",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195010
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_07",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_07",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195011
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_08",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_08",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195012
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_09",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_09",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195013
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_10",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_10",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195014
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_11",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_11",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195015
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_12",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_12",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195016
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_13",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_13",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195017
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_14",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_14",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195018
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_15",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_15",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195019
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_16",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_16",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195020
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_17",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_17",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195021
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_18",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_18",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195007,
+        195008,
+        195009,
+        195010,
+        195011,
+        195012,
+        195013,
+        195014,
+        195015,
+        195016,
+        195017,
+        195018,
+        195019,
+        195020,
+        195021,
         195022,
         195023,
         195024,
         195025,
-        195027
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_19",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_19",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
         195026,
-        195029
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_20",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_20",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195028
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_21",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_21",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195030
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_22",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_22",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195031
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_23",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_23",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195032
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_24",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_24",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195033
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_25",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_25",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195034
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_26",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_26",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195035
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_27",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_27",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195036
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_28",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_28",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195037
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_29",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_29",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195038
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_30",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_30",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195039
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_31",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_31",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195040
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_32",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_32",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195027,
+        195028,
+        195029,
+        195030,
+        195031,
+        195032,
+        195033,
+        195034,
+        195035,
+        195036,
+        195037,
+        195038,
+        195039,
+        195040,
         195041,
         195042,
-        195074
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_33",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_33",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
         195043,
-        195044
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_34",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_34",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195044,
         195045,
         195046,
-        195047
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_35",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_35",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195047,
         195048,
-        195049
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_36",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_36",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195049,
         195050,
-        195051
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_37",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_37",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195051,
         195052,
-        195053
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_38",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_38",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195054
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_39",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_39",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195053,
+        195054,
         195055,
-        195056
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_40",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_40",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195056,
         195057,
-        195058
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_41",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_41",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195058,
         195059,
-        195060
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_42",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_42",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195061
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_43",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_43",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195062
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_44",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_44",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195063
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_45",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_45",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195064
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_46",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_46",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195065
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_47",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_47",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195066
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_48",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_48",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195067
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_49",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_49",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195060,
+        195061,
+        195062,
+        195063,
+        195064,
+        195065,
+        195066,
+        195067,
         195068,
-        195069
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_50",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_50",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195069,
         195070,
-        195071
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_51",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_51",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195071,
         195072,
-        195073
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0164_grille_52",
-      "source_group": "g0164",
-      "label": "ex_armor_body_l_06 / grille_52",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195073,
+        195074,
+        195075,
+        195076,
         195077,
         195078
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
         "values": [
-          84,
-          120
+          60,
+          112,
+          140
         ]
       }
     },
@@ -12387,1043 +8600,85 @@
       "faces": [
         195235,
         195236,
-        195237
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_01",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195237,
         195238,
-        195239
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_02",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195239,
         195240,
-        195241
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_03",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195242
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_04",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195243
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_05",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195244
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_06",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_06",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195245
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_07",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_07",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195246
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_08",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_08",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195247
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_09",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_09",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195248
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_10",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_10",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195249
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_11",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_11",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195241,
+        195242,
+        195243,
+        195244,
+        195245,
+        195246,
+        195247,
+        195248,
+        195249,
         195250,
-        195251
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_12",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_12",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195251,
         195252,
         195253,
-        195254
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_13",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_13",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195254,
         195255,
-        195256
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_14",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_14",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195256,
         195257,
-        195258
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_15",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_15",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195259
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_16",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_16",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195260
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_17",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_17",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195261
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_18",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_18",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195262
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_19",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_19",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195263
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_20",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_20",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195264
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_21",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_21",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195265
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_22",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_22",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195266
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_23",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_23",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195258,
+        195259,
+        195260,
+        195261,
+        195262,
+        195263,
+        195264,
+        195265,
+        195266,
         195267,
-        195268
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_24",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_24",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195268,
         195269,
-        195270
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_25",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_25",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195270,
         195271,
-        195272
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_26",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_26",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195272,
         195273,
-        195274
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_27",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_27",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195274,
         195275,
-        195276
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_28",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_28",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195276,
         195277,
-        195278
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_29",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_29",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195278,
         195279,
-        195280
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_30",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_30",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195281
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_31",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_31",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195282
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_32",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_32",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195280,
+        195281,
+        195282,
         195283,
-        195284
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_33",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_33",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195284,
         195285,
         195286,
         195287,
-        195288
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_34",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_34",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195289
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_35",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_35",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195290
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_36",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_36",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195291
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_37",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_37",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195292
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_38",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_38",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195293
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_39",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_39",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195294
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_40",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_40",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195295
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_41",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_41",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195296
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_42",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_42",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195297
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_43",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_43",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195298
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_44",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_44",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195299
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_45",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_45",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195300
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_46",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_46",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195288,
+        195289,
+        195290,
+        195291,
+        195292,
+        195293,
+        195294,
+        195295,
+        195296,
+        195297,
+        195298,
+        195299,
+        195300,
         195301,
-        195302
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_47",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_47",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195302,
         195303,
-        195304
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0167_grille_48",
-      "source_group": "g0167",
-      "label": "ex_armor_body_r_22 / grille_48",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195304,
         195305,
         195306
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
         "values": [
-          84,
-          120
+          60,
+          112,
+          140
         ]
       }
     },
@@ -13449,1043 +8704,85 @@
       "faces": [
         195307,
         195308,
-        195309
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_01",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195309,
         195310,
-        195311
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_02",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195311,
         195312,
-        195313
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_03",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195314
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_04",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195315
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_05",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195316
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_06",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_06",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195317
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_07",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_07",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195318
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_08",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_08",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195319
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_09",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_09",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195320
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_10",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_10",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195321
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_11",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_11",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195313,
+        195314,
+        195315,
+        195316,
+        195317,
+        195318,
+        195319,
+        195320,
+        195321,
         195322,
-        195323
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_12",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_12",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195323,
         195324,
         195325,
-        195326
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_13",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_13",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195326,
         195327,
-        195328
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_14",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_14",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195328,
         195329,
-        195330
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_15",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_15",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195331
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_16",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_16",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195332
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_17",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_17",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195333
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_18",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_18",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195334
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_19",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_19",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195335
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_20",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_20",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195336
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_21",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_21",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195337
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_22",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_22",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195338
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_23",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_23",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195330,
+        195331,
+        195332,
+        195333,
+        195334,
+        195335,
+        195336,
+        195337,
+        195338,
         195339,
-        195340
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_24",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_24",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195340,
         195341,
-        195342
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_25",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_25",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195342,
         195343,
-        195344
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_26",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_26",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195344,
         195345,
-        195346
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_27",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_27",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195346,
         195347,
-        195348
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_28",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_28",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195348,
         195349,
-        195350
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_29",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_29",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195351
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_30",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_30",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195352
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_31",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_31",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195350,
+        195351,
+        195352,
         195353,
-        195354
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_32",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_32",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195354,
         195355,
         195356,
         195357,
-        195358
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_33",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_33",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195358,
         195359,
-        195360
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_34",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_34",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195360,
         195361,
-        195362
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_35",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_35",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195363
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_36",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_36",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195364
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_37",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_37",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195365
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_38",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_38",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195366
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_39",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_39",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195367
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_40",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_40",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195368
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_41",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_41",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195369
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_42",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_42",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195370
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_43",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_43",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195371
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_44",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_44",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195372
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_45",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_45",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195373
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_46",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_46",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
-        195374
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_47",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_47",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195362,
+        195363,
+        195364,
+        195365,
+        195366,
+        195367,
+        195368,
+        195369,
+        195370,
+        195371,
+        195372,
+        195373,
+        195374,
         195375,
-        195376
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0168_grille_48",
-      "source_group": "g0168",
-      "label": "ex_armor_body_l_22 / grille_48",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195376,
         195377,
         195378
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
         "values": [
-          84,
-          120
+          60,
+          112,
+          140
         ]
       }
     },
@@ -14510,148 +8807,30 @@
       "confirmed": true,
       "faces": [
         195379,
-        195380
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0169_grille_01",
-      "source_group": "g0169",
-      "label": "ex_armor_body_l_11 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195380,
         195381,
-        195382
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0169_grille_02",
-      "source_group": "g0169",
-      "label": "ex_armor_body_l_11 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195382,
         195383,
-        195384
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0169_grille_03",
-      "source_group": "g0169",
-      "label": "ex_armor_body_l_11 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195384,
         195385,
         195386,
-        195387
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0169_grille_04",
-      "source_group": "g0169",
-      "label": "ex_armor_body_l_11 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195387,
         195388,
         195389,
-        195390
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0169_grille_05",
-      "source_group": "g0169",
-      "label": "ex_armor_body_l_11 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195390,
         195391,
-        195392
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0169_grille_06",
-      "source_group": "g0169",
-      "label": "ex_armor_body_l_11 / grille_06",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195392,
         195393,
         195394
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
         "values": [
-          84,
-          120
+          60,
+          112,
+          140
         ]
       }
     },
@@ -14686,124 +8865,26 @@
       "confirmed": true,
       "faces": [
         195411,
-        195412
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0171_grille_01",
-      "source_group": "g0171",
-      "label": "ex_armor_body_l_14 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195412,
         195413,
-        195414
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0171_grille_02",
-      "source_group": "g0171",
-      "label": "ex_armor_body_l_14 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195414,
         195415,
-        195416
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0171_grille_03",
-      "source_group": "g0171",
-      "label": "ex_armor_body_l_14 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195416,
         195417,
-        195418
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0171_grille_04",
-      "source_group": "g0171",
-      "label": "ex_armor_body_l_14 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195418,
         195419,
-        195420
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0171_grille_05",
-      "source_group": "g0171",
-      "label": "ex_armor_body_l_14 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195420,
         195421,
         195422
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
         "values": [
-          84,
-          120
+          60,
+          112,
+          140
         ]
       }
     },
@@ -14838,207 +8919,27 @@
       "confirmed": true,
       "faces": [
         195435,
-        195436
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0173_grille_01",
-      "source_group": "g0173",
-      "label": "ex_armor_body_l_18 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195436,
         195437,
-        195438
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0173_grille_02",
-      "source_group": "g0173",
-      "label": "ex_armor_body_l_18 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195438,
         195439,
-        195440
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0173_grille_03",
-      "source_group": "g0173",
-      "label": "ex_armor_body_l_18 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195440,
         195441,
-        195442
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0173_grille_04",
-      "source_group": "g0173",
-      "label": "ex_armor_body_l_18 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195442,
         195443,
-        195444
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0173_grille_05",
-      "source_group": "g0173",
-      "label": "ex_armor_body_l_18 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195444,
         195445,
-        195446
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0173_grille_06",
-      "source_group": "g0173",
-      "label": "ex_armor_body_l_18 / grille_06",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195446,
         195447,
-        195448
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0173_grille_07",
-      "source_group": "g0173",
-      "label": "ex_armor_body_l_18 / grille_07",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195448,
         195449,
-        195450
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0173_grille_08",
-      "source_group": "g0173",
-      "label": "ex_armor_body_l_18 / grille_08",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195450,
         195451,
         195452,
         195453,
         195454,
         195455,
-        195456
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0173_grille_09",
-      "source_group": "g0173",
-      "label": "ex_armor_body_l_18 / grille_09",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195456,
         195457,
         195458,
         195459,
@@ -15046,12 +8947,14 @@
         195461,
         195462
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
         "values": [
-          84,
-          120
+          60,
+          112,
+          140
         ]
       }
     },
@@ -15076,124 +8979,26 @@
       "confirmed": true,
       "faces": [
         195463,
-        195464
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0174_grille_01",
-      "source_group": "g0174",
-      "label": "ex_armor_body_l_17 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195464,
         195465,
-        195466
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0174_grille_02",
-      "source_group": "g0174",
-      "label": "ex_armor_body_l_17 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195466,
         195467,
-        195468
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0174_grille_03",
-      "source_group": "g0174",
-      "label": "ex_armor_body_l_17 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195468,
         195469,
-        195470
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0174_grille_04",
-      "source_group": "g0174",
-      "label": "ex_armor_body_l_17 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195470,
         195471,
-        195472
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0174_grille_05",
-      "source_group": "g0174",
-      "label": "ex_armor_body_l_17 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195472,
         195473,
         195474
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
         "values": [
-          84,
-          120
+          60,
+          112,
+          140
         ]
       }
     },
@@ -15228,124 +9033,26 @@
       "confirmed": true,
       "faces": [
         195531,
-        195532
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0176_grille_01",
-      "source_group": "g0176",
-      "label": "ex_armor_body_l_20 / grille_01",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195532,
         195533,
-        195534
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0176_grille_02",
-      "source_group": "g0176",
-      "label": "ex_armor_body_l_20 / grille_02",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195534,
         195535,
-        195536
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0176_grille_03",
-      "source_group": "g0176",
-      "label": "ex_armor_body_l_20 / grille_03",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195536,
         195537,
-        195538
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0176_grille_04",
-      "source_group": "g0176",
-      "label": "ex_armor_body_l_20 / grille_04",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195538,
         195539,
-        195540
-      ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
-        "values": [
-          84,
-          120
-        ]
-      }
-    },
-    {
-      "id": "g0176_grille_05",
-      "source_group": "g0176",
-      "label": "ex_armor_body_l_20 / grille_05",
-      "role": "paint",
-      "mode": "flat",
-      "layer": "hull",
-      "top": 96,
-      "confirmed": true,
-      "faces": [
+        195540,
         195541,
         195542
       ],
-      "grid": {
-        "cell_pixels": 5,
-        "bar_fraction": 0.3,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
         "values": [
-          84,
-          120
+          60,
+          112,
+          140
         ]
       }
     },
@@ -16056,55 +9763,6 @@
         "g0072_grille_01",
         "g0072_grille_02",
         "g0072_grille_03",
-        "g0072_grille_04",
-        "g0072_grille_05",
-        "g0072_grille_06",
-        "g0072_grille_07",
-        "g0072_grille_08",
-        "g0072_grille_09",
-        "g0072_grille_10",
-        "g0072_grille_11",
-        "g0072_grille_12",
-        "g0072_grille_13",
-        "g0072_grille_14",
-        "g0072_grille_15",
-        "g0072_grille_16",
-        "g0072_grille_17",
-        "g0072_grille_18",
-        "g0072_grille_19",
-        "g0072_grille_20",
-        "g0072_grille_21",
-        "g0072_grille_22",
-        "g0072_grille_23",
-        "g0072_grille_24",
-        "g0072_grille_25",
-        "g0072_grille_26",
-        "g0072_grille_27",
-        "g0072_grille_28",
-        "g0072_grille_29",
-        "g0072_grille_30",
-        "g0072_grille_31",
-        "g0072_grille_32",
-        "g0072_grille_33",
-        "g0072_grille_34",
-        "g0072_grille_35",
-        "g0072_grille_36",
-        "g0072_grille_37",
-        "g0072_grille_38",
-        "g0072_grille_39",
-        "g0072_grille_40",
-        "g0072_grille_41",
-        "g0072_grille_42",
-        "g0072_grille_43",
-        "g0072_grille_44",
-        "g0072_grille_45",
-        "g0072_grille_46",
-        "g0072_grille_47",
-        "g0072_grille_48",
-        "g0072_grille_49",
-        "g0072_grille_50",
-        "g0072_grille_51",
-        "g0072_grille_52",
         "g0073",
         "g0074",
         "g0075",
