@@ -13,7 +13,9 @@ sys.path.insert(0,str(ROOT/'ArtSource/VehiclePipeline'))
 from images import resize_linear
 from outline_review import black_outline
 NS='Helodrace.LobosArsenal.Vehicles.'
-args=argparse.ArgumentParser();args.add_argument('--mod-root',type=Path,required=True);mod=args.parse_args().mod_root.resolve()
+parser=argparse.ArgumentParser();parser.add_argument('--mod-root',type=Path,required=True)
+parser.add_argument('--vehicle',choices=['all','m8'],default='all')
+options=parser.parse_args();mod=options.mod_root.resolve()
 def setv(parent,tag,value):
     n=parent.find(tag)
     if n is None:n=E.SubElement(parent,tag)
@@ -33,9 +35,10 @@ write(bradley,defs/'M3A3.xml')
 art=E.parse(defs/'M3A3Art.xml').getroot();a=art[0]
 for path in ['anchors/li/pixel','towMuzzles/li/pixel','modulePositions/li/pixel']:
     for n in a.findall(path):n.text=vec([v*ratio for v in parse(n.text)])
-states=a.find('states');states.clear()
+states=a.find('states')
+if options.vehicle=='all':states.clear()
 board=Image.new('RGB',(1600,1040),(67,70,72));draw=ImageDraw.Draw(board)
-for vi,variant in enumerate(['Standard','BUSK']):
+for vi,variant in enumerate(['Standard','BUSK'] if options.vehicle=='all' else []):
     source=ROOT/'ArtSource/M2A3Bradley/TextureExport/output/1024'/variant
     index=json.loads((source/'index.json').read_text());assert index['size']==[1024,1024]
     for di,(direction,view) in enumerate(index['directions'].items()):
@@ -68,18 +71,26 @@ for vi,variant in enumerate(['Standard','BUSK']):
             if direction=='east':hull.save(textures/'M3A3/UI.png')
         elif direction=='east':hull.save(textures/'M3A3/BUSKKit.png')
         thumb=resize_linear(hull,400);board.paste(thumb,(di*400,vi*300+25),thumb);draw.text((di*400+5,vi*300+5),f'M3A3 {variant} {direction}',fill='white')
-write(art,defs/'M3A3Art.xml')
+if options.vehicle=='all':write(art,defs/'M3A3Art.xml')
 # M8: independently re-rendered hull, stationary turret, recoiling barrel and roof weapon.
 source=ROOT/'ArtSource/M8AGS/output/WeaponLayers';meta=json.loads((source/'pivots.json').read_text())
 assert hashlib.sha256((ROOT/'ArtSource/M8AGS/output/vehicle.blend').read_bytes()).hexdigest()==meta['source_sha256']
 m8=E.parse(defs/'M8.xml').getroot();ma=m8.find(NS+'M8ArtDef');scale=float(ma.findtext('drawSize'));anchors=ma.find('anchors');anchors.clear()
 dest=textures/'M8';dest.mkdir(parents=True,exist_ok=True)
 for di,(direction,record) in enumerate(meta['directions'].items()):
-    images={key:resize_linear(outlined(Image.open(source/f'{key}_{direction}.png').convert('RGBA'),8),1024) for key in ['hull','turret','barrel','m2hb']}
+    raw={key:Image.open(source/f'{key}_{direction}.png').convert('RGBA') for key in ['hull','turret','barrel','m2hb','m2hb_mount']}
+    images={key:resize_linear(outlined(image,8),1024) for key,image in raw.items()}
+    fills={key:resize_linear(image,1024) for key,image in raw.items() if key!='hull'}
     for k,im in images.items():im.save(dest/f'{k}_{direction}.png')
+    for k,im in fills.items():im.save(dest/f'{k}_fill_{direction}.png')
     # Retained combined sprites are for build menus/native VF gizmo art only.
     turret=images['barrel'].copy();turret.alpha_composite(images['turret'])
-    mg=[v/2 for v in record['m2hb_anchor']];turret.alpha_composite(images['m2hb'],(round(mg[0]-512),round(mg[1]-512)))
+    turret.alpha_composite(fills['barrel']);turret.alpha_composite(fills['turret'])
+    mg=[v/2 for v in record['m2hb_anchor']];mg_offset=(round(mg[0]-512),round(mg[1]-512))
+    for part in ['m2hb_mount','m2hb']:
+        turret.alpha_composite(images[part],mg_offset)
+    for part in ['m2hb_mount','m2hb']:
+        turret.alpha_composite(fills[part],mg_offset)
     turret.save(dest/f'turret_full_{direction}.png')
     box=images['hull'].getchannel('A').getbbox();center=[(box[0]+box[2])/2,(box[1]+box[3])/2]
     anchor=[v/2 for v in record['hull_turret_anchor']]
@@ -98,6 +109,7 @@ for di,(direction,record) in enumerate(meta['directions'].items()):
     if direction=='east':hull.save(dest/'UI.png')
     thumb=resize_linear(hull,400);board.paste(thumb,(di*400,625),thumb);draw.text((di*400+5,605),f'M8 {direction}',fill='white')
 write(m8,defs/'M8.xml')
-out=ROOT/'ArtSource/VehicleRuntime/output';out.mkdir(parents=True,exist_ok=True);board.save(out/'layer_sheet.png')
+out=ROOT/'ArtSource/VehicleRuntime/output';out.mkdir(parents=True,exist_ok=True)
+if options.vehicle=='all':board.save(out/'layer_sheet.png')
 (out/'publication.json').write_text(json.dumps(dict(resolution=1024,world_scale_preserved=True,bradley_outline_pixels=int(props.findtext('outlineWidth')),m8_outline_pixels=4,states=len(states),source_m8=meta['source_sha256']),indent=2)+'\n')
 print('VEHICLE_1024_PASS: 48 Bradley states; M8 hull/turret/M35/M2HB; world scale/anchors preserved')

@@ -38,10 +38,16 @@ m=E.parse(defs/'M8.xml');roles=m.findall('.//properties/roles/li');commander=nex
 assert commander.findtext('handlingTypes')=='Turret' and commander.findtext('turretIds/li')=='roof'
 assert {'m2hb','ammo50'}.issubset({n.findtext('key') for n in m.findall('.//components/li')})
 for direction in ['north','east','south','west']:
-    for part in ['hull','turret','barrel','m2hb','turret_full','vehicle']:
+    for part in ['hull','turret','barrel','m2hb','m2hb_mount','turret_fill','barrel_fill','m2hb_fill','m2hb_mount_fill','turret_full','vehicle']:
         im=Image.open(textures/'M8'/f'{part}_{direction}.png')
         assert im.mode=='RGBA' and im.size==(1024,1024) and im.getchannel('A').getbbox()
-for filename,dname in [('M3A3Weapons.xml','HDA_M3A3_M242'),('M8Weapons.xml','HDA_M8_M35')]:
+    import numpy as np
+    pixels=np.asarray(Image.open(textures/'M8'/f'm2hb_fill_{direction}.png').convert('RGBA')).astype(int)
+    assert ((pixels[:,:,3]>128)&(pixels[:,:,1]>pixels[:,:,0]+8)&(pixels[:,:,1]>pixels[:,:,2]+8)).sum()>100,'Missing green M2HB ammunition can'
+meta=json.loads((ROOT/'ArtSource/M8AGS/output/WeaponLayers/pivots.json').read_text())
+assert meta['pivot_basis'].startswith('28-point commander cupola') and meta['cupola_fit_residual']<.001
+assert abs(meta['m2hb_pivot'][0]+.437326)<1e-5 and abs(meta['m2hb_pivot'][1]-.632416)<1e-5
+for filename,dname in [('M3A3Weapons.xml','HDA_M3A3_M242'),('M8Weapons.xml','HDA_M8_M35'),('M8Weapons.xml','HDA_M8_M2HB')]:
     t=E.parse(defs/filename).find(f"Vehicles.VehicleTurretDef[defName='{dname}']")
     assert all(float(t.findtext('recoil/'+key))>0 for key in ['distanceTotal','distancePerTick','speedMultiplierPostRecoil'])
 report=dict(passed=True,resolution=1024,states=48,unique_exact_master_crops=len(seen),layer_references=count,armor_modules=124,

@@ -1,1 +1,1 @@
-VEHICLE_REVISION_PASS: native defs; 1024 Cutout/no mipmaps; M242/M35 recoil/return; separate M2HB crew/ammo/aiming; M8 muzzle recoil.
+VEHICLE_REVISION_PASS: native defs; 1024 Cutout; separate joint fills; M242/M35/M2HB recoil and return; fixed cupola anchor; 21 actual GPU render captures.

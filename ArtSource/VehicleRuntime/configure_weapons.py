@@ -38,6 +38,8 @@ for n in list(root):
     if n.findtext('defName') in ['HDA_M8_M2HB','HDA_50BMG_Round','HDA_Make50BMG']:root.remove(n)
 coax=next(n for n in root if n.findtext('defName')=='HDA_M8_Coax');mg=copy.deepcopy(coax);root.append(mg)
 for k,v in dict(defName='HDA_M8_M2HB',label='M2HB .50 heavy machine gun',maxRange=40,warmUpTimer=.8,reloadTimer=5,magazineCapacity=100,projectile='HD_Bullet_M2HB_Proj').items():setv(mg,k,v)
+recoil=E.SubElement(mg,'recoil')
+for k,v in dict(distanceTotal=.055,distancePerTick=.0275,speedMultiplierPostRecoil=.5).items():setv(recoil,k,v)
 setv(mg.find('graphicData'),'texPath','Vehicles/M8/m2hb_north')
 mg.find('ammunition/thingDefs/li').text='HDA_50BMG_Round'
 mode=mg.find('fireModes/li')

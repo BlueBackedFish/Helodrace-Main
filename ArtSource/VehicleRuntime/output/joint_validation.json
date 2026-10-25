@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "actual_gpu_captures": 21,
+  "main_gun_rest_peak_pairs": 8,
+  "m2hb_visible_recoil": true,
+  "commander_cupola_center_pixels": [
+    536.8056511044776,
+    530.3334659820896
+  ],
+  "cupola_pixel_marker": "red cross; same anchor in all five captures"
+}
