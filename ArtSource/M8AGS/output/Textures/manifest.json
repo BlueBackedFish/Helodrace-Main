@@ -1,0 +1,272 @@
+{
+  "source_model_sha256": "6b3950724f1d5a17c13388a17710daabc8c1592237b588b118c9a3d97e2cfb76",
+  "outline_width_at_256": 1,
+  "source_layers_unchanged": true,
+  "filter": "linear-light premultiplied-alpha Lanczos",
+  "sizes": {
+    "256": {
+      "east": {
+        "size": [
+          256,
+          256
+        ],
+        "hull_turret_anchor": [
+          105.5,
+          127.5
+        ],
+        "raw_hull_turret_anchor": [
+          105.38472747802734,
+          127.40701293945312
+        ],
+        "turret_pivot": [
+          128.0,
+          128.0
+        ],
+        "turret_full_includes_barrel": true,
+        "pixel_scale_per_source_unit": 15.796225012572346
+      },
+      "north": {
+        "size": [
+          256,
+          256
+        ],
+        "hull_turret_anchor": [
+          127.25,
+          148.5
+        ],
+        "raw_hull_turret_anchor": [
+          127.23125457763672,
+          148.42443084716797
+        ],
+        "turret_pivot": [
+          128.0,
+          128.0
+        ],
+        "turret_full_includes_barrel": true,
+        "pixel_scale_per_source_unit": 15.796225012572346
+      },
+      "west": {
+        "size": [
+          256,
+          256
+        ],
+        "hull_turret_anchor": [
+          150.5,
+          128.75
+        ],
+        "raw_hull_turret_anchor": [
+          150.6151885986328,
+          128.78890228271484
+        ],
+        "turret_pivot": [
+          128.0,
+          128.0
+        ],
+        "turret_full_includes_barrel": true,
+        "pixel_scale_per_source_unit": 15.796225012572346
+      },
+      "south": {
+        "size": [
+          256,
+          256
+        ],
+        "hull_turret_anchor": [
+          128.75,
+          107.75
+        ],
+        "raw_hull_turret_anchor": [
+          128.76870727539062,
+          107.77154541015625
+        ],
+        "turret_pivot": [
+          128.0,
+          128.0
+        ],
+        "turret_full_includes_barrel": true,
+        "pixel_scale_per_source_unit": 15.796225012572346
+      }
+    },
+    "512": {
+      "east": {
+        "size": [
+          512,
+          512
+        ],
+        "hull_turret_anchor": [
+          211.0,
+          255.0
+        ],
+        "raw_hull_turret_anchor": [
+          210.7694549560547,
+          254.81402587890625
+        ],
+        "turret_pivot": [
+          256.0,
+          256.0
+        ],
+        "turret_full_includes_barrel": true,
+        "pixel_scale_per_source_unit": 31.592450025144693
+      },
+      "north": {
+        "size": [
+          512,
+          512
+        ],
+        "hull_turret_anchor": [
+          254.5,
+          297.0
+        ],
+        "raw_hull_turret_anchor": [
+          254.46250915527344,
+          296.84886169433594
+        ],
+        "turret_pivot": [
+          256.0,
+          256.0
+        ],
+        "turret_full_includes_barrel": true,
+        "pixel_scale_per_source_unit": 31.592450025144693
+      },
+      "west": {
+        "size": [
+          512,
+          512
+        ],
+        "hull_turret_anchor": [
+          301.0,
+          257.5
+        ],
+        "raw_hull_turret_anchor": [
+          301.2303771972656,
+          257.5778045654297
+        ],
+        "turret_pivot": [
+          256.0,
+          256.0
+        ],
+        "turret_full_includes_barrel": true,
+        "pixel_scale_per_source_unit": 31.592450025144693
+      },
+      "south": {
+        "size": [
+          512,
+          512
+        ],
+        "hull_turret_anchor": [
+          257.5,
+          215.5
+        ],
+        "raw_hull_turret_anchor": [
+          257.53741455078125,
+          215.5430908203125
+        ],
+        "turret_pivot": [
+          256.0,
+          256.0
+        ],
+        "turret_full_includes_barrel": true,
+        "pixel_scale_per_source_unit": 31.592450025144693
+      }
+    }
+  },
+  "source_layer_hashes": {
+    "hull_east.png": "aa6bf89ca9d744e94b6672664335b7d80384e15b7e40d2d10da94f82b4792b20",
+    "turret_east.png": "5b02c1d10a6cbcedad4436df99fcf3a486b1577f5bd7bfefcbf8acafed641c66",
+    "barrel_east.png": "72e792cb17a3bf72445c004f82a2feea3ee4e058f60a110b480a5fb45e9fca62",
+    "turret_full_east.png": "4866d3cc741821fdee665e32ad39ca61ed0dc486f1bbcf2df6b3ae97478915c2",
+    "CardinalMasters\\hull_north.png": "b636fe9ec59eb06080c911a0674612a47b6a1d2b2b574e8ac9a865f3d0f7c4a5",
+    "CardinalMasters\\turret_north.png": "0fcfdad1c83b29bcc446ee5a1a470cdec30843c821169e1ccbc98096956b683f",
+    "CardinalMasters\\barrel_north.png": "ccc56dffb1dcc608f06bd4b0ca64813d9d81711748e9e2a9bfb903996a7bbd58",
+    "CardinalMasters\\turret_full_north.png": "94f61635c897c741078eefaf7e0e89c248a9bbdfcaca6fa029a752d000f8e66e",
+    "CardinalMasters\\hull_west.png": "daef7a52147012c2192dc63bc6681b381907812949ab0622b73909f56f25c1af",
+    "CardinalMasters\\turret_west.png": "a651204ad8ecfc19acd17e3d539416e1fe696e5e515edbce2b141d5321f1e16b",
+    "CardinalMasters\\barrel_west.png": "875e6833d55b7599ead22b27f288a3a04a305e9e475ea816f20662139c4f3b17",
+    "CardinalMasters\\turret_full_west.png": "5467d80018870b5369ff030a02a2061e1bc631630ccc15aade46096880af2c70",
+    "CardinalMasters\\hull_south.png": "f7e6ef52b05199ab87425d4d21e076c194687cfdcd57ecbb32a4cfbeb16074d8",
+    "CardinalMasters\\turret_south.png": "6edb307a47ec709355290ae01304c8148aa04077c3e14dcf46c3c8cda1942939",
+    "CardinalMasters\\barrel_south.png": "89da23a72926129fdcfbd36ac6b494a1dfe093d96c9dbc615cb4db197bf59b82",
+    "CardinalMasters\\turret_full_south.png": "04d5a813454a2d4f4ecd24e9f195b7653c8f2154ece71fb0669bb90c350c11e1"
+  },
+  "textures": {
+    "Outlined\\256\\barrel_east.png": "221c3c924e6aa8c250a05561b0c8d7736783b8fe3a033bcc48656d5c4a7ff36a",
+    "Outlined\\256\\barrel_north.png": "33df4ecbddf6309a744fb877cab8d6ad21e0e81ff8e39a06931051c80fbafd52",
+    "Outlined\\256\\barrel_south.png": "fa4a529e01e2ddce4f33f47083d9fe2bda8ad31cb351f0015c4571c3d1ab52c9",
+    "Outlined\\256\\barrel_west.png": "d70ca885dddba6f1b3574ddcea7fd3b7f56fc24c7fafc68bd4046e594a43356c",
+    "Outlined\\256\\hull_east.png": "8d33328e39d7bbd22f2fcaf2636e6a3ee0b325bbe8a53743f20cd6dafa508546",
+    "Outlined\\256\\hull_north.png": "5021af27675bc686b64f7560c5656a8d7c959d3c1dac29463925912d17ceaa7c",
+    "Outlined\\256\\hull_south.png": "e07a62f222dc7b3d42b5386c55973058a89d10c0255103d9773afc5063a00096",
+    "Outlined\\256\\hull_west.png": "4972f7db184a6ce24ed5257dc1df3876822d7f61a9f8cb5d9bbabbbc3e9a6b26",
+    "Outlined\\256\\preview_east.png": "240ad6fe0500bc9fe5365d564c0a4619e9efa96bbc797469502181cdf5481314",
+    "Outlined\\256\\preview_north.png": "3ff79823a92c8f2fa4375a5161a0c94e9d55b4a714ecbd7f3ecd95b7f04daa1b",
+    "Outlined\\256\\preview_south.png": "31645c3799c2953825b37d4a209f04458f750dfd1d7a54973c2b1ae44b159e1a",
+    "Outlined\\256\\preview_west.png": "8b3dbf773305d4640c9416bed03b759555108e7887a42c4a1374a6d515084991",
+    "Outlined\\256\\turret_east.png": "378c0aba4cb0446b2575f35c889d4ee1c67be7163e89637488aebcf189243c22",
+    "Outlined\\256\\turret_full_east.png": "d4aebf5956d0ec751f0f992283bf1b67b68f6debcecd23a57e48d60067067cfc",
+    "Outlined\\256\\turret_full_north.png": "5e34af8afb10f050a7f9d8e53282fe6123940c282bd93af21be63a233cfa38ba",
+    "Outlined\\256\\turret_full_south.png": "1a7988c550e5bb49f627fff0f12b60d6e462ac09c5c9c94f188663155846148a",
+    "Outlined\\256\\turret_full_west.png": "edec442eb92f86c413889ca3ac1f886f0ae7af44681672b4a77f2cc39ffc9b34",
+    "Outlined\\256\\turret_north.png": "338aa517191a682552fd628aa731bea4c741aed5c9655b9bc585cea3fe44b4a7",
+    "Outlined\\256\\turret_south.png": "f42f9df6fe947191fed94aa6891930d735a9bc3cb3b47a3209eb3f9ecd6d4b63",
+    "Outlined\\256\\turret_west.png": "22ece67dd62b59bfc75508a43cced2bb150e66f5f0dc08006d73750b294a0f72",
+    "Outlined\\512\\barrel_east.png": "73195b7d545fb96e6461b2ee80e7b2710abd2809291aabf85adadeddc73c9d55",
+    "Outlined\\512\\barrel_north.png": "1e6553f138e50393caaa7a219e52f339e616f9e0746f9d5617494be9d07d6e70",
+    "Outlined\\512\\barrel_south.png": "9996cbb54a4000c3b42cadce937fe433f84fd8c1585c6d12cc4e31977a5bd2a5",
+    "Outlined\\512\\barrel_west.png": "1fa503e73ffb1aeddc0ab3d6606ac94cd2d7b69eca023011be1b4779f77cd53d",
+    "Outlined\\512\\hull_east.png": "5303d5b86bfd98e047b51f3e456ed153301dbb953222d70fa1c1ce99fa0dd7a0",
+    "Outlined\\512\\hull_north.png": "07faf5d628aead0652a77350fecf7c0e8393a742a2eac8627cdc57f5ab7fb946",
+    "Outlined\\512\\hull_south.png": "a921725a2979d834e9d1371739b660467596af1b474811bf467f802d13691d3e",
+    "Outlined\\512\\hull_west.png": "d0bf9c929b7b7b2d7685fb8fe9230def005054cab0a824dd634f8ab133b3f305",
+    "Outlined\\512\\preview_east.png": "3632583d7cc2f7a62cc782291d282370df5a42f826abf5e7d541fb31a25a2509",
+    "Outlined\\512\\preview_north.png": "1d86c0cedf31e1c264f3b6bbd2024d81592964496bd972c0a045e1b6601ba532",
+    "Outlined\\512\\preview_south.png": "f86db39f5876dddd9616b01063d29e7401279dd7d7a98e0f73b8af4ed7daffc9",
+    "Outlined\\512\\preview_west.png": "6b06f643dd38a6750ec03546df724c9d123750dfc3b9b19e18477148a29419fb",
+    "Outlined\\512\\turret_east.png": "e1452548c1e35d141cf407421fb03b6404796caca7aaf1fad702df178803370e",
+    "Outlined\\512\\turret_full_east.png": "2751cf2efb3e8ca5a5937482c96d20eb87351f7350264cb9df23d6d525f9a93f",
+    "Outlined\\512\\turret_full_north.png": "bbe7be872c17e823cb0e784fbb05aaf2d8bd6be58ba246dc4638d056407f0530",
+    "Outlined\\512\\turret_full_south.png": "ae7d92df8c3d70d3fe4ee87ee5e673392de2d6dca798cec52088ea3c92a0fd6d",
+    "Outlined\\512\\turret_full_west.png": "164bdda0daa0fef2597b538b8330b2cd8fe3a74f9a2c165e93e73c9b83739f4a",
+    "Outlined\\512\\turret_north.png": "2ce041409a02ab5f57ea7f2c581289d7a1ba3999f8181ffc7e4970bd67675d03",
+    "Outlined\\512\\turret_south.png": "14606df2dcd166de557007250737c0d6c8d918a3fe7737c789575ff1f9326d00",
+    "Outlined\\512\\turret_west.png": "aa4f54396128917199962b0ee3f8e182591a5a3f69674fab5c0a48939f91ca6e",
+    "Plain\\256\\barrel_east.png": "acaa66e568c3ab3fd205fb273265d949f73ee08655853ffcf84fe6e66dfc586a",
+    "Plain\\256\\barrel_north.png": "57a3fe64d42436eb07d7a25bc36665a2b898e3c29e63a6c5776e13dc39fc2ef6",
+    "Plain\\256\\barrel_south.png": "e69b0304ce1d00aa28ada2b0e9e34aea0ba5ad8ac77c399f9a6ca490c688190c",
+    "Plain\\256\\barrel_west.png": "eacda09e753425985813784adad600d2c6720a320e78f06054821fd0f9f19d6d",
+    "Plain\\256\\hull_east.png": "9f1363d41901cbf10ead454e8f72ac76ef46871456b6f1719933ad6ab05b4c97",
+    "Plain\\256\\hull_north.png": "7b1e24987e9cbbd73b905d468343244adb2a67385e17728a3138c1fac954e823",
+    "Plain\\256\\hull_south.png": "b8dbe4507aef39e74672e2e222dd1662e39db1a044d0167dabf13903cea3cf13",
+    "Plain\\256\\hull_west.png": "e8419ca2092412c6ca6af396e1d47890be3a540db1a0677db263f93bf396b909",
+    "Plain\\256\\preview_east.png": "50ec213754d5e0f817c33e9c0b54bf02d4b3c6f39193d2e6be8c3e3618792c0c",
+    "Plain\\256\\preview_north.png": "1dd2617de05ecc7891aaed9a7b8b1a758a6b71076cc06d083afefea6c75089de",
+    "Plain\\256\\preview_south.png": "99de9e64ffc8fbfa290a52f999ae2fa71d129e1345fd46a90df87ce0dd801db5",
+    "Plain\\256\\preview_west.png": "3cc7532c4f0ab036bb0a7c064c6a9fa1988231d4ada2ee2d8311ba2a3714fd15",
+    "Plain\\256\\turret_east.png": "dedeb93981a81b4658531a4c96015c9e01abeaf083047f731837e84f15815b86",
+    "Plain\\256\\turret_full_east.png": "14eb700d823a9760cf64c641541ce3474fc16e3806e3c9bbe493d3dc100a23f8",
+    "Plain\\256\\turret_full_north.png": "a09cda01f6d2b6678cb33002a4dad9740d68206c36ad86fc37601958c4967283",
+    "Plain\\256\\turret_full_south.png": "4c56a6d5cb5fd6502209cb7e8012c566a00dc5b01f16fd3d4eaebea372907f66",
+    "Plain\\256\\turret_full_west.png": "424aae57c5a06f5c1d5ffaf655f0c2912a69fd8f562df7a1d6c48564e8e8d41b",
+    "Plain\\256\\turret_north.png": "9e17901dd2b0faa3b7ed1bd586d5bbf3391dc3282817b0a18d4588e46fa69d21",
+    "Plain\\256\\turret_south.png": "71cb294ffa38cde108e09662726e0159a4e149a5973028bc1ecdba8871016928",
+    "Plain\\256\\turret_west.png": "e4eb93283d7cdf6e212c5985c419b632dd949dae119bd7883c79cf8352b1c388",
+    "Plain\\512\\barrel_east.png": "81d61e51b869b181e3a7ced0677831df39c3bc0a504705bcbffc246be826929f",
+    "Plain\\512\\barrel_north.png": "03b98653ae5e6e9c25f78e02d8ab2e4ee6c60d2b09300b8ff7c91a744bd91175",
+    "Plain\\512\\barrel_south.png": "476f2bf7c4b6601ee6716d082f458bf313d0d45c14f6835fd1f99684d5d4c382",
+    "Plain\\512\\barrel_west.png": "c1bb1b44711b26b38815340e4a758f9bef325e3c6981aeb2a4b10c53a908f71b",
+    "Plain\\512\\hull_east.png": "dca367d88a1499d60b37b1cd54757886f4b810dca6387dba97b02b2a6318a92a",
+    "Plain\\512\\hull_north.png": "49caf60731d48a17eb374d8eb0cbb56285ccf21682ce653237e1e0b727fdf7d9",
+    "Plain\\512\\hull_south.png": "c648fbca5c7f4aaaf7c2dbcc3e12f8e9a9ef28ae252f3a3c4637b0019628fcb8",
+    "Plain\\512\\hull_west.png": "a6879e9e6e08fa5a1bf057234347019c249d66c65715a46ccf39a4582acaa0b8",
+    "Plain\\512\\preview_east.png": "834041659d0ee85e6be5717d84e20bcdb3c141f4aa4d448fa1a4f36112b86642",
+    "Plain\\512\\preview_north.png": "992115c5b164b4b4d15b1ba3104b980e274d3e53fd5351c3e36c9438374fd48f",
+    "Plain\\512\\preview_south.png": "57cc8f89182c9635d68422a6c247cccdcc3f3f9acc12a49509924da785db8505",
+    "Plain\\512\\preview_west.png": "9dcd1a5719eeeb7a84bb8c17697dc661c496e7d7892e4cdc0e809fc2ce7ceee0",
+    "Plain\\512\\turret_east.png": "a61d5d36e572741a5282208e0e974e0858dbd2e89d86bc741c36312fc03d369b",
+    "Plain\\512\\turret_full_east.png": "f29303936b5f14f507bcd95a24b7d1bb38821b9380dc2cf6046f7c63056a9dd6",
+    "Plain\\512\\turret_full_north.png": "874893bfc28b2e958bf8da505914e700c2a0d3c069fb062c29ba35edbbf12a19",
+    "Plain\\512\\turret_full_south.png": "f33867474310f35408c18f7e4a4c69c749ae98d2ca5dce65fb8b13147f46887e",
+    "Plain\\512\\turret_full_west.png": "5c183c62bbce69a3304f5670b505da1708025a222c25d114ea066468a4d3e127",
+    "Plain\\512\\turret_north.png": "1c56812f8222bffa0f6d8199e9aa32ffd1ad4ea7a4295ee2d0cc95a3b1593a70",
+    "Plain\\512\\turret_south.png": "55c20a4ca08170b97eafc5339448e1750941ec71d03722335dc21b9e87f83656",
+    "Plain\\512\\turret_west.png": "29d4524d07dff0d9a23ed45342ef1fb026aec32d1b1863293703c15d6dff1997"
+  }
+}

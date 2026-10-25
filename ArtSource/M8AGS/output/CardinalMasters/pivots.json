@@ -1,0 +1,56 @@
+{
+  "source_model_sha256": "6b3950724f1d5a17c13388a17710daabc8c1592237b588b118c9a3d97e2cfb76",
+  "master": 1024,
+  "ortho_scale": 16.206403732299805,
+  "note": "Original source geometry and fixed emission materials; no model resave or baked outlines",
+  "directions": {
+    "east": {
+      "hull_turret_anchor": [
+        421.5389099121094,
+        509.6280517578125
+      ],
+      "turret_pivot": [
+        512.0,
+        512.0
+      ],
+      "source_prefix": "../",
+      "azimuth": 180
+    },
+    "north": {
+      "hull_turret_anchor": [
+        508.9250183105469,
+        593.6977233886719
+      ],
+      "turret_pivot": [
+        512.0,
+        512.0
+      ],
+      "source_prefix": "",
+      "azimuth": 90
+    },
+    "west": {
+      "hull_turret_anchor": [
+        602.4607543945312,
+        515.1556091308594
+      ],
+      "turret_pivot": [
+        512.0,
+        512.0
+      ],
+      "source_prefix": "",
+      "azimuth": 0
+    },
+    "south": {
+      "hull_turret_anchor": [
+        515.0748291015625,
+        431.086181640625
+      ],
+      "turret_pivot": [
+        512.0,
+        512.0
+      ],
+      "source_prefix": "",
+      "azimuth": 270
+    }
+  }
+}

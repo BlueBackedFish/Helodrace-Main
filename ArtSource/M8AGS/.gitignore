@@ -1,0 +1,2 @@
+# Blender's automatic backups are local rebuild artifacts.
+output/*.blend[1-9]

@@ -1,0 +1,112 @@
+{
+  "source_report_sha256": "4946a0b12a0185257c2e855f3b4d398641499ce33d2adab5faca925e043e7f22",
+  "source_layer_sha256": {
+    "hull_east": "aa6bf89ca9d744e94b6672664335b7d80384e15b7e40d2d10da94f82b4792b20",
+    "turret_east": "5b02c1d10a6cbcedad4436df99fcf3a486b1577f5bd7bfefcbf8acafed641c66",
+    "barrel_east": "72e792cb17a3bf72445c004f82a2feea3ee4e058f60a110b480a5fb45e9fca62",
+    "turret_full_east": "4866d3cc741821fdee665e32ad39ca61ed0dc486f1bbcf2df6b3ae97478915c2"
+  },
+  "outline_width_at_256": 1,
+  "color": [
+    0,
+    0,
+    0
+  ],
+  "method": "circular alpha dilation; black beneath each original layer",
+  "composition": "outline hull and full turret separately, then composite at original pivot",
+  "source_pixels_opaque_unchanged": true,
+  "source_files_unchanged": true,
+  "alpha_bounds": {
+    "1024/hull_east": [
+      209,
+      416,
+      616,
+      628
+    ],
+    "1024/turret_east": [
+      407,
+      406,
+      628,
+      624
+    ],
+    "1024/barrel_east": [
+      515,
+      476,
+      906,
+      561
+    ],
+    "1024/turret_full_east": [
+      407,
+      406,
+      906,
+      624
+    ],
+    "1024/preview_east": [
+      209,
+      404,
+      816,
+      628
+    ],
+    "256/hull_east": [
+      50,
+      102,
+      156,
+      159
+    ],
+    "256/turret_east": [
+      99,
+      99,
+      159,
+      158
+    ],
+    "256/barrel_east": [
+      126,
+      117,
+      229,
+      143
+    ],
+    "256/turret_full_east": [
+      99,
+      99,
+      229,
+      158
+    ],
+    "256/preview_east": [
+      50,
+      99,
+      206,
+      159
+    ],
+    "512/hull_east": [
+      102,
+      206,
+      310,
+      316
+    ],
+    "512/turret_east": [
+      201,
+      201,
+      316,
+      314
+    ],
+    "512/barrel_east": [
+      255,
+      236,
+      455,
+      283
+    ],
+    "512/turret_full_east": [
+      201,
+      201,
+      455,
+      314
+    ],
+    "512/preview_east": [
+      102,
+      200,
+      410,
+      316
+    ]
+  },
+  "outline_is_review_postprocess": true
+}

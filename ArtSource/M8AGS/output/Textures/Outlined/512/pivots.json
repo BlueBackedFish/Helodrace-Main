@@ -1,0 +1,82 @@
+{
+  "east": {
+    "size": [
+      512,
+      512
+    ],
+    "hull_turret_anchor": [
+      211.0,
+      255.0
+    ],
+    "raw_hull_turret_anchor": [
+      210.7694549560547,
+      254.81402587890625
+    ],
+    "turret_pivot": [
+      256.0,
+      256.0
+    ],
+    "turret_full_includes_barrel": true,
+    "pixel_scale_per_source_unit": 31.592450025144693
+  },
+  "north": {
+    "size": [
+      512,
+      512
+    ],
+    "hull_turret_anchor": [
+      254.5,
+      297.0
+    ],
+    "raw_hull_turret_anchor": [
+      254.46250915527344,
+      296.84886169433594
+    ],
+    "turret_pivot": [
+      256.0,
+      256.0
+    ],
+    "turret_full_includes_barrel": true,
+    "pixel_scale_per_source_unit": 31.592450025144693
+  },
+  "west": {
+    "size": [
+      512,
+      512
+    ],
+    "hull_turret_anchor": [
+      301.0,
+      257.5
+    ],
+    "raw_hull_turret_anchor": [
+      301.2303771972656,
+      257.5778045654297
+    ],
+    "turret_pivot": [
+      256.0,
+      256.0
+    ],
+    "turret_full_includes_barrel": true,
+    "pixel_scale_per_source_unit": 31.592450025144693
+  },
+  "south": {
+    "size": [
+      512,
+      512
+    ],
+    "hull_turret_anchor": [
+      257.5,
+      215.5
+    ],
+    "raw_hull_turret_anchor": [
+      257.53741455078125,
+      215.5430908203125
+    ],
+    "turret_pivot": [
+      256.0,
+      256.0
+    ],
+    "turret_full_includes_barrel": true,
+    "pixel_scale_per_source_unit": 31.592450025144693
+  }
+}

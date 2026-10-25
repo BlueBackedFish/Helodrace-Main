@@ -1,0 +1,45 @@
+{
+  "source_sha256": "df6a1a92cfda9c34648b8bea3aec285caa3cfd65a43ae9c75e9660a6120750ca",
+  "source_groups": 181,
+  "source_faces": 203803,
+  "parts": 530,
+  "omissions": [
+    {
+      "part": "g0093",
+      "source_group": "ex_lantern_l_02",
+      "faces": 2075,
+      "reason": "Alternative low headlight assembly intersects Level III frontal armor; use the supplied raised _01 assembly"
+    },
+    {
+      "part": "g0094",
+      "source_group": "ex_lantern_r_02",
+      "faces": 2715,
+      "reason": "Alternative low headlight assembly intersects Level III frontal armor; use the supplied raised _01 assembly"
+    },
+    {
+      "part": "g0177",
+      "source_group": "antenna_02",
+      "faces": 82,
+      "reason": "Separate 2.49 m whip is subpixel at 256px; retain antenna bases in bone_turret and preserve omitted source faces in the manifest"
+    },
+    {
+      "part": "g0178",
+      "source_group": "antenna_01",
+      "faces": 82,
+      "reason": "Separate 2.49 m whip is subpixel at 256px; retain antenna bases in bone_turret and preserve omitted source faces in the manifest"
+    }
+  ],
+  "ring_radius": 0.9603699785108818,
+  "ring_residual": 4.44557586436467e-05,
+  "yaw_pivot": [
+    1.44e-05,
+    -0.0191667,
+    1.5271
+  ],
+  "provisional_rigs": [
+    "GUN_ELEVATION",
+    "COMMANDER_HATCH",
+    "GUN_ROOF_COVER",
+    "DRIVER_HATCH"
+  ]
+}
