@@ -1,0 +1,38 @@
+{
+  "variant": "bradley_busk",
+  "source_sha256": "267e1bb30c9952714ce9698f29d0393b6604647cde977e1f2e9445b7696eb52d",
+  "source_faces_preserved": 72960,
+  "source_mesh_uv_signature": "c02a2b3594e6c44f1e852a20b3c6be99e95076b38a5f6fd857b68214ed481b64",
+  "source_geometry_unchanged": true,
+  "uniform_world_scale": 0.7119021294005237,
+  "master": 4096,
+  "draw_size": 18,
+  "directions": {
+    "north": {
+      "vehicle_pivot": [
+        2048.0003662109375,
+        2342.5888671875
+      ]
+    },
+    "east": {
+      "vehicle_pivot": [
+        2047.9988403320312,
+        2349.1817016601562
+      ]
+    },
+    "south": {
+      "vehicle_pivot": [
+        2048.0,
+        2372.4332275390625
+      ]
+    },
+    "west": {
+      "vehicle_pivot": [
+        2048.0010986328125,
+        2349.1817016601562
+      ]
+    }
+  },
+  "canopy_count": 4,
+  "game_only": true
+}

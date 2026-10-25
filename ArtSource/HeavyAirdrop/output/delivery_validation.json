@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "variants": {
+    "m8": {
+      "source_unchanged": true,
+      "source_faces": 198849,
+      "source_mesh_uv_signature": "a51432b62134dd561cc109df8db8db7cb4aa4d4b38aeed01ae010e9b77c67002"
+    },
+    "bradley": {
+      "source_unchanged": true,
+      "source_faces": 70380,
+      "source_mesh_uv_signature": "4d52484243a304f0ec1bdc41458325e1bc4bf8ccd911bb966ef6aeddd8f8b770"
+    },
+    "bradley_busk": {
+      "source_unchanged": true,
+      "source_faces": 72960,
+      "source_mesh_uv_signature": "c02a2b3594e6c44f1e852a20b3c6be99e95076b38a5f6fd857b68214ed481b64"
+    }
+  },
+  "runtime_layers": 48,
+  "absolute_pixels_per_tile": 170.66666666666666,
+  "native_canvas": 3072,
+  "world_canvas": 18,
+  "outline_pixels": 12,
+  "source_uv_and_geometry_preserved": true,
+  "all_layers_nonempty_unclipped": true,
+  "transparent_rgb_zero": true,
+  "art_only": true
+}

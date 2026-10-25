@@ -1,0 +1,38 @@
+{
+  "variant": "bradley",
+  "source_sha256": "6b280f8bef602817106202d92056df56b87e9aefee30aebea4881989a1c248dd",
+  "source_faces_preserved": 70380,
+  "source_mesh_uv_signature": "4d52484243a304f0ec1bdc41458325e1bc4bf8ccd911bb966ef6aeddd8f8b770",
+  "source_geometry_unchanged": true,
+  "uniform_world_scale": 0.7119021294005237,
+  "master": 4096,
+  "draw_size": 18,
+  "directions": {
+    "north": {
+      "vehicle_pivot": [
+        2048.0003051757812,
+        2342.5888671875
+      ]
+    },
+    "east": {
+      "vehicle_pivot": [
+        2047.9988403320312,
+        2359.16064453125
+      ]
+    },
+    "south": {
+      "vehicle_pivot": [
+        2048.0000610351562,
+        2372.4332275390625
+      ]
+    },
+    "west": {
+      "vehicle_pivot": [
+        2048.0010986328125,
+        2364.5479125976562
+      ]
+    }
+  },
+  "canopy_count": 4,
+  "game_only": true
+}

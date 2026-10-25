@@ -1,0 +1,38 @@
+{
+  "variant": "m8",
+  "source_sha256": "d556335ca313411f9d05aa6b461fb8c4a5408e9205dcd4e41d448674d4c9a65f",
+  "source_faces_preserved": 198849,
+  "source_mesh_uv_signature": "a51432b62134dd561cc109df8db8db7cb4aa4d4b38aeed01ae010e9b77c67002",
+  "source_geometry_unchanged": true,
+  "uniform_world_scale": 0.7442452169385049,
+  "master": 4096,
+  "draw_size": 18,
+  "directions": {
+    "north": {
+      "vehicle_pivot": [
+        2048.0003662109375,
+        2361.2293701171875
+      ]
+    },
+    "east": {
+      "vehicle_pivot": [
+        2047.9988403320312,
+        2367.6552124023438
+      ]
+    },
+    "south": {
+      "vehicle_pivot": [
+        2048.0000610351562,
+        2374.0594482421875
+      ]
+    },
+    "west": {
+      "vehicle_pivot": [
+        2048.0010986328125,
+        2367.533447265625
+      ]
+    }
+  },
+  "canopy_count": 4,
+  "game_only": true
+}

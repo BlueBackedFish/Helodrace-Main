@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "game_only": true,
+  "m8_draw_size": 12.061538461538463,
+  "m8_footprint": [
+    3,
+    5
+  ],
+  "max_rigged_mass_kg": 36000,
+  "kit_mass_kg": 1000,
+  "m8_base_mass_kg": 25000,
+  "master": 4096,
+  "draw_size": 18,
+  "pixels_per_tile": 170.66666666666666,
+  "outline_pixels": 12,
+  "directions": {
+    "north": 0,
+    "east": 90,
+    "south": 180,
+    "west": 270
+  },
+  "variants": {
+    "m8": {
+      "path": "M8AGS/output/vehicle.blend",
+      "kind": "m8",
+      "hull_layer": "hull",
+      "sha256": "d556335ca313411f9d05aa6b461fb8c4a5408e9205dcd4e41d448674d4c9a65f",
+      "world_scale": 0.7442452169385049
+    },
+    "bradley": {
+      "path": "M2A3Bradley/SurfaceDetails/output/Standard/vehicle.blend",
+      "kind": "bradley",
+      "sha256": "6b280f8bef602817106202d92056df56b87e9aefee30aebea4881989a1c248dd",
+      "world_scale": 0.7119021294005237
+    },
+    "bradley_busk": {
+      "path": "M2A3Bradley/SurfaceDetails/output/BUSK/vehicle.blend",
+      "kind": "bradley",
+      "sha256": "267e1bb30c9952714ce9698f29d0393b6604647cde977e1f2e9445b7696eb52d",
+      "world_scale": 0.7119021294005237
+    }
+  },
+  "pallet": {
+    "width": 3.5,
+    "length": 5.8,
+    "deck_height": 0
+  },
+  "canopy": {
+    "count": 4,
+    "radius": 1.75,
+    "rim_height": 13.0,
+    "apex_height": 14.2
+  },
+  "note": "HELLVADS-inspired game art; canopy count and load limits are game balance, not engineering rigging instructions",
+  "references": [
+    "https://sam.gov/opp/c845b356f1684854a91c7525295840f6/view",
+    "https://www.ustranscom.mil/cmd/associated/rdte/files/40%20Ft%20Aerial%20Delivery%20Platform.pdf"
+  ]
+}
