@@ -15,24 +15,38 @@
   ],
   "mesh_objects": 113,
   "design_period": "1920-1940 three-cylinder stationary diesel",
-  "orthographic_scale": 4.827092224359512,
-  "outline_pixels": 6,
+  "orthographic_scale": 6.0,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    6.0,
+    6.0
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 48,
+      "minimum_margin": 82,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 27,
+      "minimum_margin": 59,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 48,
+      "minimum_margin": 82,
       "mask_alpha_matches": true
     }
   },
-  "in_game_tested": false
+  "in_game_tested": false,
+  "geometry_and_palette_unchanged": true,
+  "model_geometry_palette_sha256": "7c4fc337c085cff8c9543b2470dd9c9a1f0d2107e42ed94b623da73d14ce6120",
+  "previous_draw_size": "(4.3,4.3)",
+  "previous_draw_offset": "(0,0,0.35)"
 }
