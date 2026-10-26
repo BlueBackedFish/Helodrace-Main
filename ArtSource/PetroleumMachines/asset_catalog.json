@@ -1,0 +1,86 @@
+[
+  {
+    "texture_prefix": "Buildings/HD_BasicPumpJack",
+    "source_folder": "ArtSource/BasicPumpJack",
+    "blend": "HD_BasicPumpJack.blend",
+    "footprint": [
+      6,
+      3
+    ],
+    "draw_size": [
+      9.0,
+      9.0
+    ],
+    "draw_offset": [
+      0,
+      0,
+      0
+    ],
+    "graphic_class": "Graphic_Multi",
+    "gameplay_definition_active": true,
+    "status": "existing definition updated"
+  },
+  {
+    "texture_prefix": "Buildings/HD_MetalPumpJack",
+    "source_folder": "ArtSource/MetalPumpJack",
+    "blend": "HD_MetalPumpJack.blend",
+    "footprint": [
+      6,
+      3
+    ],
+    "draw_size": [
+      9.0,
+      9.0
+    ],
+    "draw_offset": [
+      0,
+      0,
+      0
+    ],
+    "graphic_class": "Graphic_Multi",
+    "gameplay_definition_active": false,
+    "status": "artwork only; gameplay definition not created"
+  },
+  {
+    "texture_prefix": "Buildings/HD_DistillationTower",
+    "source_folder": "ArtSource/DistillationTower",
+    "blend": "HD_DistillationTower.blend",
+    "footprint": [
+      3,
+      3
+    ],
+    "draw_size": [
+      6.0,
+      6.0
+    ],
+    "draw_offset": [
+      0,
+      0,
+      0
+    ],
+    "graphic_class": "Graphic_Multi",
+    "gameplay_definition_active": true,
+    "status": "existing definition updated"
+  },
+  {
+    "texture_prefix": "Buildings/HD_RotaryDrill",
+    "source_folder": "ArtSource/RotaryDrill",
+    "blend": "HD_RotaryDrill.blend",
+    "footprint": [
+      4,
+      4
+    ],
+    "draw_size": [
+      6.75,
+      6.75
+    ],
+    "draw_offset": [
+      0,
+      0,
+      0
+    ],
+    "graphic_class": "Graphic_Multi",
+    "gameplay_definition_active": false,
+    "status": "artwork only; gameplay definition not created"
+  }
+]

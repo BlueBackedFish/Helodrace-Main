@@ -27,3 +27,5 @@ Reactors keep their existing 3×3 sizes, recipes, stats and Graphic_Single North
 Run `review_tile_scale.py` with Python/Pillow for **64 pixels per game tile**, using actual XML draw sizes without bounding-box normalization. It produces `Review/tile_scale_comparison.png`, `Review/power_scale_before_after.png`, reactor North and 3-direction sheets, and `presentation_calibration.json`. Previous power PNGs for this correction are in `Review/BeforeScale/`.
 
 `analyze_family.py` records reference/current dominant colors and dark edge widths. `family_palette_audit_before.json` retains the earlier green-paint snapshot. `review_family.py` produces normalized shape/color contact sheets; those are deliberately not size evidence. Its original density-pass before images remain in `Review/Before/`.
+
+The timber/steel pumpjacks, rebuilt distillation tower and new rotary-drill artwork use the same primitives and presentation rules. Their independent builds, 12-view review, integration status and validation are documented in [the petroleum artwork set](../PetroleumMachines/README.md).
