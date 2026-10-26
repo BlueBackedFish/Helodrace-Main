@@ -1,7 +1,16 @@
 """Fixed-color building sprite primitives and per-asset export, Blender 5.1."""
-import bpy, math, os, json
+import bpy, math, os, json, hashlib
 import numpy as np
 from mathutils import Vector
+
+def geometry_hash():
+    """Saved mesh transforms, topology, face assignments and fixed material colors."""
+    bpy.context.view_layer.update();data=[]
+    for o in sorted((o for o in bpy.context.scene.objects if o.type=='MESH'),key=lambda o:o.name):
+        data.append([o.name,[list(row) for row in o.matrix_world],[list(v.co) for v in o.data.vertices],
+                     [[list(p.vertices),p.material_index] for p in o.data.polygons],
+                     [[m.name,list(m.diffuse_color),bool(m.get('tintable',False))] for m in o.data.materials]])
+    return hashlib.sha256(json.dumps(data,separators=(',',':')).encode()).hexdigest()
 
 def mat(name,rgb,tint=True):
     if isinstance(rgb,(int,float)):rgb=(rgb,)*3

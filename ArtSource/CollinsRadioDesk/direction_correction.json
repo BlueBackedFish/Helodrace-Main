@@ -1,0 +1,9 @@
+{
+  "north_before_sha256": "0e32ac5617c5d432e6877aee7e9bd42ee61e626452aba74fae8c5ac1d714037f",
+  "south_before_sha256": "8a3d783df35ca2cd7c165751d0a5607d86e6a8a6efac842e77eba4404f672f63",
+  "north_after_sha256": "8a3d783df35ca2cd7c165751d0a5607d86e6a8a6efac842e77eba4404f672f63",
+  "south_after_sha256": "0e32ac5617c5d432e6877aee7e9bd42ee61e626452aba74fae8c5ac1d714037f",
+  "pixel_data_unchanged": true,
+  "north_now": "operating faces",
+  "south_now": "cabinet backs"
+}

@@ -149,7 +149,7 @@ for x in [-.260,-.180]:
     bevel=paddle.modifiers.new('Simple_finger_edges','BEVEL');bevel.width=.009;bevel.segments=1
 # Cameras retain the existing presentation and framing.
 target=Vector((0,0,.42));scale=1.47
-for name,az in [('North',90),('East',0),('South',270)]:
+for name,az in [('North',270),('East',0),('South',90)]:
     a=math.radians(az);e=math.radians(64)
     d=bpy.data.cameras.new('Camera_'+name);d.type='ORTHO';d.ortho_scale=scale
     c=bpy.data.objects.new('Camera_'+name,d);scene.collection.objects.link(c)
