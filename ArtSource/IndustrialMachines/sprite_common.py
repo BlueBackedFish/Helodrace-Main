@@ -147,6 +147,25 @@ def rod(name,a,b,r,mats):
     a,b=Vector(a),Vector(b);o=cyl(name,(a+b)/2,r,(b-a).length,mats,vertices=12)
     o.rotation_euler=(b-a).to_track_quat('Z','Y').to_euler();return o
 
+def bar(name,a,b,width,depth,mats):
+    """Rectangular structural beam between two world-space joints."""
+    a,b=Vector(a),Vector(b);o=cube(name,(a+b)/2,(width,depth,(b-a).length),mats)
+    o.rotation_euler=(b-a).to_track_quat('Z','Y').to_euler();q=o.rotation_euler.to_quaternion()
+    for f in o.data.polygons:
+        n=q@f.normal;f.material_index=0 if n.z>.4 else (1 if abs(n.y)>.5 else 2)
+    return o
+
+def side_profile(name,points,depth,mats,y=0):
+    """Extrude a coarse X/Z silhouette across Y, for cast machine plates."""
+    n=len(points);verts=[(x,y+dy,z) for dy in [-depth/2,depth/2] for x,z in points]
+    faces=[tuple(range(n-1,-1,-1)),tuple(range(n,2*n))]
+    faces.extend([(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)])
+    mesh=bpy.data.meshes.new(name);mesh.from_pydata(verts,[],faces);mesh.update()
+    obj=bpy.data.objects.new(name,mesh);scene.collection.objects.link(obj)
+    for m in mats:mesh.materials.append(m)
+    for f in mesh.polygons:f.material_index=0 if f.normal.z>.4 else (1 if abs(f.normal.y)>.5 else 2)
+    return obj
+
 def path(name,points,r,mats):
     for a,b in zip(points,points[1:]):rod(name,a,b,r,mats)
 

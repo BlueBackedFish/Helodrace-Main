@@ -490,8 +490,8 @@
     <graphicData>
       <texPath>Buildings/HD_BasicPumpJack</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(6.5,6.5)</drawSize>
-      <drawOffset>(0.2,0,0.7)</drawOffset>
+      <drawSize>(9,9)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
         <volume>(1.8, 0.5, 1.8)</volume>

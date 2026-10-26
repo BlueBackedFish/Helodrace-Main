@@ -1,0 +1,48 @@
+{
+  "asset": "HD_BasicPumpJack",
+  "footprint": [
+    6,
+    3
+  ],
+  "features": [
+    "timber sills and braced Sampson trestles",
+    "thick wooden walking beam and pitman",
+    "wooden spoked wheel with iron tire",
+    "external line-shaft pulley drive",
+    "polished rod and stuffing box",
+    "small wooden receiving barrel",
+    "baked vanilla wood and untinted iron"
+  ],
+  "mesh_objects": 53,
+  "design_period": "early timber walking-beam oilfield pumping unit",
+  "orthographic_scale": 9.0,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    9.0,
+    9.0
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 83,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 54,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 83,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false
+}
