@@ -228,7 +228,7 @@ def export(out,stem,footprint,features,blend_name=None):
     calibrated=scene.get('presentation_rule')=='one_model_unit_per_game_tile'
     target=Vector((0,0,0)) if calibrated else (lo+hi)/2
     if not calibrated:target.z*=.80
-    dirs=[('North',-90),('East',0),('South',90)];cameras=[]
+    dirs=[('North',-90),('East',0),('South',90),('West',180)];cameras=[]
     span=0
     for name,az in dirs:
         a=math.radians(az);e=math.radians(64)
@@ -285,9 +285,12 @@ def export(out,stem,footprint,features,blend_name=None):
         checks[name]={'downward_degrees':angle,'minimum_margin':margin,'mask_alpha_matches':True}
         previews.append(p)
     im=bpy.data.images.new('North_East_South',1536,512,alpha=True);im.colorspace_settings.name='Non-Color'
-    im.pixels.foreach_set(np.concatenate(previews,axis=1).ravel());im.file_format='PNG'
+    im.pixels.foreach_set(np.concatenate(previews[:3],axis=1).ravel());im.file_format='PNG'
     im.filepath_raw=os.path.join(out,'preview_north_east_south.png');im.save()
     im.scale(768,256);im.filepath_raw=os.path.join(out,'preview_256px.png');im.save()
+    im=bpy.data.images.new('North_East_South_West',2048,512,alpha=True);im.colorspace_settings.name='Non-Color'
+    im.pixels.foreach_set(np.concatenate(previews,axis=1).ravel());im.file_format='PNG'
+    im.filepath_raw=os.path.join(out,'preview_four_views.png');im.save()
     count=len([o for o in bpy.context.scene.objects if o.type=='MESH'])
     with open(os.path.join(out,'validation.json'),'w') as f:
         json.dump({'asset':stem,'footprint':footprint,'features':features,'mesh_objects':count,

@@ -1388,9 +1388,9 @@
     <graphicData>
       <texPath>Buildings/HD_SAFurnace</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(5.6,5.6)</drawSize>
-      <drawOffset>(0,0,0.45)</drawOffset>
-      <shaderType>Cutout</shaderType>
+      <drawSize>(6.5,6.5)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
+      <shaderType>CutoutComplex</shaderType>
       <shadowData>
         <volume>(3.0,0.8,3.0)</volume>
       </shadowData>
@@ -1418,7 +1418,7 @@
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(0,0,-3)</interactionCellOffset>
     <surfaceType>Item</surfaceType>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2366</uiOrder>
     <constructionSkillPrerequisite>10</constructionSkillPrerequisite>

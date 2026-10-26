@@ -1,0 +1,54 @@
+{
+  "asset": "HD_SAFurnace",
+  "footprint": [
+    4,
+    4
+  ],
+  "features": [
+    "three large graphite electrodes and separate copper arms",
+    "round dark shell on a tilting cradle",
+    "refractory roof seat and removable roof",
+    "operator-side slag door and tapping runner",
+    "rear electrode lifting columns",
+    "small control pedestal and service walkway"
+  ],
+  "mesh_objects": 60,
+  "design_period": "early/mid twentieth-century three-electrode arc furnace",
+  "orthographic_scale": 6.5,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    6.5,
+    6.5
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 29,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 71,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 79,
+      "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 88,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false,
+  "definition": "Defs/WildWest/Buildings/Industry_WildWest.xml",
+  "gameplay_fields_preserved_sha256": "bb29a8bf9562ad5a6284c2268bfd1a1762ef08c7fe16b660bffe3b6a3f12734b"
+}
