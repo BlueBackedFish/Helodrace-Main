@@ -1,0 +1,65 @@
+{
+  "passed": true,
+  "projection": "90 degree top-down orthographic",
+  "master": 2048,
+  "runtime": 1024,
+  "outline": "6px black circular alpha dilation; 2x supersampling; no internal barrel/body joint stroke",
+  "bounds": {
+    "HD_M2HB_Body": [
+      313,
+      288,
+      582,
+      735
+    ],
+    "HD_M2HB_Barrel": [
+      493,
+      64,
+      530,
+      368
+    ],
+    "HD_M2HB_Tripod": [
+      212,
+      133,
+      812,
+      871
+    ],
+    "HD_M2HB_UI": [
+      249,
+      46,
+      773,
+      978
+    ],
+    "HD_m1917HMG_Top": [
+      355,
+      85,
+      601,
+      798
+    ],
+    "HD_M1917_Tripod": [
+      129,
+      27,
+      895,
+      971
+    ],
+    "HD_m1917HMGUI": [
+      220,
+      46,
+      804,
+      978
+    ]
+  },
+  "files": {
+    "HD_M1917_Tripod.png": "45971374bd69bca165dd2819ef23782f13ecdbca8e234d3d947924f8c2524bfd",
+    "HD_m1917HMG_Top.png": "27321ddfbe5776a622bb00fd059074e9de7b70973936cb4807de9382d0a145c4",
+    "HD_m1917HMGUI.png": "d4288a071658528ed26de11fac45217db90eea263e985331d3ae811e50326966",
+    "HD_M2HB_Barrel.png": "9e24a1a53ca7c08b283c6ecb10806050b066a49c13b6eb03b99c4c198100c785",
+    "HD_M2HB_Body.png": "4908a4e45caad316d88cc0cfb1dfc21ad80b33ce2fb678ed3da614da09064a6d",
+    "HD_M2HB_Tripod.png": "bed54040d66369cfa1fb914895b17f5f46050f0dce858f871c663168bcdae063",
+    "HD_M2HB_UI.png": "442c76fbb9b8dc241c5aa5426b1e5172bfa95cb7807871965ea01bc51b64a6bb"
+  },
+  "gun_draw_tiles": {
+    "M2HB": 3.3554354284478207,
+    "M1917": 2.749303296096145
+  },
+  "note": "M2 barrel/body use the same registration and existing 0.125-tile recoil; tripod layers and UI composites are separate."
+}

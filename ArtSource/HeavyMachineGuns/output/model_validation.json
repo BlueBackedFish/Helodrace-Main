@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "models": {
+    "M2HB": {
+      "camera": "90 degree vertical orthographic",
+      "transparent": true,
+      "lights": 0,
+      "materials": "fixed RGB emission",
+      "meshes": 54,
+      "faces": 4574,
+      "original_exterior_vertices_preserved": true,
+      "original_faces": 3576,
+      "original_uv_loops_preserved": true
+    },
+    "M1917": {
+      "camera": "90 degree vertical orthographic",
+      "transparent": true,
+      "lights": 0,
+      "materials": "fixed RGB emission",
+      "meshes": 63,
+      "faces": 1414,
+      "degenerate_faces": 0
+    }
+  }
+}

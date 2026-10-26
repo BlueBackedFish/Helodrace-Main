@@ -59,7 +59,7 @@ namespace Helodrace
             Vector3 scale = new Vector3(Props.drawSize / 10f, 1f, Props.drawSize / 10f);
             Vector3 barrelPos = drawPos - forward * CurrentRecoil;
 
-            // The supplied textures are authored on the same 512x512 canvas:
+            // The supplied textures share the same registered canvas:
             // barrel first, then body directly over it with no rest offset.
             Graphics.DrawMesh(MeshPool.plane10, Matrix4x4.TRS(barrelPos, rotation, scale), BarrelMaterial, 0);
             drawPos.y += 0.001f;

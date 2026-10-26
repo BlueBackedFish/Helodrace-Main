@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "textures": 7,
+  "unrelated_definitions_unchanged": true,
+  "registered_gun_scales": {
+    "M2HB": 3.3554354284478207,
+    "M1917": 2.749303296096145
+  },
+  "m2_recoil_tiles": 0.125,
+  "source_model_validation": true,
+  "gameplay_balance_unchanged": true,
+  "in_game_rotation_firing_test": false
+}
