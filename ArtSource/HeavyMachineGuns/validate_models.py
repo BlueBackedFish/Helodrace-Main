@@ -4,6 +4,7 @@ from collections import defaultdict
 import bpy,json,hashlib,math
 from mathutils import Vector,Matrix
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'output';results={}
+dimensions=json.loads((ROOT/'scale_reference.json').read_text())
 for kind in ['M2HB','M1917']:
     meta=json.loads((OUT/kind/'metadata.json').read_text());source=Path(meta['source'])
     assert hashlib.sha256(source.read_bytes()).hexdigest()==meta['source_sha256']
@@ -23,7 +24,8 @@ for kind in ['M2HB','M1917']:
     for o in meshes:
         assert o['source_object'] in original
         src=original[o['source_object']];flat=o['source_transform'];matrix=Matrix([flat[i:i+4] for i in range(0,16,4)])
-        assert abs(matrix.to_3x3().determinant()-1)<1e-6
+        expected_det=meta['mount_fore_aft_fit'] if kind=='M1917' and o['layer']=='mount' else 1
+        assert abs(matrix.to_3x3().determinant()-expected_det)<1e-6
         vi=o.data.attributes['source_vertex'];fi=o.data.attributes['source_face']
         for v,identifier in zip(o.data.vertices,vi.data):
             assert (o.matrix_world@v.co-matrix@src['vertices'][identifier.value]).length<2e-6,(kind,o.name,v.index)
@@ -48,6 +50,14 @@ for kind in ['M2HB','M1917']:
         assert seen[name]==set(range(len(src['faces']))),(kind,name,'missing polygons')
         assert vertex_ids[name]=={i for f in src['faces'] for i in f['indices']},(kind,name,'missing used vertices')
     assert set(seen)==set(original)
+    gun_points=[v.co for o in meshes if o['layer']!='mount' for v in o.data.vertices]
+    visible_length=(max(v.y for v in gun_points)-min(v.y for v in gun_points))*meta['model_to_world']
+    expected_length=dimensions['baseline_m2_visible_length_tiles']*dimensions['weapon_length_m'][kind]/dimensions['weapon_length_m']['M2HB']
+    assert abs(visible_length-expected_length)<1e-6,'Incorrect relative gun scale'
+    if kind=='M1917':
+        mount_points=[v.co for o in meshes if o['layer']=='mount' for v in o.data.vertices]
+        mount_metres=(max(v.y for v in mount_points)-min(v.y for v in mount_points))*dimensions['weapon_length_m'][kind]/meta['model_length']
+        assert abs(mount_metres-dimensions['m1917_mount_fore_aft_length_m'])<1e-6,'Incorrect tripod fore-aft size'
     assert all(len(colors)==1 for colors in flat_colors.values()),('Unwanted surface shading',flat_colors)
     assert paint_counts['brass_top']>0 and paint_counts['copper_top']>0
     pose_check={}
@@ -80,6 +90,6 @@ for kind in ['M2HB','M1917']:
         pose_check=dict(ammo_box_level=True,lid_closed=True,lid_surface_tilt_degrees=lid_tilt,cartridge_cases='brass',projectiles='copper',links='dark steel',rigid_cartridge_link_groups=len(belt),terminal_two_cartridges_inside_box=True)
     results[kind]=dict(source=meta['source_relative_to_ext'],source_sha256=meta['source_sha256'],projection='90 degree vertical orthographic',transparent=True,lights=0,
         materials='fixed RGB emission; no image textures',source_objects=len(original),polygons_preserved=sum(len(v) for v in seen.values()),used_source_vertices_preserved=sum(len(v) for v in vertex_ids.values()),uv_loops_preserved=uv_loops,
-        added_geometry=False,gun_draw_tiles=meta['gun_draw_tiles'],mount_draw_tiles=meta['mount_draw_tiles'],uniform_surface_color_counts={name:len(colors) for name,colors in flat_colors.items()},**pose_check)
+        added_geometry=False,gun_draw_tiles=meta['gun_draw_tiles'],mount_draw_tiles=meta['mount_draw_tiles'],visible_gun_length_tiles=visible_length,relative_length_to_m2=visible_length/dimensions['baseline_m2_visible_length_tiles'],uniform_surface_color_counts={name:len(colors) for name,colors in flat_colors.items()},**pose_check)
 (OUT/'model_validation.json').write_text(json.dumps(dict(passed=True,models=results),indent=2)+'\n')
-print('HMG_EXT_VALIDATION_PASS: both provided models retain every polygon, used vertex and UV loop; rigid transforms; vertical cameras; fixed emission',flush=True)
+print('HMG_EXT_VALIDATION_PASS: source polygons/UVs retained; documented transforms; real relative gun lengths and tripod length; vertical cameras; fixed emission',flush=True)

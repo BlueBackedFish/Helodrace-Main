@@ -14,7 +14,7 @@
     <graphicData>
       <texPath>Buildings/Security/HD_M1917_Tripod</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(3.48265038,3.48265038)</drawSize>
+      <drawSize>(1.97724253,1.97724253)</drawSize>
       <shadowData>
         <volume>(0.8,0.25,0.8)</volume>
       </shadowData>
@@ -53,7 +53,7 @@
       <turretGunDef>HD_Gun_M1917HMG_TurretGun</turretGunDef>
       <turretBurstWarmupTime>1.2</turretBurstWarmupTime>
       <turretBurstCooldownTime>0.1</turretBurstCooldownTime>
-      <turretTopDrawSize>2.26899265</turretTopDrawSize>
+      <turretTopDrawSize>1.54467802</turretTopDrawSize>
     </building>
     <placeWorkers>
       <li>PlaceWorker_TurretTop</li>

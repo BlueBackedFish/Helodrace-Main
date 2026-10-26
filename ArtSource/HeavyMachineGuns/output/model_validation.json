@@ -15,6 +15,8 @@
       "added_geometry": false,
       "gun_draw_tiles": 2.976305444367878,
       "mount_draw_tiles": 2.698821737036478,
+      "visible_gun_length_tiles": 2.1421875,
+      "relative_length_to_m2": 1.0,
       "uniform_surface_color_counts": {
         "barrel": 1,
         "tripod": 1
@@ -40,8 +42,10 @@
       "used_source_vertices_preserved": 12632,
       "uv_loops_preserved": 49190,
       "added_geometry": false,
-      "gun_draw_tiles": 2.2689926480563862,
-      "mount_draw_tiles": 3.4826503758703873,
+      "gun_draw_tiles": 1.5446780219596088,
+      "mount_draw_tiles": 1.9772425263129045,
+      "visible_gun_length_tiles": 1.2711383162031438,
+      "relative_length_to_m2": 0.5933833131801692,
       "uniform_surface_color_counts": {
         "tripod": 1,
         "water_jacket": 1

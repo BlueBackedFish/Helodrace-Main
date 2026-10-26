@@ -6,6 +6,9 @@ parser=E.XMLParser(remove_blank_text=True)
 before=E.parse(str(ROOT/'Reference/Previous/Defense_GreatWar.xml'),parser)
 after=E.parse(str(REPO/'Defs/GreatWar/Buildings/Defense_GreatWar.xml'),parser)
 manifest=json.loads((OUT/'manifest.json').read_text());models=json.loads((OUT/'model_validation.json').read_text());assert models['passed']
+dimensions=json.loads((ROOT/'scale_reference.json').read_text())
+relative_length=manifest['visible_gun_length_tiles']['M1917']/manifest['visible_gun_length_tiles']['M2HB']
+assert abs(relative_length-dimensions['weapon_length_m']['M1917']/dimensions['weapon_length_m']['M2HB'])<1e-7
 for kind,name in [('M2HB','HD_Building_M2HB'),('M1917','HD_Building_M1917HMG')]:
     old=before.xpath("ThingDef[defName='%s']"%name)[0];new=after.xpath("ThingDef[defName='%s']"%name)[0]
     assert new.findtext('graphicData/texPath')=='Buildings/Security/HD_'+kind+'_Tripod'
@@ -25,6 +28,6 @@ assert E.tostring(before,method='c14n')==E.tostring(after,method='c14n'),'An unr
 for name,digest in manifest['files'].items():
     assert hashlib.sha256((REPO/'Textures/Buildings/Security'/name).read_bytes()).hexdigest()==digest,name
 result=dict(passed=True,textures=len(manifest['files']),unrelated_definitions_unchanged=True,registered_gun_scales=manifest['gun_draw_tiles'],
-    m2_recoil_tiles=.125,source_model_validation=models['passed'],gameplay_balance_unchanged=True,in_game_rotation_firing_test=False)
+    m2_recoil_tiles=.125,source_model_validation=models['passed'],gameplay_balance_unchanged=True,m1917_length_relative_to_m2=relative_length,in_game_rotation_firing_test=False)
 (OUT/'registration_validation.json').write_text(json.dumps(result,indent=2)+'\n')
 print('HMG_REGISTRATION_PASS: 7 matching 1024 textures; mount and gun registration; 0.125-tile recoil preserved; all unrelated definitions unchanged')

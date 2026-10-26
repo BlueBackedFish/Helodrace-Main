@@ -6,6 +6,7 @@ from mathutils import Vector,Matrix
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'output';OUT.mkdir(exist_ok=True)
 EXT=Path(os.environ.get('HELODRACE_REFERENCE_EXT',str(Path.home()/'Downloads/Dagor-Asset-Explorer-1.0.0/Dagor-Asset-Explorer-1.0.0/ext')))/'machine gun'
 MASTER=2048
+DIMENSIONS=json.loads((ROOT/'scale_reference.json').read_text())
 PALETTE=dict(metal=(79,86,84),cover=(103,111,106),dark=(37,44,42),olive=(93,106,71),ammo=(83,100,57),wood=(102,75,48),brass=(173,142,73),copper=(145,102,68),link=(43,48,43),canvas=(104,99,70),mount=(79,91,73))
 # Original hinge pin, parallel to Y. The source lid is opened 154 degrees.
 AMMO_HINGE=Vector((.4073,.2142,-.1239))
@@ -148,7 +149,20 @@ def transform_for(kind,pose):
     return matrix
 
 def make(kind,relative):
-    source=EXT/relative;records=read_source(kind,source);scene,camera=configure()
+    source=EXT/relative;records=read_source(kind,source)
+    mount_fit_y=1.0
+    if kind=='M1917':
+        points=defaultdict(list)
+        for record in records:
+            for f in record['faces']:
+                points[f['layer']].extend(transform_for(kind,f['pose'])@record['vertices'][i] for i in f['indices'])
+        gun_length=max(v.y for v in points['body'])-min(v.y for v in points['body'])
+        mount_length=max(v.y for v in points['mount'])-min(v.y for v in points['mount'])
+        target_mount_length=gun_length*DIMENSIONS['m1917_mount_fore_aft_length_m']/DIMENSIONS['weapon_length_m'][kind]
+        mount_fit_y=target_mount_length/mount_length
+        for record in records:
+            record['pose_transforms']['mount']=Matrix.Diagonal((1,mount_fit_y,1,1))@transform_for(kind,'mount')
+    scene,camera=configure()
     materials={}
     for key,rgb in PALETTE.items():
         for tone,factor in [('top',1.0),('edge',.79),('underside',.60)]:
@@ -174,7 +188,8 @@ def make(kind,relative):
                 p.material_index=keys.index(f['category']+'_'+tone)
             obj=bpy.data.objects.new(record['name']+' / '+pose,mesh);scene.collection.objects.link(obj);obj['layer']=layer;obj['pose']=pose;obj['source_object']=record['name'];obj['source_transform']=sum((list(row) for row in matrix),[])
     meshes=[o for o in scene.objects if o.type=='MESH'];gun=[v.co for o in meshes if o['layer']!='mount' for v in o.data.vertices];stand=[v.co for o in meshes if o['layer']=='mount' for v in o.data.vertices]
-    length=max(v.y for v in gun)-min(v.y for v in gun);world_length=2.1421875 if kind=='M2HB' else 1.8671875;model_to_world=world_length/length
+    length=max(v.y for v in gun)-min(v.y for v in gun)
+    world_length=DIMENSIONS['baseline_m2_visible_length_tiles']*DIMENSIONS['weapon_length_m'][kind]/DIMENSIONS['weapon_length_m']['M2HB'];model_to_world=world_length/length
     gun_scale=max(abs(v[i]) for v in gun for i in [0,1])*2*1.10
     base_scale=max(abs(v[i]) for v in stand for i in [0,1])*2*1.10
     folder=OUT/kind;folder.mkdir(exist_ok=True)
@@ -188,7 +203,8 @@ def make(kind,relative):
     bpy.ops.wm.save_as_mainfile(filepath=str(folder/'model.blend'),compress=True)
     metadata=dict(source=str(source),source_relative_to_ext='machine gun/'+relative,source_sha256=sha(source),master=MASTER,runtime=1024,projection='90 degree downward orthographic',camera_rotation_degrees=[0,0,0],camera_scale=gun_scale,
         gun_draw_tiles=gun_scale*model_to_world,mount_draw_tiles=base_scale*model_to_world,model_length=length,model_to_world=model_to_world,pivot=[0,0,0],outline_runtime_pixels=6,
-        source_geometry_note='Every source polygon, vertex position and UV loop retained under documented rigid transforms; no invented exterior detail or procedural replacement geometry.',
+        source_geometry_note='Every source polygon and UV loop retained under recorded transforms; M1917 mount fore-aft fit is the only non-rigid adjustment; no added geometry.',
+        weapon_length_m=DIMENSIONS['weapon_length_m'][kind],visible_gun_length_tiles=world_length,mount_fore_aft_fit=mount_fit_y,
         style_note='Water jacket, M2 barrel/sleeve and tripod surfaces use uniform colors without normal-based side shading; cartridge cases, copper projectiles and links are distinct.',
         ammo_box_pose='Level box and closed lid; individually rigid cartridges curve from receiver into the box interior, with the tail beneath the lid' if kind=='M2HB' else 'Original source pose',
         source_objects=[dict(name=r['name'],vertices=r['source_vertices'],faces=r['source_faces']) for r in records],

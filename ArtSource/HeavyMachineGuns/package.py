@@ -51,7 +51,7 @@ def composite_at_world_scale(gun,base,gun_draw,base_draw):
         size=round(width*draw/world_size);layer=resize_linear(image,size);canvas.alpha_composite(layer,((width-size)//2,(width-size)//2))
     return canvas
 
-metadata={};bounds={};preview=[];comparison=[]
+metadata={};bounds={};preview=[];comparison=[];world_views=[]
 for kind in ['M2HB','M1917']:
     folder=OUT/kind;meta=json.loads((folder/'metadata.json').read_text());metadata[kind]=meta
     radius=meta['outline_runtime_pixels']*2
@@ -70,6 +70,7 @@ for kind in ['M2HB','M1917']:
         gun_master=outline(full,radius);gun=runtime(gun_master);bounds['HD_m1917HMG_Top']=export('HD_m1917HMG_Top',gun);ui_name='HD_m1917HMGUI'
     bounds['HD_'+kind+'_Tripod']=export('HD_'+kind+'_Tripod',stand)
     registered=composite_at_world_scale(gun_master,stand_master,meta['gun_draw_tiles'],meta['mount_draw_tiles'])
+    world_views.append((kind,registered,max(meta['gun_draw_tiles'],meta['mount_draw_tiles'])))
     crop=registered.crop(registered.getchannel('A').getbbox());side=math.ceil(max(crop.size)*1024/928)
     square=Image.new('RGBA',(side,side));square.alpha_composite(crop,((side-crop.width)//2,(side-crop.height)//2))
     ui=runtime(square);bounds[ui_name]=export(ui_name,ui)
@@ -82,7 +83,13 @@ def sheet(entries,path,columns=2):
         x=(i%columns)*cell;y=(i//columns)*(cell+38);draw.text((x+15,y+12),label,font=font,fill='white')
         image=resize_linear(im,cell);canvas.paste(image,(x,y+38),image)
     save_png(canvas,path)
-sheet(preview,OUT/'preview.png')
+common_world_size=max(draw for _,_,draw in world_views)
+world_preview=[]
+for kind,registered,draw in world_views:
+    size=round(registered.width*draw/common_world_size);layer=resize_linear(registered,size);canvas=Image.new('RGBA',registered.size)
+    canvas.alpha_composite(layer,((canvas.width-size)//2,(canvas.height-size)//2));world_preview.append((kind+' / SAME WORLD SCALE',canvas))
+sheet(world_preview,OUT/'preview.png')
+sheet(preview,OUT/'icon_preview.png')
 def previous(name):
     backup=ROOT/'Reference/Previous'/name
     return opened(backup if backup.exists() else REPO/'Textures/Buildings/Security'/name)
@@ -95,6 +102,7 @@ manifest=dict(passed=True,projection='90 degree top-down orthographic',master=20
     bounds=bounds,files={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(RUNTIME.glob('*.png'))},
     gun_draw_tiles={kind:meta['gun_draw_tiles'] for kind,meta in metadata.items()},
     mount_draw_tiles={kind:meta['mount_draw_tiles'] for kind,meta in metadata.items()},
+    visible_gun_length_tiles={kind:meta['model_length']*meta['model_to_world'] for kind,meta in metadata.items()},
     note='M2 barrel/body use the same registration and existing 0.125-tile recoil; tripod layers and UI composites are separate.')
 (OUT/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
 if args.apply:

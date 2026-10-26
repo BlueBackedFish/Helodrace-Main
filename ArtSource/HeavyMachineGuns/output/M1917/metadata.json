@@ -11,17 +11,20 @@
     0
   ],
   "camera_scale": 4.674681091308594,
-  "gun_draw_tiles": 2.2689926480563862,
-  "mount_draw_tiles": 3.4826503758703873,
+  "gun_draw_tiles": 1.5446780219596088,
+  "mount_draw_tiles": 1.9772425263129045,
   "model_length": 3.8468639850616455,
-  "model_to_world": 0.4853791314823621,
+  "model_to_world": 0.3304349519866827,
   "pivot": [
     0,
     0,
     0
   ],
   "outline_runtime_pixels": 6,
-  "source_geometry_note": "Every source polygon, vertex position and UV loop retained under documented rigid transforms; no invented exterior detail or procedural replacement geometry.",
+  "source_geometry_note": "Every source polygon and UV loop retained under recorded transforms; M1917 mount fore-aft fit is the only non-rigid adjustment; no added geometry.",
+  "weapon_length_m": 0.981456,
+  "visible_gun_length_tiles": 1.2711383162031438,
+  "mount_fore_aft_fit": 0.8339599337401518,
   "style_note": "Water jacket, M2 barrel/sleeve and tripod surfaces use uniform colors without normal-based side shading; cartridge cases, copper projectiles and links are distinct.",
   "ammo_box_pose": "Original source pose",
   "source_objects": [
