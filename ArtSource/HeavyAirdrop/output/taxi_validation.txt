@@ -1,0 +1,6 @@
+PASS: 7,496 deterministic taxi route assertions.
+PASS: native runtime/test build, 0 warnings, 0 errors.
+TAXI_PASS: 3 aircraft registered once; C17 150/150 runway; pilot/fuel guards; native pawn-walkable door and item; wall detour; arrival, stop, fuel consumption and loss; 1458 taxi ticks.
+Scope: a manually initialized empty native map; center-cell pawn walkability, narrow door gap, item passability, wall detour, pilot/fuel rejection, arrival and manual stop, takeoff rejection during taxi, fuel consumption and empty-fuel stop.
+Headless harness suppresses texture-atlas insertion and notification audio only.
+Not run: full colony UI, world flights, full save/reload integration.

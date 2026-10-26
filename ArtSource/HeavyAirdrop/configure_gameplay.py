@@ -14,6 +14,9 @@ def write(root,path):
 def vec(v):return '('+','.join(f'{float(x):.8f}' for x in v)+')'
 def parse(s):return [float(x) for x in s.strip('()').split(',')]
 path=runtime/'Defs/Vehicles/HeavyAirdrop.xml';defs=E.parse(path).getroot()
+plane=next(n for n in defs if n.findtext('defName')=='HDA_C17')
+flight=plane.find("modExtensions/li[@Class='Helodrace.Aircraft.AircraftDefExtension']")
+setv(flight,'takeoffDistance',150);setv(flight,'landingDistance',150)
 # Keep the vehicle and its construction placeholder consistent with the selected game balance.
 bradley_path=runtime/'Defs/Vehicles/M3A3.xml';bradley=E.parse(bradley_path).getroot()
 for mass in bradley.findall('.//vehicleStats/Mass')+bradley.findall('.//statBases/Mass'):mass.text='23000'
