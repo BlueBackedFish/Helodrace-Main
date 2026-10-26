@@ -15,24 +15,38 @@
   ],
   "mesh_objects": 74,
   "design_period": "1900-1925 open-field DC dynamo",
-  "orthographic_scale": 3.6336799234151838,
-  "outline_pixels": 6,
+  "orthographic_scale": 4.5,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    4.5,
+    4.5
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 49,
+      "minimum_margin": 81,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 27,
+      "minimum_margin": 51,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 49,
+      "minimum_margin": 81,
       "mask_alpha_matches": true
     }
   },
-  "in_game_tested": false
+  "in_game_tested": false,
+  "geometry_and_palette_unchanged": true,
+  "model_geometry_palette_sha256": "bf6ee9947652fd468a7fdd0f5e637df66c00e38898dd5024b583a416b6d4e111",
+  "previous_draw_size": "(3.3,3.3)",
+  "previous_draw_offset": "(-0.1,0,0.15)"
 }
