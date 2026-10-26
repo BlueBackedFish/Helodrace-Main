@@ -1,0 +1,54 @@
+{
+  "asset": "HD_VIMFurnace",
+  "footprint": [
+    3,
+    4
+  ],
+  "features": [
+    "sealed dished vacuum chamber and clamped lid",
+    "large circular access door and small inspection window",
+    "separate vacuum pump and motor",
+    "short vacuum manifold and isolation valve",
+    "operator cabinet with two large meters",
+    "cooling water connections and lid lifting post"
+  ],
+  "mesh_objects": 70,
+  "design_period": "circa 1950 vacuum induction melting installation",
+  "orthographic_scale": 6.0,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    6.0,
+    6.0
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 49,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 60,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 87,
+      "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 85,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false,
+  "definition": "Defs/ColdWar/Buildings/Industry_ColdWar.xml",
+  "gameplay_fields_preserved_sha256": "eb217331fdeb47b0a7aa023fa68c0970a1bb0f62a6d9b06c9cc9b9c14c82a49b"
+}

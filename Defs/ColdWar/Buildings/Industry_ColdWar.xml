@@ -10,9 +10,9 @@
     <graphicData>
       <texPath>Buildings/HD_VIMFurnace</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(4.8,4.8)</drawSize>
-      <drawOffset>(0,0,0.35)</drawOffset>
-      <shaderType>Cutout</shaderType>
+      <drawSize>(6,6)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
+      <shaderType>CutoutComplex</shaderType>
       <shadowData>
         <volume>(2.5,0.7,2.5)</volume>
       </shadowData>
@@ -41,7 +41,7 @@
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(0,0,-3)</interactionCellOffset>
     <surfaceType>Item</surfaceType>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2367</uiOrder>
     <constructionSkillPrerequisite>12</constructionSkillPrerequisite>
