@@ -3,8 +3,8 @@
   "textures": 7,
   "unrelated_definitions_unchanged": true,
   "registered_gun_scales": {
-    "M2HB": 3.3554354284478207,
-    "M1917": 2.749303296096145
+    "M2HB": 2.976305444367878,
+    "M1917": 2.2689926480563862
   },
   "m2_recoil_tiles": 0.125,
   "source_model_validation": true,

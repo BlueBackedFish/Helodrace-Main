@@ -2,24 +2,34 @@
   "passed": true,
   "models": {
     "M2HB": {
-      "camera": "90 degree vertical orthographic",
+      "source": "machine gun/browning-m2/M2/M2.blend",
+      "source_sha256": "7e0b7e96eb1fbaf5983533e5e063e0ebf405bda4b35e3e18e9a3d2e8876739cc",
+      "projection": "90 degree vertical orthographic",
       "transparent": true,
       "lights": 0,
-      "materials": "fixed RGB emission",
-      "meshes": 54,
-      "faces": 4574,
-      "original_exterior_vertices_preserved": true,
-      "original_faces": 3576,
-      "original_uv_loops_preserved": true
+      "materials": "fixed RGB emission; no image textures",
+      "source_objects": 14,
+      "polygons_preserved": 40756,
+      "used_source_vertices_preserved": 37452,
+      "uv_loops_preserved": 152352,
+      "added_geometry": false,
+      "gun_draw_tiles": 2.976305444367878,
+      "mount_draw_tiles": 2.698821737036478
     },
     "M1917": {
-      "camera": "90 degree vertical orthographic",
+      "source": "machine gun/browning-m1917/source/browning m1917.fbx",
+      "source_sha256": "cb7eaed3682f641d81610be68e2de7404e85e4fb04babbdf474692d53df05af5",
+      "projection": "90 degree vertical orthographic",
       "transparent": true,
       "lights": 0,
-      "materials": "fixed RGB emission",
-      "meshes": 63,
-      "faces": 1414,
-      "degenerate_faces": 0
+      "materials": "fixed RGB emission; no image textures",
+      "source_objects": 1,
+      "polygons_preserved": 12123,
+      "used_source_vertices_preserved": 12632,
+      "uv_loops_preserved": 49190,
+      "added_geometry": false,
+      "gun_draw_tiles": 2.2689926480563862,
+      "mount_draw_tiles": 3.4826503758703873
     }
   }
 }

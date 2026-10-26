@@ -1,6 +1,6 @@
 """Package supersampled, cutout-ready sprites; keep the M2 barrel/body joint unoutlined."""
 from pathlib import Path
-import argparse,json,hashlib,sys,shutil,math,os,tempfile
+import argparse,json,hashlib,sys,shutil,math,os,tempfile,io
 import numpy as np
 from PIL import Image,ImageDraw,ImageFont
 from lxml import etree as E
@@ -16,6 +16,9 @@ def atomic_write(path,data):
     with tempfile.NamedTemporaryFile(dir=path.parent,prefix=path.name+'.',suffix='.hmg-temp',delete=False) as temporary:
         temporary.write(data);name=temporary.name
     os.replace(name,path)
+
+def save_png(image,path):
+    buffer=io.BytesIO();image.save(buffer,format='PNG');atomic_write(path,buffer.getvalue())
 grown_cache={}
 def grown(image,radius):
     alpha=np.asarray(image.getchannel('A'))
@@ -41,10 +44,12 @@ def export(name,image):
     assert image.size==(1024,1024)
     alpha=image.getchannel('A');b=alpha.getbbox();assert b and min(b[0],b[1],1024-b[2],1024-b[3])>=8,(name,b)
     assert alpha.getextrema()==(0,255)
-    image.save(RUNTIME/(name+'.png'));return b
+    save_png(image,RUNTIME/(name+'.png'));return b
 def composite_at_world_scale(gun,base,gun_draw,base_draw):
-    width=gun.width;size=round(width*base_draw/gun_draw);stand=resize_linear(base,size)
-    canvas=Image.new('RGBA',(width,width));canvas.alpha_composite(stand,((width-size)//2,(width-size)//2));return Image.alpha_composite(canvas,gun)
+    width=gun.width;world_size=max(gun_draw,base_draw);canvas=Image.new('RGBA',(width,width))
+    for image,draw in [(base,base_draw),(gun,gun_draw)]:
+        size=round(width*draw/world_size);layer=resize_linear(image,size);canvas.alpha_composite(layer,((width-size)//2,(width-size)//2))
+    return canvas
 
 metadata={};bounds={};preview=[];comparison=[]
 for kind in ['M2HB','M1917']:
@@ -76,17 +81,20 @@ def sheet(entries,path,columns=2):
     for i,(label,im) in enumerate(entries):
         x=(i%columns)*cell;y=(i//columns)*(cell+38);draw.text((x+15,y+12),label,font=font,fill='white')
         image=resize_linear(im,cell);canvas.paste(image,(x,y+38),image)
-    canvas.save(path)
+    save_png(canvas,path)
 sheet(preview,OUT/'preview.png')
 def previous(name):
     backup=ROOT/'Reference/Previous'/name
     return opened(backup if backup.exists() else REPO/'Textures/Buildings/Security'/name)
 old_m2=previous('HD_M2HB_UI.png');old_17=previous('HD_m1917HMGUI.png')
-sheet([('M2HB / PREVIOUS',old_m2),('M2HB / REPLACEMENT',preview[0][1]),('M1917 / PREVIOUS',old_17),('M1917 / REPLACEMENT',preview[1][1])],OUT/'before_after.png')
+sheet([('M2HB / ORIGINAL GAME',old_m2),('M2HB / EXT MODEL',preview[0][1]),('M1917 / ORIGINAL GAME',old_17),('M1917 / EXT MODEL',preview[1][1])],OUT/'before_after.png')
+rejected=opened(ROOT/'Reference/RejectedProceduralPreview.png');revised=opened(OUT/'preview.png')
+review=Image.new('RGBA',(960,1036));review.alpha_composite(rejected,(0,0));review.alpha_composite(revised,(0,518));save_png(review,OUT/'revision_comparison.png')
 sheet(comparison[:2],OUT/'m2_recoil_review.png')
 manifest=dict(passed=True,projection='90 degree top-down orthographic',master=2048,runtime=1024,outline='6px black circular alpha dilation; 2x supersampling; no internal barrel/body joint stroke',
     bounds=bounds,files={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(RUNTIME.glob('*.png'))},
     gun_draw_tiles={kind:meta['gun_draw_tiles'] for kind,meta in metadata.items()},
+    mount_draw_tiles={kind:meta['mount_draw_tiles'] for kind,meta in metadata.items()},
     note='M2 barrel/body use the same registration and existing 0.125-tile recoil; tripod layers and UI composites are separate.')
 (OUT/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
 if args.apply:
@@ -103,6 +111,7 @@ if args.apply:
         building=root.xpath("ThingDef[defName='%s']"%defname)[0]
         building.find('graphicData/texPath').text='Buildings/Security/HD_'+kind+'_Tripod'
         meta=metadata[kind]
+        building.find('graphicData/drawSize').text=f"({meta['mount_draw_tiles']:.8f},{meta['mount_draw_tiles']:.8f})"
         if kind=='M2HB':
             comp=building.find("comps/li[@Class='Helodrace.CompProperties_ReciprocatingTurretBarrel']")
             comp.find('drawSize').text=f"{meta['gun_draw_tiles']*10:.8f}";comp.find('drawOffset').text='0'

@@ -10,6 +10,9 @@ for kind,name in [('M2HB','HD_Building_M2HB'),('M1917','HD_Building_M1917HMG')]:
     old=before.xpath("ThingDef[defName='%s']"%name)[0];new=after.xpath("ThingDef[defName='%s']"%name)[0]
     assert new.findtext('graphicData/texPath')=='Buildings/Security/HD_'+kind+'_Tripod'
     new.find('graphicData/texPath').text=old.findtext('graphicData/texPath')
+    base_scale=manifest['mount_draw_tiles'][kind]
+    assert new.findtext('graphicData/drawSize')==f'({base_scale:.8f},{base_scale:.8f})'
+    new.find('graphicData/drawSize').text=old.findtext('graphicData/drawSize')
     if kind=='M2HB':
         op=old.find("comps/li[@Class='Helodrace.CompProperties_ReciprocatingTurretBarrel']");np=new.find("comps/li[@Class='Helodrace.CompProperties_ReciprocatingTurretBarrel']")
         assert abs(float(np.findtext('drawSize'))/10-manifest['gun_draw_tiles'][kind])<1e-7

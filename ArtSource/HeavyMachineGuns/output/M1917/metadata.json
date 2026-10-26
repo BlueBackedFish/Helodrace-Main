@@ -1,8 +1,7 @@
 {
-  "source": "Original cosmetic exterior model from US Army museum photograph",
-  "reference": "https://commons.wikimedia.org/wiki/File:Browning1917.jpg",
-  "reference_variant": "M1917A1 exterior; represented by the existing generic M1917 game definition",
-  "nonfunctional": true,
+  "source": "C:\\Users\\human\\Downloads\\Dagor-Asset-Explorer-1.0.0\\Dagor-Asset-Explorer-1.0.0\\ext\\machine gun\\browning-m1917\\source\\browning m1917.fbx",
+  "source_relative_to_ext": "machine gun/browning-m1917/source/browning m1917.fbx",
+  "source_sha256": "cb7eaed3682f641d81610be68e2de7404e85e4fb04babbdf474692d53df05af5",
   "master": 2048,
   "runtime": 1024,
   "projection": "90 degree downward orthographic",
@@ -11,396 +10,39 @@
     0,
     0
   ],
-  "camera_scale": 1.74,
-  "gun_draw_tiles": 2.749303296096145,
-  "mount_draw_tiles": 1.6,
-  "model_length": 1.1817198395729065,
-  "model_to_world": 1.5800593655724973,
+  "camera_scale": 4.674681091308594,
+  "gun_draw_tiles": 2.2689926480563862,
+  "mount_draw_tiles": 3.4826503758703873,
+  "model_length": 3.8468639850616455,
+  "model_to_world": 0.4853791314823621,
   "pivot": [
     0,
     0,
     0
   ],
   "outline_runtime_pixels": 6,
-  "source_vertex_uv_preserved": false,
+  "source_geometry_note": "Every source polygon, vertex position and UV loop retained under documented rigid transforms; no invented exterior detail or procedural replacement geometry.",
+  "source_objects": [
+    {
+      "name": "Circle.007",
+      "vertices": 12634,
+      "faces": 12123
+    }
+  ],
   "parts": [
     {
-      "name": "Receiver exterior",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Receiver top cover",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Receiver cover rail -0.057",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Receiver cover rail 0.057",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Cover hinge",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Rear sight folded base",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Rear sight folded leaf",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Rear sight aperture",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Smooth water jacket",
-      "layer": "body",
-      "vertices": 128,
-      "faces": 66
-    },
-    {
-      "name": "Water jacket end ring 0.055",
-      "layer": "body",
-      "vertices": 64,
-      "faces": 34
-    },
-    {
-      "name": "Water jacket end ring 0.645",
-      "layer": "body",
-      "vertices": 64,
-      "faces": 34
-    },
-    {
-      "name": "Front end plate",
-      "layer": "body",
-      "vertices": 64,
-      "faces": 34
-    },
-    {
-      "name": "Muzzle exterior stub",
-      "layer": "body",
-      "vertices": 64,
-      "faces": 34
-    },
-    {
-      "name": "Front sight blade",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Water filler neck",
-      "layer": "body",
-      "vertices": 64,
-      "faces": 34
-    },
-    {
-      "name": "Water filler cap",
-      "layer": "body",
-      "vertices": 64,
-      "faces": 34
-    },
-    {
-      "name": "Filler cap tab",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Carry band",
-      "layer": "body",
-      "vertices": 64,
-      "faces": 34
-    },
-    {
-      "name": "Carry handle stem",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Wood carry handle",
-      "layer": "body",
-      "vertices": 64,
-      "faces": 34
-    },
-    {
-      "name": "Carry handle top paint",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Rear pistol grip",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Pistol grip upper edge",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Charging handle stem",
-      "layer": "body",
-      "vertices": 64,
-      "faces": 34
-    },
-    {
-      "name": "Charging handle knob",
-      "layer": "body",
-      "vertices": 64,
-      "faces": 34
-    },
-    {
-      "name": "Ammunition box",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Ammunition box lid",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Ammo lid folded handle",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Visible belt cartridge 0",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Canvas belt link 0",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Visible belt cartridge 1",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Canvas belt link 1",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Visible belt cartridge 2",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Canvas belt link 2",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Visible belt cartridge 3",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Canvas belt link 3",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Visible belt cartridge 4",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Canvas belt link 4",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Visible belt cartridge 5",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Canvas belt link 5",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Visible belt cartridge 6",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Canvas belt link 6",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Receiver exterior fastener",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Receiver exterior fastener.001",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Receiver exterior fastener.002",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Receiver exterior fastener.003",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Receiver exterior fastener.004",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Receiver exterior fastener.005",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Tripod front leg",
+      "name": "Circle.007 / mount",
+      "source_object": "Circle.007",
       "layer": "mount",
-      "vertices": 24,
-      "faces": 26
+      "vertices": 2445,
+      "faces": 2290
     },
     {
-      "name": "Tripod front foot",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Tripod front foot top",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Tripod left leg",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Tripod left foot",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Tripod left foot top",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Tripod right leg",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Tripod right foot",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Tripod right foot top",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Pintle column",
-      "layer": "mount",
-      "vertices": 64,
-      "faces": 34
-    },
-    {
-      "name": "Pintle collar",
-      "layer": "mount",
-      "vertices": 64,
-      "faces": 34
-    },
-    {
-      "name": "Rear traverse bar",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Elevation brace",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Traverse adjustment handwheel",
-      "layer": "mount",
-      "vertices": 64,
-      "faces": 34
-    },
-    {
-      "name": "Elevation knob",
-      "layer": "mount",
-      "vertices": 64,
-      "faces": 34
+      "name": "Circle.007 / body",
+      "source_object": "Circle.007",
+      "layer": "body",
+      "vertices": 10187,
+      "faces": 9833
     }
   ]
 }

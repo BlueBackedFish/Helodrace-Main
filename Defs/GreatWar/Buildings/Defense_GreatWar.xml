@@ -14,7 +14,7 @@
     <graphicData>
       <texPath>Buildings/Security/HD_M1917_Tripod</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.6,1.6)</drawSize>
+      <drawSize>(3.48265038,3.48265038)</drawSize>
       <shadowData>
         <volume>(0.8,0.25,0.8)</volume>
       </shadowData>
@@ -53,7 +53,7 @@
       <turretGunDef>HD_Gun_M1917HMG_TurretGun</turretGunDef>
       <turretBurstWarmupTime>1.2</turretBurstWarmupTime>
       <turretBurstCooldownTime>0.1</turretBurstCooldownTime>
-      <turretTopDrawSize>2.74930330</turretTopDrawSize>
+      <turretTopDrawSize>2.26899265</turretTopDrawSize>
     </building>
     <placeWorkers>
       <li>PlaceWorker_TurretTop</li>
@@ -94,7 +94,7 @@
     <graphicData>
       <texPath>Buildings/Security/HD_M2HB_Tripod</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(2.0,2.0)</drawSize>
+      <drawSize>(2.69882174,2.69882174)</drawSize>
       <shadowData>
         <volume>(1.0,0.3,1.0)</volume>
       </shadowData>
@@ -162,7 +162,7 @@
       <li Class="Helodrace.CompProperties_ReciprocatingTurretBarrel">
         <barrelTexPath>Buildings/Security/HD_M2HB_Barrel</barrelTexPath>
         <bodyTexPath>Buildings/Security/HD_M2HB_Body</bodyTexPath>
-        <drawSize>33.55435428</drawSize>
+        <drawSize>29.76305444</drawSize>
         <drawOffset>0</drawOffset>
         <recoilDistance>0.125</recoilDistance>
         <recoilTicks>4</recoilTicks>

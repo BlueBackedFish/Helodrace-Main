@@ -1,12 +1,7 @@
 {
-  "source": "ArtSource\\M8AGS\\output\\WeaponLayers\\vehicle.blend",
-  "source_sha256": "f8e399e54ad438cb948eddaec319011caad3a60cebabe0c747f1d134f2cbf062",
-  "source_meshes": [
-    "g0044 bone_mg_aa_v_01",
-    "g0044_gunmetal bone_mg_aa_v_01 / gunmetal"
-  ],
-  "axis_x": -0.4310303023367217,
-  "source_geometry_note": "Exterior vertices and every UV loop preserved under a rigid 180-degree yaw; render meshes split by external tube region. Added cosmetic cover/recess overlays are separate objects.",
+  "source": "C:\\Users\\human\\Downloads\\Dagor-Asset-Explorer-1.0.0\\Dagor-Asset-Explorer-1.0.0\\ext\\machine gun\\browning-m2\\M2\\M2.blend",
+  "source_relative_to_ext": "machine gun/browning-m2/M2/M2.blend",
+  "source_sha256": "7e0b7e96eb1fbaf5983533e5e063e0ebf405bda4b35e3e18e9a3d2e8876739cc",
   "master": 2048,
   "runtime": 1024,
   "projection": "90 degree downward orthographic",
@@ -15,342 +10,195 @@
     0,
     0
   ],
-  "camera_scale": 2.6,
-  "gun_draw_tiles": 3.3554354284478207,
-  "mount_draw_tiles": 2,
-  "model_length": 1.6599000692367554,
-  "model_to_world": 1.2905520878645464,
+  "camera_scale": 2.273728752136231,
+  "gun_draw_tiles": 2.976305444367878,
+  "mount_draw_tiles": 2.698821737036478,
+  "model_length": 1.636509895324707,
+  "model_to_world": 1.3089975845058726,
   "pivot": [
     0,
     0,
     0
   ],
   "outline_runtime_pixels": 6,
-  "source_vertex_uv_preserved": true,
+  "source_geometry_note": "Every source polygon, vertex position and UV loop retained under documented rigid transforms; no invented exterior detail or procedural replacement geometry.",
+  "source_objects": [
+    {
+      "name": "Barrel",
+      "vertices": 610,
+      "faces": 600
+    },
+    {
+      "name": "Handle_cover",
+      "vertices": 160,
+      "faces": 179
+    },
+    {
+      "name": "Cover.007",
+      "vertices": 1976,
+      "faces": 2207
+    },
+    {
+      "name": "Tenon",
+      "vertices": 127,
+      "faces": 155
+    },
+    {
+      "name": "Sutter",
+      "vertices": 513,
+      "faces": 635
+    },
+    {
+      "name": "Cover_010_Low.001",
+      "vertices": 282,
+      "faces": 281
+    },
+    {
+      "name": "Reloading_handle",
+      "vertices": 1416,
+      "faces": 1509
+    },
+    {
+      "name": "Single",
+      "vertices": 188,
+      "faces": 195
+    },
+    {
+      "name": "Trigger",
+      "vertices": 150,
+      "faces": 213
+    },
+    {
+      "name": "sight_dioptr",
+      "vertices": 200,
+      "faces": 263
+    },
+    {
+      "name": "sight_min",
+      "vertices": 166,
+      "faces": 178
+    },
+    {
+      "name": "Body_M2",
+      "vertices": 15182,
+      "faces": 17056
+    },
+    {
+      "name": "Hinge_tripod_low",
+      "vertices": 481,
+      "faces": 541
+    },
+    {
+      "name": "Tripod_body_001_Low",
+      "vertices": 16003,
+      "faces": 16744
+    }
+  ],
   "parts": [
     {
-      "name": "g0044 bone_mg_aa_v_01 body",
-      "layer": "body",
-      "vertices": 1394,
-      "faces": 957
-    },
-    {
-      "name": "g0044_gunmetal bone_mg_aa_v_01 / gunmetal body",
-      "layer": "body",
-      "vertices": 2980,
-      "faces": 2446
-    },
-    {
-      "name": "g0044_gunmetal bone_mg_aa_v_01 / gunmetal barrel",
+      "name": "Barrel / barrel",
+      "source_object": "Barrel",
       "layer": "barrel",
-      "vertices": 198,
-      "faces": 173
+      "vertices": 610,
+      "faces": 600
     },
     {
-      "name": "Feed cover top plate",
+      "name": "Handle_cover / body",
+      "source_object": "Handle_cover",
       "layer": "body",
-      "vertices": 24,
-      "faces": 26
+      "vertices": 160,
+      "faces": 179
     },
     {
-      "name": "Feed cover rear latch",
+      "name": "Cover.007 / body",
+      "source_object": "Cover.007",
       "layer": "body",
-      "vertices": 24,
-      "faces": 26
+      "vertices": 1976,
+      "faces": 2207
     },
     {
-      "name": "Cover side rim -0.045",
+      "name": "Tenon / body",
+      "source_object": "Tenon",
       "layer": "body",
-      "vertices": 8,
-      "faces": 6
+      "vertices": 127,
+      "faces": 155
     },
     {
-      "name": "Cover side rim 0.045",
+      "name": "Sutter / body",
+      "source_object": "Sutter",
       "layer": "body",
-      "vertices": 8,
-      "faces": 6
+      "vertices": 511,
+      "faces": 635
     },
     {
-      "name": "Exterior sleeve cooling recess",
+      "name": "Cover_010_Low.001 / body",
+      "source_object": "Cover_010_Low.001",
       "layer": "body",
-      "vertices": 48,
-      "faces": 26
+      "vertices": 282,
+      "faces": 281
     },
     {
-      "name": "Exterior sleeve cooling recess.001",
+      "name": "Reloading_handle / body",
+      "source_object": "Reloading_handle",
       "layer": "body",
-      "vertices": 48,
-      "faces": 26
+      "vertices": 1416,
+      "faces": 1509
     },
     {
-      "name": "Exterior sleeve cooling recess.002",
+      "name": "Single / body",
+      "source_object": "Single",
       "layer": "body",
-      "vertices": 48,
-      "faces": 26
+      "vertices": 188,
+      "faces": 195
     },
     {
-      "name": "Exterior sleeve cooling recess.003",
+      "name": "Trigger / body",
+      "source_object": "Trigger",
       "layer": "body",
-      "vertices": 48,
-      "faces": 26
+      "vertices": 150,
+      "faces": 213
     },
     {
-      "name": "Exterior sleeve cooling recess.004",
+      "name": "sight_dioptr / body",
+      "source_object": "sight_dioptr",
       "layer": "body",
-      "vertices": 48,
-      "faces": 26
+      "vertices": 200,
+      "faces": 263
     },
     {
-      "name": "Exterior sleeve cooling recess.005",
+      "name": "sight_min / body",
+      "source_object": "sight_min",
       "layer": "body",
-      "vertices": 48,
-      "faces": 26
+      "vertices": 166,
+      "faces": 178
     },
     {
-      "name": "Exterior sleeve cooling recess.006",
+      "name": "Body_M2 / body",
+      "source_object": "Body_M2",
       "layer": "body",
-      "vertices": 48,
-      "faces": 26
+      "vertices": 15182,
+      "faces": 17056
     },
     {
-      "name": "Exterior sleeve cooling recess.007",
-      "layer": "body",
-      "vertices": 48,
-      "faces": 26
-    },
-    {
-      "name": "Exterior sleeve cooling recess.008",
-      "layer": "body",
-      "vertices": 48,
-      "faces": 26
-    },
-    {
-      "name": "Exterior sleeve cooling recess.009",
-      "layer": "body",
-      "vertices": 48,
-      "faces": 26
-    },
-    {
-      "name": "Exterior sleeve cooling recess.010",
-      "layer": "body",
-      "vertices": 48,
-      "faces": 26
-    },
-    {
-      "name": "Exterior sleeve cooling recess.011",
-      "layer": "body",
-      "vertices": 48,
-      "faces": 26
-    },
-    {
-      "name": "Visible .50 belt round 0",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Visible .50 belt link 0",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Visible .50 belt round 1",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Visible .50 belt link 1",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Visible .50 belt round 2",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Visible .50 belt link 2",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Visible .50 belt round 3",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Visible .50 belt link 3",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Visible .50 belt round 4",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Visible .50 belt link 4",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Visible .50 belt round 5",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Visible .50 belt link 5",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Visible .50 belt round 6",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Visible .50 belt link 6",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Visible .50 belt round 7",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Visible .50 belt link 7",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Visible .50 belt round 8",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Visible .50 belt link 8",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Visible .50 belt round 9",
-      "layer": "body",
-      "vertices": 24,
-      "faces": 14
-    },
-    {
-      "name": "Visible .50 belt link 9",
-      "layer": "body",
-      "vertices": 8,
-      "faces": 6
-    },
-    {
-      "name": "Tripod front leg",
+      "name": "Hinge_tripod_low / mount",
+      "source_object": "Hinge_tripod_low",
       "layer": "mount",
-      "vertices": 24,
-      "faces": 26
+      "vertices": 481,
+      "faces": 541
     },
     {
-      "name": "Tripod front foot",
+      "name": "Tripod_body_001_Low / mount",
+      "source_object": "Tripod_body_001_Low",
       "layer": "mount",
-      "vertices": 24,
-      "faces": 26
+      "vertices": 3417,
+      "faces": 3589
     },
     {
-      "name": "Tripod front foot top",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Tripod left leg",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Tripod left foot",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Tripod left foot top",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Tripod right leg",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Tripod right foot",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Tripod right foot top",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Pintle column",
-      "layer": "mount",
-      "vertices": 64,
-      "faces": 34
-    },
-    {
-      "name": "Pintle collar",
-      "layer": "mount",
-      "vertices": 64,
-      "faces": 34
-    },
-    {
-      "name": "Rear traverse bar",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Elevation brace",
-      "layer": "mount",
-      "vertices": 24,
-      "faces": 26
-    },
-    {
-      "name": "Traverse adjustment handwheel",
-      "layer": "mount",
-      "vertices": 64,
-      "faces": 34
-    },
-    {
-      "name": "Elevation knob",
-      "layer": "mount",
-      "vertices": 64,
-      "faces": 34
+      "name": "Tripod_body_001_Low / body",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "vertices": 12586,
+      "faces": 13155
     }
   ]
 }
