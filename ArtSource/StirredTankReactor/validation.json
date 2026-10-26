@@ -31,22 +31,22 @@
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 33,
+      "minimum_margin": 55,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 55,
+      "minimum_margin": 89,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 74,
+      "minimum_margin": 117,
       "mask_alpha_matches": true
     },
     "West": {
-      "downward_degrees": 64.0,
-      "minimum_margin": 54,
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 87,
       "mask_alpha_matches": true
     }
   },
@@ -54,5 +54,25 @@
   "rotation_export_geometry_palette_sha256": "9da2b337b7e4bec812defb45b00af0d62e71812dd51099eb4ad4a413e379ca58",
   "rotation_export_preserves_geometry_and_palette": true,
   "definition": "Defs/GreatWar/Buildings/Industry_GreatWar.xml",
-  "gameplay_fields_preserved_sha256": "3b92923c97af6802139e36b5b301379745c13cf2e595f4211cf7cba9d7f869f8"
+  "gameplay_fields_preserved_sha256": "3b92923c97af6802139e36b5b301379745c13cf2e595f4211cf7cba9d7f869f8",
+  "texture_resolution": [
+    768,
+    768
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "camera_target": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "9da2b337b7e4bec812defb45b00af0d62e71812dd51099eb4ad4a413e379ca58",
+  "previous_density_draw_size": null
 }

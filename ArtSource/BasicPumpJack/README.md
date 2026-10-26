@@ -1,3 +1,5 @@
+Current tile-density export: 1536×1536px, drawSize (9,9), fixed 12px outline, 64° North/East/South/West cameras. The canvas grows by 256px per longest footprint tile; density and game-space outline width are identical across buildings. Vertical drawOffset is 0, compensating headroom without moving the ground anchor. Geometry and painted colors are preserved. These current exports supersede historical camera/resolution notes below. Publish with `ArtSource/IndustrialMachines/normalize_density.py`; see `ArtSource/IndustrialMachines/PRESENTATION_CALIBRATION.md`.
+
 # Timber basic pumpjack
 
 Reworked 6×3 basic pumping unit: heavy timber sills, braced Sampson trestles, a thick wooden walking beam and pitman, wooden wheel spokes with an iron tire, polished rod/packing gland, belt-input pulley and small wooden receiving barrel. Broad joinery and iron straps establish wood construction without procedural grain or clutter. The existing line-shaft/oil-production behavior, Woody material category, cost and footprint are retained.

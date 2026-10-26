@@ -29,26 +29,47 @@
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 49,
+      "minimum_margin": 111,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 60,
+      "minimum_margin": 132,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 87,
+      "minimum_margin": 185,
       "mask_alpha_matches": true
     },
     "West": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 85,
+      "minimum_margin": 183,
       "mask_alpha_matches": true
     }
   },
   "in_game_tested": false,
   "definition": "Defs/ColdWar/Buildings/Industry_ColdWar.xml",
-  "gameplay_fields_preserved_sha256": "eb217331fdeb47b0a7aa023fa68c0970a1bb0f62a6d9b06c9cc9b9c14c82a49b"
+  "gameplay_fields_preserved_sha256": "eb217331fdeb47b0a7aa023fa68c0970a1bb0f62a6d9b06c9cc9b9c14c82a49b",
+  "texture_resolution": [
+    1024,
+    1024
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "camera_target": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "3cef746f329793db363cbbf032863377c9f41255f14d3d6527266ea3d757f3b5",
+  "rotation_export_geometry_palette_sha256": "3cef746f329793db363cbbf032863377c9f41255f14d3d6527266ea3d757f3b5",
+  "previous_density_draw_size": null
 }

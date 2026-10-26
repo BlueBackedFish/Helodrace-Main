@@ -1,0 +1,69 @@
+{
+  "footprint": [
+    3,
+    1
+  ],
+  "asset": "HD_ClothingBench",
+  "features": [
+    "existing authored building; geometry and colors retained"
+  ],
+  "mesh_objects": 16,
+  "design_period": "",
+  "texture_resolution": [
+    768,
+    768
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "orthographic_scale": 4.5,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    4.5,
+    4.5
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "camera_target": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 116,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 61,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 116,
+      "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 24,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false,
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "c2d0d5c978f2ba161f965f03516ee8b0b502ba964e706ad4c55e8a8283571cce",
+  "rotation_export_geometry_palette_sha256": "c2d0d5c978f2ba161f965f03516ee8b0b502ba964e706ad4c55e8a8283571cce",
+  "definition": "Defs/WildWest/Buildings/ClothingBench.xml",
+  "gameplay_fields_preserved_sha256": "4924efa66b6714e6b7bab8bf54ec063323059adbca3b2cd3183db8000fc0d0fa"
+}

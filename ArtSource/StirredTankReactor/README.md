@@ -1,3 +1,5 @@
+Current tile-density export: 768×768px, drawSize (4.5,4.5), fixed 12px outline, 64° North/East/South/West cameras. The canvas grows by 256px per longest footprint tile; density and game-space outline width are identical across buildings. Vertical drawOffset is 0, compensating headroom without moving the ground anchor. Geometry and painted colors are preserved. These current exports supersede historical camera/resolution notes below. Publish with `ArtSource/IndustrialMachines/normalize_density.py`; see `ArtSource/IndustrialMachines/PRESENTATION_CALIBRATION.md`.
+
 # Circa-1950 stirred reaction kettle
 
 New original 3×3 sprite-proxy model: a jacketed, dished reaction kettle with an overhead cast motor, reduction gearbox, visible seal/coupling and supporting bridge. A charging manhole, coarse bolted lid, thermal dial, jacket circulation pump and pipes, sight port, analog pushbutton box and bottom discharge handwheel identify it as an agitated process vessel. Open rails and three substantial vessel supports avoid a blank floor slab. Neutral metal, dark motor paint, a muted sight glass and limited brass fit the workshop family.

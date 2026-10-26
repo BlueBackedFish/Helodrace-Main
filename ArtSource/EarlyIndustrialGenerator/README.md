@@ -1,3 +1,5 @@
+Current tile-density export: 768×768px, drawSize (4.5,4.5), fixed 12px outline, 64° North/East/South/West cameras. The canvas grows by 256px per longest footprint tile; density and game-space outline width are identical across buildings. Vertical drawOffset is 0, compensating headroom without moving the ground anchor. Geometry and painted colors are preserved. These current exports supersede historical camera/resolution notes below. Publish with `ArtSource/IndustrialMachines/normalize_density.py`; see `ArtSource/IndustrialMachines/PRESENTATION_CALIBRATION.md`.
+
 # Period open-field DC generator
 
 Original c.1900–1925 belt-driven dynamo on a 3×3 cast skid. Two arched magnetic yokes join upright iron poles wrapped in broad copper field coils. The open central armature, copper commutator, two carbon brushes, insulated terminal bridge and separate bearing pedestals distinguish it from the enclosed electric motor. Shapes are enlarged and simplified for sprites; this is not a precise electrical engineering reconstruction. Historical guidance and the five-machine brief are in `../IndustrialMachines/PERIOD_DESIGN.md`. Original sprite references remain packed and in `Reference/`.
@@ -10,6 +12,5 @@ Scene: `HD_EarlyIndustrialGenerator.blend`; independent `Buildings/HD_EarlyIndus
 
 Density/style correction: the broad rectangular slab is replaced by a 1.32×1.84 central casting and two 0.77×0.88 bearing wings, reducing top area by 39.3%. Neutral gray iron and the exported 12px black silhouette match the workshop family. Three broad armature conductors, coil binding strips, pole-foot gussets, a brush-carrier crossbar/spring blocks and split-bearing caps give the open machine a visible mechanical structure at sprite scale.
 
-Tile calibration, 2026-10-26: orthographic scale and game drawSize are both (4.5,4.5); the ground target and drawOffset are zero. One model unit is one game tile, following the radio 1.5 / 2×1 machine 3 presentation rule. The saved model was reframed without changing geometry or painted materials; the hash check is recorded in validation.json.
 
 Four-direction export (2026-10-26): North / East / South / West are actual 64-degree orthographic renders of the same saved geometry and colors; West is not mirrored East. See preview_four_views.png and validation.json.

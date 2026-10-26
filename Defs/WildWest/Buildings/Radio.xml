@@ -8,9 +8,9 @@
     <graphicData>
       <texPath>Buildings/HD_Radio</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <!-- Half the milling machine's 3x3 graphic, with its default zero offset. -->
+      <!-- 256px per footprint tile; camera headroom is compensated by drawOffset. -->
       <drawSize>(1.5,1.5)</drawSize>
-      <drawOffset>(0,0,0)</drawOffset>
+      <drawOffset>(0,0,0.154591769)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
     </graphicData>
     <size>(1,1)</size>

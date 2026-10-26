@@ -1,3 +1,5 @@
+Current tile-density export: 1536×1536px, drawSize (9,9), fixed 12px outline, 64° North/East/South/West cameras. The canvas grows by 256px per longest footprint tile; density and game-space outline width are identical across buildings. Vertical drawOffset is 0, compensating headroom without moving the ground anchor. Geometry and painted colors are preserved. These current exports supersede historical camera/resolution notes below. Publish with `ArtSource/IndustrialMachines/normalize_density.py`; see `ArtSource/IndustrialMachines/PRESENTATION_CALIBRATION.md`.
+
 # Conventional steel pumpjack
 
 New original circa-1950 pumping-unit artwork, proposed footprint 6×3. The curved horsehead and bridle, Sampson A-frame, I-section beam, twin pitmans, crank counterweights, cast reducer and belt-driven motor distinguish it from the timber basic pump. A stuffing box, polished rod, wellhead outlet and broad handwheel complete the oil-pumping identity. Neutral gray cast/machined metal with limited brass matches the industrial family. No dense gears or decorative panel clutter.

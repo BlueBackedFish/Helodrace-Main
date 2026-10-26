@@ -1,3 +1,5 @@
+Current game-facing lathes/milling exports use ArtSource/IndustrialMachines/normalize_density.py, including actual West views and 12px outlines. Per-model validation.json and Textures/Buildings are current; original reconstruction comparison PNGs below are historical.
+
 # Reference reconstructions
 
 GunBench를 제외한 5종의 참고 에셋을 각각 독립된 Blender 모델로 복원했습니다.

@@ -14,11 +14,11 @@
   ],
   "mesh_objects": 98,
   "design_period": "1900-1920 compact workshop steam plant",
-  "orthographic_scale": 3.25,
+  "orthographic_scale": 3.0,
   "outline_pixels": 12,
   "expected_draw_size": [
-    3.25,
-    3.25
+    3.0,
+    3.0
   ],
   "presentation_rule": "one_model_unit_per_game_tile",
   "ground_anchor": [
@@ -29,22 +29,22 @@
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 55,
+      "minimum_margin": 43,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 27,
+      "minimum_margin": 12,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 67,
+      "minimum_margin": 56,
       "mask_alpha_matches": true
     },
     "West": {
-      "downward_degrees": 64.0,
-      "minimum_margin": 30,
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 15,
       "mask_alpha_matches": true
     }
   },
@@ -56,5 +56,25 @@
   "rotation_export_geometry_palette_sha256": "bb05d2d91d787ff9dca02aec0b5a82ca3cf52bfefa3c571f573840ecb59ef643",
   "rotation_export_preserves_geometry_and_palette": true,
   "definition": "Defs/WildWest/Buildings/Industry_WildWest.xml",
-  "gameplay_fields_preserved_sha256": "30b66816fb53e09eb9d052d33ebc4d23c58e067275a84f23b82698252e4b977c"
+  "gameplay_fields_preserved_sha256": "30b66816fb53e09eb9d052d33ebc4d23c58e067275a84f23b82698252e4b977c",
+  "texture_resolution": [
+    512,
+    512
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "camera_target": [
+    0.0,
+    0.0,
+    0.046965405344963074
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.020588278770446777
+  ],
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "bb05d2d91d787ff9dca02aec0b5a82ca3cf52bfefa3c571f573840ecb59ef643",
+  "previous_density_draw_size": "(2.55,2.55)"
 }

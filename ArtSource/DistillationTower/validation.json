@@ -16,11 +16,11 @@
   ],
   "mesh_objects": 87,
   "design_period": "circa 1950 compact fractionation column and condenser skid",
-  "orthographic_scale": 6.0,
+  "orthographic_scale": 4.5,
   "outline_pixels": 12,
   "expected_draw_size": [
-    6.0,
-    6.0
+    4.5,
+    4.5
   ],
   "presentation_rule": "one_model_unit_per_game_tile",
   "ground_anchor": [
@@ -31,22 +31,22 @@
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 48,
+      "minimum_margin": 60,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 25,
+      "minimum_margin": 12,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 102,
+      "minimum_margin": 144,
       "mask_alpha_matches": true
     },
     "West": {
-      "downward_degrees": 64.0,
-      "minimum_margin": 47,
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 57,
       "mask_alpha_matches": true
     }
   },
@@ -54,5 +54,25 @@
   "rotation_export_geometry_palette_sha256": "ea121ce919ef249c1c10d3a2778c7e6b1a78a855dea1873c235143b473306d49",
   "rotation_export_preserves_geometry_and_palette": true,
   "definition": "Defs/WildWest/Buildings/Industry_WildWest.xml",
-  "gameplay_fields_preserved_sha256": "8ab910741fde41f99bf497b83af54cd1336e6d2e0079e16e2893e25f1d86d72a"
+  "gameplay_fields_preserved_sha256": "8ab910741fde41f99bf497b83af54cd1336e6d2e0079e16e2893e25f1d86d72a",
+  "texture_resolution": [
+    768,
+    768
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "camera_target": [
+    0.0,
+    0.0,
+    1.0577012300491333
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.4636657238006592
+  ],
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "ea121ce919ef249c1c10d3a2778c7e6b1a78a855dea1873c235143b473306d49",
+  "previous_density_draw_size": null
 }

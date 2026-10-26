@@ -1,3 +1,5 @@
+Current tile-density export: 1024×1024px, drawSize (6,6), fixed 12px outline, 64° North/East/South/West cameras. The canvas grows by 256px per longest footprint tile; density and game-space outline width are identical across buildings. Vertical drawOffset is 0, compensating headroom without moving the ground anchor. Geometry and painted colors are preserved. These current exports supersede historical camera/resolution notes below. Publish with `ArtSource/IndustrialMachines/normalize_density.py`; see `ArtSource/IndustrialMachines/PRESENTATION_CALIBRATION.md`.
+
 # Electric arc furnace
 
 New 4×4 model based on the existing furnace's broad round shell, three electrodes, refractory base and tapping side. The rear lifting columns, separate copper arms and tilting cradle make this a related early/mid-century machine rather than a traced copy. No simulated glow, lights, PBR or surface textures are used.

@@ -4,13 +4,13 @@
     "footprint_unchanged": "(2,2)",
     "color_and_mask_files": 8,
     "saved_scene_cameras_verified": 4,
-    "common_scale": 3.25,
+    "common_scale": 3.0,
     "design_period": "1900-1920 compact workshop steam plant",
     "foundation_top_area": 3.1539998970031746,
     "foundation_area_reduction_percent": 10.270273200478675,
     "draw_size_matches_orthographic_scale": [
-      3.25,
-      3.25
+      3.0,
+      3.0
     ],
     "ground_anchor_verified": true,
     "outline_pixels": 12,

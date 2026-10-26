@@ -1,5 +1,5 @@
 """Fixed-color building sprite primitives and per-asset export, Blender 5.1."""
-import bpy, math, os, json, hashlib
+import bpy, math, os, json, hashlib, tempfile
 import numpy as np
 from mathutils import Vector
 
@@ -83,7 +83,8 @@ def outline_file(color_path,mask_path,radius):
     for pixels,path in [(color,color_path),(mask,mask_path)]:
         result=pixels.copy();result[:,:,:3]*=ratio[:,:,None];result[:,:,3]=grown
         im=bpy.data.images.new('Outlined_export',w,h,alpha=True);im.colorspace_settings.name='Non-Color'
-        im.pixels.foreach_set(result.ravel());im.file_format='PNG';im.filepath_raw=path;im.save()
+        im.pixels.foreach_set(result.ravel());im.file_format='PNG'
+        temporary=path+'.outlined.png';im.filepath_raw=temporary;im.save();os.replace(temporary,path)
 
 def quad(name,points,material):
     mesh=bpy.data.meshes.new(name);mesh.from_pydata(points,[],[tuple(range(len(points)))]);mesh.update()
@@ -228,7 +229,7 @@ def bounds(o):
     return [[min(v[i] for v in p),max(v[i] for v in p)] for i in range(3)]
 
 def export(out,stem,footprint,features,blend_name=None):
-    tex=os.path.abspath(os.path.join(out,'../../Textures/Buildings'))
+    tex=os.path.abspath(os.path.join(os.path.dirname(__file__),'../../Textures/Buildings'))
     bpy.context.view_layer.update()
     meshes=[o for o in scene.objects if o.type=='MESH']
     points=[o.matrix_world@v.co for o in meshes for v in o.data.vertices]
@@ -237,41 +238,57 @@ def export(out,stem,footprint,features,blend_name=None):
     calibrated=scene.get('presentation_rule')=='one_model_unit_per_game_tile'
     target=Vector((0,0,0)) if calibrated else (lo+hi)/2
     if not calibrated:target.z*=.80
-    dirs=[('North',-90),('East',0),('South',90),('West',180)];cameras=[]
-    span=0
+    north=scene.get('north_azimuth',-90)
+    dirs=[('North',north),('East',0),('South',north+180),('West',180)];cameras=[]
+    span=0;vertical=[];horizontal=0
     for name,az in dirs:
         a=math.radians(az);e=math.radians(64)
         data=bpy.data.cameras.new('Camera_'+name);data.type='ORTHO'
-        c=bpy.data.objects.new(data.name,data);scene.collection.objects.link(c)
+        c=bpy.data.objects.new('Camera_'+name,data);scene.collection.objects.link(c)
         c.location=target+10*Vector((math.cos(a)*math.cos(e),math.sin(a)*math.cos(e),math.sin(e)))
         c.rotation_euler=(target-c.location).to_track_quat('-Z','Y').to_euler()
         q=c.rotation_euler.to_quaternion();right=q@Vector((1,0,0));up=q@Vector((0,1,0))
         span=max(span,max(max(abs((p-target).dot(right)),abs((p-target).dot(up))) for p in points))
+        vertical.extend((p-target).dot(up) for p in points)
+        horizontal=max(horizontal,max(abs((p-target).dot(right)) for p in points))
         cameras.append(c)
     if calibrated:
-        # Extra headroom changes canvas and drawSize together, never model-to-tile size.
-        required=2*span/(1-2*(24+scene.get('outline_pixels',0))/512)
-        scale=math.ceil(max(max(footprint)*1.5,required)*4)/4
+        # Canvas and drawSize grow by footprint; headroom uses a compensated camera shift.
+        scale=max(footprint)*1.5
     else:scale=span*2*1.15
-    assert (scale/2-span)*512/scale>=24+scene.get('outline_pixels',0), 'Increase canvas size or reduce outlying geometry before rendering'
+    resolution=256*max(footprint) if calibrated else 512
+    draw_offset=0.
+    if calibrated:
+        limit=scale/2-(12+scene.get('outline_pixels',0))*scale/resolution
+        lower=max(vertical)-limit;upper=min(vertical)+limit
+        assert horizontal<=limit and lower<=upper,'Model exceeds the fixed-density canvas'
+        draw_offset=max(lower,min(0.,upper))
+        dz=draw_offset/math.cos(math.radians(64));target.z+=dz
+        for c in cameras:c.location.z+=dz
     for c in cameras:c.data.ortho_scale=scale
     scene.render.engine='BLENDER_EEVEE';scene.render.film_transparent=True
-    scene.render.resolution_x=scene.render.resolution_y=512;scene.render.resolution_percentage=100
+    scene.render.resolution_x=scene.render.resolution_y=resolution;scene.render.resolution_percentage=100
     scene.render.image_settings.file_format='PNG';scene.render.image_settings.color_mode='RGBA'
     scene.view_settings.view_transform='Standard';scene.view_settings.look='None'
     scene.view_settings.exposure=0;scene.view_settings.gamma=1
     red=mat('MASK_red',(255,0,0));black=mat('MASK_unselected',(0,0,0))
     originals={o.name:list(o.data.materials) for o in meshes}
+    selection=json.loads(scene.get('density_mask_policy','{}'))
+    staging=tempfile.mkdtemp(prefix='.density-render-',dir=out)
     for c in cameras:
         scene.camera=c;direction=c.name.removeprefix('Camera_').lower()
-        scene.render.filepath=os.path.join(tex,stem+'_'+direction+'.png');bpy.ops.render.render(write_still=True)
+        color_path=os.path.join(staging,stem+'_'+direction+'.png')
+        mask_path=os.path.join(staging,stem+'_'+direction+'m.png')
+        scene.render.filepath=color_path;bpy.ops.render.render(write_still=True)
         for o in meshes:
-            for i,m in enumerate(originals[o.name]):o.data.materials[i]=red if m['tintable'] else black
-        scene.render.filepath=os.path.join(tex,stem+'_'+direction+'m.png');bpy.ops.render.render(write_still=True)
+            for i,m in enumerate(originals[o.name]):o.data.materials[i]=red if m.get('tintable',selection.get(m.name,False)) else black
+        scene.render.filepath=mask_path;bpy.ops.render.render(write_still=True)
         for o in meshes:
             for i,m in enumerate(originals[o.name]):o.data.materials[i]=m
         if scene.get('outline_pixels',0):
-            outline_file(os.path.join(tex,stem+'_'+direction+'.png'),scene.render.filepath,int(scene['outline_pixels']))
+            outline_file(color_path,mask_path,int(scene['outline_pixels']))
+        for path in [color_path,mask_path]:os.replace(path,os.path.join(tex,os.path.basename(path)))
+    os.rmdir(staging)
     scene.camera=cameras[0]
     reference=os.path.join(out,'Reference')
     if os.path.isdir(reference):
@@ -284,15 +301,17 @@ def export(out,stem,footprint,features,blend_name=None):
     for name,az in dirs:
         def pixels(suffix):
             im=bpy.data.images.load(os.path.join(tex,stem+'_'+name.lower()+suffix+'.png'),check_existing=False)
-            assert tuple(im.size)==(512,512)
-            im.colorspace_settings.name='Non-Color';p=np.empty(512*512*4,np.float32)
-            im.pixels.foreach_get(p);return p.reshape(512,512,4)
+            assert tuple(im.size)==(resolution,resolution)
+            im.colorspace_settings.name='Non-Color';p=np.empty(resolution*resolution*4,np.float32)
+            im.pixels.foreach_get(p);return p.reshape(resolution,resolution,4)
         p=pixels('');m=pixels('m');assert np.max(abs(p[:,:,3]-m[:,:,3]))<.001
-        y,x=np.where(p[:,:,3]>.5);margin=int(min(x.min(),y.min(),511-x.max(),511-y.max()));assert margin>=24
+        y,x=np.where(p[:,:,3]>.5);margin=int(min(x.min(),y.min(),resolution-1-x.max(),resolution-1-y.max()));assert margin>=12
         c=bpy.data.objects['Camera_'+name];forward=c.rotation_euler.to_quaternion()@Vector((0,0,-1))
         angle=math.degrees(math.asin(-forward.z));assert abs(angle-64)<.001
         checks[name]={'downward_degrees':angle,'minimum_margin':margin,'mask_alpha_matches':True}
-        previews.append(p)
+        im=bpy.data.images.load(os.path.join(tex,stem+'_'+name.lower()+'.png'),check_existing=False)
+        im.colorspace_settings.name='Non-Color';im.scale(512,512)
+        preview=np.empty(512*512*4,np.float32);im.pixels.foreach_get(preview);previews.append(preview.reshape(512,512,4))
     im=bpy.data.images.new('North_East_South',1536,512,alpha=True);im.colorspace_settings.name='Non-Color'
     im.pixels.foreach_set(np.concatenate(previews[:3],axis=1).ravel());im.file_format='PNG'
     im.filepath_raw=os.path.join(out,'preview_north_east_south.png');im.save()
@@ -304,8 +323,13 @@ def export(out,stem,footprint,features,blend_name=None):
     with open(os.path.join(out,'validation.json'),'w') as f:
         json.dump({'asset':stem,'footprint':footprint,'features':features,'mesh_objects':count,
                    'design_period':bpy.context.scene.get('design_period',''),
+                   'texture_resolution':[resolution,resolution],
+                   'nominal_pixels_per_footprint_tile':256,'pixels_per_game_unit':resolution/scale,
+                   'outline_width_in_game_units':bpy.context.scene.get('outline_pixels',0)*scale/resolution,
                    'orthographic_scale':scale,'outline_pixels':bpy.context.scene.get('outline_pixels',0),
                    'expected_draw_size':[scale,scale],
                    'presentation_rule':bpy.context.scene.get('presentation_rule','auto_fit'),
-                   'ground_anchor':[float(v) for v in target],
+                   'ground_anchor':[0.,0.,0.] if calibrated else [float(v) for v in target],
+                   'camera_target':[float(v) for v in target],
+                   'expected_draw_offset':[0.,0.,draw_offset],
                    'cameras':checks,'in_game_tested':False},f,indent=2)

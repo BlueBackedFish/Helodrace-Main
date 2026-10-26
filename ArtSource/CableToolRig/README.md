@@ -1,3 +1,5 @@
+Current tile-density export: 1024×1024px, drawSize (6,6), fixed 12px outline, 64° North/East/South/West cameras. The canvas grows by 256px per longest footprint tile; density and game-space outline width are identical across buildings. Vertical drawOffset is 0, compensating headroom without moving the ground anchor. Geometry and painted colors are preserved. These current exports supersede historical camera/resolution notes below. Publish with `ArtSource/IndustrialMachines/normalize_density.py`; see `ArtSource/IndustrialMachines/PRESENTATION_CALIBRATION.md`.
+
 # Cable-tool drilling rig
 
 New 4×3 timber standard derrick: a crown sheave and suspended heavy bit, a hoisting drum/bull wheel and a low Samson-post walking beam. There is no rotary table or steel lattice mast, so it stays distinct from the newer rotary drill. The well deck has a real opening. Three broad braced bays keep the tall silhouette readable.

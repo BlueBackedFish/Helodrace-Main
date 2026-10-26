@@ -1,3 +1,5 @@
+Current tile-density export: 768×768px, drawSize (4.5,4.5), fixed 12px outline, 64° North/East/South/West cameras. The canvas grows by 256px per longest footprint tile; density and game-space outline width are identical across buildings. Vertical drawOffset is 0, compensating headroom without moving the ground anchor. Geometry and painted colors are preserved. These current exports supersede historical camera/resolution notes below. Publish with `ArtSource/IndustrialMachines/normalize_density.py`; see `ArtSource/IndustrialMachines/PRESENTATION_CALIBRATION.md`.
+
 # Circa-1950 high-pressure reactor
 
 New original 3×3 sprite-proxy asset: a heavy upright pressure converter with dished heads, a thick eight-stud closure, side heat exchanger, closed circulation loop, hand valve, front pump, analog instrument stand, rear service step and short ladder. The open skid avoids a broad empty floor plate. Neutral cast iron, bright machined collars, dark recesses and limited brass match the workshop family.

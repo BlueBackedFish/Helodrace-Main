@@ -16,11 +16,11 @@
   ],
   "mesh_objects": 101,
   "design_period": "circa 1950 steel derrick rotary-table land drilling rig",
-  "orthographic_scale": 6.75,
+  "orthographic_scale": 6.0,
   "outline_pixels": 12,
   "expected_draw_size": [
-    6.75,
-    6.75
+    6.0,
+    6.0
   ],
   "presentation_rule": "one_model_unit_per_game_tile",
   "ground_anchor": [
@@ -31,26 +31,46 @@
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 39,
+      "minimum_margin": 38,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 31,
+      "minimum_margin": 20,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 87,
+      "minimum_margin": 145,
       "mask_alpha_matches": true
     },
     "West": {
-      "downward_degrees": 64.0,
-      "minimum_margin": 85,
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 143,
       "mask_alpha_matches": true
     }
   },
   "in_game_tested": false,
   "rotation_export_geometry_palette_sha256": "af1aaee149dd485c1c3f9397d90d2d807c1fd594ce4e5f1d5b2c14f554ae5c4f",
-  "rotation_export_preserves_geometry_and_palette": true
+  "rotation_export_preserves_geometry_and_palette": true,
+  "texture_resolution": [
+    1024,
+    1024
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "camera_target": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "af1aaee149dd485c1c3f9397d90d2d807c1fd594ce4e5f1d5b2c14f554ae5c4f",
+  "previous_density_draw_size": null
 }

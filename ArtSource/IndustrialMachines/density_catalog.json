@@ -1,0 +1,530 @@
+[
+  {
+    "asset": "HD_BasicPumpJack",
+    "source_folder": "ArtSource/BasicPumpJack",
+    "footprint": [
+      6,
+      3
+    ],
+    "resolution": [
+      1536,
+      1536
+    ],
+    "draw_size": [
+      9.0,
+      9.0
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_CableToolRig",
+    "source_folder": "ArtSource/CableToolRig",
+    "footprint": [
+      4,
+      3
+    ],
+    "resolution": [
+      1024,
+      1024
+    ],
+    "draw_size": [
+      6.0,
+      6.0
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_ClothingBench",
+    "source_folder": "ArtSource/ClothingBench",
+    "footprint": [
+      3,
+      1
+    ],
+    "resolution": [
+      768,
+      768
+    ],
+    "draw_size": [
+      4.5,
+      4.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_DistillationTower",
+    "source_folder": "ArtSource/DistillationTower",
+    "footprint": [
+      3,
+      3
+    ],
+    "resolution": [
+      768,
+      768
+    ],
+    "draw_size": [
+      4.5,
+      4.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.4636657238006592
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_EarlyIndustrialGenerator",
+    "source_folder": "ArtSource/EarlyIndustrialGenerator",
+    "footprint": [
+      3,
+      3
+    ],
+    "resolution": [
+      768,
+      768
+    ],
+    "draw_size": [
+      4.5,
+      4.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_EarlyIndustrialLargeMotor",
+    "source_folder": "ArtSource/EarlyIndustrialMotor",
+    "footprint": [
+      3,
+      3
+    ],
+    "resolution": [
+      768,
+      768
+    ],
+    "draw_size": [
+      4.5,
+      4.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_GunSmithTable",
+    "source_folder": "ArtSource/GunBench",
+    "footprint": [
+      3,
+      1
+    ],
+    "resolution": [
+      768,
+      768
+    ],
+    "draw_size": [
+      4.5,
+      4.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_HaberBoschHighPressureReactor",
+    "source_folder": "ArtSource/HighPressureReactor",
+    "footprint": [
+      3,
+      3
+    ],
+    "resolution": [
+      768,
+      768
+    ],
+    "draw_size": [
+      4.5,
+      4.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_IndustrialDieselEngine",
+    "source_folder": "ArtSource/IndustrialDieselEngine",
+    "footprint": [
+      4,
+      3
+    ],
+    "resolution": [
+      1024,
+      1024
+    ],
+    "draw_size": [
+      6.0,
+      6.0
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_LargeSteamEngine",
+    "source_folder": "ArtSource/LargeSteamEngine",
+    "footprint": [
+      4,
+      3
+    ],
+    "resolution": [
+      1024,
+      1024
+    ],
+    "draw_size": [
+      6.0,
+      6.0
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_LineShaftMillingMachine",
+    "source_folder": "ArtSource/Reconstructed/LineShaftMillingMachine",
+    "footprint": [
+      2,
+      1
+    ],
+    "resolution": [
+      512,
+      512
+    ],
+    "draw_size": [
+      3.0,
+      3.0
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_LineShaftPress",
+    "source_folder": "ArtSource/LargeIndustrialPress",
+    "footprint": [
+      3,
+      2
+    ],
+    "resolution": [
+      768,
+      768
+    ],
+    "draw_size": [
+      4.5,
+      4.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.47400355339050293
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_LineShaftTurretLathe",
+    "source_folder": "ArtSource/Reconstructed/LineShaftTurretLathe",
+    "footprint": [
+      2,
+      1
+    ],
+    "resolution": [
+      512,
+      512
+    ],
+    "draw_size": [
+      3.0,
+      3.0
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.03515899181365967
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_MetalPumpJack",
+    "source_folder": "ArtSource/MetalPumpJack",
+    "footprint": [
+      6,
+      3
+    ],
+    "resolution": [
+      1536,
+      1536
+    ],
+    "draw_size": [
+      9.0,
+      9.0
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_Radio",
+    "source_folder": "ArtSource/CollinsRadioDesk",
+    "footprint": [
+      1,
+      1
+    ],
+    "resolution": [
+      256,
+      256
+    ],
+    "draw_size": [
+      1.5,
+      1.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.15459176898002625
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_RollingMC",
+    "source_folder": "ArtSource/IndustrialRollingMill",
+    "footprint": [
+      3,
+      3
+    ],
+    "resolution": [
+      768,
+      768
+    ],
+    "draw_size": [
+      4.5,
+      4.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_RotaryDrill",
+    "source_folder": "ArtSource/RotaryDrill",
+    "footprint": [
+      4,
+      4
+    ],
+    "resolution": [
+      1024,
+      1024
+    ],
+    "draw_size": [
+      6.0,
+      6.0
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_SAFurnace",
+    "source_folder": "ArtSource/ElectricArcFurnace",
+    "footprint": [
+      4,
+      4
+    ],
+    "resolution": [
+      1024,
+      1024
+    ],
+    "draw_size": [
+      6.0,
+      6.0
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_SmallSteamEngine",
+    "source_folder": "ArtSource/SmallSteamEngine",
+    "footprint": [
+      2,
+      2
+    ],
+    "resolution": [
+      512,
+      512
+    ],
+    "draw_size": [
+      3.0,
+      3.0
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.020588278770446777
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_StirredTankReactor",
+    "source_folder": "ArtSource/StirredTankReactor",
+    "footprint": [
+      3,
+      3
+    ],
+    "resolution": [
+      768,
+      768
+    ],
+    "draw_size": [
+      4.5,
+      4.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_TreadleLathe",
+    "source_folder": "ArtSource/Reconstructed/TreadleLathe",
+    "footprint": [
+      2,
+      1
+    ],
+    "resolution": [
+      512,
+      512
+    ],
+    "draw_size": [
+      3.0,
+      3.0
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.059346795082092285
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_VIMFurnace",
+    "source_folder": "ArtSource/VacuumInductionFurnace",
+    "footprint": [
+      3,
+      4
+    ],
+    "resolution": [
+      1024,
+      1024
+    ],
+    "draw_size": [
+      6.0,
+      6.0
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  }
+]

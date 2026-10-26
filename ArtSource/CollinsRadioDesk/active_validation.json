@@ -1,48 +1,34 @@
 {
   "texture_prefix": "Buildings/HD_Radio",
   "resolution": 256,
+  "outline_pixels": 12,
+  "pixels_per_game_unit": 170.66666666666666,
   "color_mask": false,
   "north": "operating faces",
   "south": "cabinet backs",
   "west_is_actual_render": true,
-  "geometry_and_palette_preserved": true,
   "geometry_palette_sha256": "31f0d0f2b6f6943577e34802f49c50e38d17eb8a0f566ba0a90abc2fbc890b9c",
+  "geometry_and_palette_preserved": true,
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "margin_px": 24,
-      "camera_location": [
-        -6.442198018802043e-16,
-        -3.5069692134857178,
-        7.610352516174316
-      ]
+      "minimum_margin": 20,
+      "mask_alpha_matches": true
     },
     "East": {
-      "downward_degrees": 63.99999334484027,
-      "margin_px": 21,
-      "camera_location": [
-        3.5069692134857178,
-        0.0,
-        7.610352516174316
-      ]
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 12,
+      "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "margin_px": 24,
-      "camera_location": [
-        2.1473992513680823e-16,
-        3.5069692134857178,
-        7.610352516174316
-      ]
+      "minimum_margin": 22,
+      "mask_alpha_matches": true
     },
     "West": {
-      "downward_degrees": 63.99999334484027,
-      "margin_px": 19,
-      "camera_location": [
-        -3.5069692134857178,
-        0.0,
-        7.610352516174316
-      ]
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 16,
+      "mask_alpha_matches": true
     }
   },
   "in_game_tested": false

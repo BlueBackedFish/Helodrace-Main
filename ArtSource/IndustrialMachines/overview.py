@@ -7,8 +7,8 @@ names=['HD_SmallSteamEngine','HD_LargeSteamEngine','HD_IndustrialDieselEngine','
 images=[]
 for name in names:
     im=bpy.data.images.load(os.path.join(ROOT,'Textures/Buildings',name+'_north.png'))
-    assert tuple(im.size)==(512,512)
-    im.colorspace_settings.name='Non-Color';p=np.empty(512*512*4,np.float32)
+    im.colorspace_settings.name='Non-Color';im.scale(512,512)
+    p=np.empty(512*512*4,np.float32)
     im.pixels.foreach_get(p);images.append(p.reshape(512,512,4))
 blank=np.zeros_like(images[0]);images.extend([blank,blank])
 rows=[np.concatenate(images[i:i+3],axis=1) for i in [0,3,6]]

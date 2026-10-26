@@ -1,0 +1,69 @@
+{
+  "footprint": [
+    3,
+    1
+  ],
+  "asset": "HD_GunSmithTable",
+  "features": [
+    "existing authored building; geometry and colors retained"
+  ],
+  "mesh_objects": 11,
+  "design_period": "",
+  "texture_resolution": [
+    768,
+    768
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "orthographic_scale": 4.5,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    4.5,
+    4.5
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "camera_target": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 116,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 40,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 116,
+      "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 40,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false,
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "7b0272ace7cfc2ef4810fd5a76a8b937455cf5bb7dd7980ed217b85fb96c57a1",
+  "rotation_export_geometry_palette_sha256": "7b0272ace7cfc2ef4810fd5a76a8b937455cf5bb7dd7980ed217b85fb96c57a1",
+  "definition": "Defs/WildWest/Buildings/Industry_WildWest.xml",
+  "gameplay_fields_preserved_sha256": "7edab78a42262e65e354805367b329e71aae7478eec62c53af3c678f08ff5708"
+}

@@ -1,3 +1,5 @@
+Current tile-density export: 768×768px, drawSize (4.5,4.5), fixed 12px outline, 64° North/East/South/West cameras. The canvas grows by 256px per longest footprint tile; density and game-space outline width are identical across buildings. Vertical drawOffset is 0, compensating headroom without moving the ground anchor. Geometry and painted colors are preserved. These current exports supersede historical camera/resolution notes below. Publish with `ArtSource/IndustrialMachines/normalize_density.py`; see `ArtSource/IndustrialMachines/PRESENTATION_CALIBRATION.md`.
+
 # Period cast-frame electric motor
 
 Original c.1920–1940 motor on a 3×3 cast skid, separate from the open-field generator. A smooth cast stator has two broad reinforcing bands, a solid drive shield, a rear end shield with four broad flat vent regions, outboard split bearings and a flat-belt pulley. A small side terminal box carries two porcelain studs. The earlier long cooling-fin body and tall top box have been replaced. Period guidance is in `../IndustrialMachines/PERIOD_DESIGN.md`; original sprites remain in `Reference/`.
@@ -10,6 +12,5 @@ Scene: `HD_EarlyIndustrialLargeMotor.blend`. Existing texture prefix, footprint 
 
 Density/style correction: a 1.50×1.44 central casting and two 0.65×0.76 bearing wings replace the empty rectangular slab, reducing top area by 47.9%. Two shallow longitudinal casting ribs, a bordered stator service lid with four studs, lifting eye, end-shield tie bolts, insulated terminal bridge and split-bearing caps give the body readable structure. Neutral gray metal and a 12px black exported silhouette replace the low-contrast green body. The broad end vents remain coplanar with the shield.
 
-Tile calibration, 2026-10-26: orthographic scale and game drawSize are both (4.5,4.5); the ground target and drawOffset are zero. One model unit is one game tile, following the radio 1.5 / 2×1 machine 3 presentation rule. The saved model was reframed without changing geometry or painted materials; the hash check is recorded in validation.json.
 
 Four-direction export (2026-10-26): North / East / South / West are actual 64-degree orthographic renders of the same saved geometry and colors; West is not mirrored East. See preview_four_views.png and validation.json.

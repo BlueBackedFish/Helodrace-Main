@@ -1,3 +1,5 @@
+Current tile-density export: 1024×1024px, drawSize (6,6), fixed 12px outline, 64° North/East/South/West cameras. The canvas grows by 256px per longest footprint tile; density and game-space outline width are identical across buildings. Vertical drawOffset is 0, compensating headroom without moving the ground anchor. Geometry and painted colors are preserved. These current exports supersede historical camera/resolution notes below. Publish with `ArtSource/IndustrialMachines/normalize_density.py`; see `ArtSource/IndustrialMachines/PRESENTATION_CALIBRATION.md`.
+
 # Vacuum induction melting furnace
 
 New 3×4 machine with a sealed vessel, circular access door, charging lid, short vacuum manifold, separate pump/motor and broad analog control cabinet. The original white vessel / dark pump / copper cooling connections remain recognizable. Exposed coils are omitted because they belong inside the vacuum chamber.

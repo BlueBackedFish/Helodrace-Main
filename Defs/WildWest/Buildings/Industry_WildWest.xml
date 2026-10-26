@@ -12,7 +12,7 @@
     <graphicData>
       <texPath>Buildings/HD_CableToolRig</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(6.5,6.5)</drawSize>
+      <drawSize>(6,6)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
@@ -91,8 +91,8 @@
       <texPath>Buildings/HD_SmallSteamEngine</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>CutoutComplex</shaderType>
-      <drawSize>(3.25,3.25)</drawSize>
-      <drawOffset>(0,0,0)</drawOffset>
+      <drawSize>(3,3)</drawSize>
+      <drawOffset>(0,0,0.0205882788)</drawOffset>
       <shadowData>
         <volume>(1.8, 0.5, 1.8)</volume>
       </shadowData>
@@ -632,8 +632,8 @@
     <graphicData>
       <texPath>Buildings/HD_DistillationTower</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(6,6)</drawSize>
-      <drawOffset>(0,0,0)</drawOffset>
+      <drawSize>(4.5,4.5)</drawSize>
+      <drawOffset>(0,0,0.463665724)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
         <volume>(2.1,0.8,2.1)</volume>
@@ -835,6 +835,7 @@
       <texPath>Buildings/HD_TreadleLathe</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(3,3)</drawSize>
+      <drawOffset>(0,0,0.0593467951)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
         <volume>(1.8, 0.5, 0.8)</volume>
@@ -904,6 +905,7 @@
       <texPath>Buildings/HD_LineShaftTurretLathe</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(3,3)</drawSize>
+      <drawOffset>(0,0,0.0351589918)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
         <volume>(1.8, 0.5, 0.8)</volume>
@@ -992,6 +994,7 @@
       <texPath>Buildings/HD_LineShaftMillingMachine</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(3,3)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
         <volume>(1.8, 0.5, 0.8)</volume>
@@ -1079,8 +1082,8 @@
     <graphicData>
       <texPath>Buildings/HD_LineShaftPress</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(4.2,4.2)</drawSize>
-      <drawOffset>(0,0,0.3)</drawOffset>
+      <drawSize>(4.5,4.5)</drawSize>
+      <drawOffset>(0,0,0.474003553)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
         <volume>(2.2, 0.6, 1.8)</volume>
@@ -1156,7 +1159,8 @@
     <graphicData>
       <texPath>Buildings/HD_RollingMC</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(3.75,3.75)</drawSize>
+      <drawSize>(4.5,4.5)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
         <volume>(2.2, 0.6, 1.8)</volume>
@@ -1385,7 +1389,7 @@
     <graphicData>
       <texPath>Buildings/HD_SAFurnace</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(6.5,6.5)</drawSize>
+      <drawSize>(6,6)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
@@ -1590,7 +1594,8 @@
     <graphicData>
       <texPath>Buildings/HD_GunSmithTable</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(3.1,3.1)</drawSize>
+      <drawSize>(4.5,4.5)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
         <volume>(2.2, 0.5, 0.8)</volume>

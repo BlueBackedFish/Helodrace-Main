@@ -26,11 +26,11 @@ for i,(stem,folder,title,subtitle) in enumerate(assets):
     for col in range(fw+1):draw.line((left+col*64,top,left+col*64,top+fh*64),fill=(98,104,100))
     for row in range(fh+1):draw.line((left,top+row*64,left+fw*64,top+row*64),fill=(98,104,100))
     size=round(v['orthographic_scale']*64);copy=color.resize((size,size),Image.Resampling.LANCZOS)
-    world.alpha_composite(copy,(cx-size//2,cy-size//2))
+    world.alpha_composite(copy,(cx-size//2,round(cy-size/2-v['expected_draw_offset'][2]*64)))
     for col,direction in enumerate(['north','east','south']):
         x,y=col*512,i*552
         ImageDraw.Draw(views).text((x+14,y+10),title+' / '+direction.title(),font=font,fill='white')
-        views.alpha_composite(Image.open(ROOT/'Textures/Buildings'/f'{stem}_{direction}.png').convert('RGBA'),(x,y+34))
+        views.alpha_composite(Image.open(ROOT/'Textures/Buildings'/f'{stem}_{direction}.png').convert('RGBA').resize((512,512),Image.Resampling.LANCZOS),(x,y+34))
 native.convert('RGB').save(OUT/'overview_north.png')
 world.convert('RGB').save(OUT/'tile_scale_comparison.png')
 views.convert('RGB').save(OUT/'north_east_south.png')

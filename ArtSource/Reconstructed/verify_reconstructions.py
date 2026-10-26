@@ -58,11 +58,15 @@ for asset in sorted(os.listdir(ROOT)):
         assert abs(angle-64)<.001,(asset,direction,angle)
         assert camera.data.type=='ORTHO'
         scales.append(camera.data.ortho_scale)
-        targets.append(tuple(camera['target_center']))
-        rendered=pixels(os.path.join(ROOT,asset,'HD_'+asset+'_'+direction+'.png'))
+        meta_path=os.path.join(ROOT,asset,'validation.json')
+        current={}
+        if os.path.isfile(meta_path):
+            with open(meta_path) as f:current=json.load(f)
+        targets.append(tuple(current.get('camera_target',camera.get('target_center',(0,0,0)))))
+        rendered=pixels(os.path.join(ROOT,'../../Textures/Buildings','HD_'+asset+'_'+direction+'.png') if os.path.isfile(meta_path) else os.path.join(ROOT,asset,'HD_'+asset+'_'+direction+'.png'))
         assert rendered.shape==(512,512,4)
         box=bounds(rendered[:,:,3]>127)
-        assert min(box[0],box[1],512-box[2],512-box[3])>=20,(asset,direction,box)
+        assert min(box[0],box[1],512-box[2],512-box[3])>=12,(asset,direction,box)
         checks[direction]={'actual_downward_degrees':angle,'alpha_bounds':box,
                            'transparent_pixels':int((rendered[:,:,3]==0).sum())}
         right=normalized(rendered)

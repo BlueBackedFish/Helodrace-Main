@@ -30,22 +30,22 @@
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 82,
+      "minimum_margin": 176,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 59,
+      "minimum_margin": 130,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 82,
+      "minimum_margin": 176,
       "mask_alpha_matches": true
     },
     "West": {
-      "downward_degrees": 64.0,
-      "minimum_margin": 63,
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 138,
       "mask_alpha_matches": true
     }
   },
@@ -57,5 +57,25 @@
   "rotation_export_geometry_palette_sha256": "7c4fc337c085cff8c9543b2470dd9c9a1f0d2107e42ed94b623da73d14ce6120",
   "rotation_export_preserves_geometry_and_palette": true,
   "definition": "Defs/WildWest/Buildings/Industry_WildWest.xml",
-  "gameplay_fields_preserved_sha256": "6d5b24cf87ff239596d0e7cd8f7257d3a4d547c4ecc002b18fd2d1c76675fed2"
+  "gameplay_fields_preserved_sha256": "6d5b24cf87ff239596d0e7cd8f7257d3a4d547c4ecc002b18fd2d1c76675fed2",
+  "texture_resolution": [
+    1024,
+    1024
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "camera_target": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "7c4fc337c085cff8c9543b2470dd9c9a1f0d2107e42ed94b623da73d14ce6120",
+  "previous_density_draw_size": "(4.3,4.3)"
 }

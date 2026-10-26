@@ -5,7 +5,7 @@ from PIL import Image,ImageDraw,ImageFont
 ROOT=Path(__file__).resolve().parents[2];OUT=Path(__file__).resolve().parent
 font=ImageFont.truetype('C:/Windows/Fonts/segoeui.ttf',18)
 small=ImageFont.truetype('C:/Windows/Fonts/segoeui.ttf',14)
-new=[('Electric arc furnace','HD_SAFurnace',6.5),('Vacuum induction furnace','HD_VIMFurnace',6),('Cable-tool rig','HD_CableToolRig',6.5)]
+new=[('Electric arc furnace','HD_SAFurnace',6),('Vacuum induction furnace','HD_VIMFurnace',6),('Cable-tool rig','HD_CableToolRig',6)]
 dirs=['north','east','south','west']
 sheet=Image.new('RGB',(1280,1050),(190,190,187));d=ImageDraw.Draw(sheet)
 d.text((15,9),'NEW MACHINES / North - East - South - West / 64 degrees',fill=(30,30,28),font=font)

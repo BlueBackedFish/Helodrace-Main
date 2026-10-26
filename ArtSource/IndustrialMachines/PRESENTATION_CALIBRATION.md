@@ -1,33 +1,13 @@
-# Tile scale and 12px outline, 2026-10-26
+# Fixed tile-density building textures
 
-The user requested two new circa-1950 reactors and a size correction for the five power buildings, using the radio and 2×1 machine tools as references. A 12px external black stroke is applied to the updated 512px exports. This is distinct from the earlier 6px density pass.
+The square canvas grows by **256 × max(width, depth)** pixels: 1×1 → 256px; 2×1 / 1×2 / 2×2 → 512px; 3-tile long side → 768px; 4 → 1024px; 6 → 1536px. Every resolution uses the same **12px external outline**; it is never multiplied by resolution or building size.
 
-## Reference evidence
+The radio's frame convention is retained: drawSize and camera ortho_scale are **1.5 × max(width, depth)**. Resolution / drawSize is constant at 256 / 1.5 = 170.6667 texture pixels per game unit. The factor 1.5 includes transparent framing. One model unit remains one game unit. The outline occupies exactly **0.0703125 game units** on every building.
 
-The active `HD_Radio` is a 256px sprite, footprint 1×1, drawSize 1.5 and zero drawOffset. Its North opaque width is 185px, or 1.084 game tiles. The 2×1 milling machine uses a 512px sprite and drawSize 3: 350 opaque pixels correspond to 2.051 tiles. The turret lathe uses the same drawSize and has 381 opaque pixels (2.232 tiles including projecting tooling). References are inspected, not modified.
+Tall equipment can shift the camera target upward. A matching projected drawOffset is written to XML, cancelling the shift at the model ground origin. Scale and pixel density never expand for headroom. Every view has at least 12px of clear final margin. North/East/South/West share one scale and a 64° downward orthographic angle. Mesh transforms, vertices, faces, assignments and painted colors are hash-checked before and after export.
 
-The radio desktop and machine bed suggest about 0.95 tile of solid base width per occupied tile. The power models already have comparable physical base dimensions: small 1.90 units for two tiles, large 3.79 and diesel 3.80 for four, generator 2.86 and motor 2.80 for three. Their former automatic camera fit and independent drawSize values made the game presentation inconsistent. Mesh resizing would have changed already-suitable proportions.
+Run Blender with `--python ArtSource/IndustrialMachines/normalize_density.py` to publish all 22 saved models, or append `-- <texture-prefix-or-source-folder>` for one. This is the current publishing step after any historical builder or model edit. It includes lathes/milling, press, rolling mill, tailoring/gun benches and radio. Radio has no material mask; other color/mask pairs have matching alpha and an unselected black outline. Older neutral-metal mask selection and baked colored parts use an explicit saved-scene policy.
 
-## Corrected rule
+`density_catalog.json` records footprints, native resolutions, draw sizes/offsets, pixel densities and outline widths. Twenty assets have existing game definitions; steel pumpjack and rotary drill remain artwork only. Costs, research, recipes, fuel, power and production are unchanged.
 
-One model unit equals one game tile. Camera ortho_scale and XML drawSize are equal. The default canvas is 1.5 times the larger footprint dimension, following the radio and 2×1 tool references. If tall geometry needs more room, canvas and drawSize expand together in quarter-unit steps, keeping a 24px clear final margin plus the 12px stroke. This changes padding without changing world size. The small engine needs scale 3.25 to accommodate the chimney in East.
-
-Camera target and game drawOffset are both (0,0,0). The foundation origin stays registered to the footprint; equipment height projects upward in the image rather than being compensated by an arbitrary sprite offset. All directions use 64° downward orthographic elevation and one common scale.
-
-| Power asset | Previous drawSize | Corrected drawSize | Mesh / paint |
-|---|---|---|---|
-| Small steam | 2.55 | 3.25 | unchanged, hash verified |
-| Large steam | 4.3 | 6 | unchanged, hash verified |
-| Diesel | 4.3 | 6 | unchanged, hash verified |
-| Generator | 3.3 | 4.5 | unchanged, hash verified |
-| Motor | 3.3 | 4.5 | unchanged, hash verified |
-
-Both new reactors use 3×3 footprints, scale/drawSize 4.5 and zero offset. They now use rotatable Graphic_Multi definitions with unsuffixed texPaths and four actual camera views. Standard active material-mask names end in `_northm.png`; obsolete `_north_m.png` files are retained only as source references. Recipes, statistics, research and electrical behavior are unchanged.
-
-## Review and verification
-
-`resize_power.py -- <asset-folder>` reframes one existing saved model, exports its four views, checks geometry/material hashes and changes only that definition's drawSize/drawOffset. Ordinary per-asset build scripts reproduce the same calibrated presentation.
-
-`review_tile_scale.py` reads actual XML sizes and composes all references and seven updated models at **64 pixels per game tile**. It does not crop-fit or normalize object widths. `Review/tile_scale_comparison.png` shows current sizes; `Review/power_scale_before_after.png` compares the previous and corrected draw settings. Before PNGs are retained in `Review/BeforeScale/`. `presentation_calibration.json` records measured opaque widths in game tiles. Gray backgrounds and grids are review-only.
-
-`verify_assets.py` reopens seven Blender scenes and checks 28 camera elevations, shared scale, zero ground targets, matching XML draw sizes, 56 color/mask files and active mask naming. It retains the physical recessed-flywheel and flat motor-vent checks. Color masks and black outline alpha stay aligned. No in-game visual test has been performed.
+`verify_rotation.py` validates 22 scenes, 88 cameras and 172 PNGs, including actual resolution/density, game-space outline width, masks, margins, geometry/color hashes, definition links, radio direction and smoke outlets. The seven-machine and four-petroleum validators retain their structural checks. `review_density.py` generates `density_before_after.png` at exactly 64 display pixels per game tile, without crop-fitting. Review backgrounds and grids are not in the transparent game textures. No in-game visual test has been performed.

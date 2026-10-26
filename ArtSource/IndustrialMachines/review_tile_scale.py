@@ -41,7 +41,7 @@ def tile(stem,title,subtitle,before=False):
     return board
 context=Image.new('RGBA',(1664,1290),(70,73,72,255))
 for i,(stem,title,subtitle) in enumerate(items):context.alpha_composite(tile(stem,title,subtitle),(i%4*416,i//4*430))
-ImageDraw.Draw(context).text((860,968),'Same game scale. Grid = one tile.\nTransparent sprites; gray is review background.\n12px stroke on 512px updated textures.',font=font,fill=(215,224,219),spacing=12)
+ImageDraw.Draw(context).text((860,968),'Same game scale. Grid = one tile.\nTransparent sprites; gray is review background.\n12px stroke; canvas grows 256px per footprint tile.',font=font,fill=(215,224,219),spacing=12)
 context.convert('RGB').save(REVIEW/'tile_scale_comparison.png')
 folders={'HD_SmallSteamEngine':'SmallSteamEngine','HD_LargeSteamEngine':'LargeSteamEngine',
          'HD_IndustrialDieselEngine':'IndustrialDieselEngine','HD_EarlyIndustrialGenerator':'EarlyIndustrialGenerator',
@@ -56,10 +56,10 @@ for row,(stem,title,subtitle) in enumerate(items[8:]):
     for col,direction in enumerate(['north','east','south']):
         x,y=col*512,row*560
         ImageDraw.Draw(reactors).text((x+15,y+10),title+' / '+direction.title(),font=font,fill=(244,244,240))
-        im=Image.open(ROOT/'Textures/Buildings'/f'{stem}_{direction}.png').convert('RGBA')
+        im=Image.open(ROOT/'Textures/Buildings'/f'{stem}_{direction}.png').convert('RGBA').resize((512,512),Image.Resampling.LANCZOS)
         reactors.alpha_composite(im,(x,y+36))
 reactors.convert('RGB').save(REVIEW/'reactors_north_east_south.png')
-fronts=[Image.open(ROOT/'Textures/Buildings'/f'{stem}_north.png').convert('RGBA') for stem,title,subtitle in items[8:]]
+fronts=[Image.open(ROOT/'Textures/Buildings'/f'{stem}_north.png').convert('RGBA').resize((512,512),Image.Resampling.LANCZOS) for stem,title,subtitle in items[8:]]
 top=min(im.getbbox()[1] for im in fronts)-8;bottom=max(im.getbbox()[3] for im in fronts)+8
 north=Image.new('RGBA',(1024,bottom-top+52),(70,73,72,255))
 for col,(stem,title,subtitle) in enumerate(items[8:]):

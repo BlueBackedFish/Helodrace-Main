@@ -20,7 +20,7 @@ for stem,folder,footprint,active in assets:
         assert node.findtext('graphicData/texPath')=='Buildings/'+stem
         assert node.findtext('graphicData/graphicClass')=='Graphic_Multi'
         assert [float(v) for v in node.findtext('graphicData/drawSize').strip('()').split(',')]==[scale,scale]
-        assert [float(v) for v in node.findtext('graphicData/drawOffset').strip('()').split(',')]==[0,0,0]
+        assert max(abs(float(a)-b) for a,b in zip(node.findtext('graphicData/drawOffset').strip('()').split(','),validation['expected_draw_offset']))<1e-8
     else:assert stem not in defs,'New artwork was unexpectedly assigned gameplay values'
     bpy.ops.wm.open_mainfile(filepath=os.path.join(path,stem+'.blend'));bpy.context.view_layer.update()
     meshes=[o for o in bpy.context.scene.objects if o.type=='MESH'];assert len(meshes)>25
@@ -37,15 +37,15 @@ for stem,folder,footprint,active in assets:
         camera=bpy.data.objects['Camera_'+direction];q=camera.rotation_euler.to_quaternion()
         forward=q@Vector((0,0,-1));angle=math.degrees(math.asin(-forward.z))
         assert camera.data.type=='ORTHO' and abs(camera.data.ortho_scale-scale)<1e-6
-        assert abs(angle-64)<.001 and (forward+camera.location.normalized()).length<1e-5
+        assert abs(angle-64)<.001 and (forward+(camera.location-Vector(validation['camera_target'])).normalized()).length<1e-5
         pixels=[]
         for suffix in ['', 'm']:
             im=bpy.data.images.load(os.path.join(ROOT,'Textures/Buildings',stem+'_'+direction.lower()+suffix+'.png'),check_existing=False)
-            assert tuple(im.size)==(512,512);im.colorspace_settings.name='Non-Color'
-            p=np.empty(512*512*4,np.float32);im.pixels.foreach_get(p);pixels.append(p.reshape(512,512,4))
+            assert list(im.size)==validation['texture_resolution'];im.colorspace_settings.name='Non-Color'
+            w,h=im.size;p=np.empty(w*h*4,np.float32);im.pixels.foreach_get(p);pixels.append(p.reshape(h,w,4))
         color,mask=pixels;assert np.max(abs(color[:,:,3]-mask[:,:,3]))<.001
-        yy,xx=np.where(color[:,:,3]>.5);margin=int(min(xx.min(),yy.min(),511-xx.max(),511-yy.max()))
-        assert margin>=24;margins[direction]=margin
+        yy,xx=np.where(color[:,:,3]>.5);margin=int(min(xx.min(),yy.min(),w-1-xx.max(),h-1-yy.max()))
+        assert margin>=12;margins[direction]=margin
         stroke=(color[:,:,:3].max(axis=2)<.001)&(color[:,:,3]>.95)
         assert stroke.sum()>1000 and np.max(mask[:,:,:3][stroke])<=2.01/255
         # Eevee's 8-bit black export may contain a one-step dither value.

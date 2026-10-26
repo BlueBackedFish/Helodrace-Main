@@ -1,3 +1,5 @@
+Current tile-density export: 1024×1024px, drawSize (6,6), fixed 12px outline, 64° North/East/South/West cameras. The canvas grows by 256px per longest footprint tile; density and game-space outline width are identical across buildings. Vertical drawOffset is 0, compensating headroom without moving the ground anchor. Geometry and painted colors are preserved. These current exports supersede historical camera/resolution notes below. Publish with `ArtSource/IndustrialMachines/normalize_density.py`; see `ArtSource/IndustrialMachines/PRESENTATION_CALIBRATION.md`.
+
 # Circa-1950 rotary drilling rig
 
 New original land-rig artwork, proposed footprint 4×4. Four tapering steel derrick legs and three large braced bays surround a rotary table and square Kelly. Crown sheaves, travelling block/swivel, drawworks and separate engine enclosure identify a mid-century rotary rig. One mud tank, reciprocating pump, standpipe/Kelly hose and three-pipe rack explain the circulation and pipe-handling equipment. A real opening in the raised deck sits below the rotary-table ring. No modern top drive, hydraulic telescoping mast, touchscreen or forest of tiny hoses is added.

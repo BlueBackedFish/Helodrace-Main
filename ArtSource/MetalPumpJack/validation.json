@@ -30,26 +30,46 @@
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 82,
+      "minimum_margin": 271,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 54,
+      "minimum_margin": 187,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 82,
+      "minimum_margin": 271,
       "mask_alpha_matches": true
     },
     "West": {
-      "downward_degrees": 64.0,
-      "minimum_margin": 79,
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 260,
       "mask_alpha_matches": true
     }
   },
   "in_game_tested": false,
   "rotation_export_geometry_palette_sha256": "19c5b99cdbe2a73b91c438d5b84fe49ef84a23aec73c253e85562d84d07cffd3",
-  "rotation_export_preserves_geometry_and_palette": true
+  "rotation_export_preserves_geometry_and_palette": true,
+  "texture_resolution": [
+    1536,
+    1536
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "camera_target": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "19c5b99cdbe2a73b91c438d5b84fe49ef84a23aec73c253e85562d84d07cffd3",
+  "previous_density_draw_size": null
 }

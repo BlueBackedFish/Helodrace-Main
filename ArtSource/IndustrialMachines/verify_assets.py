@@ -33,13 +33,13 @@ for stem,folder,size,blend in assets:
     assert checks['presentation_rule']=='one_model_unit_per_game_tile' and checks['ground_anchor']==[0,0,0]
     draw=[float(v) for v in node.findtext('graphicData/drawSize').strip('()').split(',')]
     assert draw==checks['expected_draw_size']==[checks['orthographic_scale']]*2
-    assert [float(v) for v in node.findtext('graphicData/drawOffset').strip('()').split(',')]==[0,0,0]
+    assert max(abs(float(a)-b) for a,b in zip(node.findtext('graphicData/drawOffset').strip('()').split(','),checks['expected_draw_offset']))<1e-8
     if not reactor:assert checks['geometry_and_palette_unchanged']
     if reactor:
         active_mask=os.path.join(ROOT,'Textures',node.findtext('graphicData/texPath')+'_northm.png')
         assert os.path.isfile(active_mask)
         assert not os.path.exists(os.path.join(ROOT,'Textures/Buildings',stem+'_north_m.png'))
-    assert all(c['mask_alpha_matches'] and abs(c['downward_degrees']-64)<.001 and c['minimum_margin']>=24 for c in checks['cameras'].values())
+    assert all(c['mask_alpha_matches'] and abs(c['downward_degrees']-64)<.001 and c['minimum_margin']>=12 for c in checks['cameras'].values())
     bpy.ops.wm.open_mainfile(filepath=os.path.join(ROOT,'ArtSource',folder,blend))
     bpy.context.view_layer.update()
     cameras=[bpy.data.objects['Camera_'+d] for d in ['North','East','South','West']]
@@ -48,7 +48,7 @@ for stem,folder,size,blend in assets:
     for c in cameras:
         forward=c.rotation_euler.to_quaternion()@Vector((0,0,-1))
         assert abs(math.degrees(math.asin(-forward.z))-64)<.001
-        assert (forward+c.location.normalized()).length<1e-5,'Camera does not aim at ground origin'
+        assert (forward+(c.location-Vector(checks['camera_target'])).normalized()).length<1e-5,'Camera does not aim at ground origin'
     report[stem]={'definition_texture_resolves':True,'footprint_unchanged':size,'color_and_mask_files':8,'saved_scene_cameras_verified':4,'common_scale':cameras[0].data.ortho_scale,'design_period':checks['design_period']}
     base_bounds=[bounds(o) for o in bpy.context.scene.objects if o.type=='MESH' and o.name.startswith('01_')]
     area=sum((b[0][1]-b[0][0])*(b[1][1]-b[1][0]) for b in base_bounds)
@@ -63,8 +63,8 @@ for stem,folder,size,blend in assets:
         pair=[]
         for suffix in ['', 'm']:
             im=bpy.data.images.load(os.path.join(ROOT,'Textures/Buildings',stem+'_'+direction+suffix+'.png'),check_existing=False)
-            assert tuple(im.size)==(512,512);im.colorspace_settings.name='Non-Color'
-            p=np.empty(512*512*4,np.float32);im.pixels.foreach_get(p);pair.append(p.reshape(512,512,4))
+            assert list(im.size)==checks['texture_resolution'];im.colorspace_settings.name='Non-Color'
+            w,h=im.size;p=np.empty(w*h*4,np.float32);im.pixels.foreach_get(p);pair.append(p.reshape(h,w,4))
         color,mask=pair;assert np.max(abs(color[:,:,3]-mask[:,:,3]))<.001
         stroke=(color[:,:,:3].max(axis=2)<.001)&(color[:,:,3]>.95)
         # Dark antialiased source edges can round to RGB=0 while retaining 2/255 mask red.

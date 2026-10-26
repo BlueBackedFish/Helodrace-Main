@@ -14,11 +14,11 @@
   ],
   "mesh_objects": 79,
   "design_period": "1900-1930 timber standard cable-tool drilling rig",
-  "orthographic_scale": 6.5,
+  "orthographic_scale": 6.0,
   "outline_pixels": 12,
   "expected_draw_size": [
-    6.5,
-    6.5
+    6.0,
+    6.0
   ],
   "presentation_rule": "one_model_unit_per_game_tile",
   "ground_anchor": [
@@ -29,26 +29,47 @@
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 61,
+      "minimum_margin": 104,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 31,
+      "minimum_margin": 38,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 84,
+      "minimum_margin": 153,
       "mask_alpha_matches": true
     },
     "West": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 74,
+      "minimum_margin": 131,
       "mask_alpha_matches": true
     }
   },
   "in_game_tested": false,
   "definition": "Defs/WildWest/Buildings/Industry_WildWest.xml",
-  "gameplay_fields_preserved_sha256": "b16aa2b3330a7ddf724344549ae2e63f99a915685678bbeae1b7f0d43325e978"
+  "gameplay_fields_preserved_sha256": "b16aa2b3330a7ddf724344549ae2e63f99a915685678bbeae1b7f0d43325e978",
+  "texture_resolution": [
+    1024,
+    1024
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "camera_target": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "d6d7a4f35cf6332bcdf394d97076194e468127cc9ee00226ca80db1bd6737327",
+  "rotation_export_geometry_palette_sha256": "d6d7a4f35cf6332bcdf394d97076194e468127cc9ee00226ca80db1bd6737327",
+  "previous_density_draw_size": null
 }

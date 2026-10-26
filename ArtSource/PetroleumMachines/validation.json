@@ -10,10 +10,10 @@
     "color_mask_files": 8,
     "outline_pixels": 12,
     "margins": {
-      "North": 83,
-      "East": 54,
-      "South": 83,
-      "West": 65
+      "North": 274,
+      "East": 187,
+      "South": 274,
+      "West": 219
     },
     "true_mesh_geometry_no_image_planes": true
   },
@@ -28,10 +28,10 @@
     "color_mask_files": 8,
     "outline_pixels": 12,
     "margins": {
-      "North": 82,
-      "East": 54,
-      "South": 82,
-      "West": 79
+      "North": 271,
+      "East": 187,
+      "South": 271,
+      "West": 260
     },
     "true_mesh_geometry_no_image_planes": true
   },
@@ -41,15 +41,15 @@
       3,
       3
     ],
-    "orthographic_scale_and_draw_size": 6.0,
+    "orthographic_scale_and_draw_size": 4.5,
     "views_verified": 4,
     "color_mask_files": 8,
     "outline_pixels": 12,
     "margins": {
-      "North": 48,
-      "East": 25,
-      "South": 102,
-      "West": 47
+      "North": 60,
+      "East": 12,
+      "South": 144,
+      "West": 57
     },
     "true_mesh_geometry_no_image_planes": true
   },
@@ -59,15 +59,15 @@
       4,
       4
     ],
-    "orthographic_scale_and_draw_size": 6.75,
+    "orthographic_scale_and_draw_size": 6.0,
     "views_verified": 4,
     "color_mask_files": 8,
     "outline_pixels": 12,
     "margins": {
-      "North": 39,
-      "East": 31,
-      "South": 87,
-      "West": 85
+      "North": 38,
+      "East": 20,
+      "South": 145,
+      "West": 143
     },
     "true_mesh_geometry_no_image_planes": true
   },

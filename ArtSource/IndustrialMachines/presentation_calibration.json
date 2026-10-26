@@ -14,13 +14,13 @@
       "draw_offset": [
         0.0,
         0.0,
-        0.0
+        0.154591769
       ],
       "image_size": [
         256,
         256
       ],
-      "north_opaque_width_in_tiles": 1.083984375
+      "north_opaque_width_in_tiles": 1.16015625
     },
     "HD_LineShaftMillingMachine": {
       "footprint": [
@@ -40,7 +40,7 @@
         512,
         512
       ],
-      "north_opaque_width_in_tiles": 2.05078125
+      "north_opaque_width_in_tiles": 1.93359375
     },
     "HD_LineShaftTurretLathe": {
       "footprint": [
@@ -54,13 +54,13 @@
       "draw_offset": [
         0.0,
         0.0,
-        0.0
+        0.0351589918
       ],
       "image_size": [
         512,
         512
       ],
-      "north_opaque_width_in_tiles": 2.232421875
+      "north_opaque_width_in_tiles": 2.26171875
     },
     "HD_SmallSteamEngine": {
       "footprint": [
@@ -68,19 +68,19 @@
         2.0
       ],
       "draw_size": [
-        3.25,
-        3.25
+        3.0,
+        3.0
       ],
       "draw_offset": [
         0.0,
         0.0,
-        0.0
+        0.0205882788
       ],
       "image_size": [
         512,
         512
       ],
-      "north_opaque_width_in_tiles": 2.08203125
+      "north_opaque_width_in_tiles": 2.068359375
     },
     "HD_LargeSteamEngine": {
       "footprint": [
@@ -97,10 +97,10 @@
         0.0
       ],
       "image_size": [
-        512,
-        512
+        1024,
+        1024
       ],
-      "north_opaque_width_in_tiles": 4.1015625
+      "north_opaque_width_in_tiles": 3.943359375
     },
     "HD_IndustrialDieselEngine": {
       "footprint": [
@@ -117,10 +117,10 @@
         0.0
       ],
       "image_size": [
-        512,
-        512
+        1024,
+        1024
       ],
-      "north_opaque_width_in_tiles": 4.1015625
+      "north_opaque_width_in_tiles": 3.94921875
     },
     "HD_EarlyIndustrialGenerator": {
       "footprint": [
@@ -137,10 +137,10 @@
         0.0
       ],
       "image_size": [
-        512,
-        512
+        768,
+        768
       ],
-      "north_opaque_width_in_tiles": 3.09375
+      "north_opaque_width_in_tiles": 3.01171875
     },
     "HD_EarlyIndustrialLargeMotor": {
       "footprint": [
@@ -157,10 +157,10 @@
         0.0
       ],
       "image_size": [
-        512,
-        512
+        768,
+        768
       ],
-      "north_opaque_width_in_tiles": 3.0234375
+      "north_opaque_width_in_tiles": 2.953125
     },
     "HD_HaberBoschHighPressureReactor": {
       "footprint": [
@@ -177,10 +177,10 @@
         0.0
       ],
       "image_size": [
-        512,
-        512
+        768,
+        768
       ],
-      "north_opaque_width_in_tiles": 2.91796875
+      "north_opaque_width_in_tiles": 2.8359375
     },
     "HD_StirredTankReactor": {
       "footprint": [
@@ -197,10 +197,10 @@
         0.0
       ],
       "image_size": [
-        512,
-        512
+        768,
+        768
       ],
-      "north_opaque_width_in_tiles": 2.77734375
+      "north_opaque_width_in_tiles": 2.70703125
     }
   }
 }

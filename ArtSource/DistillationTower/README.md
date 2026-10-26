@@ -1,3 +1,5 @@
+Current tile-density export: 768×768px, drawSize (4.5,4.5), fixed 12px outline, 64° North/East/South/West cameras. The canvas grows by 256px per longest footprint tile; density and game-space outline width are identical across buildings. Vertical drawOffset is 0.463665724, compensating headroom without moving the ground anchor. Geometry and painted colors are preserved. These current exports supersede historical camera/resolution notes below. Publish with `ArtSource/IndustrialMachines/normalize_density.py`; see `ArtSource/IndustrialMachines/PRESENTATION_CALIBRATION.md`.
+
 # Compact fractionation tower
 
 Reworked existing 3×3 distillation building, circa-1950 visual family. A tall narrow tray column with access covers and collars connects to an overhead vapor line, side condenser, reflux receiver/return and horizontal reboiler. Two partial service platforms, a coarse ladder, product valve and analog dial establish scale and function. Open skid members replace a broad empty foundation plate. Neutral cast/machined gray and limited brass match the recent reactors.

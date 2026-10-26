@@ -14,15 +14,64 @@
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "margin_px": 54
+      "minimum_margin": 20,
+      "mask_alpha_matches": true
     },
     "East": {
-      "downward_degrees": 63.99999334484027,
-      "margin_px": 51
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 12,
+      "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "margin_px": 54
+      "minimum_margin": 22,
+      "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 16,
+      "mask_alpha_matches": true
     }
-  }
+  },
+  "asset": "HD_Radio",
+  "features": [
+    "existing authored building; geometry and colors retained"
+  ],
+  "mesh_objects": 80,
+  "design_period": "",
+  "texture_resolution": [
+    256,
+    256
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "orthographic_scale": 1.5,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    1.5,
+    1.5
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "camera_target": [
+    0.0,
+    0.0,
+    0.3526504337787628
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.15459176898002625
+  ],
+  "in_game_tested": false,
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "31f0d0f2b6f6943577e34802f49c50e38d17eb8a0f566ba0a90abc2fbc890b9c",
+  "rotation_export_geometry_palette_sha256": "31f0d0f2b6f6943577e34802f49c50e38d17eb8a0f566ba0a90abc2fbc890b9c",
+  "definition": "Defs/WildWest/Buildings/Radio.xml",
+  "gameplay_fields_preserved_sha256": "f44caa487d9102a0b03f997d6e4cbdd8079324e4d959d9d518e1665ff0e3d1eb"
 }

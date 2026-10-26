@@ -14,11 +14,11 @@
   ],
   "mesh_objects": 60,
   "design_period": "early/mid twentieth-century three-electrode arc furnace",
-  "orthographic_scale": 6.5,
+  "orthographic_scale": 6.0,
   "outline_pixels": 12,
   "expected_draw_size": [
-    6.5,
-    6.5
+    6.0,
+    6.0
   ],
   "presentation_rule": "one_model_unit_per_game_tile",
   "ground_anchor": [
@@ -29,26 +29,47 @@
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 29,
+      "minimum_margin": 35,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 71,
+      "minimum_margin": 126,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 79,
+      "minimum_margin": 143,
       "mask_alpha_matches": true
     },
     "West": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 88,
+      "minimum_margin": 161,
       "mask_alpha_matches": true
     }
   },
   "in_game_tested": false,
   "definition": "Defs/WildWest/Buildings/Industry_WildWest.xml",
-  "gameplay_fields_preserved_sha256": "bb29a8bf9562ad5a6284c2268bfd1a1762ef08c7fe16b660bffe3b6a3f12734b"
+  "gameplay_fields_preserved_sha256": "bb29a8bf9562ad5a6284c2268bfd1a1762ef08c7fe16b660bffe3b6a3f12734b",
+  "texture_resolution": [
+    1024,
+    1024
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "camera_target": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "ffac3e6b9129589887834ea4ebcd7d1c1c3fb09e8aff12dd18f91a34066ac57a",
+  "rotation_export_geometry_palette_sha256": "ffac3e6b9129589887834ea4ebcd7d1c1c3fb09e8aff12dd18f91a34066ac57a",
+  "previous_density_draw_size": null
 }
