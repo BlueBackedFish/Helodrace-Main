@@ -1,0 +1,52 @@
+"""Original circa-1950 pressure-converter skid, sprite-proxy geometry."""
+import os,sys,math
+OUT=os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0,os.path.join(OUT,'../IndustrialMachines'))
+import sprite_common as s
+s.period_start();s.scene['design_period']='circa 1950 heavy pressure converter and heat exchanger'
+for y in [-.87,.87]:s.cube('01_Skid_longitudinal_rail',(0,y,.09),(2.68,.16,.18),s.bed)
+for x in [-1.20,.25,1.20]:s.cube('01_Skid_crossmember',(x,0,.09),(.17,1.90,.18),s.bed)
+s.cyl('02_Anchor_foot',(.25,.20,.22),.75,.09,s.bed)
+s.cyl('03_Pressure_vessel_skirt',(.25,.20,.40),.55,.40,s.dark)
+s.vessel('04_Forged_pressure_shell',(.25,.20,1.43),.62,1.58,.23,s.cast)
+for z in [.95,1.70]:s.ring('05_Heavy_shell_collar',(.25,.20,z),.655,.608,.070,s.steel,'Z')
+s.ring('06_Bolted_closure_flange',(.25,.20,2.22),.715,.565,.085,s.steel,'Z')
+for i in range(8):
+    a=i*math.tau/8
+    s.cyl('07_Closure_stud',(.25+.65*math.cos(a),.20+.65*math.sin(a),2.30),.044,.085,s.dark,vertices=8)
+s.cyl('08_Closure_neck',(.25,.20,2.47),.15,.17,s.cast)
+s.cyl('09_Top_blind_cover',(.25,.20,2.60),.23,.09,s.steel)
+for i in range(4):
+    a=i*math.tau/4;s.cyl('10_Cover_stud',(.25+.175*math.cos(a),.20+.175*math.sin(a),2.67),.025,.055,s.dark,vertices=8)
+s.cyl('11_Front_manway_rim',(.25,-.445,1.24),.235,.11,s.dark,'Y')
+s.cyl('12_Front_manway_cover',(.25,-.510,1.24),.193,.035,s.steel,'Y')
+s.rivets('13_Manway_stud',[(.25+dx,-.535,1.24+dz) for dx in [-.115,.115] for dz in [-.115,.115]],'Y',.024)
+# Smaller heat exchanger and a readable connected synthesis-gas loop.
+s.cube('14_Exchanger_foot',(-.97,.16,.25),(.48,.50,.14),s.bed)
+s.vessel('15_Heat_exchanger',(-.97,.16,1.00),.22,.85,.15,s.dark)
+for z in [.57,1.43]:s.cyl('16_Exchanger_end_flange',(-.97,.16,z),.255,.07,s.steel)
+s.path('17_Upper_transfer',[(-.35,.20,1.84),(-.97,.20,1.84),(-.97,.16,1.53)],.065,s.steel)
+s.path('18_Lower_transfer',[(-.97,.16,.52),(-.97,-.16,.52),(-.30,-.16,.82)],.055,s.cast)
+s.path('19_Right_pressure_loop',[(.82,.20,1.55),(1.15,.20,1.55),(1.15,-.61,1.55),(1.15,-.61,.44),(.50,-.61,.44)],.070,s.cast)
+for z in [.66,1.36]:s.cyl('20_Loop_flange',(1.15,-.61,z),.12,.055,s.steel)
+s.cyl('21_Isolation_valve',(1.15,-.61,1.05),.13,.20,s.dark)
+s.cyl('22_Valve_stem',(1.15,-.61,1.22),.033,.17,s.brass)
+s.handwheel('23_Pressure_loop_handwheel',(1.15,-.61,1.33),.135)
+s.cube('24_Pump_bed',(.18,-.71,.235),(1.05,.39,.11),s.bed)
+s.cyl('25_Circulation_pump',(.28,-.71,.46),.145,.53,s.cast,'X',large=True)
+for x in [.0,.56]:s.cyl('26_Pump_flange',(x,-.71,.46),.17,.045,s.steel,'X')
+s.cube('27_Pump_drive',(-.27,-.71,.43),(.35,.30,.28),s.dark)
+s.path('28_Vessel_bottom_connection',[(.25,-.12,.44),(.25,-.71,.44)],.055,s.steel)
+s.cube('29_Instruments_stand',(-.91,-.73,.55),(.09,.10,.74),s.cast)
+s.cube('30_Analog_panel',(-.91,-.73,1.02),(.47,.13,.39),s.dark)
+for x in [-1.02,-.80]:s.gauge('31_Panel_dial',(x,-.81,1.07),.075)
+s.cube('32_Panel_legend',(-.91,-.805,.91),(.23,.014,.035),s.steel)
+s.cube('33_Rear_service_step',(.30,.97,1.20),(1.56,.28,.10),s.bed)
+for x in [-.43,1.03]:
+    s.rod('34_Service_step_leg',(x,.97,.18),(x,.97,1.20),.045,s.cast)
+    s.rod('35_Step_rail_post',(x,1.06,1.20),(x,1.06,1.68),.030,s.dark)
+s.rod('36_Rear_safety_rail',(-.43,1.06,1.68),(1.03,1.06,1.68),.030,s.dark)
+for x in [.86,1.18]:s.rod('37_Ladder_rail',(x,.93,.18),(x,.93,1.22),.030,s.dark)
+for z in [.35,.60,.85,1.10]:s.rod('38_Ladder_rung',(.86,.93,z),(1.18,.93,z),.026,s.steel)
+s.rivets('39_Skid_anchor',[(x,y,.19) for x in [-1.20,1.20] for y in [-.87,.87]],r=.035)
+s.export(OUT,'HD_HaberBoschHighPressureReactor',[3,3],['circa-1950 forged pressure converter','dished bolted closure','side heat exchanger and closed circulation loop','manual isolation valve','circulation pump','analog instrument stand','rear service step and short ladder','open structural skid'])

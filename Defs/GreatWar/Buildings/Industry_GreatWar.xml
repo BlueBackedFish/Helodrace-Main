@@ -12,7 +12,7 @@
       <texPath>Buildings/HD_HaberBoschHighPressureReactor_north</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(4.5,4.5)</drawSize>
-      <drawOffset>(0,0,0.35)</drawOffset>
+      <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <color>(255,255,255)</color>
       <shadowData>

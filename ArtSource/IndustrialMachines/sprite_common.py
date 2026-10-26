@@ -38,7 +38,8 @@ def period_start():
     copper=pal('Copper_winding_',[(164,113,66),(147,96,52),(138,88,46)],False)
     stone=pal('Concrete_', [154,137,123],False)
     pit=pal('Pit_interior_', [49,47,41],False)
-    scene['outline_pixels']=6
+    scene['outline_pixels']=12
+    scene['presentation_rule']='one_model_unit_per_game_tile'
 
 def gauge(name,p,r=.09):
     """Large pressure dial facing the working side (-Y)."""
@@ -79,6 +80,31 @@ def quad(name,points,material):
     mesh=bpy.data.meshes.new(name);mesh.from_pydata(points,[],[tuple(range(len(points)))]);mesh.update()
     obj=bpy.data.objects.new(name,mesh);scene.collection.objects.link(obj);mesh.materials.append(material)
     return obj
+
+def vessel(name,p,r,straight,cap,mats):
+    """Closed upright vessel with broad dished heads and a straight jacket."""
+    profile=[(0,-straight/2-cap),(.50*r,-straight/2-.866*cap),(.866*r,-straight/2-.50*cap),
+             (r,-straight/2),(r,straight/2),(.866*r,straight/2+.50*cap),
+             (.50*r,straight/2+.866*cap),(0,straight/2+cap)]
+    n=40;verts=[(p[0]+radius*math.cos(i*math.tau/n),p[1]+radius*math.sin(i*math.tau/n),p[2]+z) for radius,z in profile for i in range(n)]
+    faces=[];colors=[]
+    for k in range(len(profile)-1):
+        for i in range(n):
+            j=(i+1)%n;faces.append((k*n+i,k*n+j,(k+1)*n+j,(k+1)*n+i))
+            colors.append(0 if k>=4 else (2 if k<2 else 1))
+    mesh=bpy.data.meshes.new(name);mesh.from_pydata(verts,[],faces);mesh.update()
+    obj=bpy.data.objects.new(name,mesh);scene.collection.objects.link(obj)
+    for m in mats:mesh.materials.append(m)
+    for f,c in zip(mesh.polygons,colors):f.material_index=c
+    return obj
+
+def handwheel(name,p,r=.12,axis='Z'):
+    ring(name+'_rim',p,r,r*.74,.028,brass,axis)
+    cyl(name+'_hub',p,r*.22,.045,brass,axis)
+    for i in range(4):
+        a=i*math.tau/4
+        d=Vector((math.cos(a),math.sin(a),0)) if axis=='Z' else Vector((math.cos(a),0,math.sin(a)))
+        rod(name+'_spoke',Vector(p),Vector(p)+d*r*.86,.015,brass)
 
 def arch(name,p,outer,inner,depth,mats):
     """Upper half of a cast magnetic yoke, in the Y/Z plane."""
@@ -180,7 +206,9 @@ def export(out,stem,footprint,features,blend_name=None):
     points=[o.matrix_world@v.co for o in meshes for v in o.data.vertices]
     lo=Vector([min(p[i] for p in points) for i in range(3)])
     hi=Vector([max(p[i] for p in points) for i in range(3)])
-    target=(lo+hi)/2;target.z*=.80
+    calibrated=scene.get('presentation_rule')=='one_model_unit_per_game_tile'
+    target=Vector((0,0,0)) if calibrated else (lo+hi)/2
+    if not calibrated:target.z*=.80
     dirs=[('North',-90),('East',0),('South',90)];cameras=[]
     span=0
     for name,az in dirs:
@@ -192,7 +220,8 @@ def export(out,stem,footprint,features,blend_name=None):
         q=c.rotation_euler.to_quaternion();right=q@Vector((1,0,0));up=q@Vector((0,1,0))
         span=max(span,max(max(abs((p-target).dot(right)),abs((p-target).dot(up))) for p in points))
         cameras.append(c)
-    scale=span*2*1.15
+    scale=max(footprint)*1.5 if calibrated else span*2*1.15
+    assert (scale/2-span)*512/scale>=24+scene.get('outline_pixels',0), 'Increase canvas size or reduce outlying geometry before rendering'
     for c in cameras:c.data.ortho_scale=scale
     scene.render.engine='BLENDER_EEVEE';scene.render.film_transparent=True
     scene.render.resolution_x=scene.render.resolution_y=512;scene.render.resolution_percentage=100
@@ -241,4 +270,7 @@ def export(out,stem,footprint,features,blend_name=None):
         json.dump({'asset':stem,'footprint':footprint,'features':features,'mesh_objects':count,
                    'design_period':bpy.context.scene.get('design_period',''),
                    'orthographic_scale':scale,'outline_pixels':bpy.context.scene.get('outline_pixels',0),
+                   'expected_draw_size':[scale,scale],
+                   'presentation_rule':bpy.context.scene.get('presentation_rule','auto_fit'),
+                   'ground_anchor':[float(v) for v in target],
                    'cameras':checks,'in_game_tested':False},f,indent=2)
