@@ -1,0 +1,49 @@
+{
+  "asset": "HD_StirredTankReactor",
+  "footprint": [
+    3,
+    3
+  ],
+  "features": [
+    "circa-1950 jacketed reaction kettle",
+    "overhead motor and reduction gearbox",
+    "visible shaft seal and drive bridge",
+    "bolted dished head and charging manhole",
+    "jacket circulation pump and pipes",
+    "bottom discharge handwheel",
+    "analog instruments and sight port",
+    "open structural skid"
+  ],
+  "mesh_objects": 81,
+  "design_period": "circa 1950 jacketed stirred reaction kettle",
+  "orthographic_scale": 4.5,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    4.5,
+    4.5
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 33,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 55,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 74,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false
+}
