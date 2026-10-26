@@ -22,6 +22,8 @@
   ],
   "outline_runtime_pixels": 6,
   "source_geometry_note": "Every source polygon, vertex position and UV loop retained under documented rigid transforms; no invented exterior detail or procedural replacement geometry.",
+  "style_note": "Water jacket, M2 barrel/sleeve and tripod surfaces use uniform colors without normal-based side shading; cartridge cases, copper projectiles and links are distinct.",
+  "ammo_box_pose": "Level box, original lid closed around its hinge; source belt follows leveled gun",
   "source_objects": [
     {
       "name": "Barrel",
@@ -96,86 +98,98 @@
   ],
   "parts": [
     {
-      "name": "Barrel / barrel",
+      "name": "Barrel / gun",
       "source_object": "Barrel",
       "layer": "barrel",
+      "pose": "gun",
       "vertices": 610,
       "faces": 600
     },
     {
-      "name": "Handle_cover / body",
+      "name": "Handle_cover / gun",
       "source_object": "Handle_cover",
       "layer": "body",
+      "pose": "gun",
       "vertices": 160,
       "faces": 179
     },
     {
-      "name": "Cover.007 / body",
+      "name": "Cover.007 / gun",
       "source_object": "Cover.007",
       "layer": "body",
+      "pose": "gun",
       "vertices": 1976,
       "faces": 2207
     },
     {
-      "name": "Tenon / body",
+      "name": "Tenon / gun",
       "source_object": "Tenon",
       "layer": "body",
+      "pose": "gun",
       "vertices": 127,
       "faces": 155
     },
     {
-      "name": "Sutter / body",
+      "name": "Sutter / gun",
       "source_object": "Sutter",
       "layer": "body",
+      "pose": "gun",
       "vertices": 511,
       "faces": 635
     },
     {
-      "name": "Cover_010_Low.001 / body",
+      "name": "Cover_010_Low.001 / gun",
       "source_object": "Cover_010_Low.001",
       "layer": "body",
+      "pose": "gun",
       "vertices": 282,
       "faces": 281
     },
     {
-      "name": "Reloading_handle / body",
+      "name": "Reloading_handle / gun",
       "source_object": "Reloading_handle",
       "layer": "body",
+      "pose": "gun",
       "vertices": 1416,
       "faces": 1509
     },
     {
-      "name": "Single / body",
+      "name": "Single / gun",
       "source_object": "Single",
       "layer": "body",
+      "pose": "gun",
       "vertices": 188,
       "faces": 195
     },
     {
-      "name": "Trigger / body",
+      "name": "Trigger / gun",
       "source_object": "Trigger",
       "layer": "body",
+      "pose": "gun",
       "vertices": 150,
       "faces": 213
     },
     {
-      "name": "sight_dioptr / body",
+      "name": "sight_dioptr / gun",
       "source_object": "sight_dioptr",
       "layer": "body",
+      "pose": "gun",
       "vertices": 200,
       "faces": 263
     },
     {
-      "name": "sight_min / body",
+      "name": "sight_min / gun",
       "source_object": "sight_min",
       "layer": "body",
+      "pose": "gun",
       "vertices": 166,
       "faces": 178
     },
     {
-      "name": "Body_M2 / body",
+      "name": "Body_M2 / gun",
       "source_object": "Body_M2",
       "layer": "body",
+      "pose": "gun",
       "vertices": 15182,
       "faces": 17056
     },
@@ -183,6 +197,7 @@
       "name": "Hinge_tripod_low / mount",
       "source_object": "Hinge_tripod_low",
       "layer": "mount",
+      "pose": "mount",
       "vertices": 481,
       "faces": 541
     },
@@ -190,15 +205,33 @@
       "name": "Tripod_body_001_Low / mount",
       "source_object": "Tripod_body_001_Low",
       "layer": "mount",
+      "pose": "mount",
       "vertices": 3417,
       "faces": 3589
     },
     {
-      "name": "Tripod_body_001_Low / body",
+      "name": "Tripod_body_001_Low / gun",
       "source_object": "Tripod_body_001_Low",
       "layer": "body",
-      "vertices": 12586,
-      "faces": 13155
+      "pose": "gun",
+      "vertices": 9312,
+      "faces": 9712
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_box",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_box",
+      "vertices": 1207,
+      "faces": 1258
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_lid",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_lid",
+      "vertices": 2067,
+      "faces": 2185
     }
   ]
 }

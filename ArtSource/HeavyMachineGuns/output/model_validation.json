@@ -14,7 +14,17 @@
       "uv_loops_preserved": 152352,
       "added_geometry": false,
       "gun_draw_tiles": 2.976305444367878,
-      "mount_draw_tiles": 2.698821737036478
+      "mount_draw_tiles": 2.698821737036478,
+      "uniform_surface_color_counts": {
+        "barrel": 1,
+        "tripod": 1
+      },
+      "ammo_box_level": true,
+      "lid_closed": true,
+      "lid_surface_tilt_degrees": 0.0,
+      "cartridge_cases": "brass",
+      "projectiles": "copper",
+      "links": "dark steel"
     },
     "M1917": {
       "source": "machine gun/browning-m1917/source/browning m1917.fbx",
@@ -29,7 +39,11 @@
       "uv_loops_preserved": 49190,
       "added_geometry": false,
       "gun_draw_tiles": 2.2689926480563862,
-      "mount_draw_tiles": 3.4826503758703873
+      "mount_draw_tiles": 3.4826503758703873,
+      "uniform_surface_color_counts": {
+        "tripod": 1,
+        "water_jacket": 1
+      }
     }
   }
 }

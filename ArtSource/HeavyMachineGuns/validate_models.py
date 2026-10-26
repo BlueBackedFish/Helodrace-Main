@@ -1,7 +1,7 @@
 """Compare the saved layers against the actual ext models, polygon by polygon."""
 from pathlib import Path
 from collections import defaultdict
-import bpy,json,hashlib
+import bpy,json,hashlib,math
 from mathutils import Vector,Matrix
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'output';results={}
 for kind in ['M2HB','M1917']:
@@ -18,7 +18,7 @@ for kind in ['M2HB','M1917']:
     assert scene.camera.data.type=='ORTHO' and (scene.camera.rotation_euler.to_quaternion()@Vector((0,0,-1))-Vector((0,0,-1))).length<1e-6
     assert scene.render.film_transparent and not any(o.type=='LIGHT' for o in scene.objects)
     assert scene.render.resolution_x==scene.render.resolution_y==2048
-    seen=defaultdict(set);vertex_ids=defaultdict(set);uv_loops=0
+    seen=defaultdict(set);vertex_ids=defaultdict(set);uv_loops=0;flat_colors=defaultdict(set);paint_counts=defaultdict(int)
     meshes=[o for o in scene.objects if o.type=='MESH']
     for o in meshes:
         assert o['source_object'] in original
@@ -33,6 +33,10 @@ for kind in ['M2HB','M1917']:
             seen[o['source_object']].add(identifier.value);face=src['faces'][identifier.value]
             assert [vi.data[i].value for i in p.vertices]==face['indices']
             assert set(face['uv'])=={uv.name for uv in o.data.uv_layers}
+            material=o.data.materials[p.material_index];paint_counts[material.name]+=1
+            color=tuple(round(c,6) for c in next(n for n in material.node_tree.nodes if n.type=='EMISSION').inputs[0].default_value)
+            target='tripod' if o['layer']=='mount' else 'barrel' if kind=='M2HB' and o['layer']=='barrel' else 'water_jacket' if material.name.startswith('olive_') else None
+            if target:flat_colors[target].add(color)
             for uv in o.data.uv_layers:
                 for index,expected in zip(p.loop_indices,face['uv'][uv.name]):
                     assert (uv.data[index].uv-Vector(expected)).length<1e-6
@@ -44,8 +48,24 @@ for kind in ['M2HB','M1917']:
         assert seen[name]==set(range(len(src['faces']))),(kind,name,'missing polygons')
         assert vertex_ids[name]=={i for f in src['faces'] for i in f['indices']},(kind,name,'missing used vertices')
     assert set(seen)==set(original)
+    assert all(len(colors)==1 for colors in flat_colors.values()),('Unwanted surface shading',flat_colors)
+    assert paint_counts['brass_top']>0 and paint_counts['copper_top']>0
+    pose_check={}
+    if kind=='M2HB':
+        assert paint_counts['link_top']>0
+        box=next(o for o in meshes if o['pose']=='ammo_box');lid=next(o for o in meshes if o['pose']=='ammo_lid')
+        flat=box['source_transform'];matrix=Matrix([flat[i:i+4] for i in range(0,16,4)])
+        assert abs(matrix[0][1])+abs(matrix[1][0])+abs(matrix[2][0])+abs(matrix[2][1])<1e-6,'Ammo box is tilted'
+        normal=max(lid.data.polygons,key=lambda p:p.area).normal
+        lid_tilt=math.degrees(math.acos(min(1,abs(normal.z))))
+        assert lid_tilt<1,'Lid is still open'
+        box_points=[v.co for v in box.data.vertices];lid_points=[v.co for v in lid.data.vertices]
+        midpoint=lambda points,i:(min(v[i] for v in points)+max(v[i] for v in points))/2
+        assert abs(midpoint(box_points,0)-midpoint(lid_points,0))<.04
+        assert abs(midpoint(box_points,1)-midpoint(lid_points,1))<.01
+        pose_check=dict(ammo_box_level=True,lid_closed=True,lid_surface_tilt_degrees=lid_tilt,cartridge_cases='brass',projectiles='copper',links='dark steel')
     results[kind]=dict(source=meta['source_relative_to_ext'],source_sha256=meta['source_sha256'],projection='90 degree vertical orthographic',transparent=True,lights=0,
         materials='fixed RGB emission; no image textures',source_objects=len(original),polygons_preserved=sum(len(v) for v in seen.values()),used_source_vertices_preserved=sum(len(v) for v in vertex_ids.values()),uv_loops_preserved=uv_loops,
-        added_geometry=False,gun_draw_tiles=meta['gun_draw_tiles'],mount_draw_tiles=meta['mount_draw_tiles'])
+        added_geometry=False,gun_draw_tiles=meta['gun_draw_tiles'],mount_draw_tiles=meta['mount_draw_tiles'],uniform_surface_color_counts={name:len(colors) for name,colors in flat_colors.items()},**pose_check)
 (OUT/'model_validation.json').write_text(json.dumps(dict(passed=True,models=results),indent=2)+'\n')
 print('HMG_EXT_VALIDATION_PASS: both provided models retain every polygon, used vertex and UV loop; rigid transforms; vertical cameras; fixed emission',flush=True)

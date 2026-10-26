@@ -6,7 +6,10 @@ from mathutils import Vector,Matrix
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'output';OUT.mkdir(exist_ok=True)
 EXT=Path(os.environ.get('HELODRACE_REFERENCE_EXT',str(Path.home()/'Downloads/Dagor-Asset-Explorer-1.0.0/Dagor-Asset-Explorer-1.0.0/ext')))/'machine gun'
 MASTER=2048
-PALETTE=dict(metal=(79,86,84),cover=(103,111,106),dark=(37,44,42),olive=(93,106,71),ammo=(83,100,57),wood=(102,75,48),brass=(157,132,78),mount=(79,91,73))
+PALETTE=dict(metal=(79,86,84),cover=(103,111,106),dark=(37,44,42),olive=(93,106,71),ammo=(83,100,57),wood=(102,75,48),brass=(173,142,73),copper=(145,102,68),link=(43,48,43),canvas=(104,99,70),mount=(79,91,73))
+# Original hinge pin, parallel to Y. The source lid is opened 154 degrees.
+AMMO_HINGE=Vector((.4073,.2142,-.1239))
+AMMO_LID_ROTATION=math.radians(-154.14966566) # Measured from the source lid's large planar face.
 
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -46,25 +49,47 @@ def read_source(kind,path):
     records=[]
     for o in bpy.context.scene.objects:
         if o.type!='MESH':continue
-        vertices=[o.matrix_world@v.co for v in o.data.vertices];parts=components(vertices,o.data.polygons) if kind=='M1917' else {}
+        vertices=[o.matrix_world@v.co for v in o.data.vertices];parts=components(vertices,o.data.polygons)
+        component_faces=defaultdict(int)
+        for part,_,_ in parts.values():component_faces[part]+=1
         faces=[]
         for p in o.data.polygons:
             uv={layer.name:[tuple(layer.data[i].uv) for i in p.loop_indices] for layer in o.data.uv_layers}
             group,lo,hi=parts.get(p.index,(0,None,None))
             center=sum((vertices[i] for i in p.vertices),Vector())/len(p.vertices)
             oldmat=o.data.materials[p.material_index].name
+            flat=False
             if kind=='M2HB':
                 layer='barrel' if o.name=='Barrel' else 'mount' if 'tripod' in o.name.lower() and oldmat!='Box_ammo' else 'body'
                 category='ammo' if oldmat=='Box_ammo' else 'mount' if layer=='mount' else 'cover' if o.name=='Cover.007' else 'metal'
+                pose='mount' if layer=='mount' else 'gun'
+                flat=layer in ['barrel','mount'] or o.name=='Body_M2' and oldmat=='Set_001'
                 if o.name=='Body_M2' and center.y>.69 and abs(center.x-.0109783)>.033:category='wood'
-                if o.name=='Body_M2' and center.x>.09 and .03<center.y<.28:category='brass'
+                if oldmat=='Box_ammo':
+                    count=component_faces[group]
+                    # These repeated complete source parts are cases, projectiles and links.
+                    is_round=count in [206,140] and hi.x-lo.x<.035 and hi.y-lo.y<.10 and hi.x<.16
+                    is_link=count==261 and hi.x<.16 and lo.y>.14 and hi.y<.31
+                    if is_round or is_link:
+                        pose='gun';category='link' if is_link else 'brass' if count==206 else 'copper'
+                    else:
+                        pose='ammo_lid' if lo.x>.405 else 'ammo_box';category='ammo'
+                        # The folded carrying handle and lid latch are separate source parts.
+                        if pose=='ammo_lid' and count in [480,158]:category='dark'
+                    flat=True
             else:
                 is_ammo=lo.x>.29 and hi.y<.4 and lo.z>-.65
-                layer='body' if hi.z>-.04 or is_ammo or lo.y>.7 and hi.z>-.33 else 'mount'
-                category='mount' if layer=='mount' else 'olive' if lo.y< -2 else 'brass' if hi.y-lo.y<.22 and hi.x-lo.x<.04 else 'ammo' if is_ammo else 'cover' if lo.z>.15 else 'metal'
+                is_round=.20<hi.y-lo.y<.21 and hi.x-lo.x<.04 and hi.z-lo.z<.04
+                layer='body' if is_round or hi.z>-.04 or is_ammo or lo.y>.7 and hi.z>-.33 else 'mount'
+                category='mount' if layer=='mount' else 'olive' if lo.y< -2 else 'ammo' if is_ammo else 'cover' if lo.z>.15 else 'metal'
                 if lo.y>1.3 and center.z<-.09:category='wood'
-                if lo.x>.29 and hi.y-lo.y<.22 and hi.x-lo.x<.04:category='brass'
-            faces.append(dict(indices=tuple(p.vertices),uv=uv,layer=layer,category=category,source_face=p.index))
+                if is_round:
+                    along=(center.y-lo.y)/(hi.y-lo.y)
+                    category='copper' if along<.24 else 'canvas' if .47<along<.62 else 'brass'
+                    flat=True
+                pose='mount' if layer=='mount' else 'gun'
+                flat=flat or category in ['olive','mount']
+            faces.append(dict(indices=tuple(p.vertices),uv=uv,layer=layer,pose=pose,category=category,flat=flat,source_face=p.index))
         records.append(dict(name=o.name,vertices=vertices,faces=faces,source_vertices=len(vertices),source_faces=len(faces)))
     return records
 
@@ -78,13 +103,16 @@ def configure():
     bpy.context.preferences.filepaths.save_version=0
     return scene,camera
 
-def transform_for(kind,layer):
+def transform_for(kind,pose):
     if kind=='M2HB':
         pivot=Vector((.0109782955,.171350077,-.059308596))
         # Source gun is elevated 16.32 degrees; keep the tripod on the ground.
-        level=Matrix.Rotation(.2848380208,4,'X') if layer!='mount' else Matrix.Identity(4)
+        level=Matrix.Rotation(.2848380208,4,'X') if pose=='gun' else Matrix.Identity(4)
     else:pivot=Vector((0,.046,-.979));level=Matrix.Identity(4)
-    return Matrix.Rotation(math.pi,4,'Z')@level@Matrix.Translation(-pivot)
+    matrix=Matrix.Rotation(math.pi,4,'Z')@level@Matrix.Translation(-pivot)
+    if kind=='M2HB' and pose=='ammo_lid':
+        matrix=matrix@Matrix.Translation(AMMO_HINGE)@Matrix.Rotation(AMMO_LID_ROTATION,4,'Y')@Matrix.Translation(-AMMO_HINGE)
+    return matrix
 
 def make(kind,relative):
     source=EXT/relative;records=read_source(kind,source);scene,camera=configure()
@@ -95,10 +123,10 @@ def make(kind,relative):
     keys=list(materials)
     for record in records:
         grouped=defaultdict(list)
-        for face in record['faces']:grouped[face['layer']].append(face)
-        for layer,faces in grouped.items():
-            used=sorted({i for f in faces for i in f['indices']});remap={i:j for j,i in enumerate(used)};matrix=transform_for(kind,layer)
-            mesh=bpy.data.meshes.new(record['name']+' '+layer);mesh.from_pydata([matrix@record['vertices'][i] for i in used],[],[[remap[i] for i in f['indices']] for f in faces]);mesh.update()
+        for face in record['faces']:grouped[(face['layer'],face['pose'])].append(face)
+        for (layer,pose),faces in grouped.items():
+            used=sorted({i for f in faces for i in f['indices']});remap={i:j for j,i in enumerate(used)};matrix=transform_for(kind,pose)
+            mesh=bpy.data.meshes.new(record['name']+' '+pose);mesh.from_pydata([matrix@record['vertices'][i] for i in used],[],[[remap[i] for i in f['indices']] for f in faces]);mesh.update()
             for uvname in faces[0]['uv']:
                 uv=mesh.uv_layers.new(name=uvname)
                 for p,f in zip(mesh.polygons,faces):
@@ -109,9 +137,9 @@ def make(kind,relative):
             for p,f in zip(fi.data,faces):p.value=f['source_face']
             for key in keys:mesh.materials.append(materials[key])
             for p,f in zip(mesh.polygons,faces):
-                tone='top' if p.normal.z>.65 else 'edge' if p.normal.z>-.15 else 'underside'
+                tone='top' if f['flat'] or p.normal.z>.65 else 'edge' if p.normal.z>-.15 else 'underside'
                 p.material_index=keys.index(f['category']+'_'+tone)
-            obj=bpy.data.objects.new(record['name']+' / '+layer,mesh);scene.collection.objects.link(obj);obj['layer']=layer;obj['source_object']=record['name'];obj['source_transform']=sum((list(row) for row in matrix),[])
+            obj=bpy.data.objects.new(record['name']+' / '+pose,mesh);scene.collection.objects.link(obj);obj['layer']=layer;obj['pose']=pose;obj['source_object']=record['name'];obj['source_transform']=sum((list(row) for row in matrix),[])
     meshes=[o for o in scene.objects if o.type=='MESH'];gun=[v.co for o in meshes if o['layer']!='mount' for v in o.data.vertices];stand=[v.co for o in meshes if o['layer']=='mount' for v in o.data.vertices]
     length=max(v.y for v in gun)-min(v.y for v in gun);world_length=2.1421875 if kind=='M2HB' else 1.8671875;model_to_world=world_length/length
     gun_scale=max(abs(v[i]) for v in gun for i in [0,1])*2*1.10
@@ -128,8 +156,10 @@ def make(kind,relative):
     metadata=dict(source=str(source),source_relative_to_ext='machine gun/'+relative,source_sha256=sha(source),master=MASTER,runtime=1024,projection='90 degree downward orthographic',camera_rotation_degrees=[0,0,0],camera_scale=gun_scale,
         gun_draw_tiles=gun_scale*model_to_world,mount_draw_tiles=base_scale*model_to_world,model_length=length,model_to_world=model_to_world,pivot=[0,0,0],outline_runtime_pixels=6,
         source_geometry_note='Every source polygon, vertex position and UV loop retained under documented rigid transforms; no invented exterior detail or procedural replacement geometry.',
+        style_note='Water jacket, M2 barrel/sleeve and tripod surfaces use uniform colors without normal-based side shading; cartridge cases, copper projectiles and links are distinct.',
+        ammo_box_pose='Level box, original lid closed around its hinge; source belt follows leveled gun' if kind=='M2HB' else 'Original source pose',
         source_objects=[dict(name=r['name'],vertices=r['source_vertices'],faces=r['source_faces']) for r in records],
-        parts=[dict(name=o.name,source_object=o['source_object'],layer=o['layer'],vertices=len(o.data.vertices),faces=len(o.data.polygons)) for o in meshes])
+        parts=[dict(name=o.name,source_object=o['source_object'],layer=o['layer'],pose=o['pose'],vertices=len(o.data.vertices),faces=len(o.data.polygons)) for o in meshes])
     (folder/'metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
 
 if __name__=='__main__':
