@@ -1,0 +1,49 @@
+{
+  "asset": "HD_RotaryDrill",
+  "footprint": [
+    4,
+    4
+  ],
+  "features": [
+    "circa-1950 land rotary-table rig",
+    "four-leg steel derrick with three coarse braced bays",
+    "rotary table and square Kelly through a real floor opening",
+    "crown sheaves, travelling block and drawworks",
+    "separate power enclosure",
+    "mud tank, pump, standpipe and Kelly hose",
+    "three-pipe rack",
+    "proposed 4x4 footprint; artwork only, no gameplay definition"
+  ],
+  "mesh_objects": 101,
+  "design_period": "circa 1950 steel derrick rotary-table land drilling rig",
+  "orthographic_scale": 6.75,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    6.75,
+    6.75
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 39,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 31,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 87,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false
+}
