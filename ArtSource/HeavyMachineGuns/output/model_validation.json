@@ -24,7 +24,9 @@
       "lid_surface_tilt_degrees": 0.0,
       "cartridge_cases": "brass",
       "projectiles": "copper",
-      "links": "dark steel"
+      "links": "dark steel",
+      "rigid_cartridge_link_groups": 16,
+      "terminal_two_cartridges_inside_box": true
     },
     "M1917": {
       "source": "machine gun/browning-m1917/source/browning m1917.fbx",

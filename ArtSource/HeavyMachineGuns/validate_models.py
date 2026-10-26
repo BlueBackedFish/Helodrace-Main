@@ -63,7 +63,21 @@ for kind in ['M2HB','M1917']:
         midpoint=lambda points,i:(min(v[i] for v in points)+max(v[i] for v in points))/2
         assert abs(midpoint(box_points,0)-midpoint(lid_points,0))<.04
         assert abs(midpoint(box_points,1)-midpoint(lid_points,1))<.01
-        pose_check=dict(ammo_box_level=True,lid_closed=True,lid_surface_tilt_degrees=lid_tilt,cartridge_cases='brass',projectiles='copper',links='dark steel')
+        belt=sorted((o for o in meshes if o['pose'].startswith('ammo_belt_')),key=lambda o:o['pose'])
+        assert len(belt)==16,'Missing belt cartridges'
+        for o in belt:
+            counts=defaultdict(int)
+            for p in o.data.polygons:counts[o.data.materials[p.material_index].name]+=1
+            assert dict(counts)=={'brass_top':206,'copper_top':140,'link_top':261},('Cartridge/link pairing',o.name,dict(counts))
+        # Check the actual tail against the box, not just independent valid poses.
+        box_lo=Vector([min(v[i] for v in box_points) for i in range(3)])
+        box_hi=Vector([max(v[i] for v in box_points) for i in range(3)])
+        lid_height=max(lid.data.polygons,key=lambda p:p.area).center.z
+        for o in belt[-2:]:
+            for v in o.data.vertices:
+                assert all(box_lo[i]<v.co[i]<box_hi[i] for i in [0,1]),('Belt tail outside ammo box',o.name,tuple(v.co))
+                assert box_lo.z<v.co.z<lid_height,('Belt tail above lid or below box',o.name,tuple(v.co))
+        pose_check=dict(ammo_box_level=True,lid_closed=True,lid_surface_tilt_degrees=lid_tilt,cartridge_cases='brass',projectiles='copper',links='dark steel',rigid_cartridge_link_groups=len(belt),terminal_two_cartridges_inside_box=True)
     results[kind]=dict(source=meta['source_relative_to_ext'],source_sha256=meta['source_sha256'],projection='90 degree vertical orthographic',transparent=True,lights=0,
         materials='fixed RGB emission; no image textures',source_objects=len(original),polygons_preserved=sum(len(v) for v in seen.values()),used_source_vertices_preserved=sum(len(v) for v in vertex_ids.values()),uv_loops_preserved=uv_loops,
         added_geometry=False,gun_draw_tiles=meta['gun_draw_tiles'],mount_draw_tiles=meta['mount_draw_tiles'],uniform_surface_color_counts={name:len(colors) for name,colors in flat_colors.items()},**pose_check)

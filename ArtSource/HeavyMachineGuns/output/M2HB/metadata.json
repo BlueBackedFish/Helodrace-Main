@@ -23,7 +23,7 @@
   "outline_runtime_pixels": 6,
   "source_geometry_note": "Every source polygon, vertex position and UV loop retained under documented rigid transforms; no invented exterior detail or procedural replacement geometry.",
   "style_note": "Water jacket, M2 barrel/sleeve and tripod surfaces use uniform colors without normal-based side shading; cartridge cases, copper projectiles and links are distinct.",
-  "ammo_box_pose": "Level box, original lid closed around its hinge; source belt follows leveled gun",
+  "ammo_box_pose": "Level box and closed lid; individually rigid cartridges curve from receiver into the box interior, with the tail beneath the lid",
   "source_objects": [
     {
       "name": "Barrel",
@@ -210,12 +210,12 @@
       "faces": 3589
     },
     {
-      "name": "Tripod_body_001_Low / gun",
+      "name": "Tripod_body_001_Low / ammo_belt_13",
       "source_object": "Tripod_body_001_Low",
       "layer": "body",
-      "pose": "gun",
-      "vertices": 9312,
-      "faces": 9712
+      "pose": "ammo_belt_13",
+      "vertices": 582,
+      "faces": 607
     },
     {
       "name": "Tripod_body_001_Low / ammo_box",
@@ -232,6 +232,126 @@
       "pose": "ammo_lid",
       "vertices": 2067,
       "faces": 2185
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_belt_15",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_belt_15",
+      "vertices": 582,
+      "faces": 607
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_belt_01",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_belt_01",
+      "vertices": 582,
+      "faces": 607
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_belt_00",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_belt_00",
+      "vertices": 582,
+      "faces": 607
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_belt_02",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_belt_02",
+      "vertices": 582,
+      "faces": 607
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_belt_03",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_belt_03",
+      "vertices": 582,
+      "faces": 607
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_belt_04",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_belt_04",
+      "vertices": 582,
+      "faces": 607
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_belt_05",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_belt_05",
+      "vertices": 582,
+      "faces": 607
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_belt_06",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_belt_06",
+      "vertices": 582,
+      "faces": 607
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_belt_07",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_belt_07",
+      "vertices": 582,
+      "faces": 607
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_belt_08",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_belt_08",
+      "vertices": 582,
+      "faces": 607
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_belt_09",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_belt_09",
+      "vertices": 582,
+      "faces": 607
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_belt_10",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_belt_10",
+      "vertices": 582,
+      "faces": 607
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_belt_11",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_belt_11",
+      "vertices": 582,
+      "faces": 607
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_belt_12",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_belt_12",
+      "vertices": 582,
+      "faces": 607
+    },
+    {
+      "name": "Tripod_body_001_Low / ammo_belt_14",
+      "source_object": "Tripod_body_001_Low",
+      "layer": "body",
+      "pose": "ammo_belt_14",
+      "vertices": 582,
+      "faces": 607
     }
   ]
 }

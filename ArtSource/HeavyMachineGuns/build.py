@@ -71,7 +71,7 @@ def read_source(kind,path):
                     is_round=count in [206,140] and hi.x-lo.x<.035 and hi.y-lo.y<.10 and hi.x<.16
                     is_link=count==261 and hi.x<.16 and lo.y>.14 and hi.y<.31
                     if is_round or is_link:
-                        pose='gun';category='link' if is_link else 'brass' if count==206 else 'copper'
+                        pose='ammo_belt';category='link' if is_link else 'brass' if count==206 else 'copper'
                     else:
                         pose='ammo_lid' if lo.x>.405 else 'ammo_box';category='ammo'
                         # The folded carrying handle and lid latch are separate source parts.
@@ -89,8 +89,41 @@ def read_source(kind,path):
                     flat=True
                 pose='mount' if layer=='mount' else 'gun'
                 flat=flat or category in ['olive','mount']
-            faces.append(dict(indices=tuple(p.vertices),uv=uv,layer=layer,pose=pose,category=category,flat=flat,source_face=p.index))
-        records.append(dict(name=o.name,vertices=vertices,faces=faces,source_vertices=len(vertices),source_faces=len(faces)))
+            faces.append(dict(indices=tuple(p.vertices),uv=uv,layer=layer,pose=pose,category=category,flat=flat,source_face=p.index,component=group))
+        poses={}
+        if kind=='M2HB' and any(f['pose']=='ammo_belt' for f in faces):
+            # Keep each cartridge and its link rigid, but bend the belt's path into
+            # the level box. Pitching the whole original belt pushes its tail past
+            # the box wall in the top view.
+            gun_matrix=transform_for(kind,'gun');pieces=defaultdict(list)
+            for f in faces:
+                if f['pose']=='ammo_belt':pieces[f['component']].append(f)
+            def bounds(fs):
+                points=[gun_matrix@vertices[i] for f in fs for i in f['indices']]
+                return Vector([min(p[i] for p in points) for i in range(3)]),Vector([max(p[i] for p in points) for i in range(3)])
+            centers={group:(sum(bounds(fs),Vector())/2) for group,fs in pieces.items()}
+            cases=sorted((g for g,fs in pieces.items() if fs[0]['category']=='brass'),key=lambda g:-centers[g].z)
+            slots={case:list(pieces[case]) for case in cases}
+            for category in ['copper','link']:
+                groups=[g for g,fs in pieces.items() if fs[0]['category']==category]
+                assert len(groups)==len(cases)
+                # Links sit between neighboring rounds: independent nearest-point
+                # assignment can give one round two links and another none.
+                candidates=sorted(((centers[c].x-centers[g].x)**2+(centers[c].z-centers[g].z)**2,c,g) for c in cases for g in groups)
+                used_cases=set();used_groups=set()
+                for _,case,group in candidates:
+                    if case not in used_cases and group not in used_groups:
+                        slots[case].extend(pieces[group]);used_cases.add(case);used_groups.add(group)
+            box_y=(transform_for(kind,'ammo_box')@Vector((.25,(.1446+.2841)/2,0))).y
+            for index,case in enumerate(cases):
+                fs=slots[case];lo,hi=bounds(fs);center=(lo+hi)/2
+                # First rounds stay at the receiver; by the box mouth the whole
+                # cartridge span is centered between the front and rear walls.
+                source_x=sum((parts[f['source_face']][1].x+parts[f['source_face']][2].x)/2 for f in pieces[case])/len(pieces[case])
+                t=max(0,min(1,(source_x-.03)/.09));t=t*t*(3-2*t)
+                pose=f'ammo_belt_{index:02d}';poses[pose]=Matrix.Translation((0,(box_y-center.y)*t,0))@gun_matrix
+                for f in fs:f['pose']=pose
+        records.append(dict(name=o.name,vertices=vertices,faces=faces,pose_transforms=poses,source_vertices=len(vertices),source_faces=len(faces)))
     return records
 
 def configure():
@@ -125,7 +158,7 @@ def make(kind,relative):
         grouped=defaultdict(list)
         for face in record['faces']:grouped[(face['layer'],face['pose'])].append(face)
         for (layer,pose),faces in grouped.items():
-            used=sorted({i for f in faces for i in f['indices']});remap={i:j for j,i in enumerate(used)};matrix=transform_for(kind,pose)
+            used=sorted({i for f in faces for i in f['indices']});remap={i:j for j,i in enumerate(used)};matrix=record['pose_transforms'].get(pose,transform_for(kind,pose))
             mesh=bpy.data.meshes.new(record['name']+' '+pose);mesh.from_pydata([matrix@record['vertices'][i] for i in used],[],[[remap[i] for i in f['indices']] for f in faces]);mesh.update()
             for uvname in faces[0]['uv']:
                 uv=mesh.uv_layers.new(name=uvname)
@@ -157,7 +190,7 @@ def make(kind,relative):
         gun_draw_tiles=gun_scale*model_to_world,mount_draw_tiles=base_scale*model_to_world,model_length=length,model_to_world=model_to_world,pivot=[0,0,0],outline_runtime_pixels=6,
         source_geometry_note='Every source polygon, vertex position and UV loop retained under documented rigid transforms; no invented exterior detail or procedural replacement geometry.',
         style_note='Water jacket, M2 barrel/sleeve and tripod surfaces use uniform colors without normal-based side shading; cartridge cases, copper projectiles and links are distinct.',
-        ammo_box_pose='Level box, original lid closed around its hinge; source belt follows leveled gun' if kind=='M2HB' else 'Original source pose',
+        ammo_box_pose='Level box and closed lid; individually rigid cartridges curve from receiver into the box interior, with the tail beneath the lid' if kind=='M2HB' else 'Original source pose',
         source_objects=[dict(name=r['name'],vertices=r['source_vertices'],faces=r['source_faces']) for r in records],
         parts=[dict(name=o.name,source_object=o['source_object'],layer=o['layer'],pose=o['pose'],vertices=len(o.data.vertices),faces=len(o.data.polygons)) for o in meshes])
     (folder/'metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
