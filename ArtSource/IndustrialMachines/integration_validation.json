@@ -4,10 +4,16 @@
     "footprint_unchanged": "(2,2)",
     "color_and_mask_files": 6,
     "saved_scene_cameras_verified": 3,
-    "common_scale": 2.717658281326294,
+    "common_scale": 3.25,
     "design_period": "1900-1920 compact workshop steam plant",
     "foundation_top_area": 3.1539998970031746,
     "foundation_area_reduction_percent": 10.270273200478675,
+    "draw_size_matches_orthographic_scale": [
+      3.25,
+      3.25
+    ],
+    "ground_anchor_verified": true,
+    "outline_pixels": 12,
     "neutral_body_and_unselected_black_outline_verified": true
   },
   "HD_LargeSteamEngine": {
@@ -15,10 +21,16 @@
     "footprint_unchanged": "(4,3)",
     "color_and_mask_files": 6,
     "saved_scene_cameras_verified": 3,
-    "common_scale": 4.443702220916748,
+    "common_scale": 6.0,
     "design_period": "1900-1920 horizontal compound mill engine",
     "foundation_top_area": 5.343199966180336,
     "foundation_area_reduction_percent": 45.56642251242526,
+    "draw_size_matches_orthographic_scale": [
+      6.0,
+      6.0
+    ],
+    "ground_anchor_verified": true,
+    "outline_pixels": 12,
     "neutral_body_and_unselected_black_outline_verified": true
   },
   "HD_IndustrialDieselEngine": {
@@ -26,10 +38,16 @@
     "footprint_unchanged": "(4,3)",
     "color_and_mask_files": 6,
     "saved_scene_cameras_verified": 3,
-    "common_scale": 4.827092170715332,
+    "common_scale": 6.0,
     "design_period": "1920-1940 three-cylinder stationary diesel",
     "foundation_top_area": 7.1439998922348025,
     "foundation_area_reduction_percent": 25.77662449626179,
+    "draw_size_matches_orthographic_scale": [
+      6.0,
+      6.0
+    ],
+    "ground_anchor_verified": true,
+    "outline_pixels": 12,
     "neutral_body_and_unselected_black_outline_verified": true
   },
   "HD_EarlyIndustrialGenerator": {
@@ -37,10 +55,16 @@
     "footprint_unchanged": "(3,3)",
     "color_and_mask_files": 6,
     "saved_scene_cameras_verified": 3,
-    "common_scale": 3.6336798667907715,
+    "common_scale": 4.5,
     "design_period": "1900-1925 open-field DC dynamo",
     "foundation_top_area": 3.784000099658968,
     "foundation_area_reduction_percent": 39.31034322920661,
+    "draw_size_matches_orthographic_scale": [
+      4.5,
+      4.5
+    ],
+    "ground_anchor_verified": true,
+    "outline_pixels": 12,
     "neutral_body_and_unselected_black_outline_verified": true
   },
   "HD_EarlyIndustrialLargeMotor": {
@@ -48,10 +72,48 @@
     "footprint_unchanged": "(3,3)",
     "color_and_mask_files": 6,
     "saved_scene_cameras_verified": 3,
-    "common_scale": 3.5393991470336914,
+    "common_scale": 4.5,
     "design_period": "1920-1940 cast-frame electric motor",
     "foundation_top_area": 3.1480001277923577,
     "foundation_area_reduction_percent": 47.89804488923605,
+    "draw_size_matches_orthographic_scale": [
+      4.5,
+      4.5
+    ],
+    "ground_anchor_verified": true,
+    "outline_pixels": 12,
+    "neutral_body_and_unselected_black_outline_verified": true
+  },
+  "HD_HaberBoschHighPressureReactor": {
+    "definition_texture_resolves": true,
+    "footprint_unchanged": "(3,3)",
+    "color_and_mask_files": 6,
+    "saved_scene_cameras_verified": 3,
+    "common_scale": 4.5,
+    "design_period": "circa 1950 heavy pressure converter and heat exchanger",
+    "foundation_top_area": 1.8266001519203101,
+    "draw_size_matches_orthographic_scale": [
+      4.5,
+      4.5
+    ],
+    "ground_anchor_verified": true,
+    "outline_pixels": 12,
+    "neutral_body_and_unselected_black_outline_verified": true
+  },
+  "HD_StirredTankReactor": {
+    "definition_texture_resolves": true,
+    "footprint_unchanged": "(3,3)",
+    "color_and_mask_files": 6,
+    "saved_scene_cameras_verified": 3,
+    "common_scale": 4.5,
+    "design_period": "circa 1950 jacketed stirred reaction kettle",
+    "foundation_top_area": 1.456199876117708,
+    "draw_size_matches_orthographic_scale": [
+      4.5,
+      4.5
+    ],
+    "ground_anchor_verified": true,
+    "outline_pixels": 12,
     "neutral_body_and_unselected_black_outline_verified": true
   },
   "large_flywheel_pit": {

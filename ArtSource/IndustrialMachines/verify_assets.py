@@ -1,29 +1,43 @@
-"""Verify five period machine scenes, definition links and geometric requirements."""
+"""Verify seven machine scenes, active texture links and tile-calibrated presentation."""
 import bpy,os,json,math,xml.etree.ElementTree as ET
 import numpy as np
 from mathutils import Vector
 OUT=os.path.dirname(os.path.abspath(__file__))
 ROOT=os.path.abspath(os.path.join(OUT,'../..'))
-definitions=ET.parse(os.path.join(ROOT,'Defs/WildWest/Buildings/Industry_WildWest.xml')).getroot()
-defs={node.findtext('defName'):node for node in definitions.findall('ThingDef')}
+defs={}
+for path in ['Defs/WildWest/Buildings/Industry_WildWest.xml','Defs/GreatWar/Buildings/Industry_GreatWar.xml']:
+    defs.update({n.findtext('defName'):n for n in ET.parse(os.path.join(ROOT,path)).getroot().findall('ThingDef')})
 assets=[('HD_SmallSteamEngine','SmallSteamEngine','(2,2)','small_steam_engine.blend'),
         ('HD_LargeSteamEngine','LargeSteamEngine','(4,3)','HD_LargeSteamEngine.blend'),
         ('HD_IndustrialDieselEngine','IndustrialDieselEngine','(4,3)','HD_IndustrialDieselEngine.blend'),
         ('HD_EarlyIndustrialGenerator','EarlyIndustrialGenerator','(3,3)','HD_EarlyIndustrialGenerator.blend'),
-        ('HD_EarlyIndustrialLargeMotor','EarlyIndustrialMotor','(3,3)','HD_EarlyIndustrialLargeMotor.blend')]
+        ('HD_EarlyIndustrialLargeMotor','EarlyIndustrialMotor','(3,3)','HD_EarlyIndustrialLargeMotor.blend'),
+        ('HD_HaberBoschHighPressureReactor','HighPressureReactor','(3,3)','HD_HaberBoschHighPressureReactor.blend'),
+        ('HD_StirredTankReactor','StirredTankReactor','(3,3)','HD_StirredTankReactor.blend')]
 def bounds(obj):
     points=[obj.matrix_world@v.co for v in obj.data.vertices]
     return [(min(v[i] for v in points),max(v[i] for v in points)) for i in range(3)]
 prior_base_areas=dict(zip([a[0] for a in assets],[3.515,9.816,9.625,6.235,6.042]))
 report={}
 for stem,folder,size,blend in assets:
-    node=defs[stem];assert node.findtext('graphicData/texPath')=='Buildings/'+stem
+    node=defs[stem];reactor=folder in ['HighPressureReactor','StirredTankReactor']
+    assert node.findtext('graphicData/texPath')=='Buildings/'+stem+('_north' if reactor else '')
+    assert node.findtext('graphicData/graphicClass')==('Graphic_Single' if reactor else 'Graphic_Multi')
     assert node.findtext('size')==size
     for direction in ['north','east','south']:
         for suffix in ['', 'm']:
             assert os.path.isfile(os.path.join(ROOT,'Textures/Buildings',stem+'_'+direction+suffix+'.png'))
     with open(os.path.join(ROOT,'ArtSource',folder,'validation.json')) as f:checks=json.load(f)
-    assert checks['design_period'] and checks['outline_pixels']==6
+    assert checks['design_period'] and checks['outline_pixels']==12
+    assert checks['presentation_rule']=='one_model_unit_per_game_tile' and checks['ground_anchor']==[0,0,0]
+    draw=[float(v) for v in node.findtext('graphicData/drawSize').strip('()').split(',')]
+    assert draw==checks['expected_draw_size']==[checks['orthographic_scale']]*2
+    assert [float(v) for v in node.findtext('graphicData/drawOffset').strip('()').split(',')]==[0,0,0]
+    if not reactor:assert checks['geometry_and_palette_unchanged']
+    if reactor:
+        active_mask=os.path.join(ROOT,'Textures',node.findtext('graphicData/texPath')+'m.png')
+        assert os.path.isfile(active_mask)
+        assert not os.path.exists(os.path.join(ROOT,'Textures/Buildings',stem+'_north_m.png'))
     assert all(c['mask_alpha_matches'] and abs(c['downward_degrees']-64)<.001 and c['minimum_margin']>=24 for c in checks['cameras'].values())
     bpy.ops.wm.open_mainfile(filepath=os.path.join(ROOT,'ArtSource',folder,blend))
     bpy.context.view_layer.update()
@@ -33,12 +47,15 @@ for stem,folder,size,blend in assets:
     for c in cameras:
         forward=c.rotation_euler.to_quaternion()@Vector((0,0,-1))
         assert abs(math.degrees(math.asin(-forward.z))-64)<.001
+        assert (forward+c.location.normalized()).length<1e-5,'Camera does not aim at ground origin'
     report[stem]={'definition_texture_resolves':True,'footprint_unchanged':size,'color_and_mask_files':6,'saved_scene_cameras_verified':3,'common_scale':cameras[0].data.ortho_scale,'design_period':checks['design_period']}
     base_bounds=[bounds(o) for o in bpy.context.scene.objects if o.type=='MESH' and o.name.startswith('01_')]
     area=sum((b[0][1]-b[0][0])*(b[1][1]-b[1][0]) for b in base_bounds)
-    assert area<prior_base_areas[stem]
     report[stem]['foundation_top_area']=area
-    report[stem]['foundation_area_reduction_percent']=100*(1-area/prior_base_areas[stem])
+    if stem in prior_base_areas:
+        assert area<prior_base_areas[stem]
+        report[stem]['foundation_area_reduction_percent']=100*(1-area/prior_base_areas[stem])
+    report[stem].update({'draw_size_matches_orthographic_scale':draw,'ground_anchor_verified':True,'outline_pixels':12})
     painted={m for o in bpy.context.scene.objects if o.type=='MESH' for m in o.data.materials if m.name.startswith('Neutral_cast_iron_')}
     assert painted and all(max(m.diffuse_color[:3])-min(m.diffuse_color[:3])<1e-6 for m in painted)
     for direction in ['north','east','south']:
@@ -49,8 +66,8 @@ for stem,folder,size,blend in assets:
             p=np.empty(512*512*4,np.float32);im.pixels.foreach_get(p);pair.append(p.reshape(512,512,4))
         color,mask=pair;assert np.max(abs(color[:,:,3]-mask[:,:,3]))<.001
         stroke=(color[:,:,:3].max(axis=2)<.001)&(color[:,:,3]>.95)
-        # A colored antialiased edge can round to black while retaining 1/255 mask red.
-        assert stroke.sum()>1000 and np.max(mask[:,:,:3][stroke])<=1.01/255
+        # Dark antialiased source edges can round to RGB=0 while retaining 2/255 mask red.
+        assert stroke.sum()>1000 and np.max(mask[:,:,:3][stroke])<=2.01/255
     report[stem]['neutral_body_and_unselected_black_outline_verified']=True
 assert defs['HD_EarlyIndustrialGenerator'].findtext('graphicData/texPath')!=defs['HD_EarlyIndustrialLargeMotor'].findtext('graphicData/texPath')
 # Test actual wheel geometry and the physical opening, not only scene metadata.
@@ -79,4 +96,4 @@ report['motor_vent_faces_coplanar']=True
 report['generator_and_motor_use_distinct_textures']=True
 report['in_game_tested']=False
 with open(os.path.join(OUT,'integration_validation.json'),'w') as f:json.dump(report,f,indent=2)
-print('Verified five scenes, five definition links, 30 render/mask files, recessed flywheel geometry and flush motor vents.')
+print('Verified seven scenes, 42 render/mask files, 12px outlines, tile scale/drawSize, ground anchors, recessed flywheel and flush motor vents.')

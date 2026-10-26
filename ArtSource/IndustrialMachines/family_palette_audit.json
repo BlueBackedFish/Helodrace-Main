@@ -1,4 +1,73 @@
 {
+  "HD_Radio": {
+    "top_opaque_rgb": [
+      {
+        "rgb": [
+          133,
+          97,
+          67
+        ],
+        "pixels": 10382
+      },
+      {
+        "rgb": [
+          0,
+          0,
+          0
+        ],
+        "pixels": 7896
+      },
+      {
+        "rgb": [
+          85,
+          90,
+          91
+        ],
+        "pixels": 4346
+      },
+      {
+        "rgb": [
+          113,
+          83,
+          57
+        ],
+        "pixels": 1238
+      },
+      {
+        "rgb": [
+          81,
+          86,
+          87
+        ],
+        "pixels": 1046
+      },
+      {
+        "rgb": [
+          82,
+          87,
+          88
+        ],
+        "pixels": 281
+      },
+      {
+        "rgb": [
+          84,
+          89,
+          90
+        ],
+        "pixels": 276
+      },
+      {
+        "rgb": [
+          132,
+          97,
+          67
+        ],
+        "pixels": 251
+      }
+    ],
+    "median_dark_left_edge_at_512px": 22.0
+  },
   "HD_LineShaftPress": {
     "top_opaque_rgb": [
       {
@@ -206,6 +275,75 @@
     ],
     "median_dark_left_edge_at_512px": 11.0
   },
+  "HD_LineShaftTurretLathe": {
+    "top_opaque_rgb": [
+      {
+        "rgb": [
+          255,
+          255,
+          255
+        ],
+        "pixels": 15031
+      },
+      {
+        "rgb": [
+          0,
+          0,
+          0
+        ],
+        "pixels": 14166
+      },
+      {
+        "rgb": [
+          213,
+          211,
+          211
+        ],
+        "pixels": 4391
+      },
+      {
+        "rgb": [
+          88,
+          88,
+          88
+        ],
+        "pixels": 2810
+      },
+      {
+        "rgb": [
+          70,
+          70,
+          70
+        ],
+        "pixels": 2431
+      },
+      {
+        "rgb": [
+          169,
+          169,
+          169
+        ],
+        "pixels": 1839
+      },
+      {
+        "rgb": [
+          175,
+          132,
+          69
+        ],
+        "pixels": 1591
+      },
+      {
+        "rgb": [
+          129,
+          129,
+          129
+        ],
+        "pixels": 1574
+      }
+    ],
+    "median_dark_left_edge_at_512px": 12.0
+  },
   "HD_GunSmithTable": {
     "top_opaque_rgb": [
       {
@@ -352,7 +490,7 @@
           167,
           167
         ],
-        "pixels": 23409
+        "pixels": 16236
       },
       {
         "rgb": [
@@ -360,15 +498,7 @@
           211,
           211
         ],
-        "pixels": 20101
-      },
-      {
-        "rgb": [
-          191,
-          191,
-          191
-        ],
-        "pixels": 15274
+        "pixels": 13761
       },
       {
         "rgb": [
@@ -376,7 +506,15 @@
           0,
           0
         ],
-        "pixels": 6271
+        "pixels": 13179
+      },
+      {
+        "rgb": [
+          191,
+          191,
+          191
+        ],
+        "pixels": 10317
       },
       {
         "rgb": [
@@ -384,7 +522,7 @@
           238,
           238
         ],
-        "pixels": 5219
+        "pixels": 3561
       },
       {
         "rgb": [
@@ -392,7 +530,7 @@
           141,
           141
         ],
-        "pixels": 4391
+        "pixels": 2933
       },
       {
         "rgb": [
@@ -400,7 +538,7 @@
           83,
           83
         ],
-        "pixels": 4223
+        "pixels": 2699
       },
       {
         "rgb": [
@@ -408,20 +546,28 @@
           217,
           217
         ],
-        "pixels": 3649
+        "pixels": 2374
       }
     ],
-    "median_dark_left_edge_at_512px": 5.0
+    "median_dark_left_edge_at_512px": 11.0
   },
   "HD_LargeSteamEngine": {
     "top_opaque_rgb": [
+      {
+        "rgb": [
+          0,
+          0,
+          0
+        ],
+        "pixels": 10851
+      },
       {
         "rgb": [
           154,
           154,
           154
         ],
-        "pixels": 11290
+        "pixels": 5650
       },
       {
         "rgb": [
@@ -429,7 +575,7 @@
           191,
           191
         ],
-        "pixels": 10504
+        "pixels": 5372
       },
       {
         "rgb": [
@@ -437,7 +583,7 @@
           211,
           211
         ],
-        "pixels": 7218
+        "pixels": 3608
       },
       {
         "rgb": [
@@ -445,15 +591,7 @@
           167,
           167
         ],
-        "pixels": 6681
-      },
-      {
-        "rgb": [
-          0,
-          0,
-          0
-        ],
-        "pixels": 5936
+        "pixels": 3246
       },
       {
         "rgb": [
@@ -461,15 +599,7 @@
           70,
           70
         ],
-        "pixels": 3848
-      },
-      {
-        "rgb": [
-          217,
-          217,
-          217
-        ],
-        "pixels": 3410
+        "pixels": 2051
       },
       {
         "rgb": [
@@ -477,20 +607,36 @@
           137,
           137
         ],
-        "pixels": 3227
+        "pixels": 1574
+      },
+      {
+        "rgb": [
+          217,
+          217,
+          217
+        ],
+        "pixels": 1567
       }
     ],
-    "median_dark_left_edge_at_512px": 5.0
+    "median_dark_left_edge_at_512px": 11.0
   },
   "HD_IndustrialDieselEngine": {
     "top_opaque_rgb": [
+      {
+        "rgb": [
+          0,
+          0,
+          0
+        ],
+        "pixels": 11550
+      },
       {
         "rgb": [
           238,
           238,
           238
         ],
-        "pixels": 17020
+        "pixels": 10543
       },
       {
         "rgb": [
@@ -498,7 +644,7 @@
           167,
           167
         ],
-        "pixels": 9026
+        "pixels": 5735
       },
       {
         "rgb": [
@@ -506,7 +652,7 @@
           191,
           191
         ],
-        "pixels": 6869
+        "pixels": 4268
       },
       {
         "rgb": [
@@ -514,15 +660,7 @@
           70,
           70
         ],
-        "pixels": 6532
-      },
-      {
-        "rgb": [
-          0,
-          0,
-          0
-        ],
-        "pixels": 5894
+        "pixels": 3973
       },
       {
         "rgb": [
@@ -530,7 +668,7 @@
           211,
           211
         ],
-        "pixels": 5445
+        "pixels": 3217
       },
       {
         "rgb": [
@@ -538,7 +676,7 @@
           83,
           83
         ],
-        "pixels": 3526
+        "pixels": 2209
       },
       {
         "rgb": [
@@ -546,20 +684,28 @@
           237,
           237
         ],
-        "pixels": 2455
+        "pixels": 1452
       }
     ],
-    "median_dark_left_edge_at_512px": 5.0
+    "median_dark_left_edge_at_512px": 11.0
   },
   "HD_EarlyIndustrialGenerator": {
     "top_opaque_rgb": [
+      {
+        "rgb": [
+          0,
+          0,
+          0
+        ],
+        "pixels": 11508
+      },
       {
         "rgb": [
           211,
           211,
           211
         ],
-        "pixels": 11222
+        "pixels": 7102
       },
       {
         "rgb": [
@@ -567,7 +713,7 @@
           167,
           167
         ],
-        "pixels": 10164
+        "pixels": 6276
       },
       {
         "rgb": [
@@ -575,7 +721,7 @@
           191,
           191
         ],
-        "pixels": 9730
+        "pixels": 6165
       },
       {
         "rgb": [
@@ -583,15 +729,7 @@
           70,
           70
         ],
-        "pixels": 7485
-      },
-      {
-        "rgb": [
-          0,
-          0,
-          0
-        ],
-        "pixels": 6155
+        "pixels": 4631
       },
       {
         "rgb": [
@@ -599,7 +737,7 @@
           83,
           83
         ],
-        "pixels": 4458
+        "pixels": 2723
       },
       {
         "rgb": [
@@ -607,7 +745,7 @@
           141,
           141
         ],
-        "pixels": 3324
+        "pixels": 2137
       },
       {
         "rgb": [
@@ -615,10 +753,10 @@
           113,
           66
         ],
-        "pixels": 2417
+        "pixels": 1414
       }
     ],
-    "median_dark_left_edge_at_512px": 5.0
+    "median_dark_left_edge_at_512px": 11.0
   },
   "HD_EarlyIndustrialLargeMotor": {
     "top_opaque_rgb": [
@@ -628,23 +766,7 @@
           211,
           211
         ],
-        "pixels": 18327
-      },
-      {
-        "rgb": [
-          167,
-          167,
-          167
-        ],
-        "pixels": 13601
-      },
-      {
-        "rgb": [
-          191,
-          191,
-          191
-        ],
-        "pixels": 11128
+        "pixels": 10979
       },
       {
         "rgb": [
@@ -652,7 +774,23 @@
           0,
           0
         ],
-        "pixels": 5963
+        "pixels": 10964
+      },
+      {
+        "rgb": [
+          167,
+          167,
+          167
+        ],
+        "pixels": 8059
+      },
+      {
+        "rgb": [
+          191,
+          191,
+          191
+        ],
+        "pixels": 6671
       },
       {
         "rgb": [
@@ -660,7 +798,7 @@
           141,
           141
         ],
-        "pixels": 3578
+        "pixels": 2088
       },
       {
         "rgb": [
@@ -668,7 +806,7 @@
           210,
           210
         ],
-        "pixels": 2609
+        "pixels": 1751
       },
       {
         "rgb": [
@@ -676,17 +814,155 @@
           70,
           70
         ],
-        "pixels": 2406
+        "pixels": 1478
       },
       {
         "rgb": [
-          166,
-          166,
-          166
+          238,
+          238,
+          238
         ],
-        "pixels": 2094
+        "pixels": 1186
       }
     ],
-    "median_dark_left_edge_at_512px": 5.0
+    "median_dark_left_edge_at_512px": 11.0
+  },
+  "HD_HaberBoschHighPressureReactor": {
+    "top_opaque_rgb": [
+      {
+        "rgb": [
+          0,
+          0,
+          0
+        ],
+        "pixels": 19318
+      },
+      {
+        "rgb": [
+          167,
+          167,
+          167
+        ],
+        "pixels": 9967
+      },
+      {
+        "rgb": [
+          211,
+          211,
+          211
+        ],
+        "pixels": 9856
+      },
+      {
+        "rgb": [
+          191,
+          191,
+          191
+        ],
+        "pixels": 6776
+      },
+      {
+        "rgb": [
+          238,
+          238,
+          238
+        ],
+        "pixels": 6437
+      },
+      {
+        "rgb": [
+          70,
+          70,
+          70
+        ],
+        "pixels": 3847
+      },
+      {
+        "rgb": [
+          141,
+          141,
+          141
+        ],
+        "pixels": 2802
+      },
+      {
+        "rgb": [
+          83,
+          83,
+          83
+        ],
+        "pixels": 2755
+      }
+    ],
+    "median_dark_left_edge_at_512px": 11.0
+  },
+  "HD_StirredTankReactor": {
+    "top_opaque_rgb": [
+      {
+        "rgb": [
+          0,
+          0,
+          0
+        ],
+        "pixels": 16533
+      },
+      {
+        "rgb": [
+          211,
+          211,
+          211
+        ],
+        "pixels": 9546
+      },
+      {
+        "rgb": [
+          238,
+          238,
+          238
+        ],
+        "pixels": 8895
+      },
+      {
+        "rgb": [
+          191,
+          191,
+          191
+        ],
+        "pixels": 6520
+      },
+      {
+        "rgb": [
+          167,
+          167,
+          167
+        ],
+        "pixels": 5982
+      },
+      {
+        "rgb": [
+          141,
+          141,
+          141
+        ],
+        "pixels": 2258
+      },
+      {
+        "rgb": [
+          217,
+          217,
+          217
+        ],
+        "pixels": 1909
+      },
+      {
+        "rgb": [
+          237,
+          237,
+          237
+        ],
+        "pixels": 1394
+      }
+    ],
+    "median_dark_left_edge_at_512px": 11.0
   }
 }

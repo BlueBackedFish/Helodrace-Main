@@ -4,9 +4,14 @@
     "HD_LargeSteamEngine",
     "HD_IndustrialDieselEngine"
   ],
-  "bottom_row": [
+  "middle_row": [
     "HD_EarlyIndustrialGenerator",
     "HD_EarlyIndustrialLargeMotor",
+    "HD_HaberBoschHighPressureReactor"
+  ],
+  "bottom_row": [
+    "HD_StirredTankReactor",
+    null,
     null
   ]
 }

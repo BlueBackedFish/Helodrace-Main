@@ -1,0 +1,206 @@
+{
+  "pixels_per_game_tile": 64,
+  "bbox_normalization": false,
+  "assets": {
+    "HD_Radio": {
+      "footprint": [
+        1.0,
+        1.0
+      ],
+      "draw_size": [
+        1.5,
+        1.5
+      ],
+      "draw_offset": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "image_size": [
+        256,
+        256
+      ],
+      "north_opaque_width_in_tiles": 1.083984375
+    },
+    "HD_LineShaftMillingMachine": {
+      "footprint": [
+        2.0,
+        1.0
+      ],
+      "draw_size": [
+        3.0,
+        3.0
+      ],
+      "draw_offset": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "image_size": [
+        512,
+        512
+      ],
+      "north_opaque_width_in_tiles": 2.05078125
+    },
+    "HD_LineShaftTurretLathe": {
+      "footprint": [
+        2.0,
+        1.0
+      ],
+      "draw_size": [
+        3.0,
+        3.0
+      ],
+      "draw_offset": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "image_size": [
+        512,
+        512
+      ],
+      "north_opaque_width_in_tiles": 2.232421875
+    },
+    "HD_SmallSteamEngine": {
+      "footprint": [
+        2.0,
+        2.0
+      ],
+      "draw_size": [
+        3.25,
+        3.25
+      ],
+      "draw_offset": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "image_size": [
+        512,
+        512
+      ],
+      "north_opaque_width_in_tiles": 2.08203125
+    },
+    "HD_LargeSteamEngine": {
+      "footprint": [
+        4.0,
+        3.0
+      ],
+      "draw_size": [
+        6.0,
+        6.0
+      ],
+      "draw_offset": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "image_size": [
+        512,
+        512
+      ],
+      "north_opaque_width_in_tiles": 4.1015625
+    },
+    "HD_IndustrialDieselEngine": {
+      "footprint": [
+        4.0,
+        3.0
+      ],
+      "draw_size": [
+        6.0,
+        6.0
+      ],
+      "draw_offset": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "image_size": [
+        512,
+        512
+      ],
+      "north_opaque_width_in_tiles": 4.1015625
+    },
+    "HD_EarlyIndustrialGenerator": {
+      "footprint": [
+        3.0,
+        3.0
+      ],
+      "draw_size": [
+        4.5,
+        4.5
+      ],
+      "draw_offset": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "image_size": [
+        512,
+        512
+      ],
+      "north_opaque_width_in_tiles": 3.09375
+    },
+    "HD_EarlyIndustrialLargeMotor": {
+      "footprint": [
+        3.0,
+        3.0
+      ],
+      "draw_size": [
+        4.5,
+        4.5
+      ],
+      "draw_offset": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "image_size": [
+        512,
+        512
+      ],
+      "north_opaque_width_in_tiles": 3.0234375
+    },
+    "HD_HaberBoschHighPressureReactor": {
+      "footprint": [
+        3.0,
+        3.0
+      ],
+      "draw_size": [
+        4.5,
+        4.5
+      ],
+      "draw_offset": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "image_size": [
+        512,
+        512
+      ],
+      "north_opaque_width_in_tiles": 2.91796875
+    },
+    "HD_StirredTankReactor": {
+      "footprint": [
+        3.0,
+        3.0
+      ],
+      "draw_size": [
+        4.5,
+        4.5
+      ],
+      "draw_offset": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "image_size": [
+        512,
+        512
+      ],
+      "north_opaque_width_in_tiles": 2.77734375
+    }
+  }
+}

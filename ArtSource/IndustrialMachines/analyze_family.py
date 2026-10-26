@@ -2,7 +2,7 @@
 import bpy,os,json
 import numpy as np
 OUT=os.path.dirname(os.path.abspath(__file__));ROOT=os.path.abspath(os.path.join(OUT,'../..'))
-names=['HD_LineShaftPress','HD_RollingMC','HD_LineShaftMillingMachine','HD_GunSmithTable','HD_ClothingBench','HD_SmallSteamEngine','HD_LargeSteamEngine','HD_IndustrialDieselEngine','HD_EarlyIndustrialGenerator','HD_EarlyIndustrialLargeMotor']
+names=['HD_Radio','HD_LineShaftPress','HD_RollingMC','HD_LineShaftMillingMachine','HD_LineShaftTurretLathe','HD_GunSmithTable','HD_ClothingBench','HD_SmallSteamEngine','HD_LargeSteamEngine','HD_IndustrialDieselEngine','HD_EarlyIndustrialGenerator','HD_EarlyIndustrialLargeMotor','HD_HaberBoschHighPressureReactor','HD_StirredTankReactor']
 report={}
 for name in names:
     im=bpy.data.images.load(os.path.join(ROOT,'Textures/Buildings',name+'_north.png'),check_existing=False)
@@ -22,4 +22,4 @@ for name in names:
     report[name]={'top_opaque_rgb':[{'rgb':colors[i].tolist(),'pixels':int(counts[i])} for i in order],
                   'median_dark_left_edge_at_512px':float(np.median(runs)) if runs else 0.0}
 with open(os.path.join(OUT,'family_palette_audit.json'),'w') as f:json.dump(report,f,indent=2)
-print(json.dumps(report,indent=2))
+print('Recorded dominant colors and visible dark edge widths for',len(report),'building sprites.')
