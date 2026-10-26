@@ -1,0 +1,6 @@
+PASS: 891 deterministic motion checks; native builds: 0 errors, 0 warnings.
+DROP_PASS: native equipment/mass/boarding/weapon packing on M8 and Bradley; 30t rejection without consumption; 27 GPU captures (east, northeast, west, plane overlap).
+PASS: opaque C-17 interior pixels identical with/without released load.
+M8: 26,000 kg empty + equipment; Bradley: 24,000 kg empty + equipment.
+Scope: equipment transfer, preparation, boarding rejection, turret/actuator stow, overweight rejection, 27 GPU frames (east/northeast/west).
+Not run: full map generation, world flight, save/reload integration loop.

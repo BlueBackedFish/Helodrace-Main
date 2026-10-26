@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "opaque_aircraft_occlusion": true,
+  "captures": 27,
+  "release_headings": [
+    90,
+    45,
+    270
+  ],
+  "native_result": "DROP_PASS: native equipment/mass/boarding/weapon packing on M8 and Bradley; 30t rejection without consumption; 27 GPU captures (east, northeast, west, plane overlap)."
+}

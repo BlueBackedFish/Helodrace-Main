@@ -6,8 +6,10 @@
     3,
     5
   ],
-  "max_rigged_mass_kg": 36000,
-  "kit_mass_kg": 1000,
+  "max_rigged_mass_kg": 30000,
+  "pallet_mass_kg": 700,
+  "parachutes_mass_kg": 300,
+  "bradley_base_mass_kg": 23000,
   "m8_base_mass_kg": 25000,
   "master": 4096,
   "draw_size": 18,

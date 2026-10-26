@@ -20,7 +20,7 @@ for v in variants.values():
     source=ART/v['path'];v['sha256']=hashlib.sha256(source.read_bytes()).hexdigest()
     v['world_scale']=draw/m8_report['render']['ortho_scale'] if v['kind']=='m8' else 6.19354839/8.699999809265137
 config=dict(schema=1,game_only=True,m8_draw_size=draw,m8_footprint=[3,5],
-    max_rigged_mass_kg=36000,kit_mass_kg=1000,m8_base_mass_kg=25000,
+    max_rigged_mass_kg=30000,pallet_mass_kg=700,parachutes_mass_kg=300,m8_base_mass_kg=25000,bradley_base_mass_kg=23000,
     master=4096,draw_size=18,pixels_per_tile=512/3,outline_pixels=12,
     directions=dict(north=0,east=90,south=180,west=270),variants=variants,
     pallet=dict(width=3.5,length=5.8,deck_height=0),
