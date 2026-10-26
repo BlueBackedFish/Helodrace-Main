@@ -1,0 +1,49 @@
+{
+  "asset": "HD_DistillationTower",
+  "footprint": [
+    3,
+    3
+  ],
+  "features": [
+    "circa-1950 fractionating column",
+    "four tray-section collars and three access covers",
+    "overhead vapor line to side condenser",
+    "reflux receiver and return line",
+    "horizontal reboiler and heater",
+    "mid-height product draw and hand valve",
+    "two service platforms and coarse ladder",
+    "open 3x3 skid"
+  ],
+  "mesh_objects": 87,
+  "design_period": "circa 1950 compact fractionation column and condenser skid",
+  "orthographic_scale": 6.0,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    6.0,
+    6.0
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 48,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 25,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 102,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false
+}

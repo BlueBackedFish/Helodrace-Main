@@ -635,8 +635,8 @@
     <graphicData>
       <texPath>Buildings/HD_DistillationTower</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(6.75,6.75)</drawSize>
-      <drawOffset>(0.22,0,1.35)</drawOffset>
+      <drawSize>(6,6)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
         <volume>(2.1,0.8,2.1)</volume>
