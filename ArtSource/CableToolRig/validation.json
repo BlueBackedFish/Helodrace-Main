@@ -1,0 +1,54 @@
+{
+  "asset": "HD_CableToolRig",
+  "footprint": [
+    4,
+    3
+  ],
+  "features": [
+    "timber splayed derrick and crown sheave",
+    "suspended cable and heavy percussion bit",
+    "open well deck and well collar",
+    "large bull wheel and hoisting drum",
+    "Samson post, walking beam and crank pitman",
+    "baked vanilla timber and neutral iron; no rotary table"
+  ],
+  "mesh_objects": 79,
+  "design_period": "1900-1930 timber standard cable-tool drilling rig",
+  "orthographic_scale": 6.5,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    6.5,
+    6.5
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 61,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 31,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 84,
+      "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 74,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false,
+  "definition": "Defs/WildWest/Buildings/Industry_WildWest.xml",
+  "gameplay_fields_preserved_sha256": "b16aa2b3330a7ddf724344549ae2e63f99a915685678bbeae1b7f0d43325e978"
+}

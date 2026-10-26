@@ -12,8 +12,8 @@
     <graphicData>
       <texPath>Buildings/HD_CableToolRig</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(5.3,5.3)</drawSize>
-      <drawOffset>(-0.13,0,1)</drawOffset>
+      <drawSize>(6.5,6.5)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
         <volume>(2.8, 0.6, 2.8)</volume>
@@ -35,7 +35,7 @@
     </stuffCategories>
     <costStuffCount>150</costStuffCount>
     <size>(4,3)</size>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2000</uiOrder>
     <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
