@@ -21,10 +21,11 @@ prior_base_areas=dict(zip([a[0] for a in assets],[3.515,9.816,9.625,6.235,6.042]
 report={}
 for stem,folder,size,blend in assets:
     node=defs[stem];reactor=folder in ['HighPressureReactor','StirredTankReactor']
-    assert node.findtext('graphicData/texPath')=='Buildings/'+stem+('_north' if reactor else '')
-    assert node.findtext('graphicData/graphicClass')==('Graphic_Single' if reactor else 'Graphic_Multi')
+    assert node.findtext('graphicData/texPath')=='Buildings/'+stem
+    assert node.findtext('graphicData/graphicClass')=='Graphic_Multi'
     assert node.findtext('size')==size
-    for direction in ['north','east','south']:
+    assert node.findtext('rotatable')=='true'
+    for direction in ['north','east','south','west']:
         for suffix in ['', 'm']:
             assert os.path.isfile(os.path.join(ROOT,'Textures/Buildings',stem+'_'+direction+suffix+'.png'))
     with open(os.path.join(ROOT,'ArtSource',folder,'validation.json')) as f:checks=json.load(f)
@@ -35,20 +36,20 @@ for stem,folder,size,blend in assets:
     assert [float(v) for v in node.findtext('graphicData/drawOffset').strip('()').split(',')]==[0,0,0]
     if not reactor:assert checks['geometry_and_palette_unchanged']
     if reactor:
-        active_mask=os.path.join(ROOT,'Textures',node.findtext('graphicData/texPath')+'m.png')
+        active_mask=os.path.join(ROOT,'Textures',node.findtext('graphicData/texPath')+'_northm.png')
         assert os.path.isfile(active_mask)
         assert not os.path.exists(os.path.join(ROOT,'Textures/Buildings',stem+'_north_m.png'))
     assert all(c['mask_alpha_matches'] and abs(c['downward_degrees']-64)<.001 and c['minimum_margin']>=24 for c in checks['cameras'].values())
     bpy.ops.wm.open_mainfile(filepath=os.path.join(ROOT,'ArtSource',folder,blend))
     bpy.context.view_layer.update()
-    cameras=[bpy.data.objects['Camera_'+d] for d in ['North','East','South']]
+    cameras=[bpy.data.objects['Camera_'+d] for d in ['North','East','South','West']]
     assert all(c.data.type=='ORTHO' for c in cameras)
     assert max(c.data.ortho_scale for c in cameras)-min(c.data.ortho_scale for c in cameras)<1e-6
     for c in cameras:
         forward=c.rotation_euler.to_quaternion()@Vector((0,0,-1))
         assert abs(math.degrees(math.asin(-forward.z))-64)<.001
         assert (forward+c.location.normalized()).length<1e-5,'Camera does not aim at ground origin'
-    report[stem]={'definition_texture_resolves':True,'footprint_unchanged':size,'color_and_mask_files':6,'saved_scene_cameras_verified':3,'common_scale':cameras[0].data.ortho_scale,'design_period':checks['design_period']}
+    report[stem]={'definition_texture_resolves':True,'footprint_unchanged':size,'color_and_mask_files':8,'saved_scene_cameras_verified':4,'common_scale':cameras[0].data.ortho_scale,'design_period':checks['design_period']}
     base_bounds=[bounds(o) for o in bpy.context.scene.objects if o.type=='MESH' and o.name.startswith('01_')]
     area=sum((b[0][1]-b[0][0])*(b[1][1]-b[1][0]) for b in base_bounds)
     report[stem]['foundation_top_area']=area
@@ -58,7 +59,7 @@ for stem,folder,size,blend in assets:
     report[stem].update({'draw_size_matches_orthographic_scale':draw,'ground_anchor_verified':True,'outline_pixels':12})
     painted={m for o in bpy.context.scene.objects if o.type=='MESH' for m in o.data.materials if m.name.startswith('Neutral_cast_iron_')}
     assert painted and all(max(m.diffuse_color[:3])-min(m.diffuse_color[:3])<1e-6 for m in painted)
-    for direction in ['north','east','south']:
+    for direction in ['north','east','south','west']:
         pair=[]
         for suffix in ['', 'm']:
             im=bpy.data.images.load(os.path.join(ROOT,'Textures/Buildings',stem+'_'+direction+suffix+'.png'),check_existing=False)
@@ -96,4 +97,4 @@ report['motor_vent_faces_coplanar']=True
 report['generator_and_motor_use_distinct_textures']=True
 report['in_game_tested']=False
 with open(os.path.join(OUT,'integration_validation.json'),'w') as f:json.dump(report,f,indent=2)
-print('Verified seven scenes, 42 render/mask files, 12px outlines, tile scale/drawSize, ground anchors, recessed flywheel and flush motor vents.')
+print('Verified seven scenes, 56 render/mask files, 12px outlines, tile scale/drawSize, ground anchors, recessed flywheel and flush motor vents.')

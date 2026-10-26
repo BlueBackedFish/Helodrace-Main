@@ -13,3 +13,5 @@ Density/style correction: the former rectangular floor apron is trimmed into a n
 Scene: `HD_LargeSteamEngine.blend`. Existing `Buildings/HD_LargeSteamEngine` texture prefix, 4×3 footprint and mechanics remain unchanged. North/East/South PNGs and masks use 64° and a common scale; copper/brass, concrete and pit interior are unselected in the material masks. See `validation.json`, review sheets and `../IndustrialMachines/PERIOD_DESIGN.md`. No in-game verification is claimed.
 
 Tile calibration, 2026-10-26: orthographic scale and game drawSize are both (6,6); the ground target and drawOffset are zero. One model unit is one game tile, following the radio 1.5 / 2×1 machine 3 presentation rule. The saved model was reframed without changing geometry or painted materials; the hash check is recorded in validation.json.
+
+Four-direction export (2026-10-26): North / East / South / West are actual 64-degree orthographic renders of the same saved geometry and colors; West is not mirrored East. See preview_four_views.png and validation.json.

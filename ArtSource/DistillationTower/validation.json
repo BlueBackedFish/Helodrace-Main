@@ -43,7 +43,16 @@
       "downward_degrees": 64.00000113525775,
       "minimum_margin": 102,
       "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.0,
+      "minimum_margin": 47,
+      "mask_alpha_matches": true
     }
   },
-  "in_game_tested": false
+  "in_game_tested": false,
+  "rotation_export_geometry_palette_sha256": "ea121ce919ef249c1c10d3a2778c7e6b1a78a855dea1873c235143b473306d49",
+  "rotation_export_preserves_geometry_and_palette": true,
+  "definition": "Defs/WildWest/Buildings/Industry_WildWest.xml",
+  "gameplay_fields_preserved_sha256": "8ab910741fde41f99bf497b83af54cd1336e6d2e0079e16e2893e25f1d86d72a"
 }

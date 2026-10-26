@@ -1,0 +1,419 @@
+{
+  "HD_SmallSteamEngine": {
+    "active_definition": true,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 55,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 27,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 67,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 30,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 98,
+    "gameplay_fields_preserved": true,
+    "geometry_and_colors_preserved": true,
+    "prior_north_east_south_bytes_preserved": true,
+    "smoke_origin_matches_saved_stack_mesh": true
+  },
+  "HD_LargeSteamEngine": {
+    "active_definition": true,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 81,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 79,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 81,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 45,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 109,
+    "gameplay_fields_preserved": true,
+    "geometry_and_colors_preserved": true,
+    "prior_north_east_south_bytes_preserved": true
+  },
+  "HD_IndustrialDieselEngine": {
+    "active_definition": true,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 82,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 59,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 82,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 63,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 113,
+    "gameplay_fields_preserved": true,
+    "geometry_and_colors_preserved": true,
+    "prior_north_east_south_bytes_preserved": true,
+    "smoke_origin_matches_saved_stack_mesh": true
+  },
+  "HD_EarlyIndustrialGenerator": {
+    "active_definition": true,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 81,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 51,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 81,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 51,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 74,
+    "gameplay_fields_preserved": true,
+    "geometry_and_colors_preserved": true,
+    "prior_north_east_south_bytes_preserved": true
+  },
+  "HD_EarlyIndustrialLargeMotor": {
+    "active_definition": true,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 85,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 54,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 85,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 54,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 57,
+    "gameplay_fields_preserved": true,
+    "geometry_and_colors_preserved": true,
+    "prior_north_east_south_bytes_preserved": true
+  },
+  "HD_HaberBoschHighPressureReactor": {
+    "active_definition": true,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 36,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 46,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 77,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 31,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 86,
+    "gameplay_fields_preserved": true,
+    "geometry_and_colors_preserved": true,
+    "prior_north_east_south_bytes_preserved": true,
+    "interaction_offset_outside_all_rotated_footprints": true
+  },
+  "HD_StirredTankReactor": {
+    "active_definition": true,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 33,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 55,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 74,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 54,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 81,
+    "gameplay_fields_preserved": true,
+    "geometry_and_colors_preserved": true,
+    "prior_north_east_south_bytes_preserved": true,
+    "interaction_offset_outside_all_rotated_footprints": true
+  },
+  "HD_BasicPumpJack": {
+    "active_definition": true,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 83,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 54,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 83,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 65,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 53,
+    "gameplay_fields_preserved": true,
+    "geometry_and_colors_preserved": true,
+    "prior_north_east_south_bytes_preserved": true
+  },
+  "HD_DistillationTower": {
+    "active_definition": true,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 48,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 25,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 102,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 47,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 87,
+    "gameplay_fields_preserved": true,
+    "geometry_and_colors_preserved": true,
+    "prior_north_east_south_bytes_preserved": true,
+    "interaction_offset_outside_all_rotated_footprints": true
+  },
+  "HD_MetalPumpJack": {
+    "active_definition": false,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 82,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 54,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 82,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 79,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 71,
+    "gameplay_fields_preserved": false,
+    "geometry_and_colors_preserved": true,
+    "prior_north_east_south_bytes_preserved": true
+  },
+  "HD_RotaryDrill": {
+    "active_definition": false,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 39,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 31,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 87,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 85,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 101,
+    "gameplay_fields_preserved": false,
+    "geometry_and_colors_preserved": true,
+    "prior_north_east_south_bytes_preserved": true
+  },
+  "HD_SAFurnace": {
+    "active_definition": true,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 29,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 71,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 79,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 88,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 60,
+    "gameplay_fields_preserved": true,
+    "geometry_and_colors_preserved": false,
+    "interaction_offset_outside_all_rotated_footprints": true
+  },
+  "HD_VIMFurnace": {
+    "active_definition": true,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 49,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 60,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 87,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 85,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 70,
+    "gameplay_fields_preserved": true,
+    "geometry_and_colors_preserved": false,
+    "interaction_offset_outside_all_rotated_footprints": true
+  },
+  "HD_CableToolRig": {
+    "active_definition": true,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 61,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 31,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 84,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 74,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 79,
+    "gameplay_fields_preserved": true,
+    "geometry_and_colors_preserved": false
+  },
+  "HD_Radio": {
+    "exact_north_south_exchange_verified": true,
+    "actual_west_render": true,
+    "saved_cameras_64_degrees": 4,
+    "meshes_and_colors_preserved": true
+  },
+  "in_game_tested": false
+}

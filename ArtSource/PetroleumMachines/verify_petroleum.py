@@ -33,7 +33,7 @@ for stem,folder,footprint,active in assets:
         assert all(not m['tintable'] for o in meshes for m in o.data.materials)
         assert defs[stem].findtext('stuffCategories/li')=='Woody'
     margins={}
-    for direction in ['North','East','South']:
+    for direction in ['North','East','South','West']:
         camera=bpy.data.objects['Camera_'+direction];q=camera.rotation_euler.to_quaternion()
         forward=q@Vector((0,0,-1));angle=math.degrees(math.asin(-forward.z))
         assert camera.data.type=='ORTHO' and abs(camera.data.ortho_scale-scale)<1e-6
@@ -52,7 +52,7 @@ for stem,folder,footprint,active in assets:
         if folder=='BasicPumpJack':assert np.max(mask[:,:,:3])<=1.01/255
         else:assert np.sum((mask[:,:,0]>.8)&(mask[:,:,3]>.95))>100
     report[stem]={'gameplay_definition_active':active,'footprint':footprint,'orthographic_scale_and_draw_size':scale,
-                  'views_verified':3,'color_mask_files':6,'outline_pixels':12,'margins':margins,
+                  'views_verified':4,'color_mask_files':8,'outline_pixels':12,'margins':margins,
                   'true_mesh_geometry_no_image_planes':True}
     catalog.append({'texture_prefix':'Buildings/'+stem,'source_folder':'ArtSource/'+folder,'blend':stem+'.blend',
                     'footprint':footprint,'draw_size':[scale,scale],'draw_offset':[0,0,0],
@@ -67,4 +67,4 @@ for name in ['02_Left_drill_deck','03_Right_drill_deck','04_Front_drill_deck','0
 report['rotary_table_floor_opening_verified']=True;report['in_game_tested']=False
 with open(os.path.join(OUT,'validation.json'),'w') as f:json.dump(report,f,indent=2)
 with open(os.path.join(OUT,'asset_catalog.json'),'w') as f:json.dump(catalog,f,indent=2)
-print('Verified four petroleum models, 12 cameras, 24 PNGs, fixed timber masks, two definition links and rotary floor opening.')
+print('Verified four petroleum models, 16 cameras, 32 PNGs, fixed timber masks, two definition links and rotary floor opening.')

@@ -7,3 +7,5 @@ Period-family guidance includes [The History Center's circa-1944 Lufkin pumping-
 Build through Blender background mode with `--python ArtSource/MetalPumpJack/build_pumpjack.py`. Scene `HD_MetalPumpJack.blend`; prefix `Buildings/HD_MetalPumpJack`. The 512px North/East/South color/mask pairs use 64° orthographic cameras, scale 9, zero ground target and a 12px black unselected outline. Use drawSize (9,9), drawOffset (0,0,0) for one model unit per tile. Preview sheets and `validation.json` are generated.
 
 There is no existing gameplay definition for a metal pumpjack in this repository. This asset supplies independent source and texture files only; no research, cost, output, power consumption or mechanical balance is invented. A future definition should use the proposed 6×3 footprint and Graphic_Multi texture prefix above. No in-game test is claimed.
+
+Four-direction export (2026-10-26): North / East / South / West are actual 64-degree orthographic renders of the same saved geometry and colors; West is not mirrored East. See preview_four_views.png and validation.json.

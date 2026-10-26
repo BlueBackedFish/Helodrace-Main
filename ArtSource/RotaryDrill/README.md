@@ -7,3 +7,5 @@ Historical guidance: [ASME's Mr. Charlie landmark brochure](https://dev12.asme.o
 Build in Blender background mode with `--python ArtSource/RotaryDrill/build_drill.py`. Scene `HD_RotaryDrill.blend`; prefix `Buildings/HD_RotaryDrill`. North/East/South share 64° downward orthographic cameras, scale 6.75 and zero ground target. Use drawSize (6.75,6.75) and drawOffset (0,0,0) for one unit per game tile. Final 512px transparent color/mask pairs have 12px black unselected outlines. Saved-scene checks and 512px/256px review sheets are generated.
 
 There is no existing rotary-drill gameplay definition in this repository. This supplies the model, textures and proposed presentation only. It does not replace the existing cable-tool rig or invent research, production rates, power demand, drilling progression or costs. No in-game verification is claimed.
+
+Four-direction export (2026-10-26): North / East / South / West are actual 64-degree orthographic renders of the same saved geometry and colors; West is not mirrored East. See preview_four_views.png and validation.json.

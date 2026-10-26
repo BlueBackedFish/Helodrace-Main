@@ -18,9 +18,9 @@ North is -Y, East +X and South +Y. Cameras look downward at 64°, share one orth
 
 The five power models retain their geometry and painted materials in the scale pass. `resize_power.py -- <asset-folder>` reframes one existing saved model, hashes geometry/materials before and after, then updates only its drawSize/drawOffset. Their dense mechanical parts, shaped foundations and the large steam engine's genuine below-floor flywheel pit are retained.
 
-Reactors keep their existing 3×3 sizes, recipes, stats and Graphic_Single North texPaths. East/South are review outputs. Their active material masks use the standard `_northm.png` ending. Obsolete `_north_m.png` files are preserved only in source Reference folders. Generator and motor continue to have independent texture prefixes.
+Reactors keep their existing 3×3 sizes, recipes and stats. They now rotate using Graphic_Multi with unsuffixed texPaths and actual North/East/South/West renders. Their active material masks use the standard `_northm.png` ending. Obsolete `_north_m.png` files are preserved only in source Reference folders. Generator and motor continue to have independent texture prefixes.
 
-`verify_assets.py` reopens seven scenes and checks 21 camera elevations, common scales, zero ground anchors, matching XML draw sizes, 42 PNG color/mask files, mask naming/alpha and neutral body/black outline colors. It also checks smaller power-machine foundation areas, the physical flywheel pit and coplanar motor vent faces. Results are in `integration_validation.json`; no in-game verification is claimed.
+`verify_assets.py` reopens seven scenes and checks 28 camera elevations, common scales, zero ground anchors, matching XML draw sizes, 56 PNG color/mask files, mask naming/alpha and neutral body/black outline colors. It also checks smaller power-machine foundation areas, the physical flywheel pit and coplanar motor vent faces. Results are in `integration_validation.json`; no in-game verification is claimed.
 
 `overview.py` composes the seven North views at their native 512px canvases. Rows are small/large/diesel, generator/motor/pressure reactor, then stirred kettle. Those canvases alone are not a world-size comparison.
 
@@ -29,3 +29,5 @@ Run `review_tile_scale.py` with Python/Pillow for **64 pixels per game tile**, u
 `analyze_family.py` records reference/current dominant colors and dark edge widths. `family_palette_audit_before.json` retains the earlier green-paint snapshot. `review_family.py` produces normalized shape/color contact sheets; those are deliberately not size evidence. Its original density-pass before images remain in `Review/Before/`.
 
 The timber/steel pumpjacks, rebuilt distillation tower and new rotary-drill artwork use the same primitives and presentation rules. Their independent builds, 12-view review, integration status and validation are documented in [the petroleum artwork set](../PetroleumMachines/README.md).
+
+Four-direction rotation, new furnaces/cable-tool rig and engine smoke alignment are documented in [ROTATION.md](ROTATION.md).

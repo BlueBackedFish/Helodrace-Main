@@ -11,3 +11,5 @@ Scene: `HD_EarlyIndustrialGenerator.blend`; independent `Buildings/HD_EarlyIndus
 Density/style correction: the broad rectangular slab is replaced by a 1.32×1.84 central casting and two 0.77×0.88 bearing wings, reducing top area by 39.3%. Neutral gray iron and the exported 12px black silhouette match the workshop family. Three broad armature conductors, coil binding strips, pole-foot gussets, a brush-carrier crossbar/spring blocks and split-bearing caps give the open machine a visible mechanical structure at sprite scale.
 
 Tile calibration, 2026-10-26: orthographic scale and game drawSize are both (4.5,4.5); the ground target and drawOffset are zero. One model unit is one game tile, following the radio 1.5 / 2×1 machine 3 presentation rule. The saved model was reframed without changing geometry or painted materials; the hash check is recorded in validation.json.
+
+Four-direction export (2026-10-26): North / East / South / West are actual 64-degree orthographic renders of the same saved geometry and colors; West is not mirrored East. See preview_four_views.png and validation.json.

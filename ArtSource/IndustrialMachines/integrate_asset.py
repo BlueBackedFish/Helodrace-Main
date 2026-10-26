@@ -8,6 +8,11 @@ def gameplay_hash(node):
     for key in ['graphicData','rotatable']:
         child=node.find(key)
         if child is not None:node.remove(child)
+    # Smoke origin is presentation data, not production/fuel/heat behavior.
+    comps=node.find('comps')
+    if comps is not None:
+        for child in list(comps):
+            if child.get('Class')=='Helodrace.CompProperties_SteamEngineSmoke':comps.remove(child)
     return hashlib.sha256(ET.tostring(node)).hexdigest()
 
 def integrate(stem,folder):

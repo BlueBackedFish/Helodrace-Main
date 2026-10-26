@@ -41,11 +41,20 @@
       "downward_degrees": 64.00000113525775,
       "minimum_margin": 85,
       "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.0,
+      "minimum_margin": 54,
+      "mask_alpha_matches": true
     }
   },
   "in_game_tested": false,
   "geometry_and_palette_unchanged": true,
   "model_geometry_palette_sha256": "db0c1fe8bd97cc2634aa033820aee78659433af0e99f86e24b4007b708e9cc84",
   "previous_draw_size": "(3.3,3.3)",
-  "previous_draw_offset": "(-0.1,0,0.15)"
+  "previous_draw_offset": "(-0.1,0,0.15)",
+  "rotation_export_geometry_palette_sha256": "db0c1fe8bd97cc2634aa033820aee78659433af0e99f86e24b4007b708e9cc84",
+  "rotation_export_preserves_geometry_and_palette": true,
+  "definition": "Defs/WildWest/Buildings/Industry_WildWest.xml",
+  "gameplay_fields_preserved_sha256": "7ba032d34b1b211fe77c3b391df09dc90517e41c544fdd8df08204e72bd7f7aa"
 }

@@ -43,7 +43,16 @@
       "downward_degrees": 64.00000113525775,
       "minimum_margin": 74,
       "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.0,
+      "minimum_margin": 54,
+      "mask_alpha_matches": true
     }
   },
-  "in_game_tested": false
+  "in_game_tested": false,
+  "rotation_export_geometry_palette_sha256": "9da2b337b7e4bec812defb45b00af0d62e71812dd51099eb4ad4a413e379ca58",
+  "rotation_export_preserves_geometry_and_palette": true,
+  "definition": "Defs/GreatWar/Buildings/Industry_GreatWar.xml",
+  "gameplay_fields_preserved_sha256": "3b92923c97af6802139e36b5b301379745c13cf2e595f4211cf7cba9d7f869f8"
 }

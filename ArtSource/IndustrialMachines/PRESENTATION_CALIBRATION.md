@@ -22,12 +22,12 @@ Camera target and game drawOffset are both (0,0,0). The foundation origin stays 
 | Generator | 3.3 | 4.5 | unchanged, hash verified |
 | Motor | 3.3 | 4.5 | unchanged, hash verified |
 
-Both new reactors use 3×3 footprints, scale/drawSize 4.5 and zero offset. They retain Graphic_Single and their existing North texPaths. Standard active material-mask names end in `_northm.png`; obsolete `_north_m.png` files are retained only as source references. Recipes, statistics, research and electrical behavior are unchanged.
+Both new reactors use 3×3 footprints, scale/drawSize 4.5 and zero offset. They now use rotatable Graphic_Multi definitions with unsuffixed texPaths and four actual camera views. Standard active material-mask names end in `_northm.png`; obsolete `_north_m.png` files are retained only as source references. Recipes, statistics, research and electrical behavior are unchanged.
 
 ## Review and verification
 
-`resize_power.py -- <asset-folder>` reframes one existing saved model, exports its three views, checks geometry/material hashes and changes only that definition's drawSize/drawOffset. Ordinary per-asset build scripts reproduce the same calibrated presentation.
+`resize_power.py -- <asset-folder>` reframes one existing saved model, exports its four views, checks geometry/material hashes and changes only that definition's drawSize/drawOffset. Ordinary per-asset build scripts reproduce the same calibrated presentation.
 
 `review_tile_scale.py` reads actual XML sizes and composes all references and seven updated models at **64 pixels per game tile**. It does not crop-fit or normalize object widths. `Review/tile_scale_comparison.png` shows current sizes; `Review/power_scale_before_after.png` compares the previous and corrected draw settings. Before PNGs are retained in `Review/BeforeScale/`. `presentation_calibration.json` records measured opaque widths in game tiles. Gray backgrounds and grids are review-only.
 
-`verify_assets.py` reopens seven Blender scenes and checks 21 camera elevations, shared scale, zero ground targets, matching XML draw sizes, 42 color/mask files and active mask naming. It retains the physical recessed-flywheel and flat motor-vent checks. Color masks and black outline alpha stay aligned. No in-game visual test has been performed.
+`verify_assets.py` reopens seven Blender scenes and checks 28 camera elevations, shared scale, zero ground targets, matching XML draw sizes, 56 color/mask files and active mask naming. It retains the physical recessed-flywheel and flat motor-vent checks. Color masks and black outline alpha stay aligned. No in-game visual test has been performed.

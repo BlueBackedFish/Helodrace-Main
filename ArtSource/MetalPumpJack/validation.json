@@ -42,7 +42,14 @@
       "downward_degrees": 64.00000113525775,
       "minimum_margin": 82,
       "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.0,
+      "minimum_margin": 79,
+      "mask_alpha_matches": true
     }
   },
-  "in_game_tested": false
+  "in_game_tested": false,
+  "rotation_export_geometry_palette_sha256": "19c5b99cdbe2a73b91c438d5b84fe49ef84a23aec73c253e85562d84d07cffd3",
+  "rotation_export_preserves_geometry_and_palette": true
 }

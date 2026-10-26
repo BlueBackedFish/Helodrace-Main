@@ -7,3 +7,5 @@ Period context: [Iowa State's pilot-plant fractionating column photograph, catal
 Build using Blender background mode with `--python ArtSource/DistillationTower/build_tower.py`. Scene `HD_DistillationTower.blend`; prefix `Buildings/HD_DistillationTower`. North/East/South share 64° downward orthographic cameras, scale/drawSize 6 and zero ground target/drawOffset. The canvas expands for the tall overhead line while keeping one model unit per game tile. Final 512px transparent color/mask pairs have 12px black unselected outlines. Original North texture/mask are packed and preserved in `Reference/`; preview sheets and `validation.json` are generated.
 
 The existing 3×3 footprint, Graphic_Multi path, power/fuel use, recipes, research, cost and work speed are retained. Only display size/offset changes alongside artwork. No in-game test is claimed.
+
+Four-direction export (2026-10-26): North / East / South / West are actual 64-degree orthographic renders of the same saved geometry and colors; West is not mirrored East. See preview_four_views.png and validation.json.

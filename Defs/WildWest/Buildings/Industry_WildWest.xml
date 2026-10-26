@@ -115,7 +115,7 @@
       <HD_PigIron>40</HD_PigIron>
     </costList>
     <size>(2,2)</size>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2100</uiOrder>
     <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
@@ -159,7 +159,7 @@
         <wickTicks>200~240</wickTicks>
       </li>
       <li Class="Helodrace.CompProperties_SteamEngineSmoke">
-        <smokeOffset>(0.5, 0, 2)</smokeOffset>
+        <smokeOffset>(-0.49,1.9075,0.29)</smokeOffset>
       </li>
     </comps>
   </ThingDef>
@@ -200,7 +200,7 @@
       <HD_Shaft>4</HD_Shaft>
     </costList>
     <size>(4,3)</size>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2110</uiOrder>
     <constructionSkillPrerequisite>10</constructionSkillPrerequisite>
@@ -243,9 +243,6 @@
         <startWickHitPointsPercent>0.5</startWickHitPointsPercent>
         <wickTicks>160~220</wickTicks>
       </li>
-      <li Class="Helodrace.CompProperties_SteamEngineSmoke">
-        <smokeOffset>(3.5,0,2.1)</smokeOffset>
-      </li>
     </comps>
   </ThingDef>
 
@@ -286,7 +283,7 @@
       <HD_Shaft>4</HD_Shaft>
     </costList>
     <size>(4,3)</size>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2120</uiOrder>
     <constructionSkillPrerequisite>11</constructionSkillPrerequisite>
@@ -333,7 +330,7 @@
         <wickTicks>90~150</wickTicks>
       </li>
       <li Class="Helodrace.CompProperties_SteamEngineSmoke">
-        <smokeOffset>(0.7,0,2.6)</smokeOffset>
+        <smokeOffset>(-1.05,2.23,0.64)</smokeOffset>
       </li>
     </comps>
   </ThingDef>
@@ -376,7 +373,7 @@
       <HD_Shaft>4</HD_Shaft>
     </costList>
     <size>(3,3)</size>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2130</uiOrder>
     <constructionSkillPrerequisite>11</constructionSkillPrerequisite>
@@ -444,7 +441,7 @@
       <HD_Shaft>4</HD_Shaft>
     </costList>
     <size>(3,3)</size>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2140</uiOrder>
     <constructionSkillPrerequisite>11</constructionSkillPrerequisite>
@@ -515,7 +512,7 @@
       <HD_PigIron>35</HD_PigIron>
     </costList>
     <size>(6,3)</size>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <tickerType>Rare</tickerType>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2200</uiOrder>
@@ -667,7 +664,7 @@
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(-1,0,-2)</interactionCellOffset>
     <surfaceType>Item</surfaceType>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2350</uiOrder>
     <constructionSkillPrerequisite>10</constructionSkillPrerequisite>
