@@ -347,8 +347,8 @@
       <texPath>Buildings/HD_EarlyIndustrialLargeMotor</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>CutoutComplex</shaderType>
-      <drawSize>(3.3,3.3)</drawSize>
-      <drawOffset>(-0.1,0,0.15)</drawOffset>
+      <drawSize>(4.5,4.5)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
       <shadowData>
         <volume>(2.7,0.7,2.7)</volume>
       </shadowData>
