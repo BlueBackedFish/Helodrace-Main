@@ -91,8 +91,8 @@
       <texPath>Buildings/HD_SmallSteamEngine</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>CutoutComplex</shaderType>
-      <drawSize>(2.55,2.55)</drawSize>
-      <drawOffset>(0,0,0.1)</drawOffset>
+      <drawSize>(3.25,3.25)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
       <shadowData>
         <volume>(1.8, 0.5, 1.8)</volume>
       </shadowData>

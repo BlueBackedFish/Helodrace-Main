@@ -220,7 +220,11 @@ def export(out,stem,footprint,features,blend_name=None):
         q=c.rotation_euler.to_quaternion();right=q@Vector((1,0,0));up=q@Vector((0,1,0))
         span=max(span,max(max(abs((p-target).dot(right)),abs((p-target).dot(up))) for p in points))
         cameras.append(c)
-    scale=max(footprint)*1.5 if calibrated else span*2*1.15
+    if calibrated:
+        # Extra headroom changes canvas and drawSize together, never model-to-tile size.
+        required=2*span/(1-2*(24+scene.get('outline_pixels',0))/512)
+        scale=math.ceil(max(max(footprint)*1.5,required)*4)/4
+    else:scale=span*2*1.15
     assert (scale/2-span)*512/scale>=24+scene.get('outline_pixels',0), 'Increase canvas size or reduce outlying geometry before rendering'
     for c in cameras:c.data.ortho_scale=scale
     scene.render.engine='BLENDER_EEVEE';scene.render.film_transparent=True
