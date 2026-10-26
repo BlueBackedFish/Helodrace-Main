@@ -173,8 +173,8 @@
       <texPath>Buildings/HD_LargeSteamEngine</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>CutoutComplex</shaderType>
-      <drawSize>(4.3,4.3)</drawSize>
-      <drawOffset>(0,0,0.3)</drawOffset>
+      <drawSize>(6,6)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
       <shadowData>
         <volume>(3.6,0.7,2.6)</volume>
       </shadowData>

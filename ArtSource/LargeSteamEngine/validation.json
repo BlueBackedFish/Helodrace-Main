@@ -14,24 +14,38 @@
   ],
   "mesh_objects": 109,
   "design_period": "1900-1920 horizontal compound mill engine",
-  "orthographic_scale": 4.443702261149883,
-  "outline_pixels": 6,
+  "orthographic_scale": 6.0,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    6.0,
+    6.0
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 32,
+      "minimum_margin": 81,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 27,
+      "minimum_margin": 79,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 32,
+      "minimum_margin": 81,
       "mask_alpha_matches": true
     }
   },
-  "in_game_tested": false
+  "in_game_tested": false,
+  "geometry_and_palette_unchanged": true,
+  "model_geometry_palette_sha256": "dfae9168dd548fcce7de14fa01cb94e36e0159cf4906d84cf4470d83328e1788",
+  "previous_draw_size": "(4.3,4.3)",
+  "previous_draw_offset": "(0,0,0.3)"
 }
