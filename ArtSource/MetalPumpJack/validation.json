@@ -1,0 +1,48 @@
+{
+  "asset": "HD_MetalPumpJack",
+  "footprint": [
+    6,
+    3
+  ],
+  "features": [
+    "circa-1950 conventional steel pumping unit",
+    "curved horsehead and bridle",
+    "Sampson A-frame and I-section walking beam",
+    "twin pitmans and crank counterweights",
+    "cast gear reducer and belt-driven motor",
+    "wellhead and manual outlet valve",
+    "open 6x3 skid; proposed footprint, no gameplay definition"
+  ],
+  "mesh_objects": 71,
+  "design_period": "circa 1950 conventional steel horsehead pumpjack",
+  "orthographic_scale": 9.0,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    9.0,
+    9.0
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 82,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 54,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 82,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false
+}
