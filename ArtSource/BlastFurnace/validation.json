@@ -1,0 +1,70 @@
+{
+  "asset": "HD_BlastFurnace",
+  "footprint": [
+    4,
+    4
+  ],
+  "features": [
+    "stone hearth and tapered iron shaft",
+    "broad stack binding bands and charging bell",
+    "two hot-blast stoves and bustle main",
+    "operator-side tapping recess and runner",
+    "rear gas downcomer and coarse access ladder"
+  ],
+  "mesh_objects": 50,
+  "design_period": "circa 1900 compact hot-blast iron furnace",
+  "texture_resolution": [
+    1024,
+    1024
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "orthographic_scale": 6.0,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    6.0,
+    6.0
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "camera_target": [
+    0.0,
+    0.0,
+    0.014489341527223587
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.0063517093658447266
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 119,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 12,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 93,
+      "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 108,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false,
+  "definition": "Defs/WildWest/Buildings/Industry_WildWest.xml",
+  "gameplay_fields_preserved_sha256": "b67eb1597cdc5b47540f4c84fa48a3cfe8c6317555f0bbfa9673ea70695b7c66"
+}
