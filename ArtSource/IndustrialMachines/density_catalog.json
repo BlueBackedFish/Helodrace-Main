@@ -72,6 +72,54 @@
     "outline_width_in_game_units": 0.0703125
   },
   {
+    "asset": "HD_CNCLathe",
+    "source_folder": "ArtSource/CNCLathe",
+    "footprint": [
+      3,
+      2
+    ],
+    "resolution": [
+      768,
+      768
+    ],
+    "draw_size": [
+      4.5,
+      4.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_CNCMillingMachine",
+    "source_folder": "ArtSource/CNCMillingMachine",
+    "footprint": [
+      3,
+      2
+    ],
+    "resolution": [
+      768,
+      768
+    ],
+    "draw_size": [
+      4.5,
+      4.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
     "asset": "HD_CableToolRig",
     "source_folder": "ArtSource/CableToolRig",
     "footprint": [
@@ -493,6 +541,30 @@
     "draw_size": [
       6.0,
       6.0
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_SemiconductorFab",
+    "source_folder": "ArtSource/SemiconductorFab",
+    "footprint": [
+      3,
+      3
+    ],
+    "resolution": [
+      768,
+      768
+    ],
+    "draw_size": [
+      4.5,
+      4.5
     ],
     "draw_offset": [
       0.0,
