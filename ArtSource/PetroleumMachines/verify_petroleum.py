@@ -3,9 +3,10 @@ import bpy,os,json,math,xml.etree.ElementTree as ET
 import numpy as np
 from mathutils import Vector
 OUT=os.path.dirname(os.path.abspath(__file__));ROOT=os.path.abspath(os.path.join(OUT,'../..'))
-defs={n.findtext('defName'):n for n in ET.parse(os.path.join(ROOT,'Defs/WildWest/Buildings/Industry_WildWest.xml')).getroot().findall('ThingDef')}
-assets=[('HD_BasicPumpJack','BasicPumpJack',[6,3],True),('HD_MetalPumpJack','MetalPumpJack',[6,3],False),
-        ('HD_DistillationTower','DistillationTower',[3,3],True),('HD_RotaryDrill','RotaryDrill',[4,4],False)]
+defs={n.findtext('defName'):n for file in ['Industry_WildWest.xml','AdvancedOilExtraction.xml']
+      for n in ET.parse(os.path.join(ROOT,'Defs/WildWest/Buildings',file)).getroot().findall('ThingDef')}
+assets=[('HD_BasicPumpJack','BasicPumpJack',[6,3],True),('HD_MetalPumpJack','MetalPumpJack',[6,3],True),
+        ('HD_DistillationTower','DistillationTower',[3,3],True),('HD_RotaryDrill','RotaryDrill',[4,4],True)]
 report={};catalog=[]
 for stem,folder,footprint,active in assets:
     path=os.path.join(ROOT,'ArtSource',folder)
@@ -55,7 +56,7 @@ for stem,folder,footprint,active in assets:
                   'views_verified':4,'color_mask_files':8,'outline_pixels':12,'margins':margins,
                   'true_mesh_geometry_no_image_planes':True}
     catalog.append({'texture_prefix':'Buildings/'+stem,'source_folder':'ArtSource/'+folder,'blend':stem+'.blend',
-                    'footprint':footprint,'draw_size':[scale,scale],'draw_offset':[0,0,0],
+                    'footprint':footprint,'draw_size':[scale,scale],'draw_offset':validation['expected_draw_offset'],
                     'graphic_class':'Graphic_Multi','gameplay_definition_active':active,
                     'status':'existing definition updated' if active else 'artwork only; gameplay definition not created'})
 # The rotary floor really has an opening around the drill string.
@@ -67,4 +68,4 @@ for name in ['02_Left_drill_deck','03_Right_drill_deck','04_Front_drill_deck','0
 report['rotary_table_floor_opening_verified']=True;report['in_game_tested']=False
 with open(os.path.join(OUT,'validation.json'),'w') as f:json.dump(report,f,indent=2)
 with open(os.path.join(OUT,'asset_catalog.json'),'w') as f:json.dump(catalog,f,indent=2)
-print('Verified four petroleum models, 16 cameras, 32 PNGs, fixed timber masks, two definition links and rotary floor opening.')
+print('Verified four petroleum models, 16 cameras, 32 PNGs, fixed timber masks, four definition links and rotary floor opening.')

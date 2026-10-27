@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_RotaryDrill</defName>
+    <label>rotary drilling rig</label>
+    <description>A diesel-driven steel derrick with a rotary table and circulating drilling mud. Develops an oil field faster than a cable-tool rig and produces better-quality wells. Stops when maintenance is needed; a colonist must service it. Uses diesel only while drilling. Dismantle the completed rig and place a pump jack over the developed field.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Buildings/HD_RotaryDrill</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(6,6)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.75</fillPercent>
+    <blockWind>false</blockWind>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <WorkToBuild>6500</WorkToBuild>
+      <Flammability>0.3</Flammability>
+      <Mass>500</Mass>
+    </statBases>
+    <costList>
+      <Steel>260</Steel>
+      <HD_CarbonSteel>80</HD_CarbonSteel>
+      <HD_GeneralMachinePart>12</HD_GeneralMachinePart>
+    </costList>
+    <size>(4,4)</size>
+    <rotatable>true</rotatable>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(1,0,-3)</interactionCellOffset>
+    <tickerType>Normal</tickerType>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2010</uiOrder>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodHighOilDevelopment</li>
+    </researchPrerequisites>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>20</fuelConsumptionRate>
+        <fuelCapacity>40</fuelCapacity>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelFilter><thingDefs><li>HD_Diesel</li></thingDefs></fuelFilter>
+      </li>
+      <li Class="Helodrace.CompProperties_OperatingHeatPusher">
+        <heatPerSecond>6</heatPerSecond>
+        <heatPushMaxTemperature>80</heatPushMaxTemperature>
+      </li>
+      <li Class="Helodrace.CompProperties_OilFieldDevelopment">
+        <totalDaysNeeded>3</totalDaysNeeded>
+        <mtbDaysConfirmation>2</mtbDaysConfirmation>
+        <mtbDaysMaintenance>1.25</mtbDaysMaintenance>
+        <minimumQuality>1</minimumQuality>
+        <maximumQuality>1.5</maximumQuality>
+        <initialPressure>1</initialPressure>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_MetalPumpJack</defName>
+    <label>steel pump jack</label>
+    <description>A heavy steel walking-beam pump driven by an electric motor. Extracts crude oil from a developed field at twice the basic pump's nominal rate. Output depends on well quality and pressure. Requires electricity and must be placed over a developed oil field.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Buildings/HD_MetalPumpJack</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(9,9)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.75</fillPercent>
+    <statBases>
+      <MaxHitPoints>450</MaxHitPoints>
+      <WorkToBuild>5000</WorkToBuild>
+      <Flammability>0.15</Flammability>
+      <Mass>350</Mass>
+    </statBases>
+    <costList>
+      <Steel>220</Steel>
+      <HD_CarbonSteel>50</HD_CarbonSteel>
+      <HD_GeneralMachinePart>6</HD_GeneralMachinePart>
+      <HD_BasicElectricalComponents>6</HD_BasicElectricalComponents>
+    </costList>
+    <size>(6,3)</size>
+    <rotatable>true</rotatable>
+    <tickerType>Rare</tickerType>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2210</uiOrder>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodHighOilDevelopment</li>
+      <li>HelodBasicElectronics</li>
+    </researchPrerequisites>
+    <placeWorkers><li>Helodrace.PlaceWorker_OnOilFloor</li></placeWorkers>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>1800</basePowerConsumption>
+        <shortCircuitInRain>false</shortCircuitInRain>
+      </li>
+      <li Class="Helodrace.CompProperties_OperatingHeatPusher">
+        <heatPerSecond>2</heatPerSecond>
+        <heatPushMaxTemperature>45</heatPushMaxTemperature>
+      </li>
+      <li Class="Helodrace.CompProperties_OilProducer">
+        <product>HD_CrudeOil_Low</product>
+        <amount>100</amount>
+        <daysToProduce>1</daysToProduce>
+        <pressureLossPerProduction>0.01</pressureLossPerProduction>
+        <minimumPressure>0.35</minimumPressure>
+      </li>
+    </comps>
+  </ThingDef>
+</Defs>

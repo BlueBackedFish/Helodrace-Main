@@ -68,4 +68,4 @@ for y in [.20,1.40]:s.cube('46_Pipe_rack_saddle',(1.63,y,.25),(.48,.14,.17),s.ca
 for x in [1.48,1.63,1.78]:s.cyl('47_Racked_drill_pipe',(x,.80,.39),.055,1.56,s.steel,'Y')
 s.cube('48_Front_access_step',(-.40,-.97,.30),(.75,.29,.13),s.steel)
 s.rivets('49_Skid_anchor',[(x,y,.215) for x in [-1.53,1.55] for y in [-1.62,1.62]],r=.033)
-s.export(OUT,'HD_RotaryDrill',[4,4],['circa-1950 land rotary-table rig','four-leg steel derrick with three coarse braced bays','rotary table and square Kelly through a real floor opening','crown sheaves, travelling block and drawworks','separate power enclosure','mud tank, pump, standpipe and Kelly hose','three-pipe rack','proposed 4x4 footprint; artwork only, no gameplay definition'])
+s.export(OUT,'HD_RotaryDrill',[4,4],['circa-1950 land rotary-table rig','four-leg steel derrick with three coarse braced bays','rotary table and square Kelly through a real floor opening','crown sheaves, travelling block and drawworks','separate power enclosure','mud tank, pump, standpipe and Kelly hose','three-pipe rack','4x4 diesel rotary drilling building'])

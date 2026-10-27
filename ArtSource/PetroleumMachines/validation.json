@@ -18,7 +18,7 @@
     "true_mesh_geometry_no_image_planes": true
   },
   "HD_MetalPumpJack": {
-    "gameplay_definition_active": false,
+    "gameplay_definition_active": true,
     "footprint": [
       6,
       3
@@ -54,7 +54,7 @@
     "true_mesh_geometry_no_image_planes": true
   },
   "HD_RotaryDrill": {
-    "gameplay_definition_active": false,
+    "gameplay_definition_active": true,
     "footprint": [
       4,
       4

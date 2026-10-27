@@ -8,7 +8,15 @@ namespace Helodrace
 {
     public class WorkGiver_DevelopOilField : WorkGiver_Scanner
     {
-        public override ThingRequest PotentialWorkThingRequest => ThingRequest.ForDef(DefDatabase<ThingDef>.GetNamed("HD_CableToolRig"));
+        public override ThingRequest PotentialWorkThingRequest => ThingRequest.ForGroup(ThingRequestGroup.BuildingArtificial);
+
+        public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
+        {
+            foreach (Building building in pawn.Map.listerBuildings.allBuildingsColonist)
+            {
+                if (building.TryGetComp<CompOilFieldDevelopment>() != null) yield return building;
+            }
+        }
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
@@ -16,7 +24,7 @@ namespace Helodrace
             if (!pawn.CanReserve(t, 1, -1, null, forced)) return false;
             
             var comp = t.TryGetComp<CompOilFieldDevelopment>();
-            if (comp == null || comp.developmentComplete || !comp.IsPoweredBySteam) return false;
+            if (comp == null || comp.developmentComplete || !comp.IsPowered) return false;
 
             // Only provide the job if maintenance is required
             return comp.needsMaintenance || forced;

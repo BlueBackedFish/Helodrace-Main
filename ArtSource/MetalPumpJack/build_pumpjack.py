@@ -1,4 +1,4 @@
-"""Original circa-1950 conventional steel beam pumping unit, artwork only."""
+"""Original circa-1950 conventional steel beam pumping unit."""
 import os,sys
 OUT=os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0,os.path.join(OUT,'../IndustrialMachines'))
@@ -43,4 +43,4 @@ for y in [-.35,.35]:s.cyl('33_Motor_end_shield',(2.33,y,.56),.25,.065,s.steel,'Y
 s.belt_drive('34_Belt_transmission',(2.33,.48,.56),(1.35,.48,.94),.16,.29)
 s.cyl('35_Reducer_oiler',(1.35,0,1.03),.045,.11,s.brass)
 s.rivets('36_Skid_anchor',[(x,y,.215) for x in [-2.53,-.78,.78,2.55] for y in [-.91,.91]],r=.031)
-s.export(OUT,'HD_MetalPumpJack',[6,3],['circa-1950 conventional steel pumping unit','curved horsehead and bridle','Sampson A-frame and I-section walking beam','twin pitmans and crank counterweights','cast gear reducer and belt-driven motor','wellhead and manual outlet valve','open 6x3 skid; proposed footprint, no gameplay definition'])
+s.export(OUT,'HD_MetalPumpJack',[6,3],['circa-1950 conventional steel pumping unit','curved horsehead and bridle','Sampson A-frame and I-section walking beam','twin pitmans and crank counterweights','cast gear reducer and belt-driven motor','wellhead and manual outlet valve','open 6x3 skid; electric oil extraction building'])

@@ -12,9 +12,9 @@
       9.0
     ],
     "draw_offset": [
-      0,
-      0,
-      0
+      0.0,
+      0.0,
+      0.0
     ],
     "graphic_class": "Graphic_Multi",
     "gameplay_definition_active": true,
@@ -33,13 +33,13 @@
       9.0
     ],
     "draw_offset": [
-      0,
-      0,
-      0
+      0.0,
+      0.0,
+      0.0
     ],
     "graphic_class": "Graphic_Multi",
-    "gameplay_definition_active": false,
-    "status": "artwork only; gameplay definition not created"
+    "gameplay_definition_active": true,
+    "status": "existing definition updated"
   },
   {
     "texture_prefix": "Buildings/HD_DistillationTower",
@@ -54,9 +54,9 @@
       4.5
     ],
     "draw_offset": [
-      0,
-      0,
-      0
+      0.0,
+      0.0,
+      0.4636657238006592
     ],
     "graphic_class": "Graphic_Multi",
     "gameplay_definition_active": true,
@@ -75,12 +75,12 @@
       6.0
     ],
     "draw_offset": [
-      0,
-      0,
-      0
+      0.0,
+      0.0,
+      0.0
     ],
     "graphic_class": "Graphic_Multi",
-    "gameplay_definition_active": false,
-    "status": "artwork only; gameplay definition not created"
+    "gameplay_definition_active": true,
+    "status": "existing definition updated"
   }
 ]

@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><LangVersion>13.0</LangVersion></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../Helodrace/Oil/OilMachineOperation.cs" Link="OilMachineOperation.cs" />
+    <Compile Include="../../Helodrace/Oil/CompOilProducer.cs" Link="CompOilProducer.cs" />
+    <Compile Include="../../Helodrace/Oil/CompOilFieldDevelopment.cs" Link="CompOilFieldDevelopment.cs" />
+    <Compile Include="../../Helodrace/Oil/OilFieldJobClasses.cs" Link="OilFieldJobClasses.cs" />
+    <Compile Include="../../Helodrace/Mechanical/CompOperatingHeatPusher.cs" Link="CompOperatingHeatPusher.cs" />
+  </ItemGroup>
+</Project>

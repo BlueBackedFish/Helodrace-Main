@@ -11,7 +11,7 @@
     "twin pitmans and crank counterweights",
     "cast gear reducer and belt-driven motor",
     "wellhead and manual outlet valve",
-    "open 6x3 skid; proposed footprint, no gameplay definition"
+    "open 6x3 skid; electric oil extraction building"
   ],
   "mesh_objects": 71,
   "design_period": "circa 1950 conventional steel horsehead pumpjack",
@@ -71,5 +71,7 @@
   ],
   "density_export_preserves_geometry_and_palette": true,
   "density_export_geometry_palette_sha256": "19c5b99cdbe2a73b91c438d5b84fe49ef84a23aec73c253e85562d84d07cffd3",
-  "previous_density_draw_size": null
+  "previous_density_draw_size": null,
+  "definition": "Defs/WildWest/Buildings/AdvancedOilExtraction.xml",
+  "gameplay_fields_preserved_sha256": "1e2e898dbbe6a4e1b93577c0f3a9b4ad2a88a19fc965f271a0df5ea4aacabb67"
 }

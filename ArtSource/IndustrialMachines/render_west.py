@@ -16,8 +16,8 @@ ASSETS=[('HD_SmallSteamEngine','SmallSteamEngine','small_steam_engine.blend',Tru
  ('HD_StirredTankReactor','StirredTankReactor','HD_StirredTankReactor.blend',True),
  ('HD_BasicPumpJack','BasicPumpJack','HD_BasicPumpJack.blend',True),
  ('HD_DistillationTower','DistillationTower','HD_DistillationTower.blend',True),
- ('HD_MetalPumpJack','MetalPumpJack','HD_MetalPumpJack.blend',False),
- ('HD_RotaryDrill','RotaryDrill','HD_RotaryDrill.blend',False)]
+ ('HD_MetalPumpJack','MetalPumpJack','HD_MetalPumpJack.blend',True),
+ ('HD_RotaryDrill','RotaryDrill','HD_RotaryDrill.blend',True)]
 
 def read_pixels(path):
     im=bpy.data.images.load(path,check_existing=False);im.colorspace_settings.name='Non-Color'

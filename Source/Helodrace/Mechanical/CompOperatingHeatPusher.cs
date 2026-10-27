@@ -56,6 +56,9 @@ namespace Helodrace
                     return false;
                 }
 
+                CompOilFieldDevelopment drilling = parent.GetComp<CompOilFieldDevelopment>();
+                if (drilling != null) return drilling.IsWorking;
+
                 CompMechanicalEmitter emitter = parent.GetComp<CompMechanicalEmitter>();
                 if (emitter != null)
                 {
@@ -67,6 +70,9 @@ namespace Helodrace
                 {
                     return user.HasPower;
                 }
+
+                CompPowerTrader electric = parent.GetComp<CompPowerTrader>();
+                if (electric != null) return electric.PowerOn;
 
                 return refuelable != null;
             }

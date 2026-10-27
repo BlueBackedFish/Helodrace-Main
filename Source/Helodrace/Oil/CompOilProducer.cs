@@ -47,7 +47,7 @@ namespace Helodrace
             base.CompTickRare();
 
             OilFieldRecord field = OilField;
-            if (mechanicalUser != null && mechanicalUser.HasPower && field != null)
+            if (OilMachineOperation.IsPowered(parent) && field != null)
             {
                 float dayDelta = 250f / 60000f; // CompTickRare is 250 ticks
                 float speedFactor = MechanicalSpeedFactor * field.quality * field.pressure;
@@ -84,7 +84,7 @@ namespace Helodrace
             }
 
             float speedFactor = MechanicalSpeedFactor * field.quality * field.pressure;
-            string status = mechanicalUser != null && mechanicalUser.HasPower
+            string status = OilMachineOperation.IsPowered(parent)
                 ? "HD_OilProducer_Operating".Translate()
                 : "HD_OilProducer_NeedsPower".Translate();
 

@@ -12,7 +12,7 @@
     "separate power enclosure",
     "mud tank, pump, standpipe and Kelly hose",
     "three-pipe rack",
-    "proposed 4x4 footprint; artwork only, no gameplay definition"
+    "4x4 diesel rotary drilling building"
   ],
   "mesh_objects": 101,
   "design_period": "circa 1950 steel derrick rotary-table land drilling rig",
@@ -72,5 +72,7 @@
   ],
   "density_export_preserves_geometry_and_palette": true,
   "density_export_geometry_palette_sha256": "af1aaee149dd485c1c3f9397d90d2d807c1fd594ce4e5f1d5b2c14f554ae5c4f",
-  "previous_density_draw_size": null
+  "previous_density_draw_size": null,
+  "definition": "Defs/WildWest/Buildings/AdvancedOilExtraction.xml",
+  "gameplay_fields_preserved_sha256": "39c25e1f5a761a96f75a19c8b01593f68ed10f97cabc55a020bf00fdc0309621"
 }

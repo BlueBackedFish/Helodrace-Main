@@ -1,16 +1,16 @@
-# Petroleum machinery artwork
+# Petroleum machinery
 
-Four individually authored Blender assets use the established neutral-metal / vanilla-timber palette, fixed Emission colors, transparent 512px North/East/South/West color-and-mask pairs, 64° downward orthographic projection and 12px black outlines. There are no lighting, AO, PBR or texture-noise effects. One model unit is one tile when drawSize matches the saved ortho_scale and drawOffset is zero. All source models are independent; no image planes or camera-specific geometry swaps are used.
+Four individually authored Blender machines use neutral metal or vanilla timber, fixed Emission colors, transparent North/East/South/West color/mask pairs, 64-degree downward orthographic projection and 12px exterior outlines. No lighting, AO, PBR, texture noise or camera-specific mesh swaps are used. One model unit is one game tile. Native canvas size is 256 x longest footprint side; drawSize is 1.5 x that side, maintaining the same pixel density and game-space stroke width.
 
-| Asset | Source folder | Footprint | drawSize | Integration |
+| Asset | Footprint | Native canvas | drawSize | Integration |
 |---|---|---|---|---|
-| Timber basic pumpjack | `ArtSource/BasicPumpJack` | 6×3 | 9 | Existing texture/graphics updated |
-| Steel pumpjack | `ArtSource/MetalPumpJack` | proposed 6×3 | 9 | New artwork only |
-| Fractionation tower | `ArtSource/DistillationTower` | 3×3 | 6 | Existing texture/graphics updated |
-| Rotary drilling rig | `ArtSource/RotaryDrill` | proposed 4×4 | 6.75 | New artwork only |
+| Timber basic pumpjack | 6x3 | 1536px | 9 | Existing mechanical pump |
+| Steel pumpjack | 6x3 | 1536px | 9 | New 1800W electric pump |
+| Fractionation tower | 3x3 | 768px | 4.5 | Existing refining worktable |
+| Rotary drilling rig | 4x4 | 1024px | 6 | New diesel drilling rig |
 
-Existing building size, recipes, research, production, power/fuel use and costs are retained. The basic pumpjack retains its Woody cost category; baked vanilla wood and untinted iron intentionally fix visible colors rather than recoloring iron with wood stuff. New metal-pumpjack and rotary-drill gameplay definitions do not exist, so those files supply proposed placement/presentation metadata in `asset_catalog.json` without invented balancing values. The cable-tool rig is a separate model in ArtSource/CableToolRig, distinct from the newer rotary drill.
+The basic pump/tower retain existing gameplay. The steel pumpjack and rotary rig are active buildings defined in `AdvancedOilExtraction.xml`, with oil-system support and Korean localization. Their source READMEs document operating values and period guidance. The older cable-tool rig remains a separate machine in `ArtSource/CableToolRig`.
 
-Build each asset separately using the script in its source folder, then run `verify_petroleum.py` with Blender. It checks four saved scenes, 16 cameras, 32 PNG files, mask alpha/black strokes, fixed timber materials, existing definition links and the rotary-table floor opening. `validation.json` records the results. Source READMEs identify historical references and distinguish period guidance from exact reconstruction. Original basic-pumpjack/tower sprites and masks are preserved and packed in their scenes.
+Build each machine with its own script, then publish with `ArtSource/IndustrialMachines/normalize_density.py`. `verify_petroleum.py` checks four saved scenes, 16 cameras, 32 PNGs, masks, four active definition links and the rotary-table floor opening. `validation.json` and `asset_catalog.json` record results and compensated draw offsets. Basic-pumpjack/tower original sprites are preserved and packed in their scenes.
 
-Run `review_petroleum.py` with Python/Pillow. `overview_north.png` fits each silhouette for shape/color review; it is not scale evidence. `tile_scale_comparison.png` uses **64px per game tile** with no bounding-box normalization. `north_east_south.png` shows all 12 views. Gray backgrounds and grids exist only in review sheets. No in-game verification is claimed.
+`review_petroleum.py` generates shape and common-game-scale comparison sheets. Review backgrounds/grids are absent from game textures. Oil-system regression tests are in `Source/Tests/OilMachinery`; these do not replace an in-game visual/play test, which has not been performed.

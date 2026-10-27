@@ -4,10 +4,10 @@
   <HD_OilFieldDevelopment_Progress>개발 진행도: {0} / {1}일</HD_OilFieldDevelopment_Progress>
   <HD_OilFieldDevelopment_NeedsMaintenance>정지: 정비 작업 필요</HD_OilFieldDevelopment_NeedsMaintenance>
   <HD_OilFieldDevelopment_Drilling>작동 중: 석유 시추 중</HD_OilFieldDevelopment_Drilling>
-  <HD_OilFieldDevelopment_NeedsPower>정지: 기계 동력 필요</HD_OilFieldDevelopment_NeedsPower>
+  <HD_OilFieldDevelopment_NeedsPower>정지: 동력 또는 연료 필요</HD_OilFieldDevelopment_NeedsPower>
   <HD_OilProducer_NoField>정지: 펌프 아래에 개발된 유정이 없음</HD_OilProducer_NoField>
   <HD_OilProducer_Operating>작동 중</HD_OilProducer_Operating>
-  <HD_OilProducer_NeedsPower>정지: 기계 동력 필요</HD_OilProducer_NeedsPower>
+  <HD_OilProducer_NeedsPower>정지: 동력 필요</HD_OilProducer_NeedsPower>
   <HD_OilProducer_Inspect>생산 진행도: {0}\n생산 속도: {1}\n유정 품질: {2}\n유정 압력: {3}\n상태: {4}</HD_OilProducer_Inspect>
   <HD_OilProducer_MustPlaceOnField>개발된 유정 위에 설치해야 합니다.</HD_OilProducer_MustPlaceOnField>
   <HD_OilFieldStruckEarly>{0}에서 예상보다 일찍 석유를 발견했습니다.</HD_OilFieldStruckEarly>

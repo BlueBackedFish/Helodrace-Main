@@ -6,9 +6,9 @@ OUT=Path(__file__).resolve().parent;ROOT=OUT.parent.parent
 fontpath=Path(os.environ.get('WINDIR','C:/Windows'))/'Fonts/segoeui.ttf'
 font=ImageFont.truetype(str(fontpath),20);small=ImageFont.truetype(str(fontpath),15)
 assets=[('HD_BasicPumpJack','BasicPumpJack','Timber basic pumpjack','Existing 6x3'),
-        ('HD_MetalPumpJack','MetalPumpJack','Steel pumpjack','New artwork, proposed 6x3'),
+        ('HD_MetalPumpJack','MetalPumpJack','Steel pumpjack','Electric extraction, 6x3'),
         ('HD_DistillationTower','DistillationTower','Fractionation tower','Existing 3x3'),
-        ('HD_RotaryDrill','RotaryDrill','1950s rotary drilling rig','New artwork, proposed 4x4')]
+        ('HD_RotaryDrill','RotaryDrill','1950s rotary drilling rig','Diesel drilling, 4x4')]
 native=Image.new('RGBA',(1024,1024),(70,73,72,255))
 world=Image.new('RGBA',(1280,960),(70,73,72,255))
 views=Image.new('RGBA',(1536,2208),(70,73,72,255))

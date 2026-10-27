@@ -27,22 +27,15 @@ namespace Helodrace
         public float currentProgressDays = 0f;
         public bool needsMaintenance = false;
         public bool developmentComplete = false;
-        private CompMechanicalUser mechanicalUser;
 
         public CompProperties_OilFieldDevelopment Props => (CompProperties_OilFieldDevelopment)this.props;
 
-        public bool IsPoweredBySteam
-        {
-            get
-            {
-                return mechanicalUser != null && mechanicalUser.HasPower;
-            }
-        }
+        public bool IsPowered => OilMachineOperation.IsPowered(parent);
+        public bool IsWorking => !developmentComplete && !needsMaintenance && IsPowered;
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
-            mechanicalUser = parent.GetComp<CompMechanicalUser>();
 
             IntVec3 targetPos = parent.Position + Props.floorOffset;
             MapComponent_OilFields oilFields = parent.Map?.GetComponent<MapComponent_OilFields>();
@@ -67,9 +60,12 @@ namespace Helodrace
         {
             base.CompTick();
 
-            // The cable-tool rig uses a Normal ticker because its explosive comp
-            // requires one. ThingWithComps therefore calls CompTick, not
-            // CompTickRare, so throttle the development simulation here.
+            // Fuel is consumed only while actually drilling, never while the
+            // rig is awaiting maintenance or has finished developing its field.
+            if (IsWorking) parent.GetComp<CompRefuelable>()?.Notify_UsedThisTick();
+
+            // Normal tickers (fuel/explosives) still simulate progress at the
+            // same rare-tick interval as mechanically driven machines.
             if (parent.IsHashIntervalTick(GenTicks.TickRareInterval))
             {
                 TickDevelopment(GenTicks.TickRareInterval);
@@ -85,7 +81,7 @@ namespace Helodrace
         private void TickDevelopment(int intervalTicks)
         {
 
-            if (!developmentComplete && IsPoweredBySteam && !needsMaintenance)
+            if (IsWorking)
             {
                 // Progress
                 float dayDelta = intervalTicks / 60000f;
@@ -102,7 +98,7 @@ namespace Helodrace
                     }
                 }
 
-                // Roll for "Strike Oil" (Random Finish) - MTB 7 Days
+                // A lucky strike can complete development early.
                 if (Rand.MTBEventOccurs(Props.mtbDaysConfirmation, 60000f, intervalTicks))
                 {
                     Messages.Message("HD_OilFieldStruckEarly".Translate(this.parent.Label), this.parent, MessageTypeDefOf.PositiveEvent);
@@ -110,14 +106,14 @@ namespace Helodrace
                     return;
                 }
 
-                // Roll for Maintenance Needed (MTB 1 Day)
+                // Stop drilling until a colonist services the rig.
                 if (Rand.MTBEventOccurs(Props.mtbDaysMaintenance, 60000f, intervalTicks))
                 {
                     needsMaintenance = true;
                     Messages.Message("HD_OilFieldNeedsMaintenance".Translate(this.parent.Label), this.parent, MessageTypeDefOf.CautionInput);
                 }
 
-                // Check for guaranteed completion (15 days)
+                // The configured drilling time guarantees completion.
                 if (currentProgressDays >= Props.totalDaysNeeded)
                 {
                     FinishDevelopment();
@@ -166,7 +162,7 @@ namespace Helodrace
             {
                 s += "\n<color=orange>" + "HD_OilFieldDevelopment_NeedsMaintenance".Translate() + "</color>";
             }
-            else if (IsPoweredBySteam)
+            else if (IsPowered)
             {
                 s += "\n" + "HD_OilFieldDevelopment_Drilling".Translate();
             }
