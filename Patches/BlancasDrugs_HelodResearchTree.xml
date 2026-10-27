@@ -225,7 +225,7 @@
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaEarlyNarcotics"]/researchViewY</xpath>
           <value>
-            <researchViewY>4.8</researchViewY>
+            <researchViewY>3.2</researchViewY>
           </value>
         </li>
 
@@ -239,7 +239,7 @@
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedPainkillers"]/researchViewY</xpath>
           <value>
-            <researchViewY>4</researchViewY>
+            <researchViewY>2.4</researchViewY>
           </value>
         </li>
 
@@ -253,7 +253,7 @@
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedStimulants"]/researchViewY</xpath>
           <value>
-            <researchViewY>4.8</researchViewY>
+            <researchViewY>3.2</researchViewY>
           </value>
         </li>
 
@@ -267,7 +267,7 @@
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedSomnifacients"]/researchViewY</xpath>
           <value>
-            <researchViewY>5.6</researchViewY>
+            <researchViewY>4</researchViewY>
           </value>
         </li>
 
@@ -281,7 +281,7 @@
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaMKultraProject"]/researchViewY</xpath>
           <value>
-            <researchViewY>4.8</researchViewY>
+            <researchViewY>3.2</researchViewY>
           </value>
         </li>
       </operations>

@@ -9,6 +9,6 @@
     <prerequisites><li>HelodHighElectronics</li><li>HelodMetalCuttingMachine</li></prerequisites>
     <tab>HelodTechTab</tab>
     <researchViewX>9</researchViewX>
-    <researchViewY>2.4</researchViewY>
+    <researchViewY>1.6</researchViewY>
   </ResearchProjectDef>
 </Defs>
