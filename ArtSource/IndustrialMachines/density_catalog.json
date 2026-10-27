@@ -312,6 +312,30 @@
     "outline_width_in_game_units": 0.0703125
   },
   {
+    "asset": "HD_HydraulicPress1970",
+    "source_folder": "ArtSource/HydraulicPress1970",
+    "footprint": [
+      3,
+      3
+    ],
+    "resolution": [
+      768,
+      768
+    ],
+    "draw_size": [
+      4.5,
+      4.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.17594468593597412
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
     "asset": "HD_IndustrialDieselEngine",
     "source_folder": "ArtSource/IndustrialDieselEngine",
     "footprint": [
@@ -432,6 +456,30 @@
     "outline_width_in_game_units": 0.0703125
   },
   {
+    "asset": "HD_MachiningCenter1970",
+    "source_folder": "ArtSource/MachiningCenter1970",
+    "footprint": [
+      3,
+      3
+    ],
+    "resolution": [
+      768,
+      768
+    ],
+    "draw_size": [
+      4.5,
+      4.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
     "asset": "HD_MetalPumpJack",
     "source_folder": "ArtSource/MetalPumpJack",
     "footprint": [
@@ -445,6 +493,30 @@
     "draw_size": [
       9.0,
       9.0
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_MultiTaskMachine2000",
+    "source_folder": "ArtSource/MultiTaskMachine2000",
+    "footprint": [
+      4,
+      3
+    ],
+    "resolution": [
+      1024,
+      1024
+    ],
+    "draw_size": [
+      6.0,
+      6.0
     ],
     "draw_offset": [
       0.0,
@@ -493,6 +565,30 @@
     "draw_size": [
       4.5,
       4.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_RollingMill1970",
+    "source_folder": "ArtSource/RollingMill1970",
+    "footprint": [
+      4,
+      3
+    ],
+    "resolution": [
+      1024,
+      1024
+    ],
+    "draw_size": [
+      6.0,
+      6.0
     ],
     "draw_offset": [
       0.0,
