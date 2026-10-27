@@ -1270,6 +1270,7 @@
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
         <li>HD_LineShaftHydraulicPress</li>
+        <li>HD_HydraulicPress1970</li>
       </recipeUsers>
     </recipeMaker>
     <costList>
