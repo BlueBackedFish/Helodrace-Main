@@ -218,70 +218,70 @@
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaEarlyNarcotics"]/researchViewX</xpath>
           <value>
-            <researchViewX>15.28</researchViewX>
+            <researchViewX>14.62</researchViewX>
           </value>
         </li>
 
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaEarlyNarcotics"]/researchViewY</xpath>
           <value>
-            <researchViewY>2.4</researchViewY>
+            <researchViewY>3.68</researchViewY>
           </value>
         </li>
 
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedPainkillers"]/researchViewX</xpath>
           <value>
-            <researchViewX>16.12</researchViewX>
+            <researchViewX>15.48</researchViewX>
           </value>
         </li>
 
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedPainkillers"]/researchViewY</xpath>
           <value>
-            <researchViewY>1.8</researchViewY>
+            <researchViewY>2.96</researchViewY>
           </value>
         </li>
 
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedStimulants"]/researchViewX</xpath>
           <value>
-            <researchViewX>16.12</researchViewX>
+            <researchViewX>15.48</researchViewX>
           </value>
         </li>
 
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedStimulants"]/researchViewY</xpath>
           <value>
-            <researchViewY>2.52</researchViewY>
+            <researchViewY>3.68</researchViewY>
           </value>
         </li>
 
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedSomnifacients"]/researchViewX</xpath>
           <value>
-            <researchViewX>16.12</researchViewX>
+            <researchViewX>15.48</researchViewX>
           </value>
         </li>
 
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedSomnifacients"]/researchViewY</xpath>
           <value>
-            <researchViewY>3.24</researchViewY>
+            <researchViewY>4.4</researchViewY>
           </value>
         </li>
 
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaMKultraProject"]/researchViewX</xpath>
           <value>
-            <researchViewX>16.96</researchViewX>
+            <researchViewX>16.34</researchViewX>
           </value>
         </li>
 
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaMKultraProject"]/researchViewY</xpath>
           <value>
-            <researchViewY>2.4</researchViewY>
+            <researchViewY>3.68</researchViewY>
           </value>
         </li>
       </operations>
