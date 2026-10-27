@@ -1,0 +1,7 @@
+{
+  "texture_directory": "Buildings/Security/HeavyMachineGunsFDE",
+  "fde_rgb": [153, 132, 99],
+  "ammunition_box_od_rgb": [83, 100, 57],
+  "outline_world_tiles": 0.026,
+  "icon_outline_pixels": 10
+}

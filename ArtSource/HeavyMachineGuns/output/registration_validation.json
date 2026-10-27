@@ -6,6 +6,9 @@
     "M2HB": 2.976305444367878,
     "M1917": 1.5446780219596088
   },
+  "texture_directory": "Buildings/Security/HeavyMachineGunsFDE",
+  "outline_world_tiles": 0.026,
+  "icon_outline_pixels": 10,
   "m2_recoil_tiles": 0.125,
   "source_model_validation": true,
   "gameplay_balance_unchanged": true,

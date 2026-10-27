@@ -7,7 +7,8 @@ ROOT=Path(__file__).resolve().parent;OUT=ROOT/'output';OUT.mkdir(exist_ok=True)
 EXT=Path(os.environ.get('HELODRACE_REFERENCE_EXT',str(Path.home()/'Downloads/Dagor-Asset-Explorer-1.0.0/Dagor-Asset-Explorer-1.0.0/ext')))/'machine gun'
 MASTER=2048
 DIMENSIONS=json.loads((ROOT/'scale_reference.json').read_text())
-PALETTE=dict(metal=(79,86,84),cover=(103,111,106),dark=(37,44,42),fde=(153,132,99),ammo=(83,100,57),wood=(102,75,48),brass=(173,142,73),copper=(145,102,68),link=(43,48,43),canvas=(104,99,70),mount=(153,132,99))
+STYLE=json.loads((ROOT/'art_style.json').read_text())
+PALETTE=dict(metal=(79,86,84),cover=(103,111,106),dark=(37,44,42),fde=tuple(STYLE['fde_rgb']),ammo=tuple(STYLE['ammunition_box_od_rgb']),wood=(102,75,48),brass=(173,142,73),copper=(145,102,68),link=(43,48,43),canvas=(104,99,70),mount=tuple(STYLE['fde_rgb']))
 # Original hinge pin, parallel to Y. The source lid is opened 154 degrees.
 AMMO_HINGE=Vector((.4073,.2142,-.1239))
 AMMO_LID_ROTATION=math.radians(-154.14966566) # Measured from the source lid's large planar face.
@@ -161,7 +162,9 @@ def make(kind,relative):
         target_mount_length=gun_length*DIMENSIONS['m1917_mount_fore_aft_length_m']/DIMENSIONS['weapon_length_m'][kind]
         mount_fit_y=target_mount_length/mount_length
         for record in records:
-            record['pose_transforms']['mount']=Matrix.Diagonal((1,mount_fit_y,1,1))@transform_for(kind,'mount')
+            # Preserve the top-down aspect ratio, including round feet. Scaling
+            # only Y flattened the feet and spread of the source tripod.
+            record['pose_transforms']['mount']=Matrix.Diagonal((mount_fit_y,mount_fit_y,1,1))@transform_for(kind,'mount')
     scene,camera=configure()
     materials={}
     for key,rgb in PALETTE.items():
@@ -202,9 +205,9 @@ def make(kind,relative):
     scene['world_axis']='+Y = muzzle; +Z = height; origin = original mount swivel';scene['gun_draw_tiles']=gun_scale*model_to_world
     bpy.ops.wm.save_as_mainfile(filepath=str(folder/'model.blend'),compress=True)
     metadata=dict(source=str(source),source_relative_to_ext='machine gun/'+relative,source_sha256=sha(source),master=MASTER,runtime=1024,projection='90 degree downward orthographic',camera_rotation_degrees=[0,0,0],camera_scale=gun_scale,
-        gun_draw_tiles=gun_scale*model_to_world,mount_draw_tiles=base_scale*model_to_world,model_length=length,model_to_world=model_to_world,pivot=[0,0,0],outline_runtime_pixels=6,
-        source_geometry_note='Every source polygon and UV loop retained under recorded transforms; M1917 mount fore-aft fit is the only non-rigid adjustment; no added geometry.',
-        weapon_length_m=DIMENSIONS['weapon_length_m'][kind],visible_gun_length_tiles=world_length,mount_fore_aft_fit=mount_fit_y,
+        gun_draw_tiles=gun_scale*model_to_world,mount_draw_tiles=base_scale*model_to_world,model_length=length,model_to_world=model_to_world,pivot=[0,0,0],outline_world_tiles=STYLE['outline_world_tiles'],icon_outline_pixels=STYLE['icon_outline_pixels'],texture_directory=STYLE['texture_directory'],
+        source_geometry_note='Every source polygon and UV loop retained under recorded transforms; M1917 mount uses equal X/Y scaling with height retained; no added geometry.',
+        weapon_length_m=DIMENSIONS['weapon_length_m'][kind],visible_gun_length_tiles=world_length,mount_planar_fit=mount_fit_y,
         style_note='Water jacket, M2 barrel/sleeve and tripod surfaces use uniform colors without normal-based side shading; cartridge cases, copper projectiles and links are distinct.',
         paint_finish='FDE (153,132,99) on formerly OD painted parts; ammunition boxes retain OD (83,100,57)',
         ammo_box_pose='Level box and closed lid; individually rigid cartridges curve from receiver into the box interior, with the tail beneath the lid' if kind=='M2HB' else 'Original source pose',

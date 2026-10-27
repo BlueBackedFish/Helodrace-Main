@@ -12,14 +12,14 @@
     <drawHighlight>true</drawHighlight>
     <drawHighlightOnlyForHostile>true</drawHighlightOnlyForHostile>
     <graphicData>
-      <texPath>Buildings/Security/HD_M1917_Tripod</texPath>
+      <texPath>Buildings/Security/HeavyMachineGunsFDE/HD_M1917_Tripod</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(1.97724253,1.97724253)</drawSize>
       <shadowData>
         <volume>(0.8,0.25,0.8)</volume>
       </shadowData>
     </graphicData>
-    <uiIconPath>Buildings/Security/HD_m1917HMGUI</uiIconPath>
+    <uiIconPath>Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMGUI</uiIconPath>
     <altitudeLayer>Building</altitudeLayer>
     <tickerType>Normal</tickerType>
     <passability>PassThroughOnly</passability>
@@ -92,14 +92,14 @@
     <drawHighlight>true</drawHighlight>
     <drawHighlightOnlyForHostile>true</drawHighlightOnlyForHostile>
     <graphicData>
-      <texPath>Buildings/Security/HD_M2HB_Tripod</texPath>
+      <texPath>Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Tripod</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(2.69882174,2.69882174)</drawSize>
       <shadowData>
         <volume>(1.0,0.3,1.0)</volume>
       </shadowData>
     </graphicData>
-    <uiIconPath>Buildings/Security/HD_M2HB_UI</uiIconPath>
+    <uiIconPath>Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_UI</uiIconPath>
     <altitudeLayer>Building</altitudeLayer>
     <tickerType>Normal</tickerType>
     <passability>PassThroughOnly</passability>
@@ -160,8 +160,8 @@
       </li>
       <li Class="CompProperties_Forbiddable"/>
       <li Class="Helodrace.CompProperties_ReciprocatingTurretBarrel">
-        <barrelTexPath>Buildings/Security/HD_M2HB_Barrel</barrelTexPath>
-        <bodyTexPath>Buildings/Security/HD_M2HB_Body</bodyTexPath>
+        <barrelTexPath>Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Barrel</barrelTexPath>
+        <bodyTexPath>Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Body</bodyTexPath>
         <drawSize>29.76305444</drawSize>
         <drawOffset>0</drawOffset>
         <recoilDistance>0.125</recoilDistance>

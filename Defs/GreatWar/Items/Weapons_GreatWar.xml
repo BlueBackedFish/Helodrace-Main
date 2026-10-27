@@ -705,7 +705,7 @@
     <label>M1917 heavy machine gun</label>
     <description>A water-cooled heavy machine gun fed by a long ammunition belt. It is too heavy to use as a carried weapon and is intended for fixed defensive mounts.</description>
     <graphicData>
-      <texPath>Buildings/Security/HD_m1917HMG_Top</texPath>
+      <texPath>Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMG_Top</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawOffset>(-0.05,0,0.05)</drawOffset>
       <drawSize>(0.8,0.8)</drawSize>

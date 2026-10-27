@@ -21,6 +21,17 @@
         "barrel": 1,
         "tripod": 1
       },
+      "fde_rgb": [
+        153,
+        132,
+        99
+      ],
+      "ammunition_box_od_rgb": [
+        83,
+        100,
+        57
+      ],
+      "tripod_plan_view_aspect_preserved": true,
       "ammo_box_level": true,
       "lid_closed": true,
       "lid_surface_tilt_degrees": 0.0,
@@ -49,7 +60,18 @@
       "uniform_surface_color_counts": {
         "tripod": 1,
         "water_jacket": 1
-      }
+      },
+      "fde_rgb": [
+        153,
+        132,
+        99
+      ],
+      "ammunition_box_od_rgb": [
+        83,
+        100,
+        57
+      ],
+      "tripod_plan_view_aspect_preserved": true
     }
   }
 }

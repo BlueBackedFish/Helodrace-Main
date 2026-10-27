@@ -3,59 +3,71 @@
   "projection": "90 degree top-down orthographic",
   "master": 2048,
   "runtime": 1024,
-  "outline": "6px black circular alpha dilation; 2x supersampling; no internal barrel/body joint stroke",
+  "outline": "Uniform world-space black circular outline; independently uniform icon-pixel outline; 2x supersampling; no internal barrel/body joint stroke",
+  "texture_directory": "Buildings/Security/HeavyMachineGunsFDE",
+  "outline_world_tiles": 0.026,
+  "icon_outline_pixels": 10,
+  "outline_texture_pixels": {
+    "HD_M2HB_Body": 8.945318448542007,
+    "HD_M2HB_Barrel": 8.945318448542007,
+    "HD_M2HB_Tripod": 9.865045784474553,
+    "HD_M2HB_UI": 10,
+    "HD_m1917HMG_Top": 17.235954432901345,
+    "HD_M1917_Tripod": 13.465217162634843,
+    "HD_m1917HMGUI": 10
+  },
   "bounds": {
     "HD_M2HB_Body": [
-      318,
-      359,
-      580,
-      792
+      315,
+      357,
+      582,
+      795
     ],
     "HD_M2HB_Barrel": [
-      487,
-      38,
-      537,
-      476
+      485,
+      35,
+      539,
+      480
     ],
     "HD_M2HB_Tripod": [
-      249,
-      297,
-      775,
-      986
+      245,
+      293,
+      779,
+      990
     ],
     "HD_M2HB_UI": [
-      266,
-      46,
-      757,
-      977
-    ],
-    "HD_m1917HMG_Top": [
-      222,
-      38,
-      597,
-      898
-    ],
-    "HD_M1917_Tripod": [
-      284,
-      219,
-      740,
+      259,
+      36,
+      765,
       986
     ],
+    "HD_m1917HMG_Top": [
+      211,
+      27,
+      608,
+      909
+    ],
+    "HD_M1917_Tripod": [
+      313,
+      212,
+      711,
+      993
+    ],
     "HD_m1917HMGUI": [
-      260,
-      47,
-      763,
-      978
+      275,
+      37,
+      750,
+      988
     ]
   },
   "files": {
-    "HD_M1917_Tripod.png": "7703d18f8910b5cfb433fa7b595d9c04d55d903aa2dfe783e977ec4631d9b799",
-    "HD_m1917HMG_Top.png": "c1856f946bcabd4d18a793478affd93d28ac7c2e8ce9daacaddd8539c8114215",
-    "HD_m1917HMGUI.png": "ecc1cba739bbb3fa0dd4f6be53b27a18654abc24634e5b0c240dbd7b5836aba8",
-    "HD_M2HB_Barrel.png": "297db8ffda453e5ecf491e3d096fe9b1a91a6a86470ce6020e609cd546175e69",
-    "HD_M2HB_Body.png": "f12557422ab96c92c4a952b6d3a951559d73002ddfd8fbf0bfb301021cf25232",
-    "HD_M2HB_Tripod.png": "814e07ceb1321588f509a52524d31c0f465b7c92d10d2a40106a8491ab3cd69c",
-    "HD_M2HB_UI.png": "5e3a084a304f4e282df54dd178d1b7d5b79e27848591503c98cfe250eae15080"
+    "HD_M1917_Tripod.png": "81e947656c696d6cdcc58f5fb4b00e4389d8297f9f9d10ab087e4ada5b08616c",
+    "HD_m1917HMG_Top.png": "282f0a787934f0ba2adbc9c481f65f297c70a92f0118ee65442437b621f2dcd9",
+    "HD_m1917HMGUI.png": "5ff552896818943f059d023d92e8783b3a16bcccc29a3b6c29753e0008847298",
+    "HD_M2HB_Barrel.png": "40a2071523c6d970788d41fefa5427cef82a10c575af44875b014e5ca7975cc3",
+    "HD_M2HB_Body.png": "1ce97c53a600b39934564c58e4160439ff333769eebb78dd37005fa9d35e411a",
+    "HD_M2HB_Tripod.png": "a57cfffa4068a066e3296ed45d6289646227d2ca02c010c3875e47cdcf3e8185",
+    "HD_M2HB_UI.png": "42a4cacc32a66db1dae91cb05f2222ad5bc7145866aaad7c2d84ab34429cc9e9"
   },
   "gun_draw_tiles": {
     "M2HB": 2.976305444367878,

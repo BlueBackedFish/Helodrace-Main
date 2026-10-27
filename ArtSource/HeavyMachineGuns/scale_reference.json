@@ -10,5 +10,5 @@
     "M1917": "https://www.koreanwaronline.com/history/BrowningMG/T1205S1.HTM",
     "M1917_mount": "https://www.bulletpicker.com/pdf/Catalog-of-Standard-Ordnance-Items-Vol-3.pdf"
   },
-  "notes": "M1917/M1917A1 gun: 38.64 inches. M1917A1 tripod extended length: 44 inches, 1944 Standard Ordnance Items catalog. Calibrate the mount fore-aft extent; retain the provided model's narrower leg spread rather than claiming a fully extended 39-inch spread. M2 size and firing behavior stay unchanged."
+  "notes": "M1917/M1917A1 gun: 38.64 inches. M1917A1 tripod extended length: 44 inches, 1944 Standard Ordnance Items catalog. Fit the mount with equal X/Y scaling about its swivel; retain height and the source plan-view aspect ratio, including round feet. The source uses a narrow stance, not the fully extended 39-inch spread. M2 size and firing behavior stay unchanged."
 }
