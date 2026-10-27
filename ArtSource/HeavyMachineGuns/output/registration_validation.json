@@ -11,6 +11,7 @@
   "icon_outline_pixels": 10,
   "m2_recoil_tiles": 0.125,
   "source_model_validation": true,
+  "m1917_eight_heading_rotation_verified": true,
   "gameplay_balance_unchanged": true,
   "m1917_length_relative_to_m2": 0.5933833131801692,
   "in_game_rotation_firing_test": false

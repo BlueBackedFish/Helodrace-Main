@@ -39,20 +39,20 @@
   ],
   "parts": [
     {
-      "name": "Circle.007 / mount",
-      "source_object": "Circle.007",
-      "layer": "mount",
-      "pose": "mount",
-      "vertices": 2205,
-      "faces": 2058
-    },
-    {
       "name": "Circle.007 / gun",
       "source_object": "Circle.007",
       "layer": "body",
       "pose": "gun",
-      "vertices": 10427,
-      "faces": 10065
+      "vertices": 11891,
+      "faces": 11459
+    },
+    {
+      "name": "Circle.007 / mount",
+      "source_object": "Circle.007",
+      "layer": "mount",
+      "pose": "mount",
+      "vertices": 741,
+      "faces": 664
     }
   ]
 }

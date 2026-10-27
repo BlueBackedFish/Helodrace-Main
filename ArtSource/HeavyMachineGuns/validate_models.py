@@ -63,6 +63,8 @@ for kind in ['M2HB','M1917']:
     assert abs(visible_length-expected_length)<1e-6,'Incorrect relative gun scale'
     if kind=='M1917':
         mount_points=[v.co for o in meshes if o['layer']=='mount' for v in o.data.vertices]
+        assert max(v.z for v in mount_points)<.01,'Rotating cradle incorrectly left on the fixed tripod'
+        assert min(v.z for v in gun_points)>-.01,'Fixed tripod part incorrectly rotates with the gun'
         mount_metres=(max(v.y for v in mount_points)-min(v.y for v in mount_points))*dimensions['weapon_length_m'][kind]/meta['model_length']
         assert abs(mount_metres-dimensions['m1917_mount_fore_aft_length_m'])<1e-6,'Incorrect tripod fore-aft size'
     assert all(len(colors)==1 for colors in flat_colors.values()),('Unwanted surface shading',flat_colors)

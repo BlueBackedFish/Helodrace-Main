@@ -23,12 +23,19 @@ M1917 삼각대는 원본 모델의 앞뒤 길이가 총 길이의 약 1.37배�
 
 M2HB의 총열과 본체는 같은 캔버스에서 분리해 기존 0.125타일 반동을 유지한다. 전체 실루엣의 외곽선만 각 레이어에 배분하므로 접합부에 내부 검은 테두리가 생기지 않는다. M1917은 기존 정적 상부 렌더를 사용한다. 사격 성능·탄약·코드 기능은 변경하지 않는다.
 
+M1917 게임용 `HD_m1917HMG_Top.png`만 총구가 오른쪽(+X)을 향하도록 90° 시계 방향으로 회전해 내보낸다. 설치된 게임의 `TurretTop.DrawTurret`가 `ArtworkRotation=-90°`를 더하기 때문이다. 북쪽(+Y)을 향한 새 마스터를 그대로 게임용으로 쓰면 조준 방향에서 90° 어긋난다. M2의 자체 렌더러는 이 보정이 없으므로 북향 텍스처를 유지한다. 두 총의 편집 모델·마스터·아이콘·일반 비교 미리보기는 북향으로 유지하며 피벗과 표시 배율은 바꾸지 않는다.
+
+M1917의 고정 받침은 회전축 아래의 소켓과 삼각대 다리다. 회전축 위의 크래들·측판·고저 조절 장치는 총과 함께 회전하는 상부로 분리한다. 상부 크래들을 받침 이미지에 남기면 총을 돌릴 때 조립 방향이 어긋난다. 모델 검사에서 고정 받침이 회전면 위로 올라오지 않고 회전 상부가 그 아래로 내려가지 않는지도 확인한다.
+
+`validate_rotation.py`는 Windows PowerShell의 ReflectionOnly로 실제 게임 DLL의 ArtworkRotation 초기값과 DrawTurret의 사용 여부를 읽는다. 내보낸 PNG에서 총구 방향을 측정하고 게임 보정을 적용한 8방향이 조준각과 맞는지 확인한다. `output/m1917_rotation_review.png`는 고정 삼각대 위에 각 방향의 게임용 총 레이어를 합성한 검수 이미지이며, `rotation_validation.json`에 각도 오차와 검사한 게임 DLL 해시를 기록한다. 실제 게임 실행 화면은 아니다.
+
 재생성 시 기본 입력은 `~/Downloads/Dagor-Asset-Explorer-1.0.0/Dagor-Asset-Explorer-1.0.0/ext`이다. 다른 위치에서는 `HELODRACE_REFERENCE_EXT` 환경 변수로 `ext` 경로를 지정한다.
 
 ```powershell
 & 'C:/Program Files/Blender Foundation/Blender 5.1/blender.exe' --background -t 6 --python-exit-code 1 --python ArtSource/HeavyMachineGuns/build.py
 & 'C:/Program Files/Blender Foundation/Blender 5.1/blender.exe' --background -t 6 --python-exit-code 1 --python ArtSource/HeavyMachineGuns/validate_models.py
 python ArtSource/HeavyMachineGuns/package.py --apply
+python ArtSource/HeavyMachineGuns/validate_rotation.py
 python ArtSource/HeavyMachineGuns/verify_registration.py
 python ArtSource/HeavyMachineGuns/deploy.py
 ```

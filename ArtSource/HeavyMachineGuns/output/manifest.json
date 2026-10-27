@@ -42,10 +42,10 @@
       986
     ],
     "HD_m1917HMG_Top": [
+      115,
       211,
-      27,
-      608,
-      909
+      997,
+      610
     ],
     "HD_M1917_Tripod": [
       313,
@@ -61,9 +61,9 @@
     ]
   },
   "files": {
-    "HD_M1917_Tripod.png": "4d3ef6826d2b93ee80559a09ed5eed26bf7cff51b3dd63d67ffd1035667a6340",
-    "HD_m1917HMG_Top.png": "de4ad89c2205cced27cca6a21d57d8697ae3fb17081db82f7eae5f2b4b282550",
-    "HD_m1917HMGUI.png": "afb884e36827ce3b083a5a93822115830d33702ac7ff0d7fe0a2362e45a591c0",
+    "HD_M1917_Tripod.png": "b4b9fc8a7308e68ffce5c36e91407f3cb2dfd7001b1ec9231082365fa4897d73",
+    "HD_m1917HMG_Top.png": "9a4c6f5020943182652db27161628139222e9668ef9b0a8487360727f29ec0c0",
+    "HD_m1917HMGUI.png": "2dae001e339a9fc9d83e24d57eb669ae1762e9f65e90860412ef8043402764c6",
     "HD_M2HB_Barrel.png": "40a2071523c6d970788d41fefa5427cef82a10c575af44875b014e5ca7975cc3",
     "HD_M2HB_Body.png": "bfc2a451b0c2a1acee717d4f1153523b9df651f30830d3f946d5b49660485fe0",
     "HD_M2HB_Tripod.png": "e4be7d4aa4280833fdfb095675a269f4ba4e6f7e38e1d557535a6f0d9ed3b8c5",
@@ -80,6 +80,10 @@
   "visible_gun_length_tiles": {
     "M2HB": 2.1421875,
     "M1917": 1.2711383162031438
+  },
+  "runtime_artwork_axes": {
+    "M2HB": "+Y / north; custom renderer",
+    "M1917": "+X / east; vanilla TurretTop ArtworkRotation=-90"
   },
   "note": "M2 barrel/body use the same registration and existing 0.125-tile recoil; tripod layers and UI composites are separate."
 }

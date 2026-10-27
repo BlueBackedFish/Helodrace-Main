@@ -9,6 +9,7 @@ parser=argparse.ArgumentParser();parser.add_argument('--installed',default='C:/P
 INSTALLED=Path(args.installed).resolve();assert (INSTALLED/'About/About.xml').is_file()
 manifest=json.loads((ART/'output/manifest.json').read_text());style=json.loads((ART/'art_style.json').read_text())
 validation=json.loads((ART/'output/registration_validation.json').read_text());assert validation['passed'] and validation['texture_directory']==manifest['texture_directory']==style['texture_directory']
+rotation=json.loads((ART/'output/rotation_validation.json').read_text());assert rotation['passed'] and rotation['runtime_top_sha256']==manifest['files']['HD_m1917HMG_Top.png']
 assert len(manifest['files'])==7 and all(Path(n).name==n and n.endswith('.png') for n in manifest['files'])
 backup=ROOT/'.codex-staging/HMG-InstalledBackup'/datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ');backup.mkdir(parents=True)
 files={}
@@ -74,6 +75,6 @@ removed=[]
 for name in manifest['files']:
     path=legacy/name
     if path.exists():preserve(path);path.unlink();removed.append(path.relative_to(INSTALLED).as_posix())
-report=dict(passed=True,runtime_files=len(files),backup=str(backup),files=files,registered_paths=registered,installed_paint=paint,removed_legacy_textures=removed,unrelated_installed_definitions_unchanged=True,in_game_render_test=False)
+report=dict(passed=True,runtime_files=len(files),backup=str(backup),files=files,registered_paths=registered,installed_paint=paint,removed_legacy_textures=removed,unrelated_installed_definitions_unchanged=True,m1917_eight_heading_rotation_verified=True,m1917_max_heading_error_degrees=max(h['error_degrees'] for h in rotation['headings']),in_game_render_test=False)
 (ART/'output/deployment_validation.json').write_text(json.dumps(report,indent=2)+'\n')
 print('HMG_FDE_DEPLOYMENT_PASS: seven registered PNG paths + two targeted XML files; installed darker FDE paints verified; backups in '+str(backup))

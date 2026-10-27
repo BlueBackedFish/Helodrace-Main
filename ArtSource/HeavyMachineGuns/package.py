@@ -86,7 +86,11 @@ for kind in ['M2HB','M1917']:
         comparison.extend([(kind+' / REST',gun),(kind+' / RECOIL',shifted)])
         ui_name='HD_M2HB_UI'
     else:
-        gun_master=outline(full,radius);gun=runtime(gun_master);bounds['HD_m1917HMG_Top']=export('HD_m1917HMG_Top',gun);stroke_pixels['HD_m1917HMG_Top']=radius/2;ui_name='HD_m1917HMGUI'
+        gun_master=outline(full,radius);gun=runtime(gun_master)
+        # Vanilla TurretTop adds ArtworkRotation=-90 degrees. Its input art
+        # must face +X; previews and the M2 custom renderer use north-facing art.
+        bounds['HD_m1917HMG_Top']=export('HD_m1917HMG_Top',gun.transpose(Image.Transpose.ROTATE_270))
+        stroke_pixels['HD_m1917HMG_Top']=radius/2;ui_name='HD_m1917HMGUI'
     bounds['HD_'+kind+'_Tripod']=export('HD_'+kind+'_Tripod',stand);stroke_pixels['HD_'+kind+'_Tripod']=base_radius/2
     registered=composite_at_world_scale(gun_master,stand_master,meta['gun_draw_tiles'],meta['mount_draw_tiles'])
     world_views.append((kind,registered,max(meta['gun_draw_tiles'],meta['mount_draw_tiles'])))
@@ -130,6 +134,7 @@ manifest=dict(passed=True,projection='90 degree top-down orthographic',master=20
     gun_draw_tiles={kind:meta['gun_draw_tiles'] for kind,meta in metadata.items()},
     mount_draw_tiles={kind:meta['mount_draw_tiles'] for kind,meta in metadata.items()},
     visible_gun_length_tiles={kind:meta['model_length']*meta['model_to_world'] for kind,meta in metadata.items()},
+    runtime_artwork_axes={'M2HB':'+Y / north; custom renderer','M1917':'+X / east; vanilla TurretTop ArtworkRotation=-90'},
     note='M2 barrel/body use the same registration and existing 0.125-tile recoil; tripod layers and UI composites are separate.')
 (OUT/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
 if args.apply:

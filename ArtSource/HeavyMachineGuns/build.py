@@ -82,8 +82,12 @@ def read_source(kind,path):
             else:
                 is_ammo=lo.x>.29 and hi.y<.4 and lo.z>-.65
                 is_round=.20<hi.y-lo.y<.21 and hi.x-lo.x<.04 and hi.z-lo.z<.04
-                layer='body' if is_round or hi.z>-.04 or is_ammo or lo.y>.7 and hi.z>-.33 else 'mount'
-                category='mount' if layer=='mount' else 'fde' if lo.y< -2 else 'ammo' if is_ammo else 'cover' if lo.z>.15 else 'metal'
+                gun_part=is_round or hi.z>-.04 or is_ammo or lo.y>.7 and hi.z>-.33
+                # The cradle, side plates and elevation mechanism above the
+                # swivel belong to the rotating assembly, not the fixed legs.
+                moving_cradle=not gun_part and lo.z>-.98
+                layer='body' if gun_part or moving_cradle else 'mount'
+                category='mount' if layer=='mount' or moving_cradle else 'fde' if lo.y< -2 else 'ammo' if is_ammo else 'cover' if lo.z>.15 else 'metal'
                 if lo.y>1.3 and center.z<-.09:category='wood'
                 if is_round:
                     along=(center.y-lo.y)/(hi.y-lo.y)

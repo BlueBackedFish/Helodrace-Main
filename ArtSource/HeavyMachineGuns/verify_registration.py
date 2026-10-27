@@ -6,6 +6,8 @@ parser=E.XMLParser(remove_blank_text=True)
 before=E.parse(str(ROOT/'Reference/Previous/Defense_GreatWar.xml'),parser)
 after=E.parse(str(REPO/'Defs/GreatWar/Buildings/Defense_GreatWar.xml'),parser)
 manifest=json.loads((OUT/'manifest.json').read_text());models=json.loads((OUT/'model_validation.json').read_text());assert models['passed']
+rotation=json.loads((OUT/'rotation_validation.json').read_text());assert rotation['passed']
+assert rotation['runtime_top_sha256']==manifest['files']['HD_m1917HMG_Top.png'],'Rotation check is stale'
 dimensions=json.loads((ROOT/'scale_reference.json').read_text())
 style=json.loads((ROOT/'art_style.json').read_text());prefix=style['texture_directory']
 relative_length=manifest['visible_gun_length_tiles']['M1917']/manifest['visible_gun_length_tiles']['M2HB']
@@ -43,6 +45,6 @@ for name,pixels in manifest['outline_texture_pixels'].items():
         kind='M2HB' if 'M2HB' in name else 'M1917';draw=manifest['mount_draw_tiles'][kind] if name.endswith('Tripod') else manifest['gun_draw_tiles'][kind]
         assert abs(pixels/1024*draw-style['outline_world_tiles'])<1e-9,('Inconsistent world outline',name)
 result=dict(passed=True,textures=len(manifest['files']),unrelated_definitions_unchanged=True,registered_gun_scales=manifest['gun_draw_tiles'],
-    texture_directory=prefix,outline_world_tiles=style['outline_world_tiles'],icon_outline_pixels=style['icon_outline_pixels'],m2_recoil_tiles=.125,source_model_validation=models['passed'],gameplay_balance_unchanged=True,m1917_length_relative_to_m2=relative_length,in_game_rotation_firing_test=False)
+    texture_directory=prefix,outline_world_tiles=style['outline_world_tiles'],icon_outline_pixels=style['icon_outline_pixels'],m2_recoil_tiles=.125,source_model_validation=models['passed'],m1917_eight_heading_rotation_verified=True,gameplay_balance_unchanged=True,m1917_length_relative_to_m2=relative_length,in_game_rotation_firing_test=False)
 (OUT/'registration_validation.json').write_text(json.dumps(result,indent=2)+'\n')
 print('HMG_REGISTRATION_PASS: 7 matching 1024 textures; mount and gun registration; 0.125-tile recoil preserved; all unrelated definitions unchanged')

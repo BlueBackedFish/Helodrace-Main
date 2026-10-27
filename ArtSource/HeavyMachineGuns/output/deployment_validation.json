@@ -1,11 +1,11 @@
 {
   "passed": true,
   "runtime_files": 9,
-  "backup": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\.codex-staging\\HMG-InstalledBackup\\20261027T155359Z",
+  "backup": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\.codex-staging\\HMG-InstalledBackup\\20261027T160919Z",
   "files": {
-    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M1917_Tripod.png": "4d3ef6826d2b93ee80559a09ed5eed26bf7cff51b3dd63d67ffd1035667a6340",
-    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMG_Top.png": "de4ad89c2205cced27cca6a21d57d8697ae3fb17081db82f7eae5f2b4b282550",
-    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMGUI.png": "afb884e36827ce3b083a5a93822115830d33702ac7ff0d7fe0a2362e45a591c0",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M1917_Tripod.png": "b4b9fc8a7308e68ffce5c36e91407f3cb2dfd7001b1ec9231082365fa4897d73",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMG_Top.png": "9a4c6f5020943182652db27161628139222e9668ef9b0a8487360727f29ec0c0",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMGUI.png": "2dae001e339a9fc9d83e24d57eb669ae1762e9f65e90860412ef8043402764c6",
     "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Barrel.png": "40a2071523c6d970788d41fefa5427cef82a10c575af44875b014e5ca7975cc3",
     "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Body.png": "bfc2a451b0c2a1acee717d4f1153523b9df651f30830d3f946d5b49660485fe0",
     "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Tripod.png": "e4be7d4aa4280833fdfb095675a269f4ba4e6f7e38e1d557535a6f0d9ed3b8c5",
@@ -38,16 +38,16 @@
     },
     "HD_M1917_Tripod.png": {
       "dominant_rgb": [
-        117,
-        101,
-        75
+        0,
+        0,
+        0
       ],
       "required_rgb": [
         117,
         101,
         75
       ],
-      "required_rgb_pixels": 30632
+      "required_rgb_pixels": 24988
     },
     "HD_m1917HMG_Top.png": {
       "dominant_rgb": [
@@ -60,7 +60,7 @@
         123,
         92
       ],
-      "required_rgb_pixels": 48767
+      "required_rgb_pixels": 48876
     },
     "HD_M2HB_Body.png": {
       "dominant_rgb": [
@@ -78,5 +78,7 @@
   },
   "removed_legacy_textures": [],
   "unrelated_installed_definitions_unchanged": true,
+  "m1917_eight_heading_rotation_verified": true,
+  "m1917_max_heading_error_degrees": 0.05937384352745312,
   "in_game_render_test": false
 }

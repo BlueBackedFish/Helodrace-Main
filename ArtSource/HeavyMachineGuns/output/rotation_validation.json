@@ -1,0 +1,63 @@
+{
+  "passed": true,
+  "native": {
+    "artwork_rotation_degrees": -90,
+    "draw_turret_reads_artwork_rotation": true,
+    "game_assembly_sha256": "5cf1b5be399d5b1c9c56ca72c9d35b4ecf307feacf5859d04ac5a1aa5926356a"
+  },
+  "runtime_top_sha256": "9a4c6f5020943182652db27161628139222e9668ef9b0a8487360727f29ec0c0",
+  "runtime_artwork_muzzle_axis": "+X / east",
+  "preview_artwork_muzzle_axis": "+Y / north",
+  "headings": [
+    {
+      "direction": "N",
+      "aim_degrees": 0,
+      "measured_muzzle_degrees": 0.059373843527449253,
+      "error_degrees": 0.05937384352745312
+    },
+    {
+      "direction": "NE",
+      "aim_degrees": 45,
+      "measured_muzzle_degrees": 45.0,
+      "error_degrees": 0.0
+    },
+    {
+      "direction": "E",
+      "aim_degrees": 90,
+      "measured_muzzle_degrees": 90.05937384352745,
+      "error_degrees": 0.05937384352745312
+    },
+    {
+      "direction": "SE",
+      "aim_degrees": 135,
+      "measured_muzzle_degrees": 135.0,
+      "error_degrees": 0.0
+    },
+    {
+      "direction": "S",
+      "aim_degrees": 180,
+      "measured_muzzle_degrees": 180.05937384352742,
+      "error_degrees": 0.0593738435274247
+    },
+    {
+      "direction": "SW",
+      "aim_degrees": 225,
+      "measured_muzzle_degrees": 225.0,
+      "error_degrees": 0.0
+    },
+    {
+      "direction": "W",
+      "aim_degrees": 270,
+      "measured_muzzle_degrees": 270.05937384352745,
+      "error_degrees": 0.05937384352745312
+    },
+    {
+      "direction": "NW",
+      "aim_degrees": 315,
+      "measured_muzzle_degrees": 315.0,
+      "error_degrees": 0.0
+    }
+  ],
+  "tripod_stays_fixed": true,
+  "in_game_render_test": false
+}

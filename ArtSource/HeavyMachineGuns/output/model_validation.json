@@ -63,8 +63,8 @@
       "visible_gun_length_tiles": 1.2711383162031438,
       "relative_length_to_m2": 0.5933833131801692,
       "uniform_surface_color_counts": {
-        "tripod": 1,
-        "water_jacket": 1
+        "water_jacket": 1,
+        "tripod": 1
       },
       "fde_rgb": [
         143,
