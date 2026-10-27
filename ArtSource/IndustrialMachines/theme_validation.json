@@ -1,0 +1,1081 @@
+{
+  "HD_SmallSteamEngine": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "dial",
+      "fixed",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 69004,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 61304,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 69680,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 66989,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_LargeSteamEngine": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "dial",
+      "fixed",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 89632,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 56546,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 81711,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 61595,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_IndustrialDieselEngine": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "fixed",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 90644,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 92972,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 108059,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 93480,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_EarlyIndustrialGenerator": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "fixed",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 70105,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 68737,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 69422,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 65005,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_EarlyIndustrialLargeMotor": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "fixed",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 87531,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 77951,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 90146,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 75493,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_HaberBoschHighPressureReactor": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "dial",
+      "fixed",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 89511,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 86074,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 87512,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 86597,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_StirredTankReactor": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "dial",
+      "fixed",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 73414,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 1
+      },
+      "east": {
+        "metal_pixels": 69984,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 1
+      },
+      "south": {
+        "metal_pixels": 69457,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 69763,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_BasicPumpJack": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "fixed",
+      "metal",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 37196,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 25016,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 38562,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 29516,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_DistillationTower": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "dial",
+      "fixed",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 112452,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 98193,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 92260,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 98438,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_MetalPumpJack": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "fixed",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 124275,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 115019,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 117800,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 107945,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_RotaryDrill": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "fixed",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 222317,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 222031,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 207914,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 227202,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_SAFurnace": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "fixed",
+      "hotmetal",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 174023,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 184039,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 190625,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 171640,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_VIMFurnace": {
+    "family": "advanced_white",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "dial",
+      "fixed",
+      "metal_base",
+      "recess",
+      "silver",
+      "white"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 158815,
+        "white_pixels": 96368,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 185552,
+        "white_pixels": 97047,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 173285,
+        "white_pixels": 83526,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 165964,
+        "white_pixels": 96041,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_CableToolRig": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "fixed",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 15939,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 15380,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 15860,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 10264,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_Converter": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "fixed",
+      "hotmetal",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 99964,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 97486,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 92977,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 95279,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_BlastFurnace": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "fixed",
+      "hotmetal",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 153899,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 159100,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 148334,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 136170,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_BatchStill": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "dial",
+      "fixed",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 90453,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 86760,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 88438,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 91821,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_CNCLathe": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "cyan",
+      "dial",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 73111,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 3561
+      },
+      "east": {
+        "metal_pixels": 67660,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 428
+      },
+      "south": {
+        "metal_pixels": 75123,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 75959,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 394
+      }
+    }
+  },
+  "HD_CNCMillingMachine": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "cyan",
+      "dial",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 77836,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 3575
+      },
+      "east": {
+        "metal_pixels": 85137,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 422
+      },
+      "south": {
+        "metal_pixels": 98029,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 90311,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 411
+      }
+    }
+  },
+  "HD_SemiconductorFab": {
+    "family": "advanced_white",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "cyan",
+      "dial",
+      "fixed",
+      "metal_base",
+      "recess",
+      "silver",
+      "white"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 66496,
+        "white_pixels": 112814,
+        "fixed_cyan_pixels": 12968
+      },
+      "east": {
+        "metal_pixels": 48364,
+        "white_pixels": 137244,
+        "fixed_cyan_pixels": 11493
+      },
+      "south": {
+        "metal_pixels": 48812,
+        "white_pixels": 139076,
+        "fixed_cyan_pixels": 10590
+      },
+      "west": {
+        "metal_pixels": 47410,
+        "white_pixels": 140791,
+        "fixed_cyan_pixels": 11621
+      }
+    }
+  },
+  "HD_MachiningCenter1970": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "cyan",
+      "metal",
+      "metal_base",
+      "recess",
+      "screen",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 134996,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 12128
+      },
+      "east": {
+        "metal_pixels": 128814,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 12210
+      },
+      "south": {
+        "metal_pixels": 131822,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 15896
+      },
+      "west": {
+        "metal_pixels": 116051,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 14917
+      }
+    }
+  },
+  "HD_MultiTaskMachine2000": {
+    "family": "advanced_white",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "cyan",
+      "fixed",
+      "metal_base",
+      "recess",
+      "screen",
+      "silver",
+      "white"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 96042,
+        "white_pixels": 163460,
+        "fixed_cyan_pixels": 6010
+      },
+      "east": {
+        "metal_pixels": 72845,
+        "white_pixels": 167397,
+        "fixed_cyan_pixels": 7327
+      },
+      "south": {
+        "metal_pixels": 90591,
+        "white_pixels": 176783,
+        "fixed_cyan_pixels": 2000
+      },
+      "west": {
+        "metal_pixels": 79875,
+        "white_pixels": 171348,
+        "fixed_cyan_pixels": 6819
+      }
+    }
+  },
+  "HD_HydraulicPress1970": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "dial",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 179294,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 174501,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 174100,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 180447,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_RollingMill1970": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "cyan",
+      "fixed",
+      "metal",
+      "metal_base",
+      "recess",
+      "screen",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 109974,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 6743
+      },
+      "east": {
+        "metal_pixels": 120798,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 9073
+      },
+      "south": {
+        "metal_pixels": 109346,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 10231
+      },
+      "west": {
+        "metal_pixels": 116796,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 8833
+      }
+    }
+  },
+  "HD_TreadleLathe": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "fixed",
+      "metal_legacy",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 34675,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 32048,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 35720,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 33780,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_LineShaftTurretLathe": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "metal_legacy",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 31361,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 30647,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 33929,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 31164,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_LineShaftMillingMachine": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "metal_legacy",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 44463,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 36595,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 44041,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 36396,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_LineShaftPress": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 138110,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 134255,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 153877,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 134245,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "HD_RollingMC": {
+    "family": "industrial_steel",
+    "unchanged_shape": true,
+    "original_palette_provenance_verified": true,
+    "unchanged_gameplay": true,
+    "unchanged_cameras_scale_outline": true,
+    "roles": [
+      "fixed",
+      "metal",
+      "metal_base",
+      "recess",
+      "silver"
+    ],
+    "views": {
+      "north": {
+        "metal_pixels": 154771,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "east": {
+        "metal_pixels": 128109,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "south": {
+        "metal_pixels": 142342,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      },
+      "west": {
+        "metal_pixels": 132867,
+        "white_pixels": 0,
+        "fixed_cyan_pixels": 0
+      }
+    }
+  },
+  "contract": {
+    "primary": "white paint",
+    "secondary": [
+      105,
+      105,
+      105
+    ],
+    "secondary_source": "installed vanilla Steel",
+    "fixed": "wood, stone, cyan accents, working silver and small fittings",
+    "advanced": [
+      "HD_MultiTaskMachine2000",
+      "HD_SemiconductorFab",
+      "HD_VIMFurnace"
+    ],
+    "computer_accents": [
+      "HD_CNCLathe",
+      "HD_CNCMillingMachine",
+      "HD_MachiningCenter1970",
+      "HD_MultiTaskMachine2000",
+      "HD_RollingMill1970",
+      "HD_SemiconductorFab"
+    ],
+    "in_game_tested": false
+  }
+}

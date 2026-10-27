@@ -66,8 +66,27 @@
   },
   "in_game_tested": false,
   "density_export_preserves_geometry_and_palette": true,
-  "density_export_geometry_palette_sha256": "c34e7fcc1287d639177c41ccd0e746ab7d4fe9205f373d75cb0fbfe059b3e565",
-  "rotation_export_geometry_palette_sha256": "c34e7fcc1287d639177c41ccd0e746ab7d4fe9205f373d75cb0fbfe059b3e565",
+  "density_export_geometry_palette_sha256": "b1b581498f310f754c5c1514d6da11d977b1972facf682b3fddc1bf2d8047b61",
+  "rotation_export_geometry_palette_sha256": "b1b581498f310f754c5c1514d6da11d977b1972facf682b3fddc1bf2d8047b61",
   "definition": "Defs/ColdWar/Buildings/MachiningCenter1970.xml",
-  "gameplay_fields_preserved_sha256": "42e4ce0850b4287938b0d7599c7464dde25723841b5c35f929443de33f6b2845"
+  "gameplay_fields_preserved_sha256": "42e4ce0850b4287938b0d7599c7464dde25723841b5c35f929443de33f6b2845",
+  "building_theme_version": 1,
+  "building_theme_family": "industrial_steel",
+  "building_theme_roles": {
+    "metal_base": 27,
+    "recess": 66,
+    "metal": 9,
+    "silver": 30,
+    "cyan": 12,
+    "screen": 9
+  },
+  "theme_secondary_color": [
+    105,
+    105,
+    105
+  ],
+  "theme_geometry_preserved": true,
+  "theme_mesh_sha256": "5c283e649bc1c5a0f1aaa8507ecb991d87887b46db17948aaa97a5f5ead6aa35",
+  "theme_original_palette_sha256": "c34e7fcc1287d639177c41ccd0e746ab7d4fe9205f373d75cb0fbfe059b3e565",
+  "theme_palette_intentionally_revised": true
 }

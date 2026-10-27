@@ -62,8 +62,25 @@
   },
   "in_game_tested": false,
   "density_export_preserves_geometry_and_palette": true,
-  "density_export_geometry_palette_sha256": "962141542f4d8eec6633508349f95e871fde919cb461b514b936cb10cbe5545c",
-  "rotation_export_geometry_palette_sha256": "962141542f4d8eec6633508349f95e871fde919cb461b514b936cb10cbe5545c",
+  "density_export_geometry_palette_sha256": "20f9390fd1606e6b662e87554a7dde6e1997d3203a688ee86098d8be85a5603d",
+  "rotation_export_geometry_palette_sha256": "20f9390fd1606e6b662e87554a7dde6e1997d3203a688ee86098d8be85a5603d",
   "definition": "Defs/WildWest/Buildings/Industry_WildWest.xml",
-  "gameplay_fields_preserved_sha256": "2bc9b1b37352a398580596042a791dee8dc4d6439128dcb68383ba3114d49b80"
+  "gameplay_fields_preserved_sha256": "2bc9b1b37352a398580596042a791dee8dc4d6439128dcb68383ba3114d49b80",
+  "building_theme_version": 1,
+  "building_theme_family": "industrial_steel",
+  "building_theme_roles": {
+    "metal_base": 3,
+    "metal": 24,
+    "silver": 9,
+    "recess": 6
+  },
+  "theme_secondary_color": [
+    105,
+    105,
+    105
+  ],
+  "theme_geometry_preserved": true,
+  "theme_mesh_sha256": "02ee5b89a194016c662de7425145ab6753663d19045ac0fb86af2a4a8fa10d44",
+  "theme_original_palette_sha256": "962141542f4d8eec6633508349f95e871fde919cb461b514b936cb10cbe5545c",
+  "theme_palette_intentionally_revised": true
 }

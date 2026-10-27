@@ -65,8 +65,27 @@
   },
   "in_game_tested": false,
   "density_export_preserves_geometry_and_palette": true,
-  "density_export_geometry_palette_sha256": "9b134a0311037c46d729f148616a54b130445de1923e179ec8a5131d7b667932",
-  "rotation_export_geometry_palette_sha256": "9b134a0311037c46d729f148616a54b130445de1923e179ec8a5131d7b667932",
+  "density_export_geometry_palette_sha256": "1d0ca1bad44374676e97a1c6e3d7a466108db5bbc7de3c1f90d612a06a83b3c4",
+  "rotation_export_geometry_palette_sha256": "1d0ca1bad44374676e97a1c6e3d7a466108db5bbc7de3c1f90d612a06a83b3c4",
   "definition": "Defs/ColdWar/Buildings/NumericalControl.xml",
-  "gameplay_fields_preserved_sha256": "857d133430df56295c9addfe3a8fac88991f6b94f203a3455071a81c3082f95f"
+  "gameplay_fields_preserved_sha256": "857d133430df56295c9addfe3a8fac88991f6b94f203a3455071a81c3082f95f",
+  "building_theme_version": 1,
+  "building_theme_family": "industrial_steel",
+  "building_theme_roles": {
+    "metal_base": 39,
+    "metal": 12,
+    "recess": 69,
+    "silver": 36,
+    "cyan": 6,
+    "dial": 9
+  },
+  "theme_secondary_color": [
+    105,
+    105,
+    105
+  ],
+  "theme_geometry_preserved": true,
+  "theme_mesh_sha256": "dbb4d885298e1323cd20bd959ff990941a970937f820aaeec0a04211ff52edc1",
+  "theme_original_palette_sha256": "9b134a0311037c46d729f148616a54b130445de1923e179ec8a5131d7b667932",
+  "theme_palette_intentionally_revised": true
 }

@@ -3,6 +3,20 @@ import bpy, math, os, json, hashlib, tempfile
 import numpy as np
 from mathutils import Vector
 
+def apply_building_theme(stem):
+    from building_theme import apply
+    return apply(bpy.context.scene,stem)
+
+def save_preview(im,path):
+    """Replace a complete PNG without truncating an image held by a viewer."""
+    descriptor,temp=tempfile.mkstemp(prefix='.preview-',suffix='.png',dir=os.path.dirname(path))
+    os.close(descriptor)
+    try:
+        im.file_format='PNG';im.filepath_raw=temp;im.save();os.replace(temp,path)
+    finally:
+        im.filepath_raw=path
+        if os.path.exists(temp):os.remove(temp)
+
 def geometry_hash():
     """Saved mesh transforms, topology, face assignments and fixed material colors."""
     bpy.context.view_layer.update();data=[]
@@ -74,6 +88,9 @@ def outline_file(color_path,mask_path,radius):
         return p.reshape(h,w,4)
     color,mask=read(color_path),read(mask_path)
     assert np.max(abs(color[:,:,3]-mask[:,:,3]))<.001
+    # Color-managed antialiasing can make mixed red/green weights sum above 1.
+    # Normalize their overlap before the shader uses them as tint weights.
+    mask[:,:,:2]/=np.maximum(1,mask[:,:,:2].sum(axis=2))[:,:,None]
     h,w=color.shape[:2];a=color[:,:,3];padded=np.pad(a,radius);grown=np.zeros_like(a)
     for dy in range(-radius,radius+1):
         for dx in range(-radius,radius+1):
@@ -229,6 +246,7 @@ def bounds(o):
     return [[min(v[i] for v in p),max(v[i] for v in p)] for i in range(3)]
 
 def export(out,stem,footprint,features,blend_name=None):
+    apply_building_theme(stem)
     tex=os.path.abspath(os.path.join(os.path.dirname(__file__),'../../Textures/Buildings'))
     bpy.context.view_layer.update()
     meshes=[o for o in scene.objects if o.type=='MESH']
@@ -271,17 +289,29 @@ def export(out,stem,footprint,features,blend_name=None):
     scene.render.image_settings.file_format='PNG';scene.render.image_settings.color_mode='RGBA'
     scene.view_settings.view_transform='Standard';scene.view_settings.look='None'
     scene.view_settings.exposure=0;scene.view_settings.gamma=1
-    red=mat('MASK_red',(255,0,0));black=mat('MASK_unselected',(0,0,0))
+    red=mat('MASK_red',(255,0,0));green=mat('MASK_metal_green',(0,255,0));black=mat('MASK_unselected',(0,0,0))
     originals={o.name:list(o.data.materials) for o in meshes}
+    # Saved materials show the theme. Game albedo stays untinted so the shader
+    # applies primary white/secondary Steel exactly once through the mask.
+    raw={}
+    for materials in originals.values():
+        for m in materials:
+            if m.name in raw:continue
+            rgb=m.get('theme_base_rgb',None)
+            raw[m.name]=mat('EXPORT_albedo_'+m.name,rgb,False) if rgb is not None else m
     selection=json.loads(scene.get('density_mask_policy','{}'))
     staging=tempfile.mkdtemp(prefix='.density-render-',dir=out)
     for c in cameras:
         scene.camera=c;direction=c.name.removeprefix('Camera_').lower()
         color_path=os.path.join(staging,stem+'_'+direction+'.png')
         mask_path=os.path.join(staging,stem+'_'+direction+'m.png')
+        for o in meshes:
+            for i,m in enumerate(originals[o.name]):o.data.materials[i]=raw[m.name]
         scene.render.filepath=color_path;bpy.ops.render.render(write_still=True)
         for o in meshes:
-            for i,m in enumerate(originals[o.name]):o.data.materials[i]=red if m.get('tintable',selection.get(m.name,False)) else black
+            for i,m in enumerate(originals[o.name]):
+                channel=m.get('theme_channel',None)
+                o.data.materials[i]=green if channel=='metal' else red if channel=='primary' else black if channel=='fixed' else red if m.get('tintable',selection.get(m.name,False)) else black
         scene.render.filepath=mask_path;bpy.ops.render.render(write_still=True)
         for o in meshes:
             for i,m in enumerate(originals[o.name]):o.data.materials[i]=m
@@ -311,14 +341,23 @@ def export(out,stem,footprint,features,blend_name=None):
         checks[name]={'downward_degrees':angle,'minimum_margin':margin,'mask_alpha_matches':True}
         im=bpy.data.images.load(os.path.join(tex,stem+'_'+name.lower()+'.png'),check_existing=False)
         im.colorspace_settings.name='Non-Color';im.scale(512,512)
+        if bpy.context.scene.get('building_theme_version',0):
+            # Preview the shader's white primary / Steel secondary colors;
+            # exported game albedo above remains unmultiplied.
+            themed=p.copy();weights=m[:,:,:2]
+            factor=(1-weights.sum(axis=2))[:,:,None]+weights[:,:,0,None]+weights[:,:,1,None]*np.array(bpy.context.scene['building_theme_secondary_color'])/255
+            themed[:,:,:3]*=np.clip(factor,0,1)
+            preview_image=bpy.data.images.new('Theme_preview',resolution,resolution,alpha=True)
+            preview_image.colorspace_settings.name='Non-Color';preview_image.pixels.foreach_set(themed.ravel())
+            preview_image.scale(512,512);im=preview_image
         preview=np.empty(512*512*4,np.float32);im.pixels.foreach_get(preview);previews.append(preview.reshape(512,512,4))
     im=bpy.data.images.new('North_East_South',1536,512,alpha=True);im.colorspace_settings.name='Non-Color'
     im.pixels.foreach_set(np.concatenate(previews[:3],axis=1).ravel());im.file_format='PNG'
-    im.filepath_raw=os.path.join(out,'preview_north_east_south.png');im.save()
-    im.scale(768,256);im.filepath_raw=os.path.join(out,'preview_256px.png');im.save()
+    save_preview(im,os.path.join(out,'preview_north_east_south.png'))
+    im.scale(768,256);save_preview(im,os.path.join(out,'preview_256px.png'))
     im=bpy.data.images.new('North_East_South_West',2048,512,alpha=True);im.colorspace_settings.name='Non-Color'
     im.pixels.foreach_set(np.concatenate(previews,axis=1).ravel());im.file_format='PNG'
-    im.filepath_raw=os.path.join(out,'preview_four_views.png');im.save()
+    save_preview(im,os.path.join(out,'preview_four_views.png'))
     count=len([o for o in bpy.context.scene.objects if o.type=='MESH'])
     with open(os.path.join(out,'validation.json'),'w') as f:
         json.dump({'asset':stem,'footprint':footprint,'features':features,'mesh_objects':count,
@@ -332,4 +371,8 @@ def export(out,stem,footprint,features,blend_name=None):
                    'ground_anchor':[0.,0.,0.] if calibrated else [float(v) for v in target],
                    'camera_target':[float(v) for v in target],
                    'expected_draw_offset':[0.,0.,draw_offset],
-                   'cameras':checks,'in_game_tested':False},f,indent=2)
+                   'cameras':checks,'in_game_tested':False,
+                   'building_theme_version':bpy.context.scene.get('building_theme_version',0),
+                   'building_theme_family':bpy.context.scene.get('building_theme_family','authored'),
+                   'building_theme_roles':json.loads(bpy.context.scene.get('building_theme_roles','{}')),
+                   'theme_secondary_color':list(bpy.context.scene.get('building_theme_secondary_color',[255,255,255]))},f,indent=2)

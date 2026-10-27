@@ -1,6 +1,6 @@
 # Industrial sprite pipeline
 
-Seven independent models share fixed Emission palettes and simple mechanical forms. Each has its own build script, source references, Blender scene, validation and North/East/South review sheets. Power-machine design history is in [PERIOD_DESIGN.md](PERIOD_DESIGN.md); the two circa-1950 reactors have individual READMEs. Current size and outline rules are in [PRESENTATION_CALIBRATION.md](PRESENTATION_CALIBRATION.md).
+Seven independent models share fixed Emission palettes and simple mechanical forms. Each has its own build script, source references, Blender scene, validation and North/East/South review sheets. Power-machine design history is in [PERIOD_DESIGN.md](PERIOD_DESIGN.md); the two circa-1950 reactors have individual READMEs. Current material roles, white/Steel masks and cyan controls are in [BUILDING_COLOR_THEME.md](BUILDING_COLOR_THEME.md). Current size and outline rules are in [PRESENTATION_CALIBRATION.md](PRESENTATION_CALIBRATION.md).
 
 | Building | Independent script | Texture prefix |
 |---|---|---|

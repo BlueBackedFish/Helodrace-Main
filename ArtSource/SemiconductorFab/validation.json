@@ -67,8 +67,28 @@
   },
   "in_game_tested": false,
   "density_export_preserves_geometry_and_palette": true,
-  "density_export_geometry_palette_sha256": "1bb548f2290300165c3a250af7247fc8d6e9d9e3900d1c52fe12d00aae191678",
-  "rotation_export_geometry_palette_sha256": "1bb548f2290300165c3a250af7247fc8d6e9d9e3900d1c52fe12d00aae191678",
+  "density_export_geometry_palette_sha256": "6cd009ea173025b9c1eceafb817aa6af5d8e52f318a78362a9da608209e26e0f",
+  "rotation_export_geometry_palette_sha256": "6cd009ea173025b9c1eceafb817aa6af5d8e52f318a78362a9da608209e26e0f",
   "definition": "Defs/ColdWar/Buildings/SemiconductorFab.xml",
-  "gameplay_fields_preserved_sha256": "99f67f87e20394680e93694d72258720225bdc6ce991f02cbbc9c9a1438abd50"
+  "gameplay_fields_preserved_sha256": "99f67f87e20394680e93694d72258720225bdc6ce991f02cbbc9c9a1438abd50",
+  "building_theme_version": 1,
+  "building_theme_family": "advanced_white",
+  "building_theme_roles": {
+    "metal_base": 48,
+    "white": 36,
+    "silver": 18,
+    "recess": 57,
+    "cyan": 18,
+    "dial": 6,
+    "fixed": 18
+  },
+  "theme_secondary_color": [
+    105,
+    105,
+    105
+  ],
+  "theme_geometry_preserved": true,
+  "theme_mesh_sha256": "e6f89c51909cf20f3c0bb98254f7f9e1e295542c9d942d3706ea36bb59157335",
+  "theme_original_palette_sha256": "1bb548f2290300165c3a250af7247fc8d6e9d9e3900d1c52fe12d00aae191678",
+  "theme_palette_intentionally_revised": true
 }

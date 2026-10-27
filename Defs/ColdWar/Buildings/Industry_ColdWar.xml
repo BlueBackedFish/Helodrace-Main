@@ -13,6 +13,8 @@
       <drawSize>(6,6)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <shadowData>
         <volume>(2.5,0.7,2.5)</volume>
       </shadowData>

@@ -9,3 +9,5 @@ The machines have active electric worktable definitions, staffed bills, Korean t
 Run `verify_definitions.py` with ordinary Python/Pillow to check source recipe parity, generated recipes, bill workers, power, material/research references, translations and higher-tier workbench facilities. Run `IndustrialMachines/verify_rotation.py` in Blender for saved geometry/color hashes, 64-degree cameras, texture resolution, alpha/masks, margins, fixed outline density and game graphic links.
 
 `review_machines.py` creates common-game-scale contact sheets, trimming transparent margins without silhouette fitting. Review backgrounds/captions are absent from delivered game textures. No in-game visual/play test has been performed.
+
+Current color roles and mask channels follow [the shared building theme](../IndustrialMachines/BUILDING_COLOR_THEME.md). Review sheets apply the white/Steel mask; native PNGs remain untinted albedo.

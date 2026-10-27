@@ -1,6 +1,9 @@
 """Labeled petroleum artwork sheets and true game-tile-scale comparison."""
 from pathlib import Path
 import os,json
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'IndustrialMachines'))
+from theme_preview import game_image,save_review
 from PIL import Image,ImageDraw,ImageFont
 OUT=Path(__file__).resolve().parent;ROOT=OUT.parent.parent
 fontpath=Path(os.environ.get('WINDIR','C:/Windows'))/'Fonts/segoeui.ttf'
@@ -14,7 +17,7 @@ world=Image.new('RGBA',(1280,960),(70,73,72,255))
 views=Image.new('RGBA',(1536,2208),(70,73,72,255))
 for i,(stem,folder,title,subtitle) in enumerate(assets):
     v=json.loads((ROOT/'ArtSource'/folder/'validation.json').read_text())
-    color=Image.open(ROOT/'Textures/Buildings'/f'{stem}_north.png').convert('RGBA')
+    color=game_image(ROOT/'Textures/Buildings'/f'{stem}_north.png')
     x,y=(i%2)*512,(i//2)*512
     ImageDraw.Draw(native).text((x+14,y+12),title,font=font,fill='white')
     ImageDraw.Draw(native).text((x+14,y+39),subtitle,font=small,fill=(190,205,198))
@@ -30,8 +33,8 @@ for i,(stem,folder,title,subtitle) in enumerate(assets):
     for col,direction in enumerate(['north','east','south']):
         x,y=col*512,i*552
         ImageDraw.Draw(views).text((x+14,y+10),title+' / '+direction.title(),font=font,fill='white')
-        views.alpha_composite(Image.open(ROOT/'Textures/Buildings'/f'{stem}_{direction}.png').convert('RGBA').resize((512,512),Image.Resampling.LANCZOS),(x,y+34))
-native.convert('RGB').save(OUT/'overview_north.png')
-world.convert('RGB').save(OUT/'tile_scale_comparison.png')
-views.convert('RGB').save(OUT/'north_east_south.png')
+        views.alpha_composite(game_image(ROOT/'Textures/Buildings'/f'{stem}_{direction}.png').resize((512,512),Image.Resampling.LANCZOS),(x,y+34))
+save_review(native.convert('RGB'),OUT/'overview_north.png')
+save_review(world.convert('RGB'),OUT/'tile_scale_comparison.png')
+save_review(views.convert('RGB'),OUT/'north_east_south.png')
 print('Saved four-asset North sheet, 12-view sheet and actual tile-scale comparison.')

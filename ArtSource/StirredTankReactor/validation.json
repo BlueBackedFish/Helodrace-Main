@@ -51,7 +51,7 @@
     }
   },
   "in_game_tested": false,
-  "rotation_export_geometry_palette_sha256": "9da2b337b7e4bec812defb45b00af0d62e71812dd51099eb4ad4a413e379ca58",
+  "rotation_export_geometry_palette_sha256": "b86cce06963406f3f32c470104c18e402c8c8f19478d6db2472eab710264ab5c",
   "rotation_export_preserves_geometry_and_palette": true,
   "definition": "Defs/GreatWar/Buildings/Industry_GreatWar.xml",
   "gameplay_fields_preserved_sha256": "3b92923c97af6802139e36b5b301379745c13cf2e595f4211cf7cba9d7f869f8",
@@ -73,6 +73,25 @@
     0.0
   ],
   "density_export_preserves_geometry_and_palette": true,
-  "density_export_geometry_palette_sha256": "9da2b337b7e4bec812defb45b00af0d62e71812dd51099eb4ad4a413e379ca58",
-  "previous_density_draw_size": null
+  "density_export_geometry_palette_sha256": "b86cce06963406f3f32c470104c18e402c8c8f19478d6db2472eab710264ab5c",
+  "previous_density_draw_size": null,
+  "building_theme_version": 1,
+  "building_theme_family": "industrial_steel",
+  "building_theme_roles": {
+    "metal_base": 15,
+    "silver": 66,
+    "metal": 51,
+    "recess": 81,
+    "fixed": 27,
+    "dial": 3
+  },
+  "theme_secondary_color": [
+    105,
+    105,
+    105
+  ],
+  "theme_geometry_preserved": true,
+  "theme_mesh_sha256": "b7d5518d10409b888b33c46c640b71588f83a83e2be9c9bfd9c8dd7cefaf891e",
+  "theme_original_palette_sha256": "9da2b337b7e4bec812defb45b00af0d62e71812dd51099eb4ad4a413e379ca58",
+  "theme_palette_intentionally_revised": true
 }

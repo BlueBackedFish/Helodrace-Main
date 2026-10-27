@@ -1,6 +1,9 @@
 """Common game-scale review sheets; game textures remain transparent and unchanged."""
 from pathlib import Path
 import json
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'IndustrialMachines'))
+from theme_preview import game_image,save_review
 from PIL import Image,ImageDraw,ImageFont
 ROOT=Path(__file__).resolve().parents[2];OUT=Path(__file__).resolve().parent
 font=ImageFont.truetype('C:/Windows/Fonts/malgun.ttf',22)
@@ -11,7 +14,7 @@ assets=[('1970년대 머시닝 센터','HD_MachiningCenter1970','MachiningCenter
  ('1970년대 유압 프레스','HD_HydraulicPress1970','HydraulicPress1970')]
 def preview(stem,folder,direction,unit_pixels):
     meta=json.loads((ROOT/'ArtSource'/folder/'validation.json').read_text(encoding='utf8'))
-    im=Image.open(ROOT/'Textures/Buildings'/f'{stem}_{direction}.png').convert('RGBA')
+    im=game_image(ROOT/'Textures/Buildings'/f'{stem}_{direction}.png')
     edge=round(meta['orthographic_scale']*unit_pixels)
     im=im.resize((edge,edge),Image.Resampling.LANCZOS)
     return im.crop(im.getbbox()),meta
@@ -24,7 +27,7 @@ for i,(label,stem,folder) in enumerate(assets):
     sheet.paste(im,(x+(500-im.width)//2,y+(360-im.height)//2),im)
     d.text((x+20,y+363),label,font=font,fill=(30,30,28))
     d.text((x+20,y+397),'x'.join(map(str,meta['footprint']))+' / '+str(meta['texture_resolution'][0])+'px / 12px outline',font=small,fill=(45,45,41))
-sheet.save(OUT/'overview_north.png')
+save_review(sheet,OUT/'overview_north.png')
 sheet=Image.new('RGB',(1360,1600),(186,186,182));d=ImageDraw.Draw(sheet)
 for row,(label,stem,folder) in enumerate(assets):
     y=row*400;d.text((15,y+4),label,font=font,fill=(30,30,28))
@@ -33,5 +36,5 @@ for row,(label,stem,folder) in enumerate(assets):
         assert im.width<=325 and im.height<=336,(label,direction,im.size)
         sheet.paste(im,(col*340+(340-im.width)//2,y+36+(336-im.height)//2),im)
         d.text((col*340+15,y+376),direction.title(),font=small,fill=(30,30,28))
-sheet.save(OUT/'four_views.png')
+save_review(sheet,OUT/'four_views.png')
 print('Saved common-scale North and four-view reviews for four later industrial machines.')

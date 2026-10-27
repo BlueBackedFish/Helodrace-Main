@@ -66,8 +66,26 @@
   },
   "in_game_tested": false,
   "density_export_preserves_geometry_and_palette": true,
-  "density_export_geometry_palette_sha256": "484e57c05f0909ef31b2ee08e7c8aeec8079fd5c006929f7c9d248f31dbb1265",
-  "rotation_export_geometry_palette_sha256": "484e57c05f0909ef31b2ee08e7c8aeec8079fd5c006929f7c9d248f31dbb1265",
+  "density_export_geometry_palette_sha256": "709a61f14e515601b26cfec2b24f01bbaa042b919cdfede96465e91a2780e453",
+  "rotation_export_geometry_palette_sha256": "709a61f14e515601b26cfec2b24f01bbaa042b919cdfede96465e91a2780e453",
   "definition": "Defs/ColdWar/Buildings/HydraulicPress1970.xml",
-  "gameplay_fields_preserved_sha256": "3c58d813482f5beed6d7ceb827c46aecb63ed7b429a8a0ea78fd8fd01cab9353"
+  "gameplay_fields_preserved_sha256": "3c58d813482f5beed6d7ceb827c46aecb63ed7b429a8a0ea78fd8fd01cab9353",
+  "building_theme_version": 1,
+  "building_theme_family": "industrial_steel",
+  "building_theme_roles": {
+    "metal_base": 39,
+    "metal": 21,
+    "silver": 18,
+    "recess": 39,
+    "dial": 3
+  },
+  "theme_secondary_color": [
+    105,
+    105,
+    105
+  ],
+  "theme_geometry_preserved": true,
+  "theme_mesh_sha256": "18e7581d2119a24b96fa9f3b2eeb404e1571bb758c481450b3be22a6bbefa651",
+  "theme_original_palette_sha256": "484e57c05f0909ef31b2ee08e7c8aeec8079fd5c006929f7c9d248f31dbb1265",
+  "theme_palette_intentionally_revised": true
 }

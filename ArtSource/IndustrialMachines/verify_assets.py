@@ -34,7 +34,7 @@ for stem,folder,size,blend in assets:
     draw=[float(v) for v in node.findtext('graphicData/drawSize').strip('()').split(',')]
     assert draw==checks['expected_draw_size']==[checks['orthographic_scale']]*2
     assert max(abs(float(a)-b) for a,b in zip(node.findtext('graphicData/drawOffset').strip('()').split(','),checks['expected_draw_offset']))<1e-8
-    if not reactor:assert checks['geometry_and_palette_unchanged']
+    if not reactor:assert checks.get('theme_geometry_preserved') or checks['geometry_and_palette_unchanged']
     if reactor:
         active_mask=os.path.join(ROOT,'Textures',node.findtext('graphicData/texPath')+'_northm.png')
         assert os.path.isfile(active_mask)

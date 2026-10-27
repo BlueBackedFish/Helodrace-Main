@@ -35,6 +35,7 @@ def vents(name,x,y,z,width=.42):
     for dz in [-.13,0,.13]:s.cube(name,(x,y,z+dz),(width,.012,.042),s.dark)
 
 def finish(out,stem,footprint,features):
+    s.apply_building_theme(stem)
     before=s.geometry_hash();s.export(out,stem,footprint,features)
     assert s.geometry_hash()==before
     path=os.path.join(out,'validation.json')

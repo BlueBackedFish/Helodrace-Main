@@ -49,11 +49,11 @@
     }
   },
   "in_game_tested": false,
-  "geometry_and_palette_unchanged": true,
+  "geometry_and_palette_unchanged": false,
   "model_geometry_palette_sha256": "dfae9168dd548fcce7de14fa01cb94e36e0159cf4906d84cf4470d83328e1788",
   "previous_draw_size": "(4.3,4.3)",
   "previous_draw_offset": "(0,0,0.3)",
-  "rotation_export_geometry_palette_sha256": "dfae9168dd548fcce7de14fa01cb94e36e0159cf4906d84cf4470d83328e1788",
+  "rotation_export_geometry_palette_sha256": "530c43b5df9b8f99ec18af62c5d539c007b619f2661929e956b2ce0951ea6564",
   "rotation_export_preserves_geometry_and_palette": true,
   "definition": "Defs/WildWest/Buildings/Industry_WildWest.xml",
   "gameplay_fields_preserved_sha256": "1ca73de670273c6ff2776a7605f47ce9c90a26328648bfc73c11aee9f234b4c7",
@@ -75,6 +75,25 @@
     0.0
   ],
   "density_export_preserves_geometry_and_palette": true,
-  "density_export_geometry_palette_sha256": "dfae9168dd548fcce7de14fa01cb94e36e0159cf4906d84cf4470d83328e1788",
-  "previous_density_draw_size": "(4.3,4.3)"
+  "density_export_geometry_palette_sha256": "530c43b5df9b8f99ec18af62c5d539c007b619f2661929e956b2ce0951ea6564",
+  "previous_density_draw_size": "(4.3,4.3)",
+  "building_theme_version": 1,
+  "building_theme_family": "industrial_steel",
+  "building_theme_roles": {
+    "fixed": 72,
+    "recess": 81,
+    "metal_base": 39,
+    "metal": 78,
+    "silver": 48,
+    "dial": 3
+  },
+  "theme_secondary_color": [
+    105,
+    105,
+    105
+  ],
+  "theme_geometry_preserved": true,
+  "theme_mesh_sha256": "0f78d1ff9b2129b790a4943f9dc2e40a0e2e40ea0198c4839e86d0ad24266fe4",
+  "theme_original_palette_sha256": "dfae9168dd548fcce7de14fa01cb94e36e0159cf4906d84cf4470d83328e1788",
+  "theme_palette_intentionally_revised": true
 }

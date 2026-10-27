@@ -7,6 +7,7 @@ sys.path.insert(0,OUT)
 from render_west import geometry_hash,read_pixels
 from normalize_density import ASSETS as assets,ALIASES,FIXED
 from integrate_asset import gameplay_hash
+from building_theme import mesh_shape_hash,EXCLUDED,ADVANCED,STEEL
 
 defs={}
 for folder,_,files in os.walk(os.path.join(ROOT,'Defs')):
@@ -46,16 +47,25 @@ for stem,folder,blend,active in assets:
         assert np.max(abs(color[:,:,3]-mask[:,:,3]))<.001
         h,w=color.shape[:2];assert [w,h]==meta['texture_resolution']
         yy,xx=np.where(color[:,:,3]>.5);margin=int(min(xx.min(),yy.min(),w-1-xx.max(),h-1-yy.max()));assert margin>=12
-        assert np.max(mask[:,:,1:3])<=1.01/255
+        assert np.max(mask[:,:,2])<=1.01/255
+        assert np.max(mask[:,:,:2].sum(axis=2))<=1+2.01/255
         stroke=(color[:,:,:3].max(axis=2)<.001)&(color[:,:,3]>.95)
         assert np.max(mask[:,:,:3][stroke])<=2.01/255
-        if stem in FIXED or stem in ['HD_CableToolRig','HD_BasicPumpJack']:assert mask[:,:,:3].max()<=1.01/255
+        if stem in FIXED:assert mask[:,:,:3].max()<=1.01/255
+        if not meta.get('building_theme_version') and stem in ['HD_CableToolRig','HD_BasicPumpJack']:assert mask[:,:,:3].max()<=1.01/255
         checks[name]={'elevation':64,'minimum_margin':margin,'mask_alpha_matches':True}
     report[stem]={'active_definition':active,'four_actual_camera_views_verified':checks,
                   'meshes':len([o for o in bpy.context.scene.objects if o.type=='MESH']),
                   'gameplay_fields_preserved':active,'geometry_and_colors_preserved':True,
                   'texture_resolution':meta['texture_resolution'],'pixels_per_game_unit':meta['pixels_per_game_unit'],
                   'outline_pixels':12,'outline_width_in_game_units':meta['outline_width_in_game_units']}
+    if meta.get('building_theme_version'):
+        assert stem not in EXCLUDED and meta['theme_geometry_preserved']
+        assert mesh_shape_hash(bpy.context.scene)==meta['theme_mesh_sha256']
+        assert defs[ALIASES.get(stem,stem)].findtext('graphicData/colorTwo')=='('+','.join(map(str,STEEL))+')'
+        assert meta['building_theme_family']==('advanced_white' if stem in ADVANCED else 'industrial_steel')
+        report[stem]['building_theme_family']=meta['building_theme_family']
+        report[stem]['theme_geometry_preserved']=True
     assert abs(meta['camera_target'][2]*math.cos(math.radians(64))-meta['expected_draw_offset'][2])<1e-7
     assert meta['texture_resolution']==[256*max(meta['footprint'])]*2
     assert abs(meta['pixels_per_game_unit']-256/1.5)<1e-6

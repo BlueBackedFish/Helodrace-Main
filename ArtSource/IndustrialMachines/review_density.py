@@ -1,6 +1,7 @@
 """Compare original and current sprites at one actual game scale; review only."""
 from pathlib import Path
 import io,json,subprocess,xml.etree.ElementTree as ET
+from theme_preview import game_image,save_review
 from PIL import Image,ImageDraw,ImageFont
 ROOT=Path(__file__).resolve().parents[2];OUT=Path(__file__).resolve().parent
 font=ImageFont.truetype('C:/Windows/Fonts/segoeui.ttf',17)
@@ -18,7 +19,7 @@ def cell(stem,title,before):
     node=(old if before else current)[stem];draw=values(node.findtext('graphicData/drawSize'))
     offset=values(node.findtext('graphicData/drawOffset','(0,0,0)'));footprint=values(node.findtext('size'))
     path='Textures/Buildings/'+node.findtext('graphicData/texPath').split('/')[-1]+'_north.png'
-    im=Image.open(io.BytesIO(old_bytes(path)) if before else ROOT/path).convert('RGBA');resolution=im.width
+    im=(Image.open(io.BytesIO(old_bytes(path))).convert('RGBA') if before else game_image(ROOT/path));resolution=im.width
     board=Image.new('RGBA',(448,400),(190,190,187,255));d=ImageDraw.Draw(board);cx,cy=224,255
     d.text((12,9),title+(' / BEFORE' if before else ' / AFTER'),font=font,fill=(30,30,28))
     d.text((12,34),f'{resolution}px / drawSize {draw[0]:g} / grid = 1 tile',font=small,fill=(50,50,46))
@@ -33,7 +34,7 @@ sheet=Image.new('RGBA',(896,1240),(190,190,187,255))
 ImageDraw.Draw(sheet).text((12,8),'Same game scale: 64px per tile. Canvas density and outline comparison.',font=font,fill=(30,30,28))
 for i,(stem,title) in enumerate(items):
     for col,before in enumerate([True,False]):sheet.alpha_composite(cell(stem,title,before),(col*448,38+i*400))
-sheet.convert('RGB').save(OUT/'density_before_after.png')
+save_review(sheet.convert('RGB'),OUT/'density_before_after.png')
 catalog=[]
 for path in (ROOT/'ArtSource').rglob('validation.json'):
     try:m=json.loads(path.read_text())

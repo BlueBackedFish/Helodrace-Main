@@ -33,6 +33,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true,
     "smoke_origin_matches_saved_stack_mesh": true
   },
   "HD_LargeSteamEngine": {
@@ -68,7 +70,9 @@
     ],
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
-    "outline_width_in_game_units": 0.0703125
+    "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true
   },
   "HD_IndustrialDieselEngine": {
     "active_definition": true,
@@ -104,6 +108,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true,
     "smoke_origin_matches_saved_stack_mesh": true
   },
   "HD_EarlyIndustrialGenerator": {
@@ -139,7 +145,9 @@
     ],
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
-    "outline_width_in_game_units": 0.0703125
+    "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true
   },
   "HD_EarlyIndustrialLargeMotor": {
     "active_definition": true,
@@ -174,7 +182,9 @@
     ],
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
-    "outline_width_in_game_units": 0.0703125
+    "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true
   },
   "HD_HaberBoschHighPressureReactor": {
     "active_definition": true,
@@ -210,6 +220,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_StirredTankReactor": {
@@ -246,6 +258,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_BasicPumpJack": {
@@ -281,7 +295,9 @@
     ],
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
-    "outline_width_in_game_units": 0.0703125
+    "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true
   },
   "HD_DistillationTower": {
     "active_definition": true,
@@ -317,6 +333,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_MetalPumpJack": {
@@ -352,7 +370,9 @@
     ],
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
-    "outline_width_in_game_units": 0.0703125
+    "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true
   },
   "HD_RotaryDrill": {
     "active_definition": true,
@@ -388,6 +408,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_SAFurnace": {
@@ -424,6 +446,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_VIMFurnace": {
@@ -460,6 +484,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "advanced_white",
+    "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_CableToolRig": {
@@ -495,7 +521,9 @@
     ],
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
-    "outline_width_in_game_units": 0.0703125
+    "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true
   },
   "HD_Converter": {
     "active_definition": true,
@@ -531,6 +559,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_BlastFurnace": {
@@ -567,6 +597,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_BatchStill": {
@@ -603,6 +635,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_CNCLathe": {
@@ -639,6 +673,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_CNCMillingMachine": {
@@ -675,6 +711,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_SemiconductorFab": {
@@ -711,6 +749,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "advanced_white",
+    "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_MachiningCenter1970": {
@@ -747,6 +787,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_MultiTaskMachine2000": {
@@ -783,6 +825,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "advanced_white",
+    "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_HydraulicPress1970": {
@@ -819,6 +863,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_RollingMill1970": {
@@ -855,6 +901,8 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_TreadleLathe": {
@@ -890,7 +938,9 @@
     ],
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
-    "outline_width_in_game_units": 0.0703125
+    "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true
   },
   "HD_LineShaftTurretLathe": {
     "active_definition": true,
@@ -925,7 +975,9 @@
     ],
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
-    "outline_width_in_game_units": 0.0703125
+    "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true
   },
   "HD_LineShaftMillingMachine": {
     "active_definition": true,
@@ -960,7 +1012,9 @@
     ],
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
-    "outline_width_in_game_units": 0.0703125
+    "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true
   },
   "HD_LineShaftPress": {
     "active_definition": true,
@@ -995,7 +1049,9 @@
     ],
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
-    "outline_width_in_game_units": 0.0703125
+    "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true
   },
   "HD_RollingMC": {
     "active_definition": true,
@@ -1030,7 +1086,9 @@
     ],
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
-    "outline_width_in_game_units": 0.0703125
+    "outline_width_in_game_units": 0.0703125,
+    "building_theme_family": "industrial_steel",
+    "theme_geometry_preserved": true
   },
   "HD_ClothingBench": {
     "active_definition": true,

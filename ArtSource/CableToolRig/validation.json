@@ -69,7 +69,25 @@
     0.0
   ],
   "density_export_preserves_geometry_and_palette": true,
-  "density_export_geometry_palette_sha256": "d6d7a4f35cf6332bcdf394d97076194e468127cc9ee00226ca80db1bd6737327",
-  "rotation_export_geometry_palette_sha256": "d6d7a4f35cf6332bcdf394d97076194e468127cc9ee00226ca80db1bd6737327",
-  "previous_density_draw_size": null
+  "density_export_geometry_palette_sha256": "bb50015fb94c86b4a433f506cd3a7941218883de644c7b89833161d274c3f457",
+  "rotation_export_geometry_palette_sha256": "bb50015fb94c86b4a433f506cd3a7941218883de644c7b89833161d274c3f457",
+  "previous_density_draw_size": null,
+  "building_theme_version": 1,
+  "building_theme_family": "industrial_steel",
+  "building_theme_roles": {
+    "fixed": 144,
+    "recess": 48,
+    "silver": 15,
+    "metal": 6,
+    "metal_base": 24
+  },
+  "theme_secondary_color": [
+    105,
+    105,
+    105
+  ],
+  "theme_geometry_preserved": true,
+  "theme_mesh_sha256": "ae17f28b5c5c5a0f795fed25939fa5ac38cb6f4c6e17656bc417597c2a4c3ed0",
+  "theme_original_palette_sha256": "d6d7a4f35cf6332bcdf394d97076194e468127cc9ee00226ca80db1bd6737327",
+  "theme_palette_intentionally_revised": true
 }

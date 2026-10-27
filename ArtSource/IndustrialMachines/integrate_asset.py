@@ -34,6 +34,10 @@ def integrate(stem,folder,def_name=None):
             if f'<defName>{def_name}</defName>' not in block:return block
             changes={'texPath':'Buildings/'+stem,'graphicClass':'Graphic_Multi','shaderType':'CutoutComplex',
                      'drawSize':f'({scale:g},{scale:g})','drawOffset':offset,'rotatable':'true'}
+            if report.get('building_theme_version'):
+                for key,value in [('color','(255,255,255)'),('colorTwo','('+','.join(map(str,report['theme_secondary_color']))+')')]:
+                    if '<'+key+'>' in block:block=re.sub(fr'<{key}>[^<]*</{key}>',f'<{key}>{value}</{key}>',block,count=1)
+                    else:block=block.replace('</shaderType>','</shaderType>\n      <'+key+'>'+value+'</'+key+'>',1)
             for key,value in changes.items():
                 if key=='drawOffset' and '<drawOffset>' not in block:
                     block=block.replace('</drawSize>','</drawSize>\n      <drawOffset>'+value+'</drawOffset>',1)

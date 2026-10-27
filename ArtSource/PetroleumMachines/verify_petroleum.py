@@ -50,7 +50,9 @@ for stem,folder,footprint,active in assets:
         stroke=(color[:,:,:3].max(axis=2)<.001)&(color[:,:,3]>.95)
         assert stroke.sum()>1000 and np.max(mask[:,:,:3][stroke])<=2.01/255
         # Eevee's 8-bit black export may contain a one-step dither value.
-        if folder=='BasicPumpJack':assert np.max(mask[:,:,:3])<=1.01/255
+        if validation.get('building_theme_version'):
+            assert np.sum((mask[:,:,1]>.8)&(mask[:,:,3]>.95))>100
+        elif folder=='BasicPumpJack':assert np.max(mask[:,:,:3])<=1.01/255
         else:assert np.sum((mask[:,:,0]>.8)&(mask[:,:,3]>.95))>100
     report[stem]={'gameplay_definition_active':active,'footprint':footprint,'orthographic_scale_and_draw_size':scale,
                   'views_verified':4,'color_mask_files':8,'outline_pixels':12,'margins':margins,

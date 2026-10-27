@@ -35,7 +35,11 @@ def normalize(entry):
                     if node.findtext('defName')==ALIASES.get(stem,stem):
                         old['footprint']=[int(v) for v in node.findtext('size').strip('()').split(',')]
     assert 'footprint' in old,stem
-    bpy.ops.wm.open_mainfile(filepath=os.path.join(path,blend));before=s.geometry_hash()
+    bpy.ops.wm.open_mainfile(filepath=os.path.join(path,blend))
+    from building_theme import mesh_shape_hash
+    source_shape=mesh_shape_hash(bpy.context.scene);source_palette=s.geometry_hash()
+    themed=s.apply_building_theme(stem);before=s.geometry_hash()
+    assert mesh_shape_hash(bpy.context.scene)==source_shape
     oldnorth=bpy.data.objects.get('Camera_North');north=90 if oldnorth and oldnorth.location.y>0 else -90
     if stem in ['HD_ClothingBench','HD_GunSmithTable','HD_LineShaftPress']:north=-90
     for cam in [o for o in bpy.context.scene.objects if o.type=='CAMERA']:bpy.data.objects.remove(cam,do_unlink=True)
@@ -58,6 +62,11 @@ def normalize(entry):
     with open(metadata) as f:new=json.load(f)
     old.update(new);old.update({'density_export_preserves_geometry_and_palette':True,'density_export_geometry_palette_sha256':before,
                 'rotation_export_geometry_palette_sha256':before})
+    if themed:
+        old.update({'theme_geometry_preserved':True,'theme_mesh_sha256':source_shape,
+                    'theme_original_palette_sha256':old.get('theme_original_palette_sha256',source_palette),
+                    'theme_palette_intentionally_revised':True})
+        if 'geometry_and_palette_unchanged' in old:old['geometry_and_palette_unchanged']=False
     with open(metadata,'w') as f:json.dump(old,f,indent=2)
     if active:integrate(stem,folder,ALIASES.get(stem,stem))
     if stem=='HD_Radio':

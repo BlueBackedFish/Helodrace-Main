@@ -25,6 +25,7 @@ def controller(x=1.06,y=.43):
         s.cube('NC13_Flush_rear_vent',(x,y+.394,z),(.44,.008,.04),s.dark)
 
 def finish(out,stem,features):
+    s.apply_building_theme(stem)
     before=s.geometry_hash()
     s.export(out,stem,[3,2],features)
     import json

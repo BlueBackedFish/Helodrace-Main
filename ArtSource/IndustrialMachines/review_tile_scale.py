@@ -1,6 +1,7 @@
 """Compare true XML sprite sizes at 64 pixels per game tile, without bbox fitting."""
 from pathlib import Path
 import os,json,xml.etree.ElementTree as ET
+from theme_preview import game_image,save_review
 from PIL import Image,ImageDraw,ImageFont
 OUT=Path(__file__).resolve().parent;ROOT=OUT.parent.parent;REVIEW=OUT/'Review'
 REVIEW.mkdir(exist_ok=True);PPT=64
@@ -23,7 +24,7 @@ def tile(stem,title,subtitle,before=False):
         validation=json.loads((ROOT/'ArtSource'/folders[stem]/'validation.json').read_text())
         draw=values(validation['previous_draw_size']);offset=values(validation['previous_draw_offset'])
     path=REVIEW/'BeforeScale'/f'{stem}_north.png' if before else ROOT/'Textures/Buildings'/f'{stem}_north.png'
-    im=Image.open(path).convert('RGBA');box=im.getbbox();width=box[2]-box[0]
+    im=game_image(path);box=im.getbbox();width=box[2]-box[0]
     board=Image.new('RGBA',(416,430),(70,73,72,255));d=ImageDraw.Draw(board)
     d.text((12,8),title,font=font,fill=(244,244,240));d.text((12,32),subtitle,font=small,fill=(188,202,194))
     d.text((12,52),f'drawSize {draw[0]:g}, {draw[1]:g} / {PPT}px per tile',font=small,fill=(165,180,171))
@@ -42,7 +43,7 @@ def tile(stem,title,subtitle,before=False):
 context=Image.new('RGBA',(1664,1290),(70,73,72,255))
 for i,(stem,title,subtitle) in enumerate(items):context.alpha_composite(tile(stem,title,subtitle),(i%4*416,i//4*430))
 ImageDraw.Draw(context).text((860,968),'Same game scale. Grid = one tile.\nTransparent sprites; gray is review background.\n12px stroke; canvas grows 256px per footprint tile.',font=font,fill=(215,224,219),spacing=12)
-context.convert('RGB').save(REVIEW/'tile_scale_comparison.png')
+save_review(context.convert('RGB'),REVIEW/'tile_scale_comparison.png')
 folders={'HD_SmallSteamEngine':'SmallSteamEngine','HD_LargeSteamEngine':'LargeSteamEngine',
          'HD_IndustrialDieselEngine':'IndustrialDieselEngine','HD_EarlyIndustrialGenerator':'EarlyIndustrialGenerator',
          'HD_EarlyIndustrialLargeMotor':'EarlyIndustrialMotor'}
@@ -50,21 +51,21 @@ compare=Image.new('RGBA',(832,2150),(70,73,72,255))
 for i,(stem,title,subtitle) in enumerate(items[3:8]):
     compare.alpha_composite(tile(stem,title,'Before size correction',True),(0,i*430))
     compare.alpha_composite(tile(stem,title,'After size correction'),(416,i*430))
-compare.convert('RGB').save(REVIEW/'power_scale_before_after.png')
+save_review(compare.convert('RGB'),REVIEW/'power_scale_before_after.png')
 reactors=Image.new('RGBA',(1536,1120),(70,73,72,255))
 for row,(stem,title,subtitle) in enumerate(items[8:]):
     for col,direction in enumerate(['north','east','south']):
         x,y=col*512,row*560
         ImageDraw.Draw(reactors).text((x+15,y+10),title+' / '+direction.title(),font=font,fill=(244,244,240))
-        im=Image.open(ROOT/'Textures/Buildings'/f'{stem}_{direction}.png').convert('RGBA').resize((512,512),Image.Resampling.LANCZOS)
+        im=game_image(ROOT/'Textures/Buildings'/f'{stem}_{direction}.png').resize((512,512),Image.Resampling.LANCZOS)
         reactors.alpha_composite(im,(x,y+36))
-reactors.convert('RGB').save(REVIEW/'reactors_north_east_south.png')
-fronts=[Image.open(ROOT/'Textures/Buildings'/f'{stem}_north.png').convert('RGBA').resize((512,512),Image.Resampling.LANCZOS) for stem,title,subtitle in items[8:]]
+save_review(reactors.convert('RGB'),REVIEW/'reactors_north_east_south.png')
+fronts=[game_image(ROOT/'Textures/Buildings'/f'{stem}_north.png').resize((512,512),Image.Resampling.LANCZOS) for stem,title,subtitle in items[8:]]
 top=min(im.getbbox()[1] for im in fronts)-8;bottom=max(im.getbbox()[3] for im in fronts)+8
 north=Image.new('RGBA',(1024,bottom-top+52),(70,73,72,255))
 for col,(stem,title,subtitle) in enumerate(items[8:]):
     ImageDraw.Draw(north).text((col*512+15,10),title+' / North',font=font,fill=(244,244,240))
     north.alpha_composite(fronts[col].crop((0,top,512,bottom)),(col*512,36))
-north.convert('RGB').save(REVIEW/'reactors_north.png')
+save_review(north.convert('RGB'),REVIEW/'reactors_north.png')
 (OUT/'presentation_calibration.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
 print('Saved reference-anchored tile-scale comparisons and reactor direction sheet.')

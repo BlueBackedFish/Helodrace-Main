@@ -69,7 +69,26 @@
     0.0
   ],
   "density_export_preserves_geometry_and_palette": true,
-  "density_export_geometry_palette_sha256": "3cef746f329793db363cbbf032863377c9f41255f14d3d6527266ea3d757f3b5",
-  "rotation_export_geometry_palette_sha256": "3cef746f329793db363cbbf032863377c9f41255f14d3d6527266ea3d757f3b5",
-  "previous_density_draw_size": null
+  "density_export_geometry_palette_sha256": "9b09ad7a5c2541831da94c40ce4b30884c608ba77e995858b43555d254df10bc",
+  "rotation_export_geometry_palette_sha256": "9b09ad7a5c2541831da94c40ce4b30884c608ba77e995858b43555d254df10bc",
+  "previous_density_draw_size": null,
+  "building_theme_version": 1,
+  "building_theme_family": "advanced_white",
+  "building_theme_roles": {
+    "metal_base": 27,
+    "white": 42,
+    "silver": 18,
+    "recess": 75,
+    "fixed": 45,
+    "dial": 3
+  },
+  "theme_secondary_color": [
+    105,
+    105,
+    105
+  ],
+  "theme_geometry_preserved": true,
+  "theme_mesh_sha256": "89064bea867080f87a1018d807d2f4e8928aa60acbbf3f929929f851cb4ebeca",
+  "theme_original_palette_sha256": "3cef746f329793db363cbbf032863377c9f41255f14d3d6527266ea3d757f3b5",
+  "theme_palette_intentionally_revised": true
 }

@@ -66,8 +66,28 @@
   },
   "in_game_tested": false,
   "density_export_preserves_geometry_and_palette": true,
-  "density_export_geometry_palette_sha256": "3bf40a67a2e16f5e9a58aa76093ae436d80826581b50d82fc0d6fcec6d6ab708",
-  "rotation_export_geometry_palette_sha256": "3bf40a67a2e16f5e9a58aa76093ae436d80826581b50d82fc0d6fcec6d6ab708",
+  "density_export_geometry_palette_sha256": "9968d3189422feef5b09640313460dde095d8217ccac31ec1e717ca07c3b4b17",
+  "rotation_export_geometry_palette_sha256": "9968d3189422feef5b09640313460dde095d8217ccac31ec1e717ca07c3b4b17",
   "definition": "Defs/ColdWar/Buildings/RollingMill1970.xml",
-  "gameplay_fields_preserved_sha256": "c58078883f8089305b5bfe03804e86357369e9a5957daca10f88a52f546ef4fe"
+  "gameplay_fields_preserved_sha256": "c58078883f8089305b5bfe03804e86357369e9a5957daca10f88a52f546ef4fe",
+  "building_theme_version": 1,
+  "building_theme_family": "industrial_steel",
+  "building_theme_roles": {
+    "metal_base": 57,
+    "metal": 15,
+    "silver": 33,
+    "fixed": 3,
+    "recess": 36,
+    "cyan": 3,
+    "screen": 3
+  },
+  "theme_secondary_color": [
+    105,
+    105,
+    105
+  ],
+  "theme_geometry_preserved": true,
+  "theme_mesh_sha256": "fb98a65cc96c40e976177970c7638eccc7f01a6b21d99e94e3e3ecf17107c2e2",
+  "theme_original_palette_sha256": "3bf40a67a2e16f5e9a58aa76093ae436d80826581b50d82fc0d6fcec6d6ab708",
+  "theme_palette_intentionally_revised": true
 }

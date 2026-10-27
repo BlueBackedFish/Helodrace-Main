@@ -9,6 +9,8 @@
       <texPath>Buildings/HD_RotaryDrill</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <drawSize>(6,6)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
     </graphicData>
@@ -72,6 +74,8 @@
       <texPath>Buildings/HD_MetalPumpJack</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <drawSize>(9,9)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
     </graphicData>

@@ -51,7 +51,7 @@
     }
   },
   "in_game_tested": false,
-  "rotation_export_geometry_palette_sha256": "af1aaee149dd485c1c3f9397d90d2d807c1fd594ce4e5f1d5b2c14f554ae5c4f",
+  "rotation_export_geometry_palette_sha256": "082db36ed78a93313d857046d2f25beb8b629d85c17ef26a5208cb5b2c8e30be",
   "rotation_export_preserves_geometry_and_palette": true,
   "texture_resolution": [
     1024,
@@ -71,8 +71,26 @@
     0.0
   ],
   "density_export_preserves_geometry_and_palette": true,
-  "density_export_geometry_palette_sha256": "af1aaee149dd485c1c3f9397d90d2d807c1fd594ce4e5f1d5b2c14f554ae5c4f",
+  "density_export_geometry_palette_sha256": "082db36ed78a93313d857046d2f25beb8b629d85c17ef26a5208cb5b2c8e30be",
   "previous_density_draw_size": null,
   "definition": "Defs/WildWest/Buildings/AdvancedOilExtraction.xml",
-  "gameplay_fields_preserved_sha256": "39c25e1f5a761a96f75a19c8b01593f68ed10f97cabc55a020bf00fdc0309621"
+  "gameplay_fields_preserved_sha256": "39c25e1f5a761a96f75a19c8b01593f68ed10f97cabc55a020bf00fdc0309621",
+  "building_theme_version": 1,
+  "building_theme_family": "industrial_steel",
+  "building_theme_roles": {
+    "metal_base": 48,
+    "metal": 90,
+    "recess": 51,
+    "silver": 93,
+    "fixed": 19
+  },
+  "theme_secondary_color": [
+    105,
+    105,
+    105
+  ],
+  "theme_geometry_preserved": true,
+  "theme_mesh_sha256": "9d16d9957b456040281fd23d2d494f629446c22c051603cf4a2907b1e616313a",
+  "theme_original_palette_sha256": "af1aaee149dd485c1c3f9397d90d2d807c1fd594ce4e5f1d5b2c14f554ae5c4f",
+  "theme_palette_intentionally_revised": true
 }

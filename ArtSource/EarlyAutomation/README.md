@@ -7,3 +7,5 @@ All three use the established fixed industrial palette, fixed Emission shading, 
 `verify_definitions.py [cnc|fab|all]` runs with ordinary Python/Pillow. It validates resolved references, bill workgivers, electric supplies, ticking heat comps, translations, recipe coverage, facility connections, research dependencies and texture pairs. `IndustrialMachines/verify_rotation.py` validates saved cameras, scale, masks, margins and geometry/color hashes.
 
 `review_automation.py` creates review-only contact sheets at one common game scale. These backgrounds and labels are not written into game textures. No in-game visual/play test has been performed.
+
+Current color roles and mask channels follow [the shared building theme](../IndustrialMachines/BUILDING_COLOR_THEME.md). Review sheets apply the white/Steel mask; native PNGs remain untinted albedo.

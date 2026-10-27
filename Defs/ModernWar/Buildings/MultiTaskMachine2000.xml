@@ -9,6 +9,8 @@
       <texPath>Buildings/HD_MultiTaskMachine2000</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <drawSize>(6,6)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
     </graphicData>

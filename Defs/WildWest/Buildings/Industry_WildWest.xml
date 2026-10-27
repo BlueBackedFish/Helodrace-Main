@@ -15,6 +15,8 @@
       <drawSize>(6,6)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <shadowData>
         <volume>(2.8, 0.6, 2.8)</volume>
       </shadowData>
@@ -91,6 +93,8 @@
       <texPath>Buildings/HD_SmallSteamEngine</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <drawSize>(3,3)</drawSize>
       <drawOffset>(0,0,0.0205882788)</drawOffset>
       <shadowData>
@@ -173,6 +177,8 @@
       <texPath>Buildings/HD_LargeSteamEngine</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <drawSize>(6,6)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shadowData>
@@ -255,6 +261,8 @@
       <texPath>Buildings/HD_IndustrialDieselEngine</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <drawSize>(6,6)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shadowData>
@@ -344,6 +352,8 @@
       <texPath>Buildings/HD_EarlyIndustrialLargeMotor</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <drawSize>(4.5,4.5)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shadowData>
@@ -412,6 +422,8 @@
       <texPath>Buildings/HD_EarlyIndustrialGenerator</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <drawSize>(4.5,4.5)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shadowData>
@@ -490,6 +502,8 @@
       <drawSize>(9,9)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <shadowData>
         <volume>(1.8, 0.5, 1.8)</volume>
       </shadowData>
@@ -559,6 +573,8 @@
       <drawSize>(4.5,4.5)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <shadowData>
         <volume>(1.8, 0.5, 1.8)</volume>
       </shadowData>
@@ -635,6 +651,8 @@
       <drawSize>(4.5,4.5)</drawSize>
       <drawOffset>(0,0,0.463665724)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <shadowData>
         <volume>(2.1,0.8,2.1)</volume>
       </shadowData>
@@ -837,6 +855,8 @@
       <drawSize>(3,3)</drawSize>
       <drawOffset>(0,0,0.0593467951)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <shadowData>
         <volume>(1.8, 0.5, 0.8)</volume>
       </shadowData>
@@ -907,6 +927,8 @@
       <drawSize>(3,3)</drawSize>
       <drawOffset>(0,0,0.0351589918)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <shadowData>
         <volume>(1.8, 0.5, 0.8)</volume>
       </shadowData>
@@ -996,6 +1018,8 @@
       <drawSize>(3,3)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <shadowData>
         <volume>(1.8, 0.5, 0.8)</volume>
       </shadowData>
@@ -1085,6 +1109,8 @@
       <drawSize>(4.5,4.5)</drawSize>
       <drawOffset>(0,0,0.474003553)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <shadowData>
         <volume>(2.2, 0.6, 1.8)</volume>
       </shadowData>
@@ -1162,6 +1188,8 @@
       <drawSize>(4.5,4.5)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <shadowData>
         <volume>(2.2, 0.6, 1.8)</volume>
       </shadowData>
@@ -1238,6 +1266,8 @@
       <drawSize>(6,6)</drawSize>
       <drawOffset>(0,0,0.00635170937)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <shadowData>
         <volume>(3.2, 0.8, 3.2)</volume>
       </shadowData>
@@ -1327,6 +1357,8 @@
       <drawSize>(4.5,4.5)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <shadowData>
         <volume>(2.2, 0.8, 2.2)</volume>
       </shadowData>
@@ -1392,6 +1424,8 @@
       <drawSize>(6,6)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
+      <colorTwo>(105,105,105)</colorTwo>
+      <color>(255,255,255)</color>
       <shadowData>
         <volume>(3.0,0.8,3.0)</volume>
       </shadowData>
