@@ -27,29 +27,7 @@
         693
       ],
       "minimum_margin": 297,
-      "sha256": "dae6596f9a18a7b7112085adb0f3a46d314adfc28bfdf2703735503bf72b689f"
-    },
-    "HD_CROWSII_M2_Top.png": {
-      "size": [
-        1024,
-        1024
-      ],
-      "alpha_bbox": [
-        297,
-        60,
-        702,
-        767
-      ],
-      "minimum_margin": 60,
-      "sha256": "a7f2b5475c000868ea96cfa036cd702b8e97619cc024b066a245dcc4d06b0ab6"
-    },
-    "HD_CROWSII_M2_TurretTop.png": {
-      "size": [
-        1024,
-        1024
-      ],
-      "sha256": "e76095c2a160271130e36ce150f3b3fc81a90ae79d5e64200b46c7bef98e8545",
-      "muzzle_axis": "+X for native TurretTop -90-degree artwork rotation"
+      "sha256": "7fc69c81f337d717dd8364454addafe6958d30b553e3396c3f6bbc06f5b90355"
     },
     "HD_CROWSII_M2Body.png": {
       "size": [
@@ -79,7 +57,7 @@
         617
       ],
       "minimum_margin": 44,
-      "sha256": "9ee66ae2acd6eadea3a9e4ecd7b9d8247998c493d0ddd28d15b7aafb7df2c307"
+      "sha256": "aa6b6ab0733ebaf07dd7d0b7df072147cd93c959b16f03d5b3b36eb76b4929ce"
     },
     "HD_CROWSII_M2_east.png": {
       "size": [
@@ -93,7 +71,7 @@
         643
       ],
       "minimum_margin": 110,
-      "sha256": "4152c3b6b074d9e17e8e40eb01fb1a5911fbe8c914cabc360a27c1087089df0c"
+      "sha256": "3ec1bd84cbbd543a4908861505544cd9ac62b308f5b323b3e2808ad858c30107"
     },
     "HD_CROWSII_M2_south.png": {
       "size": [
@@ -107,7 +85,7 @@
         775
       ],
       "minimum_margin": 202,
-      "sha256": "2b104f324f824f4425115cd5b789d305eb9e66ff2a74f593ff6b758524db919c"
+      "sha256": "2829b24df2cccdda5dcf7c21347065f2bb1a80f3504947f0c3f471275696467a"
     },
     "HD_CROWSII_M2_west.png": {
       "size": [
@@ -121,7 +99,7 @@
         659
       ],
       "minimum_margin": 110,
-      "sha256": "581d1904125b0f42c11f0b871ee9d575b1db9c38fb4cf71d8bdf6dd9131c3ff5"
+      "sha256": "4964747614a96c2d6edd7961f3fbb2ad0462ac2d1d7e3ed92657121f314f8f3e"
     },
     "HD_CROWSII_M2_UI.png": {
       "size": [
@@ -135,7 +113,16 @@
         988
       ],
       "minimum_margin": 36,
-      "sha256": "346cdfcc3f7b04dcfcf344b94dea006a12babfb06780b0ee4f39af1156d6d8cb"
+      "sha256": "01d7162e35c576fd82ef0138145c759dd319984cf307cf7d028db1153042a984"
+    },
+    "HD_CROWSII_M2_FeedOverlay.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "334522eb707ea33ba78e3652178525dc4e85de3a50d24d71bfe4a66185c7caa5",
+      "visible_feed_only": true,
+      "no_artificial_cut_edge_outline": true
     }
   },
   "source": {
@@ -214,10 +201,117 @@
     "feed_chute_source_component": 6342,
     "optical_housing_source_component": 917,
     "added_optical_window_meshes": 5,
-    "gameplay_definition_added": false
+    "gameplay_definition_added": false,
+    "articulation": {
+      "feed_source_component": 6342,
+      "feed_reference_poses": [
+        "ammo_belt_00",
+        "ammo_belt_01"
+      ],
+      "feed_cover_source_object": "Cover.007",
+      "feed_overlap_donor_units": 0.002,
+      "feed_blend_rings": 24,
+      "recoil_tiles": 0.0375,
+      "recoil_frames": [
+        1,
+        2,
+        6
+      ],
+      "recoil_fps": 60,
+      "draw_order": [
+        "base",
+        "frame",
+        "barrel",
+        "body",
+        "feed_overlay"
+      ]
+    },
+    "feed_alignment": {
+      "passed": true,
+      "source_faces": 568,
+      "source_unique_vertices": 576,
+      "rings": 72,
+      "blend_rings": 24,
+      "original_mouth_center": [
+        -0.011717841029167175,
+        0.029053062200546265,
+        0.8699226975440979
+      ],
+      "target_mouth_center": [
+        -0.06062902882695198,
+        -0.009100466966629028,
+        0.855028510093689
+      ],
+      "actual_mouth_center": [
+        -0.06062902882695198,
+        -0.009100467897951603,
+        0.8550285696983337
+      ],
+      "target_width": 0.17410116186369853,
+      "actual_width": 0.17410115897655487,
+      "receiver_plane_error": 2.9802322387695312e-08,
+      "unchanged_chute_vertices": 384,
+      "ammo_end_unchanged": true,
+      "only_chute_vertices_changed": true,
+      "source_faces_and_uv_preserved": true,
+      "terminal_vertex_indices": [
+        5577,
+        5578,
+        5579,
+        5580,
+        5581,
+        5582,
+        5583,
+        5584
+      ],
+      "donor_reference_poses": [
+        "ammo_belt_00",
+        "ammo_belt_01"
+      ],
+      "target_donor_coordinates": [
+        -0.04479692131280899,
+        -0.02712569572031498,
+        0.15059038996696472
+      ]
+    }
   },
   "pivot_registration": "all top layers share centered 3.2-tile canvas",
-  "native_turret_artwork": "east-facing TurretTop; other top layers north-facing",
+  "recoil_layers": {
+    "passed": true,
+    "texture_directory": "Buildings/Security/CROWSII",
+    "layers": {
+      "base": "HD_CROWSII_M2_Base",
+      "frame": "HD_CROWSII_M2_Frame",
+      "barrel": "HD_CROWSII_M2Barrel",
+      "body": "HD_CROWSII_M2Body",
+      "feed_overlay": "HD_CROWSII_M2_FeedOverlay"
+    },
+    "draw_order": [
+      "base",
+      "frame",
+      "barrel",
+      "body",
+      "feed_overlay"
+    ],
+    "draw_size": [
+      3.2,
+      3.2
+    ],
+    "pivot": [
+      0,
+      0
+    ],
+    "muzzle_direction": "+Y / north",
+    "moving_layer": "barrel",
+    "recoil_direction": "local -Y / image +Y",
+    "recoil_tiles": 0.0375,
+    "recoil_pixels": 12,
+    "qcb_handle_and_coupling_move_with_barrel": true,
+    "fixed_feed_chute": true,
+    "receiver_above_barrel": true,
+    "feed_foreground_overlay_last": true,
+    "gameplay_definition_added": false
+  },
   "transparent": true,
   "fixed_emission": true,
   "in_game_tested": false

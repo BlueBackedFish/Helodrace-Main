@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "source_faces": 568,
+  "source_unique_vertices": 576,
+  "rings": 72,
+  "blend_rings": 24,
+  "original_mouth_center": [
+    -0.011717841029167175,
+    0.029053062200546265,
+    0.8699226975440979
+  ],
+  "target_mouth_center": [
+    -0.06062902882695198,
+    -0.009100466966629028,
+    0.855028510093689
+  ],
+  "actual_mouth_center": [
+    -0.06062902882695198,
+    -0.009100467897951603,
+    0.8550285696983337
+  ],
+  "target_width": 0.17410116186369853,
+  "actual_width": 0.17410115897655487,
+  "receiver_plane_error": 2.9802322387695312e-08,
+  "unchanged_chute_vertices": 384,
+  "ammo_end_unchanged": true,
+  "only_chute_vertices_changed": true,
+  "source_faces_and_uv_preserved": true,
+  "terminal_vertex_indices": [
+    5577,
+    5578,
+    5579,
+    5580,
+    5581,
+    5582,
+    5583,
+    5584
+  ],
+  "donor_reference_poses": [
+    "ammo_belt_00",
+    "ammo_belt_01"
+  ],
+  "target_donor_coordinates": [
+    -0.04479692131280899,
+    -0.02712569572031498,
+    0.15059038996696472
+  ]
+}

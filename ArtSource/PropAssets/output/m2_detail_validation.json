@@ -1,50 +1,51 @@
 {
   "passed": true,
-  "baseline": "965c198b",
+  "baseline": "a6f57bd1",
   "alpha_unchanged_images": [
-    "ArtSource/HeavyMachineGuns/output/M2HB/mount_raw.png",
-    "ArtSource/HeavyMachineGuns/output/M1917/gun_raw.png",
-    "ArtSource/HeavyMachineGuns/output/M1917/mount_raw.png",
-    "ArtSource/CROWSII/output/base_raw.png",
-    "ArtSource/CROWSII/output/frame_raw.png",
-    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMGUI.png",
-    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMG_Top.png",
-    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M1917_Tripod.png",
-    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Tripod.png",
-    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_Base.png",
-    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_Frame.png"
-  ],
-  "alpha_changed_for_qcb_and_weapon_transplant": [
     "ArtSource/HeavyMachineGuns/output/M2HB/barrel_raw.png",
     "ArtSource/HeavyMachineGuns/output/M2HB/body_raw.png",
     "ArtSource/HeavyMachineGuns/output/M2HB/gun_raw.png",
+    "ArtSource/HeavyMachineGuns/output/M2HB/mount_raw.png",
+    "ArtSource/HeavyMachineGuns/output/M1917/gun_raw.png",
+    "ArtSource/HeavyMachineGuns/output/M1917/mount_raw.png",
     "ArtSource/CROWSII/output/barrel_raw.png",
+    "ArtSource/CROWSII/output/base_raw.png",
     "ArtSource/CROWSII/output/body_raw.png",
     "ArtSource/CROWSII/output/east_raw.png",
+    "ArtSource/CROWSII/output/frame_raw.png",
     "ArtSource/CROWSII/output/full_raw.png",
     "ArtSource/CROWSII/output/gun_raw.png",
-    "ArtSource/CROWSII/output/north_raw.png",
-    "ArtSource/CROWSII/output/south_raw.png",
     "ArtSource/CROWSII/output/top_raw.png",
     "ArtSource/CROWSII/output/west_raw.png",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMGUI.png",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMG_Top.png",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M1917_Tripod.png",
     "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Barrel.png",
     "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Body.png",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Tripod.png",
     "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_UI.png",
     "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2Barrel.png",
     "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2Body.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_Base.png",
     "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_east.png",
-    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_north.png",
-    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_south.png",
-    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_Top.png",
-    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_TurretTop.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_Frame.png",
     "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_UI.png",
     "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_west.png"
   ],
+  "alpha_changed_for_qcb_and_weapon_transplant": [
+    "ArtSource/CROWSII/output/north_raw.png",
+    "ArtSource/CROWSII/output/south_raw.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_north.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_south.png"
+  ],
+  "new_images": [
+    "ArtSource/CROWSII/output/feed_overlay_raw.png",
+    "ArtSource/CROWSII/output/recoil_raw.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_FeedOverlay.png"
+  ],
   "unchanged_non_target_images": [
-    "ArtSource/CROWSII/output/frame_raw.png",
     "ArtSource/CROWSII/output/base_raw.png",
     "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_Base.png",
-    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_Frame.png",
     "ArtSource/HeavyMachineGuns/output/M2HB/mount_raw.png",
     "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Tripod.png",
     "ArtSource/HeavyMachineGuns/output/M1917/gun_raw.png",
@@ -83,9 +84,9 @@
         "fastener": 395
       },
       "runtime_detail_pixels": {
-        "sleeve_outer": 4738,
-        "recess": 162,
-        "barrel_taper": 2565
+        "sleeve_outer": 4731,
+        "recess": 367,
+        "barrel_taper": 2414
       }
     }
   },

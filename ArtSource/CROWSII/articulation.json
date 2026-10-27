@@ -1,0 +1,11 @@
+{
+  "feed_source_component": 6342,
+  "feed_reference_poses": ["ammo_belt_00", "ammo_belt_01"],
+  "feed_cover_source_object": "Cover.007",
+  "feed_overlap_donor_units": 0.002,
+  "feed_blend_rings": 24,
+  "recoil_tiles": 0.0375,
+  "recoil_frames": [1, 2, 6],
+  "recoil_fps": 60,
+  "draw_order": ["base", "frame", "barrel", "body", "feed_overlay"]
+}

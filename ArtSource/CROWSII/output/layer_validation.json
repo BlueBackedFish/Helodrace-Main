@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "files": 10,
+  "shared_canvas": [
+    1024,
+    1024
+  ],
+  "shared_pivot": [
+    0,
+    0
+  ],
+  "raw_3d_pose_comparison": [
+    {
+      "pose": "rest",
+      "master_recoil_pixels": 0,
+      "interior_pixels": 336511,
+      "interior_disagreements": 1,
+      "fraction": 2.97167105978705e-06
+    },
+    {
+      "pose": "recoil",
+      "master_recoil_pixels": 24,
+      "interior_pixels": 334839,
+      "interior_disagreements": 174,
+      "fraction": 0.0005196527286248018
+    }
+  ],
+  "only_barrel_layer_moves": true,
+  "qcb_handle_moves_with_barrel": true,
+  "no_baked_barrel_in_fixed_head": true,
+  "no_internal_barrel_body_outline": true,
+  "feed_overlay_preserves_occlusion": true,
+  "world_outline_tiles": 0.026,
+  "in_game_tested": false
+}

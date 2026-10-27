@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "feed_center_error": 3.725290298461914e-09,
+  "feed_width": 0.17410116186369853,
+  "changed_chute_vertices": 192,
+  "unchanged_chute_vertices": 384,
+  "unrelated_station_vertices_unchanged": true,
+  "station_source_faces_preserved": 14192,
+  "station_uv_loops_preserved": 57140,
+  "barrel_meshes_moving": 7,
+  "fixed_meshes": 20,
+  "recoil_tiles": 0.0375,
+  "intermediate_recoil_steps": [
+    {
+      "frame": 1,
+      "recoil_tiles": -0.0
+    },
+    {
+      "frame": 2,
+      "recoil_tiles": 0.03750000149011612
+    },
+    {
+      "frame": 3,
+      "recoil_tiles": 0.03164062649011612
+    },
+    {
+      "frame": 4,
+      "recoil_tiles": 0.01875000074505806
+    },
+    {
+      "frame": 5,
+      "recoil_tiles": 0.005859375
+    },
+    {
+      "frame": 6,
+      "recoil_tiles": -0.0
+    }
+  ],
+  "only_barrel_moves": true,
+  "qcb_handle_moves_with_barrel": true,
+  "returns_to_rest": true,
+  "in_game_tested": false
+}

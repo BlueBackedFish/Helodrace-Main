@@ -6,6 +6,8 @@ from mathutils import Vector,Matrix
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'output';OUT.mkdir(parents=True,exist_ok=True)
 sys.path.insert(0,str(ROOT.parent/'PropAssets'));import modeling as m
 import surface_paint as surfaces
+sys.path.insert(0,str(ROOT));import feed_alignment
+ARTICULATION=json.loads((ROOT/'articulation.json').read_text())
 EXT=Path(os.environ.get('HELODRACE_REFERENCE_EXT',str(Path.home()/'Downloads/Dagor-Asset-Explorer-1.0.0/Dagor-Asset-Explorer-1.0.0/ext')))
 SOURCE=EXT/'machine gun/m153-crows-untextured/source/M153 CROWS bevel.fbx'
 scene=m.start();bpy.ops.import_scene.fbx(filepath=str(SOURCE))
@@ -111,7 +113,11 @@ DONOR=ROOT.parent/'HeavyMachineGuns/output/M2HB/model.blend'
 donor_meta=json.loads(DONOR.with_name('metadata.json').read_text());assert donor_meta['variant']=='M2HB QCB'
 with bpy.data.libraries.load(str(DONOR),link=False) as (available,loaded):loaded.objects=list(available.objects)
 donors=[]
+feed_reference=[]
 for o in loaded.objects:
+    if o.type=='MESH' and o.get('pose') in ARTICULATION['feed_reference_poses']:
+        assert o.parent is None
+        feed_reference.extend(o.matrix_basis@v.co for v in o.data.vertices)
     if o.type=='MESH' and o.get('pose')=='gun' and o.get('layer') in ['body','barrel']:
         scene.collection.objects.link(o);o.hide_render=False;donors.append(o)
     else:bpy.data.objects.remove(o,do_unlink=True)
@@ -131,19 +137,64 @@ for o in donors:
     for v,p in zip(o.data.vertices,points):assert (o.matrix_world@v.co-mount_transform@p).length<1e-6
     donor_summary.append(dict(object=original_name,layer=o['layer'],vertices=len(o.data.vertices),faces=len(o.data.polygons),qcb_addition=o.get('art_addition')=='QCB visual kit'))
 assert not any(o.get('pose','').startswith('ammo_') or o.get('layer')=='mount' for o in donors)
+bpy.context.view_layer.update()
+# Match the retained flexible chute to the actual donor cartridge envelope and
+# receiver-side cover edge. The box end remains anchored to the station.
+assert feed_reference
+cover=next(o for o in donors if o.get('source_object')==ARTICULATION['feed_cover_source_object'])
+cover_native=[mount_transform.inverted()@(cover.matrix_world@v.co) for v in cover.data.vertices]
+target_native=Vector((min(v.x for v in cover_native)+ARTICULATION['feed_overlap_donor_units'],
+                      (min(v.y for v in feed_reference)+max(v.y for v in feed_reference))/2,
+                      (min(v.z for v in feed_reference)+max(v.z for v in feed_reference))/2))
+target=mount_transform@target_native;width=(max(v.y for v in feed_reference)-min(v.y for v in feed_reference))*donor_scale
+station=next(o for o in meshes if o.get('source_object')=='Cylinder.003' and o.get('layer')=='frame')
+feed_report=feed_alignment.align(station,palette['feed'],target,width,ARTICULATION['feed_blend_rings'])
+feed_report['donor_reference_poses']=ARTICULATION['feed_reference_poses'];feed_report['target_donor_coordinates']=list(target_native)
+(OUT/'feed_validation.json').write_text(json.dumps(feed_report,indent=2)+'\n')
 meshes=[o for o in scene.objects if o.type=='MESH']
-donor_report=dict(passed=True,donor=str(DONOR),donor_sha256=hashlib.sha256(DONOR.read_bytes()).hexdigest(),variant='M2HB QCB',donor_scale=donor_scale,mount_transform=[list(row) for row in mount_transform],muzzle_world=list(old_tip),objects=donor_summary,station_frame_geometry_and_paint_preserved=True,donor_ammunition_and_tripod_excluded=True)
+donor_report=dict(passed=True,donor=str(DONOR),donor_sha256=hashlib.sha256(DONOR.read_bytes()).hexdigest(),variant='M2HB QCB',donor_scale=donor_scale,mount_transform=[list(row) for row in mount_transform],muzzle_world=list(old_tip),objects=donor_summary,station_except_feed_geometry_and_paint_preserved=True,donor_ammunition_and_tripod_excluded=True)
 (OUT/'donor_validation.json').write_text(json.dumps(donor_report,indent=2)+'\n')
+
+# One swivel for the station and an independent local -Y recoil controller.
+yaw=bpy.data.objects.new('CROWS_YAW',None);scene.collection.objects.link(yaw)
+recoil=bpy.data.objects.new('BARREL_RECOIL',None);scene.collection.objects.link(recoil);recoil.parent=yaw
+for o in meshes:
+    if o['layer']=='base':continue
+    world=o.matrix_world.copy();o.parent=recoil if o['layer']=='barrel' else yaw;o.matrix_world=world
+scene.render.fps=ARTICULATION['recoil_fps'];scene.frame_start=ARTICULATION['recoil_frames'][0];scene.frame_end=ARTICULATION['recoil_frames'][-1]
+for frame,travel in zip(ARTICULATION['recoil_frames'],[0,ARTICULATION['recoil_tiles'],0]):
+    recoil.location=(0,-travel,0);recoil.keyframe_insert(data_path='location',frame=frame)
+scene.frame_set(scene.frame_start);bpy.context.view_layer.update()
 top=m.camera('Camera_Top',0,90,3.2);top.location=(0,0,10);top.rotation_euler=(0,0,0)
 for part in ['base','frame','body','barrel','gun','top','full']:
     for o in meshes:o.hide_render=not (part=='full' or part=='gun' and o['layer'] in ['body','barrel'] or part=='top' and o['layer']!='base' or o['layer']==part)
     m.render(OUT/(part+'_raw.png'),top,2048)
+# Retain only the actually visible chute in an overlay. It restores the small
+# lip that passes in front of the receiver while the rest of the frame stays
+# behind the moving barrel; the gun is never duplicated in this layer.
+holdout=bpy.data.materials.new('Feed overlay occlusion mask');holdout.use_nodes=True;holdout.node_tree.nodes.clear()
+node=holdout.node_tree.nodes.new('ShaderNodeHoldout');output=holdout.node_tree.nodes.new('ShaderNodeOutputMaterial');holdout.node_tree.links.new(node.outputs[0],output.inputs['Surface'])
+backup={o:list(o.data.materials) for o in meshes}
+for o in meshes:
+    o.hide_render=False
+    for index,material in enumerate(backup[o]):
+        if material!=palette['feed']:o.data.materials[index]=holdout
+m.render(OUT/'feed_overlay_raw.png',top,2048)
+for o,materials in backup.items():
+    for index,material in enumerate(materials):o.data.materials[index]=material
 for o in meshes:o.hide_render=False
 for direction,azimuth in [('north',-90),('east',0),('south',90),('west',180)]:
     cam=m.camera('Camera_'+direction,azimuth,64,3.6);m.render(OUT/(direction+'_raw.png'),cam,2048)
+scene.frame_set(ARTICULATION['recoil_frames'][1])
+for o in meshes:o.hide_render=o['layer']=='base'
+m.render(OUT/'recoil_raw.png',top,2048)
+scene.frame_set(scene.frame_start)
+for o in meshes:o.hide_render=False
 scene.camera=top;scene['muzzle_direction']='+Y';scene['swivel_origin']=[0,0,0];m.save(OUT/'crows_ii_m2.blend')
 meta=dict(source=str(SOURCE),source_sha256=hashlib.sha256(SOURCE.read_bytes()).hexdigest(),source_objects=[dict(name=r['name'],vertices=len(r['vertices']),faces=len(r['faces'])) for r in records],source_faces_preserved=sum(len(v) for v in seen.values()),source_uv_loops_preserved=loops,source_pivot=list(pivot),source_to_world_scale=scale,m2_visible_length_tiles=2.1421875,top_draw_size=[3.2,3.2],directional_draw_size=[3.6,3.6],pivot=[0,0,0],master_resolution=2048,native_resolution=1024,outline_world_tiles=.026,projection_top=90,projection_directions=64,paint='FDE hue; authored vehicle-style support levels, directional planes and desaturated dark paint',weapon_variant='M2HB QCB',weapon_donor=str(DONOR),weapon_donor_sha256=donor_report['donor_sha256'],weapon_mount_transform=donor_report['mount_transform'],replaced_source_weapon_meshes=['.50CAL','.50CAL SLEEVE','.50CAL BARREL'],base_source_component=4541,feed_chute_source_component=6342,optical_housing_source_component=917,added_optical_window_meshes=5,gameplay_definition_added=False)
 (OUT/'metadata.json').write_text(json.dumps(meta,indent=2)+'\n');print('CROWS_MODEL_PASS: original M153 station retained; canonical M2HB QCB mounted with fixed-emission materials',flush=True)
+meta['articulation']=ARTICULATION;meta['feed_alignment']=feed_report
+(OUT/'metadata.json').write_text(json.dumps(meta,indent=2)+'\n')
 report=surfaces.report();report['planar_source_components']=PLANAR_COMPONENTS
 (OUT/'paint_validation.json').write_text(json.dumps(report,indent=2)+'\n')
 report=json.loads(DONOR.with_name('detail_paint.json').read_text());report['note']='Canonical M2HB QCB donor mesh/materials copied unchanged; only one uniform scale and mount transform applied';report['mount_transform']=donor_report['mount_transform']

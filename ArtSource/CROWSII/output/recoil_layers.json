@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "texture_directory": "Buildings/Security/CROWSII",
+  "layers": {
+    "base": "HD_CROWSII_M2_Base",
+    "frame": "HD_CROWSII_M2_Frame",
+    "barrel": "HD_CROWSII_M2Barrel",
+    "body": "HD_CROWSII_M2Body",
+    "feed_overlay": "HD_CROWSII_M2_FeedOverlay"
+  },
+  "draw_order": [
+    "base",
+    "frame",
+    "barrel",
+    "body",
+    "feed_overlay"
+  ],
+  "draw_size": [
+    3.2,
+    3.2
+  ],
+  "pivot": [
+    0,
+    0
+  ],
+  "muzzle_direction": "+Y / north",
+  "moving_layer": "barrel",
+  "recoil_direction": "local -Y / image +Y",
+  "recoil_tiles": 0.0375,
+  "recoil_pixels": 12,
+  "qcb_handle_and_coupling_move_with_barrel": true,
+  "fixed_feed_chute": true,
+  "receiver_above_barrel": true,
+  "feed_foreground_overlay_last": true,
+  "gameplay_definition_added": false
+}
