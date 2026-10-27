@@ -1,0 +1,70 @@
+{
+  "asset": "HD_Converter",
+  "footprint": [
+    3,
+    3
+  ],
+  "features": [
+    "open pear-shaped air-blown converter",
+    "thick mouth and recessed interior",
+    "two trunnion columns and tilting drive",
+    "coarse shell band and bottom air feed",
+    "stone footings with fixed iron colors"
+  ],
+  "mesh_objects": 38,
+  "design_period": "circa 1900 trunnion-mounted air-blown converter",
+  "texture_resolution": [
+    768,
+    768
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "orthographic_scale": 4.5,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    4.5,
+    4.5
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "camera_target": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 124,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 63,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 124,
+      "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 72,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false,
+  "definition": "Defs/WildWest/Buildings/Industry_WildWest.xml",
+  "gameplay_fields_preserved_sha256": "eb1f0f31516855edf0ce4dbe363951f38954284682fa6c31a0e592347b47a5c0"
+}

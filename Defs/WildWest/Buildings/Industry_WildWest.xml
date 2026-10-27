@@ -1325,7 +1325,7 @@
       <texPath>Buildings/HD_Converter</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(4.5,4.5)</drawSize>
-      <drawOffset>(0,0,0.3)</drawOffset>
+      <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
         <volume>(2.2, 0.8, 2.2)</volume>
@@ -1356,7 +1356,7 @@
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(0,0,-2)</interactionCellOffset>
     <surfaceType>Item</surfaceType>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2365</uiOrder>
     <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
