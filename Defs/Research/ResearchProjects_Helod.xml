@@ -27,7 +27,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>1</researchViewX>
-        <researchViewY>0.8</researchViewY>
+        <researchViewY>1.6</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -41,7 +41,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>1</researchViewX>
-        <researchViewY>6.4</researchViewY>
+        <researchViewY>4</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -69,7 +69,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>3</researchViewX>
-        <researchViewY>2.4</researchViewY>
+        <researchViewY>1.6</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -83,7 +83,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>2</researchViewX>
-        <researchViewY>5.6</researchViewY>
+        <researchViewY>4.8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -97,7 +97,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>2</researchViewX>
-        <researchViewY>7.2</researchViewY>
+        <researchViewY>3.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -110,7 +110,7 @@
             <li>HelodSteamEngine</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>5</researchViewX>
+        <researchViewX>4</researchViewX>
         <researchViewY>0</researchViewY>
     </ResearchProjectDef>
 
@@ -126,7 +126,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>4</researchViewX>
-        <researchViewY>2.4</researchViewY>
+        <researchViewY>1.6</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -140,7 +140,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>3</researchViewX>
-        <researchViewY>7.2</researchViewY>
+        <researchViewY>3.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -154,7 +154,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>5</researchViewX>
-        <researchViewY>1.6</researchViewY>
+        <researchViewY>0.8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -168,7 +168,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>5</researchViewX>
-        <researchViewY>2.4</researchViewY>
+        <researchViewY>1.6</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -182,7 +182,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>5</researchViewX>
-        <researchViewY>3.2</researchViewY>
+        <researchViewY>7.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -196,7 +196,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>2</researchViewX>
-        <researchViewY>0.8</researchViewY>
+        <researchViewY>1.6</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -270,7 +270,7 @@
             <li>HelodBasicOilDevelopment</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>7</researchViewX>
+        <researchViewX>6</researchViewX>
         <researchViewY>0</researchViewY>
     </ResearchProjectDef>
 
@@ -286,7 +286,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>8</researchViewX>
-        <researchViewY>0.8</researchViewY>
+        <researchViewY>4.8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -300,7 +300,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>4</researchViewX>
-        <researchViewY>5.6</researchViewY>
+        <researchViewY>3.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -315,8 +315,8 @@
             <li>HelodBasicElectronics</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>8</researchViewX>
-        <researchViewY>5.6</researchViewY>
+        <researchViewX>7</researchViewX>
+        <researchViewY>3.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -329,8 +329,8 @@
             <li>HelodHighElectronics</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>10</researchViewX>
-        <researchViewY>7.2</researchViewY>
+        <researchViewX>9</researchViewX>
+        <researchViewY>3.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -346,7 +346,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>6</researchViewX>
-        <researchViewY>3.2</researchViewY>
+        <researchViewY>7.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -361,7 +361,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>7</researchViewX>
-        <researchViewY>3.2</researchViewY>
+        <researchViewY>7.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -375,7 +375,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>8</researchViewX>
-        <researchViewY>3.2</researchViewY>
+        <researchViewY>6.4</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -389,7 +389,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>9</researchViewX>
-        <researchViewY>0.8</researchViewY>
+        <researchViewY>4.8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -403,7 +403,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>9</researchViewX>
-        <researchViewY>0</researchViewY>
+        <researchViewY>4</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -417,7 +417,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>8</researchViewX>
-        <researchViewY>4.8</researchViewY>
+        <researchViewY>8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -432,7 +432,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>9</researchViewX>
-        <researchViewY>3.2</researchViewY>
+        <researchViewY>7.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -445,8 +445,8 @@
             <li>HelodBasicMotor</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>11</researchViewX>
-        <researchViewY>5.6</researchViewY>
+        <researchViewX>8</researchViewX>
+        <researchViewY>4</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -460,8 +460,8 @@
             <li>HelodBasicMotor</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>9</researchViewX>
-        <researchViewY>7.2</researchViewY>
+        <researchViewX>8</researchViewX>
+        <researchViewY>3.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -475,7 +475,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>9</researchViewX>
-        <researchViewY>4.8</researchViewY>
+        <researchViewY>8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -489,7 +489,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>9</researchViewX>
-        <researchViewY>1.6</researchViewY>
+        <researchViewY>5.6</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -504,7 +504,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>10</researchViewX>
-        <researchViewY>4</researchViewY>
+        <researchViewY>7.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -518,7 +518,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>10</researchViewX>
-        <researchViewY>1.6</researchViewY>
+        <researchViewY>5.6</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -532,7 +532,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>10</researchViewX>
-        <researchViewY>0.8</researchViewY>
+        <researchViewY>4.8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -546,7 +546,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>9</researchViewX>
-        <researchViewY>4</researchViewY>
+        <researchViewY>6.4</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -560,7 +560,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>11</researchViewX>
-        <researchViewY>2.4</researchViewY>
+        <researchViewY>5.6</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -575,7 +575,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>11</researchViewX>
-        <researchViewY>3.2</researchViewY>
+        <researchViewY>6.4</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -589,7 +589,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>12</researchViewX>
-        <researchViewY>3.2</researchViewY>
+        <researchViewY>6.4</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -606,7 +606,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>12</researchViewX>
-        <researchViewY>1.6</researchViewY>
+        <researchViewY>4.8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -621,7 +621,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>8</researchViewX>
-        <researchViewY>2.4</researchViewY>
+        <researchViewY>8.8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -635,8 +635,8 @@
             <li>HelodLowGranade</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>13</researchViewX>
-        <researchViewY>4</researchViewY>
+        <researchViewX>12</researchViewX>
+        <researchViewY>7.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -649,8 +649,8 @@
             <li>HelodWireless</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>13</researchViewX>
-        <researchViewY>7.2</researchViewY>
+        <researchViewX>10</researchViewX>
+        <researchViewY>3.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -666,8 +666,8 @@
             <li>HelodHighExplosive</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>13</researchViewX>
-        <researchViewY>5.6</researchViewY>
+        <researchViewX>11</researchViewX>
+        <researchViewY>8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -680,8 +680,8 @@
             <li>HelodLowAutomaticRifle</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>14</researchViewX>
-        <researchViewY>4</researchViewY>
+        <researchViewX>13</researchViewX>
+        <researchViewY>7.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -694,8 +694,8 @@
             <li>HelodMidAutomaticRifle</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>16</researchViewX>
-        <researchViewY>4</researchViewY>
+        <researchViewX>15</researchViewX>
+        <researchViewY>7.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -710,8 +710,8 @@
             <li>HelodMidAutomaticRifle</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>15</researchViewX>
-        <researchViewY>5.6</researchViewY>
+        <researchViewX>14</researchViewX>
+        <researchViewY>8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -725,7 +725,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>13</researchViewX>
-        <researchViewY>1.6</researchViewY>
+        <researchViewY>4.8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -740,7 +740,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>15</researchViewX>
-        <researchViewY>2.4</researchViewY>
+        <researchViewY>5.6</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -754,7 +754,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>14</researchViewX>
-        <researchViewY>1.6</researchViewY>
+        <researchViewY>4.8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -768,7 +768,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>15</researchViewX>
-        <researchViewY>1.6</researchViewY>
+        <researchViewY>4.8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -783,7 +783,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>16</researchViewX>
-        <researchViewY>2.4</researchViewY>
+        <researchViewY>4.8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -796,8 +796,8 @@
             <li>HelodGreatWarTech</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>13</researchViewX>
-        <researchViewY>2.4</researchViewY>
+        <researchViewX>12</researchViewX>
+        <researchViewY>8.8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -811,8 +811,8 @@
             <li>HelodFlakJacket</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>15</researchViewX>
-        <researchViewY>3.2</researchViewY>
+        <researchViewX>14</researchViewX>
+        <researchViewY>8.8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -826,8 +826,8 @@
             <li>HelodColdWarTech</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>15</researchViewX>
-        <researchViewY>6.4</researchViewY>
+        <researchViewX>14</researchViewX>
+        <researchViewY>3.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -842,7 +842,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>14</researchViewX>
-        <researchViewY>0.8</researchViewY>
+        <researchViewY>6.4</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -857,7 +857,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>16</researchViewX>
-        <researchViewY>0.8</researchViewY>
+        <researchViewY>6.4</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -872,7 +872,7 @@
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>17</researchViewX>
-        <researchViewY>0.8</researchViewY>
+        <researchViewY>6.4</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -886,8 +886,8 @@
             <li>HelodTransistor</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>17</researchViewX>
-        <researchViewY>4</researchViewY>
+        <researchViewX>16</researchViewX>
+        <researchViewY>7.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -901,8 +901,8 @@
             <li>HelodWireless</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>18</researchViewX>
-        <researchViewY>5.6</researchViewY>
+        <researchViewX>17</researchViewX>
+        <researchViewY>7.2</researchViewY>
     </ResearchProjectDef>
 
 </Defs>

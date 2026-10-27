@@ -8,7 +8,7 @@
     <techLevel>Industrial</techLevel>
     <prerequisites><li>HelodHighElectronics</li><li>HelodMetalCuttingMachine</li></prerequisites>
     <tab>HelodTechTab</tab>
-    <researchViewX>11</researchViewX>
-    <researchViewY>7.2</researchViewY>
+    <researchViewX>9</researchViewX>
+    <researchViewY>2.4</researchViewY>
   </ResearchProjectDef>
 </Defs>
