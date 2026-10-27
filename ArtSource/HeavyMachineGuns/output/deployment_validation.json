@@ -1,15 +1,15 @@
 {
   "passed": true,
   "runtime_files": 9,
-  "backup": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\.codex-staging\\HMG-InstalledBackup\\20261027T153737Z",
+  "backup": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\.codex-staging\\HMG-InstalledBackup\\20261027T154453Z",
   "files": {
-    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M1917_Tripod.png": "81e947656c696d6cdcc58f5fb4b00e4389d8297f9f9d10ab087e4ada5b08616c",
-    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMG_Top.png": "282f0a787934f0ba2adbc9c481f65f297c70a92f0118ee65442437b621f2dcd9",
-    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMGUI.png": "5ff552896818943f059d023d92e8783b3a16bcccc29a3b6c29753e0008847298",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M1917_Tripod.png": "4d3ef6826d2b93ee80559a09ed5eed26bf7cff51b3dd63d67ffd1035667a6340",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMG_Top.png": "de4ad89c2205cced27cca6a21d57d8697ae3fb17081db82f7eae5f2b4b282550",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMGUI.png": "afb884e36827ce3b083a5a93822115830d33702ac7ff0d7fe0a2362e45a591c0",
     "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Barrel.png": "40a2071523c6d970788d41fefa5427cef82a10c575af44875b014e5ca7975cc3",
-    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Body.png": "1ce97c53a600b39934564c58e4160439ff333769eebb78dd37005fa9d35e411a",
-    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Tripod.png": "a57cfffa4068a066e3296ed45d6289646227d2ca02c010c3875e47cdcf3e8185",
-    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_UI.png": "42a4cacc32a66db1dae91cb05f2222ad5bc7145866aaad7c2d84ab34429cc9e9",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Body.png": "bfc2a451b0c2a1acee717d4f1153523b9df651f30830d3f946d5b49660485fe0",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Tripod.png": "e4be7d4aa4280833fdfb095675a269f4ba4e6f7e38e1d557535a6f0d9ed3b8c5",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_UI.png": "75707a8ce47d14a8229eb016f88288b838596b7c55c495a0f89dd7dad5d5151d",
     "Defs/GreatWar/Buildings/Defense_GreatWar.xml": "495c20eb96db2e635a95d2311c530fe2a4b931848dc7dadfcf838e0c2e6cd970",
     "Defs/GreatWar/Items/Weapons_GreatWar.xml": "20f053f6918fab25123f931f36ac28a4ca1ec3e41b292f5184b9b09cbe00f3e7"
   },
@@ -25,42 +25,42 @@
   "installed_paint": {
     "HD_M2HB_Tripod.png": {
       "dominant_rgb": [
-        153,
-        132,
-        99
+        117,
+        101,
+        75
       ],
       "required_rgb": [
-        153,
-        132,
-        99
+        117,
+        101,
+        75
       ],
-      "required_rgb_pixels": 25390
+      "required_rgb_pixels": 25802
     },
     "HD_M1917_Tripod.png": {
       "dominant_rgb": [
-        153,
-        132,
-        99
+        117,
+        101,
+        75
       ],
       "required_rgb": [
-        153,
-        132,
-        99
+        117,
+        101,
+        75
       ],
-      "required_rgb_pixels": 30212
+      "required_rgb_pixels": 30632
     },
     "HD_m1917HMG_Top.png": {
       "dominant_rgb": [
-        0,
-        0,
-        0
+        143,
+        123,
+        92
       ],
       "required_rgb": [
-        153,
-        132,
-        99
+        143,
+        123,
+        92
       ],
-      "required_rgb_pixels": 34413
+      "required_rgb_pixels": 48767
     },
     "HD_M2HB_Body.png": {
       "dominant_rgb": [
@@ -69,22 +69,14 @@
         0
       ],
       "required_rgb": [
-        83,
-        100,
-        57
+        143,
+        123,
+        92
       ],
-      "required_rgb_pixels": 6087
+      "required_rgb_pixels": 5985
     }
   },
-  "removed_legacy_textures": [
-    "Textures/Buildings/Security/HD_M1917_Tripod.png",
-    "Textures/Buildings/Security/HD_m1917HMG_Top.png",
-    "Textures/Buildings/Security/HD_m1917HMGUI.png",
-    "Textures/Buildings/Security/HD_M2HB_Barrel.png",
-    "Textures/Buildings/Security/HD_M2HB_Body.png",
-    "Textures/Buildings/Security/HD_M2HB_Tripod.png",
-    "Textures/Buildings/Security/HD_M2HB_UI.png"
-  ],
+  "removed_legacy_textures": [],
   "unrelated_installed_definitions_unchanged": true,
   "in_game_render_test": false
 }

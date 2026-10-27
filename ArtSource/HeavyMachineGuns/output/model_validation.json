@@ -22,14 +22,19 @@
         "tripod": 1
       },
       "fde_rgb": [
-        153,
-        132,
-        99
+        143,
+        123,
+        92
       ],
-      "ammunition_box_od_rgb": [
-        83,
-        100,
-        57
+      "ammunition_box_fde_rgb": [
+        143,
+        123,
+        92
+      ],
+      "tripod_fde_rgb": [
+        117,
+        101,
+        75
       ],
       "tripod_plan_view_aspect_preserved": true,
       "ammo_box_level": true,
@@ -62,14 +67,19 @@
         "water_jacket": 1
       },
       "fde_rgb": [
-        153,
-        132,
-        99
+        143,
+        123,
+        92
       ],
-      "ammunition_box_od_rgb": [
-        83,
-        100,
-        57
+      "ammunition_box_fde_rgb": [
+        143,
+        123,
+        92
+      ],
+      "tripod_fde_rgb": [
+        117,
+        101,
+        75
       ],
       "tripod_plan_view_aspect_preserved": true
     }

@@ -64,9 +64,8 @@ paint={}
 for name in ['HD_M2HB_Tripod.png','HD_M1917_Tripod.png','HD_m1917HMG_Top.png','HD_M2HB_Body.png']:
     with Image.open(INSTALLED/'Textures'/manifest['texture_directory']/name) as image:
         counts=Counter(tuple(p[:3]) for p in image.convert('RGBA').getdata() if p[3]>250)
-    expected=style['ammunition_box_od_rgb'] if name=='HD_M2HB_Body.png' else style['fde_rgb']
+    expected=style['mount_fde_rgb'] if name.endswith('_Tripod.png') else style['fde_rgb']
     assert counts[tuple(expected)]>100,(name,expected)
-    if name=='HD_m1917HMG_Top.png':assert counts[tuple(style['ammunition_box_od_rgb'])]>100
     paint[name]=dict(dominant_rgb=list(counts.most_common(1)[0][0]),required_rgb=expected,required_rgb_pixels=counts[tuple(expected)])
 
 # Remove only the seven superseded loose PNGs after the FDE paths are verified.
@@ -77,4 +76,4 @@ for name in manifest['files']:
     if path.exists():preserve(path);path.unlink();removed.append(path.relative_to(INSTALLED).as_posix())
 report=dict(passed=True,runtime_files=len(files),backup=str(backup),files=files,registered_paths=registered,installed_paint=paint,removed_legacy_textures=removed,unrelated_installed_definitions_unchanged=True,in_game_render_test=False)
 (ART/'output/deployment_validation.json').write_text(json.dumps(report,indent=2)+'\n')
-print('HMG_FDE_DEPLOYMENT_PASS: seven registered PNG paths + two targeted XML files; installed FDE/OD pixels verified; backups in '+str(backup))
+print('HMG_FDE_DEPLOYMENT_PASS: seven registered PNG paths + two targeted XML files; installed darker FDE paints verified; backups in '+str(backup))

@@ -1,6 +1,6 @@
 # M2HB · M1917 교체 아트
 
-OD 도색 부위는 FDE `(153,132,99)`로 통일했다. 적용 부위는 M1917 수랭 재킷과 두 총의 삼각대·장착대다. 두 탄통과 M2 탄통 뚜껑은 기존 OD `(83,100,57)`를 유지한다. 금속 총몸·총열, 목재 손잡이, 탄피·탄두·탄띠 색은 유지하며, FDE에도 측면 명암을 추가하지 않는다.
+M1917 수랭 재킷과 두 총의 탄통·뚜껑은 조금 어두워진 FDE `(143,123,92)`로 통일했다. 삼각대·장착대는 더 어두운 FDE `(117,101,75)`를 사용한다. 기존 FDE `(153,132,99)`보다 기본 도색은 약 7%, 받침은 약 24% 낮은 표시 RGB 밝기다. 금속 총몸·총열, 목재 손잡이, 탄피·탄두·탄띠 색은 유지하며, FDE에도 측면 명암을 추가하지 않는다.
 
 게임용 파일은 `Textures/Buildings/Security/HeavyMachineGunsFDE/`의 7개 PNG다. 두 건물의 받침·아이콘·M2 반동 레이어와 M1917 총 정의의 상부 경로를 모두 이 전용 폴더로 등록한다. 이전 루트 경로의 7개 PNG는 제거했다. 경로·도색·윤곽선 설정은 `art_style.json`에서 관리한다. 실행 중인 게임은 파일을 다시 쓰는 것만으로 텍스처를 갱신하지 않으므로 변경된 정의와 경로를 읽으려면 게임을 재시작한다.
 
@@ -35,6 +35,6 @@ python ArtSource/HeavyMachineGuns/deploy.py
 
 `output/{M2HB,M1917}/model.blend`가 편집 가능한 모델이며 `metadata.json`에 원본 경로·SHA256과 배율을 기록한다. `*_raw.png`는 무윤곽 원본, `output/Runtime`의 7개 PNG는 게임용 파일이다. `model_validation.json`은 실제 원본의 모든 면·꼭짓점·UV 대조 결과, `registration_validation.json`은 게임 등록·반동값·다른 정의 보존 검사 결과다.
 
-`deploy.py`는 설치 모드의 7개 PNG와 두 XML의 해당 아트 필드만 백업 후 교체한다. 등록된 7개 경로가 실제 PNG로 연결되고 FDE와 OD 픽셀이 올바른지 설치 파일에서 직접 확인한다. 구형 루트 PNG 7개만 백업 후 제거하며, 결과는 `output/deployment_validation.json`에 기록한다. 다른 설치 위치는 `--installed`로 지정한다.
+`deploy.py`는 설치 모드의 7개 PNG와 두 XML의 해당 아트 필드만 백업 후 교체한다. 등록된 7개 경로가 실제 PNG로 연결되고 기본·받침 FDE 픽셀이 올바른지 설치 파일에서 직접 확인한다. 구형 루트 PNG 7개만 백업 후 제거하며, 결과는 `output/deployment_validation.json`에 기록한다. 다른 설치 위치는 `--installed`로 지정한다.
 
 시각 검수는 실제 출력인 `preview.png`, `m2_recoil_review.png`를 사용한다. `preview.png`는 두 기관총을 동일한 월드 배율·회전축 기준으로 표시해 실제 크기 차이를 보여준다. `icon_preview.png`는 각각 크기를 채운 메뉴 아이콘 비교이므로 크기 비율 검수에 사용하지 않는다. `before_after.png`는 원래 게임 아트와 비교하며, `revision_comparison.png`는 위쪽의 거부된 절차형 초안과 아래쪽의 ext 모델 결과를 비교한다. `Reference/Previous`는 최초 교체 전 자료다. 게임 실행을 통한 회전·사격 검사는 수행하지 않았다.
