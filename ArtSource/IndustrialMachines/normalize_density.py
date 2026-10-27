@@ -6,7 +6,8 @@ import sprite_common as s
 from render_west import ASSETS as INDUSTRIAL_ASSETS
 from integrate_asset import integrate
 ASSETS=INDUSTRIAL_ASSETS+[(stem,folder,stem+'.blend',True) for stem,folder in [
- ('HD_SAFurnace','ElectricArcFurnace'),('HD_VIMFurnace','VacuumInductionFurnace'),('HD_CableToolRig','CableToolRig')]]
+ ('HD_SAFurnace','ElectricArcFurnace'),('HD_VIMFurnace','VacuumInductionFurnace'),('HD_CableToolRig','CableToolRig'),
+ ('HD_Converter','Converter'),('HD_BlastFurnace','BlastFurnace'),('HD_BatchStill','BatchStill')]]
 ASSETS += [('HD_'+n,'Reconstructed/'+n,'HD_'+n+'.blend',True) for n in ['TreadleLathe','LineShaftTurretLathe','LineShaftMillingMachine']]
 ASSETS += [('HD_LineShaftPress','LargeIndustrialPress','large_industrial_press.blend',True),
  ('HD_RollingMC','IndustrialRollingMill','industrial_rolling_mill.blend',True),

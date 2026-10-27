@@ -27,7 +27,7 @@ sheet.save(OUT/'new_machines_north.png')
 items=[('Small steam','HD_SmallSteamEngine'),('Large steam','HD_LargeSteamEngine'),('Diesel','HD_IndustrialDieselEngine'),
  ('Generator','HD_EarlyIndustrialGenerator'),('Motor','HD_EarlyIndustrialLargeMotor'),('Pressure reactor','HD_HaberBoschHighPressureReactor'),
  ('Stirred tank','HD_StirredTankReactor'),('Timber pumpjack','HD_BasicPumpJack'),('Distillation','HD_DistillationTower'),
- ('Steel pumpjack (art)','HD_MetalPumpJack'),('Rotary drill (art)','HD_RotaryDrill')]
+ ('Steel pumpjack','HD_MetalPumpJack'),('Rotary drill','HD_RotaryDrill')]
 sheet=Image.new('RGB',(1040,880),(190,190,187));d=ImageDraw.Draw(sheet)
 d.text((12,8),'ACTUAL WEST VIEWS / silhouettes fit to cells for review',fill=(30,30,28),font=font)
 for i,(label,stem) in enumerate(items):

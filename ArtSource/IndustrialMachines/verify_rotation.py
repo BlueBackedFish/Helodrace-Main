@@ -62,12 +62,18 @@ for stem,folder,blend,active in assets:
     assert meta['outline_pixels']==12 and abs(meta['outline_width_in_game_units']-12*1.5/256)<1e-8
     assert geometry_hash()==meta['density_export_geometry_palette_sha256']
     # Interaction offsets must stay outside the occupied rectangle in every orientation.
-    if active and stem not in ['HD_LineShaftPress','HD_RollingMC','HD_TreadleLathe','HD_LineShaftTurretLathe','HD_LineShaftMillingMachine'] and defs[stem].findtext('hasInteractionCell')=='true':
-        size=[int(v) for v in defs[stem].findtext('size').strip('()').split(',')]
-        x,_,z=[int(v) for v in defs[stem].findtext('interactionCellOffset').strip('()').split(',')]
+    # Existing pass-through machine tools retain their authored work cells.
+    if active and stem not in ['HD_LineShaftPress','HD_RollingMC','HD_TreadleLathe','HD_LineShaftTurretLathe','HD_LineShaftMillingMachine'] and defs[ALIASES.get(stem,stem)].findtext('hasInteractionCell')=='true':
+        definition=defs[ALIASES.get(stem,stem)]
+        size=[int(v) for v in definition.findtext('size').strip('()').split(',')]
+        x,_,z=[int(v) for v in definition.findtext('interactionCellOffset').strip('()').split(',')]
         for i in range(4):
             w,h=size if i%2==0 else size[::-1]
-            assert not (-((w-1)//2)<=x<=w//2 and -((h-1)//2)<=z<=h//2)
+            # GenAdj.OccupiedRect rotates the center bias for even dimensions.
+            # Verified against the installed game's N/E/S/W 4x4 rectangles.
+            xmin=-((w-1)//2)-int(w%2==0 and i in [2,3])
+            zmin=-((h-1)//2)-int(h%2==0 and i in [1,2])
+            assert not (xmin<=x<xmin+w and zmin<=z<zmin+h),(stem,i,(x,z))
             x,z=z,-x
         report[stem]['interaction_offset_outside_all_rotated_footprints']=True
     outlet={'HD_SmallSteamEngine':'14_Stack_lip','HD_IndustrialDieselEngine':'17_Exhaust_tip'}.get(stem)
@@ -94,4 +100,4 @@ for name in ['North','East','South','West']:
 report['HD_Radio']={'north_controls_south_backs_verified':True,'actual_west_render':True,'saved_cameras_64_degrees':4,'meshes_and_colors_preserved':True}
 report['in_game_tested']=False
 with open(os.path.join(OUT,'rotation_validation.json'),'w') as f:json.dump(report,f,indent=2)
-print('Verified 22 saved scenes, 88 camera views, 172 PNGs; fixed tile density and 12px outlines, preserved geometry/colors/gameplay, radio directions and smoke outlets.')
+print(f'Verified {len(assets)} saved scenes, {len(assets)*4} camera views, {len(assets)*8-4} PNGs; fixed tile density and 12px outlines, preserved geometry/colors/gameplay, radio directions and smoke outlets.')

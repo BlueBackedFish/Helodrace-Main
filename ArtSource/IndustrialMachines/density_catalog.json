@@ -24,6 +24,54 @@
     "outline_width_in_game_units": 0.0703125
   },
   {
+    "asset": "HD_BatchStill",
+    "source_folder": "ArtSource/BatchStill",
+    "footprint": [
+      3,
+      3
+    ],
+    "resolution": [
+      768,
+      768
+    ],
+    "draw_size": [
+      4.5,
+      4.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_BlastFurnace",
+    "source_folder": "ArtSource/BlastFurnace",
+    "footprint": [
+      4,
+      4
+    ],
+    "resolution": [
+      1024,
+      1024
+    ],
+    "draw_size": [
+      6.0,
+      6.0
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0063517093658447266
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
     "asset": "HD_CableToolRig",
     "source_folder": "ArtSource/CableToolRig",
     "footprint": [
@@ -53,6 +101,30 @@
     "footprint": [
       3,
       1
+    ],
+    "resolution": [
+      768,
+      768
+    ],
+    "draw_size": [
+      4.5,
+      4.5
+    ],
+    "draw_offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outline_pixels": 12,
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_width_in_game_units": 0.0703125
+  },
+  {
+    "asset": "HD_Converter",
+    "source_folder": "ArtSource/Converter",
+    "footprint": [
+      3,
+      3
     ],
     "resolution": [
       768,

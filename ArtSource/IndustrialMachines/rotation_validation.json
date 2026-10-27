@@ -320,7 +320,7 @@
     "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_MetalPumpJack": {
-    "active_definition": false,
+    "active_definition": true,
     "four_actual_camera_views_verified": {
       "North": {
         "elevation": 64,
@@ -344,7 +344,7 @@
       }
     },
     "meshes": 71,
-    "gameplay_fields_preserved": false,
+    "gameplay_fields_preserved": true,
     "geometry_and_colors_preserved": true,
     "texture_resolution": [
       1536,
@@ -355,7 +355,7 @@
     "outline_width_in_game_units": 0.0703125
   },
   "HD_RotaryDrill": {
-    "active_definition": false,
+    "active_definition": true,
     "four_actual_camera_views_verified": {
       "North": {
         "elevation": 64,
@@ -379,7 +379,7 @@
       }
     },
     "meshes": 101,
-    "gameplay_fields_preserved": false,
+    "gameplay_fields_preserved": true,
     "geometry_and_colors_preserved": true,
     "texture_resolution": [
       1024,
@@ -387,7 +387,8 @@
     ],
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
-    "outline_width_in_game_units": 0.0703125
+    "outline_width_in_game_units": 0.0703125,
+    "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_SAFurnace": {
     "active_definition": true,
@@ -495,6 +496,114 @@
     "pixels_per_game_unit": 170.66666666666666,
     "outline_pixels": 12,
     "outline_width_in_game_units": 0.0703125
+  },
+  "HD_Converter": {
+    "active_definition": true,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 124,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 63,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 124,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 72,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 38,
+    "gameplay_fields_preserved": true,
+    "geometry_and_colors_preserved": true,
+    "texture_resolution": [
+      768,
+      768
+    ],
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_pixels": 12,
+    "outline_width_in_game_units": 0.0703125,
+    "interaction_offset_outside_all_rotated_footprints": true
+  },
+  "HD_BlastFurnace": {
+    "active_definition": true,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 119,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 12,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 93,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 108,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 50,
+    "gameplay_fields_preserved": true,
+    "geometry_and_colors_preserved": true,
+    "texture_resolution": [
+      1024,
+      1024
+    ],
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_pixels": 12,
+    "outline_width_in_game_units": 0.0703125,
+    "interaction_offset_outside_all_rotated_footprints": true
+  },
+  "HD_BatchStill": {
+    "active_definition": true,
+    "four_actual_camera_views_verified": {
+      "North": {
+        "elevation": 64,
+        "minimum_margin": 137,
+        "mask_alpha_matches": true
+      },
+      "East": {
+        "elevation": 64,
+        "minimum_margin": 76,
+        "mask_alpha_matches": true
+      },
+      "South": {
+        "elevation": 64,
+        "minimum_margin": 137,
+        "mask_alpha_matches": true
+      },
+      "West": {
+        "elevation": 64,
+        "minimum_margin": 50,
+        "mask_alpha_matches": true
+      }
+    },
+    "meshes": 45,
+    "gameplay_fields_preserved": true,
+    "geometry_and_colors_preserved": true,
+    "texture_resolution": [
+      768,
+      768
+    ],
+    "pixels_per_game_unit": 170.66666666666666,
+    "outline_pixels": 12,
+    "outline_width_in_game_units": 0.0703125,
+    "interaction_offset_outside_all_rotated_footprints": true
   },
   "HD_TreadleLathe": {
     "active_definition": true,

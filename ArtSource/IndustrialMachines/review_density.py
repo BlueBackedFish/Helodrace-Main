@@ -43,6 +43,6 @@ for path in (ROOT/'ArtSource').rglob('validation.json'):
                     'footprint':m['footprint'],'resolution':m['texture_resolution'],'draw_size':m['expected_draw_size'],
                     'draw_offset':m['expected_draw_offset'],'outline_pixels':m['outline_pixels'],
                     'pixels_per_game_unit':m['pixels_per_game_unit'],'outline_width_in_game_units':m['outline_width_in_game_units']})
-catalog.sort(key=lambda a:a['asset']);assert len(catalog)==22
+catalog.sort(key=lambda a:a['asset']);assert len(catalog)==25
 (OUT/'density_catalog.json').write_text(json.dumps(catalog,indent=2))
-print('Saved fixed-game-scale before/after comparison and 22-building density catalog.')
+print('Saved fixed-game-scale before/after comparison and 25-building density catalog.')

@@ -66,5 +66,8 @@
   },
   "in_game_tested": false,
   "definition": "Defs/WildWest/Buildings/Industry_WildWest.xml",
-  "gameplay_fields_preserved_sha256": "8daea513636f78f8d50a88ff8ab354b0911fec7151aaabb9a35cd72cdef2bf01"
+  "gameplay_fields_preserved_sha256": "8daea513636f78f8d50a88ff8ab354b0911fec7151aaabb9a35cd72cdef2bf01",
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "ba2ec7630b567b09b552a0484291cf9504db963d969648177132b0db4d415077",
+  "rotation_export_geometry_palette_sha256": "ba2ec7630b567b09b552a0484291cf9504db963d969648177132b0db4d415077"
 }
