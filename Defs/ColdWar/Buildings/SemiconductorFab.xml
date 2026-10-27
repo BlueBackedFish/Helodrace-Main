@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_SemiconductorFab</defName>
+    <label>early semiconductor fab</label>
+    <description>A compact transistor-era fabrication workshop. A horizontal diffusion furnace, bell-jar vacuum evaporator, wet-processing bench and microscope inspection station share a 3-by-3 equipment platform. Packages early solid-state devices and electrical fittings into industrial components. Requires electricity and a skilled operator.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Buildings/HD_SemiconductorFab</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(4.5,4.5)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.65</fillPercent>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>7000</WorkToBuild>
+      <Flammability>0.2</Flammability>
+      <Mass>350</Mass>
+      <WorkTableWorkSpeedFactor>1</WorkTableWorkSpeedFactor>
+    </statBases>
+    <costList>
+      <Steel>180</Steel>
+      <HD_GeneralMachinePart>8</HD_GeneralMachinePart>
+      <HD_BasicElectricalComponents>12</HD_BasicElectricalComponents>
+      <HD_BasicElectronicComponents>12</HD_BasicElectronicComponents>
+      <Silver>20</Silver>
+    </costList>
+    <size>(3,3)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <rotatable>true</rotatable>
+    <tickerType>Rare</tickerType>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2372</uiOrder>
+    <constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <researchPrerequisites><li>HelodTransistor</li></researchPrerequisites>
+    <inspectorTabs><li>ITab_Bills</li></inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>4000</basePowerConsumption>
+        <shortCircuitInRain>true</shortCircuitInRain>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="Helodrace.CompProperties_OperatingHeatPusher"><heatPerSecond>8</heatPerSecond><heatPushMaxTemperature>70</heatPushMaxTemperature></li>
+    </comps>
+    <building><spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity></building>
+  </ThingDef>
+</Defs>

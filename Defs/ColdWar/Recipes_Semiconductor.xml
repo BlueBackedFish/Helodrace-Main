@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <RecipeDef>
+    <defName>HD_FabricateSolidStateComponents</defName>
+    <label>fabricate solid-state components</label>
+    <description>Fabricate and package early semiconductor devices with electrical fittings into an industrial component. Chemical feedstocks and semiconductor processing are abstracted into the existing material chain.</description>
+    <jobString>Fabricating solid-state components.</jobString>
+    <workAmount>6000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodTransistor</researchPrerequisite>
+    <ingredients>
+      <li><filter><thingDefs><li>Steel</li></thingDefs></filter><count>10</count></li>
+      <li><filter><thingDefs><li>Silver</li></thingDefs></filter><count>4</count></li>
+      <li><filter><thingDefs><li>Chemfuel</li></thingDefs></filter><count>4</count></li>
+      <li><filter><thingDefs><li>HD_BasicElectricalComponents</li></thingDefs></filter><count>2</count></li>
+    </ingredients>
+    <fixedIngredientFilter><thingDefs><li>Steel</li><li>Silver</li><li>Chemfuel</li><li>HD_BasicElectricalComponents</li></thingDefs></fixedIngredientFilter>
+    <products><ComponentIndustrial>1</ComponentIndustrial></products>
+    <recipeUsers><li>HD_SemiconductorFab</li></recipeUsers>
+    <skillRequirements><Crafting>10</Crafting></skillRequirements>
+  </RecipeDef>
+</Defs>

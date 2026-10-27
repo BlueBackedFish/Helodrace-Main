@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_FabricateSolidStateComponents.label>반도체 기반 산업용 부품 제작</HD_FabricateSolidStateComponents.label>
+  <HD_FabricateSolidStateComponents.description>초기 반도체 소자를 제조하고 전기 부품과 함께 조립해 산업용 부품을 만듭니다. 반도체 공정과 화학 원료는 기존 재료 체계로 단순화되어 있습니다.</HD_FabricateSolidStateComponents.description>
+  <HD_FabricateSolidStateComponents.jobString>반도체 기반 산업용 부품 제작 중.</HD_FabricateSolidStateComponents.jobString>
+</LanguageData>

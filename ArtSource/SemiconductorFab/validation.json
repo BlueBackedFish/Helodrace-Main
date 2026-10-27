@@ -1,0 +1,74 @@
+{
+  "asset": "HD_SemiconductorFab",
+  "footprint": [
+    3,
+    3
+  ],
+  "features": [
+    "open 3x3 late-1950s transistor workshop",
+    "horizontal diffusion furnace and analog temperature control",
+    "bell-jar vacuum evaporator and coarse vacuum pump",
+    "wet processing baths with local extraction hood",
+    "front microscope inspection bench and small wafer samples",
+    "compact central contact-mask fixture"
+  ],
+  "mesh_objects": 67,
+  "design_period": "circa 1957-1959 transistor fabrication laboratory",
+  "texture_resolution": [
+    768,
+    768
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "orthographic_scale": 4.5,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    4.5,
+    4.5
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "camera_target": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 82,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 70,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 78,
+      "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 37,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false,
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "1bb548f2290300165c3a250af7247fc8d6e9d9e3900d1c52fe12d00aae191678",
+  "rotation_export_geometry_palette_sha256": "1bb548f2290300165c3a250af7247fc8d6e9d9e3900d1c52fe12d00aae191678",
+  "definition": "Defs/ColdWar/Buildings/SemiconductorFab.xml",
+  "gameplay_fields_preserved_sha256": "99f67f87e20394680e93694d72258720225bdc6ce991f02cbbc9c9a1438abd50"
+}

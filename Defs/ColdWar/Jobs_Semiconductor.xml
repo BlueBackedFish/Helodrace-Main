@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <WorkGiverDef>
+    <defName>DoBillsHD_SemiconductorFab</defName>
+    <label>operate semiconductor fab</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs><li>HD_SemiconductorFab</li></fixedBillGiverDefs>
+    <verb>fabricate</verb><gerund>fabricating at</gerund>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+  </WorkGiverDef>
+</Defs>

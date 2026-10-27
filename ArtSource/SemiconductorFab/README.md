@@ -1,0 +1,11 @@
+# Early semiconductor fab
+
+Original 3x3 open transistor-era workshop, circa 1957-1959. A horizontal diffusion furnace with analog temperature control occupies the rear bench; a bell-jar vacuum evaporator and pump sit to the left, two wet-processing baths and a small extraction hood to the right. A low central contact-mask fixture, front microscope and coarse wafer samples fill the remaining working surfaces. No modern wafer robots, EUV tools, large-wafer cassettes or full cleanroom enclosure are represented.
+
+`build_fab.py` exports `HD_SemiconductorFab.blend`, four actual 64-degree orthographic views, 768px transparent color/mask pairs and a fixed 12px exterior outline. drawSize is (4.5,4.5), with the compensated ground-anchor offset in `validation.json`. The established neutral iron palette is extended only by muted bell-jar, rinse-water and sample colors. Bell-jar glass uses opaque fixed-color proxy geometry to remain readable; it is not physically transparent glass.
+
+`Defs/ColdWar/Buildings/SemiconductorFab.xml` is a staffed 4000W worktable unlocked by existing transistor research. `Recipes_Semiconductor.xml` packages solid-state devices and electrical fittings into vanilla industrial components. Silicon purity, dopants and process chemicals are abstracted into the existing Steel/Silver/Chemfuel/basic-electrical material chain; no new raw-material or chip item chain is introduced. Construction uses basic electronic components from the earlier workbench recipe, so it does not require its own output to build.
+
+Period guidance: [Semiconductor History Museum of Japan equipment history](https://www.shmj.or.jp/english/equipment_material.html), [late-1950s diffusion furnace](https://www.shmj.or.jp/english/pdf/em/exhibi2412E.pdf), [vacuum deposition](https://www.shmj.or.jp/english/pdf/em/exhibi2413E.pdf), and [Computer History Museum photolithography history](https://www.computerhistory.org/siliconengine/photolithography-techniques-are-used-to-make-silicon-devices/). This is a deliberately compressed game workshop, not a literal complete manufacturing line.
+
+Build this script with Blender, then use `IndustrialMachines/normalize_density.py -- HD_SemiconductorFab` for later publication. Saved-scene and definition checks are supplied; no in-game visual/play test has been performed.
