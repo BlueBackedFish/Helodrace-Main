@@ -1,0 +1,206 @@
+{
+  "passed": true,
+  "files": {
+    "HD_CROWSII_M2_Base.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        454,
+        454,
+        570,
+        570
+      ],
+      "minimum_margin": 454,
+      "sha256": "72e4ff458a5eac5eb78067f39be2937e076f3bba526029965a368f15e3a85d11"
+    },
+    "HD_CROWSII_M2_Frame.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        297,
+        320,
+        702,
+        693
+      ],
+      "minimum_margin": 297,
+      "sha256": "5ea072fa970156af12cd8b82c463c9511dc592261ca6a5eb059e6b8079a6530b"
+    },
+    "HD_CROWSII_M2_Top.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        297,
+        60,
+        702,
+        767
+      ],
+      "minimum_margin": 60,
+      "sha256": "6b0a13e4a180041d2aa8bdca01f6f56cef221fca0d164158da7fcf823909ad13"
+    },
+    "HD_CROWSII_M2_TurretTop.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "3486ed5fbf2885fcbbcaf05d192862c7b61982e20b0c59891c83c1519b42ea13",
+      "muzzle_axis": "+X for native TurretTop -90-degree artwork rotation"
+    },
+    "HD_CROWSII_M2Body.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "bf487940af2eed1dfa66966af2ba5a62e7f47140a154b362882cceed6977d374",
+      "shared_gun_outline": true
+    },
+    "HD_CROWSII_M2Barrel.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "acf621726b83be5b789751082e5564eb37ebee52c81d58540e3cd447b0b3773e",
+      "shared_gun_outline": true
+    },
+    "HD_CROWSII_M2_north.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        320,
+        44,
+        681,
+        619
+      ],
+      "minimum_margin": 44,
+      "sha256": "d111f8c27921e60b226a86b86c5d7dc72ab3448ce5f6fc358708283fafe14115"
+    },
+    "HD_CROWSII_M2_east.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        285,
+        233,
+        914,
+        643
+      ],
+      "minimum_margin": 110,
+      "sha256": "dd5279ede92b9fe6b1aa05dae78fd1bbf65addf07d882582d8827b142486ea48"
+    },
+    "HD_CROWSII_M2_south.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        343,
+        195,
+        703,
+        775
+      ],
+      "minimum_margin": 195,
+      "sha256": "3fbe93c1b3bde6bc0c33944749533e6c9686e605ea5848cc68882330f279f14d"
+    },
+    "HD_CROWSII_M2_west.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        110,
+        272,
+        739,
+        659
+      ],
+      "minimum_margin": 110,
+      "sha256": "97ae7026683618fb0e4754fcf74b8c19e2c15f094cbdd55ec783c4ab6c585d84"
+    },
+    "HD_CROWSII_M2_UI.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        240,
+        36,
+        784,
+        987
+      ],
+      "minimum_margin": 36,
+      "sha256": "feddb826a966ec3ed68eef80b06c853857e9d0074523030b6d366dd17a382bc0"
+    }
+  },
+  "source": {
+    "source": "C:\\Users\\human\\Downloads\\Dagor-Asset-Explorer-1.0.0\\Dagor-Asset-Explorer-1.0.0\\ext\\machine gun\\m153-crows-untextured\\source\\M153 CROWS bevel.fbx",
+    "source_sha256": "9d347b6422e6745d3dc97055e71b0bacab1b24a2ad51b03a69a0639ef1f78cb4",
+    "source_objects": [
+      {
+        "name": ".50CAL",
+        "vertices": 5393,
+        "faces": 5798
+      },
+      {
+        "name": "Cylinder.003",
+        "vertices": 14863,
+        "faces": 14192
+      },
+      {
+        "name": ".50CAL SLEEVE",
+        "vertices": 2468,
+        "faces": 2430
+      },
+      {
+        "name": ".50CAL BARREL",
+        "vertices": 638,
+        "faces": 632
+      }
+    ],
+    "source_faces_preserved": 23052,
+    "source_uv_loops_preserved": 91546,
+    "source_pivot": [
+      1.8940157890319824,
+      1.7862746715545654,
+      3.3012657165527344
+    ],
+    "source_to_world_scale": 0.4688249775686162,
+    "m2_visible_length_tiles": 2.1421875,
+    "top_draw_size": [
+      3.2,
+      3.2
+    ],
+    "directional_draw_size": [
+      3.6,
+      3.6
+    ],
+    "pivot": [
+      0,
+      0,
+      0
+    ],
+    "master_resolution": 2048,
+    "native_resolution": 1024,
+    "outline_world_tiles": 0.026,
+    "projection_top": 90,
+    "projection_directions": 64,
+    "paint": "FDE (143,123,92); darker pedestal (117,101,75)",
+    "m2_included_in_provided_model": true,
+    "base_source_component": 4541,
+    "feed_chute_source_component": 6342,
+    "optical_housing_source_component": 917,
+    "added_optical_window_meshes": 5,
+    "gameplay_definition_added": false
+  },
+  "pivot_registration": "all top layers share centered 3.2-tile canvas",
+  "native_turret_artwork": "east-facing TurretTop; other top layers north-facing",
+  "transparent": true,
+  "fixed_emission": true,
+  "in_game_tested": false
+}
