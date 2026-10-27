@@ -115,7 +115,7 @@ for kind,registered,draw in world_views:
     size=round(registered.width*draw/common_world_size);layer=resize_linear(registered,size);canvas=Image.new('RGBA',registered.size)
     canvas.alpha_composite(layer,((canvas.width-size)//2,(canvas.height-size)//2));world_preview.append((kind+' / SAME WORLD SCALE',canvas))
 sheet(world_preview,OUT/'preview.png')
-sheet(world_preview,OUT/'fde_dark_preview.png')
+sheet(world_preview,OUT/(STYLE['paint_name'].lower()+'_preview.png'))
 sheet(preview,OUT/'icon_preview.png')
 def previous(name):
     return opened(ROOT/'Reference/Previous'/name)

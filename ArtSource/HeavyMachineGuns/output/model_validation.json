@@ -21,20 +21,21 @@
         "barrel": 1,
         "tripod": 1
       },
-      "fde_rgb": [
-        143,
-        123,
-        92
+      "paint_name": "CB",
+      "paint_rgb": [
+        129,
+        97,
+        60
       ],
-      "ammunition_box_fde_rgb": [
-        143,
-        123,
-        92
+      "ammunition_box_rgb": [
+        129,
+        97,
+        60
       ],
-      "tripod_fde_rgb": [
-        117,
-        101,
-        75
+      "tripod_rgb": [
+        106,
+        80,
+        49
       ],
       "tripod_plan_view_aspect_preserved": true,
       "ammo_box_level": true,
@@ -66,20 +67,21 @@
         "tripod": 1,
         "water_jacket": 1
       },
-      "fde_rgb": [
-        143,
-        123,
-        92
+      "paint_name": "CB",
+      "paint_rgb": [
+        129,
+        97,
+        60
       ],
-      "ammunition_box_fde_rgb": [
-        143,
-        123,
-        92
+      "ammunition_box_rgb": [
+        129,
+        97,
+        60
       ],
-      "tripod_fde_rgb": [
-        117,
-        101,
-        75
+      "tripod_rgb": [
+        106,
+        80,
+        49
       ],
       "tripod_plan_view_aspect_preserved": true
     }

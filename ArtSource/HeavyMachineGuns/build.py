@@ -8,7 +8,7 @@ EXT=Path(os.environ.get('HELODRACE_REFERENCE_EXT',str(Path.home()/'Downloads/Dag
 MASTER=2048
 DIMENSIONS=json.loads((ROOT/'scale_reference.json').read_text())
 STYLE=json.loads((ROOT/'art_style.json').read_text())
-PALETTE=dict(metal=(79,86,84),cover=(103,111,106),dark=(37,44,42),fde=tuple(STYLE['fde_rgb']),ammo=tuple(STYLE['fde_rgb']),wood=(102,75,48),brass=(173,142,73),copper=(145,102,68),link=(43,48,43),canvas=(104,99,70),mount=tuple(STYLE['mount_fde_rgb']))
+PALETTE=dict(metal=(79,86,84),cover=(103,111,106),dark=(37,44,42),paint=tuple(STYLE['paint_rgb']),ammo=tuple(STYLE['paint_rgb']),wood=(102,75,48),brass=(173,142,73),copper=(145,102,68),link=(43,48,43),canvas=(104,99,70),mount=tuple(STYLE['mount_paint_rgb']))
 # Original hinge pin, parallel to Y. The source lid is opened 154 degrees.
 AMMO_HINGE=Vector((.4073,.2142,-.1239))
 AMMO_LID_ROTATION=math.radians(-154.14966566) # Measured from the source lid's large planar face.
@@ -83,14 +83,14 @@ def read_source(kind,path):
                 is_ammo=lo.x>.29 and hi.y<.4 and lo.z>-.65
                 is_round=.20<hi.y-lo.y<.21 and hi.x-lo.x<.04 and hi.z-lo.z<.04
                 layer='body' if is_round or hi.z>-.04 or is_ammo or lo.y>.7 and hi.z>-.33 else 'mount'
-                category='mount' if layer=='mount' else 'fde' if lo.y< -2 else 'ammo' if is_ammo else 'cover' if lo.z>.15 else 'metal'
+                category='mount' if layer=='mount' else 'paint' if lo.y< -2 else 'ammo' if is_ammo else 'cover' if lo.z>.15 else 'metal'
                 if lo.y>1.3 and center.z<-.09:category='wood'
                 if is_round:
                     along=(center.y-lo.y)/(hi.y-lo.y)
                     category='copper' if along<.24 else 'canvas' if .47<along<.62 else 'brass'
                     flat=True
                 pose='mount' if layer=='mount' else 'gun'
-                flat=flat or category in ['fde','mount']
+                flat=flat or category in ['paint','mount']
             faces.append(dict(indices=tuple(p.vertices),uv=uv,layer=layer,pose=pose,category=category,flat=flat,source_face=p.index,component=group))
         poses={}
         if kind=='M2HB' and any(f['pose']=='ammo_belt' for f in faces):
@@ -209,7 +209,7 @@ def make(kind,relative):
         source_geometry_note='Every source polygon and UV loop retained under recorded transforms; M1917 mount uses equal X/Y scaling with height retained; no added geometry.',
         weapon_length_m=DIMENSIONS['weapon_length_m'][kind],visible_gun_length_tiles=world_length,mount_planar_fit=mount_fit_y,
         style_note='Water jacket, M2 barrel/sleeve and tripod surfaces use uniform colors without normal-based side shading; cartridge cases, copper projectiles and links are distinct.',
-        paint_finish=f"FDE {tuple(STYLE['fde_rgb'])} including ammunition boxes and lids; darker tripod FDE {tuple(STYLE['mount_fde_rgb'])}",
+        paint_finish=f"{STYLE['paint_name']} {tuple(STYLE['paint_rgb'])} including ammunition boxes and lids; darker tripod {tuple(STYLE['mount_paint_rgb'])}",
         ammo_box_pose='Level box and closed lid; individually rigid cartridges curve from receiver into the box interior, with the tail beneath the lid' if kind=='M2HB' else 'Original source pose',
         source_objects=[dict(name=r['name'],vertices=r['source_vertices'],faces=r['source_faces']) for r in records],
         parts=[dict(name=o.name,source_object=o['source_object'],layer=o['layer'],pose=o['pose'],vertices=len(o.data.vertices),faces=len(o.data.polygons)) for o in meshes])

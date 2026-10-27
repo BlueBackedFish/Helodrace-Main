@@ -1,4 +1,4 @@
-"""Deploy the seven validated FDE textures and their exact definition references."""
+"""Deploy the seven validated painted textures and their exact definition references."""
 from pathlib import Path
 from collections import Counter
 import argparse,datetime,hashlib,json,shutil,tempfile,os,copy
@@ -64,11 +64,11 @@ paint={}
 for name in ['HD_M2HB_Tripod.png','HD_M1917_Tripod.png','HD_m1917HMG_Top.png','HD_M2HB_Body.png']:
     with Image.open(INSTALLED/'Textures'/manifest['texture_directory']/name) as image:
         counts=Counter(tuple(p[:3]) for p in image.convert('RGBA').getdata() if p[3]>250)
-    expected=style['mount_fde_rgb'] if name.endswith('_Tripod.png') else style['fde_rgb']
+    expected=style['mount_paint_rgb'] if name.endswith('_Tripod.png') else style['paint_rgb']
     assert counts[tuple(expected)]>100,(name,expected)
     paint[name]=dict(dominant_rgb=list(counts.most_common(1)[0][0]),required_rgb=expected,required_rgb_pixels=counts[tuple(expected)])
 
-# Remove only the seven superseded loose PNGs after the FDE paths are verified.
+# Remove only the seven superseded loose PNGs after the registered paths are verified.
 legacy=INSTALLED/'Textures/Buildings/Security'
 removed=[]
 for name in manifest['files']:
@@ -76,4 +76,4 @@ for name in manifest['files']:
     if path.exists():preserve(path);path.unlink();removed.append(path.relative_to(INSTALLED).as_posix())
 report=dict(passed=True,runtime_files=len(files),backup=str(backup),files=files,registered_paths=registered,installed_paint=paint,removed_legacy_textures=removed,unrelated_installed_definitions_unchanged=True,in_game_render_test=False)
 (ART/'output/deployment_validation.json').write_text(json.dumps(report,indent=2)+'\n')
-print('HMG_FDE_DEPLOYMENT_PASS: seven registered PNG paths + two targeted XML files; installed darker FDE paints verified; backups in '+str(backup))
+print('HMG_PAINT_DEPLOYMENT_PASS: seven registered PNG paths + two targeted XML files; installed '+style['paint_name']+' paints verified; backups in '+str(backup))
