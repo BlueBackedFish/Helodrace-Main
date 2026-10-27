@@ -61,13 +61,13 @@
     ]
   },
   "files": {
-    "HD_M1917_Tripod.png": "2da34b9ebf57ed524eb8edbebcc14be118c60d0a0a7eb0cf2d01bed609b0157f",
-    "HD_m1917HMG_Top.png": "9fabb8046c65c3c627a2f88e48f74c745873f58fe2d5d53e582ce710f461bca9",
-    "HD_m1917HMGUI.png": "c075f8fd898283d8ac4cc8692af58bf26225f0dc33e2aeba6b4dcca08f51e606",
+    "HD_M1917_Tripod.png": "4d3ef6826d2b93ee80559a09ed5eed26bf7cff51b3dd63d67ffd1035667a6340",
+    "HD_m1917HMG_Top.png": "de4ad89c2205cced27cca6a21d57d8697ae3fb17081db82f7eae5f2b4b282550",
+    "HD_m1917HMGUI.png": "afb884e36827ce3b083a5a93822115830d33702ac7ff0d7fe0a2362e45a591c0",
     "HD_M2HB_Barrel.png": "40a2071523c6d970788d41fefa5427cef82a10c575af44875b014e5ca7975cc3",
-    "HD_M2HB_Body.png": "5ccea36789b9f44263172ecf49067f13b3f9c642bf930c4df5f3e0961e42de8f",
-    "HD_M2HB_Tripod.png": "52f6541e9ddb1cdfc7dd8259e7034cdb0be8cae56875bc6433ddfd403e3eb231",
-    "HD_M2HB_UI.png": "4aa2edf1a88fc05214ba686a8aeef8beb81a68c877ab0ef12cb92cf5338a6051"
+    "HD_M2HB_Body.png": "bfc2a451b0c2a1acee717d4f1153523b9df651f30830d3f946d5b49660485fe0",
+    "HD_M2HB_Tripod.png": "e4be7d4aa4280833fdfb095675a269f4ba4e6f7e38e1d557535a6f0d9ed3b8c5",
+    "HD_M2HB_UI.png": "75707a8ce47d14a8229eb016f88288b838596b7c55c495a0f89dd7dad5d5151d"
   },
   "gun_draw_tiles": {
     "M2HB": 2.976305444367878,

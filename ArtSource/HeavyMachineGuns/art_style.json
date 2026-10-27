@@ -1,8 +1,7 @@
 {
   "texture_directory": "Buildings/Security/HeavyMachineGunsFDE",
-  "paint_name": "CB",
-  "paint_rgb": [129, 97, 60],
-  "mount_paint_rgb": [106, 80, 49],
+  "fde_rgb": [143, 123, 92],
+  "mount_fde_rgb": [117, 101, 75],
   "outline_world_tiles": 0.026,
   "icon_outline_pixels": 10
 }

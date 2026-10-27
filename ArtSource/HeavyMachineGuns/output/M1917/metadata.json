@@ -28,7 +28,7 @@
   "visible_gun_length_tiles": 1.2711383162031438,
   "mount_planar_fit": 0.8339599337401518,
   "style_note": "Water jacket, M2 barrel/sleeve and tripod surfaces use uniform colors without normal-based side shading; cartridge cases, copper projectiles and links are distinct.",
-  "paint_finish": "CB (129, 97, 60) including ammunition boxes and lids; darker tripod (106, 80, 49)",
+  "paint_finish": "FDE (143, 123, 92) including ammunition boxes and lids; darker tripod FDE (117, 101, 75)",
   "ammo_box_pose": "Original source pose",
   "source_objects": [
     {
