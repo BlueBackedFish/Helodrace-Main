@@ -5,7 +5,7 @@
     "draw_turret_reads_artwork_rotation": true,
     "game_assembly_sha256": "5cf1b5be399d5b1c9c56ca72c9d35b4ecf307feacf5859d04ac5a1aa5926356a"
   },
-  "runtime_top_sha256": "9a4c6f5020943182652db27161628139222e9668ef9b0a8487360727f29ec0c0",
+  "runtime_top_sha256": "5e295169be7bce9b274b967cac16d860d4d0f1002df993e62c0aba3c61f0464c",
   "runtime_artwork_muzzle_axis": "+X / east",
   "preview_artwork_muzzle_axis": "+Y / north",
   "headings": [

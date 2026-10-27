@@ -1,0 +1,19 @@
+{
+  "reference": "../VEHICLE_ART_STYLE.md sections 4, 5 and 14",
+  "fde_tint_srgb": [143, 123, 92],
+  "minimum_contact_step": 24,
+  "nodes": {
+    "support": {"base": 118},
+    "support_cap": {"support": "support"},
+    "equipment": {"base": 170},
+    "lid": {"support": "equipment"}
+  },
+  "face_drop": {"top": 0, "front": 28, "rear": 40, "side": 56, "bottom": 76},
+  "exceptions": {
+    "metal": [79, 86, 84],
+    "metal_cover": [103, 111, 106],
+    "metal_front": [67, 74, 72],
+    "metal_side": [55, 62, 60],
+    "metal_bottom": [37, 44, 42]
+  }
+}

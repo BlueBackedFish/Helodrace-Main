@@ -27,8 +27,8 @@
   "weapon_length_m": 1.654,
   "visible_gun_length_tiles": 2.1421875,
   "mount_planar_fit": 1.0,
-  "style_note": "Water jacket, M2 barrel/sleeve and tripod surfaces use uniform colors without normal-based side shading; cartridge cases, copper projectiles and links are distinct.",
-  "paint_finish": "FDE (143, 123, 92) including ammunition boxes and lids; darker tripod FDE (117, 101, 75)",
+  "style_note": "Vehicle paint rules: authored FDE support/lid contrast and neutralized darker planar walls; cylindrical sides stay uniform with optional separate end caps; fixed emission and unchanged geometry.",
+  "paint_finish": "FDE hue with authored vehicle-style planar/support contrast; palette in ../paint_validation.json",
   "ammo_box_pose": "Level box and closed lid; individually rigid cartridges curve from receiver into the box interior, with the tail beneath the lid",
   "source_objects": [
     {

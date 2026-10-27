@@ -1,11 +1,12 @@
 """Compare the saved layers against the actual ext models, polygon by polygon."""
 from pathlib import Path
 from collections import defaultdict
-import bpy,json,hashlib,math
+import bpy,json,hashlib,math,sys
 from mathutils import Vector,Matrix
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'output';results={}
 dimensions=json.loads((ROOT/'scale_reference.json').read_text())
 style=json.loads((ROOT/'art_style.json').read_text())
+sys.path.insert(0,str(ROOT.parent/'PropAssets'));import surface_paint as paint
 for kind in ['M2HB','M1917']:
     meta=json.loads((OUT/kind/'metadata.json').read_text());source=Path(meta['source'])
     assert hashlib.sha256(source.read_bytes()).hexdigest()==meta['source_sha256']
@@ -40,10 +41,10 @@ for kind in ['M2HB','M1917']:
             assert set(face['uv'])=={uv.name for uv in o.data.uv_layers}
             material=o.data.materials[p.material_index];paint_counts[material.name]+=1
             color=tuple(round(c,6) for c in next(n for n in material.node_tree.nodes if n.type=='EMISSION').inputs[0].default_value)
-            target='tripod' if o['layer']=='mount' else 'barrel' if kind=='M2HB' and o['layer']=='barrel' else 'water_jacket' if material.name.startswith('fde_') else None
+            target='tripod' if o['layer']=='mount' else 'barrel' if kind=='M2HB' and o['layer']=='barrel' else 'water_jacket_side' if o.data.attributes['water_jacket_side'].data[p.index].value else None
             if target:flat_colors[target].add(color)
-            if material.name in ['mount_top','fde_top','ammo_top']:
-                expected=style['mount_fde_rgb'] if material.name=='mount_top' else style['fde_rgb']
+            if material.name.startswith('paint_'):
+                expected=paint.palette()[material.name.removeprefix('paint_')]
                 linear=lambda c:(c/255/12.92) if c/255<=.04045 else ((c/255+.055)/1.055)**2.4
                 assert max(abs(a-linear(b)) for a,b in zip(color[:3],expected))<1e-6,('Incorrect paint',material.name)
             for uv in o.data.uv_layers:
@@ -99,6 +100,6 @@ for kind in ['M2HB','M1917']:
         pose_check=dict(ammo_box_level=True,lid_closed=True,lid_surface_tilt_degrees=lid_tilt,cartridge_cases='brass',projectiles='copper',links='dark steel',rigid_cartridge_link_groups=len(belt),terminal_two_cartridges_inside_box=True)
     results[kind]=dict(source=meta['source_relative_to_ext'],source_sha256=meta['source_sha256'],projection='90 degree vertical orthographic',transparent=True,lights=0,
         materials='fixed RGB emission; no image textures',source_objects=len(original),polygons_preserved=sum(len(v) for v in seen.values()),used_source_vertices_preserved=sum(len(v) for v in vertex_ids.values()),uv_loops_preserved=uv_loops,
-        added_geometry=False,gun_draw_tiles=meta['gun_draw_tiles'],mount_draw_tiles=meta['mount_draw_tiles'],visible_gun_length_tiles=visible_length,relative_length_to_m2=visible_length/dimensions['baseline_m2_visible_length_tiles'],uniform_surface_color_counts={name:len(colors) for name,colors in flat_colors.items()},fde_rgb=style['fde_rgb'],ammunition_box_fde_rgb=style['fde_rgb'],tripod_fde_rgb=style['mount_fde_rgb'],tripod_plan_view_aspect_preserved=True,**pose_check)
+        added_geometry=False,gun_draw_tiles=meta['gun_draw_tiles'],mount_draw_tiles=meta['mount_draw_tiles'],visible_gun_length_tiles=visible_length,relative_length_to_m2=visible_length/dimensions['baseline_m2_visible_length_tiles'],uniform_surface_color_counts={name:len(colors) for name,colors in flat_colors.items()},vehicle_paint=paint.report(),tripod_plan_view_aspect_preserved=True,**pose_check)
 (OUT/'model_validation.json').write_text(json.dumps(dict(passed=True,models=results),indent=2)+'\n')
 print('HMG_EXT_VALIDATION_PASS: source polygons/UVs retained; documented transforms; real relative gun lengths and tripod length; vertical cameras; fixed emission',flush=True)

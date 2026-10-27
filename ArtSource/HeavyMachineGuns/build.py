@@ -1,13 +1,15 @@
 """Render the user-provided ext models; retain their exterior geometry and UVs."""
 from pathlib import Path
 from collections import defaultdict
-import bpy,math,json,hashlib,os
+import bpy,math,json,hashlib,os,sys
 from mathutils import Vector,Matrix
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'output';OUT.mkdir(exist_ok=True)
 EXT=Path(os.environ.get('HELODRACE_REFERENCE_EXT',str(Path.home()/'Downloads/Dagor-Asset-Explorer-1.0.0/Dagor-Asset-Explorer-1.0.0/ext')))/'machine gun'
 MASTER=2048
 DIMENSIONS=json.loads((ROOT/'scale_reference.json').read_text())
 STYLE=json.loads((ROOT/'art_style.json').read_text())
+sys.path.insert(0,str(ROOT.parent/'PropAssets'))
+import surface_paint as paint
 PALETTE=dict(metal=(79,86,84),cover=(103,111,106),dark=(37,44,42),fde=tuple(STYLE['fde_rgb']),ammo=tuple(STYLE['fde_rgb']),wood=(102,75,48),brass=(173,142,73),copper=(145,102,68),link=(43,48,43),canvas=(104,99,70),mount=tuple(STYLE['mount_fde_rgb']))
 # Original hinge pin, parallel to Y. The source lid is opened 154 degrees.
 AMMO_HINGE=Vector((.4073,.2142,-.1239))
@@ -174,6 +176,7 @@ def make(kind,relative):
     for key,rgb in PALETTE.items():
         for tone,factor in [('top',1.0),('edge',.79),('underside',.60)]:
             materials[key+'_'+tone]=material(key+'_'+tone,tuple(round(c*factor) for c in rgb))
+    for key,rgb in paint.palette().items():materials['paint_'+key]=material('paint_'+key,rgb)
     keys=list(materials)
     for record in records:
         grouped=defaultdict(list)
@@ -189,10 +192,25 @@ def make(kind,relative):
             for v,old in zip(vi.data,used):v.value=old
             fi=mesh.attributes.new('source_face','INT','FACE')
             for p,f in zip(fi.data,faces):p.value=f['source_face']
+            cylinder_side=mesh.attributes.new('water_jacket_side','BOOLEAN','FACE')
             for key in keys:mesh.materials.append(materials[key])
             for p,f in zip(mesh.polygons,faces):
                 tone='top' if f['flat'] or p.normal.z>.65 else 'edge' if p.normal.z>-.15 else 'underside'
-                p.material_index=keys.index(f['category']+'_'+tone)
+                category=f['category'];key=category+'_'+tone
+                if category=='mount':
+                    # Rods, legs and the rounded cradle remain uniform, regardless
+                    # of their normal or absolute height above the floor.
+                    key='paint_support_top'
+                elif category=='fde':
+                    # Horizontal water jacket: one color around its whole side.
+                    key='paint_equipment_front' if abs(p.normal.y)>.96 else 'paint_equipment_top'
+                    cylinder_side.data[p.index].value=abs(p.normal.y)<=.96
+                elif category=='ammo':
+                    surface=paint.face(p.normal)
+                    # The closed lid is mounted on the box, not a global Z rank.
+                    role='lid' if pose=='ammo_lid' or kind=='M1917' and surface=='top' else 'equipment'
+                    key='paint_'+role+'_'+surface
+                p.material_index=keys.index(key)
             obj=bpy.data.objects.new(record['name']+' / '+pose,mesh);scene.collection.objects.link(obj);obj['layer']=layer;obj['pose']=pose;obj['source_object']=record['name'];obj['source_transform']=sum((list(row) for row in matrix),[])
     meshes=[o for o in scene.objects if o.type=='MESH'];gun=[v.co for o in meshes if o['layer']!='mount' for v in o.data.vertices];stand=[v.co for o in meshes if o['layer']=='mount' for v in o.data.vertices]
     length=max(v.y for v in gun)-min(v.y for v in gun)
@@ -212,12 +230,13 @@ def make(kind,relative):
         gun_draw_tiles=gun_scale*model_to_world,mount_draw_tiles=base_scale*model_to_world,model_length=length,model_to_world=model_to_world,pivot=[0,0,0],outline_world_tiles=STYLE['outline_world_tiles'],icon_outline_pixels=STYLE['icon_outline_pixels'],texture_directory=STYLE['texture_directory'],
         source_geometry_note='Every source polygon and UV loop retained under recorded transforms; M1917 mount uses equal X/Y scaling with height retained; no added geometry.',
         weapon_length_m=DIMENSIONS['weapon_length_m'][kind],visible_gun_length_tiles=world_length,mount_planar_fit=mount_fit_y,
-        style_note='Water jacket, M2 barrel/sleeve and tripod surfaces use uniform colors without normal-based side shading; cartridge cases, copper projectiles and links are distinct.',
-        paint_finish=f"FDE {tuple(STYLE['fde_rgb'])} including ammunition boxes and lids; darker tripod FDE {tuple(STYLE['mount_fde_rgb'])}",
+        style_note='Vehicle paint rules: authored FDE support/lid contrast and neutralized darker planar walls; cylindrical sides stay uniform with optional separate end caps; fixed emission and unchanged geometry.',
+        paint_finish='FDE hue with authored vehicle-style planar/support contrast; palette in ../paint_validation.json',
         ammo_box_pose='Level box and closed lid; individually rigid cartridges curve from receiver into the box interior, with the tail beneath the lid' if kind=='M2HB' else 'Original source pose',
         source_objects=[dict(name=r['name'],vertices=r['source_vertices'],faces=r['source_faces']) for r in records],
         parts=[dict(name=o.name,source_object=o['source_object'],layer=o['layer'],pose=o['pose'],vertices=len(o.data.vertices),faces=len(o.data.polygons)) for o in meshes])
     (folder/'metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
+    (OUT/'paint_validation.json').write_text(json.dumps(paint.report(),indent=2)+'\n')
 
 if __name__=='__main__':
     make('M2HB','browning-m2/M2/M2.blend');make('M1917','browning-m1917/source/browning m1917.fbx')

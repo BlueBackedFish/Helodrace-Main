@@ -1,6 +1,8 @@
 # CROWS II / M2 아트
 
-`ext/machine gun/m153-crows-untextured/source/M153 CROWS bevel.fbx`의 M153 CROWS와 모델에 포함된 M2HB를 사용했다. FDE 본체 `(143,123,92)`, 어두운 받침대 `(117,101,75)`, 금속색 M2, 어두운 급탄 슈트로 구분했다. 광학 장비 전면에는 고정색 창·렌즈 메시 5개를 추가했다. 모든 재질은 고정 RGB Emission이며 조명·그림자·AO 없이 투명 배경으로 출력한다.
+`ext/machine gun/m153-crows-untextured/source/M153 CROWS bevel.fbx`의 M153 CROWS와 모델에 포함된 M2HB를 사용했다. FDE 색상 계열 `(143,123,92)`에 `../VEHICLE_ART_STYLE.md`의 부품·표면별 명도 규칙을 적용한다. 금속색 M2, 어두운 급탄 슈트와 광학창은 고유색 예외로 구분한다. 광학 장비 전면에는 고정색 창·렌즈 메시 5개를 추가했다. 모든 재질은 고정 RGB Emission이며 조명·그림자·AO 없이 투명 배경으로 출력한다.
+
+공유 팔레트는 `../PropAssets/weapon_paint.json`에 있다. 지지부·플랫폼·장비 상면·탄통 뚜껑을 구분하며 직접 장착 경계에는 표시 명도 약 24 이상 차이를 둔다. 평판의 상면·정면·측면·바닥에는 고정 역할색을 쓰고 어두운 페인트는 채도를 낮춘다. 작은 원통과 둥근 기구는 원주 전체 단색, 받침대 원통의 윗면은 별색이다. 월드 높이 순서로 모든 장비색을 바꾸지 않는다. `build.py`의 `PLANAR_COMPONENTS`가 평판 장비와 역할을 명시하고 그 외 작은 곡면에는 방향별 명암을 적용하지 않는다. 최종 팔레트·면 분류는 `output/paint_validation.json`에 기록한다.
 
 원본 파일은 수정하지 않는다. 공통 이동·균일 배율 변환과 부품별 분리 후 원본 23,052개 면과 UV 루프 91,546개를 대조했다. 원본 SHA-256은 `9d347b6422e6745d3dc97055e71b0bacab1b24a2ad51b03a69a0639ef1f78cb4`이다. 소스 위치는 `HELODRACE_REFERENCE_EXT` 환경변수로 지정할 수 있다.
 

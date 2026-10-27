@@ -13,7 +13,7 @@
         570
       ],
       "minimum_margin": 454,
-      "sha256": "72e4ff458a5eac5eb78067f39be2937e076f3bba526029965a368f15e3a85d11"
+      "sha256": "1444213f1ae2b47904137c14c0d6939c4128a7b284441b352129ec656928da16"
     },
     "HD_CROWSII_M2_Frame.png": {
       "size": [
@@ -27,7 +27,7 @@
         693
       ],
       "minimum_margin": 297,
-      "sha256": "5ea072fa970156af12cd8b82c463c9511dc592261ca6a5eb059e6b8079a6530b"
+      "sha256": "dae6596f9a18a7b7112085adb0f3a46d314adfc28bfdf2703735503bf72b689f"
     },
     "HD_CROWSII_M2_Top.png": {
       "size": [
@@ -41,14 +41,14 @@
         767
       ],
       "minimum_margin": 60,
-      "sha256": "6b0a13e4a180041d2aa8bdca01f6f56cef221fca0d164158da7fcf823909ad13"
+      "sha256": "8c6671ac14f6e23e3b53af7330342ca8b347aa6c86284fbc7e6c3f80588383f9"
     },
     "HD_CROWSII_M2_TurretTop.png": {
       "size": [
         1024,
         1024
       ],
-      "sha256": "3486ed5fbf2885fcbbcaf05d192862c7b61982e20b0c59891c83c1519b42ea13",
+      "sha256": "00cb462abcb4214ba31fc17d6a5c97d42a5d47b3558c5ed2ce395c94c1301b9b",
       "muzzle_axis": "+X for native TurretTop -90-degree artwork rotation"
     },
     "HD_CROWSII_M2Body.png": {
@@ -56,7 +56,7 @@
         1024,
         1024
       ],
-      "sha256": "bf487940af2eed1dfa66966af2ba5a62e7f47140a154b362882cceed6977d374",
+      "sha256": "55340ad399689ac3f6ec2522ccd5c5eaac539d0031ddfd5f38419096bcf1a34b",
       "shared_gun_outline": true
     },
     "HD_CROWSII_M2Barrel.png": {
@@ -79,7 +79,7 @@
         619
       ],
       "minimum_margin": 44,
-      "sha256": "d111f8c27921e60b226a86b86c5d7dc72ab3448ce5f6fc358708283fafe14115"
+      "sha256": "2b3dcf466be91c3ca00f30ac5e75ba72a7e49299eda3d35f891aa40d60caba3d"
     },
     "HD_CROWSII_M2_east.png": {
       "size": [
@@ -93,7 +93,7 @@
         643
       ],
       "minimum_margin": 110,
-      "sha256": "dd5279ede92b9fe6b1aa05dae78fd1bbf65addf07d882582d8827b142486ea48"
+      "sha256": "bafea99b2493c1e36fa2b20059b4ec360a66997e181421642919dfe139d65a02"
     },
     "HD_CROWSII_M2_south.png": {
       "size": [
@@ -107,7 +107,7 @@
         775
       ],
       "minimum_margin": 195,
-      "sha256": "3fbe93c1b3bde6bc0c33944749533e6c9686e605ea5848cc68882330f279f14d"
+      "sha256": "ee6e70d2c61b980efec2ee2baec3a724110255c459a00284334577e48725a3a7"
     },
     "HD_CROWSII_M2_west.png": {
       "size": [
@@ -121,7 +121,7 @@
         659
       ],
       "minimum_margin": 110,
-      "sha256": "97ae7026683618fb0e4754fcf74b8c19e2c15f094cbdd55ec783c4ab6c585d84"
+      "sha256": "47eb4a5939d376960b7c4b13ff3c5a4a72be3c6b123c6a921b9046c8765b64aa"
     },
     "HD_CROWSII_M2_UI.png": {
       "size": [
@@ -135,7 +135,7 @@
         987
       ],
       "minimum_margin": 36,
-      "sha256": "feddb826a966ec3ed68eef80b06c853857e9d0074523030b6d366dd17a382bc0"
+      "sha256": "63f20cb72740980326f1e8755012ee9ae1f496403ee6a94f71f8ce0c22f21b0c"
     }
   },
   "source": {
@@ -190,7 +190,7 @@
     "outline_world_tiles": 0.026,
     "projection_top": 90,
     "projection_directions": 64,
-    "paint": "FDE (143,123,92); darker pedestal (117,101,75)",
+    "paint": "FDE hue; authored vehicle-style support levels, directional planes and desaturated dark paint",
     "m2_included_in_provided_model": true,
     "base_source_component": 4541,
     "feed_chute_source_component": 6342,

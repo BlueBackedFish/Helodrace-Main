@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "previous_commit": "49c640ed",
+  "alpha_signatures_unchanged": 35,
+  "outline_and_registration_preserved": true,
+  "opaque_palette_pixels": {
+    "M2HB": {
+      "support_top": 13191,
+      "equipment_top": 3,
+      "lid_top": 5997
+    },
+    "M1917": {
+      "support_top": 27248,
+      "equipment_top": 26110,
+      "lid_top": 10466
+    },
+    "CROWS II": {
+      "support_top": 7380,
+      "equipment_top": 50872,
+      "lid_top": 1744
+    }
+  },
+  "review_sizes": [
+    256,
+    512
+  ],
+  "projection_and_geometry": "validated by model builders and HeavyMachineGuns/validate_models.py",
+  "in_game_tested": false
+}

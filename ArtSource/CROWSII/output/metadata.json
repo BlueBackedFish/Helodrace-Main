@@ -50,7 +50,7 @@
   "outline_world_tiles": 0.026,
   "projection_top": 90,
   "projection_directions": 64,
-  "paint": "FDE (143,123,92); darker pedestal (117,101,75)",
+  "paint": "FDE hue; authored vehicle-style support levels, directional planes and desaturated dark paint",
   "m2_included_in_provided_model": true,
   "base_source_component": 4541,
   "feed_chute_source_component": 6342,

@@ -5,6 +5,7 @@ import bpy,sys,json,hashlib,os
 from mathutils import Vector,Matrix
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'output';OUT.mkdir(parents=True,exist_ok=True)
 sys.path.insert(0,str(ROOT.parent/'PropAssets'));import modeling as m
+import surface_paint as surfaces
 EXT=Path(os.environ.get('HELODRACE_REFERENCE_EXT',str(Path.home()/'Downloads/Dagor-Asset-Explorer-1.0.0/Dagor-Asset-Explorer-1.0.0/ext')))
 SOURCE=EXT/'machine gun/m153-crows-untextured/source/M153 CROWS bevel.fbx'
 scene=m.start();bpy.ops.import_scene.fbx(filepath=str(SOURCE))
@@ -53,7 +54,12 @@ gun_points=[v for r in records if r['name'].startswith('.50CAL') for v in r['ver
 source_gun_length=max(v.y for v in gun_points)-min(v.y for v in gun_points);scale=2.1421875/source_gun_length
 transform=Matrix.Diagonal((scale,scale,scale,1))@Matrix.Translation(-pivot)
 bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
-palette={name:m.material(name,rgb) for name,rgb in dict(fde=(143,123,92),fde_dark=(117,101,75),fde_lid=(153,132,99),fde_inset=(130,111,84),metal=(79,86,84),rubber=(34,40,38),feed=(48,56,52),fastener=(102,108,100),glass=(29,43,46),glass_inner=(44,65,69),glass_mark=(72,96,98)).items()};keys=list(palette)
+palette={name:m.material(name,rgb) for name,rgb in dict(fde=(143,123,92),fde_dark=(117,101,75),fde_lid=(153,132,99),fde_inset=(130,111,84),metal=(79,86,84),rubber=(34,40,38),feed=(48,56,52),fastener=(102,108,100),glass=(29,43,46),glass_inner=(44,65,69),glass_mark=(72,96,98)).items()}
+palette.update({'paint_'+name:m.material('paint_'+name,rgb) for name,rgb in surfaces.palette().items()});keys=list(palette)
+# These are authored source component selections, not geometry simplification.
+# Broad box/platform planes have direction roles. All other small rounded
+# mechanisms remain single-color; no normal gradient is applied to cylinders.
+PLANAR_COMPONENTS={917:'equipment',2413:'equipment',2503:'equipment',2602:'equipment',2996:'support',3162:'equipment',3902:'support_cap',4000:'equipment',4242:'lid',4372:'equipment',4611:'equipment',5112:'equipment',5255:'equipment',5424:'equipment',5581:'support_cap',6403:'equipment'}
 for r in records:
     grouped=defaultdict(list)
     for f in r['faces']:grouped[f['layer']].append(f)
@@ -61,7 +67,19 @@ for r in records:
         used=sorted({i for f in faces for i in f['indices']});mapping={old:new for new,old in enumerate(used)}
         mesh=bpy.data.meshes.new(r['name']+' '+layer);mesh.from_pydata([transform@r['vertices'][i] for i in used],[],[[mapping[i] for i in f['indices']] for f in faces]);mesh.update()
         for key in keys:mesh.materials.append(palette[key])
-        for p,f in zip(mesh.polygons,faces):p.material_index=keys.index(f['paint'])
+        for p,f in zip(mesh.polygons,faces):
+            key=f['paint'];group=f['component']
+            if r['name']=='Cylinder.003' and key.startswith('fde'):
+                if group==4541:
+                    # Vertical pedestal: uniform cylindrical wall, separate cap.
+                    key='paint_support_cap_top' if p.normal.z>.96 else 'paint_support_top'
+                elif group in PLANAR_COMPONENTS:key='paint_'+PLANAR_COMPONENTS[group]+'_'+surfaces.face(p.normal)
+                else:key='paint_support_cap_top'
+            elif r['name']=='.50CAL' and key=='metal':
+                # M2 receiver planes retain steel; its sleeve/barrel stay uniform.
+                surface=surfaces.face(p.normal)
+                key='paint_'+('metal' if surface=='top' else 'metal_front' if surface in ['front','rear'] else 'metal_side' if surface=='side' else 'metal_bottom')
+            p.material_index=keys.index(key)
         for name in faces[0]['uv']:
             uv=mesh.uv_layers.new(name=name)
             for p,f in zip(mesh.polygons,faces):
@@ -99,5 +117,7 @@ for o in meshes:o.hide_render=False
 for direction,azimuth in [('north',-90),('east',0),('south',90),('west',180)]:
     cam=m.camera('Camera_'+direction,azimuth,64,3.6);m.render(OUT/(direction+'_raw.png'),cam,2048)
 scene.camera=top;scene['muzzle_direction']='+Y';scene['swivel_origin']=[0,0,0];m.save(OUT/'crows_ii_m2.blend')
-meta=dict(source=str(SOURCE),source_sha256=hashlib.sha256(SOURCE.read_bytes()).hexdigest(),source_objects=[dict(name=r['name'],vertices=len(r['vertices']),faces=len(r['faces'])) for r in records],source_faces_preserved=sum(len(v) for v in seen.values()),source_uv_loops_preserved=loops,source_pivot=list(pivot),source_to_world_scale=scale,m2_visible_length_tiles=2.1421875,top_draw_size=[3.2,3.2],directional_draw_size=[3.6,3.6],pivot=[0,0,0],master_resolution=2048,native_resolution=1024,outline_world_tiles=.026,projection_top=90,projection_directions=64,paint='FDE (143,123,92); darker pedestal (117,101,75)',m2_included_in_provided_model=True,base_source_component=4541,feed_chute_source_component=6342,optical_housing_source_component=917,added_optical_window_meshes=5,gameplay_definition_added=False)
+meta=dict(source=str(SOURCE),source_sha256=hashlib.sha256(SOURCE.read_bytes()).hexdigest(),source_objects=[dict(name=r['name'],vertices=len(r['vertices']),faces=len(r['faces'])) for r in records],source_faces_preserved=sum(len(v) for v in seen.values()),source_uv_loops_preserved=loops,source_pivot=list(pivot),source_to_world_scale=scale,m2_visible_length_tiles=2.1421875,top_draw_size=[3.2,3.2],directional_draw_size=[3.6,3.6],pivot=[0,0,0],master_resolution=2048,native_resolution=1024,outline_world_tiles=.026,projection_top=90,projection_directions=64,paint='FDE hue; authored vehicle-style support levels, directional planes and desaturated dark paint',m2_included_in_provided_model=True,base_source_component=4541,feed_chute_source_component=6342,optical_housing_source_component=917,added_optical_window_meshes=5,gameplay_definition_added=False)
 (OUT/'metadata.json').write_text(json.dumps(meta,indent=2)+'\n');print('CROWS_MODEL_PASS: source M153 and mounted M2 geometry/UVs preserved; fixed FDE emission',flush=True)
+report=surfaces.report();report['planar_source_components']=PLANAR_COMPONENTS
+(OUT/'paint_validation.json').write_text(json.dumps(report,indent=2)+'\n')
