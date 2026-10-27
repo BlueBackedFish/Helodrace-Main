@@ -3,28 +3,13 @@
   "source_sha256": "9d347b6422e6745d3dc97055e71b0bacab1b24a2ad51b03a69a0639ef1f78cb4",
   "source_objects": [
     {
-      "name": ".50CAL",
-      "vertices": 5393,
-      "faces": 5798
-    },
-    {
       "name": "Cylinder.003",
       "vertices": 14863,
       "faces": 14192
-    },
-    {
-      "name": ".50CAL SLEEVE",
-      "vertices": 2468,
-      "faces": 2430
-    },
-    {
-      "name": ".50CAL BARREL",
-      "vertices": 638,
-      "faces": 632
     }
   ],
-  "source_faces_preserved": 23052,
-  "source_uv_loops_preserved": 91546,
+  "source_faces_preserved": 14192,
+  "source_uv_loops_preserved": 57140,
   "source_pivot": [
     1.8940157890319824,
     1.7862746715545654,
@@ -51,7 +36,40 @@
   "projection_top": 90,
   "projection_directions": 64,
   "paint": "FDE hue; authored vehicle-style support levels, directional planes and desaturated dark paint",
-  "m2_included_in_provided_model": true,
+  "weapon_variant": "M2HB QCB",
+  "weapon_donor": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\HeavyMachineGuns\\output\\M2HB\\model.blend",
+  "weapon_donor_sha256": "a05c33fca72e0ef7f8f8668b70bcf619502356093114efc3e0c6b42222c6f5ea",
+  "weapon_mount_transform": [
+    [
+      1.308997631072998,
+      0.0,
+      0.0,
+      -0.0019899634644389153
+    ],
+    [
+      0.0,
+      1.308997631072998,
+      0.0,
+      0.02640700340270996
+    ],
+    [
+      0.0,
+      0.0,
+      1.308997631072998,
+      0.6579060554504395
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "replaced_source_weapon_meshes": [
+    ".50CAL",
+    ".50CAL SLEEVE",
+    ".50CAL BARREL"
+  ],
   "base_source_component": 4541,
   "feed_chute_source_component": 6342,
   "optical_housing_source_component": 917,

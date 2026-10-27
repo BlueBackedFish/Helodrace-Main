@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "donor_sha256": "a05c33fca72e0ef7f8f8668b70bcf619502356093114efc3e0c6b42222c6f5ea",
+  "weapon_variant": "M2HB QCB",
+  "donor_objects": 20,
+  "qcb_objects": 8,
+  "vertices_verified": 21408,
+  "faces_verified": 23755,
+  "uv_loops_verified": 87329,
+  "all_face_emission_colors_identical": true,
+  "uniform_scale": 1.3089976128774257,
+  "old_weapon_removed": true,
+  "donor_tripod_and_ammunition_excluded": true,
+  "station_pivot": [
+    0,
+    0,
+    0
+  ],
+  "in_game_tested": false
+}

@@ -1,12 +1,12 @@
-# CROWS II / M2 아트
+# CROWS II / M2HB QCB 아트
 
-`ext/machine gun/m153-crows-untextured/source/M153 CROWS bevel.fbx`의 M153 CROWS와 모델에 포함된 M2HB를 사용했다. FDE 색상 계열 `(143,123,92)`에 `../VEHICLE_ART_STYLE.md`의 부품·표면별 명도 규칙을 적용한다. 금속색 M2, 어두운 급탄 슈트와 광학창은 고유색 예외로 구분한다. 광학 장비 전면에는 고정색 창·렌즈 메시 5개를 추가했다. 모든 재질은 고정 RGB Emission이며 조명·그림자·AO 없이 투명 배경으로 출력한다.
+`ext/machine gun/m153-crows-untextured/source/M153 CROWS bevel.fbx`의 M153 CROWS 프레임·받침·탄통·급탄 슈트를 사용한다. 원본의 총 3개 메시를 제거하고 `../HeavyMachineGuns/output/M2HB/model.blend`의 M2HB QCB 총몸·총열을 실제로 이식했다. FDE 색상 계열 `(143,123,92)`에 `../VEHICLE_ART_STYLE.md`의 부품·표면별 명도 규칙을 적용한다. 금속색 M2, 어두운 급탄 슈트와 광학창은 고유색 예외로 구분한다. 광학 장비 전면에는 고정색 창·렌즈 메시 5개를 추가했다. 모든 재질은 고정 RGB Emission이며 조명·그림자·AO 없이 투명 배경으로 출력한다.
 
 공유 팔레트는 `../PropAssets/weapon_paint.json`에 있다. 지지부·플랫폼·장비 상면·탄통 뚜껑을 구분하며 직접 장착 경계에는 표시 명도 약 24 이상 차이를 둔다. 평판의 상면·정면·측면·바닥에는 고정 역할색을 쓰고 어두운 페인트는 채도를 낮춘다. 작은 원통과 둥근 기구는 원주 전체 단색, 받침대 원통의 윗면은 별색이다. 월드 높이 순서로 모든 장비색을 바꾸지 않는다. `build.py`의 `PLANAR_COMPONENTS`가 평판 장비와 역할을 명시하고 그 외 작은 곡면에는 방향별 명암을 적용하지 않는다. 최종 팔레트·면 분류는 `output/paint_validation.json`에 기록한다.
 
-M2는 별도로 `../PropAssets/m2_detail.json`의 공통 금속 팔레트를 사용한다. 원본 `.50CAL`의 연결 부품을 직접 확인해 상부/후부 덮개, 급탄 덮개, 조준기, 손잡이, 체결부를 `M2_COMPONENT_ROLES`에 지정했다. 방열 슬리브는 외피/구멍 안쪽을 구분하며 실제 구멍 아래의 총열을 어둡게 칠한다. 총열의 기부·단차·가는 구간·총구·운반 손잡이도 실제 형상 위치로 나눈다. 각 원통 구간은 원주 전체 단색이며 자동 조명 그라데이션을 사용하지 않는다. `output/detail_paint.json`에 부품 대응과 설정을 기록한다. CROWS의 FDE 장비·프레임 형상과 색은 유지했다.
+이식한 총은 지상용 M2HB QCB와 동일한 원본 메시·UV·면색을 사용한다. 별도의 CROWS 총 재채색이나 이전 `.50CAL` 부품 매핑은 없다. 지상용 삼각대·탄통·탄띠는 가져오지 않는다. 기존 총열 축과 총구 위치에 맞춘 단일 균일 배율/이동만 적용하며 무기 길이는 2.1421875칸이다. QCB 손잡이·결합부도 지상용 모델의 같은 부품을 복사한다. 방열구멍 안쪽과 외피, 총열 단차는 지상용 총에서 만든 구분을 그대로 유지한다. `output/detail_paint.json`에 적용된 채색 설정과 장착 변환을 기록한다.
 
-원본 파일은 수정하지 않는다. 공통 이동·균일 배율 변환과 부품별 분리 후 원본 23,052개 면과 UV 루프 91,546개를 대조했다. 원본 SHA-256은 `9d347b6422e6745d3dc97055e71b0bacab1b24a2ad51b03a69a0639ef1f78cb4`이다. 소스 위치는 `HELODRACE_REFERENCE_EXT` 환경변수로 지정할 수 있다.
+원본 파일은 수정하지 않는다. M153 프레임 메시의 14,192개 면과 UV 루프 57,140개를 원본과 대조했다. M153 원본 SHA-256은 `9d347b6422e6745d3dc97055e71b0bacab1b24a2ad51b03a69a0639ef1f78cb4`이다. `validate_donor.py`에서 지상용 QCB의 20개 메시(그중 QCB 추가 부품 8개), 정점 21,408개·면 23,755개·UV 루프 87,329개 및 모든 면의 Emission 색을 대조했다. 모델을 다시 만들면 현재 결과로 검증 파일을 갱신한다. 소스 위치는 `HELODRACE_REFERENCE_EXT` 환경변수로 지정할 수 있다.
 
 받침대 중심을 회전축 `(0,0,0)`으로 사용하며 M2 길이는 기존 M2 아트에 맞춘 2.1421875칸이다. 2048px 마스터에서 외곽선을 처리한 뒤 1024×1024 RGBA로 축소한다. 외곽선은 월드 기준 0.026칸, UI는 10px이다. 부품별 이미지는 동일한 캔버스와 원점을 유지한다.
 
@@ -28,9 +28,12 @@ M2는 별도로 `../PropAssets/m2_detail.json`의 공통 금속 팔레트를 사
 - 편집 모델: `output/crows_ii_m2.blend`
 - 미리보기: `output/preview.png`
 - 원본 비교 및 출력 기록: `output/metadata.json`, `output/validation.json`
+- 이식 무기 원본 대조: `output/donor_validation.json`
 
 ```powershell
+& 'C:/Program Files/Blender Foundation/Blender 5.1/blender.exe' --background -t 6 --python-exit-code 1 --python ArtSource/HeavyMachineGuns/build.py -- --kind M2HB
 & 'C:/Program Files/Blender Foundation/Blender 5.1/blender.exe' --background -t 6 --python-exit-code 1 --python ArtSource/CROWSII/build.py
+& 'C:/Program Files/Blender Foundation/Blender 5.1/blender.exe' --background -t 6 --python-exit-code 1 --python ArtSource/CROWSII/validate_donor.py
 python ArtSource/CROWSII/package.py
 ```
 

@@ -19,14 +19,14 @@
   "bounds": {
     "HD_M2HB_Body": [
       315,
-      357,
+      354,
       582,
       795
     ],
     "HD_M2HB_Barrel": [
-      485,
+      459,
       35,
-      539,
+      540,
       480
     ],
     "HD_M2HB_Tripod": [
@@ -64,10 +64,10 @@
     "HD_M1917_Tripod.png": "e177f1cb0d4f4866406bfb4267f9f866da872807e98bb216d15f2262a8d2b5c8",
     "HD_m1917HMG_Top.png": "5e295169be7bce9b274b967cac16d860d4d0f1002df993e62c0aba3c61f0464c",
     "HD_m1917HMGUI.png": "c16e3b881190ed0de0b1a94d4e1188f53ee9083419efc77a45678eb585d4d787",
-    "HD_M2HB_Barrel.png": "249503038b49533100f0a30a75fe1fc25f09c4292ec2c736de12efaa34b30632",
-    "HD_M2HB_Body.png": "bf23a4d9885c039c4e3bc12622c0a6803608632e7b7653ea66d59c8a90a65065",
+    "HD_M2HB_Barrel.png": "2c6384f1ce66802c5ea8044942e463defb539032956b69f418717ebb65d9a6e6",
+    "HD_M2HB_Body.png": "f29ee077ee227e4bd0686ecfafb196ddc46a9dc75250f81125ddcab92174d345",
     "HD_M2HB_Tripod.png": "3b53f8268202792f6296b412c5ede49ea1d30772dc58a47034c6e03bb9c7d5d8",
-    "HD_M2HB_UI.png": "241a9dde2897939bd184f6663a44699561dd6b7b879916a0a85b8efab700854e"
+    "HD_M2HB_UI.png": "f2a2d159ce9e7ad8581811c9041654037b8a95ebb9dd070189090eb5df3b65db"
   },
   "gun_draw_tiles": {
     "M2HB": 2.976305444367878,

@@ -30,7 +30,6 @@ def barrel(center,normal,kind):
     p=SETTINGS['profiles'][kind];radius,dot=radial(center,normal,p)
     if center[1]<p['sleeve_range_y'][1]:return 'recess'
     if dot<-.45:return 'recess'
-    if 'carry_handle_range_y' in p and p['carry_handle_range_y'][0]<center[1]<p['carry_handle_range_y'][1] and radius>p['carry_handle_radius']:return 'handle'
     if abs(normal[1])>.7:return 'barrel_shoulder'
     if center[1]<p['root_end_y']:return 'barrel_root'
     if center[1]<p['shoulder_end_y']:return 'barrel_shoulder'
@@ -39,4 +38,4 @@ def barrel(center,normal,kind):
 
 def report(kind):
     return dict(palette=PALETTE,profile=SETTINGS['profiles'][kind],
-                note='Fixed material roles; actual source apertures, inward cut walls and axial shoulders; no cylindrical light gradient or geometry change')
+                note='Fixed material roles; actual source apertures, inward cut walls and axial shoulders; paint classification preserves the source geometry without cylindrical light gradients')

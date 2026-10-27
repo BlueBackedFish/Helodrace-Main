@@ -23,11 +23,11 @@
   "outline_world_tiles": 0.026,
   "icon_outline_pixels": 10,
   "texture_directory": "Buildings/Security/HeavyMachineGunsFDE",
-  "source_geometry_note": "Every source polygon and UV loop retained under recorded transforms; M1917 mount uses equal X/Y scaling with height retained; no added geometry.",
+  "source_geometry_note": "Every source polygon and UV loop retained under recorded transforms; QCB visual additions are separately tagged.",
   "weapon_length_m": 1.654,
   "visible_gun_length_tiles": 2.1421875,
   "mount_planar_fit": 1.0,
-  "style_note": "Vehicle paint rules: authored FDE support/lid contrast and neutralized darker planar walls; cylindrical sides stay uniform with optional separate end caps; fixed emission and unchanged geometry.",
+  "style_note": "Vehicle paint rules: authored FDE support/lid contrast and neutralized darker planar walls; fixed emission, original source geometry retained and separately tagged QCB additions.",
   "paint_finish": "FDE hue with authored vehicle-style planar/support contrast; palette in ../paint_validation.json",
   "ammo_box_pose": "Level box and closed lid; individually rigid cartridges curve from receiver into the box interior, with the tail beneath the lid",
   "source_objects": [
@@ -358,6 +358,125 @@
       "pose": "ammo_belt_14",
       "vertices": 582,
       "faces": 607
+    },
+    {
+      "name": "QCB barrel coupling",
+      "source_object": "authored_qcb",
+      "layer": "barrel",
+      "pose": "gun",
+      "vertices": 80,
+      "faces": 42
+    },
+    {
+      "name": "QCB folded handle arm",
+      "source_object": "authored_qcb",
+      "layer": "barrel",
+      "pose": "gun",
+      "vertices": 40,
+      "faces": 22
+    },
+    {
+      "name": "QCB carry grip",
+      "source_object": "authored_qcb",
+      "layer": "barrel",
+      "pose": "gun",
+      "vertices": 64,
+      "faces": 34
+    },
+    {
+      "name": "QCB grip rear ferrule",
+      "source_object": "authored_qcb",
+      "layer": "barrel",
+      "pose": "gun",
+      "vertices": 48,
+      "faces": 26
+    },
+    {
+      "name": "QCB grip front ferrule",
+      "source_object": "authored_qcb",
+      "layer": "barrel",
+      "pose": "gun",
+      "vertices": 48,
+      "faces": 26
+    },
+    {
+      "name": "QCB handle pivot pin",
+      "source_object": "authored_qcb",
+      "layer": "barrel",
+      "pose": "gun",
+      "vertices": 48,
+      "faces": 26
+    },
+    {
+      "name": "QCB latch body",
+      "source_object": "authored_qcb",
+      "layer": "body",
+      "pose": "gun",
+      "vertices": 56,
+      "faces": 54
+    },
+    {
+      "name": "QCB latch tab",
+      "source_object": "authored_qcb",
+      "layer": "body",
+      "pose": "gun",
+      "vertices": 56,
+      "faces": 54
     }
+  ],
+  "variant": "M2HB QCB",
+  "qcb_design": {
+    "variant": "M2HB QCB visual conversion",
+    "reference": "https://fnherstal.com/en/defence/portable-weapons/fn-m2hb-qcb/",
+    "reference_image": "https://fnherstal.com/app/uploads/FN_M2HB_QCB_Mk2.png",
+    "note": "Stylized game mesh additions for the barrel coupling, latch and folded carry handle; existing receiver, cooling apertures and muzzle preserved.",
+    "axis_z": 0.1247,
+    "coupling_y": [
+      0.33,
+      0.352
+    ],
+    "coupling_radius": 0.0365,
+    "grip_start": [
+      -0.078,
+      0.36,
+      0.181
+    ],
+    "grip_end": [
+      -0.078,
+      0.484,
+      0.181
+    ],
+    "grip_radius": 0.013,
+    "arm_start": [
+      -0.012,
+      0.35,
+      0.151
+    ],
+    "arm_end": [
+      -0.078,
+      0.35,
+      0.181
+    ],
+    "arm_radius": 0.0085,
+    "latch_center": [
+      0.04,
+      0.309,
+      0.166
+    ],
+    "latch_size": [
+      0.022,
+      0.032,
+      0.012
+    ]
+  },
+  "qcb_additions": [
+    "QCB barrel coupling",
+    "QCB folded handle arm",
+    "QCB carry grip",
+    "QCB grip rear ferrule",
+    "QCB grip front ferrule",
+    "QCB handle pivot pin",
+    "QCB latch body",
+    "QCB latch tab"
   ]
 }

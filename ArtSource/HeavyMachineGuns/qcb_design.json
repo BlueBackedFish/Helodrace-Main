@@ -1,0 +1,17 @@
+{
+  "variant": "M2HB QCB visual conversion",
+  "reference": "https://fnherstal.com/en/defence/portable-weapons/fn-m2hb-qcb/",
+  "reference_image": "https://fnherstal.com/app/uploads/FN_M2HB_QCB_Mk2.png",
+  "note": "Stylized game mesh additions for the barrel coupling, latch and folded carry handle; existing receiver, cooling apertures and muzzle preserved.",
+  "axis_z": 0.1247,
+  "coupling_y": [0.330, 0.352],
+  "coupling_radius": 0.0365,
+  "grip_start": [-0.078, 0.360, 0.181],
+  "grip_end": [-0.078, 0.484, 0.181],
+  "grip_radius": 0.013,
+  "arm_start": [-0.012, 0.350, 0.151],
+  "arm_end": [-0.078, 0.350, 0.181],
+  "arm_radius": 0.0085,
+  "latch_center": [0.040, 0.309, 0.166],
+  "latch_size": [0.022, 0.032, 0.012]
+}

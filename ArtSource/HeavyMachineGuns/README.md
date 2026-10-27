@@ -4,6 +4,8 @@ FDE 색상 계열은 유지하고 `../VEHICLE_ART_STYLE.md`의 부품·표면별
 
 M2HB 방열 슬리브의 외피·구멍 벽/안쪽 총열은 각각 다른 고정 금속색이다. 원본 메시의 실제 구멍을 통해 어두운 내부가 보이게 하며 구멍을 새로 그려 붙이지 않는다. 총열은 원본 정점 링에서 확인한 굵은 기부·단차·가늘어지는 긴 구간·총구를 별색으로 구분한다. 각 축 방향 구간의 원주 전체는 단색이며 조명 그라데이션을 넣지 않는다. 위치·팔레트는 `../PropAssets/m2_detail.json`, 분류는 `m2_detail.py`, 최종 출력 확인은 `review_m2_detail.py`에 있다. `output/M2HB/detail_paint.json`에 적용 설정을 저장한다.
 
+M2HB는 QCB 외형으로 소폭 변경했다. [FN Herstal 공식 제품 사진](https://fnherstal.com/app/uploads/FN_M2HB_QCB_Mk2.png)의 총열 교환용 손잡이·결합부를 참고해 접힌 손잡이, 결합 칼라, 잠금부 등 8개 시각 부품을 추가했다. 원본 총몸·방열구멍·총열·총구 형상과 길이는 유지한다. `qcb_design.json`과 `../PropAssets/qcb_model.py`에 추가 형상을 분리했으며 모델의 `art_addition`으로 식별한다. 손잡이·결합부는 총열 레이어와 함께 기존 리코일을 따르고, 고정 잠금부는 총몸 레이어에 남는다. 이 파일이 CROWS II에도 사용하는 유일한 QCB 무기 원본이다.
+
 공유 고정 팔레트와 부품 간 장착 대비는 `../PropAssets/weapon_paint.json`, 계산은 `../PropAssets/surface_paint.py`에서 관리한다. FDE의 기준 색상 `(143,123,92)`에서 색상 계열을 가져오되 최종 면색은 역할별로 다르다. 지지부/상단 캡/장비 상면/뚜껑의 표시 명도 기준은 118/142/170/194이다. 모든 부품의 월드 높이를 정렬하거나 조명으로 명암을 만들지 않는다. 실제 출력 팔레트는 `output/paint_validation.json`에 기록한다.
 
 게임용 파일은 `Textures/Buildings/Security/HeavyMachineGunsFDE/`의 7개 PNG다. 두 건물의 받침·아이콘·M2 반동 레이어와 M1917 총 정의의 상부 경로를 모두 이 전용 폴더로 등록한다. 이전 루트 경로의 7개 PNG는 제거했다. 경로·도색·윤곽선 설정은 `art_style.json`에서 관리한다. 실행 중인 게임은 파일을 다시 쓰는 것만으로 텍스처를 갱신하지 않으므로 변경된 정의와 경로를 읽으려면 게임을 재시작한다.
@@ -44,7 +46,7 @@ python ArtSource/HeavyMachineGuns/verify_registration.py
 python ArtSource/HeavyMachineGuns/deploy.py
 ```
 
-M2만 다시 만들 때는 Blender 명령 끝에 `-- --kind M2HB`를 붙인다. M1917은 다시 저장하지 않는다. 두 M2 자산을 출력한 뒤 `python ArtSource/PropAssets/review_m2_detail.py --baseline 17ab00d8`로 이전 실루엣 유지와 실제 출력의 방열구멍·단차 색을 확인할 수 있다.
+M2만 다시 만들 때는 Blender 명령 끝에 `-- --kind M2HB`를 붙인다. M1917은 다시 저장하지 않는다. 두 M2 자산을 출력한 뒤 `python ArtSource/PropAssets/review_m2_detail.py --baseline 965c198b`로 QCB 변경 전후와 실제 출력의 방열구멍·단차 색을 확인할 수 있다. CROWS도 다시 만들고 `CROWSII/validate_donor.py`로 이식 모델의 현재 원본을 대조한다.
 
 `output/{M2HB,M1917}/model.blend`가 편집 가능한 모델이며 `metadata.json`에 원본 경로·SHA256과 배율을 기록한다. `*_raw.png`는 무윤곽 원본, `output/Runtime`의 7개 PNG는 게임용 파일이다. `model_validation.json`은 실제 원본의 모든 면·꼭짓점·UV 대조 결과, `registration_validation.json`은 게임 등록·반동값·다른 정의 보존 검사 결과다.
 

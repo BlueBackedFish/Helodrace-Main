@@ -23,16 +23,6 @@
       "root_end_y": 0.3754,
       "shoulder_end_y": 0.4247,
       "muzzle_start_y": 0.9748
-    },
-    "CROWS": {
-      "axis_xz": [-0.00205, 0.82115],
-      "sleeve_range_y": [0.1312, 0.5565],
-      "vent_range_y": [0.1728, 0.5343],
-      "root_end_y": 0.6087,
-      "shoulder_end_y": 0.6217,
-      "muzzle_start_y": 1.2905,
-      "carry_handle_range_y": [0.5993, 0.7351],
-      "carry_handle_radius": 0.044
     }
   }
 }

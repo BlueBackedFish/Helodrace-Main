@@ -88,5 +88,5 @@
     "shoulder_end_y": 0.4247,
     "muzzle_start_y": 0.9748
   },
-  "note": "Fixed material roles; actual source apertures, inward cut walls and axial shoulders; no cylindrical light gradient or geometry change"
+  "note": "Fixed material roles; actual source apertures, inward cut walls and axial shoulders; paint classification preserves the source geometry without cylindrical light gradients"
 }

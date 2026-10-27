@@ -22,7 +22,13 @@ for kind in ['M2HB','M1917']:
     assert scene.render.film_transparent and not any(o.type=='LIGHT' for o in scene.objects)
     assert scene.render.resolution_x==scene.render.resolution_y==2048
     seen=defaultdict(set);vertex_ids=defaultdict(set);uv_loops=0;flat_colors=defaultdict(set);paint_counts=defaultdict(int)
-    meshes=[o for o in scene.objects if o.type=='MESH']
+    all_meshes=[o for o in scene.objects if o.type=='MESH'];additions=[o for o in all_meshes if o.get('art_addition')=='QCB visual kit'];meshes=[o for o in all_meshes if o not in additions]
+    if kind=='M2HB':
+        assert len(additions)==8 and {o.name for o in additions}==set(meta['qcb_additions'])
+        assert all(o['pose']=='gun' and o['layer'] in ['barrel','body'] for o in additions)
+        assert next(o for o in additions if o.name=='QCB carry grip')['layer']=='barrel'
+        assert all(o['layer']=='barrel' for o in additions if 'latch' not in o.name)
+    else:assert not additions
     for o in meshes:
         assert o['source_object'] in original
         src=original[o['source_object']];flat=o['source_transform'];matrix=Matrix([flat[i:i+4] for i in range(0,16,4)])
@@ -100,6 +106,6 @@ for kind in ['M2HB','M1917']:
         pose_check=dict(ammo_box_level=True,lid_closed=True,lid_surface_tilt_degrees=lid_tilt,cartridge_cases='brass',projectiles='copper',links='dark steel',rigid_cartridge_link_groups=len(belt),terminal_two_cartridges_inside_box=True)
     results[kind]=dict(source=meta['source_relative_to_ext'],source_sha256=meta['source_sha256'],projection='90 degree vertical orthographic',transparent=True,lights=0,
         materials='fixed RGB emission; no image textures',source_objects=len(original),polygons_preserved=sum(len(v) for v in seen.values()),used_source_vertices_preserved=sum(len(v) for v in vertex_ids.values()),uv_loops_preserved=uv_loops,
-        added_geometry=False,gun_draw_tiles=meta['gun_draw_tiles'],mount_draw_tiles=meta['mount_draw_tiles'],visible_gun_length_tiles=visible_length,relative_length_to_m2=visible_length/dimensions['baseline_m2_visible_length_tiles'],uniform_surface_color_counts={name:len(colors) for name,colors in flat_colors.items()},vehicle_paint=paint.report(),tripod_plan_view_aspect_preserved=True,**pose_check)
+        added_geometry=bool(additions),authored_qcb_meshes=len(additions),gun_draw_tiles=meta['gun_draw_tiles'],mount_draw_tiles=meta['mount_draw_tiles'],visible_gun_length_tiles=visible_length,relative_length_to_m2=visible_length/dimensions['baseline_m2_visible_length_tiles'],uniform_surface_color_counts={name:len(colors) for name,colors in flat_colors.items()},vehicle_paint=paint.report(),tripod_plan_view_aspect_preserved=True,**pose_check)
 (OUT/'model_validation.json').write_text(json.dumps(dict(passed=True,models=results),indent=2)+'\n')
 print('HMG_EXT_VALIDATION_PASS: source polygons/UVs retained; documented transforms; real relative gun lengths and tripod length; vertical cameras; fixed emission',flush=True)

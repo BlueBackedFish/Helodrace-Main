@@ -1,4 +1,4 @@
-"""Paint the provided M153 FBX, including its original mounted M2HB."""
+"""Retain the provided M153 station and mount the canonical M2HB QCB model."""
 from pathlib import Path
 from collections import defaultdict
 import bpy,sys,json,hashlib,os
@@ -6,7 +6,6 @@ from mathutils import Vector,Matrix
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'output';OUT.mkdir(parents=True,exist_ok=True)
 sys.path.insert(0,str(ROOT.parent/'PropAssets'));import modeling as m
 import surface_paint as surfaces
-import m2_detail
 EXT=Path(os.environ.get('HELODRACE_REFERENCE_EXT',str(Path.home()/'Downloads/Dagor-Asset-Explorer-1.0.0/Dagor-Asset-Explorer-1.0.0/ext')))
 SOURCE=EXT/'machine gun/m153-crows-untextured/source/M153 CROWS bevel.fbx'
 scene=m.start();bpy.ops.import_scene.fbx(filepath=str(SOURCE))
@@ -32,39 +31,34 @@ def components(vertices,polygons):
     return info
 
 original=[o for o in scene.objects if o.type=='MESH'];assert {o.name for o in original}=={'.50CAL','.50CAL SLEEVE','.50CAL BARREL','Cylinder.003'}
+reference_gun=[o.matrix_world@v.co for o in original if o.name.startswith('.50CAL') for v in o.data.vertices]
+reference_barrel=[o.matrix_world@v.co for o in original if o.name=='.50CAL BARREL' for v in o.data.vertices]
 records=[]
 for o in original:
+    if o.name!='Cylinder.003':continue
     vertices=[o.matrix_world@v.co for v in o.data.vertices];parts=components(vertices,o.data.polygons);faces=[]
     for p in o.data.polygons:
         group,lo,hi=parts[p.index];center=sum((vertices[i] for i in p.vertices),Vector())/len(p.vertices);oldmat=o.data.materials[p.material_index].name
-        if o.name=='.50CAL BARREL':layer='barrel';paint='metal'
-        elif o.name.startswith('.50CAL'):layer='body';paint='rubber' if center.y<.36 else 'metal'
-        else:
-            layer='base' if group==4541 else 'frame';paint='fde'
-            if group==4541 or group==2996:paint='fde_dark'
-            if oldmat=='bolt':paint='fastener'
-            elif group==6342:paint='feed'
-            elif group in [4680,4790]:paint='metal'
-            elif group==4242:paint='fde_lid'
-            elif group in [3453,3630,494]:paint='fde_inset'
+        layer='base' if group==4541 else 'frame';paint='fde'
+        if group==4541 or group==2996:paint='fde_dark'
+        if oldmat=='bolt':paint='fastener'
+        elif group==6342:paint='feed'
+        elif group in [4680,4790]:paint='metal'
+        elif group==4242:paint='fde_lid'
+        elif group in [3453,3630,494]:paint='fde_inset'
         faces.append(dict(indices=list(p.vertices),uv={uv.name:[tuple(uv.data[i].uv) for i in p.loop_indices] for uv in o.data.uv_layers},index=p.index,layer=layer,paint=paint,component=group))
     records.append(dict(name=o.name,vertices=vertices,faces=faces))
 body=next(r for r in records if r['name']=='Cylinder.003');base_ids={i for f in body['faces'] if f['component']==4541 for i in f['indices']};assert base_ids
 base_points=[body['vertices'][i] for i in base_ids];pivot=Vector(((min(v.x for v in base_points)+max(v.x for v in base_points))/2,(min(v.y for v in base_points)+max(v.y for v in base_points))/2,min(v.z for v in base_points)))
-gun_points=[v for r in records if r['name'].startswith('.50CAL') for v in r['vertices']]
-source_gun_length=max(v.y for v in gun_points)-min(v.y for v in gun_points);scale=2.1421875/source_gun_length
+source_gun_length=max(v.y for v in reference_gun)-min(v.y for v in reference_gun);scale=2.1421875/source_gun_length
 transform=Matrix.Diagonal((scale,scale,scale,1))@Matrix.Translation(-pivot)
 bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
 palette={name:m.material(name,rgb) for name,rgb in dict(fde=(143,123,92),fde_dark=(117,101,75),fde_lid=(153,132,99),fde_inset=(130,111,84),metal=(79,86,84),rubber=(34,40,38),feed=(48,56,52),fastener=(102,108,100),glass=(29,43,46),glass_inner=(44,65,69),glass_mark=(72,96,98)).items()}
 palette.update({'paint_'+name:m.material('paint_'+name,rgb) for name,rgb in surfaces.palette().items()});keys=list(palette)
-palette.update({'m2_'+name:m.material('m2_'+name,rgb) for name,rgb in m2_detail.PALETTE.items()});keys=list(palette)
 # These are authored source component selections, not geometry simplification.
 # Broad box/platform planes have direction roles. All other small rounded
 # mechanisms remain single-color; no normal gradient is applied to cylinders.
 PLANAR_COMPONENTS={917:'equipment',2413:'equipment',2503:'equipment',2602:'equipment',2996:'support',3162:'equipment',3902:'support_cap',4000:'equipment',4242:'lid',4372:'equipment',4611:'equipment',5112:'equipment',5255:'equipment',5424:'equipment',5581:'support_cap',6403:'equipment'}
-# Source .50CAL connected components inspected against their actual bounds:
-# upper cover/rear cover, feed cover, rear/front sights, charging handle/pins.
-M2_COMPONENT_ROLES={5090:'cover',2812:'cover',3757:'cover',4503:'sight',4766:'sight',4277:'sight',833:'handle',955:'handle',2690:'handle',3195:'handle',672:'fastener',3017:'fastener',3131:'fastener',5318:'fastener'}
 for r in records:
     grouped=defaultdict(list)
     for f in r['faces']:grouped[f['layer']].append(f)
@@ -80,13 +74,6 @@ for r in records:
                     key='paint_support_cap_top' if p.normal.z>.96 else 'paint_support_top'
                 elif group in PLANAR_COMPONENTS:key='paint_'+PLANAR_COMPONENTS[group]+'_'+surfaces.face(p.normal)
                 else:key='paint_support_cap_top'
-            elif r['name']=='.50CAL SLEEVE':key='m2_'+m2_detail.sleeve(p.center,p.normal,'CROWS')
-            elif r['name']=='.50CAL BARREL':key='m2_'+m2_detail.barrel(p.center,p.normal,'CROWS')
-            elif r['name']=='.50CAL' and key=='metal':
-                role=M2_COMPONENT_ROLES.get(group,'receiver')
-                if p.normal.z<-.65:role='recess'
-                elif p.normal.z<.65 and role in ['receiver','cover']:role='receiver_wall' if role=='receiver' else 'cover_wall'
-                key='m2_'+role
             p.material_index=keys.index(key)
         for name in faces[0]['uv']:
             uv=mesh.uv_layers.new(name=name)
@@ -117,6 +104,36 @@ for o in meshes:
         for uv in o.data.uv_layers:
             for index,expected in zip(p.loop_indices,f['uv'][uv.name]):assert (uv.data[index].uv-Vector(expected)).length<1e-6;loops+=1
 for r in records:assert seen[r['name']]==set(range(len(r['faces'])))
+
+# The ground-gun model is the single source for both copies of the QCB weapon.
+# Keep the station's box, chute and cradle; omit the donor's tripod/ammunition.
+DONOR=ROOT.parent/'HeavyMachineGuns/output/M2HB/model.blend'
+donor_meta=json.loads(DONOR.with_name('metadata.json').read_text());assert donor_meta['variant']=='M2HB QCB'
+with bpy.data.libraries.load(str(DONOR),link=False) as (available,loaded):loaded.objects=list(available.objects)
+donors=[]
+for o in loaded.objects:
+    if o.type=='MESH' and o.get('pose')=='gun' and o.get('layer') in ['body','barrel']:
+        scene.collection.objects.link(o);o.hide_render=False;donors.append(o)
+    else:bpy.data.objects.remove(o,do_unlink=True)
+assert donors and len([o for o in donors if o.get('art_addition')=='QCB visual kit'])==8
+bpy.context.view_layer.update()
+def muzzle_axis(points,epsilon):
+    front=max(v.y for v in points);ring=[v for v in points if v.y>front-epsilon]
+    return Vector(((min(v.x for v in ring)+max(v.x for v in ring))/2,front,(min(v.z for v in ring)+max(v.z for v in ring))/2))
+old_tip=transform@muzzle_axis(reference_barrel,.002)
+donor_barrel=[o.matrix_world@v.co for o in donors if o.get('source_object')=='Barrel' for v in o.data.vertices]
+donor_tip=muzzle_axis(donor_barrel,.001);donor_scale=donor_meta['model_to_world']
+mount_transform=Matrix.Translation(old_tip-donor_tip*donor_scale)@Matrix.Diagonal((donor_scale,donor_scale,donor_scale,1))
+donor_summary=[]
+for o in donors:
+    original_name=o.name;before=o.matrix_world.copy();points=[before@v.co for v in o.data.vertices]
+    o.matrix_world=mount_transform@before;o['donor_object']=original_name;o.name='M2QCB / '+original_name
+    for v,p in zip(o.data.vertices,points):assert (o.matrix_world@v.co-mount_transform@p).length<1e-6
+    donor_summary.append(dict(object=original_name,layer=o['layer'],vertices=len(o.data.vertices),faces=len(o.data.polygons),qcb_addition=o.get('art_addition')=='QCB visual kit'))
+assert not any(o.get('pose','').startswith('ammo_') or o.get('layer')=='mount' for o in donors)
+meshes=[o for o in scene.objects if o.type=='MESH']
+donor_report=dict(passed=True,donor=str(DONOR),donor_sha256=hashlib.sha256(DONOR.read_bytes()).hexdigest(),variant='M2HB QCB',donor_scale=donor_scale,mount_transform=[list(row) for row in mount_transform],muzzle_world=list(old_tip),objects=donor_summary,station_frame_geometry_and_paint_preserved=True,donor_ammunition_and_tripod_excluded=True)
+(OUT/'donor_validation.json').write_text(json.dumps(donor_report,indent=2)+'\n')
 top=m.camera('Camera_Top',0,90,3.2);top.location=(0,0,10);top.rotation_euler=(0,0,0)
 for part in ['base','frame','body','barrel','gun','top','full']:
     for o in meshes:o.hide_render=not (part=='full' or part=='gun' and o['layer'] in ['body','barrel'] or part=='top' and o['layer']!='base' or o['layer']==part)
@@ -125,9 +142,9 @@ for o in meshes:o.hide_render=False
 for direction,azimuth in [('north',-90),('east',0),('south',90),('west',180)]:
     cam=m.camera('Camera_'+direction,azimuth,64,3.6);m.render(OUT/(direction+'_raw.png'),cam,2048)
 scene.camera=top;scene['muzzle_direction']='+Y';scene['swivel_origin']=[0,0,0];m.save(OUT/'crows_ii_m2.blend')
-meta=dict(source=str(SOURCE),source_sha256=hashlib.sha256(SOURCE.read_bytes()).hexdigest(),source_objects=[dict(name=r['name'],vertices=len(r['vertices']),faces=len(r['faces'])) for r in records],source_faces_preserved=sum(len(v) for v in seen.values()),source_uv_loops_preserved=loops,source_pivot=list(pivot),source_to_world_scale=scale,m2_visible_length_tiles=2.1421875,top_draw_size=[3.2,3.2],directional_draw_size=[3.6,3.6],pivot=[0,0,0],master_resolution=2048,native_resolution=1024,outline_world_tiles=.026,projection_top=90,projection_directions=64,paint='FDE hue; authored vehicle-style support levels, directional planes and desaturated dark paint',m2_included_in_provided_model=True,base_source_component=4541,feed_chute_source_component=6342,optical_housing_source_component=917,added_optical_window_meshes=5,gameplay_definition_added=False)
-(OUT/'metadata.json').write_text(json.dumps(meta,indent=2)+'\n');print('CROWS_MODEL_PASS: source M153 and mounted M2 geometry/UVs preserved; fixed FDE emission',flush=True)
+meta=dict(source=str(SOURCE),source_sha256=hashlib.sha256(SOURCE.read_bytes()).hexdigest(),source_objects=[dict(name=r['name'],vertices=len(r['vertices']),faces=len(r['faces'])) for r in records],source_faces_preserved=sum(len(v) for v in seen.values()),source_uv_loops_preserved=loops,source_pivot=list(pivot),source_to_world_scale=scale,m2_visible_length_tiles=2.1421875,top_draw_size=[3.2,3.2],directional_draw_size=[3.6,3.6],pivot=[0,0,0],master_resolution=2048,native_resolution=1024,outline_world_tiles=.026,projection_top=90,projection_directions=64,paint='FDE hue; authored vehicle-style support levels, directional planes and desaturated dark paint',weapon_variant='M2HB QCB',weapon_donor=str(DONOR),weapon_donor_sha256=donor_report['donor_sha256'],weapon_mount_transform=donor_report['mount_transform'],replaced_source_weapon_meshes=['.50CAL','.50CAL SLEEVE','.50CAL BARREL'],base_source_component=4541,feed_chute_source_component=6342,optical_housing_source_component=917,added_optical_window_meshes=5,gameplay_definition_added=False)
+(OUT/'metadata.json').write_text(json.dumps(meta,indent=2)+'\n');print('CROWS_MODEL_PASS: original M153 station retained; canonical M2HB QCB mounted with fixed-emission materials',flush=True)
 report=surfaces.report();report['planar_source_components']=PLANAR_COMPONENTS
 (OUT/'paint_validation.json').write_text(json.dumps(report,indent=2)+'\n')
-report=m2_detail.report('CROWS');report['receiver_component_roles']=M2_COMPONENT_ROLES
+report=json.loads(DONOR.with_name('detail_paint.json').read_text());report['note']='Canonical M2HB QCB donor mesh/materials copied unchanged; only one uniform scale and mount transform applied';report['mount_transform']=donor_report['mount_transform']
 (OUT/'detail_paint.json').write_text(json.dumps(report,indent=2)+'\n')

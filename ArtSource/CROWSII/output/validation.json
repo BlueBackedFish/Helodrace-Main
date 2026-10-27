@@ -41,14 +41,14 @@
         767
       ],
       "minimum_margin": 60,
-      "sha256": "40fbdf113e674bef3a8191d35e06065ff9e0aff5ab051dc56e42e5b8be2a6cdd"
+      "sha256": "a7f2b5475c000868ea96cfa036cd702b8e97619cc024b066a245dcc4d06b0ab6"
     },
     "HD_CROWSII_M2_TurretTop.png": {
       "size": [
         1024,
         1024
       ],
-      "sha256": "3d7d2742ec98073293d0aaa0b3492c7cb50d391aab4b7fac43f005141af3800e",
+      "sha256": "e76095c2a160271130e36ce150f3b3fc81a90ae79d5e64200b46c7bef98e8545",
       "muzzle_axis": "+X for native TurretTop -90-degree artwork rotation"
     },
     "HD_CROWSII_M2Body.png": {
@@ -56,7 +56,7 @@
         1024,
         1024
       ],
-      "sha256": "4ffe7d6d26fc2c32df561c4a059db9b6f4951fad6ca2cca29ac650eb02f9d6b4",
+      "sha256": "26b00faf81a59e9c70714bbb1f5e7b19d7adc2034398de5cb17b0bcec0a04bef",
       "shared_gun_outline": true
     },
     "HD_CROWSII_M2Barrel.png": {
@@ -64,7 +64,7 @@
         1024,
         1024
       ],
-      "sha256": "64b658c8c1c2af9a8de4aaa817dd524431ba0c94e93fb50e140842cd3659cd56",
+      "sha256": "55c70714475f09e918d0a0163ec54f294733ec019d20a1c9d7bcd4d6b7b2c711",
       "shared_gun_outline": true
     },
     "HD_CROWSII_M2_north.png": {
@@ -76,10 +76,10 @@
         320,
         44,
         681,
-        619
+        617
       ],
       "minimum_margin": 44,
-      "sha256": "aba9bdb771df0d6692b361ea36f91a4532dcea94cba3c8cdb8871a4f7a32a1b3"
+      "sha256": "9ee66ae2acd6eadea3a9e4ecd7b9d8247998c493d0ddd28d15b7aafb7df2c307"
     },
     "HD_CROWSII_M2_east.png": {
       "size": [
@@ -93,7 +93,7 @@
         643
       ],
       "minimum_margin": 110,
-      "sha256": "d584c8390c9c4e2fc21e8bbd8fd4ac00cacd913bd83997b61966afedc9b8a250"
+      "sha256": "4152c3b6b074d9e17e8e40eb01fb1a5911fbe8c914cabc360a27c1087089df0c"
     },
     "HD_CROWSII_M2_south.png": {
       "size": [
@@ -102,12 +102,12 @@
       ],
       "alpha_bbox": [
         343,
-        195,
+        202,
         703,
         775
       ],
-      "minimum_margin": 195,
-      "sha256": "b5e24d7a5618d33c0275a115f7a86647f44dcfb2856df0421582a5a522dce2c4"
+      "minimum_margin": 202,
+      "sha256": "2b104f324f824f4425115cd5b789d305eb9e66ff2a74f593ff6b758524db919c"
     },
     "HD_CROWSII_M2_west.png": {
       "size": [
@@ -121,7 +121,7 @@
         659
       ],
       "minimum_margin": 110,
-      "sha256": "84ac2f6501e53378f9f78d5a1620acfc86f96c76aaddab69766994f424f37001"
+      "sha256": "581d1904125b0f42c11f0b871ee9d575b1db9c38fb4cf71d8bdf6dd9131c3ff5"
     },
     "HD_CROWSII_M2_UI.png": {
       "size": [
@@ -132,10 +132,10 @@
         240,
         36,
         784,
-        987
+        988
       ],
       "minimum_margin": 36,
-      "sha256": "d0d557207e5e066d157a5c3c21f0d48dc6bc454004f2b76e54e4b4d5f712b0aa"
+      "sha256": "346cdfcc3f7b04dcfcf344b94dea006a12babfb06780b0ee4f39af1156d6d8cb"
     }
   },
   "source": {
@@ -143,28 +143,13 @@
     "source_sha256": "9d347b6422e6745d3dc97055e71b0bacab1b24a2ad51b03a69a0639ef1f78cb4",
     "source_objects": [
       {
-        "name": ".50CAL",
-        "vertices": 5393,
-        "faces": 5798
-      },
-      {
         "name": "Cylinder.003",
         "vertices": 14863,
         "faces": 14192
-      },
-      {
-        "name": ".50CAL SLEEVE",
-        "vertices": 2468,
-        "faces": 2430
-      },
-      {
-        "name": ".50CAL BARREL",
-        "vertices": 638,
-        "faces": 632
       }
     ],
-    "source_faces_preserved": 23052,
-    "source_uv_loops_preserved": 91546,
+    "source_faces_preserved": 14192,
+    "source_uv_loops_preserved": 57140,
     "source_pivot": [
       1.8940157890319824,
       1.7862746715545654,
@@ -191,7 +176,40 @@
     "projection_top": 90,
     "projection_directions": 64,
     "paint": "FDE hue; authored vehicle-style support levels, directional planes and desaturated dark paint",
-    "m2_included_in_provided_model": true,
+    "weapon_variant": "M2HB QCB",
+    "weapon_donor": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\HeavyMachineGuns\\output\\M2HB\\model.blend",
+    "weapon_donor_sha256": "a05c33fca72e0ef7f8f8668b70bcf619502356093114efc3e0c6b42222c6f5ea",
+    "weapon_mount_transform": [
+      [
+        1.308997631072998,
+        0.0,
+        0.0,
+        -0.0019899634644389153
+      ],
+      [
+        0.0,
+        1.308997631072998,
+        0.0,
+        0.02640700340270996
+      ],
+      [
+        0.0,
+        0.0,
+        1.308997631072998,
+        0.6579060554504395
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "replaced_source_weapon_meshes": [
+      ".50CAL",
+      ".50CAL SLEEVE",
+      ".50CAL BARREL"
+    ],
     "base_source_component": 4541,
     "feed_chute_source_component": 6342,
     "optical_housing_source_component": 917,

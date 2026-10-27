@@ -11,6 +11,7 @@ STYLE=json.loads((ROOT/'art_style.json').read_text())
 sys.path.insert(0,str(ROOT.parent/'PropAssets'))
 import surface_paint as paint
 import m2_detail
+import qcb_model
 PALETTE=dict(metal=(79,86,84),cover=(103,111,106),dark=(37,44,42),fde=tuple(STYLE['fde_rgb']),ammo=tuple(STYLE['fde_rgb']),wood=(102,75,48),brass=(173,142,73),copper=(145,102,68),link=(43,48,43),canvas=(104,99,70),mount=tuple(STYLE['mount_fde_rgb']))
 # Original hinge pin, parallel to Y. The source lid is opened 154 degrees.
 AMMO_HINGE=Vector((.4073,.2142,-.1239))
@@ -217,7 +218,8 @@ def make(kind,relative):
                     elif record['name']=='Body_M2' and f['flat'] and category=='metal':key='m2_'+m2_detail.sleeve(p.center,p.normal,'M2HB')
                 p.material_index=keys.index(key)
             obj=bpy.data.objects.new(record['name']+' / '+pose,mesh);scene.collection.objects.link(obj);obj['layer']=layer;obj['pose']=pose;obj['source_object']=record['name'];obj['source_transform']=sum((list(row) for row in matrix),[])
-    meshes=[o for o in scene.objects if o.type=='MESH'];gun=[v.co for o in meshes if o['layer']!='mount' for v in o.data.vertices];stand=[v.co for o in meshes if o['layer']=='mount' for v in o.data.vertices]
+    additions=qcb_model.add(materials) if kind=='M2HB' else []
+    meshes=[o for o in scene.objects if o.type=='MESH'];gun=[o.matrix_world@v.co for o in meshes if o['layer']!='mount' for v in o.data.vertices];stand=[o.matrix_world@v.co for o in meshes if o['layer']=='mount' for v in o.data.vertices]
     length=max(v.y for v in gun)-min(v.y for v in gun)
     world_length=DIMENSIONS['baseline_m2_visible_length_tiles']*DIMENSIONS['weapon_length_m'][kind]/DIMENSIONS['weapon_length_m']['M2HB'];model_to_world=world_length/length
     gun_scale=max(abs(v[i]) for v in gun for i in [0,1])*2*1.10
@@ -233,14 +235,17 @@ def make(kind,relative):
     bpy.ops.wm.save_as_mainfile(filepath=str(folder/'model.blend'),compress=True)
     metadata=dict(source=str(source),source_relative_to_ext='machine gun/'+relative,source_sha256=sha(source),master=MASTER,runtime=1024,projection='90 degree downward orthographic',camera_rotation_degrees=[0,0,0],camera_scale=gun_scale,
         gun_draw_tiles=gun_scale*model_to_world,mount_draw_tiles=base_scale*model_to_world,model_length=length,model_to_world=model_to_world,pivot=[0,0,0],outline_world_tiles=STYLE['outline_world_tiles'],icon_outline_pixels=STYLE['icon_outline_pixels'],texture_directory=STYLE['texture_directory'],
-        source_geometry_note='Every source polygon and UV loop retained under recorded transforms; M1917 mount uses equal X/Y scaling with height retained; no added geometry.',
+        source_geometry_note='Every source polygon and UV loop retained under recorded transforms; QCB visual additions are separately tagged.' if kind=='M2HB' else 'Every source polygon and UV loop retained; M1917 mount uses equal X/Y scaling with height retained; no added geometry.',
         weapon_length_m=DIMENSIONS['weapon_length_m'][kind],visible_gun_length_tiles=world_length,mount_planar_fit=mount_fit_y,
-        style_note='Vehicle paint rules: authored FDE support/lid contrast and neutralized darker planar walls; cylindrical sides stay uniform with optional separate end caps; fixed emission and unchanged geometry.',
+        style_note='Vehicle paint rules: authored FDE support/lid contrast and neutralized darker planar walls; fixed emission, original source geometry retained and separately tagged QCB additions.' if kind=='M2HB' else 'Vehicle paint rules: fixed emission, uniform cylindrical sides and unchanged source geometry.',
         paint_finish='FDE hue with authored vehicle-style planar/support contrast; palette in ../paint_validation.json',
         ammo_box_pose='Level box and closed lid; individually rigid cartridges curve from receiver into the box interior, with the tail beneath the lid' if kind=='M2HB' else 'Original source pose',
         source_objects=[dict(name=r['name'],vertices=r['source_vertices'],faces=r['source_faces']) for r in records],
         parts=[dict(name=o.name,source_object=o['source_object'],layer=o['layer'],pose=o['pose'],vertices=len(o.data.vertices),faces=len(o.data.polygons)) for o in meshes])
     (folder/'metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
+    if additions:
+        metadata['variant']='M2HB QCB';metadata['qcb_design']=qcb_model.DESIGN;metadata['qcb_additions']=[o.name for o in additions]
+        (folder/'metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
     if kind=='M2HB':(folder/'detail_paint.json').write_text(json.dumps(m2_detail.report('M2HB'),indent=2)+'\n')
     (OUT/'paint_validation.json').write_text(json.dumps(paint.report(),indent=2)+'\n')
 

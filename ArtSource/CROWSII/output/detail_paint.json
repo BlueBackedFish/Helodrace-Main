@@ -73,41 +73,46 @@
   },
   "profile": {
     "axis_xz": [
-      -0.00205,
-      0.82115
+      0,
+      0.1247
     ],
     "sleeve_range_y": [
-      0.1312,
-      0.5565
+      0.0656,
+      0.3187
     ],
     "vent_range_y": [
-      0.1728,
-      0.5343
+      0.1106,
+      0.2965
     ],
-    "root_end_y": 0.6087,
-    "shoulder_end_y": 0.6217,
-    "muzzle_start_y": 1.2905,
-    "carry_handle_range_y": [
-      0.5993,
-      0.7351
-    ],
-    "carry_handle_radius": 0.044
+    "root_end_y": 0.3754,
+    "shoulder_end_y": 0.4247,
+    "muzzle_start_y": 0.9748
   },
-  "note": "Fixed material roles; actual source apertures, inward cut walls and axial shoulders; no cylindrical light gradient or geometry change",
-  "receiver_component_roles": {
-    "5090": "cover",
-    "2812": "cover",
-    "3757": "cover",
-    "4503": "sight",
-    "4766": "sight",
-    "4277": "sight",
-    "833": "handle",
-    "955": "handle",
-    "2690": "handle",
-    "3195": "handle",
-    "672": "fastener",
-    "3017": "fastener",
-    "3131": "fastener",
-    "5318": "fastener"
-  }
+  "note": "Canonical M2HB QCB donor mesh/materials copied unchanged; only one uniform scale and mount transform applied",
+  "mount_transform": [
+    [
+      1.308997631072998,
+      0.0,
+      0.0,
+      -0.0019899634644389153
+    ],
+    [
+      0.0,
+      1.308997631072998,
+      0.0,
+      0.02640700340270996
+    ],
+    [
+      0.0,
+      0.0,
+      1.308997631072998,
+      0.6579060554504395
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ]
 }

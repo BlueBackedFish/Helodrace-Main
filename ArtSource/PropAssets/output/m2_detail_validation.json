@@ -1,50 +1,94 @@
 {
   "passed": true,
-  "baseline": "17ab00d8",
-  "unchanged_alpha_images": 35,
+  "baseline": "965c198b",
+  "alpha_unchanged_images": [
+    "ArtSource/HeavyMachineGuns/output/M2HB/mount_raw.png",
+    "ArtSource/HeavyMachineGuns/output/M1917/gun_raw.png",
+    "ArtSource/HeavyMachineGuns/output/M1917/mount_raw.png",
+    "ArtSource/CROWSII/output/base_raw.png",
+    "ArtSource/CROWSII/output/frame_raw.png",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMGUI.png",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMG_Top.png",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M1917_Tripod.png",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Tripod.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_Base.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_Frame.png"
+  ],
+  "alpha_changed_for_qcb_and_weapon_transplant": [
+    "ArtSource/HeavyMachineGuns/output/M2HB/barrel_raw.png",
+    "ArtSource/HeavyMachineGuns/output/M2HB/body_raw.png",
+    "ArtSource/HeavyMachineGuns/output/M2HB/gun_raw.png",
+    "ArtSource/CROWSII/output/barrel_raw.png",
+    "ArtSource/CROWSII/output/body_raw.png",
+    "ArtSource/CROWSII/output/east_raw.png",
+    "ArtSource/CROWSII/output/full_raw.png",
+    "ArtSource/CROWSII/output/gun_raw.png",
+    "ArtSource/CROWSII/output/north_raw.png",
+    "ArtSource/CROWSII/output/south_raw.png",
+    "ArtSource/CROWSII/output/top_raw.png",
+    "ArtSource/CROWSII/output/west_raw.png",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Barrel.png",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Body.png",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_UI.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2Barrel.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2Body.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_east.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_north.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_south.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_Top.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_TurretTop.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_UI.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_west.png"
+  ],
   "unchanged_non_target_images": [
     "ArtSource/CROWSII/output/frame_raw.png",
     "ArtSource/CROWSII/output/base_raw.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_Base.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_Frame.png",
+    "ArtSource/HeavyMachineGuns/output/M2HB/mount_raw.png",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Tripod.png",
     "ArtSource/HeavyMachineGuns/output/M1917/gun_raw.png",
     "ArtSource/HeavyMachineGuns/output/M1917/mount_raw.png",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M1917_Tripod.png",
     "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMG_Top.png",
     "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMGUI.png"
   ],
   "pixel_validation": {
     "M2HB": {
-      "sleeve_outer_pixels": 6969,
+      "sleeve_outer_pixels": 6934,
       "vent_interior_pixels": 3448,
       "distinct_detail_pixels": {
-        "barrel_root": 2429,
-        "barrel_shoulder": 1839,
+        "barrel_root": 1189,
+        "barrel_shoulder": 2823,
         "barrel_taper": 15028,
-        "muzzle": 1676
+        "muzzle": 1683,
+        "handle": 894,
+        "fastener": 468
       },
       "runtime_detail_pixels": {
-        "sleeve_outer": 5744,
+        "sleeve_outer": 5713,
         "recess": 503,
         "barrel_taper": 2871
       }
     },
     "CROWS": {
-      "sleeve_outer_pixels": 9932,
-      "vent_interior_pixels": 2537,
+      "sleeve_outer_pixels": 5922,
+      "vent_interior_pixels": 2936,
       "distinct_detail_pixels": {
-        "barrel_root": 142,
-        "barrel_shoulder": 296,
-        "barrel_taper": 13019,
-        "muzzle": 1918,
-        "cover": 27556,
-        "sight": 1698,
-        "fastener": 392
+        "barrel_root": 1011,
+        "barrel_shoulder": 2414,
+        "barrel_taper": 12932,
+        "muzzle": 1453,
+        "handle": 756,
+        "fastener": 395
       },
       "runtime_detail_pixels": {
-        "sleeve_outer": 1983,
-        "recess": 412,
-        "barrel_taper": 2583
+        "sleeve_outer": 4738,
+        "recess": 162,
+        "barrel_taper": 2565
       }
     }
   },
-  "geometry_validation": "HMG source face/vertex/UV comparison and CROWS inline source comparison passed",
+  "geometry_validation": "HMG original source preserved with 8 tagged QCB additions; CROWS canonical donor geometry/UV/material comparison passed",
   "in_game_tested": false
 }
