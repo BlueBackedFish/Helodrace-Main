@@ -32,6 +32,8 @@ internal static class Program
         linkDefinitions = XDocument.Load("Defs/Research/ResearchLinks_Helod.xml").Root
             .Elements("Helodrace.ResearchLinkDef").ToList();
         Definitions();
+        ConsolidatedMotorResearch();
+        TechnologyMilestones();
         BothDirections();
         GroupGates();
         LifecycleAndStartingResearch();
@@ -98,6 +100,72 @@ internal static class Program
         }
     }
 
+    private static void ConsolidatedMotorResearch()
+    {
+        Check(!definitions.ContainsKey("HelodMiniMotor"), "The separate compact-motor research is removed");
+        Check((int)definitions["HelodNumericalControl"].Element("baseCost") == 1000,
+            "Numerical control retains the combined 500 + 500 research cost");
+        Check(Requires("HelodNumericalControl", "HelodBasicMotor")
+            && Requires("HelodNumericalControl", "HelodHighElectronics"),
+            "The consolidated research follows motors and vacuum-tube electronics");
+        Check(Requires("HelodAntiAirMachineGun", "HelodNumericalControl"),
+            "Rotary anti-aircraft weapons use the consolidated motor milestone");
+        var items = new[] { "Defs/ColdWar/Items/Weapons_ColdWar.xml", "Defs/ModernWar/Items/Weapons_ModernWar.xml" }
+            .SelectMany(file => XDocument.Load(file).Root.Elements("ThingDef"))
+            .Where(def => def.Element("defName") != null).ToDictionary(def => (string)def.Element("defName"));
+        foreach (string id in new[] { "HD_PowerCutter", "HD_PowerforgeJackhammer", "HD_Gun_Nailgun_Weapon" })
+            Check((string)items[id].Element("recipeMaker")?.Element("researchPrerequisite") == "HelodNumericalControl",
+                "Motor-driven equipment follows numerical control: " + id);
+        foreach (string file in Directory.GetFiles("Defs", "*.xml", SearchOption.AllDirectories)
+            .Concat(Directory.GetFiles("Languages", "*.xml", SearchOption.AllDirectories))
+            .Concat(Directory.GetFiles("Patches", "*.xml", SearchOption.AllDirectories)))
+            Check(!File.ReadAllText(file).Contains("HelodMiniMotor"), "No obsolete motor definition/reference: " + file);
+    }
+
+    private static bool Requires(string id, string milestone)
+    {
+        return id == milestone || (definitions[id].Element("prerequisites")?.Elements("li")
+            ?? Enumerable.Empty<XElement>()).Any(entry => Requires(entry.Value, milestone));
+    }
+
+    private static void TechnologyMilestones()
+    {
+        foreach (var link in Reset())
+        {
+            foreach (var milestone in new[] { ("Electricity", "HelodHighElectronics"),
+                ("Machining", "HelodNumericalControl"), ("MicroelectronicsBasics", "HelodTransistor") })
+            {
+                if (!link.leftProjects.Any(project => Requires(project.defName, milestone.Item1))) continue;
+                Check(link.rightProjects.Any(project => Requires(project.defName, milestone.Item2)),
+                    link.defName + " preserves the " + milestone.Item1 + " milestone");
+            }
+        }
+
+        Reset();
+        // Even completing every race project outside the vacuum-tube branch must not bypass electricity.
+        foreach (string id in definitions.Keys.Where(id => id.StartsWith("Helod")
+            && !Requires(id, "HelodHighElectronics")))
+            Find.ResearchManager.FinishProject(projects[id]);
+        foreach (string id in definitions.Keys.Where(id => !id.StartsWith("Helod") && Requires(id, "Electricity")))
+            Check(!projects[id].IsFinished, "Pre-vacuum research does not finish " + id);
+
+        Find.ResearchManager.FinishProject(projects["HelodHighElectronics"]);
+        Check(projects["Electricity"].IsFinished && !projects["HelodNumericalControl"].IsFinished,
+            "Vacuum-tube electronics completes electricity without skipping numerical control");
+        foreach (string id in definitions.Keys.Where(id => !id.StartsWith("Helod")
+            && (Requires(id, "Machining") || Requires(id, "MicroelectronicsBasics"))))
+            Check(!projects[id].IsFinished, "Vacuum tubes alone do not finish the later milestone " + id);
+
+        Find.ResearchManager.FinishProject(projects["HelodNumericalControl"]);
+        Check(projects["Machining"].IsFinished && !projects["MicroelectronicsBasics"].IsFinished,
+            "Numerical control completes machining without skipping transistors");
+        Check(!projects["MedicineProduction"].IsFinished && !projects["PrecisionRifling"].IsFinished,
+            "Medicine and precision rifling wait for their microelectronics milestone");
+        Find.ResearchManager.FinishProject(projects["HelodTransistor"]);
+        Check(projects["MicroelectronicsBasics"].IsFinished && projects["MedicineProduction"].IsFinished
+            && projects["PrecisionRifling"].IsFinished, "Transistors release the ready microelectronics descendants");
+    }
+
     private static void GroupGates()
     {
         foreach (string id in linkDefinitions.Select(def => (string)def.Element("defName")))
@@ -128,7 +196,10 @@ internal static class Program
         Reset();
         projects["HelodHeatPump"].IsFinished = true;
         new LinkedResearchGameComponent(new Game()).StartedNewGame();
-        Check(projects["AirConditioning"].IsFinished, "New games synchronize already completed Helod research");
+        Check(!projects["AirConditioning"].IsFinished, "A heat pump alone does not bypass the electricity milestone");
+        projects["HelodHighElectronics"].IsFinished = true;
+        new LinkedResearchGameComponent(new Game()).StartedNewGame();
+        Check(projects["AirConditioning"].IsFinished, "New games synchronize the complete Helod path");
         Reset();
         foreach (string id in new[] { "ComplexFurniture", "ComplexClothing", "Smithing", "HelodFrontierSpirit",
             "HelodMechanicalEngineering", "HelodExperimentalAnalysis" }) projects[id].IsFinished = true;
@@ -140,12 +211,17 @@ internal static class Program
     {
         Reset();
         Find.ResearchManager.FinishProject(projects["Electricity"]);
-        Check(projects["HelodBasicMotor"].IsFinished && projects["Machining"].IsFinished,
-            "The electrical motor's prerequisites also synchronize machining");
+        Check(projects["HelodHighElectronics"].IsFinished && !projects["Machining"].IsFinished
+            && !projects["HelodNumericalControl"].IsFinished,
+            "Vanilla electricity reaches vacuum tubes but does not grant machining");
         Reset();
         Find.ResearchManager.FinishProject(projects["HelodTotalSynthesisMedicine"]);
-        Check(projects["MedicineProduction"].IsFinished && projects["MicroelectronicsBasics"].IsFinished
-            && projects["HelodTransistor"].IsFinished, "Medicine production also completes its vanilla microelectronics prerequisite");
+        Check(!projects["MedicineProduction"].IsFinished && !projects["MicroelectronicsBasics"].IsFinished
+            && !projects["HelodTransistor"].IsFinished && !projects["Electricity"].IsFinished,
+            "Early synthesis cannot complete medicine and pull in later electronic prerequisites");
+        Find.ResearchManager.FinishProject(projects["HelodTransistor"]);
+        Check(projects["MedicineProduction"].IsFinished,
+            "Synthesis and transistors together complete vanilla medicine production");
     }
 
     private static void ChainsAndRecovery()

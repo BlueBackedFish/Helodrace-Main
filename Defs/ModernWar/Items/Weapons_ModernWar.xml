@@ -193,7 +193,7 @@
       <skillRequirements>
         <Crafting>6</Crafting>
       </skillRequirements>
-      <researchPrerequisite>HelodMiniMotor</researchPrerequisite>
+      <researchPrerequisite>HelodNumericalControl</researchPrerequisite>
     </recipeMaker>
     <comps Inherit="False">
       <li><compClass>CompEquippable</compClass></li>
@@ -265,7 +265,7 @@
       <skillRequirements>
         <Crafting>6</Crafting>
       </skillRequirements>
-      <researchPrerequisite>HelodMiniMotor</researchPrerequisite>
+      <researchPrerequisite>HelodNumericalControl</researchPrerequisite>
       <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
     </recipeMaker>
     <verbs>

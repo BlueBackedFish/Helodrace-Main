@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HelodNumericalControl.label>수치제어</HelodNumericalControl.label>
-  <HelodNumericalControl.description>전자 제어 회로와 천공 테이프, 서보 구동 장치를 결합해 선반과 밀링기가 같은 가공 작업을 정밀하게 반복하도록 합니다.</HelodNumericalControl.description>
+  <HelodNumericalControl.description>소형 전동기와 서보 구동 장치를 개발하고 전자 제어 회로와 천공 테이프를 결합해 선반과 밀링기가 같은 가공 작업을 정밀하게 반복하도록 합니다.</HelodNumericalControl.description>
 </LanguageData>

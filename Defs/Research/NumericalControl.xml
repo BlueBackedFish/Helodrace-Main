@@ -3,8 +3,8 @@
   <ResearchProjectDef>
     <defName>HelodNumericalControl</defName>
     <label>numerical control</label>
-    <description>Combine electronic controllers, punched-tape instructions and servo drives to guide electric lathes and milling machines through repeatable machining operations.</description>
-    <baseCost>500</baseCost>
+    <description>Develop compact electric motors and servo drives, then combine them with electronic controllers and punched-tape instructions to guide electric lathes and milling machines through repeatable machining operations.</description>
+    <baseCost>1000</baseCost>
     <techLevel>Industrial</techLevel>
     <prerequisites><li>HelodHighElectronics</li><li>HelodMetalCuttingMachine</li></prerequisites>
     <tab>HelodTechTab</tab>

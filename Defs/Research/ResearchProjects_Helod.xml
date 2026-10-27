@@ -436,20 +436,6 @@
     </ResearchProjectDef>
 
     <ResearchProjectDef>
-        <defName>HelodMiniMotor</defName>
-        <label>The Compact Whir</label>
-        <description>MiniMotor For Machine Tools</description>
-        <baseCost>500</baseCost>
-        <techLevel>Industrial</techLevel>
-        <prerequisites>
-            <li>HelodBasicMotor</li>
-        </prerequisites>
-        <tab>HelodTechTab</tab>
-        <researchViewX>6.88</researchViewX>
-        <researchViewY>1.44</researchViewY>
-    </ResearchProjectDef>
-
-    <ResearchProjectDef>
         <defName>HelodHighElectronics</defName>
         <label>The Thermionic Age</label>
         <description>Vaccum tube, computer, Radio wave</description>
@@ -661,7 +647,7 @@
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodWireless</li>
-            <li>HelodMiniMotor</li>
+            <li>HelodNumericalControl</li>
             <li>HelodBasicModernRifle</li>
             <li>HelodHighExplosive</li>
         </prerequisites>

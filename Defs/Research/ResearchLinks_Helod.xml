@@ -4,6 +4,10 @@
   <!-- Either complete path satisfies the link. Every entry within a side is required.
        FinishProject also completes prerequisites; see Docs/LinkedResearch.md. -->
 
+  <!-- Vanilla electricity starts at thermionic electronics, machining at numerical
+       control, and microelectronics at transistors. Descendant links retain these
+       milestones so FinishProject cannot complete a later prerequisite too early. -->
+
   <!-- Foundations and industrial infrastructure. -->
   <Helodrace.ResearchLinkDef>
     <defName>HD_Link_FrontierFoundations</defName>
@@ -19,8 +23,7 @@
     <defName>HD_Link_Electricity</defName>
     <leftProjects><li>Electricity</li></leftProjects>
     <rightProjects>
-      <li>HelodBasicElectronics</li>
-      <li>HelodBasicMotor</li>
+      <li>HelodHighElectronics</li>
     </rightProjects>
   </Helodrace.ResearchLinkDef>
 
@@ -28,15 +31,17 @@
     <defName>HD_Link_Machining</defName>
     <leftProjects><li>Machining</li></leftProjects>
     <rightProjects>
-      <li>HelodMetalCuttingMachine</li>
-      <li>HelodMetalFormingMachine</li>
+      <li>HelodNumericalControl</li>
     </rightProjects>
   </Helodrace.ResearchLinkDef>
 
   <Helodrace.ResearchLinkDef>
     <defName>HD_Link_AirConditioning</defName>
     <leftProjects><li>AirConditioning</li></leftProjects>
-    <rightProjects><li>HelodHeatPump</li></rightProjects>
+    <rightProjects>
+      <li>HelodHeatPump</li>
+      <li>HelodHighElectronics</li>
+    </rightProjects>
   </Helodrace.ResearchLinkDef>
 
   <Helodrace.ResearchLinkDef>
@@ -55,26 +60,38 @@
   <Helodrace.ResearchLinkDef>
     <defName>HD_Link_MedicineProduction</defName>
     <leftProjects><li>MedicineProduction</li></leftProjects>
-    <rightProjects><li>HelodTotalSynthesisMedicine</li></rightProjects>
+    <rightProjects>
+      <li>HelodTotalSynthesisMedicine</li>
+      <li>HelodTransistor</li>
+    </rightProjects>
   </Helodrace.ResearchLinkDef>
 
   <Helodrace.ResearchLinkDef>
     <defName>HD_Link_SterileMaterials</defName>
     <leftProjects><li>SterileMaterials</li></leftProjects>
-    <rightProjects><li>HelodFirstAid</li></rightProjects>
+    <rightProjects>
+      <li>HelodFirstAid</li>
+      <li>HelodHighElectronics</li>
+    </rightProjects>
   </Helodrace.ResearchLinkDef>
 
   <!-- Infantry weapons, artillery and protection. -->
   <Helodrace.ResearchLinkDef>
     <defName>HD_Link_Gunsmithing</defName>
     <leftProjects><li>Gunsmithing</li></leftProjects>
-    <rightProjects><li>HelodBoltAction</li></rightProjects>
+    <rightProjects>
+      <li>HelodBoltAction</li>
+      <li>HelodNumericalControl</li>
+    </rightProjects>
   </Helodrace.ResearchLinkDef>
 
   <Helodrace.ResearchLinkDef>
     <defName>HD_Link_BlowbackOperation</defName>
     <leftProjects><li>BlowbackOperation</li></leftProjects>
-    <rightProjects><li>HelodSamiAutomaticPistol</li></rightProjects>
+    <rightProjects>
+      <li>HelodSamiAutomaticPistol</li>
+      <li>HelodNumericalControl</li>
+    </rightProjects>
   </Helodrace.ResearchLinkDef>
 
   <Helodrace.ResearchLinkDef>
@@ -83,6 +100,7 @@
     <rightProjects>
       <li>HelodBasicModernRifle</li>
       <li>HelodHighMachineGun</li>
+      <li>HelodNumericalControl</li>
     </rightProjects>
   </Helodrace.ResearchLinkDef>
 
@@ -92,25 +110,36 @@
     <rightProjects>
       <li>HelodSniperRifle</li>
       <li>HelodLowAutomaticRifle</li>
+      <li>HelodNumericalControl</li>
+      <li>HelodTransistor</li>
     </rightProjects>
   </Helodrace.ResearchLinkDef>
 
   <Helodrace.ResearchLinkDef>
     <defName>HD_Link_Mortars</defName>
     <leftProjects><li>Mortars</li></leftProjects>
-    <rightProjects><li>HelodLowLightArtillery</li></rightProjects>
+    <rightProjects>
+      <li>HelodLowLightArtillery</li>
+      <li>HelodNumericalControl</li>
+    </rightProjects>
   </Helodrace.ResearchLinkDef>
 
   <Helodrace.ResearchLinkDef>
     <defName>HD_Link_FlakArmor</defName>
     <leftProjects><li>FlakArmor</li></leftProjects>
-    <rightProjects><li>HelodFlakJacket</li></rightProjects>
+    <rightProjects>
+      <li>HelodFlakJacket</li>
+      <li>HelodNumericalControl</li>
+    </rightProjects>
   </Helodrace.ResearchLinkDef>
 
   <Helodrace.ResearchLinkDef>
     <defName>HD_Link_MultibarrelWeapons</defName>
     <leftProjects><li>MultibarrelWeapons</li></leftProjects>
-    <rightProjects><li>HelodAntiAirMachineGun</li></rightProjects>
+    <rightProjects>
+      <li>HelodAntiAirMachineGun</li>
+      <li>HelodTransistor</li>
+    </rightProjects>
   </Helodrace.ResearchLinkDef>
 
 </Defs>

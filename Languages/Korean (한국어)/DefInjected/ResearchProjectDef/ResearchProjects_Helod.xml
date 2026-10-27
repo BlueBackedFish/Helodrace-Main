@@ -92,9 +92,6 @@
   <HelodSamiAutomaticPistol.label>한 번 당기면 한 발</HelodSamiAutomaticPistol.label>
   <HelodSamiAutomaticPistol.description>반자동 권총과 휘트모어 장비로 대표되는 속사 화기 기술을 연구합니다.</HelodSamiAutomaticPistol.description>
 
-  <HelodMiniMotor.label>작은 회전의 시대</HelodMiniMotor.label>
-  <HelodMiniMotor.description>공작 기계에 사용할 수 있는 소형 전동기 기술을 연구합니다.</HelodMiniMotor.description>
-
   <HelodHighElectronics.label>진공관의 시대</HelodHighElectronics.label>
   <HelodHighElectronics.description>진공관, 계산 장치, 전파 기술을 다루는 고급 전자공학을 연구합니다.</HelodHighElectronics.description>
 
