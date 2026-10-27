@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <WorkGiverDef>
+    <defName>DoBillsHD_CNCLathe</defName>
+    <label>use early CNC lathe</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs><li>HD_CNCLathe</li></fixedBillGiverDefs>
+    <verb>machine</verb><gerund>machining at</gerund>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+  </WorkGiverDef>
+  <WorkGiverDef>
+    <defName>DoBillsHD_CNCMillingMachine</defName>
+    <label>use early CNC milling machine</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs><li>HD_CNCMillingMachine</li></fixedBillGiverDefs>
+    <verb>machine</verb><gerund>machining at</gerund>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+  </WorkGiverDef>
+</Defs>

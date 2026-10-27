@@ -1,0 +1,72 @@
+{
+  "asset": "HD_CNCMillingMachine",
+  "footprint": [
+    3,
+    2
+  ],
+  "features": [
+    "1950s knee-type numerical-control milling machine",
+    "exposed table, vise, spindle and broad T slots",
+    "servo feed drives and separate tape/analog cabinet",
+    "no modern enclosed machining-center shell"
+  ],
+  "mesh_objects": 53,
+  "design_period": "circa 1955-1959 early numerical control",
+  "texture_resolution": [
+    768,
+    768
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "orthographic_scale": 4.5,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    4.5,
+    4.5
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "camera_target": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 119,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 75,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 131,
+      "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 48,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false,
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "0c9bd726c5732f948ee73d30c54092193978d914a74ace59ea73a4c6779d85b1",
+  "rotation_export_geometry_palette_sha256": "0c9bd726c5732f948ee73d30c54092193978d914a74ace59ea73a4c6779d85b1",
+  "definition": "Defs/ColdWar/Buildings/NumericalControl.xml",
+  "gameplay_fields_preserved_sha256": "5067a47b19a84edc34ac852fe4bcc4ac6b119d0046c232c0fd429408ea6f35ef"
+}

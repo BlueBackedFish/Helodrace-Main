@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <DoBillsHD_CNCLathe.label>초기 CNC 선반 사용</DoBillsHD_CNCLathe.label>
+  <DoBillsHD_CNCLathe.verb>가공</DoBillsHD_CNCLathe.verb>
+  <DoBillsHD_CNCLathe.gerund>가공 중</DoBillsHD_CNCLathe.gerund>
+  <DoBillsHD_CNCMillingMachine.label>초기 CNC 밀링기 사용</DoBillsHD_CNCMillingMachine.label>
+  <DoBillsHD_CNCMillingMachine.verb>가공</DoBillsHD_CNCMillingMachine.verb>
+  <DoBillsHD_CNCMillingMachine.gerund>가공 중</DoBillsHD_CNCMillingMachine.gerund>
+</LanguageData>

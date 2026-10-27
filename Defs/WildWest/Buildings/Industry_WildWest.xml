@@ -1577,6 +1577,8 @@
           <li>HD_TreadleLathe</li>
           <li>HD_LineShaftTurretLathe</li>
           <li>HD_LineShaftMillingMachine</li>
+          <li>HD_CNCLathe</li>
+          <li>HD_CNCMillingMachine</li>
         </linkableFacilities>
       </li>
     </comps>
@@ -1645,6 +1647,8 @@
           <li>HD_TreadleLathe</li>
           <li>HD_LineShaftTurretLathe</li>
           <li>HD_LineShaftMillingMachine</li>
+          <li>HD_CNCLathe</li>
+          <li>HD_CNCMillingMachine</li>
         </linkableFacilities>
       </li>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponWorkbench" />
