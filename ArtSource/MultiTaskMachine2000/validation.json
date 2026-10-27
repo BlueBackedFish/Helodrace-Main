@@ -1,0 +1,73 @@
+{
+  "asset": "HD_MultiTaskMachine2000",
+  "footprint": [
+    4,
+    3
+  ],
+  "features": [
+    "2000s wide enclosed mill-turn center",
+    "opposed main and travelling subspindle chucks",
+    "large angled B-axis milling head over common stock",
+    "partial sliding guards and broad screen control",
+    "central roof service opening is fixed geometry in every view"
+  ],
+  "mesh_objects": 51,
+  "design_period": "circa 2000-2008 B-axis mill-turn machining center",
+  "texture_resolution": [
+    1024,
+    1024
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "orthographic_scale": 6.0,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    6.0,
+    6.0
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "camera_target": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 157,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 68,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 157,
+      "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 67,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false,
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "560bb6211375f4aff5d97fba40c68c149371d194f0558fff28096a41b25b78c9",
+  "rotation_export_geometry_palette_sha256": "560bb6211375f4aff5d97fba40c68c149371d194f0558fff28096a41b25b78c9",
+  "definition": "Defs/ModernWar/Buildings/MultiTaskMachine2000.xml",
+  "gameplay_fields_preserved_sha256": "a5545ecc903f469698a3290d789fbcea2de8219f5408ce1603fd5bcc94369511"
+}

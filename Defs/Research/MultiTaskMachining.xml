@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ResearchProjectDef>
+    <defName>HelodMultiTaskMachining</defName>
+    <label>integrated mill-turn machining</label>
+    <description>Combine opposed work spindles and an articulated milling head in an enclosed computer-controlled machine for turning and milling operations in one setup.</description>
+    <baseCost>1500</baseCost>
+    <techLevel>Industrial</techLevel>
+    <prerequisites><li>HelodIndustrialAutomation</li></prerequisites>
+    <tab>HelodTechTab</tab>
+    <researchViewX>17</researchViewX>
+    <researchViewY>7.2</researchViewY>
+  </ResearchProjectDef>
+</Defs>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HelodIndustrialAutomation.label>산업 자동화</HelodIndustrialAutomation.label>
+  <HelodIndustrialAutomation.description>자동 공구교환 장치를 갖춘 머시닝 센터와 전기 제어식 유압 성형 설비를 개발해 금속 가공의 생산성과 반복 정밀도를 높입니다.</HelodIndustrialAutomation.description>
+  <HelodMultiTaskMachining.label>복합 가공</HelodMultiTaskMachining.label>
+  <HelodMultiTaskMachining.description>양쪽 주축과 기울어지는 밀링 헤드를 하나의 밀폐형 컴퓨터 제어 공작기계에 통합해, 한 번의 설치로 선삭과 밀링을 수행합니다.</HelodMultiTaskMachining.description>
+</LanguageData>

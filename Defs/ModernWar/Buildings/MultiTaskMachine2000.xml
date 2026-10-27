@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Defs>
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_MultiTaskMachine2000</defName>
+    <label>2000s multi-tasking machine</label>
+    <description>An enclosed mill-turn center with opposed work spindles and an angled B-axis milling head. Performs turning and milling jobs in one worktable and serves as both facilities for firearm assembly. Requires electricity and an operator.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Buildings/HD_MultiTaskMachine2000</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(6,6)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.65</fillPercent>
+    <statBases>
+      <MaxHitPoints>560</MaxHitPoints>
+      <WorkToBuild>12000</WorkToBuild>
+      <Flammability>0.2</Flammability>
+      <Mass>650</Mass>
+      <WorkTableWorkSpeedFactor>5</WorkTableWorkSpeedFactor>
+    </statBases>
+    <costList>
+      <Steel>260</Steel>
+      <HD_CarbonSteel>100</HD_CarbonSteel>
+      <HD_GeneralMachinePart>16</HD_GeneralMachinePart>
+      <HD_UniformRolledSteelPlate>24</HD_UniformRolledSteelPlate>
+      <HD_BasicElectricalComponents>12</HD_BasicElectricalComponents>
+      <HD_BasicElectronicComponents>12</HD_BasicElectronicComponents>
+      <ComponentIndustrial>20</ComponentIndustrial>
+    </costList>
+    <size>(4,3)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <rotatable>true</rotatable>
+    <tickerType>Rare</tickerType>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2374</uiOrder>
+    <constructionSkillPrerequisite>11</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>6500</basePowerConsumption>
+        <shortCircuitInRain>true</shortCircuitInRain>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Facility">
+        <maxSimultaneous>1</maxSimultaneous>
+        <maxDistance>6</maxDistance>
+      </li>
+      <li Class="Helodrace.CompProperties_OperatingHeatPusher">
+        <heatPerSecond>8</heatPerSecond>
+        <heatPushMaxTemperature>70</heatPushMaxTemperature>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
+    <modExtensions>
+      <li Class="Helodrace.MachineToolFacilityExtension">
+        <latheTier>4</latheTier>
+        <millingTier>4</millingTier>
+      </li>
+    </modExtensions>
+    <building>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
+    <researchPrerequisites>
+      <li>HelodMultiTaskMachining</li>
+    </researchPrerequisites>
+    <recipes>
+      <li>HD_MakeShaft</li>
+      <li>HD_TurnGeneralMachinePart</li>
+      <li>HD_TurnGeneralMachinePartBulk5</li>
+      <li>HD_TurnGeneralMachinePartBulk10</li>
+      <li>HD_MakeLowQualityBarrel</li>
+      <li>HD_MakeShotgunBarrel</li>
+      <li>HD_MakeWildWestBarrel</li>
+      <li>HD_MillGeneralMachinePart</li>
+      <li>HD_MillGeneralMachinePartBulk5</li>
+      <li>HD_MillGeneralMachinePartBulk10</li>
+    </recipes>
+  </ThingDef>
+</Defs>
