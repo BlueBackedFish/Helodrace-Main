@@ -10,6 +10,7 @@ DIMENSIONS=json.loads((ROOT/'scale_reference.json').read_text())
 STYLE=json.loads((ROOT/'art_style.json').read_text())
 sys.path.insert(0,str(ROOT.parent/'PropAssets'))
 import surface_paint as paint
+import m2_detail
 PALETTE=dict(metal=(79,86,84),cover=(103,111,106),dark=(37,44,42),fde=tuple(STYLE['fde_rgb']),ammo=tuple(STYLE['fde_rgb']),wood=(102,75,48),brass=(173,142,73),copper=(145,102,68),link=(43,48,43),canvas=(104,99,70),mount=tuple(STYLE['mount_fde_rgb']))
 # Original hinge pin, parallel to Y. The source lid is opened 154 degrees.
 AMMO_HINGE=Vector((.4073,.2142,-.1239))
@@ -177,6 +178,7 @@ def make(kind,relative):
         for tone,factor in [('top',1.0),('edge',.79),('underside',.60)]:
             materials[key+'_'+tone]=material(key+'_'+tone,tuple(round(c*factor) for c in rgb))
     for key,rgb in paint.palette().items():materials['paint_'+key]=material('paint_'+key,rgb)
+    for key,rgb in m2_detail.PALETTE.items():materials['m2_'+key]=material('m2_'+key,rgb)
     keys=list(materials)
     for record in records:
         grouped=defaultdict(list)
@@ -210,6 +212,9 @@ def make(kind,relative):
                     # The closed lid is mounted on the box, not a global Z rank.
                     role='lid' if pose=='ammo_lid' or kind=='M1917' and surface=='top' else 'equipment'
                     key='paint_'+role+'_'+surface
+                if kind=='M2HB':
+                    if layer=='barrel':key='m2_'+m2_detail.barrel(p.center,p.normal,'M2HB')
+                    elif record['name']=='Body_M2' and f['flat'] and category=='metal':key='m2_'+m2_detail.sleeve(p.center,p.normal,'M2HB')
                 p.material_index=keys.index(key)
             obj=bpy.data.objects.new(record['name']+' / '+pose,mesh);scene.collection.objects.link(obj);obj['layer']=layer;obj['pose']=pose;obj['source_object']=record['name'];obj['source_transform']=sum((list(row) for row in matrix),[])
     meshes=[o for o in scene.objects if o.type=='MESH'];gun=[v.co for o in meshes if o['layer']!='mount' for v in o.data.vertices];stand=[v.co for o in meshes if o['layer']=='mount' for v in o.data.vertices]
@@ -236,8 +241,12 @@ def make(kind,relative):
         source_objects=[dict(name=r['name'],vertices=r['source_vertices'],faces=r['source_faces']) for r in records],
         parts=[dict(name=o.name,source_object=o['source_object'],layer=o['layer'],pose=o['pose'],vertices=len(o.data.vertices),faces=len(o.data.polygons)) for o in meshes])
     (folder/'metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
+    if kind=='M2HB':(folder/'detail_paint.json').write_text(json.dumps(m2_detail.report('M2HB'),indent=2)+'\n')
     (OUT/'paint_validation.json').write_text(json.dumps(paint.report(),indent=2)+'\n')
 
 if __name__=='__main__':
-    make('M2HB','browning-m2/M2/M2.blend');make('M1917','browning-m1917/source/browning m1917.fbx')
+    import argparse
+    parser=argparse.ArgumentParser();parser.add_argument('--kind',choices=['M2HB','M1917','both'],default='both');args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else [])
+    if args.kind in ['M2HB','both']:make('M2HB','browning-m2/M2/M2.blend')
+    if args.kind in ['M1917','both']:make('M1917','browning-m1917/source/browning m1917.fbx')
     print('HMG_EXT_MODELS_PASS',flush=True)

@@ -1,6 +1,8 @@
 # M2HB · M1917 교체 아트
 
-FDE 색상 계열은 유지하고 `../VEHICLE_ART_STYLE.md`의 부품·표면별 채색 규칙을 적용했다. 탄통은 상면·정면·측면·바닥의 고정색으로 구분하고, 탄통 바로 위에 닫힌 뚜껑은 상면보다 표시 명도 약 24단계 밝게 한다. 삼각대·크래들은 어두운 지지부 색을 쓰며 원통 다리의 원주 전체가 같은 색이다. M1917 수랭 재킷도 원주 전체 단색을 유지하고 축 방향 끝면만 별색으로 구분한다. 어두워진 도색 면은 차량과 같은 표시 명도 기반 채도 감소를 적용한다. 목재·탄피·탄두·탄띠의 고유색, 총열의 단색 금속 표현은 유지한다.
+FDE 색상 계열은 유지하고 `../VEHICLE_ART_STYLE.md`의 부품·표면별 채색 규칙을 적용했다. 탄통은 상면·정면·측면·바닥의 고정색으로 구분하고, 탄통 바로 위에 닫힌 뚜껑은 상면보다 표시 명도 약 24단계 밝게 한다. 삼각대·크래들은 어두운 지지부 색을 쓰며 원통 다리의 원주 전체가 같은 색이다. M1917 수랭 재킷도 원주 전체 단색을 유지하고 축 방향 끝면만 별색으로 구분한다. 어두워진 도색 면은 차량과 같은 표시 명도 기반 채도 감소를 적용한다. 목재·탄피·탄두·탄띠의 고유색을 유지한다.
+
+M2HB 방열 슬리브의 외피·구멍 벽/안쪽 총열은 각각 다른 고정 금속색이다. 원본 메시의 실제 구멍을 통해 어두운 내부가 보이게 하며 구멍을 새로 그려 붙이지 않는다. 총열은 원본 정점 링에서 확인한 굵은 기부·단차·가늘어지는 긴 구간·총구를 별색으로 구분한다. 각 축 방향 구간의 원주 전체는 단색이며 조명 그라데이션을 넣지 않는다. 위치·팔레트는 `../PropAssets/m2_detail.json`, 분류는 `m2_detail.py`, 최종 출력 확인은 `review_m2_detail.py`에 있다. `output/M2HB/detail_paint.json`에 적용 설정을 저장한다.
 
 공유 고정 팔레트와 부품 간 장착 대비는 `../PropAssets/weapon_paint.json`, 계산은 `../PropAssets/surface_paint.py`에서 관리한다. FDE의 기준 색상 `(143,123,92)`에서 색상 계열을 가져오되 최종 면색은 역할별로 다르다. 지지부/상단 캡/장비 상면/뚜껑의 표시 명도 기준은 118/142/170/194이다. 모든 부품의 월드 높이를 정렬하거나 조명으로 명암을 만들지 않는다. 실제 출력 팔레트는 `output/paint_validation.json`에 기록한다.
 
@@ -41,6 +43,8 @@ python ArtSource/HeavyMachineGuns/validate_rotation.py
 python ArtSource/HeavyMachineGuns/verify_registration.py
 python ArtSource/HeavyMachineGuns/deploy.py
 ```
+
+M2만 다시 만들 때는 Blender 명령 끝에 `-- --kind M2HB`를 붙인다. M1917은 다시 저장하지 않는다. 두 M2 자산을 출력한 뒤 `python ArtSource/PropAssets/review_m2_detail.py --baseline 17ab00d8`로 이전 실루엣 유지와 실제 출력의 방열구멍·단차 색을 확인할 수 있다.
 
 `output/{M2HB,M1917}/model.blend`가 편집 가능한 모델이며 `metadata.json`에 원본 경로·SHA256과 배율을 기록한다. `*_raw.png`는 무윤곽 원본, `output/Runtime`의 7개 PNG는 게임용 파일이다. `model_validation.json`은 실제 원본의 모든 면·꼭짓점·UV 대조 결과, `registration_validation.json`은 게임 등록·반동값·다른 정의 보존 검사 결과다.
 

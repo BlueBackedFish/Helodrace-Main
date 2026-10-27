@@ -18,7 +18,6 @@
       "visible_gun_length_tiles": 2.1421875,
       "relative_length_to_m2": 1.0,
       "uniform_surface_color_counts": {
-        "barrel": 1,
         "tripod": 1
       },
       "vehicle_paint": {

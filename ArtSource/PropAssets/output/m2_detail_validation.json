@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "baseline": "17ab00d8",
+  "unchanged_alpha_images": 35,
+  "unchanged_non_target_images": [
+    "ArtSource/CROWSII/output/frame_raw.png",
+    "ArtSource/CROWSII/output/base_raw.png",
+    "ArtSource/HeavyMachineGuns/output/M1917/gun_raw.png",
+    "ArtSource/HeavyMachineGuns/output/M1917/mount_raw.png",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMG_Top.png",
+    "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMGUI.png"
+  ],
+  "pixel_validation": {
+    "M2HB": {
+      "sleeve_outer_pixels": 6969,
+      "vent_interior_pixels": 3448,
+      "distinct_detail_pixels": {
+        "barrel_root": 2429,
+        "barrel_shoulder": 1839,
+        "barrel_taper": 15028,
+        "muzzle": 1676
+      },
+      "runtime_detail_pixels": {
+        "sleeve_outer": 5744,
+        "recess": 503,
+        "barrel_taper": 2871
+      }
+    },
+    "CROWS": {
+      "sleeve_outer_pixels": 9932,
+      "vent_interior_pixels": 2537,
+      "distinct_detail_pixels": {
+        "barrel_root": 142,
+        "barrel_shoulder": 296,
+        "barrel_taper": 13019,
+        "muzzle": 1918,
+        "cover": 27556,
+        "sight": 1698,
+        "fastener": 392
+      },
+      "runtime_detail_pixels": {
+        "sleeve_outer": 1983,
+        "recess": 412,
+        "barrel_taper": 2583
+      }
+    }
+  },
+  "geometry_validation": "HMG source face/vertex/UV comparison and CROWS inline source comparison passed",
+  "in_game_tested": false
+}

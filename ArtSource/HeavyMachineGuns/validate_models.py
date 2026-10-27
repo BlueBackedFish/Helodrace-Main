@@ -41,7 +41,7 @@ for kind in ['M2HB','M1917']:
             assert set(face['uv'])=={uv.name for uv in o.data.uv_layers}
             material=o.data.materials[p.material_index];paint_counts[material.name]+=1
             color=tuple(round(c,6) for c in next(n for n in material.node_tree.nodes if n.type=='EMISSION').inputs[0].default_value)
-            target='tripod' if o['layer']=='mount' else 'barrel' if kind=='M2HB' and o['layer']=='barrel' else 'water_jacket_side' if o.data.attributes['water_jacket_side'].data[p.index].value else None
+            target='tripod' if o['layer']=='mount' else 'water_jacket_side' if o.data.attributes['water_jacket_side'].data[p.index].value else None
             if target:flat_colors[target].add(color)
             if material.name.startswith('paint_'):
                 expected=paint.palette()[material.name.removeprefix('paint_')]

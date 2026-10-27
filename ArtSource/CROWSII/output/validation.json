@@ -41,14 +41,14 @@
         767
       ],
       "minimum_margin": 60,
-      "sha256": "8c6671ac14f6e23e3b53af7330342ca8b347aa6c86284fbc7e6c3f80588383f9"
+      "sha256": "40fbdf113e674bef3a8191d35e06065ff9e0aff5ab051dc56e42e5b8be2a6cdd"
     },
     "HD_CROWSII_M2_TurretTop.png": {
       "size": [
         1024,
         1024
       ],
-      "sha256": "00cb462abcb4214ba31fc17d6a5c97d42a5d47b3558c5ed2ce395c94c1301b9b",
+      "sha256": "3d7d2742ec98073293d0aaa0b3492c7cb50d391aab4b7fac43f005141af3800e",
       "muzzle_axis": "+X for native TurretTop -90-degree artwork rotation"
     },
     "HD_CROWSII_M2Body.png": {
@@ -56,7 +56,7 @@
         1024,
         1024
       ],
-      "sha256": "55340ad399689ac3f6ec2522ccd5c5eaac539d0031ddfd5f38419096bcf1a34b",
+      "sha256": "4ffe7d6d26fc2c32df561c4a059db9b6f4951fad6ca2cca29ac650eb02f9d6b4",
       "shared_gun_outline": true
     },
     "HD_CROWSII_M2Barrel.png": {
@@ -64,7 +64,7 @@
         1024,
         1024
       ],
-      "sha256": "acf621726b83be5b789751082e5564eb37ebee52c81d58540e3cd447b0b3773e",
+      "sha256": "64b658c8c1c2af9a8de4aaa817dd524431ba0c94e93fb50e140842cd3659cd56",
       "shared_gun_outline": true
     },
     "HD_CROWSII_M2_north.png": {
@@ -79,7 +79,7 @@
         619
       ],
       "minimum_margin": 44,
-      "sha256": "2b3dcf466be91c3ca00f30ac5e75ba72a7e49299eda3d35f891aa40d60caba3d"
+      "sha256": "aba9bdb771df0d6692b361ea36f91a4532dcea94cba3c8cdb8871a4f7a32a1b3"
     },
     "HD_CROWSII_M2_east.png": {
       "size": [
@@ -93,7 +93,7 @@
         643
       ],
       "minimum_margin": 110,
-      "sha256": "bafea99b2493c1e36fa2b20059b4ec360a66997e181421642919dfe139d65a02"
+      "sha256": "d584c8390c9c4e2fc21e8bbd8fd4ac00cacd913bd83997b61966afedc9b8a250"
     },
     "HD_CROWSII_M2_south.png": {
       "size": [
@@ -107,7 +107,7 @@
         775
       ],
       "minimum_margin": 195,
-      "sha256": "ee6e70d2c61b980efec2ee2baec3a724110255c459a00284334577e48725a3a7"
+      "sha256": "b5e24d7a5618d33c0275a115f7a86647f44dcfb2856df0421582a5a522dce2c4"
     },
     "HD_CROWSII_M2_west.png": {
       "size": [
@@ -121,7 +121,7 @@
         659
       ],
       "minimum_margin": 110,
-      "sha256": "47eb4a5939d376960b7c4b13ff3c5a4a72be3c6b123c6a921b9046c8765b64aa"
+      "sha256": "84ac2f6501e53378f9f78d5a1620acfc86f96c76aaddab69766994f424f37001"
     },
     "HD_CROWSII_M2_UI.png": {
       "size": [
@@ -135,7 +135,7 @@
         987
       ],
       "minimum_margin": 36,
-      "sha256": "63f20cb72740980326f1e8755012ee9ae1f496403ee6a94f71f8ce0c22f21b0c"
+      "sha256": "d0d557207e5e066d157a5c3c21f0d48dc6bc454004f2b76e54e4b4d5f712b0aa"
     }
   },
   "source": {

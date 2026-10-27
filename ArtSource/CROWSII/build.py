@@ -6,6 +6,7 @@ from mathutils import Vector,Matrix
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'output';OUT.mkdir(parents=True,exist_ok=True)
 sys.path.insert(0,str(ROOT.parent/'PropAssets'));import modeling as m
 import surface_paint as surfaces
+import m2_detail
 EXT=Path(os.environ.get('HELODRACE_REFERENCE_EXT',str(Path.home()/'Downloads/Dagor-Asset-Explorer-1.0.0/Dagor-Asset-Explorer-1.0.0/ext')))
 SOURCE=EXT/'machine gun/m153-crows-untextured/source/M153 CROWS bevel.fbx'
 scene=m.start();bpy.ops.import_scene.fbx(filepath=str(SOURCE))
@@ -56,10 +57,14 @@ transform=Matrix.Diagonal((scale,scale,scale,1))@Matrix.Translation(-pivot)
 bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
 palette={name:m.material(name,rgb) for name,rgb in dict(fde=(143,123,92),fde_dark=(117,101,75),fde_lid=(153,132,99),fde_inset=(130,111,84),metal=(79,86,84),rubber=(34,40,38),feed=(48,56,52),fastener=(102,108,100),glass=(29,43,46),glass_inner=(44,65,69),glass_mark=(72,96,98)).items()}
 palette.update({'paint_'+name:m.material('paint_'+name,rgb) for name,rgb in surfaces.palette().items()});keys=list(palette)
+palette.update({'m2_'+name:m.material('m2_'+name,rgb) for name,rgb in m2_detail.PALETTE.items()});keys=list(palette)
 # These are authored source component selections, not geometry simplification.
 # Broad box/platform planes have direction roles. All other small rounded
 # mechanisms remain single-color; no normal gradient is applied to cylinders.
 PLANAR_COMPONENTS={917:'equipment',2413:'equipment',2503:'equipment',2602:'equipment',2996:'support',3162:'equipment',3902:'support_cap',4000:'equipment',4242:'lid',4372:'equipment',4611:'equipment',5112:'equipment',5255:'equipment',5424:'equipment',5581:'support_cap',6403:'equipment'}
+# Source .50CAL connected components inspected against their actual bounds:
+# upper cover/rear cover, feed cover, rear/front sights, charging handle/pins.
+M2_COMPONENT_ROLES={5090:'cover',2812:'cover',3757:'cover',4503:'sight',4766:'sight',4277:'sight',833:'handle',955:'handle',2690:'handle',3195:'handle',672:'fastener',3017:'fastener',3131:'fastener',5318:'fastener'}
 for r in records:
     grouped=defaultdict(list)
     for f in r['faces']:grouped[f['layer']].append(f)
@@ -75,10 +80,13 @@ for r in records:
                     key='paint_support_cap_top' if p.normal.z>.96 else 'paint_support_top'
                 elif group in PLANAR_COMPONENTS:key='paint_'+PLANAR_COMPONENTS[group]+'_'+surfaces.face(p.normal)
                 else:key='paint_support_cap_top'
+            elif r['name']=='.50CAL SLEEVE':key='m2_'+m2_detail.sleeve(p.center,p.normal,'CROWS')
+            elif r['name']=='.50CAL BARREL':key='m2_'+m2_detail.barrel(p.center,p.normal,'CROWS')
             elif r['name']=='.50CAL' and key=='metal':
-                # M2 receiver planes retain steel; its sleeve/barrel stay uniform.
-                surface=surfaces.face(p.normal)
-                key='paint_'+('metal' if surface=='top' else 'metal_front' if surface in ['front','rear'] else 'metal_side' if surface=='side' else 'metal_bottom')
+                role=M2_COMPONENT_ROLES.get(group,'receiver')
+                if p.normal.z<-.65:role='recess'
+                elif p.normal.z<.65 and role in ['receiver','cover']:role='receiver_wall' if role=='receiver' else 'cover_wall'
+                key='m2_'+role
             p.material_index=keys.index(key)
         for name in faces[0]['uv']:
             uv=mesh.uv_layers.new(name=name)
@@ -121,3 +129,5 @@ meta=dict(source=str(SOURCE),source_sha256=hashlib.sha256(SOURCE.read_bytes()).h
 (OUT/'metadata.json').write_text(json.dumps(meta,indent=2)+'\n');print('CROWS_MODEL_PASS: source M153 and mounted M2 geometry/UVs preserved; fixed FDE emission',flush=True)
 report=surfaces.report();report['planar_source_components']=PLANAR_COMPONENTS
 (OUT/'paint_validation.json').write_text(json.dumps(report,indent=2)+'\n')
+report=m2_detail.report('CROWS');report['receiver_component_roles']=M2_COMPONENT_ROLES
+(OUT/'detail_paint.json').write_text(json.dumps(report,indent=2)+'\n')

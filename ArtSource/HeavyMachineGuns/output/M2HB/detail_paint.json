@@ -1,0 +1,92 @@
+{
+  "palette": {
+    "sleeve_outer": [
+      103,
+      111,
+      106
+    ],
+    "sleeve_rim": [
+      78,
+      87,
+      81
+    ],
+    "recess": [
+      25,
+      32,
+      29
+    ],
+    "barrel_root": [
+      96,
+      105,
+      99
+    ],
+    "barrel_shoulder": [
+      120,
+      128,
+      121
+    ],
+    "barrel_taper": [
+      65,
+      74,
+      70
+    ],
+    "muzzle": [
+      94,
+      103,
+      97
+    ],
+    "receiver": [
+      79,
+      86,
+      84
+    ],
+    "receiver_wall": [
+      55,
+      62,
+      60
+    ],
+    "cover": [
+      109,
+      118,
+      111
+    ],
+    "cover_wall": [
+      79,
+      88,
+      81
+    ],
+    "sight": [
+      126,
+      135,
+      127
+    ],
+    "fastener": [
+      99,
+      108,
+      101
+    ],
+    "handle": [
+      92,
+      101,
+      95
+    ]
+  },
+  "profile": {
+    "axis_xz": [
+      0,
+      0.1247
+    ],
+    "sleeve_range_y": [
+      0.0656,
+      0.3187
+    ],
+    "vent_range_y": [
+      0.1106,
+      0.2965
+    ],
+    "root_end_y": 0.3754,
+    "shoulder_end_y": 0.4247,
+    "muzzle_start_y": 0.9748
+  },
+  "note": "Fixed material roles; actual source apertures, inward cut walls and axial shoulders; no cylindrical light gradient or geometry change"
+}
