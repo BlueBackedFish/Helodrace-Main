@@ -556,8 +556,8 @@
     <graphicData>
       <texPath>Buildings/HD_BatchStill</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(3.5,3.5)</drawSize>
-      <drawOffset>(0,0,0.1)</drawOffset>
+      <drawSize>(4.5,4.5)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
         <volume>(1.8, 0.5, 1.8)</volume>
@@ -586,7 +586,7 @@
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(-1,0,-2)</interactionCellOffset>
     <surfaceType>Item</surfaceType>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2300</uiOrder>
     <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
