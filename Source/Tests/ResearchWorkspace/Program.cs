@@ -217,17 +217,25 @@ internal static class Program
     {
         int top = cells.Values.Min(c => c.Row);
         var starts = sections.Select(s => s.Element("projects").Elements("li").Min(e => cells[projects[e.Value]].Column)).Distinct().ToList();
+        var disciplines = XDocument.Load("Defs/Research/ResearchDisciplines_Helod.xml").Root.Elements().ToList();
+        var scienceStarts = disciplines.Select(d => d.Element("projects").Elements("li").Min(e => cells[projects[e.Value]].Row)).Distinct().ToList();
+        Func<int, float> scienceOffset = row => 160 * scienceStarts.Count(r => r > top && r <= row);
         var boxes = projects.Values.ToDictionary(p => p, p => new ResearchBox(
             84 + cells[p].Column * 320 + 200 * starts.Count(c => c > 0 && c <= cells[p].Column),
-            212 + (cells[p].Row - top) * 156,
+            212 + (cells[p].Row - top) * 156 + scienceOffset(cells[p].Row),
             264 + cells[p].Column * 320 + 200 * starts.Count(c => c > 0 && c <= cells[p].Column),
-            296 + (cells[p].Row - top) * 156));
+            296 + (cells[p].Row - top) * 156 + scienceOffset(cells[p].Row)));
         var obstacles = boxes.Values.Select(b => new ResearchBox(b.Left - 8, b.Top - 8, b.Right + 8, b.Bottom + 8)).ToList();
         foreach (var section in sections)
         {
             var members = section.Element("projects").Elements("li").Select(e => boxes[projects[e.Value]]).ToList();
             float y = members.Min(b => b.Top) - 60;
             obstacles.Add(new ResearchBox(members.Min(b => b.Left) - 64, y, members.Max(b => b.Right) + 64, y + 38));
+        }
+        foreach (var discipline in disciplines)
+        {
+            float y = discipline.Element("projects").Elements("li").Min(e => boxes[projects[e.Value]].Top) - 92;
+            obstacles.Add(new ResearchBox(12, y, 332, y + 52));
         }
         var ports = boxes.Values.SelectMany(b => new[] { new ResearchPoint(b.Right + 8, (b.Top + b.Bottom) / 2),
             new ResearchPoint(b.Left - 8, (b.Top + b.Bottom) / 2) });
@@ -265,11 +273,13 @@ internal static class Program
             "Reference captures the pre-17:59 layout without reviving the merged motor research");
         int[] lower = { 0, 3, 6, 8, 11, 13, 16 }, upper = { 2, 5, 7, 10, 12, 15, 18 };
         var authored = new Dictionary<string, ResearchCell>();
+        var chemistry = new HashSet<string> { "HelodTotalSynthesisMedicine", "HelodFirstAid", "HelodChokingAgent",
+            "HelodHaberBosch", "HelodBlisterAgent", "HelodHighExplosive" };
         foreach (var pair in race)
         {
             Check((float)pair.Value.Element("researchViewX") == (float)reference[pair.Key].Attribute("x")
-                && (float)pair.Value.Element("researchViewY") == (float)reference[pair.Key].Attribute("y"),
-                "Authored column and branch lane match e3df9983: " + pair.Key);
+                && Math.Abs((float)pair.Value.Element("researchViewY") - ((float)reference[pair.Key].Attribute("y") + (chemistry.Contains(pair.Key) ? 8 : 0))) < 0.001f,
+                "Original columns and lanes are preserved except the requested chemistry translation: " + pair.Key);
             authored[pair.Key] = new ResearchCell((int)(float)pair.Value.Element("researchViewX"),
                 (int)Math.Round((float)pair.Value.Element("researchViewY") / 0.8f));
         }
@@ -280,6 +290,27 @@ internal static class Program
                 Check(authored[member.Value].Column >= lower[stage] && authored[member.Value].Column <= upper[stage],
                     "Section membership follows the original milestone column: " + member.Value);
         }
+        var disciplines = XDocument.Load("Defs/Research/ResearchDisciplines_Helod.xml").Root.Elements().ToList();
+        Check(disciplines.Count == 2, "Era regions have a separate two-discipline classification");
+        var disciplineMembers = disciplines.SelectMany(d => d.Element("projects").Elements("li")).Select(e => e.Value).ToList();
+        Check(disciplineMembers.Count == 63 && disciplineMembers.Distinct().Count() == 63
+            && !disciplineMembers.Contains("HelodFrontierSpirit") && disciplineMembers.All(race.ContainsKey),
+            "Every research belongs to one discipline except the common frontier root");
+        var applied = disciplines.Single(d => (string)d.Element("root") == "HelodMechanicalEngineering");
+        var natural = disciplines.Single(d => (string)d.Element("root") == "HelodExperimentalAnalysis");
+        var appliedMembers = applied.Element("projects").Elements("li").Select(e => e.Value).ToList();
+        var naturalMembers = natural.Element("projects").Elements("li").Select(e => e.Value).ToList();
+        Check(appliedMembers.Count == 41 && appliedMembers.Contains("HelodMechanicalEngineering"), "Applied science starts at mechanical engineering");
+        Check(naturalMembers.Count == 22 && naturalMembers.Contains("HelodExperimentalAnalysis") && chemistry.All(naturalMembers.Contains),
+            "Natural science starts at experimental analysis and contains the whole chemistry subtree");
+        Check(appliedMembers.Max(n => authored[n].Row) < naturalMembers.Min(n => authored[n].Row), "The two science bands have separate vertical ranges");
+        Check(chemistry.Min(n => authored[n].Row) > new[] { "HelodPrimaryCell", "HelodHighElectronics", "HelodWireless" }.Max(n => authored[n].Row),
+            "The chemistry group sits below the preserved electrical-science flow");
+        Check(chemistry.Select(n => (float)race[n].Element("researchViewY") - (float)reference[n].Attribute("y")).Distinct().Single() == 8,
+            "All six chemistry nodes move as one rigid block");
+        var scienceTranslations = XDocument.Load("Languages/Korean (한국어)/DefInjected/Helodrace.ResearchUI.HelodResearchDisciplineDef/ResearchDisciplines.xml").Root;
+        Check(scienceTranslations.Elements().Select(e => e.Name.LocalName).OrderBy(n => n).SequenceEqual(
+            disciplines.Select(d => (string)d.Element("defName") + ".label").OrderBy(n => n)), "Both science disciplines have Korean labels");
         var layoutProjects = race.Keys.ToDictionary(name => name, name => Project(name));
         foreach (var pair in race)
             layoutProjects[pair.Key].prerequisites = (pair.Value.Element("prerequisites")?.Elements("li") ?? Enumerable.Empty<XElement>())

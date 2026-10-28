@@ -23,4 +23,6 @@
   <HD_Research_Vanilla>바닐라</HD_Research_Vanilla>
   <HD_Research_Completed>완료</HD_Research_Completed>
   <HD_Research_LinkNext>함께 완료 예정</HD_Research_LinkNext>
+  <HD_Research_Common>공통 기초</HD_Research_Common>
+  <HD_Research_DisciplineRoot>{0}에서 시작</HD_Research_DisciplineRoot>
 </LanguageData>

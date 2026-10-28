@@ -6,6 +6,21 @@ using Verse;
 
 namespace Helodrace.ResearchUI
 {
+    public sealed class HelodResearchDisciplineDef : Def
+    {
+        public int order;
+        public ResearchProjectDef root;
+        public Color color = Color.white;
+        public List<ResearchProjectDef> projects = new List<ResearchProjectDef>();
+        public override IEnumerable<string> ConfigErrors()
+        {
+            foreach (string error in base.ConfigErrors()) yield return error;
+            if (root == null || projects == null || !projects.Contains(root)) yield return "Discipline must include its root research";
+            if (projects == null || projects.Any(p => p == null) || projects.Distinct().Count() != projects.Count)
+                yield return "Discipline projects must resolve without duplicates";
+        }
+    }
+
     public sealed class HelodResearchSectionDef : Def
     {
         public int order;
@@ -20,6 +35,8 @@ namespace Helodrace.ResearchUI
 
     public static class ResearchWorkspaceData
     {
+        public static HelodResearchDisciplineDef DisciplineFor(ResearchProjectDef project) =>
+            DefDatabase<HelodResearchDisciplineDef>.AllDefsListForReading.FirstOrDefault(d => d.projects?.Contains(project) == true);
         private static Dictionary<ResearchProjectDef, List<ThingDef>> parts;
         private static IEnumerable<ResearchLinkDef> ValidLinks => DefDatabase<ResearchLinkDef>.AllDefsListForReading
             .Where(link => link.leftProjects != null && link.rightProjects != null

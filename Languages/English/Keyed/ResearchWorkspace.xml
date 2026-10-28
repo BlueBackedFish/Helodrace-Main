@@ -23,4 +23,6 @@
   <HD_Research_Vanilla>Vanilla</HD_Research_Vanilla>
   <HD_Research_Completed>Complete</HD_Research_Completed>
   <HD_Research_LinkNext>Completes together</HD_Research_LinkNext>
+  <HD_Research_Common>Shared foundations</HD_Research_Common>
+  <HD_Research_DisciplineRoot>Starts with {0}</HD_Research_DisciplineRoot>
 </LanguageData>

@@ -94,7 +94,7 @@ namespace Helodrace.ResearchWorkspaceSmoke
                 guiHeartbeat = Time.realtimeSinceStartup + 10;
                 File.WriteAllText(Path.Combine(output, "gui-heartbeat.txt"), Current.ProgramState + "; waiting=" + LongEventHandler.AnyEventNowOrWaiting);
             }
-            if (Current.ProgramState != ProgramState.Playing || Find.CurrentMap == null) return;
+            if (Current.ProgramState != ProgramState.Playing || Find.CurrentMap == null || LongEventHandler.AnyEventNowOrWaiting) return;
             if (stage < 0)
             {
                 Directory.CreateDirectory(output);
@@ -111,11 +111,11 @@ namespace Helodrace.ResearchWorkspaceSmoke
                 ResearchQueue.Current.Add(DefDatabase<ResearchProjectDef>.GetNamed("HelodHighAutomaticRifle"));
                 stage = 0; Configure();
             }
-            if (stage >= 5) return;
+            if (stage >= 6) return;
             if (Bootstrap.Draws - startedDraw < 3) return;
             if (wait++ == 0)
             {
-                string name = new[] { "queue", "parts", "or", "flow-30-percent", "pan" }[stage];
+                string name = new[] { "queue", "parts", "or", "flow-30-percent", "pan", "natural-sciences" }[stage];
                 ScreenCapture.CaptureScreenshot(Path.Combine(output, name + ".png"));
                 File.AppendAllText(Path.Combine(output, "checks.txt"), name + ": canvas drawn; goals="
                     + ResearchQueue.Current.Goals.Count + "; parts=" + ResearchWorkspaceData.PartsFor(window.CurTab == null ? null
@@ -133,10 +133,10 @@ namespace Helodrace.ResearchWorkspaceSmoke
             }
             if (wait < 12) return;
             stage++; wait = 0;
-            if (stage < 5) Configure();
+            if (stage < 6) Configure();
             else
             {
-                File.AppendAllText(Path.Combine(output, "checks.txt"), ValidateFlow() + "\nPASS: five native canvas panels rendered\n");
+                File.AppendAllText(Path.Combine(output, "checks.txt"), ValidateFlow() + "\nPASS: six native canvas panels rendered\n");
                 Application.Quit();
             }
         }
@@ -183,6 +183,14 @@ namespace Helodrace.ResearchWorkspaceSmoke
                     if (Math.Abs(pair.Key.ResearchViewY - other.Key.ResearchViewY) < 0.001f
                         && Math.Abs(pair.Value.y - other.Value.y) > 0.1f) return "FAIL: authored branch lane lost";
                 }
+            var sciences = DefDatabase<HelodResearchDisciplineDef>.AllDefsListForReading.OrderBy(d => d.order).ToList();
+            if (sciences.Count != 2) return "FAIL: missing science disciplines";
+            var applied = sciences[0].projects.Where(nodes.ContainsKey).Select(p => nodes[p]).ToList();
+            var natural = sciences[1].projects.Where(nodes.ContainsKey).Select(p => nodes[p]).ToList();
+            if (applied.Count != 41 || natural.Count != 22 || applied.Max(n => n.yMax) >= natural.Min(n => n.yMin))
+                return "FAIL: science bands overlap or lose research";
+            if (sciences[0].root.defName != "HelodMechanicalEngineering" || sciences[1].root.defName != "HelodExperimentalAnalysis")
+                return "FAIL: wrong science roots";
             foreach (var route in routes)
                 foreach (ResearchLine line in (List<ResearchLine>)AccessTools.Field(route.GetType(), "Lines").GetValue(route))
                     if (nodes.Values.Any(n => new ResearchBox(n.xMin, n.yMin, n.xMax, n.yMax).Blocks(line.A, line.B)))
@@ -197,17 +205,17 @@ namespace Helodrace.ResearchWorkspaceSmoke
                         (List<ResearchLine>)AccessTools.Field(type, "Lines").GetValue(b)))
                         return "FAIL: unrelated routes share a bend or trunk: " + AccessTools.Field(type, "Key").GetValue(a) + " / " + AccessTools.Field(type, "Key").GetValue(b);
                 }
-            return "PASS: " + nodes.Count + " nodes; " + routes.Count + " complete routes retain original columns/lanes, advance right, avoid nodes and separate unrelated bends/trunks";
+            return "PASS: " + nodes.Count + " nodes; " + routes.Count + " complete routes preserve eras and separate science bands, advance right, avoid nodes and separate unrelated bends/trunks";
         }
         private void Configure()
         {
-            var project = DefDatabase<ResearchProjectDef>.GetNamed(stage == 1 ? "HelodHighAutomaticRifle" : "HelodNumericalControl");
+            var project = DefDatabase<ResearchProjectDef>.GetNamed(stage == 1 ? "HelodHighAutomaticRifle" : stage == 5 ? "HelodTotalSynthesisMedicine" : "HelodNumericalControl");
             window.Select(project);
             var view = ResearchWorkspaceView.For(window);
             AccessTools.Field(typeof(ResearchWorkspaceView), "page").SetValue(view, Mathf.Min(2, stage));
             if (stage >= 3)
             {
-                AccessTools.Field(typeof(ResearchWorkspaceView), "zoom").SetValue(view, stage == 3 ? 0.3f : 0.65f);
+                AccessTools.Field(typeof(ResearchWorkspaceView), "zoom").SetValue(view, stage == 3 ? 0.3f : stage == 5 ? 0.55f : 0.65f);
                 AccessTools.Field(typeof(ResearchWorkspaceView), "dirty").SetValue(view, true);
                 AccessTools.Method(typeof(ResearchWorkspaceView), "Build").Invoke(view, null);
                 AccessTools.Field(typeof(ResearchWorkspaceView), "scroll").SetValue(view, new Vector2(0, 0));

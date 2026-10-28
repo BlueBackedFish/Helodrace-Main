@@ -51,7 +51,7 @@ if(-not $process.HasExited) {
     throw "Native UI smoke timed out; isolated process stopped. Inspect $screenshots and $(Join-Path $root 'Player.log')."
 }
 $checks=Join-Path $screenshots 'checks.txt'
-if(-not(Test-Path $checks) -or -not(Select-String -Path $checks -Pattern '^PASS: five native canvas panels rendered' -Quiet)) {
+if(-not(Test-Path $checks) -or -not(Select-String -Path $checks -Pattern '^PASS: six native canvas panels rendered' -Quiet)) {
     throw "Native UI smoke did not complete; inspect $(Join-Path $root 'Player.log')."
 }
 if(Select-String -Path $checks -Pattern '^FAIL:' -Quiet){throw "Native UI interaction or routing failed; inspect $checks."}
