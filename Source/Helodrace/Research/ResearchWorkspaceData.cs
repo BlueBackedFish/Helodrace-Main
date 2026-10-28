@@ -9,12 +9,14 @@ namespace Helodrace.ResearchUI
     public sealed class HelodResearchSectionDef : Def
     {
         public int order;
+        public int flowColumn, flowRow;
         public Color color = new Color(0.3f, 0.6f, 0.7f);
         public List<ResearchProjectDef> projects = new List<ResearchProjectDef>();
         public override IEnumerable<string> ConfigErrors()
         {
             foreach (string error in base.ConfigErrors()) yield return error;
             if (projects == null || projects.Any(p => p == null)) yield return "Section projects must resolve";
+            if (flowColumn < 0 || flowRow < 0) yield return "Flow coordinates must be non-negative";
         }
     }
 

@@ -15,6 +15,12 @@ namespace Helodrace.ResearchWorkspaceSmoke
     public static class Bootstrap
     {
         public static int Draws;
+        public static bool LeftDrag, MapClick, CardClick;
+        public sealed class PointerState
+        {
+            public EventType Type; public int Button; public Vector2 Pointer, Scroll;
+        }
+        private static readonly FieldInfo Scroll = AccessTools.Field(typeof(ResearchWorkspaceView), "scroll");
         static Bootstrap()
         {
             if (!GenCommandLine.TryGetCommandLineArg("hdResearchUiSmoke", out string output)) return;
@@ -23,8 +29,33 @@ namespace Helodrace.ResearchWorkspaceSmoke
             driver.AddComponent<Smoke>();
             UnityEngine.Object.DontDestroyOnLoad(driver);
             LongEventHandler.ExecuteWhenFinished(() => QuickStarter.CheckQuickStart());
-            new Harmony("Helodrace.ResearchWorkspaceSmoke").Patch(AccessTools.Method(typeof(ResearchWorkspaceView), "Draw"),
+            var harmony = new Harmony("Helodrace.ResearchWorkspaceSmoke");
+            harmony.Patch(AccessTools.Method(typeof(ResearchWorkspaceView), "Draw"),
                 postfix: new HarmonyMethod(typeof(Bootstrap), nameof(Drawn)));
+            harmony.Patch(AccessTools.Method(typeof(ResearchWorkspaceView), "DrawGraph"),
+                prefix: new HarmonyMethod(typeof(Bootstrap), nameof(ObserveInput)),
+                postfix: new HarmonyMethod(typeof(Bootstrap), nameof(ObservedInput)));
+            harmony.Patch(AccessTools.Method(typeof(ResearchWorkspaceView), "DrawResearchCard"),
+                prefix: new HarmonyMethod(typeof(Bootstrap), nameof(BeforeCard)),
+                postfix: new HarmonyMethod(typeof(Bootstrap), nameof(AfterCard)));
+        }
+        public static void ObserveInput(ResearchWorkspaceView __instance, out PointerState __state)
+        {
+            __state = new PointerState { Type = Event.current.type, Button = Event.current.button,
+                Pointer = Event.current.mousePosition, Scroll = (Vector2)Scroll.GetValue(__instance) };
+        }
+        public static void ObservedInput(ResearchWorkspaceView __instance, Rect __0, PointerState __state)
+        {
+            bool moved = Vector2.Distance(__state.Scroll, (Vector2)Scroll.GetValue(__instance)) > 0.1f;
+            if (moved && __state.Button == 0 && __state.Type == EventType.MouseDrag) LeftDrag = true;
+            Rect map = new Rect(__0.x + 10, __0.yMax - 126, Mathf.Min(190, __0.width - 38), 104);
+            if (moved && __state.Button == 0 && __state.Type == EventType.MouseDown && map.Contains(__state.Pointer)) MapClick = true;
+        }
+        public static void BeforeCard(IResearchWorkspaceHost __3, Window __4, out ResearchProjectDef __state)
+        { __state = __3.Selected(__4); }
+        public static void AfterCard(ResearchProjectDef __1, IResearchWorkspaceHost __3, Window __4, ResearchProjectDef __state)
+        {
+            if (__state != __1 && !ResearchWorkspaceData.IsHelod(__1) && __3.Selected(__4) == __1) CardClick = true;
         }
         public static void Drawn() { if (Event.current.type == EventType.Repaint) Draws++; }
     }
@@ -35,6 +66,7 @@ namespace Helodrace.ResearchWorkspaceSmoke
         private MainTabWindow_Research window;
         private float heartbeat;
         private float guiHeartbeat;
+        private bool panCaptured;
         public void Update()
         {
             if (!GenCommandLine.TryGetCommandLineArg("hdResearchUiSmoke", out output) || Time.realtimeSinceStartup < heartbeat) return;
@@ -72,33 +104,62 @@ namespace Helodrace.ResearchWorkspaceSmoke
                 ResearchQueue.Current.Add(DefDatabase<ResearchProjectDef>.GetNamed("HelodHighAutomaticRifle"));
                 stage = 0; Configure();
             }
-            if (stage >= 3) return;
+            if (stage >= 5) return;
             if (Bootstrap.Draws - startedDraw < 3) return;
             if (wait++ == 0)
             {
-                string name = new[] { "queue", "parts", "or" }[stage];
+                string name = new[] { "queue", "parts", "or", "flow-low-zoom", "pan" }[stage];
                 ScreenCapture.CaptureScreenshot(Path.Combine(output, name + ".png"));
                 File.AppendAllText(Path.Combine(output, "checks.txt"), name + ": canvas drawn; goals="
                     + ResearchQueue.Current.Goals.Count + "; parts=" + ResearchWorkspaceData.PartsFor(window.CurTab == null ? null
                         : DefDatabase<ResearchProjectDef>.GetNamed("HelodHighAutomaticRifle")).Count + "\n");
             }
+            if (stage == 4 && GenCommandLine.TryGetCommandLineArg("hdResearchUiInteractive", out _))
+            {
+                File.WriteAllText(Path.Combine(output, "interaction.txt"), "leftDrag=" + Bootstrap.LeftDrag + "; mapClick=" + Bootstrap.MapClick
+                    + "; cardClick=" + Bootstrap.CardClick + "; tab=" + window.CurTab?.defName);
+                if (Bootstrap.LeftDrag && Bootstrap.MapClick && !panCaptured)
+                { ScreenCapture.CaptureScreenshot(Path.Combine(output, "pan.png")); panCaptured = true; }
+                if (!Bootstrap.LeftDrag || !Bootstrap.MapClick || !Bootstrap.CardClick) return;
+                File.AppendAllText(Path.Combine(output, "checks.txt"), "PASS: native left-drag, overview click and vanilla OR card navigation\n");
+            }
             if (wait < 12) return;
             stage++; wait = 0;
-            if (stage < 3) Configure();
+            if (stage < 5) Configure();
             else
             {
-                File.AppendAllText(Path.Combine(output, "checks.txt"), "PASS: three native canvas panels rendered\n");
+                File.AppendAllText(Path.Combine(output, "checks.txt"), ValidateFlow() + "\nPASS: five native canvas panels rendered\n");
                 Application.Quit();
             }
+        }
+        private string ValidateFlow()
+        {
+            var view = ResearchWorkspaceView.For(window);
+            var nodes = (Dictionary<ResearchProjectDef, Rect>)AccessTools.Field(typeof(ResearchWorkspaceView), "nodes").GetValue(view);
+            var routes = (System.Collections.IList)AccessTools.Field(typeof(ResearchWorkspaceView), "routes").GetValue(view);
+            int expected = nodes.Keys.Sum(p => ResearchQueue.Prerequisites(p).Distinct().Count(nodes.ContainsKey));
+            if (routes.Count != expected) return "FAIL: missing routes " + routes.Count + "/" + expected;
+            foreach (var route in routes)
+                foreach (ResearchLine line in (List<ResearchLine>)AccessTools.Field(route.GetType(), "Lines").GetValue(route))
+                    if (nodes.Values.Any(n => new ResearchBox(n.xMin, n.yMin, n.xMax, n.yMax).Blocks(line.A, line.B)))
+                        return "FAIL: route crosses a node body";
+            return "PASS: " + nodes.Count + " nodes; " + routes.Count + " complete routes avoid every node body";
         }
         private void Configure()
         {
             var project = DefDatabase<ResearchProjectDef>.GetNamed(stage == 1 ? "HelodHighAutomaticRifle" : "HelodNumericalControl");
             window.Select(project);
             var view = ResearchWorkspaceView.For(window);
-            AccessTools.Field(typeof(ResearchWorkspaceView), "page").SetValue(view, stage);
+            AccessTools.Field(typeof(ResearchWorkspaceView), "page").SetValue(view, Mathf.Min(2, stage));
+            if (stage >= 3)
+            {
+                AccessTools.Field(typeof(ResearchWorkspaceView), "zoom").SetValue(view, 0.65f);
+                AccessTools.Field(typeof(ResearchWorkspaceView), "dirty").SetValue(view, true);
+                AccessTools.Method(typeof(ResearchWorkspaceView), "Build").Invoke(view, null);
+                AccessTools.Field(typeof(ResearchWorkspaceView), "scroll").SetValue(view, new Vector2(0, 0));
+            }
             startedDraw = Bootstrap.Draws;
-            if (stage > 0) AccessTools.Method(typeof(ResearchWorkspaceView), "Focus").Invoke(view, new object[] { project });
+            if (stage > 0 && stage < 3) AccessTools.Method(typeof(ResearchWorkspaceView), "Focus").Invoke(view, new object[] { project });
         }
     }
 }

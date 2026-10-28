@@ -9,7 +9,7 @@
   <HD_Research_Links>OR</HD_Research_Links>
   <HD_Research_Resume>Resume queue</HD_Research_Resume>
   <HD_Research_Pause>Pause queue</HD_Research_Pause>
-  <HD_Research_EmptyQueue>Add goals with the + button on a node. Unfinished prerequisites are inserted automatically. Middle-drag to pan; Ctrl + wheel to zoom.</HD_Research_EmptyQueue>
+  <HD_Research_EmptyQueue>Add goals with the + button on a node. Unfinished prerequisites are inserted automatically. Left-drag empty space or middle-drag to pan. Click the overview to jump; Ctrl + wheel to zoom.</HD_Research_EmptyQueue>
   <HD_Research_Plan>Execution order (prerequisites included)</HD_Research_Plan>
   <HD_Research_Select>Select a research node.</HD_Research_Select>
   <HD_Research_NoParts>No modular parts require this research.</HD_Research_NoParts>
@@ -17,4 +17,10 @@
   <HD_Research_PartNext>Available after this research completes</HD_Research_PartNext>
   <HD_Research_PartBlocked>Other research is also required</HD_Research_PartBlocked>
   <HD_Research_WillComplete>Completes {0} other projects (including prerequisites), based on current research.</HD_Research_WillComplete>
+  <HD_Research_Map>Overview · click to move</HD_Research_Map>
+  <HD_Research_PanTip>Drag empty space with the left or middle mouse button to pan. Click the overview to jump. Ctrl + wheel to zoom.</HD_Research_PanTip>
+  <HD_Research_Helod>Helod</HD_Research_Helod>
+  <HD_Research_Vanilla>Vanilla</HD_Research_Vanilla>
+  <HD_Research_Completed>Complete</HD_Research_Completed>
+  <HD_Research_LinkNext>Completes together</HD_Research_LinkNext>
 </LanguageData>

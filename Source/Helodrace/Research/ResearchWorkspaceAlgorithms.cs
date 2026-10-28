@@ -69,6 +69,128 @@ namespace Helodrace.ResearchUI
         public ResearchPoint At(float t) => new ResearchPoint(A.X + (B.X - A.X) * t, A.Y + (B.Y - A.Y) * t);
     }
 
+    public struct ResearchBox
+    {
+        public float Left, Top, Right, Bottom;
+        public ResearchBox(float left, float top, float right, float bottom)
+        { Left = left; Top = top; Right = right; Bottom = bottom; }
+        public bool Blocks(ResearchPoint a, ResearchPoint b) =>
+            Math.Abs(a.Y - b.Y) < 0.001f
+                ? a.Y > Top + 0.001f && a.Y < Bottom - 0.001f && Math.Max(a.X, b.X) > Left + 0.001f && Math.Min(a.X, b.X) < Right - 0.001f
+                : a.X > Left + 0.001f && a.X < Right - 0.001f && Math.Max(a.Y, b.Y) > Top + 0.001f && Math.Min(a.Y, b.Y) < Bottom - 0.001f;
+    }
+
+    public struct ResearchCell
+    {
+        public int Column, Row;
+        public ResearchCell(int column, int row) { Column = column; Row = row; }
+    }
+
+    public static class ResearchFlowLayout
+    {
+        // Each section has its own dependency columns and consistent rows, without inheriting empty global XML columns.
+        public static Dictionary<T, ResearchCell> Arrange<T>(IList<T> projects, Func<T, IEnumerable<T>> parents) where T : class
+        {
+            var members = new HashSet<T>(projects);
+            var remaining = new HashSet<T>(projects);
+            var cells = new Dictionary<T, ResearchCell>();
+            while (remaining.Count > 0)
+            {
+                var ready = projects.Where(p => remaining.Contains(p) && !(parents(p) ?? Enumerable.Empty<T>())
+                    .Any(a => members.Contains(a) && remaining.Contains(a))).ToList();
+                // Invalid third-party cycles still get a usable layout; queue validation handles their execution.
+                if (ready.Count == 0) ready.Add(projects.First(remaining.Contains));
+                foreach (var p in ready)
+                {
+                    var ancestors = (parents(p) ?? Enumerable.Empty<T>()).Where(cells.ContainsKey).Select(a => cells[a]).ToList();
+                    int column = ancestors.Count == 0 ? 0 : ancestors.Max(c => c.Column) + 1;
+                    float preferred = ancestors.Count == 0 ? 0 : (float)ancestors.Average(c => c.Row);
+                    var used = new HashSet<int>(cells.Values.Where(c => c.Column == column).Select(c => c.Row));
+                    int row = Enumerable.Range(0, used.Count + 1).Where(r => !used.Contains(r))
+                        .OrderBy(r => Math.Abs(r - preferred)).ThenBy(r => r).First();
+                    cells[p] = new ResearchCell(column, row); remaining.Remove(p);
+                }
+            }
+            return cells;
+        }
+    }
+
+    // A shared orthogonal visibility grid keeps every connection out of node bodies and section headings.
+    public sealed class ResearchOrthogonalRouter
+    {
+        private readonly float[] xs, ys;
+        private readonly List<int>[] neighbors;
+        private readonly int columns;
+        public ResearchOrthogonalRouter(IEnumerable<ResearchBox> obstacles, IEnumerable<ResearchPoint> ports)
+        {
+            var boxes = obstacles.ToList(); var ends = ports.ToList();
+            xs = boxes.SelectMany(b => new[] { b.Left, b.Right }).Concat(ends.Select(p => p.X)).Distinct().OrderBy(x => x).ToArray();
+            ys = boxes.SelectMany(b => new[] { b.Top, b.Bottom }).Concat(ends.Select(p => p.Y)).Distinct().OrderBy(y => y).ToArray();
+            columns = xs.Length; neighbors = new List<int>[xs.Length * ys.Length];
+            for (int i = 0; i < neighbors.Length; i++) neighbors[i] = new List<int>();
+            for (int y = 0; y < ys.Length; y++)
+                for (int x = 0; x < xs.Length; x++)
+                {
+                    int a = y * columns + x;
+                    if (x + 1 < xs.Length) Connect(a, a + 1, boxes);
+                    if (y + 1 < ys.Length) Connect(a, a + columns, boxes);
+                }
+        }
+        private ResearchPoint Point(int index) => new ResearchPoint(xs[index % columns], ys[index / columns]);
+        private void Connect(int a, int b, List<ResearchBox> boxes)
+        {
+            if (boxes.Any(box => box.Blocks(Point(a), Point(b)))) return;
+            neighbors[a].Add(b); neighbors[b].Add(a);
+        }
+        public List<ResearchLine> Route(ResearchPoint from, ResearchPoint to)
+        {
+            int sx = Array.IndexOf(xs, from.X), sy = Array.IndexOf(ys, from.Y);
+            int gx = Array.IndexOf(xs, to.X), gy = Array.IndexOf(ys, to.Y);
+            if (sx < 0 || sy < 0 || gx < 0 || gy < 0) return new List<ResearchLine>();
+            int start = sy * columns + sx, goal = gy * columns + gx;
+            // Two states per vertex preserve incoming direction so bend penalties remain correct.
+            var costs = Enumerable.Repeat(float.PositiveInfinity, neighbors.Length * 2).ToArray();
+            var previous = Enumerable.Repeat(-1, costs.Length).ToArray();
+            var pending = new SortedSet<Tuple<float, int, int>>(); int serial = 0;
+            costs[start * 2] = 0; pending.Add(Tuple.Create(Distance(from, to), serial++, start * 2));
+            int final = -1;
+            while (pending.Count > 0)
+            {
+                var next = pending.Min; pending.Remove(next); int state = next.Item3, vertex = state / 2;
+                if (next.Item1 > costs[state] + Distance(Point(vertex), to) + 0.01f) continue;
+                if (vertex == goal) { final = state; break; }
+                foreach (int neighbor in neighbors[vertex])
+                {
+                    int direction = neighbor / columns == vertex / columns ? 0 : 1;
+                    int target = neighbor * 2 + direction;
+                    float cost = costs[state] + Distance(Point(vertex), Point(neighbor)) + (state % 2 == direction ? 0 : 24);
+                    if (cost >= costs[target]) continue;
+                    costs[target] = cost; previous[target] = state;
+                    pending.Add(Tuple.Create(cost + Distance(Point(neighbor), to), serial++, target));
+                }
+            }
+            // Never fall back to a straight line through unrelated nodes.
+            if (final < 0) return new List<ResearchLine>();
+            var path = new List<ResearchPoint>();
+            for (int at = final; at >= 0; at = previous[at]) path.Add(Point(at / 2));
+            path.Reverse(); var result = new List<ResearchLine>();
+            for (int i = 1; i < path.Count; i++)
+            {
+                var line = new ResearchLine(path[i - 1], path[i]);
+                if (result.Count > 0)
+                {
+                    var last = result[result.Count - 1];
+                    if (Math.Abs(last.A.X - last.B.X) < 0.001f && Math.Abs(line.A.X - line.B.X) < 0.001f
+                        || Math.Abs(last.A.Y - last.B.Y) < 0.001f && Math.Abs(line.A.Y - line.B.Y) < 0.001f)
+                    { result[result.Count - 1] = new ResearchLine(last.A, line.B); continue; }
+                }
+                result.Add(line);
+            }
+            return result;
+        }
+        private static float Distance(ResearchPoint a, ResearchPoint b) => Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
+    }
+
     public static class ResearchLineGeometry
     {
         // Remove only the lower line's crossing interval. Never paint a dark patch over unrelated nodes.

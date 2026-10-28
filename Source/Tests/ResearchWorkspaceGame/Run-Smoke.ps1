@@ -1,4 +1,4 @@
-param([string]$GameRoot='C:/Program Files (x86)/Steam/steamapps/common/RimWorld', [int]$TimeoutSeconds=240, [switch]$Visible)
+param([string]$GameRoot='C:/Program Files (x86)/Steam/steamapps/common/RimWorld', [int]$TimeoutSeconds=240, [switch]$Visible, [switch]$Interactive)
 $ErrorActionPreference='Stop'
 $repo=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
 $root=Join-Path $repo '.codex-staging/ResearchWorkspaceGame'
@@ -37,6 +37,7 @@ $screenshots | Set-Content (Join-Path $root 'last-run.txt')
     '<PrefsData><screenWidth>1600</screenWidth><screenHeight>900</screenHeight><fullscreen>False</fullscreen><uiScale>1</uiScale><devMode>True</devMode><langFolderName>Korean (한국어)</langFolderName><volumeGame>0</volumeGame><volumeMusic>0</volumeMusic></PrefsData>',$encoding)
 $arguments=@('-quicktest',('"-savedatafolder='+$root+'/Profile"'),('"-hdResearchUiSmoke='+$screenshots+'"'),
     '-hdMethodProfileDisabled=true','-screen-fullscreen','0','-screen-width','1600','-screen-height','900','-logFile',('"'+$root+'/Player.log"'))
+if($Interactive){$arguments += '-hdResearchUiInteractive=true'}
 $windowStyle=if($Visible){'Normal'}else{'Hidden'}
 $process=Start-Process -FilePath (Join-Path $game 'RimWorldWin64.exe') -WorkingDirectory $game -WindowStyle $windowStyle -PassThru -ArgumentList $arguments
 $process.Id | Set-Content (Join-Path $root 'process-id.txt')
@@ -50,8 +51,9 @@ if(-not $process.HasExited) {
     throw "Native UI smoke timed out; isolated process stopped. Inspect $screenshots and $(Join-Path $root 'Player.log')."
 }
 $checks=Join-Path $screenshots 'checks.txt'
-if(-not(Test-Path $checks) -or -not(Select-String -Path $checks -Pattern '^PASS: three native canvas panels rendered' -Quiet)) {
+if(-not(Test-Path $checks) -or -not(Select-String -Path $checks -Pattern '^PASS: five native canvas panels rendered' -Quiet)) {
     throw "Native UI smoke did not complete; inspect $(Join-Path $root 'Player.log')."
 }
+if(Select-String -Path $checks -Pattern '^FAIL:' -Quiet){throw "Native UI interaction or routing failed; inspect $checks."}
 Get-Content $checks
 "Screenshots: $screenshots"

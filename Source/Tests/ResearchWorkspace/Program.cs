@@ -25,7 +25,7 @@ internal static class Program
     }
     private static void Main()
     {
-        PlansAndQueue(); SaveQueue(); Geometry(); DefinitionsAndPreviews(); Compatibility();
+        PlansAndQueue(); SaveQueue(); Geometry(); FlowAndRouting(); DefinitionsAndPreviews(); Compatibility();
         Console.WriteLine("PASS: " + checks + " research workspace checks.");
     }
     private static void PlansAndQueue()
@@ -133,6 +133,46 @@ internal static class Program
             }
         }
     }
+    private static void FlowAndRouting()
+    {
+        var a = Project("A"); var b = Project("B", a); var c = Project("C", a); var d = Project("D", b, c);
+        var cells = ResearchFlowLayout.Arrange(new[] { d, c, b, a }, p => p.prerequisites);
+        Check(cells[a].Column == 0 && cells[d].Column == 2, "Local dependency depth determines columns regardless of definition order");
+        Check(cells[b].Column == cells[c].Column && cells[b].Row != cells[c].Row, "Branches occupy consistent columns and separate rows");
+        Check(cells.Values.Select(cell => Tuple.Create(cell.Column, cell.Row)).Distinct().Count() == 4, "No overlapping layout cells");
+        foreach (var column in cells.Values.GroupBy(cell => cell.Column))
+            Check(column.Select(cell => cell.Row).OrderBy(row => row).SequenceEqual(Enumerable.Range(0, column.Count())),
+                "Branch columns contain no empty rows");
+        a.prerequisites.Add(d);
+        Check(ResearchFlowLayout.Arrange(new[] { a, b, c, d }, p => p.prerequisites).Count == 4, "Cyclic extensions still render");
+        var boxes = new[] { new ResearchBox(20, -20, 60, 20), new ResearchBox(80, 10, 120, 60) };
+        var from = new ResearchPoint(0, 0); var to = new ResearchPoint(140, 40);
+        var router = new ResearchOrthogonalRouter(boxes, new[] { from, to });
+        var route = router.Route(from, to);
+        Check(route.Count >= 3 && route.First().A.X == from.X && route.Last().B.X == to.X, "Orthogonal route reaches both endpoints around obstacles");
+        foreach (var line in route)
+        {
+            Check(line.A.X == line.B.X || line.A.Y == line.B.Y, "Every routed segment is orthogonal");
+            Check(!boxes.Any(box => box.Blocks(line.A, line.B)), "Every routed segment avoids node interiors");
+        }
+        Check(router.Route(new ResearchPoint(17, 0), to).Count == 0, "Unknown ports cannot select a different grid vertex");
+        Check(router.Route(from, from).Count == 0, "Coincident endpoints do not produce stray segments");
+        var random = new Random(371);
+        for (int test = 0; test < 60; test++)
+        {
+            var obstacles = Enumerable.Range(0, 12).Select(i => new ResearchBox(40 + i % 4 * 80, 30 + i / 4 * 80,
+                80 + i % 4 * 80, 70 + i / 4 * 80)).ToList();
+            from = new ResearchPoint(0, random.Next(0, 240)); to = new ResearchPoint(360, random.Next(0, 240));
+            route = new ResearchOrthogonalRouter(obstacles, new[] { from, to }).Route(from, to);
+            Check(route.Count > 0, "Grid routes across multiple staggered obstacles");
+            for (int i = 0; i < route.Count; i++)
+            {
+                var line = route[i];
+                Check(!obstacles.Any(box => box.Blocks(line.A, line.B)), "Random route avoids every obstacle");
+                if (i > 0) Check(route[i - 1].B.X == line.A.X && route[i - 1].B.Y == line.A.Y, "Route is continuous at every bend");
+            }
+        }
+    }
     private static void DefinitionsAndPreviews()
     {
         var race = Directory.GetFiles("Defs/Research", "*.xml").SelectMany(file => XDocument.Load(file).Root.Elements("ResearchProjectDef"))
@@ -142,6 +182,10 @@ internal static class Program
         Check(sections.Count == 6 && members.Count == race.Count && members.Distinct().Count() == race.Count,
             "Every race project belongs to exactly one of six sections");
         Check(members.All(race.ContainsKey), "No unresolved section membership");
+        Check(sections.Select(s => (string)s.Element("flowColumn")).Distinct().Count() > 1
+            && sections.Select(s => (string)s.Element("flowRow")).Distinct().Count() > 1, "Sections branch across both flow axes");
+        Check(sections.Select(s => (string)s.Element("flowColumn") + ":" + (string)s.Element("flowRow")).Distinct().Count() == sections.Count,
+            "Section flow positions never overlap");
         var en = XDocument.Load("Languages/English/Keyed/ResearchWorkspace.xml").Root;
         var ko = XDocument.Load("Languages/Korean (한국어)/Keyed/ResearchWorkspace.xml").Root;
         Check(en.Elements().Select(e => e.Name).SequenceEqual(ko.Elements().Select(e => e.Name)), "English/Korean UI keys match");

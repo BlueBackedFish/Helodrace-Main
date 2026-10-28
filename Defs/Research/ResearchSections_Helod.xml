@@ -4,6 +4,7 @@
     <defName>HD_ResearchSection_Foundations</defName>
     <label>Foundations</label>
     <order>0</order>
+    <flowColumn>0</flowColumn><flowRow>0</flowRow>
     <color>(0.65, 0.68, 0.72)</color>
     <projects>
       <li>HelodFrontierSpirit</li>
@@ -15,6 +16,7 @@
     <defName>HD_ResearchSection_Industry</defName>
     <label>Machinery and power</label>
     <order>1</order>
+    <flowColumn>1</flowColumn><flowRow>0</flowRow>
     <color>(0.32, 0.68, 0.64)</color>
     <projects>
       <li>HelodIronMaking</li>
@@ -38,6 +40,7 @@
     <defName>HD_ResearchSection_Electronics</defName>
     <label>Electronics and communications</label>
     <order>2</order>
+    <flowColumn>2</flowColumn><flowRow>0</flowRow>
     <color>(0.35, 0.62, 0.88)</color>
     <projects>
       <li>HelodPrimaryCell</li>
@@ -54,6 +57,7 @@
     <defName>HD_ResearchSection_Chemistry</defName>
     <label>Chemistry and medicine</label>
     <order>3</order>
+    <flowColumn>0</flowColumn><flowRow>1</flowRow>
     <color>(0.83, 0.65, 0.35)</color>
     <projects>
       <li>HelodIngredientExtraction</li>
@@ -69,6 +73,7 @@
     <defName>HD_ResearchSection_Military</defName>
     <label>Weapons and artillery</label>
     <order>4</order>
+    <flowColumn>1</flowColumn><flowRow>1</flowRow>
     <color>(0.7, 0.45, 0.4)</color>
     <projects>
       <li>HelodBreechLoadingGun</li>
@@ -99,6 +104,7 @@
     <defName>HD_ResearchSection_Support</defName>
     <label>Protection and equipment</label>
     <order>5</order>
+    <flowColumn>2</flowColumn><flowRow>1</flowRow>
     <color>(0.65, 0.52, 0.8)</color>
     <projects>
       <li>HelodGreatWarTech</li>
