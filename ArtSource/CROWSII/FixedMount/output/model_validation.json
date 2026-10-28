@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "foundation_meshes": 39,
+  "station_meshes": 27,
+  "ground_anchors": 4,
+  "flange_bolts": 6,
+  "seat_contact_height": 0.175,
+  "foundation_and_fixed_parts_do_not_recoil": true,
+  "source_barrel_recoil_preserved": true,
+  "moving_barrel_meshes": 7,
+  "source_crows_sha256": "8b30e0877dcc5057f74df4d629ebedf07ed47067308fc291e1a6444c8dfbe793",
+  "in_game_tested": false
+}

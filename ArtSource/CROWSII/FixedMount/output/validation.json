@@ -1,0 +1,165 @@
+{
+  "passed": true,
+  "files": {
+    "HD_CROWSII_FixedMount_top.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        261,
+        283,
+        763,
+        741
+      ],
+      "minimum_margin": 261,
+      "sha256": "3a78de4fed49b7e920d11df9920f156ffbf988f66ab5f970778a4c721e0f38a9"
+    },
+    "HD_CROWSII_FixedMount_north.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        289,
+        315,
+        735,
+        693
+      ],
+      "minimum_margin": 289,
+      "sha256": "d30e5dabace38916ffd2c0bc3db115ded191bb6c4b79b548ea32982695681b22"
+    },
+    "HD_CROWSII_FixedMount_east.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        309,
+        297,
+        715,
+        711
+      ],
+      "minimum_margin": 297,
+      "sha256": "1b3eb7803d5486dfb0916e047da068b460e96f6dece677436293b184ffd76bf3"
+    },
+    "HD_CROWSII_FixedMount_south.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        289,
+        315,
+        735,
+        693
+      ],
+      "minimum_margin": 289,
+      "sha256": "da573485e3c130c9c9b9a5c7d2b4e7ba9701bd700342039469a3923f8902c8ed"
+    },
+    "HD_CROWSII_FixedMount_west.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        309,
+        297,
+        715,
+        711
+      ],
+      "minimum_margin": 297,
+      "sha256": "4425946a64ef7b4a9e99cd7d4ecffe491610c966dd9f34561ae1dbb5c541c495"
+    },
+    "HD_CROWSII_FixedMount_UI.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        175,
+        36,
+        849,
+        988
+      ],
+      "minimum_margin": 36,
+      "sha256": "d3804a80d4afb5a80f3f2c58c07790b939249782d2ee5f3dd972c06aa6969559"
+    }
+  },
+  "presentation": {
+    "source_crows": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\CROWSII\\output\\crows_ii_m2.blend",
+    "source_crows_sha256": "8b30e0877dcc5057f74df4d629ebedf07ed47067308fc291e1a6444c8dfbe793",
+    "foundation_meshes": 39,
+    "station_meshes": 27,
+    "source_station_vertices_preserved": true,
+    "source_station_materials_preserved": true,
+    "top_draw_size": [
+      3.2,
+      3.2
+    ],
+    "directional_draw_size": [
+      3.6,
+      3.6
+    ],
+    "pivot": [
+      0,
+      0
+    ],
+    "plate_dimensions": [
+      1.5,
+      1.36
+    ],
+    "station_mount_height": 0.175,
+    "plate_top_contact": 0.175,
+    "ground_anchors": 4,
+    "central_mount_bolts": 6,
+    "paint_rgb": [
+      143,
+      123,
+      92
+    ],
+    "master_resolution": 2048,
+    "native_resolution": 1024,
+    "world_outline_tiles": 0.026,
+    "ui_outline_pixels": 10,
+    "stationary_layer": "foundation",
+    "weapon_recoil_preserved": {
+      "feed_source_component": 6342,
+      "feed_reference_poses": [
+        "ammo_belt_00",
+        "ammo_belt_01"
+      ],
+      "feed_cover_source_object": "Cover.007",
+      "feed_overlap_donor_units": 0.002,
+      "feed_blend_rings": 24,
+      "recoil_tiles": 0.0375,
+      "recoil_frames": [
+        1,
+        2,
+        6
+      ],
+      "recoil_fps": 60,
+      "draw_order": [
+        "base",
+        "frame",
+        "barrel",
+        "body",
+        "feed_overlay"
+      ]
+    },
+    "gameplay_definition_added": false
+  },
+  "draw_order": [
+    "foundation",
+    "base",
+    "frame",
+    "barrel",
+    "body",
+    "feed_overlay"
+  ],
+  "foundation_texture": "Buildings/Security/CROWSII/FixedMount/HD_CROWSII_FixedMount_top",
+  "weapon_layers_manifest": "../output/recoil_layers.json",
+  "source_station_unchanged": true,
+  "transparent": true,
+  "in_game_tested": false
+}

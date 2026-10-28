@@ -1,0 +1,63 @@
+{
+  "source_crows": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\CROWSII\\output\\crows_ii_m2.blend",
+  "source_crows_sha256": "8b30e0877dcc5057f74df4d629ebedf07ed47067308fc291e1a6444c8dfbe793",
+  "foundation_meshes": 39,
+  "station_meshes": 27,
+  "source_station_vertices_preserved": true,
+  "source_station_materials_preserved": true,
+  "top_draw_size": [
+    3.2,
+    3.2
+  ],
+  "directional_draw_size": [
+    3.6,
+    3.6
+  ],
+  "pivot": [
+    0,
+    0
+  ],
+  "plate_dimensions": [
+    1.5,
+    1.36
+  ],
+  "station_mount_height": 0.175,
+  "plate_top_contact": 0.175,
+  "ground_anchors": 4,
+  "central_mount_bolts": 6,
+  "paint_rgb": [
+    143,
+    123,
+    92
+  ],
+  "master_resolution": 2048,
+  "native_resolution": 1024,
+  "world_outline_tiles": 0.026,
+  "ui_outline_pixels": 10,
+  "stationary_layer": "foundation",
+  "weapon_recoil_preserved": {
+    "feed_source_component": 6342,
+    "feed_reference_poses": [
+      "ammo_belt_00",
+      "ammo_belt_01"
+    ],
+    "feed_cover_source_object": "Cover.007",
+    "feed_overlap_donor_units": 0.002,
+    "feed_blend_rings": 24,
+    "recoil_tiles": 0.0375,
+    "recoil_frames": [
+      1,
+      2,
+      6
+    ],
+    "recoil_fps": 60,
+    "draw_order": [
+      "base",
+      "frame",
+      "barrel",
+      "body",
+      "feed_overlay"
+    ]
+  },
+  "gameplay_definition_added": false
+}
