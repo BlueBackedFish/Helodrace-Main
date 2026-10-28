@@ -4,9 +4,6 @@
     <defName>HD_ResearchSection_Foundations</defName>
     <label>1. Foundations and experiments</label>
     <order>0</order>
-    <flowColumn>0</flowColumn>
-    <flowRow>0</flowRow>
-    <reverseFlow>false</reverseFlow>
     <color>(0.65, 0.68, 0.72)</color>
     <projects>
       <li>HelodFrontierSpirit</li>
@@ -18,9 +15,6 @@
     <defName>HD_ResearchSection_Steam</defName>
     <label>2. Steam and chemical cells</label>
     <order>1</order>
-    <flowColumn>1</flowColumn>
-    <flowRow>0</flowRow>
-    <reverseFlow>false</reverseFlow>
     <color>(0.63, 0.64, 0.39)</color>
     <projects>
       <li>HelodIngredientExtraction</li>
@@ -35,9 +29,6 @@
     <defName>HD_ResearchSection_Precision</defName>
     <label>3. Power transmission and precision</label>
     <order>2</order>
-    <flowColumn>2</flowColumn>
-    <flowRow>0</flowRow>
-    <reverseFlow>false</reverseFlow>
     <color>(0.39, 0.69, 0.58)</color>
     <projects>
       <li>HelodBasicOilDevelopment</li>
@@ -53,9 +44,6 @@
     <defName>HD_ResearchSection_Combustion</defName>
     <label>4. Combustion and vacuum tubes</label>
     <order>3</order>
-    <flowColumn>3</flowColumn>
-    <flowRow>0</flowRow>
-    <reverseFlow>false</reverseFlow>
     <color>(0.35, 0.65, 0.77)</color>
     <projects>
       <li>HelodBasicEngine</li>
@@ -72,9 +60,6 @@
     <defName>HD_ResearchSection_Synthesis</defName>
     <label>5. Synthesis and electronic transition</label>
     <order>4</order>
-    <flowColumn>3</flowColumn>
-    <flowRow>1</flowRow>
-    <reverseFlow>true</reverseFlow>
     <color>(0.42, 0.58, 0.85)</color>
     <projects>
       <li>HelodNumericalControl</li>
@@ -97,9 +82,6 @@
     <defName>HD_ResearchSection_Mobilization</defName>
     <label>6. Automation and total mobilization</label>
     <order>5</order>
-    <flowColumn>2</flowColumn>
-    <flowRow>1</flowRow>
-    <reverseFlow>true</reverseFlow>
     <color>(0.71, 0.49, 0.38)</color>
     <projects>
       <li>HelodIndustrialAutomation</li>
@@ -119,9 +101,6 @@
     <defName>HD_ResearchSection_ColdWar</defName>
     <label>7. Cold War integrated equipment</label>
     <order>6</order>
-    <flowColumn>1</flowColumn>
-    <flowRow>1</flowRow>
-    <reverseFlow>true</reverseFlow>
     <color>(0.65, 0.47, 0.69)</color>
     <projects>
       <li>HelodMidAutomaticRifle</li>
@@ -138,9 +117,6 @@
     <defName>HD_ResearchSection_Modern</defName>
     <label>8. Modernization and special operations</label>
     <order>7</order>
-    <flowColumn>0</flowColumn>
-    <flowRow>1</flowRow>
-    <reverseFlow>true</reverseFlow>
     <color>(0.51, 0.53, 0.82)</color>
     <projects>
       <li>HelodLessLethalLowRanged</li>

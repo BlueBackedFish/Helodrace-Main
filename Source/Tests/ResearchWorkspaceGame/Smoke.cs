@@ -144,11 +144,18 @@ namespace Helodrace.ResearchWorkspaceSmoke
             var routes = (System.Collections.IList)AccessTools.Field(typeof(ResearchWorkspaceView), "routes").GetValue(view);
             int expected = nodes.Keys.Sum(p => ResearchQueue.Prerequisites(p).Distinct().Count(nodes.ContainsKey));
             if (routes.Count != expected) return "FAIL: missing routes " + routes.Count + "/" + expected;
+            foreach (var pair in nodes)
+            {
+                foreach (var parent in ResearchQueue.Prerequisites(pair.Key).Where(nodes.ContainsKey))
+                    if (nodes[parent].xMax >= pair.Value.xMin) return "FAIL: a dependency does not advance right";
+                foreach (var other in nodes.Where(n => n.Key != pair.Key))
+                    if (pair.Value.Overlaps(other.Value)) return "FAIL: overlapping node bodies";
+            }
             foreach (var route in routes)
                 foreach (ResearchLine line in (List<ResearchLine>)AccessTools.Field(route.GetType(), "Lines").GetValue(route))
                     if (nodes.Values.Any(n => new ResearchBox(n.xMin, n.yMin, n.xMax, n.yMax).Blocks(line.A, line.B)))
                         return "FAIL: route crosses a node body";
-            return "PASS: " + nodes.Count + " nodes; " + routes.Count + " complete routes avoid every node body";
+            return "PASS: " + nodes.Count + " nodes; " + routes.Count + " complete routes advance right and avoid every node body";
         }
         private void Configure()
         {
@@ -164,7 +171,7 @@ namespace Helodrace.ResearchWorkspaceSmoke
                 AccessTools.Field(typeof(ResearchWorkspaceView), "scroll").SetValue(view, new Vector2(0, 0));
             }
             startedDraw = Bootstrap.Draws;
-            if (stage > 0 && stage < 3) AccessTools.Method(typeof(ResearchWorkspaceView), "Focus").Invoke(view, new object[] { project });
+            if (stage > 0 && stage != 3) AccessTools.Method(typeof(ResearchWorkspaceView), "Focus").Invoke(view, new object[] { project });
         }
     }
 }

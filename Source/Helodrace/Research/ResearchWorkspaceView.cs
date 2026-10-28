@@ -16,8 +16,6 @@ namespace Helodrace.ResearchUI
             public string Id, Label;
             public Color Color;
             public Rect Bounds;
-            public int Column, Row;
-            public bool Reverse;
             public List<ResearchProjectDef> Projects;
         }
         private sealed class Edge
@@ -50,7 +48,7 @@ namespace Helodrace.ResearchUI
         private ResearchProjectDef lastSelected;
         private float width, height;
         private int panControl;
-        private const float NodeWidth = 180, ColumnWidth = 228;
+        private const float NodeWidth = 180, ColumnWidth = 320, RowGap = 72, StageGap = 200;
 
         public void Draw(Rect rect, IResearchWorkspaceHost host, Window window)
         {
@@ -108,37 +106,38 @@ namespace Helodrace.ResearchUI
             {
                 var projects = (def.projects ?? new List<ResearchProjectDef>()).Where(p => p != null && remaining.Remove(p)).ToList();
                 if (projects.Count > 0) sections.Add(new Section { Id = def.defName, Label = def.LabelCap,
-                    Color = def.color, Projects = projects, Column = def.flowColumn, Row = def.flowRow, Reverse = def.reverseFlow });
+                    Color = def.color, Projects = projects });
             }
             if (remaining.Count > 0) sections.Add(new Section { Id = "other", Label = "HD_Research_Other".Translate(),
-                Color = new Color(0.65f, 0.5f, 0.7f), Projects = remaining.OrderBy(p => p.defName).ToList(),
-                Column = 0, Row = sections.Select(s => s.Row).DefaultIfEmpty(0).Max() + 1 });
+                Color = new Color(0.65f, 0.5f, 0.7f), Projects = remaining.OrderBy(p => p.defName).ToList() });
             Text.Font = GameFont.Small;
+            var ordered = sections.SelectMany(s => s.Projects).ToList();
+            var cells = ResearchFlowLayout.Arrange(ordered, ResearchQueue.Prerequisites);
+            float nodeHeight = Mathf.Max(84, ordered.Select(p => Text.CalcHeight(p.LabelCap, NodeWidth - 12) + 38).DefaultIfEmpty(84).Max());
+            float pitch = nodeHeight + RowGap;
+            int topLane = cells.Values.Select(c => c.Row).DefaultIfEmpty(0).Min();
+            var boundaries = sections.Select(s => s.Projects.Min(p => cells[p].Column)).Distinct().OrderBy(c => c).ToList();
+            Func<int, float> columnX = column => 84 + column * ColumnWidth + StageGap * boundaries.Count(b => b > 0 && b <= column);
             foreach (var section in sections)
             {
-                float nodeHeight = Mathf.Max(84, section.Projects.Max(p => Text.CalcHeight(p.LabelCap, NodeWidth - 12) + 38));
-                var cells = ResearchFlowLayout.Arrange(section.Projects, ResearchQueue.Prerequisites);
-                float sectionHeight = collapsed.Contains(section.Id) ? 38 : 60 + (cells.Values.Max(c => c.Row) + 1) * (nodeHeight + 28);
-                float sectionWidth = 48 + cells.Values.Max(c => c.Column) * ColumnWidth + NodeWidth;
-                section.Bounds = new Rect(0, 0, Mathf.Max(300, sectionWidth), sectionHeight);
-                if (!collapsed.Contains(section.Id))
-                    foreach (var project in section.Projects)
+                var frames = section.Projects.ToDictionary(p => p, p => new Rect(columnX(cells[p].Column),
+                    92 + (cells[p].Row - topLane) * pitch, NodeWidth, nodeHeight));
+                float left = frames.Values.Min(n => n.xMin) - 64, right = frames.Values.Max(n => n.xMax) + 64;
+                float top = frames.Values.Min(n => n.yMin) - 60, bottom = frames.Values.Max(n => n.yMax) + 44;
+                var bounds = new Rect(left, top, right - left, bottom - top);
+                // Extension sections may span the same depth range. Keep their panels separate without reversing time.
+                float offset = 0;
+                foreach (var earlier in sections.TakeWhile(s => s != section))
+                    if (bounds.Overlaps(earlier.Bounds.ExpandedBy(40)))
                     {
-                        nodes[project] = new Rect(24 + (section.Reverse ? cells.Values.Max(c => c.Column) - cells[project].Column : cells[project].Column) * ColumnWidth,
-                            52 + cells[project].Row * (nodeHeight + 28), NodeWidth, nodeHeight);
+                        float shift = earlier.Bounds.yMax + 120 - bounds.yMin;
+                        bounds.y += shift; offset += shift;
                     }
-            }
-            foreach (var section in sections)
-            {
-                float x = 20, y = 20;
-                for (int column = 0; column < section.Column; column++)
-                    x += sections.Where(s => s.Column == column)
-                        .Select(s => s.Bounds.width).DefaultIfEmpty(0).Max() + 96;
-                for (int row = 0; row < section.Row; row++)
-                    y += sections.Where(s => s.Row == row).Select(s => s.Bounds.height).DefaultIfEmpty(0).Max() + 100;
-                section.Bounds.position = new Vector2(x, y);
-                foreach (var project in section.Projects.Where(nodes.ContainsKey))
-                { Rect node = nodes[project]; node.position += section.Bounds.position; nodes[project] = node; }
+                if (collapsed.Contains(section.Id)) bounds.height = 38;
+                section.Bounds = bounds;
+                if (!collapsed.Contains(section.Id))
+                    foreach (var pair in frames)
+                    { Rect node = pair.Value; node.y += offset; nodes[pair.Key] = node; }
             }
             width = sections.Select(s => s.Bounds.xMax).DefaultIfEmpty(700).Max() + 24;
             height = sections.Select(s => s.Bounds.yMax).DefaultIfEmpty(500).Max() + 24;

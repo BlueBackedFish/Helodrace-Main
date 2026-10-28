@@ -144,9 +144,12 @@ internal static class Program
         Check(cells[a].Column == 0 && cells[d].Column == 2, "Local dependency depth determines columns regardless of definition order");
         Check(cells[b].Column == cells[c].Column && cells[b].Row != cells[c].Row, "Branches occupy consistent columns and separate rows");
         Check(cells.Values.Select(cell => Tuple.Create(cell.Column, cell.Row)).Distinct().Count() == 4, "No overlapping layout cells");
-        foreach (var column in cells.Values.GroupBy(cell => cell.Column))
-            Check(column.Select(cell => cell.Row).OrderBy(row => row).SequenceEqual(Enumerable.Range(0, column.Count())),
-                "Branch columns contain no empty rows");
+        var e = Project("E", b); var f = Project("F", e);
+        var branches = ResearchFlowLayout.Arrange(new[] { a, c, b, e, f }, p => p.prerequisites);
+        Check(branches[e].Row == branches[b].Row && branches[f].Row == branches[e].Row,
+            "An uninterrupted branch retains its lane across columns instead of being packed back to row zero");
+        Check(cells[d].Row >= Math.Min(cells[b].Row, cells[c].Row) && cells[d].Row <= Math.Max(cells[b].Row, cells[c].Row),
+            "A merge sits between its parent branches");
         a.prerequisites.Add(d);
         Check(ResearchFlowLayout.Arrange(new[] { a, b, c, d }, p => p.prerequisites).Count == 4, "Cyclic extensions still render");
         var boxes = new[] { new ResearchBox(20, -20, 60, 20), new ResearchBox(80, 10, 120, 60) };
@@ -186,10 +189,8 @@ internal static class Program
         Check(sections.Count == 8 && members.Count == race.Count && members.Distinct().Count() == race.Count,
             "Every race project belongs to exactly one of eight technology stages");
         Check(members.All(race.ContainsKey), "No unresolved section membership");
-        Check(sections.Select(s => (string)s.Element("flowColumn")).Distinct().Count() > 1
-            && sections.Select(s => (string)s.Element("flowRow")).Distinct().Count() > 1, "Sections branch across both flow axes");
-        Check(sections.Select(s => (string)s.Element("flowColumn") + ":" + (string)s.Element("flowRow")).Distinct().Count() == sections.Count,
-            "Section flow positions never overlap");
+        Check(sections.Select(s => (int)s.Element("order")).SequenceEqual(Enumerable.Range(0, sections.Count)),
+            "Technology stages remain in forward progression order");
         var depths = new Dictionary<string, int>();
         Func<string, int> depth = null;
         depth = name => depths.TryGetValue(name, out int value) ? value : depths[name] = 1 +
@@ -202,7 +203,23 @@ internal static class Program
             foreach (var member in section.Element("projects").Elements("li"))
                 Check(depth(member.Value) >= lower[stage] && depth(member.Value) <= upper[stage],
                     "Cross-discipline membership matches real prerequisite depth: " + member.Value);
-            Check((bool)section.Element("reverseFlow") == (stage >= 4), "The lower flow row returns toward the left");
+        }
+        var layoutProjects = race.Keys.ToDictionary(name => name, name => Project(name));
+        foreach (var pair in race)
+            layoutProjects[pair.Key].prerequisites = (pair.Value.Element("prerequisites")?.Elements("li") ?? Enumerable.Empty<XElement>())
+                .Where(e => layoutProjects.ContainsKey(e.Value)).Select(e => layoutProjects[e.Value]).ToList();
+        var global = ResearchFlowLayout.Arrange(members.Select(name => layoutProjects[name]).ToList(), p => p.prerequisites);
+        foreach (var project in layoutProjects.Values)
+            foreach (var prerequisite in project.prerequisites)
+                Check(global[prerequisite].Column < global[project].Column,
+                    "Every real dependency advances strictly right: " + prerequisite.defName + " -> " + project.defName);
+        foreach (var stage in sections.Skip(1))
+        {
+            int order = (int)stage.Element("order");
+            var previous = sections.First(s => (int)s.Element("order") == order - 1);
+            Check(previous.Element("projects").Elements("li").Max(e => global[layoutProjects[e.Value]].Column)
+                < stage.Element("projects").Elements("li").Min(e => global[layoutProjects[e.Value]].Column),
+                "Later sections never fold back to the left");
         }
         var sectionTranslations = XDocument.Load("Languages/Korean (한국어)/DefInjected/Helodrace.ResearchUI.HelodResearchSectionDef/ResearchSections.xml").Root;
         Check(sectionTranslations.Elements().Select(e => e.Name.LocalName).OrderBy(n => n).SequenceEqual(
