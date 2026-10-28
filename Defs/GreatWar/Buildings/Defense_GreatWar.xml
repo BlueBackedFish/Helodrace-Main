@@ -5,6 +5,9 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_M1917HMG</defName>
+    <modExtensions>
+      <li Class="Helodrace.HeavyMachineGunAccuracyExtension"><gunnerBaseAccuracy>0.5</gunnerBaseAccuracy></li>
+    </modExtensions>
     <label>M1917 heavy machine gun</label>
     <description>A tripod-mounted, water-cooled heavy machine gun with a 250-round belt. It must be directly operated by a pawn.</description>
     <thingClass>Building_TurretGun</thingClass>
@@ -85,6 +88,9 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_M2HB</defName>
+    <modExtensions>
+      <li Class="Helodrace.HeavyMachineGunAccuracyExtension"><gunnerBaseAccuracy>0.5</gunnerBaseAccuracy></li>
+    </modExtensions>
     <label>M2HB heavy machine gun</label>
     <description>A pedestal-mounted .50 caliber heavy machine gun fed from a 100-round belt. Its powerful rounds are effective against personnel, light cover, and lightly armored targets. It must be directly operated by a pawn.</description>
     <thingClass>Building_TurretGun</thingClass>

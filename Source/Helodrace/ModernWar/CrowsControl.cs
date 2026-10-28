@@ -179,6 +179,9 @@ namespace Helodrace
     {
         private Building_CrowsComputer computer;
         public Building_CrowsComputer Computer { get => computer; internal set => computer = value; }
+        // Vanilla restricts forced targeting to a local CompMannable. This
+        // station instead keeps the normal target command with remote control.
+        protected override bool CanSetForcedTarget => Faction == Faction.OfPlayer;
         public bool CanFireNow => CrowsControlUtility.Powered(this) && Active && !IsStunned
             && computer?.LinkedTurret == this && computer.Operator != null;
 

@@ -23,6 +23,7 @@ internal static class Program
     {
         CrowsDefOf.HD_OperateCrows = new JobDef();
         var map = new Map(); var console = Console(map); var turret = Turret(map);
+        Check(turret.CanSetForcedTargetForTest,"Player CROWS lacks the vanilla forced target command.");
         Check(!turret.AttackVerb.Available(), "Unlinked CROWS acquired a target.");
         console.Connect(turret);
         Check(console.Connected && turret.Computer == console, "Connection is not reciprocal.");
@@ -39,6 +40,10 @@ internal static class Program
         Check(!turret.CanFireNow, "Walking to the computer counted as operating.");
         driver.CurToilIndex = 1;
         Check(turret.CanFireNow && turret.AttackVerb.Available(), "Seated operator cannot enable CROWS.");
+        turret.def.Extension = new HeavyMachineGunAccuracyExtension();
+        float remoteFactor = .12f;
+        Patch_HeavyMachineGunGunnerAccuracy.Postfix(turret, 10, ref remoteFactor);
+        Near(remoteFactor,.5f+.5f*(float)Math.Pow(pawn.ShootingAccuracy,10),"CROWS ignored its computer operator's accuracy.");
         turret.AttackVerb.TestShot();
         Check(turret.AttackVerb.Shots == 1, "Manned CROWS failed to fire.");
 
@@ -82,6 +87,7 @@ internal static class Program
         var foreign = Turret(new Map()); otherConsole.Connect(foreign);
         Check(otherConsole.LinkedTurret == otherTurret && foreign.Computer == null, "Cross-map link accepted.");
         foreign = Turret(map); foreign.Faction = new Faction(); otherConsole.Connect(foreign);
+        Check(!foreign.CanSetForcedTargetForTest,"Non-player CROWS exposes player targeting controls.");
         Check(otherConsole.LinkedTurret == otherTurret && foreign.Computer == null, "Cross-faction link accepted.");
         otherConsole.ExposeData(); otherTurret.ExposeData();
         Check(Scribe_References.Values["crowsTurret"] == otherTurret && Scribe_References.Values["crowsComputer"] == otherConsole,
@@ -92,8 +98,38 @@ internal static class Program
         Check(otherTurret.Computer == null, "Removing computer did not disarm the turret.");
         otherConsole.Spawned = true; otherConsole.Connect(otherTurret); otherTurret.SetFaction(new Faction());
         Check(!otherConsole.Connected && otherTurret.Computer == null, "Capturing turret retained access.");
-        VerifyDrawing(); VerifyDefinitions();
-        System.Console.WriteLine("PASS: reciprocal links, controller visibility, physical operator/job, 13 immediate shot/warmup interruption cases, reassignment, ownership/map guards, persisted references, despawn, five-layer recoil and definitions.");
+        VerifyDrawing(); VerifyDefinitions(); VerifyGunnerAccuracy();
+        System.Console.WriteLine("PASS: CROWS forced targeting with operator-only firing; links, interruption and recoil; bounded HMG gunner formula, distance, scope and real remote operator; definitions.");
+    }
+
+    private static void Near(float actual,float expected,string error)=>Check(Math.Abs(actual-expected)<.00001f,error+" actual="+actual+", expected="+expected);
+
+    private static void VerifyGunnerAccuracy()
+    {
+        Near(HeavyMachineGunAccuracy.Correct(.8f,.5f),.9f,"80% gunner must correct to 90%.");
+        Near(HeavyMachineGunAccuracy.Correct(0f,.5f),.5f,"Zero gunner factor must give x.");
+        Near(HeavyMachineGunAccuracy.Correct(1f,.5f),1f,"Perfect gunner factor must cap at 100%.");
+        Near(HeavyMachineGunAccuracy.Correct(1.03f,.5f),1f,"103% regression remains.");
+        Near(HeavyMachineGunAccuracy.Correct(.8f,-1f),0f,"Negative x was not clamped.");
+        Near(HeavyMachineGunAccuracy.Correct(.8f,2f),1f,"x over one was not clamped.");
+        var map=new Map();
+        var gunner=new Pawn { Map=map,Faction=Faction.OfPlayer,ShootingAccuracy=.8f };
+        var hmg=new Thing { Map=map,Faction=Faction.OfPlayer,Manning=new CompMannable { MannedNow=true,ManningPawn=gunner } };
+        hmg.def.Extension=new HeavyMachineGunAccuracyExtension();
+        float near=.1f,far=.1f;
+        Patch_HeavyMachineGunGunnerAccuracy.Postfix(hmg,1,ref near);
+        Patch_HeavyMachineGunGunnerAccuracy.Postfix(hmg,10,ref far);
+        Near(near,.9f,"HMG did not apply the gunner formula to the shooter factor.");
+        Near(far,.5f+.5f*(float)Math.Pow(.8f,10),"Gunner distance decay was lost.");
+        Check(far<near,"The same accuracy is being reported at all distances.");
+        hmg.Manning.MannedNow=false;float unmanned=.1f;
+        Patch_HeavyMachineGunGunnerAccuracy.Postfix(hmg,1,ref unmanned);
+        Near(unmanned,.1f,"Stale ManningPawn received a gunner bonus.");
+        hmg.Manning.MannedNow=true;hmg.def.Extension=null;
+        float other=.123f;Patch_HeavyMachineGunGunnerAccuracy.Postfix(hmg,1,ref other);
+        Near(other,.123f,"Other manned weapons were changed.");
+        other=.123f;Patch_HeavyMachineGunGunnerAccuracy.Postfix(gunner,1,ref other);
+        Near(other,.123f,"Handheld weapons/pawn accuracy were changed.");
     }
 
     private static void VerifyDrawing()
@@ -131,6 +167,13 @@ internal static class Program
         var verb=defs["HD_Gun_CrowsII"].Element("verbs").Element("li");
         Check((string)verb.Element("verbClass")==typeof(Verb_Crows).FullName,"CROWS gun bypassed its per-shot operator guard.");
         Check((string)verb.Element("consumeFuelPerShot")=="1","CROWS does not consume ammunition.");
+        var hmgDefs=XDocument.Load(Path.Combine(path,"Defs/GreatWar/Buildings/Defense_GreatWar.xml"));
+        foreach(var name in new[]{"HD_Building_M1917HMG","HD_Building_M2HB","HD_Building_CrowsII"})
+        {
+            var hmg=defs.ContainsKey(name)?defs[name]:hmgDefs.Root.Elements("ThingDef").Single(x=>(string)x.Element("defName")==name);
+            var extension=hmg.Element("modExtensions").Elements("li").Single(x=>(string)x.Attribute("Class")==typeof(HeavyMachineGunAccuracyExtension).FullName);
+            Check((string)extension.Element("gunnerBaseAccuracy")=="0.5","Wrong HMG default x: "+name);
+        }
         var job=XDocument.Load(Path.Combine(path,"Defs/ModernWar/Jobs_Crows.xml"));
         Check((string)job.Root.Element("JobDef").Element("driverClass")==typeof(JobDriver_OperateCrows).FullName,"Wrong operating job.");
         foreach(var p in defs.Values.SelectMany(x=>x.Descendants("texPath").Concat(x.Descendants("uiIconPath"))))

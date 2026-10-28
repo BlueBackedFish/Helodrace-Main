@@ -53,6 +53,9 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_CrowsII</defName>
+    <modExtensions>
+      <li Class="Helodrace.HeavyMachineGunAccuracyExtension"><gunnerBaseAccuracy>0.5</gunnerBaseAccuracy></li>
+    </modExtensions>
     <label>CROWS II emplacement</label>
     <description>A powered CROWS II remote weapon station mounting an M2HB QCB on an anchored steel plate. Connect it to a computer and order a colonist to operate that computer. It cannot acquire targets or fire without that operator, and stops firing immediately if control or power is lost. Holds a 100-round belt and uses the same ammunition supply as the M2HB emplacement.</description>
     <thingClass>Helodrace.Building_Crows</thingClass>

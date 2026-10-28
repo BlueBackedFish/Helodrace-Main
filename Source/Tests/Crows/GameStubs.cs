@@ -9,6 +9,7 @@ using UnityEngine;
 namespace UnityEngine
 {
     public class Texture2D { }
+    public static class Mathf { public static float Clamp01(float v)=>Math.Max(0f,Math.Min(1f,v)); }
     public struct Color { public static Color white => new Color(); }
     public struct Vector2 { }
     public struct Vector3
@@ -42,11 +43,14 @@ namespace RimWorld
     public static class PawnCapacityDefOf { public static object Manipulation=new object(),Sight=new object(); }
     public class CompPowerTrader { public bool PowerOn=true; }
     public class CompFlickable { public bool SwitchIsOn=true; }
+    public class CompMannable { public bool MannedNow; public Verse.Pawn ManningPawn; }
     public class TurretTop { public float CurRotation; }
     public class Building_TurretGun:Verse.Building
     {
         protected int burstWarmupTicksLeft; protected Verse.LocalTargetInfo currentTargetInt;
         public bool Active=true,IsStunned; public TurretTop Top=new TurretTop();
+        protected virtual bool CanSetForcedTarget=>false;
+        public bool CanSetForcedTargetForTest=>CanSetForcedTarget;
         public Verse.Verb TestVerb; public Verse.Verb AttackVerb=>TestVerb; public int BaseTicks;
         public Verse.LocalTargetInfo CurrentTarget=>currentTargetInt;
         protected override void Tick(){BaseTicks++;}
@@ -57,7 +61,13 @@ namespace RimWorld
 namespace Verse
 {
     public class JobDef { }
-    public class ThingDef { public GraphicData graphicData=new GraphicData(); public BuildingProperties building=new BuildingProperties(); }
+    public class DefModExtension { }
+    public class ThingDef
+    {
+        public GraphicData graphicData=new GraphicData(); public BuildingProperties building=new BuildingProperties();
+        public DefModExtension Extension;
+        public T GetModExtension<T>() where T:DefModExtension=>Extension as T;
+    }
     public class BuildingProperties { public float turretTopDrawSize=3.2f; }
     public class GraphicData { public Vector2 drawSize; }
     public class Graphic { public string Path="original desk"; public GraphicData data; }
@@ -107,8 +117,9 @@ namespace Verse
         public ThingDef def=new ThingDef(); public Rot4 Rotation;
         public Vector3 DrawPos=>new Vector3(); public string LabelShort=>"building";
         public CompPowerTrader Power=new CompPowerTrader(); public CompFlickable Flick=new CompFlickable();
+        public CompMannable Manning;
         public Helodrace.CompCrowsGraphic GraphicComp;
-        public T GetComp<T>() where T:class=>(Power as T)??(Flick as T)??(GraphicComp as T);
+        public T GetComp<T>() where T:class=>(Power as T)??(Flick as T)??(GraphicComp as T)??(Manning as T);
         public virtual Graphic Graphic=>new Graphic();
         public virtual void ExposeData(){ } public virtual void DeSpawn(DestroyMode m=DestroyMode.Vanish){Spawned=false;}
         public virtual void SetFaction(Faction f,Pawn recruiter=null){Faction=f;}
@@ -121,6 +132,7 @@ namespace Verse
     public class Building:ThingWithComps { public IntVec3 InteractionCell=>new IntVec3(1); }
     public class Pawn:Thing
     {
+        public float ShootingAccuracy=.98f;
         public bool Dead,Downed,InMentalState; public RaceProperties RaceProps=new RaceProperties();
         public Health health=new Health(); public PawnJobs jobs=new PawnJobs(); public RotationTracker rotationTracker=new RotationTracker();
         public Job CurJob=>jobs.CurJob; public bool WorkTagIsDisabled(WorkTags w)=>false;
@@ -152,8 +164,17 @@ namespace Verse
         public bool TestShot()=>TryCastShot(); public virtual void Reset(){ResetCalls++;}
     }
     public class Verb_Shoot:Verb { }
+    public static class ShotReport
+    {
+        public static float HitFactorFromShooter(Thing caster,float distance,float? acc=null)
+            =>(float)Math.Pow(acc??(caster is Pawn pawn?pawn.ShootingAccuracy:.9f),distance);
+    }
     public class ThingComp { public Thing parent; public virtual void PostDraw(){ } }
     public class CompProperties { public Type compClass; }
+}
+namespace HarmonyLib
+{
+    public sealed class HarmonyPatch:Attribute { public HarmonyPatch(Type type,string method){ } }
 }
 namespace Verse.AI
 {
