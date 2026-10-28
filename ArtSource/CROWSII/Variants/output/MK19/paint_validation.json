@@ -1,0 +1,231 @@
+{
+  "face_counts": {
+    "receiver": 2671,
+    "cover_wall": 418,
+    "cover": 71,
+    "recess": 205,
+    "receiver_wall": 354,
+    "fastener": 644,
+    "polymer": 272,
+    "polymer_top": 48,
+    "handle": 396,
+    "barrel_taper": 256,
+    "barrel_shoulder": 60,
+    "muzzle": 148
+  },
+  "rules": {
+    "palette_source": "../../PropAssets/m2_detail.json",
+    "palette": {
+      "sleeve_outer": [
+        103,
+        111,
+        106
+      ],
+      "sleeve_rim": [
+        78,
+        87,
+        81
+      ],
+      "recess": [
+        25,
+        32,
+        29
+      ],
+      "barrel_root": [
+        96,
+        105,
+        99
+      ],
+      "barrel_shoulder": [
+        120,
+        128,
+        121
+      ],
+      "barrel_taper": [
+        65,
+        74,
+        70
+      ],
+      "muzzle": [
+        94,
+        103,
+        97
+      ],
+      "receiver": [
+        79,
+        86,
+        84
+      ],
+      "receiver_wall": [
+        55,
+        62,
+        60
+      ],
+      "cover": [
+        109,
+        118,
+        111
+      ],
+      "cover_wall": [
+        79,
+        88,
+        81
+      ],
+      "sight": [
+        126,
+        135,
+        127
+      ],
+      "fastener": [
+        99,
+        108,
+        101
+      ],
+      "handle": [
+        92,
+        101,
+        95
+      ],
+      "polymer": [
+        37,
+        43,
+        40
+      ],
+      "polymer_top": [
+        61,
+        68,
+        63
+      ]
+    },
+    "component_roles": {
+      "MK19": {
+        "receiver": [
+          4742,
+          7850,
+          2846
+        ],
+        "cover": [
+          5540
+        ],
+        "cover_wall": [
+          3010,
+          6667
+        ],
+        "muzzle": [
+          5980
+        ],
+        "polymer": [
+          9405,
+          9326
+        ],
+        "handle": [
+          7556,
+          7613,
+          6258
+        ],
+        "fastener": [
+          6724,
+          6876,
+          7766,
+          7781
+        ]
+      },
+      "M240B": {
+        "receiver": [
+          3292,
+          608
+        ],
+        "cover": [
+          5109
+        ],
+        "cover_wall": [
+          7219
+        ],
+        "sleeve": [
+          14472
+        ],
+        "barrel_root": [
+          8403
+        ],
+        "barrel": [
+          8531,
+          16410
+        ],
+        "muzzle": [
+          8992
+        ],
+        "sight": [
+          6660,
+          6457
+        ],
+        "handle": [
+          19226,
+          19346
+        ],
+        "polymer": [
+          1158,
+          1910,
+          23417
+        ],
+        "mechanism": [
+          19664,
+          20080,
+          23776,
+          24000,
+          16623,
+          16847
+        ]
+      },
+      "M249": {
+        "receiver": [
+          3772,
+          1439,
+          1618
+        ],
+        "cover": [
+          1910
+        ],
+        "cover_wall": [
+          814,
+          475,
+          607
+        ],
+        "muzzle": [
+          5344
+        ],
+        "barrel_root": [
+          5079,
+          9717,
+          9780,
+          4605
+        ],
+        "polymer": [
+          9420,
+          3699,
+          3925,
+          5859,
+          5798
+        ],
+        "sight": [
+          3367,
+          7435
+        ],
+        "handle": [
+          7600,
+          7768
+        ],
+        "mechanism": [
+          2627,
+          3013,
+          3553,
+          4459
+        ]
+      }
+    },
+    "receiver_cover_luminance_gap": 31.213799999999992,
+    "curved_walls": "single fixed color; recesses and axial caps are separate roles",
+    "global_height_ranking": false,
+    "lights": false,
+    "geometry_edits": false
+  }
+}

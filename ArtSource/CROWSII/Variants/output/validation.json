@@ -20,7 +20,7 @@
         1024,
         1024
       ],
-      "sha256": "a8a41c1c55e31991049030ea7fefde52ee30262e2bf2d60c595ba028a8b17e88",
+      "sha256": "104016145084e20445ae4962e4e0ef0e3731620c61a34451dea957d17716daac",
       "shared_weapon_outline": true
     },
     "HD_CROWSII_MK19_Barrel.png": {
@@ -28,7 +28,7 @@
         1024,
         1024
       ],
-      "sha256": "67d67a769c726a00755066fe60d404f9d4cfff78350617aab1e00c35171cb1c4",
+      "sha256": "9b550450927d8e3c730cb5f90cd2c6af713bcf82b216c8734b52ddb4dd21f7ee",
       "shared_weapon_outline": true
     },
     "HD_CROWSII_MK19_Feed.png": {
@@ -44,7 +44,7 @@
         1024,
         1024
       ],
-      "sha256": "4e85a321aa983510779806ef2adf4adaa38c028c7fa1e2b17923361a9e28c8b6",
+      "sha256": "523b810bf88034d19d377d7f81e0da41cd7f73e7ea8d7374233a4e5d22e99ca1",
       "registered_composite": true
     },
     "HD_CROWSII_MK19_north.png": {
@@ -59,7 +59,7 @@
         633
       ],
       "minimum_margin": 236,
-      "sha256": "5d37b0f5c7540c4fa6e176ae4c2e5661a5e9500b729d003306740be88f261d3a"
+      "sha256": "0ed31312831ed10f1e0f9593eda4f8c12429be2d6811e34e0320e1e26b61142e"
     },
     "HD_CROWSII_MK19_east.png": {
       "size": [
@@ -73,7 +73,7 @@
         643
       ],
       "minimum_margin": 233,
-      "sha256": "bd909786a14100fc562d5d2887a4e9c9a55ea427cceb87deedf54ca4abe8ae6d"
+      "sha256": "8639d41309663caeeaa7499b4af26b3c80802097f0cf5f3ae0e21d7a4d0d41c3"
     },
     "HD_CROWSII_MK19_south.png": {
       "size": [
@@ -87,7 +87,7 @@
         623
       ],
       "minimum_margin": 182,
-      "sha256": "005c365f66f39a9196680dccc648f8ae308f8ceb97f7bc1a97388de0cad618ed"
+      "sha256": "4cd825bbc923a83b0b312676ce167e83ecadcaa52a75ca49a92f3c51152bb104"
     },
     "HD_CROWSII_MK19_west.png": {
       "size": [
@@ -101,7 +101,7 @@
         659
       ],
       "minimum_margin": 272,
-      "sha256": "c196fb80a79af86b1d369f674501d4f9ed70e6aa5a330b4d9ac3da7dfbe7e93f"
+      "sha256": "9edacd3e2d5a99169bcc25adbba7ec1cb9f6f5b632c4cde65f6f8070dac545c0"
     },
     "HD_CROWSII_MK19_UI.png": {
       "size": [
@@ -115,7 +115,7 @@
         976
       ],
       "minimum_margin": 48,
-      "sha256": "31a4dffecb952d28ef21412f2a2831dc1682e8492088b8234611c7834556c8b4"
+      "sha256": "ea3db6d1a8ee3ec4f5b07773deca34eb10fabd4115da77c080f8c1eaca6e994d"
     },
     "HD_CROWSII_M240B_Frame.png": {
       "size": [
@@ -136,7 +136,7 @@
         1024,
         1024
       ],
-      "sha256": "6ed6b21e08ac3e2e373b699c915e3fb1fb54e680447b3fbfa68695559dab6396",
+      "sha256": "7bdfed1d6f433bb58f2306abd86ac67763f9eec83d2496312a95fba7df1057e5",
       "shared_weapon_outline": true
     },
     "HD_CROWSII_M240B_Barrel.png": {
@@ -144,7 +144,7 @@
         1024,
         1024
       ],
-      "sha256": "b9fb9bfc022a8ad4999fb9faa7b20ec693ac5f3ca207e18defb79efeefdf4ca7",
+      "sha256": "ed4025d22e22435a03480ad9bdb16e50b0f2ad2b7db3a5358d89088ee267c14d",
       "shared_weapon_outline": true
     },
     "HD_CROWSII_M240B_Feed.png": {
@@ -160,7 +160,7 @@
         1024,
         1024
       ],
-      "sha256": "abcb3f39b9c285f8340ee7086cb70bb4ab357e21334c33d0c118f3ccd736643e",
+      "sha256": "9fd7e28450e5f5fee662f58ea4b4dd450c8b4691a2e308c1483856dddc5055fa",
       "registered_composite": true
     },
     "HD_CROWSII_M240B_north.png": {
@@ -175,7 +175,7 @@
         616
       ],
       "minimum_margin": 167,
-      "sha256": "c8ae00572a15c8b4ab90e25ab13227580bcf3e655fd12ceb7dc6535799edfb0d"
+      "sha256": "e70b6d459b23d9fba1ba3178c3f2314a43886e12414a0480f64f2599ec160dee"
     },
     "HD_CROWSII_M240B_east.png": {
       "size": [
@@ -189,7 +189,7 @@
         643
       ],
       "minimum_margin": 233,
-      "sha256": "7784de58a3af53a605b4791e9bc98d328c864fa5611e31f77c5399e1f442670b"
+      "sha256": "fe44aef23677ea83abdb9cefb3b4b0f96e3a98e86b5434f2eaeb1c7e43459449"
     },
     "HD_CROWSII_M240B_south.png": {
       "size": [
@@ -203,7 +203,7 @@
         645
       ],
       "minimum_margin": 202,
-      "sha256": "42780cf57de6e1bcf5114a9f03846fe1d4a8abd9d516cd2c371b9b22ce922f3c"
+      "sha256": "4c6bdfe83005c3abbe543959f66adc32362b7ab1f8a64845faa095715c1146a4"
     },
     "HD_CROWSII_M240B_west.png": {
       "size": [
@@ -217,7 +217,7 @@
         659
       ],
       "minimum_margin": 249,
-      "sha256": "46f9f10044252b57de9918d41a0256589f5287c5ececfd2db4518b28522ae7ca"
+      "sha256": "8110a084e4a34b397370c5a7c0a0743cb52095765a5ce7b6c356eba0e02b9576"
     },
     "HD_CROWSII_M240B_UI.png": {
       "size": [
@@ -231,7 +231,7 @@
         975
       ],
       "minimum_margin": 47,
-      "sha256": "204c3829f33b8e36ee7c6d3fbbb55ae8546e7a992854c58a647d65e9f0c3fa34"
+      "sha256": "79498b3234769f7fa9435f41200afdbc0ff65438fdfa1cf251247e226d75cd8c"
     },
     "HD_CROWSII_M249_Frame.png": {
       "size": [
@@ -252,7 +252,7 @@
         1024,
         1024
       ],
-      "sha256": "ef26da14098a43e1c1de9db58ebaca5080cdda3851dd2919f43089b1dd1b5308",
+      "sha256": "a7d306429cdcb3e1be0bc44db27d169d8150af7ba319709b8bea323e1b27e872",
       "shared_weapon_outline": true
     },
     "HD_CROWSII_M249_Barrel.png": {
@@ -260,7 +260,7 @@
         1024,
         1024
       ],
-      "sha256": "e49b51a2e9cf01839954a42e53c9be743338622e10b9ce75309dced94c9ab0ac",
+      "sha256": "f88fc441fbdcf3cde853a8677e24d81e72e66dabca1a996c542212252ed3893a",
       "shared_weapon_outline": true
     },
     "HD_CROWSII_M249_Feed.png": {
@@ -276,7 +276,7 @@
         1024,
         1024
       ],
-      "sha256": "35c0ee3a449c45e59b722094ce4705f30f17b382c792ef691e16793590cf45cf",
+      "sha256": "05372e751f3a1e8f38dbc1b82dc8d8ad4c5e85c2f21e6402a82edd290ba05f40",
       "registered_composite": true
     },
     "HD_CROWSII_M249_north.png": {
@@ -291,7 +291,7 @@
         616
       ],
       "minimum_margin": 191,
-      "sha256": "8ca35f95cedc5a3f492afb7f907bf6869a0c90d786b06d3edd6e4128b2cc922c"
+      "sha256": "05cde1c9b2d0cd1f9ba66ad3a5d363ee7c4c527a7ff69827e045b03a7b4fec5e"
     },
     "HD_CROWSII_M249_east.png": {
       "size": [
@@ -305,7 +305,7 @@
         643
       ],
       "minimum_margin": 233,
-      "sha256": "0b1d6e38c42d6ecc2cc55fa0a7bb9c7ee2a6354fc3e6135493d81f53f665e237"
+      "sha256": "bc941c60114809f34aa6fe5e3529f37624d63e0e7e12c80b6799c588daec314b"
     },
     "HD_CROWSII_M249_south.png": {
       "size": [
@@ -319,7 +319,7 @@
         632
       ],
       "minimum_margin": 274,
-      "sha256": "825c5a13261392a6c0be62e5b50a4190e9385ec14d403c499585eee321ef1146"
+      "sha256": "d22c30636d2dc282abe6c26853dfd5f4478359579efd56c12fb72b7be99b6303"
     },
     "HD_CROWSII_M249_west.png": {
       "size": [
@@ -333,7 +333,7 @@
         659
       ],
       "minimum_margin": 270,
-      "sha256": "ae26bc365987e5c1a2edd637be0ece33cb5226cfe75c13a23bc997992d7ab055"
+      "sha256": "596fb0a5dbdce7bb584caee3cf4cfe420ff87046c323e09ccba15fd6e2330cf9"
     },
     "HD_CROWSII_M249_UI.png": {
       "size": [
@@ -347,7 +347,7 @@
         976
       ],
       "minimum_margin": 46,
-      "sha256": "208f5f6399ca32792a3478b5f52792693d213797ac0b655d986cecb2596ae0a6"
+      "sha256": "2ba6a854666043d0ae7f397e09766ae045524967390cbd3f2a603b2f55c223fa"
     }
   },
   "weapons": [

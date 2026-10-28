@@ -6,6 +6,7 @@ from mathutils import Vector,Matrix
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'output';OUT.mkdir(parents=True,exist_ok=True)
 sys.path.insert(0,str(ROOT.parents[1]/'PropAssets'));import modeling as m;import surface_paint
 sys.path.insert(0,str(ROOT.parent));import feed_alignment
+sys.path.insert(0,str(ROOT));import paint as variant_paint
 CONFIG=json.loads((ROOT/'weapons.json').read_text())
 EXT=Path(os.environ.get('HELODRACE_REFERENCE_EXT',str(Path.home()/'Downloads/Dagor-Asset-Explorer-1.0.0/Dagor-Asset-Explorer-1.0.0/ext')))/'machine gun'
 STATION=ROOT.parent/'output/crows_ii_m2.blend'
@@ -98,23 +99,23 @@ def load_station():
 
 def weapon(kind,config,data):
     palette=surface_paint.palette();colors={k:m.material('Variant '+k,v) for k,v in palette.items()}
-    colors['polymer']=m.material('Weapon black polymer',(37,43,40));colors['polymer_top']=m.material('Weapon polymer upper',(61,68,63))
-    colors['barrel']=m.material('Weapon barrel wall',(59,67,63));colors['bore']=m.material('Weapon bore',(23,28,26));colors['rail']=m.material('Weapon rail cap',(99,107,102))
+    colors.update({k:m.material('Weapon '+k,v) for k,v in variant_paint.PALETTE.items()})
+    component_bounds={}
+    for f in data['records']:
+        component_bounds.setdefault(f['component'],[]).extend(data['transform']@data['vertices'][i] for i in f['indices'])
+    component_bounds={k:(Vector([min(p[j] for p in points) for j in range(3)]),Vector([max(p[j] for p in points) for j in range(3)])) for k,points in component_bounds.items()}
+    counts=defaultdict(int)
     made=[];keys=list(colors)
     for layer in ['body','barrel']:
         faces=[f for f in data['records'] if f['layer']==layer];used=sorted({i for f in faces for i in f['indices']});mapping={v:i for i,v in enumerate(used)}
         mesh=bpy.data.meshes.new(kind+' '+layer);mesh.from_pydata([data['transform']@data['vertices'][i] for i in used],[],[[mapping[i] for i in f['indices']] for f in faces]);mesh.update()
         for key in keys:mesh.materials.append(colors[key])
         for p,f in zip(mesh.polygons,faces):
-            src=[data['vertices'][i] for i in f['indices']];center=sum(src,Vector())/len(src)
-            # Broad receiver planes use fixed support values. Barrel and other
-            # curved small parts have uniform walls, with separate end colors.
-            key='metal_cover' if p.normal.z>.65 else 'metal_side' if abs(p.normal.x)>.65 else 'metal_front' if p.normal.y>.65 else 'metal'
-            if layer=='barrel':key='barrel' if abs(p.normal.y)<.9 else 'bore' if p.normal.y>.9 else 'metal'
-            if kind=='M240B' and center.x>2.5:key='polymer_top' if p.normal.z>.65 else 'polymer'
-            if kind=='M249' and center.y>3.1:key='polymer_top' if p.normal.z>.65 else 'polymer'
-            if kind=='MK19' and abs(p.normal.z)>.65:key='metal_cover'
+            center=sum((mesh.vertices[i].co for i in p.vertices),Vector())/len(p.vertices)
+            lo,hi=component_bounds[f['component']]
+            key=variant_paint.select(kind,f['component'],layer,p.normal,center,lo,hi)
             p.material_index=keys.index(key)
+            counts[key]+=1
         for name in faces[0]['uv']:
             uv=mesh.uv_layers.new(name=name)
             for p,f in zip(mesh.polygons,faces):
@@ -128,6 +129,7 @@ def weapon(kind,config,data):
     # rescaling the CROWS frame. The infantry stocks remain present.
     for x in [-.075,.075]:
         o=m.box(kind+' receiver adapter',(x,-.018,.731),(.04,.24,.074),colors['mount_top'],.004);o['layer']='frame';made.append(o)
+    data['paint']=dict(face_counts=dict(counts),rules=variant_paint.report())
     return made
 
 def belt(kind,config,data,chute):
@@ -165,6 +167,7 @@ def build(kind):
     assert not any(o.type=='LIGHT' for o in scene.objects)
     metadata=dict(weapon=kind,source=data['source'],source_sha256=data['source_sha256'],selected_source_object=config['object'],source_faces=data['source_faces'],retained_faces=len(data['records']),removed_components=data['removed'],transform=[list(row) for row in data['transform']],uniform_scale=data['scale'],source_length=data['source_length'],length_m=config['length_m'],world_per_m=WORLD_PER_M,m2_calibration=M2_CALIBRATION,length_ratio_to_m2=config['length_m']/M2_CALIBRATION['m2_length_m'],reference=config['reference'],station_source=str(STATION),station_sha256=hashlib.sha256(STATION.read_bytes()).hexdigest(),station_feed_faces_replaced=removed_feed,station_other_faces_preserved=True,feed=feed_report,top_draw_size=[3.2,3.2],directional_draw_size=[3.6,3.6],pivot=[0,0],master_resolution=2048,native_resolution=1024,outline_world_tiles=.026,barrel_is_fixed=True,gameplay_added=False)
     (folder/'metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
+    (folder/'paint_validation.json').write_text(json.dumps(data['paint'],indent=2)+'\n')
     print('CROWS_VARIANT_BUILD_PASS',kind,'source faces',len(data['records']),'M2 chute faces',feed_report['source_faces'],flush=True)
 
 if __name__=='__main__':

@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "baseline": "103891d1",
+  "models": {
+    "MK19": {
+      "geometry_uv_transform_sha256": "a507bebc6be4b2f33dd6c7fadf1187fb912b2d2ef208beed01334ed12c6ad65c",
+      "cameras_unchanged": true
+    },
+    "M240B": {
+      "geometry_uv_transform_sha256": "1bc51174c265f25a71d37a5a16b8176ff0fda25893cdbc444d1c7ee0e7cf2493",
+      "cameras_unchanged": true
+    },
+    "M249": {
+      "geometry_uv_transform_sha256": "5558ec9bb14290547aefc5e14f2ee770a3fe0b18240aa6eb3191a9eaef3b5f6e",
+      "cameras_unchanged": true
+    }
+  }
+}

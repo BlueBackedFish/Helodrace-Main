@@ -1,0 +1,40 @@
+{
+  "palette": "../../PropAssets/m2_detail.json",
+  "default_body": "mechanism",
+  "default_barrel": "barrel",
+  "weapons": {
+    "MK19": {
+      "receiver": [4742, 7850, 2846],
+      "cover": [5540],
+      "cover_wall": [3010, 6667],
+      "muzzle": [5980],
+      "polymer": [9405, 9326],
+      "handle": [7556, 7613, 6258],
+      "fastener": [6724, 6876, 7766, 7781]
+    },
+    "M240B": {
+      "receiver": [3292, 608],
+      "cover": [5109],
+      "cover_wall": [7219],
+      "sleeve": [14472],
+      "barrel_root": [8403],
+      "barrel": [8531, 16410],
+      "muzzle": [8992],
+      "sight": [6660, 6457],
+      "handle": [19226, 19346],
+      "polymer": [1158, 1910, 23417],
+      "mechanism": [19664, 20080, 23776, 24000, 16623, 16847]
+    },
+    "M249": {
+      "receiver": [3772, 1439, 1618],
+      "cover": [1910],
+      "cover_wall": [814, 475, 607],
+      "muzzle": [5344],
+      "barrel_root": [5079, 9717, 9780, 4605],
+      "polymer": [9420, 3699, 3925, 5859, 5798],
+      "sight": [3367, 7435],
+      "handle": [7600, 7768],
+      "mechanism": [2627, 3013, 3553, 4459]
+    }
+  }
+}

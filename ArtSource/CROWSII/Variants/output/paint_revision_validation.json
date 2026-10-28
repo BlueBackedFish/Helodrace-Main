@@ -1,0 +1,415 @@
+{
+  "passed": true,
+  "baseline": "103891d1",
+  "models": {
+    "MK19": {
+      "geometry_uv_transform_sha256": "a507bebc6be4b2f33dd6c7fadf1187fb912b2d2ef208beed01334ed12c6ad65c",
+      "cameras_unchanged": true
+    },
+    "M240B": {
+      "geometry_uv_transform_sha256": "1bc51174c265f25a71d37a5a16b8176ff0fda25893cdbc444d1c7ee0e7cf2493",
+      "cameras_unchanged": true
+    },
+    "M249": {
+      "geometry_uv_transform_sha256": "5558ec9bb14290547aefc5e14f2ee770a3fe0b18240aa6eb3191a9eaef3b5f6e",
+      "cameras_unchanged": true
+    }
+  },
+  "images": {
+    "HD_CROWSII_MK19_Frame.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": true
+    },
+    "HD_CROWSII_MK19_Body.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_MK19_Barrel.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_MK19_Feed.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": true
+    },
+    "HD_CROWSII_MK19_Top.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_MK19_north.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_MK19_east.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_MK19_south.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_MK19_west.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_MK19_UI.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_M240B_Frame.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": true
+    },
+    "HD_CROWSII_M240B_Body.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_M240B_Barrel.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_M240B_Feed.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": true
+    },
+    "HD_CROWSII_M240B_Top.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_M240B_north.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_M240B_east.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_M240B_south.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_M240B_west.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_M240B_UI.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_M249_Frame.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": true
+    },
+    "HD_CROWSII_M249_Body.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_M249_Barrel.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_M249_Feed.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": true
+    },
+    "HD_CROWSII_M249_Top.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_M249_north.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_M249_east.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_M249_south.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_M249_west.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    },
+    "HD_CROWSII_M249_UI.png": {
+      "alpha_unchanged": true,
+      "full_image_unchanged": false
+    }
+  },
+  "visible_palette_pixels": {
+    "MK19": {
+      "sleeve_outer": 0,
+      "sleeve_rim": 4,
+      "recess": 0,
+      "barrel_root": 0,
+      "barrel_shoulder": 0,
+      "barrel_taper": 0,
+      "muzzle": 6,
+      "receiver": 5573,
+      "receiver_wall": 261,
+      "cover": 8291,
+      "cover_wall": 174,
+      "sight": 0,
+      "fastener": 76,
+      "handle": 245,
+      "polymer": 0,
+      "polymer_top": 45
+    },
+    "M240B": {
+      "sleeve_outer": 1,
+      "sleeve_rim": 0,
+      "recess": 1,
+      "barrel_root": 3,
+      "barrel_shoulder": 0,
+      "barrel_taper": 0,
+      "muzzle": 44,
+      "receiver": 611,
+      "receiver_wall": 37,
+      "cover": 363,
+      "cover_wall": 0,
+      "sight": 123,
+      "fastener": 3,
+      "handle": 306,
+      "polymer": 0,
+      "polymer_top": 1009
+    },
+    "M249": {
+      "sleeve_outer": 1,
+      "sleeve_rim": 0,
+      "recess": 0,
+      "barrel_root": 1,
+      "barrel_shoulder": 0,
+      "barrel_taper": 0,
+      "muzzle": 0,
+      "receiver": 4185,
+      "receiver_wall": 0,
+      "cover": 96,
+      "cover_wall": 0,
+      "sight": 117,
+      "fastener": 0,
+      "handle": 4,
+      "polymer": 35,
+      "polymer_top": 1059
+    }
+  },
+  "palette_rules": {
+    "palette_source": "../../PropAssets/m2_detail.json",
+    "palette": {
+      "sleeve_outer": [
+        103,
+        111,
+        106
+      ],
+      "sleeve_rim": [
+        78,
+        87,
+        81
+      ],
+      "recess": [
+        25,
+        32,
+        29
+      ],
+      "barrel_root": [
+        96,
+        105,
+        99
+      ],
+      "barrel_shoulder": [
+        120,
+        128,
+        121
+      ],
+      "barrel_taper": [
+        65,
+        74,
+        70
+      ],
+      "muzzle": [
+        94,
+        103,
+        97
+      ],
+      "receiver": [
+        79,
+        86,
+        84
+      ],
+      "receiver_wall": [
+        55,
+        62,
+        60
+      ],
+      "cover": [
+        109,
+        118,
+        111
+      ],
+      "cover_wall": [
+        79,
+        88,
+        81
+      ],
+      "sight": [
+        126,
+        135,
+        127
+      ],
+      "fastener": [
+        99,
+        108,
+        101
+      ],
+      "handle": [
+        92,
+        101,
+        95
+      ],
+      "polymer": [
+        37,
+        43,
+        40
+      ],
+      "polymer_top": [
+        61,
+        68,
+        63
+      ]
+    },
+    "component_roles": {
+      "MK19": {
+        "receiver": [
+          4742,
+          7850,
+          2846
+        ],
+        "cover": [
+          5540
+        ],
+        "cover_wall": [
+          3010,
+          6667
+        ],
+        "muzzle": [
+          5980
+        ],
+        "polymer": [
+          9405,
+          9326
+        ],
+        "handle": [
+          7556,
+          7613,
+          6258
+        ],
+        "fastener": [
+          6724,
+          6876,
+          7766,
+          7781
+        ]
+      },
+      "M240B": {
+        "receiver": [
+          3292,
+          608
+        ],
+        "cover": [
+          5109
+        ],
+        "cover_wall": [
+          7219
+        ],
+        "sleeve": [
+          14472
+        ],
+        "barrel_root": [
+          8403
+        ],
+        "barrel": [
+          8531,
+          16410
+        ],
+        "muzzle": [
+          8992
+        ],
+        "sight": [
+          6660,
+          6457
+        ],
+        "handle": [
+          19226,
+          19346
+        ],
+        "polymer": [
+          1158,
+          1910,
+          23417
+        ],
+        "mechanism": [
+          19664,
+          20080,
+          23776,
+          24000,
+          16623,
+          16847
+        ]
+      },
+      "M249": {
+        "receiver": [
+          3772,
+          1439,
+          1618
+        ],
+        "cover": [
+          1910
+        ],
+        "cover_wall": [
+          814,
+          475,
+          607
+        ],
+        "muzzle": [
+          5344
+        ],
+        "barrel_root": [
+          5079,
+          9717,
+          9780,
+          4605
+        ],
+        "polymer": [
+          9420,
+          3699,
+          3925,
+          5859,
+          5798
+        ],
+        "sight": [
+          3367,
+          7435
+        ],
+        "handle": [
+          7600,
+          7768
+        ],
+        "mechanism": [
+          2627,
+          3013,
+          3553,
+          4459
+        ]
+      }
+    },
+    "receiver_cover_luminance_gap": 31.213799999999992,
+    "curved_walls": "single fixed color; recesses and axial caps are separate roles",
+    "global_height_ranking": false,
+    "lights": false,
+    "geometry_edits": false
+  },
+  "source_mesh_uvs_and_cameras_unchanged": true,
+  "all_30_sprite_alpha_unchanged": true,
+  "station_and_feed_pixels_unchanged": true,
+  "in_game_tested": false
+}
