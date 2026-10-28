@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <JobDef>
+    <defName>HD_OperateCrows</defName>
+    <driverClass>Helodrace.JobDriver_OperateCrows</driverClass>
+    <reportString>operating the CROWS II control computer.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+</Defs>

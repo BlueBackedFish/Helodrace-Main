@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_CrowsComputer</defName>
+    <label>computer</label>
+    <description>A desktop computer on a wired workstation. Connect it to a CROWS II emplacement to install its control grip and display. A colonist must operate this computer for the connected weapon to fire. Each computer controls one emplacement on the same map. Both buildings require power.</description>
+    <thingClass>Helodrace.Building_CrowsComputer</thingClass>
+    <graphicData>
+      <texPath>Buildings/ComputerDesk/HD_ComputerDesk</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Cutout</shaderType>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <drawerType>RealtimeOnly</drawerType>
+    <size>(2,1)</size>
+    <rotatable>true</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <pathCost>42</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2580</uiOrder>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites><li>HelodTransistor</li></researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>160</MaxHitPoints>
+      <WorkToBuild>4000</WorkToBuild>
+      <Mass>55</Mass>
+      <Flammability>0.7</Flammability>
+    </statBases>
+    <costList>
+      <Steel>80</Steel>
+      <WoodLog>60</WoodLog>
+      <HD_BasicElectricalComponents>12</HD_BasicElectricalComponents>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>200</basePowerConsumption>
+        <shortCircuitInRain>true</shortCircuitInRain>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Forbiddable"/>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_Building_CrowsII</defName>
+    <label>CROWS II emplacement</label>
+    <description>A powered CROWS II remote weapon station mounting an M2HB QCB on an anchored steel plate. Connect it to a computer and order a colonist to operate that computer. It cannot acquire targets or fire without that operator, and stops firing immediately if control or power is lost. Holds a 100-round belt and uses the same ammunition supply as the M2HB emplacement.</description>
+    <thingClass>Helodrace.Building_Crows</thingClass>
+    <graphicData>
+      <texPath>Buildings/Security/CROWSII/FixedMount/HD_CROWSII_FixedMount_top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Cutout</shaderType>
+      <drawSize>(3.2,3.2)</drawSize>
+    </graphicData>
+    <uiIconPath>Buildings/Security/CROWSII/FixedMount/HD_CROWSII_FixedMount_UI</uiIconPath>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <drawHighlight>true</drawHighlight>
+    <drawHighlightOnlyForHostile>true</drawHighlightOnlyForHostile>
+    <size>(2,2)</size>
+    <rotatable>true</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.4</fillPercent>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2581</uiOrder>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites><li>HelodTransistor</li><li>HelodHighMachineGun</li></researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>6500</WorkToBuild>
+      <Flammability>0.25</Flammability>
+      <Mass>230</Mass>
+      <ShootingAccuracyTurret>0.95</ShootingAccuracyTurret>
+    </statBases>
+    <costList>
+      <HD_WildWestBarrel>1</HD_WildWestBarrel>
+      <HD_GeneralMachinePart>20</HD_GeneralMachinePart>
+      <HD_CarbonSteel>180</HD_CarbonSteel>
+      <HD_PressComponent>12</HD_PressComponent>
+      <HD_UniformRolledSteelPlate>4</HD_UniformRolledSteelPlate>
+      <HD_BasicElectricalComponents>16</HD_BasicElectricalComponents>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <building>
+      <turretGunDef>HD_Gun_CrowsII</turretGunDef>
+      <turretBurstWarmupTime>1.2</turretBurstWarmupTime>
+      <turretBurstCooldownTime>0.2</turretBurstCooldownTime>
+      <turretTopDrawSize>3.2</turretTopDrawSize>
+    </building>
+    <placeWorkers><li>PlaceWorker_TurretTop</li></placeWorkers>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>M2HB ammunition</fuelLabel>
+        <fuelGizmoLabel>Ammunition</fuelGizmoLabel>
+        <outOfFuelMessage>Needs ammunition</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Steel</li></thingDefs></fuelFilter>
+        <fuelCapacity>100</fuelCapacity>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.25</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>100</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="Helodrace.CompProperties_CrowsGraphic"/>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>HD_Gun_CrowsII</defName>
+    <label>CROWS II M2HB QCB</label>
+    <description>The remote station's belt-fed M2HB QCB.</description>
+    <graphicData>
+      <texPath>Buildings/Security/HD_Transparent</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.48</AccuracyTouch>
+      <AccuracyShort>0.70</AccuracyShort>
+      <AccuracyMedium>0.78</AccuracyMedium>
+      <AccuracyLong>0.68</AccuracyLong>
+      <RangedWeapon_Cooldown>0.2</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Helodrace.Verb_Crows</verbClass>
+        <defaultProjectile>HD_Bullet_M2HB_Proj</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <range>42.9</range>
+        <burstShotCount>10</burstShotCount>
+        <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+        <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
+        <soundCast>HD_M2Fire</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>14</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+</Defs>

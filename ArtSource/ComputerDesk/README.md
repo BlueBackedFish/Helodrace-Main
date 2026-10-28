@@ -14,4 +14,4 @@
 python ArtSource/ComputerDesk/package.py
 ```
 
-새 건물 정의나 컴퓨터 기능은 추가하지 않은 텍스처·모델 자료다. 실제 게임 실행 검증은 하지 않았다. 공유 모델·출력 도구는 `ArtSource/PropAssets`에 있다.
+본체의 컴퓨터 건물에 사용하며 CROWS 연결 시 컨트롤러가 장착된 4방향 그래픽으로 전환한다. 사용법과 기능 검증 범위는 `Docs/CROWSII.md`를 따른다. 실제 게임 실행 검증은 하지 않았다. 공유 모델·출력 도구는 `ArtSource/PropAssets`에 있다.

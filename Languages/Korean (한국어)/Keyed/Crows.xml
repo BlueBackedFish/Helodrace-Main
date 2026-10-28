@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Crows_Connect>CROWS 연결</HD_Crows_Connect>
+  <HD_Crows_ConnectDesc>같은 맵의 컴퓨터와 CROWS II 진지를 선택합니다. 컴퓨터 한 대가 진지 한 곳을 조작합니다. 새로 연결하면 두 건물의 이전 연결은 해제됩니다.</HD_Crows_ConnectDesc>
+  <HD_Crows_Disconnect>CROWS 연결 해제</HD_Crows_Disconnect>
+  <HD_Crows_DisconnectDesc>컴퓨터에서 컨트롤러를 제거하고 연결된 무기의 사격을 중지합니다.</HD_Crows_DisconnectDesc>
+  <HD_Crows_Linked>연결됨: {0}</HD_Crows_Linked>
+  <HD_Crows_Unlinked>CROWS 연결 없음</HD_Crows_Unlinked>
+  <HD_Crows_Operator>조작자: {0}</HD_Crows_Operator>
+  <HD_Crows_Unmanned>컴퓨터 조작자 대기 중</HD_Crows_Unmanned>
+  <HD_Crows_Operate>CROWS II 조작</HD_Crows_Operate>
+  <HD_Crows_NoPower>컴퓨터와 진지 모두 전력이 필요함</HD_Crows_NoPower>
+  <HD_Crows_Ready>원격 조작자 배치됨</HD_Crows_Ready>
+</LanguageData>

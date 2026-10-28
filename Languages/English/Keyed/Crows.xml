@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Crows_Connect>Connect CROWS</HD_Crows_Connect>
+  <HD_Crows_ConnectDesc>Select a computer and a CROWS II emplacement on this map. Each computer controls one emplacement. A new connection replaces either building's previous connection.</HD_Crows_ConnectDesc>
+  <HD_Crows_Disconnect>Disconnect CROWS</HD_Crows_Disconnect>
+  <HD_Crows_DisconnectDesc>Remove the controller from the computer and stop the connected weapon.</HD_Crows_DisconnectDesc>
+  <HD_Crows_Linked>Connected: {0}</HD_Crows_Linked>
+  <HD_Crows_Unlinked>No CROWS connection</HD_Crows_Unlinked>
+  <HD_Crows_Operator>Operator: {0}</HD_Crows_Operator>
+  <HD_Crows_Unmanned>Awaiting computer operator</HD_Crows_Unmanned>
+  <HD_Crows_Operate>Operate CROWS II</HD_Crows_Operate>
+  <HD_Crows_NoPower>Computer and emplacement both need power</HD_Crows_NoPower>
+  <HD_Crows_Ready>Remote operator at controls</HD_Crows_Ready>
+</LanguageData>
