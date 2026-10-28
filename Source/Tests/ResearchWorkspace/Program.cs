@@ -150,6 +150,15 @@ internal static class Program
             "An uninterrupted branch retains its lane across columns instead of being packed back to row zero");
         Check(cells[d].Row >= Math.Min(cells[b].Row, cells[c].Row) && cells[d].Row <= Math.Max(cells[b].Row, cells[c].Row),
             "A merge sits between its parent branches");
+        var guided = ResearchFlowLayout.Arrange(new[] { a, b, c }, p => p.prerequisites,
+            p => p == a ? new ResearchCell(0, 5) : p == b ? new ResearchCell(8, 1) : new ResearchCell(8, 7));
+        Check(guided[b].Column == 8 && guided[c].Column == 8 && guided[b].Row == 1 && guided[c].Row == 7,
+            "Authored peers keep their common milestone column and separate branch lanes");
+        var extension = Project("Extension", b);
+        var mixed = ResearchFlowLayout.Arrange(new[] { a, b, extension }, p => p.prerequisites,
+            p => p == a ? new ResearchCell(0, 5) : p == b ? new ResearchCell(8, 1) : (ResearchCell?)null);
+        Check(mixed[extension].Column > mixed[b].Column && mixed[extension].Row == mixed[b].Row,
+            "Unknown extensions follow their parents without repacking authored research");
         a.prerequisites.Add(d);
         Check(ResearchFlowLayout.Arrange(new[] { a, b, c, d }, p => p.prerequisites).Count == 4, "Cyclic extensions still render");
         var boxes = new[] { new ResearchBox(20, -20, 60, 20), new ResearchBox(80, 10, 120, 60) };
@@ -245,29 +254,45 @@ internal static class Program
             .ToDictionary(p => (string)p.Element("defName"));
         var sections = XDocument.Load("Defs/Research/ResearchSections_Helod.xml").Root.Elements().ToList();
         var members = sections.SelectMany(s => s.Element("projects").Elements("li")).Select(e => e.Value).ToList();
-        Check(sections.Count == 8 && members.Count == race.Count && members.Distinct().Count() == race.Count,
-            "Every race project belongs to exactly one of eight technology stages");
+        Check(sections.Count == 7 && members.Count == race.Count && members.Distinct().Count() == race.Count,
+            "Every race project belongs to exactly one of seven authored milestone regions");
         Check(members.All(race.ContainsKey), "No unresolved section membership");
         Check(sections.Select(s => (int)s.Element("order")).SequenceEqual(Enumerable.Range(0, sections.Count)),
             "Technology stages remain in forward progression order");
-        var depths = new Dictionary<string, int>();
-        Func<string, int> depth = null;
-        depth = name => depths.TryGetValue(name, out int value) ? value : depths[name] = 1 +
-            (race[name].Element("prerequisites")?.Elements("li") ?? Enumerable.Empty<XElement>())
-                .Where(e => race.ContainsKey(e.Value)).Select(e => depth(e.Value)).DefaultIfEmpty(-1).Max();
-        int[] lower = { 0, 2, 4, 6, 8, 10, 13, 15 }, upper = { 1, 3, 5, 7, 9, 12, 14, 16 };
+        var reference = XDocument.Load("Source/Tests/ResearchWorkspace/ReferenceLayout_20261027_1737.xml").Root.Elements("Project")
+            .ToDictionary(e => (string)e.Attribute("defName"));
+        Check(reference.Count == 65 && race.Count == 64 && !race.ContainsKey("HelodMiniMotor"),
+            "Reference captures the pre-17:59 layout without reviving the merged motor research");
+        int[] lower = { 0, 3, 6, 8, 11, 13, 16 }, upper = { 2, 5, 7, 10, 12, 15, 18 };
+        var authored = new Dictionary<string, ResearchCell>();
+        foreach (var pair in race)
+        {
+            Check((float)pair.Value.Element("researchViewX") == (float)reference[pair.Key].Attribute("x")
+                && (float)pair.Value.Element("researchViewY") == (float)reference[pair.Key].Attribute("y"),
+                "Authored column and branch lane match e3df9983: " + pair.Key);
+            authored[pair.Key] = new ResearchCell((int)(float)pair.Value.Element("researchViewX"),
+                (int)Math.Round((float)pair.Value.Element("researchViewY") / 0.8f));
+        }
         foreach (var section in sections)
         {
             int stage = (int)section.Element("order");
             foreach (var member in section.Element("projects").Elements("li"))
-                Check(depth(member.Value) >= lower[stage] && depth(member.Value) <= upper[stage],
-                    "Cross-discipline membership matches real prerequisite depth: " + member.Value);
+                Check(authored[member.Value].Column >= lower[stage] && authored[member.Value].Column <= upper[stage],
+                    "Section membership follows the original milestone column: " + member.Value);
         }
         var layoutProjects = race.Keys.ToDictionary(name => name, name => Project(name));
         foreach (var pair in race)
             layoutProjects[pair.Key].prerequisites = (pair.Value.Element("prerequisites")?.Elements("li") ?? Enumerable.Empty<XElement>())
                 .Where(e => layoutProjects.ContainsKey(e.Value)).Select(e => layoutProjects[e.Value]).ToList();
-        var global = ResearchFlowLayout.Arrange(members.Select(name => layoutProjects[name]).ToList(), p => p.prerequisites);
+        var global = ResearchFlowLayout.Arrange(members.Select(name => layoutProjects[name]).ToList(), p => p.prerequisites,
+            p => authored[p.defName]);
+        foreach (var pair in global)
+            Check(pair.Value.Column == authored[pair.Key.defName].Column && pair.Value.Row == authored[pair.Key.defName].Row,
+                "The renderer retains authored alignment instead of repacking by dependency depth: " + pair.Key.defName);
+        Check(new[] { "HelodTotalSynthesisMedicine", "HelodBoltAction", "HelodBasicMachineGun", "HelodBasicMotor", "HelodGreatWarTech" }
+            .All(name => global[layoutProjects[name]].Column == 8), "The original X=8 cross-discipline milestone stays aligned");
+        Check(new[] { "HelodColdWarTech", "HelodTransistor", "HelodFlakJacket", "HelodLowAutomaticRifle", "HelodAntiAirMachineGun" }
+            .All(name => global[layoutProjects[name]].Column == 13), "The original X=13 cross-discipline milestone stays aligned");
         RealRoutes(sections, layoutProjects, global);
         foreach (var project in layoutProjects.Values)
             foreach (var prerequisite in project.prerequisites)

@@ -175,6 +175,14 @@ namespace Helodrace.ResearchWorkspaceSmoke
                 foreach (var other in nodes.Where(n => n.Key != pair.Key))
                     if (pair.Value.Overlaps(other.Value)) return "FAIL: overlapping node bodies";
             }
+            foreach (var pair in nodes)
+                foreach (var other in nodes)
+                {
+                    if (Math.Abs(pair.Key.ResearchViewX - other.Key.ResearchViewX) < 0.001f
+                        && Math.Abs(pair.Value.x - other.Value.x) > 0.1f) return "FAIL: authored milestone column lost";
+                    if (Math.Abs(pair.Key.ResearchViewY - other.Key.ResearchViewY) < 0.001f
+                        && Math.Abs(pair.Value.y - other.Value.y) > 0.1f) return "FAIL: authored branch lane lost";
+                }
             foreach (var route in routes)
                 foreach (ResearchLine line in (List<ResearchLine>)AccessTools.Field(route.GetType(), "Lines").GetValue(route))
                     if (nodes.Values.Any(n => new ResearchBox(n.xMin, n.yMin, n.xMax, n.yMax).Blocks(line.A, line.B)))
@@ -189,7 +197,7 @@ namespace Helodrace.ResearchWorkspaceSmoke
                         (List<ResearchLine>)AccessTools.Field(type, "Lines").GetValue(b)))
                         return "FAIL: unrelated routes share a bend or trunk: " + AccessTools.Field(type, "Key").GetValue(a) + " / " + AccessTools.Field(type, "Key").GetValue(b);
                 }
-            return "PASS: " + nodes.Count + " nodes; " + routes.Count + " complete routes advance right, avoid nodes and separate unrelated bends/trunks";
+            return "PASS: " + nodes.Count + " nodes; " + routes.Count + " complete routes retain original columns/lanes, advance right, avoid nodes and separate unrelated bends/trunks";
         }
         private void Configure()
         {

@@ -106,7 +106,9 @@ namespace Helodrace.ResearchUI
                 Color = new Color(0.65f, 0.5f, 0.7f), Projects = remaining.OrderBy(p => p.defName).ToList() });
             Text.Font = GameFont.Small;
             var ordered = sections.SelectMany(s => s.Projects).ToList();
-            var cells = ResearchFlowLayout.Arrange(ordered, ResearchQueue.Prerequisites);
+            var cells = ResearchFlowLayout.Arrange(ordered, ResearchQueue.Prerequisites,
+                p => remaining.Contains(p) ? (ResearchCell?)null : new ResearchCell(Mathf.RoundToInt(p.ResearchViewX),
+                    Mathf.RoundToInt(p.ResearchViewY / 0.8f)));
             float nodeHeight = Mathf.Max(84, ordered.Select(p => Text.CalcHeight(p.LabelCap, NodeWidth - 12) + 38).DefaultIfEmpty(84).Max());
             float pitch = nodeHeight + RowGap;
             int topLane = cells.Values.Select(c => c.Row).DefaultIfEmpty(0).Min();

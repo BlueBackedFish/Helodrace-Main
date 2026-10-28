@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_ResearchSection_Foundations.label>1. 기초·실험</HD_ResearchSection_Foundations.label>
-  <HD_ResearchSection_Steam.label>2. 증기·화학전지</HD_ResearchSection_Steam.label>
-  <HD_ResearchSection_Precision.label>3. 동력망·정밀가공</HD_ResearchSection_Precision.label>
-  <HD_ResearchSection_Combustion.label>4. 내연·진공관</HD_ResearchSection_Combustion.label>
-  <HD_ResearchSection_Synthesis.label>5. 합성·전자 전환</HD_ResearchSection_Synthesis.label>
-  <HD_ResearchSection_Mobilization.label>6. 자동화·총력전</HD_ResearchSection_Mobilization.label>
-  <HD_ResearchSection_ColdWar.label>7. 냉전·복합장비</HD_ResearchSection_ColdWar.label>
-  <HD_ResearchSection_Modern.label>8. 현대화·특수전</HD_ResearchSection_Modern.label>
+  <HD_ResearchSection_Foundations.label>1. 개척·기초</HD_ResearchSection_Foundations.label>
+  <HD_ResearchSection_Steam.label>2. 증기·동력전달</HD_ResearchSection_Steam.label>
+  <HD_ResearchSection_Engines.label>3. 기관·석유화학</HD_ResearchSection_Engines.label>
+  <HD_ResearchSection_MassProduction.label>4. 대량생산·진공관</HD_ResearchSection_MassProduction.label>
+  <HD_ResearchSection_NumericalControl.label>5. 수치제어·대전기</HD_ResearchSection_NumericalControl.label>
+  <HD_ResearchSection_ColdWar.label>6. 냉전·복합기술</HD_ResearchSection_ColdWar.label>
+  <HD_ResearchSection_Modern.label>7. 현대화·특수전</HD_ResearchSection_Modern.label>
 </LanguageData>

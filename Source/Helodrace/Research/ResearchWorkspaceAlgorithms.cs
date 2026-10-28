@@ -95,60 +95,33 @@ namespace Helodrace.ResearchUI
 
     public static class ResearchFlowLayout
     {
-        private sealed class LaneBlock
-        {
-            public int Start, Count;
-            public double Sum;
-            public double Mean => Sum / Count;
-        }
-
-        // Balance a whole layer around its parents instead of pushing each later sibling farther down.
-        // Ordered rows must stay at least one lane apart; unused gaps remain when families are far apart.
-        private static int[] Lanes(IList<double> preferred)
-        {
-            var blocks = new List<LaneBlock>();
-            for (int i = 0; i < preferred.Count; i++)
-            {
-                blocks.Add(new LaneBlock { Start = i, Count = 1, Sum = preferred[i] - i });
-                while (blocks.Count > 1 && blocks[blocks.Count - 2].Mean > blocks[blocks.Count - 1].Mean)
-                {
-                    var right = blocks[blocks.Count - 1]; var left = blocks[blocks.Count - 2];
-                    left.Count += right.Count; left.Sum += right.Sum; blocks.RemoveAt(blocks.Count - 1);
-                }
-            }
-            var rows = new int[preferred.Count];
-            foreach (var block in blocks)
-                for (int i = block.Start; i < block.Start + block.Count; i++)
-                    rows[i] = i + (int)Math.Round(block.Mean, MidpointRounding.AwayFromZero);
-            return rows;
-        }
-
-        // Lay out the whole graph together: dependency depth moves right, and branches keep their parent lanes.
-        public static Dictionary<T, ResearchCell> Arrange<T>(IList<T> projects, Func<T, IEnumerable<T>> parents) where T : class
+        // Authored milestone columns and branch lanes take precedence over automatic depth packing.
+        // Unknown extension nodes are added after their parents without consuming reserved authored cells.
+        public static Dictionary<T, ResearchCell> Arrange<T>(IList<T> projects, Func<T, IEnumerable<T>> parents,
+            Func<T, ResearchCell?> placement = null) where T : class
         {
             var members = new HashSet<T>(projects);
             var remaining = new HashSet<T>(projects);
             var cells = new Dictionary<T, ResearchCell>();
+            var authored = projects.ToDictionary(p => p, p => placement?.Invoke(p));
             while (remaining.Count > 0)
             {
                 var ready = projects.Where(p => remaining.Contains(p) && !(parents(p) ?? Enumerable.Empty<T>())
                     .Any(a => members.Contains(a) && remaining.Contains(a))).ToList();
-                // Invalid third-party cycles still get a usable layout; queue validation handles their execution.
                 if (ready.Count == 0) ready.Add(projects.First(remaining.Contains));
-                ready = ready.OrderBy(p => (parents(p) ?? Enumerable.Empty<T>()).Where(cells.ContainsKey)
-                    .Select(a => (double)cells[a].Row).DefaultIfEmpty(0).Average()).ToList();
-                var desired = ready.Select(p => (parents(p) ?? Enumerable.Empty<T>()).Where(cells.ContainsKey)
-                    .Select(a => (double)cells[a].Row).DefaultIfEmpty(0).Average()).ToList();
-                var lanes = Lanes(desired);
-                for (int i = 0; i < ready.Count; i++)
+                foreach (var p in ready)
                 {
-                    var p = ready[i];
                     var ancestors = (parents(p) ?? Enumerable.Empty<T>()).Where(cells.ContainsKey).Select(a => cells[a]).ToList();
-                    int column = ancestors.Count == 0 ? 0 : ancestors.Max(c => c.Column) + 1;
+                    int required = ancestors.Count == 0 ? 0 : ancestors.Max(c => c.Column) + 1;
+                    int column = Math.Max(authored[p]?.Column ?? required, required);
+                    int preferred = authored[p]?.Row ?? (ancestors.Count == 0 ? 0 : (int)Math.Round(ancestors.Average(c => c.Row)));
                     var used = new HashSet<int>(cells.Values.Where(c => c.Column == column).Select(c => c.Row));
-                    int row = lanes[i];
-                    // Only malformed cycles can revisit an already assigned depth layer.
-                    while (used.Contains(row)) row++;
+                    if (!authored[p].HasValue)
+                        foreach (var cell in authored.Values.Where(c => c.HasValue && c.Value.Column == column)) used.Add(cell.Value.Row);
+                    int row = preferred;
+                    if (used.Contains(row))
+                        row = Enumerable.Range(-used.Count - 1, used.Count * 2 + 3).Select(offset => preferred + offset)
+                            .Where(r => !used.Contains(r)).OrderBy(r => Math.Abs(r - preferred)).ThenBy(r => Math.Abs(r)).ThenBy(r => r).First();
                     cells[p] = new ResearchCell(column, row); remaining.Remove(p);
                 }
             }

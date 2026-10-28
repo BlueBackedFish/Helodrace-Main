@@ -8,7 +8,7 @@
     <techLevel>Industrial</techLevel>
     <prerequisites><li>HelodNumericalControl</li><li>HelodTransistor</li><li>HelodMetalFormingMachine</li></prerequisites>
     <tab>HelodTechTab</tab>
-    <researchViewX>9.46</researchViewX>
-    <researchViewY>1.44</researchViewY>
+    <researchViewX>14</researchViewX>
+    <researchViewY>7.2</researchViewY>
   </ResearchProjectDef>
 </Defs>
