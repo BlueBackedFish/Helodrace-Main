@@ -1,0 +1,24 @@
+{
+  "base": "../HD_CROWSII_M2_Base",
+  "frame": "HD_CROWSII_Unarmed_Frame",
+  "draw_order": [
+    "base",
+    "frame"
+  ],
+  "yaw_pivot": [
+    0,
+    0,
+    0
+  ],
+  "top_draw_size": [
+    3.2,
+    3.2
+  ],
+  "directional_draw_size": [
+    3.6,
+    3.6
+  ],
+  "optional_foundation": "../FixedMount/HD_CROWSII_FixedMount_top",
+  "weapon": null,
+  "feed": null
+}
