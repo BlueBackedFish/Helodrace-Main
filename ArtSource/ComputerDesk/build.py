@@ -7,7 +7,7 @@ sys.path.insert(0,str(ROOT.parent/'PropAssets'));import modeling as m
 scene=m.start()
 wood=m.material('Desk wood top',(133,97,67));edge=m.material('Desk wood edge',(113,83,57));frame=m.material('Desk painted steel',(70,76,72))
 black=m.material('Cable and rubber',(31,36,34));gray_cable=m.material('Heavy gray cable',(63,70,66));blue_cable=m.material('Heavy data cable',(55,72,77))
-case=m.material('Computer graphite case',(62,68,64));top=m.material('Computer upper covers',(73,79,75));bezel=m.material('Screen bezel',(40,46,43));glass=m.material('Screen dark teal',(26,47,49));grid=m.material('Screen fixed graphics',(49,76,73));lit=m.material('Screen status graphics',(123,154,136));amber=m.material('Amber indicators',(166,130,65));key=m.material('Keycaps',(112,119,111));strip=m.material('Power strip',(111,114,105))
+case=m.material('Computer graphite case',(62,68,64));top=m.material('Computer upper covers',(73,79,75));bezel=m.material('Screen bezel',(40,46,43));glass=m.material('Screen dark teal',(26,47,49));lit=m.material('Screen status graphics',(123,154,136));key=m.material('Keycaps',(112,119,111));strip=m.material('Power strip',(111,114,105))
 m.box('Desk tabletop',(0,0,.745),(1.9,.96,.09),wood,.018,side=edge)
 for x in [-.84,.84]:
     for y in [-.35,.35]:
@@ -18,11 +18,6 @@ m.box('Monitor foot',(-.22,.21,.81),(.32,.22,.035),bezel,.012);m.box('Monitor st
 m.box('Monitor bezel',(-.22,.19,1.225),(.86,.09,.54),bezel,.012,side=case)
 def screen_rect(name,x,z,w,h,mat,y=.142):return m.panel(name,[(x-w/2,y,z-h/2),(x+w/2,y,z-h/2),(x+w/2,y,z+h/2),(x-w/2,y,z+h/2)],mat)
 screen_rect('Monitor display',-.22,1.225,.775,.455,glass,.142)
-screen_rect('Monitor title bar',-.22,1.425,.75,.025,grid,.140)
-for i in range(5):screen_rect('Screen map column '+str(i),-.54+i*.10,1.215,.006,.32,grid,.139)
-for i in range(4):screen_rect('Screen map row '+str(i),-.34,1.075+i*.09,.46,.006,grid,.138)
-for x,z in [(-.41,1.17),(-.23,1.31),(-.33,1.11)]:screen_rect('Screen marker',x,z,.026,.017,amber,.136)
-for i in range(6):screen_rect('Screen status row '+str(i),.075,1.355-i*.055,.13 if i%2 else .17,.014,lit,.137)
 m.cylinder('Monitor status light',(.13,.140,.989),(.13,.136,.989),.008,lit,16)
 m.box('Desktop tower',(.63,.18,1.08),(.40,.47,.58),top,.018,side=case)
 m.box('Desktop front face',(.63,-.060,1.08),(.35,.012,.53),bezel,.008)
@@ -58,6 +53,6 @@ m.save(OUT/'computer_desk.blend')
 meshes=[o for o in scene.objects if o.type=='MESH'];assert all(o.data.vertices and o.data.polygons for o in meshes)
 assert len([o for o in meshes if o.name.startswith('Keyboard key')])==56
 assert len([o for o in meshes if o.name.startswith('Thick ')])==4
-metadata=dict(footprint=[2,1],native_resolution=512,master_resolution=1024,draw_size=[3,3],draw_offset=[0,0,0],outline_pixels=12,downward_camera_degrees=64,projection='orthographic',working_side='-Y; north image shows operating faces',meshes=len(meshes),features=['monitor','desktop tower','keyboard','wired mouse','four thick cables','peripheral cables','rear power strip','table'],mesh_names=[o.name for o in meshes],gameplay_definition_added=False)
+metadata=dict(footprint=[2,1],native_resolution=512,master_resolution=1024,draw_size=[3,3],draw_offset=[0,0,0],outline_pixels=12,downward_camera_degrees=64,projection='orthographic',working_side='-Y; north image shows operating faces',meshes=len(meshes),features=['blank monitor','desktop tower','keyboard','wired mouse','four thick cables','peripheral cables','rear power strip','table'],mesh_names=[o.name for o in meshes],monitor_graphics=False,gameplay_definition_added=False)
 (OUT/'metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
 print('COMPUTER_DESK_MODEL_PASS',flush=True)

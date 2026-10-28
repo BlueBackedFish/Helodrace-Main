@@ -13,14 +13,14 @@
         334
       ],
       "minimum_margin": 63,
-      "sha256": "bf72a4f129c1ec814c94d3bd83cf063d1e5fa4b9a9792cd11493845ccac2c771"
+      "sha256": "c575d5ff977f9f26c43ad673d683fcc7a767eb98bad9af0b111eedbb32fb79c1"
     },
     "HD_CROWSController_north.png": {
       "size": [
         512,
         512
       ],
-      "sha256": "0f337ea1543b50581e9654064bf5f3b744d981b5b6b6a656b2d679042f5b737f",
+      "sha256": "640e38b7d1e54f274163b07430dded9ca863ee29fdbc170db7a54fc35016cd6e",
       "registered_addon": true,
       "desk_occlusion_baked": true
     },
@@ -105,14 +105,14 @@
         494
       ],
       "minimum_margin": 18,
-      "sha256": "1315c41d8d572e86dea735f9628ab5e5c988480a1f07aa8a1e1030ee77ca423e"
+      "sha256": "96b99ddb0ad879b361b8d1ce884f40b0eedb4c3481b023b26d97535584b8ec12"
     }
   },
   "presentation": {
     "source_desk": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\ComputerDesk\\output\\computer_desk.blend",
-    "source_desk_sha256": "2666cd5c0aaa5efe4e31c54b4d5d6417ba5ce9c92aead3b0ccd9c41b946aa19d",
-    "desk_meshes": 131,
-    "controller_meshes": 47,
+    "source_desk_sha256": "2ce5a07be85072ba31b83022949eb99bb02b3f79198d799a7210861ac14f5b75",
+    "desk_meshes": 112,
+    "controller_meshes": 40,
     "controller_anchor": [
       -0.79,
       -0.3,
@@ -260,34 +260,6 @@
       },
       {
         "name": "CROWS display screen",
-        "part": "device"
-      },
-      {
-        "name": "CROWS crosshair horizontal",
-        "part": "device"
-      },
-      {
-        "name": "CROWS crosshair vertical",
-        "part": "device"
-      },
-      {
-        "name": "CROWS target vertical",
-        "part": "device"
-      },
-      {
-        "name": "CROWS target vertical.001",
-        "part": "device"
-      },
-      {
-        "name": "CROWS target horizontal",
-        "part": "device"
-      },
-      {
-        "name": "CROWS target horizontal.001",
-        "part": "device"
-      },
-      {
-        "name": "CROWS display status",
         "part": "device"
       },
       {

@@ -30,5 +30,8 @@ assert len(feet)==4 and all(abs(bounds(o)[0][2]-table_top)<1e-6 for o in feet)
 addon=[o for o in scene.objects if o.type=='MESH' and 'addon_part' in o];assert len(addon)==meta['controller_meshes']
 assert all(o.parent and o.parent.name=='CROWS_CONTROLLER_MODULE' for o in addon)
 assert not any(o.type=='LIGHT' for o in scene.objects)
+assert not any(o.name.startswith(('Monitor title bar','Screen map ','Screen marker','Screen status row','CROWS crosshair ','CROWS target ','CROWS display status')) for o in scene.objects)
+assert all(name in scene.objects for name in ['Monitor display','CROWS display screen'])
 result=dict(passed=True,original_desk_meshes_verified=len(original),original_vertices_faces_uv_material_colors_and_transforms_identical=True,original_camera_projection_and_registration_identical=True,controller_meshes=len(addon),controller_feet_touch_table=True,screen_clears_keyboard_monitor_and_tower=True,old_keyboard_mouse_and_cables_preserved=True,source_desk_sha256=meta['source_desk_sha256'],in_game_tested=False)
-(OUT/'model_validation.json').write_text(json.dumps(result,indent=2)+'\n');print('CROWS_CONTROLLER_VALIDATION_PASS: 131 original desk meshes/UVs/colors/transforms and four cameras identical; screen clearances and desk contact verified')
+result['both_displays_blank']=True
+(OUT/'model_validation.json').write_text(json.dumps(result,indent=2)+'\n');print('CROWS_CONTROLLER_VALIDATION_PASS:',len(original),'source desk meshes/UVs/colors/transforms and four cameras identical; both displays blank; screen clearances and desk contact verified')

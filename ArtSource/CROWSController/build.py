@@ -35,11 +35,6 @@ for x in [-.915,-.665]:
     for z in [1.055,1.285]:box('display corner bumper',(x,-.13,z),(.028,.081,.025),rubber,.004)
 def rect(name,x,z,w,h,mat,y=-.172):return tag(m.panel('CROWS '+name,[(x-w/2,y,z-h/2),(x+w/2,y,z-h/2),(x+w/2,y,z+h/2),(x-w/2,y,z+h/2)],mat))
 rect('display screen',-.79,1.174,.208,.168,screen)
-rect('crosshair horizontal',-.79,1.177,.062,.006,green,-.174)
-rect('crosshair vertical',-.79,1.177,.006,.052,green,-.175)
-for x in [-.842,-.738]:rect('target vertical',x,1.177,.005,.080,amber,-.175)
-for z in [1.137,1.217]:rect('target horizontal',-.79,z,.109,.005,amber,-.176)
-rect('display status',-.79,1.240,.13,.007,green,-.177)
 for i in range(4):cylinder('display function key '+str(i),(-.868+i*.052,-.170,1.062),(-.868+i*.052,-.180,1.062),.007,rubber,20)
 for z in [1.122,1.177,1.232]:cylinder('display side key',(-.910,-.170,z),(-.910,-.180,z),.006,steel,16)
 for o in addon[display_start:]:o['controller_subpart']='display'

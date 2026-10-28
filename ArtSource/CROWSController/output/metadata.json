@@ -1,8 +1,8 @@
 {
   "source_desk": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\ComputerDesk\\output\\computer_desk.blend",
-  "source_desk_sha256": "2666cd5c0aaa5efe4e31c54b4d5d6417ba5ce9c92aead3b0ccd9c41b946aa19d",
-  "desk_meshes": 131,
-  "controller_meshes": 47,
+  "source_desk_sha256": "2ce5a07be85072ba31b83022949eb99bb02b3f79198d799a7210861ac14f5b75",
+  "desk_meshes": 112,
+  "controller_meshes": 40,
   "controller_anchor": [
     -0.79,
     -0.3,
@@ -150,34 +150,6 @@
     },
     {
       "name": "CROWS display screen",
-      "part": "device"
-    },
-    {
-      "name": "CROWS crosshair horizontal",
-      "part": "device"
-    },
-    {
-      "name": "CROWS crosshair vertical",
-      "part": "device"
-    },
-    {
-      "name": "CROWS target vertical",
-      "part": "device"
-    },
-    {
-      "name": "CROWS target vertical.001",
-      "part": "device"
-    },
-    {
-      "name": "CROWS target horizontal",
-      "part": "device"
-    },
-    {
-      "name": "CROWS target horizontal.001",
-      "part": "device"
-    },
-    {
-      "name": "CROWS display status",
       "part": "device"
     },
     {

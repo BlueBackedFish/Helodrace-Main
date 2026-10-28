@@ -13,7 +13,7 @@
         334
       ],
       "minimum_margin": 63,
-      "sha256": "e346935dcb7ac7e81671403ba8daa998ce8416559bab8a79ab788dd194ca444d"
+      "sha256": "e0c864f750e34febf37f6146d24e49f0ca4b9907d60043cfb8f076271ef5519c"
     },
     "HD_ComputerDesk_east.png": {
       "size": [
@@ -78,9 +78,9 @@
     "downward_camera_degrees": 64,
     "projection": "orthographic",
     "working_side": "-Y; north image shows operating faces",
-    "meshes": 131,
+    "meshes": 112,
     "features": [
-      "monitor",
+      "blank monitor",
       "desktop tower",
       "keyboard",
       "wired mouse",
@@ -104,25 +104,6 @@
       "Monitor stem",
       "Monitor bezel",
       "Monitor display",
-      "Monitor title bar",
-      "Screen map column 0",
-      "Screen map column 1",
-      "Screen map column 2",
-      "Screen map column 3",
-      "Screen map column 4",
-      "Screen map row 0",
-      "Screen map row 1",
-      "Screen map row 2",
-      "Screen map row 3",
-      "Screen marker",
-      "Screen marker.001",
-      "Screen marker.002",
-      "Screen status row 0",
-      "Screen status row 1",
-      "Screen status row 2",
-      "Screen status row 3",
-      "Screen status row 4",
-      "Screen status row 5",
       "Monitor status light",
       "Desktop tower",
       "Desktop front face",
@@ -222,6 +203,7 @@
       "Keyboard USB cable",
       "Mouse USB cable"
     ],
+    "monitor_graphics": false,
     "gameplay_definition_added": false
   },
   "transparent": true,
