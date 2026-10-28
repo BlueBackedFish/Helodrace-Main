@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../Helodrace/Research/ResearchWorkspaceAlgorithms.cs" Link="ResearchWorkspaceAlgorithms.cs" />
+    <Compile Include="../../Helodrace/Research/ResearchQueue.cs" Link="ResearchQueue.cs" />
+    <Compile Include="../../Helodrace/Research/ResearchWindowCompatibility.cs" Link="ResearchWindowCompatibility.cs" />
+    <Compile Include="../../Helodrace/Research/LinkedResearch.cs" Link="LinkedResearch.cs" />
+  </ItemGroup>
+</Project>

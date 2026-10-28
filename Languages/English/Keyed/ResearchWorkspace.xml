@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Research_Other>Other and extension research</HD_Research_Other>
+  <HD_Research_Sections>Sections</HD_Research_Sections>
+  <HD_Research_Find>Find</HD_Research_Find>
+  <HD_Research_NodeTip>Click to select. + adds a research goal and its prerequisites to the queue. P shows modular parts; OR shows linked research.</HD_Research_NodeTip>
+  <HD_Research_Queue>Queue</HD_Research_Queue>
+  <HD_Research_Parts>Parts</HD_Research_Parts>
+  <HD_Research_Links>OR</HD_Research_Links>
+  <HD_Research_Resume>Resume queue</HD_Research_Resume>
+  <HD_Research_Pause>Pause queue</HD_Research_Pause>
+  <HD_Research_EmptyQueue>Add goals with the + button on a node. Unfinished prerequisites are inserted automatically. Middle-drag to pan; Ctrl + wheel to zoom.</HD_Research_EmptyQueue>
+  <HD_Research_Plan>Execution order (prerequisites included)</HD_Research_Plan>
+  <HD_Research_Select>Select a research node.</HD_Research_Select>
+  <HD_Research_NoParts>No modular parts require this research.</HD_Research_NoParts>
+  <HD_Research_PartOpen>Available</HD_Research_PartOpen>
+  <HD_Research_PartNext>Available after this research completes</HD_Research_PartNext>
+  <HD_Research_PartBlocked>Other research is also required</HD_Research_PartBlocked>
+  <HD_Research_WillComplete>Completes {0} other projects (including prerequisites), based on current research.</HD_Research_WillComplete>
+</LanguageData>

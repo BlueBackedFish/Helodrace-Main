@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Research_Other>기타·확장 연구</HD_Research_Other>
+  <HD_Research_Sections>섹션 이동</HD_Research_Sections>
+  <HD_Research_Find>찾기</HD_Research_Find>
+  <HD_Research_NodeTip>클릭하면 선택합니다. +는 선행 연구를 포함해 큐에 추가합니다. P는 개방 파츠, OR는 연결 연구를 뜻합니다.</HD_Research_NodeTip>
+  <HD_Research_Queue>연구 큐</HD_Research_Queue>
+  <HD_Research_Parts>개방 파츠</HD_Research_Parts>
+  <HD_Research_Links>OR 연구</HD_Research_Links>
+  <HD_Research_Resume>큐 계속 진행</HD_Research_Resume>
+  <HD_Research_Pause>큐 일시 정지</HD_Research_Pause>
+  <HD_Research_EmptyQueue>노드의 +로 목표를 추가하면 미완료 선행 연구를 자동으로 앞에 넣습니다. 마우스 가운데 버튼으로 이동하고 Ctrl + 휠로 확대·축소합니다.</HD_Research_EmptyQueue>
+  <HD_Research_Plan>진행 순서 (선행 연구 포함)</HD_Research_Plan>
+  <HD_Research_Select>연구 노드를 선택하세요.</HD_Research_Select>
+  <HD_Research_NoParts>이 연구가 필요한 모듈 파츠가 없습니다.</HD_Research_NoParts>
+  <HD_Research_PartOpen>사용 가능</HD_Research_PartOpen>
+  <HD_Research_PartNext>이 연구 완료 시 사용 가능</HD_Research_PartNext>
+  <HD_Research_PartBlocked>다른 연구도 필요함</HD_Research_PartBlocked>
+  <HD_Research_WillComplete>현재 상태에서 다른 연구 {0}개도 완료됩니다. (선행 연구 포함)</HD_Research_WillComplete>
+</LanguageData>
