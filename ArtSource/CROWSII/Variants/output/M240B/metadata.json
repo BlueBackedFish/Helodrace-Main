@@ -1,0 +1,132 @@
+{
+  "weapon": "M240B",
+  "source": "C:\\Users\\human\\Downloads\\Dagor-Asset-Explorer-1.0.0\\Dagor-Asset-Explorer-1.0.0\\ext\\machine gun\\m240b-machine-gun\\source\\M240B_low.fbx",
+  "source_sha256": "729dd4633e6b67812cf91885f4ceaf6865d5344cec20f7128ca58837f527aaba",
+  "selected_source_object": "gun_low",
+  "source_faces": 23742,
+  "retained_faces": 22025,
+  "removed_components": [
+    {
+      "id": 16998,
+      "faces": 48,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 17039,
+      "faces": 6,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 17091,
+      "faces": 47,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 18194,
+      "faces": 726,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 17794,
+      "faces": 338,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 17892,
+      "faces": 98,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 18562,
+      "faces": 338,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 18676,
+      "faces": 98,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 18709,
+      "faces": 18,
+      "reason": "deployed bipod or infantry optic"
+    }
+  ],
+  "transform": [
+    [
+      -7.297664694760897e-09,
+      0.16695110499858856,
+      0.0,
+      0.0
+    ],
+    [
+      -0.16695110499858856,
+      -7.297664694760897e-09,
+      0.0,
+      0.05527617782354355
+    ],
+    [
+      0.0,
+      0.0,
+      0.16695110499858856,
+      0.7214391231536865
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "uniform_scale": 0.1669511118404512,
+  "source_length": 9.556703567504883,
+  "length_m": 1.2319,
+  "world_per_m": 1.2951556831922613,
+  "reference": "https://cpeground.army.mil/Equipment/Equipment-Portfolio/PM-SL-Portfolio/M240B-L-H-Medium-Machine-Gun/",
+  "station_source": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\CROWSII\\output\\crows_ii_m2.blend",
+  "station_sha256": "8b30e0877dcc5057f74df4d629ebedf07ed47067308fc291e1a6444c8dfbe793",
+  "station_feed_faces_replaced": 568,
+  "station_other_faces_preserved": true,
+  "feed": {
+    "passed": true,
+    "box_outlet": [
+      -0.5190662741661072,
+      -0.2724199891090393,
+      0.8539800047874451
+    ],
+    "receiver_feed_gate": [
+      -0.025042669847607613,
+      -0.008999994955956936,
+      0.8550000190734863
+    ],
+    "belt_terminal": [
+      -0.02104266919195652,
+      -0.008999994955956936,
+      0.8550000190734863
+    ],
+    "terminal_overlap_tiles": 0.004,
+    "rounds": 40,
+    "round_length_tiles": 0.09208556907496977,
+    "round_radius_tiles": 0.0077709340991535675,
+    "path_length_tiles": 0.6450622817464527,
+    "rigid_cartridges": true,
+    "links_connect_neighboring_rounds": true
+  },
+  "top_draw_size": [
+    3.2,
+    3.2
+  ],
+  "directional_draw_size": [
+    3.6,
+    3.6
+  ],
+  "pivot": [
+    0,
+    0
+  ],
+  "master_resolution": 2048,
+  "native_resolution": 1024,
+  "outline_world_tiles": 0.026,
+  "barrel_is_fixed": true,
+  "gameplay_added": false
+}

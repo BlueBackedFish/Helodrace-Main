@@ -1,0 +1,146 @@
+{
+  "MK19": {
+    "base": "../HD_CROWSII_M2_Base",
+    "frame": "HD_CROWSII_MK19_Frame",
+    "barrel": "HD_CROWSII_MK19_Barrel",
+    "body": "HD_CROWSII_MK19_Body",
+    "feed": "HD_CROWSII_MK19_Feed",
+    "draw_order": [
+      "base",
+      "frame",
+      "barrel",
+      "body",
+      "feed"
+    ],
+    "draw_size": [
+      3.2,
+      3.2
+    ],
+    "pivot": [
+      0,
+      0
+    ],
+    "barrel_is_fixed": true,
+    "feed_geometry": {
+      "passed": true,
+      "box_outlet": [
+        -0.5190662741661072,
+        -0.2724199891090393,
+        0.8539800047874451
+      ],
+      "receiver_feed_gate": [
+        -0.09259352087974548,
+        -0.009000060148537159,
+        0.8549997806549072
+      ],
+      "belt_terminal": [
+        -0.08859352022409439,
+        -0.009000060148537159,
+        0.8549997806549072
+      ],
+      "terminal_overlap_tiles": 0.004,
+      "rounds": 11,
+      "round_length_tiles": 0.14505743651753328,
+      "round_radius_tiles": 0.025903113663845227,
+      "path_length_tiles": 0.5932741948119712,
+      "rigid_cartridges": true,
+      "links_connect_neighboring_rounds": true
+    }
+  },
+  "M240B": {
+    "base": "../HD_CROWSII_M2_Base",
+    "frame": "HD_CROWSII_M240B_Frame",
+    "barrel": "HD_CROWSII_M240B_Barrel",
+    "body": "HD_CROWSII_M240B_Body",
+    "feed": "HD_CROWSII_M240B_Feed",
+    "draw_order": [
+      "base",
+      "frame",
+      "barrel",
+      "body",
+      "feed"
+    ],
+    "draw_size": [
+      3.2,
+      3.2
+    ],
+    "pivot": [
+      0,
+      0
+    ],
+    "barrel_is_fixed": true,
+    "feed_geometry": {
+      "passed": true,
+      "box_outlet": [
+        -0.5190662741661072,
+        -0.2724199891090393,
+        0.8539800047874451
+      ],
+      "receiver_feed_gate": [
+        -0.025042669847607613,
+        -0.008999994955956936,
+        0.8550000190734863
+      ],
+      "belt_terminal": [
+        -0.02104266919195652,
+        -0.008999994955956936,
+        0.8550000190734863
+      ],
+      "terminal_overlap_tiles": 0.004,
+      "rounds": 40,
+      "round_length_tiles": 0.09208556907496977,
+      "round_radius_tiles": 0.0077709340991535675,
+      "path_length_tiles": 0.6450622817464527,
+      "rigid_cartridges": true,
+      "links_connect_neighboring_rounds": true
+    }
+  },
+  "M249": {
+    "base": "../HD_CROWSII_M2_Base",
+    "frame": "HD_CROWSII_M249_Frame",
+    "barrel": "HD_CROWSII_M249_Barrel",
+    "body": "HD_CROWSII_M249_Body",
+    "feed": "HD_CROWSII_M249_Feed",
+    "draw_order": [
+      "base",
+      "frame",
+      "barrel",
+      "body",
+      "feed"
+    ],
+    "draw_size": [
+      3.2,
+      3.2
+    ],
+    "pivot": [
+      0,
+      0
+    ],
+    "barrel_is_fixed": true,
+    "feed_geometry": {
+      "passed": true,
+      "box_outlet": [
+        -0.5190662741661072,
+        -0.2724199891090393,
+        0.8539800047874451
+      ],
+      "receiver_feed_gate": [
+        -0.033175207674503326,
+        -0.009000000543892384,
+        0.8549999594688416
+      ],
+      "belt_terminal": [
+        -0.029175207018852234,
+        -0.009000000543892384,
+        0.8549999594688416
+      ],
+      "terminal_overlap_tiles": 0.004,
+      "rounds": 49,
+      "round_length_tiles": 0.0743419362152358,
+      "round_radius_tiles": 0.006216747279322854,
+      "path_length_tiles": 0.6386506732956203,
+      "rigid_cartridges": true,
+      "links_connect_neighboring_rounds": true
+    }
+  }
+}

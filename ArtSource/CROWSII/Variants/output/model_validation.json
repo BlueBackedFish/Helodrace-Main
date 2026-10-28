@@ -1,0 +1,74 @@
+{
+  "passed": true,
+  "weapons": {
+    "MK19": {
+      "passed": true,
+      "source_vertices_verified": 6410,
+      "source_faces_verified": 5543,
+      "uv_loops_verified": 16629,
+      "source_exclusions_accounted": true,
+      "humvee_body_excluded": true,
+      "station_source_unchanged": true,
+      "belt_connected_to_box_and_feed_gate": true,
+      "cartridge_center_spacing_tiles": [
+        0.05833030525008746,
+        0.05930487509029791
+      ],
+      "cartridges": 11,
+      "yaw_pivot": [
+        0,
+        0,
+        0
+      ],
+      "barrel_is_fixed": true,
+      "no_lights_or_shadows": true,
+      "in_game_tested": false
+    },
+    "M240B": {
+      "passed": true,
+      "source_vertices_verified": 22501,
+      "source_faces_verified": 22025,
+      "uv_loops_verified": 88482,
+      "source_exclusions_accounted": true,
+      "humvee_body_excluded": false,
+      "station_source_unchanged": true,
+      "belt_connected_to_box_and_feed_gate": true,
+      "cartridge_center_spacing_tiles": [
+        0.016512224243663668,
+        0.01653977968445836
+      ],
+      "cartridges": 40,
+      "yaw_pivot": [
+        0,
+        0,
+        0
+      ],
+      "barrel_is_fixed": true,
+      "no_lights_or_shadows": true,
+      "in_game_tested": false
+    },
+    "M249": {
+      "passed": true,
+      "source_vertices_verified": 7609,
+      "source_faces_verified": 6984,
+      "uv_loops_verified": 28224,
+      "source_exclusions_accounted": true,
+      "humvee_body_excluded": false,
+      "station_source_unchanged": true,
+      "belt_connected_to_box_and_feed_gate": true,
+      "cartridge_center_spacing_tiles": [
+        0.01329076624959295,
+        0.013305100335528964
+      ],
+      "cartridges": 49,
+      "yaw_pivot": [
+        0,
+        0,
+        0
+      ],
+      "barrel_is_fixed": true,
+      "no_lights_or_shadows": true,
+      "in_game_tested": false
+    }
+  }
+}

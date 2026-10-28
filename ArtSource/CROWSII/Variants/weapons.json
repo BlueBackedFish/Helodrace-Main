@@ -1,0 +1,47 @@
+{
+  "MK19": {
+    "source": "ukrainian-hmmwv-mk-19/source/hmmwv-mk19.fbx",
+    "object": "Mk19_custom_mod_1_Baked",
+    "rotation_z": -90,
+    "length_axis": 0,
+    "length_m": 1.09474,
+    "axis_native_x": 0.133,
+    "feed_native": [-4.7, -0.23, 15.34],
+    "barrel_limit": -4.7,
+    "round_length_m": 0.112,
+    "round_radius_m": 0.02,
+    "belt_pitch_m": 0.045,
+    "remove": [],
+    "reference": "https://www.army.mil/e2/downloads/rv7/2020-2021_Weapon_Systems_Handbook.pdf"
+  },
+  "M240B": {
+    "source": "m240b-machine-gun/source/M240B_low.fbx",
+    "object": "gun_low",
+    "rotation_z": -90,
+    "length_axis": 0,
+    "length_m": 1.2319,
+    "axis_native_x": 0.0,
+    "feed_native": [0.385, -0.15, 0.8],
+    "barrel_limit": -0.2,
+    "round_length_m": 0.0711,
+    "round_radius_m": 0.006,
+    "belt_pitch_m": 0.0127,
+    "remove": [18194, 17794, 18562, 17892, 18676, 16998, 17091, 18709, 17039],
+    "reference": "https://cpeground.army.mil/Equipment/Equipment-Portfolio/PM-SL-Portfolio/M240B-L-H-Medium-Machine-Gun/"
+  },
+  "M249": {
+    "source": "m249/source/M249_Low.fbx",
+    "object": "M249_Low",
+    "rotation_z": 180,
+    "length_axis": 1,
+    "length_m": 1.03505,
+    "axis_native_x": 0.0,
+    "feed_native": [0.24, 1.25, 1.52],
+    "barrel_limit": -0.3,
+    "round_length_m": 0.0574,
+    "round_radius_m": 0.0048,
+    "belt_pitch_m": 0.0103,
+    "remove": [4235, 7200, 4241, 7206, 4114, 7071, 8621, 7048, 6399, 6441, 6196, 6209],
+    "reference": "https://www.af.mil/portals/1/documents/airman_archive/the%20book%202011.pdf"
+  }
+}

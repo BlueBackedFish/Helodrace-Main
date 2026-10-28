@@ -1,0 +1,257 @@
+{
+  "weapon": "MK19",
+  "source": "C:\\Users\\human\\Downloads\\Dagor-Asset-Explorer-1.0.0\\Dagor-Asset-Explorer-1.0.0\\ext\\machine gun\\ukrainian-hmmwv-mk-19\\source\\hmmwv-mk19.fbx",
+  "source_sha256": "e70d65616a2b2ba53305dddbe6c356349a2c90c762b4a66ac12db35cea9fd33a",
+  "selected_source_object": "Mk19_custom_mod_1_Baked",
+  "source_faces": 8359,
+  "retained_faces": 5543,
+  "removed_components": [
+    {
+      "id": 6152,
+      "faces": 16,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 4175,
+      "faces": 12,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 4627,
+      "faces": 12,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 6475,
+      "faces": 76,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 4638,
+      "faces": 308,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 4973,
+      "faces": 264,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 7418,
+      "faces": 274,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 1937,
+      "faces": 28,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 169,
+      "faces": 20,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 4764,
+      "faces": 76,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 6607,
+      "faces": 16,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 2032,
+      "faces": 20,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 6219,
+      "faces": 34,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 4364,
+      "faces": 52,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 2908,
+      "faces": 20,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 6300,
+      "faces": 18,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 4317,
+      "faces": 36,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 4669,
+      "faces": 104,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 5216,
+      "faces": 34,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 4810,
+      "faces": 22,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 3434,
+      "faces": 40,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 4328,
+      "faces": 40,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 4739,
+      "faces": 28,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 5261,
+      "faces": 30,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 4269,
+      "faces": 28,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 6186,
+      "faces": 30,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 3391,
+      "faces": 12,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 4647,
+      "faces": 20,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 6911,
+      "faces": 30,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 4544,
+      "faces": 20,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 8135,
+      "faces": 274,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 8397,
+      "faces": 274,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 8659,
+      "faces": 274,
+      "reason": "source ammunition/side box"
+    },
+    {
+      "id": 8921,
+      "faces": 274,
+      "reason": "source ammunition/side box"
+    }
+  ],
+  "transform": [
+    [
+      -1.114984460315327e-08,
+      0.2550787031650543,
+      0.0,
+      -0.03392546996474266
+    ],
+    [
+      -0.2550787031650543,
+      -1.114984460315327e-08,
+      0.0,
+      -1.2078698873519897
+    ],
+    [
+      0.0,
+      0.0,
+      0.2550787031650543,
+      -3.0579075813293457
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "uniform_scale": 0.2550787155066475,
+  "source_length": 5.558514475822449,
+  "length_m": 1.09474,
+  "world_per_m": 1.2951556831922613,
+  "reference": "https://www.army.mil/e2/downloads/rv7/2020-2021_Weapon_Systems_Handbook.pdf",
+  "station_source": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\CROWSII\\output\\crows_ii_m2.blend",
+  "station_sha256": "8b30e0877dcc5057f74df4d629ebedf07ed47067308fc291e1a6444c8dfbe793",
+  "station_feed_faces_replaced": 568,
+  "station_other_faces_preserved": true,
+  "feed": {
+    "passed": true,
+    "box_outlet": [
+      -0.5190662741661072,
+      -0.2724199891090393,
+      0.8539800047874451
+    ],
+    "receiver_feed_gate": [
+      -0.09259352087974548,
+      -0.009000060148537159,
+      0.8549997806549072
+    ],
+    "belt_terminal": [
+      -0.08859352022409439,
+      -0.009000060148537159,
+      0.8549997806549072
+    ],
+    "terminal_overlap_tiles": 0.004,
+    "rounds": 11,
+    "round_length_tiles": 0.14505743651753328,
+    "round_radius_tiles": 0.025903113663845227,
+    "path_length_tiles": 0.5932741948119712,
+    "rigid_cartridges": true,
+    "links_connect_neighboring_rounds": true
+  },
+  "top_draw_size": [
+    3.2,
+    3.2
+  ],
+  "directional_draw_size": [
+    3.6,
+    3.6
+  ],
+  "pivot": [
+    0,
+    0
+  ],
+  "master_resolution": 2048,
+  "native_resolution": 1024,
+  "outline_world_tiles": 0.026,
+  "barrel_is_fixed": true,
+  "gameplay_added": false
+}

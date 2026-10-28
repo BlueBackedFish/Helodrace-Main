@@ -1,0 +1,147 @@
+{
+  "weapon": "M249",
+  "source": "C:\\Users\\human\\Downloads\\Dagor-Asset-Explorer-1.0.0\\Dagor-Asset-Explorer-1.0.0\\ext\\machine gun\\m249\\source\\M249_Low.fbx",
+  "source_sha256": "01bd0dc3a2f7ac506456a9f0c4386c8f770f7a66d107504fb4c26fdc13f88b46",
+  "selected_source_object": "M249_Low",
+  "source_faces": 9249,
+  "retained_faces": 6984,
+  "removed_components": [
+    {
+      "id": 4114,
+      "faces": 8,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 4235,
+      "faces": 98,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 4241,
+      "faces": 48,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 6196,
+      "faces": 96,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 6209,
+      "faces": 10,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 6399,
+      "faces": 205,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 6441,
+      "faces": 145,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 7048,
+      "faces": 466,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 7071,
+      "faces": 8,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 7200,
+      "faces": 98,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 7206,
+      "faces": 48,
+      "reason": "deployed bipod or infantry optic"
+    },
+    {
+      "id": 8621,
+      "faces": 1035,
+      "reason": "deployed bipod or infantry optic"
+    }
+  ],
+  "transform": [
+    [
+      -0.13822996616363525,
+      -1.20844472206727e-08,
+      0.0,
+      0.0
+    ],
+    [
+      1.20844472206727e-08,
+      -0.13822996616363525,
+      0.0,
+      0.16378745436668396
+    ],
+    [
+      0.0,
+      0.0,
+      0.13822996616363525,
+      0.6448904275894165
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "uniform_scale": 0.13822996410342117,
+  "source_length": 9.697976112365723,
+  "length_m": 1.03505,
+  "world_per_m": 1.2951556831922613,
+  "reference": "https://www.af.mil/portals/1/documents/airman_archive/the%20book%202011.pdf",
+  "station_source": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\CROWSII\\output\\crows_ii_m2.blend",
+  "station_sha256": "8b30e0877dcc5057f74df4d629ebedf07ed47067308fc291e1a6444c8dfbe793",
+  "station_feed_faces_replaced": 568,
+  "station_other_faces_preserved": true,
+  "feed": {
+    "passed": true,
+    "box_outlet": [
+      -0.5190662741661072,
+      -0.2724199891090393,
+      0.8539800047874451
+    ],
+    "receiver_feed_gate": [
+      -0.033175207674503326,
+      -0.009000000543892384,
+      0.8549999594688416
+    ],
+    "belt_terminal": [
+      -0.029175207018852234,
+      -0.009000000543892384,
+      0.8549999594688416
+    ],
+    "terminal_overlap_tiles": 0.004,
+    "rounds": 49,
+    "round_length_tiles": 0.0743419362152358,
+    "round_radius_tiles": 0.006216747279322854,
+    "path_length_tiles": 0.6386506732956203,
+    "rigid_cartridges": true,
+    "links_connect_neighboring_rounds": true
+  },
+  "top_draw_size": [
+    3.2,
+    3.2
+  ],
+  "directional_draw_size": [
+    3.6,
+    3.6
+  ],
+  "pivot": [
+    0,
+    0
+  ],
+  "master_resolution": 2048,
+  "native_resolution": 1024,
+  "outline_world_tiles": 0.026,
+  "barrel_is_fixed": true,
+  "gameplay_added": false
+}
