@@ -5,10 +5,22 @@ import bpy,bmesh,sys,os,json,math,hashlib
 from mathutils import Vector,Matrix
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'output';OUT.mkdir(parents=True,exist_ok=True)
 sys.path.insert(0,str(ROOT.parents[1]/'PropAssets'));import modeling as m;import surface_paint
+sys.path.insert(0,str(ROOT.parent));import feed_alignment
 CONFIG=json.loads((ROOT/'weapons.json').read_text())
 EXT=Path(os.environ.get('HELODRACE_REFERENCE_EXT',str(Path.home()/'Downloads/Dagor-Asset-Explorer-1.0.0/Dagor-Asset-Explorer-1.0.0/ext')))/'machine gun'
 STATION=ROOT.parent/'output/crows_ii_m2.blend'
-WORLD_PER_M=2.1421875/1.654
+WORLD_PER_M=None
+M2_CALIBRATION=None
+
+def calibrate_m2():
+    global WORLD_PER_M,M2_CALIBRATION
+    bpy.ops.wm.open_mainfile(filepath=str(STATION));scene=bpy.context.scene;scene.frame_set(1);bpy.context.view_layer.update()
+    points=[o.matrix_world@v.co for o in scene.objects if o.type=='MESH' and o.get('donor_object') and o.get('layer') in ['body','barrel'] for v in o.data.vertices]
+    length=max(p.y for p in points)-min(p.y for p in points)
+    reference=json.loads((ROOT.parents[1]/'HeavyMachineGuns/scale_reference.json').read_text())
+    real_length=reference['weapon_length_m']['M2HB'];WORLD_PER_M=length/real_length
+    M2_CALIBRATION=dict(source=str(STATION),source_sha256=hashlib.sha256(STATION.read_bytes()).hexdigest(),m2_length_tiles=length,m2_length_m=real_length,world_per_m=WORLD_PER_M,reference=reference['sources']['M2HB'])
+    (OUT/'scale_calibration.json').write_text(json.dumps(M2_CALIBRATION,indent=2)+'\n')
 
 def components(vertices,polygons):
     parent=list(range(len(vertices)));at={}
@@ -67,12 +79,22 @@ def load_station():
         world=o.matrix_world.copy();o.parent=None;o.matrix_world=world
     frame=next(o for o in station if o.get('source_object')=='Cylinder.003' and o.get('layer')=='frame')
     remove=[p.index for p in frame.data.polygons if frame.data.materials[p.material_index].name=='feed']
+    selected=[frame.data.polygons[i] for i in remove]
+    used=sorted({i for p in selected for i in p.vertices});mapping={v:i for i,v in enumerate(used)}
+    mesh=bpy.data.meshes.new('Canonical M2 feed chute')
+    mesh.from_pydata([frame.matrix_world@frame.data.vertices[i].co for i in used],[],[[mapping[i] for i in p.vertices] for p in selected]);mesh.update()
+    mesh.materials.append(frame.data.materials[selected[0].material_index])
+    for layer in frame.data.uv_layers:
+        uv=mesh.uv_layers.new(name=layer.name)
+        for dst,src in zip(mesh.polygons,selected):
+            for a,b in zip(dst.loop_indices,src.loop_indices):uv.data[a].uv=layer.data[b].uv
+    chute=bpy.data.objects.new('Canonical M2 feed chute',mesh);scene.collection.objects.link(chute);chute['layer']='feed'
     kept=[p for p in frame.data.polygons if p.index not in set(remove)]
     before=[(tuple(tuple(frame.data.vertices[i].co) for i in p.vertices),p.material_index) for p in kept]
     bm=bmesh.new();bm.from_mesh(frame.data);bm.faces.ensure_lookup_table();bmesh.ops.delete(bm,geom=[bm.faces[i] for i in remove],context='FACES');bm.to_mesh(frame.data);bm.free();frame.data.update()
     after=[(tuple(tuple(frame.data.vertices[i].co) for i in p.vertices),p.material_index) for p in frame.data.polygons]
     assert before==after,'Replacing the chute changed retained station faces'
-    return scene,station,len(remove)
+    return scene,station,len(remove),chute
 
 def weapon(kind,config,data):
     palette=surface_paint.palette();colors={k:m.material('Variant '+k,v) for k,v in palette.items()}
@@ -108,46 +130,17 @@ def weapon(kind,config,data):
         o=m.box(kind+' receiver adapter',(x,-.018,.731),(.04,.24,.074),colors['mount_top'],.004);o['layer']='frame';made.append(o)
     return made
 
-def belt(kind,config,data):
-    colors={k:m.material('Belt '+k,v) for k,v in dict(brass=(148,119,61),copper=(139,86,51),grenade=(82,91,60),link=(47,55,51),mouth=(30,37,34)).items()}
-    start=Vector((-.51906625,-.27242,.85398));end=data['feed'].copy();end.x+=.004
-    # Cubic enters the real box opening vertically and reaches the feed gate
-    # laterally. Closely spaced rigid rounds follow it without distorting.
-    controls=[start,start+Vector((0,0,.19)),end-Vector((.20,0,-.08)),end]
-    def point(t):return (1-t)**3*controls[0]+3*(1-t)**2*t*controls[1]+3*(1-t)*t*t*controls[2]+t**3*controls[3]
-    samples=[point(i/1000) for i in range(1001)];length=[0.]
-    for a,b in zip(samples,samples[1:]):length.append(length[-1]+(b-a).length)
-    pitch=config['belt_pitch_m']*WORLD_PER_M;n=max(3,round(length[-1]/pitch));centers=[];j=0
-    for i in range(n+1):
-        distance=length[-1]*i/n
-        while j<999 and length[j+1]<distance:j+=1
-        t=(distance-length[j])/max(1e-9,length[j+1]-length[j]);centers.append(samples[j].lerp(samples[j+1],t))
-    radius=config['round_radius_m']*WORLD_PER_M;round_length=config['round_length_m']*WORLD_PER_M
-    made=[]
-    def tag(o):o['layer']='feed';made.append(o);return o
-    for i,c in enumerate(centers):
-        case_end=c+Vector((0,round_length*.12,0));rear=c-Vector((0,round_length*.48,0));tip=c+Vector((0,round_length*.52,0))
-        tag(m.cylinder(kind+' belt case '+str(i),rear,case_end,radius,colors['brass'],16))
-        # A short shoulder and tapered projectile make the rounds read as
-        # ammunition instead of a solid, flat black chute.
-        tag(m.cylinder(kind+' case rim '+str(i),rear-Vector((0,.002,0)),rear,radius*1.12,colors['brass'],16))
-        projectile=colors['grenade'] if kind=='MK19' else colors['copper']
-        tag(m.cylinder(kind+' projectile '+str(i),case_end,tip-Vector((0,round_length*.08,0)),radius*(.94 if kind=='MK19' else .66),projectile,16))
-        a=tip-Vector((0,round_length*.08,0));b=tip
-        bpy.ops.mesh.primitive_cone_add(vertices=16,radius1=radius*(.94 if kind=='MK19' else .66),radius2=radius*(.55 if kind=='MK19' else .10),depth=(b-a).length,location=(a+b)/2)
-        o=bpy.context.object;o.name=kind+' projectile nose '+str(i);o.rotation_euler=(b-a).to_track_quat('Z','Y').to_euler();o.data.materials.append(projectile);tag(o)
-        link_y=c.y-round_length*.17
-        tag(m.cylinder(kind+' belt link '+str(i),(c.x,link_y-.004,c.z),(c.x,link_y+.004,c.z),radius*1.17,colors['link'],12))
-        if i:
-            last=centers[i-1]+Vector((0,-round_length*.17,0));here=c+Vector((0,-round_length*.17,0))
-            tag(m.cylinder(kind+' link bridge '+str(i),last,here,radius*.25,colors['link'],8))
-    tag(m.box(kind+' receiver feed gate',data['feed']-Vector((.002,0,0)),(.012,round_length*.98,radius*2.3),colors['mouth'],.002))
-    tag(m.box(kind+' box outlet',start-Vector((0,0,.003)),(.065,round_length*1.05,.012),colors['mouth'],.002))
-    assert (centers[0]-start).length<1e-6 and (centers[-1]-end).length<1e-6
-    return made,dict(passed=True,box_outlet=list(start),receiver_feed_gate=list(data['feed']),belt_terminal=list(end),terminal_overlap_tiles=.004,rounds=len(centers),round_length_tiles=round_length,round_radius_tiles=radius,path_length_tiles=length[-1],rigid_cartridges=True,links_connect_neighboring_rounds=True)
+def belt(kind,config,data,chute):
+    target=data['feed'].copy();target.x+=.004
+    width=config['chute_width_m']*WORLD_PER_M
+    report=feed_alignment.align(chute,chute.data.materials[0],target,width,24)
+    chute.name=kind+' enclosed feed chute';chute['feed_style']='canonical M2 enclosed chute'
+    report.update(style='canonical M2 enclosed chute',receiver_feed_gate=list(data['feed']),belt_terminal=list(target),terminal_overlap_tiles=.004,individual_cartridges=False)
+    return [chute],report
 
 def build(kind):
-    config=CONFIG[kind];data=extract_source(kind,config);scene,station,removed_feed=load_station();additions=weapon(kind,config,data);feed,feed_report=belt(kind,config,data)
+    if M2_CALIBRATION is None:calibrate_m2()
+    config=CONFIG[kind];data=extract_source(kind,config);scene,station,removed_feed,chute=load_station();additions=weapon(kind,config,data);feed,feed_report=belt(kind,config,data,chute)
     meshes=station+additions+feed
     yaw=bpy.data.objects.new('CROWS_YAW',None);scene.collection.objects.link(yaw)
     for o in meshes:
@@ -170,9 +163,9 @@ def build(kind):
     for direction,azimuth in [('north',-90),('east',0),('south',90),('west',180)]:m.render(folder/(direction+'_raw.png'),m.camera('Camera_'+direction,azimuth,64,3.6),2048)
     scene.camera=top;m.save(folder/('crows_'+kind.lower()+'.blend'))
     assert not any(o.type=='LIGHT' for o in scene.objects)
-    metadata=dict(weapon=kind,source=data['source'],source_sha256=data['source_sha256'],selected_source_object=config['object'],source_faces=data['source_faces'],retained_faces=len(data['records']),removed_components=data['removed'],transform=[list(row) for row in data['transform']],uniform_scale=data['scale'],source_length=data['source_length'],length_m=config['length_m'],world_per_m=WORLD_PER_M,reference=config['reference'],station_source=str(STATION),station_sha256=hashlib.sha256(STATION.read_bytes()).hexdigest(),station_feed_faces_replaced=removed_feed,station_other_faces_preserved=True,feed=feed_report,top_draw_size=[3.2,3.2],directional_draw_size=[3.6,3.6],pivot=[0,0],master_resolution=2048,native_resolution=1024,outline_world_tiles=.026,barrel_is_fixed=True,gameplay_added=False)
+    metadata=dict(weapon=kind,source=data['source'],source_sha256=data['source_sha256'],selected_source_object=config['object'],source_faces=data['source_faces'],retained_faces=len(data['records']),removed_components=data['removed'],transform=[list(row) for row in data['transform']],uniform_scale=data['scale'],source_length=data['source_length'],length_m=config['length_m'],world_per_m=WORLD_PER_M,m2_calibration=M2_CALIBRATION,length_ratio_to_m2=config['length_m']/M2_CALIBRATION['m2_length_m'],reference=config['reference'],station_source=str(STATION),station_sha256=hashlib.sha256(STATION.read_bytes()).hexdigest(),station_feed_faces_replaced=removed_feed,station_other_faces_preserved=True,feed=feed_report,top_draw_size=[3.2,3.2],directional_draw_size=[3.6,3.6],pivot=[0,0],master_resolution=2048,native_resolution=1024,outline_world_tiles=.026,barrel_is_fixed=True,gameplay_added=False)
     (folder/'metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
-    print('CROWS_VARIANT_BUILD_PASS',kind,'source faces',len(data['records']),'belt rounds',feed_report['rounds'],flush=True)
+    print('CROWS_VARIANT_BUILD_PASS',kind,'source faces',len(data['records']),'M2 chute faces',feed_report['source_faces'],flush=True)
 
 if __name__=='__main__':
     wanted=sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else list(CONFIG)

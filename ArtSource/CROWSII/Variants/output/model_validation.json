@@ -10,11 +10,14 @@
       "humvee_body_excluded": true,
       "station_source_unchanged": true,
       "belt_connected_to_box_and_feed_gate": true,
-      "cartridge_center_spacing_tiles": [
-        0.05833030525008746,
-        0.05930487509029791
-      ],
-      "cartridges": 11,
+      "m2_length_ratio": 0.6620314989917625,
+      "expected_real_length_ratio": 0.662031438935913,
+      "weapon_length_tiles": 1.41819566488266,
+      "simple_enclosed_m2_chute": true,
+      "chute_faces": 568,
+      "unchanged_chute_vertices": 384,
+      "chute_uvs_and_color_preserved": true,
+      "individual_cartridges": false,
       "yaw_pivot": [
         0,
         0,
@@ -33,11 +36,14 @@
       "humvee_body_excluded": false,
       "station_source_unchanged": true,
       "belt_connected_to_box_and_feed_gate": true,
-      "cartridge_center_spacing_tiles": [
-        0.016512224243663668,
-        0.01653977968445836
-      ],
-      "cartridges": 40,
+      "m2_length_ratio": 0.7636034157426622,
+      "expected_real_length_ratio": 0.7636033857315598,
+      "weapon_length_tiles": 1.6357817649841309,
+      "simple_enclosed_m2_chute": true,
+      "chute_faces": 568,
+      "unchanged_chute_vertices": 384,
+      "chute_uvs_and_color_preserved": true,
+      "individual_cartridges": false,
       "yaw_pivot": [
         0,
         0,
@@ -56,11 +62,14 @@
       "humvee_body_excluded": false,
       "station_source_unchanged": true,
       "belt_connected_to_box_and_feed_gate": true,
-      "cartridge_center_spacing_tiles": [
-        0.01329076624959295,
-        0.013305100335528964
-      ],
-      "cartridges": 49,
+      "m2_length_ratio": 0.613663866588106,
+      "expected_real_length_ratio": 0.6136638452237001,
+      "weapon_length_tiles": 1.3145831227302551,
+      "simple_enclosed_m2_chute": true,
+      "chute_faces": 568,
+      "unchanged_chute_vertices": 384,
+      "chute_uvs_and_color_preserved": true,
+      "individual_cartridges": false,
       "yaw_pivot": [
         0,
         0,

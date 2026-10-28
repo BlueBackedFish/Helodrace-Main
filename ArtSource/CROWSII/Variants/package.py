@@ -9,6 +9,10 @@ CONFIG=json.loads((ROOT/'weapons.json').read_text());target=REPO/'Textures/Build
 files={};previews=[];weapons=[];directions=[];layers={}
 base=e.opened(REPO/'Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_Base.png')
 foundation=e.opened(REPO/'Textures/Buildings/Security/CROWSII/FixedMount/HD_CROWSII_FixedMount_top.png')
+m2_mount=Image.alpha_composite(foundation,base)
+for suffix in ['HD_CROWSII_M2_Frame','HD_CROWSII_M2Barrel','HD_CROWSII_M2Body','HD_CROWSII_M2_FeedOverlay']:
+    m2_mount=Image.alpha_composite(m2_mount,e.opened(REPO/'Textures/Buildings/Security/CROWSII'/(suffix+'.png')))
+previews.append(('M2HB / reference',m2_mount))
 for kind in CONFIG:
     folder=OUT/kind;meta=json.loads((folder/'metadata.json').read_text());stroke=meta['outline_world_tiles']/3.2*1024
     def export(raw,suffix,scale=3.2):
@@ -31,9 +35,16 @@ for kind in CONFIG:
     bbox=top.getchannel('A').getbbox();crop=top.crop(bbox);side=math.ceil(max(crop.size)*1024/928);square=Image.new('RGBA',(side,side));square.alpha_composite(crop,((side-crop.width)//2,(side-crop.height)//2))
     name='HD_CROWSII_'+kind+'_UI.png';files[name]=e.export(e.resize_linear(square,1024),target/name,1024,0)
     layers[kind]=dict(base='../HD_CROWSII_M2_Base',frame='HD_CROWSII_'+kind+'_Frame',barrel='HD_CROWSII_'+kind+'_Barrel',body='HD_CROWSII_'+kind+'_Body',feed='HD_CROWSII_'+kind+'_Feed',draw_order=['base','frame','barrel','body','feed'],draw_size=[3.2,3.2],pivot=[0,0],barrel_is_fixed=True,feed_geometry=meta['feed'])
-e.sheet(previews,OUT/'preview.png',columns=3)
+e.sheet(previews,OUT/'preview.png',columns=4)
 e.sheet(weapons,OUT/'weapon_preview.png',columns=3)
+m2=Image.alpha_composite(e.opened(REPO/'Textures/Buildings/Security/CROWSII/HD_CROWSII_M2Barrel.png'),e.opened(REPO/'Textures/Buildings/Security/CROWSII/HD_CROWSII_M2Body.png'))
+comparison=[('M2HB / 100% length',m2)]
+for kind in CONFIG:
+    image=Image.alpha_composite(e.opened(target/('HD_CROWSII_'+kind+'_Barrel.png')),e.opened(target/('HD_CROWSII_'+kind+'_Body.png')))
+    meta=json.loads((OUT/kind/'metadata.json').read_text())
+    comparison.append((kind+' / '+str(round(meta['length_ratio_to_m2']*100,1))+'% length',image))
+e.sheet(comparison,OUT/'scale_comparison.png',columns=4)
 e.sheet(directions,OUT/'direction_preview.png',columns=4)
 (OUT/'layers.json').write_text(json.dumps(layers,indent=2)+'\n')
 (OUT/'validation.json').write_text(json.dumps(dict(passed=True,files=files,weapons=list(CONFIG),transparent=True,resolution=[1024,1024],top_draw_size=[3.2,3.2],directional_draw_size=[3.6,3.6],same_station_yaw_pivot=True,weapon_barrel_shared_outline=True,in_game_tested=False,gameplay_added=False),indent=2)+'\n')
-print('CROWS_VARIANTS_EXPORT_PASS:',len(files),'1024px sprites; three mounted variants with aligned visible ammunition belts')
+print('CROWS_VARIANTS_EXPORT_PASS:',len(files),'1024px sprites; three mounted variants with M2-style enclosed feed chutes')

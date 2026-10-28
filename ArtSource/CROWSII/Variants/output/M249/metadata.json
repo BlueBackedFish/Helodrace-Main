@@ -69,22 +69,22 @@
   ],
   "transform": [
     [
-      -0.13822996616363525,
-      -1.20844472206727e-08,
+      -0.135552316904068,
+      -1.1850359804554955e-08,
       0.0,
       0.0
     ],
     [
-      1.20844472206727e-08,
-      -0.13822996616363525,
+      1.1850359804554955e-08,
+      -0.135552316904068,
       0.0,
-      0.16378745436668396
+      0.1604403853416443
     ],
     [
       0.0,
       0.0,
-      0.13822996616363525,
-      0.6448904275894165
+      0.135552316904068,
+      0.6489604711532593
     ],
     [
       0.0,
@@ -93,39 +93,75 @@
       1.0
     ]
   ],
-  "uniform_scale": 0.13822996410342117,
+  "uniform_scale": 0.13555231130003376,
   "source_length": 9.697976112365723,
-  "length_m": 1.03505,
-  "world_per_m": 1.2951556831922613,
-  "reference": "https://www.af.mil/portals/1/documents/airman_archive/the%20book%202011.pdf",
+  "length_m": 1.015,
+  "world_per_m": 1.295155740850926,
+  "m2_calibration": {
+    "source": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\CROWSII\\output\\crows_ii_m2.blend",
+    "source_sha256": "8b30e0877dcc5057f74df4d629ebedf07ed47067308fc291e1a6444c8dfbe793",
+    "m2_length_tiles": 2.1421875953674316,
+    "m2_length_m": 1.654,
+    "world_per_m": 1.295155740850926,
+    "reference": "https://www.usord.com/weapons/m2hb"
+  },
+  "length_ratio_to_m2": 0.6136638452237001,
+  "reference": "https://www.usord.com/weapons/m249",
   "station_source": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\CROWSII\\output\\crows_ii_m2.blend",
   "station_sha256": "8b30e0877dcc5057f74df4d629ebedf07ed47067308fc291e1a6444c8dfbe793",
   "station_feed_faces_replaced": 568,
   "station_other_faces_preserved": true,
   "feed": {
     "passed": true,
-    "box_outlet": [
-      -0.5190662741661072,
-      -0.2724199891090393,
-      0.8539800047874451
+    "source_faces": 568,
+    "source_unique_vertices": 576,
+    "rings": 72,
+    "blend_rings": 24,
+    "original_mouth_center": [
+      -0.06062902882695198,
+      -0.009100467897951603,
+      0.8550285696983337
     ],
-    "receiver_feed_gate": [
-      -0.033175207674503326,
+    "target_mouth_center": [
+      -0.028532568365335464,
       -0.009000000543892384,
+      0.8550000190734863
+    ],
+    "actual_mouth_center": [
+      -0.028532568365335464,
+      -0.009000001475214958,
       0.8549999594688416
+    ],
+    "target_width": 0.09325121334126667,
+    "actual_width": 0.09325121343135834,
+    "receiver_plane_error": 2.9802322387695312e-08,
+    "unchanged_chute_vertices": 384,
+    "ammo_end_unchanged": true,
+    "only_chute_vertices_changed": true,
+    "source_faces_and_uv_preserved": true,
+    "terminal_vertex_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "style": "canonical M2 enclosed chute",
+    "receiver_feed_gate": [
+      -0.03253256902098656,
+      -0.009000000543892384,
+      0.8550000190734863
     ],
     "belt_terminal": [
-      -0.029175207018852234,
+      -0.028532568365335464,
       -0.009000000543892384,
-      0.8549999594688416
+      0.8550000190734863
     ],
     "terminal_overlap_tiles": 0.004,
-    "rounds": 49,
-    "round_length_tiles": 0.0743419362152358,
-    "round_radius_tiles": 0.006216747279322854,
-    "path_length_tiles": 0.6386506732956203,
-    "rigid_cartridges": true,
-    "links_connect_neighboring_rounds": true
+    "individual_cartridges": false
   },
   "top_draw_size": [
     3.2,

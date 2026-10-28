@@ -54,22 +54,22 @@
   ],
   "transform": [
     [
-      -7.297664694760897e-09,
-      0.16695110499858856,
+      -7.481898656180874e-09,
+      0.17116589844226837,
       0.0,
       0.0
     ],
     [
-      -0.16695110499858856,
-      -7.297664694760897e-09,
+      -0.17116589844226837,
+      -7.481898656180874e-09,
       0.0,
-      0.05527617782354355
+      0.05689886584877968
     ],
     [
       0.0,
       0.0,
-      0.16695110499858856,
-      0.7214391231536865
+      0.17116589844226837,
+      0.7180672883987427
     ],
     [
       0.0,
@@ -78,39 +78,75 @@
       1.0
     ]
   ],
-  "uniform_scale": 0.1669511118404512,
+  "uniform_scale": 0.17116589304462423,
   "source_length": 9.556703567504883,
-  "length_m": 1.2319,
-  "world_per_m": 1.2951556831922613,
-  "reference": "https://cpeground.army.mil/Equipment/Equipment-Portfolio/PM-SL-Portfolio/M240B-L-H-Medium-Machine-Gun/",
+  "length_m": 1.263,
+  "world_per_m": 1.295155740850926,
+  "m2_calibration": {
+    "source": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\CROWSII\\output\\crows_ii_m2.blend",
+    "source_sha256": "8b30e0877dcc5057f74df4d629ebedf07ed47067308fc291e1a6444c8dfbe793",
+    "m2_length_tiles": 2.1421875953674316,
+    "m2_length_m": 1.654,
+    "world_per_m": 1.295155740850926,
+    "reference": "https://www.usord.com/weapons/m2hb"
+  },
+  "length_ratio_to_m2": 0.7636033857315598,
+  "reference": "https://www.usord.com/weapons/m240-gpmg",
   "station_source": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\CROWSII\\output\\crows_ii_m2.blend",
   "station_sha256": "8b30e0877dcc5057f74df4d629ebedf07ed47067308fc291e1a6444c8dfbe793",
   "station_feed_faces_replaced": 568,
   "station_other_faces_preserved": true,
   "feed": {
     "passed": true,
-    "box_outlet": [
-      -0.5190662741661072,
-      -0.2724199891090393,
-      0.8539800047874451
+    "source_faces": 568,
+    "source_unique_vertices": 576,
+    "rings": 72,
+    "blend_rings": 24,
+    "original_mouth_center": [
+      -0.06062902882695198,
+      -0.009100467897951603,
+      0.8550285696983337
     ],
+    "target_mouth_center": [
+      -0.02167488820850849,
+      -0.009000006131827831,
+      0.8550000190734863
+    ],
+    "actual_mouth_center": [
+      -0.02167489193379879,
+      -0.009000007063150406,
+      0.8549999594688416
+    ],
+    "target_width": 0.11138339371317962,
+    "actual_width": 0.11138339340686798,
+    "receiver_plane_error": 2.7939677238464355e-08,
+    "unchanged_chute_vertices": 384,
+    "ammo_end_unchanged": true,
+    "only_chute_vertices_changed": true,
+    "source_faces_and_uv_preserved": true,
+    "terminal_vertex_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "style": "canonical M2 enclosed chute",
     "receiver_feed_gate": [
-      -0.025042669847607613,
-      -0.008999994955956936,
+      -0.025674888864159584,
+      -0.009000006131827831,
       0.8550000190734863
     ],
     "belt_terminal": [
-      -0.02104266919195652,
-      -0.008999994955956936,
+      -0.02167488820850849,
+      -0.009000006131827831,
       0.8550000190734863
     ],
     "terminal_overlap_tiles": 0.004,
-    "rounds": 40,
-    "round_length_tiles": 0.09208556907496977,
-    "round_radius_tiles": 0.0077709340991535675,
-    "path_length_tiles": 0.6450622817464527,
-    "rigid_cartridges": true,
-    "links_connect_neighboring_rounds": true
+    "individual_cartridges": false
   },
   "top_draw_size": [
     3.2,
