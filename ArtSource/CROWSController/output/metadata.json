@@ -1,0 +1,230 @@
+{
+  "source_desk": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\ComputerDesk\\output\\computer_desk.blend",
+  "source_desk_sha256": "2666cd5c0aaa5efe4e31c54b4d5d6417ba5ce9c92aead3b0ccd9c41b946aa19d",
+  "desk_meshes": 131,
+  "controller_meshes": 47,
+  "controller_anchor": [
+    -0.79,
+    -0.3,
+    0.79
+  ],
+  "device_bounds": [
+    [
+      -0.9150000214576721,
+      -0.4300000071525574,
+      0.7899999618530273
+    ],
+    [
+      -0.5610000491142273,
+      -0.08949999511241913,
+      1.2975000143051147
+    ]
+  ],
+  "source_desk_geometry_preserved": true,
+  "source_desk_materials_preserved": true,
+  "keyboard_mouse_and_cables_preserved": true,
+  "master_resolution": 1024,
+  "native_resolution": 512,
+  "draw_size": [
+    3,
+    3
+  ],
+  "footprint": [
+    2,
+    1
+  ],
+  "projection": 64,
+  "outline_pixels": 12,
+  "parts": [
+    {
+      "name": "CROWS control pedestal",
+      "part": "device"
+    },
+    {
+      "name": "CROWS control deck top",
+      "part": "device"
+    },
+    {
+      "name": "CROWS deck screw",
+      "part": "device"
+    },
+    {
+      "name": "CROWS rubber desk foot",
+      "part": "device"
+    },
+    {
+      "name": "CROWS deck screw.001",
+      "part": "device"
+    },
+    {
+      "name": "CROWS rubber desk foot.001",
+      "part": "device"
+    },
+    {
+      "name": "CROWS deck screw.002",
+      "part": "device"
+    },
+    {
+      "name": "CROWS rubber desk foot.002",
+      "part": "device"
+    },
+    {
+      "name": "CROWS deck screw.003",
+      "part": "device"
+    },
+    {
+      "name": "CROWS rubber desk foot.003",
+      "part": "device"
+    },
+    {
+      "name": "CROWS rubber bellows 0",
+      "part": "device"
+    },
+    {
+      "name": "CROWS rubber bellows 1",
+      "part": "device"
+    },
+    {
+      "name": "CROWS rubber bellows 2",
+      "part": "device"
+    },
+    {
+      "name": "CROWS grip stem",
+      "part": "device"
+    },
+    {
+      "name": "CROWS hand grip",
+      "part": "device"
+    },
+    {
+      "name": "CROWS grip front trigger",
+      "part": "device"
+    },
+    {
+      "name": "CROWS thumb hat",
+      "part": "device"
+    },
+    {
+      "name": "CROWS thumb button",
+      "part": "device"
+    },
+    {
+      "name": "CROWS mode button 0",
+      "part": "device"
+    },
+    {
+      "name": "CROWS mode button 1",
+      "part": "device"
+    },
+    {
+      "name": "CROWS mode button 2",
+      "part": "device"
+    },
+    {
+      "name": "CROWS display support foot",
+      "part": "device"
+    },
+    {
+      "name": "CROWS display angled support",
+      "part": "device"
+    },
+    {
+      "name": "CROWS rugged display case",
+      "part": "device"
+    },
+    {
+      "name": "CROWS display corner bumper",
+      "part": "device"
+    },
+    {
+      "name": "CROWS display corner bumper.001",
+      "part": "device"
+    },
+    {
+      "name": "CROWS display corner bumper.002",
+      "part": "device"
+    },
+    {
+      "name": "CROWS display corner bumper.003",
+      "part": "device"
+    },
+    {
+      "name": "CROWS display screen",
+      "part": "device"
+    },
+    {
+      "name": "CROWS crosshair horizontal",
+      "part": "device"
+    },
+    {
+      "name": "CROWS crosshair vertical",
+      "part": "device"
+    },
+    {
+      "name": "CROWS target vertical",
+      "part": "device"
+    },
+    {
+      "name": "CROWS target vertical.001",
+      "part": "device"
+    },
+    {
+      "name": "CROWS target horizontal",
+      "part": "device"
+    },
+    {
+      "name": "CROWS target horizontal.001",
+      "part": "device"
+    },
+    {
+      "name": "CROWS display status",
+      "part": "device"
+    },
+    {
+      "name": "CROWS display function key 0",
+      "part": "device"
+    },
+    {
+      "name": "CROWS display function key 1",
+      "part": "device"
+    },
+    {
+      "name": "CROWS display function key 2",
+      "part": "device"
+    },
+    {
+      "name": "CROWS display function key 3",
+      "part": "device"
+    },
+    {
+      "name": "CROWS display side key",
+      "part": "device"
+    },
+    {
+      "name": "CROWS display side key.001",
+      "part": "device"
+    },
+    {
+      "name": "CROWS display side key.002",
+      "part": "device"
+    },
+    {
+      "name": "CROWS tower controller interface",
+      "part": "interface"
+    },
+    {
+      "name": "CROWS tower controller plug",
+      "part": "interface"
+    },
+    {
+      "name": "CROWS controller data lead",
+      "part": "cable"
+    },
+    {
+      "name": "CROWS display local lead",
+      "part": "device"
+    }
+  ],
+  "reference": "https://www.army.mil/article/181552/weapon_system_moves_reserve_gunners_to_the_safety_of_the_backseat",
+  "gameplay_definition_added": false
+}

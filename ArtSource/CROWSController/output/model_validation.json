@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "original_desk_meshes_verified": 131,
+  "original_vertices_faces_uv_material_colors_and_transforms_identical": true,
+  "original_camera_projection_and_registration_identical": true,
+  "controller_meshes": 47,
+  "controller_feet_touch_table": true,
+  "screen_clears_keyboard_monitor_and_tower": true,
+  "old_keyboard_mouse_and_cables_preserved": true,
+  "source_desk_sha256": "2666cd5c0aaa5efe4e31c54b4d5d6417ba5ce9c92aead3b0ccd9c41b946aa19d",
+  "in_game_tested": false
+}
