@@ -3,6 +3,7 @@
   <ItemGroup>
     <Compile Include="../../Helodrace/ModernWar/CrowsControl.cs" Link="CrowsControl.cs"/>
     <Compile Include="../../Helodrace/ModernWar/CompCrowsGraphic.cs" Link="CompCrowsGraphic.cs"/>
+    <Compile Include="../../Helodrace/ModernWar/CrowsAccuracy.cs" Link="CrowsAccuracy.cs"/>
     <Compile Include="../../Helodrace/GreatWar/HeavyMachineGunAccuracy.cs" Link="HeavyMachineGunAccuracy.cs"/>
   </ItemGroup>
 </Project>

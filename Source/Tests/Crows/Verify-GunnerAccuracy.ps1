@@ -35,6 +35,27 @@ try {
             if (!$mod.GetType('Helodrace.HeavyMachineGunAccuracyExtension').GetField('gunnerBaseAccuracy')) { throw 'Unknown extension field.' }
         }
     }
-    Write-Output 'PASS: real RimWorld shooter-factor Harmony registration/invocation, bounded formula using game Mathf, obsolete patch removal, CROWS forced-target override and XML configuration.'
+    $weatherPatch = $mod.GetType('Helodrace.Patch_CrowsWeatherAccuracy', $true)
+    $weatherPatched = $harmony.CreateClassProcessor($weatherPatch).Patch()
+    $reportType = $game.GetType('Verse.ShotReport')
+    $reportMethod = [HarmonyLib.AccessTools]::Method($reportType, 'HitReportFor')
+    if ($weatherPatched.Count -ne 1 -or !([HarmonyLib.Harmony]::GetPatchInfo($reportMethod).Owners -contains 'Helodrace.Tests.HmgGunnerAccuracy')) {
+        throw 'CROWS weather correction is not registered on the actual hit report.'
+    }
+    $weather = [HarmonyLib.AccessTools]::Field($reportType, 'factorFromWeather')
+    $equipment = [HarmonyLib.AccessTools]::Field($reportType, 'factorFromEquipment')
+    foreach ($isCrows in @($true,$false)) {
+        $report = [Activator]::CreateInstance($reportType)
+        $weather.SetValue($report, [single]0.5)
+        $equipment.SetValue($report, [single]0.68)
+        $casterType = if ($isCrows) { $mod.GetType('Helodrace.Building_Crows') } else { $game.GetType('Verse.Thing') }
+        $caster = [Runtime.Serialization.FormatterServices]::GetUninitializedObject($casterType)
+        $arguments = [object[]]@($caster,$report)
+        $null = $weatherPatch.GetMethod('Postfix').Invoke($null,$arguments)
+        $wanted = if ($isCrows) { 0.85 } else { 0.5 }
+        if ([Math]::Abs($weather.GetValue($arguments[1])-$wanted) -gt 0.00001) { throw 'Weather correction or CROWS-only scope failed.' }
+        if ([Math]::Abs($equipment.GetValue($arguments[1])-0.68) -gt 0.00001) { throw 'Weather correction modified equipment accuracy.' }
+    }
+    Write-Output 'PASS: real game Harmony hooks, bounded gunner formula, CROWS targeting, CROWS-only 30% weather penalty in real ShotReport fields, unchanged equipment factor and XML configuration.'
 }
 finally { $harmony.UnpatchAll('Helodrace.Tests.HmgGunnerAccuracy') }

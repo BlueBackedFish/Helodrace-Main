@@ -98,11 +98,25 @@ internal static class Program
         Check(otherTurret.Computer == null, "Removing computer did not disarm the turret.");
         otherConsole.Spawned = true; otherConsole.Connect(otherTurret); otherTurret.SetFaction(new Faction());
         Check(!otherConsole.Connected && otherTurret.Computer == null, "Capturing turret retained access.");
-        VerifyDrawing(); VerifyDefinitions(); VerifyGunnerAccuracy();
-        System.Console.WriteLine("PASS: CROWS forced targeting with operator-only firing; links, interruption and recoil; bounded HMG gunner formula, distance, scope and real remote operator; definitions.");
+        VerifyDrawing(); VerifyDefinitions(); VerifyGunnerAccuracy(); VerifyWeather();
+        System.Console.WriteLine("PASS: CROWS targeting/operator-only firing, recoil, bounded gunner formula, CROWS-only 30% weather penalty with other factors preserved, progressive range accuracy and definitions.");
     }
 
     private static void Near(float actual,float expected,string error)=>Check(Math.Abs(actual-expected)<.00001f,error+" actual="+actual+", expected="+expected);
+
+    private static void VerifyWeather()
+    {
+        var report=new ShotReport(.5f,.68f,.4f);
+        Patch_CrowsWeatherAccuracy.Postfix(Turret(new Map()),ref report);
+        Near(report.WeatherForTest,.85f,"CROWS must retain only 30% of a 50% weather penalty.");
+        Near(report.EquipmentForTest,.68f,"Weather correction changed weapon accuracy.");
+        Near(report.CoverForTest,.4f,"Weather correction changed cover.");
+        var ordinary=new ShotReport(.5f,.68f,.4f);
+        Patch_CrowsWeatherAccuracy.Postfix(new Thing(),ref ordinary);
+        Near(ordinary.WeatherForTest,.5f,"Weather protection leaked to other weapons.");
+        Near(CrowsAccuracy.WeatherFactor(1f),1f,"Clear-weather accuracy changed.");
+        Near(CrowsAccuracy.WeatherFactor(0f),.7f,"Weather immunity exceeds the requested 70% penalty reduction.");
+    }
 
     private static void VerifyGunnerAccuracy()
     {
@@ -168,6 +182,16 @@ internal static class Program
         Check((string)verb.Element("verbClass")==typeof(Verb_Crows).FullName,"CROWS gun bypassed its per-shot operator guard.");
         Check((string)verb.Element("consumeFuelPerShot")=="1","CROWS does not consume ammunition.");
         var hmgDefs=XDocument.Load(Path.Combine(path,"Defs/GreatWar/Buildings/Defense_GreatWar.xml"));
+        var guns=XDocument.Load(Path.Combine(path,"Defs/GreatWar/Items/Weapons_GreatWar.xml"));
+        var m2=guns.Root.Elements("ThingDef").Single(x=>(string)x.Element("defName")=="HD_Gun_M2HB_TurretGun");
+        float previousBoost=-1f;
+        foreach(string stat in new[]{"AccuracyTouch","AccuracyShort","AccuracyMedium","AccuracyLong"})
+        {
+            float value=(float)defs["HD_Gun_CrowsII"].Element("statBases").Element(stat);
+            float boost=value-(float)m2.Element("statBases").Element(stat);
+            Check(value<=1f&&boost>=0f&&boost>previousBoost,"CROWS range upgrade must grow with distance without exceeding 100%.");
+            previousBoost=boost;
+        }
         foreach(var name in new[]{"HD_Building_M1917HMG","HD_Building_M2HB","HD_Building_CrowsII"})
         {
             var hmg=defs.ContainsKey(name)?defs[name]:hmgDefs.Root.Elements("ThingDef").Single(x=>(string)x.Element("defName")==name);

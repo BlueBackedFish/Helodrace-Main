@@ -10,6 +10,8 @@
 
 각 건물 Def의 `gunnerBaseAccuracy`로 x를 지정한다. 표시와 실제 발사가 공유하는 `HitFactorFromShooter`를 패치하므로 툴팁만 고치는 방식이 아니다. 다른 `ShotReport` 항목을 읽거나 덮어쓰지 않는다.
 
+CROWS의 별도 날씨 보정은 `HitReportFor`에서 날씨 항목에만 적용한다. 날씨 페널티를 원래의 30%로 줄이며 사수 보정·엄폐·무기 항목을 건드리지 않는다. CROWS 전용 무기 정확도 상향과 구체적인 수치는 `Docs/CROWSII.md`에 기록했다. M1917·일반 M2HB의 날씨 및 무기 정확도는 유지한다.
+
 ```powershell
 dotnet run --project Source/Tests/Crows/Crows.Tests.csproj
 powershell -NoProfile -ExecutionPolicy Bypass -File Source/Tests/Crows/Verify-GunnerAccuracy.ps1

@@ -136,9 +136,9 @@
     </graphicData>
     <statBases>
       <AccuracyTouch>0.48</AccuracyTouch>
-      <AccuracyShort>0.70</AccuracyShort>
-      <AccuracyMedium>0.78</AccuracyMedium>
-      <AccuracyLong>0.68</AccuracyLong>
+      <AccuracyShort>0.72</AccuracyShort>
+      <AccuracyMedium>0.82</AccuracyMedium>
+      <AccuracyLong>0.74</AccuracyLong>
       <RangedWeapon_Cooldown>0.2</RangedWeapon_Cooldown>
     </statBases>
     <verbs>

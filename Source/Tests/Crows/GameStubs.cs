@@ -164,8 +164,13 @@ namespace Verse
         public bool TestShot()=>TryCastShot(); public virtual void Reset(){ResetCalls++;}
     }
     public class Verb_Shoot:Verb { }
-    public static class ShotReport
+    public struct ShotReport
     {
+        private float factorFromWeather;
+        public float EquipmentForTest,CoverForTest;
+        public ShotReport(float weather,float equipment,float cover){factorFromWeather=weather;EquipmentForTest=equipment;CoverForTest=cover;}
+        public float WeatherForTest=>factorFromWeather;
+        public static ShotReport HitReportFor(Thing caster,Verb verb,LocalTargetInfo target)=>default;
         public static float HitFactorFromShooter(Thing caster,float distance,float? acc=null)
             =>(float)Math.Pow(acc??(caster is Pawn pawn?pawn.ShootingAccuracy:.9f),distance);
     }
@@ -175,6 +180,10 @@ namespace Verse
 namespace HarmonyLib
 {
     public sealed class HarmonyPatch:Attribute { public HarmonyPatch(Type type,string method){ } }
+    public static class AccessTools
+    {
+        public static System.Reflection.FieldInfo Field(Type type,string name)=>type.GetField(name,System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.Public|System.Reflection.BindingFlags.NonPublic);
+    }
 }
 namespace Verse.AI
 {
