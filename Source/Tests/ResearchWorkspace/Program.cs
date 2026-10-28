@@ -25,7 +25,7 @@ internal static class Program
     }
     private static void Main()
     {
-        PlansAndQueue(); SaveQueue(); Geometry(); FlowAndRouting(); DefinitionsAndPreviews(); Compatibility();
+        PlansAndQueue(); SaveQueue(); Geometry(); FlowAndRouting(); RouteFamilies(); DefinitionsAndPreviews(); Compatibility();
         Console.WriteLine("PASS: " + checks + " research workspace checks.");
     }
     private static void PlansAndQueue()
@@ -180,6 +180,65 @@ internal static class Program
             }
         }
     }
+    private static void RouteFamilies()
+    {
+        Check(!ResearchRouteGeometry.Conflicts(new[] { Line(0, 50, 100, 50) }, new[] { Line(50, 0, 50, 100) }),
+            "Straight crossings remain possible without implying a shared junction");
+        var corner = new[] { Line(0, 50, 50, 50), Line(50, 50, 50, 100) };
+        Check(ResearchRouteGeometry.Conflicts(corner, new[] { Line(50, 0, 50, 50), Line(50, 50, 100, 50) }),
+            "Coincident bends are ambiguous junctions");
+        Check(ResearchRouteGeometry.Conflicts(corner, new[] { Line(50, 0, 50, 100) }), "A bend touching a straight stroke is also ambiguous");
+        Check(ResearchRouteGeometry.SameFamily("A", "B", "A", "C") && ResearchRouteGeometry.SameFamily("A", "C", "B", "C")
+            && !ResearchRouteGeometry.SameFamily("A", "B", "B", "C"), "Only a common source or common target permits sharing");
+        var a = new ResearchPoint(20, 40); var b = new ResearchPoint(220, 140);
+        var c = new ResearchPoint(20, 140); var d = new ResearchPoint(220, 40); var e = new ResearchPoint(220, 80);
+        var router = new ResearchOrthogonalRouter(new ResearchBox[0], new[] { a, b, c, d, e });
+        var first = router.Route(a, b, "A", "B"); router.Reserve(first, "A", "B");
+        var unrelated = router.Route(c, d, "C", "D");
+        Check(first.Count > 0 && unrelated.Count > 0, "Unrelated crisscross routes can both reach their targets");
+        Check(!ResearchRouteGeometry.Conflicts(first, unrelated), "Unrelated routes use separate bends and parallel tracks");
+        var fan = router.Route(a, e, "A", "E");
+        Check(fan.Count > 0 && ResearchRouteGeometry.Conflicts(first, fan), "A true fan-out can reuse its source trunk");
+        var repeat = router.Route(c, d, "C", "D");
+        Check(repeat.Select(l => Tuple.Create(l.A.X, l.A.Y, l.B.X, l.B.Y)).SequenceEqual(
+            unrelated.Select(l => Tuple.Create(l.A.X, l.A.Y, l.B.X, l.B.Y))), "Routing remains deterministic");
+    }
+    private static void RealRoutes(IList<XElement> sections, Dictionary<string, ResearchProjectDef> projects,
+        Dictionary<ResearchProjectDef, ResearchCell> cells)
+    {
+        int top = cells.Values.Min(c => c.Row);
+        var starts = sections.Select(s => s.Element("projects").Elements("li").Min(e => cells[projects[e.Value]].Column)).Distinct().ToList();
+        var boxes = projects.Values.ToDictionary(p => p, p => new ResearchBox(
+            84 + cells[p].Column * 320 + 200 * starts.Count(c => c > 0 && c <= cells[p].Column),
+            212 + (cells[p].Row - top) * 156,
+            264 + cells[p].Column * 320 + 200 * starts.Count(c => c > 0 && c <= cells[p].Column),
+            296 + (cells[p].Row - top) * 156));
+        var obstacles = boxes.Values.Select(b => new ResearchBox(b.Left - 8, b.Top - 8, b.Right + 8, b.Bottom + 8)).ToList();
+        foreach (var section in sections)
+        {
+            var members = section.Element("projects").Elements("li").Select(e => boxes[projects[e.Value]]).ToList();
+            float y = members.Min(b => b.Top) - 60;
+            obstacles.Add(new ResearchBox(members.Min(b => b.Left) - 64, y, members.Max(b => b.Right) + 64, y + 38));
+        }
+        var ports = boxes.Values.SelectMany(b => new[] { new ResearchPoint(b.Right + 8, (b.Top + b.Bottom) / 2),
+            new ResearchPoint(b.Left - 8, (b.Top + b.Bottom) / 2) });
+        var router = new ResearchOrthogonalRouter(obstacles, ports);
+        var routed = new List<Tuple<ResearchProjectDef, ResearchProjectDef, List<ResearchLine>>>();
+        foreach (var edge in projects.Values.SelectMany(p => p.prerequisites.Select(parent => Tuple.Create(parent, p)))
+            .OrderBy(e => boxes[e.Item2].Left - boxes[e.Item1].Left).ThenBy(e => e.Item1.defName + ">" + e.Item2.defName, StringComparer.Ordinal))
+        {
+            var from = boxes[edge.Item1]; var to = boxes[edge.Item2];
+            float y1 = (from.Top + from.Bottom) / 2, y2 = (to.Top + to.Bottom) / 2;
+            var lines = router.Route(new ResearchPoint(from.Right + 8, y1), new ResearchPoint(to.Left - 8, y2), edge.Item1, edge.Item2);
+            Check(lines.Count > 0, "Real separated route reaches its target: " + edge.Item1.defName + " -> " + edge.Item2.defName);
+            lines.Insert(0, Line(from.Right + 1, y1, from.Right + 8, y1)); lines.Add(Line(to.Left - 8, y2, to.Left - 2, y2));
+            foreach (var previous in routed.Where(r => !ResearchRouteGeometry.SameFamily(edge.Item1, edge.Item2, r.Item1, r.Item2)))
+                Check(!ResearchRouteGeometry.Conflicts(lines, previous.Item3), "Unrelated real research lines never share a bend, T junction or parallel trunk");
+            foreach (var line in lines) Check(!boxes.Values.Any(b => b.Blocks(line.A, line.B)), "Separated routes still avoid all research nodes");
+            router.Reserve(lines, edge.Item1, edge.Item2); routed.Add(Tuple.Create(edge.Item1, edge.Item2, lines));
+        }
+        Check(routed.Count == 99, "All 99 real connections remain present with separated tracks");
+    }
     private static void DefinitionsAndPreviews()
     {
         var race = Directory.GetFiles("Defs/Research", "*.xml").SelectMany(file => XDocument.Load(file).Root.Elements("ResearchProjectDef"))
@@ -209,6 +268,7 @@ internal static class Program
             layoutProjects[pair.Key].prerequisites = (pair.Value.Element("prerequisites")?.Elements("li") ?? Enumerable.Empty<XElement>())
                 .Where(e => layoutProjects.ContainsKey(e.Value)).Select(e => layoutProjects[e.Value]).ToList();
         var global = ResearchFlowLayout.Arrange(members.Select(name => layoutProjects[name]).ToList(), p => p.prerequisites);
+        RealRoutes(sections, layoutProjects, global);
         foreach (var project in layoutProjects.Values)
             foreach (var prerequisite in project.prerequisites)
                 Check(global[prerequisite].Column < global[project].Column,

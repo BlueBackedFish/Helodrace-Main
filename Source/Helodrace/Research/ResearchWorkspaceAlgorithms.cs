@@ -156,17 +156,63 @@ namespace Helodrace.ResearchUI
         }
     }
 
-    // A shared orthogonal visibility grid keeps every connection out of node bodies and section headings.
+    public static class ResearchRouteGeometry
+    {
+        public const float Clearance = 10;
+        public static bool SameFamily(object source, object target, object otherSource, object otherTarget) =>
+            source != null && Equals(source, otherSource) || target != null && Equals(target, otherTarget);
+        public static IEnumerable<ResearchPoint> Corners(IList<ResearchLine> lines)
+        {
+            for (int i = 1; i < lines.Count; i++)
+                if (Horizontal(lines[i - 1]) != Horizontal(lines[i])) yield return lines[i].A;
+        }
+        public static bool Horizontal(ResearchLine line) => Math.Abs(line.A.Y - line.B.Y) < 0.001f;
+        public static bool Near(ResearchPoint point, ResearchLine line, float clearance) =>
+            point.X > Math.Min(line.A.X, line.B.X) - clearance + 0.001f && point.X < Math.Max(line.A.X, line.B.X) + clearance - 0.001f
+            && point.Y > Math.Min(line.A.Y, line.B.Y) - clearance + 0.001f && point.Y < Math.Max(line.A.Y, line.B.Y) + clearance - 0.001f;
+        public static bool Conflicts(IList<ResearchLine> a, IList<ResearchLine> b)
+        {
+            foreach (var line in a)
+                foreach (var other in b)
+                {
+                    if (Horizontal(line) != Horizontal(other)) continue;
+                    bool horizontal = Horizontal(line);
+                    float distance = horizontal ? Math.Abs(line.A.Y - other.A.Y) : Math.Abs(line.A.X - other.A.X);
+                    float lo = horizontal ? Math.Max(Math.Min(line.A.X, line.B.X), Math.Min(other.A.X, other.B.X))
+                        : Math.Max(Math.Min(line.A.Y, line.B.Y), Math.Min(other.A.Y, other.B.Y));
+                    float hi = horizontal ? Math.Min(Math.Max(line.A.X, line.B.X), Math.Max(other.A.X, other.B.X))
+                        : Math.Min(Math.Max(line.A.Y, line.B.Y), Math.Max(other.A.Y, other.B.Y));
+                    if (distance < Clearance - 0.001f && hi > lo + 0.001f) return true;
+                }
+            return Corners(a).Any(c => b.Any(line => Near(c, line, Clearance)))
+                || Corners(b).Any(c => a.Any(line => Near(c, line, Clearance)));
+        }
+    }
+
+    // Reserve separate tracks and bend clearance for unrelated connections. Crossings remain possible.
     public sealed class ResearchOrthogonalRouter
     {
+        private sealed class Reservation
+        {
+            public object Source, Target;
+            public List<ResearchLine> Lines;
+        }
+        private sealed class Masks
+        {
+            public bool[] Horizontal, Vertical, Turns;
+            public Masks(int count) { Horizontal = new bool[count]; Vertical = new bool[count]; Turns = new bool[count]; }
+        }
+        private readonly List<Reservation> reservations = new List<Reservation>();
+        private readonly List<ResearchPoint> ports;
         private readonly float[] xs, ys;
         private readonly List<int>[] neighbors;
         private readonly int columns;
         public ResearchOrthogonalRouter(IEnumerable<ResearchBox> obstacles, IEnumerable<ResearchPoint> ports)
         {
             var boxes = obstacles.ToList(); var ends = ports.ToList();
-            xs = boxes.SelectMany(b => new[] { b.Left, b.Right }).Concat(ends.Select(p => p.X)).Distinct().OrderBy(x => x).ToArray();
-            ys = boxes.SelectMany(b => new[] { b.Top, b.Bottom }).Concat(ends.Select(p => p.Y)).Distinct().OrderBy(y => y).ToArray();
+            this.ports = ends;
+            xs = Tracks(boxes.SelectMany(b => new[] { b.Left, b.Right }).Concat(ends.Select(p => p.X)));
+            ys = Tracks(boxes.SelectMany(b => new[] { b.Top, b.Bottom }).Concat(ends.Select(p => p.Y)));
             columns = xs.Length; neighbors = new List<int>[xs.Length * ys.Length];
             for (int i = 0; i < neighbors.Length; i++) neighbors[i] = new List<int>();
             for (int y = 0; y < ys.Length; y++)
@@ -177,18 +223,79 @@ namespace Helodrace.ResearchUI
                     if (y + 1 < ys.Length) Connect(a, a + columns, boxes);
                 }
         }
+        private static float[] Tracks(IEnumerable<float> coordinates)
+        {
+            var values = coordinates.ToList();
+            if (values.Count == 0) return new float[0];
+            float first = Math.Min(8, values.Min()), last = values.Max() + 84;
+            return values.Concat(Enumerable.Range(0, (int)Math.Ceiling((last - first) / 12) + 1)
+                .Select(i => first + i * 12)).Distinct().OrderBy(v => v).ToArray();
+        }
+        public void Reserve(IList<ResearchLine> lines, object source, object target) =>
+            reservations.Add(new Reservation { Source = source, Target = target, Lines = lines.ToList() });
+        private static int Lower(float[] axis, float value)
+        {
+            int i = Array.BinarySearch(axis, value); return i < 0 ? ~i : i;
+        }
+        private void Mark(Masks masks, ResearchBox box, bool turns, bool horizontal, bool vertical)
+        {
+            int left = Math.Max(0, Lower(xs, box.Left) - 1), right = Math.Min(xs.Length - 1, Lower(xs, box.Right));
+            int top = Math.Max(0, Lower(ys, box.Top) - 1), bottom = Math.Min(ys.Length - 1, Lower(ys, box.Bottom));
+            for (int y = top; y <= bottom; y++)
+                for (int x = left; x <= right; x++)
+                {
+                    int at = y * columns + x;
+                    if (turns && xs[x] > box.Left + 0.001f && xs[x] < box.Right - 0.001f
+                        && ys[y] > box.Top + 0.001f && ys[y] < box.Bottom - 0.001f) masks.Turns[at] = true;
+                    if (horizontal && x + 1 < xs.Length && box.Blocks(Point(at), Point(at + 1))) masks.Horizontal[at] = true;
+                    if (vertical && y + 1 < ys.Length && box.Blocks(Point(at), Point(at + columns))) masks.Vertical[at] = true;
+                }
+        }
+        private Masks Blocked(object source, object target, ResearchPoint from, ResearchPoint to)
+        {
+            var masks = new Masks(neighbors.Length);
+            float gap = ResearchRouteGeometry.Clearance;
+            foreach (var port in ports)
+            {
+                bool endpoint = Math.Abs(port.X - from.X) < 0.001f && Math.Abs(port.Y - from.Y) < 0.001f
+                    || Math.Abs(port.X - to.X) < 0.001f && Math.Abs(port.Y - to.Y) < 0.001f;
+                // Keep a runway free for connections that have not been routed yet.
+                float radius = endpoint ? gap : 24;
+                Mark(masks, new ResearchBox(port.X - radius, port.Y - radius, port.X + radius, port.Y + radius),
+                    true, !endpoint, !endpoint);
+            }
+            foreach (var reservation in reservations.Where(r => !ResearchRouteGeometry.SameFamily(source, target, r.Source, r.Target)))
+            {
+                foreach (var line in reservation.Lines)
+                {
+                    bool horizontal = ResearchRouteGeometry.Horizontal(line);
+                    // Every new bend must stay away from the existing stroke, including T junctions.
+                    Mark(masks, new ResearchBox(Math.Min(line.A.X, line.B.X) - gap, Math.Min(line.A.Y, line.B.Y) - gap,
+                        Math.Max(line.A.X, line.B.X) + gap, Math.Max(line.A.Y, line.B.Y) + gap), true, false, false);
+                    // Unrelated parallel strokes have their own lanes instead of appearing as a shared trunk.
+                    Mark(masks, horizontal
+                        ? new ResearchBox(Math.Min(line.A.X, line.B.X), line.A.Y - gap, Math.Max(line.A.X, line.B.X), line.A.Y + gap)
+                        : new ResearchBox(line.A.X - gap, Math.Min(line.A.Y, line.B.Y), line.A.X + gap, Math.Max(line.A.Y, line.B.Y)),
+                        false, horizontal, !horizontal);
+                }
+                foreach (var corner in ResearchRouteGeometry.Corners(reservation.Lines))
+                    Mark(masks, new ResearchBox(corner.X - gap, corner.Y - gap, corner.X + gap, corner.Y + gap), false, true, true);
+            }
+            return masks;
+        }
         private ResearchPoint Point(int index) => new ResearchPoint(xs[index % columns], ys[index / columns]);
         private void Connect(int a, int b, List<ResearchBox> boxes)
         {
             if (boxes.Any(box => box.Blocks(Point(a), Point(b)))) return;
             neighbors[a].Add(b); neighbors[b].Add(a);
         }
-        public List<ResearchLine> Route(ResearchPoint from, ResearchPoint to)
+        public List<ResearchLine> Route(ResearchPoint from, ResearchPoint to, object source = null, object targetNode = null)
         {
             int sx = Array.IndexOf(xs, from.X), sy = Array.IndexOf(ys, from.Y);
             int gx = Array.IndexOf(xs, to.X), gy = Array.IndexOf(ys, to.Y);
             if (sx < 0 || sy < 0 || gx < 0 || gy < 0) return new List<ResearchLine>();
             int start = sy * columns + sx, goal = gy * columns + gx;
+            var blocked = Blocked(source, targetNode, from, to);
             // Two states per vertex preserve incoming direction so bend penalties remain correct.
             var costs = Enumerable.Repeat(float.PositiveInfinity, neighbors.Length * 2).ToArray();
             var previous = Enumerable.Repeat(-1, costs.Length).ToArray();
@@ -199,10 +306,12 @@ namespace Helodrace.ResearchUI
             {
                 var next = pending.Min; pending.Remove(next); int state = next.Item3, vertex = state / 2;
                 if (next.Item1 > costs[state] + Distance(Point(vertex), to) + 0.01f) continue;
-                if (vertex == goal) { final = state; break; }
+                if (vertex == goal && (state % 2 == 0 || !blocked.Turns[vertex])) { final = state; break; }
                 foreach (int neighbor in neighbors[vertex])
                 {
                     int direction = neighbor / columns == vertex / columns ? 0 : 1;
+                    if (direction == 0 ? blocked.Horizontal[Math.Min(vertex, neighbor)] : blocked.Vertical[Math.Min(vertex, neighbor)]) continue;
+                    if (state % 2 != direction && blocked.Turns[vertex]) continue;
                     int target = neighbor * 2 + direction;
                     float cost = costs[state] + Distance(Point(vertex), Point(neighbor)) + (state % 2 == direction ? 0 : 24);
                     if (cost >= costs[target]) continue;

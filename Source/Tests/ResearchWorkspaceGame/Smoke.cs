@@ -72,6 +72,8 @@ namespace Helodrace.ResearchWorkspaceSmoke
         private float heartbeat;
         private float guiHeartbeat;
         private bool panCaptured;
+        private int selectionStep, selectionDraw;
+        private Vector2 selectionScroll;
         public void Update()
         {
             if (!GenCommandLine.TryGetCommandLineArg("hdResearchUiSmoke", out output) || Time.realtimeSinceStartup < heartbeat) return;
@@ -119,6 +121,7 @@ namespace Helodrace.ResearchWorkspaceSmoke
                     + ResearchQueue.Current.Goals.Count + "; parts=" + ResearchWorkspaceData.PartsFor(window.CurTab == null ? null
                         : DefDatabase<ResearchProjectDef>.GetNamed("HelodHighAutomaticRifle")).Count + "\n");
             }
+            if (stage == 4 && !CheckSelection()) return;
             if (stage == 4 && GenCommandLine.TryGetCommandLineArg("hdResearchUiInteractive", out _))
             {
                 File.WriteAllText(Path.Combine(output, "interaction.txt"), "leftDrag=" + Bootstrap.LeftDrag + "; mapClick=" + Bootstrap.MapClick
@@ -136,6 +139,27 @@ namespace Helodrace.ResearchWorkspaceSmoke
                 File.AppendAllText(Path.Combine(output, "checks.txt"), ValidateFlow() + "\nPASS: five native canvas panels rendered\n");
                 Application.Quit();
             }
+        }
+        private bool CheckSelection()
+        {
+            if (selectionStep == 3) return true;
+            var view = ResearchWorkspaceView.For(window);
+            var field = AccessTools.Field(typeof(ResearchWorkspaceView), "scroll");
+            if (selectionStep == 0)
+            {
+                selectionScroll = (Vector2)field.GetValue(view);
+                window.Select(DefDatabase<ResearchProjectDef>.GetNamed("HelodFrontierSpirit"));
+                selectionDraw = Bootstrap.Draws; selectionStep = 1; return false;
+            }
+            if (Bootstrap.Draws - selectionDraw < 2) return false;
+            bool stable = Vector2.Distance(selectionScroll, (Vector2)field.GetValue(view)) < 0.1f;
+            File.AppendAllText(Path.Combine(output, "checks.txt"), (stable ? "PASS" : "FAIL") + ": research selection preserves viewport, step " + selectionStep + "\n");
+            if (selectionStep == 1)
+            {
+                window.Select(DefDatabase<ResearchProjectDef>.GetNamed("HelodNumericalControl"));
+                selectionDraw = Bootstrap.Draws; selectionStep = 2; return false;
+            }
+            selectionStep = 3; return true;
         }
         private string ValidateFlow()
         {
@@ -155,7 +179,17 @@ namespace Helodrace.ResearchWorkspaceSmoke
                 foreach (ResearchLine line in (List<ResearchLine>)AccessTools.Field(route.GetType(), "Lines").GetValue(route))
                     if (nodes.Values.Any(n => new ResearchBox(n.xMin, n.yMin, n.xMax, n.yMax).Blocks(line.A, line.B)))
                         return "FAIL: route crosses a node body";
-            return "PASS: " + nodes.Count + " nodes; " + routes.Count + " complete routes advance right and avoid every node body";
+            for (int i = 0; i < routes.Count; i++)
+                for (int j = i + 1; j < routes.Count; j++)
+                {
+                    object a = routes[i], b = routes[j]; var type = a.GetType();
+                    if (ResearchRouteGeometry.SameFamily(AccessTools.Field(type, "From").GetValue(a), AccessTools.Field(type, "To").GetValue(a),
+                        AccessTools.Field(type, "From").GetValue(b), AccessTools.Field(type, "To").GetValue(b))) continue;
+                    if (ResearchRouteGeometry.Conflicts((List<ResearchLine>)AccessTools.Field(type, "Lines").GetValue(a),
+                        (List<ResearchLine>)AccessTools.Field(type, "Lines").GetValue(b)))
+                        return "FAIL: unrelated routes share a bend or trunk: " + AccessTools.Field(type, "Key").GetValue(a) + " / " + AccessTools.Field(type, "Key").GetValue(b);
+                }
+            return "PASS: " + nodes.Count + " nodes; " + routes.Count + " complete routes advance right, avoid nodes and separate unrelated bends/trunks";
         }
         private void Configure()
         {
