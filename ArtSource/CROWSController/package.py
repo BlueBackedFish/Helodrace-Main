@@ -17,7 +17,7 @@ raw=e.opened(OUT/'controller_ui_raw.png');crop=raw.crop(raw.getchannel('A').getb
 e.sheet(entries,OUT/'preview.png',columns=2);e.sheet(overlays,OUT/'addon_preview.png',columns=2)
 e.sheet([('CONTROLLER / device',e.opened(target/name)),('DESK / installed',entries[0][1])],OUT/'detail_preview.png',columns=2)
 fixed_icon=REPO/'Textures/Buildings/Security/CROWSII/FixedMount/HD_CROWSII_FixedMount_UI.png'
-e.sheet([('CROWS II / fixed mount',e.opened(fixed_icon)),('CONTROLLER / detail',e.opened(target/name)),('COMPUTER / addon installed',entries[0][1])],OUT/'summary_preview.png',columns=3)
+e.sheet([('CROWS II / separate outlines',e.opened(fixed_icon)),('CONTROLLER / blank display',e.opened(target/name)),('COMPUTER / blank display',entries[0][1])],OUT/'summary_preview.png',columns=3)
 result=dict(passed=True,files=files,presentation=meta,transparent=True,registered_overlay_canvas=[3,3],complete_desk_variant_available=True,overlay_outline='shared combined silhouette; no thick cable interiors',original_desk_textures_unchanged=True,in_game_tested=False)
 (OUT/'validation.json').write_text(json.dumps(result,indent=2)+'\n')
 print('CROWS_CONTROLLER_EXPORT_PASS: four registered addon overlays, four complete desk variants and device icon; 512px/12px furniture style')

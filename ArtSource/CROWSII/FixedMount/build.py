@@ -73,4 +73,6 @@ scene.camera=top;scene.render.fps=60;scene.frame_start=1;scene.frame_end=6;scene
 m.save(OUT/'fixed_mount.blend')
 metadata=dict(source_crows=str(SOURCE),source_crows_sha256=hashlib.sha256(SOURCE.read_bytes()).hexdigest(),foundation_meshes=len(foundation),station_meshes=len(before),source_station_vertices_preserved=True,source_station_materials_preserved=True,top_draw_size=[3.2,3.2],directional_draw_size=[3.6,3.6],pivot=[0,0],plate_dimensions=[1.5,1.36],station_mount_height=.175,plate_top_contact=.175,ground_anchors=4,central_mount_bolts=6,paint_rgb=palette['equipment_top'],master_resolution=2048,native_resolution=1024,world_outline_tiles=.026,ui_outline_pixels=10,stationary_layer='foundation',weapon_recoil_preserved=source_meta['articulation'],gameplay_definition_added=False)
 (OUT/'metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
+import runpy
+runpy.run_path(str(ROOT/'render_layers.py'),run_name='__main__')
 print('FIXED_MOUNT_MODEL_PASS: FDE anchored plate, 4 ground anchors and 6 flange bolts; canonical station only translated onto its seat')

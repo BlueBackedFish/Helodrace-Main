@@ -7,11 +7,14 @@ FDE `(143,123,92)`의 모서리를 자른 철제 밑판, 중앙 장착 플랜지
 - 편집 모델: `output/fixed_mount.blend`
 - 별도 밑판 PNG: `Textures/Buildings/Security/CROWSII/FixedMount/HD_CROWSII_FixedMount_{top,north,east,south,west}.png`
 - 조립 UI 아이콘: `HD_CROWSII_FixedMount_UI.png`
+- 높이 0.175에 장착한 본체 레이어: `HD_CROWSII_FixedMount_Station_{north,east,south,west}.png`
 - 미리보기: `output/preview.png`, `output/plate_preview.png`
 - 기록: `output/metadata.json`, `output/validation.json`
 - 저장 모델의 장착·반동 검증: `output/model_validation.json`
 
-1024×1024 RGBA, 2048px 마스터, 외곽선 0.026칸을 사용한다. 상면은 기존 CROWS 반동 레이어와 같은 drawSize `(3.2,3.2)`, 원점 `(0,0)`이다. **밑판 → 기존 Base → Frame → Barrel → Body → FeedOverlay**로 합성한다. 방향별 밑판은 64° 정사영과 drawSize `(3.6,3.6)`이며 조립 방향별 렌더도 함께 보존했다. 높이로 올라간 CROWS의 측면 가림은 조립 모델에서 반영했다. UI는 10px 외곽선이다.
+1024×1024 RGBA, 2048px 마스터, 외곽선 0.026칸을 사용한다. 상면은 기존 CROWS 반동 레이어와 같은 drawSize `(3.2,3.2)`, 원점 `(0,0)`이다. **밑판 → 기존 Base → Frame → Barrel → Body → FeedOverlay**로 합성한다. 방향별 밑판과 본체는 같은 64° 정사영과 drawSize `(3.6,3.6)`으로 별도 출력하며, 각각 윤곽선을 두른 다음 밑판 위에 본체를 합성한다. 본체와 밑판이 겹치는 부분에도 본체 윤곽선이 남는다. 방향별 본체 레이어는 정지 이미지이며 상면의 기존 리코일 분리 레이어는 유지한다. UI도 같은 원점·크롭으로 두 레이어 각각 10px 윤곽선을 만든 뒤 합성한다. 합친 실루엣 바깥쪽에만 윤곽선을 두르지 않는다.
+
+`output/station_{top,north,east,south,west}_raw.png`는 윤곽선 없는 본체 렌더이고, `output/assembled_{north,east,south,west}_outlined.png`는 분리 윤곽선 조립 결과다. `render_layers.py`는 저장 모델과 기존 밑판 카메라를 읽어 본체 레이어만 다시 렌더한다. 빌드에서도 자동 실행한다.
 
 ```powershell
 & 'C:/Program Files/Blender Foundation/Blender 5.1/blender.exe' --background -t 6 --python-exit-code 1 --python ArtSource/CROWSII/FixedMount/build.py

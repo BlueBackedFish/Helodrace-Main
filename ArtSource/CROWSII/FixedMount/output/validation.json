@@ -83,7 +83,63 @@
         988
       ],
       "minimum_margin": 36,
-      "sha256": "d3804a80d4afb5a80f3f2c58c07790b939249782d2ee5f3dd972c06aa6969559"
+      "sha256": "130bd11ebbe3547d5f93422de35efcab725e785f4a8e15be73a5df4434aac8a8"
+    },
+    "HD_CROWSII_FixedMount_Station_north.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        320,
+        22,
+        682,
+        595
+      ],
+      "minimum_margin": 22,
+      "sha256": "1e7cc28dbf6d5f34e05636f2df4bcdd866b9c6b3f5653b2f87f5bb0ff30ef9cd"
+    },
+    "HD_CROWSII_FixedMount_Station_east.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        285,
+        211,
+        914,
+        621
+      ],
+      "minimum_margin": 110,
+      "sha256": "741044f07cbc460b9b7a8102479750c843335f03fe3667bbf8b5ac2d53e38233"
+    },
+    "HD_CROWSII_FixedMount_Station_south.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        343,
+        180,
+        703,
+        753
+      ],
+      "minimum_margin": 180,
+      "sha256": "1883a011203f752de674f75d4a74504f9b5cda87207568ec7de2fe4566deebaa"
+    },
+    "HD_CROWSII_FixedMount_Station_west.png": {
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        110,
+        250,
+        739,
+        637
+      ],
+      "minimum_margin": 110,
+      "sha256": "6e778f102d862e90bb091db351f89ef3db1e3cfff0a5277b14d28b6176af5b24"
     }
   },
   "presentation": {
@@ -160,6 +216,31 @@
   "foundation_texture": "Buildings/Security/CROWSII/FixedMount/HD_CROWSII_FixedMount_top",
   "weapon_layers_manifest": "../output/recoil_layers.json",
   "source_station_unchanged": true,
+  "separate_foundation_and_station_outlines": true,
+  "station_outline_pixels_over_foundation": 32619,
+  "directional_station_layers": "HD_CROWSII_FixedMount_Station_{north,east,south,west}.png",
   "transparent": true,
-  "in_game_tested": false
+  "in_game_tested": false,
+  "layer_registration_against_original_assembly": {
+    "top": {
+      "opaque_color_difference_fraction": 2.4246979735586686e-06,
+      "shared_camera_verified": true
+    },
+    "north": {
+      "opaque_color_difference_fraction": 1.5288252354008655e-05,
+      "shared_camera_verified": true
+    },
+    "east": {
+      "opaque_color_difference_fraction": 1.4561445660325157e-05,
+      "shared_camera_verified": true
+    },
+    "south": {
+      "opaque_color_difference_fraction": 0.0,
+      "shared_camera_verified": true
+    },
+    "west": {
+      "opaque_color_difference_fraction": 0.0,
+      "shared_camera_verified": true
+    }
+  }
 }
