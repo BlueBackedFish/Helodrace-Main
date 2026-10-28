@@ -10,6 +10,9 @@ namespace Helodrace
     public static class CrowsDefOf
     {
         public static JobDef HD_OperateCrows;
+        public static JobDef HD_HaulCrowsMountMaterial;
+        public static JobDef HD_InstallCrowsWeapon;
+        public static ThingDef HD_Building_CrowsII;
         static CrowsDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(CrowsDefOf));
     }
 
@@ -69,7 +72,7 @@ namespace Helodrace
         public bool Connected => linkedTurret?.Spawned == true && Spawned
             && linkedTurret.Map == Map && linkedTurret.Faction == Faction && linkedTurret.Computer == this;
         public bool CanUseNow => Connected && CrowsControlUtility.Powered(this)
-            && CrowsControlUtility.Powered(linkedTurret);
+            && linkedTurret.HasWeapon && CrowsControlUtility.Powered(linkedTurret);
 
         // Both images use identical camera registration; the complete variant
         // also preserves the controller's occlusion behind existing desk parts.
@@ -161,6 +164,7 @@ namespace Helodrace
             if (!CrowsControlUtility.CanOperate(pawn, this)) yield break;
             string label = "HD_Crows_Operate".Translate();
             string reason = !Connected ? "HD_Crows_Unlinked".Translate().ToString()
+                : !linkedTurret.HasWeapon ? "HD_Crows_NoWeapon".Translate().ToString()
                 : !CanUseNow ? "HD_Crows_NoPower".Translate().ToString()
                 : this.IsForbidden(pawn) || linkedTurret.IsForbidden(pawn) ? "Forbidden".Translate().ToString()
                 : !pawn.CanReach(this, PathEndMode.InteractionCell, Danger.Deadly) ? "NoPath".Translate().ToString()
@@ -175,14 +179,15 @@ namespace Helodrace
         }
     }
 
-    public sealed class Building_Crows : Building_TurretGun
+    public sealed partial class Building_Crows : Building_TurretGun
     {
         private Building_CrowsComputer computer;
         public Building_CrowsComputer Computer { get => computer; internal set => computer = value; }
         // Vanilla restricts forced targeting to a local CompMannable. This
         // station instead keeps the normal target command with remote control.
-        protected override bool CanSetForcedTarget => Faction == Faction.OfPlayer;
-        public bool CanFireNow => CrowsControlUtility.Powered(this) && Active && !IsStunned
+        protected override bool CanSetForcedTarget => HasWeapon && Faction == Faction.OfPlayer;
+        public bool CanFireNow => HasWeapon && CrowsControlUtility.Powered(this) && Active && !IsStunned
+            && GetComp<CompCrowsAmmo>()?.HasFuel == true
             && computer?.LinkedTurret == this && computer.Operator != null;
 
         public void StopRemoteFire()
@@ -204,17 +209,19 @@ namespace Helodrace
         {
             base.ExposeData();
             Scribe_References.Look(ref computer, "crowsComputer");
+            ExposeWeaponMountData();
         }
 
         public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
         {
+            CancelWeaponInstallation();
             computer?.Disconnect();
             base.DeSpawn(mode);
         }
 
         public override void SetFaction(Faction newFaction, Pawn recruiter = null)
         {
-            if (newFaction != Faction) computer?.Disconnect();
+            if (newFaction != Faction) { CancelWeaponInstallation(); computer?.Disconnect(); }
             base.SetFaction(newFaction, recruiter);
         }
 
@@ -222,13 +229,14 @@ namespace Helodrace
         {
             foreach (Gizmo gizmo in base.GetGizmos()) yield return gizmo;
             if (Faction != Faction.OfPlayer) yield break;
+            foreach (Gizmo gizmo in WeaponMountGizmos()) yield return gizmo;
             yield return CrowsControlUtility.LinkCommand(this);
             if (computer != null) yield return CrowsControlUtility.DisconnectCommand(() => computer?.Disconnect());
         }
 
-        public override string GetInspectString() => base.GetInspectString() + "\n"
+        public override string GetInspectString() => base.GetInspectString() + "\n" + WeaponMountInspectString() + "\n"
             + (computer?.Connected == true ? "HD_Crows_Linked".Translate(computer.LabelShort) + "\n"
-                + (CanFireNow ? "HD_Crows_Ready".Translate() : "HD_Crows_Unmanned".Translate())
+                + (computer.Operator != null ? "HD_Crows_Ready".Translate() : "HD_Crows_Unmanned".Translate())
                 : "HD_Crows_Unlinked".Translate());
     }
 

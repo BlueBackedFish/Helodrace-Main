@@ -11,4 +11,12 @@
   <HD_Crows_Operate>Operate CROWS II</HD_Crows_Operate>
   <HD_Crows_NoPower>Computer and emplacement both need power</HD_Crows_NoPower>
   <HD_Crows_Ready>Remote operator at controls</HD_Crows_Ready>
+  <HD_Crows_SelectWeapon>Select weapon</HD_Crows_SelectWeapon>
+  <HD_Crows_SelectWeaponDesc>Select the weapon to manufacture and install. A builder with Construction 6 brings the additional materials and works at the empty station. The station stays unarmed until installation is complete.</HD_Crows_SelectWeaponDesc>
+  <HD_Crows_CancelInstall>Cancel installation</HD_Crows_CancelInstall>
+  <HD_Crows_CancelInstallDesc>Cancel the pending weapon and place all delivered materials beside the station.</HD_Crows_CancelInstallDesc>
+  <HD_Crows_NoWeapon>No weapon installed</HD_Crows_NoWeapon>
+  <HD_Crows_InstalledWeapon>Weapon: {0}</HD_Crows_InstalledWeapon>
+  <HD_Crows_Installing>Installing {0}: {1}</HD_Crows_Installing>
+  <HD_Crows_MissingMaterials>Materials needed: {0}</HD_Crows_MissingMaterials>
 </LanguageData>

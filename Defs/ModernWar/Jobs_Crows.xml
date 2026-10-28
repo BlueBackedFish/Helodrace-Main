@@ -6,4 +6,11 @@
     <reportString>operating the CROWS II control computer.</reportString>
     <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
   </JobDef>
+  <JobDef><defName>HD_HaulCrowsMountMaterial</defName><driverClass>Helodrace.JobDriver_HaulCrowsMountMaterial</driverClass><reportString>bringing materials to TargetA.</reportString><allowOpportunisticPrefix>false</allowOpportunisticPrefix></JobDef>
+  <JobDef><defName>HD_InstallCrowsWeapon</defName><driverClass>Helodrace.JobDriver_InstallCrowsWeapon</driverClass><reportString>installing a weapon on TargetA.</reportString><allowOpportunisticPrefix>false</allowOpportunisticPrefix></JobDef>
+  <WorkGiverDef>
+    <defName>HD_InstallCrowsWeapon</defName><label>install CROWS weapon</label><giverClass>Helodrace.WorkGiver_InstallCrowsWeapon</giverClass>
+    <workType>Construction</workType><priorityInType>115</priorityInType><verb>install weapon</verb><gerund>installing weapon</gerund>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+  </WorkGiverDef>
 </Defs>

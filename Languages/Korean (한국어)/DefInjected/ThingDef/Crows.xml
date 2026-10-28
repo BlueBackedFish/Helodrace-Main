@@ -3,10 +3,15 @@
   <HD_CrowsComputer.label>컴퓨터</HD_CrowsComputer.label>
   <HD_CrowsComputer.description>모니터, 본체, 키보드, 마우스와 배선이 설치된 컴퓨터 책상입니다. CROWS II 진지와 연결하면 컨트롤러가 장착됩니다. 폰이 이 컴퓨터를 조작하는 동안에만 연결된 진지가 사격합니다. 같은 맵의 진지 한 곳에 연결할 수 있으며, 컴퓨터와 진지 모두 전력이 필요합니다.</HD_CrowsComputer.description>
   <HD_Building_CrowsII.label>CROWS II 고정진지</HD_Building_CrowsII.label>
-  <HD_Building_CrowsII.description>지면에 고정한 철제 밑판 위에 M2HB QCB를 장착한 원격 무장입니다. 컴퓨터에 연결한 뒤 폰에게 컴퓨터 조작을 명령해야 사격합니다. 조작자가 없으면 표적을 조준하거나 사격하지 않으며, 조작이나 전력이 끊기면 점사도 즉시 중지합니다. 100발 탄띠를 사용하며 기존 M2HB 진지와 같은 방식으로 탄약을 보충합니다.</HD_Building_CrowsII.description>
-  <HD_Building_CrowsII.comps.0.fuelLabel>M2HB 탄약</HD_Building_CrowsII.comps.0.fuelLabel>
+  <HD_Building_CrowsII.description>처음 건설하면 화기와 급탄 슈트가 없는 CROWS II 진지입니다. 진지의 화기 선택 명령에서 M2HB, Mk 19, M240B 또는 M249를 선택하면 건설 작업자가 추가 자재를 운반하고 장착합니다. 장착 후 탄약을 보급하고 컴퓨터에 연결해 폰에게 조작을 명령해야 사격합니다. 빈 진지는 조준·사격·탄약 보급을 할 수 없습니다.</HD_Building_CrowsII.description>
+  <HD_Building_CrowsII.comps.0.fuelLabel>CROWS 탄약</HD_Building_CrowsII.comps.0.fuelLabel>
   <HD_Building_CrowsII.comps.0.fuelGizmoLabel>탄약</HD_Building_CrowsII.comps.0.fuelGizmoLabel>
   <HD_Building_CrowsII.comps.0.outOfFuelMessage>탄약 필요</HD_Building_CrowsII.comps.0.outOfFuelMessage>
   <HD_Gun_CrowsII.label>CROWS II M2HB QCB</HD_Gun_CrowsII.label>
   <HD_Gun_CrowsII.description>CROWS II 원격 무장에 장착한 탄띠 급탄식 M2HB QCB입니다.</HD_Gun_CrowsII.description>
+  <HD_Gun_CrowsII_Empty.label>빈 CROWS II 받침</HD_Gun_CrowsII_Empty.label>
+  <HD_Gun_CrowsII_MK19.label>CROWS II Mk 19</HD_Gun_CrowsII_MK19.label>
+  <HD_Gun_CrowsII_M240B.label>CROWS II M240B</HD_Gun_CrowsII_M240B.label>
+  <HD_Gun_CrowsII_M249.label>CROWS II M249</HD_Gun_CrowsII_M249.label>
+  <HD_40mmCrowsHV_Proj.label>40mm 고속 유탄</HD_40mmCrowsHV_Proj.label>
 </LanguageData>

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_OperateCrows.reportString>CROWS II 제어 컴퓨터를 조작하는 중.</HD_OperateCrows.reportString>
+  <HD_HaulCrowsMountMaterial.reportString>TargetA에 화기 장착 자재를 운반하는 중.</HD_HaulCrowsMountMaterial.reportString>
+  <HD_InstallCrowsWeapon.reportString>TargetA에 화기를 장착하는 중.</HD_InstallCrowsWeapon.reportString>
 </LanguageData>

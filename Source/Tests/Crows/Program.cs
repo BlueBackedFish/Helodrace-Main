@@ -8,20 +8,26 @@ using Verse;
 using Verse.AI;
 using UnityEngine;
 
-internal static class Program
+internal static partial class Program
 {
     private static void Check(bool ok, string message) { if (!ok) throw new Exception(message); }
     private static Building_CrowsComputer Console(Map map) => new Building_CrowsComputer { Map = map, Faction = Faction.OfPlayer };
-    private static Building_Crows Turret(Map map)
+    private static Building_Crows Turret(Map map, bool armed = true)
     {
         var turret = new Building_Crows { Map = map, Faction = Faction.OfPlayer };
-        turret.TestVerb = new Verb_Crows { caster = turret };
+        turret.gun = ThingMaker.MakeThing(new ThingDef { defName="HD_Gun_CrowsII_Empty" });
+        turret.GunCompEq.AllVerbs[0].caster=turret;
+        turret.Ammo=new CompCrowsAmmo {parent=turret};turret.Ammo.Initialize(new CompProperties_CrowsAmmo());turret.Ammo.ConfigureWeapon();
+        if (armed) { ArmForTest(turret, WeaponProfiles[0]); turret.Ammo.Refuel(100); }
         return turret;
     }
 
     private static void Main()
     {
         CrowsDefOf.HD_OperateCrows = new JobDef();
+        CrowsDefOf.HD_HaulCrowsMountMaterial = new JobDef();
+        CrowsDefOf.HD_InstallCrowsWeapon = new JobDef();
+        LoadWeaponProfiles();
         var map = new Map(); var console = Console(map); var turret = Turret(map);
         Check(turret.CanSetForcedTargetForTest,"Player CROWS lacks the vanilla forced target command.");
         Check(!turret.AttackVerb.Available(), "Unlinked CROWS acquired a target.");
@@ -46,6 +52,10 @@ internal static class Program
         Near(remoteFactor,.5f+.5f*(float)Math.Pow(pawn.ShootingAccuracy,10),"CROWS ignored its computer operator's accuracy.");
         turret.AttackVerb.TestShot();
         Check(turret.AttackVerb.Shots == 1, "Manned CROWS failed to fire.");
+        turret.Ammo.ConsumeFuel(100);
+        Check(!turret.CanFireNow&&!turret.AttackVerb.TestShot()&&turret.AttackVerb.Shots==1,"Empty ammunition continued the burst.");
+        Check(turret.GetInspectString().Contains("HD_Crows_Ready"),"Empty ammunition incorrectly reports that the seated operator is missing.");
+        turret.Ammo.Refuel(100);
 
         // Availability and TryCastShot both gate the next shot of an existing burst.
         foreach (Action disable in new Action[] {
@@ -98,7 +108,7 @@ internal static class Program
         Check(otherTurret.Computer == null, "Removing computer did not disarm the turret.");
         otherConsole.Spawned = true; otherConsole.Connect(otherTurret); otherTurret.SetFaction(new Faction());
         Check(!otherConsole.Connected && otherTurret.Computer == null, "Capturing turret retained access.");
-        VerifyDrawing(); VerifyDefinitions(); VerifyGunnerAccuracy(); VerifyWeather();
+        VerifyDrawing(); VerifyDefinitions(); VerifyGunnerAccuracy(); VerifyWeather(); VerifyInstallation();
         System.Console.WriteLine("PASS: CROWS targeting/operator-only firing, recoil, bounded gunner formula, CROWS-only 30% weather penalty with other factors preserved, progressive range accuracy and definitions.");
     }
 

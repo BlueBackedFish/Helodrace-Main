@@ -23,7 +23,8 @@ function Check-Members($node, [Type]$type) {
         if (!$type.GetField($child.Name, $flags)) { throw "Invalid XML field $($type.FullName).$($child.Name)" }
     }
 }
-[xml]$defs = Get-Content -LiteralPath (Join-Path $RepositoryRoot 'Defs/ModernWar/Buildings/Crows.xml') -Raw
+foreach ($file in @('Crows.xml','CrowsWeapons.xml')) {
+[xml]$defs = Get-Content -LiteralPath (Join-Path $RepositoryRoot "Defs/ModernWar/Buildings/$file") -Raw
 foreach ($def in $defs.Defs.ThingDef) {
     Check-Members $def (Resolve-Type 'ThingDef')
     if ($def.thingClass) { $null = Resolve-Type $def.thingClass }
@@ -31,10 +32,13 @@ foreach ($def in $defs.Defs.ThingDef) {
     if ($def.building) { Check-Members $def.building (Resolve-Type 'BuildingProperties') }
     foreach ($comp in $def.comps.li) { if ($comp) { Check-Members $comp (Resolve-Type $comp.Class) } }
     foreach ($verb in $def.verbs.li) { if ($verb) { Check-Members $verb (Resolve-Type 'VerbProperties'); $null = Resolve-Type $verb.verbClass } }
+    if ($def.projectile) { Check-Members $def.projectile (Resolve-Type 'ProjectileProperties') }
+}
+foreach ($profile in $defs.Defs.'Helodrace.CrowsWeaponDef') { Check-Members $profile (Resolve-Type 'Helodrace.CrowsWeaponDef') }
 }
 [xml]$jobs = Get-Content -LiteralPath (Join-Path $RepositoryRoot 'Defs/ModernWar/Jobs_Crows.xml') -Raw
-Check-Members $jobs.Defs.JobDef (Resolve-Type 'JobDef')
-$null = Resolve-Type $jobs.Defs.JobDef.driverClass
+foreach ($job in $jobs.Defs.JobDef) { Check-Members $job (Resolve-Type 'JobDef'); $null = Resolve-Type $job.driverClass }
+foreach ($giver in $jobs.Defs.WorkGiverDef) { Check-Members $giver (Resolve-Type 'WorkGiverDef'); $null = Resolve-Type $giver.giverClass }
 if (!(Resolve-Type 'Building_TurretGun').IsAssignableFrom((Resolve-Type 'Helodrace.Building_Crows'))) { throw 'CROWS must preserve vanilla turret targeting.' }
 if (!(Resolve-Type 'Verb_Shoot').IsAssignableFrom((Resolve-Type 'Helodrace.Verb_Crows'))) { throw 'CROWS gun must preserve vanilla shooting.' }
 Write-Output 'PASS: new XML fields, comps, building/gun/job classes and inheritance match the installed RimWorld 1.6 API.'

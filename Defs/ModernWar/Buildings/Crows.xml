@@ -57,7 +57,7 @@
       <li Class="Helodrace.HeavyMachineGunAccuracyExtension"><gunnerBaseAccuracy>0.5</gunnerBaseAccuracy></li>
     </modExtensions>
     <label>CROWS II emplacement</label>
-    <description>A powered CROWS II remote weapon station mounting an M2HB QCB on an anchored steel plate. Connect it to a computer and order a colonist to operate that computer. It cannot acquire targets or fire without that operator, and stops firing immediately if control or power is lost. Holds a 100-round belt and uses the same ammunition supply as the M2HB emplacement.</description>
+    <description>An empty powered CROWS II station on an anchored steel plate. After construction, select an M2HB, Mk 19, M240B or M249. A builder brings the additional materials and installs the selected weapon. Supply ammunition, connect a computer and assign an operator to fire. The empty station cannot aim, fire or accept ammunition.</description>
     <thingClass>Helodrace.Building_Crows</thingClass>
     <graphicData>
       <texPath>Buildings/Security/CROWSII/FixedMount/HD_CROWSII_FixedMount_top</texPath>
@@ -65,7 +65,7 @@
       <shaderType>Cutout</shaderType>
       <drawSize>(3.2,3.2)</drawSize>
     </graphicData>
-    <uiIconPath>Buildings/Security/CROWSII/FixedMount/HD_CROWSII_FixedMount_UI</uiIconPath>
+    <uiIconPath>Buildings/Security/CROWSII/Unarmed/HD_CROWSII_Unarmed_UI</uiIconPath>
     <drawerType>MapMeshAndRealTime</drawerType>
     <drawHighlight>true</drawHighlight>
     <drawHighlightOnlyForHostile>true</drawHighlightOnlyForHostile>
@@ -82,39 +82,39 @@
     <researchPrerequisites><li>HelodTransistor</li><li>HelodHighMachineGun</li></researchPrerequisites>
     <statBases>
       <MaxHitPoints>300</MaxHitPoints>
-      <WorkToBuild>6500</WorkToBuild>
+      <WorkToBuild>4700</WorkToBuild>
       <Flammability>0.25</Flammability>
       <Mass>230</Mass>
       <ShootingAccuracyTurret>0.95</ShootingAccuracyTurret>
     </statBases>
     <costList>
-      <HD_WildWestBarrel>1</HD_WildWestBarrel>
-      <HD_GeneralMachinePart>20</HD_GeneralMachinePart>
-      <HD_CarbonSteel>180</HD_CarbonSteel>
-      <HD_PressComponent>12</HD_PressComponent>
+      <HD_GeneralMachinePart>12</HD_GeneralMachinePart>
+      <HD_CarbonSteel>110</HD_CarbonSteel>
+      <HD_PressComponent>8</HD_PressComponent>
       <HD_UniformRolledSteelPlate>4</HD_UniformRolledSteelPlate>
       <HD_BasicElectricalComponents>16</HD_BasicElectricalComponents>
       <ComponentIndustrial>6</ComponentIndustrial>
     </costList>
     <building>
-      <turretGunDef>HD_Gun_CrowsII</turretGunDef>
+      <turretGunDef>HD_Gun_CrowsII_Empty</turretGunDef>
       <turretBurstWarmupTime>1.2</turretBurstWarmupTime>
       <turretBurstCooldownTime>0.2</turretBurstCooldownTime>
       <turretTopDrawSize>3.2</turretTopDrawSize>
     </building>
     <placeWorkers><li>PlaceWorker_TurretTop</li></placeWorkers>
     <comps>
-      <li Class="CompProperties_Refuelable">
-        <fuelLabel>M2HB ammunition</fuelLabel>
+      <li Class="Helodrace.CompProperties_CrowsAmmo">
+        <fuelLabel>CROWS ammunition</fuelLabel>
         <fuelGizmoLabel>Ammunition</fuelGizmoLabel>
         <outOfFuelMessage>Needs ammunition</outOfFuelMessage>
         <fuelFilter><thingDefs><li>Steel</li></thingDefs></fuelFilter>
         <fuelCapacity>100</fuelCapacity>
-        <initialFuelPercent>1</initialFuelPercent>
+        <initialFuelPercent>0</initialFuelPercent>
         <autoRefuelPercent>0.25</autoRefuelPercent>
         <showFuelGizmo>true</showFuelGizmo>
         <minimumFueledThreshold>1</minimumFueledThreshold>
         <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <drawOutOfFuelOverlay>false</drawOutOfFuelOverlay>
       </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>

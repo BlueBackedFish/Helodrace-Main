@@ -11,4 +11,12 @@
   <HD_Crows_Operate>CROWS II 조작</HD_Crows_Operate>
   <HD_Crows_NoPower>컴퓨터와 진지 모두 전력이 필요함</HD_Crows_NoPower>
   <HD_Crows_Ready>원격 조작자 배치됨</HD_Crows_Ready>
+  <HD_Crows_SelectWeapon>화기 선택</HD_Crows_SelectWeapon>
+  <HD_Crows_SelectWeaponDesc>추가 자재로 제작해 장착할 화기를 선택합니다. 건설 6 이상인 작업자가 자재를 운반하고 빈 진지에서 장착 작업을 합니다. 장착이 끝나기 전에는 무기가 없는 상태를 유지합니다.</HD_Crows_SelectWeaponDesc>
+  <HD_Crows_CancelInstall>장착 취소</HD_Crows_CancelInstall>
+  <HD_Crows_CancelInstallDesc>진행 중인 화기 장착을 취소하고 운반된 자재를 모두 진지 옆에 내려놓습니다.</HD_Crows_CancelInstallDesc>
+  <HD_Crows_NoWeapon>화기 미장착</HD_Crows_NoWeapon>
+  <HD_Crows_InstalledWeapon>장착 화기: {0}</HD_Crows_InstalledWeapon>
+  <HD_Crows_Installing>{0} 장착 중: {1}</HD_Crows_Installing>
+  <HD_Crows_MissingMaterials>필요 자재: {0}</HD_Crows_MissingMaterials>
 </LanguageData>

@@ -51,7 +51,11 @@ namespace RimWorld
         public bool Active=true,IsStunned; public TurretTop Top=new TurretTop();
         protected virtual bool CanSetForcedTarget=>false;
         public bool CanSetForcedTargetForTest=>CanSetForcedTarget;
-        public Verse.Verb TestVerb; public Verse.Verb AttackVerb=>TestVerb; public int BaseTicks;
+        public Verse.Thing gun;
+        public Verse.CompEquippable GunCompEq=>gun?.GetComp<Verse.CompEquippable>();
+        public Verse.Verb TestVerb; public Verse.Verb AttackVerb=>GunCompEq?.AllVerbs.FirstOrDefault()??TestVerb; public int BaseTicks;
+        protected int burstCooldownTicksLeft;
+        protected virtual void BurstComplete(){ }
         public Verse.LocalTargetInfo CurrentTarget=>currentTargetInt;
         protected override void Tick(){BaseTicks++;}
         public void DoTickForTest()=>Tick(); public void SetWarmupForTest(){burstWarmupTicksLeft=40;currentTargetInt=new Verse.LocalTargetInfo(this);}
@@ -62,13 +66,14 @@ namespace Verse
 {
     public class JobDef { }
     public class DefModExtension { }
-    public class ThingDef
+    public class ThingDef:Def
     {
         public GraphicData graphicData=new GraphicData(); public BuildingProperties building=new BuildingProperties();
         public DefModExtension Extension;
+        public int stackLimit=75;
         public T GetModExtension<T>() where T:DefModExtension=>Extension as T;
     }
-    public class BuildingProperties { public float turretTopDrawSize=3.2f; }
+    public class BuildingProperties { public float turretTopDrawSize=3.2f; public ThingDef turretGunDef; }
     public class GraphicData { public Vector2 drawSize; }
     public class Graphic { public string Path="original desk"; public GraphicData data; }
     public class Graphic_Multi:Graphic { }
@@ -77,7 +82,7 @@ namespace Verse
     public static class MaterialPool { public static Material MatFrom(string p,object s)=>new Material{Path=p}; }
     public static class MeshPool { public static object plane10=new object(); }
     public enum AltitudeLayer { BuildingOnTop }
-    public static class Extensions
+    public static partial class Extensions
     {
         public static float AltitudeFor(this AltitudeLayer a)=>1f;
         public static string Translate(this string s,params object[] args)=>s;
@@ -109,9 +114,9 @@ namespace Verse
         public static implicit operator LocalTargetInfo(Thing t)=>new LocalTargetInfo(t);
     }
     public class ConditionManager { public bool Disabled; public bool ElectricityDisabled(Map m)=>Disabled; }
-    public class Map { public ConditionManager gameConditionManager=new ConditionManager(); public List<Thing> AtControls=new List<Thing>(); }
+    public partial class Map { public ConditionManager gameConditionManager=new ConditionManager(); public List<Thing> AtControls=new List<Thing>(); }
     public enum DestroyMode { Vanish }
-    public class Thing
+    public partial class Thing
     {
         public bool Spawned=true,Forbidden; public Map Map; public Faction Faction; public IntVec3 Position;
         public ThingDef def=new ThingDef(); public Rot4 Rotation;
@@ -119,7 +124,8 @@ namespace Verse
         public CompPowerTrader Power=new CompPowerTrader(); public CompFlickable Flick=new CompFlickable();
         public CompMannable Manning;
         public Helodrace.CompCrowsGraphic GraphicComp;
-        public T GetComp<T>() where T:class=>(Power as T)??(Flick as T)??(GraphicComp as T)??(Manning as T);
+        public CompEquippable Equippable; public Helodrace.CompCrowsAmmo Ammo;
+        public T GetComp<T>() where T:class=>(Power as T)??(Flick as T)??(GraphicComp as T)??(Manning as T)??(Equippable as T)??(Ammo as T);
         public virtual Graphic Graphic=>new Graphic();
         public virtual void ExposeData(){ } public virtual void DeSpawn(DestroyMode m=DestroyMode.Vanish){Spawned=false;}
         public virtual void SetFaction(Faction f,Pawn recruiter=null){Faction=f;}
@@ -127,10 +133,11 @@ namespace Verse
         public virtual IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn p){yield break;}
         public virtual string GetInspectString()=>"";
         public virtual void DrawExtraSelectionOverlays(){ }
+        public virtual void SpawnSetup(Map map,bool respawningAfterLoad=false){Map=map;Spawned=true;}
     }
     public class ThingWithComps:Thing { protected virtual void Tick(){ } }
     public class Building:ThingWithComps { public IntVec3 InteractionCell=>new IntVec3(1); }
-    public class Pawn:Thing
+    public partial class Pawn:Thing
     {
         public float ShootingAccuracy=.98f;
         public bool Dead,Downed,InMentalState; public RaceProperties RaceProps=new RaceProperties();
@@ -149,7 +156,7 @@ namespace Verse
     public class TargetingParameters { public bool canTargetBuildings,canTargetPawns,canTargetItems,canTargetLocations; public Predicate<LocalTargetInfo> validator; }
     public class Targeter { public void BeginTargeting(TargetingParameters p,Action<LocalTargetInfo> action){ } }
     public class TickManager { public int TicksGame; }
-    public static class Find { public static Targeter Targeter=new Targeter(); public static TickManager TickManager=new TickManager(); }
+    public static class Find { public static Targeter Targeter=new Targeter(); public static TickManager TickManager=new TickManager(); public static WindowStack WindowStack=new WindowStack(); }
     public static class GenDraw { public static void DrawLineBetween(Vector3 a,Vector3 b){ } }
     public static class Scribe_References
     {
@@ -159,6 +166,7 @@ namespace Verse
     public class Verb
     {
         public Thing caster; public Thing Caster=>caster; public int Shots,ResetCalls;
+        public Action castCompleteCallback;
         public virtual bool Available()=>true;
         protected virtual bool TryCastShot(){Shots++;return true;}
         public bool TestShot()=>TryCastShot(); public virtual void Reset(){ResetCalls++;}
@@ -174,7 +182,7 @@ namespace Verse
         public static float HitFactorFromShooter(Thing caster,float distance,float? acc=null)
             =>(float)Math.Pow(acc??(caster is Pawn pawn?pawn.ShootingAccuracy:.9f),distance);
     }
-    public class ThingComp { public Thing parent; public virtual void PostDraw(){ } }
+    public class ThingComp { public Thing parent; public CompProperties props; public virtual void Initialize(CompProperties p){props=p;} public virtual void PostDraw(){ } public virtual IEnumerable<Gizmo> CompGetGizmosExtra(){yield break;} public virtual string CompInspectStringExtra()=>null; }
     public class CompProperties { public Type compClass; }
 }
 namespace HarmonyLib
@@ -188,22 +196,24 @@ namespace HarmonyLib
 namespace Verse.AI
 {
     public enum TargetIndex { A,B }
-    public enum PathEndMode { InteractionCell }
-    public enum Danger { Deadly }
+    public enum PathEndMode { InteractionCell,Touch,ClosestTouch }
+    public enum Danger { Deadly,Some }
     public enum JobTag { Misc }
-    public enum JobCondition { Incompletable }
+    public enum JobCondition { Incompletable,Succeeded }
     public enum ToilCompleteMode { Never }
-    public class Job { public Verse.JobDef def; public Verse.LocalTargetInfo targetA,targetB; }
-    public static class JobMaker { public static Job MakeJob(Verse.JobDef def,Verse.LocalTargetInfo a,Verse.LocalTargetInfo b)=>new Job{def=def,targetA=a,targetB=b}; }
+    public class Job { public Verse.JobDef def; public Verse.LocalTargetInfo targetA,targetB; public int count; }
+    public static class JobMaker { public static Job MakeJob(Verse.JobDef def,Verse.LocalTargetInfo a,Verse.LocalTargetInfo b=default)=>new Job{def=def,targetA=a,targetB=b}; }
     public class JobDriver
     {
         public Verse.Pawn pawn; public Job job; public int CurToilIndex;
         public Verse.Thing TargetThingA=>job.targetA.Thing;
         public virtual bool TryMakePreToilReservations(bool error)=>true;
         protected virtual IEnumerable<Toil> MakeNewToils(){yield break;}
+        public List<Toil> ToilsForTest()=>MakeNewToils().ToList();
+        public virtual void ExposeData(){ }
         public void EndJobWith(JobCondition condition){pawn.jobs.CurJob=null;}
     }
-    public class Toil { public ToilCompleteMode defaultCompleteMode; public bool handlingFacing; public Action<int> tickIntervalAction; }
+    public class Toil { public ToilCompleteMode defaultCompleteMode; public bool handlingFacing; public Action<int> tickIntervalAction; public Action initAction; }
     public static class ToilMaker { public static Toil MakeToil(string name)=>new Toil(); }
     public static class Toils_Goto { public static Toil GotoThing(TargetIndex i,PathEndMode end)=>new Toil(); }
     public static class FailConditions
@@ -211,5 +221,6 @@ namespace Verse.AI
         public static void FailOnDespawnedNullOrForbidden(this JobDriver j,TargetIndex i){ }
         public static void FailOnBurningImmobile(this JobDriver j,TargetIndex i){ }
         public static void FailOn(this JobDriver j,Func<bool> condition){ }
+        public static void FailOnDestroyedOrNull(this JobDriver j,TargetIndex i){ }
     }
 }

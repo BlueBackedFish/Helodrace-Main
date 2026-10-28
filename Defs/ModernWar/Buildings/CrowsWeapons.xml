@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <Helodrace.CrowsWeaponDef>
+    <defName>HD_CrowsWeapon_M2HB</defName><label>M2HB QCB</label><gunDef>HD_Gun_CrowsII</gunDef>
+    <costList><HD_WildWestBarrel>1</HD_WildWestBarrel><HD_GeneralMachinePart>8</HD_GeneralMachinePart><HD_CarbonSteel>70</HD_CarbonSteel><HD_PressComponent>4</HD_PressComponent></costList>
+    <workToInstall>1800</workToInstall><fuelCapacity>100</fuelCapacity><barrelRecoil>true</barrelRecoil>
+    <frameTexPath>Buildings/Security/CROWSII/HD_CROWSII_M2_Frame</frameTexPath>
+    <barrelTexPath>Buildings/Security/CROWSII/HD_CROWSII_M2Barrel</barrelTexPath>
+    <bodyTexPath>Buildings/Security/CROWSII/HD_CROWSII_M2Body</bodyTexPath>
+    <feedTexPath>Buildings/Security/CROWSII/HD_CROWSII_M2_FeedOverlay</feedTexPath>
+    <iconTexPath>Buildings/Security/CROWSII/HD_CROWSII_M2_UI</iconTexPath>
+  </Helodrace.CrowsWeaponDef>
+  <Helodrace.CrowsWeaponDef>
+    <defName>HD_CrowsWeapon_MK19</defName><label>Mk 19</label><gunDef>HD_Gun_CrowsII_MK19</gunDef>
+    <costList><HD_WildWestBarrel>1</HD_WildWestBarrel><HD_GeneralMachinePart>10</HD_GeneralMachinePart><HD_CarbonSteel>80</HD_CarbonSteel><HD_PressComponent>6</HD_PressComponent></costList>
+    <workToInstall>2200</workToInstall><fuelCapacity>48</fuelCapacity>
+    <frameTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_MK19_Frame</frameTexPath>
+    <barrelTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_MK19_Barrel</barrelTexPath>
+    <bodyTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_MK19_Body</bodyTexPath>
+    <feedTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_MK19_Feed</feedTexPath>
+    <iconTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_MK19_UI</iconTexPath>
+  </Helodrace.CrowsWeaponDef>
+  <Helodrace.CrowsWeaponDef>
+    <defName>HD_CrowsWeapon_M240B</defName><label>M240B</label><gunDef>HD_Gun_CrowsII_M240B</gunDef>
+    <costList><HD_WildWestBarrel>1</HD_WildWestBarrel><HD_GeneralMachinePart>6</HD_GeneralMachinePart><HD_CarbonSteel>45</HD_CarbonSteel><HD_PressComponent>3</HD_PressComponent></costList>
+    <workToInstall>1500</workToInstall><fuelCapacity>200</fuelCapacity>
+    <frameTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_M240B_Frame</frameTexPath>
+    <barrelTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_M240B_Barrel</barrelTexPath>
+    <bodyTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_M240B_Body</bodyTexPath>
+    <feedTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_M240B_Feed</feedTexPath>
+    <iconTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_M240B_UI</iconTexPath>
+  </Helodrace.CrowsWeaponDef>
+  <Helodrace.CrowsWeaponDef>
+    <defName>HD_CrowsWeapon_M249</defName><label>M249</label><gunDef>HD_Gun_CrowsII_M249</gunDef>
+    <costList><HD_WildWestBarrel>1</HD_WildWestBarrel><HD_GeneralMachinePart>5</HD_GeneralMachinePart><HD_CarbonSteel>35</HD_CarbonSteel><HD_PressComponent>3</HD_PressComponent></costList>
+    <workToInstall>1400</workToInstall><fuelCapacity>200</fuelCapacity>
+    <frameTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_M249_Frame</frameTexPath>
+    <barrelTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_M249_Barrel</barrelTexPath>
+    <bodyTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_M249_Body</bodyTexPath>
+    <feedTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_M249_Feed</feedTexPath>
+    <iconTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_M249_UI</iconTexPath>
+  </Helodrace.CrowsWeaponDef>
+
+  <!-- Vanilla turret bookkeeping keeps an inert verb until installation. -->
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>HD_Gun_CrowsII_Empty</defName><label>empty CROWS II mount</label>
+    <graphicData><texPath>Buildings/Security/HD_Transparent</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
+    <verbs><li><verbClass>Helodrace.Verb_Crows</verbClass><defaultProjectile>HD_Bullet_M2HB_Proj</defaultProjectile><range>0</range><warmupTime>0</warmupTime><burstShotCount>1</burstShotCount></li></verbs>
+  </ThingDef>
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>HD_Gun_CrowsII_MK19</defName><label>CROWS II Mk 19</label>
+    <graphicData><texPath>Buildings/Security/HD_Transparent</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
+    <statBases><AccuracyTouch>0.4</AccuracyTouch><AccuracyShort>0.65</AccuracyShort><AccuracyMedium>0.72</AccuracyMedium><AccuracyLong>0.65</AccuracyLong><RangedWeapon_Cooldown>0.2</RangedWeapon_Cooldown></statBases>
+    <verbs><li><verbClass>Helodrace.Verb_Crows</verbClass><defaultProjectile>HD_40mmCrowsHV_Proj</defaultProjectile><warmupTime>0</warmupTime><range>44.9</range><minRange>5.9</minRange><burstShotCount>3</burstShotCount><ticksBetweenBurstShots>11</ticksBetweenBurstShots><targetParams><canTargetLocations>true</canTargetLocations></targetParams><soundCast>Shot_IncendiaryLauncher</soundCast><soundCastTail>GunTail_Heavy</soundCastTail><muzzleFlashScale>5</muzzleFlashScale><consumeFuelPerShot>1</consumeFuelPerShot></li></verbs>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_40mmCrowsHV_Proj</defName><label>40mm high-velocity grenade</label><thingClass>Projectile_Explosive</thingClass>
+    <graphicData><texPath>Weapons/ColdWar/Projectiles/40mmLow/HD_40MMLowM433DP_proj</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.84,0.84)</drawSize></graphicData>
+    <projectile><damageDef>Bomb</damageDef><damageAmountBase>38</damageAmountBase><armorPenetrationBase>0.72</armorPenetrationBase><stoppingPower>2.5</stoppingPower><speed>65</speed><explosionRadius>1.35</explosionRadius><soundExplode>Explosion_Bomb</soundExplode></projectile>
+  </ThingDef>
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>HD_Gun_CrowsII_M240B</defName><label>CROWS II M240B</label>
+    <graphicData><texPath>Buildings/Security/HD_Transparent</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
+    <statBases><AccuracyTouch>0.52</AccuracyTouch><AccuracyShort>0.77</AccuracyShort><AccuracyMedium>0.8</AccuracyMedium><AccuracyLong>0.7</AccuracyLong><RangedWeapon_Cooldown>0.2</RangedWeapon_Cooldown></statBases>
+    <verbs><li><verbClass>Helodrace.Verb_Crows</verbClass><defaultProjectile>HD_Bullet_76251M80A1_Proj</defaultProjectile><warmupTime>0</warmupTime><range>37.9</range><burstShotCount>10</burstShotCount><ticksBetweenBurstShots>6</ticksBetweenBurstShots><targetParams><canTargetLocations>true</canTargetLocations></targetParams><soundCast>Shot_AssaultRifle</soundCast><soundCastTail>GunTail_Heavy</soundCastTail><muzzleFlashScale>9</muzzleFlashScale><consumeFuelPerShot>1</consumeFuelPerShot></li></verbs>
+  </ThingDef>
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>HD_Gun_CrowsII_M249</defName><label>CROWS II M249</label>
+    <graphicData><texPath>Buildings/Security/HD_Transparent</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
+    <statBases><AccuracyTouch>0.55</AccuracyTouch><AccuracyShort>0.78</AccuracyShort><AccuracyMedium>0.76</AccuracyMedium><AccuracyLong>0.64</AccuracyLong><RangedWeapon_Cooldown>0.2</RangedWeapon_Cooldown></statBases>
+    <verbs><li><verbClass>Helodrace.Verb_Crows</verbClass><defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile><warmupTime>0</warmupTime><range>32.9</range><burstShotCount>10</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><targetParams><canTargetLocations>true</canTargetLocations></targetParams><soundCast>Shot_AssaultRifle</soundCast><soundCastTail>GunTail_Heavy</soundCastTail><muzzleFlashScale>7</muzzleFlashScale><consumeFuelPerShot>1</consumeFuelPerShot></li></verbs>
+  </ThingDef>
+</Defs>
