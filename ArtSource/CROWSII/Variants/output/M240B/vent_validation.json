@@ -1,0 +1,214 @@
+{
+  "passed": true,
+  "baseline": "cd775c99",
+  "actual_sprite": "HD_CROWSII_M240B_Barrel.png",
+  "samples": [
+    {
+      "row": 0,
+      "column": -0.09,
+      "before_gap": 6.256419695399771,
+      "after_gap": 81.45012394931686
+    },
+    {
+      "row": 0,
+      "column": 0,
+      "before_gap": 7.151350301376965,
+      "after_gap": 103.20706863648009
+    },
+    {
+      "row": 0,
+      "column": 0.09,
+      "before_gap": 6.200344897489515,
+      "after_gap": 82.13915215396153
+    },
+    {
+      "row": 1,
+      "column": -0.09,
+      "before_gap": 6.384583383586559,
+      "after_gap": 76.51161361444247
+    },
+    {
+      "row": 1,
+      "column": 0,
+      "before_gap": 7.681936687393559,
+      "after_gap": 89.63578087402111
+    },
+    {
+      "row": 1,
+      "column": 0.09,
+      "before_gap": 6.34831865749689,
+      "after_gap": 75.15396215656332
+    },
+    {
+      "row": 2,
+      "column": -0.09,
+      "before_gap": 6.166981254497458,
+      "after_gap": 70.40562788029722
+    },
+    {
+      "row": 2,
+      "column": 0,
+      "before_gap": 7.222294158268056,
+      "after_gap": 82.15153796301496
+    },
+    {
+      "row": 2,
+      "column": 0.09,
+      "before_gap": 6.166993218096167,
+      "after_gap": 72.17969256001977
+    },
+    {
+      "row": 3,
+      "column": -0.09,
+      "before_gap": 6.24260395716891,
+      "after_gap": 69.19202066427505
+    },
+    {
+      "row": 3,
+      "column": 0,
+      "before_gap": 7.338493730704599,
+      "after_gap": 78.94592181135818
+    },
+    {
+      "row": 3,
+      "column": 0.09,
+      "before_gap": 6.2314167138089545,
+      "after_gap": 69.91108243173342
+    },
+    {
+      "row": 4,
+      "column": -0.09,
+      "before_gap": 6.040794353155192,
+      "after_gap": 66.17136344236147
+    },
+    {
+      "row": 4,
+      "column": 0,
+      "before_gap": 7.454683965492251,
+      "after_gap": 78.25387456034879
+    },
+    {
+      "row": 4,
+      "column": 0.09,
+      "before_gap": 5.873276246316081,
+      "after_gap": 68.42500633936639
+    },
+    {
+      "row": 5,
+      "column": -0.09,
+      "before_gap": 5.5023324827412665,
+      "after_gap": 68.62071123524424
+    },
+    {
+      "row": 5,
+      "column": 0,
+      "before_gap": 6.9025544837221275,
+      "after_gap": 84.24593037552364
+    },
+    {
+      "row": 5,
+      "column": 0.09,
+      "before_gap": 5.937575430062694,
+      "after_gap": 70.72912158343301
+    },
+    {
+      "row": 6,
+      "column": -0.09,
+      "before_gap": 6.237202597355733,
+      "after_gap": 76.10819609617519
+    },
+    {
+      "row": 6,
+      "column": 0,
+      "before_gap": 6.832747228910762,
+      "after_gap": 91.16465213884659
+    },
+    {
+      "row": 6,
+      "column": 0.09,
+      "before_gap": 5.9788478735467265,
+      "after_gap": 76.76424626398365
+    },
+    {
+      "row": 7,
+      "column": -0.09,
+      "before_gap": 6.275155930427616,
+      "after_gap": 79.11100884041858
+    },
+    {
+      "row": 7,
+      "column": 0,
+      "before_gap": 7.452990022114733,
+      "after_gap": 98.5831330451412
+    },
+    {
+      "row": 7,
+      "column": 0.09,
+      "before_gap": 6.2767769125351975,
+      "after_gap": 76.17634807502787
+    },
+    {
+      "row": 8,
+      "column": -0.09,
+      "before_gap": 6.1005557751562804,
+      "after_gap": 71.25099564727196
+    },
+    {
+      "row": 8,
+      "column": 0,
+      "before_gap": 8.58108058404892,
+      "after_gap": 88.40531903408746
+    },
+    {
+      "row": 8,
+      "column": 0.09,
+      "before_gap": 6.441989750950185,
+      "after_gap": 69.92411710670208
+    },
+    {
+      "row": 9,
+      "column": -0.09,
+      "before_gap": 2.6046162403336837,
+      "after_gap": 56.095163707164325
+    },
+    {
+      "row": 9,
+      "column": 0,
+      "before_gap": 2.8820839932944153,
+      "after_gap": 67.2353021360252
+    },
+    {
+      "row": 9,
+      "column": 0.09,
+      "before_gap": 1.9412278262171014,
+      "after_gap": 59.19088323142936
+    }
+  ],
+  "minimum_luminance_gap": 56.095163707164325,
+  "required_gap": 24,
+  "other_weapon_sprites_byte_identical": [
+    "HD_CROWSII_M249_Barrel.png",
+    "HD_CROWSII_M249_Body.png",
+    "HD_CROWSII_M249_east.png",
+    "HD_CROWSII_M249_Feed.png",
+    "HD_CROWSII_M249_Frame.png",
+    "HD_CROWSII_M249_north.png",
+    "HD_CROWSII_M249_south.png",
+    "HD_CROWSII_M249_Top.png",
+    "HD_CROWSII_M249_UI.png",
+    "HD_CROWSII_M249_west.png",
+    "HD_CROWSII_MK19_Barrel.png",
+    "HD_CROWSII_MK19_Body.png",
+    "HD_CROWSII_MK19_east.png",
+    "HD_CROWSII_MK19_Feed.png",
+    "HD_CROWSII_MK19_Frame.png",
+    "HD_CROWSII_MK19_north.png",
+    "HD_CROWSII_MK19_south.png",
+    "HD_CROWSII_MK19_Top.png",
+    "HD_CROWSII_MK19_UI.png",
+    "HD_CROWSII_MK19_west.png"
+  ],
+  "source_geometry_unchanged": true,
+  "outline_alpha_unchanged": true,
+  "in_game_tested": false
+}

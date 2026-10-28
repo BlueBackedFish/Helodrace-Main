@@ -11,7 +11,12 @@ def role(kind,component,layer):
         if component in ids:return name
     return SETTINGS['default_barrel' if layer=='barrel' else 'default_body']
 
-def select(kind,component,layer,normal,center,lo,hi):
+def select(kind,component,layer,normal,center,lo,hi,source_face=None):
+    # The M240 tube is one long cylinder beneath the perforated cover. Paint
+    # the complete connected tube, including the small exposed ends, uniformly
+    # dark instead of using a height gradient or changing its original topology.
+    for name,faces in SETTINGS.get('face_roles',{}).get(kind,{}).items():
+        if source_face in faces:return name
     part=role(kind,component,layer)
     if part=='receiver':
         return 'receiver' if normal.z>.65 else 'recess' if normal.z<-.65 else 'receiver_wall'
@@ -28,6 +33,10 @@ def select(kind,component,layer,normal,center,lo,hi):
     radial=(normal.x*dx+normal.z*dz)/max(radius,1e-9)
     if abs(normal.y)>.82:
         return 'recess' if part=='muzzle' and normal.y>.82 else 'sleeve_rim' if part=='sleeve' else 'barrel_shoulder'
+    # Aperture cut walls point across the opening, not toward the weapon axis.
+    # Testing only negative radial normals left these walls as light rim paint.
+    if kind=='M240B' and part=='sleeve':
+        return 'recess' if radial<=.45 else 'sleeve_outer'
     if radial<-.4:return 'recess'
     if part=='sleeve':return 'sleeve_outer' if radial>.45 else 'sleeve_rim'
     return 'muzzle' if part=='muzzle' else 'barrel_root' if part=='barrel_root' else 'barrel_taper'
@@ -38,4 +47,5 @@ def report():
     assert gap>=24
     return dict(palette_source=SETTINGS['palette'],palette=PALETTE,component_roles=SETTINGS['weapons'],
         receiver_cover_luminance_gap=gap,curved_walls='single fixed color; recesses and axial caps are separate roles',
+        source_face_roles=SETTINGS.get('face_roles',{}),
         global_height_ranking=False,lights=False,geometry_edits=False)

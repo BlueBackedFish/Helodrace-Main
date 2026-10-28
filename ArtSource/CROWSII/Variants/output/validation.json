@@ -144,7 +144,7 @@
         1024,
         1024
       ],
-      "sha256": "ed4025d22e22435a03480ad9bdb16e50b0f2ad2b7db3a5358d89088ee267c14d",
+      "sha256": "9f0e62d85e74a671dbaab44ccef42f501799fbd9b0cdd4ec42a022f8ed3fa86e",
       "shared_weapon_outline": true
     },
     "HD_CROWSII_M240B_Feed.png": {
@@ -160,7 +160,7 @@
         1024,
         1024
       ],
-      "sha256": "9fd7e28450e5f5fee662f58ea4b4dd450c8b4691a2e308c1483856dddc5055fa",
+      "sha256": "b1360cab5d69d83ad38428e176e236ed036c4487f3e1ee793ca3d46394c63be7",
       "registered_composite": true
     },
     "HD_CROWSII_M240B_north.png": {
@@ -175,7 +175,7 @@
         616
       ],
       "minimum_margin": 167,
-      "sha256": "e70b6d459b23d9fba1ba3178c3f2314a43886e12414a0480f64f2599ec160dee"
+      "sha256": "f76e10fedd21cabd0c071eb82be94edc7ce547942cff17d991248a2e83864457"
     },
     "HD_CROWSII_M240B_east.png": {
       "size": [
@@ -189,7 +189,7 @@
         643
       ],
       "minimum_margin": 233,
-      "sha256": "fe44aef23677ea83abdb9cefb3b4b0f96e3a98e86b5434f2eaeb1c7e43459449"
+      "sha256": "f7874c5afc8cf25edeb96eaf16c0190dfa7e517764d7c16c2fe395a8fd88a05c"
     },
     "HD_CROWSII_M240B_south.png": {
       "size": [
@@ -203,7 +203,7 @@
         645
       ],
       "minimum_margin": 202,
-      "sha256": "4c6bdfe83005c3abbe543959f66adc32362b7ab1f8a64845faa095715c1146a4"
+      "sha256": "171ef8456dfc19b0284f02cb23d518fe97507d20698389dd785d56a681cecd56"
     },
     "HD_CROWSII_M240B_west.png": {
       "size": [
@@ -217,7 +217,7 @@
         659
       ],
       "minimum_margin": 249,
-      "sha256": "8110a084e4a34b397370c5a7c0a0743cb52095765a5ce7b6c356eba0e02b9576"
+      "sha256": "25de185fdb73deefcf308f1023d049703f837e64489f5fe39ece9c3cd45d28de"
     },
     "HD_CROWSII_M240B_UI.png": {
       "size": [
@@ -231,7 +231,7 @@
         975
       ],
       "minimum_margin": 47,
-      "sha256": "79498b3234769f7fa9435f41200afdbc0ff65438fdfa1cf251247e226d75cd8c"
+      "sha256": "2b3882a21311606a54ce15ba53d99d7f08049d5b07d498bef837ee0143e4aefd"
     },
     "HD_CROWSII_M249_Frame.png": {
       "size": [

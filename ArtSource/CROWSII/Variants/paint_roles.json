@@ -2,6 +2,11 @@
   "palette": "../../PropAssets/m2_detail.json",
   "default_body": "mechanism",
   "default_barrel": "barrel",
+  "face_roles": {
+    "M240B": {
+      "recess": [7356, 7368, 7384, 7385, 7386, 7388, 7389, 7390, 7391, 7392, 7393, 7394, 7395, 7396, 7397, 7408]
+    }
+  },
   "weapons": {
     "MK19": {
       "receiver": [4742, 7850, 2846],

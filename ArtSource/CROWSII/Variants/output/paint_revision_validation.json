@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "baseline": "103891d1",
+  "baseline": "cd775c99",
   "models": {
     "MK19": {
       "geometry_uv_transform_sha256": "a507bebc6be4b2f33dd6c7fadf1187fb912b2d2ef208beed01334ed12c6ad65c",
@@ -22,11 +22,11 @@
     },
     "HD_CROWSII_MK19_Body.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_MK19_Barrel.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_MK19_Feed.png": {
       "alpha_unchanged": true,
@@ -34,27 +34,27 @@
     },
     "HD_CROWSII_MK19_Top.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_MK19_north.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_MK19_east.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_MK19_south.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_MK19_west.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_MK19_UI.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_M240B_Frame.png": {
       "alpha_unchanged": true,
@@ -62,7 +62,7 @@
     },
     "HD_CROWSII_M240B_Body.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_M240B_Barrel.png": {
       "alpha_unchanged": true,
@@ -102,11 +102,11 @@
     },
     "HD_CROWSII_M249_Body.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_M249_Barrel.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_M249_Feed.png": {
       "alpha_unchanged": true,
@@ -114,27 +114,27 @@
     },
     "HD_CROWSII_M249_Top.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_M249_north.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_M249_east.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_M249_south.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_M249_west.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_M249_UI.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     }
   },
   "visible_palette_pixels": {
@@ -404,6 +404,28 @@
     },
     "receiver_cover_luminance_gap": 31.213799999999992,
     "curved_walls": "single fixed color; recesses and axial caps are separate roles",
+    "source_face_roles": {
+      "M240B": {
+        "recess": [
+          7356,
+          7368,
+          7384,
+          7385,
+          7386,
+          7388,
+          7389,
+          7390,
+          7391,
+          7392,
+          7393,
+          7394,
+          7395,
+          7396,
+          7397,
+          7408
+        ]
+      }
+    },
     "global_height_ranking": false,
     "lights": false,
     "geometry_edits": false

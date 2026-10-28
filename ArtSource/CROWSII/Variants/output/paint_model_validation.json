@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "baseline": "103891d1",
+  "baseline": "cd775c99",
   "models": {
     "MK19": {
       "geometry_uv_transform_sha256": "a507bebc6be4b2f33dd6c7fadf1187fb912b2d2ef208beed01334ed12c6ad65c",

@@ -113,7 +113,7 @@ def weapon(kind,config,data):
         for p,f in zip(mesh.polygons,faces):
             center=sum((mesh.vertices[i].co for i in p.vertices),Vector())/len(p.vertices)
             lo,hi=component_bounds[f['component']]
-            key=variant_paint.select(kind,f['component'],layer,p.normal,center,lo,hi)
+            key=variant_paint.select(kind,f['component'],layer,p.normal,center,lo,hi,f['source_face'])
             p.material_index=keys.index(key)
             counts[key]+=1
         for name in faces[0]['uv']:
