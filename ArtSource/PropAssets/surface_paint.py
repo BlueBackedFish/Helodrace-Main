@@ -25,8 +25,10 @@ def levels():
 
 
 def fde(value):
-    # Same display-space desaturation rule as the vehicle palette. Keep FDE hue.
-    saturation=max(.24,min(1,(value-65)/165))
+    # Keep the authored FDE hue at the main painted surface, darken supports
+    # and neutralize only their darkest faces instead of washing tops to TAN.
+    value=max(SETTINGS['minimum_paint_luminance'],value)
+    saturation=max(SETTINGS['minimum_paint_saturation'],min(1,(value-SETTINGS['saturation_zero_luminance'])/(SETTINGS['saturation_full_luminance']-SETTINGS['saturation_zero_luminance'])))
     tint=SETTINGS['fde_tint_srgb'];mean=luminance(tint)
     return tuple(round(value*(1+(c/mean-1)*saturation)) for c in tint)
 

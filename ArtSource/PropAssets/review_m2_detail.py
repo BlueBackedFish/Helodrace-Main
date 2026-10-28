@@ -9,6 +9,8 @@ ROOT=Path(__file__).resolve().parents[2];OUT=Path(__file__).resolve().parent/'ou
 parser=argparse.ArgumentParser();parser.add_argument('--baseline',default='a6f57bd1');args=parser.parse_args()
 cache={}
 baseline_paths=set(subprocess.run(['git','ls-tree','-r','--name-only',args.baseline],cwd=ROOT,check=True,capture_output=True,text=True).stdout.splitlines())
+old_paint=json.loads(subprocess.run(['git','show',args.baseline+':ArtSource/PropAssets/weapon_paint.json'],cwd=ROOT,check=True,capture_output=True,text=True).stdout)
+paint_changed=old_paint!=json.loads((ROOT/'ArtSource/PropAssets/weapon_paint.json').read_text())
 
 
 def previous(path):
@@ -61,7 +63,9 @@ for kind,relative,scale in [('M2HB','ArtSource/HeavyMachineGuns/output/M2HB/gun_
 
 unchanged=['ArtSource/CROWSII/output/base_raw.png','Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_Base.png','ArtSource/HeavyMachineGuns/output/M2HB/mount_raw.png','Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M2HB_Tripod.png','ArtSource/HeavyMachineGuns/output/M1917/gun_raw.png','ArtSource/HeavyMachineGuns/output/M1917/mount_raw.png','Textures/Buildings/Security/HeavyMachineGunsFDE/HD_M1917_Tripod.png','Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMG_Top.png','Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMGUI.png']
 for relative in unchanged:
-    path=ROOT/relative;assert previous(path).tobytes()==opened(path).tobytes(),relative
+    path=ROOT/relative;old=previous(path);current=opened(path)
+    assert old.getchannel('A').tobytes()==current.getchannel('A').tobytes(),relative
+    if not paint_changed:assert old.tobytes()==current.tobytes(),relative
 
 font=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',18);canvas=Image.new('RGB',(1200,900),(65,70,73));draw=ImageDraw.Draw(canvas)
 for i,(label,im) in enumerate(sources):
@@ -69,6 +73,6 @@ for i,(label,im) in enumerate(sources):
     canvas.paste(im,(i*300+(300-im.width)//2,45),im);draw.text((i*300+10,12),label,font=font,fill='white')
 canvas.save(OUT/'m2_detail_comparison.png')
 donor_check=json.loads((ROOT/'ArtSource/CROWSII/output/donor_validation.json').read_text());assert donor_check['passed'] and donor_check['all_face_emission_colors_identical'] and donor_check['qcb_objects']==8
-result=dict(passed=True,baseline=args.baseline,alpha_unchanged_images=alpha_unchanged,alpha_changed_for_qcb_and_weapon_transplant=alpha_changed,new_images=new_images,unchanged_non_target_images=unchanged,pixel_validation=report,geometry_validation='HMG original source preserved with 8 tagged QCB additions; CROWS canonical donor geometry/UV/material comparison passed',in_game_tested=False)
+result=dict(passed=True,baseline=args.baseline,alpha_unchanged_images=alpha_unchanged,alpha_changed_for_qcb_and_weapon_transplant=alpha_changed,new_images=new_images,geometry_stable_images=unchanged,shared_paint_palette_changed=paint_changed,non_target_rgb_compared=not paint_changed,pixel_validation=report,geometry_validation='HMG original source preserved with 8 tagged QCB additions; CROWS canonical donor geometry/UV/material comparison passed',in_game_tested=False)
 (OUT/'m2_detail_validation.json').write_text(json.dumps(result,indent=2)+'\n')
-print('M2_DETAIL_REVIEW_PASS: QCB/vent/axial role pixels; canonical CROWS weapon donor verified; non-target artwork unchanged')
+print('M2_DETAIL_REVIEW_PASS: QCB/vent/axial role pixels; canonical CROWS weapon donor verified; non-target geometry unchanged')

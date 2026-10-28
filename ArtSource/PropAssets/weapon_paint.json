@@ -1,11 +1,16 @@
 {
   "reference": "../VEHICLE_ART_STYLE.md sections 4, 5 and 14",
   "fde_tint_srgb": [143, 123, 92],
+  "minimum_paint_luminance": 40,
+  "minimum_paint_saturation": 0.38,
+  "saturation_zero_luminance": 40,
+  "saturation_full_luminance": 125,
   "minimum_contact_step": 24,
   "nodes": {
-    "support": {"base": 118},
+    "support": {"base": 73},
     "support_cap": {"support": "support"},
-    "equipment": {"base": 170},
+    "equipment": {"base": 125},
+    "mount": {"base": 100},
     "lid": {"support": "equipment"}
   },
   "face_drop": {"top": 0, "front": 28, "rear": 40, "side": 56, "bottom": 76},

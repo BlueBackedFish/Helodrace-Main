@@ -2,104 +2,129 @@
   "reference": "../VEHICLE_ART_STYLE.md sections 4, 5 and 14",
   "palette": {
     "support_top": [
-      123,
-      117,
-      108
+      77,
+      73,
+      66
     ],
     "support_front": [
-      93,
-      90,
-      84
+      47,
+      45,
+      40
     ],
     "support_rear": [
-      81,
-      78,
-      73
+      42,
+      40,
+      36
     ],
     "support_side": [
-      64,
-      62,
-      58
+      42,
+      40,
+      36
     ],
     "support_bottom": [
-      43,
       42,
-      39
+      40,
+      36
     ],
     "support_cap_top": [
-      152,
-      141,
-      125
+      106,
+      96,
+      80
     ],
     "support_cap_front": [
-      119,
-      113,
-      105
-    ],
-    "support_cap_rear": [
-      106,
-      102,
-      96
-    ],
-    "support_cap_side": [
-      89,
-      86,
-      81
-    ],
-    "support_cap_bottom": [
-      68,
-      66,
+      73,
+      69,
       62
     ],
+    "support_cap_rear": [
+      60,
+      57,
+      51
+    ],
+    "support_cap_side": [
+      43,
+      41,
+      37
+    ],
+    "support_cap_bottom": [
+      42,
+      40,
+      36
+    ],
     "equipment_top": [
-      186,
-      168,
-      141
+      143,
+      123,
+      92
     ],
     "equipment_front": [
-      152,
-      141,
-      125
+      106,
+      96,
+      80
     ],
     "equipment_rear": [
-      137,
-      129,
-      116
+      91,
+      84,
+      73
     ],
     "equipment_side": [
-      119,
-      113,
-      105
+      73,
+      69,
+      62
     ],
     "equipment_bottom": [
-      97,
-      94,
-      88
+      52,
+      49,
+      44
+    ],
+    "mount_top": [
+      110,
+      99,
+      81
+    ],
+    "mount_front": [
+      76,
+      72,
+      65
+    ],
+    "mount_rear": [
+      63,
+      60,
+      54
+    ],
+    "mount_side": [
+      46,
+      44,
+      40
+    ],
+    "mount_bottom": [
+      42,
+      40,
+      36
     ],
     "lid_top": [
-      216,
-      192,
-      154
+      170,
+      147,
+      110
     ],
     "lid_front": [
-      181,
-      164,
-      139
+      138,
+      119,
+      91
     ],
     "lid_rear": [
-      166,
-      153,
-      132
+      122,
+      108,
+      86
     ],
     "lid_side": [
-      147,
-      137,
-      122
+      101,
+      92,
+      78
     ],
     "lid_bottom": [
-      123,
-      117,
-      108
+      77,
+      73,
+      66
     ],
     "metal": [
       79,
@@ -131,12 +156,12 @@
     {
       "above": "support_cap_top",
       "below": "support_top",
-      "display_luminance_gap": 24.557600000000008
+      "display_luminance_gap": 23.625799999999998
     },
     {
       "above": "lid_top",
       "below": "equipment_top",
-      "display_luminance_gap": 24.481400000000008
+      "display_luminance_gap": 24.20459999999997
     }
   ],
   "cylindrical_sides": "single fixed color; caps may differ",

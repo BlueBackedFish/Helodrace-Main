@@ -13,7 +13,7 @@
         570
       ],
       "minimum_margin": 454,
-      "sha256": "1444213f1ae2b47904137c14c0d6939c4128a7b284441b352129ec656928da16"
+      "sha256": "3166b5d041f7889c716504b47e7310b5e25fb6d15317405d56460a86aab6b06d"
     },
     "HD_CROWSII_M2_Frame.png": {
       "size": [
@@ -27,7 +27,7 @@
         693
       ],
       "minimum_margin": 297,
-      "sha256": "7fc69c81f337d717dd8364454addafe6958d30b553e3396c3f6bbc06f5b90355"
+      "sha256": "5898acd1c6feb83f659526cf9823aef02676bec18eb10dabb15aa4da2c8012c3"
     },
     "HD_CROWSII_M2Body.png": {
       "size": [
@@ -57,7 +57,7 @@
         617
       ],
       "minimum_margin": 44,
-      "sha256": "aa6b6ab0733ebaf07dd7d0b7df072147cd93c959b16f03d5b3b36eb76b4929ce"
+      "sha256": "b18adebdf5aa70b975f6f7ef874054a9cb81800250d0caa897dcc911b8721eef"
     },
     "HD_CROWSII_M2_east.png": {
       "size": [
@@ -71,7 +71,7 @@
         643
       ],
       "minimum_margin": 110,
-      "sha256": "3ec1bd84cbbd543a4908861505544cd9ac62b308f5b323b3e2808ad858c30107"
+      "sha256": "c98503fe420d0221fcc4b0557dd3b12fb88b5090bd1ce7156a7de00d01591b78"
     },
     "HD_CROWSII_M2_south.png": {
       "size": [
@@ -85,7 +85,7 @@
         775
       ],
       "minimum_margin": 202,
-      "sha256": "2829b24df2cccdda5dcf7c21347065f2bb1a80f3504947f0c3f471275696467a"
+      "sha256": "6b4878fc73bf93366052b1299b8c28f80461e7afd44c4a3a99384231e86bd797"
     },
     "HD_CROWSII_M2_west.png": {
       "size": [
@@ -99,7 +99,7 @@
         659
       ],
       "minimum_margin": 110,
-      "sha256": "4964747614a96c2d6edd7961f3fbb2ad0462ac2d1d7e3ed92657121f314f8f3e"
+      "sha256": "44f6e1b42945022ec7b006bb482e9ad48438ffe61ec66eb8705ca1c81f84a0b4"
     },
     "HD_CROWSII_M2_UI.png": {
       "size": [
@@ -113,7 +113,7 @@
         988
       ],
       "minimum_margin": 36,
-      "sha256": "01d7162e35c576fd82ef0138145c759dd319984cf307cf7d028db1153042a984"
+      "sha256": "a26893a1b57559e7228ae5eede6aaa14a7e0fd675de8fc27e3b8afe036a36572"
     },
     "HD_CROWSII_M2_FeedOverlay.png": {
       "size": [
@@ -165,7 +165,7 @@
     "paint": "FDE hue; authored vehicle-style support levels, directional planes and desaturated dark paint",
     "weapon_variant": "M2HB QCB",
     "weapon_donor": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\HeavyMachineGuns\\output\\M2HB\\model.blend",
-    "weapon_donor_sha256": "a05c33fca72e0ef7f8f8668b70bcf619502356093114efc3e0c6b42222c6f5ea",
+    "weapon_donor_sha256": "cb4a4f081d972bf5deefbd83241ca9351003ddd960046204c7e3a3844cba5101",
     "weapon_mount_transform": [
       [
         1.308997631072998,

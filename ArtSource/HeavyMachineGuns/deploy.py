@@ -66,7 +66,7 @@ for name in ['HD_M2HB_Tripod.png','HD_M1917_Tripod.png','HD_m1917HMG_Top.png','H
     with Image.open(INSTALLED/'Textures'/manifest['texture_directory']/name) as image:
         counts=Counter(tuple(p[:3]) for p in image.convert('RGBA').getdata() if p[3]>250)
     palette=json.loads((ART/'output/paint_validation.json').read_text())['palette']
-    expected=palette['support_top'] if name.endswith('_Tripod.png') else palette['equipment_top'] if name=='HD_m1917HMG_Top.png' else palette['lid_top']
+    expected=palette['mount_top'] if name.endswith('_Tripod.png') else palette['equipment_top'] if name=='HD_m1917HMG_Top.png' else palette['lid_top']
     assert counts[tuple(expected)]>100,(name,expected)
     paint[name]=dict(dominant_rgb=list(counts.most_common(1)[0][0]),required_rgb=expected,required_rgb_pixels=counts[tuple(expected)])
 

@@ -21,8 +21,8 @@
       "pose": "recoil",
       "master_recoil_pixels": 24,
       "interior_pixels": 334839,
-      "interior_disagreements": 174,
-      "fraction": 0.0005196527286248018
+      "interior_disagreements": 147,
+      "fraction": 0.0004390169603899187
     }
   ],
   "only_barrel_layer_moves": true,

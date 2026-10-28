@@ -23,11 +23,11 @@
   "outline_world_tiles": 0.026,
   "icon_outline_pixels": 10,
   "texture_directory": "Buildings/Security/HeavyMachineGunsFDE",
-  "source_geometry_note": "Every source polygon and UV loop retained under recorded transforms; M1917 mount uses equal X/Y scaling with height retained; no added geometry.",
+  "source_geometry_note": "Every source polygon and UV loop retained; M1917 mount uses equal X/Y scaling with height retained; no added geometry.",
   "weapon_length_m": 0.981456,
   "visible_gun_length_tiles": 1.2711383162031438,
   "mount_planar_fit": 0.8339599337401518,
-  "style_note": "Vehicle paint rules: authored FDE support/lid contrast and neutralized darker planar walls; cylindrical sides stay uniform with optional separate end caps; fixed emission and unchanged geometry.",
+  "style_note": "Vehicle paint rules: fixed emission, uniform cylindrical sides and unchanged source geometry.",
   "paint_finish": "FDE hue with authored vehicle-style planar/support contrast; palette in ../paint_validation.json",
   "ammo_box_pose": "Original source pose",
   "source_objects": [

@@ -1,0 +1,217 @@
+{
+  "passed": true,
+  "baseline": "4e057253",
+  "runtime_alpha_images_unchanged": 17,
+  "unchanged_metal_and_feed_sprites": [
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2Body.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2Barrel.png",
+    "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_FeedOverlay.png"
+  ],
+  "opaque_color_validation": {
+    "CROWS": {
+      "rgb": [
+        143,
+        123,
+        92
+      ],
+      "opaque_pixels": 34628
+    },
+    "M1917": {
+      "rgb": [
+        143,
+        123,
+        92
+      ],
+      "opaque_pixels": 34587
+    },
+    "M2HB box": {
+      "rgb": [
+        170,
+        147,
+        110
+      ],
+      "opaque_pixels": 5559
+    },
+    "M2HB mount": {
+      "rgb": [
+        110,
+        99,
+        81
+      ],
+      "opaque_pixels": 25900
+    }
+  },
+  "paint_palette": {
+    "reference": "../VEHICLE_ART_STYLE.md sections 4, 5 and 14",
+    "palette": {
+      "support_top": [
+        77,
+        73,
+        66
+      ],
+      "support_front": [
+        47,
+        45,
+        40
+      ],
+      "support_rear": [
+        42,
+        40,
+        36
+      ],
+      "support_side": [
+        42,
+        40,
+        36
+      ],
+      "support_bottom": [
+        42,
+        40,
+        36
+      ],
+      "support_cap_top": [
+        106,
+        96,
+        80
+      ],
+      "support_cap_front": [
+        73,
+        69,
+        62
+      ],
+      "support_cap_rear": [
+        60,
+        57,
+        51
+      ],
+      "support_cap_side": [
+        43,
+        41,
+        37
+      ],
+      "support_cap_bottom": [
+        42,
+        40,
+        36
+      ],
+      "equipment_top": [
+        143,
+        123,
+        92
+      ],
+      "equipment_front": [
+        106,
+        96,
+        80
+      ],
+      "equipment_rear": [
+        91,
+        84,
+        73
+      ],
+      "equipment_side": [
+        73,
+        69,
+        62
+      ],
+      "equipment_bottom": [
+        52,
+        49,
+        44
+      ],
+      "mount_top": [
+        110,
+        99,
+        81
+      ],
+      "mount_front": [
+        76,
+        72,
+        65
+      ],
+      "mount_rear": [
+        63,
+        60,
+        54
+      ],
+      "mount_side": [
+        46,
+        44,
+        40
+      ],
+      "mount_bottom": [
+        42,
+        40,
+        36
+      ],
+      "lid_top": [
+        170,
+        147,
+        110
+      ],
+      "lid_front": [
+        138,
+        119,
+        91
+      ],
+      "lid_rear": [
+        122,
+        108,
+        86
+      ],
+      "lid_side": [
+        101,
+        92,
+        78
+      ],
+      "lid_bottom": [
+        77,
+        73,
+        66
+      ],
+      "metal": [
+        79,
+        86,
+        84
+      ],
+      "metal_cover": [
+        103,
+        111,
+        106
+      ],
+      "metal_front": [
+        67,
+        74,
+        72
+      ],
+      "metal_side": [
+        55,
+        62,
+        60
+      ],
+      "metal_bottom": [
+        37,
+        44,
+        42
+      ]
+    },
+    "authored_contacts": [
+      {
+        "above": "support_cap_top",
+        "below": "support_top",
+        "display_luminance_gap": 23.625799999999998
+      },
+      {
+        "above": "lid_top",
+        "below": "equipment_top",
+        "display_luminance_gap": 24.20459999999997
+      }
+    ],
+    "cylindrical_sides": "single fixed color; caps may differ",
+    "world_height_ranking": false,
+    "lights": false,
+    "geometry_edits": false
+  },
+  "geometry_and_articulation_validation": true,
+  "in_game_tested": false
+}

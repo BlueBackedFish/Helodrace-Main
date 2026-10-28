@@ -203,7 +203,7 @@ def make(kind,relative):
                 if category=='mount':
                     # Rods, legs and the rounded cradle remain uniform, regardless
                     # of their normal or absolute height above the floor.
-                    key='paint_support_top'
+                    key='paint_mount_top'
                 elif category=='fde':
                     # Horizontal water jacket: one color around its whole side.
                     key='paint_equipment_front' if abs(p.normal.y)>.96 else 'paint_equipment_top'

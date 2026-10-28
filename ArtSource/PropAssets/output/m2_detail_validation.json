@@ -43,7 +43,7 @@
     "ArtSource/CROWSII/output/recoil_raw.png",
     "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_FeedOverlay.png"
   ],
-  "unchanged_non_target_images": [
+  "geometry_stable_images": [
     "ArtSource/CROWSII/output/base_raw.png",
     "Textures/Buildings/Security/CROWSII/HD_CROWSII_M2_Base.png",
     "ArtSource/HeavyMachineGuns/output/M2HB/mount_raw.png",
@@ -54,6 +54,8 @@
     "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMG_Top.png",
     "Textures/Buildings/Security/HeavyMachineGunsFDE/HD_m1917HMGUI.png"
   ],
+  "shared_paint_palette_changed": true,
+  "non_target_rgb_compared": false,
   "pixel_validation": {
     "M2HB": {
       "sleeve_outer_pixels": 6934,
@@ -85,7 +87,7 @@
       },
       "runtime_detail_pixels": {
         "sleeve_outer": 4731,
-        "recess": 367,
+        "recess": 393,
         "barrel_taper": 2414
       }
     }

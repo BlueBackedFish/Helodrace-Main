@@ -38,7 +38,7 @@
   "paint": "FDE hue; authored vehicle-style support levels, directional planes and desaturated dark paint",
   "weapon_variant": "M2HB QCB",
   "weapon_donor": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\HeavyMachineGuns\\output\\M2HB\\model.blend",
-  "weapon_donor_sha256": "a05c33fca72e0ef7f8f8668b70bcf619502356093114efc3e0c6b42222c6f5ea",
+  "weapon_donor_sha256": "cb4a4f081d972bf5deefbd83241ca9351003ddd960046204c7e3a3844cba5101",
   "weapon_mount_transform": [
     [
       1.308997631072998,
