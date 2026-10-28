@@ -102,6 +102,8 @@ internal static class Program
         Find.TickManager.TicksGame = 100; comp.PostDraw();
         var rest = Graphics.Draws.ToArray(); Graphics.Draws.Clear();
         Check(rest.Length == 5, "CROWS lost an art layer.");
+        Check(rest.All(x=>Math.Abs(x.matrix.scale.x-3.2f)<.00001f && Math.Abs(x.matrix.scale.z-3.2f)<.00001f),
+            "CROWS canvas must cover 3.2 tiles on the one-tile plane10 mesh, matching the foundation.");
         Check(rest.Select(x => x.material.Path.Split('/').Last()).SequenceEqual(new[] {
             "HD_CROWSII_M2_Base", "HD_CROWSII_M2_Frame", "HD_CROWSII_M2Barrel", "HD_CROWSII_M2Body", "HD_CROWSII_M2_FeedOverlay" }), "Layer draw order changed.");
         comp.NotifyShotFired(); comp.PostDraw();

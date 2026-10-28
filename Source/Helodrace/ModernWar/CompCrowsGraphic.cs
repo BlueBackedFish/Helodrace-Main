@@ -26,7 +26,10 @@ namespace Helodrace
             feedMaterial = feedMaterial ?? MaterialPool.MatFrom(Root + "HD_CROWSII_M2_FeedOverlay", ShaderDatabase.Cutout);
             Vector3 pos = parent.DrawPos;
             pos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
-            Vector3 scale = new Vector3(.32f, 1f, .32f);
+            // MeshPool.plane10 is one tile wide, not ten. The registered art
+            // uses the same 3.2-tile canvas as the foundation graphic.
+            float drawSize = parent.def.building.turretTopDrawSize;
+            Vector3 scale = new Vector3(drawSize, 1f, drawSize);
             Draw(pos, Quaternion.AngleAxis(parent.Rotation.AsAngle, Vector3.up), scale, baseMaterial);
             Quaternion rotation = Quaternion.AngleAxis(turret.Top.CurRotation, Vector3.up);
             pos.y += .001f;

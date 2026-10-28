@@ -25,7 +25,7 @@ namespace UnityEngine
         public static Quaternion AngleAxis(float angle,Vector3 axis)=>new Quaternion{angle=angle};
         public static Vector3 operator *(Quaternion q,Vector3 v){double a=q.angle*Math.PI/180;return new Vector3((float)(v.x*Math.Cos(a)+v.z*Math.Sin(a)),v.y,(float)(v.z*Math.Cos(a)-v.x*Math.Sin(a)));}
     }
-    public struct Matrix4x4 { public Vector3 pos; public static Matrix4x4 TRS(Vector3 p,Quaternion q,Vector3 s)=>new Matrix4x4{pos=p}; }
+    public struct Matrix4x4 { public Vector3 pos,scale; public static Matrix4x4 TRS(Vector3 p,Quaternion q,Vector3 s)=>new Matrix4x4{pos=p,scale=s}; }
     public class Material { public string Path; }
     public static class Graphics
     {
@@ -57,7 +57,8 @@ namespace RimWorld
 namespace Verse
 {
     public class JobDef { }
-    public class ThingDef { public GraphicData graphicData=new GraphicData(); }
+    public class ThingDef { public GraphicData graphicData=new GraphicData(); public BuildingProperties building=new BuildingProperties(); }
+    public class BuildingProperties { public float turretTopDrawSize=3.2f; }
     public class GraphicData { public Vector2 drawSize; }
     public class Graphic { public string Path="original desk"; }
     public class Graphic_Multi:Graphic { }
