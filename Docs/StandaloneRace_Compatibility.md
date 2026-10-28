@@ -2,7 +2,7 @@
 
 ## 원인
 
-헬로드는 여전히 `race/intelligence=Humanlike`인 일반 `Pawn`이다. 바닐라 `Pawn.IsColonist`는 플레이어 소속, Humanlike, 노예/비인간화 상태를 확인하며 `defName=Human`을 요구하지 않는다.
+헤로드는 여전히 `race/intelligence=Humanlike`인 일반 `Pawn`이다. 바닐라 `Pawn.IsColonist`는 플레이어 소속, Humanlike, 노예/비인간화 상태를 확인하며 `defName=Human`을 요구하지 않는다.
 
 CE 기즈모 누락의 직접 원인은 별도 호환 모듈의 XML 선택자였다. 메인 모드는 `AlienRace.ThingDef_AlienRace`에서 `ThingDef`로 전환됐지만 CE와 Facial Animation 호환 모듈은 이전 요소 이름을 참조하고 있었다. CE의 첫 종족 확장 추가 작업부터 실패해 이후 컴포넌트 추가도 실행되지 않았다.
 
@@ -13,7 +13,7 @@ CE 기즈모 누락의 직접 원인은 별도 호환 모듈의 XML 선택자였
 - `../Helodrace-CombatExtended/Patches/CombatExtended_HelodRaceAndArmor.xml`: Helod 대상 XPath 6개를 `/Defs/ThingDef[defName="Helod"]` 기준으로 변경.
 - `../Helodrace-Facial/Patches/Helodrace/FacialAnimationComps_Helod.xml`: 같은 유형의 XPath 3개 변경.
 
-헬로드의 종족 정체성, 신체, 정착민 판정, 귀/꼬리, 기존 전투 수치는 변경하지 않았다. 인간에게 붙은 모든 타 모드 컴포넌트를 무조건 복제하지도 않는다. 그러한 방식은 중복 컴포넌트와 종족별 동작 충돌을 만들 수 있다.
+헤로드의 종족 정체성, 신체, 정착민 판정, 귀/꼬리, 기존 전투 수치는 변경하지 않았다. 인간에게 붙은 모든 타 모드 컴포넌트를 무조건 복제하지도 않는다. 그러한 방식은 중복 컴포넌트와 종족별 동작 충돌을 만들 수 있다.
 
 ## 검증
 

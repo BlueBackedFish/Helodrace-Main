@@ -1,13 +1,13 @@
-# 바닐라·헬로드 연구 연결 목록
+# 바닐라·헤로드 연구 연결 목록
 
 정의: [ResearchLinks_Helod.xml](../Defs/Research/ResearchLinks_Helod.xml)
 
-`Helodrace.ResearchLinkDef`로 15개 관계를 연결한다. 바닐라 경로 또는 헬로드
+`Helodrace.ResearchLinkDef`로 15개 관계를 연결한다. 바닐라 경로 또는 헤로드
 경로 중 하나를 완료하면 반대쪽 연구도 완료된다. 표의 **+는 같은 경로 안에서
 모두 완료해야 하는 AND 조건**이고, 두 경로 사이는 OR 조건이다. 이 연결은
-모든 정착지에 적용되며, 헬로드 연구 탭의 노드 좌표는 바꾸지 않는다.
+모든 정착지에 적용되며, 헤로드 연구 탭의 노드 좌표는 바꾸지 않는다.
 
-| 연결 ID | 바닐라 연구 | 헬로드 연구 |
+| 연결 ID | 바닐라 연구 | 헤로드 연구 |
 | --- | --- | --- |
 | `HD_Link_FrontierFoundations` | 가구 `ComplexFurniture` + 단조 `Smithing` + 섬세한 의류 `ComplexClothing` | 개척정신 `HelodFrontierSpirit` |
 | `HD_Link_Electricity` | 전기 `Electricity` | 진공관의 시대 `HelodHighElectronics` |
@@ -51,7 +51,7 @@
   연결이 미소전자공학을 앞당기지 않는다.
 - 한 연구가 완료될 때 동기화하며, 새 게임 시작과 저장 불러오기 때도 이미
   완료된 연구를 동기화한다. 이 목록을 추가한 기존 저장에도 적용된다.
-- 헬로드 서부 개척 시나리오의 시작 연구 6개만으로는 추가 산업·군사 단계가
+- 헤로드 서부 개척 시나리오의 시작 연구 6개만으로는 추가 산업·군사 단계가
   자동 완료되지 않는다.
 - 연구 탭 사이에 시각적인 연결선을 추가하지는 않는다. 대응 관계는 이 목록을
   기준으로 확인한다.

@@ -2,9 +2,11 @@
 <Defs>
   <Helodrace.ResearchUI.HelodResearchSectionDef>
     <defName>HD_ResearchSection_Foundations</defName>
-    <label>Foundations</label>
+    <label>1. Foundations and experiments</label>
     <order>0</order>
-    <flowColumn>0</flowColumn><flowRow>0</flowRow>
+    <flowColumn>0</flowColumn>
+    <flowRow>0</flowRow>
+    <reverseFlow>false</reverseFlow>
     <color>(0.65, 0.68, 0.72)</color>
     <projects>
       <li>HelodFrontierSpirit</li>
@@ -13,109 +15,141 @@
     </projects>
   </Helodrace.ResearchUI.HelodResearchSectionDef>
   <Helodrace.ResearchUI.HelodResearchSectionDef>
-    <defName>HD_ResearchSection_Industry</defName>
-    <label>Machinery and power</label>
+    <defName>HD_ResearchSection_Steam</defName>
+    <label>2. Steam and chemical cells</label>
     <order>1</order>
-    <flowColumn>1</flowColumn><flowRow>0</flowRow>
-    <color>(0.32, 0.68, 0.64)</color>
+    <flowColumn>1</flowColumn>
+    <flowRow>0</flowRow>
+    <reverseFlow>false</reverseFlow>
+    <color>(0.63, 0.64, 0.39)</color>
     <projects>
+      <li>HelodIngredientExtraction</li>
+      <li>HelodPrimaryCell</li>
       <li>HelodIronMaking</li>
       <li>HelodSteamEngine</li>
       <li>HelodBasicMachineTool</li>
+      <li>HelodTelegraph</li>
+    </projects>
+  </Helodrace.ResearchUI.HelodResearchSectionDef>
+  <Helodrace.ResearchUI.HelodResearchSectionDef>
+    <defName>HD_ResearchSection_Precision</defName>
+    <label>3. Power transmission and precision</label>
+    <order>2</order>
+    <flowColumn>2</flowColumn>
+    <flowRow>0</flowRow>
+    <reverseFlow>false</reverseFlow>
+    <color>(0.39, 0.69, 0.58)</color>
+    <projects>
       <li>HelodBasicOilDevelopment</li>
       <li>HelodLineShaft</li>
+      <li>HelodBasicElectronics</li>
       <li>HelodMetalCuttingMachine</li>
       <li>HelodMetalFormingMachine</li>
+      <li>HelodBreechLoadingGun</li>
+      <li>HelodHighOilDevelopment</li>
+    </projects>
+  </Helodrace.ResearchUI.HelodResearchSectionDef>
+  <Helodrace.ResearchUI.HelodResearchSectionDef>
+    <defName>HD_ResearchSection_Combustion</defName>
+    <label>4. Combustion and vacuum tubes</label>
+    <order>3</order>
+    <flowColumn>3</flowColumn>
+    <flowRow>0</flowRow>
+    <reverseFlow>false</reverseFlow>
+    <color>(0.35, 0.65, 0.77)</color>
+    <projects>
       <li>HelodBasicEngine</li>
       <li>HelodLargeSteamEngine</li>
       <li>HelodHeatPump</li>
-      <li>HelodBasicPetrochemistry</li>
-      <li>HelodHighOilDevelopment</li>
-      <li>HelodNumericalControl</li>
-      <li>HelodIndustrialAutomation</li>
-      <li>HelodMultiTaskMachining</li>
-    </projects>
-  </Helodrace.ResearchUI.HelodResearchSectionDef>
-  <Helodrace.ResearchUI.HelodResearchSectionDef>
-    <defName>HD_ResearchSection_Electronics</defName>
-    <label>Electronics and communications</label>
-    <order>2</order>
-    <flowColumn>2</flowColumn><flowRow>0</flowRow>
-    <color>(0.35, 0.62, 0.88)</color>
-    <projects>
-      <li>HelodPrimaryCell</li>
-      <li>HelodTelegraph</li>
-      <li>HelodBasicElectronics</li>
       <li>HelodBasicMotor</li>
-      <li>HelodWireless</li>
-      <li>HelodHighElectronics</li>
-      <li>HelodTransistor</li>
-      <li>HelodLowHeadSet</li>
-    </projects>
-  </Helodrace.ResearchUI.HelodResearchSectionDef>
-  <Helodrace.ResearchUI.HelodResearchSectionDef>
-    <defName>HD_ResearchSection_Chemistry</defName>
-    <label>Chemistry and medicine</label>
-    <order>3</order>
-    <flowColumn>0</flowColumn><flowRow>1</flowRow>
-    <color>(0.83, 0.65, 0.35)</color>
-    <projects>
-      <li>HelodIngredientExtraction</li>
-      <li>HelodTotalSynthesisMedicine</li>
-      <li>HelodChokingAgent</li>
-      <li>HelodFirstAid</li>
-      <li>HelodHaberBosch</li>
-      <li>HelodHighExplosive</li>
-      <li>HelodBlisterAgent</li>
-    </projects>
-  </Helodrace.ResearchUI.HelodResearchSectionDef>
-  <Helodrace.ResearchUI.HelodResearchSectionDef>
-    <defName>HD_ResearchSection_Military</defName>
-    <label>Weapons and artillery</label>
-    <order>4</order>
-    <flowColumn>1</flowColumn><flowRow>1</flowRow>
-    <color>(0.7, 0.45, 0.4)</color>
-    <projects>
-      <li>HelodBreechLoadingGun</li>
       <li>HelodLeverAction</li>
+      <li>HelodBasicPetrochemistry</li>
       <li>HelodSmokeLessGunpowder</li>
+      <li>HelodHighElectronics</li>
+    </projects>
+  </Helodrace.ResearchUI.HelodResearchSectionDef>
+  <Helodrace.ResearchUI.HelodResearchSectionDef>
+    <defName>HD_ResearchSection_Synthesis</defName>
+    <label>5. Synthesis and electronic transition</label>
+    <order>4</order>
+    <flowColumn>3</flowColumn>
+    <flowRow>1</flowRow>
+    <reverseFlow>true</reverseFlow>
+    <color>(0.42, 0.58, 0.85)</color>
+    <projects>
+      <li>HelodNumericalControl</li>
+      <li>HelodTotalSynthesisMedicine</li>
+      <li>HelodWireless</li>
       <li>HelodBoltAction</li>
       <li>HelodBasicMachineGun</li>
+      <li>HelodGreatWarTech</li>
+      <li>HelodChokingAgent</li>
+      <li>HelodFirstAid</li>
       <li>HelodSamiAutomaticPistol</li>
       <li>HelodHighMachineGun</li>
-      <li>HelodBasicModernRifle</li>
+      <li>HelodHaberBosch</li>
       <li>HelodSniperRifle</li>
-      <li>HelodLowGranade</li>
-      <li>HelodLowLightArtillery</li>
-      <li>HelodLowHeavyArtillery</li>
-      <li>HelodLowAutomaticRifle</li>
-      <li>HelodAntiAirMachineGun</li>
-      <li>HelodMidAutomaticRifle</li>
-      <li>HelodHighAutomaticRifle</li>
-      <li>HelodWireGuidedMissile</li>
-      <li>HelodColdWarGrenades</li>
-      <li>HelodModernDiversionaryGrenades</li>
-      <li>HelodModernOffensiveGrenades</li>
-      <li>HelodAdvancedWeaponOptics</li>
-      <li>HelodLaserTargetDesignators</li>
+      <li>HelodTransistor</li>
+      <li>HelodFlakJacket</li>
     </projects>
   </Helodrace.ResearchUI.HelodResearchSectionDef>
   <Helodrace.ResearchUI.HelodResearchSectionDef>
-    <defName>HD_ResearchSection_Support</defName>
-    <label>Protection and equipment</label>
+    <defName>HD_ResearchSection_Mobilization</defName>
+    <label>6. Automation and total mobilization</label>
     <order>5</order>
-    <flowColumn>2</flowColumn><flowRow>1</flowRow>
-    <color>(0.65, 0.52, 0.8)</color>
+    <flowColumn>2</flowColumn>
+    <flowRow>1</flowRow>
+    <reverseFlow>true</reverseFlow>
+    <color>(0.71, 0.49, 0.38)</color>
     <projects>
-      <li>HelodGreatWarTech</li>
+      <li>HelodIndustrialAutomation</li>
+      <li>HelodBasicModernRifle</li>
+      <li>HelodHighExplosive</li>
+      <li>HelodBlisterAgent</li>
+      <li>HelodMultiTaskMachining</li>
+      <li>HelodLowGranade</li>
+      <li>HelodLowLightArtillery</li>
+      <li>HelodAntiAirMachineGun</li>
+      <li>HelodLowHeavyArtillery</li>
       <li>HelodRespectForPatrioticMartyrs</li>
+      <li>HelodLowAutomaticRifle</li>
+    </projects>
+  </Helodrace.ResearchUI.HelodResearchSectionDef>
+  <Helodrace.ResearchUI.HelodResearchSectionDef>
+    <defName>HD_ResearchSection_ColdWar</defName>
+    <label>7. Cold War integrated equipment</label>
+    <order>6</order>
+    <flowColumn>1</flowColumn>
+    <flowRow>1</flowRow>
+    <reverseFlow>true</reverseFlow>
+    <color>(0.65, 0.47, 0.69)</color>
+    <projects>
+      <li>HelodMidAutomaticRifle</li>
       <li>HelodColdWarTech</li>
-      <li>HelodFlakJacket</li>
-      <li>HelodPASGT</li>
+      <li>HelodHighAutomaticRifle</li>
+      <li>HelodWireGuidedMissile</li>
       <li>HelodLessLethalClose</li>
-      <li>HelodLessLethalChemical</li>
+      <li>HelodPASGT</li>
+      <li>HelodLowHeadSet</li>
+      <li>HelodColdWarGrenades</li>
+    </projects>
+  </Helodrace.ResearchUI.HelodResearchSectionDef>
+  <Helodrace.ResearchUI.HelodResearchSectionDef>
+    <defName>HD_ResearchSection_Modern</defName>
+    <label>8. Modernization and special operations</label>
+    <order>7</order>
+    <flowColumn>0</flowColumn>
+    <flowRow>1</flowRow>
+    <reverseFlow>true</reverseFlow>
+    <color>(0.51, 0.53, 0.82)</color>
+    <projects>
       <li>HelodLessLethalLowRanged</li>
+      <li>HelodLessLethalChemical</li>
+      <li>HelodModernOffensiveGrenades</li>
+      <li>HelodAdvancedWeaponOptics</li>
       <li>HelodSpecialOperationsWeapons</li>
+      <li>HelodModernDiversionaryGrenades</li>
+      <li>HelodLaserTargetDesignators</li>
     </projects>
   </Helodrace.ResearchUI.HelodResearchSectionDef>
 </Defs>

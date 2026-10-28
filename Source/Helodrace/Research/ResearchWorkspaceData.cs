@@ -10,6 +10,7 @@ namespace Helodrace.ResearchUI
     {
         public int order;
         public int flowColumn, flowRow;
+        public bool reverseFlow;
         public Color color = new Color(0.3f, 0.6f, 0.7f);
         public List<ResearchProjectDef> projects = new List<ResearchProjectDef>();
         public override IEnumerable<string> ConfigErrors()

@@ -57,7 +57,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File Source/Verify-RaceCompatibil
 
 Profiler를 연결한 게임 실행 환경에서 결과를 수집하지 못했다. 아래 항목은 **미실시**이며 자동 테스트로 대체됐다고 주장하지 않는다.
 
-1. 동일 모드 구성/해상도/줌/게임 속도에서 헬로드 10~20명 장면을 전후 비교한다. 워밍업 후 OffsetFor, CanDrawNow, Apparel LayerFor, GeneratePawn의 호출 비용, GC Alloc, 프레임 시간을 기록한다.
+1. 동일 모드 구성/해상도/줌/게임 속도에서 헤로드 10~20명 장면을 전후 비교한다. 워밍업 후 OffsetFor, CanDrawNow, Apparel LayerFor, GeneratePawn의 호출 비용, GC Alloc, 프레임 시간을 기록한다.
 2. 성인/아동/아기, 네 방향·초상화·침대·부패·귀/꼬리 손실·모자 착탈을 확인한다.
 3. 새 pawn/난민/노예/방랑자, 출산, 성장 특성, 수술을 확인한다.
 4. CE 단독·Facial 단독·둘 다 활성인 경우를 나누어 CE 기즈모와 얼굴 렌더링을 확인한다.

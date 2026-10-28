@@ -135,6 +135,10 @@ internal static class Program
     }
     private static void FlowAndRouting()
     {
+        Check(ResearchZoom.Clamp(-1) == 0.3f && ResearchZoom.Clamp(0.3f) == 0.3f, "Minimum zoom is exactly 30 percent");
+        Check(ResearchZoom.Clamp(5) == 1.5f, "Maximum zoom remains 150 percent");
+        float shifted = ResearchZoom.Anchor(200, 70, 0.9f, 0.3f);
+        Check(Math.Abs((shifted + 70) / 0.3f - (200 + 70) / 0.9f) < 0.001f, "Wheel zoom preserves the world point under the mouse");
         var a = Project("A"); var b = Project("B", a); var c = Project("C", a); var d = Project("D", b, c);
         var cells = ResearchFlowLayout.Arrange(new[] { d, c, b, a }, p => p.prerequisites);
         Check(cells[a].Column == 0 && cells[d].Column == 2, "Local dependency depth determines columns regardless of definition order");
@@ -179,13 +183,30 @@ internal static class Program
             .ToDictionary(p => (string)p.Element("defName"));
         var sections = XDocument.Load("Defs/Research/ResearchSections_Helod.xml").Root.Elements().ToList();
         var members = sections.SelectMany(s => s.Element("projects").Elements("li")).Select(e => e.Value).ToList();
-        Check(sections.Count == 6 && members.Count == race.Count && members.Distinct().Count() == race.Count,
-            "Every race project belongs to exactly one of six sections");
+        Check(sections.Count == 8 && members.Count == race.Count && members.Distinct().Count() == race.Count,
+            "Every race project belongs to exactly one of eight technology stages");
         Check(members.All(race.ContainsKey), "No unresolved section membership");
         Check(sections.Select(s => (string)s.Element("flowColumn")).Distinct().Count() > 1
             && sections.Select(s => (string)s.Element("flowRow")).Distinct().Count() > 1, "Sections branch across both flow axes");
         Check(sections.Select(s => (string)s.Element("flowColumn") + ":" + (string)s.Element("flowRow")).Distinct().Count() == sections.Count,
             "Section flow positions never overlap");
+        var depths = new Dictionary<string, int>();
+        Func<string, int> depth = null;
+        depth = name => depths.TryGetValue(name, out int value) ? value : depths[name] = 1 +
+            (race[name].Element("prerequisites")?.Elements("li") ?? Enumerable.Empty<XElement>())
+                .Where(e => race.ContainsKey(e.Value)).Select(e => depth(e.Value)).DefaultIfEmpty(-1).Max();
+        int[] lower = { 0, 2, 4, 6, 8, 10, 13, 15 }, upper = { 1, 3, 5, 7, 9, 12, 14, 16 };
+        foreach (var section in sections)
+        {
+            int stage = (int)section.Element("order");
+            foreach (var member in section.Element("projects").Elements("li"))
+                Check(depth(member.Value) >= lower[stage] && depth(member.Value) <= upper[stage],
+                    "Cross-discipline membership matches real prerequisite depth: " + member.Value);
+            Check((bool)section.Element("reverseFlow") == (stage >= 4), "The lower flow row returns toward the left");
+        }
+        var sectionTranslations = XDocument.Load("Languages/Korean (한국어)/DefInjected/Helodrace.ResearchUI.HelodResearchSectionDef/ResearchSections.xml").Root;
+        Check(sectionTranslations.Elements().Select(e => e.Name.LocalName).OrderBy(n => n).SequenceEqual(
+            sections.Select(s => (string)s.Element("defName") + ".label").OrderBy(n => n)), "Section names have complete translations without obsolete categories");
         var en = XDocument.Load("Languages/English/Keyed/ResearchWorkspace.xml").Root;
         var ko = XDocument.Load("Languages/Korean (한국어)/Keyed/ResearchWorkspace.xml").Root;
         Check(en.Elements().Select(e => e.Name).SequenceEqual(ko.Elements().Select(e => e.Name)), "English/Korean UI keys match");

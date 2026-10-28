@@ -56,6 +56,13 @@ namespace Helodrace.ResearchUI
         }
     }
 
+    public static class ResearchZoom
+    {
+        public const float Minimum = 0.3f, Maximum = 1.5f;
+        public static float Clamp(float value) => Math.Max(Minimum, Math.Min(Maximum, value));
+        public static float Anchor(float scroll, float pivot, float before, float after) => (scroll + pivot) * after / before - pivot;
+    }
+
     public struct ResearchPoint
     {
         public float X, Y;

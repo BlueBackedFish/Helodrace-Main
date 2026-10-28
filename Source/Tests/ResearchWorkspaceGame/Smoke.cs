@@ -15,10 +15,11 @@ namespace Helodrace.ResearchWorkspaceSmoke
     public static class Bootstrap
     {
         public static int Draws;
-        public static bool LeftDrag, MapClick, CardClick;
+        public static bool LeftDrag, MapClick, CardClick, WheelZoom, MinimumZoom;
         public sealed class PointerState
         {
             public EventType Type; public int Button; public Vector2 Pointer, Scroll;
+            public float Zoom; public bool Control;
         }
         private static readonly FieldInfo Scroll = AccessTools.Field(typeof(ResearchWorkspaceView), "scroll");
         static Bootstrap()
@@ -42,7 +43,8 @@ namespace Helodrace.ResearchWorkspaceSmoke
         public static void ObserveInput(ResearchWorkspaceView __instance, out PointerState __state)
         {
             __state = new PointerState { Type = Event.current.type, Button = Event.current.button,
-                Pointer = Event.current.mousePosition, Scroll = (Vector2)Scroll.GetValue(__instance) };
+                Pointer = Event.current.mousePosition, Scroll = (Vector2)Scroll.GetValue(__instance), Control = Event.current.control,
+                Zoom = (float)AccessTools.Field(typeof(ResearchWorkspaceView), "zoom").GetValue(__instance) };
         }
         public static void ObservedInput(ResearchWorkspaceView __instance, Rect __0, PointerState __state)
         {
@@ -50,6 +52,9 @@ namespace Helodrace.ResearchWorkspaceSmoke
             if (moved && __state.Button == 0 && __state.Type == EventType.MouseDrag) LeftDrag = true;
             Rect map = new Rect(__0.x + 10, __0.yMax - 126, Mathf.Min(190, __0.width - 38), 104);
             if (moved && __state.Button == 0 && __state.Type == EventType.MouseDown && map.Contains(__state.Pointer)) MapClick = true;
+            float zoom = (float)AccessTools.Field(typeof(ResearchWorkspaceView), "zoom").GetValue(__instance);
+            if (__state.Type == EventType.ScrollWheel && !__state.Control && Math.Abs(zoom - __state.Zoom) > 0.001f) WheelZoom = true;
+            if (__state.Type == EventType.ScrollWheel && !__state.Control && Math.Abs(zoom - 0.3f) < 0.001f) MinimumZoom = true;
         }
         public static void BeforeCard(IResearchWorkspaceHost __3, Window __4, out ResearchProjectDef __state)
         { __state = __3.Selected(__4); }
@@ -108,7 +113,7 @@ namespace Helodrace.ResearchWorkspaceSmoke
             if (Bootstrap.Draws - startedDraw < 3) return;
             if (wait++ == 0)
             {
-                string name = new[] { "queue", "parts", "or", "flow-low-zoom", "pan" }[stage];
+                string name = new[] { "queue", "parts", "or", "flow-30-percent", "pan" }[stage];
                 ScreenCapture.CaptureScreenshot(Path.Combine(output, name + ".png"));
                 File.AppendAllText(Path.Combine(output, "checks.txt"), name + ": canvas drawn; goals="
                     + ResearchQueue.Current.Goals.Count + "; parts=" + ResearchWorkspaceData.PartsFor(window.CurTab == null ? null
@@ -117,11 +122,11 @@ namespace Helodrace.ResearchWorkspaceSmoke
             if (stage == 4 && GenCommandLine.TryGetCommandLineArg("hdResearchUiInteractive", out _))
             {
                 File.WriteAllText(Path.Combine(output, "interaction.txt"), "leftDrag=" + Bootstrap.LeftDrag + "; mapClick=" + Bootstrap.MapClick
-                    + "; cardClick=" + Bootstrap.CardClick + "; tab=" + window.CurTab?.defName);
+                    + "; cardClick=" + Bootstrap.CardClick + "; wheelZoom=" + Bootstrap.WheelZoom + "; minimumZoom=" + Bootstrap.MinimumZoom + "; tab=" + window.CurTab?.defName);
                 if (Bootstrap.LeftDrag && Bootstrap.MapClick && !panCaptured)
                 { ScreenCapture.CaptureScreenshot(Path.Combine(output, "pan.png")); panCaptured = true; }
-                if (!Bootstrap.LeftDrag || !Bootstrap.MapClick || !Bootstrap.CardClick) return;
-                File.AppendAllText(Path.Combine(output, "checks.txt"), "PASS: native left-drag, overview click and vanilla OR card navigation\n");
+                if (!Bootstrap.LeftDrag || !Bootstrap.MapClick || !Bootstrap.CardClick || !Bootstrap.WheelZoom || !Bootstrap.MinimumZoom) return;
+                File.AppendAllText(Path.Combine(output, "checks.txt"), "PASS: native left-drag, overview click, plain-wheel zoom to 30% and vanilla OR card navigation\n");
             }
             if (wait < 12) return;
             stage++; wait = 0;
@@ -153,7 +158,7 @@ namespace Helodrace.ResearchWorkspaceSmoke
             AccessTools.Field(typeof(ResearchWorkspaceView), "page").SetValue(view, Mathf.Min(2, stage));
             if (stage >= 3)
             {
-                AccessTools.Field(typeof(ResearchWorkspaceView), "zoom").SetValue(view, 0.65f);
+                AccessTools.Field(typeof(ResearchWorkspaceView), "zoom").SetValue(view, stage == 3 ? 0.3f : 0.65f);
                 AccessTools.Field(typeof(ResearchWorkspaceView), "dirty").SetValue(view, true);
                 AccessTools.Method(typeof(ResearchWorkspaceView), "Build").Invoke(view, null);
                 AccessTools.Field(typeof(ResearchWorkspaceView), "scroll").SetValue(view, new Vector2(0, 0));

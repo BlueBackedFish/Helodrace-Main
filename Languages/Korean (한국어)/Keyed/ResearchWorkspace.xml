@@ -9,7 +9,7 @@
   <HD_Research_Links>OR 연구</HD_Research_Links>
   <HD_Research_Resume>큐 계속 진행</HD_Research_Resume>
   <HD_Research_Pause>큐 일시 정지</HD_Research_Pause>
-  <HD_Research_EmptyQueue>노드의 +로 목표를 추가하면 미완료 선행 연구를 자동으로 앞에 넣습니다. 빈 공간을 왼쪽 마우스로 드래그하거나 전체 배치를 클릭해 이동하고 Ctrl + 휠로 확대·축소합니다.</HD_Research_EmptyQueue>
+  <HD_Research_EmptyQueue>노드의 +로 목표를 추가하면 미완료 선행 연구를 자동으로 앞에 넣습니다. 빈 공간을 왼쪽 마우스로 드래그하거나 전체 배치를 클릭해 이동하고 휠로 확대·축소합니다.</HD_Research_EmptyQueue>
   <HD_Research_Plan>진행 순서 (선행 연구 포함)</HD_Research_Plan>
   <HD_Research_Select>연구 노드를 선택하세요.</HD_Research_Select>
   <HD_Research_NoParts>이 연구가 필요한 모듈 파츠가 없습니다.</HD_Research_NoParts>
@@ -18,8 +18,8 @@
   <HD_Research_PartBlocked>다른 연구도 필요함</HD_Research_PartBlocked>
   <HD_Research_WillComplete>현재 상태에서 다른 연구 {0}개도 완료됩니다. (선행 연구 포함)</HD_Research_WillComplete>
   <HD_Research_Map>전체 배치 · 클릭 이동</HD_Research_Map>
-  <HD_Research_PanTip>빈 공간을 왼쪽 또는 가운데 마우스로 드래그해 이동합니다. 전체 배치를 클릭하면 해당 위치로 이동합니다. Ctrl + 휠로 확대·축소합니다.</HD_Research_PanTip>
-  <HD_Research_Helod>헬로드</HD_Research_Helod>
+  <HD_Research_PanTip>빈 공간을 왼쪽 또는 가운데 마우스로 드래그해 이동합니다. 전체 배치를 클릭하면 해당 위치로 이동합니다. 휠로 확대·축소합니다.</HD_Research_PanTip>
+  <HD_Research_Helod>헤로드</HD_Research_Helod>
   <HD_Research_Vanilla>바닐라</HD_Research_Vanilla>
   <HD_Research_Completed>완료</HD_Research_Completed>
   <HD_Research_LinkNext>함께 완료 예정</HD_Research_LinkNext>
