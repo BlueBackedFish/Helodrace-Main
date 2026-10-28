@@ -14,13 +14,13 @@
 
 M2의 `PropAssets/m2_detail.json` 팔레트를 공통으로 읽는다. 총몸 상면 `(79,86,84)`과 벽 `(55,62,60)`, 직접 겹치는 급탄 덮개 상면 `(109,118,111)`과 벽 `(79,88,81)`을 구분한다. 총몸→덮개의 표시 명도 차이는 24 이상이다. 조준기·힌지·체결부·손잡이는 별도 역할색이며, 부품 ID 대응은 `paint_roles.json`에 명시했다. 원본 전체에 법선 Z나 월드 높이만으로 색을 지정하지 않는다.
 
-총열·소염기·원통 기구는 원주 측면 전체가 한 색이며, 축 방향 단차/끝면은 별도 색이다. 방열 덮개 외피와 구멍 내부는 M2처럼 구분한다. 안쪽 벽·홈은 별도 암색이다. 개머리판·손잡이 등의 검정 폴리머와 M2 급탄 슈트 고유색, FDE 프레임·탄통은 유지한다. 재질 색상만 바꾸며 이전 `103891d1`의 크기·형상·UV·배치·카메라·실루엣·윤곽선 두께를 보존한다.
+총열·소염기·원통 기구는 원주 측면 전체가 한 색이며, 축 방향 단차/끝면은 별도 색이다. 방열 덮개 외피와 구멍 내부는 구분하되, 안쪽 벽·홈의 색도 실제 부품 역할에 맞는 기존 팔레트에서 선택한다. 개머리판·손잡이 등의 검정 폴리머와 M2 급탄 슈트 고유색, FDE 프레임·탄통은 유지한다. 재질 색상만 바꾸며 이전 `103891d1`의 크기·형상·UV·배치·카메라·실루엣·윤곽선 두께를 보존한다.
 
 `paint.py`가 역할을 재질로 배정하며 각 무기의 `paint_validation.json`에 실제 면별 역할 사용 수를 기록한다. `validate_paint.py`는 수정 전 커밋과 모델·UV·카메라, PNG 알파를 비교하고 실제 출력에 M2의 총몸/덮개 색이 나타나는지 검사한다. `output/paint_comparison.png`는 같은 배율의 전후 비교다.
 
-M240B 방열구멍 보정에서는 전차 채색 규칙의 **안쪽 홈은 고정 암색, 바깥 원통 측면은 단색, 실제 출력의 인접 명도 차이 24 이상**을 적용했다. 구멍 너머 총열이 외피와 비슷한 `barrel_root`색이라 구멍이 메워져 보였던 원인을 수정했다. `paint_roles.json`의 `face_roles`는 원본 총열 원통을 이루는 16개 연결 면에 `recess (25,32,29)`를 배정한다. 이 원통의 덮개 앞뒤에 조금 드러나는 부분도 같은 암색이다. 구멍 벽은 축을 향한 법선뿐 아니라 구멍을 가로지르는 절단면까지 암색으로 분류한다. 외피 `(103,111,106)`, 총구 쪽 노출 총열, 총몸, 프레임은 유지한다. 조명/AO나 형상 변경은 사용하지 않는다.
+M240B 방열구멍은 전차 채색 지침 14절의 최신 보정에 따라 큰 명도 차이나 최소 대비 수치를 일괄 강제하지 않는다. 구멍 너머의 총열을 깊은 홈으로 취급했던 `recess (25,32,29)` 예외는 제거했다. `paint_roles.json`의 `face_roles`는 원본 총열 원통을 이루는 16개 연결 면에 노출 총열과 같은 `barrel_taper (65,74,70)`를 배정한다. 구멍의 절단 벽에도 같은 총열색을 사용한다. 연결된 원통 측면은 같은 색을 유지하며, 외피 `(103,111,106)`, 총구 쪽 노출 총열, 총몸, 프레임은 보존한다. 조명/AO나 형상 변경은 사용하지 않는다.
 
-`output/M240B/vent_comparison.png`는 실제 1024px 총열 PNG에서 같은 영역을 잘라 4배 최근접 확대한 전후 비교다. `vent_validation.json`에는 상부 10행×3열의 구멍 중심과 인접 외피를 실제 PNG에서 보간 샘플링한 명도 차이를 기록했다. 최솟값 약 56으로 기준 24를 통과했다. 이번 보정의 비교 기준은 `cd775c99`이며, 전체 30개 스프라이트의 알파와 다른 두 무기의 20개 PNG를 보존했다.
+`output/M240B/vent_comparison.png`는 실제 1024px 총열 PNG에서 같은 영역을 잘라 4배 최근접 확대한 전후 비교다. `vent_validation.json`에는 상부 10행×3열의 구멍 중심과 인접 외피를 실제 PNG에서 보간 샘플링한 명도 차이를 기록했다. 모든 구멍에서 이전보다 대비가 완화되고 외피와의 구분은 남는다. 수치의 최솟값을 스타일 승인 기준으로 삼지 않는다. 이번 보정의 비교 기준은 `987f81dc`이며, 전체 30개 스프라이트의 알파와 다른 두 무기의 20개 PNG를 보존했다.
 
 급탄 슈트는 원본 M2의 568면·576정점 메시와 UV·단색 `(48,56,52)`를 그대로 가져온다. 탄통 쪽 384개 정점은 고정하고 총몸 쪽 24개 링만 부드럽게 변형해 각 급탄구에 연결한다. 기존 탄통 출구 `(-0.51906625,-0.27242,0.85398)`를 유지하며, 마지막 링은 급탄구 안으로 0.004칸 겹친다. 단면의 앞뒤 폭은 Mk 19 140mm, M240B 86mm, M249 72mm 상당으로 맞춘다. 총몸에 가려지는 부분은 실제 3D 가림을 반영한다.
 
@@ -57,8 +57,8 @@ M240B 방열구멍 보정에서는 전차 채색 규칙의 **안쪽 홈은 고�
 & 'C:/Program Files/Blender Foundation/Blender 5.1/blender.exe' --background -t 6 --python-exit-code 1 --python ArtSource/CROWSII/Variants/build.py
 & 'C:/Program Files/Blender Foundation/Blender 5.1/blender.exe' --background -t 6 --python-exit-code 1 --python ArtSource/CROWSII/Variants/validate.py
 python ArtSource/CROWSII/Variants/package.py
-& 'C:/Program Files/Blender Foundation/Blender 5.1/blender.exe' --background -t 6 --python-exit-code 1 --python ArtSource/CROWSII/Variants/validate_paint.py -- cd775c99
-python ArtSource/CROWSII/Variants/validate_paint.py -- cd775c99
+& 'C:/Program Files/Blender Foundation/Blender 5.1/blender.exe' --background -t 6 --python-exit-code 1 --python ArtSource/CROWSII/Variants/validate_paint.py -- 987f81dc
+python ArtSource/CROWSII/Variants/validate_paint.py -- 987f81dc
 ```
 
 선택한 무기 형상·UV, 기존 프레임 보존, M2 대비 전장 비율, 슈트 양 끝 접속, 원본 슈트 UV·색 보존과 고정 재질을 검사하고 출력 크기로 확인한다. 게임 실행 검증은 하지 않았다.

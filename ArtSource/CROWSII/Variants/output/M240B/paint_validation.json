@@ -1,7 +1,7 @@
 {
   "face_counts": {
     "receiver_wall": 1650,
-    "recess": 4508,
+    "recess": 924,
     "receiver": 3321,
     "polymer": 1900,
     "polymer_top": 209,
@@ -11,7 +11,7 @@
     "handle": 610,
     "barrel_root": 464,
     "barrel_shoulder": 837,
-    "barrel_taper": 1410,
+    "barrel_taper": 4994,
     "muzzle": 376,
     "sleeve_outer": 3000,
     "sleeve_rim": 616
@@ -229,7 +229,7 @@
     "curved_walls": "single fixed color; recesses and axial caps are separate roles",
     "source_face_roles": {
       "M240B": {
-        "recess": [
+        "barrel_taper": [
           7356,
           7368,
           7384,

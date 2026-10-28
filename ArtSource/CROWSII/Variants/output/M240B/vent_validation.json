@@ -1,191 +1,197 @@
 {
   "passed": true,
-  "baseline": "cd775c99",
+  "baseline": "987f81dc",
   "actual_sprite": "HD_CROWSII_M240B_Barrel.png",
   "samples": [
     {
       "row": 0,
       "column": -0.09,
-      "before_gap": 6.256419695399771,
-      "after_gap": 81.45012394931686
+      "before_gap": 81.45012394931686,
+      "after_gap": 37.314931941096674
     },
     {
       "row": 0,
       "column": 0,
-      "before_gap": 7.151350301376965,
-      "after_gap": 103.20706863648009
+      "before_gap": 103.20706863648009,
+      "after_gap": 41.45069858205791
     },
     {
       "row": 0,
       "column": 0.09,
-      "before_gap": 6.200344897489515,
-      "after_gap": 82.13915215396153
+      "before_gap": 82.13915215396153,
+      "after_gap": 37.72912662235083
     },
     {
       "row": 1,
       "column": -0.09,
-      "before_gap": 6.384583383586559,
-      "after_gap": 76.51161361444247
+      "before_gap": 76.51161361444247,
+      "after_gap": 36.16571334499933
     },
     {
       "row": 1,
       "column": 0,
-      "before_gap": 7.681936687393559,
-      "after_gap": 89.63578087402111
+      "before_gap": 89.63578087402111,
+      "after_gap": 40.03222039880751
     },
     {
       "row": 1,
       "column": 0.09,
-      "before_gap": 6.34831865749689,
-      "after_gap": 75.15396215656332
+      "before_gap": 75.15396215656332,
+      "after_gap": 35.872619127874756
     },
     {
       "row": 2,
       "column": -0.09,
-      "before_gap": 6.166981254497458,
-      "after_gap": 70.40562788029722
+      "before_gap": 70.40562788029722,
+      "after_gap": 33.67668189473049
     },
     {
       "row": 2,
       "column": 0,
-      "before_gap": 7.222294158268056,
-      "after_gap": 82.15153796301496
+      "before_gap": 82.15153796301496,
+      "after_gap": 38.34279706929442
     },
     {
       "row": 2,
       "column": 0.09,
-      "before_gap": 6.166993218096167,
-      "after_gap": 72.17969256001977
+      "before_gap": 72.17969256001977,
+      "after_gap": 34.755344628310354
     },
     {
       "row": 3,
       "column": -0.09,
-      "before_gap": 6.24260395716891,
-      "after_gap": 69.19202066427505
+      "before_gap": 69.19202066427505,
+      "after_gap": 34.10295510477319
     },
     {
       "row": 3,
       "column": 0,
-      "before_gap": 7.338493730704599,
-      "after_gap": 78.94592181135818
+      "before_gap": 78.94592181135818,
+      "after_gap": 37.60540682192055
     },
     {
       "row": 3,
       "column": 0.09,
-      "before_gap": 6.2314167138089545,
-      "after_gap": 69.91108243173342
+      "before_gap": 69.91108243173342,
+      "after_gap": 33.7013512291297
     },
     {
       "row": 4,
       "column": -0.09,
-      "before_gap": 6.040794353155192,
-      "after_gap": 66.17136344236147
+      "before_gap": 66.17136344236147,
+      "after_gap": 32.431135968648874
     },
     {
       "row": 4,
       "column": 0,
-      "before_gap": 7.454683965492251,
-      "after_gap": 78.25387456034879
+      "before_gap": 78.25387456034879,
+      "after_gap": 36.534784758845916
     },
     {
       "row": 4,
       "column": 0.09,
-      "before_gap": 5.873276246316081,
-      "after_gap": 68.42500633936639
+      "before_gap": 68.42500633936639,
+      "after_gap": 33.182063347015
     },
     {
       "row": 5,
       "column": -0.09,
-      "before_gap": 5.5023324827412665,
-      "after_gap": 68.62071123524424
+      "before_gap": 68.62071123524424,
+      "after_gap": 32.426881615623884
     },
     {
       "row": 5,
       "column": 0,
-      "before_gap": 6.9025544837221275,
-      "after_gap": 84.24593037552364
+      "before_gap": 84.24593037552364,
+      "after_gap": 36.76939838992905
     },
     {
       "row": 5,
       "column": 0.09,
-      "before_gap": 5.937575430062694,
-      "after_gap": 70.72912158343301
+      "before_gap": 70.72912158343301,
+      "after_gap": 33.30221739782897
     },
     {
       "row": 6,
       "column": -0.09,
-      "before_gap": 6.237202597355733,
-      "after_gap": 76.10819609617519
+      "before_gap": 76.10819609617519,
+      "after_gap": 35.143408921991195
     },
     {
       "row": 6,
       "column": 0,
-      "before_gap": 6.832747228910762,
-      "after_gap": 91.16465213884659
+      "before_gap": 91.16465213884659,
+      "after_gap": 38.375855523727
     },
     {
       "row": 6,
       "column": 0.09,
-      "before_gap": 5.9788478735467265,
-      "after_gap": 76.76424626398365
+      "before_gap": 76.76424626398365,
+      "after_gap": 34.884859954987306
     },
     {
       "row": 7,
       "column": -0.09,
-      "before_gap": 6.275155930427616,
-      "after_gap": 79.11100884041858
+      "before_gap": 79.11100884041858,
+      "after_gap": 36.54452853860967
     },
     {
       "row": 7,
       "column": 0,
-      "before_gap": 7.452990022114733,
-      "after_gap": 98.5831330451412
+      "before_gap": 98.5831330451412,
+      "after_gap": 41.327493871393216
     },
     {
       "row": 7,
       "column": 0.09,
-      "before_gap": 6.2767769125351975,
-      "after_gap": 76.17634807502787
+      "before_gap": 76.17634807502787,
+      "after_gap": 36.569315336291595
     },
     {
       "row": 8,
       "column": -0.09,
-      "before_gap": 6.1005557751562804,
-      "after_gap": 71.25099564727196
+      "before_gap": 71.25099564727196,
+      "after_gap": 34.26743026223156
     },
     {
       "row": 8,
       "column": 0,
-      "before_gap": 8.58108058404892,
-      "after_gap": 88.40531903408746
+      "before_gap": 88.40531903408746,
+      "after_gap": 40.180235523570744
     },
     {
       "row": 8,
       "column": 0.09,
-      "before_gap": 6.441989750950185,
-      "after_gap": 69.92411710670208
+      "before_gap": 69.92411710670208,
+      "after_gap": 34.2464109823768
     },
     {
       "row": 9,
       "column": -0.09,
-      "before_gap": 2.6046162403336837,
-      "after_gap": 56.095163707164325
+      "before_gap": 56.095163707164325,
+      "after_gap": 25.916339820396104
     },
     {
       "row": 9,
       "column": 0,
-      "before_gap": 2.8820839932944153,
-      "after_gap": 67.2353021360252
+      "before_gap": 67.2353021360252,
+      "after_gap": 29.774708609379687
     },
     {
       "row": 9,
       "column": 0.09,
-      "before_gap": 1.9412278262171014,
-      "after_gap": 59.19088323142936
+      "before_gap": 59.19088323142936,
+      "after_gap": 26.302197283408688
     }
   ],
-  "minimum_luminance_gap": 56.095163707164325,
-  "required_gap": 24,
+  "minimum_luminance_gap": 25.916339820396104,
+  "uniform_contrast_threshold": false,
+  "interior_role": "barrel_taper",
+  "interior_rgb": [
+    65,
+    74,
+    70
+  ],
   "other_weapon_sprites_byte_identical": [
     "HD_CROWSII_M249_Barrel.png",
     "HD_CROWSII_M249_Body.png",

@@ -12,9 +12,8 @@ def role(kind,component,layer):
     return SETTINGS['default_barrel' if layer=='barrel' else 'default_body']
 
 def select(kind,component,layer,normal,center,lo,hi,source_face=None):
-    # The M240 tube is one long cylinder beneath the perforated cover. Paint
-    # the complete connected tube, including the small exposed ends, uniformly
-    # dark instead of using a height gradient or changing its original topology.
+    # Keep the M240 tube the same steel color as its exposed barrel. Being
+    # visible through an aperture does not turn a barrel surface into a recess.
     for name,faces in SETTINGS.get('face_roles',{}).get(kind,{}).items():
         if source_face in faces:return name
     part=role(kind,component,layer)
@@ -36,7 +35,7 @@ def select(kind,component,layer,normal,center,lo,hi,source_face=None):
     # Aperture cut walls point across the opening, not toward the weapon axis.
     # Testing only negative radial normals left these walls as light rim paint.
     if kind=='M240B' and part=='sleeve':
-        return 'recess' if radial<=.45 else 'sleeve_outer'
+        return 'barrel_taper' if radial<=.45 else 'sleeve_outer'
     if radial<-.4:return 'recess'
     if part=='sleeve':return 'sleeve_outer' if radial>.45 else 'sleeve_rim'
     return 'muzzle' if part=='muzzle' else 'barrel_root' if part=='barrel_root' else 'barrel_taper'

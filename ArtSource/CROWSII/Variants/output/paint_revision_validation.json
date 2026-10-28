@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "baseline": "cd775c99",
+  "baseline": "987f81dc",
   "models": {
     "MK19": {
       "geometry_uv_transform_sha256": "a507bebc6be4b2f33dd6c7fadf1187fb912b2d2ef208beed01334ed12c6ad65c",
@@ -406,7 +406,7 @@
     "curved_walls": "single fixed color; recesses and axial caps are separate roles",
     "source_face_roles": {
       "M240B": {
-        "recess": [
+        "barrel_taper": [
           7356,
           7368,
           7384,
