@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "baseline": "b6be0e99",
+  "other_weapon_sprites_byte_identical": [
+    "HD_CROWSII_M240B_Barrel.png",
+    "HD_CROWSII_M240B_Body.png",
+    "HD_CROWSII_M240B_east.png",
+    "HD_CROWSII_M240B_Feed.png",
+    "HD_CROWSII_M240B_Frame.png",
+    "HD_CROWSII_M240B_north.png",
+    "HD_CROWSII_M240B_south.png",
+    "HD_CROWSII_M240B_Top.png",
+    "HD_CROWSII_M240B_UI.png",
+    "HD_CROWSII_M240B_west.png",
+    "HD_CROWSII_M249_Barrel.png",
+    "HD_CROWSII_M249_Body.png",
+    "HD_CROWSII_M249_east.png",
+    "HD_CROWSII_M249_Feed.png",
+    "HD_CROWSII_M249_Frame.png",
+    "HD_CROWSII_M249_north.png",
+    "HD_CROWSII_M249_south.png",
+    "HD_CROWSII_M249_Top.png",
+    "HD_CROWSII_M249_UI.png",
+    "HD_CROWSII_M249_west.png"
+  ],
+  "source_geometry_uvs_cameras_and_pivots_unchanged": true,
+  "outline_alpha_unchanged": true,
+  "visual_review_canvases": [
+    256,
+    512
+  ],
+  "in_game_tested": false
+}

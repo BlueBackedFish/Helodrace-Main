@@ -22,6 +22,21 @@ M240B 방열구멍은 전차 채색 지침 14절의 최신 보정에 따라 큰 
 
 `output/M240B/vent_comparison.png`는 실제 1024px 총열 PNG에서 같은 영역을 잘라 4배 최근접 확대한 전후 비교다. `vent_validation.json`에는 상부 10행×3열의 구멍 중심과 인접 외피를 실제 PNG에서 보간 샘플링한 명도 차이를 기록했다. 모든 구멍에서 이전보다 대비가 완화되고 외피와의 구분은 남는다. 수치의 최솟값을 스타일 승인 기준으로 삼지 않는다. 이번 보정의 비교 기준은 `987f81dc`이며, 전체 30개 스프라이트의 알파와 다른 두 무기의 20개 PNG를 보존했다.
 
+### Mk 19 부품 구분 보정
+
+문제는 상부 덮개 경사면이 갑자기 벽색으로 바뀌고, 조준기·장전 손잡이·가이드 레일·급탄부 받침 등이 총몸색에 묻히는 것이었다. 원본 FBX의 연결 부품을 직접 색으로 식별한 뒤, 전차 지침 4·5·14절과 기존 M2 금속 팔레트로 부품별 역할을 확정했다. 형상을 새로 만들거나 같은 높이의 모든 부품에 일괄 명도 차이를 주지 않았다.
+
+`paint_roles.json`의 `surface_profiles.MK19`는 검수한 부품에만 다음 표면 규칙을 적용한다. 다른 두 무기의 표면 규칙은 유지한다.
+
+| 표면 유형 | 변경한 색 역할 |
+| --- | --- |
+| 넓게 꺾인 급탄 덮개 | 상면 `cover`, 경사면 `barrel_root`, 벽 `cover_wall`. 경사면에 중간색을 넣어 갑작스러운 어두운 조각을 완화 |
+| 총몸·측면 판·급탄부 받침 | 총몸 측면은 `barrel_taper`, 측면 판과 받침 상면은 `barrel_root`로 구분. 밑면을 깊은 홈색으로 칠하지 않음 |
+| 조준기·받침·가이드 레일·덮개 돌출부·뒷판 | 실제 연결 부품 ID별로 역할 분리. 조준기 상면과 받침, 레일과 아래 총몸을 기존 팔레트에서 구분 |
+| 장전 손잡이·총열·소염기 | 실제 원통 축을 기준으로 측면과 끝면을 구분. 장전 손잡이는 가로축 X, 총열은 세로축 Y. 총열과 소염기 측면은 모두 `(65,74,70)` |
+
+크기·원본 정점/면/UV·장착 위치·회전축·카메라·윤곽선·FDE 프레임·급탄 슈트·검정 손잡이를 보존했다. 비교 기준은 `b6be0e99`다. `output/MK19/paint_detail_comparison.png`는 동일 카메라의 상면/사선 전후 비교이고, `paint_scale_review.png`는 실제 256·512px 캔버스로 축소한 무기 부분이다. 축소 출력에서 조준기·덮개 경계·가이드 레일을 확인했다. 256px에서는 작은 체결부가 생략되어 보이며, 세부 확인은 512px가 필요하다. 형상과 부속 배치는 제공 모델을 유지하며 게임 실행 검증은 하지 않았다. 다른 두 무기의 20개 PNG와 전체 30개 PNG 알파 보존은 `revision_validation.json`, `output/paint_revision_validation.json`에 기록한다.
+
 급탄 슈트는 원본 M2의 568면·576정점 메시와 UV·단색 `(48,56,52)`를 그대로 가져온다. 탄통 쪽 384개 정점은 고정하고 총몸 쪽 24개 링만 부드럽게 변형해 각 급탄구에 연결한다. 기존 탄통 출구 `(-0.51906625,-0.27242,0.85398)`를 유지하며, 마지막 링은 급탄구 안으로 0.004칸 겹친다. 단면의 앞뒤 폭은 Mk 19 140mm, M240B 86mm, M249 72mm 상당으로 맞춘다. 총몸에 가려지는 부분은 실제 3D 가림을 반영한다.
 
 크기는 **현재 CROWS에 장착된 M2 메시를 직접 측정한 전장**을 기준으로 계산한다. M2 실물 전장 1.654m와 현재 메시 약 2.1421876칸의 비율을 사용하며, 가로·세로·높이에 동일한 배율을 적용해 총열 단면이나 원본 비율을 찌그러뜨리지 않는다. 이전 수동 기준값을 반복하지 않고 빌드할 때 M2 파일에서 다시 측정한다.
@@ -57,8 +72,8 @@ M240B 방열구멍은 전차 채색 지침 14절의 최신 보정에 따라 큰 
 & 'C:/Program Files/Blender Foundation/Blender 5.1/blender.exe' --background -t 6 --python-exit-code 1 --python ArtSource/CROWSII/Variants/build.py
 & 'C:/Program Files/Blender Foundation/Blender 5.1/blender.exe' --background -t 6 --python-exit-code 1 --python ArtSource/CROWSII/Variants/validate.py
 python ArtSource/CROWSII/Variants/package.py
-& 'C:/Program Files/Blender Foundation/Blender 5.1/blender.exe' --background -t 6 --python-exit-code 1 --python ArtSource/CROWSII/Variants/validate_paint.py -- 987f81dc
-python ArtSource/CROWSII/Variants/validate_paint.py -- 987f81dc
+& 'C:/Program Files/Blender Foundation/Blender 5.1/blender.exe' --background -t 6 --python-exit-code 1 --python ArtSource/CROWSII/Variants/validate_paint.py -- b6be0e99
+python ArtSource/CROWSII/Variants/validate_paint.py -- b6be0e99
 ```
 
 선택한 무기 형상·UV, 기존 프레임 보존, M2 대비 전장 비율, 슈트 양 끝 접속, 원본 슈트 UV·색 보존과 고정 재질을 검사하고 출력 크기로 확인한다. 게임 실행 검증은 하지 않았다.

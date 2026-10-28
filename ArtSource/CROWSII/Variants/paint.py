@@ -17,6 +17,19 @@ def select(kind,component,layer,normal,center,lo,hi,source_face=None):
     for name,faces in SETTINGS.get('face_roles',{}).get(kind,{}).items():
         if source_face in faces:return name
     part=role(kind,component,layer)
+    profile=SETTINGS.get('surface_profiles',{}).get(kind,{}).get(part)
+    if profile:
+        if 'axis' in profile:
+            axis='XYZ'.index(profile['axis']);cross=[i for i in range(3) if i!=axis]
+            delta=[center[i]-(lo[i]+hi[i])/2 for i in cross]
+            radial=sum(normal[i]*d for i,d in zip(cross,delta))/max(math.hypot(*delta),1e-9)
+            if radial<-.4:return profile['bore']
+            return profile['cap'] if abs(normal[axis])>.82 else profile['outer']
+        # Only reviewed plate components use this palette. Broad cover slopes
+        # get an intermediate steel color instead of abruptly becoming a wall.
+        if normal.z>.9:return profile['top']
+        if normal.z>.15:return profile.get('slope',profile['top'])
+        return profile['bottom'] if normal.z<-.65 else profile['wall']
     if part=='receiver':
         return 'receiver' if normal.z>.65 else 'recess' if normal.z<-.65 else 'receiver_wall'
     if part=='cover':
@@ -47,4 +60,5 @@ def report():
     return dict(palette_source=SETTINGS['palette'],palette=PALETTE,component_roles=SETTINGS['weapons'],
         receiver_cover_luminance_gap=gap,curved_walls='single fixed color; recesses and axial caps are separate roles',
         source_face_roles=SETTINGS.get('face_roles',{}),
+        surface_profiles=SETTINGS.get('surface_profiles',{}),
         global_height_ranking=False,lights=False,geometry_edits=False)

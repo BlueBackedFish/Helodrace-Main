@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "baseline": "987f81dc",
+  "baseline": "b6be0e99",
   "models": {
     "MK19": {
       "geometry_uv_transform_sha256": "a507bebc6be4b2f33dd6c7fadf1187fb912b2d2ef208beed01334ed12c6ad65c",
@@ -22,11 +22,11 @@
     },
     "HD_CROWSII_MK19_Body.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": true
+      "full_image_unchanged": false
     },
     "HD_CROWSII_MK19_Barrel.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": true
+      "full_image_unchanged": false
     },
     "HD_CROWSII_MK19_Feed.png": {
       "alpha_unchanged": true,
@@ -34,27 +34,27 @@
     },
     "HD_CROWSII_MK19_Top.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": true
+      "full_image_unchanged": false
     },
     "HD_CROWSII_MK19_north.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": true
+      "full_image_unchanged": false
     },
     "HD_CROWSII_MK19_east.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": true
+      "full_image_unchanged": false
     },
     "HD_CROWSII_MK19_south.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": true
+      "full_image_unchanged": false
     },
     "HD_CROWSII_MK19_west.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": true
+      "full_image_unchanged": false
     },
     "HD_CROWSII_MK19_UI.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": true
+      "full_image_unchanged": false
     },
     "HD_CROWSII_M240B_Frame.png": {
       "alpha_unchanged": true,
@@ -66,7 +66,7 @@
     },
     "HD_CROWSII_M240B_Barrel.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_M240B_Feed.png": {
       "alpha_unchanged": true,
@@ -74,27 +74,27 @@
     },
     "HD_CROWSII_M240B_Top.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_M240B_north.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_M240B_east.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_M240B_south.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_M240B_west.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_M240B_UI.png": {
       "alpha_unchanged": true,
-      "full_image_unchanged": false
+      "full_image_unchanged": true
     },
     "HD_CROWSII_M249_Frame.png": {
       "alpha_unchanged": true,
@@ -140,21 +140,21 @@
   "visible_palette_pixels": {
     "MK19": {
       "sleeve_outer": 0,
-      "sleeve_rim": 4,
+      "sleeve_rim": 2,
       "recess": 0,
-      "barrel_root": 0,
-      "barrel_shoulder": 0,
-      "barrel_taper": 0,
-      "muzzle": 6,
-      "receiver": 5573,
-      "receiver_wall": 261,
-      "cover": 8291,
-      "cover_wall": 174,
-      "sight": 0,
-      "fastener": 76,
-      "handle": 245,
+      "barrel_root": 1342,
+      "barrel_shoulder": 238,
+      "barrel_taper": 2327,
+      "muzzle": 102,
+      "receiver": 723,
+      "receiver_wall": 0,
+      "cover": 8526,
+      "cover_wall": 0,
+      "sight": 276,
+      "fastener": 165,
+      "handle": 753,
       "polymer": 0,
-      "polymer_top": 45
+      "polymer_top": 43
     },
     "M240B": {
       "sleeve_outer": 1,
@@ -282,7 +282,9 @@
         "receiver": [
           4742,
           7850,
-          2846
+          2846,
+          3416,
+          897
         ],
         "cover": [
           5540
@@ -294,20 +296,98 @@
         "muzzle": [
           5980
         ],
+        "barrel": [
+          5975
+        ],
         "polymer": [
           9405,
           9326
         ],
         "handle": [
           7556,
-          7613,
-          6258
+          7613
+        ],
+        "feed_support": [
+          3288,
+          3818
+        ],
+        "charging_handle": [
+          6085,
+          6385
+        ],
+        "guide_rail": [
+          7722,
+          5835,
+          9217,
+          9283
+        ],
+        "sight_base": [
+          4895,
+          6046,
+          9353,
+          9351
+        ],
+        "sight": [
+          9165,
+          5334,
+          2415,
+          2621,
+          7806,
+          2453,
+          6572
+        ],
+        "cover_ridge": [
+          7220,
+          5426
+        ],
+        "rear_plate": [
+          2502,
+          7036,
+          6994,
+          3524
         ],
         "fastener": [
           6724,
           6876,
           7766,
-          7781
+          7781,
+          6258,
+          6894,
+          2118,
+          776,
+          7134,
+          7132,
+          2648,
+          1724,
+          4223,
+          5888,
+          6306,
+          6127,
+          6968,
+          5420,
+          2601,
+          6416,
+          6439,
+          6601,
+          7100,
+          5307,
+          7121,
+          1651,
+          6897,
+          1408,
+          1532,
+          2381,
+          3469,
+          312,
+          5171,
+          2512,
+          5201,
+          5495,
+          7454,
+          3928,
+          3925,
+          6582,
+          1654
         ]
       },
       "M240B": {
@@ -424,6 +504,78 @@
           7397,
           7408
         ]
+      }
+    },
+    "surface_profiles": {
+      "MK19": {
+        "receiver": {
+          "top": "receiver",
+          "slope": "barrel_taper",
+          "wall": "barrel_taper",
+          "bottom": "receiver_wall"
+        },
+        "cover": {
+          "top": "cover",
+          "slope": "barrel_root",
+          "wall": "cover_wall",
+          "bottom": "barrel_taper"
+        },
+        "cover_wall": {
+          "top": "barrel_root",
+          "wall": "receiver",
+          "bottom": "barrel_taper"
+        },
+        "feed_support": {
+          "top": "barrel_root",
+          "slope": "handle",
+          "wall": "receiver",
+          "bottom": "barrel_taper"
+        },
+        "guide_rail": {
+          "top": "barrel_root",
+          "wall": "receiver",
+          "bottom": "barrel_taper"
+        },
+        "sight_base": {
+          "top": "barrel_root",
+          "wall": "receiver_wall",
+          "bottom": "barrel_taper"
+        },
+        "sight": {
+          "top": "sight",
+          "slope": "cover",
+          "wall": "handle",
+          "bottom": "barrel_taper"
+        },
+        "cover_ridge": {
+          "top": "barrel_shoulder",
+          "slope": "cover",
+          "wall": "handle",
+          "bottom": "receiver"
+        },
+        "rear_plate": {
+          "top": "barrel_root",
+          "wall": "receiver",
+          "bottom": "barrel_taper"
+        },
+        "charging_handle": {
+          "axis": "X",
+          "outer": "handle",
+          "cap": "fastener",
+          "bore": "receiver_wall"
+        },
+        "barrel": {
+          "axis": "Y",
+          "outer": "barrel_taper",
+          "cap": "barrel_root",
+          "bore": "receiver_wall"
+        },
+        "muzzle": {
+          "axis": "Y",
+          "outer": "barrel_taper",
+          "cap": "barrel_root",
+          "bore": "receiver_wall"
+        }
       }
     },
     "global_height_ranking": false,

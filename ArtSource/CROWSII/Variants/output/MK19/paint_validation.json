@@ -1,17 +1,17 @@
 {
   "face_counts": {
-    "receiver": 2671,
-    "cover_wall": 418,
-    "cover": 71,
-    "recess": 205,
-    "receiver_wall": 354,
-    "fastener": 644,
+    "fastener": 1702,
+    "receiver": 1165,
+    "barrel_root": 402,
+    "cover": 155,
+    "cover_wall": 39,
+    "barrel_taper": 974,
+    "receiver_wall": 157,
+    "handle": 573,
+    "barrel_shoulder": 12,
     "polymer": 272,
     "polymer_top": 48,
-    "handle": 396,
-    "barrel_taper": 256,
-    "barrel_shoulder": 60,
-    "muzzle": 148
+    "sight": 44
   },
   "rules": {
     "palette_source": "../../PropAssets/m2_detail.json",
@@ -102,7 +102,9 @@
         "receiver": [
           4742,
           7850,
-          2846
+          2846,
+          3416,
+          897
         ],
         "cover": [
           5540
@@ -114,20 +116,98 @@
         "muzzle": [
           5980
         ],
+        "barrel": [
+          5975
+        ],
         "polymer": [
           9405,
           9326
         ],
         "handle": [
           7556,
-          7613,
-          6258
+          7613
+        ],
+        "feed_support": [
+          3288,
+          3818
+        ],
+        "charging_handle": [
+          6085,
+          6385
+        ],
+        "guide_rail": [
+          7722,
+          5835,
+          9217,
+          9283
+        ],
+        "sight_base": [
+          4895,
+          6046,
+          9353,
+          9351
+        ],
+        "sight": [
+          9165,
+          5334,
+          2415,
+          2621,
+          7806,
+          2453,
+          6572
+        ],
+        "cover_ridge": [
+          7220,
+          5426
+        ],
+        "rear_plate": [
+          2502,
+          7036,
+          6994,
+          3524
         ],
         "fastener": [
           6724,
           6876,
           7766,
-          7781
+          7781,
+          6258,
+          6894,
+          2118,
+          776,
+          7134,
+          7132,
+          2648,
+          1724,
+          4223,
+          5888,
+          6306,
+          6127,
+          6968,
+          5420,
+          2601,
+          6416,
+          6439,
+          6601,
+          7100,
+          5307,
+          7121,
+          1651,
+          6897,
+          1408,
+          1532,
+          2381,
+          3469,
+          312,
+          5171,
+          2512,
+          5201,
+          5495,
+          7454,
+          3928,
+          3925,
+          6582,
+          1654
         ]
       },
       "M240B": {
@@ -224,6 +304,100 @@
     },
     "receiver_cover_luminance_gap": 31.213799999999992,
     "curved_walls": "single fixed color; recesses and axial caps are separate roles",
+    "source_face_roles": {
+      "M240B": {
+        "barrel_taper": [
+          7356,
+          7368,
+          7384,
+          7385,
+          7386,
+          7388,
+          7389,
+          7390,
+          7391,
+          7392,
+          7393,
+          7394,
+          7395,
+          7396,
+          7397,
+          7408
+        ]
+      }
+    },
+    "surface_profiles": {
+      "MK19": {
+        "receiver": {
+          "top": "receiver",
+          "slope": "barrel_taper",
+          "wall": "barrel_taper",
+          "bottom": "receiver_wall"
+        },
+        "cover": {
+          "top": "cover",
+          "slope": "barrel_root",
+          "wall": "cover_wall",
+          "bottom": "barrel_taper"
+        },
+        "cover_wall": {
+          "top": "barrel_root",
+          "wall": "receiver",
+          "bottom": "barrel_taper"
+        },
+        "feed_support": {
+          "top": "barrel_root",
+          "slope": "handle",
+          "wall": "receiver",
+          "bottom": "barrel_taper"
+        },
+        "guide_rail": {
+          "top": "barrel_root",
+          "wall": "receiver",
+          "bottom": "barrel_taper"
+        },
+        "sight_base": {
+          "top": "barrel_root",
+          "wall": "receiver_wall",
+          "bottom": "barrel_taper"
+        },
+        "sight": {
+          "top": "sight",
+          "slope": "cover",
+          "wall": "handle",
+          "bottom": "barrel_taper"
+        },
+        "cover_ridge": {
+          "top": "barrel_shoulder",
+          "slope": "cover",
+          "wall": "handle",
+          "bottom": "receiver"
+        },
+        "rear_plate": {
+          "top": "barrel_root",
+          "wall": "receiver",
+          "bottom": "barrel_taper"
+        },
+        "charging_handle": {
+          "axis": "X",
+          "outer": "handle",
+          "cap": "fastener",
+          "bore": "receiver_wall"
+        },
+        "barrel": {
+          "axis": "Y",
+          "outer": "barrel_taper",
+          "cap": "barrel_root",
+          "bore": "receiver_wall"
+        },
+        "muzzle": {
+          "axis": "Y",
+          "outer": "barrel_taper",
+          "cap": "barrel_root",
+          "bore": "receiver_wall"
+        }
+      }
+    },
     "global_height_ranking": false,
     "lights": false,
     "geometry_edits": false
