@@ -284,6 +284,16 @@ def export(out,stem,footprint,features,blend_name=None):
         dz=draw_offset/math.cos(math.radians(64));target.z+=dz
         for c in cameras:c.location.z+=dz
     for c in cameras:c.data.ortho_scale=scale
+    graphic_offset=draw_offset;tabletop_anchor=None
+    anchor_mesh=scene.objects.get(scene.get('tabletop_anchor_mesh',''))
+    if anchor_mesh is not None:
+        anchor_points=[anchor_mesh.matrix_world@v.co for v in anchor_mesh.data.vertices]
+        tabletop_anchor=Vector(((min(p.x for p in anchor_points)+max(p.x for p in anchor_points))/2,
+                               (min(p.y for p in anchor_points)+max(p.y for p in anchor_points))/2,
+                               max(p.z for p in anchor_points)))
+        offsets=[-(tabletop_anchor-target).dot(c.rotation_euler.to_quaternion()@Vector((0,1,0))) for c in cameras]
+        assert max(offsets)-min(offsets)<1e-5,'Tabletop requires directional registration'
+        graphic_offset=offsets[0]
     scene.render.engine='BLENDER_EEVEE';scene.render.film_transparent=True
     scene.render.resolution_x=scene.render.resolution_y=resolution;scene.render.resolution_percentage=100
     scene.render.image_settings.file_format='PNG';scene.render.image_settings.color_mode='RGBA'
@@ -370,7 +380,8 @@ def export(out,stem,footprint,features,blend_name=None):
                    'presentation_rule':bpy.context.scene.get('presentation_rule','auto_fit'),
                    'ground_anchor':[0.,0.,0.] if calibrated else [float(v) for v in target],
                    'camera_target':[float(v) for v in target],
-                   'expected_draw_offset':[0.,0.,draw_offset],
+                   'expected_draw_offset':[0.,0.,graphic_offset],
+                   'tabletop_anchor':list(tabletop_anchor) if tabletop_anchor is not None else None,
                    'cameras':checks,'in_game_tested':False,
                    'building_theme_version':bpy.context.scene.get('building_theme_version',0),
                    'building_theme_family':bpy.context.scene.get('building_theme_family','authored'),

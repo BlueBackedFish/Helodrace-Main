@@ -60,9 +60,9 @@ namespace Verse
     public class ThingDef { public GraphicData graphicData=new GraphicData(); public BuildingProperties building=new BuildingProperties(); }
     public class BuildingProperties { public float turretTopDrawSize=3.2f; }
     public class GraphicData { public Vector2 drawSize; }
-    public class Graphic { public string Path="original desk"; }
+    public class Graphic { public string Path="original desk"; public GraphicData data; }
     public class Graphic_Multi:Graphic { }
-    public static class GraphicDatabase { public static T Get<T>(string path,object shader,Vector2 size,Color color) where T:Graphic,new()=>new T{Path=path}; }
+    public static class GraphicDatabase { public static T Get<T>(string path,object shader,Vector2 size,Color color,Color colorTwo,GraphicData data) where T:Graphic,new()=>new T{Path=path,data=data}; }
     public static class ShaderDatabase { public static object Cutout=new object(); }
     public static class MaterialPool { public static Material MatFrom(string p,object s)=>new Material{Path=p}; }
     public static class MeshPool { public static object plane10=new object(); }

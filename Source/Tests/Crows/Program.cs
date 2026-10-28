@@ -27,6 +27,7 @@ internal static class Program
         console.Connect(turret);
         Check(console.Connected && turret.Computer == console, "Connection is not reciprocal.");
         Check(console.Graphic.Path.Contains("CROWSController"), "Controller not displayed after linking.");
+        Check(console.Graphic.data==console.def.graphicData,"Linked computer lost its directional draw offsets.");
         Check(!turret.AttackVerb.Available(), "Linked but unmanned CROWS can fire.");
         var pawn = new Pawn { Map = map, Faction = Faction.OfPlayer, Position = console.InteractionCell };
         map.AtControls.Add(pawn);

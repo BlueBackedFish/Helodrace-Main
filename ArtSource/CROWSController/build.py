@@ -73,5 +73,7 @@ ui=m.camera('Controller_UI',-90,64,.75,target=(-.79,-.22,1.00));m.render(OUT/'co
 for o in desk+addon:o.hide_render=False
 scene.camera=cameras['north'];m.save(OUT/'controller_desk.blend')
 metadata=dict(source_desk=str(SOURCE),source_desk_sha256=hashlib.sha256(SOURCE.read_bytes()).hexdigest(),desk_meshes=len(before),controller_meshes=len(addon),controller_anchor=[-.79,-.30,.79],device_bounds=[list(map(min,zip(*[tuple(v) for v in device_points]))),list(map(max,zip(*[tuple(v) for v in device_points])))],source_desk_geometry_preserved=True,source_desk_materials_preserved=True,keyboard_mouse_and_cables_preserved=True,master_resolution=1024,native_resolution=512,draw_size=[3,3],footprint=[2,1],projection=64,outline_pixels=12,parts=[dict(name=o.name,part=o['addon_part']) for o in addon],reference='https://www.army.mil/article/181552/weapon_system_moves_reserve_gunners_to_the_safety_of_the_backseat',gameplay_definition_added=False)
+metadata['draw_offset']=json.loads(SOURCE.with_name('metadata.json').read_text())['draw_offset']
+metadata['presentation_anchor']='desktop top face center'
 (OUT/'metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
 print('CROWS_CONTROLLER_MODEL_PASS: modular display, control grip and data cable; original desk geometry, keyboard/mouse and camera registration retained')

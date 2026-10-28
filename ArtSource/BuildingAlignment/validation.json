@@ -1,0 +1,197 @@
+{
+  "passed": true,
+  "anchor": "top face center of desktop",
+  "models_and_textures_unchanged": true,
+  "assets": {
+    "computer": {
+      "def_name": "HD_CrowsComputer",
+      "draw_offset": [
+        0.0,
+        0.0,
+        -0.346313238
+      ],
+      "views": {
+        "Camera_north": {
+          "tabletop_center_error_tiles": [
+            0.0,
+            1.4392087521741814e-10
+          ]
+        },
+        "Camera_east": {
+          "tabletop_center_error_tiles": [
+            3.5762786865234375e-07,
+            1.4392087521741814e-10
+          ]
+        },
+        "Camera_south": {
+          "tabletop_center_error_tiles": [
+            3.5762786865234375e-07,
+            -5.362978821032982e-07
+          ]
+        },
+        "Camera_west": {
+          "tabletop_center_error_tiles": [
+            -3.5762786865234375e-07,
+            1.4392087521741814e-10
+          ]
+        }
+      }
+    },
+    "controller": {
+      "def_name": "HD_CrowsComputer",
+      "draw_offset": [
+        0.0,
+        0.0,
+        -0.346313238
+      ],
+      "views": {
+        "Camera_west": {
+          "tabletop_center_error_tiles": [
+            -3.5762786865234375e-07,
+            1.4392087521741814e-10
+          ]
+        },
+        "Camera_south": {
+          "tabletop_center_error_tiles": [
+            3.5762786865234375e-07,
+            -5.362978821032982e-07
+          ]
+        },
+        "Camera_north": {
+          "tabletop_center_error_tiles": [
+            0.0,
+            1.4392087521741814e-10
+          ]
+        },
+        "Camera_east": {
+          "tabletop_center_error_tiles": [
+            3.5762786865234375e-07,
+            1.4392087521741814e-10
+          ]
+        }
+      }
+    },
+    "radio": {
+      "def_name": "HD_Radio",
+      "draw_offset": [
+        0.0,
+        0.0,
+        -0.074457139
+      ],
+      "views": {
+        "Camera_North": {
+          "tabletop_center_error_tiles": [
+            0.0,
+            -2.2322083070847043e-10
+          ]
+        },
+        "Camera_East": {
+          "tabletop_center_error_tiles": [
+            3.5762786865234375e-07,
+            -2.2322083070847043e-10
+          ]
+        },
+        "Camera_South": {
+          "tabletop_center_error_tiles": [
+            3.5762786865234375e-07,
+            -4.4725805664613816e-07
+          ]
+        },
+        "Camera_West": {
+          "tabletop_center_error_tiles": [
+            -3.5762786865234375e-07,
+            -2.2322083070847043e-10
+          ]
+        }
+      }
+    },
+    "gunsmith": {
+      "def_name": "HD_GunSmithTable",
+      "draw_offset": [
+        0.0,
+        0.0,
+        -0.416452646
+      ],
+      "views": {
+        "Camera_North": {
+          "tabletop_center_error_tiles": [
+            0.0,
+            2.554931821663331e-10
+          ]
+        },
+        "Camera_East": {
+          "tabletop_center_error_tiles": [
+            2.682209014892578e-07,
+            2.554931821663331e-10
+          ]
+        },
+        "Camera_South": {
+          "tabletop_center_error_tiles": [
+            2.682209014892578e-07,
+            -5.361863097963493e-07
+          ]
+        },
+        "Camera_West": {
+          "tabletop_center_error_tiles": [
+            -4.023313522338867e-07,
+            2.554931821663331e-10
+          ]
+        }
+      }
+    },
+    "clothing": {
+      "def_name": "HD_ClothingBench",
+      "draw_offset": [
+        0.0,
+        0.0,
+        -0.416452646
+      ],
+      "views": {
+        "Camera_North": {
+          "tabletop_center_error_tiles": [
+            0.0,
+            2.554931821663331e-10
+          ]
+        },
+        "Camera_East": {
+          "tabletop_center_error_tiles": [
+            2.682209014892578e-07,
+            2.554931821663331e-10
+          ]
+        },
+        "Camera_South": {
+          "tabletop_center_error_tiles": [
+            2.682209014892578e-07,
+            -5.361863097963493e-07
+          ]
+        },
+        "Camera_West": {
+          "tabletop_center_error_tiles": [
+            -4.023313522338867e-07,
+            2.554931821663331e-10
+          ]
+        }
+      }
+    },
+    "basic_workbench": {
+      "def_name": "HD_BasicWorkbench",
+      "already_centered": true,
+      "maximum_error_tiles": 0.01,
+      "changed": false
+    },
+    "telegraph": {
+      "def_name": "HD_TelegraphTable",
+      "draw_offset": [
+        0.0,
+        0.0,
+        -0.01953125
+      ],
+      "anchor_pixels": [
+        256,
+        251
+      ],
+      "west_uses_mirrored_east": true
+    }
+  },
+  "in_game_tested": false
+}

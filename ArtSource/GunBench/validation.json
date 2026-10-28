@@ -34,9 +34,9 @@
     0.0
   ],
   "expected_draw_offset": [
-    0.0,
-    0.0,
-    0.0
+    0,
+    0,
+    -0.416452646
   ],
   "cameras": {
     "North": {
@@ -65,5 +65,10 @@
   "density_export_geometry_palette_sha256": "7b0272ace7cfc2ef4810fd5a76a8b937455cf5bb7dd7980ed217b85fb96c57a1",
   "rotation_export_geometry_palette_sha256": "7b0272ace7cfc2ef4810fd5a76a8b937455cf5bb7dd7980ed217b85fb96c57a1",
   "definition": "Defs/WildWest/Buildings/Industry_WildWest.xml",
-  "gameplay_fields_preserved_sha256": "47e908f0bb77fac04d5b32d17382eb827caa38afac0288445d5b2fe234676175"
+  "gameplay_fields_preserved_sha256": "47e908f0bb77fac04d5b32d17382eb827caa38afac0288445d5b2fe234676175",
+  "tabletop_anchor": [
+    0.0,
+    0.0,
+    0.949999988079071
+  ]
 }

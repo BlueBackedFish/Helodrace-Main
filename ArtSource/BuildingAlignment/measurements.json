@@ -1,0 +1,302 @@
+{
+  "computer": {
+    "source": "ComputerDesk/output/computer_desk.blend",
+    "tabletop": "Desk tabletop",
+    "anchor": [
+      0.0,
+      0.0,
+      0.7900000214576721
+    ],
+    "draw_size": 3,
+    "views": {
+      "Camera_north": {
+        "anchor_uv": [
+          0.5,
+          0.6154377460479736
+        ],
+        "draw_offset": [
+          0.0,
+          0,
+          -0.3463132381439209
+        ],
+        "camera_scale": 3.0
+      },
+      "Camera_east": {
+        "anchor_uv": [
+          0.5000001192092896,
+          0.6154377460479736
+        ],
+        "draw_offset": [
+          -3.5762786865234375e-07,
+          0,
+          -0.3463132381439209
+        ],
+        "camera_scale": 3.0
+      },
+      "Camera_south": {
+        "anchor_uv": [
+          0.5000001192092896,
+          0.6154375672340393
+        ],
+        "draw_offset": [
+          -3.5762786865234375e-07,
+          0,
+          -0.3463127017021179
+        ],
+        "camera_scale": 3.0
+      },
+      "Camera_west": {
+        "anchor_uv": [
+          0.49999988079071045,
+          0.6154377460479736
+        ],
+        "draw_offset": [
+          3.5762786865234375e-07,
+          0,
+          -0.3463132381439209
+        ],
+        "camera_scale": 3.0
+      }
+    }
+  },
+  "controller": {
+    "source": "CROWSController/output/controller_desk.blend",
+    "tabletop": "Desk tabletop",
+    "anchor": [
+      0.0,
+      0.0,
+      0.7900000214576721
+    ],
+    "draw_size": 3,
+    "views": {
+      "Camera_west": {
+        "anchor_uv": [
+          0.49999988079071045,
+          0.6154377460479736
+        ],
+        "draw_offset": [
+          3.5762786865234375e-07,
+          0,
+          -0.3463132381439209
+        ],
+        "camera_scale": 3.0
+      },
+      "Camera_south": {
+        "anchor_uv": [
+          0.5000001192092896,
+          0.6154375672340393
+        ],
+        "draw_offset": [
+          -3.5762786865234375e-07,
+          0,
+          -0.3463127017021179
+        ],
+        "camera_scale": 3.0
+      },
+      "Camera_north": {
+        "anchor_uv": [
+          0.5,
+          0.6154377460479736
+        ],
+        "draw_offset": [
+          0.0,
+          0,
+          -0.3463132381439209
+        ],
+        "camera_scale": 3.0
+      },
+      "Camera_east": {
+        "anchor_uv": [
+          0.5000001192092896,
+          0.6154377460479736
+        ],
+        "draw_offset": [
+          -3.5762786865234375e-07,
+          0,
+          -0.3463132381439209
+        ],
+        "camera_scale": 3.0
+      }
+    }
+  },
+  "radio": {
+    "source": "CollinsRadioDesk/collins_radio_desk.blend",
+    "tabletop": "Desk_top",
+    "anchor": [
+      0.0,
+      0.0,
+      0.5224999785423279
+    ],
+    "draw_size": 1.5,
+    "views": {
+      "Camera_North": {
+        "anchor_uv": [
+          0.5,
+          0.5496380925178528
+        ],
+        "draw_offset": [
+          0.0,
+          0,
+          -0.07445713877677917
+        ],
+        "camera_scale": 1.5
+      },
+      "Camera_East": {
+        "anchor_uv": [
+          0.5000002384185791,
+          0.5496380925178528
+        ],
+        "draw_offset": [
+          -3.5762786865234375e-07,
+          0,
+          -0.07445713877677917
+        ],
+        "camera_scale": 1.5
+      },
+      "Camera_South": {
+        "anchor_uv": [
+          0.5000002384185791,
+          0.5496377944946289
+        ],
+        "draw_offset": [
+          -3.5762786865234375e-07,
+          0,
+          -0.07445669174194336
+        ],
+        "camera_scale": 1.5
+      },
+      "Camera_West": {
+        "anchor_uv": [
+          0.4999997615814209,
+          0.5496380925178528
+        ],
+        "draw_offset": [
+          3.5762786865234375e-07,
+          0,
+          -0.07445713877677917
+        ],
+        "camera_scale": 1.5
+      }
+    }
+  },
+  "gunsmith": {
+    "source": "GunBench/gun_bench.blend",
+    "tabletop": "01_Worktop",
+    "anchor": [
+      0.0,
+      0.0,
+      0.949999988079071
+    ],
+    "draw_size": 4.5,
+    "views": {
+      "Camera_North": {
+        "anchor_uv": [
+          0.5,
+          0.5925450325012207
+        ],
+        "draw_offset": [
+          0.0,
+          0,
+          -0.41645264625549316
+        ],
+        "camera_scale": 4.5
+      },
+      "Camera_East": {
+        "anchor_uv": [
+          0.5000000596046448,
+          0.5925450325012207
+        ],
+        "draw_offset": [
+          -2.682209014892578e-07,
+          0,
+          -0.41645264625549316
+        ],
+        "camera_scale": 4.5
+      },
+      "Camera_South": {
+        "anchor_uv": [
+          0.5000000596046448,
+          0.5925449132919312
+        ],
+        "draw_offset": [
+          -2.682209014892578e-07,
+          0,
+          -0.4164521098136902
+        ],
+        "camera_scale": 4.5
+      },
+      "Camera_West": {
+        "anchor_uv": [
+          0.49999991059303284,
+          0.5925450325012207
+        ],
+        "draw_offset": [
+          4.023313522338867e-07,
+          0,
+          -0.41645264625549316
+        ],
+        "camera_scale": 4.5
+      }
+    }
+  },
+  "clothing": {
+    "source": "ClothingBench/clothing_bench.blend",
+    "tabletop": "01_Worktable",
+    "anchor": [
+      0.0,
+      0.0,
+      0.949999988079071
+    ],
+    "draw_size": 4.5,
+    "views": {
+      "Camera_North": {
+        "anchor_uv": [
+          0.5,
+          0.5925450325012207
+        ],
+        "draw_offset": [
+          0.0,
+          0,
+          -0.41645264625549316
+        ],
+        "camera_scale": 4.5
+      },
+      "Camera_East": {
+        "anchor_uv": [
+          0.5000000596046448,
+          0.5925450325012207
+        ],
+        "draw_offset": [
+          -2.682209014892578e-07,
+          0,
+          -0.41645264625549316
+        ],
+        "camera_scale": 4.5
+      },
+      "Camera_South": {
+        "anchor_uv": [
+          0.5000000596046448,
+          0.5925449132919312
+        ],
+        "draw_offset": [
+          -2.682209014892578e-07,
+          0,
+          -0.4164521098136902
+        ],
+        "camera_scale": 4.5
+      },
+      "Camera_West": {
+        "anchor_uv": [
+          0.49999991059303284,
+          0.5925450325012207
+        ],
+        "draw_offset": [
+          4.023313522338867e-07,
+          0,
+          -0.41645264625549316
+        ],
+        "camera_scale": 4.5
+      }
+    }
+  }
+}

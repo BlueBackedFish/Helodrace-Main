@@ -308,7 +308,13 @@
       }
     ],
     "reference": "https://www.army.mil/article/181552/weapon_system_moves_reserve_gunners_to_the_safety_of_the_backseat",
-    "gameplay_definition_added": false
+    "gameplay_definition_added": false,
+    "draw_offset": [
+      0,
+      0,
+      -0.346313238
+    ],
+    "presentation_anchor": "desktop top face center"
   },
   "transparent": true,
   "registered_overlay_canvas": [

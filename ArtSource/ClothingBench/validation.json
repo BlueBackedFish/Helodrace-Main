@@ -34,9 +34,9 @@
     0.0
   ],
   "expected_draw_offset": [
-    0.0,
-    0.0,
-    0.0
+    0,
+    0,
+    -0.416452646
   ],
   "cameras": {
     "North": {
@@ -65,5 +65,10 @@
   "density_export_geometry_palette_sha256": "c2d0d5c978f2ba161f965f03516ee8b0b502ba964e706ad4c55e8a8283571cce",
   "rotation_export_geometry_palette_sha256": "c2d0d5c978f2ba161f965f03516ee8b0b502ba964e706ad4c55e8a8283571cce",
   "definition": "Defs/WildWest/Buildings/ClothingBench.xml",
-  "gameplay_fields_preserved_sha256": "4924efa66b6714e6b7bab8bf54ec063323059adbca3b2cd3183db8000fc0d0fa"
+  "gameplay_fields_preserved_sha256": "4924efa66b6714e6b7bab8bf54ec063323059adbca3b2cd3183db8000fc0d0fa",
+  "tabletop_anchor": [
+    0.0,
+    0.0,
+    0.949999988079071
+  ]
 }

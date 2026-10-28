@@ -76,7 +76,7 @@ namespace Helodrace
         public override Graphic Graphic => Connected
             ? controllerGraphic ?? (controllerGraphic = GraphicDatabase.Get<Graphic_Multi>(
                 "Buildings/ComputerDesk/CROWSController/HD_ComputerDesk_CROWS", ShaderDatabase.Cutout,
-                def.graphicData.drawSize, Color.white))
+                def.graphicData.drawSize, Color.white, Color.white, def.graphicData))
             : base.Graphic;
 
         public Pawn Operator

@@ -8,9 +8,9 @@
     <graphicData>
       <texPath>Buildings/HD_Radio</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <!-- 256px per footprint tile; camera headroom is compensated by drawOffset. -->
+      <!-- Compensate camera headroom and center the desktop surface. -->
       <drawSize>(1.5,1.5)</drawSize>
-      <drawOffset>(0,0,0.154591769)</drawOffset>
+      <drawOffset>(0,0,-0.074457139)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
     </graphicData>
     <size>(1,1)</size>

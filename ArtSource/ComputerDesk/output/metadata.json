@@ -12,7 +12,7 @@
   "draw_offset": [
     0,
     0,
-    0
+    -0.346313238
   ],
   "outline_pixels": 12,
   "downward_camera_degrees": 64,
@@ -144,5 +144,6 @@
     "Mouse USB cable"
   ],
   "monitor_graphics": false,
-  "gameplay_definition_added": false
+  "gameplay_definition_added": false,
+  "presentation_anchor": "desktop top face center"
 }

@@ -19,6 +19,7 @@ ASSETS += [('HD_LineShaftPress','LargeIndustrialPress','large_industrial_press.b
  ('HD_Radio','CollinsRadioDesk','collins_radio_desk.blend',True)]
 ALIASES={'HD_LineShaftPress':'HD_LineShaftHydraulicPress','HD_RollingMC':'HD_LineShaftRollingMachine'}
 FIXED={'HD_Radio','HD_ClothingBench','HD_GunSmithTable'}
+TABLETOP_MESHES={'HD_Radio':'Desk_top','HD_ClothingBench':'01_Worktable','HD_GunSmithTable':'01_Worktop'}
 
 def normalize(entry):
     stem,folder,blend,active=entry;path=os.path.join(ROOT,'ArtSource',folder)
@@ -46,6 +47,7 @@ def normalize(entry):
     for data in list(bpy.data.cameras):
         if not data.users:bpy.data.cameras.remove(data)
     s.scene=bpy.context.scene;s.scene['outline_pixels']=12;s.scene['north_azimuth']=north
+    if stem in TABLETOP_MESHES:s.scene['tabletop_anchor_mesh']=TABLETOP_MESHES[stem]
     s.scene['presentation_rule']='one_model_unit_per_game_tile'
     # Older source scenes predate explicit tint metadata. Preserve their broad
     # neutral-metal selection and baked colored parts; benches/radio stay untinted.

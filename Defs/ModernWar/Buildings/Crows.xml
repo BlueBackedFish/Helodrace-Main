@@ -10,6 +10,8 @@
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>Cutout</shaderType>
       <drawSize>(3,3)</drawSize>
+      <!-- Center the desktop surface, including the connected controller variant. -->
+      <drawOffset>(0,0,-0.346313238)</drawOffset>
     </graphicData>
     <drawerType>RealtimeOnly</drawerType>
     <size>(2,1)</size>

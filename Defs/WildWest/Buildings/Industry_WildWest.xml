@@ -1633,7 +1633,7 @@
       <texPath>Buildings/HD_GunSmithTable</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(4.5,4.5)</drawSize>
-      <drawOffset>(0,0,0)</drawOffset>
+      <drawOffset>(0,0,-0.416452646)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
         <volume>(2.2, 0.5, 0.8)</volume>
@@ -1706,6 +1706,7 @@
       <texPath>Buildings/HD_TelegraphTable</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(2,2)</drawSize>
+      <drawOffset>(0,0,-0.01953125)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
     </graphicData>
     <altitudeLayer>Building</altitudeLayer>

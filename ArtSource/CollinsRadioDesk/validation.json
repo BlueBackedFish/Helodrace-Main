@@ -64,14 +64,19 @@
     0.3526504337787628
   ],
   "expected_draw_offset": [
-    0.0,
-    0.0,
-    0.15459176898002625
+    0,
+    0,
+    -0.074457139
   ],
   "in_game_tested": false,
   "density_export_preserves_geometry_and_palette": true,
   "density_export_geometry_palette_sha256": "31f0d0f2b6f6943577e34802f49c50e38d17eb8a0f566ba0a90abc2fbc890b9c",
   "rotation_export_geometry_palette_sha256": "31f0d0f2b6f6943577e34802f49c50e38d17eb8a0f566ba0a90abc2fbc890b9c",
   "definition": "Defs/WildWest/Buildings/Radio.xml",
-  "gameplay_fields_preserved_sha256": "f44caa487d9102a0b03f997d6e4cbdd8079324e4d959d9d518e1665ff0e3d1eb"
+  "gameplay_fields_preserved_sha256": "f44caa487d9102a0b03f997d6e4cbdd8079324e4d959d9d518e1665ff0e3d1eb",
+  "tabletop_anchor": [
+    0.0,
+    0.0,
+    0.5224999785423279
+  ]
 }

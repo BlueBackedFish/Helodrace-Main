@@ -53,6 +53,6 @@ m.save(OUT/'computer_desk.blend')
 meshes=[o for o in scene.objects if o.type=='MESH'];assert all(o.data.vertices and o.data.polygons for o in meshes)
 assert len([o for o in meshes if o.name.startswith('Keyboard key')])==56
 assert len([o for o in meshes if o.name.startswith('Thick ')])==4
-metadata=dict(footprint=[2,1],native_resolution=512,master_resolution=1024,draw_size=[3,3],draw_offset=[0,0,0],outline_pixels=12,downward_camera_degrees=64,projection='orthographic',working_side='-Y; north image shows operating faces',meshes=len(meshes),features=['blank monitor','desktop tower','keyboard','wired mouse','four thick cables','peripheral cables','rear power strip','table'],mesh_names=[o.name for o in meshes],monitor_graphics=False,gameplay_definition_added=False)
+metadata=dict(footprint=[2,1],native_resolution=512,master_resolution=1024,draw_size=[3,3],draw_offset=[0,0,-.79*math.cos(math.radians(64))],presentation_anchor='desktop top face center',outline_pixels=12,downward_camera_degrees=64,projection='orthographic',working_side='-Y; north image shows operating faces',meshes=len(meshes),features=['blank monitor','desktop tower','keyboard','wired mouse','four thick cables','peripheral cables','rear power strip','table'],mesh_names=[o.name for o in meshes],monitor_graphics=False,gameplay_definition_added=False)
 (OUT/'metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
 print('COMPUTER_DESK_MODEL_PASS',flush=True)
