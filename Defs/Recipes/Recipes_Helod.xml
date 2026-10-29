@@ -2887,7 +2887,7 @@
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
     <unfinishedThingDef>UnfinishedGun</unfinishedThingDef>
-    <researchPrerequisite>HelodLowAutomaticRifle</researchPrerequisite>
+    <researchPrerequisite>HelodBasicModernRifle</researchPrerequisite>
     <ingredients>
       <li><filter><thingDefs><li>HD_WildWestBarrel</li></thingDefs></filter><count>1</count></li>
       <li><filter><thingDefs><li>HD_GeneralMachinePart</li></thingDefs></filter><count>6</count></li>

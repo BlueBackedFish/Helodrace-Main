@@ -84,6 +84,8 @@ namespace Helodrace.ResearchWorkspaceSmoke
         private bool panCaptured;
         private int selectionStep, selectionDraw;
         private Vector2 selectionScroll;
+        private static readonly string[] Screens = { "queue", "parts", "or", "flow-30-percent", "pan", "synthetic-chemistry",
+            "low-velocity-grenades", "advanced-ammunition", "remote-weapon-control" };
         public void Update()
         {
             if (!GenCommandLine.TryGetCommandLineArg("hdResearchUiSmoke", out output) || Time.realtimeSinceStartup < heartbeat) return;
@@ -121,11 +123,11 @@ namespace Helodrace.ResearchWorkspaceSmoke
                 ResearchQueue.Current.Add(DefDatabase<ResearchProjectDef>.GetNamed("HelodHighAutomaticRifle"));
                 stage = 0; Configure();
             }
-            if (stage >= 6) return;
+            if (stage >= Screens.Length) return;
             if (Bootstrap.Draws - startedDraw < 3) return;
             if (wait++ == 0)
             {
-                string name = new[] { "queue", "parts", "or", "flow-30-percent", "pan", "synthetic-chemistry" }[stage];
+                string name = Screens[stage];
                 ScreenCapture.CaptureScreenshot(Path.Combine(output, name + ".png"));
                 File.AppendAllText(Path.Combine(output, "checks.txt"), name + ": canvas drawn; goals="
                     + ResearchQueue.Current.Goals.Count + "; parts=" + ResearchWorkspaceData.PartsFor(window.CurTab == null ? null
@@ -143,10 +145,11 @@ namespace Helodrace.ResearchWorkspaceSmoke
             }
             if (wait < 12) return;
             stage++; wait = 0;
-            if (stage < 6) Configure();
+            if (stage < Screens.Length) Configure();
             else
             {
-                File.AppendAllText(Path.Combine(output, "checks.txt"), ValidateFlow() + "\nPASS: six native canvas panels rendered\n");
+                File.AppendAllText(Path.Combine(output, "checks.txt"), ValidateFlow() + "\n" + ValidateContent()
+                    + "\nPASS: nine native canvas panels rendered\n");
                 Application.Quit();
             }
         }
@@ -194,15 +197,17 @@ namespace Helodrace.ResearchWorkspaceSmoke
                         && Math.Abs(pair.Value.y - other.Value.y) > 0.1f) return "FAIL: authored branch lane lost";
                 }
             var localSections = (System.Collections.IList)AccessTools.Field(typeof(ResearchWorkspaceView), "sections").GetValue(view);
-            if (localSections.Count != 30) return "FAIL: missing local sections";
+            int expectedSections = DefDatabase<HelodResearchSectionDef>.AllDefsListForReading.Count;
+            int expectedNodes = DefDatabase<ResearchProjectDef>.AllDefsListForReading.Count(ResearchWorkspaceData.IsHelod);
+            if (localSections.Count != expectedSections) return "FAIL: missing local sections";
             if (Bootstrap.RouteBuilds != 1) return "FAIL: zoom or selection rebuilt stable route geometry";
             var collapsed = (HashSet<string>)AccessTools.Field(typeof(ResearchWorkspaceView), "collapsed").GetValue(view);
             collapsed.Add("HD_ResearchSection_SyntheticChemistry");
             AccessTools.Method(typeof(ResearchWorkspaceView), "Build").Invoke(view, null);
-            if (nodes.Count != 58 || Bootstrap.RouteBuilds != 1) return "FAIL: folding did not hide its six nodes or rerouted the graph";
+            if (nodes.Count != expectedNodes - 6 || Bootstrap.RouteBuilds != 1) return "FAIL: folding did not hide its six nodes or rerouted the graph";
             collapsed.Remove("HD_ResearchSection_SyntheticChemistry");
             AccessTools.Method(typeof(ResearchWorkspaceView), "Build").Invoke(view, null);
-            if (nodes.Count != 64 || Bootstrap.RouteBuilds != 1) return "FAIL: unfolding did not restore its nodes from cached geometry";
+            if (nodes.Count != expectedNodes || Bootstrap.RouteBuilds != 1) return "FAIL: unfolding did not restore its nodes from cached geometry";
             File.AppendAllText(Path.Combine(output, "checks.txt"), "PASS: zoom, selection and section folding reuse one route layout\n");
             for (int i = 0; i < localSections.Count; i++)
             {
@@ -230,14 +235,16 @@ namespace Helodrace.ResearchWorkspaceSmoke
                         (List<ResearchLine>)AccessTools.Field(type, "Lines").GetValue(b)))
                         return "FAIL: unrelated routes share a bend or trunk: " + AccessTools.Field(type, "Key").GetValue(a) + " / " + AccessTools.Field(type, "Key").GetValue(b);
                 }
-            return "PASS: " + nodes.Count + " nodes; " + routes.Count + " complete routes preserve authored lanes and 30 local sections, advance right, avoid nodes and separate unrelated bends/trunks";
+            return "PASS: " + nodes.Count + " nodes; " + routes.Count + " complete routes preserve authored lanes and " + localSections.Count + " local sections, advance right, avoid nodes and separate unrelated bends/trunks";
         }
         private void Configure()
         {
-            var project = DefDatabase<ResearchProjectDef>.GetNamed(stage == 1 ? "HelodHighAutomaticRifle" : stage == 5 ? "HelodTotalSynthesisMedicine" : "HelodNumericalControl");
+            var project = DefDatabase<ResearchProjectDef>.GetNamed(stage == 6 ? "HelodLowVelocityGrenades"
+                : stage == 7 ? "HelodAdvancedAmmunition" : stage == 8 ? "HelodRemoteWeaponControl"
+                : stage == 1 ? "HelodHighAutomaticRifle" : stage == 5 ? "HelodTotalSynthesisMedicine" : "HelodNumericalControl");
             window.Select(project);
             var view = ResearchWorkspaceView.For(window);
-            AccessTools.Field(typeof(ResearchWorkspaceView), "page").SetValue(view, Mathf.Min(2, stage));
+            AccessTools.Field(typeof(ResearchWorkspaceView), "page").SetValue(view, stage == 7 ? 1 : stage >= 6 ? 0 : Mathf.Min(2, stage));
             if (stage >= 3)
             {
                 AccessTools.Method(typeof(ResearchWorkspaceView), "SetZoom").Invoke(view,
@@ -246,6 +253,22 @@ namespace Helodrace.ResearchWorkspaceSmoke
             }
             startedDraw = Bootstrap.Draws;
             if (stage > 0 && stage != 3) AccessTools.Method(typeof(ResearchWorkspaceView), "Focus").Invoke(view, new object[] { project });
+        }
+        private string ValidateContent()
+        {
+            foreach (string item in new[] { "HD_40mmM651CS_Round", "HD_40mmSponge_Round", "HD_ModularPart_GPNVG18_Part" })
+            {
+                var recipe = DefDatabase<RecipeDef>.AllDefsListForReading.FirstOrDefault(r =>
+                    r.products?.Any(p => p.thingDef.defName == item) == true);
+                if (recipe == null) return "FAIL: generated recipe missing for " + item;
+                var gates = new HashSet<string>((recipe.researchPrerequisites ?? new List<ResearchProjectDef>()).Select(p => p.defName));
+                if (recipe.researchPrerequisite != null) gates.Add(recipe.researchPrerequisite.defName);
+                string platform = item == "HD_ModularPart_GPNVG18_Part" ? "HelodPASGT" : "HelodLowVelocityGrenades";
+                string special = item == "HD_40mmM651CS_Round" ? "HelodLessLethalChemical"
+                    : item == "HD_40mmSponge_Round" ? "HelodLessLethalLowRanged" : "HelodAdvancedWeaponOptics";
+                if (!gates.Contains(platform) || !gates.Contains(special)) return "FAIL: native recipe lost a combined research condition for " + item;
+            }
+            return "PASS: native recipe generation preserves both platform and specialized research conditions";
         }
     }
 }

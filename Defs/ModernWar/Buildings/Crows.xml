@@ -27,7 +27,7 @@
     <uiOrder>2580</uiOrder>
     <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
-    <researchPrerequisites><li>HelodTransistor</li></researchPrerequisites>
+    <researchPrerequisites><li>HelodRemoteWeaponControl</li></researchPrerequisites>
     <statBases>
       <MaxHitPoints>160</MaxHitPoints>
       <WorkToBuild>4000</WorkToBuild>
@@ -79,7 +79,7 @@
     <uiOrder>2581</uiOrder>
     <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
-    <researchPrerequisites><li>HelodTransistor</li><li>HelodHighMachineGun</li></researchPrerequisites>
+    <researchPrerequisites><li>HelodRemoteWeaponControl</li></researchPrerequisites>
     <statBases>
       <MaxHitPoints>300</MaxHitPoints>
       <WorkToBuild>4700</WorkToBuild>

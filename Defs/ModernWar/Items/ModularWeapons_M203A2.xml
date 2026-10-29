@@ -8,7 +8,7 @@
     <graphicData><texPath>Weapons/Modular/Tactical/HD_UB_M203A2</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
       <isWeaponSubassembly>true</isWeaponSubassembly>
-      <craftCost><Steel>8</Steel><ComponentIndustrial>2</ComponentIndustrial></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <craftCost><Steel>8</Steel><ComponentIndustrial>2</ComponentIndustrial></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li><li>HelodLowVelocityGrenades</li></requiredResearch>
       <graphicLayer>1</graphicLayer><internalStats><massKg>1.4</massKg><momentOfInertia>0.015</momentOfInertia><aimSpeed>-6.5</aimSpeed></internalStats>
       <mounts>
         <li><id>urx_lower_mount</id><socketTags><li>hac_urx_lower</li></socketTags><transform><position>(-0.013,0,-0.014)</position></transform></li>
@@ -29,11 +29,11 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_UnderbarrelBarrel_M203A2_Part</defName><label>M203A2 launcher barrel</label>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_UB_M203A2_Barrel</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>2</graphicLayer><mounts><li><id>barrel_mount</id><socketTags><li>m203a2_barrel</li></socketTags><transform><position>(0.11,0,-0.05)</position></transform></li></mounts></li></comps>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li><li>HelodLowVelocityGrenades</li></requiredResearch><graphicLayer>2</graphicLayer><mounts><li><id>barrel_mount</id><socketTags><li>m203a2_barrel</li></socketTags><transform><position>(0.11,0,-0.05)</position></transform></li></mounts></li></comps>
   </ThingDef>
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_UnderbarrelTrigger_M203A2_Part</defName><label>M203A2 launcher trigger</label>
     <graphicData><texPath>Weapons/Modular/Actions/HD_UB_M203A2_Trigger</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>1</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>3</graphicLayer><mounts><li><id>trigger_mount</id><socketTags><li>m203a2_trigger</li></socketTags><transform><position>(-0.02,0,-0.07)</position></transform></li></mounts></li></comps>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>1</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li><li>HelodLowVelocityGrenades</li></requiredResearch><graphicLayer>3</graphicLayer><mounts><li><id>trigger_mount</id><socketTags><li>m203a2_trigger</li></socketTags><transform><position>(-0.02,0,-0.07)</position></transform></li></mounts></li></comps>
   </ThingDef>
 </Defs>

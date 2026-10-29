@@ -24,10 +24,12 @@
   <HD_ResearchSection_ServiceInfantry.label>제식소총·방호</HD_ResearchSection_ServiceInfantry.label>
   <HD_ResearchSection_AntiAir.label>대공 화력</HD_ResearchSection_AntiAir.label>
   <HD_ResearchSection_Semiconductor.label>반도체·자동화</HD_ResearchSection_Semiconductor.label>
-  <HD_ResearchSection_ColdGrenades.label>냉전 수류탄</HD_ResearchSection_ColdGrenades.label>
+  <HD_ResearchSection_GrenadeLaunchers.label>저속 유탄</HD_ResearchSection_GrenadeLaunchers.label>
   <HD_ResearchSection_SpecialOperations.label>치안·특수전</HD_ResearchSection_SpecialOperations.label>
   <HD_ResearchSection_GuidanceComms.label>유도·전술통신</HD_ResearchSection_GuidanceComms.label>
   <HD_ResearchSection_ModernGrenades.label>현대 수류탄</HD_ResearchSection_ModernGrenades.label>
   <HD_ResearchSection_RifleSights.label>현대 화기·조준</HD_ResearchSection_RifleSights.label>
   <HD_ResearchSection_IntegratedMachining.label>복합가공</HD_ResearchSection_IntegratedMachining.label>
+  <HD_ResearchSection_AdvancedAmmunition.label>후기 탄약</HD_ResearchSection_AdvancedAmmunition.label>
+  <HD_ResearchSection_RemoteControl.label>원격 화기 통제</HD_ResearchSection_RemoteControl.label>
 </LanguageData>

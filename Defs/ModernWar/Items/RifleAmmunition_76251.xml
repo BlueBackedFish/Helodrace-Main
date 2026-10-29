@@ -101,7 +101,7 @@
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M993</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
-      <requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <requiredResearch><li>HelodAdvancedAmmunition</li></requiredResearch>
       <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
       <ammunitionType>7.62 M993 (AP)</ammunitionType>
       <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
@@ -120,7 +120,7 @@
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M1158</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
-      <requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <requiredResearch><li>HelodAdvancedAmmunition</li></requiredResearch>
       <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
       <ammunitionType>7.62 M1158 (ADVAP)</ammunitionType>
       <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
@@ -139,7 +139,7 @@
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251MK316</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
-      <requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <requiredResearch><li>HelodAdvancedAmmunition</li></requiredResearch>
       <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
       <ammunitionType>7.62 MK316 (MATCH)</ammunitionType>
       <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
@@ -158,7 +158,7 @@
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251MK319</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
-      <requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <requiredResearch><li>HelodAdvancedAmmunition</li></requiredResearch>
       <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
       <ammunitionType>7.62 MK319 (OTM)</ammunitionType>
       <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>

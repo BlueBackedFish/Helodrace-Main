@@ -13,7 +13,7 @@
         <socketId>magazine</socketId>
         <mountId>magazine_mount</mountId>
         <children>
-          <li><part>HD_ModularPart_Ammunition_M249_M855A1_Part</part><socketId>ammunition</socketId><mountId>ammunition_mount</mountId></li>
+          <li><part>HD_Ammunition_556M855_Ammo</part><socketId>ammunition</socketId><mountId>belt_ammunition_mount</mountId></li>
         </children>
       </li>
       <li>

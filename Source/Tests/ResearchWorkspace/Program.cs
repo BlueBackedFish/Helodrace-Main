@@ -8,7 +8,7 @@ using Helodrace.ResearchUI;
 using RimWorld;
 using Verse;
 
-internal static class Program
+internal static partial class Program
 {
     private static int checks;
     private static void Check(bool value, string message) { checks++; if (!value) throw new Exception(message); }
@@ -25,7 +25,7 @@ internal static class Program
     }
     private static void Main()
     {
-        PlansAndQueue(); SaveQueue(); Geometry(); FlowAndRouting(); RouteFamilies(); DefinitionsAndPreviews(); Compatibility();
+        ContentDefinitions(); PlansAndQueue(); SaveQueue(); Geometry(); FlowAndRouting(); RouteFamilies(); DefinitionsAndPreviews(); Compatibility();
         Console.WriteLine("PASS: " + checks + " research workspace checks.");
     }
     private static void PlansAndQueue()
@@ -253,7 +253,7 @@ internal static class Program
             foreach (var line in lines) Check(!boxes.Values.Any(b => b.Blocks(line.A, line.B)), "Separated routes still avoid all research nodes");
             router.Reserve(lines, edge.Item1, edge.Item2); routed.Add(Tuple.Create(edge.Item1, edge.Item2, lines));
         }
-        Check(routed.Count == 99, "All 99 real connections remain present with separated tracks");
+        Check(routed.Count == projects.Values.Sum(p => p.prerequisites.Count), "Every real connection remains present with separated tracks");
     }
     private static void DefinitionsAndPreviews()
     {
@@ -261,23 +261,27 @@ internal static class Program
             .ToDictionary(p => (string)p.Element("defName"));
         var sections = XDocument.Load("Defs/Research/ResearchSections_Helod.xml").Root.Elements().ToList();
         var members = sections.SelectMany(s => s.Element("projects").Elements("li")).Select(e => e.Value).ToList();
-        Check(sections.Count == 30 && members.Count == race.Count && members.Distinct().Count() == race.Count,
+        Check(sections.Count == 32 && members.Count == race.Count && members.Distinct().Count() == race.Count,
             "Every race project belongs to exactly one local section");
         Check(members.All(race.ContainsKey), "No unresolved section membership");
         Check(sections.Select(s => (int)s.Element("order")).SequenceEqual(Enumerable.Range(0, sections.Count)),
             "Local section menu order is stable");
         var reference = XDocument.Load("Source/Tests/ResearchWorkspace/ReferenceLayout_20261027_1737.xml").Root.Elements("Project")
             .ToDictionary(e => (string)e.Attribute("defName"));
-        Check(reference.Count == 65 && race.Count == 64 && !race.ContainsKey("HelodMiniMotor"),
+        Check(reference.Count == 65 && race.Count == 66 && !race.ContainsKey("HelodMiniMotor") && !race.ContainsKey("HelodColdWarGrenades"),
             "Reference captures the pre-17:59 layout without reviving the merged motor research");
         var authored = new Dictionary<string, ResearchCell>();
         var chemistry = new HashSet<string> { "HelodTotalSynthesisMedicine", "HelodFirstAid", "HelodChokingAgent",
             "HelodHaberBosch", "HelodBlisterAgent", "HelodHighExplosive" };
         foreach (var pair in race)
         {
-            Check((float)pair.Value.Element("researchViewX") == (float)reference[pair.Key].Attribute("x")
-                && Math.Abs((float)pair.Value.Element("researchViewY") - ((float)reference[pair.Key].Attribute("y") + (chemistry.Contains(pair.Key) ? 8 : 0))) < 0.001f,
-                "Original columns and lanes are preserved except the requested chemistry translation: " + pair.Key);
+            if (reference.TryGetValue(pair.Key, out var original))
+                Check((float)pair.Value.Element("researchViewX") == (float)original.Attribute("x")
+                    && Math.Abs((float)pair.Value.Element("researchViewY") - ((float)original.Attribute("y") + (chemistry.Contains(pair.Key) ? 8 : 0))) < 0.001f,
+                    "Existing columns and lanes retain the reference arrangement: " + pair.Key);
+            else
+                Check(new[] { "HelodLowVelocityGrenades", "HelodAdvancedAmmunition", "HelodRemoteWeaponControl" }.Contains(pair.Key),
+                    "Only the requested applications extend the authored reference layout");
             authored[pair.Key] = new ResearchCell((int)(float)pair.Value.Element("researchViewX"),
                 (int)Math.Round((float)pair.Value.Element("researchViewY") / 0.8f));
         }

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Defs/Research/ResearchProjects_Helod.xml -->
   <HelodFrontierSpirit.label>개척정신</HelodFrontierSpirit.label>
@@ -163,8 +163,6 @@
   <HelodLowHeadSet.label>듣고 들려라</HelodLowHeadSet.label>
   <HelodLowHeadSet.description>기초 전술 헤드셋을 연구합니다.</HelodLowHeadSet.description>
 
-  <HelodColdWarGrenades.label>냉전기 수류탄</HelodColdWarGrenades.label>
-  <HelodColdWarGrenades.description>표준화된 신관과 파편 몸체를 사용하는 냉전기 수류탄을 연구합니다.</HelodColdWarGrenades.description>
 
   <HelodModernDiversionaryGrenades.label>현대식 섬광탄</HelodModernDiversionaryGrenades.label>
   <HelodModernDiversionaryGrenades.description>섬광과 폭음으로 표적을 혼란시키는 비살상 수류탄을 연구합니다.</HelodModernDiversionaryGrenades.description>

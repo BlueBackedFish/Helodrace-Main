@@ -28,7 +28,7 @@
         <mountId>magazine_mount</mountId>
         <children>
           <li>
-            <part>HD_Ammunition_556M855A1_Ammo</part>
+            <part>HD_Ammunition_556M855_Ammo</part>
             <socketId>ammunition</socketId>
             <mountId>ammunition_mount</mountId>
           </li>

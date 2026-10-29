@@ -32,7 +32,7 @@
     <recipeMaker>
       <workSkill>Crafting</workSkill>
       <skillRequirements><Crafting>8</Crafting></skillRequirements>
-      <researchPrerequisite>FlakArmor</researchPrerequisite>
+      <researchPrerequisite>HelodPASGT</researchPrerequisite>
       <recipeUsers><li>TableMachining</li></recipeUsers>
     </recipeMaker>
   </ThingDef>

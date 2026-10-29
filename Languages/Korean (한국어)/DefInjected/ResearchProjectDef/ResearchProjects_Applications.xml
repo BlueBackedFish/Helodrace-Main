@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HelodLowVelocityGrenades.label>한 발의 포병</HelodLowVelocityGrenades.label>
+  <HelodLowVelocityGrenades.description>휴대형 유탄발사기와 40×46mm 저속 유탄을 연구합니다. 화학탄과 비살상탄에는 해당 제압 기술도 필요합니다.</HelodLowVelocityGrenades.description>
+  <HelodAdvancedAmmunition.label>탄두 속의 공학</HelodAdvancedAmmunition.label>
+  <HelodAdvancedAmmunition.description>제식 탄약에서 나아가 개량 관통탄, 철갑탄과 특수 정밀탄을 연구합니다.</HelodAdvancedAmmunition.description>
+  <HelodRemoteWeaponControl.label>방아쇠 너머의 손</HelodRemoteWeaponControl.label>
+  <HelodRemoteWeaponControl.description>전용 통제 단말과 조준 장치, 동력 구동 거치대를 연결해 엄폐된 위치에서 화기를 운용하는 기술을 연구합니다.</HelodRemoteWeaponControl.description>
+</LanguageData>

@@ -54,7 +54,7 @@
         <mountId>magazine_mount</mountId>
         <children>
           <li><part>HD_ModularPart_MagazineExt_StanagGrip</part><socketId>floorplate</socketId><mountId>floorplate_mount</mountId></li>
-          <li><part>HD_Ammunition_556M855A1_Ammo</part><socketId>ammunition</socketId><mountId>ammunition_mount</mountId></li>
+          <li><part>HD_Ammunition_556M855_Ammo</part><socketId>ammunition</socketId><mountId>ammunition_mount</mountId></li>
         </children>
       </li>
       <li><part>HD_ModularPart_Trigger_AR15_Part</part><socketId>trigger</socketId><mountId>trigger_mount</mountId></li>

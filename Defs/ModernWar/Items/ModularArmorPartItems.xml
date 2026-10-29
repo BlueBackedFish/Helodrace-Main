@@ -30,7 +30,7 @@
     <recipeMaker>
       <workSkill>Crafting</workSkill>
       <skillRequirements><Crafting>6</Crafting></skillRequirements>
-      <researchPrerequisite>FlakArmor</researchPrerequisite>
+      <researchPrerequisite>HelodPASGT</researchPrerequisite>
       <recipeUsers><li>TableMachining</li></recipeUsers>
     </recipeMaker>
   </ThingDef>
@@ -46,6 +46,7 @@
     </graphicData>
     <statBases><MarketValue>1800</MarketValue><Mass>0.76</Mass><WorkToMake>18000</WorkToMake></statBases>
     <costList><Plasteel>18</Plasteel><ComponentIndustrial>6</ComponentIndustrial><ComponentSpacer>1</ComponentSpacer></costList>
+    <recipeMaker><researchPrerequisites><li>HelodAdvancedWeaponOptics</li></researchPrerequisites></recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">

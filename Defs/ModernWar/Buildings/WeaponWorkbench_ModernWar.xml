@@ -22,7 +22,7 @@
     <thingCategories><li>Manufactured</li></thingCategories>
     <costList><Steel>45</Steel><ComponentIndustrial>2</ComponentIndustrial></costList>
     <recipeMaker>
-      <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
+      <researchPrerequisite>HelodSamiAutomaticPistol</researchPrerequisite>
       <workSkill>Crafting</workSkill>
       <skillRequirements><Crafting>4</Crafting></skillRequirements>
       <recipeUsers><li>HD_GunSmithTable</li></recipeUsers>

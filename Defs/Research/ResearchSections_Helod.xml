@@ -244,12 +244,12 @@
     </projects>
   </Helodrace.ResearchUI.HelodResearchSectionDef>
   <Helodrace.ResearchUI.HelodResearchSectionDef>
-    <defName>HD_ResearchSection_ColdGrenades</defName>
-    <label>Cold War grenades</label>
+    <defName>HD_ResearchSection_GrenadeLaunchers</defName>
+    <label>Low-velocity grenade launchers</label>
     <order>24</order>
     <color>(0.70, 0.50, 0.40)</color>
     <projects>
-      <li>HelodColdWarGrenades</li>
+      <li>HelodLowVelocityGrenades</li>
     </projects>
   </Helodrace.ResearchUI.HelodResearchSectionDef>
   <Helodrace.ResearchUI.HelodResearchSectionDef>
@@ -303,5 +303,19 @@
     <projects>
       <li>HelodMultiTaskMachining</li>
     </projects>
+  </Helodrace.ResearchUI.HelodResearchSectionDef>
+  <Helodrace.ResearchUI.HelodResearchSectionDef>
+    <defName>HD_ResearchSection_AdvancedAmmunition</defName>
+    <label>Advanced ammunition</label>
+    <order>30</order>
+    <color>(0.70, 0.50, 0.40)</color>
+    <projects><li>HelodAdvancedAmmunition</li></projects>
+  </Helodrace.ResearchUI.HelodResearchSectionDef>
+  <Helodrace.ResearchUI.HelodResearchSectionDef>
+    <defName>HD_ResearchSection_RemoteControl</defName>
+    <label>Remote weapon control</label>
+    <order>31</order>
+    <color>(0.36, 0.66, 0.76)</color>
+    <projects><li>HelodRemoteWeaponControl</li></projects>
   </Helodrace.ResearchUI.HelodResearchSectionDef>
 </Defs>

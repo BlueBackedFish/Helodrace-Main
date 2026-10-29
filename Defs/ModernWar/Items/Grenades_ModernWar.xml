@@ -46,7 +46,7 @@
     <graphicData>
       <texPath>Weapons/ModernWar/HD_M67</texPath>
     </graphicData>
-    <recipeMaker><researchPrerequisite>HelodColdWarGrenades</researchPrerequisite></recipeMaker>
+    <recipeMaker><researchPrerequisite>HelodColdWarTech</researchPrerequisite></recipeMaker>
     <verbs Inherit="False">
       <li>
         <label>throw M67 grenade</label>

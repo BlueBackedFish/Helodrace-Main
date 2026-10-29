@@ -153,6 +153,7 @@
       </defaultOutfitTags>
     </apparel>
     <recipeMaker>
+      <researchPrerequisite>HelodPASGT</researchPrerequisite>
       <workSkill>Crafting</workSkill>
       <skillRequirements>
         <Crafting>8</Crafting>
@@ -166,9 +167,6 @@
       <Plasteel>40</Plasteel>
       <ComponentIndustrial>3</ComponentIndustrial>
     </costList>
-    <researchPrerequisites>
-      <li>FlakArmor</li>
-    </researchPrerequisites>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularArmor">
         <armorTags><li>HD_IOTVGen4</li></armorTags>
@@ -379,12 +377,12 @@
       <defaultOutfitTags><li>Soldier</li></defaultOutfitTags>
     </apparel>
     <recipeMaker>
+      <researchPrerequisite>HelodPASGT</researchPrerequisite>
       <workSkill>Crafting</workSkill>
       <skillRequirements><Crafting>5</Crafting></skillRequirements>
       <recipeUsers><li>ElectricTailoringBench</li></recipeUsers>
     </recipeMaker>
     <costList><Cloth>30</Cloth><Steel>10</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
-    <researchPrerequisites><li>FlakArmor</li></researchPrerequisites>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularArmor">
         <armorTags><li>HD_MOLLEBattleBelt</li></armorTags>

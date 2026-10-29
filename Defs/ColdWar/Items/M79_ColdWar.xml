@@ -21,7 +21,7 @@
     </statBases>
     <thingCategories><li>HD_40x46mmLowVelocityAmmo</li></thingCategories>
     <recipeMaker>
-      <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
+      <researchPrerequisite>HelodLowVelocityGrenades</researchPrerequisite>
       <recipeUsers><li>TableMachining</li></recipeUsers>
       <skillRequirements><Crafting>4</Crafting></skillRequirements>
     </recipeMaker>
@@ -65,6 +65,7 @@
     <graphicData><texPath>Weapons/ColdWar/Ammo/40mmLow/HD_40MMLowM651CS</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.55,0.55)</drawSize></graphicData>
     <statBases><MarketValue>28</MarketValue></statBases>
     <costList><Steel>4</Steel></costList>
+    <recipeMaker><researchPrerequisites><li>HelodLessLethalChemical</li></researchPrerequisites></recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_M79AmmoBase">
@@ -75,6 +76,7 @@
     <graphicData><texPath>Weapons/ColdWar/Ammo/40mmLow/HD_40MMLowSponge</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.55,0.55)</drawSize></graphicData>
     <statBases><MarketValue>18</MarketValue><Mass>0.18</Mass></statBases>
     <costList><Steel>1</Steel><Cloth>3</Cloth></costList>
+    <recipeMaker><researchPrerequisites><li>HelodLessLethalLowRanged</li></researchPrerequisites></recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
@@ -241,7 +243,7 @@
       <AccuracyTouch>0.34</AccuracyTouch><AccuracyShort>0.66</AccuracyShort><AccuracyMedium>0.60</AccuracyMedium><AccuracyLong>0.40</AccuracyLong><RangedWeapon_Cooldown>2.6</RangedWeapon_Cooldown>
     </statBases>
     <costList><Steel>55</Steel><ComponentIndustrial>5</ComponentIndustrial></costList>
-    <recipeMaker><researchPrerequisite>HelodColdWarTech</researchPrerequisite><recipeUsers><li>HD_BasicWorkbench</li></recipeUsers><skillRequirements><Crafting>6</Crafting></skillRequirements></recipeMaker>
+    <recipeMaker><researchPrerequisite>HelodLowVelocityGrenades</researchPrerequisite><recipeUsers><li>HD_BasicWorkbench</li></recipeUsers><skillRequirements><Crafting>6</Crafting></skillRequirements></recipeMaker>
     <comps>
       <li Class="Helodrace.CompProperties_M79Launcher">
         <allowedAmmoDefs>

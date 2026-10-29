@@ -91,7 +91,8 @@ internal static class Program
                 foreach (var project in source) Find.ResearchManager.FinishProject(project);
                 Check(target.All(project => project.IsFinished), id + " completes the other path in direction " + direction);
                 foreach (string excluded in new[] { "Fabrication", "AdvancedFabrication", "ShipBasics", "PoweredArmor",
-                    "HelodIndustrialAutomation", "HelodMultiTaskMachining", "HelodHighAutomaticRifle", "HelodWireGuidedMissile", "HelodPASGT" })
+                    "HelodIndustrialAutomation", "HelodMultiTaskMachining", "HelodHighAutomaticRifle", "HelodWireGuidedMissile", "HelodPASGT",
+                    "HelodLowVelocityGrenades", "HelodAdvancedAmmunition", "HelodRemoteWeaponControl" })
                     Check(!projects[excluded].IsFinished, id + " does not grant unrelated later research " + excluded);
                 int calls = Find.ResearchManager.FinishCalls;
                 LinkedResearchUtility.Synchronize(Find.ResearchManager);
