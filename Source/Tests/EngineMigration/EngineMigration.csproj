@@ -4,5 +4,10 @@
     <AssemblyName>Helodrace.EngineMigrationChecks</AssemblyName>
     <HelodUsesGame>true</HelodUsesGame>
     <GenerateDependencyFile>false</GenerateDependencyFile>
+    <BlancasRepository Condition="'$(BlancasRepository)' == ''">$(MSBuildThisFileDirectory)..\..\..\..\Helodrace-blancasdrugs</BlancasRepository>
   </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="HelodBlancasDrug"><HintPath>$(BlancasRepository)/1.7/Assemblies/HelodBlancasDrug.dll</HintPath><Private>false</Private></Reference>
+    <Compile Include="$(BlancasRepository)/Tests/ExclusiveGroup/LegacyExclusiveGroup.cs" Link="BlancasLegacyExclusiveGroup.cs" />
+  </ItemGroup>
 </Project>

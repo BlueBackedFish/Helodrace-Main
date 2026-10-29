@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.IO;
+using System.Text.Json;
 using System.Xml.Linq;
 using Helodrace.ModernWar;
 using UnityEngine;
@@ -143,17 +145,22 @@ internal static partial class Program
             }
         }
         Check(states>=6,"Real authored presets exercise adjustable stocks across platforms");
-        foreach(var pair in ReferenceAccuracy)
+        // Frozen from the same source/Defs on actual 1.6 references before native
+        // conversion, then compared byte-for-byte with the 1.7 result. Authoring
+        // calibration targets in Program are separate from migration regression.
+        using var migrationBaseline = JsonDocument.Parse(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "EngineMigrationBaseline.json")));
+        foreach(var pair in migrationBaseline.RootElement.EnumerateObject())
         {
-            var def=Resolve(definitions[pair.Key]);var comp=def.Element("comps").Elements().Single(e=>(string)e.Attribute("Class")==CompClass);
-            var value=Convert(BuildAssembly(pair.Key,definitions[comp.Element("spawnPreset").Value]));
+            var def=Resolve(definitions[pair.Name]);var comp=def.Element("comps").Elements().Single(e=>(string)e.Attribute("Class")==CompClass);
+            var value=Convert(BuildAssembly(pair.Name,definitions[comp.Element("spawnPreset").Value]));
             var bands=new[]{value.Touch,value.Short,value.Medium,value.Long};
-            for(int i=0;i<4;i++) Check(Math.Abs(bands[i].Accuracy-pair.Value[i])<.002f,"Refactor preserves stock normal-quality accuracy: "+pair.Key);
+            var expectedAccuracy = pair.Value.GetProperty("Accuracy").EnumerateArray().Select(e => e.GetSingle()).ToArray();
+            for(int i=0;i<4;i++) Check(Math.Abs(bands[i].Accuracy-expectedAccuracy[i])<.002f,"Migration preserves stock normal-quality accuracy: "+pair.Name);
             var verb=def.Element("verbs").Elements().First(e=>(string)e.Element("verbClass")=="Verb_Shoot");
             float warmup=Number(verb.Element("warmupTime"))*value.VanillaWarmupFactor;
             float cooldown=Number(def.Element("statBases").Element("RangedWeapon_Cooldown"))*value.VanillaCooldownFactor;
-            Check(Math.Abs(warmup-ReferenceTimes[pair.Key][0])<.005f && Math.Abs(cooldown-ReferenceTimes[pair.Key][1])<.005f,
-                "Refactor preserves calibrated stock timing, not a global warmup increase: "+pair.Key);
+            Check(Math.Abs(warmup-pair.Value.GetProperty("Warmup").GetSingle())<.005f && Math.Abs(cooldown-pair.Value.GetProperty("Cooldown").GetSingle())<.005f,
+                "Migration preserves existing stock timing: "+pair.Name);
         }
         Console.WriteLine("PASS: split precision/hold/acquisition, physical canvas invariance, bounded accuracy and "+states+" real stock-state tradeoffs.");
     }

@@ -5,7 +5,8 @@ param(
 
 # Register against the real installed game without starting a Unity game session.
 $ErrorActionPreference = 'Stop'
-$managedDirectory = Join-Path $RimWorldPath 'RimWorldWin64_Data/Managed'
+$null = & (Join-Path $PSScriptRoot '../../Import-Game17.ps1') -RimWorldPath $RimWorldPath
+$managedDirectory = $RimWorldPath
 $resolverScript = {
     param($sender, $eventArgs)
     $path = Join-Path $managedDirectory (([Reflection.AssemblyName]::new($eventArgs.Name)).Name + '.dll')
@@ -15,7 +16,7 @@ $resolver = [ResolveEventHandler]$resolverScript
 [AppDomain]::CurrentDomain.add_AssemblyResolve($resolver)
 $harmony = $null
 try {
-    $null = [Reflection.Assembly]::LoadFrom((Join-Path $RepositoryRoot 'Assemblies/0Harmony.dll'))
+    $null = [Reflection.Assembly]::LoadFrom((Join-Path $RimWorldPath '../../workshop/content/294100/2009463077/1.7/Assemblies/0Harmony.dll'))
     $null = [Reflection.Assembly]::LoadFrom((Join-Path $managedDirectory 'Assembly-CSharp.dll'))
     $mod = [Reflection.Assembly]::LoadFrom((Join-Path $RepositoryRoot 'Assemblies/Helodrace.dll'))
     $harmony = [HarmonyLib.Harmony]::new('Helodrace.Tests.SafeConduct')
@@ -30,8 +31,8 @@ try {
         if ($patched.Count -ne $expected) { throw "Expected $expected method(s) for $name" }
     }
     function New-FactionFixture([bool]$player) {
-        $faction = [Runtime.Serialization.FormatterServices]::GetUninitializedObject([RimWorld.Faction])
-        $def = [Runtime.Serialization.FormatterServices]::GetUninitializedObject([RimWorld.FactionDef])
+        $faction = [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject([RimWorld.Faction])
+        $def = [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject([RimWorld.FactionDef])
         [RimWorld.FactionDef].GetField('isPlayer').SetValue($def, $player)
         [RimWorld.Faction].GetField('def').SetValue($faction, $def)
         return ,$faction

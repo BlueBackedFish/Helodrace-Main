@@ -37,6 +37,8 @@ namespace Helodrace.Tests
                 File.WriteAllText(Path.Combine(output, "checks.txt"), "Engine migration: " + mode + "\n");
                 Check(DefDatabase<ThingDef>.GetNamedSilentFail("BD_Ketamine") != null, "Blancas drug definitions loaded");
                 Check(DefDatabase<HediffDef>.GetNamedSilentFail("BD_DeepSleep") != null, "Blancas sleep definitions loaded");
+                Assembly drugAssembly = AppDomain.CurrentDomain.GetAssemblies().Single(a => a.GetName().Name == "HelodBlancasDrug");
+                Check(drugAssembly != null, "Blancas versioned assembly: " + drugAssembly.Location);
                 if (mode == "baseline")
                 {
                     CreateFixture();
@@ -55,8 +57,16 @@ namespace Helodrace.Tests
                     Check(DefDatabase<GeneDef>.GetNamedSilentFail("HD_Gene_AmphetamineDependency") != null, "Main mandatory Blancas gene loaded");
                     Check(DefDatabase<ThingDef>.GetNamedSilentFail("HD_BasicWorkbench") != null, "Main industry definitions loaded");
                     Check(AppDomain.CurrentDomain.GetAssemblies().Any(a => a.GetName().Name == "Helodrace"), "Main assembly loaded");
+                    Check(DefDatabase<ThingDef>.GetNamed("HD_WoodenBaseballBat").relicChance == 0,
+                        "single-material wooden bat excluded from unique-stuff relic generation");
+                    File.WriteAllLines(Path.Combine(output, "relic-stuffs.tsv"),
+                        DefDatabase<ThingDef>.AllDefsListForReading.Where(d => d.relicChance > 0 && d.MadeFromStuff)
+                            .Select(d => d.defName + "\t" + string.Join(",", GenStuff.AllowedStuffsFor(d).Select(s => s.defName + ":" + s.BaseMarketValue))));
                     GameDataSaveLoader.SaveGame("HelodraceMigration17");
                 }
+#if NET10_0_OR_GREATER
+                else if (mode == "blancas") BlancasEngineChecks.Run(Check);
+#endif
                 else throw new ArgumentException("Unknown migration case: " + mode);
                 File.AppendAllText(Path.Combine(output, "checks.txt"), "COMPLETE\n");
                 UnityEngine.Application.Quit(0);
@@ -77,7 +87,8 @@ namespace Helodrace.Tests
                 "BD_OpioidsAddiction", "BD_ZDrugsTolerance", "BD_MKultraConditioning" };
             for (int i = 0; i < names.Length; i++)
             {
-                Pawn pawn = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist, Faction.OfPlayer);
+                // Single fixture names are identifiers, not family names for relation generation.
+                Pawn pawn = PawnGenerator.GeneratePawn(new PawnGenerationRequest(PawnKindDefOf.Colonist, Faction.OfPlayer, canGeneratePawnRelations: false));
                 pawn.Name = new NameSingle(Prefix + i);
                 GenSpawn.Spawn(pawn, CellFinder.RandomClosewalkCellNear(Find.CurrentMap.Center, Find.CurrentMap, 15), Find.CurrentMap);
                 Hediff hediff = HediffMaker.MakeHediff(DefDatabase<HediffDef>.GetNamed(names[i]), pawn);

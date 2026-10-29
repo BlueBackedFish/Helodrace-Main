@@ -3,13 +3,14 @@ param(
     [string]$RimWorldPath = 'C:/Program Files (x86)/Steam/steamapps/common/RimWorld'
 )
 $ErrorActionPreference = 'Stop'
+$null = & (Join-Path $PSScriptRoot 'Import-Game17.ps1') -RimWorldPath $RimWorldPath
 $repo = Split-Path $PSScriptRoot -Parent
 Add-Type -AssemblyName System.Drawing
-$managed = Join-Path $RimWorldPath 'RimWorldWin64_Data/Managed'
-foreach ($name in 'UnityEngine.CoreModule','UnityEngine','Assembly-CSharp') {
+$managed = $RimWorldPath
+foreach ($name in 'Waylith', 'UnityStubs', 'Assembly-CSharp') {
     $null = [Reflection.Assembly]::LoadFrom("$managed/$name.dll")
 }
-$null = [Reflection.Assembly]::LoadFrom("$repo/Assemblies/0Harmony.dll")
+$null = [Reflection.Assembly]::LoadFrom("$RimWorldPath/../../workshop/content/294100/2009463077/1.7/Assemblies/0Harmony.dll")
 $assembly = [Reflection.Assembly]::LoadFrom($AssemblyPath)
 $boundsType = $assembly.GetType('Helodrace.ModernWar.ModularArmorPreviewBounds',$true)
 $flags = [Reflection.BindingFlags]'Static,NonPublic'

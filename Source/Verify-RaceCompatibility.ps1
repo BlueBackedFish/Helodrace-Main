@@ -3,10 +3,11 @@ param(
     [string]$RimWorldPath = 'C:\Program Files (x86)\Steam\steamapps\common\RimWorld'
 )
 $ErrorActionPreference = 'Stop'
+$null = & (Join-Path $PSScriptRoot 'Import-Game17.ps1') -RimWorldPath $RimWorldPath
 $repo = Split-Path $PSScriptRoot -Parent
 function Assert($condition, [string]$message) { if (!$condition) { throw $message } }
-$managed = Join-Path $RimWorldPath 'RimWorldWin64_Data/Managed'
-foreach ($name in 'UnityEngine.CoreModule','UnityEngine','Assembly-CSharp') {
+$managed = $RimWorldPath
+foreach ($name in 'Waylith', 'UnityStubs', 'Assembly-CSharp') {
     $null = [Reflection.Assembly]::LoadFrom((Join-Path $managed "$name.dll"))
 }
 [Verse.DeepProfiler]::enabled = $false

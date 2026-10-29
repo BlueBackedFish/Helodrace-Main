@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Helodrace;
@@ -37,6 +38,7 @@ internal static partial class Program
             Load();
             if (args.Contains("--snapshot")) { Snapshot(); return 0; }
             if (args.Contains("--stock-snapshot")) { StockSnapshot(); return 0; }
+            if (args.Contains("--migration-snapshot")) { MigrationSnapshot(); return 0; }
             PlacementDefinitionTests();
             StatDirectionTests();
             SightTests();
@@ -126,6 +128,21 @@ internal static partial class Program
             Console.WriteLine(pair.Key+" suggestedCeilings="+string.Join("/",bands.Select((b,i)=>(current[i]*pair.Value[i]/b.Accuracy).ToString("F6",CultureInfo.InvariantCulture)))
                 +" accuracy="+string.Join("/",bands.Select(b=>b.Accuracy.ToString("F3")))+" stability="+stats.AimStability+" stock="+stats.StockSupport);
         }
+    }
+    private static void MigrationSnapshot()
+    {
+        var snapshot = ReferenceAccuracy.Keys.ToDictionary(name => name, name => {
+            var definition = Resolve(definitions[name]);
+            var comp = definition.Element("comps").Elements().Single(e => (string)e.Attribute("Class") == CompClass);
+            var stats = Convert(BuildAssembly(name, definitions[comp.Element("spawnPreset").Value]));
+            var verb = definition.Element("verbs").Elements().First(e => (string)e.Element("verbClass") == "Verb_Shoot");
+            return new {
+                Accuracy = new[] { stats.Touch.Accuracy, stats.Short.Accuracy, stats.Medium.Accuracy, stats.Long.Accuracy },
+                Warmup = Number(verb.Element("warmupTime")) * stats.VanillaWarmupFactor,
+                Cooldown = Number(definition.Element("statBases").Element("RangedWeapon_Cooldown")) * stats.VanillaCooldownFactor
+            };
+        });
+        Console.WriteLine(JsonSerializer.Serialize(snapshot, new JsonSerializerOptions { WriteIndented = true }));
     }
     private static XElement Merge(XElement parent, XElement child)
     {

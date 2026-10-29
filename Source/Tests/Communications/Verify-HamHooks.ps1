@@ -4,7 +4,8 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$managedDirectory = Join-Path $RimWorldPath 'RimWorldWin64_Data/Managed'
+$null = & (Join-Path $PSScriptRoot '../../Import-Game17.ps1') -RimWorldPath $RimWorldPath
+$managedDirectory = $RimWorldPath
 $resolverScript = {
     param($sender, $eventArgs)
     $path = Join-Path $managedDirectory (([Reflection.AssemblyName]::new($eventArgs.Name)).Name + '.dll')
@@ -14,7 +15,7 @@ $resolver = [ResolveEventHandler]$resolverScript
 [AppDomain]::CurrentDomain.add_AssemblyResolve($resolver)
 $harmony = $null
 try {
-    $null = [Reflection.Assembly]::LoadFrom((Join-Path $RepositoryRoot 'Assemblies/0Harmony.dll'))
+    $null = [Reflection.Assembly]::LoadFrom((Join-Path $RimWorldPath '../../workshop/content/294100/2009463077/1.7/Assemblies/0Harmony.dll'))
     $null = [Reflection.Assembly]::LoadFrom((Join-Path $managedDirectory 'Assembly-CSharp.dll'))
     $mod = [Reflection.Assembly]::LoadFrom((Join-Path $RepositoryRoot 'Assemblies/Helodrace.dll'))
     $harmony = [HarmonyLib.Harmony]::new('Helodrace.Tests.HamRouting')
@@ -32,8 +33,8 @@ try {
 
     # Only defName is needed by these early guards. Avoid game/Unity constructors.
     foreach ($defName in @('HD_HelodCivilLowFaction', 'HD_HelodCivilHighFaction', 'OutlanderCivil', 'TribeCivil', 'Empire', 'HD_HelodPlayerColony')) {
-        $faction = [Runtime.Serialization.FormatterServices]::GetUninitializedObject([RimWorld.Faction])
-        $factionDef = [Runtime.Serialization.FormatterServices]::GetUninitializedObject([RimWorld.FactionDef])
+        $faction = [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject([RimWorld.Faction])
+        $factionDef = [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject([RimWorld.FactionDef])
         [RimWorld.FactionDef].GetField('defName').SetValue($factionDef, $defName)
         [RimWorld.Faction].GetField('def').SetValue($faction, $factionDef)
         $expectedHam = $defName -in @('HD_HelodCivilLowFaction', 'HD_HelodCivilHighFaction')
@@ -45,7 +46,7 @@ try {
             }
         }
     }
-    $ship = [Runtime.Serialization.FormatterServices]::GetUninitializedObject([RimWorld.TradeShip])
+    $ship = [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject([RimWorld.TradeShip])
     if ([Helodrace.HamRadioUtility]::IsHamFaction($ship)) {
         throw 'Orbital trade must not use HAM dialogue'
     }

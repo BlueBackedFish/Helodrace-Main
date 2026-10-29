@@ -4,9 +4,10 @@ param(
     [string]$RimWorldPath = 'C:/Program Files (x86)/Steam/steamapps/common/RimWorld'
 )
 $ErrorActionPreference = 'Stop'
+$null = & (Join-Path $PSScriptRoot '../../Import-Game17.ps1') -RimWorldPath $RimWorldPath
 if (!$ModAssembly) { $ModAssembly = Join-Path $RepositoryRoot 'Assemblies/Helodrace.dll' }
-$game = [Reflection.Assembly]::LoadFrom((Join-Path $RimWorldPath 'RimWorldWin64_Data/Managed/Assembly-CSharp.dll'))
-$null = [Reflection.Assembly]::LoadFrom((Join-Path $RepositoryRoot 'Assemblies/0Harmony.dll'))
+$game = [Reflection.Assembly]::LoadFrom((Join-Path $RimWorldPath 'Assembly-CSharp.dll'))
+$null = [Reflection.Assembly]::LoadFrom((Join-Path $RimWorldPath '../../workshop/content/294100/2009463077/1.7/Assemblies/0Harmony.dll'))
 $mod = [Reflection.Assembly]::LoadFrom($ModAssembly)
 $flags = [Reflection.BindingFlags]'Public,NonPublic,Instance'
 function Resolve-Type([string]$name) {
@@ -41,4 +42,4 @@ foreach ($job in $jobs.Defs.JobDef) { Check-Members $job (Resolve-Type 'JobDef')
 foreach ($giver in $jobs.Defs.WorkGiverDef) { Check-Members $giver (Resolve-Type 'WorkGiverDef'); $null = Resolve-Type $giver.giverClass }
 if (!(Resolve-Type 'Building_TurretGun').IsAssignableFrom((Resolve-Type 'Helodrace.Building_Crows'))) { throw 'CROWS must preserve vanilla turret targeting.' }
 if (!(Resolve-Type 'Verb_Shoot').IsAssignableFrom((Resolve-Type 'Helodrace.Verb_Crows'))) { throw 'CROWS gun must preserve vanilla shooting.' }
-Write-Output 'PASS: new XML fields, comps, building/gun/job classes and inheritance match the installed RimWorld 1.6 API.'
+Write-Output 'PASS: new XML fields, comps, building/gun/job classes and inheritance match the installed RimWorld 1.7 API.'

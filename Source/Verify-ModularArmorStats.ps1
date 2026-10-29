@@ -1,10 +1,11 @@
-﻿param(
+param(
     [string]$AssemblyPath = (Join-Path (Split-Path $PSScriptRoot -Parent) 'Assemblies/Helodrace.dll'),
     [string]$RimWorldPath = 'C:/Program Files (x86)/Steam/steamapps/common/RimWorld'
 )
 $ErrorActionPreference = 'Stop'
-$managed = Join-Path $RimWorldPath 'RimWorldWin64_Data/Managed'
-foreach ($name in 'UnityEngine.CoreModule','UnityEngine','Assembly-CSharp') {
+$null = & (Join-Path $PSScriptRoot 'Import-Game17.ps1') -RimWorldPath $RimWorldPath
+$managed = $RimWorldPath
+foreach ($name in 'Waylith', 'UnityStubs', 'Assembly-CSharp') {
     $null = [Reflection.Assembly]::LoadFrom("$managed/$name.dll")
 }
 $assembly = [Reflection.Assembly]::LoadFrom($AssemblyPath)

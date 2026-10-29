@@ -4,7 +4,8 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$managedDirectory = Join-Path $RimWorldPath 'RimWorldWin64_Data/Managed'
+$null = & (Join-Path $PSScriptRoot '../../Import-Game17.ps1') -RimWorldPath $RimWorldPath
+$managedDirectory = $RimWorldPath
 $resolverScript = {
     param($sender, $eventArgs)
     $name = ([System.Reflection.AssemblyName]::new($eventArgs.Name)).Name
@@ -14,7 +15,7 @@ $resolverScript = {
 $resolver = [System.ResolveEventHandler]$resolverScript
 [System.AppDomain]::CurrentDomain.add_AssemblyResolve($resolver)
 try {
-    $null = [System.Reflection.Assembly]::LoadFrom((Join-Path $RepositoryRoot 'Assemblies/0Harmony.dll'))
+    $null = [System.Reflection.Assembly]::LoadFrom((Join-Path $RimWorldPath '../../workshop/content/294100/2009463077/1.7/Assemblies/0Harmony.dll'))
     $game = [System.Reflection.Assembly]::LoadFrom((Join-Path $managedDirectory 'Assembly-CSharp.dll'))
     $mod = [System.Reflection.Assembly]::LoadFrom((Join-Path $RepositoryRoot 'Assemblies/Helodrace.dll'))
     $installation = [Activator]::CreateInstance($mod.GetType('Helodrace.FloatMenuOptionProvider_TelegraphInstallation', $true))

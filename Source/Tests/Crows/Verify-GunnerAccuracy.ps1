@@ -4,9 +4,10 @@ param(
     [string]$RimWorldPath = 'C:/Program Files (x86)/Steam/steamapps/common/RimWorld'
 )
 $ErrorActionPreference = 'Stop'
+$null = & (Join-Path $PSScriptRoot '../../Import-Game17.ps1') -RimWorldPath $RimWorldPath
 if (!$ModAssembly) { $ModAssembly = Join-Path $RepositoryRoot 'Assemblies/Helodrace.dll' }
-$game = [Reflection.Assembly]::LoadFrom((Join-Path $RimWorldPath 'RimWorldWin64_Data/Managed/Assembly-CSharp.dll'))
-$null = [Reflection.Assembly]::LoadFrom((Join-Path $RepositoryRoot 'Assemblies/0Harmony.dll'))
+$game = [Reflection.Assembly]::LoadFrom((Join-Path $RimWorldPath 'Assembly-CSharp.dll'))
+$null = [Reflection.Assembly]::LoadFrom((Join-Path $RimWorldPath '../../workshop/content/294100/2009463077/1.7/Assemblies/0Harmony.dll'))
 $mod = [Reflection.Assembly]::LoadFrom($ModAssembly)
 $harmony = [HarmonyLib.Harmony]::new('Helodrace.Tests.HmgGunnerAccuracy')
 try {
@@ -49,7 +50,7 @@ try {
         $weather.SetValue($report, [single]0.5)
         $equipment.SetValue($report, [single]0.68)
         $casterType = if ($isCrows) { $mod.GetType('Helodrace.Building_Crows') } else { $game.GetType('Verse.Thing') }
-        $caster = [Runtime.Serialization.FormatterServices]::GetUninitializedObject($casterType)
+        $caster = [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject($casterType)
         $arguments = [object[]]@($caster,$report)
         $null = $weatherPatch.GetMethod('Postfix').Invoke($null,$arguments)
         $wanted = if ($isCrows) { 0.85 } else { 0.5 }

@@ -1,8 +1,9 @@
-﻿param(
+param(
     [string]$AssemblyPath = (Join-Path (Split-Path $PSScriptRoot -Parent) 'Assemblies/Helodrace.dll'),
     [string]$RimWorldPath = 'C:/Program Files (x86)/Steam/steamapps/common/RimWorld'
 )
 $ErrorActionPreference = 'Stop'
+$null = & (Join-Path $PSScriptRoot 'Import-Game17.ps1') -RimWorldPath $RimWorldPath
 $repo = Split-Path $PSScriptRoot -Parent
 function Assert($condition,$message) { if (!$condition) { throw $message } }
 $all = [xml]'<Defs />'
@@ -41,9 +42,9 @@ $partBase = $all.SelectSingleNode('/Defs/ThingDef[@Name="HD_ModularArmorPartItem
 Assert ($null -ne $partBase) 'Armor part recipes do not inherit clothing workbench support.'
 Write-Output "PASS: workbench placement/texture/research/material definitions; $added recipe user lists support the workbench."
 
-$managed = Join-Path $RimWorldPath 'RimWorldWin64_Data/Managed'
-foreach ($name in 'UnityEngine.CoreModule','UnityEngine','Assembly-CSharp') { $null = [Reflection.Assembly]::LoadFrom("$managed/$name.dll") }
-$null = [Reflection.Assembly]::LoadFrom("$repo/Assemblies/0Harmony.dll")
+$managed = $RimWorldPath
+foreach ($name in 'Waylith', 'UnityStubs', 'Assembly-CSharp') { $null = [Reflection.Assembly]::LoadFrom("$managed/$name.dll") }
+$null = [Reflection.Assembly]::LoadFrom("$RimWorldPath/../../workshop/content/294100/2009463077/1.7/Assemblies/0Harmony.dll")
 $assembly = [Reflection.Assembly]::LoadFrom($AssemblyPath)
 $armorType = $assembly.GetType('Helodrace.ModernWar.CompModularArmor',$true)
 $benchType = $assembly.GetType('Helodrace.ModernWar.CompClothingWorkbench',$true)
@@ -57,7 +58,7 @@ $constructors = $assembly.GetType('Helodrace.ModernWar.Dialog_ModularArmor',$tru
 Assert ($constructors.Count -eq 1 -and $constructors[0].GetParameters().Count -eq 2 -and $constructors[0].GetParameters()[1].ParameterType -eq $benchType) 'Editor can be opened without workbench context.'
 $gate = $benchType.GetMethod('CanUse',[Reflection.BindingFlags]'Static,NonPublic')
 Assert (!$gate.Invoke($null,[object[]]@($null,$null))) 'No-workbench customization is accepted.'
-$fixtureBench = [Runtime.Serialization.FormatterServices]::GetUninitializedObject([Verse.ThingWithComps])
+$fixtureBench = [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject([Verse.ThingWithComps])
 [Verse.Thing].GetField('mapIndexOrState',[Reflection.BindingFlags]'Instance,NonPublic').SetValue($fixtureBench,[sbyte]-1)
 $fixtureComp = [Activator]::CreateInstance($benchType)
 [Verse.ThingComp].GetField('parent').SetValue($fixtureComp,$fixtureBench)
@@ -67,7 +68,7 @@ Assert (!$gate.Invoke($null,[object[]]@($fixtureBench,$null))) 'Unspawned workbe
 Write-Output 'PASS: apparel commands removed; editor requires workbench context; absent and unspawned workbenches reject customization.'
 
 $buildingType = $assembly.GetType([string]$bench.thingClass,$true)
-$building = [Runtime.Serialization.FormatterServices]::GetUninitializedObject($buildingType)
+$building = [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject($buildingType)
 foreach ($property in 'DrawColor','DrawColorTwo') {
     $color = $buildingType.GetProperty($property).GetValue($building)
     Assert ($color.r -eq 1 -and $color.g -eq 1 -and $color.b -eq 1 -and $color.a -eq 1) 'Workbench texture is tinted.'
@@ -86,9 +87,9 @@ foreach ($name in 'NotifyAdded','NotifyRemoved') {
     $null = $fixtureHarmony.Patch($method,$prefix)
 }
 function Invoke-Armor($object,$name,[object[]]$arguments = @()) { ,($armorType.GetMethod($name,[Reflection.BindingFlags]'Instance,Public,NonPublic').Invoke($object,$arguments)) }
-$parent = [Runtime.Serialization.FormatterServices]::GetUninitializedObject([RimWorld.Apparel])
+$parent = [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject([RimWorld.Apparel])
 Set-Field $parent ([Verse.Thing]) 'mapIndexOrState' ([sbyte]-1)
-$parentDef = [Runtime.Serialization.FormatterServices]::GetUninitializedObject([Verse.ThingDef]); Set-Field $parentDef ([Verse.Def]) 'defName' 'EditorFixture'
+$parentDef = [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject([Verse.ThingDef]); Set-Field $parentDef ([Verse.Def]) 'defName' 'EditorFixture'
 Set-Field $parent ([Verse.Thing]) 'def' $parentDef
 $armor = [Helodrace.ModernWar.CompModularArmor]::new()
 Set-Field $armor ([Verse.ThingComp]) 'parent' $parent
@@ -101,7 +102,7 @@ $props.slots.Add($slotA); $props.slots.Add($slotB)
 $position = [Helodrace.ModernWar.ModularArmorPositionDef]::new(); $position.defName='FixturePosition'
 $part = [Helodrace.ModernWar.ModularArmorPartDef]::new(); $part.defName='FixturePart'; $part.slot=$slotA; $part.fixedPosition=$position
 $other = [Helodrace.ModernWar.ModularArmorPartDef]::new(); $other.defName='FixtureOther'; $other.slot=$slotB; $other.fixedPosition=$position
-$itemDef = [Runtime.Serialization.FormatterServices]::GetUninitializedObject([Verse.ThingDef]); Set-Field $itemDef ([Verse.Def]) 'defName' 'FixturePhysicalItem'; Set-Field $itemDef ([Verse.ThingDef]) 'category' ([Verse.ThingCategory]::Item)
+$itemDef = [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject([Verse.ThingDef]); Set-Field $itemDef ([Verse.Def]) 'defName' 'FixturePhysicalItem'; Set-Field $itemDef ([Verse.ThingDef]) 'category' ([Verse.ThingCategory]::Item)
 $part.partThingDef=$itemDef
 $physical = [Verse.Thing]::new(); Set-Field $physical ([Verse.Thing]) 'def' $itemDef; Set-Field $physical ([Verse.Thing]) 'stackCount' 1; [Verse.Thing].GetProperty('HitPoints').SetValue($physical,37)
 $record = [Helodrace.ModernWar.InstalledModularArmorPart]::new($slotA,$part,$position)
@@ -161,7 +162,7 @@ $order = [Helodrace.ModernWar.ModularArmorWorkOrder]::new(); $order.jobId=123; $
 Set-Field $armor $armorType 'pendingCustomization' $order
 $parentComps = [Collections.Generic.List[Verse.ThingComp]]::new(); $parentComps.Add($armor)
 Set-Field $parent ([Verse.ThingWithComps]) 'comps' $parentComps
-$fixtureJob = [Runtime.Serialization.FormatterServices]::GetUninitializedObject([Verse.AI.Job])
+$fixtureJob = [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject([Verse.AI.Job])
 Set-Field $fixtureJob ([Verse.AI.Job]) 'loadID' 123
 $fixtureJob.SetTarget([Verse.AI.TargetIndex]::A,[Verse.LocalTargetInfo]::new($parent))
 $driver = [Helodrace.ModernWar.JobDriver_CustomizeModularArmor]::new()

@@ -6,6 +6,7 @@
     <HelodUsesHarmony>true</HelodUsesHarmony>
   </PropertyGroup>
   <ItemGroup>
+    <None Update="EngineMigrationBaseline.json" CopyToOutputDirectory="PreserveNewest" />
     <Reference Include="Helodrace">
       <HintPath>../../../Assemblies/Helodrace.dll</HintPath>
     </Reference>

@@ -1,6 +1,7 @@
 param([string]$AssemblyPath = (Join-Path (Split-Path $PSScriptRoot -Parent) 'Assemblies/Helodrace.dll'),
     [string]$RimWorldPath = 'C:/Program Files (x86)/Steam/steamapps/common/RimWorld')
 $ErrorActionPreference = 'Stop'
+$null = & (Join-Path $PSScriptRoot 'Import-Game17.ps1') -RimWorldPath $RimWorldPath
 $repo = Split-Path $PSScriptRoot -Parent
 function Assert($condition, $message) { if (!$condition) { throw $message } }
 foreach ($file in Get-ChildItem "$repo/Defs", "$repo/Patches", "$repo/Languages" -Filter *.xml -Recurse) {
@@ -32,13 +33,13 @@ foreach ($definitions in $armorDefs,$partItems) {
 Assert (!(Test-Path "$repo/Defs/ModernWar/ModularArmorTextures.xml")) 'Merged armor sheets are still configured.'
 Write-Output 'PASS: armor graphics and icons resolve to individual PNG files.'
 
-$managed = Join-Path $RimWorldPath 'RimWorldWin64_Data/Managed'
-foreach ($name in 'UnityEngine.CoreModule','UnityEngine','Assembly-CSharp') {
+$managed = $RimWorldPath
+foreach ($name in 'Waylith', 'UnityStubs', 'Assembly-CSharp') {
     $null = [Reflection.Assembly]::LoadFrom("$managed/$name.dll")
 }
-$null = [Reflection.Assembly]::LoadFrom("$repo/Assemblies/0Harmony.dll")
+$null = [Reflection.Assembly]::LoadFrom("$RimWorldPath/../../workshop/content/294100/2009463077/1.7/Assemblies/0Harmony.dll")
 $assembly = [Reflection.Assembly]::LoadFrom($AssemblyPath)
-function Fixture([type]$type) { [Runtime.Serialization.FormatterServices]::GetUninitializedObject($type) }
+function Fixture([type]$type) { [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject($type) }
 function Set-Field($object, [type]$owner, $name, $value) { $owner.GetField($name,[Reflection.BindingFlags]'Instance,Public,NonPublic').SetValue($object,$value) }
 # Exercise actual runtime path selection for every configured part, panel,
 # mounting position and facing, including the split front/back graphics.

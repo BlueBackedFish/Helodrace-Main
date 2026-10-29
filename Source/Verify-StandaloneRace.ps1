@@ -1,5 +1,6 @@
 param([string]$RimWorldPath = 'C:\Program Files (x86)\Steam\steamapps\common\RimWorld', [switch]$PatchSmokeTest)
 $ErrorActionPreference = 'Stop'
+$null = & (Join-Path $PSScriptRoot 'Import-Game17.ps1') -RimWorldPath $RimWorldPath
 $repo = Split-Path $PSScriptRoot -Parent
 function Assert($condition, [string]$message) { if (!$condition) { throw $message } }
 $files = Get-ChildItem -LiteralPath "$repo/About", "$repo/Defs", "$repo/Patches", "$repo/Languages" -Recurse -Filter *.xml
@@ -53,18 +54,18 @@ try {
     Assert (($before -join '|') -ceq ($after -join '|')) 'Apparel path order changed.'
     Write-Output "PASS: $($before.Count) apparel graphic mappings and head choices preserved; archive readable."
 } finally { $zip.Dispose() }
-$managed = Join-Path $RimWorldPath 'RimWorldWin64_Data/Managed'
-foreach ($name in 'UnityEngine.CoreModule', 'UnityEngine', 'Assembly-CSharp') {
+$managed = $RimWorldPath
+foreach ($name in 'Waylith', 'UnityStubs', 'Assembly-CSharp') {
     $null = [Reflection.Assembly]::LoadFrom((Join-Path $managed "$name.dll"))
 }
-$null = [Reflection.Assembly]::LoadFrom("$repo/Assemblies/0Harmony.dll")
+$null = [Reflection.Assembly]::LoadFrom("$RimWorldPath/../../workshop/content/294100/2009463077/1.7/Assemblies/0Harmony.dll")
 $assembly = [Reflection.Assembly]::LoadFrom("$repo/Assemblies/Helodrace.dll")
 Assert (!($assembly.GetReferencedAssemblies() | Where-Object Name -Match 'AlienRace')) 'Compiled dependency found.'
 $types = @($assembly.GetTypes() | Where-Object Name -Like 'Patch_Helod*')
 Assert ($types.Count -ge 15) 'Standalone patches missing from build.'
 Write-Output "PASS: compiled assembly has no framework reference; $($types.Count) standalone patch classes loaded."
 # Minimal managed fixtures; no game session, native graphics, or save files are touched.
-function New-Fixture([Type]$type) { [Runtime.Serialization.FormatterServices]::GetUninitializedObject($type) }
+function New-Fixture([Type]$type) { [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject($type) }
 Assert (![Helodrace.HelodRace]::IsHelod($null)) 'Uninitialized/null race check failed.'
 $earlyRequest = [Activator]::CreateInstance([Verse.PawnGenerationRequest])
 [Helodrace.Patch_HelodPawnRequest]::Prefix([ref]$earlyRequest)
@@ -99,7 +100,7 @@ $request.AllowedDevelopmentalStages = [Verse.DevelopmentalStage]::Newborn
 $request.ForcedXenotype = $baseliner
 [Helodrace.Patch_HelodPawnRequest]::Prefix([ref]$request)
 Assert ([object]::ReferenceEquals($request.ForcedXenotype, $baseliner)) 'Newborn inherited xenotype request was overwritten.'
-$fixturePawn = [Runtime.Serialization.FormatterServices]::GetUninitializedObject([Verse.Pawn])
+$fixturePawn = [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject([Verse.Pawn])
 [Verse.Thing].GetField('def').SetValue($fixturePawn, $fixtureRace)
 $traitDef = New-Fixture ([RimWorld.TraitDef])
 $traitDef.defName = 'SpeedOffset'

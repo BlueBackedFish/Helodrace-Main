@@ -3,6 +3,7 @@ param(
     [switch]$PatchSmokeTest
 )
 $ErrorActionPreference = 'Stop'
+$null = & (Join-Path $PSScriptRoot 'Import-Game17.ps1') -RimWorldPath $RimWorldPath
 $taskRepo = Split-Path $PSScriptRoot -Parent
 function Assert-Squad($condition, [string]$message) { if (!$condition) { throw $message } }
 $taskFiles = Get-ChildItem -LiteralPath "$taskRepo/Defs", "$taskRepo/Languages" -Recurse -Filter *.xml
@@ -41,11 +42,11 @@ $taskBaseXml = [xml][IO.File]::ReadAllText("$taskRepo/Defs/Helod/Pawns/PawnBase.
 Assert-Squad ($taskRaceXml.Defs.ThingDef.ParentName -eq 'HD_PawnBase') 'Helod race does not inherit the organization component.'
 Assert-Squad (@($taskBaseXml.Defs.ThingDef.comps.li | Where-Object { $_.Class -eq 'Helodrace.Squads.CompProperties_PawnOrganization' }).Count -eq 1) 'Organization component missing or duplicated.'
 Write-Output 'PASS: formation/role references, all eight Great War PawnKinds, faction doctrine and pawn component.'
-$taskManaged = Join-Path $RimWorldPath 'RimWorldWin64_Data/Managed'
-foreach ($taskName in 'UnityEngine.CoreModule', 'UnityEngine', 'Assembly-CSharp') {
+$taskManaged = $RimWorldPath
+foreach ($taskName in 'Waylith', 'UnityStubs', 'Assembly-CSharp') {
     $null = [Reflection.Assembly]::LoadFrom((Join-Path $taskManaged "$taskName.dll"))
 }
-$null = [Reflection.Assembly]::LoadFrom("$taskRepo/Assemblies/0Harmony.dll")
+$null = [Reflection.Assembly]::LoadFrom("$RimWorldPath/../../workshop/content/294100/2009463077/1.7/Assemblies/0Harmony.dll")
 $taskAssembly = [Reflection.Assembly]::LoadFrom("$taskRepo/Assemblies/Helodrace.dll")
 foreach ($taskName in 'FormationDef', 'RoleDef', 'DoctrineDef', 'CombatOrganization', 'CombatGroup', 'PawnOrganizationComponent', 'GameComponent_CombatOrganizations') {
     Assert-Squad ($null -ne $taskAssembly.GetType("Helodrace.Squads.$taskName")) "Compiled type missing: $taskName"

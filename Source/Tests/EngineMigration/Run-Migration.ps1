@@ -1,5 +1,5 @@
 param(
-    [Parameter(Mandatory=$true)][ValidateSet('baseline','load','main')][string]$Case,
+    [Parameter(Mandatory=$true)][ValidateSet('baseline','load','main','blancas')][string]$Case,
     [Parameter(Mandatory=$true)][string]$RuntimeRoot,
     [string]$GameRoot='C:\Program Files (x86)\Steam\steamapps\common\RimWorld',
     [string]$BlancasRoot='C:\Users\human\Documents\GitHub\Helodrace-blancasdrugs',
@@ -33,7 +33,8 @@ foreach($directory in Get-ChildItem -LiteralPath $GameRoot -Directory | Where-Ob
     New-Item -ItemType Junction -Path (Join-Path $game $directory.Name) -Target $directory.FullName | Out-Null
 }
 foreach($file in Get-ChildItem -LiteralPath $GameRoot -File){
-    Copy-Item -LiteralPath $file.FullName -Destination (Join-Path $game $file.Name)
+    # Game binaries are read-only inputs; avoid copying the private CLR for every run.
+    New-Item -ItemType HardLink -Path (Join-Path $game $file.Name) -Target $file.FullName | Out-Null
 }
 New-Item -ItemType Junction -Path (Join-Path $game 'Mods/Blancas') -Target $BlancasRoot | Out-Null
 New-Item -ItemType Junction -Path (Join-Path $game 'Mods/Harmony') -Target $HarmonyRoot | Out-Null
