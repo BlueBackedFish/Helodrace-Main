@@ -511,11 +511,6 @@ namespace Helodrace
 
     public class CompProperties_M6RocketBag : CompProperties
     {
-        public ThingDef rocketDef;
-        public List<ThingDef> allowedAmmoDefs;
-        public int maxStoredRockets = 4;
-        public int maxStoredRounds = -1;
-
         public CompProperties_M6RocketBag()
         {
             compClass = typeof(CompM6RocketBag);
@@ -525,13 +520,6 @@ namespace Helodrace
     public class CompM6RocketBag : ThingComp
     {
         private Dictionary<ThingDef, int> desiredAmmo = new Dictionary<ThingDef, int>();
-        // Kept only to migrate ammunition stored by saves made with the old pouch system.
-        private Dictionary<ThingDef, int> storedAmmo = new Dictionary<ThingDef, int>();
-        private int storedRockets;
-
-        public CompProperties_M6RocketBag Props => (CompProperties_M6RocketBag)props;
-
-        public ThingDef RocketDef => Props.rocketDef ?? DefDatabase<ThingDef>.GetNamedSilentFail("HD_Rocket_M6A3HEAT");
 
         public IEnumerable<ThingDef> AllowedAmmoDefs => InventoryAmmoUtility.AllAmmoDefs;
 
@@ -552,33 +540,14 @@ namespace Helodrace
         {
             base.PostExposeData();
             Scribe_Collections.Look(ref desiredAmmo, "desiredAmmo", LookMode.Def, LookMode.Value);
-            Scribe_Collections.Look(ref storedAmmo, "storedAmmo", LookMode.Def, LookMode.Value);
-            Scribe_Values.Look(ref storedRockets, "storedRockets", 0);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                if (storedAmmo == null)
-                {
-                    storedAmmo = new Dictionary<ThingDef, int>();
-                }
-
                 if (desiredAmmo == null)
                 {
                     desiredAmmo = new Dictionary<ThingDef, int>();
                 }
 
-                if (storedRockets > 0 && RocketDef != null && !storedAmmo.ContainsKey(RocketDef))
-                {
-                    storedAmmo[RocketDef] = storedRockets;
-                }
-
-                TryMigrateLegacyStoredAmmo();
             }
-        }
-
-        public override void CompTick()
-        {
-            base.CompTick();
-            TryMigrateLegacyStoredAmmo();
         }
 
         public override string CompInspectStringExtra()
@@ -611,34 +580,6 @@ namespace Helodrace
             else
             {
                 desiredAmmo[ammoDef] = count;
-            }
-        }
-
-        private void TryMigrateLegacyStoredAmmo()
-        {
-            Pawn wearer = Wearer;
-            if (wearer?.inventory == null || storedAmmo == null || storedAmmo.All(entry => entry.Value <= 0))
-            {
-                return;
-            }
-
-            foreach (KeyValuePair<ThingDef, int> entry in storedAmmo.ToList())
-            {
-                if (entry.Key == null || entry.Value <= 0)
-                {
-                    continue;
-                }
-
-                Thing ammo = ThingMaker.MakeThing(entry.Key);
-                ammo.stackCount = entry.Value;
-                if (wearer.inventory.innerContainer.TryAdd(ammo))
-                {
-                    storedAmmo[entry.Key] = 0;
-                }
-                else
-                {
-                    ammo.Destroy(DestroyMode.Vanish);
-                }
             }
         }
 

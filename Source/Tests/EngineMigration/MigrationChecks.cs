@@ -14,9 +14,16 @@ namespace Helodrace.Tests
         private const string Prefix = "BlancasFixture_";
         private static bool requestedLoad;
         private bool complete;
+        private bool mainStatePrepared;
         private string output, mode;
 
         public MigrationChecks(Game game) { }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref mainStatePrepared, "migrationMainStatePrepared", false);
+        }
 
         public override void GameComponentTick()
         {
@@ -34,7 +41,9 @@ namespace Helodrace.Tests
             complete = true;
             try
             {
-                File.WriteAllText(Path.Combine(output, "checks.txt"), "Engine migration: " + mode + "\n");
+                if (mode != "main-state" || !mainStatePrepared)
+                    File.WriteAllText(Path.Combine(output, "checks.txt"), "Engine migration: " + mode + "\n");
+                else File.AppendAllText(Path.Combine(output, "checks.txt"), "Loaded new 1.7 state\n");
                 Check(DefDatabase<ThingDef>.GetNamedSilentFail("BD_Ketamine") != null, "Blancas drug definitions loaded");
                 Check(DefDatabase<HediffDef>.GetNamedSilentFail("BD_DeepSleep") != null, "Blancas sleep definitions loaded");
                 Assembly drugAssembly = AppDomain.CurrentDomain.GetAssemblies().Single(a => a.GetName().Name == "HelodBlancasDrug");
@@ -66,6 +75,19 @@ namespace Helodrace.Tests
                 }
 #if NET10_0_OR_GREATER
                 else if (mode == "blancas") BlancasEngineChecks.Run(Check);
+                else if (mode == "main-state")
+                {
+                    if (!mainStatePrepared)
+                    {
+                        MainStateChecks.Create(Check);
+                        mainStatePrepared = true;
+                        GameDataSaveLoader.SaveGame("HelodraceState17");
+                        Check(File.Exists(GenFilePaths.FilePathForSavedGame("HelodraceState17")), "new Main state saved");
+                        GameDataSaveLoader.LoadGame("HelodraceState17");
+                        return;
+                    }
+                    MainStateChecks.Verify(Check);
+                }
 #endif
                 else throw new ArgumentException("Unknown migration case: " + mode);
                 File.AppendAllText(Path.Combine(output, "checks.txt"), "COMPLETE\n");

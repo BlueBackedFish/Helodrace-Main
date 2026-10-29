@@ -855,19 +855,9 @@ namespace Helodrace
         }
     }
 
-    [HarmonyPatch]
-    internal static class Patch_HelodGasEffects_1_6
+    [HarmonyPatch(typeof(GasUtility), nameof(GasUtility.PawnGasEffectsTickInterval))]
+    internal static class Patch_HelodGasEffects
     {
-        private static MethodBase TargetMethod()
-        {
-            return AccessTools.Method(typeof(GasUtility), "PawnGasEffectsTickInterval");
-        }
-
-        private static bool Prepare()
-        {
-            return TargetMethod() != null;
-        }
-
         private static void Postfix(Pawn pawn, int delta)
         {
             if (pawn == null || !pawn.Spawned || !Gen.IsHashIntervalTick(pawn, 50, delta))
@@ -882,30 +872,4 @@ namespace Helodrace
         }
     }
 
-    [HarmonyPatch]
-    internal static class Patch_HelodGasEffects_1_5
-    {
-        private static MethodBase TargetMethod()
-        {
-            return AccessTools.Method(typeof(GasUtility), "PawnGasEffectsTick");
-        }
-
-        private static bool Prepare()
-        {
-            return TargetMethod() != null;
-        }
-
-        private static void Postfix(Pawn pawn)
-        {
-            if (pawn == null || !pawn.Spawned || !pawn.IsHashIntervalTick(50))
-            {
-                return;
-            }
-
-            if (HelodGasStore.TryGet(pawn.Map, out HelodGasState state))
-            {
-                state.ApplyEffects(pawn);
-            }
-        }
-    }
 }

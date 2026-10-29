@@ -21,7 +21,6 @@ namespace Helodrace
     public sealed class MapComponent_OilFields : MapComponent
     {
         public const string OilFieldTerrainDefName = "HD_OilFieldFloor";
-        public const string LegacyOilFieldTerrainDefName = "HD_LowQualityOilRigFloor";
 
         private List<OilFieldRecord> oilFields = new List<OilFieldRecord>();
         private Dictionary<IntVec3, OilFieldRecord> oilFieldsByCell =
@@ -85,19 +84,6 @@ namespace Helodrace
             return record;
         }
 
-        public OilFieldRecord FieldAtOrCreateLegacy(IntVec3 cell)
-        {
-            OilFieldRecord record = FieldAt(cell);
-            if (record != null)
-            {
-                return record;
-            }
-
-            return IsOilFieldTerrain(cell)
-                ? CreateOrReplace(cell, 1f, 1f)
-                : null;
-        }
-
         public void ReducePressure(OilFieldRecord record, float amount, float minimumPressure)
         {
             if (record == null)
@@ -117,7 +103,7 @@ namespace Helodrace
             }
 
             string defName = cell.GetTerrain(map)?.defName;
-            return defName == OilFieldTerrainDefName || defName == LegacyOilFieldTerrainDefName;
+            return defName == OilFieldTerrainDefName;
         }
 
         private void RemoveAt(IntVec3 cell)

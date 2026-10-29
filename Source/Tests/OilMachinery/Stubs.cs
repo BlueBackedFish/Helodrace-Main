@@ -109,7 +109,7 @@ namespace Helodrace
         public const string OilFieldTerrainDefName="HD_OilField";
         public OilFieldRecord Field; public Verse.IntVec3 FieldPosition; public int PressureReductions;
         public bool IsOilFieldTerrain(Verse.IntVec3 p)=>Field!=null && p.x==FieldPosition.x && p.z==FieldPosition.z;
-        public OilFieldRecord FieldAtOrCreateLegacy(Verse.IntVec3 p)=>IsOilFieldTerrain(p)?Field:null;
+        public OilFieldRecord FieldAt(Verse.IntVec3 p)=>IsOilFieldTerrain(p)?Field:null;
         public void CreateOrReplace(Verse.IntVec3 p,float quality,float pressure) { FieldPosition=p;Field=new() { quality=quality,pressure=pressure }; }
         public void ReducePressure(OilFieldRecord field,float amount,float minimum) { PressureReductions++;field.pressure=Math.Max(minimum,field.pressure-amount); }
     }

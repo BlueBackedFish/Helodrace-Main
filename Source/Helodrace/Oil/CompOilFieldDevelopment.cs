@@ -39,9 +39,8 @@ namespace Helodrace
 
             IntVec3 targetPos = parent.Position + Props.floorOffset;
             MapComponent_OilFields oilFields = parent.Map?.GetComponent<MapComponent_OilFields>();
-            if (oilFields != null && oilFields.IsOilFieldTerrain(targetPos))
+            if (oilFields?.FieldAt(targetPos) != null)
             {
-                oilFields.FieldAtOrCreateLegacy(targetPos);
                 developmentComplete = true;
                 needsMaintenance = false;
                 currentProgressDays = Props.totalDaysNeeded;
