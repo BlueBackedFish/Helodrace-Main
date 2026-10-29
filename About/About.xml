@@ -6,7 +6,7 @@
   <supportedVersions>
     <li>1.6</li>
   </supportedVersions>
-  <description>A RimWorld 1.6 mod with a standalone Helod race, industry, and modular equipment. Requires Harmony and Biotech.</description>
+  <description>A RimWorld 1.6 mod with a standalone Helod race, industry, and modular equipment. Requires Harmony, Biotech, and Helod race - Blanca's Drugs.</description>
   <modDependencies>
     <li>
       <packageId>brrainz.harmony</packageId>
@@ -18,6 +18,10 @@
       <packageId>Ludeon.RimWorld.Biotech</packageId>
       <displayName>Biotech</displayName>
       <steamWorkshopUrl>https://store.steampowered.com/app/1826140/RimWorld__Biotech</steamWorkshopUrl>
+    </li>
+    <li>
+      <packageId>BlueBackedFish.Helod.BlancasDrugs</packageId>
+      <displayName>Helod race - Blanca's Drugs</displayName>
     </li>
   </modDependencies>
   <loadAfter>
