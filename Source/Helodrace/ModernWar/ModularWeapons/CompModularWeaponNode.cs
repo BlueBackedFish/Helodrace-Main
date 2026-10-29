@@ -13,11 +13,6 @@ namespace Helodrace.ModernWar
         private static bool creatingPresetTemplate;
 
         private const int MaxTreeDepth = 32;
-        private const float ReceiverRearRailOffset = -0.0215f;
-        private const float ReceiverFrontRailOffset = 0.0215f;
-        private const float M16LowerGripRailOffset = -0.036f;
-        private const float M16LowerPanelRailOffset = 0.059f;
-        private const float M16UpperSidePanelRailOffset = -0.024f;
 
         private ThingOwner<Thing> children;
         private List<string> childSocketIds = new List<string>();
@@ -1317,8 +1312,6 @@ namespace Helodrace.ModernWar
             });
 
             RepairAssignmentLists();
-            MigrateLegacyReceiverRailAssignments();
-            MigrateLegacyM16LowerRailAssignments();
             for (int i = 0; i < children.Count; i++)
             {
                 Thing child = children[i];
@@ -1389,91 +1382,6 @@ namespace Helodrace.ModernWar
                     childOccupiedStart,
                     childOccupiedEnd);
             }
-        }
-
-        private void MigrateLegacyReceiverRailAssignments()
-        {
-            if (Props.SocketNamed("rail_receiver_top") == null) return;
-            RepairAssignmentLists();
-            bool changed = false;
-            for (int i = 0; i < childSocketIds.Count; i++)
-            {
-                if (childSocketIds[i] == "rail_receiver_rear")
-                {
-                    childSocketIds[i] = "rail_receiver_top";
-                    childRailOffsets[i] = ReceiverRearRailOffset;
-                    changed = true;
-                }
-                else if (childSocketIds[i] == "rail_receiver_front")
-                {
-                    childSocketIds[i] = "rail_receiver_top";
-                    childRailOffsets[i] = ReceiverFrontRailOffset;
-                    changed = true;
-                }
-            }
-
-            if (changed) InvalidateTree();
-        }
-
-        private void MigrateLegacyM16LowerRailAssignments()
-        {
-            if (parent?.def?.defName != "HD_ModularPart_HandguardExt_HACURXDOWN"
-                || Props.SocketNamed("rail_bottom") == null)
-                return;
-
-            RepairAssignmentLists();
-            bool changed = false;
-            for (int i = childSocketIds.Count - 1; i >= 0; i--)
-            {
-                string legacySocket = childSocketIds[i];
-                if (legacySocket == "rail_bottom_grip")
-                {
-                    childSocketIds[i] = "rail_bottom";
-                    childRailOffsets[i] = M16LowerGripRailOffset;
-                    changed = true;
-                }
-                else if (legacySocket == "rail_bottom_panel")
-                {
-                    childSocketIds[i] = "rail_bottom";
-                    childRailOffsets[i] = M16LowerPanelRailOffset;
-                    changed = true;
-                }
-                else if (legacySocket == "rail_side_panel")
-                {
-                    string legacyMount = childMountIds[i];
-                    float legacyOffset = childRailOffsets[i];
-                    Thing sidePanel = DetachChildAt(i);
-                    CompModularWeaponNode upperHandguard = parent?.ParentHolder
-                        as CompModularWeaponNode;
-                    string reason = null;
-                    bool transferred = sidePanel != null
-                        && upperHandguard?.Props.SocketNamed("rail_side_upper") != null
-                        && upperHandguard.TryAttach(sidePanel, "rail_side_upper", null,
-                            M16UpperSidePanelRailOffset, out reason);
-                    if (!transferred && sidePanel != null)
-                    {
-                        float freeOffset;
-                        transferred = upperHandguard != null
-                            && upperHandguard.TryFindAttachOffset(sidePanel,
-                                "rail_side_upper", null, out freeOffset, out reason)
-                            && upperHandguard.TryAttach(sidePanel, "rail_side_upper",
-                                null, freeOffset, out reason);
-                    }
-
-                    if (!transferred && sidePanel != null && children.TryAdd(sidePanel))
-                    {
-                        childSocketIds.Add(legacySocket);
-                        childMountIds.Add(legacyMount);
-                        childRailOffsets.Add(legacyOffset);
-                        Log.Warning("[Helodrace] Could not move a saved M16 mid panel to "
-                            + "the upper side rail; the part was preserved for a later retry. "
-                            + reason);
-                    }
-                    changed = true;
-                }
-            }
-
-            if (changed) InvalidateTree();
         }
 
         private bool ContainsThingRecursive(Thing candidate, int depth)

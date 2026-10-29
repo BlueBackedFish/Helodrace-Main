@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using System.Xml.Linq;
 using System.Reflection;
 using HarmonyLib;
 using RimWorld;
 using Verse;
+using Helodrace.ModernWar;
 
 namespace Helodrace.Tests
 {
@@ -39,6 +42,7 @@ namespace Helodrace.Tests
             ammo.stackCount = 7;
             check(pawn.inventory.innerContainer.TryAdd(ammo), "physical rockets placed in pawn inventory");
             bag.GetComp<CompM6RocketBag>().SetDesiredCount(ammo.def, 7);
+            CreateEquipment(pawn, check);
             Verify(check);
         }
 
@@ -63,6 +67,70 @@ namespace Helodrace.Tests
             check(Harmony.GetPatchInfo(gasMethod)?.Postfixes.Any(p => p.PatchMethod.DeclaringType?.Name == "Patch_HelodGasEffects") == true,
                 "custom gas effects bind the actual 1.7 interval API");
             check(DefDatabase<TerrainDef>.GetNamedSilentFail("HD_LowQualityOilRigFloor") == null, "retired oil terrain is absent");
+            VerifyEquipment(pawn, check);
+        }
+
+        private static void CreateEquipment(Pawn pawn, Action<bool, string> check)
+        {
+            var preset = DefDatabase<ModularArmorPresetDef>.GetNamed("HD_ArmorPreset_IBTV_Rifleman");
+            var armor = (Apparel)ThingMaker.MakeThing(preset.armorDef, GenStuff.DefaultStuffFor(preset.armorDef));
+            var armorComp = armor.GetComp<CompModularArmor>();
+            check(armorComp.TryApplyPreset(preset, out string reason), "actual armor preset applied: " + reason);
+            var record = armorComp.InstalledParts.First(p => p.CanSwapFrontRearPlates && p.PlateSet?.TryGetComp<CompArmorPlateSet>() != null);
+            var plates = record.PlateSet.TryGetComp<CompArmorPlateSet>();
+            plates.ApplyDamage(1, 2);
+            plates.ApplyDamage(2, 5);
+            check(record.SwapFrontRearPlates(), "front/rear plate order changed through current API");
+            check(pawn.inventory.innerContainer.TryAdd(armor), "configured armor stored in actual inventory");
+            File.WriteAllText(SnapshotPath("armor"), StablePreset(ModularPresetXmlExporter.ExportArmor(armorComp)));
+
+            var weaponDef = DefDatabase<ThingDef>.GetNamed("HD_Gun_M16A4_Weapon");
+            var weapon = (ThingWithComps)ThingMaker.MakeThing(weaponDef, GenStuff.DefaultStuffFor(weaponDef));
+            check(pawn.inventory.innerContainer.TryAdd(weapon), "default modular weapon stored in actual inventory");
+            File.WriteAllText(SnapshotPath("weapon"), StablePreset(ModularPresetXmlExporter.ExportWeapon(weapon.GetComp<CompModularWeaponNode>())));
+        }
+
+        private static void VerifyEquipment(Pawn pawn, Action<bool, string> check)
+        {
+            var armor = (ThingWithComps)pawn.inventory.innerContainer.Single(t => t.def.defName == "HD_Apparel_IBTVAssault");
+            var armorComp = armor.GetComp<CompModularArmor>();
+            string actualArmor = StablePreset(ModularPresetXmlExporter.ExportArmor(armorComp));
+            File.WriteAllText(SnapshotPath("armor").Replace("-before-save", "-current"), actualArmor);
+            check(actualArmor == File.ReadAllText(SnapshotPath("armor")),
+                "armor parts, PALS panels and current grid coordinates survive save/load");
+            var record = armorComp.InstalledParts.Single(p => p.CanSwapFrontRearPlates && p.PlateSet?.TryGetComp<CompArmorPlateSet>() != null);
+            var plates = record.PlateSet.TryGetComp<CompArmorPlateSet>();
+            check(plates.HitPointsFor(1) == Math.Max(0, plates.MaxHitPointsPerPlate - 2)
+                && plates.HitPointsFor(2) == Math.Max(0, plates.MaxHitPointsPerPlate - 5),
+                "independent current plate durability survives without upgrade scaling");
+            check(record.plateOrderSwapped && record.PlateNumberForFacing(ModularArmorFacing.Front) == 2,
+                "front/rear plate order survives current save/load");
+            check(typeof(InstalledModularArmorPart).GetField("directionalPlates") == null
+                && typeof(CompArmorPlateSet).GetField("durabilityVersion", BindingFlags.Instance | BindingFlags.NonPublic) == null
+                && typeof(CompModularArmor).GetField("palsGridDoubled", BindingFlags.Instance | BindingFlags.NonPublic) == null,
+                "retired directional plate and PALS migration schema absent");
+
+            var weapon = (ThingWithComps)pawn.inventory.innerContainer.Single(t => t.def.defName == "HD_Gun_M16A4_Weapon");
+            var weaponComp = weapon.GetComp<CompModularWeaponNode>();
+            string actualWeapon = StablePreset(ModularPresetXmlExporter.ExportWeapon(weaponComp));
+            File.WriteAllText(SnapshotPath("weapon").Replace("-before-save", "-current"), actualWeapon);
+            check(actualWeapon == File.ReadAllText(SnapshotPath("weapon")),
+                "current weapon sockets, mounts and instance offsets survive save/load");
+            check(weaponComp.RenderSnapshot().Count > 3, "actual weapon render tree builds without legacy rail reassignment");
+        }
+
+        private static string SnapshotPath(string name)
+        {
+            if (!GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out string folder)) throw new InvalidOperationException("Missing evidence directory");
+            return Path.Combine(folder, name + "-before-save.xml");
+        }
+
+        private static string StablePreset(string xml)
+        {
+            var document = XDocument.Parse(xml);
+            // Export names contain the current timestamp, independent of equipment state.
+            document.Root.Elements().Single().Element("defName").Value = "MigrationSnapshot";
+            return document.ToString(SaveOptions.DisableFormatting);
         }
     }
 }

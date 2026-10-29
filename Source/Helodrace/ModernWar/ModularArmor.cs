@@ -347,10 +347,8 @@ namespace Helodrace.ModernWar
 
     public sealed class CompArmorPlateSet : ThingComp
     {
-        private const int CurrentDurabilityVersion = 1;
         private int plateOneHitPoints = -1;
         private int plateTwoHitPoints = -1;
-        private int durabilityVersion;
 
         public int MaxHitPointsPerPlate => parent.MaxHitPoints;
 
@@ -369,7 +367,6 @@ namespace Helodrace.ModernWar
         {
             base.PostPostMake();
             EnsureInitialized();
-            durabilityVersion = CurrentDurabilityVersion;
         }
 
         public override void PostExposeData()
@@ -377,10 +374,8 @@ namespace Helodrace.ModernWar
             base.PostExposeData();
             Scribe_Values.Look(ref plateOneHitPoints, "plateOneHitPoints", -1);
             Scribe_Values.Look(ref plateTwoHitPoints, "plateTwoHitPoints", -1);
-            Scribe_Values.Look(ref durabilityVersion, "durabilityVersion", 0);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                UpgradeDurabilityIfNeeded();
                 EnsureInitialized();
             }
         }
@@ -423,12 +418,6 @@ namespace Helodrace.ModernWar
             }
         }
 
-        public void SetLegacyHitPoints(int plateOne, int plateTwo)
-        {
-            plateOneHitPoints = Mathf.Clamp(plateOne, 0, MaxHitPointsPerPlate);
-            plateTwoHitPoints = Mathf.Clamp(plateTwo, 0, MaxHitPointsPerPlate);
-        }
-
         public override string CompInspectStringExtra()
         {
             EnsureInitialized();
@@ -460,99 +449,6 @@ namespace Helodrace.ModernWar
                 0,
                 MaxHitPointsPerPlate);
         }
-
-        private void UpgradeDurabilityIfNeeded()
-        {
-            if (durabilityVersion >= CurrentDurabilityVersion)
-            {
-                return;
-            }
-
-            if (plateOneHitPoints >= 0)
-            {
-                plateOneHitPoints = Mathf.CeilToInt(plateOneHitPoints / 5f);
-            }
-
-            if (plateTwoHitPoints >= 0)
-            {
-                plateTwoHitPoints = Mathf.CeilToInt(plateTwoHitPoints / 5f);
-            }
-
-            durabilityVersion = CurrentDurabilityVersion;
-        }
-    }
-
-    // Kept only to migrate saves made by the earlier one-item-per-direction model.
-    public sealed class DirectionalArmorPlateState : IExposable, IThingHolder
-    {
-        public ModularArmorFacing facing;
-        private ThingOwner<Thing> plateContainer;
-
-        public IThingHolder ParentHolder => null;
-
-        public Thing Plate
-        {
-            get
-            {
-                EnsureContainer();
-                return plateContainer.Count > 0 ? plateContainer[0] : null;
-            }
-        }
-
-        public DirectionalArmorPlateState()
-        {
-            EnsureContainer();
-        }
-
-        public DirectionalArmorPlateState(ModularArmorFacing facing)
-        {
-            this.facing = facing;
-            EnsureContainer();
-        }
-
-        public bool TryInstallPlate(Thing plate)
-        {
-            EnsureContainer();
-            return plate != null
-                && Plate == null
-                && plateContainer.TryAdd(plate, false);
-        }
-
-        public Thing RemovePlate()
-        {
-            EnsureContainer();
-            Thing plate = Plate;
-            return plate == null
-                ? null
-                : plateContainer.Take(plate, plate.stackCount);
-        }
-
-        public void ExposeData()
-        {
-            Scribe_Values.Look(ref facing, "facing", ModularArmorFacing.Front);
-            EnsureContainer();
-            plateContainer.ExposeData();
-        }
-
-        public ThingOwner GetDirectlyHeldThings()
-        {
-            EnsureContainer();
-            return plateContainer;
-        }
-
-        public void GetChildHolders(List<IThingHolder> outChildren)
-        {
-            EnsureContainer();
-            ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, plateContainer);
-        }
-
-        private void EnsureContainer()
-        {
-            if (plateContainer == null)
-            {
-                plateContainer = new ThingOwner<Thing>(this, false, LookMode.Deep);
-            }
-        }
     }
 
     public sealed class InstalledModularArmorPart : IExposable, IThingHolder
@@ -563,7 +459,6 @@ namespace Helodrace.ModernWar
         public ModularArmorPalsPanelDef palsPanel;
         public int palsX;
         public int palsY;
-        public List<DirectionalArmorPlateState> directionalPlates;
         private ThingOwner<Thing> plateSetContainer;
         public bool plateOrderSwapped;
         // Editor-only reference: preview health without transferring the real item.
@@ -616,14 +511,6 @@ namespace Helodrace.ModernWar
             Scribe_Values.Look(ref plateOrderSwapped, "plateOrderSwapped", false);
             EnsurePlateSetContainer();
             plateSetContainer.ExposeData();
-            Scribe_Collections.Look(
-                ref directionalPlates,
-                "directionalPlates",
-                LookMode.Deep);
-            if (Scribe.mode == LoadSaveMode.PostLoadInit)
-            {
-                MigrateDirectionalPlates();
-            }
         }
 
         public Thing PlateSet
@@ -815,60 +702,11 @@ namespace Helodrace.ModernWar
                 plateSetContainer = new ThingOwner<Thing>(this, false, LookMode.Deep);
             }
         }
-
-        private void MigrateDirectionalPlates()
-        {
-            EnsurePlateSetContainer();
-            if (PlateSet != null || directionalPlates.NullOrEmpty())
-            {
-                return;
-            }
-
-            List<ModularArmorFacing> directions = EffectivePosition?
-                .protectedDirections?
-                .Distinct()
-                .ToList() ?? new List<ModularArmorFacing>();
-            Thing firstPlate = null;
-            Thing secondPlate = null;
-            if (directions.Count > 0)
-            {
-                firstPlate = directionalPlates
-                    .FirstOrDefault(state => state?.facing == directions[0])
-                    ?.RemovePlate();
-            }
-
-            if (directions.Count > 1)
-            {
-                secondPlate = directionalPlates
-                    .FirstOrDefault(state => state?.facing == directions[1])
-                    ?.RemovePlate();
-            }
-
-            Thing setItem = firstPlate ?? secondPlate;
-            if (setItem != null && TryInstallPlateSet(setItem))
-            {
-                CompArmorPlateSet plateComp = setItem.TryGetComp<CompArmorPlateSet>();
-                plateComp?.SetLegacyHitPoints(
-                    firstPlate?.HitPoints ?? 0,
-                    secondPlate?.HitPoints ?? 0);
-            }
-
-            Thing duplicate = setItem == firstPlate ? secondPlate : firstPlate;
-            duplicate?.Destroy(DestroyMode.Vanish);
-            for (int i = 0; i < directionalPlates.Count; i++)
-            {
-                directionalPlates[i]?.GetDirectlyHeldThings()
-                    ?.ClearAndDestroyContents();
-            }
-
-            directionalPlates = null;
-        }
     }
 
     public sealed partial class CompModularArmor : ThingComp
     {
         private List<InstalledModularArmorPart> installedParts;
-        private bool palsGridDoubled;
 
         public CompProperties_ModularArmor Props => (CompProperties_ModularArmor)props;
 
@@ -888,7 +726,6 @@ namespace Helodrace.ModernWar
         public override void PostPostMake()
         {
             base.PostPostMake();
-            palsGridDoubled = true;
             EnsureConfiguration();
         }
 
@@ -899,26 +736,11 @@ namespace Helodrace.ModernWar
                 ref installedParts,
                 "modularArmorParts",
                 LookMode.Deep);
-            Scribe_Values.Look(ref palsGridDoubled, "palsGridDoubled", false);
             Scribe_Deep.Look(ref pendingCustomization, "pendingArmorCustomization");
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 EnsureConfiguration();
-                if (!palsGridDoubled)
-                {
-                    for (int i = 0; i < installedParts.Count; i++)
-                    {
-                        InstalledModularArmorPart record = installedParts[i];
-                        if (record?.IsPalsMounted == true)
-                        {
-                            record.palsX *= 2;
-                            record.palsY *= 2;
-                        }
-                    }
-
-                    palsGridDoubled = true;
-                }
                 // Loading runs in a long-event worker. PALS validation checks
                 // authored textures, which ContentFinder only permits on the
                 // main thread. A worker lookup returns null and would remove
