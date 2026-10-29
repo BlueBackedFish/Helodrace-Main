@@ -117,6 +117,8 @@ namespace Helodrace.Tests
             check(actualWeapon == File.ReadAllText(SnapshotPath("weapon")),
                 "current weapon sockets, mounts and instance offsets survive save/load");
             check(weaponComp.RenderSnapshot().Count > 3, "actual weapon render tree builds without legacy rail reassignment");
+            check(typeof(ModularAttachmentMount).GetField("railOccupancy") == null,
+                "mount schema contains only current contact and physical lengths");
         }
 
         private static string SnapshotPath(string name)

@@ -2230,9 +2230,6 @@ namespace Helodrace.ModernWar
                 if (!mount.label.NullOrEmpty())
                     builder.AppendLine("    <label>" + Xml(mount.label) + "</label>");
                 AppendStringList(builder, "socketTags", mount.socketTags, 4);
-                if (mount.railOccupancy > 0f)
-                    builder.AppendLine("    <railOccupancy>" + Number(mount.railOccupancy)
-                        + "</railOccupancy>");
                 if (mount.railContactLength > 0f)
                     builder.AppendLine("    <railContactLength>"
                         + Number(mount.railContactLength)
@@ -2607,7 +2604,6 @@ namespace Helodrace.ModernWar
                             : new List<string>(item.socketTags),
                         transform = item.transform?.Clone()
                             ?? new ModularAttachmentTransform(),
-                        railOccupancy = item.railOccupancy,
                         railContactLength = item.railContactLength,
                         physicalLength = item.physicalLength,
                         physicalCenterOffset = item.physicalCenterOffset,

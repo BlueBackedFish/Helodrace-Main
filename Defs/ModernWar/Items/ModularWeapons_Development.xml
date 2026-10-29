@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
   <ThingCategoryDef>
@@ -274,7 +274,7 @@
           <AccuracyShort>1.08</AccuracyShort>
           <AccuracyMedium>1.04</AccuracyMedium>
         </statFactors>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.08</railOccupancy><railContactLength>0.054</railContactLength><physicalLength>0.087</physicalLength><physicalCenterOffset>0.016</physicalCenterOffset><railSurface>Top</railSurface><transform><position>(-0.111,0,0.015)</position></transform></li></mounts>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railContactLength>0.054</railContactLength><physicalLength>0.087</physicalLength><physicalCenterOffset>0.016</physicalCenterOffset><railSurface>Top</railSurface><transform><position>(-0.111,0,0.015)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -342,7 +342,7 @@
           <AccuracyMedium>1.08</AccuracyMedium>
           <AccuracyLong>1.12</AccuracyLong>
         </statFactors>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.055</railOccupancy><railContactLength>0.03</railContactLength><physicalLength>0.065</physicalLength><physicalCenterOffset>-0.015</physicalCenterOffset><railSurface>Top</railSurface><transform><position>(-0.154,0,0.015)</position></transform></li></mounts>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railContactLength>0.03</railContactLength><physicalLength>0.065</physicalLength><physicalCenterOffset>-0.015</physicalCenterOffset><railSurface>Top</railSurface><transform><position>(-0.154,0,0.015)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -367,7 +367,7 @@
           <maxLength>40</maxLength>
         </laser>
         <internalStats><aimSpeed>1.15</aimSpeed></internalStats>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.135</railOccupancy><railContactLength>0.08</railContactLength><physicalLength>0.129</physicalLength><physicalCenterOffset>-0.001</physicalCenterOffset><railSurface>Top</railSurface><transform><position>(0.145,0,0.019)</position></transform></li></mounts>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railContactLength>0.08</railContactLength><physicalLength>0.129</physicalLength><physicalCenterOffset>-0.001</physicalCenterOffset><railSurface>Top</railSurface><transform><position>(0.145,0,0.019)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -399,7 +399,7 @@
           <affectsMechanoids>false</affectsMechanoids>
           <affectsAnimals>true</affectsAnimals>
         </flashlight>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.13</railOccupancy><railContactLength>0.035</railContactLength><physicalLength>0.182</physicalLength><physicalCenterOffset>0.005</physicalCenterOffset><railSurface>Side</railSurface><transform><position>(0.119,0,-0.005)</position></transform></li></mounts>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railContactLength>0.035</railContactLength><physicalLength>0.182</physicalLength><physicalCenterOffset>0.005</physicalCenterOffset><railSurface>Side</railSurface><transform><position>(0.119,0,-0.005)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -425,7 +425,7 @@
           <maxLength>40</maxLength>
         </laser>
         <internalStats><aimSpeed>1.1</aimSpeed></internalStats>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.13</railOccupancy><railContactLength>0.031</railContactLength><physicalLength>0.155</physicalLength><physicalCenterOffset>0.024</physicalCenterOffset><railSurface>Side</railSurface><transform><position>(0.119,0,-0.005)</position></transform></li></mounts>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railContactLength>0.031</railContactLength><physicalLength>0.155</physicalLength><physicalCenterOffset>0.024</physicalCenterOffset><railSurface>Side</railSurface><transform><position>(0.119,0,-0.005)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -443,7 +443,7 @@
         <verticalOccupancy>0.09</verticalOccupancy>
         <verticalOccupancyOffset>-0.045</verticalOccupancyOffset>
         <internalStats><muzzleRise>-0.8</muzzleRise><aimSpeed>4.95</aimSpeed><aimStability>3</aimStability></internalStats>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.043</railOccupancy><railContactLength>0.035</railContactLength><railSurface>Bottom</railSurface><transform><position>(0.155,0,-0.022)</position></transform></li></mounts>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><physicalLength>0.043</physicalLength><railContactLength>0.035</railContactLength><railSurface>Bottom</railSurface><transform><position>(0.155,0,-0.022)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -473,7 +473,7 @@
         <graphicLayer>3</graphicLayer>
         <performanceRole>RailPanel</performanceRole>
         <internalStats><aimSpeed>1.625</aimSpeed></internalStats>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.086</railOccupancy><railContactLength>0.076</railContactLength><railSurface>Bottom</railSurface><transform><position>(0.028,0,-0.024)</position></transform></li></mounts>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><physicalLength>0.086</physicalLength><railContactLength>0.076</railContactLength><railSurface>Bottom</railSurface><transform><position>(0.028,0,-0.024)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -500,7 +500,7 @@
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>3</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-1</graphicLayer>
-        <mounts><li><id>stock_mount</id><socketTags><li>ar15_stock</li></socketTags><railOccupancy>0.025</railOccupancy><transform><position>(-0.258,0,-0.01)</position></transform></li></mounts>
+        <mounts><li><id>stock_mount</id><socketTags><li>ar15_stock</li></socketTags><railContactLength>0.025</railContactLength><physicalLength>0.025</physicalLength><transform><position>(-0.258,0,-0.01)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -514,7 +514,7 @@
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>3</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-1</graphicLayer>
-        <mounts><li><id>stock_mount</id><socketTags><li>ar15_stock</li></socketTags><railOccupancy>0.025</railOccupancy><transform><position>(-0.315,0,-0.007)</position></transform></li></mounts>
+        <mounts><li><id>stock_mount</id><socketTags><li>ar15_stock</li></socketTags><railContactLength>0.025</railContactLength><physicalLength>0.025</physicalLength><transform><position>(-0.315,0,-0.007)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>

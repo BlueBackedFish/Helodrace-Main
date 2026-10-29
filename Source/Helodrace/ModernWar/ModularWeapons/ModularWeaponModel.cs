@@ -243,8 +243,6 @@ namespace Helodrace.ModernWar
         public string label;
         public List<string> socketTags = new List<string>();
         public ModularAttachmentTransform transform = new ModularAttachmentTransform();
-        // Legacy length used by older definitions for both the clamp and body.
-        public float railOccupancy;
         // Length actually held by the rail. The body may extend past its ends.
         public float railContactLength;
         // One-dimensional body extent and center along the rail axis.
@@ -254,10 +252,9 @@ namespace Helodrace.ModernWar
         public Vector3 oppositeSurfaceOffset = Vector3.zero;
 
         public string Label => label.NullOrEmpty() ? id : label;
-        public float EffectiveRailContactLength => railContactLength > 0f
-            ? railContactLength : railOccupancy;
+        public float EffectiveRailContactLength => railContactLength;
         public float EffectivePhysicalLength => physicalLength > 0f
-            ? physicalLength : Mathf.Max(railOccupancy, railContactLength);
+            ? physicalLength : railContactLength;
 
         public bool Accepts(ModularAttachmentSocket socket)
         {
@@ -717,9 +714,6 @@ namespace Helodrace.ModernWar
                 if (!ids.Add(mount.id))
                     yield return parentDef.defName + " has duplicate modular mount " + mount.id + ".";
 
-                if (mount.railOccupancy < 0f)
-                    yield return parentDef.defName + " mount " + mount.id
-                        + " has a negative railOccupancy.";
                 if (mount.railContactLength < 0f)
                     yield return parentDef.defName + " mount " + mount.id
                         + " has a negative railContactLength.";

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
   <!-- P320-family textures share one 512px canvas and render at 0.5 against the
@@ -106,7 +106,7 @@
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_FluxRaiderKit</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>3</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
       <graphicLayer>3</graphicLayer><internalStats><massKg>0.3</massKg><muzzleRise>-1.5</muzzleRise><aimSpeed>4.5</aimSpeed></internalStats>
-      <mounts><li><id>stock_mount</id><socketTags><li>flux_raider_stock</li></socketTags><railOccupancy>0.02</railOccupancy><transform><position>(-0.23,0,0.03)</position></transform></li></mounts>
+      <mounts><li><id>stock_mount</id><socketTags><li>flux_raider_stock</li></socketTags><railContactLength>0.02</railContactLength><physicalLength>0.02</physicalLength><transform><position>(-0.23,0,0.03)</position></transform></li></mounts>
     </li></comps>
   </ThingDef>
 
@@ -115,7 +115,7 @@
     <graphicData><texPath>Weapons/Modular/RailAccessories/HD_PicatinnyUP_T2MountLow</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
       <graphicLayer>5</graphicLayer>
-      <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.055</railOccupancy><railContactLength>0.045</railContactLength><physicalLength>0.088</physicalLength><railSurface>Top</railSurface><transform><position>(-0.199,0,0.143)</position></transform></li></mounts>
+      <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railContactLength>0.045</railContactLength><physicalLength>0.088</physicalLength><railSurface>Top</railSurface><transform><position>(-0.199,0,0.143)</position></transform></li></mounts>
       <sockets><li><id>optic</id><label>T2 optic footprint</label><tags><li>t2_footprint</li></tags><transform><position>(-0.2,0,0.195)</position></transform></li></sockets>
     </li></comps>
   </ThingDef>
@@ -139,7 +139,7 @@
       <graphicLayer>5</graphicLayer><verticalOccupancy>0.07</verticalOccupancy><verticalOccupancyOffset>-0.01</verticalOccupancyOffset>
       <laser><emitterOffset>(0.26,0,0.002)</emitterOffset><color>(1,0.08,0.05,0.85)</color><beamWidth>0.016</beamWidth><dotSize>0.1</dotSize><drawDot>true</drawDot><maxLength>35</maxLength></laser>
       <internalStats><massKg>0.13</massKg><aimSpeed>1.5</aimSpeed></internalStats>
-      <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.08</railOccupancy><railContactLength>0.05</railContactLength><physicalLength>0.17</physicalLength><physicalCenterOffset>-0.005</physicalCenterOffset><railSurface>Bottom</railSurface><transform><position>(0.19,0,0.032)</position></transform></li></mounts>
+      <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railContactLength>0.05</railContactLength><physicalLength>0.17</physicalLength><physicalCenterOffset>-0.005</physicalCenterOffset><railSurface>Bottom</railSurface><transform><position>(0.19,0,0.032)</position></transform></li></mounts>
     </li></comps>
   </ThingDef>
 

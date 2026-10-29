@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
   <!-- M16A4-specific parts share the M4 lower/upper interface offsets. -->
@@ -196,7 +196,7 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>3</Steel></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <graphicLayer>-1</graphicLayer>
-        <mounts><li><id>fixed_stock_mount</id><socketTags><li>ar15_fixed_stock</li></socketTags><railOccupancy>0.025</railOccupancy><transform><position>(-0.236,0,-0.005)</position></transform></li></mounts>
+        <mounts><li><id>fixed_stock_mount</id><socketTags><li>ar15_fixed_stock</li></socketTags><railContactLength>0.025</railContactLength><physicalLength>0.025</physicalLength><transform><position>(-0.236,0,-0.005)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -211,7 +211,7 @@
         <graphicLayer>5</graphicLayer>
         <verticalOccupancy>0.01</verticalOccupancy>
         <verticalOccupancyOffset>0.02</verticalOccupancyOffset>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.1</railOccupancy><railContactLength>0.082</railContactLength><physicalLength>0.16</physicalLength><physicalCenterOffset>-0.018</physicalCenterOffset><railSurface>Top</railSurface><transform><position>(-0.1,0,0.017)</position></transform></li></mounts>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railContactLength>0.082</railContactLength><physicalLength>0.16</physicalLength><physicalCenterOffset>-0.018</physicalCenterOffset><railSurface>Top</railSurface><transform><position>(-0.1,0,0.017)</position></transform></li></mounts>
         <sockets><li><id>scope</id><label>Lumicon scope interface</label><tags><li>lumicon_ta_scope</li></tags><transform><position>(-0.103,0,0.023)</position></transform></li></sockets>
       </li>
     </comps>
@@ -262,7 +262,7 @@
         <verticalOccupancy>0.09</verticalOccupancy>
         <verticalOccupancyOffset>-0.045</verticalOccupancyOffset>
         <internalStats><muzzleRise>-0.7</muzzleRise><aimSpeed>4.3</aimSpeed><aimStability>3</aimStability></internalStats>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.043</railOccupancy><railContactLength>0.035</railContactLength><railSurface>Bottom</railSurface><transform><position>(0.094,0,-0.027)</position></transform></li></mounts>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><physicalLength>0.043</physicalLength><railContactLength>0.035</railContactLength><railSurface>Bottom</railSurface><transform><position>(0.094,0,-0.027)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -278,7 +278,7 @@
         <graphicLayer>3</graphicLayer>
         <performanceRole>RailPanel</performanceRole>
         <internalStats><aimSpeed>2.6</aimSpeed></internalStats>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.144</railOccupancy><railContactLength>0.13</railContactLength><physicalLength>0.143</physicalLength><railSurface>Bottom</railSurface><transform><position>(0.19,0,-0.024)</position></transform></li></mounts>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railContactLength>0.13</railContactLength><physicalLength>0.143</physicalLength><railSurface>Bottom</railSurface><transform><position>(0.19,0,-0.024)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -294,7 +294,7 @@
         <graphicLayer>3</graphicLayer>
         <performanceRole>RailPanel</performanceRole>
         <internalStats><aimSpeed>2.275</aimSpeed></internalStats>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.145</railOccupancy><railContactLength>0.13</railContactLength><physicalLength>0.145</physicalLength><railSurface>Side</railSurface><transform><position>(0.059,0,-0.008)</position></transform></li></mounts>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railContactLength>0.13</railContactLength><physicalLength>0.145</physicalLength><railSurface>Side</railSurface><transform><position>(0.059,0,-0.008)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
