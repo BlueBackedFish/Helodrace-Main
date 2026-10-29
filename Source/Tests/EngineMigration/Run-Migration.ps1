@@ -9,6 +9,7 @@ param(
     [switch]$Legacy16,
     [switch]$NoWindow,
     [switch]$Wait,
+    [switch]$KeepCaches,
     [int]$TimeoutSeconds=300
 )
 $ErrorActionPreference='Stop'
@@ -71,8 +72,14 @@ else{
 if($Legacy16){$arguments+=@('-logFile',('"'+(Join-Path $runtime 'Player.log')+'"'));$engineLog=Join-Path $runtime 'Player.log'}
 else{$engineLog=Join-Path ([Environment]::GetFolderPath('UserProfile')) 'AppData/LocalLow/Ludeon Studios/RimWorld by Ludeon Studios/Logs/Player.log'}
 $manifest=@{version=$gameVersion;fixtureCase=$Case;gameRoot=$GameRoot;blancasRoot=$BlancasRoot;arguments=$arguments;bridgeSha256=(Get-FileHash -LiteralPath $BridgeAssembly).Hash;engineLog=$engineLog;startedUtc=[DateTime]::UtcNow.ToString('o')}
+$versionFolder=if($Legacy16){'1.6'}else{'1.7'}
+$engineAssembly=if($Legacy16){Join-Path $GameRoot 'RimWorldWin64_Data/Managed/Assembly-CSharp.dll'}else{Join-Path $GameRoot 'Assembly-CSharp.dll'}
+$manifest.engineAssemblySha256=(Get-FileHash -LiteralPath $engineAssembly).Hash
+$manifest.blancasAssemblySha256=(Get-FileHash -LiteralPath (Join-Path $BlancasRoot ($versionFolder+'/Assemblies/HelodBlancasDrug.dll'))).Hash
+$manifest.harmonyAssemblySha256=(Get-FileHash -LiteralPath (Join-Path $HarmonyRoot ($versionFolder+'/Assemblies/0Harmony.dll'))).Hash
+if($Case -in @('main','main-state')){$manifest.mainAssemblySha256=(Get-FileHash -LiteralPath (Join-Path $game 'Mods/Main/Assemblies/Helodrace.dll')).Hash}
 $process=Start-Process -FilePath (Join-Path $game $executable) -WorkingDirectory $game -WindowStyle Hidden -PassThru -ArgumentList $arguments
 $manifest.processId=$process.Id
 $manifest | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $runtime 'launcher.json') -Encoding UTF8
 Write-Output ("Migration started: pid="+$process.Id+" root="+$runtime)
-if($Wait){& (Join-Path $PSScriptRoot 'Wait-Migration.ps1') -RuntimeRoot $runtime -TimeoutSeconds $TimeoutSeconds}
+if($Wait){& (Join-Path $PSScriptRoot 'Wait-Migration.ps1') -RuntimeRoot $runtime -TimeoutSeconds $TimeoutSeconds -KeepCaches:$KeepCaches}

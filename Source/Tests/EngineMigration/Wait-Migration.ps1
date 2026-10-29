@@ -1,6 +1,7 @@
 param(
     [Parameter(Mandatory=$true)][string]$RuntimeRoot,
-    [int]$TimeoutSeconds=300
+    [int]$TimeoutSeconds=300,
+    [switch]$KeepCaches
 )
 $ErrorActionPreference='Stop'
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
@@ -25,4 +26,8 @@ if($manifest.engineLog -and (Test-Path -LiteralPath $manifest.engineLog)){
 @{processExitCode=$exitCode;completedUtc=[DateTime]::UtcNow.ToString('o');checksComplete=($result -match '(?m)^COMPLETE\r?$')} |
     ConvertTo-Json | Set-Content -LiteralPath (Join-Path $runtime 'Evidence/result.json') -Encoding UTF8
 if($result -match '(?m)^FAIL ' -or $result -notmatch '(?m)^COMPLETE\r?$' -or ($null -ne $exitCode -and $exitCode -ne 0)){throw "Migration failed. See $checks"}
+if(-not $KeepCaches){
+    $freed=& (Join-Path $PSScriptRoot 'Clear-MigrationCaches.ps1') -RuntimeRoot $runtime
+    Write-Output ('Cleared regenerable profile caches: '+[Math]::Round($freed/1MB)+' MiB. Use -KeepCaches to retain them.')
+}
 Write-Output ('PASS: '+$manifest.fixtureCase+'; '+([regex]::Matches($result,'(?m)^PASS ')).Count+' checks. Evidence: '+$runtime+'/Evidence')
