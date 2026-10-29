@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_ResearchSection_Foundations.label>1. 개척·기초</HD_ResearchSection_Foundations.label>
-  <HD_ResearchSection_Steam.label>2. 증기·동력전달</HD_ResearchSection_Steam.label>
-  <HD_ResearchSection_Engines.label>3. 기관·석유화학</HD_ResearchSection_Engines.label>
-  <HD_ResearchSection_MassProduction.label>4. 대량생산·진공관</HD_ResearchSection_MassProduction.label>
-  <HD_ResearchSection_NumericalControl.label>5. 수치제어·대전기</HD_ResearchSection_NumericalControl.label>
-  <HD_ResearchSection_ColdWar.label>6. 냉전·복합기술</HD_ResearchSection_ColdWar.label>
-  <HD_ResearchSection_Modern.label>7. 현대화·특수전</HD_ResearchSection_Modern.label>
+  <HD_ResearchSection_Shared.label>공통 기초</HD_ResearchSection_Shared.label>
+  <HD_ResearchSection_Mechanical.label>기초 기계공학</HD_ResearchSection_Mechanical.label>
+  <HD_ResearchSection_Experiments.label>실험·성분추출</HD_ResearchSection_Experiments.label>
+  <HD_ResearchSection_CellsTelegraph.label>전지·유선통신</HD_ResearchSection_CellsTelegraph.label>
+  <HD_ResearchSection_SteamOil.label>증기·초기 유전</HD_ResearchSection_SteamOil.label>
+  <HD_ResearchSection_Transmission.label>공작·동력전달</HD_ResearchSection_Transmission.label>
+  <HD_ResearchSection_BasicElectric.label>기초 전기</HD_ResearchSection_BasicElectric.label>
+  <HD_ResearchSection_Precision.label>정밀가공</HD_ResearchSection_Precision.label>
+  <HD_ResearchSection_EarlyFirearms.label>후장총·무연화약</HD_ResearchSection_EarlyFirearms.label>
+  <HD_ResearchSection_EnginePetro.label>내연·석유화학</HD_ResearchSection_EnginePetro.label>
+  <HD_ResearchSection_Thermal.label>열·대형동력</HD_ResearchSection_Thermal.label>
+  <HD_ResearchSection_Practical.label>대전기 실용기술</HD_ResearchSection_Practical.label>
+  <HD_ResearchSection_Infantry.label>근대 보병화기</HD_ResearchSection_Infantry.label>
+  <HD_ResearchSection_MachineGuns.label>기관총</HD_ResearchSection_MachineGuns.label>
+  <HD_ResearchSection_Motor.label>전동기</HD_ResearchSection_Motor.label>
+  <HD_ResearchSection_SyntheticChemistry.label>합성화학·의약</HD_ResearchSection_SyntheticChemistry.label>
+  <HD_ResearchSection_VacuumRadio.label>진공관·무선통신</HD_ResearchSection_VacuumRadio.label>
+  <HD_ResearchSection_HandGrenades.label>보병 수류탄</HD_ResearchSection_HandGrenades.label>
+  <HD_ResearchSection_Artillery.label>야포·중포</HD_ResearchSection_Artillery.label>
+  <HD_ResearchSection_NumericalControl.label>수치제어</HD_ResearchSection_NumericalControl.label>
+  <HD_ResearchSection_SocietyProtection.label>생활·방호체계</HD_ResearchSection_SocietyProtection.label>
+  <HD_ResearchSection_ServiceInfantry.label>제식소총·방호</HD_ResearchSection_ServiceInfantry.label>
+  <HD_ResearchSection_AntiAir.label>대공 화력</HD_ResearchSection_AntiAir.label>
+  <HD_ResearchSection_Semiconductor.label>반도체·자동화</HD_ResearchSection_Semiconductor.label>
+  <HD_ResearchSection_ColdGrenades.label>냉전 수류탄</HD_ResearchSection_ColdGrenades.label>
+  <HD_ResearchSection_SpecialOperations.label>치안·특수전</HD_ResearchSection_SpecialOperations.label>
+  <HD_ResearchSection_GuidanceComms.label>유도·전술통신</HD_ResearchSection_GuidanceComms.label>
+  <HD_ResearchSection_ModernGrenades.label>현대 수류탄</HD_ResearchSection_ModernGrenades.label>
+  <HD_ResearchSection_RifleSights.label>현대 화기·조준</HD_ResearchSection_RifleSights.label>
+  <HD_ResearchSection_IntegratedMachining.label>복합가공</HD_ResearchSection_IntegratedMachining.label>
 </LanguageData>

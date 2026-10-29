@@ -184,8 +184,9 @@ namespace Helodrace.ResearchUI
         {
             var boxes = obstacles.ToList(); var ends = ports.ToList();
             this.ports = ends;
-            xs = Tracks(boxes.SelectMany(b => new[] { b.Left, b.Right }).Concat(ends.Select(p => p.X)));
-            ys = Tracks(boxes.SelectMany(b => new[] { b.Top, b.Bottom }).Concat(ends.Select(p => p.Y)));
+            // Keep exact escape lanes beside ports, even when a header edge falls between uniform tracks.
+            xs = Tracks(boxes.SelectMany(b => new[] { b.Left, b.Right }).Concat(ends.SelectMany(p => new[] { p.X - 12, p.X, p.X + 12 })));
+            ys = Tracks(boxes.SelectMany(b => new[] { b.Top, b.Bottom }).Concat(ends.SelectMany(p => new[] { p.Y - 12, p.Y, p.Y + 12 })));
             columns = xs.Length; neighbors = new List<int>[xs.Length * ys.Length];
             for (int i = 0; i < neighbors.Length; i++) neighbors[i] = new List<int>();
             for (int y = 0; y < ys.Length; y++)

@@ -216,26 +216,25 @@ internal static class Program
         Dictionary<ResearchProjectDef, ResearchCell> cells)
     {
         int top = cells.Values.Min(c => c.Row);
-        var starts = sections.Select(s => s.Element("projects").Elements("li").Min(e => cells[projects[e.Value]].Column)).Distinct().ToList();
-        var disciplines = XDocument.Load("Defs/Research/ResearchDisciplines_Helod.xml").Root.Elements().ToList();
-        var scienceStarts = disciplines.Select(d => d.Element("projects").Elements("li").Min(e => cells[projects[e.Value]].Row)).Distinct().ToList();
-        Func<int, float> scienceOffset = row => 160 * scienceStarts.Count(r => r > top && r <= row);
         var boxes = projects.Values.ToDictionary(p => p, p => new ResearchBox(
-            84 + cells[p].Column * 320 + 200 * starts.Count(c => c > 0 && c <= cells[p].Column),
-            212 + (cells[p].Row - top) * 156 + scienceOffset(cells[p].Row),
-            264 + cells[p].Column * 320 + 200 * starts.Count(c => c > 0 && c <= cells[p].Column),
-            296 + (cells[p].Row - top) * 156 + scienceOffset(cells[p].Row)));
+            84 + cells[p].Column * 400, 212 + (cells[p].Row - top) * 180,
+            264 + cells[p].Column * 400, 296 + (cells[p].Row - top) * 180));
         var obstacles = boxes.Values.Select(b => new ResearchBox(b.Left - 8, b.Top - 8, b.Right + 8, b.Bottom + 8)).ToList();
+        var panels = new List<ResearchBox>();
         foreach (var section in sections)
         {
-            var members = section.Element("projects").Elements("li").Select(e => boxes[projects[e.Value]]).ToList();
-            float y = members.Min(b => b.Top) - 60;
-            obstacles.Add(new ResearchBox(members.Min(b => b.Left) - 64, y, members.Max(b => b.Right) + 64, y + 38));
-        }
-        foreach (var discipline in disciplines)
-        {
-            float y = discipline.Element("projects").Elements("li").Min(e => boxes[projects[e.Value]].Top) - 92;
-            obstacles.Add(new ResearchBox(12, y, 332, y + 52));
+            var names = section.Element("projects").Elements("li").Select(e => projects[e.Value]).ToList();
+            var members = names.Select(p => boxes[p]).ToList();
+            var panel = new ResearchBox(members.Min(b => b.Left) - 32, members.Min(b => b.Top) - 60,
+                members.Max(b => b.Right) + 32, members.Max(b => b.Bottom) + 20);
+            foreach (var previous in panels)
+                Check(!(panel.Left < previous.Right && panel.Right > previous.Left && panel.Top < previous.Bottom && panel.Bottom > previous.Top),
+                    "Local section panels never overlap or force their nodes into a different lane");
+            foreach (var other in boxes.Where(pair => !names.Contains(pair.Key)))
+                Check(!(panel.Left < other.Value.Right && panel.Right > other.Value.Left && panel.Top < other.Value.Bottom && panel.Bottom > other.Value.Top),
+                    "A local section never encloses unrelated research");
+            panels.Add(panel);
+            obstacles.Add(new ResearchBox(panel.Left, panel.Top, panel.Right, panel.Top + 38));
         }
         var ports = boxes.Values.SelectMany(b => new[] { new ResearchPoint(b.Right + 8, (b.Top + b.Bottom) / 2),
             new ResearchPoint(b.Left - 8, (b.Top + b.Bottom) / 2) });
@@ -262,16 +261,15 @@ internal static class Program
             .ToDictionary(p => (string)p.Element("defName"));
         var sections = XDocument.Load("Defs/Research/ResearchSections_Helod.xml").Root.Elements().ToList();
         var members = sections.SelectMany(s => s.Element("projects").Elements("li")).Select(e => e.Value).ToList();
-        Check(sections.Count == 7 && members.Count == race.Count && members.Distinct().Count() == race.Count,
-            "Every race project belongs to exactly one of seven authored milestone regions");
+        Check(sections.Count == 30 && members.Count == race.Count && members.Distinct().Count() == race.Count,
+            "Every race project belongs to exactly one local section");
         Check(members.All(race.ContainsKey), "No unresolved section membership");
         Check(sections.Select(s => (int)s.Element("order")).SequenceEqual(Enumerable.Range(0, sections.Count)),
-            "Technology stages remain in forward progression order");
+            "Local section menu order is stable");
         var reference = XDocument.Load("Source/Tests/ResearchWorkspace/ReferenceLayout_20261027_1737.xml").Root.Elements("Project")
             .ToDictionary(e => (string)e.Attribute("defName"));
         Check(reference.Count == 65 && race.Count == 64 && !race.ContainsKey("HelodMiniMotor"),
             "Reference captures the pre-17:59 layout without reviving the merged motor research");
-        int[] lower = { 0, 3, 6, 8, 11, 13, 16 }, upper = { 2, 5, 7, 10, 12, 15, 18 };
         var authored = new Dictionary<string, ResearchCell>();
         var chemistry = new HashSet<string> { "HelodTotalSynthesisMedicine", "HelodFirstAid", "HelodChokingAgent",
             "HelodHaberBosch", "HelodBlisterAgent", "HelodHighExplosive" };
@@ -285,32 +283,16 @@ internal static class Program
         }
         foreach (var section in sections)
         {
-            int stage = (int)section.Element("order");
-            foreach (var member in section.Element("projects").Elements("li"))
-                Check(authored[member.Value].Column >= lower[stage] && authored[member.Value].Column <= upper[stage],
-                    "Section membership follows the original milestone column: " + member.Value);
+            var group = section.Element("projects").Elements("li").Select(e => authored[e.Value]).ToList();
+            Check(group.Count >= 1 && group.Count <= 6, "Local sections contain a small number of research nodes");
+            Check(group.Max(c => c.Column) - group.Min(c => c.Column) <= 2 && group.Max(c => c.Row) - group.Min(c => c.Row) <= 2,
+                "Local sections stay within one nearby three-by-three neighborhood");
         }
-        var disciplines = XDocument.Load("Defs/Research/ResearchDisciplines_Helod.xml").Root.Elements().ToList();
-        Check(disciplines.Count == 2, "Era regions have a separate two-discipline classification");
-        var disciplineMembers = disciplines.SelectMany(d => d.Element("projects").Elements("li")).Select(e => e.Value).ToList();
-        Check(disciplineMembers.Count == 63 && disciplineMembers.Distinct().Count() == 63
-            && !disciplineMembers.Contains("HelodFrontierSpirit") && disciplineMembers.All(race.ContainsKey),
-            "Every research belongs to one discipline except the common frontier root");
-        var applied = disciplines.Single(d => (string)d.Element("root") == "HelodMechanicalEngineering");
-        var natural = disciplines.Single(d => (string)d.Element("root") == "HelodExperimentalAnalysis");
-        var appliedMembers = applied.Element("projects").Elements("li").Select(e => e.Value).ToList();
-        var naturalMembers = natural.Element("projects").Elements("li").Select(e => e.Value).ToList();
-        Check(appliedMembers.Count == 41 && appliedMembers.Contains("HelodMechanicalEngineering"), "Applied science starts at mechanical engineering");
-        Check(naturalMembers.Count == 22 && naturalMembers.Contains("HelodExperimentalAnalysis") && chemistry.All(naturalMembers.Contains),
-            "Natural science starts at experimental analysis and contains the whole chemistry subtree");
-        Check(appliedMembers.Max(n => authored[n].Row) < naturalMembers.Min(n => authored[n].Row), "The two science bands have separate vertical ranges");
-        Check(chemistry.Min(n => authored[n].Row) > new[] { "HelodPrimaryCell", "HelodHighElectronics", "HelodWireless" }.Max(n => authored[n].Row),
-            "The chemistry group sits below the preserved electrical-science flow");
+        var chemistrySection = sections.Single(d => d.Element("projects").Elements("li").Any(e => e.Value == "HelodTotalSynthesisMedicine"));
+        Check(chemistrySection.Element("projects").Elements("li").Select(e => e.Value).ToHashSet().SetEquals(chemistry),
+            "The compact synthetic chemistry/medicine subtree stays together");
         Check(chemistry.Select(n => (float)race[n].Element("researchViewY") - (float)reference[n].Attribute("y")).Distinct().Single() == 8,
-            "All six chemistry nodes move as one rigid block");
-        var scienceTranslations = XDocument.Load("Languages/Korean (한국어)/DefInjected/Helodrace.ResearchUI.HelodResearchDisciplineDef/ResearchDisciplines.xml").Root;
-        Check(scienceTranslations.Elements().Select(e => e.Name.LocalName).OrderBy(n => n).SequenceEqual(
-            disciplines.Select(d => (string)d.Element("defName") + ".label").OrderBy(n => n)), "Both science disciplines have Korean labels");
+            "The chemistry subtree remains below the original electrical-science flow");
         var layoutProjects = race.Keys.ToDictionary(name => name, name => Project(name));
         foreach (var pair in race)
             layoutProjects[pair.Key].prerequisites = (pair.Value.Element("prerequisites")?.Elements("li") ?? Enumerable.Empty<XElement>())
@@ -329,14 +311,6 @@ internal static class Program
             foreach (var prerequisite in project.prerequisites)
                 Check(global[prerequisite].Column < global[project].Column,
                     "Every real dependency advances strictly right: " + prerequisite.defName + " -> " + project.defName);
-        foreach (var stage in sections.Skip(1))
-        {
-            int order = (int)stage.Element("order");
-            var previous = sections.First(s => (int)s.Element("order") == order - 1);
-            Check(previous.Element("projects").Elements("li").Max(e => global[layoutProjects[e.Value]].Column)
-                < stage.Element("projects").Elements("li").Min(e => global[layoutProjects[e.Value]].Column),
-                "Later sections never fold back to the left");
-        }
         var sectionTranslations = XDocument.Load("Languages/Korean (한국어)/DefInjected/Helodrace.ResearchUI.HelodResearchSectionDef/ResearchSections.xml").Root;
         Check(sectionTranslations.Elements().Select(e => e.Name.LocalName).OrderBy(n => n).SequenceEqual(
             sections.Select(s => (string)s.Element("defName") + ".label").OrderBy(n => n)), "Section names have complete translations without obsolete categories");

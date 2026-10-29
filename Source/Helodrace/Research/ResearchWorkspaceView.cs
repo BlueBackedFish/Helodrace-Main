@@ -18,14 +18,6 @@ namespace Helodrace.ResearchUI
             public Rect Bounds;
             public List<ResearchProjectDef> Projects;
         }
-        private sealed class Discipline
-        {
-            public string Label;
-            public Color Color;
-            public ResearchProjectDef Root;
-            public List<ResearchProjectDef> Projects;
-            public Rect Bounds;
-        }
         private sealed class Edge
         {
             public ResearchProjectDef From, To;
@@ -44,20 +36,19 @@ namespace Helodrace.ResearchUI
         private readonly Dictionary<ResearchProjectDef, Rect> nodes = new Dictionary<ResearchProjectDef, Rect>();
         private readonly HashSet<string> collapsed = new HashSet<string>();
         private readonly List<Section> sections = new List<Section>();
-        private readonly List<Discipline> disciplines = new List<Discipline>();
         private List<Stroke> strokes = new List<Stroke>();
         private readonly List<Edge> routes = new List<Edge>();
         private readonly Dictionary<GameFont, GUIStyle> canvasStyles = new Dictionary<GameFont, GUIStyle>();
         private List<ResearchProjectDef> preview = new List<ResearchProjectDef>();
         private Vector2 scroll, detailScroll;
         private float zoom = 0.9f;
-        private string search = "", language, edgeKey;
+        private string search = "", language, edgeKey, routeLayoutKey;
         private int page, revision = -1;
         private bool dirty = true;
         private ResearchProjectDef lastSelected;
         private float width, height;
         private int panControl;
-        private const float NodeWidth = 180, ColumnWidth = 320, RowGap = 72, StageGap = 200, DisciplineGap = 160;
+        private const float NodeWidth = 180, ColumnWidth = 400, RowGap = 96;
 
         public void Draw(Rect rect, IResearchWorkspaceHost host, Window window)
         {
@@ -69,7 +60,7 @@ namespace Helodrace.ResearchUI
                 Text.Font = GameFont.Small; Text.Anchor = TextAnchor.UpperLeft;
                 ResearchProjectDef selected = host.Selected(window);
                 string currentLanguage = LanguageDatabase.activeLanguage?.folderName;
-                if (dirty || language != currentLanguage || revision != ResearchWorkspaceRevision.Value) Build();
+                if (dirty || language != currentLanguage) Build();
                 if (lastSelected != selected || revision != ResearchWorkspaceRevision.Value)
                 {
                     lastSelected = selected; revision = ResearchWorkspaceRevision.Value;
@@ -101,7 +92,7 @@ namespace Helodrace.ResearchUI
 
         private void Build()
         {
-            sections.Clear(); disciplines.Clear(); nodes.Clear(); canvasStyles.Clear();
+            sections.Clear(); nodes.Clear(); canvasStyles.Clear();
             var visible = DefDatabase<ResearchProjectDef>.AllDefsListForReading
                 .Where(p => ResearchWorkspaceData.IsHelod(p) && !p.IsHidden).ToList();
             var remaining = new HashSet<ResearchProjectDef>(visible);
@@ -111,63 +102,49 @@ namespace Helodrace.ResearchUI
                 if (projects.Count > 0) sections.Add(new Section { Id = def.defName, Label = def.LabelCap,
                     Color = def.color, Projects = projects });
             }
-            if (remaining.Count > 0) sections.Add(new Section { Id = "other", Label = "HD_Research_Other".Translate(),
-                Color = new Color(0.65f, 0.5f, 0.7f), Projects = remaining.OrderBy(p => p.defName).ToList() });
+            foreach (var project in remaining.OrderBy(p => p.defName))
+                sections.Add(new Section { Id = "other." + project.defName, Label = project.LabelCap,
+                    Color = new Color(0.65f, 0.5f, 0.7f), Projects = new List<ResearchProjectDef> { project } });
             Text.Font = GameFont.Small;
             var ordered = sections.SelectMany(s => s.Projects).ToList();
             var cells = ResearchFlowLayout.Arrange(ordered, ResearchQueue.Prerequisites,
                 p => remaining.Contains(p) ? (ResearchCell?)null : new ResearchCell(Mathf.RoundToInt(p.ResearchViewX),
                     Mathf.RoundToInt(p.ResearchViewY / 0.8f)));
-            foreach (var def in DefDatabase<HelodResearchDisciplineDef>.AllDefsListForReading.OrderBy(d => d.order))
-            {
-                var members = def.projects.Where(cells.ContainsKey).ToList();
-                if (members.Count > 0) disciplines.Add(new Discipline { Label = def.LabelCap, Color = def.color, Root = def.root, Projects = members });
-            }
-            var disciplineStarts = disciplines.Select(d => d.Projects.Min(p => cells[p].Row)).Distinct().ToList();
             var layoutFrames = new Dictionary<ResearchProjectDef, Rect>();
             float nodeHeight = Mathf.Max(84, ordered.Select(p => Text.CalcHeight(p.LabelCap, NodeWidth - 12) + 38).DefaultIfEmpty(84).Max());
             float pitch = nodeHeight + RowGap;
             int topLane = cells.Values.Select(c => c.Row).DefaultIfEmpty(0).Min();
-            var boundaries = sections.Select(s => s.Projects.Min(p => cells[p].Column)).Distinct().OrderBy(c => c).ToList();
-            Func<int, float> columnX = column => 84 + column * ColumnWidth + StageGap * boundaries.Count(b => b > 0 && b <= column);
+            Func<int, float> columnX = column => 84 + column * ColumnWidth;
             foreach (var section in sections)
             {
                 var frames = section.Projects.ToDictionary(p => p, p => new Rect(columnX(cells[p].Column),
-                    212 + (cells[p].Row - topLane) * pitch + DisciplineGap * disciplineStarts.Count(r => r > topLane && r <= cells[p].Row), NodeWidth, nodeHeight));
-                float left = frames.Values.Min(n => n.xMin) - 64, right = frames.Values.Max(n => n.xMax) + 64;
-                float top = frames.Values.Min(n => n.yMin) - 60, bottom = frames.Values.Max(n => n.yMax) + 44;
+                    212 + (cells[p].Row - topLane) * pitch, NodeWidth, nodeHeight));
+                float left = frames.Values.Min(n => n.xMin) - 32, right = frames.Values.Max(n => n.xMax) + 32;
+                float top = frames.Values.Min(n => n.yMin) - 60, bottom = frames.Values.Max(n => n.yMax) + 20;
                 var bounds = new Rect(left, top, right - left, bottom - top);
-                // Extension sections may span the same depth range. Keep their panels separate without reversing time.
-                float offset = 0;
-                foreach (var earlier in sections.TakeWhile(s => s != section))
-                    if (bounds.Overlaps(earlier.Bounds.ExpandedBy(40)))
-                    {
-                        float shift = earlier.Bounds.yMax + 120 - bounds.yMin;
-                        bounds.y += shift; offset += shift;
-                    }
-                foreach (var pair in frames)
-                { Rect node = pair.Value; node.y += offset; layoutFrames[pair.Key] = node; }
+                foreach (var pair in frames) layoutFrames[pair.Key] = pair.Value;
                 if (collapsed.Contains(section.Id)) bounds.height = 38;
                 section.Bounds = bounds;
                 if (!collapsed.Contains(section.Id))
                     foreach (var pair in frames)
-                    { Rect node = pair.Value; node.y += offset; nodes[pair.Key] = node; }
+                        nodes[pair.Key] = pair.Value;
             }
             width = sections.Select(s => s.Bounds.xMax).DefaultIfEmpty(700).Max() + 24;
             height = sections.Select(s => s.Bounds.yMax).DefaultIfEmpty(500).Max() + 24;
-            foreach (var discipline in disciplines)
+            string layoutKey = string.Join("|", layoutFrames.OrderBy(p => p.Key.defName, StringComparer.Ordinal).Select(p =>
+                p.Key.defName + ":" + p.Value.x + "," + p.Value.y + "," + p.Value.width + "," + p.Value.height + ":"
+                + string.Join(",", ResearchQueue.Prerequisites(p.Key).Select(a => a.defName).OrderBy(n => n, StringComparer.Ordinal))))
+                + "#" + string.Join("|", sections.Select(s => s.Id + ":" + s.Bounds.x + "," + s.Bounds.y + "," + s.Bounds.width));
+            if (routeLayoutKey != layoutKey)
             {
-                float top = discipline.Projects.Min(p => layoutFrames[p].yMin) - 100;
-                float bottom = discipline.Projects.Max(p => layoutFrames[p].yMax) + 44;
-                discipline.Bounds = new Rect(4, top, width - 8, bottom - top);
+                BuildRoutes(layoutFrames);
+                routeLayoutKey = layoutKey;
             }
-            BuildRoutes();
             if (routes.Count > 0)
             {
                 width = Mathf.Max(width, routes.SelectMany(e => e.Lines).Max(l => Mathf.Max(l.A.X, l.B.X)) + 24);
                 height = Mathf.Max(height, routes.SelectMany(e => e.Lines).Max(l => Mathf.Max(l.A.Y, l.B.Y)) + 24);
             }
-            foreach (var discipline in disciplines) discipline.Bounds.width = width - 8;
             dirty = false; language = LanguageDatabase.activeLanguage?.folderName; edgeKey = null;
             Text.Font = GameFont.Small;
         }
@@ -177,12 +154,10 @@ namespace Helodrace.ResearchUI
             float x = rect.x;
             if (Widgets.ButtonText(new Rect(x, rect.y, 100, 28), "HD_Research_Sections".Translate()))
             {
-                var options = disciplines.Select(d => new FloatMenuOption(d.Label + " · " + d.Root.LabelCap,
-                    () => scroll = new Vector2(0, d.Bounds.y * zoom))).ToList();
-                options.AddRange(sections.Select(section => new FloatMenuOption(section.Label, () =>
+                var options = sections.Select(section => new FloatMenuOption(section.Label, () =>
                 {
                     collapsed.Remove(section.Id); dirty = true; Build(); scroll = section.Bounds.position * zoom;
-                })));
+                })).ToList();
                 Find.WindowStack.Add(new FloatMenu(options));
             }
             x += 106;
@@ -260,16 +235,10 @@ namespace Helodrace.ResearchUI
             Widgets.BeginScrollView(rect, ref scroll, new Rect(0, 0, width * zoom, height * zoom));
             try
             {
-                foreach (var discipline in disciplines)
-                {
-                    Rect band = Scaled(discipline.Bounds);
-                    Widgets.DrawBoxSolid(band, new Color(discipline.Color.r * 0.085f, discipline.Color.g * 0.085f, discipline.Color.b * 0.085f, 1));
-                    Widgets.DrawBoxSolid(new Rect(band.x, band.y, band.width, Mathf.Max(1, 2 * zoom)), discipline.Color * 0.65f);
-                }
                 foreach (var section in sections)
                 {
                     Rect bounds = Scaled(section.Bounds);
-                    Widgets.DrawBoxSolid(bounds, new Color(section.Color.r * 0.12f, section.Color.g * 0.12f, section.Color.b * 0.12f, 0.55f));
+                    Widgets.DrawBoxSolid(bounds, new Color(section.Color.r * 0.12f, section.Color.g * 0.12f, section.Color.b * 0.12f, 0.95f));
                     Widgets.DrawBoxSolid(new Rect(bounds.x, bounds.y, 4, bounds.height), section.Color * 0.75f);
                 }
                 DrawEdges(selected, host.Queue.Plan);
@@ -291,17 +260,6 @@ namespace Helodrace.ResearchUI
                     if (clicked)
                     { if (!collapsed.Add(section.Id)) collapsed.Remove(section.Id); dirty = true; }
                 }
-                foreach (var discipline in disciplines)
-                {
-                    Rect title = Scaled(DisciplineHeader(discipline));
-                    if (!visible.Overlaps(title)) continue;
-                    Widgets.DrawBoxSolid(title, new Color(0.06f, 0.08f, 0.1f, 0.97f));
-                    GUI.color = discipline.Color;
-                    DrawCanvasLabel(new Rect(title.x + 6 * zoom, title.y + 2 * zoom, title.width - 12 * zoom, 26 * zoom), discipline.Label, GameFont.Small);
-                    GUI.color = Color.white;
-                    DrawCanvasLabel(new Rect(title.x + 6 * zoom, title.y + 28 * zoom, title.width - 12 * zoom, 22 * zoom),
-                        "HD_Research_DisciplineRoot".Translate(discipline.Root.LabelCap), GameFont.Tiny);
-                }
                 Text.Font = GameFont.Small;
             }
             finally { Widgets.EndScrollView(); }
@@ -312,16 +270,11 @@ namespace Helodrace.ResearchUI
         private Rect Header(Section section) => new Rect((section.Bounds.x + 12) * zoom,
             (section.Bounds.y + 4) * zoom, Mathf.Min(360, section.Bounds.width - 24) * zoom, 30 * zoom);
 
-        private static Rect DisciplineHeader(Discipline discipline) => new Rect(12, discipline.Bounds.y + 8, 320, 52);
-
         private void DrawMinimap(Rect rect, Rect content, Rect viewport, ResearchProjectDef selected)
         {
             Widgets.DrawBoxSolid(rect, new Color(0.07f, 0.09f, 0.11f, 0.98f));
             Text.Font = GameFont.Tiny;
             Widgets.Label(new Rect(rect.x + 6, rect.y + 2, rect.width - 12, 18), "HD_Research_Map".Translate());
-            foreach (var discipline in disciplines)
-                Widgets.DrawBoxSolid(new Rect(content.x, content.y + discipline.Bounds.y / height * content.height,
-                    content.width, discipline.Bounds.height / height * content.height), discipline.Color * 0.25f);
             foreach (var section in sections)
             {
                 var bounds = section.Bounds;
@@ -364,8 +317,8 @@ namespace Helodrace.ResearchUI
             if (!Matches(project)) fill *= 0.55f;
             fill.a = 1;
             Widgets.DrawBoxSolid(rect, fill);
-            var discipline = ResearchWorkspaceData.DisciplineFor(project);
-            if (discipline != null) Widgets.DrawBoxSolid(new Rect(rect.x + 1, rect.y + 1, Mathf.Max(1, 3 * zoom), rect.height - 2), discipline.color * 0.8f);
+            var section = ResearchWorkspaceData.SectionFor(project);
+            if (section != null) Widgets.DrawBoxSolid(new Rect(rect.x + 1, rect.y + 1, Mathf.Max(1, 3 * zoom), rect.height - 2), section.color * 0.8f);
             GUI.color = project == selected ? new Color(0.35f, 0.9f, 1) : preview.Contains(project)
                 ? new Color(1, 0.75f, 0.3f) : new Color(0.35f, 0.45f, 0.5f);
             Widgets.DrawBox(rect, project == selected || preview.Contains(project) ? 2 : 1); GUI.color = Color.white;
@@ -389,27 +342,26 @@ namespace Helodrace.ResearchUI
                 if (count > 0) page = 1; else if (links > 0) page = 2;
             }
             TooltipHandler.TipRegion(rect, project.LabelCap + "\n" + project.description + "\n"
-                + (discipline == null ? "HD_Research_Common".Translate().ToString() : discipline.LabelCap.ToString()) + "\n"
+                + (section == null ? "HD_Research_Other".Translate().ToString() : section.LabelCap.ToString()) + "\n"
                 + "HD_Research_NodeTip".Translate());
             Text.Font = GameFont.Small;
         }
 
-        private void BuildRoutes()
+        private void BuildRoutes(Dictionary<ResearchProjectDef, Rect> layoutFrames)
         {
             routes.Clear();
-            var boxes = nodes.Values.Select(n => new ResearchBox(n.xMin - 8, n.yMin - 8, n.xMax + 8, n.yMax + 8))
-                .Concat(sections.Select(s => new ResearchBox(s.Bounds.x, s.Bounds.y, s.Bounds.xMax, s.Bounds.y + 38)))
-                .Concat(disciplines.Select(d => DisciplineHeader(d)).Select(r => new ResearchBox(r.xMin, r.yMin, r.xMax, r.yMax))).ToList();
-            var ports = nodes.Values.SelectMany(n => new[] { new ResearchPoint(n.xMax + 8, n.center.y),
+            var boxes = layoutFrames.Values.Select(n => new ResearchBox(n.xMin - 8, n.yMin - 8, n.xMax + 8, n.yMax + 8))
+                .Concat(sections.Select(s => new ResearchBox(s.Bounds.x, s.Bounds.y, s.Bounds.xMax, s.Bounds.y + 38))).ToList();
+            var ports = layoutFrames.Values.SelectMany(n => new[] { new ResearchPoint(n.xMax + 8, n.center.y),
                 new ResearchPoint(n.xMin - 8, n.center.y) }).ToList();
             var router = new ResearchOrthogonalRouter(boxes, ports);
-            var pending = nodes.SelectMany(pair => ResearchQueue.Prerequisites(pair.Key).Distinct().Where(nodes.ContainsKey)
+            var pending = layoutFrames.SelectMany(pair => ResearchQueue.Prerequisites(pair.Key).Distinct().Where(layoutFrames.ContainsKey)
                 .Select(parent => new Edge { From = parent, To = pair.Key, Key = parent.defName + ">" + pair.Key.defName }))
-                .OrderBy(e => Mathf.Abs(nodes[e.To].center.x - nodes[e.From].center.x))
+                .OrderBy(e => Mathf.Abs(layoutFrames[e.To].center.x - layoutFrames[e.From].center.x))
                 .ThenBy(e => e.Key, StringComparer.Ordinal).ToList();
             foreach (var edge in pending)
             {
-                Rect from = nodes[edge.From], to = nodes[edge.To];
+                Rect from = layoutFrames[edge.From], to = layoutFrames[edge.To];
                 bool right = to.center.x >= from.center.x;
                 float fromX = right ? from.xMax : from.xMin, toX = right ? to.xMin : to.xMax;
                 float direction = right ? 1 : -1;
@@ -433,7 +385,7 @@ namespace Helodrace.ResearchUI
                 foreach (var edge in routes)
                     edge.Priority = edge.From == selected || edge.To == selected ? 3 : queued.Contains(edge.To) ? 2
                         : edge.From.IsFinished && edge.To.IsFinished ? 1 : 0;
-                var edges = routes.OrderBy(e => e.Priority).ThenBy(e => e.Key, StringComparer.Ordinal).ToList();
+                var edges = routes.Where(e => nodes.ContainsKey(e.From) && nodes.ContainsKey(e.To)).OrderBy(e => e.Priority).ThenBy(e => e.Key, StringComparer.Ordinal).ToList();
                 strokes = new List<Stroke>();
                 for (int i = 0; i < edges.Count; i++)
                 {
@@ -452,7 +404,7 @@ namespace Helodrace.ResearchUI
                     : priority == 1 ? new Color(0.3f, 0.52f, 0.46f) : new Color(0.24f, 0.29f, 0.33f);
                 DrawOrthogonal(stroke.Line, color, priority == 3 ? 2 : 1);
             }
-            foreach (var edge in routes.Where(e => e.Priority >= 2))
+            foreach (var edge in routes.Where(e => e.Priority >= 2 && nodes.ContainsKey(e.From) && nodes.ContainsKey(e.To)))
             {
                 var end = edge.Lines[edge.Lines.Count - 1];
                 float direction = end.B.X >= end.A.X ? 1 : -1;

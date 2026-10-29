@@ -14,7 +14,7 @@ namespace Helodrace.ResearchWorkspaceSmoke
     [StaticConstructorOnStartup]
     public static class Bootstrap
     {
-        public static int Draws;
+        public static int Draws, RouteBuilds;
         public static bool LeftDrag, MapClick, CardClick, WheelZoom, MinimumZoom;
         public sealed class PointerState
         {
@@ -39,6 +39,16 @@ namespace Helodrace.ResearchWorkspaceSmoke
             harmony.Patch(AccessTools.Method(typeof(ResearchWorkspaceView), "DrawResearchCard"),
                 prefix: new HarmonyMethod(typeof(Bootstrap), nameof(BeforeCard)),
                 postfix: new HarmonyMethod(typeof(Bootstrap), nameof(AfterCard)));
+            harmony.Patch(AccessTools.Method(typeof(ResearchWorkspaceView), "BuildRoutes"),
+                prefix: new HarmonyMethod(typeof(Bootstrap), nameof(BeforeRoutes)),
+                postfix: new HarmonyMethod(typeof(Bootstrap), nameof(AfterRoutes)));
+        }
+        public static void BeforeRoutes(out System.Diagnostics.Stopwatch __state) => __state = System.Diagnostics.Stopwatch.StartNew();
+        public static void AfterRoutes(System.Diagnostics.Stopwatch __state)
+        {
+            RouteBuilds++; __state.Stop();
+            if (GenCommandLine.TryGetCommandLineArg("hdResearchUiSmoke", out string output))
+                File.AppendAllText(Path.Combine(output, "routing-times.txt"), "build " + RouteBuilds + ": " + __state.ElapsedMilliseconds + " ms\n");
         }
         public static void ObserveInput(ResearchWorkspaceView __instance, out PointerState __state)
         {
@@ -115,7 +125,7 @@ namespace Helodrace.ResearchWorkspaceSmoke
             if (Bootstrap.Draws - startedDraw < 3) return;
             if (wait++ == 0)
             {
-                string name = new[] { "queue", "parts", "or", "flow-30-percent", "pan", "natural-sciences" }[stage];
+                string name = new[] { "queue", "parts", "or", "flow-30-percent", "pan", "synthetic-chemistry" }[stage];
                 ScreenCapture.CaptureScreenshot(Path.Combine(output, name + ".png"));
                 File.AppendAllText(Path.Combine(output, "checks.txt"), name + ": canvas drawn; goals="
                     + ResearchQueue.Current.Goals.Count + "; parts=" + ResearchWorkspaceData.PartsFor(window.CurTab == null ? null
@@ -183,14 +193,29 @@ namespace Helodrace.ResearchWorkspaceSmoke
                     if (Math.Abs(pair.Key.ResearchViewY - other.Key.ResearchViewY) < 0.001f
                         && Math.Abs(pair.Value.y - other.Value.y) > 0.1f) return "FAIL: authored branch lane lost";
                 }
-            var sciences = DefDatabase<HelodResearchDisciplineDef>.AllDefsListForReading.OrderBy(d => d.order).ToList();
-            if (sciences.Count != 2) return "FAIL: missing science disciplines";
-            var applied = sciences[0].projects.Where(nodes.ContainsKey).Select(p => nodes[p]).ToList();
-            var natural = sciences[1].projects.Where(nodes.ContainsKey).Select(p => nodes[p]).ToList();
-            if (applied.Count != 41 || natural.Count != 22 || applied.Max(n => n.yMax) >= natural.Min(n => n.yMin))
-                return "FAIL: science bands overlap or lose research";
-            if (sciences[0].root.defName != "HelodMechanicalEngineering" || sciences[1].root.defName != "HelodExperimentalAnalysis")
-                return "FAIL: wrong science roots";
+            var localSections = (System.Collections.IList)AccessTools.Field(typeof(ResearchWorkspaceView), "sections").GetValue(view);
+            if (localSections.Count != 30) return "FAIL: missing local sections";
+            if (Bootstrap.RouteBuilds != 1) return "FAIL: zoom or selection rebuilt stable route geometry";
+            var collapsed = (HashSet<string>)AccessTools.Field(typeof(ResearchWorkspaceView), "collapsed").GetValue(view);
+            collapsed.Add("HD_ResearchSection_SyntheticChemistry");
+            AccessTools.Method(typeof(ResearchWorkspaceView), "Build").Invoke(view, null);
+            if (nodes.Count != 58 || Bootstrap.RouteBuilds != 1) return "FAIL: folding did not hide its six nodes or rerouted the graph";
+            collapsed.Remove("HD_ResearchSection_SyntheticChemistry");
+            AccessTools.Method(typeof(ResearchWorkspaceView), "Build").Invoke(view, null);
+            if (nodes.Count != 64 || Bootstrap.RouteBuilds != 1) return "FAIL: unfolding did not restore its nodes from cached geometry";
+            File.AppendAllText(Path.Combine(output, "checks.txt"), "PASS: zoom, selection and section folding reuse one route layout\n");
+            for (int i = 0; i < localSections.Count; i++)
+            {
+                object section = localSections[i]; var type = section.GetType();
+                var projects = (List<ResearchProjectDef>)AccessTools.Field(type, "Projects").GetValue(section);
+                if (projects.Count < 1 || projects.Count > 6) return "FAIL: section is not a small research group";
+                Rect bounds = (Rect)AccessTools.Field(type, "Bounds").GetValue(section);
+                for (int j = i + 1; j < localSections.Count; j++)
+                    if (bounds.Overlaps((Rect)AccessTools.Field(type, "Bounds").GetValue(localSections[j])))
+                        return "FAIL: overlapping local section panels";
+                foreach (var other in nodes.Where(n => !projects.Contains(n.Key)))
+                    if (bounds.Overlaps(other.Value)) return "FAIL: local section encloses unrelated research";
+            }
             foreach (var route in routes)
                 foreach (ResearchLine line in (List<ResearchLine>)AccessTools.Field(route.GetType(), "Lines").GetValue(route))
                     if (nodes.Values.Any(n => new ResearchBox(n.xMin, n.yMin, n.xMax, n.yMax).Blocks(line.A, line.B)))
@@ -205,7 +230,7 @@ namespace Helodrace.ResearchWorkspaceSmoke
                         (List<ResearchLine>)AccessTools.Field(type, "Lines").GetValue(b)))
                         return "FAIL: unrelated routes share a bend or trunk: " + AccessTools.Field(type, "Key").GetValue(a) + " / " + AccessTools.Field(type, "Key").GetValue(b);
                 }
-            return "PASS: " + nodes.Count + " nodes; " + routes.Count + " complete routes preserve eras and separate science bands, advance right, avoid nodes and separate unrelated bends/trunks";
+            return "PASS: " + nodes.Count + " nodes; " + routes.Count + " complete routes preserve authored lanes and 30 local sections, advance right, avoid nodes and separate unrelated bends/trunks";
         }
         private void Configure()
         {
@@ -215,9 +240,8 @@ namespace Helodrace.ResearchWorkspaceSmoke
             AccessTools.Field(typeof(ResearchWorkspaceView), "page").SetValue(view, Mathf.Min(2, stage));
             if (stage >= 3)
             {
-                AccessTools.Field(typeof(ResearchWorkspaceView), "zoom").SetValue(view, stage == 3 ? 0.3f : stage == 5 ? 0.55f : 0.65f);
-                AccessTools.Field(typeof(ResearchWorkspaceView), "dirty").SetValue(view, true);
-                AccessTools.Method(typeof(ResearchWorkspaceView), "Build").Invoke(view, null);
+                AccessTools.Method(typeof(ResearchWorkspaceView), "SetZoom").Invoke(view,
+                    new object[] { stage == 3 ? 0.3f : stage == 5 ? 0.55f : 0.65f, Vector2.zero });
                 AccessTools.Field(typeof(ResearchWorkspaceView), "scroll").SetValue(view, new Vector2(0, 0));
             }
             startedDraw = Bootstrap.Draws;
