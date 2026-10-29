@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Helodrace.ModernWar;
 using RimWorld;
@@ -8,7 +8,7 @@ using Verse;
 
 internal static class ModularRangeTests
 {
-    private static T Bare<T>() => (T)FormatterServices.GetUninitializedObject(typeof(T));
+    private static T Bare<T>() => (T)RuntimeHelpers.GetUninitializedObject(typeof(T));
     private static Thing caster;
     private static Thing weapon;
     private static Map weatherMap;

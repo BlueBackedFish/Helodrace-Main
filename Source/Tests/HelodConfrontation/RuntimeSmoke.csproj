@@ -1,20 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>HelodConfrontationSmoke</AssemblyName>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <NoStdLib>true</NoStdLib>
-    <AutomaticallyUseReferenceAssemblyPackages>false</AutomaticallyUseReferenceAssemblyPackages>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <HelodAssembly Condition="'$(HelodAssembly)' == ''">../../../Assemblies/Helodrace.dll</HelodAssembly>
-    <GameManaged Condition="'$(GameManaged)' == ''">C:/Program Files (x86)/Steam/steamapps/common/RimWorld/RimWorldWin64_Data/Managed</GameManaged>
-    <FrameworkPathOverride>$(GameManaged)</FrameworkPathOverride>
+    <HelodUsesGame>true</HelodUsesGame>
+    <HelodUsesHarmony>true</HelodUsesHarmony>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="RuntimeSmoke.cs" />
-    <Reference Include="$(GameManaged)/*.dll"><Private>false</Private></Reference>
-    <Reference Include="$(HelodAssembly)"><Private>false</Private></Reference>
-    <Reference Include="../../../Assemblies/0Harmony.dll"><Private>false</Private></Reference>
+    <Reference Include="$(HelodAssembly)">
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
 </Project>

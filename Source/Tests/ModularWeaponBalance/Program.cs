@@ -26,12 +26,6 @@ internal static partial class Program
     private static void Near(float a, float b, string reason) => Check(Math.Abs(a-b)<0.0001f, reason+": "+a+" != "+b);
     private static int Main(string[] args)
     {
-        string managed = @"C:\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed";
-        AppDomain.CurrentDomain.AssemblyResolve += (_, a) =>
-        {
-            string file = Path.Combine(managed, new AssemblyName(a.Name).Name+".dll");
-            return File.Exists(file) ? Assembly.LoadFrom(file) : null;
-        };
         return Run(args);
     }
     [MethodImpl(MethodImplOptions.NoInlining)]

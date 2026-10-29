@@ -14,10 +14,11 @@ internal static class TacticalCqbAuditTests
         var interruption = AccessTools.Method(typeof(MapComponent_TacticalEngineAudit), "MedicalInterruptionReady");
         bool Interrupt(bool pressure, bool ownedBag, bool treating, int remaining) =>
             (bool)interruption.Invoke(null, new object[] { pressure, ownedBag, treating, remaining });
-        if (!Interrupt(true, false, false, 0) || !Interrupt(false, true, true, 600)
-            || !Interrupt(false, true, true, 1) || Interrupt(false, true, true, 601)
-            || Interrupt(false, true, true, 0) || Interrupt(false, true, false, 600)
-            || Interrupt(false, false, true, 600))
+        int interruptionWindow = Helodrace.Tactical.TcccRules.HemostasisDuration(4) / 3;
+        if (!Interrupt(true, false, false, 0) || !Interrupt(false, true, true, interruptionWindow)
+            || !Interrupt(false, true, true, 1) || Interrupt(false, true, true, interruptionWindow + 1)
+            || Interrupt(false, true, true, 0) || Interrupt(false, true, false, interruptionWindow)
+            || Interrupt(false, false, true, interruptionWindow))
             throw new Exception("Medical interruption requires actual TCCC pressure or an owned, unfinished bag treatment toil; movement and completed care cannot substitute.");
         IntVec3 goal = new IntVec3(120,0,116);
         var regions = new[] { new IntVec3(108,0,110), new IntVec3(120,0,110), new IntVec3(120,0,128) };

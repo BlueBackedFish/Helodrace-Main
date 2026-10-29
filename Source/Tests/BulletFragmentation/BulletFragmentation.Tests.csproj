@@ -1,8 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <RimWorldPath Condition="'$(RimWorldPath)' == ''">C:\Program Files (x86)\Steam\steamapps\common\RimWorld</RimWorldPath>
+    <HelodUsesGame>true</HelodUsesGame>
+    <HelodUsesHarmony>true</HelodUsesHarmony>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../../Helodrace/Core/BulletFragmentation.cs" Link="BulletFragmentation.cs" />
@@ -11,9 +13,5 @@
     <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponBallistics.cs" Link="ModularWeaponBallistics.cs" />
     <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponBallisticDisplay.cs" Link="ModularWeaponBallisticDisplay.cs" />
     <Compile Include="../../Helodrace/ModernWar/ModularWeapons/ModularWeaponRange.cs" Link="ModularWeaponRange.cs" />
-    <Reference Include="Assembly-CSharp"><HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath></Reference>
-    <Reference Include="UnityEngine.CoreModule"><HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath></Reference>
-    <PackageReference Include="Lib.Harmony" Version="2.3.3" />
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net48" Version="1.0.3" PrivateAssets="all" />
   </ItemGroup>
 </Project>

@@ -115,20 +115,20 @@ namespace Helodrace
                     return null;
                 }
 
-                OilFieldRecord field = oilFields.FieldAtOrCreateLegacy(parent.Position);
-                if (field != null || !parent.Spawned)
+                OilFieldRecord oilFieldRecord = oilFields.FieldAtOrCreateLegacy(parent.Position);
+                if (oilFieldRecord != null || !parent.Spawned)
                 {
-                    return field;
+                    return oilFieldRecord;
                 }
 
                 // Older saves and differently-sized drilling rigs can leave the
                 // developed field under another cell of the pump's footprint.
                 foreach (IntVec3 cell in parent.OccupiedRect())
                 {
-                    field = oilFields.FieldAtOrCreateLegacy(cell);
-                    if (field != null)
+                    oilFieldRecord = oilFields.FieldAtOrCreateLegacy(cell);
+                    if (oilFieldRecord != null)
                     {
-                        return field;
+                        return oilFieldRecord;
                     }
                 }
 

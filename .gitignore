@@ -1,5 +1,6 @@
 /.tmp-scgf-source/
 /.codex-staging/
+/Assemblies/0Harmony.dll
 /Source/Helodrace/obj/TcccBuild/
 /Source/Helodrace/obj/TcccRuntime/
 /Source/Helodrace/obj/SquadSystem/

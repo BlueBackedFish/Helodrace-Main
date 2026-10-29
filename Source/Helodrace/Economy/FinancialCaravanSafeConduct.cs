@@ -113,8 +113,9 @@ namespace Helodrace.Economy
         [HarmonyPrefix]
         public static bool Prefix([HarmonyArgument(0)] Thing a, [HarmonyArgument(1)] Thing b, ref bool __result)
         {
-            if (!(b?.Faction == Faction.OfPlayer && FinancialCaravanUtility.IsProtected(a))
-                && !(a?.Faction == Faction.OfPlayer && FinancialCaravanUtility.IsProtected(b))) return true;
+            // World generation queries hostility before the player faction exists.
+            if (!(FinancialCaravanUtility.IsProtected(a) && b?.Faction == Faction.OfPlayer)
+                && !(FinancialCaravanUtility.IsProtected(b) && a?.Faction == Faction.OfPlayer)) return true;
             __result = false;
             return false;
         }
@@ -126,7 +127,7 @@ namespace Helodrace.Economy
         [HarmonyPrefix]
         public static bool Prefix([HarmonyArgument(0)] Thing t, [HarmonyArgument(1)] Faction fac, ref bool __result)
         {
-            if (fac != Faction.OfPlayer || !FinancialCaravanUtility.IsProtected(t)) return true;
+            if (!FinancialCaravanUtility.IsProtected(t) || fac != Faction.OfPlayer) return true;
             __result = false;
             return false;
         }

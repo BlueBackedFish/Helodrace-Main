@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Helodrace;
 using RimWorld;
@@ -18,7 +18,7 @@ internal static class Program
         checks++;
     }
     internal static void Near(float actual, float expected, string message) => Check(Math.Abs(actual - expected) < 0.001f, message + $" ({actual} != {expected})");
-    internal static T Bare<T>() => (T)FormatterServices.GetUninitializedObject(typeof(T));
+    internal static T Bare<T>() => (T)RuntimeHelpers.GetUninitializedObject(typeof(T));
     internal static BodyPartRecord Part(BodyDef body, string name, float area, BodyPartRecord parent = null, bool inside = false)
     {
         var part = new BodyPartRecord { body = body, def = new BodyPartDef { defName = name }, parent = parent,

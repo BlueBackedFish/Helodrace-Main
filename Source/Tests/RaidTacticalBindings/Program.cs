@@ -36,14 +36,7 @@ internal static class Program
     }
     private static int Main(string[] commandLineArgs)
     {
-        // Check target signatures and injected private fields against the real
-        // installed game. This is not a Unity/Mono runtime patch simulation.
-        string managed = @"C:\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed";
-        AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
-        {
-            string path = Path.Combine(managed, new AssemblyName(args.Name).Name + ".dll");
-            return File.Exists(path) ? Assembly.LoadFrom(path) : null;
-        };
+        // GameRuntime resolves the actual 1.7 assemblies before game types are JITted.
         return RunReferencedTests(commandLineArgs);
     }
     // Resolve installed Unity/game assemblies before JIT examines game types.
@@ -124,6 +117,7 @@ internal static class Program
                         else if (parameter.Name == "__state") expected = AccessTools.Method(patch, "Prefix")
                             ?.GetParameters().FirstOrDefault(value => value.Name == "__state")?.ParameterType.GetElementType();
                         else expected = target.GetParameters().FirstOrDefault(value => value.Name == parameter.Name)?.ParameterType;
+                        if (expected?.IsByRef == true) expected = expected.GetElementType();
                         if (expected == null || !actual.IsAssignableFrom(expected))
                             throw new Exception(patch.Name + ": invalid binding " + parameter.Name);
                     }

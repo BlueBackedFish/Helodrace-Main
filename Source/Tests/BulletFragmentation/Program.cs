@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using System.IO;
 using HarmonyLib;
@@ -33,7 +33,7 @@ internal static class Program
 {
     private static int checks;
     private static readonly List<DamageInfo> wounds = new List<DamageInfo>();
-    private static T Bare<T>() => (T)FormatterServices.GetUninitializedObject(typeof(T));
+    private static T Bare<T>() => (T)RuntimeHelpers.GetUninitializedObject(typeof(T));
     private static void Check(bool condition, string message)
     {
         if (!condition) throw new Exception(message);

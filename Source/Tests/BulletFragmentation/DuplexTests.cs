@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Helodrace;
 using RimWorld;
@@ -10,7 +10,7 @@ using Verse;
 
 internal static class DuplexTests
 {
-    private static T Bare<T>() => (T)FormatterServices.GetUninitializedObject(typeof(T));
+    private static T Bare<T>() => (T)RuntimeHelpers.GetUninitializedObject(typeof(T));
     private sealed class FixtureProjectile : Projectile_DuplexBullet
     {
         internal FixtureProjectile Companion;
