@@ -460,6 +460,8 @@
 	<PawnKindDef ParentName="HD_HelodSoldierBase">
 		<defName>HD_MW_HelodRifleman</defName>
 		<label>Modern War Helod rifleman</label>
+		<initialWillRange>0~0</initialWillRange>
+		<initialResistanceRange>12~18</initialResistanceRange>
 		<defaultFactionType>HD_HelodCivilHighFaction</defaultFactionType>
 		<combatPower>155</combatPower>
 		<isFighter>true</isFighter>

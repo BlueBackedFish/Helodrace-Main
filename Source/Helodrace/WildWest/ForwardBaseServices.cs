@@ -239,7 +239,7 @@ namespace Helodrace
             foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading)
             {
                 if (def.projectileWhenLoaded == null || category == null || def.thingCategories == null || !def.thingCategories.Contains(category)) continue;
-                if (def.defName == "HD_155mmShell_W48") continue;
+                if (def.defName == "HD_155mmShell_W48Nuclear") continue;
                 result.Add(def);
             }
             result.SortBy(x => x.label);

@@ -223,6 +223,10 @@
 
   <FactionDef ParentName="FactionBase">
     <defName>HD_HelodCivilHighFaction</defName>
+    <!-- The current combat roster contains the 155-point rifleman. -->
+    <maxPawnCostPerTotalPointsCurve>
+      <points><li>(0,155)</li><li>(100000,100000)</li></points>
+    </maxPawnCostPerTotalPointsCurve>
     <modExtensions>
       <li Class="Helodrace.Squads.FactionOrganizationExtension">
         <doctrine>HD_Doctrine_Modern</doctrine>

@@ -5,6 +5,8 @@
 
   <ThingDef ParentName="BaseMeleeWeapon_Blunt">
     <defName>HD_WoodenBaseballBat</defName>
+    <!-- Only WoodLog is valid; repeated relics require different valid materials. -->
+    <relicChance>0</relicChance>
     <label>wooden baseball bat</label>
     <description>A carefully shaped wooden bat made for baseball. Its balance makes it quick to swing, and its heavy barrel makes it an effective improvised weapon.</description>
     <graphicData>

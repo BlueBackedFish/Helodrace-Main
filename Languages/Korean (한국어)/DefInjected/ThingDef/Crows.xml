@@ -10,8 +10,8 @@
   <HD_Gun_CrowsII.label>CROWS II M2HB QCB</HD_Gun_CrowsII.label>
   <HD_Gun_CrowsII.description>CROWS II 원격 무장에 장착한 탄띠 급탄식 M2HB QCB입니다.</HD_Gun_CrowsII.description>
   <HD_Gun_CrowsII_Empty.label>빈 CROWS II 받침</HD_Gun_CrowsII_Empty.label>
-  <HD_Gun_CrowsII_MK19.label>CROWS II Mk 19</HD_Gun_CrowsII_MK19.label>
+  <HD_Gun_CrowsII_MK19Weapon.label>CROWS II Mk 19</HD_Gun_CrowsII_MK19Weapon.label>
   <HD_Gun_CrowsII_M240B.label>CROWS II M240B</HD_Gun_CrowsII_M240B.label>
-  <HD_Gun_CrowsII_M249.label>CROWS II M249</HD_Gun_CrowsII_M249.label>
+  <HD_Gun_CrowsII_M249Weapon.label>CROWS II M249</HD_Gun_CrowsII_M249Weapon.label>
   <HD_40mmCrowsHV_Proj.label>40mm 고속 유탄</HD_40mmCrowsHV_Proj.label>
 </LanguageData>

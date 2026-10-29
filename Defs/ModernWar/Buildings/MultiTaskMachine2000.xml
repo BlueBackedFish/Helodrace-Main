@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Defs>
   <ThingDef ParentName="BuildingBase">
-    <defName>HD_MultiTaskMachine2000</defName>
+    <defName>HD_MultiTaskMachine2000Bench</defName>
     <label>2000s multi-tasking machine</label>
     <description>An enclosed mill-turn center with opposed work spindles and an angled B-axis milling head. Performs turning and milling jobs in one worktable and serves as both facilities for firearm assembly. Requires electricity and an operator.</description>
     <thingClass>Building_WorkTable</thingClass>

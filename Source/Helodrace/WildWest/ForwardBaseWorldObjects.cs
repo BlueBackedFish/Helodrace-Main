@@ -382,7 +382,7 @@ namespace Helodrace
                 return false;
             }
 
-            ThingDef shell = DefDatabase<ThingDef>.GetNamedSilentFail("HD_155mmShell_W48");
+            ThingDef shell = DefDatabase<ThingDef>.GetNamedSilentFail("HD_155mmShell_W48Nuclear");
             if (targetMap == null || shell?.projectileWhenLoaded == null || !targetCell.InBounds(targetMap))
             {
                 failReason = "HD_W48_Unavailable".Translate().ToString();
@@ -425,7 +425,7 @@ namespace Helodrace
             }
 
             Map targetMap = Find.Maps.FirstOrDefault(x => x.uniqueID == w48TargetMapId);
-            ThingDef shell = DefDatabase<ThingDef>.GetNamedSilentFail("HD_155mmShell_W48");
+            ThingDef shell = DefDatabase<ThingDef>.GetNamedSilentFail("HD_155mmShell_W48Nuclear");
             if (targetMap == null || shell?.projectileWhenLoaded == null || !w48TargetCell.InBounds(targetMap))
             {
                 ClearW48Order();

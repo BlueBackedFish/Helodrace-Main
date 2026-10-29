@@ -97,6 +97,8 @@
   </ThingDef>
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>HD_Gun_M1911_Weapon</defName><label>Ironfang M1911</label>
+    <!-- Matches the dedicated manufacturing recipe; supplies vanilla smelting metadata. -->
+    <costList><HD_CarbonSteel>32</HD_CarbonSteel><HD_GeneralMachinePart>4</HD_GeneralMachinePart><HD_PressComponent>2</HD_PressComponent></costList>
     <description>A rugged semi-automatic service pistol with a heavy cartridge and fast follow-up shots.</description>
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
     <uiIconPath>Weapons/GreatWar/HD_m1911</uiIconPath>

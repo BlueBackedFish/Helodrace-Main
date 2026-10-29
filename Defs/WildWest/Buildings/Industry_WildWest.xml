@@ -1613,8 +1613,8 @@
           <li>HD_LineShaftMillingMachine</li>
           <li>HD_CNCLathe</li>
           <li>HD_CNCMillingMachine</li>
-          <li>HD_MachiningCenter1970</li>
-          <li>HD_MultiTaskMachine2000</li>
+          <li>HD_MachiningCenter1970Bench</li>
+          <li>HD_MultiTaskMachine2000Bench</li>
         </linkableFacilities>
       </li>
     </comps>
@@ -1685,8 +1685,8 @@
           <li>HD_LineShaftMillingMachine</li>
           <li>HD_CNCLathe</li>
           <li>HD_CNCMillingMachine</li>
-          <li>HD_MachiningCenter1970</li>
-          <li>HD_MultiTaskMachine2000</li>
+          <li>HD_MachiningCenter1970Bench</li>
+          <li>HD_MultiTaskMachine2000Bench</li>
         </linkableFacilities>
       </li>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponWorkbench" />
@@ -1752,6 +1752,7 @@
         <autoRefuelPercent>0.5</autoRefuelPercent>
         <showFuelGizmo>true</showFuelGizmo>
         <fuelLabel>Primary cells</fuelLabel>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
         <fuelGizmoLabel>Primary cells</fuelGizmoLabel>
         <outOfFuelMessage>Cannot transmit: no primary cells</outOfFuelMessage>
       </li>

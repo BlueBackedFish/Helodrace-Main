@@ -7,6 +7,11 @@
     </mods>
     <match Class="PatchOperationSequence">
       <operations>
+        <!-- Blanca's standalone tab remains owned by its mod; Main places the branch here. -->
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ResearchProjectDef[starts-with(defName,"BD_HelodBlanca")]/tab</xpath>
+          <value><tab>HelodTechTab</tab></value>
+        </li>
         <!-- Cola: Frontier Spirit -->
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ThingDef[defName="BD_Cola"]/recipeMaker/researchPrerequisite</xpath>

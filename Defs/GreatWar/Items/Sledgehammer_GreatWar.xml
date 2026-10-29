@@ -15,6 +15,7 @@
       <Mass>4.2</Mass>
       <MarketValue>95</MarketValue>
       <Flammability>0</Flammability>
+      <DeteriorationRate>0</DeteriorationRate>
       <EquipDelay>1.2</EquipDelay>
     </statBases>
     <thingCategories><li>Apparel</li></thingCategories>

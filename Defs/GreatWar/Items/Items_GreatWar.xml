@@ -1045,7 +1045,7 @@
   </ThingDef>
 
   <ThingDef ParentName="ResourceBase">
-    <defName>HD_155mmShell_W48</defName>
+    <defName>HD_155mmShell_W48Nuclear</defName>
     <label>W48 155mm nuclear shell</label>
     <description>A compact nuclear artillery shell for the M114 155mm howitzer. Its detonation produces a devastating blast, intense fires, a powerful electromagnetic pulse, and severe pollution around ground zero. It cannot be manufactured.</description>
     <projectileWhenLoaded>HD_155mmShell_W48_Proj</projectileWhenLoaded>
@@ -1270,7 +1270,7 @@
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
         <li>HD_LineShaftHydraulicPress</li>
-        <li>HD_HydraulicPress1970</li>
+        <li>HD_HydraulicPress1970Bench</li>
       </recipeUsers>
     </recipeMaker>
     <costList>

@@ -1796,8 +1796,8 @@ namespace Helodrace
                 int a10CShotIndex = -1;
                 string projectileDefName = isA10C
                     ? (strike.NextA10CStrafeRoundIsHighExplosive(out a10CShotIndex)
-                        ? "HD_Projectile_A10C_PGU13"
-                        : "HD_Projectile_A10C_PGU14")
+                        ? "HD_Projectile_A10C_PGU13Round"
+                        : "HD_Projectile_A10C_PGU14Round")
                     : HelodCasSupportUtility.StrafeProjectileDefName;
                 ThingDef projectileDef = DefDatabase<ThingDef>.GetNamedSilentFail(
                     projectileDefName);

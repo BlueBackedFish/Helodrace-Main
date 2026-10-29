@@ -107,6 +107,7 @@
   <PawnKindDef ParentName="HD_GW_HelodSoldierBase">
     <defName>HD_GW_HelodM1919A6</defName>
     <label>Great War Helod M1919A6 gunner</label>
+    <weaponMoney><min>670</min><max>2500</max></weaponMoney>
     <combatPower>140</combatPower>
     <weaponTags><li>HD_GreatWarM1919A6</li></weaponTags>
   </PawnKindDef>
@@ -114,6 +115,7 @@
   <PawnKindDef ParentName="HD_GW_HelodSoldierBase">
     <defName>HD_GW_HelodBazooka</defName>
     <label>Great War Helod bazooka gunner</label>
+    <weaponMoney><min>975</min><max>2500</max></weaponMoney>
     <combatPower>150</combatPower>
     <weaponTags><li>HD_GreatWarRecoillessWeapon</li></weaponTags>
     <apparelRequired><li>HD_Apparel_M6RocketBag</li></apparelRequired>
@@ -262,7 +264,7 @@
         <li><thingDef>MedicineIndustrial</thingDef><countRange>2~3</countRange></li>
       </subOptionsChooseOne>
     </inventoryOptions>
-    <weaponMoney><min>0</min><max>1800</max></weaponMoney>
+    <weaponMoney><min>41</min><max>1800</max></weaponMoney>
     <weaponTags Inherit="False"><li>HD_GreatWarCaravanLaborer</li></weaponTags>
     <apparelTags Inherit="False"><li>HD_Apparel_GW_CaravanLaborer</li></apparelTags>
     <specificApparelRequirements Inherit="False">

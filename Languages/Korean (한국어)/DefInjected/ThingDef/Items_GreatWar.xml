@@ -57,8 +57,8 @@
   <HD_155mmShell_M110WP.description>M114 155mm 곡사포용 백린연막탄입니다. 넓고 짙은 연막을 만들고 착탄 지역 주변에 불타는 백린을 흩뿌립니다.</HD_155mmShell_M110WP.description>
   <HD_155mmShell_M110CN.label>M110 155mm CN 화학탄</HD_155mmShell_M110CN.label>
   <HD_155mmShell_M110CN.description>CN 최루 작용제를 충전한 M114 155mm 곡사포용 M110 화학탄입니다. CS보다 느리게 작용하지만 심한 노출에서는 인체에 미약한 손상을 주는 넓고 지속적인 자극성 구름을 만듭니다.</HD_155mmShell_M110CN.description>
-  <HD_155mmShell_W48.label>W48 155mm 핵포탄</HD_155mmShell_W48.label>
-  <HD_155mmShell_W48.description>M114 155mm 곡사포용 소형 핵포탄입니다. 폭발하면 거대한 폭풍과 화재, 전자기 펄스를 일으키고 주변을 심각하게 오염시킵니다.</HD_155mmShell_W48.description>
+  <HD_155mmShell_W48Nuclear.label>W48 155mm 핵포탄</HD_155mmShell_W48Nuclear.label>
+  <HD_155mmShell_W48Nuclear.description>M114 155mm 곡사포용 소형 핵포탄입니다. 폭발하면 거대한 폭풍과 화재, 전자기 펄스를 일으키고 주변을 심각하게 오염시킵니다.</HD_155mmShell_W48Nuclear.description>
   <HD_Apparel_M1MortarBarrel.label>M1 박격포 포신</HD_Apparel_M1MortarBarrel.label>
   <HD_Apparel_M1MortarBarrel.description>운반용 멜빵을 단 M1 81mm 박격포의 포신과 포미 조립체입니다. 박격포를 운반할 때 세 부분으로 분해하여 나누어 드는 무거운 장비 중 하나입니다.</HD_Apparel_M1MortarBarrel.description>
   <HD_Apparel_M1MortarBaseplate.label>M1 박격포 포판</HD_Apparel_M1MortarBaseplate.label>

@@ -9,7 +9,7 @@
     <verb>machine</verb>
     <gerund>machining at</gerund>
     <fixedBillGiverDefs>
-      <li>HD_RollingMill1970</li>
+      <li>HD_RollingMill1970Bench</li>
     </fixedBillGiverDefs>
     <requiredCapacities>
       <li>Manipulation</li>

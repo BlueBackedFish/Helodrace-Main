@@ -598,7 +598,7 @@
     <ResearchProjectDef>
         <defName>HelodGreatWarTech</defName>
         <label>The Practical Arts</label>
-        <description></description>
+        <description>Develop the industrial and military foundations of Great War equipment.</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -732,7 +732,7 @@
     <ResearchProjectDef>
         <defName>HelodLessLethalClose</defName>
         <label>Shield and Baton</label>
-        <description></description>
+        <description>Develop shields and batons for less-lethal close-range restraint.</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -746,7 +746,7 @@
     <ResearchProjectDef>
         <defName>HelodLessLethalChemical</defName>
         <label>Chemical Compliance</label>
-        <description></description>
+        <description>Develop chemical agents and delivery equipment for less-lethal restraint.</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
