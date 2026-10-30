@@ -6,6 +6,8 @@ using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Waylith.Math;
+using Vector3 = System.Numerics.Vector3;
 
 namespace Helodrace
 {
@@ -35,7 +37,7 @@ namespace Helodrace
                     round = projectile,
                     controller = controller,
                     threat = threat,
-                    previousRoundPosition = projectile.ExactPosition,
+                    previousRoundPosition = projectile.ExactPosition.ToNative(),
                     previousThreatPosition = ThreatPosition(threat)
                 };
             }
@@ -65,12 +67,12 @@ namespace Helodrace
                 return;
             }
 
-            Vector3 currentRoundPosition = projectile.ExactPosition;
+            Vector3 currentRoundPosition = projectile.ExactPosition.ToNative();
             Vector3 currentThreatPosition = ThreatPosition(threat);
             Vector3 relativeStart = state.previousRoundPosition - state.previousThreatPosition;
             Vector3 relativeEnd = currentRoundPosition - currentThreatPosition;
-            relativeStart.y = 0f;
-            relativeEnd.y = 0f;
+            relativeStart.Y = 0f;
+            relativeEnd.Y = 0f;
 
             state.previousRoundPosition = currentRoundPosition;
             state.previousThreatPosition = currentThreatPosition;
@@ -108,21 +110,21 @@ namespace Helodrace
         private static Vector3 ThreatPosition(Thing threat)
         {
             return threat is Projectile projectile
-                ? projectile.ExactPosition
-                : threat?.DrawPos ?? Vector3.zero;
+                ? projectile.ExactPosition.ToNative()
+                : threat?.DrawPos.ToNative() ?? Vector3.Zero;
         }
 
         private static float DistanceToOriginSquared(Vector3 start, Vector3 end)
         {
             Vector3 segment = end - start;
-            float lengthSquared = segment.sqrMagnitude;
+            float lengthSquared = segment.LengthSquared();
             if (lengthSquared <= 0.0001f)
             {
-                return start.sqrMagnitude;
+                return start.LengthSquared();
             }
 
             float fraction = Mathf.Clamp01(-Vector3.Dot(start, segment) / lengthSquared);
-            return (start + segment * fraction).sqrMagnitude;
+            return (start + segment * fraction).LengthSquared();
         }
     }
 
@@ -387,19 +389,19 @@ namespace Helodrace
                 return LocalTargetInfo.Invalid;
             }
 
-            Vector3 aimPosition = selectedThreat.DrawPos;
+            Vector3 aimPosition = selectedThreat.DrawPos.ToNative();
             if (selectedThreat is Projectile projectile)
             {
                 aimPosition = ProjectileLeadPosition(projectile);
             }
 
-            Vector3 muzzlePosition = parent.DrawPos;
+            Vector3 muzzlePosition = parent.DrawPos.ToNative();
             Vector3 offset = aimPosition - muzzlePosition;
-            offset.y = 0f;
+            offset.Y = 0f;
             float maximumRange = Mathf.Max(
                 0.5f,
                 effectiveRange - 0.25f);
-            if (offset.sqrMagnitude <= 0.0001f)
+            if (offset.LengthSquared() <= 0.0001f)
             {
                 return LocalTargetInfo.Invalid;
             }
@@ -409,7 +411,7 @@ namespace Helodrace
             // airborne target and makes its normal impact on the ground.
             aimPosition = muzzlePosition + offset.normalized * maximumRange;
 
-            IntVec3 aimCell = aimPosition.ToIntVec3();
+            IntVec3 aimCell = aimPosition.ToGame().ToIntVec3();
             aimCell.x = Mathf.Clamp(aimCell.x, 0, parent.Map.Size.x - 1);
             aimCell.z = Mathf.Clamp(aimCell.z, 0, parent.Map.Size.z - 1);
             return new LocalTargetInfo(aimCell);
@@ -454,11 +456,11 @@ namespace Helodrace
                 return;
             }
 
-            Vector3 origin = (Vector3)ProjectileOriginField.GetValue(projectile);
-            Vector3 destination = (Vector3)ProjectileDestinationField.GetValue(projectile);
+            Vector3 origin = ((UnityEngine.Vector3)ProjectileOriginField.GetValue(projectile)).ToNative();
+            Vector3 destination = ((UnityEngine.Vector3)ProjectileDestinationField.GetValue(projectile)).ToNative();
             Vector3 direction = destination - origin;
-            direction.y = 0f;
-            if (direction.sqrMagnitude <= 0.0001f)
+            direction.Y = 0f;
+            if (direction.LengthSquared() <= 0.0001f)
             {
                 return;
             }
@@ -468,8 +470,8 @@ namespace Helodrace
                 1f,
                 baseRange * Mathf.Max(1f, Props.missTrajectoryRangeFactor));
             Vector3 extendedDestination = origin + direction.normalized * travelDistance;
-            extendedDestination.y = destination.y;
-            ProjectileDestinationField.SetValue(projectile, extendedDestination);
+            extendedDestination.Y = destination.Y;
+            ProjectileDestinationField.SetValue(projectile, extendedDestination.ToGame());
 
             float speed = Mathf.Max(
                 0.001f,
@@ -579,22 +581,22 @@ namespace Helodrace
 
         private Vector3 ProjectileLeadPosition(Projectile target)
         {
-            Vector3 currentPosition = target.ExactPosition;
+            Vector3 currentPosition = target.ExactPosition.ToNative();
             int remainingTicks = ProjectileTicksToImpactField != null
                 ? Mathf.Max(1, (int)ProjectileTicksToImpactField.GetValue(target))
                 : 1;
             Vector3 destination = ProjectileDestinationField != null
-                ? (Vector3)ProjectileDestinationField.GetValue(target)
+                ? ((UnityEngine.Vector3)ProjectileDestinationField.GetValue(target)).ToNative()
                 : currentPosition;
             Vector3 targetVelocity = (destination - currentPosition) / remainingTicks;
-            targetVelocity.y = 0f;
+            targetVelocity.Y = 0f;
 
             ThingDef outgoingProjectile =
                 ((parent as Building_TurretGun)?.AttackVerb as Verb_LaunchProjectile)?.Projectile;
             float outgoingSpeed = Mathf.Max(
                 0.01f,
                 outgoingProjectile?.projectile?.SpeedTilesPerTick ?? 1f);
-            Vector3 muzzlePosition = parent.DrawPos;
+            Vector3 muzzlePosition = parent.DrawPos.ToNative();
             Vector3 predictedPosition = currentPosition;
             float leadTicks = 0f;
 
@@ -603,8 +605,8 @@ namespace Helodrace
             for (int iteration = 0; iteration < 4; iteration++)
             {
                 Vector3 difference = predictedPosition - muzzlePosition;
-                difference.y = 0f;
-                leadTicks = Mathf.Min(difference.magnitude / outgoingSpeed, remainingTicks);
+                difference.Y = 0f;
+                leadTicks = Mathf.Min(difference.Length() / outgoingSpeed, remainingTicks);
                 predictedPosition = currentPosition + targetVelocity * leadTicks;
             }
 
@@ -912,7 +914,7 @@ namespace Helodrace
         new[]
         {
             typeof(Thing),
-            typeof(Vector3),
+            typeof(UnityEngine.Vector3),
             typeof(LocalTargetInfo),
             typeof(LocalTargetInfo),
             typeof(ProjectileHitFlags),
