@@ -17,7 +17,11 @@ namespace Helodrace.Tests
         private bool mainStatePrepared;
         private bool blancasGenerationPrepared;
         private bool lra7Prepared;
+        private bool grenadePrepared;
+#if HELODRACE_MAIN_CHECKS
         private bool lra7VerifiedOnLoad;
+        private bool grenadeVerifiedOnLoad;
+#endif
         private string output, mode;
 
         public MigrationChecks(Game game) { }
@@ -28,18 +32,28 @@ namespace Helodrace.Tests
             Scribe_Values.Look(ref mainStatePrepared, "migrationMainStatePrepared", false);
             Scribe_Values.Look(ref blancasGenerationPrepared, "migrationBlancasGenerationPrepared", false);
             Scribe_Values.Look(ref lra7Prepared, "migrationLra7Prepared", false);
+            Scribe_Values.Look(ref grenadePrepared, "migrationGrenadePrepared", false);
         }
 
 #if HELODRACE_MAIN_CHECKS
         public override void LoadedGame()
         {
-            if (!lra7Prepared || !GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string activeCase)
-                || activeCase != "native-lra7" || !GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out output)) return;
+            if (!GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string activeCase)
+                || !((lra7Prepared && activeCase == "native-lra7") || (grenadePrepared && activeCase == "native-grenades"))
+                || !GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out output)) return;
             try
             {
                 // Inspect before ordinary simulation ticks decrement the lifetime.
-                NativeLra7Checks.Verify(output, Check);
-                lra7VerifiedOnLoad = true;
+                if (activeCase == "native-lra7")
+                {
+                    NativeLra7Checks.Verify(output, Check);
+                    lra7VerifiedOnLoad = true;
+                }
+                else
+                {
+                    NativeGrenadeChecks.Verify(output, Check);
+                    grenadeVerifiedOnLoad = true;
+                }
             }
             catch (Exception error)
             {
@@ -77,7 +91,7 @@ namespace Helodrace.Tests
             try
             {
                 if ((mode != "main-state" || !mainStatePrepared) && (mode != "blancas-generation" || !blancasGenerationPrepared)
-                    && (mode != "native-lra7" || !lra7Prepared))
+                    && (mode != "native-lra7" || !lra7Prepared) && (mode != "native-grenades" || !grenadePrepared))
                     File.WriteAllText(Path.Combine(output, "checks.txt"), "Engine migration: " + mode + "\n");
                 else File.AppendAllText(Path.Combine(output, "checks.txt"), "Loaded new 1.7 state\n");
                 Check(DefDatabase<ThingDef>.GetNamedSilentFail("BD_Ketamine") != null, "Blancas drug definitions loaded");
@@ -124,6 +138,18 @@ namespace Helodrace.Tests
                     BlancasGenerationChecks.Verify(Check);
                 }
 #if HELODRACE_MAIN_CHECKS
+                else if (mode == "native-grenades")
+                {
+                    if (!grenadePrepared)
+                    {
+                        NativeGrenadeChecks.Create(output, Check);
+                        grenadePrepared = true;
+                        GameDataSaveLoader.SaveGame("GrenadeNativeState17");
+                        GameDataSaveLoader.LoadGame("GrenadeNativeState17");
+                        return;
+                    }
+                    Check(grenadeVerifiedOnLoad, "native grenade state verified before the first simulation tick");
+                }
                 else if (mode == "native-lra7")
                 {
                     if (!lra7Prepared)

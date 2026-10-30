@@ -5,6 +5,23 @@ namespace Helodrace
 {
     internal static class NativeVectorScribe
     {
+        internal static void Look(ref Vector2 value, string label, Vector2 defaultValue = default)
+        {
+            if (!Scribe.EnterNode(label))
+            {
+                if (Scribe.mode == LoadSaveMode.LoadingVars) value = defaultValue;
+                return;
+            }
+            try
+            {
+                float x = value.X, y = value.Y;
+                Scribe_Values.Look(ref x, "x", defaultValue.X, forceSave: true);
+                Scribe_Values.Look(ref y, "y", defaultValue.Y, forceSave: true);
+                value = new Vector2(x, y);
+            }
+            finally { Scribe.ExitNode(); }
+        }
+
         internal static void Look(ref Vector3 value, string label)
         {
             if (!Scribe.EnterNode(label))

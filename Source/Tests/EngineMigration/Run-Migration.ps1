@@ -1,5 +1,5 @@
 param(
-    [Parameter(Mandatory=$true)][ValidateSet('baseline','load','main','blancas','blancas-integration','blancas-generation','main-state','native-runtime','native-math','native-geometry','native-lra7')][string]$Case,
+    [Parameter(Mandatory=$true)][ValidateSet('baseline','load','main','blancas','blancas-integration','blancas-generation','main-state','native-runtime','native-math','native-geometry','native-lra7','native-grenades')][string]$Case,
     [Parameter(Mandatory=$true)][string]$RuntimeRoot,
     [string]$GameRoot='C:\Program Files (x86)\Steam\steamapps\common\RimWorld',
     [string]$BlancasRoot='C:\Users\human\Documents\GitHub\Helodrace-blancasdrugs',
@@ -13,7 +13,7 @@ param(
     [int]$TimeoutSeconds=300
 )
 $ErrorActionPreference='Stop'
-$mainCases=@('main','blancas-integration','main-state','native-runtime','native-math','native-geometry','native-lra7')
+$mainCases=@('main','blancas-integration','main-state','native-runtime','native-math','native-geometry','native-lra7','native-grenades')
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
 $runtime=[IO.Path]::GetFullPath($RuntimeRoot)
 $allowed=[IO.Path]::GetFullPath((Join-Path $repository '.codex-staging'))+[IO.Path]::DirectorySeparatorChar

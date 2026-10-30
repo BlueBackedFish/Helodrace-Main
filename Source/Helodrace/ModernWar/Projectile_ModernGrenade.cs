@@ -2,6 +2,10 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
+using Waylith.Math;
+using Vector2 = System.Numerics.Vector2;
+using Vector3 = System.Numerics.Vector3;
+using Quaternion = System.Numerics.Quaternion;
 
 namespace Helodrace.ModernWar
 {
@@ -57,7 +61,7 @@ namespace Helodrace.ModernWar
         private float primaryVisualArcHeight = -1f;
         private float bounceArcHeight = -1f;
         private float bounceVisualArcFactor = -1f;
-        private Vector2 bounceSurfaceFactors = Vector2.one;
+        private Vector2 bounceSurfaceFactors = Vector2.One;
         private Vector3 exactPosition;
         private Vector3 launchOrigin;
         private Vector3 bounceStartPosition;
@@ -66,12 +70,14 @@ namespace Helodrace.ModernWar
         [Unsaved]
         private Material material;
 
-        public override Vector3 ExactPosition => trajectoryInitialized ? exactPosition : base.ExactPosition;
-        public override Vector3 DrawPos => ExactPosition;
+        private Vector3 NativeExactPosition => trajectoryInitialized ? exactPosition : base.ExactPosition.ToNative();
+
+        public override UnityEngine.Vector3 ExactPosition => NativeExactPosition.ToGame();
+        public override UnityEngine.Vector3 DrawPos => ExactPosition;
 
         public override void Launch(
             Thing launcher,
-            Vector3 origin,
+            UnityEngine.Vector3 origin,
             LocalTargetInfo usedTarget,
             LocalTargetInfo intendedTarget,
             ProjectileHitFlags hitFlags,
@@ -98,20 +104,21 @@ namespace Helodrace.ModernWar
             fuseDurationTicks = Mathf.Max(
                 1,
                 baseFuseTicks + Rand.RangeInclusive(-fuseVariance, fuseVariance));
-            InitializeTrajectory(origin, extension);
+            Vector3 nativeOrigin = origin.ToNative();
+            InitializeTrajectory(nativeOrigin, extension);
             if (Map == null || extension == null)
             {
                 return;
             }
 
-            Vector3 direction = finalDestination - origin;
-            direction.y = 0f;
-            float throwDistance = direction.magnitude;
-            direction = throwDistance > 0.001f ? direction / throwDistance : Vector3.forward;
+            Vector3 direction = finalDestination - nativeOrigin;
+            direction.Y = 0f;
+            float throwDistance = direction.Length();
+            direction = throwDistance > 0.001f ? direction / throwDistance : Vector3.UnitZ;
 
             SpawnPart(
                 extension.clipDef,
-                origin,
+                nativeOrigin,
                 direction,
                 Mathf.Min(extension.clipTravelDistance, throwDistance * 0.45f),
                 0,
@@ -123,10 +130,10 @@ namespace Helodrace.ModernWar
                 1,
                 240);
 
-            Vector3 pinDirection = Quaternion.AngleAxis(Rand.Range(-38f, 38f), Vector3.up) * direction;
+            Vector3 pinDirection = SpatialMath.RotateAroundY(direction, Rand.Range(-38f, 38f));
             SpawnPart(
                 extension.pinDef,
-                origin,
+                nativeOrigin,
                 pinDirection,
                 Rand.Range(0.3f, 0.55f),
                 Mathf.Max(0, extension.pinDropDelayTicks),
@@ -170,11 +177,11 @@ namespace Helodrace.ModernWar
             Scribe_Values.Look(ref primaryVisualArcHeight, "modernGrenadePrimaryVisualArcHeight", -1f);
             Scribe_Values.Look(ref bounceArcHeight, "modernGrenadeBounceArcHeight", -1f);
             Scribe_Values.Look(ref bounceVisualArcFactor, "modernGrenadeBounceVisualArcFactor", -1f);
-            Scribe_Values.Look(ref bounceSurfaceFactors, "modernGrenadeBounceSurfaceFactors", Vector2.one);
-            Scribe_Values.Look(ref exactPosition, "modernGrenadeExactPosition");
-            Scribe_Values.Look(ref launchOrigin, "modernGrenadeLaunchOrigin");
-            Scribe_Values.Look(ref bounceStartPosition, "modernGrenadeBounceStartPosition");
-            Scribe_Values.Look(ref finalDestination, "modernGrenadeFinalDestination");
+            NativeVectorScribe.Look(ref bounceSurfaceFactors, "modernGrenadeBounceSurfaceFactors", Vector2.One);
+            NativeVectorScribe.Look(ref exactPosition, "modernGrenadeExactPosition");
+            NativeVectorScribe.Look(ref launchOrigin, "modernGrenadeLaunchOrigin");
+            NativeVectorScribe.Look(ref bounceStartPosition, "modernGrenadeBounceStartPosition");
+            NativeVectorScribe.Look(ref finalDestination, "modernGrenadeFinalDestination");
         }
 
         protected override void Tick()
@@ -183,7 +190,7 @@ namespace Helodrace.ModernWar
                 def.GetModExtension<ModernGrenadeProjectileExtension>();
             if (!trajectoryInitialized)
             {
-                InitializeTrajectory(base.ExactPosition, extension);
+                InitializeTrajectory(base.ExactPosition.ToNative(), extension);
             }
 
             age++;
@@ -246,7 +253,7 @@ namespace Helodrace.ModernWar
             if (!Destroyed && landedTick < 0)
             {
                 landedTick = age;
-                exactPosition = Position.ToVector3Shifted();
+                exactPosition = Position.ToVector3Shifted().ToNative();
             }
 
             if (!Destroyed && extension?.waitForGroundBeforeRelease == true)
@@ -301,26 +308,26 @@ namespace Helodrace.ModernWar
             }
 
             Vector3 direction = finalDestination - launchOrigin;
-            direction.y = 0f;
-            direction = direction.sqrMagnitude > 0.0001f
+            direction.Y = 0f;
+            direction = direction.LengthSquared() > 0.0001f
                 ? direction.normalized
-                : Vector3.forward;
+                : Vector3.UnitZ;
             Vector3 position = CurrentVisualTrailPosition(extension);
             FleckCreationData smoke = FleckMaker.GetDataStatic(
-                position,
+                position.ToGame(),
                 Map,
                 FleckDefOf.Smoke,
                 Mathf.Max(0.05f, extension.trailSmokeScale) * Rand.Range(0.78f, 1.18f));
             smoke.rotation = Rand.Range(0f, 360f);
             smoke.rotationRate = Rand.Range(-12f, 12f);
-            smoke.velocity = -direction * Rand.Range(0.05f, 0.12f);
+            smoke.velocity = (-direction * Rand.Range(0.05f, 0.12f)).ToGame();
             smoke.solidTimeOverride = Rand.Range(0.16f, 0.34f);
             Map.flecks.CreateFleck(smoke);
 
             if (extension.glowingTrail)
             {
                 FleckMaker.ThrowFireGlow(
-                    position,
+                    position.ToGame(),
                     Map,
                     Mathf.Max(0.05f, extension.trailGlowScale));
             }
@@ -329,7 +336,7 @@ namespace Helodrace.ModernWar
         private Vector3 CurrentVisualTrailPosition(
             ModernGrenadeProjectileExtension extension)
         {
-            Vector3 position = ExactPosition;
+            Vector3 position = NativeExactPosition;
             if (age <= primaryFlightTicks)
             {
                 float progress = Mathf.Clamp01(
@@ -337,7 +344,7 @@ namespace Helodrace.ModernWar
                 float visualArcHeight = primaryVisualArcHeight >= 0f
                     ? primaryVisualArcHeight
                     : Mathf.Max(0f, extension?.projectileVisualArcHeight ?? 1.6f);
-                position.z += Mathf.Sin(progress * Mathf.PI) * visualArcHeight;
+                position.Z += Mathf.Sin(progress * Mathf.PI) * visualArcHeight;
                 return position;
             }
 
@@ -348,7 +355,7 @@ namespace Helodrace.ModernWar
                 bounceArcHeight >= 0f
                     ? bounceArcHeight
                     : Mathf.Max(0f, extension?.projectileBounceHeight ?? 0.34f));
-            position.z += bounceHeight * (bounceVisualArcFactor >= 0f
+            position.Z += bounceHeight * (bounceVisualArcFactor >= 0f
                 ? bounceVisualArcFactor
                 : 0.75f);
             return position;
@@ -382,7 +389,7 @@ namespace Helodrace.ModernWar
             }
         }
 
-        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
+        protected override void DrawAt(UnityEngine.Vector3 drawLoc, bool flip = false)
         {
             ModernGrenadeProjectileExtension extension =
                 def.GetModExtension<ModernGrenadeProjectileExtension>();
@@ -394,8 +401,8 @@ namespace Helodrace.ModernWar
                 rotation += bounceRotationDegrees;
             }
 
-            drawLoc = ExactPosition;
-            drawLoc.y = AltitudeLayer.Projectile.AltitudeFor();
+            Vector3 position = NativeExactPosition;
+            position.Y = AltitudeLayer.Projectile.AltitudeFor();
             if (landedTick < 0 && age <= primaryFlightTicks)
             {
                 float flightProgress = Mathf.Clamp01(age / (float)Mathf.Max(1, primaryFlightTicks));
@@ -407,8 +414,8 @@ namespace Helodrace.ModernWar
                     ? primaryVisualArcHeight
                     : Mathf.Max(0f, extension?.projectileVisualArcHeight ?? 1.6f);
                 float arcProgress = Mathf.Sin(flightProgress * Mathf.PI);
-                drawLoc.y += arcProgress * flightArcHeight;
-                drawLoc.z += arcProgress * visualArcHeight;
+                position.Y += arcProgress * flightArcHeight;
+                position.Z += arcProgress * visualArcHeight;
             }
             else if (landedTick < 0)
             {
@@ -419,19 +426,19 @@ namespace Helodrace.ModernWar
                     bounceArcHeight >= 0f
                         ? bounceArcHeight
                         : Mathf.Max(0f, extension?.projectileBounceHeight ?? 0.34f));
-                drawLoc.y += bounceHeight;
-                drawLoc.z += bounceHeight * (bounceVisualArcFactor >= 0f
+                position.Y += bounceHeight;
+                position.Z += bounceHeight * (bounceVisualArcFactor >= 0f
                     ? bounceVisualArcFactor
                     : 0.75f);
                 rotation += bounceHeight * 110f;
             }
 
-            Vector2 drawSize = def.graphicData?.drawSize ?? new Vector2(0.46f, 0.46f);
-            Vector3 scale = new Vector3(drawSize.x, 1f, drawSize.y);
+            Vector2 drawSize = def.graphicData?.drawSize.ToNative() ?? new Vector2(0.46f, 0.46f);
+            Vector3 scale = new Vector3(drawSize.X, 1f, drawSize.Y);
             material = material ?? MaterialPool.MatFrom(def.graphicData.texPath, ShaderDatabase.Cutout);
             Graphics.DrawMesh(
                 MeshPool.plane10,
-                Matrix4x4.TRS(drawLoc, Quaternion.AngleAxis(rotation, Vector3.up), scale),
+                SpatialMath.CreateTransform(position, Quaternion.CreateFromAxisAngle(Vector3.UnitY, rotation * Mathf.Deg2Rad), scale).ToGame(),
                 material,
                 0);
         }
@@ -441,13 +448,13 @@ namespace Helodrace.ModernWar
             ModernGrenadeProjectileExtension extension)
         {
             launchOrigin = origin;
-            launchOrigin.y = 0f;
-            finalDestination = destination;
-            finalDestination.y = 0f;
+            launchOrigin.Y = 0f;
+            finalDestination = destination.ToNative();
+            finalDestination.Y = 0f;
 
             Vector3 direction = finalDestination - launchOrigin;
-            float throwDistance = direction.magnitude;
-            direction = throwDistance > 0.001f ? direction / throwDistance : Vector3.forward;
+            float throwDistance = direction.Length();
+            direction = throwDistance > 0.001f ? direction / throwDistance : Vector3.UnitZ;
 
             float baseBounceDistance = Mathf.Max(
                 0.2f,
@@ -485,7 +492,7 @@ namespace Helodrace.ModernWar
                 : baseBounceHeight;
             bounceVisualArcFactor = closeUnderhandThrow ? 0.35f : 0.75f;
             bounceSpinDegreesPerTick = extension?.projectileSpinDegreesPerTick ?? 6f;
-            bounceSurfaceFactors = Vector2.one;
+            bounceSurfaceFactors = Vector2.One;
             lastBounceContact = -1;
             bounceRotationDegrees = 0f;
             trajectoryInitialized = true;
@@ -496,13 +503,13 @@ namespace Helodrace.ModernWar
             if (age <= primaryFlightTicks)
             {
                 float progress = Mathf.Clamp01(age / (float)Mathf.Max(1, primaryFlightTicks));
-                exactPosition = Vector3.Lerp(launchOrigin, bounceStartPosition, progress);
+                exactPosition = SpatialMath.Interpolate(launchOrigin, bounceStartPosition, progress);
                 return;
             }
 
             float bounceProgress = Mathf.Clamp01(
                 (age - primaryFlightTicks) / (float)Mathf.Max(1, bounceFlightTicks));
-            exactPosition = Vector3.Lerp(bounceStartPosition, finalDestination, bounceProgress);
+            exactPosition = SpatialMath.Interpolate(bounceStartPosition, finalDestination, bounceProgress);
         }
 
         private float BounceHeightAt(float progress, float firstBounceHeight)
@@ -517,8 +524,8 @@ namespace Helodrace.ModernWar
             }
 
             float surfaceFactor = bounceIndex == 0
-                ? bounceSurfaceFactors.x
-                : bounceSurfaceFactors.y;
+                ? bounceSurfaceFactors.X
+                : bounceSurfaceFactors.Y;
             float height = firstBounceHeight
                 * Mathf.Pow(0.58f, bounceIndex)
                 * surfaceFactor;
@@ -541,7 +548,7 @@ namespace Helodrace.ModernWar
             }
 
             lastBounceContact = contact;
-            bool hardSurface = IsHardSurface(exactPosition.ToIntVec3());
+            bool hardSurface = IsHardSurface(exactPosition.ToGame().ToIntVec3());
             SetBounceSurfaceFactor(contact, hardSurface ? 1.15f : 0.52f);
 
             if (hardSurface)
@@ -556,7 +563,7 @@ namespace Helodrace.ModernWar
             }
 
             FleckMaker.ThrowDustPuff(
-                exactPosition,
+                exactPosition.ToGame(),
                 Map,
                 hardSurface ? Rand.Range(0.42f, 0.62f) : Rand.Range(0.68f, 0.95f));
         }
@@ -585,11 +592,11 @@ namespace Helodrace.ModernWar
         {
             if (bounceIndex <= 0)
             {
-                bounceSurfaceFactors.x = factor;
+                bounceSurfaceFactors.X = factor;
             }
             else
             {
-                bounceSurfaceFactors.y = factor;
+                bounceSurfaceFactors.Y = factor;
             }
         }
 
@@ -633,7 +640,7 @@ namespace Helodrace.ModernWar
                 bounceHeight,
                 bounceCount,
                 settledTicks);
-            GenSpawn.Spawn(part, start.ToIntVec3(), Map);
+            GenSpawn.Spawn(part, start.ToGame().ToIntVec3(), Map);
         }
     }
 
@@ -712,7 +719,7 @@ namespace Helodrace.ModernWar
             remainingEmissionTicks--;
         }
 
-        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
+        protected override void DrawAt(UnityEngine.Vector3 drawLoc, bool flip = false)
         {
             if (delayTicks > 0)
             {
@@ -746,10 +753,10 @@ namespace Helodrace.ModernWar
                         * Mathf.Lerp(edgeDensityFactor, 1f, distanceFactor));
             }
 
-            Vector3 smokePosition = Position.ToVector3Shifted();
-            smokePosition.x += Rand.Range(-0.12f, 0.12f);
-            smokePosition.z += Rand.Range(-0.12f, 0.12f);
-            FleckMaker.ThrowSmoke(smokePosition, Map, Rand.Range(0.65f, 0.9f));
+            Vector3 smokePosition = Position.ToVector3Shifted().ToNative();
+            smokePosition.X += Rand.Range(-0.12f, 0.12f);
+            smokePosition.Z += Rand.Range(-0.12f, 0.12f);
+            FleckMaker.ThrowSmoke(smokePosition.ToGame(), Map, Rand.Range(0.65f, 0.9f));
         }
     }
 
@@ -773,7 +780,7 @@ namespace Helodrace.ModernWar
         [Unsaved]
         private Material material;
 
-        public override Vector3 DrawPos => exactPosition;
+        public override UnityEngine.Vector3 DrawPos => exactPosition.ToGame();
 
         public void Initialize(
             Vector3 startPosition,
@@ -806,9 +813,9 @@ namespace Helodrace.ModernWar
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref start, "start");
-            Scribe_Values.Look(ref direction, "direction");
-            Scribe_Values.Look(ref exactPosition, "exactPosition");
+            NativeVectorScribe.Look(ref start, "start");
+            NativeVectorScribe.Look(ref direction, "direction");
+            NativeVectorScribe.Look(ref exactPosition, "exactPosition");
             Scribe_Values.Look(ref travelDistance, "travelDistance");
             Scribe_Values.Look(ref arcHeight, "arcHeight");
             Scribe_Values.Look(ref spinDegreesPerTick, "spinDegreesPerTick");
@@ -832,7 +839,7 @@ namespace Helodrace.ModernWar
             {
                 float progress = Mathf.Clamp01(flightAge / (float)flightTicks);
                 exactPosition = start + direction * (travelDistance * progress);
-                exactPosition.y = AltitudeLayer.MoteOverhead.AltitudeFor()
+                exactPosition.Y = AltitudeLayer.MoteOverhead.AltitudeFor()
                     + Mathf.Sin(progress * Mathf.PI) * arcHeight;
 
                 int bounceAge = flightAge - flightTicks;
@@ -840,7 +847,7 @@ namespace Helodrace.ModernWar
                 {
                     float bounceProgress = Mathf.Clamp01(bounceAge / (float)bounceTicks);
                     float envelope = 1f - bounceProgress;
-                    exactPosition.y += Mathf.Abs(
+                    exactPosition.Y += Mathf.Abs(
                         Mathf.Sin(bounceProgress * Mathf.PI * bounceCount))
                         * bounceHeight
                         * envelope;
@@ -853,7 +860,7 @@ namespace Helodrace.ModernWar
             }
         }
 
-        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
+        protected override void DrawAt(UnityEngine.Vector3 drawLoc, bool flip = false)
         {
             if (age < delayTicks)
             {
@@ -865,12 +872,12 @@ namespace Helodrace.ModernWar
             float rotation = startingAngle
                 + spinDegreesPerTick * Mathf.Min(flightAge, flightTicks)
                 + spinDegreesPerTick * 0.35f * Mathf.Max(0, movingAge - flightTicks);
-            Vector2 drawSize = def.graphicData?.drawSize ?? new Vector2(0.3f, 0.3f);
-            Vector3 scale = new Vector3(drawSize.x, 1f, drawSize.y);
+            Vector2 drawSize = def.graphicData?.drawSize.ToNative() ?? new Vector2(0.3f, 0.3f);
+            Vector3 scale = new Vector3(drawSize.X, 1f, drawSize.Y);
             material = material ?? MaterialPool.MatFrom(def.graphicData.texPath, ShaderDatabase.Cutout);
             Graphics.DrawMesh(
                 MeshPool.plane10,
-                Matrix4x4.TRS(DrawPos, Quaternion.AngleAxis(rotation, Vector3.up), scale),
+                SpatialMath.CreateTransform(exactPosition, Quaternion.CreateFromAxisAngle(Vector3.UnitY, rotation * Mathf.Deg2Rad), scale).ToGame(),
                 material,
                 0);
         }
