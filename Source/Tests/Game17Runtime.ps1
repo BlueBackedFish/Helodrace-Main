@@ -4,6 +4,11 @@ function Get-Game17Processes {
     Get-CimInstance Win32_Process -Filter "Name='RimWorld.exe' OR Name='RimWorldWin64.exe'"
 }
 
+function Wait-Game17Host {
+    param([Parameter(Mandatory)][string]$RuntimeRoot,[int]$TimeoutSeconds=300)
+    & (Join-Path $PSScriptRoot 'Wait-Game17Host.ps1') -RuntimeRoot $RuntimeRoot -TimeoutSeconds $TimeoutSeconds
+}
+
 function New-Game17Runtime {
     param(
         [Parameter(Mandatory)][string]$RuntimeRoot,
@@ -16,7 +21,9 @@ function New-Game17Runtime {
     $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
     $runtime=[IO.Path]::GetFullPath($RuntimeRoot)
     $allowed=[IO.Path]::GetFullPath((Join-Path $repository '.codex-staging'))+[IO.Path]::DirectorySeparatorChar
-    if(-not $runtime.StartsWith($allowed,[StringComparison]::OrdinalIgnoreCase)){throw 'Use a dedicated runtime under this repository .codex-staging.'}
+    $temporary='C:\Users\Public\Documents\ESTsoft\CreatorTemp\'
+    if(-not $runtime.StartsWith($allowed,[StringComparison]::OrdinalIgnoreCase) -and
+        -not $runtime.StartsWith($temporary,[StringComparison]::OrdinalIgnoreCase)){throw 'Use a dedicated runtime under .codex-staging or CreatorTemp.'}
     if(Test-Path -LiteralPath $runtime){throw 'Use a fresh runtime to preserve earlier evidence.'}
     if(@(Get-Game17Processes).Count){throw 'Preserve the running game; wait for it to exit before collecting another host log.'}
     $version=(Get-Content -LiteralPath (Join-Path $GameRoot 'Version.txt') -Raw).Trim()
@@ -57,10 +64,13 @@ function New-Game17Runtime {
 }
 
 function Start-Game17Runtime {
-    param([Parameter(Mandatory)]$Runtime,[string[]]$Arguments=@(),[switch]$Headless,[switch]$Visible,[string]$ResultFile,[string]$CompletionPattern='(?m)^COMPLETE\r?$')
+    param([Parameter(Mandatory)]$Runtime,[string[]]$Arguments=@(),[switch]$Headless,[switch]$Visible,[string]$ResultFile,[string]$CompletionPattern='(?m)^COMPLETE\r?$',[switch]$EnableMethodProfile,[hashtable]$Metadata=@{})
     $ErrorActionPreference='Stop'
     if(@(Get-Game17Processes).Count){throw 'A game started during setup; preserve it and start this prepared runtime after it exits.'}
-    $tokens=@('-quicktest',('-savedatafolder='+$Runtime.Profile),('-mod='+($Runtime.ExplicitMods -join ';')),'-hdMethodProfileDisabled=true')+$Arguments
+    $tokens=@(('-savedatafolder='+$Runtime.Profile),('-mod='+($Runtime.ExplicitMods -join ';')))
+    $tokens+='-quicktest'
+    if(-not $EnableMethodProfile){$tokens+='-hdMethodProfileDisabled=true'}
+    $tokens+=$Arguments
     if($Headless){$tokens+='-Headless'}elseif(-not $Visible){$tokens+='-NoWindow'}
     # Start-Process joins ArgumentList; callers supply unquoted tokens.
     $quoted=foreach($token in $tokens){if($token.Contains('"') -or $token.EndsWith('\')){throw 'Pass unquoted argument tokens without trailing backslashes.'};'"'+$token+'"'}
@@ -70,6 +80,10 @@ function Start-Game17Runtime {
     $manifest.mainAssemblySha256=(Get-FileHash -LiteralPath (Join-Path $Runtime.Game 'Mods/Main/Assemblies/Helodrace.dll')).Hash
     $manifest.blancasAssemblySha256=(Get-FileHash -LiteralPath (Join-Path $Runtime.BlancasRoot '1.7/Assemblies/HelodBlancasDrug.dll')).Hash
     $manifest.harmonyAssemblySha256=(Get-FileHash -LiteralPath $Runtime.HarmonyAssembly).Hash
+    foreach($entry in $Metadata.GetEnumerator()){
+        if($manifest.ContainsKey($entry.Key)){throw ('Reserved host manifest field: '+$entry.Key)}
+        $manifest[$entry.Key]=$entry.Value
+    }
     $style=if($Visible){'Normal'}else{'Hidden'}
     $process=Start-Process -FilePath (Join-Path $Runtime.Game 'RimWorld.exe') -WorkingDirectory $Runtime.Game -WindowStyle $style -PassThru -ArgumentList $quoted
     $null=$process.Handle

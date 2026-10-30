@@ -33,9 +33,10 @@ foreach ($workload in $Workloads) {
     }
 }
 if ($Preview) { $planned | ConvertTo-Json -Depth 6; return }
+. (Join-Path $PSScriptRoot '../../Tests/Game17Runtime.ps1')
 $root = [IO.Path]::GetFullPath($AuditRoot)
 if (-not $root.StartsWith('C:\Users\Public\Documents\ESTsoft\CreatorTemp\', [StringComparison]::OrdinalIgnoreCase) -or (Test-Path -LiteralPath $root)) { throw 'Use a fresh matrix directory under CreatorTemp.' }
-if (Get-Process -Name 'RimWorld*' -ErrorAction SilentlyContinue) { throw 'Preserve the existing RimWorld process; do not start another matrix.' }
+if (@(Get-Game17Processes).Count) { throw 'Preserve the existing RimWorld process; do not start another matrix.' }
 $repository = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
 $content = @('Assemblies\Helodrace.dll','Defs\Organization\NewTacticalJobs.xml',
     'Defs\ColdWar\BreachExplosive_ColdWar.xml','Defs\GreatWar\Sledgehammer_Breach.xml')
@@ -66,16 +67,9 @@ foreach ($workload in $Workloads) {
             $record = [pscustomobject]@{ root=$runRoot; engine=$engine; workload=$workload; repeat=$repeat; pid=$auditProcess;
                 status='running'; error=$null; startedUtc=$null; population=$null; entered=$null; objectiveReached=$null; speed=$Speed; fixtureCase=$Case }
             $records += $record; Write-Journal
-            $process = Get-Process -Id $auditProcess -ErrorAction SilentlyContinue
-            $creation = if ($process) { $process.StartTime } else { $null }
-            if ($process) { $record.startedUtc=$process.StartTime.ToUniversalTime().ToString('o'); Write-Journal }
-            $deadline = (Get-Date).AddMinutes(30)
-            while ($process) {
-                if ($process.ProcessName -ne 'RimWorldWin64' -or $process.StartTime -ne $creation) { break }
-                if ((Get-Date) -gt $deadline) { throw "Audit $auditProcess exceeded 30 minutes; preserve the live process/logs for diagnosis." }
-                Start-Sleep -Seconds 5
-                $process = Get-Process -Id $auditProcess -ErrorAction SilentlyContinue
-            }
+            $hostManifest=Get-Content -LiteralPath (Join-Path $runRoot 'launcher.json') -Raw | ConvertFrom-Json
+            $record.startedUtc=([DateTime]$hostManifest.processStartedUtc).ToUniversalTime().ToString('o'); Write-Journal
+            Wait-Game17Host -RuntimeRoot $runRoot -TimeoutSeconds 1800
             try {
                 $audit = Get-Content -Encoding UTF8 -LiteralPath (Join-Path $runRoot 'audit.json') -Raw | ConvertFrom-Json
                 $manifest = Get-Content -Encoding UTF8 -LiteralPath (Join-Path $runRoot 'launcher.json') -Raw | ConvertFrom-Json

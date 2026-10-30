@@ -3,7 +3,9 @@ $ErrorActionPreference='Stop'
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
 $runtime=[IO.Path]::GetFullPath($RuntimeRoot)
 $allowed=[IO.Path]::GetFullPath((Join-Path $repository '.codex-staging'))+[IO.Path]::DirectorySeparatorChar
-if(-not $runtime.StartsWith($allowed,[StringComparison]::OrdinalIgnoreCase)){throw 'Cache target must be a migration runtime inside .codex-staging.'}
+$temporary='C:\Users\Public\Documents\ESTsoft\CreatorTemp\'
+if(-not $runtime.StartsWith($allowed,[StringComparison]::OrdinalIgnoreCase) -and
+    -not $runtime.StartsWith($temporary,[StringComparison]::OrdinalIgnoreCase)){throw 'Cache target must be an isolated runtime inside .codex-staging or CreatorTemp.'}
 $manifest=Get-Content -LiteralPath (Join-Path $runtime 'launcher.json') -Raw | ConvertFrom-Json
 if(Get-Process -Id $manifest.processId -ErrorAction SilentlyContinue){throw 'Do not clear caches while the recorded game is running.'}
 $profile=[IO.Path]::GetFullPath((Join-Path $runtime 'Profile'))

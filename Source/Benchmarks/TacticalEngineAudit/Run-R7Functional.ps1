@@ -1,4 +1,4 @@
-﻿param(
+param(
     [string]$AuditRoot = ('C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-r7-functional-' + (Get-Date -Format 'yyyyMMdd-HHmmss')),
     [string[]]$Cases = @(),
     [switch]$Preview,
@@ -104,7 +104,8 @@ if ($Preview) { $selected | ConvertTo-Json -Depth 8; return }
 $root = [IO.Path]::GetFullPath($AuditRoot)
 if (-not $root.StartsWith('C:\Users\Public\Documents\ESTsoft\CreatorTemp\', [StringComparison]::OrdinalIgnoreCase) -or
     (Test-Path -LiteralPath $root)) { throw 'Use a fresh functional directory under CreatorTemp.' }
-if (Get-Process -Name 'RimWorld*' -ErrorAction SilentlyContinue) { throw 'Preserve the existing RimWorld process; do not start another queue.' }
+. (Join-Path $PSScriptRoot '../../Tests/Game17Runtime.ps1')
+if (@(Get-Game17Processes).Count) { throw 'Preserve the existing RimWorld process; do not start another queue.' }
 $repository = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
 $content = @('Assemblies\Helodrace.dll','Defs\Organization\NewTacticalJobs.xml',
     'Defs\ColdWar\BreachExplosive_ColdWar.xml','Defs\GreatWar\Sledgehammer_Breach.xml')
@@ -122,7 +123,7 @@ function Write-Journal {
 }
 Write-Journal
 foreach ($spec in $selected) {
-    if (Get-Process -Name 'RimWorld*' -ErrorAction SilentlyContinue) { throw 'Preserve a remaining native process; do not advance the queue.' }
+    if (@(Get-Game17Processes).Count) { throw 'Preserve a remaining native process; do not advance the queue.' }
     foreach ($file in $content) {
         if ((Get-FileHash -LiteralPath (Join-Path $repository $file)).Hash.ToLowerInvariant() -ne $pinned[$file]) {
             throw "Content changed during queue; preserve completed runs and restart a new final-code queue: $file"
@@ -136,15 +137,7 @@ foreach ($spec in $selected) {
     $record = [pscustomobject]@{ name=$spec.name; root=$runRoot; pid=$pidValue; status='running'; error=$null;
         actualMinimumSpeed=$null; actualMaximumSpeed=$null; reloads=$null; functionalComplete=$null; nativeExceptions=0 }
     $records += $record; Write-Journal
-    $process = Get-Process -Id $pidValue -ErrorAction SilentlyContinue
-    $creation = if ($process) { $process.StartTime } else { $null }
-    $deadline = (Get-Date).AddMinutes(30)
-    while ($process) {
-        if ($process.ProcessName -ne 'RimWorldWin64' -or $process.StartTime -ne $creation) { break }
-        if ((Get-Date) -gt $deadline) { throw "Observation deadline reached; preserve live process $pidValue and its running journal. Never restart on timeout." }
-        Start-Sleep -Seconds 5
-        $process = Get-Process -Id $pidValue -ErrorAction SilentlyContinue
-    }
+    Wait-Game17Host -RuntimeRoot $runRoot -TimeoutSeconds 1800
     try {
         Assert-R7FunctionalRun $spec $runRoot $pinned $record | Out-Null
         $record.status = 'passed'; Write-Journal

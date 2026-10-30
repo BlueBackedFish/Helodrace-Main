@@ -1,4 +1,4 @@
-﻿param(
+param(
     [string]$FunctionalRoot,
     [string]$AuditRoot = ('C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-r7-performance-' + (Get-Date -Format 'yyyyMMdd-HHmmss')),
     [string[]]$Groups = @(),
@@ -47,10 +47,11 @@ if ($Preview) {
         profileTargets=$profileTargets } | ConvertTo-Json -Depth 8
     return
 }
+. (Join-Path $PSScriptRoot '../../Tests/Game17Runtime.ps1')
 $root = [IO.Path]::GetFullPath($AuditRoot)
 if (-not $root.StartsWith('C:\Users\Public\Documents\ESTsoft\CreatorTemp\', [StringComparison]::OrdinalIgnoreCase) -or
     (Test-Path -LiteralPath $root)) { throw 'Use a fresh R7 performance directory under CreatorTemp.' }
-if (Get-Process -Name 'RimWorld*' -ErrorAction SilentlyContinue) { throw 'Preserve the existing RimWorld process; do not start another queue.' }
+if (@(Get-Game17Processes).Count) { throw 'Preserve the existing RimWorld process; do not start another queue.' }
 if (-not $FunctionalRoot) { throw 'Supply the same-DLL functional evidence root before collecting performance.' }
 $functional = Get-Content -Encoding UTF8 -LiteralPath (Join-Path $FunctionalRoot 'checks.json') -Raw | ConvertFrom-Json
 $functionalVerification = & (Join-Path $PSScriptRoot 'Verify-R7Functional.ps1') -Root $FunctionalRoot `
@@ -112,9 +113,10 @@ foreach ($spec in $selected) {
         if (Test-Path -LiteralPath $matrixPath) {
             $latest = (Get-Content -Encoding UTF8 -LiteralPath $matrixPath -Raw | ConvertFrom-Json).records | Select-Object -Last 1
             if ($latest -and $latest.status -eq 'running') {
-                $process = Get-Process -Id $latest.pid -ErrorAction SilentlyContinue
-                $live = $process -and $process.ProcessName -eq 'RimWorldWin64' -and $latest.startedUtc -and
-                    $process.StartTime.ToUniversalTime().ToString('o') -eq $latest.startedUtc
+                $process = Get-Game17Processes | Where-Object { $_.ProcessId -eq $latest.pid }
+                $live = $process -and $latest.startedUtc -and
+                    $process.ExecutablePath -eq (Join-Path $latest.root 'Game/RimWorld.exe') -and
+                    [Math]::Abs(($process.CreationDate.ToUniversalTime()-([DateTime]$latest.startedUtc).ToUniversalTime()).Ticks) -le 10
             }
         }
         if (-not $live) { $record.status='failed' }

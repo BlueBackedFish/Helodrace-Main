@@ -3,6 +3,7 @@ param(
     [ValidateSet('door','narrow','rocks','interrupt','casualty','crowd200','field')][string[]]$Cases = @('field','door','narrow','rocks','interrupt','casualty','crowd200')
 )
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot '../../Tests/Game17Runtime.ps1')
 $records = @()
 $scenarios = @(
     @{Name='field'; Workload='open-approach'; Case='field'; Population=12; High=$false; Ticks=2000},
@@ -18,11 +19,7 @@ foreach ($case in $scenarios) {
     $runRoot = Join-Path $AuditRoot $case.Name
     & (Join-Path $PSScriptRoot 'Run-EngineAudit.ps1') -Engine new -Workload $case.Workload -Case $case.Case -Population $case.Population -WarmupTicks 0 -SampleTicks $case.Ticks -High:$case.High -Seed hd-r2-20261007 -AuditRoot $runRoot -ProfileTargets 'Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest;Helodrace.Tactics.MapComponent_TacticalCommands::Advance;Helodrace.Tactics.TacticalLocalPlanner::Find;Helodrace.Tactics.MapComponent_TacticalCommands::Issue'
     $runPid = [int](Get-Content -LiteralPath (Join-Path $runRoot 'process-id.txt'))
-    $deadline = (Get-Date).AddMinutes(30)
-    while (Get-Process -Id $runPid -ErrorAction SilentlyContinue) {
-        if ((Get-Date) -gt $deadline) { throw "Timed out; preserve audit process $runPid." }
-        Start-Sleep -Seconds 5
-    }
+    Wait-Game17Host -RuntimeRoot $runRoot -TimeoutSeconds 1800
     $audit = Get-Content -LiteralPath (Join-Path $runRoot 'audit.json') -Raw | ConvertFrom-Json
     $passed = $audit.complete -and $audit.isolationVerified -and -not $audit.error -and $audit.newFunctionalComplete
     if ($case.Name -eq 'door') { $passed = $passed -and $audit.newDoorFaults -eq 1 }

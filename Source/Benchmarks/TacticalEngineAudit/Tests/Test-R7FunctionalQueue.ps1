@@ -23,7 +23,8 @@ function Test-Queue([string]$Label, [bool]$Continue, [bool]$FailFirst, [bool]$Li
     $ContinueOnFailure = $Continue
     $content = @(); $pinned = @{}; $repository = ''
     $launcher = 'Invoke-MockLauncher'
-    function Get-Process { param($Name,$Id,$ErrorAction) if ($Live) { [pscustomobject]@{ ProcessName='RimWorldWin64' } } }
+    function Get-Game17Processes { if ($Live) { [pscustomobject]@{ Name='RimWorld.exe';ProcessId=999999 } } }
+    function Wait-Game17Host { param($RuntimeRoot,$TimeoutSeconds) }
     function Invoke-MockLauncher {
         param($Engine,$Workload,$Case,$Population,$Speed,$WarmupTicks,$SampleTicks,$Seed,$AuditRoot,
             [switch]$DefaultEngine,[switch]$High,[switch]$Reload,[switch]$RetainedReload,[switch]$NoMethodProfile)
