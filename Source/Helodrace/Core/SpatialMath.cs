@@ -1,9 +1,14 @@
 using System.Numerics;
+using Waylith.Math;
 
 namespace Helodrace
 {
     internal static class SpatialMath
     {
+        internal static float FlatAngle(Vector3 direction)
+            => direction.X == 0f && direction.Z == 0f
+                ? 0f : Quaternion.LookRotation(direction).eulerAngles.Y;
+
         internal static Vector3 RotateAroundY(Vector3 value, float degrees)
             => Vector3.Transform(value, Quaternion.CreateFromAxisAngle(Vector3.UnitY, degrees * Mathf.Deg2Rad));
 

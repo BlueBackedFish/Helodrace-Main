@@ -4,6 +4,18 @@ namespace Helodrace
     // compatibility structs. Internal geometry stays in native/BCL values.
     internal static class GameGeometry
     {
+        internal static Waylith.Math.Color ToNative(this UnityEngine.Color value)
+            => new Waylith.Math.Color(value.r, value.g, value.b, value.a);
+
+        internal static UnityEngine.Color ToGame(this Waylith.Math.Color value)
+            => new UnityEngine.Color(value.r, value.g, value.b, value.a);
+
+        internal static Waylith.Math.Color32 ToNative(this UnityEngine.Color32 value)
+            => new Waylith.Math.Color32(value.r, value.g, value.b, value.a);
+
+        internal static UnityEngine.Color32 ToGame(this Waylith.Math.Color32 value)
+            => new UnityEngine.Color32(value.r, value.g, value.b, value.a);
+
         // Native/BCL matrices multiply row vectors; game matrices multiply columns.
         internal static UnityEngine.Matrix4x4 ToGame(this System.Numerics.Matrix4x4 value)
             => new UnityEngine.Matrix4x4

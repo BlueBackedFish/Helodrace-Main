@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Vector2 = System.Numerics.Vector2;
+using Vector3 = System.Numerics.Vector3;
+using Quaternion = System.Numerics.Quaternion;
+using Color = Waylith.Math.Color;
+using Waylith.Math;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -78,9 +82,9 @@ namespace Helodrace.ModernWar
                     terminal.mountId);
                 if (mount?.transform != null)
                 {
-                    Vector3 tip = mount.transform.position;
-                    tip.x += TerminalExtension(terminal, kind);
-                    muzzle = terminal.transform.TransformPoint(tip.ToNative());
+                    Vector3 tip = mount.transform.position.ToNative();
+                    tip.X += TerminalExtension(terminal, kind);
+                    muzzle = terminal.transform.TransformPoint(tip);
                 }
             }
 
@@ -172,14 +176,14 @@ namespace Helodrace.ModernWar
             float coefficient = root.MuzzleFlashCoefficient;
             if (profile == null || coefficient <= 0.001f) return;
 
-            Vector3 shotDirection = verb.CurrentTarget.CenterVector3 - shooter.DrawPos;
-            shotDirection.y = 0f;
-            if (shotDirection.sqrMagnitude < 0.0001f)
-                shotDirection = shooter.Rotation.FacingCell.ToVector3();
+            Vector3 shotDirection = verb.CurrentTarget.CenterVector3.ToNative() - shooter.DrawPos.ToNative();
+            shotDirection.Y = 0f;
+            if (shotDirection.LengthSquared() < 0.0001f)
+                shotDirection = shooter.Rotation.FacingCell.ToVector3().ToNative();
             shotDirection.Normalize();
-            float aimAngle = shotDirection.AngleFlat();
+            float aimAngle = SpatialMath.FlatAngle(shotDirection);
 
-            System.Numerics.Vector3 gunCenter;
+            Vector3 gunCenter;
             float bodyAngle;
             bool flipped;
             ModularWeaponAimingPoseUtility.Resolve(
@@ -193,17 +197,16 @@ namespace Helodrace.ModernWar
             Vector2 local = profile.localMuzzle;
             if (flipped) local.X = -local.X;
             var offset = SpatialMath.RotateAroundY(
-                new System.Numerics.Vector3(local.X, 0f, local.Y), bodyAngle);
+                new Vector3(local.X, 0f, local.Y), bodyAngle);
             var muzzle = gunCenter + offset;
             float localYaw = flipped ? profile.localAngle : -profile.localAngle;
             float effectYaw = bodyAngle + localYaw;
-            Vector3 forward = Quaternion.AngleAxis(effectYaw, Vector3.up)
-                * (flipped ? Vector3.left : Vector3.right);
-            forward.y = 0f;
+            Vector3 forward = SpatialMath.RotateAroundY(flipped ? -Vector3.UnitX : Vector3.UnitX, effectYaw);
+            forward.Y = 0f;
             forward.Normalize();
 
             map.GetComponent<ModularWeaponMuzzleEffectDrawer>()?.Spawn(
-                muzzle.ToGame(),
+                muzzle,
                 effectYaw,
                 flipped,
                 forward,
@@ -340,18 +343,23 @@ namespace Helodrace.ModernWar
             Material material = EffectMaterial(texturePath, shader, alpha);
             if (material == null) return;
 
-            Vector3 center = effect.muzzle
-                + effect.forward * (size * AuthoredRootToCenter + forwardDrift);
-            center.y = AltitudeLayer.MoteOverhead.AltitudeFor();
             Mesh mesh = effect.flipped ? MeshPool.plane10Flip : MeshPool.plane10;
             Graphics.DrawMesh(
                 mesh,
-                Matrix4x4.TRS(
-                    center,
-                    Quaternion.AngleAxis(effect.yaw, Vector3.up),
-                    new Vector3(size, 1f, size)),
+                PinnedTransform(effect.muzzle, effect.forward, effect.yaw,
+                    AltitudeLayer.MoteOverhead.AltitudeFor(), size, forwardDrift).ToGame(),
                 material,
                 0);
+        }
+
+        internal static System.Numerics.Matrix4x4 PinnedTransform(
+            Vector3 muzzle, Vector3 forward, float yaw, float altitude, float size, float forwardDrift)
+        {
+            Vector3 center = muzzle + forward * (size * AuthoredRootToCenter + forwardDrift);
+            center.Y = altitude;
+            return SpatialMath.CreateTransform(center,
+                Quaternion.CreateFromAxisAngle(Vector3.UnitY, yaw * Mathf.Deg2Rad),
+                new Vector3(size, 1f, size));
         }
 
         private static Material EffectMaterial(
@@ -380,7 +388,7 @@ namespace Helodrace.ModernWar
             result = MaterialPool.MatFrom(
                 path,
                 shader,
-                new Color(1f, 1f, 1f, quantizedAlpha));
+                new Color(1f, 1f, 1f, quantizedAlpha).ToGame());
             variants[index] = result;
             return result;
         }

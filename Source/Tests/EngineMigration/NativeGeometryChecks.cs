@@ -68,6 +68,7 @@ namespace Helodrace.Tests
             int matrices = CompareMatrices(product, boundary);
             check(true, matrices + " matrix/point/direction components match actual game TRS and row/column boundaries, including composition and negative scales");
             NativeAimingChecks.Run(output, check);
+            NativeWeaponEffectChecks.Run(output, check);
             File.WriteAllText(Path.Combine(output, "native-geometry.json"), JsonSerializer.Serialize(new { BoundaryComponents = cases, TransformComponents = transforms, MatrixComponents = matrices, NativePreviewGeometry = true }, new JsonSerializerOptions { WriteIndented = true }));
         }
 
