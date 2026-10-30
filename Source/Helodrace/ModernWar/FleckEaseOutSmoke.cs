@@ -1,4 +1,5 @@
-using UnityEngine;
+using System.Numerics;
+using Waylith.Math;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -18,10 +19,10 @@ namespace Helodrace.ModernWar
         public void Setup(FleckCreationData creationData)
         {
             baseData.Setup(creationData);
-            movementOrigin = baseData.position.worldPosition;
-            movementDirection = creationData.velocity ?? Vector3.zero;
-            movementDirection.y = 0f;
-            if (movementDirection.sqrMagnitude > 0.0001f)
+            movementOrigin = baseData.position.worldPosition.ToNative();
+            movementDirection = creationData.velocity?.ToNative() ?? Vector3.Zero;
+            movementDirection.Y = 0f;
+            if (movementDirection.LengthSquared() > 0.0001f)
             {
                 movementDirection.Normalize();
             }
@@ -37,9 +38,9 @@ namespace Helodrace.ModernWar
             movementAge += deltaTime;
             float progress = Mathf.Clamp01(movementAge / movementDuration);
             float easedProgress = 1f - Mathf.Pow(1f - progress, EasePower);
-            baseData.position.worldPosition = movementOrigin
+            baseData.position.worldPosition = (movementOrigin
                 + movementDirection
-                * (targetDistance * easedProgress + minimumDriftSpeed * movementAge);
+                * (targetDistance * easedProgress + minimumDriftSpeed * movementAge)).ToGame();
             return baseData.TimeInterval(deltaTime, map);
         }
 
@@ -48,7 +49,7 @@ namespace Helodrace.ModernWar
             baseData.Draw(drawBatch);
         }
 
-        public Vector3 GetPosition()
+        public UnityEngine.Vector3 GetPosition()
         {
             return baseData.GetPosition();
         }

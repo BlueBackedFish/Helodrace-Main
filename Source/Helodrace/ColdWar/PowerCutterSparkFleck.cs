@@ -1,4 +1,4 @@
-using UnityEngine;
+using System.Numerics;
 using Verse;
 
 namespace Helodrace
@@ -17,17 +17,17 @@ namespace Helodrace
         public void Setup(FleckCreationData creationData)
         {
             baseData.Setup(creationData);
-            velocity = creationData.velocity ?? Vector3.zero;
-            velocity.y = 0f;
-            acceleration = creationData.def?.acceleration ?? Vector3.zero;
-            acceleration.y = 0f;
+            velocity = creationData.velocity?.ToNative() ?? Vector3.Zero;
+            velocity.Y = 0f;
+            acceleration = (creationData.def?.acceleration ?? default).ToNative();
+            acceleration.Y = 0f;
             FaceVelocity();
         }
 
         public bool TimeInterval(float deltaTime, Map map)
         {
             velocity += acceleration * deltaTime;
-            baseData.position.worldPosition += velocity * deltaTime;
+            baseData.position.worldPosition = (baseData.position.worldPosition.ToNative() + velocity * deltaTime).ToGame();
             FaceVelocity();
             return baseData.TimeInterval(deltaTime, map);
         }
@@ -35,10 +35,10 @@ namespace Helodrace
         private void FaceVelocity()
         {
             Vector3 flatVelocity = velocity;
-            flatVelocity.y = 0f;
-            if (flatVelocity.sqrMagnitude > 0.0001f)
+            flatVelocity.Y = 0f;
+            if (flatVelocity.LengthSquared() > 0.0001f)
             {
-                baseData.exactRotation = flatVelocity.AngleFlat();
+                baseData.exactRotation = SpatialMath.FlatAngle(flatVelocity);
             }
         }
 
@@ -47,7 +47,7 @@ namespace Helodrace
             baseData.Draw(drawBatch);
         }
 
-        public Vector3 GetPosition()
+        public UnityEngine.Vector3 GetPosition()
         {
             return baseData.GetPosition();
         }

@@ -1,6 +1,8 @@
 using RimWorld;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Numerics;
+using Waylith.Math;
+using Color = Waylith.Math.Color;
 using Verse;
 
 namespace Helodrace
@@ -89,16 +91,16 @@ namespace Helodrace
                 return;
             }
 
-            Vector3 position = cell.ToVector3Shifted();
-            position.x += Rand.Range(-0.38f, 0.38f);
-            position.z += Rand.Range(-0.38f, 0.38f);
+            Vector3 position = cell.ToVector3Shifted().ToNative();
+            position.X += Rand.Range(-0.38f, 0.38f);
+            position.Z += Rand.Range(-0.38f, 0.38f);
             float angle = Rand.Range(0f, 360f);
-            Vector3 driftDirection = Quaternion.AngleAxis(angle, Vector3.up) * Vector3.forward;
-            FleckCreationData data = FleckMaker.GetDataStatic(position, map, fleckDef, scale);
-            data.instanceColor = emissionColor;
+            Vector3 driftDirection = SpatialMath.RotateAroundY(Vector3.UnitZ, angle);
+            FleckCreationData data = FleckMaker.GetDataStatic(position.ToGame(), map, fleckDef, scale);
+            data.instanceColor = emissionColor.ToGame();
             data.rotation = Rand.Range(0f, 360f);
             data.rotationRate = Rand.Range(-14f, 14f);
-            data.velocity = driftDirection * Rand.Range(0.025f, 0.065f);
+            data.velocity = (driftDirection * Rand.Range(0.025f, 0.065f)).ToGame();
             data.velocitySpeed = Rand.Range(0.45f, 0.85f);
             data.orbitSpeed = Rand.Range(0.025f, 0.065f);
             data.airTimeLeft = Rand.Range(0f, Mathf.PI * 2f);
@@ -158,13 +160,13 @@ namespace Helodrace
         public void Setup(FleckCreationData creationData)
         {
             baseData.Setup(creationData);
-            origin = baseData.position.worldPosition;
-            driftVelocity = creationData.velocity ?? Vector3.zero;
-            driftVelocity.y = 0f;
-            Vector3 direction = driftVelocity.sqrMagnitude > 0.0001f
+            origin = baseData.position.worldPosition.ToNative();
+            driftVelocity = creationData.velocity?.ToNative() ?? Vector3.Zero;
+            driftVelocity.Y = 0f;
+            Vector3 direction = driftVelocity.LengthSquared() > 0.0001f
                 ? driftVelocity.normalized
-                : Vector3.forward;
-            swayDirection = new Vector3(-direction.z, 0f, direction.x);
+                : Vector3.UnitZ;
+            swayDirection = new Vector3(-direction.Z, 0f, direction.X);
             swayFrequency = Mathf.Max(0.1f, creationData.velocitySpeed);
             swayAmplitude = Mathf.Max(0f, creationData.orbitSpeed);
             swayPhase = creationData.airTimeLeft ?? 0f;
@@ -176,7 +178,7 @@ namespace Helodrace
             age += deltaTime;
             float sway = Mathf.Sin(swayPhase + age * swayFrequency * Mathf.PI * 2f)
                 * swayAmplitude;
-            baseData.position.worldPosition = origin + driftVelocity * age + swayDirection * sway;
+            baseData.position.worldPosition = (origin + driftVelocity * age + swayDirection * sway).ToGame();
             return baseData.TimeInterval(deltaTime, map);
         }
 
@@ -185,7 +187,7 @@ namespace Helodrace
             baseData.Draw(drawBatch);
         }
 
-        public Vector3 GetPosition()
+        public UnityEngine.Vector3 GetPosition()
         {
             return baseData.GetPosition();
         }
