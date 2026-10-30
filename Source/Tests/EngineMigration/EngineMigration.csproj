@@ -5,6 +5,7 @@
     <HelodUsesGame>true</HelodUsesGame>
     <HelodUsesHarmony>true</HelodUsesHarmony>
     <GenerateDependencyFile>false</GenerateDependencyFile>
+    <DefineConstants>$(DefineConstants);HELODRACE_MAIN_CHECKS</DefineConstants>
     <BlancasRepository Condition="'$(BlancasRepository)' == ''">$(MSBuildThisFileDirectory)..\..\..\..\Helodrace-blancasdrugs</BlancasRepository>
   </PropertyGroup>
   <ItemGroup>

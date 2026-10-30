@@ -15,6 +15,7 @@ namespace Helodrace.Tests
         private static bool requestedLoad;
         private bool complete;
         private bool mainStatePrepared;
+        private bool blancasGenerationPrepared;
         private string output, mode;
 
         public MigrationChecks(Game game) { }
@@ -23,9 +24,10 @@ namespace Helodrace.Tests
         {
             base.ExposeData();
             Scribe_Values.Look(ref mainStatePrepared, "migrationMainStatePrepared", false);
+            Scribe_Values.Look(ref blancasGenerationPrepared, "migrationBlancasGenerationPrepared", false);
         }
 
-#if NET10_0_OR_GREATER
+#if HELODRACE_MAIN_CHECKS
         public override void GameComponentUpdate()
         {
             if (Find.CurrentMap != null && GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string activeCase)
@@ -38,7 +40,7 @@ namespace Helodrace.Tests
             if (complete || Find.CurrentMap == null
                 || !GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out output)) return;
             GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out mode);
-#if NET10_0_OR_GREATER
+#if HELODRACE_MAIN_CHECKS
             if (mode == "native-runtime" && !NativeRuntimeChecks.FrameProbeReady) return;
 #endif
             Directory.CreateDirectory(output);
@@ -52,7 +54,7 @@ namespace Helodrace.Tests
             complete = true;
             try
             {
-                if (mode != "main-state" || !mainStatePrepared)
+                if ((mode != "main-state" || !mainStatePrepared) && (mode != "blancas-generation" || !blancasGenerationPrepared))
                     File.WriteAllText(Path.Combine(output, "checks.txt"), "Engine migration: " + mode + "\n");
                 else File.AppendAllText(Path.Combine(output, "checks.txt"), "Loaded new 1.7 state\n");
                 Check(DefDatabase<ThingDef>.GetNamedSilentFail("BD_Ketamine") != null, "Blancas drug definitions loaded");
@@ -86,6 +88,19 @@ namespace Helodrace.Tests
                 }
 #if NET10_0_OR_GREATER
                 else if (mode == "blancas") BlancasEngineChecks.Run(Check);
+                else if (mode == "blancas-generation")
+                {
+                    if (!blancasGenerationPrepared)
+                    {
+                        BlancasGenerationChecks.Create(Check);
+                        blancasGenerationPrepared = true;
+                        GameDataSaveLoader.SaveGame("BlancasGeneration17");
+                        GameDataSaveLoader.LoadGame("BlancasGeneration17");
+                        return;
+                    }
+                    BlancasGenerationChecks.Verify(Check);
+                }
+#if HELODRACE_MAIN_CHECKS
                 else if (mode == "blancas-integration") BlancasIntegrationChecks.Run(Check);
                 else if (mode == "native-runtime") NativeRuntimeChecks.Run(output, Check);
                 else if (mode == "native-math") NativeMathChecks.Run(output, Check);
@@ -103,6 +118,7 @@ namespace Helodrace.Tests
                     }
                     MainStateChecks.Verify(Check);
                 }
+#endif
 #endif
                 else throw new ArgumentException("Unknown migration case: " + mode);
                 File.AppendAllText(Path.Combine(output, "checks.txt"), "COMPLETE\n");
@@ -130,7 +146,8 @@ namespace Helodrace.Tests
             string[] names = { "BD_MorphineHigh", "BD_FentanylHigh", "BD_KetamineHigh", "BD_LaudanumHigh",
                 "BD_SonataHigh", "BD_AmbienHigh", "BD_RestorilHigh", "BD_SonataDeepSleeper",
                 "BD_AmbienDeepSleeper", "BD_RestorilDeepSleeper", "BD_Somnifacientstronghold",
-                "BD_OpioidsAddiction", "BD_ZDrugsTolerance", "BD_MKultraConditioning" };
+                "BD_OpioidsAddiction", "BD_ZDrugsTolerance", "BD_MKultraConditioning",
+                "BD_ModafinilAddiction", "BD_CaffeineAddiction" };
             for (int i = 0; i < names.Length; i++)
             {
                 // Single fixture names are identifiers, not family names for relation generation.
@@ -165,6 +182,9 @@ namespace Helodrace.Tests
                         }
                     node.Add(effect);
                 }
+                foreach (Need need in pawn.needs.AllNeeds.Where(n => n.def.defName.StartsWith("BD_")))
+                    node.Add(new XElement("need", new XAttribute("def", need.def.defName),
+                        new XAttribute("type", need.GetType().FullName), new XAttribute("level", need.CurLevel)));
                 root.Add(node);
             }
             new XDocument(root).Save(Path.Combine(output, "fixture.xml"));
@@ -190,6 +210,14 @@ namespace Helodrace.Tests
                             Check((bool)comp.GetType().GetField("hasTransitioned", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(comp)
                                 == (bool)compState.Attribute("hasTransitioned"), "sleep transition state preserved");
                     }
+                }
+                foreach (XElement savedNeed in subject.Elements("need"))
+                {
+                    Need need = pawn.needs.TryGetNeed(DefDatabase<NeedDef>.GetNamed((string)savedNeed.Attribute("def")));
+                    Check(need != null && need.GetType().FullName == (string)savedNeed.Attribute("type"),
+                        "legacy need type restored: " + savedNeed.Attribute("def").Value);
+                    Check(Math.Abs(need.CurLevel - (float)savedNeed.Attribute("level")) < .002f,
+                        "legacy need level preserved: " + need.def.defName);
                 }
             }
         }

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>Helodrace.EngineMigrationChecks</AssemblyName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <BaseOutputPath>bin/Blancas/</BaseOutputPath>
+    <HelodUsesGame>true</HelodUsesGame>
+    <HelodUsesHarmony>true</HelodUsesHarmony>
+    <BlancasRepository Condition="'$(BlancasRepository)' == ''">$(MSBuildThisFileDirectory)..\..\..\..\Helodrace-blancasdrugs</BlancasRepository>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="MigrationChecks.cs" />
+    <Compile Include="BlancasEngineChecks.cs" />
+    <Compile Include="BlancasGenerationChecks.cs" />
+    <Compile Include="$(BlancasRepository)/Tests/ExclusiveGroup/LegacyExclusiveGroup.cs" Link="BlancasLegacyExclusiveGroup.cs" />
+    <Reference Include="HelodBlancasDrug"><HintPath>$(BlancasRepository)/1.7/Assemblies/HelodBlancasDrug.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>

@@ -1,5 +1,5 @@
 param(
-    [Parameter(Mandatory=$true)][ValidateSet('baseline','load','main','blancas','blancas-integration','main-state','native-runtime','native-math','native-geometry')][string]$Case,
+    [Parameter(Mandatory=$true)][ValidateSet('baseline','load','main','blancas','blancas-integration','blancas-generation','main-state','native-runtime','native-math','native-geometry')][string]$Case,
     [Parameter(Mandatory=$true)][string]$RuntimeRoot,
     [string]$GameRoot='C:\Program Files (x86)\Steam\steamapps\common\RimWorld',
     [string]$BlancasRoot='C:\Users\human\Documents\GitHub\Helodrace-blancasdrugs',
@@ -24,7 +24,11 @@ if(Get-Process -Name RimWorld,RimWorldWin64 -ErrorAction SilentlyContinue){throw
 $gameVersion=(Get-Content -LiteralPath (Join-Path $GameRoot 'Version.txt') -Raw).Trim()
 if($Legacy16 -and -not $gameVersion.StartsWith('1.6.')){throw 'Legacy fixture creation requires the preserved 1.6 runtime.'}
 if(-not $Legacy16 -and -not $gameVersion.StartsWith('1.7.')){throw 'A real 1.7 runtime is required.'}
-if(-not $BridgeAssembly){$BridgeAssembly=Join-Path $PSScriptRoot 'bin/Debug/net10.0/Helodrace.EngineMigrationChecks.dll'}
+if(-not $BridgeAssembly){
+    if($Legacy16){throw 'Supply the preserved net48 fixture bridge with BridgeAssembly.'}
+    $bridgeFolder=if($Case -in $mainCases){'bin/Debug/net10.0'}else{'bin/Blancas/Debug/net10.0'}
+    $BridgeAssembly=Join-Path $PSScriptRoot ($bridgeFolder+'/Helodrace.EngineMigrationChecks.dll')
+}
 $game=Join-Path $runtime 'Game'
 $profile=Join-Path $runtime 'Profile'
 $evidence=Join-Path $runtime 'Evidence'
