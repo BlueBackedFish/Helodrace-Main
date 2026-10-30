@@ -128,9 +128,11 @@ namespace Helodrace
             }
             else
             {
-                shooter = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist, Faction.OfPlayer);
+                shooter = PawnGenerator.GeneratePawn(new PawnGenerationRequest(PawnKindDefOf.Colonist, Faction.OfPlayer,
+                    forceGenerateNewPawn: true, mustBeCapableOfViolence: true, canGeneratePawnRelations: false));
                 victim = PawnGenerator.GeneratePawn(kind);
             }
+            Check(!shooter.skills.GetSkill(SkillDefOf.Shooting).TotallyDisabled, "test shooter can use shooting accuracy");
             shooter.skills.GetSkill(SkillDefOf.Shooting).Level = skill;
             victim.apparel?.DestroyAll();
             victim.equipment?.DestroyAllEquipment();
