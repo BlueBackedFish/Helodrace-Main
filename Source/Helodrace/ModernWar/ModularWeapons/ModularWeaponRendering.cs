@@ -402,7 +402,7 @@ namespace Helodrace.ModernWar
                 ancestorComp = ancestor.parentComp;
             }
 
-            center += ModularWeaponCycleUtility.ReloadMagazineOffset(root, node).ToNative()
+            center += ModularWeaponCycleUtility.ReloadMagazineOffset(root, node)
                 * Mathf.Max(0.01f, root.Props.assemblyScale);
         }
 

@@ -23,6 +23,11 @@ namespace Helodrace.Tests
             const BindingFlags flags = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
             Type spatial = product.GetType("Helodrace.SpatialMath", true);
             var flatAngle = (Func<NVector, float>)spatial.GetMethod("FlatAngle", flags).CreateDelegate(typeof(Func<NVector, float>));
+            var shotDirection = (Func<NVector, NVector, NVector, NVector>)spatial.GetMethod("ShotDirection", flags)
+                .CreateDelegate(typeof(Func<NVector, NVector, NVector, NVector>));
+            var reloadOffset = (Func<float, bool, System.Numerics.Vector2>)typeof(ModularWeaponCycleUtility)
+                .GetMethod("ReloadMagazineOffset", flags, null, new[] { typeof(float), typeof(bool) }, null)
+                .CreateDelegate(typeof(Func<float, bool, System.Numerics.Vector2>));
             var pinned = (Func<NVector, NVector, float, float, float, float, NMatrix>)typeof(ModularWeaponMuzzleEffectDrawer)
                 .GetMethod("PinnedTransform", flags).CreateDelegate(typeof(Func<NVector, NVector, float, float, float, float, NMatrix>));
             Type boundary = product.GetType("Helodrace.GameGeometry", true);
@@ -32,7 +37,7 @@ namespace Helodrace.Tests
             var colorToGame = ConvertMethod<Func<NColor, GColor>>("ToGame", typeof(NColor));
             var bytesToNative = ConvertMethod<Func<GColor32, NColor32>>("ToNative", typeof(GColor32));
             var bytesToGame = ConvertMethod<Func<NColor32, GColor32>>("ToGame", typeof(NColor32));
-            int angles = 0, matrices = 0, colors = 0;
+            int angles = 0, matrices = 0, colors = 0, shotDirections = 0, reloadOffsets = 0;
             void Near(float actual, float expected)
             {
                 if (!float.IsFinite(actual) || !float.IsFinite(expected)
@@ -57,6 +62,35 @@ namespace Helodrace.Tests
                     if ((actual > 200f && actual < 340f) != (expected > 200f && expected < 340f))
                         throw new InvalidOperationException("Direction conversion changed a west-facing threshold.");
                     angles++;
+                }
+            foreach (var source in new[] { NVector.Zero, new NVector(20, 2, 30), new NVector(-4, -.5f, 2) })
+                foreach (var delta in new[] { NVector.Zero, new NVector(.000001f, 2, 0), new NVector(.009999f, 0, 0),
+                    new NVector(.01f, 0, 0), new NVector(.010001f, 0, 0), new NVector(3, 1, 4), new NVector(-5, -2, -3) })
+                    foreach (var fallback in new[] { NVector.Zero, NVector.UnitX, -NVector.UnitX, NVector.UnitZ,
+                        -NVector.UnitZ, new NVector(.000001f, 0, 0) })
+                    {
+                        NVector target = source + delta;
+                        GVector gameSource = new GVector(source.X, source.Y, source.Z);
+                        GVector expected = new GVector(target.X, target.Y, target.Z) - gameSource;
+                        expected.y = 0;
+                        if (expected.sqrMagnitude < .0001f) expected = new GVector(fallback.X, fallback.Y, fallback.Z);
+                        expected.Normalize();
+                        NVector actual = shotDirection(source, target, fallback);
+                        Near(actual.X, expected.x); Near(actual.Y, expected.y); Near(actual.Z, expected.z);
+                        Near(flatAngle(actual), expected.AngleFlat());
+                        shotDirections++;
+                    }
+            foreach (bool empty in new[] { false, true })
+                foreach (float progress in Enumerable.Range(-100, 1301).Select(n => n / 1000f)
+                    .Concat(new[] { .12f, .18f, .42f, .58f, .78f, .94f }.SelectMany(p => new[] { MathF.BitDecrement(p), p, MathF.BitIncrement(p) })))
+                {
+                    float removeEnd = empty ? .12f : .18f, hiddenEnd = empty ? .42f : .58f, seatEnd = empty ? .78f : .94f;
+                    float amount = progress < removeEnd ? UnityEngine.Mathf.SmoothStep(0, 1, progress / removeEnd)
+                        : progress < hiddenEnd ? 1f : progress < seatEnd
+                            ? 1f - UnityEngine.Mathf.SmoothStep(0, 1, UnityEngine.Mathf.InverseLerp(hiddenEnd, seatEnd, progress)) : 0f;
+                    var actual = reloadOffset(progress, empty);
+                    Near(actual.X, .015f * amount); Near(actual.Y, -.18f * amount);
+                    reloadOffsets++;
                 }
             foreach (var muzzle in new[] { NVector.Zero, new NVector(30, .2f, 40), new NVector(-2, -1, 3) })
                 foreach (var forward in new[] { NVector.UnitX, -NVector.UnitX, new NVector(.6f, 0, .8f) })
@@ -107,8 +141,13 @@ namespace Helodrace.Tests
             check(true, angles + " actual native/game flat angles match, including tiny vectors and facing boundaries");
             check(true, matrices + " pinned muzzle matrix components match the frozen game calculation");
             check(true, colors + " color boundary components and dictionary equality cases preserve game behavior");
+            check(typeof(ModularWeaponCycleUtility).GetMethod("ReloadMagazineOffset", flags, null,
+                new[] { typeof(CompModularWeaponNode), typeof(ModularRenderNode) }, null).ReturnType == typeof(System.Numerics.Vector2),
+                "reload animation supplies native offsets directly to the native renderer");
+            check(true, shotDirections + " shot directions and " + reloadOffsets + " magazine reload offsets match frozen behavior");
             File.WriteAllText(Path.Combine(output, "native-weapon-effects.json"), JsonSerializer.Serialize(new {
-                FlatAngles = angles, MuzzleMatrixComponents = matrices, ColorComponents = colors, Baseline = "59bb4564"
+                FlatAngles = angles, MuzzleMatrixComponents = matrices, ColorComponents = colors, ShotDirections = shotDirections,
+                ReloadOffsets = reloadOffsets, Baseline = "59bb4564", MotionBaseline = "d3ea2962"
             }, new JsonSerializerOptions { WriteIndented = true }));
         }
     }

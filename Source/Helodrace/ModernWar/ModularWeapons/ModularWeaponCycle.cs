@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using HarmonyLib;
 using RimWorld;
-using UnityEngine;
+using System.Numerics;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -225,12 +225,18 @@ namespace Helodrace.ModernWar
             CompModularWeaponNode root,
             ModularRenderNode node)
         {
-            if (!BelongsToMagazine(node)) return Vector2.zero;
+            if (!BelongsToMagazine(node)) return Vector2.Zero;
 
             float progress;
             bool startedEmpty;
             if (!TryGetReloadProgress(root, out progress, out startedEmpty))
-                return Vector2.zero;
+                return Vector2.Zero;
+
+            return ReloadMagazineOffset(progress, startedEmpty);
+        }
+
+        internal static Vector2 ReloadMagazineOffset(float progress, bool startedEmpty)
+        {
 
             // Empty reloads reserve the last part of the same total duration for the
             // charging handle, so their magazine swap completes sooner.

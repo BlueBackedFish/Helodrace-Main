@@ -176,11 +176,8 @@ namespace Helodrace.ModernWar
             float coefficient = root.MuzzleFlashCoefficient;
             if (profile == null || coefficient <= 0.001f) return;
 
-            Vector3 shotDirection = verb.CurrentTarget.CenterVector3.ToNative() - shooter.DrawPos.ToNative();
-            shotDirection.Y = 0f;
-            if (shotDirection.LengthSquared() < 0.0001f)
-                shotDirection = shooter.Rotation.FacingCell.ToVector3().ToNative();
-            shotDirection.Normalize();
+            Vector3 shotDirection = SpatialMath.ShotDirection(shooter.DrawPos.ToNative(),
+                verb.CurrentTarget.CenterVector3.ToNative(), shooter.Rotation.FacingCell.ToVector3().ToNative());
             float aimAngle = SpatialMath.FlatAngle(shotDirection);
 
             Vector3 gunCenter;

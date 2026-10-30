@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using RimWorld;
-using UnityEngine;
+using System.Numerics;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -53,14 +53,11 @@ namespace Helodrace.ModernWar
             MoteThrown casing = ThingMaker.MakeThing(moteDef) as MoteThrown;
             if (casing == null) return;
 
-            Vector3 shotDirection = verb.CurrentTarget.CenterVector3 - shooter.DrawPos;
-            shotDirection.y = 0f;
-            if (shotDirection.sqrMagnitude < 0.0001f)
-                shotDirection = shooter.Rotation.FacingCell.ToVector3();
-            shotDirection.Normalize();
-            float aimAngle = shotDirection.AngleFlat();
+            Vector3 shotDirection = SpatialMath.ShotDirection(shooter.DrawPos.ToNative(),
+                verb.CurrentTarget.CenterVector3.ToNative(), shooter.Rotation.FacingCell.ToVector3().ToNative());
+            float aimAngle = SpatialMath.FlatAngle(shotDirection);
 
-            System.Numerics.Vector3 gunCenter;
+            Vector3 gunCenter;
             float bodyAngle;
             bool flipped;
             ModularWeaponAimingPoseUtility.Resolve(
@@ -75,8 +72,8 @@ namespace Helodrace.ModernWar
             var transformed = portNode.transform.TransformPoint(portLocal);
             if (flipped) transformed.X = -transformed.X;
             var worldOffset = SpatialMath.RotateAroundY(
-                new System.Numerics.Vector3(transformed.X, 0f, transformed.Y), bodyAngle);
-            Vector3 origin = (gunCenter + worldOffset).ToGame();
+                new Vector3(transformed.X, 0f, transformed.Y), bodyAngle);
+            var origin = (gunCenter + worldOffset).ToGame();
 
             GenSpawn.Spawn(casing, origin.ToIntVec3(), shooter.Map);
             // The west-facing weapon graphic is mirrored. Mirror its authored

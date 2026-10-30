@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using RimWorld;
-using UnityEngine;
+using System.Numerics;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -165,22 +165,19 @@ namespace Helodrace.ModernWar
             if (moteDef == null || pawn?.Map == null || !pawn.Spawned || verb == null)
                 return;
 
-            Vector3 direction = verb.CurrentTarget.CenterVector3 - pawn.DrawPos;
-            direction.y = 0f;
-            if (direction.sqrMagnitude < 0.0001f)
-                direction = pawn.Rotation.FacingCell.ToVector3();
-            direction.Normalize();
-            float aimAngle = direction.AngleFlat();
+            Vector3 direction = SpatialMath.ShotDirection(pawn.DrawPos.ToNative(),
+                verb.CurrentTarget.CenterVector3.ToNative(), pawn.Rotation.FacingCell.ToVector3().ToNative());
+            float aimAngle = SpatialMath.FlatAngle(direction);
 
-            System.Numerics.Vector3 gunCenter;
+            Vector3 gunCenter;
             float bodyAngle;
             bool flipped;
             ModularWeaponAimingPoseUtility.Resolve(weapon, pawn, aimAngle,
                 out gunCenter, out bodyAngle, out flipped);
             var local = node.transform.TransformPoint(node.Props.graphicOffset.ToNative());
             if (flipped) local.X = -local.X;
-            Vector3 origin = (gunCenter + SpatialMath.RotateAroundY(
-                new System.Numerics.Vector3(local.X, 0f, local.Y), bodyAngle)).ToGame();
+            var origin = (gunCenter + SpatialMath.RotateAroundY(
+                new Vector3(local.X, 0f, local.Y), bodyAngle)).ToGame();
             if (!origin.ToIntVec3().InBounds(pawn.Map)) return;
 
             MoteThrown mote = ThingMaker.MakeThing(moteDef) as MoteThrown;

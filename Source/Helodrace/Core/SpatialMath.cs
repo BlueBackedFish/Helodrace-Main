@@ -9,6 +9,14 @@ namespace Helodrace
             => direction.X == 0f && direction.Z == 0f
                 ? 0f : Quaternion.LookRotation(direction).eulerAngles.Y;
 
+        internal static Vector3 ShotDirection(Vector3 source, Vector3 target, Vector3 fallback)
+        {
+            Vector3 direction = target - source;
+            direction.Y = 0;
+            if (direction.LengthSquared() < .0001f) direction = fallback;
+            return direction.normalized;
+        }
+
         internal static Vector3 RotateAroundY(Vector3 value, float degrees)
             => Vector3.Transform(value, Quaternion.CreateFromAxisAngle(Vector3.UnitY, degrees * Mathf.Deg2Rad));
 
