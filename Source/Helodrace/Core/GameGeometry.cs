@@ -4,6 +4,16 @@ namespace Helodrace
     // compatibility structs. Internal geometry stays in native/BCL values.
     internal static class GameGeometry
     {
+        // Native/BCL matrices multiply row vectors; game matrices multiply columns.
+        internal static UnityEngine.Matrix4x4 ToGame(this System.Numerics.Matrix4x4 value)
+            => new UnityEngine.Matrix4x4
+            {
+                m00 = value.M11, m01 = value.M21, m02 = value.M31, m03 = value.M41,
+                m10 = value.M12, m11 = value.M22, m12 = value.M32, m13 = value.M42,
+                m20 = value.M13, m21 = value.M23, m22 = value.M33, m23 = value.M43,
+                m30 = value.M14, m31 = value.M24, m32 = value.M34, m33 = value.M44
+            };
+
         internal static System.Numerics.Vector3 ToNative(this UnityEngine.Vector3 value)
             => new System.Numerics.Vector3(value.x, value.y, value.z);
 

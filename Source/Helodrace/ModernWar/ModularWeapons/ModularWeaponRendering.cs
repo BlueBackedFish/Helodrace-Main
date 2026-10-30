@@ -4,6 +4,9 @@ using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Vector2 = System.Numerics.Vector2;
+using Vector3 = System.Numerics.Vector3;
+using Quaternion = System.Numerics.Quaternion;
+using Matrix4x4 = System.Numerics.Matrix4x4;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -15,7 +18,7 @@ namespace Helodrace.ModernWar
             base.Print(layer);
         }
 
-        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
+        protected override void DrawAt(UnityEngine.Vector3 drawLoc, bool flip = false)
         {
             CompModularWeaponNode comp = GetComp<CompModularWeaponNode>();
             if (comp == null) base.DrawAt(drawLoc, flip);
@@ -87,7 +90,7 @@ namespace Helodrace.ModernWar
             if (nodes.Count == 0) return;
 
             Rot4 rot = root.Rotation;
-            Vector3 baseCenter = root.TrueCenter() + bodyGraphic.DrawOffset(rot);
+            Vector3 baseCenter = root.TrueCenter().ToNative() + bodyGraphic.DrawOffset(rot).ToNative();
             bool rotated = bodyGraphic.ShouldDrawRotated;
             bool flip = false;
             float bodyAngle;
@@ -122,7 +125,7 @@ namespace Helodrace.ModernWar
                 if (flip) local.X = -local.X;
                 Vector2 worldOffset = ModularTransform2D.RotateForWorldYaw(local, bodyAngle);
                 Vector3 center = baseCenter + new Vector3(worldOffset.X, 0f, worldOffset.Y);
-                center.y += outlineLayer * LayerAltitudeStep
+                center.Y += outlineLayer * LayerAltitudeStep
                     + node.Props.outlinePriority * OutlinePriorityAltitudeStep
                     + i * 0.00000001f;
 
@@ -150,7 +153,7 @@ namespace Helodrace.ModernWar
 
                 Printer_Plane.PrintPlane(
                     layer,
-                    center,
+                    center.ToGame(),
                     size.ToGame(),
                     printMaterial,
                     drawAngle,
@@ -172,7 +175,7 @@ namespace Helodrace.ModernWar
             if (nodes.Count == 0) return;
 
             Rot4 rot = root.Rotation;
-            Vector3 baseCenter = root.TrueCenter() + bodyGraphic.DrawOffset(rot);
+            Vector3 baseCenter = root.TrueCenter().ToNative() + bodyGraphic.DrawOffset(rot).ToNative();
             bool rotated = bodyGraphic.ShouldDrawRotated;
             bool flip = false;
             float bodyAngle;
@@ -207,7 +210,7 @@ namespace Helodrace.ModernWar
                 if (flip) local.X = -local.X;
                 Vector2 worldOffset = ModularTransform2D.RotateForWorldYaw(local, bodyAngle);
                 Vector3 center = baseCenter + new Vector3(worldOffset.X, 0f, worldOffset.Y);
-                center.y += node.GraphicLayer * LayerAltitudeStep;
+                center.Y += node.GraphicLayer * LayerAltitudeStep;
 
                 Vector2 size = graphic.drawSize.ToNative() * AbsoluteScale(node.GraphicScale) * stackScale;
                 if (!rotated && rot.IsHorizontal) size = new Vector2(size.Y, size.X);
@@ -234,7 +237,7 @@ namespace Helodrace.ModernWar
 
                 Printer_Plane.PrintPlane(
                     layer,
-                    center,
+                    center.ToGame(),
                     size.ToGame(),
                     printMaterial,
                     drawAngle,
@@ -247,11 +250,11 @@ namespace Helodrace.ModernWar
         public static void DrawRealtime(
             CompModularWeaponNode comp,
             Thing root,
-            Vector3 drawLoc,
+            UnityEngine.Vector3 drawLoc,
             float bodyAngle,
             bool flipped)
         {
-            DrawRealtime(comp, root, drawLoc, bodyAngle, flipped,
+            DrawRealtime(comp, root, drawLoc.ToNative(), bodyAngle, flipped,
                 flipped ? MeshPool.plane10Flip : MeshPool.plane10);
         }
 
@@ -289,7 +292,7 @@ namespace Helodrace.ModernWar
                 if (flipped) local.X = -local.X;
                 Vector2 worldOffset = ModularTransform2D.RotateForWorldYaw(local, bodyAngle);
                 Vector3 position = drawLoc + new Vector3(worldOffset.X, 0f, worldOffset.Y);
-                position.y += node.GraphicLayer * LayerAltitudeStep;
+                position.Y += node.GraphicLayer * LayerAltitudeStep;
 
                 Vector2 scale = AbsoluteScale(node.GraphicScale);
                 Vector3 size = new Vector3(
@@ -298,11 +301,11 @@ namespace Helodrace.ModernWar
                     graphic.drawSize.y * scale.Y);
                 float localAngle = LocalGraphAngleAsWorldYaw(
                     animatedGraphAngle, flipped);
-                Matrix4x4 matrix = Matrix4x4.TRS(
+                Matrix4x4 matrix = SpatialMath.CreateTransform(
                     position,
-                    Quaternion.AngleAxis(bodyAngle + localAngle, Vector3.up),
+                    Quaternion.CreateFromAxisAngle(Vector3.UnitY, (bodyAngle + localAngle) * Mathf.Deg2Rad),
                     size);
-                Graphics.DrawMesh(mesh, matrix, material, 0);
+                Graphics.DrawMesh(mesh, matrix.ToGame(), material, 0);
             }
             DrawFeedingRound(comp, nodes, drawLoc, bodyAngle, flipped, mesh);
         }
@@ -339,7 +342,7 @@ namespace Helodrace.ModernWar
                 if (flipped) local.X = -local.X;
                 Vector2 worldOffset = ModularTransform2D.RotateForWorldYaw(local, bodyAngle);
                 Vector3 position = drawLoc + new Vector3(worldOffset.X, 0f, worldOffset.Y);
-                position.y += outlineLayer * LayerAltitudeStep
+                position.Y += outlineLayer * LayerAltitudeStep
                     + node.Props.outlinePriority * OutlinePriorityAltitudeStep
                     + i * 0.00000001f;
 
@@ -350,11 +353,11 @@ namespace Helodrace.ModernWar
                     graphic.drawSize.y * scale.Y);
                 float localAngle = LocalGraphAngleAsWorldYaw(
                     animatedGraphAngle, flipped);
-                Matrix4x4 matrix = Matrix4x4.TRS(
+                Matrix4x4 matrix = SpatialMath.CreateTransform(
                     position,
-                    Quaternion.AngleAxis(bodyAngle + localAngle, Vector3.up),
+                    Quaternion.CreateFromAxisAngle(Vector3.UnitY, (bodyAngle + localAngle) * Mathf.Deg2Rad),
                     size);
-                Graphics.DrawMesh(mesh, matrix, material, 0);
+                Graphics.DrawMesh(mesh, matrix.ToGame(), material, 0);
             }
         }
 
@@ -369,7 +372,7 @@ namespace Helodrace.ModernWar
             Vector2 localCenter = AnimateLocalPoint(
                 root,
                 node,
-                node.Props.graphicOffset,
+                node.Props.graphicOffset.ToNative(),
                 out animatedAngle);
             center = node.transform.TransformPoint(
                 new System.Numerics.Vector3(localCenter.X, 0f, localCenter.Y));
@@ -413,21 +416,21 @@ namespace Helodrace.ModernWar
             float amount = ModularWeaponCycleUtility.AnimationAmount(
                 root,
                 props.animatedPart);
-            localPoint += props.animationTravel * amount;
+            localPoint += props.animationTravel.ToNative() * amount;
             animatedAngle = props.animationAngle * amount;
             if (!Mathf.Approximately(animatedAngle, 0f))
             {
-                Vector3 pivot = props.graphicOffset + props.animationPivot;
+                Vector3 pivot = props.graphicOffset.ToNative() + props.animationPivot.ToNative();
                 Vector2 fromPivot = new Vector2(
-                    localPoint.x - pivot.x,
-                    localPoint.z - pivot.z);
+                    localPoint.X - pivot.X,
+                    localPoint.Z - pivot.Z);
                 Vector2 rotated = ModularTransform2D.Rotate(
                     fromPivot,
                     animatedAngle);
-                localPoint.x = pivot.x + rotated.X;
-                localPoint.z = pivot.z + rotated.Y;
+                localPoint.X = pivot.X + rotated.X;
+                localPoint.Z = pivot.Z + rotated.Y;
             }
-            return new Vector2(localPoint.x, localPoint.z);
+            return new Vector2(localPoint.X, localPoint.Z);
         }
 
         private static ModularRenderNode FindNode(
@@ -476,11 +479,11 @@ namespace Helodrace.ModernWar
             if (material == null) return;
 
             Vector3 feedOffset = Vector3.Lerp(
-                port.feedStartOffset,
-                port.feedEndOffset,
-                progress);
-            Vector3 localPoint = portNode.Props.graphicOffset + feedOffset;
-            Vector2 local = portNode.transform.TransformPoint(localPoint.ToNative());
+                port.feedStartOffset.ToNative(),
+                port.feedEndOffset.ToNative(),
+                Mathf.Clamp01(progress));
+            Vector3 localPoint = portNode.Props.graphicOffset.ToNative() + feedOffset;
+            Vector2 local = portNode.transform.TransformPoint(localPoint);
             if (flipped) local.X = -local.X;
             Vector2 worldOffset = ModularTransform2D.RotateForWorldYaw(local, bodyAngle);
             Vector3 position = drawLoc
@@ -489,15 +492,15 @@ namespace Helodrace.ModernWar
             // composite outline. Keeping it halfway through the outline gap makes
             // that ordering independent of the receiver's authored graphic layer.
             float feedingLayer = LowestGraphicLayer(nodes) - OutlineLayerGap * 0.5f;
-            position.y += feedingLayer * LayerAltitudeStep;
+            position.Y += feedingLayer * LayerAltitudeStep;
             float roundAngle = bodyAngle + LocalGraphAngleAsWorldYaw(-90f, flipped);
             float size = port.feedingRoundDrawSize * Mathf.Max(0.01f, root.Props.assemblyScale);
             Graphics.DrawMesh(
                 mesh,
-                Matrix4x4.TRS(
+                SpatialMath.CreateTransform(
                     position,
-                    Quaternion.AngleAxis(roundAngle, Vector3.up),
-                    new Vector3(size, 0f, size)),
+                    Quaternion.CreateFromAxisAngle(Vector3.UnitY, roundAngle * Mathf.Deg2Rad),
+                    new Vector3(size, 0f, size)).ToGame(),
                 material,
                 0);
         }
@@ -571,7 +574,7 @@ namespace Helodrace.ModernWar
             return material;
         }
 
-        public static void DrawAiming(Thing equipment, Vector3 drawLoc, float aimAngle)
+        public static void DrawAiming(Thing equipment, UnityEngine.Vector3 drawLoc, float aimAngle)
         {
             CompModularWeaponNode comp = (equipment as ThingWithComps)
                 ?.GetComp<CompModularWeaponNode>();
@@ -597,7 +600,7 @@ namespace Helodrace.ModernWar
                 angle += equipment.def.equippedAngleOffset;
             }
 
-            Vector3 recoilOffset;
+            UnityEngine.Vector3 recoilOffset;
             float recoilAngle;
             ModularWeaponRecoilUtility.Resolve(
                 equipment,
@@ -620,7 +623,7 @@ namespace Helodrace.ModernWar
                 flipped,
                 recoilOffset.sqrMagnitude > 0.000001f
                     || Mathf.Abs(recoilAngle) > 0.001f);
-            DrawRealtime(comp, equipment, drawLoc, angle, flipped, mesh);
+            DrawRealtime(comp, equipment, drawLoc.ToNative(), angle, flipped, mesh);
         }
 
         public static float GroundExtraRotation(Thing root)
@@ -639,7 +642,7 @@ namespace Helodrace.ModernWar
     {
         [HarmonyPrefix]
         [HarmonyPriority(Priority.High)]
-        private static void Prefix(Thing eq, ref Vector3 drawLoc)
+        private static void Prefix(Thing eq, ref UnityEngine.Vector3 drawLoc)
         {
             if (eq?.def?.IsRangedWeapon == true
                 && eq.def.modContentPack == HelodraceBase.Instance?.Content)
@@ -651,7 +654,7 @@ namespace Helodrace.ModernWar
     public static class Patch_DrawEquipmentAiming_ModularWeaponAssembly
     {
         [HarmonyPrefix]
-        public static bool Prefix(Thing eq, Vector3 drawLoc, float aimAngle)
+        public static bool Prefix(Thing eq, UnityEngine.Vector3 drawLoc, float aimAngle)
         {
             if (eq?.TryGetComp<CompModularWeaponNode>()?.Props.isAssemblyRoot != true)
                 return true;

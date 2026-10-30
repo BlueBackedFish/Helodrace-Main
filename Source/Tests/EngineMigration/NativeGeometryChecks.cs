@@ -65,7 +65,65 @@ namespace Helodrace.Tests
             check(typeof(ModularTransform2D).GetFields().All(f => f.FieldType.Namespace != "UnityEngine")
                 && typeof(ModularRenderNode).GetField("railStart").FieldType == typeof(NativeVector)
                 && typeof(ModularRenderNode).GetProperty("GraphicCenter").PropertyType == typeof(NativeVector), "owned attachment transforms and render node coordinates use native vectors");
-            File.WriteAllText(Path.Combine(output, "native-geometry.json"), JsonSerializer.Serialize(new { BoundaryComponents = cases, TransformComponents = transforms, NativePreviewGeometry = true }, new JsonSerializerOptions { WriteIndented = true }));
+            int matrices = CompareMatrices(product, boundary);
+            check(true, matrices + " matrix/point/direction components match actual game TRS and row/column boundaries, including composition and negative scales");
+            File.WriteAllText(Path.Combine(output, "native-geometry.json"), JsonSerializer.Serialize(new { BoundaryComponents = cases, TransformComponents = transforms, MatrixComponents = matrices, NativePreviewGeometry = true }, new JsonSerializerOptions { WriteIndented = true }));
+        }
+
+        private static int CompareMatrices(Assembly product, Type boundary)
+        {
+            var create = (Func<System.Numerics.Vector3, System.Numerics.Quaternion, System.Numerics.Vector3, System.Numerics.Matrix4x4>)
+                product.GetType("Helodrace.SpatialMath", true).GetMethod("CreateTransform", BindingFlags.Static | BindingFlags.NonPublic)
+                    .CreateDelegate(typeof(Func<System.Numerics.Vector3, System.Numerics.Quaternion, System.Numerics.Vector3, System.Numerics.Matrix4x4>));
+            var toGame = (Func<System.Numerics.Matrix4x4, UnityEngine.Matrix4x4>)boundary
+                .GetMethod("ToGame", BindingFlags.Static | BindingFlags.NonPublic, null, new[] { typeof(System.Numerics.Matrix4x4) }, null)
+                .CreateDelegate(typeof(Func<System.Numerics.Matrix4x4, UnityEngine.Matrix4x4>));
+            int count = 0;
+            void Near(float actual, float expected)
+            {
+                count++;
+                if (!float.IsFinite(actual) || !float.IsFinite(expected)
+                    || Math.Abs(actual - expected) > 2e-5f * Math.Max(1, Math.Max(Math.Abs(actual), Math.Abs(expected))))
+                    throw new InvalidOperationException("Spatial transform: " + actual + " != " + expected);
+            }
+            void Vector(System.Numerics.Vector3 native, UnityEngine.Vector3 game)
+            { Near(native.X, game.x); Near(native.Y, game.y); Near(native.Z, game.z); }
+            var points = new[] { new System.Numerics.Vector3(0, 0, 0), new System.Numerics.Vector3(1, 0, 0), new System.Numerics.Vector3(0, 1, 0), new System.Numerics.Vector3(0, 0, 1), new System.Numerics.Vector3(-2, .7f, 3) };
+            var scales = new[] { System.Numerics.Vector3.One, new System.Numerics.Vector3(-1, 2, .25f), new System.Numerics.Vector3(-1, -2, -3), new System.Numerics.Vector3(2, 0, .5f), System.Numerics.Vector3.Zero };
+            var rotations = new[] { System.Numerics.Quaternion.Identity, System.Numerics.Quaternion.Zero,
+                new System.Numerics.Quaternion(1e-8f, 0, 0, 0), new System.Numerics.Quaternion(.4f, -.7f, .2f, 2f),
+                System.Numerics.Quaternion.CreateFromYawPitchRoll(.9f, -.4f, .7f) };
+            foreach (var position in new[] { System.Numerics.Vector3.Zero, new System.Numerics.Vector3(-10, .003f, 7) })
+                foreach (var scale in scales)
+                    foreach (var rotation in rotations)
+                    {
+                        var native = create(position, rotation, scale);
+                        var game = UnityEngine.Matrix4x4.TRS(new UnityEngine.Vector3(position.X, position.Y, position.Z),
+                            new UnityEngine.Quaternion(rotation.X, rotation.Y, rotation.Z, rotation.W), new UnityEngine.Vector3(scale.X, scale.Y, scale.Z));
+                        var converted = toGame(native);
+                        // Every element is checked through basis points and homogeneous multiplication.
+                        var homogeneous = new System.Numerics.Vector4(.2f, -.5f, .7f, .3f);
+                        var native4 = System.Numerics.Vector4.Transform(homogeneous, native);
+                        var game4 = converted * new UnityEngine.Vector4(homogeneous.X, homogeneous.Y, homogeneous.Z, homogeneous.W);
+                        Near(native4.X, game4.x); Near(native4.Y, game4.y); Near(native4.Z, game4.z); Near(native4.W, game4.w);
+                        foreach (var point in points)
+                        {
+                            var input = new UnityEngine.Vector3(point.X, point.Y, point.Z);
+                            var transformed = System.Numerics.Vector3.Transform(point, native);
+                            Vector(transformed, game.MultiplyPoint3x4(input));
+                            Vector(transformed, converted.MultiplyPoint3x4(input));
+                            Vector(System.Numerics.Vector3.TransformNormal(point, native), game.MultiplyVector(input));
+                        }
+                        var childPosition = new System.Numerics.Vector3(.3f, 2, -.8f);
+                        var childRotation = System.Numerics.Quaternion.CreateFromAxisAngle(System.Numerics.Vector3.UnitY, .7f);
+                        var child = create(childPosition, childRotation, new System.Numerics.Vector3(.4f, -.7f, 1.3f));
+                        var gameChild = UnityEngine.Matrix4x4.TRS(new UnityEngine.Vector3(.3f, 2, -.8f),
+                            new UnityEngine.Quaternion(childRotation.X, childRotation.Y, childRotation.Z, childRotation.W), new UnityEngine.Vector3(.4f, -.7f, 1.3f));
+                        foreach (var point in points)
+                            Vector(System.Numerics.Vector3.Transform(point, child * native),
+                                (game * gameChild).MultiplyPoint3x4(new UnityEngine.Vector3(point.X, point.Y, point.Z)));
+                    }
+            return count;
         }
 
         private static int CompareTransforms()
