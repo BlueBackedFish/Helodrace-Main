@@ -23,37 +23,21 @@ Assert ($extension.Class -eq 'Helodrace.HelodRaceExtension') 'Standalone extensi
 [xml]$settingsXml = Get-Content "$repo/Defs/Helod/Race/HelodRaceSettings.xml" -Raw -Encoding UTF8
 $settings = $settingsXml.Defs.'Helodrace.HelodRaceSettingsDef'
 Assert ($extension.settingsDef -eq $settings.defName) 'Settings cross-reference mismatch.'
-$expectedEars = Get-Content "$repo/Source/Tests/StandaloneRaceEarPolicyBaseline.json" -Raw | ConvertFrom-Json
-Assert (($expectedEars -join '|') -ceq (@($settings.earCoveringApparel.li) -join '|')) 'Ear-cover policy order/membership changed.'
+$baseline = Get-Content "$repo/Source/Tests/StandaloneRacePolicy16Baseline.json" -Raw | ConvertFrom-Json
+# Frozen from the pre-1.7 revision recorded in the fixture, including intentional
+# KidHelmet support (2099d568) and deleted-head removal (58a2e208).
+foreach ($property in $baseline.policy.PSObject.Properties) {
+    $actual = @(foreach ($entry in $settings.SelectNodes("$($property.Name)/li")) {
+        $text = if ($property.Name -eq 'apparelGraphics') { $entry.key + '=' + $entry.value } else { $entry.InnerText }
+        $attributes = @($entry.Attributes | Sort-Object Name | ForEach-Object { $_.Name + '=' + $_.Value })
+        $text + '|' + ($attributes -join '|')
+    })
+    Assert (($property.Value -join "`n") -ceq ($actual -join "`n")) "Pre-1.7 policy values/order/DLC conditions changed: $($property.Name)"
+}
 foreach ($pair in @(@('drawScale','0.8'), @('maleProbability','0.0000001'), @('socialFightDamageLimit','6'), @('refugeeChance','0.15'), @('slaveChance','0.15'), @('wandererChance','0.15'))) {
     Assert ($settings.SelectSingleNode($pair[0]).InnerText -eq $pair[1]) "Policy value changed: $($pair[0])"
 }
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-$zip = [IO.Compression.ZipFile]::OpenRead("$repo/Archive/PreHAR-7725683-2026-09-14.zip")
-try {
-    foreach ($entry in $zip.Entries) {
-        $stream = $entry.Open()
-        try { $stream.CopyTo([IO.Stream]::Null) } finally { $stream.Dispose() }
-    }
-    $reader = [IO.StreamReader]::new($zip.GetEntry('Defs/Helod/Race/GeneralRace.xml').Open())
-    try { [xml]$old = $reader.ReadToEnd() } finally { $reader.Dispose() }
-    $oldSettings = $old.Defs.'AlienRace.ThingDef_AlienRace'.alienRace
-    foreach ($name in 'apparelList', 'whiteApparelList', 'blackGeneList', 'blackEndoCategories', 'xenotypeList') {
-        $before = @($oldSettings.SelectNodes(".//$name/li") | ForEach-Object { $_.InnerText })
-        $after = @($settings.SelectNodes("$name/li") | ForEach-Object { $_.InnerText })
-        Assert (($before -join '|') -ceq ($after -join '|')) "Migrated list order differs: $name"
-        $beforeNodes = @($oldSettings.SelectNodes(".//$name/li") | ForEach-Object { $_.OuterXml })
-        $afterNodes = @($settings.SelectNodes("$name/li") | ForEach-Object { $_.OuterXml })
-        Assert (($beforeNodes -join '|') -ceq ($afterNodes -join '|')) "DLC conditions changed: $name"
-        Write-Output "PASS: $name ($($after.Count)) preserved."
-    }
-    $before = @($oldSettings.generalSettings.alienPartGenerator.headTypes.li)
-    Assert (($before -join '|') -ceq (@($settings.headTypes.li) -join '|')) 'Head choice order changed.'
-    $before = @($oldSettings.SelectNodes('.//individualPaths/li') | ForEach-Object { $_.InnerXml })
-    $after = @($settings.apparelGraphics.li | ForEach-Object { $_.InnerXml })
-    Assert (($before -join '|') -ceq ($after -join '|')) 'Apparel path order changed.'
-    Write-Output "PASS: $($before.Count) apparel graphic mappings and head choices preserved; archive readable."
-} finally { $zip.Dispose() }
+Write-Output 'PASS: pre-1.7 policy values, ordering, apparel paths and DLC conditions preserved.'
 $managed = $RimWorldPath
 foreach ($name in 'Waylith', 'UnityStubs', 'Assembly-CSharp') {
     $null = [Reflection.Assembly]::LoadFrom((Join-Path $managed "$name.dll"))
@@ -124,20 +108,27 @@ $choices.Add($baseliner, 0.5)
 Assert ($choices.Count -eq 1 -and $choices.ContainsKey($baseliner)) 'Human xenotype filtering failed.'
 Write-Output 'PASS: newborn inheritance, trait degree, gene blocking, and bidirectional xenotype filtering regressions.'
 $energyMethod = [Helodrace.CompMechanicalTemperatureControl].GetMethod('EnergyPerRareTick', [Reflection.BindingFlags]'Static,NonPublic')
-$rareEnergy = $energyMethod.Invoke($null, @([single]-2, [single]1))
+$rareEnergy = $energyMethod.Invoke($null, @([single]2, [single]1))
 Assert ([Math]::Abs($rareEnergy - (2 * 250 / 60)) -lt 0.000001) 'Mechanical heat pump did not convert per-second transfer to rare-tick energy.'
+Assert ($energyMethod.Invoke($null, @([single]-2, [single]1)) -eq 0) 'Negative heat-removal setting must remain clamped to zero.'
 $refillMethod = [Helodrace.BTXUtility].GetMethod('ShouldForceAutomaticRefill', [Reflection.BindingFlags]'Static,NonPublic')
 Assert ($refillMethod.Invoke($null, @([Helodrace.BTXUtility]::ChemicalNeedDefName, [single]0.34))) 'BTX AI did not seek a source before the deficiency threshold.'
 Assert (!$refillMethod.Invoke($null, @([Helodrace.BTXUtility]::ChemicalNeedDefName, [single]0.36))) 'BTX AI refill threshold expanded beyond its intended buffer.'
 Assert (!$refillMethod.Invoke($null, @('Chemical_Chemical', [single]0.01))) 'BTX threshold affected another chemical need.'
 Write-Output 'PASS: rare-tick heat transfer units and early BTX refill threshold.'
 $offsetMethod = [Helodrace.Patch_HelodHeadOffset].GetMethod('OffsetForAge', [Reflection.BindingFlags]'Static,NonPublic')
-Assert ($null -eq $offsetMethod.Invoke($null, @([Verse.Gender]::Female, [single]20))) 'Missing head position settings must preserve vanilla position.'
+Assert ($null -eq $offsetMethod.Invoke($null, @([single]20))) 'Missing head position settings must preserve vanilla position.'
+function Head-Value([Verse.Gender]$gender, [single]$age) {
+    $entry = $offsetMethod.Invoke($null, @($age))
+    if ($gender -eq [Verse.Gender]::Female) { return $entry.female }
+    return $entry.male
+}
 foreach ($entry in $settings.headOffsets.li) {
     $offsetEntry = [Helodrace.HelodHeadOffset]::new()
     foreach ($field in 'minAge', 'female', 'male') {
         $offsetEntry.$field = [single]::Parse($entry.$field, [Globalization.CultureInfo]::InvariantCulture)
     }
+    if ($entry.SelectSingleNode('absolute')) { $offsetEntry.absolute = [bool]::Parse($entry.absolute) }
     $fixtureSettings.headOffsets.Add($offsetEntry)
 }
 foreach ($entry in $settings.appendageOffsets.li) {
@@ -157,20 +148,20 @@ foreach ($entry in $settings.appendageOffsets.li) {
     }
     $fixtureSettings.appendageOffsets.Add($offsetEntry)
 }
-foreach ($case in @(@(0,0.04), @(2.99,0.04), @(3,0.127), @(12.99,0.127), @(13,0.265), @(18,0.265), @(40,0.265))) {
-    $actual = $offsetMethod.Invoke($null, @([Verse.Gender]::Female, [single]$case[0]))
+foreach ($case in @(@(0,-0.5), @(2.99,-0.5), @(3,-0.125), @(12.99,-0.125), @(13,0.265), @(18,0.265), @(40,0.265))) {
+    $actual = Head-Value ([Verse.Gender]::Female) ([single]$case[0])
     Assert ([Math]::Abs($actual - $case[1]) -lt 0.000001) "Female head offset regression at age $($case[0])."
 }
-foreach ($case in @(@(0,0.04), @(3,0.127), @(13,0.265), @(18,0.265))) {
-    $actual = $offsetMethod.Invoke($null, @([Verse.Gender]::Male, [single]$case[0]))
+foreach ($case in @(@(0,-0.07), @(3,-1.2), @(13,0.265), @(18,0.265))) {
+    $actual = Head-Value ([Verse.Gender]::Male) ([single]$case[0])
     Assert ([Math]::Abs($actual - $case[1]) -lt 0.000001) "Male head offset regression at age $($case[0])."
 }
 $customOffset = [Helodrace.HelodHeadOffset]::new()
 $customOffset.minAge = 7
 $customOffset.female = 0.42
 $fixtureSettings.headOffsets.Add($customOffset)
-Assert ([Math]::Abs($offsetMethod.Invoke($null, @([Verse.Gender]::Female, [single]8)) - 0.42) -lt 0.000001) 'Custom XML-style age/offset ignored.'
-Assert ([Math]::Abs($offsetMethod.Invoke($null, @([Verse.Gender]::Female, [single]18)) - 0.265) -lt 0.000001) 'Unsorted entry overrode a later age threshold.'
+Assert ([Math]::Abs((Head-Value ([Verse.Gender]::Female) 8) - 0.42) -lt 0.000001) 'Custom XML-style age/offset ignored.'
+Assert ([Math]::Abs((Head-Value ([Verse.Gender]::Female) 18) - 0.265) -lt 0.000001) 'Unsorted entry overrode a later age threshold.'
 $null = $fixtureSettings.headOffsets.Remove($customOffset)
 # Exercise the rendering postfix, not just age lookup: existing base offsets must
 # be replaced while X/Y survive; missing data and explicit zero are distinct.
@@ -187,6 +178,7 @@ foreach ($renderCase in @(@(13,0.304105), @(18,0.34))) {
 }
 $customOffset.minAge = 18
 $customOffset.female = 0
+$customOffset.absolute = $true
 $fixtureSettings.headOffsets.Add($customOffset)
 $position = [UnityEngine.Vector3]::new(0, 0, 0.34)
 [Helodrace.Patch_HelodHeadOffset]::Postfix($fixturePawn, [ref]$position)
@@ -270,7 +262,7 @@ foreach ($listName in 'headTypes','xenotypeList','blackGeneList') {
 }
 $fixtureSettings.blackEndoCategories.Clear()
 $categoryType = $fixtureSettings.blackEndoCategories.GetType().GetGenericArguments()[0]
-foreach ($entry in $settings.blackEndoCategories.li) {
+foreach ($entry in $settings.SelectNodes('blackEndoCategories/li')) {
     $fixtureSettings.blackEndoCategories.Add([Enum]::Parse($categoryType, $entry.InnerText))
 }
 $fixtureSettings.apparelGraphics.Clear()
@@ -295,9 +287,10 @@ foreach ($name in 'TestHairA','TestHairB') {
 function Get-RaceCache([string]$name) {
     return ,([Helodrace.HelodRace].GetField($name, [Reflection.BindingFlags]'Static,NonPublic').GetValue($null))
 }
+$permittedNames = @(@($baseline.policy.apparelList) + @($baseline.policy.whiteApparelList) | ForEach-Object { $_.Split('|')[0] } | Sort-Object -Unique)
 for ($repeat = 0; $repeat -lt 2; $repeat++) {
     [Helodrace.HelodRace]::RebuildRuntimeCaches()
-    foreach ($pair in @(@('permittedApparel',96), @('exclusiveApparel',39), @('EarCoveringApparel',14), @('HeadTypes',13), @('ForbiddenGenes',2), @('ForbiddenCategories',7), @('HelodXenotypes',5), @('apparelPaths',39))) {
+    foreach ($pair in @(@('permittedApparel',$permittedNames.Count), @('exclusiveApparel',$baseline.policy.apparelList.Count), @('EarCoveringApparel',$baseline.policy.earCoveringApparel.Count), @('HeadTypes',$baseline.policy.headTypes.Count), @('ForbiddenGenes',$baseline.policy.blackGeneList.Count), @('ForbiddenCategories',$baseline.policy.blackEndoCategories.Count), @('HelodXenotypes',$baseline.policy.xenotypeList.Count), @('apparelPaths',$baseline.policy.apparelGraphics.Count))) {
         Assert ((Get-RaceCache $pair[0]).Count -eq $pair[1]) "Cache count mismatch: $($pair[0])"
     }
     Assert (((Get-RaceCache 'HelodHairs') | ForEach-Object defName) -join '|' -eq 'TestHairA|TestHairB') 'Hair cache order changed.'

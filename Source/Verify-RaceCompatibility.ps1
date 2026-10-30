@@ -79,6 +79,13 @@ foreach ($order in @(@('CE'), @('Facial'), @('CE','Facial'), @('Facial','CE'))) 
         [xml]$previous = $baseline.$module
         $previousNode = if ($module -eq 'CE') { $previous.Patch.Operation.match } else { $previous.Patch.Operation }
         Assert ((Read-Operation $previousNode).Apply($expected)) 'Baseline patch no longer matches fixture.'
+        if ($module -eq 'Facial') {
+            # Facial 2b650b3 intentionally replaced this controller for baby support.
+            # Keep the old patch fixture and apply only that reviewed output change.
+            $controller = $expected.SelectSingleNode('/Defs/ThingDef[defName="Helod"]/comps/li[compClass="FacialAnimation.LidOptionControllerComp"]/compClass')
+            Assert ($null -ne $controller) 'Original Facial controller missing from baseline output.'
+            $controller.InnerText = 'HelodraceFacial.HelodBabyLidOptionControllerComp'
+        }
     }
     Assert ((Canonical-Xml $document) -ceq (Canonical-Xml $expected)) "Initial patch behavior changed for $order"
     foreach ($module in $order) {
@@ -98,7 +105,11 @@ foreach ($order in @(@('CE'), @('Facial'), @('CE','Facial'), @('Facial','CE'))) 
     Assert ($helod.SelectNodes('tools/li[@Class="CombatExtended.ToolCE"]').Count -eq 3) 'CE melee tools missing.'
     }
     Assert ($helod.SelectNodes('modExtensions/li[@Class="Helodrace.HelodRaceExtension"]').Count -eq 1) 'Standalone race extension lost.'
-    Write-Output "PASS: $order standalone/ordered/repeated application equals pre-refactor XML; components unique."
+    if ($order -contains 'Facial') {
+        Assert ($helod.SelectNodes('comps/li[compClass="HelodraceFacial.HelodBabyLidOptionControllerComp"]').Count -eq 1) 'Missing/duplicate baby controller.'
+        Assert ($helod.SelectNodes('comps/li[compClass="FacialAnimation.LidOptionControllerComp"]').Count -eq 0) 'Superseded controller remains.'
+    }
+    Write-Output "PASS: $order ordered/repeated application matches baseline plus reviewed baby-controller change; components unique."
 }
 foreach ($module in 'Helodrace-CombatExtended','Helodrace-Facial','Helodrace-blancasdrugs','Helodrace-LobosArsenal') {
     $root = Join-Path $ModuleRoot $module
