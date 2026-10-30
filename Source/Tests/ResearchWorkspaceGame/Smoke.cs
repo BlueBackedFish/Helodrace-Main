@@ -263,6 +263,23 @@ namespace Helodrace.ResearchWorkspaceSmoke
         }
         private string ValidateContent()
         {
+            var standalone = DefDatabase<ResearchTabDef>.GetNamed("BD_HelodTechTab");
+            var main = DefDatabase<ResearchTabDef>.GetNamed("HelodTechTab");
+            bool HasTab(ResearchTabDef def) => ((System.Collections.IList)AccessTools.Field(typeof(MainTabWindow_Research), "tabs").GetValue(window))
+                .Cast<object>().Any(record => ReferenceEquals(AccessTools.Field(record.GetType(), "def").GetValue(record), def));
+            if (!HasTab(main) || HasTab(standalone)) return "FAIL: required Blancas integration shows an empty duplicate research tab";
+            var drug = DefDatabase<ResearchProjectDef>.GetNamed("BD_HelodBlancaEarlyNarcotics");
+            var original = drug.tab;
+            try
+            {
+                drug.tab = standalone;
+                window.PostOpen();
+                if (!HasTab(standalone)) return "FAIL: a populated Blancas research tab was hidden";
+            }
+            finally { drug.tab = original; window.PostOpen(); }
+            if (DefDatabase<ResearchTabDef>.GetNamed("BD_HelodTechTab") != standalone || HasTab(standalone))
+                return "FAIL: Blancas tab identity or empty-entry restoration changed";
+            File.AppendAllText(Path.Combine(output, "checks.txt"), "PASS: Main hides only the empty Blancas tab, preserves its Def and retains populated third-party use\n");
             foreach (string item in new[] { "HD_40mmM651CS_Round", "HD_40mmSponge_Round", "HD_ModularPart_GPNVG18_Part" })
             {
                 var recipe = DefDatabase<RecipeDef>.AllDefsListForReading.FirstOrDefault(r =>

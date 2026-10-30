@@ -90,6 +90,27 @@ namespace Helodrace.ResearchUI
         public IResearchQueueBridge Queue => queue;
     }
 
+    [HarmonyPatch(typeof(MainTabWindow_Research), nameof(MainTabWindow_Research.PostOpen))]
+    internal static class BlancasResearchTabIntegration
+    {
+        private static readonly System.Reflection.FieldInfo Tabs = AccessTools.Field(typeof(MainTabWindow_Research), "tabs");
+        private static readonly System.Reflection.FieldInfo TabDef = AccessTools.Field(
+            AccessTools.Inner(typeof(MainTabWindow_Research), "ResearchTabRecord"), "def");
+
+        private static void Postfix(MainTabWindow_Research __instance)
+        {
+            ResearchTabDef standalone = DefDatabase<ResearchTabDef>.GetNamedSilentFail("BD_HelodTechTab");
+            // Keep the published Def and any third-party research still using it.
+            // Main only hides the empty navigation entry after moving this branch.
+            if (standalone == null || DefDatabase<ResearchProjectDef>.AllDefsListForReading.Any(p => p.tab == standalone)) return;
+            var tabs = (System.Collections.IList)Tabs.GetValue(__instance);
+            for (int i = tabs.Count - 1; i >= 0; i--)
+                if (ReferenceEquals(TabDef.GetValue(tabs[i]), standalone)) tabs.RemoveAt(i);
+            if (__instance.CurTab == standalone)
+                __instance.CurTab = DefDatabase<ResearchTabDef>.GetNamed("HelodTechTab");
+        }
+    }
+
     [HarmonyPatch(typeof(MainTabWindow_Research), "DrawRightRect")]
     public static class ResearchWorkspaceWindowPatch
     {
