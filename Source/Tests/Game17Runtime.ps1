@@ -15,7 +15,9 @@ function New-Game17Runtime {
         [string]$GameRoot='C:\Program Files (x86)\Steam\steamapps\common\RimWorld',
         [string]$HarmonyRoot='C:\Program Files (x86)\Steam\steamapps\workshop\content\294100\2009463077',
         [string]$BlancasRoot,
-        [string[]]$ExtraPackageIds=@()
+        [string[]]$ExtraPackageIds=@(),
+        [string[]]$ExtraModRoots=@(),
+        [switch]$PrepareOnly
     )
     $ErrorActionPreference='Stop'
     $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
@@ -25,7 +27,7 @@ function New-Game17Runtime {
     if(-not $runtime.StartsWith($allowed,[StringComparison]::OrdinalIgnoreCase) -and
         -not $runtime.StartsWith($temporary,[StringComparison]::OrdinalIgnoreCase)){throw 'Use a dedicated runtime under .codex-staging or CreatorTemp.'}
     if(Test-Path -LiteralPath $runtime){throw 'Use a fresh runtime to preserve earlier evidence.'}
-    if(@(Get-Game17Processes).Count){throw 'Preserve the running game; wait for it to exit before collecting another host log.'}
+    if(-not $PrepareOnly -and @(Get-Game17Processes).Count){throw 'Preserve the running game; wait for it to exit before collecting another host log.'}
     $version=(Get-Content -LiteralPath (Join-Path $GameRoot 'Version.txt') -Raw).Trim()
     if(-not $version.StartsWith('1.7.')){throw 'An actual RimWorld 1.7 runtime is required.'}
     if(-not $BlancasRoot){$BlancasRoot=Join-Path $repository '../Helodrace-blancasdrugs'}
@@ -35,6 +37,17 @@ function New-Game17Runtime {
         if(-not(Test-Path -LiteralPath (Join-Path $GameRoot $file))){throw "Missing 1.7 host file: $file"}
     }
     if(-not(Test-Path -LiteralPath (Join-Path $BlancasRoot '1.7/Assemblies/HelodBlancasDrug.dll'))){throw 'Build the required Blancas 1.7 assembly first.'}
+    $extraMods=@(foreach($path in $ExtraModRoots){
+        $modRoot=(Get-Item -LiteralPath $path).FullName
+        [xml]$about=Get-Content -LiteralPath (Join-Path $modRoot 'About/About.xml') -Raw
+        $package=([string]$about.ModMetaData.packageId).Trim()
+        if(-not $package){throw ('An additional mod needs a packageId: '+$modRoot)}
+        [pscustomobject]@{Root=$modRoot;PackageId=$package}
+    })
+    $ExtraPackageIds+=@($extraMods | ForEach-Object {$_.PackageId})
+    $mods=@('brrainz.harmony','ludeon.rimworld','ludeon.rimworld.royalty','ludeon.rimworld.ideology','ludeon.rimworld.biotech','ludeon.rimworld.anomaly','ludeon.rimworld.odyssey','BlueBackedFish.Helod.BlancasDrugs','BlueBackedFish.Helodrace.Main')+$ExtraPackageIds
+    $unique=[Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+    foreach($id in $mods){if(-not $unique.Add($id)){throw ('Duplicate runtime packageId: '+$id)}}
     $game=Join-Path $runtime 'Game'; $profile=Join-Path $runtime 'Profile'; $evidence=Join-Path $runtime 'Evidence'
     foreach($directory in @('Game/Mods/Main/Assemblies','Profile/Config','Evidence')){
         New-Item -ItemType Directory -Path (Join-Path $runtime $directory) -Force | Out-Null
@@ -50,25 +63,27 @@ function New-Game17Runtime {
     }
     New-Item -ItemType Junction -Path (Join-Path $game 'Mods/Harmony') -Target $HarmonyRoot | Out-Null
     New-Item -ItemType Junction -Path (Join-Path $game 'Mods/Blancas') -Target $BlancasRoot | Out-Null
+    for($i=0;$i -lt $extraMods.Count;$i++){
+        New-Item -ItemType Junction -Path (Join-Path $game ('Mods/Extra-'+$i)) -Target $extraMods[$i].Root | Out-Null
+    }
     foreach($file in @('Helodrace.dll','Helodrace.pdb')){
         $source=Join-Path $repository ('Assemblies/'+$file)
         if(Test-Path -LiteralPath $source){Copy-Item -LiteralPath $source -Destination (Join-Path $game ('Mods/Main/Assemblies/'+$file))}
     }
-    $mods=@('brrainz.harmony','ludeon.rimworld','ludeon.rimworld.royalty','ludeon.rimworld.ideology','ludeon.rimworld.biotech','ludeon.rimworld.anomaly','ludeon.rimworld.odyssey','BlueBackedFish.Helod.BlancasDrugs','BlueBackedFish.Helodrace.Main')+$ExtraPackageIds
     $xml=[xml]'<ModsConfigData><version/><activeMods/></ModsConfigData>'
     $xml.ModsConfigData.version=$version
     foreach($id in $mods){$item=$xml.CreateElement('li');$item.InnerText=$id.ToLowerInvariant();$null=$xml.SelectSingleNode('/ModsConfigData/activeMods').AppendChild($item)}
     $xml.Save((Join-Path $profile 'Config/ModsConfig.xml'))
     [IO.File]::WriteAllText((Join-Path $profile 'Config/Prefs.xml'),'<PrefsData><devMode>True</devMode><runInBackground>True</runInBackground><volumeGame>0</volumeGame><volumeMusic>0</volumeMusic></PrefsData>')
-    [pscustomobject]@{Root=$runtime;Game=$game;Profile=$profile;Evidence=$evidence;Repository=$repository;Version=$version;GameRoot=$GameRoot;HarmonyAssembly=$harmony;BlancasRoot=$BlancasRoot;ExplicitMods=@('brrainz.harmony','BlueBackedFish.Helod.BlancasDrugs','BlueBackedFish.Helodrace.Main')+$ExtraPackageIds}
+    [pscustomobject]@{Root=$runtime;Game=$game;Profile=$profile;Evidence=$evidence;Repository=$repository;Version=$version;GameRoot=$GameRoot;HarmonyAssembly=$harmony;BlancasRoot=$BlancasRoot;ExtraMods=$extraMods;ExplicitMods=@('brrainz.harmony','BlueBackedFish.Helod.BlancasDrugs','BlueBackedFish.Helodrace.Main')+$ExtraPackageIds}
 }
 
 function Start-Game17Runtime {
-    param([Parameter(Mandatory)]$Runtime,[string[]]$Arguments=@(),[switch]$Headless,[switch]$Visible,[string]$ResultFile,[string]$CompletionPattern='(?m)^COMPLETE\r?$',[switch]$EnableMethodProfile,[hashtable]$Metadata=@{})
+    param([Parameter(Mandatory)]$Runtime,[string[]]$Arguments=@(),[switch]$Headless,[switch]$Visible,[string]$ResultFile,[string]$CompletionPattern='(?m)^COMPLETE\r?$',[switch]$EnableMethodProfile,[hashtable]$Metadata=@{},[switch]$SkipQuicktest)
     $ErrorActionPreference='Stop'
     if(@(Get-Game17Processes).Count){throw 'A game started during setup; preserve it and start this prepared runtime after it exits.'}
     $tokens=@(('-savedatafolder='+$Runtime.Profile),('-mod='+($Runtime.ExplicitMods -join ';')))
-    $tokens+='-quicktest'
+    if(-not $SkipQuicktest){$tokens+='-quicktest'}
     if(-not $EnableMethodProfile){$tokens+='-hdMethodProfileDisabled=true'}
     $tokens+=$Arguments
     if($Headless){$tokens+='-Headless'}elseif(-not $Visible){$tokens+='-NoWindow'}
@@ -80,6 +95,13 @@ function Start-Game17Runtime {
     $manifest.mainAssemblySha256=(Get-FileHash -LiteralPath (Join-Path $Runtime.Game 'Mods/Main/Assemblies/Helodrace.dll')).Hash
     $manifest.blancasAssemblySha256=(Get-FileHash -LiteralPath (Join-Path $Runtime.BlancasRoot '1.7/Assemblies/HelodBlancasDrug.dll')).Hash
     $manifest.harmonyAssemblySha256=(Get-FileHash -LiteralPath $Runtime.HarmonyAssembly).Hash
+    $manifest.extraMods=@(foreach($mod in $Runtime.ExtraMods){
+        $hashes=@{}
+        foreach($file in Get-ChildItem -LiteralPath $mod.Root -Recurse -File -Filter '*.dll'){
+            $hashes[$file.FullName.Substring($mod.Root.TrimEnd('\').Length+1)]=(Get-FileHash -LiteralPath $file.FullName).Hash
+        }
+        @{root=$mod.Root;packageId=$mod.PackageId;allAssemblySha256=$hashes}
+    })
     foreach($entry in $Metadata.GetEnumerator()){
         if($manifest.ContainsKey($entry.Key)){throw ('Reserved host manifest field: '+$entry.Key)}
         $manifest[$entry.Key]=$entry.Value

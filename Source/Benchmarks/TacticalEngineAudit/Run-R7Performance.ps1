@@ -116,7 +116,7 @@ foreach ($spec in $selected) {
                 $process = Get-Game17Processes | Where-Object { $_.ProcessId -eq $latest.pid }
                 $live = $process -and $latest.startedUtc -and
                     $process.ExecutablePath -eq (Join-Path $latest.root 'Game/RimWorld.exe') -and
-                    [Math]::Abs(($process.CreationDate.ToUniversalTime()-([DateTime]$latest.startedUtc).ToUniversalTime()).Ticks) -le 10
+                    [Math]::Abs(($process.CreationDate.ToUniversalTime()-([DateTime]$latest.startedUtc).ToUniversalTime()).Ticks) -le 10000
             }
         }
         if (-not $live) { $record.status='failed' }

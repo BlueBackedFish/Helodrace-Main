@@ -1,97 +1,79 @@
-﻿param(
-    [Parameter(Mandatory=$true)][string]$SaveFile,
-    [Parameter(Mandatory=$true)][string]$OutputRoot,
-    [string]$GameRoot = 'C:\Program Files (x86)\Steam\steamapps\common\RimWorld',
+param(
+    [Parameter(Mandatory)][string]$SaveFile,
+    [Parameter(Mandatory)][string]$OutputRoot,
+    [string]$GameRoot='C:\Program Files (x86)\Steam\steamapps\common\RimWorld',
+    [string]$HarmonyRoot='C:\Program Files (x86)\Steam\steamapps\workshop\content\294100\2009463077',
+    [string]$BlancasRoot,
+    [string[]]$ExtraModRoots=@(),
     [switch]$Launch
 )
-$ErrorActionPreference = 'Stop'
-$repository = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
-$source = (Get-Item -LiteralPath $SaveFile).FullName
-$output = [IO.Path]::GetFullPath($OutputRoot).TrimEnd('\')
-$allowed = 'C:\Users\Public\Documents\ESTsoft\CreatorTemp\'
-if (-not $output.StartsWith($allowed, [StringComparison]::OrdinalIgnoreCase)) { throw 'Use a new directory under CreatorTemp.' }
-if (Test-Path -LiteralPath $output) { throw 'Output already exists; preserve prior test saves and evidence.' }
-if ($Launch -and (Get-Process -Name 'RimWorld*' -ErrorAction SilentlyContinue)) { throw 'Preserve the running game. Prepare without -Launch or wait until it exits.' }
-
-$sourceHash = (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash
-[xml]$save = [IO.File]::ReadAllText($source)
-if (-not $save.savegame.meta.modIds.li -or -not $save.savegame.game) { throw 'Expected a RimWorld save with a game and active mod IDs.' }
-$installed = Join-Path $GameRoot 'Mods\HelodRace-Main'
-$content = @('Assemblies/Helodrace.dll', 'Defs/Helod/Pawns/PawnKinds.xml', 'Defs/Organization/NewTacticalJobs.xml', 'Defs/GreatWar/Items/Grenades_GreatWar.xml')
-$hashes = @{}
-foreach ($relative in $content) {
-    $built = (Get-FileHash -LiteralPath (Join-Path $repository $relative) -Algorithm SHA256).Hash
-    $deployed = (Get-FileHash -LiteralPath (Join-Path $installed $relative) -Algorithm SHA256).Hash
-    if ($built -ne $deployed) { throw "Installed content differs: $relative. Deploy it before preparing this test session." }
-    $hashes[$relative] = $built
-}
-
-New-Item -ItemType Directory -Path (Join-Path $output 'Saves'), (Join-Path $output 'Config') | Out-Null
-Copy-Item -LiteralPath $source -Destination (Join-Path $output 'Saves\Base.rws')
-Copy-Item -LiteralPath $source -Destination (Join-Path $output 'Saves\Autostart.rws')
-# Retain the user's mod preferences, but only inside this separate save root.
-$userConfig = Join-Path (Split-Path (Split-Path $source)) 'Config'
-if (Test-Path -LiteralPath $userConfig) {
-    Get-ChildItem -LiteralPath $userConfig -File -Filter '*.xml' | ForEach-Object {
-        Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $output 'Config')
+$ErrorActionPreference='Stop'
+. (Join-Path $PSScriptRoot '../../Tests/Game17SaveRuntime.ps1')
+$runtime=New-Game17SaveRuntime -SaveFile $SaveFile -RuntimeRoot $OutputRoot -GameRoot $GameRoot -HarmonyRoot $HarmonyRoot -BlancasRoot $BlancasRoot -ExtraModRoots $ExtraModRoots -PrepareOnly:(-not $Launch)
+# Copy preferences into the private profile; retain the generated 1.7 mod list.
+$sourceConfig=Join-Path (Split-Path (Split-Path $runtime.SourceSave)) 'Config'
+if(Test-Path -LiteralPath $sourceConfig){
+    Get-ChildItem -LiteralPath $sourceConfig -File -Filter '*.xml' | Where-Object {$_.Name -ne 'ModsConfig.xml'} | ForEach-Object {
+        Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $runtime.Profile 'Config') -Force
     }
 }
-$utf8 = New-Object Text.UTF8Encoding($false)
-$mods = New-Object Xml.XmlDocument
-$root = $mods.CreateElement('ModsConfigData'); [void]$mods.AppendChild($root)
-$version = $mods.CreateElement('version'); $version.InnerText = $save.savegame.meta.gameVersion; [void]$root.AppendChild($version)
-$active = $mods.CreateElement('activeMods'); [void]$root.AppendChild($active)
-foreach ($id in $save.savegame.meta.modIds.li) { $li = $mods.CreateElement('li'); $li.InnerText = [string]$id; [void]$active.AppendChild($li) }
-$mods.Save((Join-Path $output 'Config\ModsConfig.xml'))
-$prefsPath = Join-Path $output 'Config\Prefs.xml'
-[xml]$prefs = if (Test-Path -LiteralPath $prefsPath) { [IO.File]::ReadAllText($prefsPath) } else { '<PrefsData />' }
-foreach ($setting in @{devMode='True'; runInBackground='False'}.GetEnumerator()) {
-    $node = $prefs.PrefsData.SelectSingleNode($setting.Key)
-    if ($null -eq $node) { $node = $prefs.CreateElement($setting.Key); [void]$prefs.DocumentElement.AppendChild($node) }
-    $node.InnerText = $setting.Value
+$prefsPath=Join-Path $runtime.Profile 'Config/Prefs.xml'
+[xml]$prefs=Get-Content -LiteralPath $prefsPath -Raw
+foreach($setting in @{devMode='True';runInBackground='False'}.GetEnumerator()){
+    $node=$prefs.DocumentElement.SelectSingleNode($setting.Key)
+    if($null -eq $node){$node=$prefs.CreateElement($setting.Key);$null=$prefs.DocumentElement.AppendChild($node)}
+    $node.InnerText=$setting.Value
 }
 $prefs.Save($prefsPath)
-
-# Launching is opt-in. This is an interactive session: no audit arguments,
-# forced speed, injected raid, invulnerability, time limit or automatic quit.
-$arguments = @(('"-savedatafolder=' + $output + '"'), '-hdTacticalEngine=new', '-hdMethodProfileDisabled=true',
-    '-logFile', ('"' + $output + '\Player.log"'))
-$launchText = @'
-$ErrorActionPreference = 'Stop'
-if (Get-Process -Name 'RimWorld*' -ErrorAction SilentlyContinue) { throw 'A RimWorld process is already running; it will not be closed.' }
+$hashes=@{}
+foreach($relative in @('Assemblies/Helodrace.dll','Defs/Helod/Pawns/PawnKinds.xml','Defs/Organization/NewTacticalJobs.xml','Defs/GreatWar/Items/Grenades_GreatWar.xml')){
+    $hash=(Get-FileHash -LiteralPath (Join-Path $runtime.Repository $relative)).Hash
+    if((Get-FileHash -LiteralPath (Join-Path $runtime.Game ('Mods/Main/'+$relative))).Hash -ne $hash){throw ('Private content differs: '+$relative)}
+    $hashes[$relative]=$hash
+}
+$runtime | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $runtime.Root 'runtime.json') -Encoding UTF8
+$manifest=[ordered]@{preparedUtc=[DateTime]::UtcNow.ToString('o');sourceSave=$runtime.SourceSave;sourceSha256=$runtime.SourceSha256;
+    baseSave=(Join-Path $runtime.Profile 'Saves/Base.rws');outputRoot=$runtime.Root;profile=$runtime.Profile;contentSha256=$hashes;
+    checklist=(Join-Path $runtime.Repository 'Docs/전술/습격 기능 약식 테스트 목록.md');methodProfilerEnabled=$false;raidSpawned=$false;gameLaunched=[bool]$Launch}
+$manifest | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $runtime.Root 'preparation.json') -Encoding UTF8
+$launchText=@'
+$ErrorActionPreference='Stop'
+$runtime=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'runtime.json') -Raw | ConvertFrom-Json
+$prepared=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'preparation.json') -Raw | ConvertFrom-Json
+foreach($entry in $prepared.contentSha256.PSObject.Properties){
+    if((Get-FileHash -LiteralPath (Join-Path $runtime.Repository $entry.Name)).Hash -ne $entry.Value){throw 'Content changed; prepare a fresh manual test runtime.'}
+}
+. (Join-Path $runtime.Repository 'Source/Tests/Game17Runtime.ps1')
+$process=Start-Game17Runtime -Runtime $runtime -Arguments @('-hdTacticalEngine=new') -SkipQuicktest -Visible
+$process.Id | Set-Content -LiteralPath (Join-Path $runtime.Root 'process-id.txt')
 '@
-$launchText += "`r`n" + '$arguments = @(' + (($arguments | ForEach-Object { "'" + $_.Replace("'", "''") + "'" }) -join ', ') + ")`r`n"
-$executableLiteral = "'" + (Join-Path $GameRoot 'RimWorldWin64.exe').Replace("'", "''") + "'"
-$gameRootLiteral = "'" + $GameRoot.Replace("'", "''") + "'"
-$launchText += "Start-Process -FilePath $executableLiteral -WorkingDirectory $gameRootLiteral -WindowStyle Normal -ArgumentList `$arguments`r`n"
-[IO.File]::WriteAllText((Join-Path $output 'Start-TestGame.ps1'), $launchText, $utf8)
-$manifest = [ordered]@{
-    preparedUtc = [DateTime]::UtcNow.ToString('o'); sourceSave = $source; sourceSha256 = $sourceHash
-    baseSave = (Join-Path $output 'Saves\Base.rws'); outputRoot = $output; contentSha256 = $hashes
-    checklist = (Join-Path $repository 'Docs\전술\습격 기능 약식 테스트 목록.md')
-    methodProfilerEnabled = $false; raidSpawned = $false; gameLaunched = [bool]$Launch; arguments = $arguments
-}
-$manifest | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $output 'preparation.json') -Encoding UTF8
-$instructions = @"
-Manual raid tests - original map preserved
+[IO.File]::WriteAllText((Join-Path $runtime.Root 'Start-TestGame.ps1'),$launchText)
+$collectText=@'
+param([int]$TimeoutSeconds=60)
+$ErrorActionPreference='Stop'
+$runtime=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'runtime.json') -Raw | ConvertFrom-Json
+& (Join-Path $runtime.Repository 'Source/Tests/Wait-Game17Host.ps1') -RuntimeRoot $runtime.Root -TimeoutSeconds $TimeoutSeconds
+'@
+[IO.File]::WriteAllText((Join-Path $runtime.Root 'Collect-Log.ps1'),$collectText)
+$instructions=@"
+Manual raid tests - private RimWorld 1.7 runtime
 
-1. Read the 12 batches in: $($manifest.checklist)
-2. Run Start-TestGame.ps1 (powershell -NoProfile -ExecutionPolicy Bypass -File .\Start-TestGame.ps1).
-3. Developer mode loads Autostart.rws. If needed, select Base from Load game.
-4. Start B01. No raid or test scenario has been spawned automatically.
-5. Save batch checkpoints under separate names; reload Base for incompatible branches.
-6. Enable the tactical plan-node View switch manually once per game session.
-7. Record only completed F IDs or problems; untouched branches remain pending.
+1. Read the batches in: $($manifest.checklist)
+2. Run Start-TestGame.ps1 with PowerShell 7.6 or newer.
+3. Developer mode loads Autostart.rws; Base is the preserved checkpoint.
+4. No audit, raid, forced speed, invulnerability or automatic quit is enabled.
+5. Save checkpoints under separate names; reload Base for incompatible branches.
+6. Enable the tactical plan-node View switch once per session if required.
+7. Record only completed F IDs or observed problems.
+8. After quitting the game, run Collect-Log.ps1 to copy the native host log.
 
-Base.rws and Autostart.rws match the original save. Do not overwrite the original.
-All new saves, preferences and Player.log stay inside: $output
-This launcher does not profile, force speed, protect pawns or quit automatically.
-Required DLL and key definitions matched the installed mod at preparation time.
-Reprepare in a fresh directory after changing the DLL/definitions.
+Original save: $($runtime.SourceSave)
+New saves and preferences: $($runtime.Profile)
+The live native log remains in the host's LocalLow Logs directory until collected.
+Collected logs and evidence: $($runtime.Root)
+Main, Blancas and Harmony are loaded from this isolated Game directory.
+Reprepare in a fresh directory after changing the DLL or definitions.
 "@
-[IO.File]::WriteAllText((Join-Path $output 'START-HERE.txt'), $instructions, $utf8)
-foreach ($copy in @($source, (Join-Path $output 'Saves\Base.rws'), (Join-Path $output 'Saves\Autostart.rws'))) {
-    if ((Get-FileHash -LiteralPath $copy -Algorithm SHA256).Hash -ne $sourceHash) { throw 'Original/copy hash mismatch.' }
-}
-if ($Launch) { & ([scriptblock]::Create($launchText)) }
-Write-Output "Manual test environment prepared: $output (launched=$([bool]$Launch))"
+[IO.File]::WriteAllText((Join-Path $runtime.Root 'START-HERE.txt'),$instructions)
+if($Launch){& (Join-Path $runtime.Root 'Start-TestGame.ps1')}
+Write-Output ('Manual test environment prepared: '+$runtime.Root+' (launched='+[bool]$Launch+')')

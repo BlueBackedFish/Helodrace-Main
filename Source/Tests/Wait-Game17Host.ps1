@@ -13,9 +13,11 @@ $exitCode=$null
 while($true){
     $live=Get-Game17Processes | Where-Object {$_.ProcessId -eq $manifest.processId}
     if(-not $live){break}
-    # WMI CreationDate has microsecond precision; Process.StartTime retains 100 ns.
+    # CIM adapters can round creation time; retain path/PID checks and allow 1 ms.
     if($live.ExecutablePath -ne $expectedExecutable -or
-        [Math]::Abs(($live.CreationDate.ToUniversalTime()-([DateTime]$manifest.processStartedUtc).ToUniversalTime()).Ticks) -gt 10){
+        [Math]::Abs(($live.CreationDate.ToUniversalTime()-([DateTime]$manifest.processStartedUtc).ToUniversalTime()).Ticks) -gt 10000){
+        @{expectedExecutable=$expectedExecutable;observedExecutable=$live.ExecutablePath;expectedStartUtc=$manifest.processStartedUtc;observedStartUtc=$live.CreationDate.ToUniversalTime().ToString('o')} |
+            ConvertTo-Json | Set-Content -LiteralPath (Join-Path $runtime 'Evidence/process-identity-mismatch.json') -Encoding UTF8
         throw 'The recorded PID belongs to another process.'
     }
     if($clock.Elapsed.TotalSeconds -ge $TimeoutSeconds){throw 'Observation timed out; preserve the same live host and inspect it before any new launch.'}
