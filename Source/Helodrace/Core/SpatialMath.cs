@@ -22,6 +22,13 @@ namespace Helodrace
             => direction.X == 0f && direction.Z == 0f
                 ? 0f : Quaternion.LookRotation(direction).eulerAngles.Y;
 
+        internal static float SignedAngleBetween(Vector3 from, Vector3 to, Vector3 axis)
+        {
+            Vector3 cross = Vector3.Cross(from, to);
+            float sign = axis.X * cross.X + axis.Y * cross.Y + axis.Z * cross.Z >= 0f ? 1f : -1f;
+            return AngleBetween(from, to) * sign;
+        }
+
         internal static Vector3 ShotDirection(Vector3 source, Vector3 target, Vector3 fallback)
         {
             Vector3 direction = target - source;

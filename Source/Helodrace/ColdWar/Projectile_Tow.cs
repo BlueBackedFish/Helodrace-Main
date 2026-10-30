@@ -4,6 +4,11 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
+using Waylith.Math;
+using Vector2 = System.Numerics.Vector2;
+using Vector3 = System.Numerics.Vector3;
+using Quaternion = System.Numerics.Quaternion;
+using Color = Waylith.Math.Color;
 
 namespace Helodrace
 {
@@ -68,15 +73,16 @@ namespace Helodrace
         private ITowGuidanceSource GuidanceSource => launcherPlatform?.AllComps.OfType<ITowGuidanceSource>().FirstOrDefault();
         private bool LauncherAvailable => launcherPlatform != null && !launcherPlatform.Destroyed &&
             launcherPlatform.Map == Map && (GuidanceSource?.CanGuideTow ?? true);
-        public override Vector3 ExactPosition => flightInitialized ? exactPosition : base.ExactPosition;
-        public override Vector3 DrawPos => ExactPosition;
+        private Vector3 NativeExactPosition => flightInitialized ? exactPosition : base.ExactPosition.ToNative();
+        public override UnityEngine.Vector3 ExactPosition => NativeExactPosition.ToGame();
+        public override UnityEngine.Vector3 DrawPos => ExactPosition;
 
         private static Material WireMaterial => wireMaterial ??
-            (wireMaterial = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.58f, 0.48f, 0.32f)));
+            (wireMaterial = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.58f, 0.48f, 0.32f).ToGame()));
 
         public override void Launch(
             Thing launcher,
-            Vector3 origin,
+            UnityEngine.Vector3 origin,
             LocalTargetInfo usedTarget,
             LocalTargetInfo intendedTarget,
             ProjectileHitFlags hitFlags,
@@ -85,12 +91,12 @@ namespace Helodrace
             ThingDef targetCoverDef = null)
         {
             base.Launch(launcher, origin, usedTarget, intendedTarget, hitFlags, preventFriendlyFire, equipment, targetCoverDef);
-            exactPosition = origin;
-            flightDirection = intendedTarget.CenterVector3 - origin;
-            flightDirection.y = 0f;
-            if (flightDirection.sqrMagnitude < 0.001f)
+            exactPosition = origin.ToNative();
+            flightDirection = intendedTarget.CenterVector3.ToNative() - exactPosition;
+            flightDirection.Y = 0f;
+            if (flightDirection.LengthSquared() < 0.001f)
             {
-                flightDirection = Vector3.forward;
+                flightDirection = Vector3.UnitZ;
             }
 
             flightDirection.Normalize();
@@ -107,13 +113,13 @@ namespace Helodrace
             Scribe_Values.Look(ref flightInitialized, "towFlightInitialized");
             Scribe_Values.Look(ref guidanceActive, "towGuidanceActive", true);
             Scribe_Values.Look(ref flightTicks, "towFlightTicks");
-            Scribe_Values.Look(ref exactPosition, "towExactPosition");
-            Scribe_Values.Look(ref flightDirection, "towFlightDirection");
-            Scribe_Values.Look(ref initialGuidanceDirection, "towInitialGuidanceDirection");
+            NativeVectorScribe.Look(ref exactPosition, "towExactPosition");
+            NativeVectorScribe.Look(ref flightDirection, "towFlightDirection");
+            NativeVectorScribe.Look(ref initialGuidanceDirection, "towInitialGuidanceDirection");
             Scribe_References.Look(ref launcherPlatform, "towLauncherPlatform");
-            Scribe_Collections.Look(ref wirePath, "towWirePath", LookMode.Value);
-            Scribe_Values.Look(ref lastTrackedTargetPosition, "towLastTrackedTargetPosition");
-            Scribe_Values.Look(ref trackedTargetVelocity, "towTrackedTargetVelocity");
+            NativeVectorScribe.Look(ref wirePath, "towWirePath");
+            NativeVectorScribe.Look(ref lastTrackedTargetPosition, "towLastTrackedTargetPosition");
+            NativeVectorScribe.Look(ref trackedTargetVelocity, "towTrackedTargetVelocity");
             Scribe_Values.Look(ref lastTargetSampleTick, "towLastTargetSampleTick");
             Scribe_Values.Look(ref targetVectorInitialized, "towTargetVectorInitialized");
             Scribe_Values.Look(ref ignitionSoundStarted, "towIgnitionSoundStarted");
@@ -158,9 +164,9 @@ namespace Helodrace
 
             Vector3 previousPosition = exactPosition;
             exactPosition += flightDirection * CurrentSpeedPerTick;
-            exactPosition.y = 0f;
+            exactPosition.Y = 0f;
 
-            if (!exactPosition.ToIntVec3().InBounds(Map))
+            if (!exactPosition.ToGame().ToIntVec3().InBounds(Map))
             {
                 Destroy();
                 return;
@@ -204,17 +210,17 @@ namespace Helodrace
             base.Destroy(mode);
         }
 
-        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
+        protected override void DrawAt(UnityEngine.Vector3 drawLoc, bool flip = false)
         {
-            drawLoc = ExactPosition;
-            drawLoc.y = AltitudeLayer.MoteOverhead.AltitudeFor();
-            Vector2 drawSize = def.graphicData?.drawSize ?? new Vector2(0.9f, 0.9f);
-            float rotationDegrees = Mathf.Atan2(flightDirection.x, flightDirection.z) * Mathf.Rad2Deg
+            Vector3 position = NativeExactPosition;
+            position.Y = AltitudeLayer.MoteOverhead.AltitudeFor();
+            Vector2 drawSize = def.graphicData?.drawSize.ToNative() ?? new Vector2(0.9f, 0.9f);
+            float rotationDegrees = Mathf.Atan2(flightDirection.X, flightDirection.Z) * Mathf.Rad2Deg
                 + (Extension?.textureRotationOffsetDegrees ?? 0f);
-            Vector3 scale = new Vector3(drawSize.x, 1f, drawSize.y);
+            Vector3 scale = new Vector3(drawSize.X, 1f, drawSize.Y);
             Graphics.DrawMesh(
                 MeshPool.plane10,
-                Matrix4x4.TRS(drawLoc, Quaternion.AngleAxis(rotationDegrees, Vector3.up), scale),
+                SpatialMath.CreateTransform(position, Quaternion.CreateFromAxisAngle(Vector3.UnitY, rotationDegrees * Mathf.Deg2Rad), scale).ToGame(),
                 CurrentMaterial,
                 0);
 
@@ -228,16 +234,16 @@ namespace Helodrace
 
         private void InitializeFromBaseFlight()
         {
-            exactPosition = base.ExactPosition;
-            flightDirection = destination - exactPosition;
-            flightDirection.y = 0f;
-            if (flightDirection.sqrMagnitude < 0.001f)
+            exactPosition = base.ExactPosition.ToNative();
+            flightDirection = destination.ToNative() - exactPosition;
+            flightDirection.Y = 0f;
+            if (flightDirection.LengthSquared() < 0.001f)
             {
-                flightDirection = Vector3.forward;
+                flightDirection = Vector3.UnitZ;
             }
 
             flightDirection.Normalize();
-            if (initialGuidanceDirection.sqrMagnitude < 0.001f)
+            if (initialGuidanceDirection.LengthSquared() < 0.001f)
             {
                 initialGuidanceDirection = flightDirection;
             }
@@ -254,7 +260,7 @@ namespace Helodrace
             intendedTarget = newTarget;
             usedTarget = newTarget;
             destination = newTarget.CenterVector3;
-            trackedTargetVelocity = Vector3.zero;
+            trackedTargetVelocity = Vector3.Zero;
             targetVectorInitialized = false;
             return true;
         }
@@ -327,7 +333,7 @@ namespace Helodrace
                         return turret;
                     }
 
-                    float distanceSquared = (turret.DrawPos - exactPosition).sqrMagnitude;
+                    float distanceSquared = (turret.DrawPos.ToNative() - exactPosition).LengthSquared();
                     if (distanceSquared < nearestDistanceSquared)
                     {
                         nearestTow = turret;
@@ -348,18 +354,18 @@ namespace Helodrace
 
         private void ApplyContinuousSteering()
         {
-            Vector3 targetPosition = intendedTarget.CenterVector3;
-            targetPosition.y = 0f;
+            Vector3 targetPosition = intendedTarget.CenterVector3.ToNative();
+            targetPosition.Y = 0f;
             UpdateTrackedTargetVelocity(targetPosition);
             targetPosition = PredictedTargetPosition(targetPosition);
             Vector3 desiredDirection = targetPosition - exactPosition;
-            desiredDirection.y = 0f;
-            if (desiredDirection.sqrMagnitude < 0.001f)
+            desiredDirection.Y = 0f;
+            if (desiredDirection.LengthSquared() < 0.001f)
             {
                 return;
             }
 
-            float distanceToTarget = desiredDirection.magnitude;
+            float distanceToTarget = desiredDirection.Length();
             desiredDirection.Normalize();
 
             TowProjectileExtension extension = Extension;
@@ -373,51 +379,49 @@ namespace Helodrace
             float oscillation = Mathf.Sin(phase)
                 * Mathf.Max(0f, extension?.oscillationDegrees ?? 0.45f)
                 * oscillationScale;
-            desiredDirection = Quaternion.AngleAxis(oscillation, Vector3.up) * desiredDirection;
+            desiredDirection = SpatialMath.RotateAroundY(desiredDirection, oscillation);
 
-            float signedError = Vector3.SignedAngle(flightDirection, desiredDirection, Vector3.up);
+            float signedError = SpatialMath.SignedAngleBetween(flightDirection, desiredDirection, Vector3.UnitY);
             float maximumTurn = Mathf.Max(0.01f, extension?.turnDegreesPerTick ?? 2.5f);
             float appliedTurn = Mathf.Clamp(signedError, -maximumTurn, maximumTurn);
-            flightDirection = Quaternion.AngleAxis(appliedTurn, Vector3.up) * flightDirection;
-            flightDirection.y = 0f;
+            flightDirection = SpatialMath.RotateAroundY(flightDirection, appliedTurn);
+            flightDirection.Y = 0f;
             flightDirection = ClampToLaunchCone(flightDirection);
         }
 
         private Vector3 ClampToLaunchCone(Vector3 direction)
         {
-            direction.y = 0f;
-            if (direction.sqrMagnitude < 0.001f)
+            direction.Y = 0f;
+            if (direction.LengthSquared() < 0.001f)
             {
                 return initialGuidanceDirection;
             }
 
             direction.Normalize();
-            if (initialGuidanceDirection.sqrMagnitude < 0.001f)
+            if (initialGuidanceDirection.LengthSquared() < 0.001f)
             {
                 initialGuidanceDirection = direction;
                 return direction;
             }
 
-            initialGuidanceDirection.y = 0f;
+            initialGuidanceDirection.Y = 0f;
             initialGuidanceDirection.Normalize();
             float maximumDeviation = Mathf.Clamp(
                 Extension?.maximumLaunchDeviationDegrees ?? 55f,
                 1f,
                 89f);
-            float signedDeviation = Vector3.SignedAngle(
+            float signedDeviation = SpatialMath.SignedAngleBetween(
                 initialGuidanceDirection,
                 direction,
-                Vector3.up);
-            return Quaternion.AngleAxis(
-                Mathf.Clamp(signedDeviation, -maximumDeviation, maximumDeviation),
-                Vector3.up) * initialGuidanceDirection;
+                Vector3.UnitY);
+            return SpatialMath.RotateAroundY(initialGuidanceDirection, Mathf.Clamp(signedDeviation, -maximumDeviation, maximumDeviation));
         }
 
         private void UpdateTrackedTargetVelocity(Vector3 targetPosition)
         {
             if (!intendedTarget.HasThing)
             {
-                trackedTargetVelocity = Vector3.zero;
+                trackedTargetVelocity = Vector3.Zero;
                 targetVectorInitialized = false;
                 return;
             }
@@ -433,15 +437,15 @@ namespace Helodrace
 
             int elapsedTicks = Mathf.Max(1, currentTick - lastTargetSampleTick);
             Vector3 measuredVelocity = (targetPosition - lastTrackedTargetPosition) / elapsedTicks;
-            measuredVelocity.y = 0f;
-            trackedTargetVelocity = Vector3.Lerp(trackedTargetVelocity, measuredVelocity, 0.55f);
+            measuredVelocity.Y = 0f;
+            trackedTargetVelocity = SpatialMath.Interpolate(trackedTargetVelocity, measuredVelocity, 0.55f);
             lastTrackedTargetPosition = targetPosition;
             lastTargetSampleTick = currentTick;
         }
 
         private Vector3 PredictedTargetPosition(Vector3 targetPosition)
         {
-            if (!intendedTarget.HasThing || trackedTargetVelocity.sqrMagnitude < 0.000001f)
+            if (!intendedTarget.HasThing || trackedTargetVelocity.LengthSquared() < 0.000001f)
             {
                 return targetPosition;
             }
@@ -498,8 +502,8 @@ namespace Helodrace
                 return;
             }
 
-            FleckMaker.ThrowFireGlow(exactPosition, Map, 0.35f);
-            FleckMaker.ThrowSmoke(exactPosition, Map, 0.18f);
+            FleckMaker.ThrowFireGlow(exactPosition.ToGame(), Map, 0.35f);
+            FleckMaker.ThrowSmoke(exactPosition.ToGame(), Map, 0.18f);
         }
 
         private void MaintainIgnitionSound()
@@ -551,7 +555,7 @@ namespace Helodrace
                 // Covers loading a save during ignition before the sustainer
                 // has been recreated on the next tick.
                 DefDatabase<SoundDef>.GetNamedSilentFail("HD_TOWMissileEnd")?
-                    .PlayOneShot(new TargetInfo(ExactPosition.ToIntVec3(), Map));
+                    .PlayOneShot(new TargetInfo(NativeExactPosition.ToGame().ToIntVec3(), Map));
             }
 
             ignitionSustainer = null;
@@ -575,13 +579,13 @@ namespace Helodrace
             int samples = Mathf.Max(1, Mathf.CeilToInt(travelDistance / 0.1f));
             for (int i = 1; i <= samples; i++)
             {
-                Vector3 point = Vector3.Lerp(segmentStart, segmentEnd, i / (float)samples);
+                Vector3 point = SpatialMath.Interpolate(segmentStart, segmentEnd, i / (float)samples);
                 bool occupiesCell = target.def.category == ThingCategory.Building
-                    && target.OccupiedRect().Contains(point.ToIntVec3());
-                Vector3 targetCenter = target.DrawPos;
-                targetCenter.y = 0f;
-                point.y = 0f;
-                bool intersectsCenter = (point - targetCenter).sqrMagnitude <= hitRadius * hitRadius;
+                    && target.OccupiedRect().Contains(point.ToGame().ToIntVec3());
+                Vector3 targetCenter = target.DrawPos.ToNative();
+                targetCenter.Y = 0f;
+                point.Y = 0f;
+                bool intersectsCenter = (point - targetCenter).LengthSquared() <= hitRadius * hitRadius;
                 if (occupiesCell || intersectsCenter)
                 {
                     Impact(target, false);
@@ -602,16 +606,16 @@ namespace Helodrace
                 return false;
             }
 
-            Vector3 aimPoint = intendedTarget.CenterVector3;
-            aimPoint.y = 0f;
+            Vector3 aimPoint = intendedTarget.CenterVector3.ToNative();
+            aimPoint.Y = 0f;
             float hitRadius = Mathf.Max(0.05f, Extension?.directHitRadius ?? 0.75f);
             float travelDistance = Vector3.Distance(segmentStart, segmentEnd);
             int samples = Mathf.Max(1, Mathf.CeilToInt(travelDistance / 0.1f));
             for (int i = 1; i <= samples; i++)
             {
-                Vector3 point = Vector3.Lerp(segmentStart, segmentEnd, i / (float)samples);
-                point.y = 0f;
-                if ((point - aimPoint).sqrMagnitude <= hitRadius * hitRadius)
+                Vector3 point = SpatialMath.Interpolate(segmentStart, segmentEnd, i / (float)samples);
+                point.Y = 0f;
+                if ((point - aimPoint).LengthSquared() <= hitRadius * hitRadius)
                 {
                     Impact(null, false);
                     return true;
@@ -627,7 +631,7 @@ namespace Helodrace
             int samples = Mathf.Max(1, Mathf.CeilToInt(travelDistance / 0.2f));
             for (int i = 1; i <= samples; i++)
             {
-                IntVec3 cell = Vector3.Lerp(segmentStart, segmentEnd, i / (float)samples).ToIntVec3();
+                IntVec3 cell = SpatialMath.Interpolate(segmentStart, segmentEnd, i / (float)samples).ToGame().ToIntVec3();
                 if (!cell.InBounds(Map))
                 {
                     continue;
@@ -677,9 +681,9 @@ namespace Helodrace
             for (int i = 1; i < wirePath.Count - 1; i++)
             {
                 float t = i / (float)(wirePath.Count - 1);
-                Vector3 straightPoint = Vector3.Lerp(launcherPoint, missilePoint, t);
+                Vector3 straightPoint = SpatialMath.Interpolate(launcherPoint, missilePoint, t);
                 float followFactor = Mathf.Lerp(WireFollowNearLauncher, WireFollowNearMissile, t);
-                wirePath[i] = Vector3.Lerp(wirePath[i], straightPoint, followFactor);
+                wirePath[i] = SpatialMath.Interpolate(wirePath[i], straightPoint, followFactor);
             }
         }
 
@@ -693,7 +697,7 @@ namespace Helodrace
             wirePath = new List<Vector3>(WirePathPointCount);
             for (int i = 0; i < WirePathPointCount; i++)
             {
-                wirePath.Add(Vector3.Lerp(launcherPoint, missilePoint, i / (float)(WirePathPointCount - 1)));
+                wirePath.Add(SpatialMath.Interpolate(launcherPoint, missilePoint, i / (float)(WirePathPointCount - 1)));
             }
         }
 
@@ -705,12 +709,12 @@ namespace Helodrace
             }
 
             Vector3 previous = OffsetWirePoint(0, side);
-            previous.y = AltitudeLayer.MoteOverhead.AltitudeFor() + 0.02f;
+            previous.Y = AltitudeLayer.MoteOverhead.AltitudeFor() + 0.02f;
             for (int i = 1; i < wirePath.Count; i++)
             {
                 Vector3 current = OffsetWirePoint(i, side);
-                current.y = previous.y;
-                GenDraw.DrawLineBetween(previous, current, WireMaterial, WireWidth);
+                current.Y = previous.Y;
+                GenDraw.DrawLineBetween(previous.ToGame(), current.ToGame(), WireMaterial, WireWidth);
                 previous = current;
             }
         }
@@ -735,8 +739,8 @@ namespace Helodrace
                         Vector3.Distance(segmentStart, segmentEnd) / WireCollisionSampleSpacing));
                     for (int sampleIndex = 0; sampleIndex <= samples; sampleIndex++)
                     {
-                        Vector3 point = Vector3.Lerp(segmentStart, segmentEnd, sampleIndex / (float)samples);
-                        IntVec3 cell = point.ToIntVec3();
+                        Vector3 point = SpatialMath.Interpolate(segmentStart, segmentEnd, sampleIndex / (float)samples);
+                        IntVec3 cell = point.ToGame().ToIntVec3();
                         if (!cell.InBounds(Map))
                         {
                             continue;
@@ -770,17 +774,17 @@ namespace Helodrace
             ITowGuidanceSource source = GuidanceSource;
             if (source != null)
             {
-                launcherPoint = source.TowWireOrigin;
+                launcherPoint = source.TowWireOrigin.ToNative();
             }
             else
             {
-                launcherPoint = launcherPlatform.DrawPos;
+                launcherPoint = launcherPlatform.DrawPos.ToNative();
                 if (launcherPlatform is Building_TurretGun building && building.Top != null)
-                    launcherPoint += Quaternion.AngleAxis(building.Top.CurRotation, Vector3.up) * Vector3.forward * 0.25f;
+                    launcherPoint += SpatialMath.RotateAroundY(Vector3.UnitZ, building.Top.CurRotation) * 0.25f;
             }
-            missilePoint = ExactPosition;
-            launcherPoint.y = 0f;
-            missilePoint.y = 0f;
+            missilePoint = NativeExactPosition;
+            launcherPoint.Y = 0f;
+            missilePoint.Y = 0f;
             return true;
         }
 
@@ -789,10 +793,10 @@ namespace Helodrace
             int previousIndex = Mathf.Max(0, index - 1);
             int nextIndex = Mathf.Min(wirePath.Count - 1, index + 1);
             Vector3 tangent = wirePath[nextIndex] - wirePath[previousIndex];
-            tangent.y = 0f;
-            Vector3 perpendicular = tangent.sqrMagnitude > 0.001f
-                ? new Vector3(-tangent.z, 0f, tangent.x).normalized
-                : Vector3.right;
+            tangent.Y = 0f;
+            Vector3 perpendicular = tangent.LengthSquared() > 0.001f
+                ? new Vector3(-tangent.Z, 0f, tangent.X).normalized
+                : Vector3.UnitX;
             return wirePath[index] + perpendicular * side * WireSeparation;
         }
     }
