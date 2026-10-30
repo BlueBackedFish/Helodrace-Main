@@ -96,7 +96,7 @@ namespace Helodrace
                 Waylith.EngineApplication.Instance.Quit(1);
             }
         }
-        private Verb_ShootShotgun PrepareShot(PawnKindDef kind, int distance, int skill, string weaponName)
+        private Verb_ShootShotgun PrepareShot(PawnKindDef kind, int distance, int skill, string weaponName, bool accuracyFixture = false)
         {
             Map map = Find.CurrentMap;
             IntVec3 source = map.Center + new IntVec3(0, 0, -12);
@@ -107,8 +107,30 @@ namespace Helodrace
                         || thing.def.Fillage != FillCategory.None)) thing.Destroy();
             if (shooter != null && !shooter.Destroyed) shooter.Destroy();
             if (victim != null && !victim.Destroyed) victim.Destroy();
-            shooter = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist, Faction.OfPlayer);
-            victim = PawnGenerator.GeneratePawn(kind);
+            if (accuracyFixture)
+            {
+                // Compare skill using identical generation inputs, not random apparel,
+                // age, xenotypes, disabled skills and health on different new pawns.
+                Rand.PushState(70012);
+                try
+                {
+                    Pawn Generate(PawnKindDef pawnKind, Faction faction) => PawnGenerator.GeneratePawn(new PawnGenerationRequest(
+                        pawnKind, faction, forceGenerateNewPawn: true, mustBeCapableOfViolence: true,
+                        canGeneratePawnRelations: false, fixedBiologicalAge: 25, fixedChronologicalAge: 25,
+                        allowAddictions: false, forcedXenotype: XenotypeDefOf.Baseliner));
+                    shooter = Generate(PawnKindDefOf.Colonist, Faction.OfPlayer);
+                    victim = Generate(kind, null);
+                }
+                finally { Rand.PopState(); }
+                shooter.apparel?.DestroyAll();
+                shooter.health.RemoveAllHediffs();
+                victim.health.RemoveAllHediffs();
+            }
+            else
+            {
+                shooter = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist, Faction.OfPlayer);
+                victim = PawnGenerator.GeneratePawn(kind);
+            }
             shooter.skills.GetSkill(SkillDefOf.Shooting).Level = skill;
             victim.apparel?.DestroyAll();
             victim.equipment?.DestroyAllEquipment();
@@ -123,6 +145,11 @@ namespace Helodrace
             ThingWithComps weapon = (ThingWithComps)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed(weaponName));
             shooter.equipment.DestroyAllEquipment();
             shooter.equipment.AddEquipment(weapon);
+            if (accuracyFixture)
+            {
+                foreach (StatDef stat in DefDatabase<StatDef>.AllDefsListForReading) stat.Worker.ClearCacheForThing(shooter);
+                Check(shooter.skills.GetSkill(SkillDefOf.Shooting).Level == skill, "controlled shooter has the requested effective skill");
+            }
             Verb_ShootShotgun verb = (Verb_ShootShotgun)weapon.TryGetComp<CompEquippable>().PrimaryVerb;
             verb.caster = shooter;
             AccessTools.FieldRefAccess<Verb, LocalTargetInfo>("currentTarget")(verb) = victim;
@@ -180,12 +207,14 @@ namespace Helodrace
         private float SampleAccuracy(string weaponName, int skill, int distance)
         {
             const int samples = 256;
-            Verb_ShootShotgun verb = PrepareShot(PawnKindDefOf.Colonist, distance, skill, weaponName);
+            Verb_ShootShotgun verb = PrepareShot(PawnKindDefOf.Colonist, distance, skill, weaponName, accuracyFixture: true);
             Check(verb.verbProps.canGoWild, weaponName + " tests ordinary native aim failures");
             CompM79Launcher launcher = verb.EquipmentSource.TryGetComp<CompM79Launcher>();
             if (launcher != null)
                 AccessTools.FieldRefAccess<CompM79Launcher, ThingDef>("selectedAmmoDef")(launcher) = DefDatabase<ThingDef>.GetNamed("HD_40mmM576MP_Round");
             int count = launcher == null ? 9 : 20;
+            var initialReport = ShotReport.HitReportFor(shooter, verb, victim);
+            File.AppendAllText(Results, $"AIM skill={shooter.skills.GetSkill(SkillDefOf.Shooting).Level}, pawnAccuracy={shooter.GetStatValue(StatDefOf.ShootingAccuracyPawn):R}, factor={ShotReport.HitFactorFromShooter(shooter, distance):R}, report={initialReport.AimOnTargetChance_StandardTarget:R}\n");
             int total = 0, four = 0, five = 0;
             bool validShells = true;
             Rand.PushState(39715);

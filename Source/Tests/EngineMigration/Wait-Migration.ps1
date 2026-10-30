@@ -20,7 +20,7 @@ if(-not(Test-Path -LiteralPath $checks)){throw 'The game exited without producin
 $result=Get-Content -LiteralPath $checks -Raw
 if($manifest.engineLog -and (Test-Path -LiteralPath $manifest.engineLog)){
     $log=Get-Item -LiteralPath $manifest.engineLog
-    if($log.LastWriteTimeUtc -lt [DateTime]::Parse($manifest.startedUtc).ToUniversalTime()){throw 'The host log predates this run.'}
+    if($log.LastWriteTimeUtc -lt ([DateTime]$manifest.startedUtc).ToUniversalTime()){throw 'The host log predates this run.'}
     Copy-Item -LiteralPath $log.FullName -Destination (Join-Path $runtime 'Evidence/engine.log') -Force
 }
 @{processExitCode=$exitCode;completedUtc=[DateTime]::UtcNow.ToString('o');checksComplete=($result -match '(?m)^COMPLETE\r?$')} |
