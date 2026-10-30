@@ -16,6 +16,8 @@ namespace Helodrace.Tests
         private bool complete;
         private bool mainStatePrepared;
         private bool blancasGenerationPrepared;
+        private bool lra7Prepared;
+        private bool lra7VerifiedOnLoad;
         private string output, mode;
 
         public MigrationChecks(Game game) { }
@@ -25,9 +27,29 @@ namespace Helodrace.Tests
             base.ExposeData();
             Scribe_Values.Look(ref mainStatePrepared, "migrationMainStatePrepared", false);
             Scribe_Values.Look(ref blancasGenerationPrepared, "migrationBlancasGenerationPrepared", false);
+            Scribe_Values.Look(ref lra7Prepared, "migrationLra7Prepared", false);
         }
 
 #if HELODRACE_MAIN_CHECKS
+        public override void LoadedGame()
+        {
+            if (!lra7Prepared || !GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string activeCase)
+                || activeCase != "native-lra7" || !GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out output)) return;
+            try
+            {
+                // Inspect before ordinary simulation ticks decrement the lifetime.
+                NativeLra7Checks.Verify(output, Check);
+                lra7VerifiedOnLoad = true;
+            }
+            catch (Exception error)
+            {
+                complete = true;
+                File.AppendAllText(Path.Combine(output, "checks.txt"), "FAIL " + error + "\n");
+                Log.Error("Engine migration checks failed: " + error);
+                Quit(1);
+            }
+        }
+
         public override void GameComponentUpdate()
         {
             if (Find.CurrentMap != null && GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string activeCase)
@@ -54,7 +76,8 @@ namespace Helodrace.Tests
             complete = true;
             try
             {
-                if ((mode != "main-state" || !mainStatePrepared) && (mode != "blancas-generation" || !blancasGenerationPrepared))
+                if ((mode != "main-state" || !mainStatePrepared) && (mode != "blancas-generation" || !blancasGenerationPrepared)
+                    && (mode != "native-lra7" || !lra7Prepared))
                     File.WriteAllText(Path.Combine(output, "checks.txt"), "Engine migration: " + mode + "\n");
                 else File.AppendAllText(Path.Combine(output, "checks.txt"), "Loaded new 1.7 state\n");
                 Check(DefDatabase<ThingDef>.GetNamedSilentFail("BD_Ketamine") != null, "Blancas drug definitions loaded");
@@ -101,6 +124,18 @@ namespace Helodrace.Tests
                     BlancasGenerationChecks.Verify(Check);
                 }
 #if HELODRACE_MAIN_CHECKS
+                else if (mode == "native-lra7")
+                {
+                    if (!lra7Prepared)
+                    {
+                        NativeLra7Checks.Create(output, Check);
+                        lra7Prepared = true;
+                        GameDataSaveLoader.SaveGame("Lra7NativeState17");
+                        GameDataSaveLoader.LoadGame("Lra7NativeState17");
+                        return;
+                    }
+                    Check(lra7VerifiedOnLoad, "LRA-7 reloaded state verified before the first simulation tick");
+                }
                 else if (mode == "blancas-integration") BlancasIntegrationChecks.Run(Check);
                 else if (mode == "native-runtime") NativeRuntimeChecks.Run(output, Check);
                 else if (mode == "native-math") NativeMathChecks.Run(output, Check);

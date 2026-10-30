@@ -3,6 +3,10 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
+using Vector2 = System.Numerics.Vector2;
+using Vector3 = System.Numerics.Vector3;
+using Color = Waylith.Math.Color;
+using Waylith.Math;
 
 namespace Helodrace.Future
 {
@@ -33,7 +37,7 @@ namespace Helodrace.Future
     {
         public override void Launch(
             Thing launcher,
-            Vector3 origin,
+            UnityEngine.Vector3 origin,
             LocalTargetInfo usedTarget,
             LocalTargetInfo intendedTarget,
             ProjectileHitFlags hitFlags,
@@ -55,7 +59,8 @@ namespace Helodrace.Future
                 impactCell = intendedTarget.Cell;
             }
 
-            float distance = Vector3.Distance(origin, impactCell.ToVector3Shifted());
+            Vector3 nativeOrigin = origin.ToNative();
+            float distance = Vector3.Distance(nativeOrigin, impactCell.ToVector3Shifted().ToNative());
             LanceLra7ProjectileExtension extension = def.GetModExtension<LanceLra7ProjectileExtension>();
             CompSharpshooterWeapon sharpshooter = equipment?.TryGetComp<CompSharpshooterWeapon>();
             float accuracyMultiplier = sharpshooter != null
@@ -65,15 +70,15 @@ namespace Helodrace.Future
             bool hitRollSucceeded = RollHit(launcher, equipment, distance, accuracyMultiplier);
             if (!hitRollSucceeded)
             {
-                Vector2 missOffset = Rand.InsideUnitCircle.normalized * Rand.Range(1.2f, 3.2f);
-                IntVec3 missedCell = impactCell + new IntVec3(Mathf.RoundToInt(missOffset.x), 0, Mathf.RoundToInt(missOffset.y));
+                Vector2 missOffset = Rand.InsideUnitCircle.ToNative().normalized * Rand.Range(1.2f, 3.2f);
+                IntVec3 missedCell = impactCell + new IntVec3(Mathf.RoundToInt(missOffset.X), 0, Mathf.RoundToInt(missOffset.Y));
                 if (missedCell.InBounds(map))
                 {
                     impactCell = missedCell;
                 }
             }
-            SpawnBeamEffect(map, origin, impactCell.ToVector3Shifted(), extension);
-            PlayBeamSound(map, origin, impactCell.ToVector3Shifted(), extension);
+            SpawnBeamEffect(map, nativeOrigin, impactCell.ToVector3Shifted().ToNative(), extension);
+            PlayBeamSound(map, nativeOrigin, impactCell.ToVector3Shifted().ToNative(), extension);
 
             Position = impactCell;
             float damage = def.projectile.GetDamageAmount(equipment) + distance * (extension?.damagePerCell ?? 0.36f);
@@ -89,7 +94,7 @@ namespace Helodrace.Future
                 ApplyFeedbackCone(
                     map,
                     impactCell,
-                    impactCell.ToVector3Shifted() - origin,
+                    impactCell.ToVector3Shifted().ToNative() - nativeOrigin,
                     launcher,
                     equipment,
                     damage,
@@ -109,7 +114,7 @@ namespace Helodrace.Future
                     def.projectile.damageDef,
                     damage,
                     armorPenetration,
-                    ExactRotation.eulerAngles.y,
+                    ExactRotation.ToNative().eulerAngles.Y,
                     launcher,
                     null,
                     equipment?.def);
@@ -163,7 +168,7 @@ namespace Helodrace.Future
             float damageFactor = Mathf.Max(0f, extension?.feedbackDamageFactor ?? 0.22f);
             int maximumDamage = Mathf.Max(1, Mathf.RoundToInt(shotDamage * damageFactor));
             Vector3 forward = firingDirection;
-            forward.y = 0f;
+            forward.Y = 0f;
             forward.Normalize();
 
             HashSet<Thing> damagedThings = new HashSet<Thing>();
@@ -171,9 +176,9 @@ namespace Helodrace.Future
                 LanceLra7FeedbackUtility.AffectedCells(map, originCell, forward, radius, halfAngle * 2f));
             foreach (IntVec3 cell in affectedCells)
             {
-                Vector3 offset = cell.ToVector3Shifted() - originCell.ToVector3Shifted();
-                offset.y = 0f;
-                float cellDistance = offset.magnitude;
+                Vector3 offset = cell.ToVector3Shifted().ToNative() - originCell.ToVector3Shifted().ToNative();
+                offset.Y = 0f;
+                float cellDistance = offset.Length();
 
                 float falloff = Mathf.Lerp(1f, 0.25f, Mathf.Clamp01(cellDistance / radius));
                 int cellDamage = Mathf.Max(1, Mathf.RoundToInt(maximumDamage * falloff));
@@ -190,7 +195,7 @@ namespace Helodrace.Future
                         DamageDefOf.Bomb,
                         cellDamage,
                         armorPenetration * damageFactor,
-                        forward.AngleFlat(),
+                        SpatialMath.FlatAngle(forward),
                         launcher,
                         null,
                         equipment?.def));
@@ -261,7 +266,7 @@ namespace Helodrace.Future
                             vacuumDamage,
                             Mathf.Max(1f, extension?.vacuumBurnDamage ?? 5f),
                             0f,
-                            reverseDirection.AngleFlat(),
+                            SpatialMath.FlatAngle(reverseDirection),
                             launcher));
                     }
 
@@ -332,9 +337,9 @@ namespace Helodrace.Future
             {
                 float startProgress = index / (float)segmentCount;
                 float endProgress = (index + 1) / (float)segmentCount;
-                Vector3 segmentStart = Vector3.Lerp(origin, destination, startProgress);
-                Vector3 segmentEnd = Vector3.Lerp(origin, destination, endProgress);
-                IntVec3 anchorCell = Vector3.Lerp(segmentStart, segmentEnd, 0.5f).ToIntVec3();
+                Vector3 segmentStart = SpatialMath.Interpolate(origin, destination, startProgress);
+                Vector3 segmentEnd = SpatialMath.Interpolate(origin, destination, endProgress);
+                IntVec3 anchorCell = SpatialMath.Interpolate(segmentStart, segmentEnd, 0.5f).ToGame().ToIntVec3();
                 if (!anchorCell.InBounds(map))
                 {
                     continue;
@@ -359,10 +364,10 @@ namespace Helodrace.Future
                 return;
             }
 
-            IntVec3 soundCell = Vector3.Lerp(origin, destination, 0.5f).ToIntVec3();
+            IntVec3 soundCell = SpatialMath.Interpolate(origin, destination, 0.5f).ToGame().ToIntVec3();
             if (!soundCell.InBounds(map))
             {
-                soundCell = origin.ToIntVec3();
+                soundCell = origin.ToGame().ToIntVec3();
             }
             sound.PlayOneShot(new TargetInfo(soundCell, map));
         }
@@ -382,7 +387,7 @@ namespace Helodrace.Future
                 yield break;
             }
 
-            forward.y = 0f;
+            forward.Y = 0f;
             forward.Normalize();
             float halfAngle = Mathf.Clamp(coneAngle, 1f, 180f) * 0.5f;
             Building originEdifice = originCell.GetEdifice(map);
@@ -395,9 +400,9 @@ namespace Helodrace.Future
                     continue;
                 }
 
-                Vector3 offset = cell.ToVector3Shifted() - originCell.ToVector3Shifted();
-                offset.y = 0f;
-                if (offset.sqrMagnitude > 0.01f && Vector3.Angle(forward, offset) > halfAngle)
+                Vector3 offset = cell.ToVector3Shifted().ToNative() - originCell.ToVector3Shifted().ToNative();
+                offset.Y = 0f;
+                if (offset.LengthSquared() > 0.01f && SpatialMath.AngleBetween(forward, offset) > halfAngle)
                 {
                     continue;
                 }
@@ -465,7 +470,7 @@ namespace Helodrace.Future
                         cell,
                         Map,
                         FleckDefOf.ExplosionFlash,
-                        new Color(0.72f, 0.9f, 1f));
+                        new Color(0.72f, 0.9f, 1f).ToGame());
                 }
                 FleckMaker.ThrowMicroSparks(cell.ToVector3Shifted(), Map);
                 if (Rand.Chance(0.48f))
@@ -511,8 +516,8 @@ namespace Helodrace.Future
             for (int index = 0; index < GradientSteps; index++)
             {
                 float progress = index / (float)(GradientSteps - 1);
-                outerMaterials[index] = SolidColorMaterials.SimpleSolidColorMaterial(Color.Lerp(outerStart, outerEnd, progress));
-                coreMaterials[index] = SolidColorMaterials.SimpleSolidColorMaterial(Color.Lerp(coreStart, coreEnd, progress));
+                outerMaterials[index] = SolidColorMaterials.SimpleSolidColorMaterial(Color.Lerp(outerStart, outerEnd, progress).ToGame());
+                coreMaterials[index] = SolidColorMaterials.SimpleSolidColorMaterial(Color.Lerp(coreStart, coreEnd, progress).ToGame());
             }
         }
 
@@ -527,8 +532,8 @@ namespace Helodrace.Future
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref origin, "origin");
-            Scribe_Values.Look(ref destination, "destination");
+            NativeVectorScribe.Look(ref origin, "origin");
+            NativeVectorScribe.Look(ref destination, "destination");
             Scribe_Values.Look(ref ticksLeft, "ticksLeft");
             Scribe_Values.Look(ref initialTicks, "initialTicks");
             Scribe_Values.Look(ref width, "width", 0.12f);
@@ -543,7 +548,7 @@ namespace Helodrace.Future
             }
         }
 
-        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
+        protected override void DrawAt(UnityEngine.Vector3 drawLoc, bool flip = false)
         {
             EnsureGradientMaterials();
             float fade = Mathf.Clamp01(ticksLeft / (float)Mathf.Max(1, initialTicks));
@@ -554,9 +559,9 @@ namespace Helodrace.Future
                 GradientSteps - 1);
             Vector3 start = origin;
             Vector3 end = destination;
-            start.y = end.y = AltitudeLayer.MoteOverhead.AltitudeFor();
-            GenDraw.DrawLineBetween(start, end, outerMaterials[materialIndex], width * fade);
-            GenDraw.DrawLineBetween(start, end, coreMaterials[materialIndex], width * 0.34f * fade);
+            start.Y = end.Y = AltitudeLayer.MoteOverhead.AltitudeFor();
+            GenDraw.DrawLineBetween(start.ToGame(), end.ToGame(), outerMaterials[materialIndex], width * fade);
+            GenDraw.DrawLineBetween(start.ToGame(), end.ToGame(), coreMaterials[materialIndex], width * 0.34f * fade);
         }
     }
 }

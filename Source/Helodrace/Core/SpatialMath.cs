@@ -5,6 +5,19 @@ namespace Helodrace
 {
     internal static class SpatialMath
     {
+        // Retain subtraction-first interpolation at grid boundaries. BCL Lerp
+        // may use a different arithmetic order on SIMD hardware.
+        internal static Vector3 Interpolate(Vector3 from, Vector3 to, float fraction)
+            => from + (to - from) * Mathf.Clamp01(fraction);
+
+        internal static float AngleBetween(Vector3 from, Vector3 to)
+        {
+            static float Dot(Vector3 a, Vector3 b) => a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+            double denominator = System.Math.Sqrt((double)Dot(from, from) * Dot(to, to));
+            if (denominator < 1e-15) return 0;
+            return (float)(System.Math.Acos(System.Math.Clamp(Dot(from, to) / denominator, -1d, 1d)) * 57.2957795);
+        }
+
         internal static float FlatAngle(Vector3 direction)
             => direction.X == 0f && direction.Z == 0f
                 ? 0f : Quaternion.LookRotation(direction).eulerAngles.Y;

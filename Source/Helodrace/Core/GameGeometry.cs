@@ -4,6 +4,9 @@ namespace Helodrace
     // compatibility structs. Internal geometry stays in native/BCL values.
     internal static class GameGeometry
     {
+        internal static System.Numerics.Quaternion ToNative(this UnityEngine.Quaternion value)
+            => new System.Numerics.Quaternion(value.x, value.y, value.z, value.w);
+
         internal static Waylith.Math.Color ToNative(this UnityEngine.Color value)
             => new Waylith.Math.Color(value.r, value.g, value.b, value.a);
 
