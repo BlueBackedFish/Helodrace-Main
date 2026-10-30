@@ -19,10 +19,12 @@ namespace Helodrace.Tests
         private bool lra7Prepared;
         private bool grenadePrepared;
         private bool towPrepared;
+        private bool m47Prepared;
 #if HELODRACE_MAIN_CHECKS
         private bool lra7VerifiedOnLoad;
         private bool grenadeVerifiedOnLoad;
         private bool towVerifiedOnLoad;
+        private bool m47VerifiedOnLoad;
 #endif
         private string output, mode;
 
@@ -36,13 +38,14 @@ namespace Helodrace.Tests
             Scribe_Values.Look(ref lra7Prepared, "migrationLra7Prepared", false);
             Scribe_Values.Look(ref grenadePrepared, "migrationGrenadePrepared", false);
             Scribe_Values.Look(ref towPrepared, "migrationTowPrepared", false);
+            Scribe_Values.Look(ref m47Prepared, "migrationM47Prepared", false);
         }
 
 #if HELODRACE_MAIN_CHECKS
         public override void LoadedGame()
         {
             if (!GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string activeCase)
-                || !((lra7Prepared && activeCase == "native-lra7") || (grenadePrepared && activeCase == "native-grenades") || (towPrepared && activeCase == "native-tow"))
+                || !((lra7Prepared && activeCase == "native-lra7") || (grenadePrepared && activeCase == "native-grenades") || (towPrepared && activeCase == "native-tow") || (m47Prepared && activeCase == "native-m47"))
                 || !GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out output)) return;
             try
             {
@@ -57,10 +60,15 @@ namespace Helodrace.Tests
                     NativeGrenadeChecks.Verify(output, Check);
                     grenadeVerifiedOnLoad = true;
                 }
-                else
+                else if (activeCase == "native-tow")
                 {
                     NativeTowChecks.Verify(output, Check);
                     towVerifiedOnLoad = true;
+                }
+                else
+                {
+                    NativeM47Checks.Verify(output, Check);
+                    m47VerifiedOnLoad = true;
                 }
             }
             catch (Exception error)
@@ -99,7 +107,7 @@ namespace Helodrace.Tests
             try
             {
                 if ((mode != "main-state" || !mainStatePrepared) && (mode != "blancas-generation" || !blancasGenerationPrepared)
-                    && (mode != "native-lra7" || !lra7Prepared) && (mode != "native-grenades" || !grenadePrepared) && (mode != "native-tow" || !towPrepared))
+                    && (mode != "native-lra7" || !lra7Prepared) && (mode != "native-grenades" || !grenadePrepared) && (mode != "native-tow" || !towPrepared) && (mode != "native-m47" || !m47Prepared))
                     File.WriteAllText(Path.Combine(output, "checks.txt"), "Engine migration: " + mode + "\n");
                 else File.AppendAllText(Path.Combine(output, "checks.txt"), "Loaded new 1.7 state\n");
                 Check(DefDatabase<ThingDef>.GetNamedSilentFail("BD_Ketamine") != null, "Blancas drug definitions loaded");
@@ -146,6 +154,18 @@ namespace Helodrace.Tests
                     BlancasGenerationChecks.Verify(Check);
                 }
 #if HELODRACE_MAIN_CHECKS
+                else if (mode == "native-m47")
+                {
+                    if (!m47Prepared)
+                    {
+                        NativeM47Checks.Create(output, Check);
+                        m47Prepared = true;
+                        GameDataSaveLoader.SaveGame("M47NativeState17");
+                        GameDataSaveLoader.LoadGame("M47NativeState17");
+                        return;
+                    }
+                    Check(m47VerifiedOnLoad, "native M47 state verified before the first simulation tick");
+                }
                 else if (mode == "native-tow")
                 {
                     if (!towPrepared)
