@@ -4,6 +4,11 @@ using Helodrace.Tactical;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Vector2 = System.Numerics.Vector2;
+using Vector3 = System.Numerics.Vector3;
+using Color = Waylith.Math.Color;
+using Color32 = Waylith.Math.Color32;
+using Waylith.Math;
 
 namespace Helodrace.ModernWar
 {
@@ -48,27 +53,26 @@ namespace Helodrace.ModernWar
             if (!hasFlashlight && !hasLaser) return;
 
             Vector3 target;
+            Vector3 pawnPosition = pawn.DrawPos.ToNative();
             if (hasStanceTarget)
             {
                 target = stance.focusTarg.HasThing
-                    ? stance.focusTarg.Thing.DrawPos
-                    : stance.focusTarg.Cell.ToVector3Shifted();
+                    ? stance.focusTarg.Thing.DrawPos.ToNative()
+                    : stance.focusTarg.Cell.ToVector3Shifted().ToNative();
             }
             else
             {
                 float tacticalAngle = TacticalAimUtility.VisualAimAngle(pawn);
-                Vector3 tacticalDirection = Quaternion.AngleAxis(
-                    tacticalAngle,
-                    Vector3.up) * Vector3.forward;
-                tacticalDirection.y = 0f;
-                target = pawn.DrawPos + tacticalDirection.normalized * 6f;
+                Vector3 tacticalDirection = SpatialMath.RotateAroundY(Vector3.UnitZ, tacticalAngle);
+                tacticalDirection.Y = 0f;
+                target = pawnPosition + tacticalDirection.normalized * 6f;
             }
-            Vector3 direction = target - pawn.DrawPos;
-            direction.y = 0f;
-            if (direction.sqrMagnitude < 0.0001f) return;
+            Vector3 direction = target - pawnPosition;
+            direction.Y = 0f;
+            if (direction.LengthSquared() < 0.0001f) return;
 
-            float aimAngle = direction.AngleFlat();
-            System.Numerics.Vector3 nativeDrawLoc;
+            float aimAngle = SpatialMath.FlatAngle(direction);
+            Vector3 drawLoc;
             float bodyAngle;
             bool flipped;
             bool recoilActive;
@@ -76,11 +80,10 @@ namespace Helodrace.ModernWar
                 weapon,
                 pawn,
                 aimAngle,
-                out nativeDrawLoc,
+                out drawLoc,
                 out bodyAngle,
                 out flipped,
                 out recoilActive);
-            Vector3 drawLoc = nativeDrawLoc.ToGame();
             Vector3 weaponDirection = WeaponDirection(bodyAngle, flipped);
             if (hasLaser && !hasStanceTarget)
             {
@@ -113,10 +116,9 @@ namespace Helodrace.ModernWar
 
         private static Vector3 WeaponDirection(float bodyAngle, bool flipped)
         {
-            Vector3 localForward = flipped ? Vector3.left : Vector3.right;
-            Vector3 direction = Quaternion.AngleAxis(bodyAngle, Vector3.up)
-                * localForward;
-            direction.y = 0f;
+            Vector3 localForward = flipped ? -Vector3.UnitX : Vector3.UnitX;
+            Vector3 direction = SpatialMath.RotateAroundY(localForward, bodyAngle);
+            direction.Y = 0f;
             return direction.normalized;
         }
     }
@@ -158,77 +160,35 @@ namespace Helodrace.ModernWar
                 ModularWeaponFlashlightProperties light = node.Props.flashlight;
                 if (light == null) continue;
 
-                Vector3 localPoint = node.Props.graphicOffset + light.emitterOffset;
-                var local = node.transform.TransformPoint(localPoint.ToNative());
-                if (flipped) local.X = -local.X;
-                var worldOffset = ModularTransform2D.RotateForWorldYaw(local, bodyAngle);
-                Vector3 origin = drawLoc
-                    + new Vector3(worldOffset.X, 0f, worldOffset.Y);
-                origin.y = AltitudeLayer.MoteOverhead.AltitudeFor();
-
-                Vector3 delta = target - origin;
-                delta.y = 0f;
-                float length = delta.magnitude;
-                if (length < 0.05f || length > light.maxRange) continue;
-                Vector3 beamTarget = target;
-                if (alignToWeapon && weaponDirection.sqrMagnitude > 0.5f)
-                {
-                    delta = weaponDirection * length;
-                    beamTarget = origin + delta;
-                    beamTarget.y = origin.y;
-                }
-
-                float nearWidth = light.nearWidth;
-                float farWidth = light.farWidth;
-                float poolRadius = light.circleRadius;
-                if (light.closeRange > 0.01f && length < light.closeRange)
-                {
-                    float scale = Mathf.Max(
-                        light.closeRangeMinScale,
-                        length / light.closeRange);
-                    farWidth *= scale;
-                    poolRadius *= scale;
-                }
-                nearWidth = Mathf.Min(nearWidth, farWidth);
-
-                Quaternion rotation = Quaternion.AngleAxis(
-                    delta.AngleFlat(),
-                    Vector3.up);
+                Vector3 localPoint = node.Props.graphicOffset.ToNative() + light.emitterOffset.ToNative();
+                Vector3 origin = ModularLightGeometry.EmitterOrigin(node.transform, localPoint,
+                    drawLoc, bodyAngle, flipped, AltitudeLayer.MoteOverhead.AltitudeFor());
+                if (!ModularLightGeometry.TryFlashlightBeam(origin, target, weaponDirection,
+                    alignToWeapon, light, out ModularFlashlightBeam beam)) continue;
+                Color color = light.color.ToNative();
                 Material coneMaterial = LightMaterial(
                     light.coneTexPath,
-                    light.color,
+                    color,
                     false);
                 if (coneMaterial != null)
                 {
-                    float shaftLength = Mathf.Max(
-                        0.05f,
-                        length + light.lengthOvershoot);
                     Graphics.DrawMesh(
-                        ConeMesh(nearWidth, farWidth),
-                        Matrix4x4.TRS(
-                            origin,
-                            rotation,
-                            new Vector3(1f, 1f, shaftLength)),
+                        ConeMesh(beam.NearWidth, beam.FarWidth),
+                        beam.ConeTransform.ToGame(),
                         coneMaterial,
                         0);
                 }
 
-                if (!light.drawCircle || poolRadius <= 0f) continue;
+                if (!light.drawCircle || beam.PoolRadius <= 0f) continue;
                 Material poolMaterial = LightMaterial(
                     light.circleTexPath,
-                    light.color,
+                    color,
                     true);
                 if (poolMaterial == null) continue;
 
-                Vector3 pool = beamTarget;
-                pool.y = origin.y + 0.001f;
-                float diameter = poolRadius * 2f;
                 Graphics.DrawMesh(
                     MeshPool.plane10,
-                    Matrix4x4.TRS(
-                        pool,
-                        Quaternion.identity,
-                        new Vector3(diameter, 1f, diameter)),
+                    beam.PoolTransform.ToGame(),
                     poolMaterial,
                     0);
             }
@@ -240,7 +200,7 @@ namespace Helodrace.ModernWar
             {
                 Texture2D texture = ContentFinder<Texture2D>.Get(path, false);
                 if (texture != null)
-                    return MaterialPool.MatFrom(path, ShaderDatabase.MoteGlow, color);
+                    return MaterialPool.MatFrom(path, ShaderDatabase.MoteGlow, color.ToGame());
             }
 
             Dictionary<Color, Material> cache = pool
@@ -258,7 +218,7 @@ namespace Helodrace.ModernWar
                     ? "Helodrace modular flashlight pool"
                     : "Helodrace modular flashlight cone",
                 mainTexture = fallback,
-                color = color
+                color = color.ToGame()
             };
             cache[color] = result;
             return result;
@@ -292,7 +252,7 @@ namespace Helodrace.ModernWar
                     pixels[y * width + x] = new Color32(255, 255, 255, alpha);
                 }
             }
-            texture.SetPixels32(pixels);
+            texture.SetPixels32(System.Array.ConvertAll(pixels, static pixel => pixel.ToGame()));
             texture.Apply(false, true);
             return texture;
         }
@@ -326,7 +286,7 @@ namespace Helodrace.ModernWar
                         (byte)Mathf.RoundToInt(Mathf.Clamp01(alpha) * 255f));
                 }
             }
-            texture.SetPixels32(pixels);
+            texture.SetPixels32(System.Array.ConvertAll(pixels, static pixel => pixel.ToGame()));
             texture.Apply(false, true);
             return texture;
         }
@@ -339,6 +299,22 @@ namespace Helodrace.ModernWar
             Mesh mesh;
             if (coneMeshes.TryGetValue(key, out mesh) && mesh != null) return mesh;
 
+            var data = BuildConeGeometry(nearKey, farKey);
+            mesh = new Mesh
+            {
+                name = "Helodrace modular flashlight cone " + nearKey + " " + farKey,
+                vertices = System.Array.ConvertAll(data.Vertices, static point => point.ToGame()),
+                uv = System.Array.ConvertAll(data.UVs, static point => point.ToGame())
+            };
+            mesh.SetTriangles(data.Triangles, 0);
+            mesh.RecalculateNormals();
+            mesh.RecalculateBounds();
+            coneMeshes[key] = mesh;
+            return mesh;
+        }
+
+        internal static (Vector3[] Vertices, Vector2[] UVs, int[] Triangles) BuildConeGeometry(int nearKey, int farKey)
+        {
             float nearHalf = nearKey / 100f * 0.5f;
             float farHalf = farKey / 100f * 0.5f;
             int rows = ConeRows + 1;
@@ -377,17 +353,7 @@ namespace Helodrace.ModernWar
                 triangles[triangleIndex++] = current + 2;
             }
 
-            mesh = new Mesh
-            {
-                name = "Helodrace modular flashlight cone " + nearKey + " " + farKey,
-                vertices = vertices,
-                uv = uvs
-            };
-            mesh.SetTriangles(triangles, 0);
-            mesh.RecalculateNormals();
-            mesh.RecalculateBounds();
-            coneMeshes[key] = mesh;
-            return mesh;
+            return (vertices, uvs, triangles);
         }
     }
 

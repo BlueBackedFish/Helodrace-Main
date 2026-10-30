@@ -2,6 +2,10 @@ using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Vector3 = System.Numerics.Vector3;
+using Quaternion = System.Numerics.Quaternion;
+using Color = Waylith.Math.Color;
+using Waylith.Math;
 
 namespace Helodrace.ModernWar
 {
@@ -35,33 +39,16 @@ namespace Helodrace.ModernWar
                 ModularWeaponLaserProperties laser = node.Props.laser;
                 if (laser == null) continue;
 
-                Vector3 localPoint = node.Props.graphicOffset + laser.emitterOffset;
-                var local = node.transform.TransformPoint(localPoint.ToNative());
-                if (flipped) local.X = -local.X;
-                var worldOffset = ModularTransform2D.RotateForWorldYaw(local, bodyAngle);
-                Vector3 origin = drawLoc
-                    + new Vector3(worldOffset.X, 0f, worldOffset.Y);
-                origin.y = AltitudeLayer.MoteOverhead.AltitudeFor();
+                Vector3 localPoint = node.Props.graphicOffset.ToNative() + laser.emitterOffset.ToNative();
+                Vector3 origin = ModularLightGeometry.EmitterOrigin(node.transform, localPoint,
+                    drawLoc, bodyAngle, flipped, AltitudeLayer.MoteOverhead.AltitudeFor());
+                if (!ModularLightGeometry.TryLaserBeam(origin, target, weaponDirection,
+                    alignToWeapon, laser.maxLength, out Vector3 end, out bool clipped)) continue;
 
-                Vector3 end = target;
-                end.y = origin.y;
-                Vector3 delta = end - origin;
-                delta.y = 0f;
-                if (delta.sqrMagnitude < 0.0001f) continue;
-                if (alignToWeapon && weaponDirection.sqrMagnitude > 0.5f)
-                {
-                    delta = weaponDirection.normalized * delta.magnitude;
-                    end = origin + delta;
-                    end.y = origin.y;
-                }
-                bool clipped = delta.magnitude > laser.maxLength;
-                if (clipped)
-                    end = origin + delta.normalized * laser.maxLength;
-
-                Material material = MaterialFor(laser.color);
+                Material material = MaterialFor(laser.color.ToNative());
                 GenDraw.DrawLineBetween(
-                    origin,
-                    end,
+                    origin.ToGame(),
+                    end.ToGame(),
                     material,
                     Mathf.Max(0.005f, laser.beamWidth));
 
@@ -71,10 +58,10 @@ namespace Helodrace.ModernWar
                 float dotSize = Mathf.Max(0.01f, laser.dotSize);
                 Graphics.DrawMesh(
                     MeshPool.plane10,
-                    Matrix4x4.TRS(
+                    SpatialMath.CreateTransform(
                         end,
-                        Quaternion.identity,
-                        new Vector3(dotSize, 1f, dotSize)),
+                        Quaternion.Identity,
+                        new Vector3(dotSize, 1f, dotSize)).ToGame(),
                     material,
                     0);
             }
@@ -94,17 +81,13 @@ namespace Helodrace.ModernWar
                 ModularWeaponLaserProperties laser = node.Props.laser;
                 if (laser == null) continue;
 
-                Vector3 localPoint = node.Props.graphicOffset + laser.emitterOffset;
-                var local = node.transform.TransformPoint(localPoint.ToNative());
-                if (flipped) local.X = -local.X;
-                var worldOffset = ModularTransform2D.RotateForWorldYaw(local, bodyAngle);
-                Vector3 origin = drawLoc
-                    + new Vector3(worldOffset.X, 0f, worldOffset.Y);
-                origin.y = AltitudeLayer.MoteOverhead.AltitudeFor();
+                Vector3 localPoint = node.Props.graphicOffset.ToNative() + laser.emitterOffset.ToNative();
+                Vector3 origin = ModularLightGeometry.EmitterOrigin(node.transform, localPoint,
+                    drawLoc, bodyAngle, flipped, AltitudeLayer.MoteOverhead.AltitudeFor());
 
                 Vector3 delta = target - origin;
-                delta.y = 0f;
-                float length = Mathf.Min(delta.magnitude, laser.maxLength);
+                delta.Y = 0f;
+                float length = Mathf.Min(delta.Length(), laser.maxLength);
                 if (length < 0.05f) continue;
 
                 Vector3 direction = delta.normalized;
@@ -119,13 +102,13 @@ namespace Helodrace.ModernWar
                 // like a precise rangefinder or target marker.
                 Vector3 clearEnd = origin + direction * Mathf.Min(0.65f, length);
                 GenDraw.DrawLineBetween(
-                    origin,
-                    clearEnd,
+                    origin.ToGame(),
+                    clearEnd.ToGame(),
                     nearMaterial,
                     Mathf.Max(0.005f, laser.beamWidth * 0.85f));
                 GenDraw.DrawLineBetween(
-                    clearEnd,
-                    end,
+                    clearEnd.ToGame(),
+                    end.ToGame(),
                     blurredMaterial,
                     Mathf.Max(0.005f, laser.beamWidth * 0.55f));
             }
@@ -138,7 +121,7 @@ namespace Helodrace.ModernWar
                 return material;
 
             material = SolidColorMaterials.NewSolidColorMaterial(
-                color,
+                color.ToGame(),
                 ShaderDatabase.MoteGlow);
             materials[color] = material;
             return material;
