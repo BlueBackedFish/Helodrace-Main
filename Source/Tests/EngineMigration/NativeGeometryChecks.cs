@@ -70,6 +70,7 @@ namespace Helodrace.Tests
             NativeAimingChecks.Run(output, check);
             NativeWeaponEffectChecks.Run(output, check);
             NativeLightChecks.Run(output, check);
+            NativeIconChecks.Run(output, check);
             File.WriteAllText(Path.Combine(output, "native-geometry.json"), JsonSerializer.Serialize(new { BoundaryComponents = cases, TransformComponents = transforms, MatrixComponents = matrices, NativePreviewGeometry = true }, new JsonSerializerOptions { WriteIndented = true }));
         }
 

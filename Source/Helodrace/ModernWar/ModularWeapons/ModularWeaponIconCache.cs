@@ -9,6 +9,8 @@ using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Vector2 = System.Numerics.Vector2;
+using NativeColor = Waylith.Math.Color;
+using NativeColor32 = Waylith.Math.Color32;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -29,11 +31,11 @@ namespace Helodrace.ModernWar
             public Texture texture;
             public Vector2 center, size;
             public float angle;
-            public Color tint;
+            public NativeColor tint;
         }
         private sealed class Pixels
         {
-            public Color32[] colors;
+            public NativeColor32[] colors;
             public long used;
             public int width, height;
             public int xMin, yMin, xMax, yMax;
@@ -191,7 +193,7 @@ namespace Helodrace.ModernWar
             layers.Add(new Layer { texture = texture, center = node.GraphicCenter,
                 size = graphic.drawSize.ToNative() * node.GraphicScale,
                 angle = node.GraphicAngle * Mathf.Deg2Rad,
-                tint = outline ? Color.white : graphic.Color });
+                tint = outline ? NativeColor.white : graphic.Color.ToNative() });
         }
 
         private static Pixels Read(Texture texture)
@@ -214,7 +216,7 @@ namespace Helodrace.ModernWar
                 RenderTexture.active = temporary;
                 readable = new Texture2D(width, height, TextureFormat.RGBA32, false);
                 readable.ReadPixels(new Rect(0, 0, width, height), 0, 0, false);
-                cached = new Pixels { colors = readable.GetPixels32(), width = width,
+                cached = new Pixels { colors = Array.ConvertAll(readable.GetPixels32(), static pixel => pixel.ToNative()), width = width,
                     height = height, used = ++clock,
                     xMin = width, yMin = height, xMax = -1, yMax = -1 };
                 for (int y = 0; y < height; y++)
@@ -266,7 +268,7 @@ namespace Helodrace.ModernWar
             if (min.X == float.MaxValue) throw new InvalidOperationException("No visible pixels.");
             Vector2 center = (min + max) * .5f;
             float span = Mathf.Max(max.X - min.X, max.Y - min.Y, .001f) * 1.08f;
-            Color[] output = new Color[Resolution * Resolution];
+            NativeColor[] output = new NativeColor[Resolution * Resolution];
             foreach (var layer in layers)
             {
                 if (Mathf.Abs(layer.size.X * layer.size.Y) < .0000001f) continue;
@@ -284,16 +286,9 @@ namespace Helodrace.ModernWar
                             sine * delta.X + cosine * delta.Y);
                         float u = local.X / layer.size.X + .5f, v = local.Y / layer.size.Y + .5f;
                         if (u < 0 || u >= 1 || v < 0 || v >= 1) continue;
-                        Color src = (Color)source.colors[(int)(v * source.height) * source.width
-                            + (int)(u * source.width)] * layer.tint;
-                        if (src.a <= 0f) continue;
                         int index = y * Resolution + x;
-                        Color dst = output[index];
-                        float alpha = src.a + dst.a * (1 - src.a);
-                        if (alpha <= 0) continue;
-                        Color mixed = (src * src.a + dst * (dst.a * (1 - src.a))) / alpha;
-                        mixed.a = alpha;
-                        output[index] = mixed;
+                        output[index] = BlendPixel(source.colors[(int)(v * source.height) * source.width
+                            + (int)(u * source.width)], layer.tint, output[index]);
                     }
                 }
             }
@@ -301,9 +296,20 @@ namespace Helodrace.ModernWar
             result.name = "Helodrace modular weapon icon";
             result.wrapMode = TextureWrapMode.Clamp;
             result.filterMode = FilterMode.Bilinear;
-            result.SetPixels(output);
+            result.SetPixels(Array.ConvertAll(output, static pixel => pixel.ToGame()));
             result.Apply(false, true);
             yield return result;
+        }
+
+        internal static NativeColor BlendPixel(NativeColor32 sample, NativeColor tint, NativeColor destination)
+        {
+            NativeColor source = (NativeColor)sample * tint;
+            if (source.a <= 0) return destination;
+            float alpha = source.a + destination.a * (1 - source.a);
+            if (alpha <= 0) return destination;
+            System.Numerics.Vector4 numerator = source * source.a + destination * (destination.a * (1 - source.a));
+            System.Numerics.Vector4 mixed = numerator / alpha;
+            return new NativeColor(mixed.X, mixed.Y, mixed.Z, alpha);
         }
 
         private static Vector2 Rotate(Vector2 p, float angle)
