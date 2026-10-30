@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Verse;
 using Verse.AI;
 
@@ -119,6 +120,13 @@ namespace Helodrace.Tactics
         private IntVec3 lastCell=IntVec3.Invalid;
         private int nextStepAt;
         private TacticalMemberCommand member;
+        internal string RouteDiagnostic => "leg=" + leg + ":revision=" + revision + ":pathGoal=" + pathGoal
+            + ":atPost=" + AtPost + ":quietUntil=" + quietUntil + ":nextStep=" + nextStepAt
+            + ":busy=" + pawn.stances.FullBodyBusy + ":stance=" + pawn.stances.curStance?.GetType().Name
+            + ":order=" + (member?.CqbOrder == null ? "none" : "start=" + member.CqbOrder.StartLeg
+                + ":revision=" + member.CqbOrder.Revision + ":ingress=" + member.CqbOrder.Ingress
+                + ":route=" + string.Join("/", Enumerable.Range(0, member.CqbOrder.LastLeg + 1)
+                    .Select(member.CqbOrder.Cell)));
         public override IntVec3 PostCell => member?.CqbOrder?.Destination ?? job.targetA.Cell;
         protected override IEnumerable<Toil> MakeNewToils()
         {

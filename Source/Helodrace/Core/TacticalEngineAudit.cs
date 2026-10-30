@@ -73,6 +73,7 @@ namespace Helodrace
         [DataMember] public string caseContactTile;
         [DataMember] public string[] newSecuredPortals;
         [DataMember] public string[] newRoomDiagnostics;
+        [DataMember] public string[] newPendingEntryDiagnostics;
         [DataMember] public int fixtureVersion = 33;
         [DataMember] public bool environmentControlled;
         [DataMember] public bool r7WildlifeSpawnerDisabled;
@@ -725,6 +726,8 @@ namespace Helodrace
                     : commands.All(command => Tactics.TacticalRoomProgress.CoversGoal(command, representatives)));
                 result.newRoomDiagnostics = commands.Select(command => command.Id + ":" + command.Phase
                     + " phaseAge=" + (GenTicks.TicksGame - command.PhaseStarted) + " due=" + command.Due
+                    + " wait=" + command.CqbWait + " tick=" + GenTicks.TicksGame + " combatUntil=" + command.EntryCombatUntil
+                    + " depth=" + command.Plan?.Depth + " inward=" + command.Plan?.Inward
                     + " planRetry=" + command.PlanRetryAt + " goal=" + command.GoalSecured
                     + " representatives=" + string.Join(",", representatives.Select(cell => command.SecuredCells.Contains(cell)))
                     + " secured=" + command.SecuredCells.Count + " scans=" + command.SecuredPlans.Count
@@ -762,6 +765,13 @@ namespace Helodrace
                 result.newActiveCutterRecovered = result.fixtureCase != "cutter-active-recovery" || result.caseTriggered && result.caseCuttingTicks >= 20
                     && result.newCutterJobsStarted >= 2 && result.newToolRecoveriesCompleted > 0;
                 result.newDoorFaults = map.listerThings.AllThings.OfType<Building_Door>().Count(DoorBreachFaultUtility.Jammed);
+                result.newPendingEntryDiagnostics = commands.SelectMany(command => command.Members
+                    .Where(member => !member.EntryAssignmentDone || command.Phase == Helodrace.Tactics.TacticalCommandPhase.Enter).Select(member => command.Id + ":"
+                        + member.Pawn.ThingID + ":" + member.Pawn.Position + ":passed=" + member.Passed
+                        + ":entered=" + member.Entered + ":lane=" + member.LaneCleared
+                        + ":entryVersion=" + member.EntryVersion + "/" + command.PlanVersion
+                        + ":entryOwner=" + member.EntryOwner + ":" + (member.Pawn.jobs?.curDriver is Helodrace.Tactics.JobDriver_TacticalActor actor
+                            ? actor.RouteDiagnostic : member.Pawn.jobs?.curDriver?.GetType().Name))).ToArray();
                 if (CooperationFixture) FinalCooperationDiagnostics(commands);
                 result.newFunctionalComplete = commands.Length == result.units && result.newCompletedUnits == result.units
                     && result.newEntryAssignmentsComplete == result.alive && result.newEnteredByOrder > 0
