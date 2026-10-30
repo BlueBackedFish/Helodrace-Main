@@ -289,7 +289,7 @@ internal static partial class Program
             Check(effect || props.sight!=null || !string.IsNullOrEmpty((string)comp.Element("projectileOverride"))
                 || pair.Key=="HD_ModularPart_MagazineWrap_StanagTapeBlue", "Unexplained mass-only part: "+pair.Key);
             if(!pair.Key.Contains("_Muzzle_") && !pair.Key.Contains("_Suppressor_"))continue;
-            var part=Node(props);part.transform=new ModularTransform2D {position=new Vector2(.4f,0),scale=Vector2.one};
+            var part=Node(props);part.transform=new ModularTransform2D {position=new System.Numerics.Vector2(.4f,0),scale=System.Numerics.Vector2.One};
             var fitted=Convert(new List<ModularRenderNode>{rootNode,part});
             Check(fitted.RecoilControl>bare.RecoilControl && fitted.MuzzleControl>bare.MuzzleControl,"Muzzle attachment improves both control scores: "+pair.Key);
             Check(fitted.VanillaCooldownFactor<bare.VanillaCooldownFactor-.001f,"Muzzle attachment improves recovery despite added weight: "+pair.Key);
@@ -372,7 +372,7 @@ internal static partial class Program
     private static List<ModularRenderNode> BuildAssembly(string weapon, XElement preset)
     {
         XElement def=Resolve(definitions[weapon]); var node=Node(Properties(def));
-        var transform=ModularTransform2D.Identity; transform.scale=Vector2.one*node.Props.assemblyScale;node.transform=transform;
+        var transform=ModularTransform2D.Identity; transform.scale=System.Numerics.Vector2.One*node.Props.assemblyScale;node.transform=transform;
         node.thing.def.statBases=def.Element("statBases")?.Elements().Select(e=>new RimWorld.StatModifier {
             stat=new RimWorld.StatDef {defName=e.Name.LocalName},value=Number(e)}).ToList();
         var nodes=new List<ModularRenderNode>{node};
@@ -389,14 +389,14 @@ internal static partial class Program
                 if(socket.isRail){effective.angle=0;effective.position.x+=offset;}
                 float ratio=Palette(childDef)/Palette(parentDef);
                 if(mount.UsesOppositeSurface(socket)) effective.position+=mount.oppositeSurfaceOffset*ratio;
-                child.transform=parent.transform.Attach(effective,mount.EffectiveTransform(socket),child.Props.graphicAngle,ratio);
+                child.transform=parent.transform.Attach(effective.ToNativePose(),mount.EffectiveTransform(socket).ToNativePose(),child.Props.graphicAngle,ratio);
                 child.railOffset=offset;child.parentComp=parent.comp;child.parentSocketId=socketId;child.mountId=mount.id;child.attachedToRail=socket.isRail;
                 float half=mount.EffectivePhysicalLength*ratio*.5f;
                 var left=socket.transform.position;var right=left;
                 left.x+=offset+mount.physicalCenterOffset*ratio-half;
                 right.x+=offset+mount.physicalCenterOffset*ratio+half;
-                child.occupiedRailStart=parent.transform.TransformPoint(left);
-                child.occupiedRailEnd=parent.transform.TransformPoint(right);
+                child.occupiedRailStart=parent.transform.TransformPoint(left.ToNative());
+                child.occupiedRailEnd=parent.transform.TransformPoint(right.ToNative());
                 nodes.Add(child); Children(child,childDef,entry.Element("children"));
             }
         }

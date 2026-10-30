@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -73,7 +74,7 @@ namespace Helodrace.ModernWar
             public void Add(SightRecord record)
             {
                 records.Add(record);
-                heightSum += record.axis.y;
+                heightSum += record.axis.Y;
             }
         }
 
@@ -182,12 +183,12 @@ namespace Helodrace.ModernWar
                     node = node,
                     props = sight,
                     weaponOwner = WeaponOwner(node, nodes, root),
-                    axis = node.transform.TransformPoint(local),
+                    axis = node.transform.TransformPoint(local.ToNative()),
                     mountSurface = ModularWeaponPartPerformance.MountSurface(
                         node, nodes)
                 });
             }
-            result.Sort((a, b) => a.axis.y.CompareTo(b.axis.y));
+            result.Sort((a, b) => a.axis.Y.CompareTo(b.axis.Y));
             return result;
         }
 
@@ -216,26 +217,26 @@ namespace Helodrace.ModernWar
                     0f, 0f, node.Props.verticalOccupancyOffset - height * 0.5f);
                 Vector3 high = node.Props.graphicOffset + new Vector3(
                     0f, 0f, node.Props.verticalOccupancyOffset + height * 0.5f);
-                Vector2 a = node.transform.TransformPoint(low);
-                Vector2 b = node.transform.TransformPoint(high);
-                float centerX = (a.x + b.x) * 0.5f;
+                Vector2 a = node.transform.TransformPoint(low.ToNative());
+                Vector2 b = node.transform.TransformPoint(high.ToNative());
+                float centerX = (a.X + b.X) * 0.5f;
                 if (node.Props.sight != null)
                 {
                     Vector3 axisLocal = node.Props.graphicOffset
                         + node.Props.sight.axisOffset;
-                    centerX = node.transform.TransformPoint(axisLocal).x;
+                    centerX = node.transform.TransformPoint(axisLocal.ToNative()).X;
                 }
                 else if (node.attachedToRail)
                 {
-                    centerX = (node.occupiedRailStart.x
-                        + node.occupiedRailEnd.x) * 0.5f;
+                    centerX = (node.occupiedRailStart.X
+                        + node.occupiedRailEnd.X) * 0.5f;
                 }
                 result.Add(new OccupancyRecord
                 {
                     node = node,
                     centerX = centerX,
-                    minZ = Mathf.Min(a.y, b.y),
-                    maxZ = Mathf.Max(a.y, b.y)
+                    minZ = Mathf.Min(a.Y, b.Y),
+                    maxZ = Mathf.Max(a.Y, b.Y)
                 });
             }
             return result;
@@ -254,7 +255,7 @@ namespace Helodrace.ModernWar
                 for (int j = 0; j < groups.Count; j++)
                 {
                     if (groups[j].Owner != sight.weaponOwner) continue;
-                    float distance = Mathf.Abs(groups[j].AxisHeight - sight.axis.y);
+                    float distance = Mathf.Abs(groups[j].AxisHeight - sight.axis.Y);
                     if (distance <= tolerance && distance < bestDistance)
                     {
                         best = groups[j];
@@ -280,14 +281,14 @@ namespace Helodrace.ModernWar
             List<SightRecord> fronts = group.records
                 .Where(r => IsUsable(r)
                     && r.props.kind == ModularSightKind.IronFront)
-                .OrderByDescending(r => r.axis.x).ToList();
+                .OrderByDescending(r => r.axis.X).ToList();
             List<SightRecord> rears = group.records
                 .Where(r => IsUsable(r)
                     && r.props.kind == ModularSightKind.IronRear)
-                .OrderBy(r => r.axis.x).ToList();
+                .OrderBy(r => r.axis.X).ToList();
 
             if (fronts.Count > 0 && rears.Count > 0
-                && fronts[0].axis.x > rears[0].axis.x + OrderEpsilon)
+                && fronts[0].axis.X > rears[0].axis.X + OrderEpsilon)
             {
                 SightRecord front = fronts[0];
                 SightRecord rear = rears[0];
@@ -296,8 +297,8 @@ namespace Helodrace.ModernWar
                     primary = rear,
                     ironFront = front,
                     ironRear = rear,
-                    axisX = rear.axis.x,
-                    axisHeight = (front.axis.y + rear.axis.y) * 0.5f,
+                    axisX = rear.axis.X,
+                    axisHeight = (front.axis.Y + rear.axis.Y) * 0.5f,
                     sightClearanceRadius = Mathf.Min(front.props.sightClearanceRadius, rear.props.sightClearanceRadius),
                     priority = Mathf.Max(
                         front.props.selectionPriority,
@@ -316,8 +317,8 @@ namespace Helodrace.ModernWar
                 candidates.Add(new Candidate
                 {
                     primary = record,
-                    axisX = record.axis.x,
-                    axisHeight = record.axis.y,
+                    axisX = record.axis.X,
+                    axisHeight = record.axis.Y,
                     sightClearanceRadius = record.props.sightClearanceRadius,
                     priority = record.props.selectionPriority
                 });
@@ -354,11 +355,11 @@ namespace Helodrace.ModernWar
                 if (!IsUsable(record)
                     || record.props.kind != ModularSightKind.Magnifier)
                     continue;
-                if (record.axis.x > candidate.axisX + OrderEpsilon)
+                if (record.axis.X > candidate.axisX + OrderEpsilon)
                     candidate.magnifierAhead = true;
-                if (!compatible || record.axis.x >= candidate.axisX - OrderEpsilon)
+                if (!compatible || record.axis.X >= candidate.axisX - OrderEpsilon)
                     continue;
-                if (closestBehind == null || record.axis.x > closestBehind.axis.x)
+                if (closestBehind == null || record.axis.X > closestBehind.axis.X)
                     closestBehind = record;
             }
             candidate.magnifier = closestBehind;
@@ -390,8 +391,8 @@ namespace Helodrace.ModernWar
                     && r.props.kind == ModularSightKind.IronRear).ToList();
             bool completeIronPair = ironFronts.Count > 0
                 && ironRears.Count > 0
-                && ironFronts.Max(r => r.axis.x)
-                    > ironRears.Min(r => r.axis.x) + OrderEpsilon;
+                && ironFronts.Max(r => r.axis.X)
+                    > ironRears.Min(r => r.axis.X) + OrderEpsilon;
             if (completeIronPair)
             {
                 for (int i = 0; i < group.records.Count; i++)
@@ -419,21 +420,21 @@ namespace Helodrace.ModernWar
             }
             if (intervals.Count == 0) return 1f;
 
-            intervals.Sort((a, b) => a.x.CompareTo(b.x));
+            intervals.Sort((a, b) => a.X.CompareTo(b.X));
             float covered = 0f;
-            float currentLow = intervals[0].x;
-            float currentHigh = intervals[0].y;
+            float currentLow = intervals[0].X;
+            float currentHigh = intervals[0].Y;
             for (int i = 1; i < intervals.Count; i++)
             {
                 Vector2 interval = intervals[i];
-                if (interval.x <= currentHigh)
+                if (interval.X <= currentHigh)
                 {
-                    currentHigh = Mathf.Max(currentHigh, interval.y);
+                    currentHigh = Mathf.Max(currentHigh, interval.Y);
                     continue;
                 }
                 covered += currentHigh - currentLow;
-                currentLow = interval.x;
-                currentHigh = interval.y;
+                currentLow = interval.X;
+                currentHigh = interval.Y;
             }
             covered += currentHigh - currentLow;
             return Mathf.Clamp01(1f - covered / (maxAim - minAim));
@@ -459,11 +460,11 @@ namespace Helodrace.ModernWar
                 float frontX = group.records
                     .Where(r => IsUsable(r)
                         && r.props.kind == ModularSightKind.IronFront)
-                    .Max(r => r.axis.x);
+                    .Max(r => r.axis.X);
                 float rearX = group.records
                     .Where(r => IsUsable(r)
                         && r.props.kind == ModularSightKind.IronRear)
-                    .Min(r => r.axis.x);
+                    .Min(r => r.axis.X);
                 ironOrder = frontX > rearX + OrderEpsilon;
             }
 
@@ -498,7 +499,7 @@ namespace Helodrace.ModernWar
         {
             return record != null
                 && record.mountSurface != ModularRailSurface.Bottom
-                && record.axis.y >= MinimumUsableAxisHeight;
+                && record.axis.Y >= MinimumUsableAxisHeight;
         }
 
         private static void AddExcluded(HashSet<int> excluded, SightRecord record)

@@ -88,7 +88,7 @@ namespace Helodrace.ModernWar
             {
                 Vector3 local = card.Socket.transform?.position ?? Vector3.zero;
                 if (card.Child?.attachedToRail == true) local.x += card.Child.railOffset;
-                Vector2 point = RealtimeSocketPoint(owner, local);
+                var point = RealtimeSocketPoint(owner, local);
                 card.Anchor = WorldToGui(point, origin, scale);
                 Vector2 outward = Vector2.zero;
                 if (card.Socket.isRail && (card.Socket.railSurface == ModularRailSurface.Top
@@ -96,12 +96,12 @@ namespace Helodrace.ModernWar
                 {
                     Vector3 outside = local;
                     outside.z += card.Socket.railSurface == ModularRailSurface.Top ? 1f : -1f;
-                    Vector2 direction = RealtimeSocketPoint(owner, outside) - point;
-                    outward = new Vector2(direction.x, -direction.y).normalized;
+                    var direction = RealtimeSocketPoint(owner, outside) - point;
+                    outward = new Vector2(direction.X, -direction.Y).normalized;
                 }
                 layoutCards.Add(new ModularWeaponSocketLayout.Card {
                     Compact = card.Compact, Rail = card.Socket.isRail, Outward = outward,
-                    Anchor = card.Anchor - previewCamera.OffsetFromFit(cameraArea.ToNative(), point.ToNative()).ToGame() });
+                    Anchor = card.Anchor - previewCamera.OffsetFromFit(cameraArea.ToNative(), point).ToGame() });
             }
             if (!ReferenceEquals(socketLayoutSnapshot, snapshot) || socketLayoutOwner != owner.path
                 || socketLayoutGroup != activePreviewGroup?.Key || socketLayoutArea != area)
@@ -123,10 +123,10 @@ namespace Helodrace.ModernWar
                 }
             }
             socketPage = Mathf.Clamp(socketPage, 0, socketPages - 1);
-            Vector2 ownerCenter;
+            System.Numerics.Vector2 ownerCenter;
             float ownerAngle;
             ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(root, owner, false, out ownerCenter, out ownerAngle);
-            Vector2 boxOffset = previewCamera.OffsetFromFit(cameraArea.ToNative(), ownerCenter.ToNative()).ToGame();
+            Vector2 boxOffset = previewCamera.OffsetFromFit(cameraArea.ToNative(), ownerCenter).ToGame();
             for (int i = 0; i < socketCards.Count; i++)
             {
                 var card = socketCards[i];
@@ -137,12 +137,12 @@ namespace Helodrace.ModernWar
             }
         }
 
-        private Vector2 RealtimeSocketPoint(ModularRenderNode owner, Vector3 local)
+        private System.Numerics.Vector2 RealtimeSocketPoint(ModularRenderNode owner, Vector3 local)
         {
-            Vector2 center;
+            System.Numerics.Vector2 center;
             float angle;
             ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(root, owner, false, out center, out angle);
-            Vector2 offset = owner.transform.TransformPoint(local) - owner.GraphicCenter;
+            var offset = owner.transform.TransformPoint(local.ToNative()) - owner.GraphicCenter;
             return center + ModularTransform2D.Rotate(offset, angle - owner.GraphicAngle);
         }
 

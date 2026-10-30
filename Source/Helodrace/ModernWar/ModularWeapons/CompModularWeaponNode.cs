@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using RimWorld;
 using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -1150,7 +1151,7 @@ namespace Helodrace.ModernWar
             List<ModularRenderNode> result = new List<ModularRenderNode>();
             HashSet<int> visited = new HashSet<int>();
             ModularTransform2D rootTransform = ModularTransform2D.Identity;
-            rootTransform.scale = Vector2.one * Mathf.Max(0.01f, Props.assemblyScale);
+            rootTransform.scale = Vector2.One * Mathf.Max(0.01f, Props.assemblyScale);
             rootTransform.angle = Props.graphicAngle;
             BuildSnapshotRecursive(
                 result,
@@ -1333,18 +1334,18 @@ namespace Helodrace.ModernWar
                     effectiveSocket.position += mount.oppositeSurfaceOffset
                         * childPaletteRatio;
                 bool childAttachedToRail = socket.isRail;
-                Vector2 childRailStart = Vector2.zero;
-                Vector2 childRailEnd = Vector2.zero;
-                Vector2 childOccupiedStart = Vector2.zero;
-                Vector2 childOccupiedEnd = Vector2.zero;
+                Vector2 childRailStart = Vector2.Zero;
+                Vector2 childRailEnd = Vector2.Zero;
+                Vector2 childOccupiedStart = Vector2.Zero;
+                Vector2 childOccupiedEnd = Vector2.Zero;
                 if (childAttachedToRail)
                 {
                     Vector3 left = socket.transform.position;
                     Vector3 right = socket.transform.position;
                     left.x -= socket.railLength * 0.5f;
                     right.x += socket.railLength * 0.5f;
-                    childRailStart = transform.TransformPoint(left);
-                    childRailEnd = transform.TransformPoint(right);
+                    childRailStart = transform.TransformPoint(left.ToNative());
+                    childRailEnd = transform.TransformPoint(right.ToNative());
 
                     float occupiedHalf = Mathf.Max(0f,
                         mount.EffectivePhysicalLength * childPaletteRatio) * 0.5f;
@@ -1356,12 +1357,12 @@ namespace Helodrace.ModernWar
                     right.x += childRailOffsets[i]
                         + mount.physicalCenterOffset * childPaletteRatio
                         + occupiedHalf;
-                    childOccupiedStart = transform.TransformPoint(left);
-                    childOccupiedEnd = transform.TransformPoint(right);
+                    childOccupiedStart = transform.TransformPoint(left.ToNative());
+                    childOccupiedEnd = transform.TransformPoint(right.ToNative());
                 }
                 ModularTransform2D childTransform = transform.Attach(
-                    effectiveSocket,
-                    mount.EffectiveTransform(socket),
+                    effectiveSocket.ToNativePose(),
+                    mount.EffectiveTransform(socket).ToNativePose(),
                     childComp.Props.graphicAngle,
                     childPaletteRatio);
                 childComp.BuildSnapshotRecursive(

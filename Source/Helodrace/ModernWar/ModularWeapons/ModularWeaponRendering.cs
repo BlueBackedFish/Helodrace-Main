@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -118,16 +119,15 @@ namespace Helodrace.ModernWar
                 if (graphic == null || material == null) continue;
 
                 Vector2 local = node.GraphicCenter * stackScale;
-                if (flip) local.x = -local.x;
-                Vector2 worldOffset = RotateForWorldYaw(local, bodyAngle);
-                Vector3 center = baseCenter + new Vector3(worldOffset.x, 0f, worldOffset.y);
+                if (flip) local.X = -local.X;
+                Vector2 worldOffset = ModularTransform2D.RotateForWorldYaw(local, bodyAngle);
+                Vector3 center = baseCenter + new Vector3(worldOffset.X, 0f, worldOffset.Y);
                 center.y += outlineLayer * LayerAltitudeStep
                     + node.Props.outlinePriority * OutlinePriorityAltitudeStep
                     + i * 0.00000001f;
 
-                Vector2 size = Vector2.Scale(graphic.drawSize,
-                    AbsoluteScale(node.GraphicScale)) * stackScale;
-                if (!rotated && rot.IsHorizontal) size = size.Rotated();
+                Vector2 size = graphic.drawSize.ToNative() * AbsoluteScale(node.GraphicScale) * stackScale;
+                if (!rotated && rot.IsHorizontal) size = new Vector2(size.Y, size.X);
                 float drawAngle = bodyAngle + LocalGraphAngleAsWorldYaw(
                     node.GraphicAngle, flip);
                 if (flip && bodyGraphic.data != null)
@@ -136,7 +136,7 @@ namespace Helodrace.ModernWar
                 Material printMaterial = node.GraphicVerticallyFlipped
                     ? VerticallyFlippedMaterial(material)
                     : material;
-                Vector2[] uvs = null;
+                UnityEngine.Vector2[] uvs = null;
                 Color32 vertexColor = new Color32(255, 255, 255, 255);
                 if (!node.GraphicVerticallyFlipped)
                     Graphic.TryGetTextureAtlasReplacementInfo(
@@ -151,7 +151,7 @@ namespace Helodrace.ModernWar
                 Printer_Plane.PrintPlane(
                     layer,
                     center,
-                    size,
+                    size.ToGame(),
                     printMaterial,
                     drawAngle,
                     flip,
@@ -204,14 +204,13 @@ namespace Helodrace.ModernWar
                 if (material == null) continue;
 
                 Vector2 local = node.GraphicCenter * stackScale;
-                if (flip) local.x = -local.x;
-                Vector2 worldOffset = RotateForWorldYaw(local, bodyAngle);
-                Vector3 center = baseCenter + new Vector3(worldOffset.x, 0f, worldOffset.y);
+                if (flip) local.X = -local.X;
+                Vector2 worldOffset = ModularTransform2D.RotateForWorldYaw(local, bodyAngle);
+                Vector3 center = baseCenter + new Vector3(worldOffset.X, 0f, worldOffset.Y);
                 center.y += node.GraphicLayer * LayerAltitudeStep;
 
-                Vector2 size = Vector2.Scale(graphic.drawSize,
-                    AbsoluteScale(node.GraphicScale)) * stackScale;
-                if (!rotated && rot.IsHorizontal) size = size.Rotated();
+                Vector2 size = graphic.drawSize.ToNative() * AbsoluteScale(node.GraphicScale) * stackScale;
+                if (!rotated && rot.IsHorizontal) size = new Vector2(size.Y, size.X);
 
                 float drawAngle = bodyAngle + LocalGraphAngleAsWorldYaw(
                     node.GraphicAngle, flip);
@@ -221,7 +220,7 @@ namespace Helodrace.ModernWar
                 Material printMaterial = node.GraphicVerticallyFlipped
                     ? VerticallyFlippedMaterial(material)
                     : material;
-                Vector2[] uvs = null;
+                UnityEngine.Vector2[] uvs = null;
                 Color32 vertexColor = new Color32(255, 255, 255, 255);
                 if (!node.GraphicVerticallyFlipped)
                     Graphic.TryGetTextureAtlasReplacementInfo(
@@ -236,7 +235,7 @@ namespace Helodrace.ModernWar
                 Printer_Plane.PrintPlane(
                     layer,
                     center,
-                    size,
+                    size.ToGame(),
                     printMaterial,
                     drawAngle,
                     flip,
@@ -287,16 +286,16 @@ namespace Helodrace.ModernWar
                     flipped,
                     out local,
                     out animatedGraphAngle);
-                if (flipped) local.x = -local.x;
-                Vector2 worldOffset = RotateForWorldYaw(local, bodyAngle);
-                Vector3 position = drawLoc + new Vector3(worldOffset.x, 0f, worldOffset.y);
+                if (flipped) local.X = -local.X;
+                Vector2 worldOffset = ModularTransform2D.RotateForWorldYaw(local, bodyAngle);
+                Vector3 position = drawLoc + new Vector3(worldOffset.X, 0f, worldOffset.Y);
                 position.y += node.GraphicLayer * LayerAltitudeStep;
 
                 Vector2 scale = AbsoluteScale(node.GraphicScale);
                 Vector3 size = new Vector3(
-                    graphic.drawSize.x * scale.x,
+                    graphic.drawSize.x * scale.X,
                     0f,
-                    graphic.drawSize.y * scale.y);
+                    graphic.drawSize.y * scale.Y);
                 float localAngle = LocalGraphAngleAsWorldYaw(
                     animatedGraphAngle, flipped);
                 Matrix4x4 matrix = Matrix4x4.TRS(
@@ -337,18 +336,18 @@ namespace Helodrace.ModernWar
                     flipped,
                     out local,
                     out animatedGraphAngle);
-                if (flipped) local.x = -local.x;
-                Vector2 worldOffset = RotateForWorldYaw(local, bodyAngle);
-                Vector3 position = drawLoc + new Vector3(worldOffset.x, 0f, worldOffset.y);
+                if (flipped) local.X = -local.X;
+                Vector2 worldOffset = ModularTransform2D.RotateForWorldYaw(local, bodyAngle);
+                Vector3 position = drawLoc + new Vector3(worldOffset.X, 0f, worldOffset.Y);
                 position.y += outlineLayer * LayerAltitudeStep
                     + node.Props.outlinePriority * OutlinePriorityAltitudeStep
                     + i * 0.00000001f;
 
                 Vector2 scale = AbsoluteScale(node.GraphicScale);
                 Vector3 size = new Vector3(
-                    graphic.drawSize.x * scale.x,
+                    graphic.drawSize.x * scale.X,
                     0f,
-                    graphic.drawSize.y * scale.y);
+                    graphic.drawSize.y * scale.Y);
                 float localAngle = LocalGraphAngleAsWorldYaw(
                     animatedGraphAngle, flipped);
                 Matrix4x4 matrix = Matrix4x4.TRS(
@@ -373,7 +372,7 @@ namespace Helodrace.ModernWar
                 node.Props.graphicOffset,
                 out animatedAngle);
             center = node.transform.TransformPoint(
-                new Vector3(localCenter.x, 0f, localCenter.y));
+                new System.Numerics.Vector3(localCenter.X, 0f, localCenter.Y));
             graphAngle = node.GraphicAngle + animatedAngle;
 
             // Socket transforms in the snapshot are static. Reapply every animated
@@ -392,15 +391,15 @@ namespace Helodrace.ModernWar
                 Vector2 animatedPoint = AnimateLocalPoint(
                     root,
                     ancestor,
-                    new Vector3(pointInAncestor.x, 0f, pointInAncestor.y),
+                    new Vector3(pointInAncestor.X, 0f, pointInAncestor.Y),
                     out ancestorAngle);
                 center = ancestor.transform.TransformPoint(
-                    new Vector3(animatedPoint.x, 0f, animatedPoint.y));
+                    new System.Numerics.Vector3(animatedPoint.X, 0f, animatedPoint.Y));
                 graphAngle += ancestorAngle;
                 ancestorComp = ancestor.parentComp;
             }
 
-            center += ModularWeaponCycleUtility.ReloadMagazineOffset(root, node)
+            center += ModularWeaponCycleUtility.ReloadMagazineOffset(root, node).ToNative()
                 * Mathf.Max(0.01f, root.Props.assemblyScale);
         }
 
@@ -425,8 +424,8 @@ namespace Helodrace.ModernWar
                 Vector2 rotated = ModularTransform2D.Rotate(
                     fromPivot,
                     animatedAngle);
-                localPoint.x = pivot.x + rotated.x;
-                localPoint.z = pivot.z + rotated.y;
+                localPoint.x = pivot.x + rotated.X;
+                localPoint.z = pivot.z + rotated.Y;
             }
             return new Vector2(localPoint.x, localPoint.z);
         }
@@ -481,11 +480,11 @@ namespace Helodrace.ModernWar
                 port.feedEndOffset,
                 progress);
             Vector3 localPoint = portNode.Props.graphicOffset + feedOffset;
-            Vector2 local = portNode.transform.TransformPoint(localPoint);
-            if (flipped) local.x = -local.x;
-            Vector2 worldOffset = RotateForWorldYaw(local, bodyAngle);
+            Vector2 local = portNode.transform.TransformPoint(localPoint.ToNative());
+            if (flipped) local.X = -local.X;
+            Vector2 worldOffset = ModularTransform2D.RotateForWorldYaw(local, bodyAngle);
             Vector3 position = drawLoc
-                + new Vector3(worldOffset.x, 0f, worldOffset.y);
+                + new Vector3(worldOffset.X, 0f, worldOffset.Y);
             // The live round belongs behind every weapon fill but in front of the
             // composite outline. Keeping it halfway through the outline gap makes
             // that ordering independent of the receiver's authored graphic layer.
@@ -520,7 +519,7 @@ namespace Helodrace.ModernWar
 
         private static Vector2 AbsoluteScale(Vector2 scale)
         {
-            return new Vector2(Mathf.Abs(scale.x), Mathf.Abs(scale.y));
+            return new Vector2(Mathf.Abs(scale.X), Mathf.Abs(scale.Y));
         }
 
         private static Material VerticallyFlippedMaterial(Material source)
@@ -534,10 +533,10 @@ namespace Helodrace.ModernWar
             {
                 name = source.name + " (Helodrace vertical flip)"
             };
-            Vector2 scale = source.mainTextureScale;
-            Vector2 offset = source.mainTextureOffset;
-            result.mainTextureScale = new Vector2(scale.x, -scale.y);
-            result.mainTextureOffset = new Vector2(offset.x, offset.y + scale.y);
+            Vector2 scale = source.mainTextureScale.ToNative();
+            Vector2 offset = source.mainTextureOffset.ToNative();
+            result.mainTextureScale = new Vector2(scale.X, -scale.Y).ToGame();
+            result.mainTextureOffset = new Vector2(offset.X, offset.Y + scale.Y).ToGame();
             verticalFlipMaterials[source] = result;
             return result;
         }
@@ -547,13 +546,6 @@ namespace Helodrace.ModernWar
         // use the same Quaternion that rotates the rendered mesh. Otherwise a part's
         // centre and its pixels orbit in opposite directions; the distant stock exposes
         // the error most clearly.
-        private static Vector2 RotateForWorldYaw(Vector2 value, float degrees)
-        {
-            Vector3 rotated = Quaternion.AngleAxis(degrees, Vector3.up)
-                * new Vector3(value.x, 0f, value.y);
-            return new Vector2(rotated.x, rotated.z);
-        }
-
         private static float LocalGraphAngleAsWorldYaw(float graphAngle, bool flipped)
         {
             return flipped ? graphAngle : -graphAngle;

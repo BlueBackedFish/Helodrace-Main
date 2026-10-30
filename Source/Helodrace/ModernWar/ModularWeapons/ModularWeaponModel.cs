@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
+using NativeVector2 = System.Numerics.Vector2;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -207,6 +208,8 @@ namespace Helodrace.ModernWar
         public float angle;
         public Vector2 scale = Vector2.one;
         public float layer;
+
+        public ModularAttachmentPose ToNativePose() => new ModularAttachmentPose(position.ToNative(), angle, scale.ToNative(), layer);
 
         public ModularAttachmentTransform Clone()
         {
@@ -758,88 +761,6 @@ namespace Helodrace.ModernWar
         }
     }
 
-    public struct ModularTransform2D
-    {
-        public Vector2 position;
-        public float angle;
-        public Vector2 scale;
-        public float layer;
-
-        public static ModularTransform2D Identity => new ModularTransform2D
-        {
-            position = Vector2.zero,
-            angle = 0f,
-            scale = Vector2.one,
-            layer = 0f
-        };
-
-        public Vector2 TransformPoint(Vector3 local)
-        {
-            Vector2 scaled = new Vector2(local.x * scale.x, local.z * scale.y);
-            return position + Rotate(scaled, angle);
-        }
-
-        public Vector2 InverseTransformPoint(Vector2 world)
-        {
-            Vector2 unrotated = Rotate(world - position, -angle);
-            Vector2 safeScale = SafeScale(scale);
-            return new Vector2(
-                unrotated.x / safeScale.x,
-                unrotated.y / safeScale.y);
-        }
-
-        public ModularTransform2D Attach(
-            ModularAttachmentTransform socket,
-            ModularAttachmentTransform mount,
-            float childAngleOffset = 0f,
-            float childPaletteRatio = 1f)
-        {
-            socket = socket ?? new ModularAttachmentTransform();
-            mount = mount ?? new ModularAttachmentTransform();
-
-            Vector2 socketPosition = TransformPoint(socket.position);
-            float socketAngle = angle + socket.angle;
-            Vector2 socketScale = Vector2.Scale(scale, SafeScale(socket.scale));
-            Vector2 mountScale = SafeScale(mount.scale);
-            Vector2 childScale = new Vector2(
-                socketScale.x / mountScale.x * childPaletteRatio,
-                socketScale.y / mountScale.y * childPaletteRatio);
-            // The authored part angle belongs to the complete child node, not just its
-            // texture. Folding it into the attachment transform keeps the mount pinned
-            // to the parent socket while the graphic centre and all descendant sockets
-            // orbit around that mount.
-            float childAngle = socketAngle - mount.angle + childAngleOffset;
-            Vector2 mountedOffset = new Vector2(
-                mount.position.x * childScale.x,
-                mount.position.z * childScale.y);
-
-            return new ModularTransform2D
-            {
-                position = socketPosition - Rotate(mountedOffset, childAngle),
-                angle = childAngle,
-                scale = childScale,
-                layer = layer + socket.layer - mount.layer
-            };
-        }
-
-        private static Vector2 SafeScale(Vector2 value)
-        {
-            return new Vector2(
-                Mathf.Abs(value.x) < 0.0001f ? 1f : value.x,
-                Mathf.Abs(value.y) < 0.0001f ? 1f : value.y);
-        }
-
-        public static Vector2 Rotate(Vector2 value, float degrees)
-        {
-            float radians = degrees * Mathf.Deg2Rad;
-            float sin = Mathf.Sin(radians);
-            float cos = Mathf.Cos(radians);
-            return new Vector2(
-                value.x * cos - value.y * sin,
-                value.x * sin + value.y * cos);
-        }
-    }
-
     public sealed class ModularRenderNode
     {
         public string path;
@@ -854,10 +775,10 @@ namespace Helodrace.ModernWar
         public float railOffset;
         public bool attachedToRail;
         public bool mountedOnOppositeSurface;
-        public Vector2 railStart;
-        public Vector2 railEnd;
-        public Vector2 occupiedRailStart;
-        public Vector2 occupiedRailEnd;
+        public NativeVector2 railStart;
+        public NativeVector2 railEnd;
+        public NativeVector2 occupiedRailStart;
+        public NativeVector2 occupiedRailEnd;
 
         public ModularWeaponGraphicLayer additionalGraphic;
         public Graphic Graphic => additionalGraphic == null ? thing.Graphic : additionalGraphic.graphicData.Graphic;
@@ -870,10 +791,10 @@ namespace Helodrace.ModernWar
         }
 
         public CompProperties_ModularWeaponNode Props => comp.Props;
-        public Vector2 GraphicCenter => transform.TransformPoint(Props.graphicOffset);
+        public NativeVector2 GraphicCenter => transform.TransformPoint(Props.graphicOffset.ToNative());
         public float GraphicAngle => transform.angle;
-        public Vector2 GraphicScale => Vector2.Scale(transform.scale, Props.graphicScale);
-        public bool GraphicVerticallyFlipped => GraphicScale.y < 0f;
+        public NativeVector2 GraphicScale => transform.scale * Props.graphicScale.ToNative();
+        public bool GraphicVerticallyFlipped => GraphicScale.Y < 0f;
         public float GraphicLayer => transform.layer + (additionalGraphic?.graphicLayer ?? Props.graphicLayer);
     }
 }

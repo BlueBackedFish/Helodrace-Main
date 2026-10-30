@@ -72,10 +72,10 @@ namespace Helodrace.ModernWar
                 out flipped);
 
             Vector3 portLocal = portNode.Props.graphicOffset + port.offset;
-            Vector2 transformed = portNode.transform.TransformPoint(portLocal);
-            if (flipped) transformed.x = -transformed.x;
+            var transformed = portNode.transform.TransformPoint(portLocal.ToNative());
+            if (flipped) transformed.X = -transformed.X;
             Vector3 worldOffset = Quaternion.AngleAxis(bodyAngle, Vector3.up)
-                * new Vector3(transformed.x, 0f, transformed.y);
+                * new Vector3(transformed.X, 0f, transformed.Y);
             Vector3 origin = gunCenter + worldOffset;
 
             GenSpawn.Spawn(casing, origin.ToIntVec3(), shooter.Map);

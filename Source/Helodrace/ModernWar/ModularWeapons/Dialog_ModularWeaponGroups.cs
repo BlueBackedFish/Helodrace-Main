@@ -123,18 +123,18 @@ namespace Helodrace.ModernWar
             if (!data.HasPixels) return;
             Rect uv = data.VisibleUv;
             if (node.GraphicVerticallyFlipped) uv.y = 1f - uv.yMax;
-            Vector2 graphicScale = node.GraphicScale;
+            var graphicScale = node.GraphicScale;
             Rect local = ModularWeaponImageBounds.OnCanvas(uv, Vector2.Scale(node.Graphic.drawSize,
-                new Vector2(Mathf.Abs(graphicScale.x), Mathf.Abs(graphicScale.y))));
-            Vector2 center;
+                new Vector2(Mathf.Abs(graphicScale.X), Mathf.Abs(graphicScale.Y))));
+            System.Numerics.Vector2 center;
             float angle;
             ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(root, node, false, out center, out angle);
             for (int x = 0; x < 2; x++)
                 for (int y = 0; y < 2; y++)
                 {
-                    Vector2 point = center + ModularTransform2D.Rotate(
-                        new Vector2(x == 0 ? local.xMin : local.xMax, y == 0 ? local.yMin : local.yMax), angle);
-                    var corner = new Rect(point.x, point.y, 0f, 0f);
+                    System.Numerics.Vector2 point = center + ModularTransform2D.Rotate(
+                        new System.Numerics.Vector2(x == 0 ? local.xMin : local.xMax, y == 0 ? local.yMin : local.yMax), angle);
+                    var corner = new Rect(point.X, point.Y, 0f, 0f);
                     bounds = found ? ModularWeaponImageBounds.Union(bounds, corner) : corner;
                     found = true;
                 }

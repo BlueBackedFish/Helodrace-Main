@@ -58,15 +58,15 @@ internal static class PlacementEditorTests
 
         var moving=Node("MoveA",201,new CompProperties_ModularWeaponNode());
         var rotated=Node("MoveB",202,new CompProperties_ModularWeaponNode());
-        moving.transform=new ModularTransform2D {scale=new Vector2(.5f,.5f)};
-        rotated.transform=new ModularTransform2D {angle=90,scale=new Vector2(2f,-.25f)};
+        moving.transform=new ModularTransform2D {scale=new System.Numerics.Vector2(.5f,.5f)};
+        rotated.transform=new ModularTransform2D {angle=90,scale=new System.Numerics.Vector2(2f,-.25f)};
         Vector2 delta=new Vector2(.12f,-.07f);
         var move=Editor.GetMethod("MoveGraphics",Static);
         move.Invoke(null,new object[]{new List<ModularRenderNode>{moving,rotated},delta});
         foreach(var node in new[]{moving,rotated})
         {
-            Vector2 actual=node.transform.TransformPoint(node.Props.graphicOffset)-node.transform.position;
-            check((actual-delta).sqrMagnitude<.000001f,"Group graphics move by identical screen-space distances across rotation, palette scale and mirroring");
+            var actual=node.transform.TransformPoint(node.Props.graphicOffset.ToNative())-node.transform.position;
+            check((actual-delta.ToNative()).LengthSquared()<.000001f,"Group graphics move by identical screen-space distances across rotation, palette scale and mirroring");
         }
         var duplicate=Node("MoveA",203,moving.Props);Vector3 before=moving.Props.graphicOffset;
         move.Invoke(null,new object[]{new List<ModularRenderNode>{moving,duplicate},delta});

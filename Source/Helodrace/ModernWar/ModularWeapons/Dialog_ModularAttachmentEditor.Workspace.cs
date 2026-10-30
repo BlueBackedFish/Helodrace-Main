@@ -142,12 +142,13 @@ namespace Helodrace.ModernWar
         internal static void MoveGraphics(List<ModularRenderNode> nodes, Vector2 rootDelta)
         {
             var moved=new HashSet<CompProperties_ModularWeaponNode>();
+            var nativeDelta=rootDelta.ToNative();
             foreach (ModularRenderNode node in nodes)
             {
                 if (!moved.Add(node.Props)) continue; // Shared Def: move once, not once per instance.
-                Vector2 local=ModularTransform2D.Rotate(rootDelta,-node.transform.angle);
-                node.Props.graphicOffset+=new Vector3(local.x/SafeSignedScale(node.transform.scale.x),0f,
-                    local.y/SafeSignedScale(node.transform.scale.y));
+                var local=ModularTransform2D.Rotate(nativeDelta,-node.transform.angle);
+                node.Props.graphicOffset+=new Vector3(local.X/SafeSignedScale(node.transform.scale.X),0f,
+                    local.Y/SafeSignedScale(node.transform.scale.Y));
             }
         }
     }

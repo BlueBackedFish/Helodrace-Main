@@ -886,6 +886,9 @@ namespace Helodrace.ModernWar
             }
         }
 
+        private static Vector2 WorldToGui(System.Numerics.Vector2 point, Vector2 origin, float scale)
+            => (origin.ToNative() + new System.Numerics.Vector2(point.X, -point.Y) * scale).ToGame();
+
         private static Vector2 WorldToGui(Vector2 point, Vector2 origin, float scale)
         {
             return new Vector2(origin.x + point.x * scale, origin.y - point.y * scale);

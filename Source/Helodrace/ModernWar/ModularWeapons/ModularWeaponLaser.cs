@@ -36,11 +36,11 @@ namespace Helodrace.ModernWar
                 if (laser == null) continue;
 
                 Vector3 localPoint = node.Props.graphicOffset + laser.emitterOffset;
-                Vector2 local = node.transform.TransformPoint(localPoint);
-                if (flipped) local.x = -local.x;
-                Vector2 worldOffset = RotateForWorldYaw(local, bodyAngle);
+                var local = node.transform.TransformPoint(localPoint.ToNative());
+                if (flipped) local.X = -local.X;
+                var worldOffset = ModularTransform2D.RotateForWorldYaw(local, bodyAngle);
                 Vector3 origin = drawLoc
-                    + new Vector3(worldOffset.x, 0f, worldOffset.y);
+                    + new Vector3(worldOffset.X, 0f, worldOffset.Y);
                 origin.y = AltitudeLayer.MoteOverhead.AltitudeFor();
 
                 Vector3 end = target;
@@ -95,11 +95,11 @@ namespace Helodrace.ModernWar
                 if (laser == null) continue;
 
                 Vector3 localPoint = node.Props.graphicOffset + laser.emitterOffset;
-                Vector2 local = node.transform.TransformPoint(localPoint);
-                if (flipped) local.x = -local.x;
-                Vector2 worldOffset = RotateForWorldYaw(local, bodyAngle);
+                var local = node.transform.TransformPoint(localPoint.ToNative());
+                if (flipped) local.X = -local.X;
+                var worldOffset = ModularTransform2D.RotateForWorldYaw(local, bodyAngle);
                 Vector3 origin = drawLoc
-                    + new Vector3(worldOffset.x, 0f, worldOffset.y);
+                    + new Vector3(worldOffset.X, 0f, worldOffset.Y);
                 origin.y = AltitudeLayer.MoteOverhead.AltitudeFor();
 
                 Vector3 delta = target - origin;
@@ -129,13 +129,6 @@ namespace Helodrace.ModernWar
                     blurredMaterial,
                     Mathf.Max(0.005f, laser.beamWidth * 0.55f));
             }
-        }
-
-        private static Vector2 RotateForWorldYaw(Vector2 value, float degrees)
-        {
-            Vector3 rotated = Quaternion.AngleAxis(degrees, Vector3.up)
-                * new Vector3(value.x, 0f, value.y);
-            return new Vector2(rotated.x, rotated.z);
         }
 
         private static Material MaterialFor(Color color)

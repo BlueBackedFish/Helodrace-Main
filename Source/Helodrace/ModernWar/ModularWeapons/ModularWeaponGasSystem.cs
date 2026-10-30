@@ -110,7 +110,7 @@ namespace Helodrace.ModernWar
 
                 float localLength = Mathf.Abs(
                     muzzle.transform.position.x - barrelMount.transform.position.x);
-                localLength *= Mathf.Abs(node.transform.scale.x);
+                localLength *= Mathf.Abs(node.transform.scale.X);
                 longest = Mathf.Max(longest, localLength * BarrelGeometryToInches);
             }
             return longest;

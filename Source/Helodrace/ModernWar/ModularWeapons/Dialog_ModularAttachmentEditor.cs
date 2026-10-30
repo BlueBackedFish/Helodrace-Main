@@ -216,12 +216,12 @@ namespace Helodrace.ModernWar
                 if (graphic == null || outline == null) continue;
 
                 ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(
-                    root, node, false, out Vector2 posedCenter, out float posedAngle);
+                    root, node, false, out System.Numerics.Vector2 posedCenter, out float posedAngle);
                 Vector2 center = WorldToGui(posedCenter, origin, pixelsPerCell);
-                Vector2 graphicScale = node.GraphicScale;
+                var graphicScale = node.GraphicScale;
                 Vector2 size = Vector2.Scale(graphic.drawSize,
-                    new Vector2(Mathf.Abs(graphicScale.x),
-                        Mathf.Abs(graphicScale.y))) * pixelsPerCell;
+                    new Vector2(Mathf.Abs(graphicScale.X),
+                        Mathf.Abs(graphicScale.Y))) * pixelsPerCell;
                 Rect drawRect = CenteredRect(center, size);
                 Matrix4x4 matrix = GUI.matrix;
                 if (!Mathf.Approximately(posedAngle, 0f))
@@ -239,12 +239,12 @@ namespace Helodrace.ModernWar
                 if (texture == null) continue;
 
                 ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(
-                    root, node, false, out Vector2 posedCenter, out float posedAngle);
+                    root, node, false, out System.Numerics.Vector2 posedCenter, out float posedAngle);
                 Vector2 center = WorldToGui(posedCenter, origin, pixelsPerCell);
-                Vector2 graphicScale = node.GraphicScale;
+                var graphicScale = node.GraphicScale;
                 Vector2 size = Vector2.Scale(graphic.drawSize,
-                    new Vector2(Mathf.Abs(graphicScale.x),
-                        Mathf.Abs(graphicScale.y))) * pixelsPerCell;
+                    new Vector2(Mathf.Abs(graphicScale.X),
+                        Mathf.Abs(graphicScale.Y))) * pixelsPerCell;
                 Rect drawRect = CenteredRect(center, size);
                 Color old = GUI.color;
                 GUI.color = (node.path == selectedPath || selectedPaths.Contains(node.path))
@@ -339,7 +339,7 @@ namespace Helodrace.ModernWar
             if (section == EditorSection.Placement && flashlight != null)
             {
                 Vector3 emitterLocal = node.Props.graphicOffset + flashlight.emitterOffset;
-                Vector2 emitterWorld = node.transform.TransformPoint(emitterLocal);
+                var emitterWorld = node.transform.TransformPoint(emitterLocal.ToNative());
                 Vector2 emitter = WorldToGui(emitterWorld, origin, pixelsPerCell);
                 Color lightColor = target == EditTarget.Flashlight
                     ? Color.yellow
@@ -351,9 +351,9 @@ namespace Helodrace.ModernWar
                     + new Vector3(previewLength, 0f, flashlight.farWidth * 0.5f);
                 Vector3 farBottomLocal = emitterLocal
                     + new Vector3(previewLength, 0f, -flashlight.farWidth * 0.5f);
-                Vector2 farTop = WorldToGui(node.transform.TransformPoint(farTopLocal),
+                Vector2 farTop = WorldToGui(node.transform.TransformPoint(farTopLocal.ToNative()),
                     origin, pixelsPerCell);
-                Vector2 farBottom = WorldToGui(node.transform.TransformPoint(farBottomLocal),
+                Vector2 farBottom = WorldToGui(node.transform.TransformPoint(farBottomLocal.ToNative()),
                     origin, pixelsPerCell);
                 Widgets.DrawLine(emitter, farTop, lightColor, 2f);
                 Widgets.DrawLine(emitter, farBottom, lightColor, 2f);
@@ -364,15 +364,15 @@ namespace Helodrace.ModernWar
             if (section == EditorSection.Placement && laser != null)
             {
                 Vector3 emitterLocal = node.Props.graphicOffset + laser.emitterOffset;
-                Vector2 emitterWorld = node.transform.TransformPoint(emitterLocal);
+                var emitterWorld = node.transform.TransformPoint(emitterLocal.ToNative());
                 Vector2 emitter = WorldToGui(emitterWorld, origin, pixelsPerCell);
                 Color laserColor = target == EditTarget.Laser
                     ? Color.yellow
                     : laser.color;
                 DrawCross(emitter, laserColor, 7f);
                 Vector2 endpoint = WorldToGui(
-                    node.transform.TransformPoint(emitterLocal
-                        + new Vector3(Mathf.Min(1.4f, laser.maxLength), 0f, 0f)),
+                    node.transform.TransformPoint((emitterLocal
+                        + new Vector3(Mathf.Min(1.4f, laser.maxLength), 0f, 0f)).ToNative()),
                     origin,
                     pixelsPerCell);
                 Widgets.DrawLine(emitter, endpoint, laserColor,
@@ -387,9 +387,9 @@ namespace Helodrace.ModernWar
                     0f, 0f, node.Props.verticalOccupancyOffset - half);
                 Vector3 highLocal = node.Props.graphicOffset + new Vector3(
                     0f, 0f, node.Props.verticalOccupancyOffset + half);
-                Vector2 low = WorldToGui(node.transform.TransformPoint(lowLocal),
+                Vector2 low = WorldToGui(node.transform.TransformPoint(lowLocal.ToNative()),
                     origin, pixelsPerCell);
-                Vector2 high = WorldToGui(node.transform.TransformPoint(highLocal),
+                Vector2 high = WorldToGui(node.transform.TransformPoint(highLocal.ToNative()),
                     origin, pixelsPerCell);
                 Color occupancyColor = target == EditTarget.Sight
                     ? new Color(0.2f, 1f, 0.75f)
@@ -403,15 +403,15 @@ namespace Helodrace.ModernWar
             if (section == EditorSection.Placement && sight != null)
             {
                 Vector3 axisLocal = node.Props.graphicOffset + sight.axisOffset;
-                Vector2 axis = WorldToGui(node.transform.TransformPoint(axisLocal),
+                Vector2 axis = WorldToGui(node.transform.TransformPoint(axisLocal.ToNative()),
                     origin, pixelsPerCell);
                 Vector3 lowLocal = axisLocal
                     + new Vector3(0f, 0f, -sight.sightClearanceRadius);
                 Vector3 highLocal = axisLocal
                     + new Vector3(0f, 0f, sight.sightClearanceRadius);
-                Vector2 low = WorldToGui(node.transform.TransformPoint(lowLocal),
+                Vector2 low = WorldToGui(node.transform.TransformPoint(lowLocal.ToNative()),
                     origin, pixelsPerCell);
-                Vector2 high = WorldToGui(node.transform.TransformPoint(highLocal),
+                Vector2 high = WorldToGui(node.transform.TransformPoint(highLocal.ToNative()),
                     origin, pixelsPerCell);
                 Color sightColor = target == EditTarget.Sight
                     ? Color.yellow
@@ -430,15 +430,15 @@ namespace Helodrace.ModernWar
                 Vector3 pivotLocal = node.Props.graphicOffset
                     + node.Props.animationPivot;
                 Vector2 motionStart = WorldToGui(
-                    node.transform.TransformPoint(motionStartLocal),
+                    node.transform.TransformPoint(motionStartLocal.ToNative()),
                     origin,
                     pixelsPerCell);
                 Vector2 motionEnd = WorldToGui(
-                    node.transform.TransformPoint(motionEndLocal),
+                    node.transform.TransformPoint(motionEndLocal.ToNative()),
                     origin,
                     pixelsPerCell);
                 Vector2 pivot = WorldToGui(
-                    node.transform.TransformPoint(pivotLocal),
+                    node.transform.TransformPoint(pivotLocal.ToNative()),
                     origin,
                     pixelsPerCell);
                 Color motionColor = target == EditTarget.AnimationPart
@@ -461,7 +461,7 @@ namespace Helodrace.ModernWar
             {
                 Vector3 casingLocal = node.Props.graphicOffset + casingPort.offset;
                 Vector2 casing = WorldToGui(
-                    node.transform.TransformPoint(casingLocal),
+                    node.transform.TransformPoint(casingLocal.ToNative()),
                     origin,
                     pixelsPerCell);
                 Vector3 startLocal = node.Props.graphicOffset
@@ -469,11 +469,11 @@ namespace Helodrace.ModernWar
                 Vector3 endLocal = node.Props.graphicOffset
                     + casingPort.feedEndOffset;
                 Vector2 start = WorldToGui(
-                    node.transform.TransformPoint(startLocal),
+                    node.transform.TransformPoint(startLocal.ToNative()),
                     origin,
                     pixelsPerCell);
                 Vector2 end = WorldToGui(
-                    node.transform.TransformPoint(endLocal),
+                    node.transform.TransformPoint(endLocal.ToNative()),
                     origin,
                     pixelsPerCell);
                 Color startColor = target == EditTarget.FeedStart
@@ -507,7 +507,7 @@ namespace Helodrace.ModernWar
                 && i < node.Props.mounts.Count; i++)
             {
                 ModularAttachmentMount mount = node.Props.mounts[i];
-                Vector2 point = WorldToGui(node.transform.TransformPoint(mount.transform.position),
+                Vector2 point = WorldToGui(node.transform.TransformPoint(mount.transform.position.ToNative()),
                     origin, pixelsPerCell);
                 Color color = target == EditTarget.Mount && i == selectedMountIndex
                     ? Color.yellow : new Color(1f, 0.45f, 0.08f);
@@ -518,9 +518,9 @@ namespace Helodrace.ModernWar
                     Vector3 rightLocal = leftLocal;
                     leftLocal.x -= mount.EffectivePhysicalLength * 0.5f;
                     rightLocal.x += mount.EffectivePhysicalLength * 0.5f;
-                    Vector2 left = WorldToGui(node.transform.TransformPoint(leftLocal),
+                    Vector2 left = WorldToGui(node.transform.TransformPoint(leftLocal.ToNative()),
                         origin, pixelsPerCell);
-                    Vector2 right = WorldToGui(node.transform.TransformPoint(rightLocal),
+                    Vector2 right = WorldToGui(node.transform.TransformPoint(rightLocal.ToNative()),
                         origin, pixelsPerCell);
                     Widgets.DrawLine(left, right, color,
                         target == EditTarget.Mount && i == selectedMountIndex ? 7f : 3f);
@@ -534,9 +534,9 @@ namespace Helodrace.ModernWar
                     leftLocal.x -= mount.EffectiveRailContactLength * 0.5f;
                     rightLocal.x += mount.EffectiveRailContactLength * 0.5f;
                     Widgets.DrawLine(
-                        WorldToGui(node.transform.TransformPoint(leftLocal),
+                        WorldToGui(node.transform.TransformPoint(leftLocal.ToNative()),
                             origin, pixelsPerCell),
-                        WorldToGui(node.transform.TransformPoint(rightLocal),
+                        WorldToGui(node.transform.TransformPoint(rightLocal.ToNative()),
                             origin, pixelsPerCell),
                         new Color(0.25f, 0.9f, 0.55f), 2f);
                 }
@@ -550,7 +550,7 @@ namespace Helodrace.ModernWar
                 && i < node.Props.sockets.Count; i++)
             {
                 ModularAttachmentSocket socket = node.Props.sockets[i];
-                Vector2 point = WorldToGui(node.transform.TransformPoint(socket.transform.position),
+                Vector2 point = WorldToGui(node.transform.TransformPoint(socket.transform.position.ToNative()),
                     origin, pixelsPerCell);
                 Color color = target == EditTarget.Socket && i == selectedSocketIndex
                     ? Color.yellow : new Color(0.15f, 0.65f, 1f);
@@ -560,9 +560,9 @@ namespace Helodrace.ModernWar
                     Vector3 rightLocal = socket.transform.position;
                     leftLocal.x -= socket.railLength * 0.5f;
                     rightLocal.x += socket.railLength * 0.5f;
-                    Vector2 left = WorldToGui(node.transform.TransformPoint(leftLocal),
+                    Vector2 left = WorldToGui(node.transform.TransformPoint(leftLocal.ToNative()),
                         origin, pixelsPerCell);
-                    Vector2 right = WorldToGui(node.transform.TransformPoint(rightLocal),
+                    Vector2 right = WorldToGui(node.transform.TransformPoint(rightLocal.ToNative()),
                         origin, pixelsPerCell);
                     Widgets.DrawLine(left, right, color, 3f);
                 }
@@ -1551,11 +1551,11 @@ namespace Helodrace.ModernWar
                 rootDelta.x = 0f;
             }
 
-            Vector2 localDelta = ModularTransform2D.Rotate(rootDelta, -node.transform.angle);
-            localDelta = new Vector2(
-                localDelta.x / SafeSignedScale(node.transform.scale.x),
-                localDelta.y / SafeSignedScale(node.transform.scale.y));
-            Vector3 delta = new Vector3(localDelta.x, 0f, localDelta.y);
+            var localDelta = ModularTransform2D.Rotate(rootDelta.ToNative(), -node.transform.angle);
+            localDelta = new System.Numerics.Vector2(
+                localDelta.X / SafeSignedScale(node.transform.scale.X),
+                localDelta.Y / SafeSignedScale(node.transform.scale.Y));
+            Vector3 delta = new Vector3(localDelta.X, 0f, localDelta.Y);
             EnsureUndoCheckpoint(CurrentEditKey(node) + ":drag");
             if (target == EditTarget.Graphic)
             {
@@ -1786,6 +1786,9 @@ namespace Helodrace.ModernWar
             y += 28f;
             return result;
         }
+
+        private static Vector2 WorldToGui(System.Numerics.Vector2 point, Vector2 origin, float scale)
+            => (origin.ToNative() + new System.Numerics.Vector2(point.X, -point.Y) * scale).ToGame();
 
         private static Vector2 WorldToGui(Vector2 point, Vector2 origin, float pixelsPerCell)
         {

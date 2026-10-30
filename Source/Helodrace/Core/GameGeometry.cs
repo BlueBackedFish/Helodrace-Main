@@ -4,6 +4,12 @@ namespace Helodrace
     // compatibility structs. Internal geometry stays in native/BCL values.
     internal static class GameGeometry
     {
+        internal static System.Numerics.Vector3 ToNative(this UnityEngine.Vector3 value)
+            => new System.Numerics.Vector3(value.x, value.y, value.z);
+
+        internal static UnityEngine.Vector3 ToGame(this System.Numerics.Vector3 value)
+            => new UnityEngine.Vector3(value.X, value.Y, value.Z);
+
         internal static System.Numerics.Vector2 ToNative(this UnityEngine.Vector2 value)
             => new System.Numerics.Vector2(value.x, value.y);
 

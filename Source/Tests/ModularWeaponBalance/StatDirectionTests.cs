@@ -65,8 +65,8 @@ internal static partial class Program
         raw.aimStability+=20;
         foreach(float canvas in new[]{.25f,.5f,1f,2f})
         {
-            body.transform=new ModularTransform2D {position=new Vector2(100,-20),angle=45,scale=Vector2.one*canvas};
-            stock.transform=new ModularTransform2D {position=new Vector2(-30,100),angle=-80,scale=Vector2.one*canvas};
+            body.transform=new ModularTransform2D {position=new System.Numerics.Vector2(100,-20),angle=45,scale=System.Numerics.Vector2.One*canvas};
+            stock.transform=new ModularTransform2D {position=new System.Numerics.Vector2(-30,100),angle=-80,scale=System.Numerics.Vector2.One*canvas};
             stock.Props.graphicOffset=new Vector3(canvas,0,canvas);
             var same=Convert(nodes);
             Near(before.HandlingLengthMeters,same.HandlingLengthMeters,"Canvas/pivot cannot change physical length");

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -46,7 +47,7 @@ namespace Helodrace.ModernWar
                 ModularAttachmentSocket socket = node?.Props?.SocketNamed("muzzle");
                 if (socket?.transform == null) continue;
                 barrel = node;
-                muzzle = node.transform.TransformPoint(socket.transform.position);
+                muzzle = node.transform.TransformPoint(socket.transform.position.ToNative());
             }
 
             for (int i = 0; i < nodes.Count; i++)
@@ -79,7 +80,7 @@ namespace Helodrace.ModernWar
                 {
                     Vector3 tip = mount.transform.position;
                     tip.x += TerminalExtension(terminal, kind);
-                    muzzle = terminal.transform.TransformPoint(tip);
+                    muzzle = terminal.transform.TransformPoint(tip.ToNative());
                 }
             }
 
@@ -190,9 +191,9 @@ namespace Helodrace.ModernWar
                 out flipped);
 
             Vector2 local = profile.localMuzzle;
-            if (flipped) local.x = -local.x;
+            if (flipped) local.X = -local.X;
             Vector3 offset = Quaternion.AngleAxis(bodyAngle, Vector3.up)
-                * new Vector3(local.x, 0f, local.y);
+                * new Vector3(local.X, 0f, local.Y);
             Vector3 muzzle = gunCenter + offset;
             float localYaw = flipped ? profile.localAngle : -profile.localAngle;
             float effectYaw = bodyAngle + localYaw;

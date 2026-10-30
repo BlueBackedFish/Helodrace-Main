@@ -132,7 +132,7 @@ namespace Helodrace.ModernWar
                 Rect drawRect = PreviewPartRect(node, origin, scale, out angle);
                 if (drawRect.width <= 0f || drawRect.height <= 0f) continue;
                 Vector2 point = drawRect.center + ModularTransform2D.Rotate(
-                    Event.current.mousePosition - drawRect.center, angle);
+                    (Event.current.mousePosition - drawRect.center).ToNative(), angle).ToGame();
                 if (!drawRect.Contains(point)) continue;
                 float u = (point.x - drawRect.x) / drawRect.width;
                 float v = 1f - (point.y - drawRect.y) / drawRect.height;
@@ -194,11 +194,11 @@ namespace Helodrace.ModernWar
         private Rect PreviewPartRect(ModularRenderNode node, Vector2 origin,
             float scale, out float angle)
         {
-            Vector2 center;
+            System.Numerics.Vector2 center;
             ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(root, node, false, out center, out angle);
-            Vector2 graphicScale = node.GraphicScale;
+            var graphicScale = node.GraphicScale;
             Vector2 size = Vector2.Scale(node.Graphic?.drawSize ?? Vector2.zero,
-                new Vector2(Mathf.Abs(graphicScale.x), Mathf.Abs(graphicScale.y))) * scale;
+                new Vector2(Mathf.Abs(graphicScale.X), Mathf.Abs(graphicScale.Y))) * scale;
             return CenteredRect(WorldToGui(center, origin, scale), size);
         }
 

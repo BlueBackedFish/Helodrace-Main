@@ -8,6 +8,7 @@ using System.Text;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -102,8 +103,8 @@ namespace Helodrace.ModernWar
                     foreach (var layer in layers)
                     {
                         key.Append(layer.texture.GetInstanceID()).Append(':');
-                        foreach (float value in new[] { layer.center.x, layer.center.y,
-                            layer.size.x, layer.size.y, layer.angle,
+                        foreach (float value in new[] { layer.center.X, layer.center.Y,
+                            layer.size.X, layer.size.Y, layer.angle,
                             layer.tint.r, layer.tint.g, layer.tint.b, layer.tint.a })
                             key.Append(value.ToString("R", CultureInfo.InvariantCulture)).Append(',');
                         key.Append(';');
@@ -188,7 +189,7 @@ namespace Helodrace.ModernWar
                 : graphic.MatSingle.mainTexture;
             if (texture == null) return;
             layers.Add(new Layer { texture = texture, center = node.GraphicCenter,
-                size = Vector2.Scale(graphic.drawSize, node.GraphicScale),
+                size = graphic.drawSize.ToNative() * node.GraphicScale,
                 angle = node.GraphicAngle * Mathf.Deg2Rad,
                 tint = outline ? Color.white : graphic.Color });
         }
@@ -257,18 +258,18 @@ namespace Helodrace.ModernWar
                 foreach (int x in new[] { xMin, xMax + 1 })
                     foreach (int y in new[] { yMin, yMax + 1 })
                     {
-                        Vector2 corner = Rotate(new Vector2((x / (float)pixels.width - .5f) * layer.size.x,
-                            (y / (float)pixels.height - .5f) * layer.size.y), layer.angle) + layer.center;
+                        Vector2 corner = Rotate(new Vector2((x / (float)pixels.width - .5f) * layer.size.X,
+                            (y / (float)pixels.height - .5f) * layer.size.Y), layer.angle) + layer.center;
                         min = Vector2.Min(min, corner); max = Vector2.Max(max, corner);
                     }
             }
-            if (min.x == float.MaxValue) throw new InvalidOperationException("No visible pixels.");
+            if (min.X == float.MaxValue) throw new InvalidOperationException("No visible pixels.");
             Vector2 center = (min + max) * .5f;
-            float span = Mathf.Max(max.x - min.x, max.y - min.y, .001f) * 1.08f;
+            float span = Mathf.Max(max.X - min.X, max.Y - min.Y, .001f) * 1.08f;
             Color[] output = new Color[Resolution * Resolution];
             foreach (var layer in layers)
             {
-                if (Mathf.Abs(layer.size.x * layer.size.y) < .0000001f) continue;
+                if (Mathf.Abs(layer.size.X * layer.size.Y) < .0000001f) continue;
                 Pixels source = localSources[layer.texture];
                 float cosine = Mathf.Cos(-layer.angle), sine = Mathf.Sin(-layer.angle);
                 for (int y = 0; y < Resolution; y++)
@@ -279,9 +280,9 @@ namespace Helodrace.ModernWar
                         Vector2 point = center + new Vector2((x + .5f) / Resolution - .5f,
                             (y + .5f) / Resolution - .5f) * span;
                         Vector2 delta = point - layer.center;
-                        Vector2 local = new Vector2(cosine * delta.x - sine * delta.y,
-                            sine * delta.x + cosine * delta.y);
-                        float u = local.x / layer.size.x + .5f, v = local.y / layer.size.y + .5f;
+                        Vector2 local = new Vector2(cosine * delta.X - sine * delta.Y,
+                            sine * delta.X + cosine * delta.Y);
+                        float u = local.X / layer.size.X + .5f, v = local.Y / layer.size.Y + .5f;
                         if (u < 0 || u >= 1 || v < 0 || v >= 1) continue;
                         Color src = (Color)source.colors[(int)(v * source.height) * source.width
                             + (int)(u * source.width)] * layer.tint;
@@ -308,7 +309,7 @@ namespace Helodrace.ModernWar
         private static Vector2 Rotate(Vector2 p, float angle)
         {
             float c = Mathf.Cos(angle), s = Mathf.Sin(angle);
-            return new Vector2(c * p.x - s * p.y, s * p.x + c * p.y);
+            return new Vector2(c * p.X - s * p.Y, s * p.X + c * p.Y);
         }
     }
 
@@ -361,7 +362,7 @@ namespace Helodrace.ModernWar
             command.icon = icon ?? root.parent.def.uiIcon;
             if (icon == null) return;
             command.iconAngle = 0f;
-            command.iconOffset = Vector2.zero;
+            command.iconOffset = UnityEngine.Vector2.zero;
             command.iconDrawScale = 1f;
             command.defaultIconColor = Color.white;
         }
