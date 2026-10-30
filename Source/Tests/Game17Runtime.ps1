@@ -1,4 +1,9 @@
 # Shared by actual-game checks. This file defines functions and does not start a game.
+function Get-Game17Processes {
+    # CIM remains authoritative when Get-Process cannot observe an elevated host.
+    Get-CimInstance Win32_Process -Filter "Name='RimWorld.exe' OR Name='RimWorldWin64.exe'"
+}
+
 function New-Game17Runtime {
     param(
         [Parameter(Mandatory)][string]$RuntimeRoot,
@@ -13,7 +18,7 @@ function New-Game17Runtime {
     $allowed=[IO.Path]::GetFullPath((Join-Path $repository '.codex-staging'))+[IO.Path]::DirectorySeparatorChar
     if(-not $runtime.StartsWith($allowed,[StringComparison]::OrdinalIgnoreCase)){throw 'Use a dedicated runtime under this repository .codex-staging.'}
     if(Test-Path -LiteralPath $runtime){throw 'Use a fresh runtime to preserve earlier evidence.'}
-    if(Get-Process -Name RimWorld,RimWorldWin64 -ErrorAction SilentlyContinue){throw 'Preserve the running game; wait for it to exit before collecting another host log.'}
+    if(@(Get-Game17Processes).Count){throw 'Preserve the running game; wait for it to exit before collecting another host log.'}
     $version=(Get-Content -LiteralPath (Join-Path $GameRoot 'Version.txt') -Raw).Trim()
     if(-not $version.StartsWith('1.7.')){throw 'An actual RimWorld 1.7 runtime is required.'}
     if(-not $BlancasRoot){$BlancasRoot=Join-Path $repository '../Helodrace-blancasdrugs'}
@@ -54,7 +59,7 @@ function New-Game17Runtime {
 function Start-Game17Runtime {
     param([Parameter(Mandatory)]$Runtime,[string[]]$Arguments=@(),[switch]$Headless,[switch]$Visible,[string]$ResultFile,[string]$CompletionPattern='(?m)^COMPLETE\r?$')
     $ErrorActionPreference='Stop'
-    if(Get-Process -Name RimWorld,RimWorldWin64 -ErrorAction SilentlyContinue){throw 'A game started during setup; preserve it and start this prepared runtime after it exits.'}
+    if(@(Get-Game17Processes).Count){throw 'A game started during setup; preserve it and start this prepared runtime after it exits.'}
     $tokens=@('-quicktest',('-savedatafolder='+$Runtime.Profile),('-mod='+($Runtime.ExplicitMods -join ';')),'-hdMethodProfileDisabled=true')+$Arguments
     if($Headless){$tokens+='-Headless'}elseif(-not $Visible){$tokens+='-NoWindow'}
     # Start-Process joins ArgumentList; callers supply unquoted tokens.
@@ -67,6 +72,7 @@ function Start-Game17Runtime {
     $manifest.harmonyAssemblySha256=(Get-FileHash -LiteralPath $Runtime.HarmonyAssembly).Hash
     $style=if($Visible){'Normal'}else{'Hidden'}
     $process=Start-Process -FilePath (Join-Path $Runtime.Game 'RimWorld.exe') -WorkingDirectory $Runtime.Game -WindowStyle $style -PassThru -ArgumentList $quoted
+    $null=$process.Handle
     $manifest.processId=$process.Id
     $manifest.processStartedUtc=$process.StartTime.ToUniversalTime().ToString('o')
     $manifest | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $Runtime.Root 'launcher.json') -Encoding UTF8
@@ -75,16 +81,20 @@ function Start-Game17Runtime {
 }
 
 function Wait-Game17Runtime {
-    param([Parameter(Mandatory)]$Runtime,[int]$TimeoutSeconds=300,[switch]$KeepCaches)
+    param([Parameter(Mandatory)]$Runtime,[int]$TimeoutSeconds=300,[switch]$KeepCaches,[Diagnostics.Process]$Process)
     $ErrorActionPreference='Stop'
     $manifest=Get-Content -LiteralPath (Join-Path $Runtime.Root 'launcher.json') -Raw | ConvertFrom-Json
-    $process=Get-Process -Id $manifest.processId -ErrorAction SilentlyContinue
+    if(-not $Process){$Process=Get-Process -Id $manifest.processId -ErrorAction SilentlyContinue}
     $exitCode=$null
     if($process){
+        $null=$process.Handle
         if([IO.Path]::GetFullPath($process.Path) -ne [IO.Path]::GetFullPath((Join-Path $Runtime.Game 'RimWorld.exe')) -or
             $process.StartTime.ToUniversalTime() -ne ([DateTime]$manifest.processStartedUtc).ToUniversalTime()){throw 'The recorded PID belongs to another process.'}
         if(-not $process.WaitForExit($TimeoutSeconds*1000)){throw 'Observation timed out; this game was left running. Inspect the same PID before another launch.'}
         $exitCode=$process.ExitCode
+    }
+    elseif(Get-Game17Processes | Where-Object {$_.ProcessId -eq $manifest.processId}){
+        throw 'The recorded host is still running but its process handle is unavailable. Preserve it and inspect the same PID.'
     }
     $log=Get-Item -LiteralPath $manifest.engineLog
     if($log.LastWriteTimeUtc -lt ([DateTime]$manifest.startedUtc).ToUniversalTime()){throw 'The global host log predates this run.'}

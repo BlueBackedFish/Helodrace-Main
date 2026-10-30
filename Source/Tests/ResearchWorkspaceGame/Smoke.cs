@@ -79,8 +79,8 @@ namespace Helodrace.ResearchWorkspaceSmoke
         private int stage = -1, startedDraw, wait;
         private string output;
         private MainTabWindow_Research window;
-        private float heartbeat;
-        private float guiHeartbeat;
+        private double heartbeat;
+        private double guiHeartbeat;
         private bool panCaptured;
         private int selectionStep, selectionDraw;
         private Vector2 selectionScroll;
@@ -88,8 +88,8 @@ namespace Helodrace.ResearchWorkspaceSmoke
             "low-velocity-grenades", "advanced-ammunition", "remote-weapon-control" };
         public void Update()
         {
-            if (!GenCommandLine.TryGetCommandLineArg("hdResearchUiSmoke", out output) || Time.realtimeSinceStartup < heartbeat) return;
-            heartbeat = Time.realtimeSinceStartup + 10;
+            if (!GenCommandLine.TryGetCommandLineArg("hdResearchUiSmoke", out output) || Waylith.Time.RealtimeSinceStartupAsDouble < heartbeat) return;
+            heartbeat = Waylith.Time.RealtimeSinceStartupAsDouble + 10;
             Directory.CreateDirectory(output);
             File.WriteAllText(Path.Combine(output, "heartbeat.txt"), Current.ProgramState + "; map=" + (Find.CurrentMap != null)
                 + "; stage=" + stage + "; draws=" + Bootstrap.Draws);
@@ -101,9 +101,9 @@ namespace Helodrace.ResearchWorkspaceSmoke
         {
             if (Event.current.type != EventType.Repaint || !GenCommandLine.TryGetCommandLineArg("hdResearchUiSmoke", out output)) return;
             Directory.CreateDirectory(output);
-            if (Time.realtimeSinceStartup >= guiHeartbeat)
+            if (Waylith.Time.RealtimeSinceStartupAsDouble >= guiHeartbeat)
             {
-                guiHeartbeat = Time.realtimeSinceStartup + 10;
+                guiHeartbeat = Waylith.Time.RealtimeSinceStartupAsDouble + 10;
                 File.WriteAllText(Path.Combine(output, "gui-heartbeat.txt"), Current.ProgramState + "; waiting=" + LongEventHandler.AnyEventNowOrWaiting);
             }
             if (Current.ProgramState != ProgramState.Playing || Find.CurrentMap == null || LongEventHandler.AnyEventNowOrWaiting) return;
@@ -150,7 +150,7 @@ namespace Helodrace.ResearchWorkspaceSmoke
             {
                 File.AppendAllText(Path.Combine(output, "checks.txt"), ValidateFlow() + "\n" + ValidateContent()
                     + "\nPASS: nine native canvas panels rendered\n");
-                Application.Quit();
+                Waylith.EngineApplication.Instance.Quit();
             }
         }
         private bool CheckSelection()
@@ -179,6 +179,10 @@ namespace Helodrace.ResearchWorkspaceSmoke
             var view = ResearchWorkspaceView.For(window);
             var nodes = (Dictionary<ResearchProjectDef, Rect>)AccessTools.Field(typeof(ResearchWorkspaceView), "nodes").GetValue(view);
             var routes = (System.Collections.IList)AccessTools.Field(typeof(ResearchWorkspaceView), "routes").GetValue(view);
+            var sectionDefs = DefDatabase<HelodResearchSectionDef>.AllDefsListForReading;
+            var authored = new HashSet<ResearchProjectDef>(sectionDefs.SelectMany(s => s.projects ?? new List<ResearchProjectDef>()));
+            File.WriteAllLines(Path.Combine(output, "layout.tsv"), new[] { "project\tauthored\tviewX\tviewY\tx\ty" }.Concat(nodes.Select(p =>
+                $"{p.Key.defName}\t{authored.Contains(p.Key)}\t{p.Key.ResearchViewX:R}\t{p.Key.ResearchViewY:R}\t{p.Value.x:R}\t{p.Value.y:R}")));
             int expected = nodes.Keys.Sum(p => ResearchQueue.Prerequisites(p).Distinct().Count(nodes.ContainsKey));
             if (routes.Count != expected) return "FAIL: missing routes " + routes.Count + "/" + expected;
             foreach (var pair in nodes)
@@ -188,17 +192,20 @@ namespace Helodrace.ResearchWorkspaceSmoke
                 foreach (var other in nodes.Where(n => n.Key != pair.Key))
                     if (pair.Value.Overlaps(other.Value)) return "FAIL: overlapping node bodies";
             }
-            foreach (var pair in nodes)
-                foreach (var other in nodes)
+            // Main's explicit section members own authored cells. Required Blancas
+            // research without a section uses automatic extension placement.
+            foreach (var pair in nodes.Where(n => authored.Contains(n.Key)))
+                foreach (var other in nodes.Where(n => authored.Contains(n.Key)))
                 {
                     if (Math.Abs(pair.Key.ResearchViewX - other.Key.ResearchViewX) < 0.001f
-                        && Math.Abs(pair.Value.x - other.Value.x) > 0.1f) return "FAIL: authored milestone column lost";
+                        && Math.Abs(pair.Value.x - other.Value.x) > 0.1f) return "FAIL: authored milestone column lost: " + pair.Key.defName + "/" + other.Key.defName;
                     if (Math.Abs(pair.Key.ResearchViewY - other.Key.ResearchViewY) < 0.001f
-                        && Math.Abs(pair.Value.y - other.Value.y) > 0.1f) return "FAIL: authored branch lane lost";
+                        && Math.Abs(pair.Value.y - other.Value.y) > 0.1f) return "FAIL: authored branch lane lost: " + pair.Key.defName + "/" + other.Key.defName;
                 }
             var localSections = (System.Collections.IList)AccessTools.Field(typeof(ResearchWorkspaceView), "sections").GetValue(view);
-            int expectedSections = DefDatabase<HelodResearchSectionDef>.AllDefsListForReading.Count;
-            int expectedNodes = DefDatabase<ResearchProjectDef>.AllDefsListForReading.Count(ResearchWorkspaceData.IsHelod);
+            int expectedSections = sectionDefs.Count(d => d.projects?.Any(nodes.ContainsKey) == true)
+                + nodes.Keys.Count(p => !authored.Contains(p));
+            int expectedNodes = DefDatabase<ResearchProjectDef>.AllDefsListForReading.Count(p => ResearchWorkspaceData.IsHelod(p) && !p.IsHidden);
             if (localSections.Count != expectedSections) return "FAIL: missing local sections";
             if (Bootstrap.RouteBuilds != 1) return "FAIL: zoom or selection rebuilt stable route geometry";
             var collapsed = (HashSet<string>)AccessTools.Field(typeof(ResearchWorkspaceView), "collapsed").GetValue(view);

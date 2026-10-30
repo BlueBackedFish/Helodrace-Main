@@ -18,5 +18,5 @@ $arguments=@()
 if($ImpactAudit){$arguments+='-hdShotgunImpactAudit=true'}
 if($PrecisionAudit){$arguments+='-hdShotgunPrecisionAudit=true'}
 $result=Join-Path $runtime.Profile $(if($ImpactAudit){'shotgun-impact-audit.txt'}else{'shotgun-results.txt'})
-$null=Start-Game17Runtime -Runtime $runtime -Arguments $arguments -Headless -ResultFile $result
-if($Wait){Wait-Game17Runtime -Runtime $runtime -TimeoutSeconds $TimeoutSeconds}
+$process=Start-Game17Runtime -Runtime $runtime -Arguments $arguments -Headless -ResultFile $result
+if($Wait){Wait-Game17Runtime -Runtime $runtime -TimeoutSeconds $TimeoutSeconds -Process $process}

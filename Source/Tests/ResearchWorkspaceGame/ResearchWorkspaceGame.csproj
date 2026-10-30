@@ -3,7 +3,6 @@
     <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>Helodrace.ResearchWorkspaceSmoke</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <OutputPath>../../../.codex-staging/ResearchWorkspaceGame/Game/Mods/WorkspaceSmoke/Assemblies</OutputPath>
     <HelodUsesGame>true</HelodUsesGame>
     <HelodUsesHarmony>true</HelodUsesHarmony>
   </PropertyGroup>
