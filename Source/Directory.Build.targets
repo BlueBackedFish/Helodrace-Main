@@ -1,4 +1,11 @@
 <Project>
+  <PropertyGroup>
+    <HelodUsesNativeMath Condition="'$(HelodUsesNativeMath)' == '' And '$(HelodUsesGame)' == 'true'">true</HelodUsesNativeMath>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(HelodUsesNativeMath)' == 'true'">
+    <Compile Include="$(MSBuildThisFileDirectory)NativeMathAliases.cs" Link="NativeMathAliases.cs" />
+    <Reference Include="Waylith" Condition="'$(HelodUsesGame)' != 'true'"><HintPath>$(RimWorldReferencePath)\Waylith.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
   <ItemGroup Condition="'$(HelodUsesGame)' == 'true'">
     <Reference Include="Assembly-CSharp"><HintPath>$(RimWorldReferencePath)\Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="UnityStubs"><HintPath>$(RimWorldReferencePath)\UnityStubs.dll</HintPath><Private>false</Private></Reference>
@@ -7,7 +14,7 @@
   <ItemGroup Condition="'$(HelodUsesHarmony)' == 'true'">
     <Reference Include="0Harmony"><HintPath>$(HarmonyAssemblyPath)</HintPath><Private>false</Private></Reference>
   </ItemGroup>
-  <ItemGroup Condition="'$(HelodUsesGame)' == 'true' Or '$(HelodUsesHarmony)' == 'true'">
+  <ItemGroup Condition="'$(HelodUsesGame)' == 'true' Or '$(HelodUsesHarmony)' == 'true' Or '$(HelodUsesNativeMath)' == 'true'">
     <AssemblyMetadata Include="Helodrace.GameRoot" Value="$(RimWorldPath)" />
     <AssemblyMetadata Include="Helodrace.HarmonyAssembly" Value="$(HarmonyAssemblyPath)" />
     <Compile Include="$(MSBuildThisFileDirectory)Tests\GameRuntime.cs" Link="GameRuntime.cs" Condition="'$(OutputType)' == 'Exe'" />
@@ -15,5 +22,8 @@
   <Target Name="RequireRimWorld17References" BeforeTargets="ResolveReferences" Condition="'$(HelodUsesGame)' == 'true'">
     <Error Condition="!Exists('$(RimWorldReferencePath)\Assembly-CSharp.dll') Or !Exists('$(RimWorldReferencePath)\UnityStubs.dll') Or !Exists('$(RimWorldReferencePath)\Waylith.dll')" Text="RimWorld 1.7 is required. Set RimWorldPath to the installed game or RimWorldReferencePath to the pinned $(RimWorldReferenceVersion) reference directory." />
     <Error Condition="'$(HelodUsesHarmony)' == 'true' And !Exists('$(HarmonyAssemblyPath)')" Text="Install Harmony for RimWorld 1.7 or set HarmonyAssemblyPath to its Harmony 3 assembly." />
+  </Target>
+  <Target Name="RequireNativeMathReferences" BeforeTargets="ResolveReferences" Condition="'$(HelodUsesNativeMath)' == 'true' And '$(HelodUsesGame)' != 'true'">
+    <Error Condition="!Exists('$(RimWorldReferencePath)\Waylith.dll')" Text="Native math tests require Waylith from RimWorld 1.7. Set RimWorldReferencePath to the installed game or the pinned reference directory." />
   </Target>
 </Project>

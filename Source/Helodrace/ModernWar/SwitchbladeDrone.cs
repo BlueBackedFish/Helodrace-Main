@@ -587,7 +587,7 @@ namespace Helodrace
             }
 
             float desiredDegrees = RotationDegreesForDirection(desiredDirection);
-            drawRotationDegrees = Mathf.MoveTowardsAngle(drawRotationDegrees, desiredDegrees, maxDegrees);
+            drawRotationDegrees = AngleMath.MoveTowards(drawRotationDegrees, desiredDegrees, maxDegrees);
         }
 
         private static float NormalizeAngle(float value)

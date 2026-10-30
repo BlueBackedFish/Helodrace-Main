@@ -694,8 +694,8 @@ namespace Helodrace
             {
                 return false;
             }
-            int edgeDistance = Mathf.Min(cell.x, map.Size.x - 1 - cell.x,
-                cell.z, map.Size.z - 1 - cell.z);
+            int edgeDistance = Math.Min(Math.Min(cell.x, map.Size.x - 1 - cell.x),
+                Math.Min(cell.z, map.Size.z - 1 - cell.z));
             return edgeDistance <= EntryEdgeDepth;
         }
 

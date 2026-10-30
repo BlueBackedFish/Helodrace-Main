@@ -31,7 +31,7 @@ namespace Helodrace
                         }
 
                         // Subtract the value of the government bonds from the total item wealth
-                        __result = UnityEngine.Mathf.Max(0f, __result - bondWealth);
+                        __result = Waylith.Math.Mathf.Max(0f, __result - bondWealth);
                     }
                 }
             }

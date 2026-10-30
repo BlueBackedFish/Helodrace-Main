@@ -509,7 +509,7 @@ namespace Helodrace.Tactical
                 }
                 float t = Mathf.Clamp01((now - state.returnTick) / (float)state.turnTicks);
                 float eased = (1f - Mathf.Exp(-5f * t)) / (1f - Mathf.Exp(-5f));
-                state.angle = NormalizeAngle(Mathf.LerpAngle(
+                state.angle = NormalizeAngle(AngleMath.Interpolate(
                     state.returnFrom, Get(pawn).FocusAngle, eased));
             }
         }

@@ -165,7 +165,7 @@ namespace Helodrace
             get
             {
                 if (!IsProducingPower) return 0f;
-                return UnityEngine.Mathf.Clamp(Props.recommendedPower, 0f, UnityEngine.Mathf.Max(0f, Props.maxPossiblePower));
+                return Waylith.Math.Mathf.Clamp(Props.recommendedPower, 0f, Waylith.Math.Mathf.Max(0f, Props.maxPossiblePower));
             }
         }
 
@@ -223,12 +223,12 @@ namespace Helodrace
             && (Flickable == null || Flickable.SwitchIsOn);
 
         public float GridTorqueDemanded => Network != null
-            ? UnityEngine.Mathf.Max(0f, Props.requireTorque)
+            ? Waylith.Math.Mathf.Max(0f, Props.requireTorque)
                 * (TemperatureControl?.TorqueDemandFactor ?? 1f)
             : 0f;
         
         // Effective RPM caps at recommendedRPM. Used by other systems to calculate actual work speed.
-        public float EffectiveRPM => UnityEngine.Mathf.Min(RealRPM, Props.recommendedRPM);
+        public float EffectiveRPM => Waylith.Math.Mathf.Min(RealRPM, Props.recommendedRPM);
 
         public void UpdatePowerStatus(bool isPowered, float fulfillmentRatio)
         {
@@ -302,16 +302,16 @@ namespace Helodrace
             // Combine active sources at the shared nominal shaft speed.
             foreach (var emitter in activeEmitters)
             {
-                float emitterMaximum = UnityEngine.Mathf.Max(0f, emitter.Props.maxPossiblePower);
-                float emitterNormal = UnityEngine.Mathf.Clamp(emitter.PowerOutput, 0f, emitterMaximum);
+                float emitterMaximum = Waylith.Math.Mathf.Max(0f, emitter.Props.maxPossiblePower);
+                float emitterNormal = Waylith.Math.Mathf.Clamp(emitter.PowerOutput, 0f, emitterMaximum);
 
                 normalPowerAvailable += emitterNormal;
                 maximumPowerAvailable += emitterMaximum;
                 GridRPM = OperatingRPM;
             }
 
-            maximumPowerAvailable = UnityEngine.Mathf.Max(0f, maximumPowerAvailable);
-            normalPowerAvailable = UnityEngine.Mathf.Clamp(
+            maximumPowerAvailable = Waylith.Math.Mathf.Max(0f, maximumPowerAvailable);
+            normalPowerAvailable = Waylith.Math.Mathf.Clamp(
                 normalPowerAvailable, 0f, maximumPowerAvailable);
             CurrentMaximumPower = maximumPowerAvailable;
             NominalGridRPM = GridRPM;
@@ -336,7 +336,7 @@ namespace Helodrace
 
             if (CurrentPowerNeeded > normalPowerAvailable && maximumPowerAvailable > 0f)
             {
-                CurrentPowerOutput = UnityEngine.Mathf.Min(CurrentPowerNeeded, maximumPowerAvailable);
+                CurrentPowerOutput = Waylith.Math.Mathf.Min(CurrentPowerNeeded, maximumPowerAvailable);
 
                 if (CurrentPowerNeeded > maximumPowerAvailable)
                 {
@@ -361,7 +361,7 @@ namespace Helodrace
 
             // Guard against malformed Def values, floating-point drift, and future
             // calculation branches bypassing the overload block.
-            CurrentPowerOutput = UnityEngine.Mathf.Clamp(
+            CurrentPowerOutput = Waylith.Math.Mathf.Clamp(
                 CurrentPowerOutput, 0f, CurrentMaximumPower);
 
             bool gridHasEnoughTorque = CurrentPowerOutput > 0;

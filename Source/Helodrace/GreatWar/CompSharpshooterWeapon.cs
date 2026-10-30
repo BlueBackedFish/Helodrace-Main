@@ -280,7 +280,7 @@ namespace Helodrace
 
         public static void Register(ShotReport report, float multiplier)
         {
-            if (UnityEngine.Mathf.Approximately(multiplier, 1.0f) || multiplier <= 0f)
+            if (Waylith.Math.Mathf.Approximately(multiplier, 1.0f) || multiplier <= 0f)
             {
                 return;
             }
@@ -339,7 +339,7 @@ namespace Helodrace
 
         private static int RoundedHash(object value)
         {
-            return value is float number ? UnityEngine.Mathf.RoundToInt(number * 10000f) : 0;
+            return value is float number ? Waylith.Math.Mathf.RoundToInt(number * 10000f) : 0;
         }
 
         private static int CurrentTick => Find.TickManager?.TicksGame ?? 0;
@@ -375,7 +375,7 @@ namespace Helodrace
         {
             if (SharpshooterAccuracyReport.TryGetMultiplier(__instance, out float multiplier))
             {
-                __result = UnityEngine.Mathf.Clamp01(__result * multiplier);
+                __result = Waylith.Math.Mathf.Clamp01(__result * multiplier);
             }
         }
     }

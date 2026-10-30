@@ -200,7 +200,7 @@ namespace Helodrace.Tactical
             {
                 float progress = Mathf.Clamp01(elapsed / (float)StrikeImpactTicks);
                 float eased = 1f - Mathf.Pow(1f - progress, 3f);
-                angle = Mathf.LerpAngle(state.returnAngle, state.targetAngle, eased);
+                angle = AngleMath.Interpolate(state.returnAngle, state.targetAngle, eased);
                 thrust = Mathf.SmoothStep(0f, 1f, progress);
             }
             else
@@ -209,7 +209,7 @@ namespace Helodrace.Tactical
                     (elapsed - StrikeImpactTicks)
                     / (float)(StrikeAnimationTicks - StrikeImpactTicks));
                 float eased = progress * progress * (3f - 2f * progress);
-                angle = Mathf.LerpAngle(state.targetAngle, state.returnAngle, eased);
+                angle = AngleMath.Interpolate(state.targetAngle, state.returnAngle, eased);
                 thrust = 1f - Mathf.SmoothStep(0f, 1f, progress);
             }
 

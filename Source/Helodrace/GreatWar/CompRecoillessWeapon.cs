@@ -805,7 +805,7 @@ namespace Helodrace
                 }
 
                 __result = JobMaker.MakeJob(JobDefOf.TakeInventory, ammo);
-                __result.count = Mathf.Min(deficit, ammo.stackCount, capacityCount);
+                __result.count = System.Math.Min(deficit, System.Math.Min(ammo.stackCount, capacityCount));
                 return;
             }
         }

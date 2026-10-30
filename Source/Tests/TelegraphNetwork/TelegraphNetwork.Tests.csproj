@@ -4,6 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <HelodUsesHarmony>true</HelodUsesHarmony>
+  <HelodUsesNativeMath>true</HelodUsesNativeMath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />

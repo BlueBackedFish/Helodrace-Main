@@ -25,7 +25,7 @@ namespace Helodrace
             get
             {
                 VerbProperties_Shotgun shotgunProps = verbProps as VerbProperties_Shotgun;
-                return shotgunProps != null ? UnityEngine.Mathf.Max(1, shotgunProps.pelletCount) : 1;
+                return shotgunProps != null ? Waylith.Math.Mathf.Max(1, shotgunProps.pelletCount) : 1;
             }
         }
 
