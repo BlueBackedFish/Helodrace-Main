@@ -47,7 +47,7 @@ namespace Helodrace.ModernWar
         {
             public List<ModularRenderNode> nodes;
             public Entry last;
-            public float changedAt;
+            public double changedAt;
             public string signature;
             public IEnumerator<Texture2D> job;
         }
@@ -73,7 +73,7 @@ namespace Helodrace.ModernWar
                 request.job = null;
                 request.signature = null;
                 request.nodes = nodes;
-                request.changedAt = Time.realtimeSinceStartup;
+                request.changedAt = Waylith.Time.RealtimeSinceStartupAsDouble;
             }
 
             Entry remembered;
@@ -85,9 +85,9 @@ namespace Helodrace.ModernWar
             }
             Texture2D fallback = request.last?.evicted == false ? request.last.texture : null;
             // Dragging generates many snapshots. Bake only after input has settled.
-            if (Time.realtimeSinceStartup - request.changedAt < 0.2f
-                || workFrame == Time.frameCount) return fallback;
-            workFrame = Time.frameCount;
+            if (Waylith.Time.RealtimeSinceStartupAsDouble - request.changedAt < 0.2f
+                || workFrame == Waylith.Time.FrameCount) return fallback;
+            workFrame = Waylith.Time.FrameCount;
             long started = Stopwatch.GetTimestamp();
             try
             {

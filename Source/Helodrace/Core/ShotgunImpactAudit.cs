@@ -52,7 +52,7 @@ namespace Helodrace
                     }
                     File.AppendAllText(AuditResults, "COMPLETE\n");
                     finished = true;
-                    Application.Quit(0);
+                    Waylith.EngineApplication.Instance.Quit(0);
                     return;
                 }
                 if (auditPrepared)
@@ -89,7 +89,7 @@ namespace Helodrace
             {
                 finished = true;
                 File.AppendAllText(AuditResults, "FAIL " + error + "\n");
-                Application.Quit(1);
+                Waylith.EngineApplication.Instance.Quit(1);
             }
         }
         private void FireAuditShot()

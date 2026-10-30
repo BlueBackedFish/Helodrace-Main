@@ -99,7 +99,7 @@ namespace Helodrace.ModernWar
             const float rowHeight = 76f;
             Rect view = new Rect(0f, 0f, outRect.width - 18f, Mathf.Max(50f, rows.Count * rowHeight));
             Widgets.BeginScrollView(outRect, ref statsScroll, view);
-            double now = Time.realtimeSinceStartup;
+            double now = Waylith.Time.RealtimeSinceStartupAsDouble;
             for (int i = 0; i < rows.Count; i++)
             {
                 ArmorStatRow row = rows[i];

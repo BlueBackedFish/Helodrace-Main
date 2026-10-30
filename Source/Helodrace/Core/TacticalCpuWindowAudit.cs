@@ -3,7 +3,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Helodrace.Profiling;
 using Helodrace.Tactics;
-using UnityEngine;
 using Verse;
 
 namespace Helodrace
@@ -34,7 +33,7 @@ namespace Helodrace
                 if (point == null) return false; // Do not invent half-written tick totals.
             }
             else
-                point = new ProfileCpuCheckpoint { label = label, tick = GenTicks.TicksGame, frame = Time.frameCount,
+                point = new ProfileCpuCheckpoint { label = label, tick = GenTicks.TicksGame, frame = Waylith.Time.FrameCount,
                     requestedOffset = offset, activeCommands = active, phases = phases,
                     mainCpuMs = uninstrumentedMainStart >= 0 ? (windowClock.Cpu100ns() - uninstrumentedMainStart) / 10000.0 : (double?)null,
                     processCpuMs = uninstrumentedMainStart >= 0 ? (windowClock.ProcessCpu100ns() - uninstrumentedProcessStart) / 10000.0 : (double?)null,

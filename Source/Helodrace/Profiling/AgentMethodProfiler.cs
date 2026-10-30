@@ -9,7 +9,6 @@ using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using HarmonyLib;
 using RimWorld;
-using UnityEngine;
 using Verse;
 using Verse.AI;
 using Helodrace.Tactics;
@@ -173,7 +172,7 @@ namespace Helodrace.Profiling
         }
         private static ProfileCallContext Context(MethodBase method) => new ProfileCallContext {
             Tick = GenTicks.TicksGame + (method.DeclaringType == typeof(TickManager) && method.Name == "DoSingleTick" ? 1 : 0),
-            Frame = Time.frameCount, MapId = -1, PawnId = -1, Phase = -1 };
+            Frame = Waylith.Time.FrameCount, MapId = -1, PawnId = -1, Phase = -1 };
         private static ProfileCallContext PawnContext(MethodBase method, Pawn pawn)
         {
             ProfileCallContext result = Context(method); result.Identity = true;
@@ -233,16 +232,16 @@ namespace Helodrace.Profiling
                 cpuSource = cpu ? "Windows GetThreadTimes; user+kernel, 100ns units, coarse resolution" : "disabled",
                 selectedEngine = TacticalEngineSelection.Kind.ToString().ToLowerInvariant(),
                 effectiveEngine = TacticalEngineSelection.EffectiveEngine, newEngineImplemented = TacticalEngineSelection.NewImplemented,
-                startTick = GenTicks.TicksGame, startFrame = Time.frameCount, scenario = scenario, population = population, speed = speed,
+                startTick = GenTicks.TicksGame, startFrame = Waylith.Time.FrameCount, scenario = scenario, population = population, speed = speed,
                 mapId = Find.CurrentMap?.uniqueID ?? -1, benchmark = benchmark,
                 spikeTracing = tracing, spikeTraceSupported = true, spikeThresholdMs = tracing ? threshold : 0,
                 spikePawnId = tracing ? pawnId : null,
                 spikeCapacity = tracing ? MethodCapture.SpikeCapacity : 0, spikeCallCapacity = tracing ? MethodCapture.SpikeCallCapacity : 0 };
             ending = false;
             reference = new CoreReferenceCalibration(); reference.Sample();
-            nextReference = Time.realtimeSinceStartup + 1;
+            nextReference = Waylith.Time.RealtimeSinceStartupAsDouble + 1;
             double limit = GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _) ? 1800 : 300;
-            started = clock.Timestamp(); deadline = Time.realtimeSinceStartup + Math.Max(1, Math.Min(limit, seconds));
+            started = clock.Timestamp(); deadline = Waylith.Time.RealtimeSinceStartupAsDouble + Math.Max(1, Math.Min(limit, seconds));
             windowProcessCpu = cpu ? clock.ProcessCpu100ns() : -1;
             windowCpu = cpu ? clock.Cpu100ns() : -1;
             capture = new MethodCapture(clock, targets.Select(m => cpu && CpuTarget(m)).ToArray(), traceSpikes: tracing,
@@ -257,7 +256,7 @@ namespace Helodrace.Profiling
             int rootId = targets.FindIndex(CpuTarget);
             if (current == null || ending || cpuCheckpoints == null || cpuCheckpoints.Count >= 128
                 || !current.TryReadClosedCpu(rootId, out long calls, out long elapsed, out long cpu)) return null;
-            var point = new ProfileCpuCheckpoint { label = label, tick = GenTicks.TicksGame, frame = Time.frameCount,
+            var point = new ProfileCpuCheckpoint { label = label, tick = GenTicks.TicksGame, frame = Waylith.Time.FrameCount,
                 requestedOffset = requestedOffset, activeCommands = activeCommands, phases = phases, tickCalls = calls,
                 tickCpuMs = cpu / 10000.0, tickElapsedMs = current.Milliseconds(elapsed),
                 mainCpuMs = windowCpu >= 0 ? (clock.Cpu100ns() - windowCpu) / 10000.0 : (double?)null,
@@ -272,7 +271,7 @@ namespace Helodrace.Profiling
             if (!ending)
             {
                 ending = true;
-                snapshot.endTick = GenTicks.TicksGame; snapshot.endFrame = Time.frameCount;
+                snapshot.endTick = GenTicks.TicksGame; snapshot.endFrame = Waylith.Time.FrameCount;
                 snapshot.wallSeconds = (clock.Timestamp() - started) / (double)clock.Frequency;
                 long endingCpu = windowCpu >= 0 ? clock.Cpu100ns() : -1;
                 snapshot.mainThreadWindowCpuMs = endingCpu >= 0 ? (endingCpu - windowCpu) / 10000.0 : (double?)null;
@@ -330,16 +329,16 @@ namespace Helodrace.Profiling
             if (!Initialize()) return;
             try
             {
-                if (capture != null && Time.realtimeSinceStartup >= deadline) End();
-                if (capture != null && Time.realtimeSinceStartup >= nextReference)
+                if (capture != null && Waylith.Time.RealtimeSinceStartupAsDouble >= deadline) End();
+                if (capture != null && Waylith.Time.RealtimeSinceStartupAsDouble >= nextReference)
                 {
                     // Exclude calibration (and any patched callees) from target statistics.
                     MethodCapture current = capture; capture = null;
                     try { reference.Sample(); } finally { capture = current; }
-                    nextReference = Time.realtimeSinceStartup + 1;
+                    nextReference = Waylith.Time.RealtimeSinceStartupAsDouble + 1;
                 }
-                if (Time.realtimeSinceStartup < nextPoll) return;
-                nextPoll = Time.realtimeSinceStartup + 0.25;
+                if (Waylith.Time.RealtimeSinceStartupAsDouble < nextPoll) return;
+                nextPoll = Waylith.Time.RealtimeSinceStartupAsDouble + 0.25;
                 string command = Path.Combine(root, "command.json");
                 if (!File.Exists(command)) return;
                 ProfileCommand request;

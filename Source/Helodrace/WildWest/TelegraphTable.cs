@@ -94,7 +94,7 @@ namespace Helodrace
         private static readonly Vector2 ContractViewerWindowSize = new Vector2(1020f, 1080f);
         private const float ContractEntranceDuration = 0.6f;
         private bool contractEntranceAnimating;
-        private float contractEntranceStartedAt;
+        private double contractEntranceStartedAt;
         private Vector2 contractEntranceStartPosition;
         private Vector2 contractEntranceTargetPosition;
 
@@ -119,7 +119,7 @@ namespace Helodrace
                 Mathf.Max(0f, (UI.screenHeight - ContractWindowSize.y) * 0.5f));
             contractEntranceStartPosition = new Vector2(contractEntranceTargetPosition.x, -ContractWindowSize.y - 24f);
             windowRect.position = contractEntranceStartPosition;
-            contractEntranceStartedAt = Time.realtimeSinceStartup;
+            contractEntranceStartedAt = Waylith.Time.RealtimeSinceStartupAsDouble;
             contractEntranceAnimating = true;
         }
 
@@ -130,7 +130,7 @@ namespace Helodrace
                 return;
             }
 
-            float progress = Mathf.Clamp01((Time.realtimeSinceStartup - contractEntranceStartedAt) / ContractEntranceDuration);
+            float progress = (float)Math.Clamp((Waylith.Time.RealtimeSinceStartupAsDouble - contractEntranceStartedAt) / ContractEntranceDuration, 0.0, 1.0);
             float easedProgress = 1f - Mathf.Pow(1f - progress, 3f);
             windowRect.position = Vector2.Lerp(contractEntranceStartPosition, contractEntranceTargetPosition, easedProgress);
             if (progress >= 1f)

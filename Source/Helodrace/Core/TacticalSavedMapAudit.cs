@@ -82,12 +82,12 @@ namespace Helodrace
                 if (tick - started < result.sampleTicks) return;
                 AgentMethodProfiler.End(); if(AgentMethodProfiler.Capturing) return;
                 TraceSavedMapAudit(tick); result.complete = true; Write();
-                finished = true; Application.Quit();
+                finished = true; Waylith.EngineApplication.Instance.Quit();
             }
             catch (Exception exception)
             {
                 result.error = exception.ToString(); result.complete = true; Write();
-                finished = true; Log.Error("Saved-map CQB audit: " + exception); Application.Quit();
+                finished = true; Log.Error("Saved-map CQB audit: " + exception); Waylith.EngineApplication.Instance.Quit();
             }
         }
         private void InitializeSavedMapAudit()

@@ -62,7 +62,7 @@ namespace Helodrace
         private void Finish(bool success, string message)
         {
             File.AppendAllText(Results, (success ? "COMPLETE " : "FAIL ") + message + "\n");
-            Application.Quit(success ? 0 : 1);
+            Waylith.EngineApplication.Instance.Quit(success ? 0 : 1);
         }
 
         private void CheckRecipePlacement()

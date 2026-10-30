@@ -1,4 +1,4 @@
-﻿#if TCCC_TESTS
+#if TCCC_TESTS
 // Compiled only for the isolated -quicktest validation build, never into the shipped DLL.
 using System;
 using System.IO;
@@ -239,7 +239,7 @@ namespace Helodrace.Tactical
         {
             finished = true;
             File.AppendAllText(Results, (success ? "COMPLETE " : "FAIL ") + message + "\n");
-            Application.Quit(success ? 0 : 1);
+            Waylith.EngineApplication.Instance.Quit(success ? 0 : 1);
         }
         private void CaptureRope()
         {

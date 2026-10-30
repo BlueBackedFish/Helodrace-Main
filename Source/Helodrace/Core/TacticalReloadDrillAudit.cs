@@ -106,7 +106,7 @@ namespace Helodrace
             catch (Exception exception)
             {
                 result.error = exception.ToString(); Write(); finished = true;
-                Log.Error("R7 reload verification failed: " + exception); UnityEngine.Application.Quit();
+                Log.Error("R7 reload verification failed: " + exception); Waylith.EngineApplication.Instance.Quit();
             }
         }
         private static string Digest(string text)

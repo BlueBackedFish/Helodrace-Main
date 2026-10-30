@@ -86,14 +86,14 @@ namespace Helodrace
                         GameComponent_ShotgunWounds.Current.For(injury)?.shellId == shellId), "wall-blocked pellets create no pawn wounds");
                     File.AppendAllText(Results, "COMPLETE\n");
                     finished = true;
-                    Application.Quit(0);
+                    Waylith.EngineApplication.Instance.Quit(0);
                 }
             }
             catch (Exception error)
             {
                 finished = true;
                 File.AppendAllText(Results, "FAIL " + error + "\n");
-                Application.Quit(1);
+                Waylith.EngineApplication.Instance.Quit(1);
             }
         }
         private Verb_ShootShotgun PrepareShot(PawnKindDef kind, int distance, int skill, string weaponName)

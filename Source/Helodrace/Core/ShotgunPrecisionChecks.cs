@@ -43,7 +43,7 @@ namespace Helodrace
                 {
                     File.AppendAllText(Results, "COMPLETE\n");
                     finished = true;
-                    Application.Quit(0);
+                    Waylith.EngineApplication.Instance.Quit(0);
                     return;
                 }
                 if (precisionShot == 0) File.WriteAllText(Results, "Native CQB shotgun precision checks\n");
@@ -95,7 +95,7 @@ namespace Helodrace
             {
                 finished = true;
                 File.AppendAllText(Results, "FAIL " + error + "\n");
-                Application.Quit(1);
+                Waylith.EngineApplication.Instance.Quit(1);
             }
         }
     }

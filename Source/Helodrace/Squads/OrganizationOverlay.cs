@@ -50,10 +50,10 @@ namespace Helodrace.Squads
             if (pawn == null || !pawn.Spawned || pawn.Map != Find.CurrentMap || pawn.Position.Fogged(pawn.Map)) return;
             CombatGroup group = comp.Group;
             if (group == null || group.Organization == null) return;
-            if (comp.overlayRefreshFrame < 0 || Time.frameCount - comp.overlayRefreshFrame >= 30)
+            if (comp.overlayRefreshFrame < 0 || Waylith.Time.FrameCount - comp.overlayRefreshFrame >= 30)
             {
                 Refresh(comp, group);
-                comp.overlayRefreshFrame = Time.frameCount;
+                comp.overlayRefreshFrame = Waylith.Time.FrameCount;
             }
 
             // Begin below the normal pawn-name label. Screen-space line spacing remains

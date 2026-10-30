@@ -200,7 +200,7 @@ namespace Helodrace.ModernWar
             Rect view = new Rect(0f, 0f, outRect.width - 18f,
                 bars.Count * rowHeight + detailHeight + gasHeight + 8f);
             Widgets.BeginScrollView(outRect, ref statsScroll, view);
-            double now = Time.realtimeSinceStartup;
+            double now = Waylith.Time.RealtimeSinceStartupAsDouble;
             Text.Font = GameFont.Small;
             for (int i = 0; i < bars.Count; i++)
             {

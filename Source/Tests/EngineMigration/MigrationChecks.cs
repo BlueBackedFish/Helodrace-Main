@@ -25,11 +25,22 @@ namespace Helodrace.Tests
             Scribe_Values.Look(ref mainStatePrepared, "migrationMainStatePrepared", false);
         }
 
+#if NET10_0_OR_GREATER
+        public override void GameComponentUpdate()
+        {
+            if (Find.CurrentMap != null && GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string activeCase)
+                && activeCase == "native-runtime") NativeRuntimeChecks.ObserveFrame();
+        }
+#endif
+
         public override void GameComponentTick()
         {
             if (complete || Find.CurrentMap == null
                 || !GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out output)) return;
             GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out mode);
+#if NET10_0_OR_GREATER
+            if (mode == "native-runtime" && !NativeRuntimeChecks.FrameProbeReady) return;
+#endif
             Directory.CreateDirectory(output);
             if (mode == "load" && !requestedLoad)
             {
@@ -75,6 +86,7 @@ namespace Helodrace.Tests
                 }
 #if NET10_0_OR_GREATER
                 else if (mode == "blancas") BlancasEngineChecks.Run(Check);
+                else if (mode == "native-runtime") NativeRuntimeChecks.Run(output, Check);
                 else if (mode == "main-state")
                 {
                     if (!mainStatePrepared)
@@ -91,14 +103,23 @@ namespace Helodrace.Tests
 #endif
                 else throw new ArgumentException("Unknown migration case: " + mode);
                 File.AppendAllText(Path.Combine(output, "checks.txt"), "COMPLETE\n");
-                UnityEngine.Application.Quit(0);
+                Quit(0);
             }
             catch (Exception error)
             {
                 File.AppendAllText(Path.Combine(output, "checks.txt"), "FAIL " + error + "\n");
                 Log.Error("Engine migration checks failed: " + error);
-                UnityEngine.Application.Quit(1);
+                Quit(1);
             }
+        }
+
+        private static void Quit(int code)
+        {
+#if NET10_0_OR_GREATER
+            Waylith.EngineApplication.Instance.Quit(code);
+#else
+            UnityEngine.Application.Quit(code);
+#endif
         }
 
         private void CreateFixture()

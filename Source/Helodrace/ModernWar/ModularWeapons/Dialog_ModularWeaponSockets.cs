@@ -33,7 +33,7 @@ namespace Helodrace.ModernWar
         private float? preferredRailOffset;
         private string preferredRailOwner, preferredRailSocket;
         private string lastRailRejection;
-        private float lastRailRejectionAt;
+        private double lastRailRejectionAt;
 
         private Rect PreviewCameraArea(Rect rect)
         {
@@ -434,10 +434,10 @@ namespace Helodrace.ModernWar
                 // Moving an attachment must not refit the camera and shift its parent rail.
                 preservePreviewFitOnRefresh = true;
             }
-            else if (reason != lastRailRejection || Time.realtimeSinceStartup - lastRailRejectionAt > 1f)
+            else if (reason != lastRailRejection || Waylith.Time.RealtimeSinceStartupAsDouble - lastRailRejectionAt > 1f)
             {
                 lastRailRejection = reason;
-                lastRailRejectionAt = Time.realtimeSinceStartup;
+                lastRailRejectionAt = Waylith.Time.RealtimeSinceStartupAsDouble;
                 Messages.Message(reason, MessageTypeDefOf.RejectInput, false);
             }
         }

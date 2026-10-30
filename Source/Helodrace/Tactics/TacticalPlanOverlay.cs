@@ -52,9 +52,9 @@ namespace Helodrace.Tactics
                 if (planOverlayNodes.Count > 0) planOverlayNodes.Clear();
                 planOverlayRefreshAt = -1; return;
             }
-            if (Time.frameCount >= planOverlayRefreshAt)
+            if (Waylith.Time.FrameCount >= planOverlayRefreshAt)
             {
-                RefreshPlanOverlay(); planOverlayRefreshAt = Time.frameCount + OverlayRefreshFrames;
+                RefreshPlanOverlay(); planOverlayRefreshAt = Waylith.Time.FrameCount + OverlayRefreshFrames;
             }
             CellRect view = Find.CameraDriver.CurrentViewRect;
             foreach (PlanOverlayNode node in planOverlayNodes)

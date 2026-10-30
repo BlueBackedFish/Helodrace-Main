@@ -12,7 +12,7 @@ namespace Helodrace.ModernWar
         private readonly ModularPlacementWorkspace workspace;
         private readonly Dictionary<CompModularWeaponNode, ViewState> views = new Dictionary<CompModularWeaponNode, ViewState>();
         private HashSet<string> selectedPaths = new HashSet<string> {"root"};
-        private float nextWorkspaceRefresh;
+        private double nextWorkspaceRefresh;
         private bool batchDirty;
 
         private sealed class ViewState
@@ -58,10 +58,10 @@ namespace Helodrace.ModernWar
 
         private void DrawWorkspaceControls(Rect rect)
         {
-            if (Event.current.type == EventType.Layout && Time.realtimeSinceStartup >= nextWorkspaceRefresh)
+            if (Event.current.type == EventType.Layout && Waylith.Time.RealtimeSinceStartupAsDouble >= nextWorkspaceRefresh)
             {
                 workspace.Refresh(); batchDirty=workspace.Batch.HasUnsavedChanges;
-                nextWorkspaceRefresh=Time.realtimeSinceStartup+.4f;
+                nextWorkspaceRefresh=Waylith.Time.RealtimeSinceStartupAsDouble+.4f;
             }
             if (Widgets.ButtonText(new Rect(324f,36f,Mathf.Max(140f,Mathf.Min(360f,rect.width-530f)),30f),
                 "HD_Placement_SwitchWeapon".Translate())) ShowWeapons();

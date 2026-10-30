@@ -166,7 +166,7 @@ namespace Helodrace
                     AgentMethodProfiler.End();
                     if (AgentMethodProfiler.Capturing) return;
                     VerifyIsolation(); FinalDiagnostics(); result.complete = true;
-                    Write(); finished = true; Application.Quit(); return;
+                    Write(); finished = true; Waylith.EngineApplication.Instance.Quit(); return;
                 }
                 Find.TickManager.CurTimeSpeed = AuditTimeSpeed(result.speed);
                 int tick = GenTicks.TicksGame;
@@ -202,7 +202,7 @@ namespace Helodrace
             catch (Exception error)
             {
                 result.error = error.ToString(); result.complete = false;
-                Write(); finished = true; Log.Error("Tactical engine audit: " + error); Application.Quit();
+                Write(); finished = true; Log.Error("Tactical engine audit: " + error); Waylith.EngineApplication.Instance.Quit();
             }
         }
         private void Initialize()

@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
+      <HintPath>$(RimWorldReferencePath)/Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Compile Remove="obj/**/*.cs" />
   </ItemGroup>
 </Project>
