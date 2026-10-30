@@ -1,4 +1,5 @@
-using UnityEngine;
+using System.Numerics;
+using Rect = Waylith.Math.Rect;
 
 namespace Helodrace.ModernWar
 {
@@ -20,8 +21,8 @@ namespace Helodrace.ModernWar
 
         private Vector2 CenterOffset(Rect area)
         {
-            Vector2 center = contentBounds.HasValue ? contentBounds.Value.center : Vector2.zero;
-            return new Vector2(center.x, -center.y) * ScaleFor(area);
+            Vector2 center = contentBounds.HasValue ? contentBounds.Value.center : Vector2.Zero;
+            return new Vector2(center.X, -center.Y) * ScaleFor(area);
         }
 
         public Vector2 OriginFor(Rect area) => area.center + Pan - CenterOffset(area);
@@ -30,7 +31,7 @@ namespace Helodrace.ModernWar
         // through camera pan and cursor-centered zoom.
         public Vector2 OffsetFromFit(Rect area, Vector2 point)
         {
-            Vector2 guiPoint = new Vector2(point.x, -point.y);
+            Vector2 guiPoint = new Vector2(point.X, -point.Y);
             Vector2 current = OriginFor(area) + guiPoint * ScaleFor(area);
             Vector2 fitted = area.center - CenterOffset(area) / Zoom + guiPoint * (ScaleFor(area) / Zoom);
             return current - fitted;
@@ -41,7 +42,7 @@ namespace Helodrace.ModernWar
             Rect bounds = contentBounds ?? new Rect(-0.5f, -0.5f, 1f, 1f);
             float scale = ScaleFor(area) / Zoom;
             Vector2 origin = area.center - CenterOffset(area) / Zoom;
-            return new Rect(origin.x + bounds.xMin * scale, origin.y - bounds.yMax * scale,
+            return new Rect(origin.X + bounds.xMin * scale, origin.Y - bounds.yMax * scale,
                 bounds.width * scale, bounds.height * scale);
         }
 
@@ -60,7 +61,7 @@ namespace Helodrace.ModernWar
         public void Reset()
         {
             Zoom = 1f;
-            Pan = Vector2.zero;
+            Pan = Vector2.Zero;
         }
     }
 }

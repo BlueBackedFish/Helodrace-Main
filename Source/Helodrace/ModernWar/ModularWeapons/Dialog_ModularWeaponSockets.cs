@@ -81,8 +81,8 @@ namespace Helodrace.ModernWar
             }
             Rect area = PreviewArea(rect);
             Rect cameraArea = PreviewCameraArea(rect);
-            Vector2 origin = previewCamera.OriginFor(cameraArea);
-            float scale = previewCamera.ScaleFor(cameraArea);
+            Vector2 origin = previewCamera.OriginFor(cameraArea.ToNative()).ToGame();
+            float scale = previewCamera.ScaleFor(cameraArea.ToNative());
             var layoutCards = new List<ModularWeaponSocketLayout.Card>();
             foreach (var card in socketCards)
             {
@@ -101,12 +101,12 @@ namespace Helodrace.ModernWar
                 }
                 layoutCards.Add(new ModularWeaponSocketLayout.Card {
                     Compact = card.Compact, Rail = card.Socket.isRail, Outward = outward,
-                    Anchor = card.Anchor - previewCamera.OffsetFromFit(cameraArea, point) });
+                    Anchor = card.Anchor - previewCamera.OffsetFromFit(cameraArea.ToNative(), point.ToNative()).ToGame() });
             }
             if (!ReferenceEquals(socketLayoutSnapshot, snapshot) || socketLayoutOwner != owner.path
                 || socketLayoutGroup != activePreviewGroup?.Key || socketLayoutArea != area)
             {
-                socketLayout = ModularWeaponSocketLayout.Arrange(area, layoutCards, previewCamera.BoundsAtFit(cameraArea));
+                socketLayout = ModularWeaponSocketLayout.Arrange(area, layoutCards, previewCamera.BoundsAtFit(cameraArea.ToNative()).ToGame());
                 socketLayoutSnapshot = snapshot;
                 socketLayoutOwner = owner.path;
                 socketLayoutGroup = activePreviewGroup?.Key;
@@ -126,7 +126,7 @@ namespace Helodrace.ModernWar
             Vector2 ownerCenter;
             float ownerAngle;
             ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(root, owner, false, out ownerCenter, out ownerAngle);
-            Vector2 boxOffset = previewCamera.OffsetFromFit(cameraArea, ownerCenter);
+            Vector2 boxOffset = previewCamera.OffsetFromFit(cameraArea.ToNative(), ownerCenter.ToNative()).ToGame();
             for (int i = 0; i < socketCards.Count; i++)
             {
                 var card = socketCards[i];
@@ -156,8 +156,8 @@ namespace Helodrace.ModernWar
             a.x -= socket.railLength * 0.5f;
             b.x += socket.railLength * 0.5f;
             Rect area = PreviewCameraArea(rect);
-            Vector2 origin = previewCamera.OriginFor(area);
-            float scale = previewCamera.ScaleFor(area);
+            Vector2 origin = previewCamera.OriginFor(area.ToNative()).ToGame();
+            float scale = previewCamera.ScaleFor(area.ToNative());
             start = WorldToGui(RealtimeSocketPoint(owner, a), origin, scale);
             end = WorldToGui(RealtimeSocketPoint(owner, b), origin, scale);
         }
@@ -388,9 +388,9 @@ namespace Helodrace.ModernWar
             if (!focus) return;
             Rect area = PreviewCameraArea(preview);
             float angle;
-            Vector2 center = PreviewPartRect(card.Child, previewCamera.OriginFor(area),
-                previewCamera.ScaleFor(area), out angle).center;
-            previewCamera.Move(area.center - center);
+            Vector2 center = PreviewPartRect(card.Child, previewCamera.OriginFor(area.ToNative()).ToGame(),
+                previewCamera.ScaleFor(area.ToNative()), out angle).center;
+            previewCamera.Move((area.center - center).ToNative());
         }
 
         private ModularWeaponSocketLayout.RailSlider FloatingRailSliderGeometry(Rect preview)

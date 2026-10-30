@@ -1,6 +1,7 @@
 using System;
 using Helodrace.ModernWar;
-using UnityEngine;
+using System.Numerics;
+using Rect = Waylith.Math.Rect;
 
 internal static class CameraTests
 {
@@ -31,7 +32,7 @@ internal static class CameraTests
         foreach (var viewport in new[] { area, new Rect(20, 40, 220, 500), new Rect(0, 0, 300, 300) })
         {
             float scale = camera.ScaleFor(viewport);
-            Equal(camera.OriginFor(viewport) + new Vector2(bounds.center.x, -bounds.center.y) * scale,
+            Equal(camera.OriginFor(viewport) + new Vector2(bounds.center.X, -bounds.center.Y) * scale,
                 viewport.center, "Fit must center an off-origin weapon group in every viewport shape.");
             if (bounds.width * scale > viewport.width || bounds.height * scale > viewport.height)
                 throw new Exception("Fitted group exceeds its viewport.");
@@ -42,9 +43,9 @@ internal static class CameraTests
             "Cursor anchoring must survive fitting an off-center group.");
         var fittedCamera = new ModularWeaponPreviewCamera();
         fittedCamera.SetBounds(bounds);
-        foreach (var anchor in new[] { Vector2.zero, new Vector2(4, -2), new Vector2(-1, 3) })
+        foreach (var anchor in new[] { Vector2.Zero, new Vector2(4, -2), new Vector2(-1, 3) })
         {
-            Vector2 gui = new Vector2(anchor.x, -anchor.y);
+            Vector2 gui = new Vector2(anchor.X, -anchor.Y);
             Vector2 before = fittedCamera.OriginFor(area) + gui * fittedCamera.ScaleFor(area);
             Vector2 after = camera.OriginFor(area) + gui * camera.ScaleFor(area);
             Equal(after - before, camera.OffsetFromFit(area, anchor),
@@ -59,12 +60,12 @@ internal static class CameraTests
 
     private static void Equal(Vector2 expected, Vector2 actual, string message)
     {
-        if (Math.Abs(expected.x - actual.x) > 0.001f || Math.Abs(expected.y - actual.y) > 0.001f)
+        if (Math.Abs(expected.X - actual.X) > 0.001f || Math.Abs(expected.Y - actual.Y) > 0.001f)
             throw new Exception(message);
     }
 }
 
-// Camera math is exercised without loading Unity's native graphics runtime.
+// Other linked preview layout helpers still use game boundary structs.
 namespace UnityEngine
 {
     public struct Vector2

@@ -175,9 +175,9 @@ namespace Helodrace.ModernWar
             Text.Font = GameFont.Small;
             Rect area = new Rect(0f, 78f, inRect.width, Mathf.Max(1f, inRect.height - 120f));
             if (Widgets.ButtonText(new Rect(0f, 40f, 32f, 28f), "−"))
-                camera.ZoomAt(area, camera.Zoom / 1.25f, area.center);
+                camera.ZoomAt(area.ToNative(), camera.Zoom / 1.25f, area.center.ToNative());
             if (Widgets.ButtonText(new Rect(38f, 40f, 32f, 28f), "+"))
-                camera.ZoomAt(area, camera.Zoom * 1.25f, area.center);
+                camera.ZoomAt(area.ToNative(), camera.Zoom * 1.25f, area.center.ToNative());
             Widgets.Label(new Rect(80f, 43f, 70f, 25f), camera.Zoom.ToString("P0"));
             if (Widgets.ButtonText(new Rect(155f, 40f, 115f, 28f),
                 "HD_ModularWeapon_ResetView".Translate())) camera.Reset();
@@ -188,16 +188,16 @@ namespace Helodrace.ModernWar
             {
                 if (current.type == EventType.ScrollWheel)
                 {
-                    camera.ZoomAt(area, camera.Zoom * Mathf.Pow(1.12f, -current.delta.y), current.mousePosition);
+                    camera.ZoomAt(area.ToNative(), camera.Zoom * Mathf.Pow(1.12f, -current.delta.y), current.mousePosition.ToNative());
                     current.Use();
                 }
                 else if (current.type == EventType.MouseDrag && current.button == 2)
                 {
-                    camera.Move(current.delta);
+                    camera.Move(current.delta.ToNative());
                     current.Use();
                 }
             }
-            ModularWeaponPartImage.For(part).Draw(area, camera.Zoom, camera.Pan);
+            ModularWeaponPartImage.For(part).Draw(area, camera.Zoom, camera.Pan.ToGame());
             Text.Font = GameFont.Tiny;
             Widgets.Label(new Rect(0f, inRect.height - 34f, inRect.width, 34f),
                 "HD_ModularWeapon_ZoomHint".Translate());

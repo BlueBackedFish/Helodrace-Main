@@ -111,7 +111,7 @@ namespace Helodrace.ModernWar
                     : ContentFinder<Texture2D>.Get(path + "_Outline", false);
                 if (outline != null) IncludePreviewBounds(node, outline, ref bounds, ref found);
             }
-            previewCamera.SetBounds(found ? bounds : new Rect(-0.5f, -0.5f, 1f, 1f));
+            previewCamera.SetBounds((found ? bounds : new Rect(-0.5f, -0.5f, 1f, 1f)).ToNative());
             socketLayoutSnapshot = null;
             previewNeedsFit = false;
         }

@@ -88,6 +88,7 @@ namespace Helodrace.Tests
                 else if (mode == "blancas") BlancasEngineChecks.Run(Check);
                 else if (mode == "native-runtime") NativeRuntimeChecks.Run(output, Check);
                 else if (mode == "native-math") NativeMathChecks.Run(output, Check);
+                else if (mode == "native-geometry") NativeGeometryChecks.Run(output, Check);
                 else if (mode == "main-state")
                 {
                     if (!mainStatePrepared)

@@ -141,8 +141,8 @@ namespace Helodrace.ModernWar
                 new Color(0.35f, 0.38f, 0.42f), 2);
             Rect inner = PreviewArea(rect);
             Rect cameraArea = PreviewCameraArea(rect);
-            Vector2 origin = previewCamera.OriginFor(cameraArea);
-            float pixelsPerCell = previewCamera.ScaleFor(cameraArea);
+            Vector2 origin = previewCamera.OriginFor(cameraArea.ToNative()).ToGame();
+            float pixelsPerCell = previewCamera.ScaleFor(cameraArea.ToNative());
             ModularRenderNode front = SelectedPreviewPart(selected);
             ModularRenderNode focus = IsPreviewPart(hoveredNode) ? hoveredNode : front;
             GUI.BeginGroup(inner);

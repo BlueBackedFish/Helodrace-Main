@@ -1,4 +1,4 @@
-using UnityEngine;
+using System.Numerics;
 
 namespace Helodrace.ModernWar
 {
@@ -17,9 +17,9 @@ namespace Helodrace.ModernWar
 
         public Vector2 Move(Vector2 point)
         {
-            if (!Active) return Vector2.zero;
+            if (!Active) return Vector2.Zero;
             Vector2 total = point - start;
-            if (!Dragging && total.x * total.x + total.y * total.y < 16f) return Vector2.zero;
+            if (!Dragging && total.X * total.X + total.Y * total.Y < 16f) return Vector2.Zero;
             Vector2 delta = point - (Dragging ? previous : start);
             previous = point;
             Dragging = true;

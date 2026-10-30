@@ -37,12 +37,12 @@ namespace Helodrace.ModernWar
             {
                 if (current.type == EventType.MouseDrag && current.button == 0)
                 {
-                    previewCamera.Move(previewDrag.Move(current.mousePosition));
+                    previewCamera.Move(previewDrag.Move(current.mousePosition.ToNative()));
                     current.Use();
                 }
                 else if (current.type == EventType.MouseUp && current.button == 0)
                 {
-                    previewCamera.Move(previewDrag.Move(current.mousePosition));
+                    previewCamera.Move(previewDrag.Move(current.mousePosition.ToNative()));
                     bool click = previewDrag.End();
                     GUIUtility.hotControl = 0;
                     if (click && Mouse.IsOver(PreviewArea(rect)) && !overControl)
@@ -73,13 +73,13 @@ namespace Helodrace.ModernWar
             if (!Mouse.IsOver(PreviewArea(rect)) || GUIUtility.hotControl != 0) return;
             if (current.type == EventType.ScrollWheel)
             {
-                previewCamera.ZoomAt(area, previewCamera.Zoom * Mathf.Pow(1.12f, -current.delta.y),
-                    current.mousePosition);
+                previewCamera.ZoomAt(area.ToNative(), previewCamera.Zoom * Mathf.Pow(1.12f, -current.delta.y),
+                    current.mousePosition.ToNative());
                 current.Use();
             }
             else if (!overControl && current.type == EventType.MouseDown && current.button == 0)
             {
-                previewDrag.Begin(current.mousePosition);
+                previewDrag.Begin(current.mousePosition.ToNative());
                 previewDragControl = control;
                 pressedPreviewPart = hoveredNode?.thing.thingIDNumber ?? -1;
                 GUIUtility.hotControl = control;
@@ -92,9 +92,9 @@ namespace Helodrace.ModernWar
             Rect toolbar = new Rect(rect.x + 10f, rect.y + 8f, rect.width - 20f, 27f);
             Rect area = PreviewCameraArea(rect);
             if (Widgets.ButtonText(new Rect(toolbar.x, toolbar.y, 28f, toolbar.height), "−"))
-                previewCamera.ZoomAt(area, previewCamera.Zoom / 1.25f, area.center);
+                previewCamera.ZoomAt(area.ToNative(), previewCamera.Zoom / 1.25f, area.center.ToNative());
             if (Widgets.ButtonText(new Rect(toolbar.x + 34f, toolbar.y, 28f, toolbar.height), "+"))
-                previewCamera.ZoomAt(area, previewCamera.Zoom * 1.25f, area.center);
+                previewCamera.ZoomAt(area.ToNative(), previewCamera.Zoom * 1.25f, area.center.ToNative());
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleCenter;
             Widgets.Label(new Rect(toolbar.x + 66f, toolbar.y, 52f, toolbar.height),
@@ -118,8 +118,8 @@ namespace Helodrace.ModernWar
             Rect inner = PreviewArea(rect);
             if (!Mouse.IsOver(inner)) return;
             Rect cameraArea = PreviewCameraArea(rect);
-            Vector2 origin = previewCamera.OriginFor(cameraArea);
-            float scale = previewCamera.ScaleFor(cameraArea);
+            Vector2 origin = previewCamera.OriginFor(cameraArea.ToNative()).ToGame();
+            float scale = previewCamera.ScaleFor(cameraArea.ToNative());
             ModularRenderNode front = SelectedPreviewPart(FindSelected(snapshot));
             // Hit testing follows the selected part's foreground draw order.
             foreach (ModularRenderNode node in PreviewHitOrder(front))
