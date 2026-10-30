@@ -172,15 +172,15 @@ namespace Helodrace.ModernWar
             direction.Normalize();
             float aimAngle = direction.AngleFlat();
 
-            Vector3 gunCenter;
+            System.Numerics.Vector3 gunCenter;
             float bodyAngle;
             bool flipped;
             ModularWeaponAimingPoseUtility.Resolve(weapon, pawn, aimAngle,
                 out gunCenter, out bodyAngle, out flipped);
             var local = node.transform.TransformPoint(node.Props.graphicOffset.ToNative());
             if (flipped) local.X = -local.X;
-            Vector3 origin = gunCenter + Quaternion.AngleAxis(bodyAngle, Vector3.up)
-                * new Vector3(local.X, 0f, local.Y);
+            Vector3 origin = (gunCenter + SpatialMath.RotateAroundY(
+                new System.Numerics.Vector3(local.X, 0f, local.Y), bodyAngle)).ToGame();
             if (!origin.ToIntVec3().InBounds(pawn.Map)) return;
 
             MoteThrown mote = ThingMaker.MakeThing(moteDef) as MoteThrown;

@@ -600,15 +600,15 @@ namespace Helodrace.ModernWar
                 angle += equipment.def.equippedAngleOffset;
             }
 
-            UnityEngine.Vector3 recoilOffset;
+            Vector3 recoilOffset;
             float recoilAngle;
-            ModularWeaponRecoilUtility.Resolve(
+            ModularWeaponRecoilUtility.ResolveNative(
                 equipment,
                 aimAngle,
                 out recoilOffset,
                 out recoilAngle);
             // Apply the combat system's complete transform to every modular layer.
-            drawLoc += recoilOffset;
+            Vector3 center = drawLoc.ToNative() + recoilOffset;
             // The west mesh is mirrored. Applying the same angular delta after that
             // mirror makes muzzle rise appear as muzzle drop, so mirror the recoil
             // rotation as well while leaving its world-space translation untouched.
@@ -617,13 +617,13 @@ namespace Helodrace.ModernWar
             angle %= 360f;
             ModularWeaponAimingPoseUtility.Record(
                 equipment,
-                drawLoc,
+                center,
                 aimAngle,
                 angle,
                 flipped,
-                recoilOffset.sqrMagnitude > 0.000001f
+                recoilOffset.LengthSquared() > 0.000001f
                     || Mathf.Abs(recoilAngle) > 0.001f);
-            DrawRealtime(comp, equipment, drawLoc.ToNative(), angle, flipped, mesh);
+            DrawRealtime(comp, equipment, center, angle, flipped, mesh);
         }
 
         public static float GroundExtraRotation(Thing root)

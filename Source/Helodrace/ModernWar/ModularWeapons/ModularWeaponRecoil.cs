@@ -1,5 +1,6 @@
 using RimWorld;
-using UnityEngine;
+using Vector3 = System.Numerics.Vector3;
+using GameVector3 = UnityEngine.Vector3;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -7,7 +8,7 @@ namespace Helodrace.ModernWar
     public delegate bool ModularWeaponRecoilResolver(
         Thing equipment,
         float aimAngle,
-        out Vector3 drawOffset,
+        out GameVector3 drawOffset,
         out float angleOffset);
 
     /// <summary>
@@ -21,10 +22,22 @@ namespace Helodrace.ModernWar
         public static void Resolve(
             Thing equipment,
             float aimAngle,
+            out GameVector3 drawOffset,
+            out float angleOffset)
+        {
+            ResolveNative(equipment, aimAngle, out Vector3 nativeOffset, out angleOffset);
+            drawOffset = nativeOffset.ToGame();
+        }
+
+        // External resolvers and EquipmentUtility are game API boundaries.
+        // All owned adjustment and callers inside the modular renderer use native data.
+        internal static void ResolveNative(
+            Thing equipment,
+            float aimAngle,
             out Vector3 drawOffset,
             out float angleOffset)
         {
-            drawOffset = Vector3.zero;
+            drawOffset = Vector3.Zero;
             angleOffset = 0f;
 
             ModularWeaponRecoilResolver resolver = ExternalResolver;
@@ -35,9 +48,12 @@ namespace Helodrace.ModernWar
                     if (resolver(
                         equipment,
                         aimAngle,
-                        out drawOffset,
+                        out GameVector3 externalOffset,
                         out angleOffset))
+                    {
+                        drawOffset = externalOffset.ToNative();
                         return;
+                    }
                 }
                 catch (System.Exception exception)
                 {
@@ -47,7 +63,7 @@ namespace Helodrace.ModernWar
                         1947602183);
                 }
 
-                drawOffset = Vector3.zero;
+                drawOffset = Vector3.Zero;
                 angleOffset = 0f;
             }
 
@@ -60,7 +76,7 @@ namespace Helodrace.ModernWar
             EquipmentUtility.Recoil(
                 equipment.def,
                 verb,
-                out drawOffset,
+                out GameVector3 gameOffset,
                 out angleOffset,
                 aimAngle);
 
@@ -70,7 +86,7 @@ namespace Helodrace.ModernWar
             CompModularWeaponNode modular = equipment
                 ?.TryGetComp<CompModularWeaponNode>();
             float gasRecoil = modular?.ConvertedStats?.GasRecoilMultiplier ?? 1f;
-            drawOffset *= gasRecoil;
+            drawOffset = gameOffset.ToNative() * gasRecoil;
             angleOffset *= gasRecoil;
         }
     }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using RimWorld;
-using UnityEngine;
+using System.Numerics;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -109,12 +109,12 @@ namespace Helodrace.ModernWar
         {
             float distanceFactor = wielder?.ageTracker?.CurLifeStage
                 ?.equipmentDrawDistanceFactor ?? 1f;
-            drawLoc = (wielder?.DrawPos ?? Vector3.zero)
-                + new Vector3(
+            drawLoc = (wielder?.DrawPos.ToNative() ?? Vector3.Zero)
+                + SpatialMath.RotateAroundY(new Vector3(
                     0f,
                     0f,
-                    0.4f + (equipment?.def.equippedDistanceOffset ?? 0f))
-                    .RotatedBy(aimAngle) * distanceFactor;
+                    0.4f + (equipment?.def.equippedDistanceOffset ?? 0f)),
+                    aimAngle) * distanceFactor;
 
             bodyAngle = aimAngle - 90f;
             flipped = aimAngle > 200f && aimAngle < 340f;
@@ -130,12 +130,12 @@ namespace Helodrace.ModernWar
 
             Vector3 recoilOffset;
             float recoilAngle;
-            ModularWeaponRecoilUtility.Resolve(
+            ModularWeaponRecoilUtility.ResolveNative(
                 equipment,
                 aimAngle,
                 out recoilOffset,
                 out recoilAngle);
-            recoilActive = recoilOffset.sqrMagnitude > 0.000001f
+            recoilActive = recoilOffset.LengthSquared() > 0.000001f
                 || Mathf.Abs(recoilAngle) > 0.001f;
             drawLoc += recoilOffset;
             bodyAngle += flipped ? -recoilAngle : recoilAngle;

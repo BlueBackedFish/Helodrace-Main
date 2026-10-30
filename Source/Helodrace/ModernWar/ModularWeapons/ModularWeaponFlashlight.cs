@@ -68,7 +68,7 @@ namespace Helodrace.ModernWar
             if (direction.sqrMagnitude < 0.0001f) return;
 
             float aimAngle = direction.AngleFlat();
-            Vector3 drawLoc;
+            System.Numerics.Vector3 nativeDrawLoc;
             float bodyAngle;
             bool flipped;
             bool recoilActive;
@@ -76,10 +76,11 @@ namespace Helodrace.ModernWar
                 weapon,
                 pawn,
                 aimAngle,
-                out drawLoc,
+                out nativeDrawLoc,
                 out bodyAngle,
                 out flipped,
                 out recoilActive);
+            Vector3 drawLoc = nativeDrawLoc.ToGame();
             Vector3 weaponDirection = WeaponDirection(bodyAngle, flipped);
             if (hasLaser && !hasStanceTarget)
             {

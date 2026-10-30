@@ -60,7 +60,7 @@ namespace Helodrace.ModernWar
             shotDirection.Normalize();
             float aimAngle = shotDirection.AngleFlat();
 
-            Vector3 gunCenter;
+            System.Numerics.Vector3 gunCenter;
             float bodyAngle;
             bool flipped;
             ModularWeaponAimingPoseUtility.Resolve(
@@ -71,12 +71,12 @@ namespace Helodrace.ModernWar
                 out bodyAngle,
                 out flipped);
 
-            Vector3 portLocal = portNode.Props.graphicOffset + port.offset;
-            var transformed = portNode.transform.TransformPoint(portLocal.ToNative());
+            var portLocal = portNode.Props.graphicOffset.ToNative() + port.offset.ToNative();
+            var transformed = portNode.transform.TransformPoint(portLocal);
             if (flipped) transformed.X = -transformed.X;
-            Vector3 worldOffset = Quaternion.AngleAxis(bodyAngle, Vector3.up)
-                * new Vector3(transformed.X, 0f, transformed.Y);
-            Vector3 origin = gunCenter + worldOffset;
+            var worldOffset = SpatialMath.RotateAroundY(
+                new System.Numerics.Vector3(transformed.X, 0f, transformed.Y), bodyAngle);
+            Vector3 origin = (gunCenter + worldOffset).ToGame();
 
             GenSpawn.Spawn(casing, origin.ToIntVec3(), shooter.Map);
             // The west-facing weapon graphic is mirrored. Mirror its authored

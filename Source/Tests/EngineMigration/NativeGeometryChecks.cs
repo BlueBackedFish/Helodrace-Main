@@ -67,6 +67,7 @@ namespace Helodrace.Tests
                 && typeof(ModularRenderNode).GetProperty("GraphicCenter").PropertyType == typeof(NativeVector), "owned attachment transforms and render node coordinates use native vectors");
             int matrices = CompareMatrices(product, boundary);
             check(true, matrices + " matrix/point/direction components match actual game TRS and row/column boundaries, including composition and negative scales");
+            NativeAimingChecks.Run(output, check);
             File.WriteAllText(Path.Combine(output, "native-geometry.json"), JsonSerializer.Serialize(new { BoundaryComponents = cases, TransformComponents = transforms, MatrixComponents = matrices, NativePreviewGeometry = true }, new JsonSerializerOptions { WriteIndented = true }));
         }
 

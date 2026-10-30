@@ -179,7 +179,7 @@ namespace Helodrace.ModernWar
             shotDirection.Normalize();
             float aimAngle = shotDirection.AngleFlat();
 
-            Vector3 gunCenter;
+            System.Numerics.Vector3 gunCenter;
             float bodyAngle;
             bool flipped;
             ModularWeaponAimingPoseUtility.Resolve(
@@ -192,9 +192,9 @@ namespace Helodrace.ModernWar
 
             Vector2 local = profile.localMuzzle;
             if (flipped) local.X = -local.X;
-            Vector3 offset = Quaternion.AngleAxis(bodyAngle, Vector3.up)
-                * new Vector3(local.X, 0f, local.Y);
-            Vector3 muzzle = gunCenter + offset;
+            var offset = SpatialMath.RotateAroundY(
+                new System.Numerics.Vector3(local.X, 0f, local.Y), bodyAngle);
+            var muzzle = gunCenter + offset;
             float localYaw = flipped ? profile.localAngle : -profile.localAngle;
             float effectYaw = bodyAngle + localYaw;
             Vector3 forward = Quaternion.AngleAxis(effectYaw, Vector3.up)
@@ -203,7 +203,7 @@ namespace Helodrace.ModernWar
             forward.Normalize();
 
             map.GetComponent<ModularWeaponMuzzleEffectDrawer>()?.Spawn(
-                muzzle,
+                muzzle.ToGame(),
                 effectYaw,
                 flipped,
                 forward,
