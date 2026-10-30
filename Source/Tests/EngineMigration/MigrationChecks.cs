@@ -86,6 +86,7 @@ namespace Helodrace.Tests
                 }
 #if NET10_0_OR_GREATER
                 else if (mode == "blancas") BlancasEngineChecks.Run(Check);
+                else if (mode == "blancas-integration") BlancasIntegrationChecks.Run(Check);
                 else if (mode == "native-runtime") NativeRuntimeChecks.Run(output, Check);
                 else if (mode == "native-math") NativeMathChecks.Run(output, Check);
                 else if (mode == "native-geometry") NativeGeometryChecks.Run(output, Check);
