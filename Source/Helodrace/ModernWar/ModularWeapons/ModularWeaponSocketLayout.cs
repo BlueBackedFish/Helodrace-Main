@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Numerics;
+using Rect = Waylith.Math.Rect;
 
 namespace Helodrace.ModernWar
 {
@@ -68,11 +69,11 @@ namespace Helodrace.ModernWar
             Rect? best = null;
             float score = float.MaxValue;
             Vector2 anchor = card.Anchor;
-            Vector2 normal = card.Rail ? card.Outward : Vector2.zero;
-            bool constrained = Math.Abs(normal.x) + Math.Abs(normal.y) > 0.001f;
-            double outward = constrained ? Math.Atan2(normal.y, normal.x)
-                : Math.Atan2(anchor.y - weapon.center.y, anchor.x - weapon.center.x);
-            if (!constrained && Math.Abs(anchor.x - weapon.center.x) + Math.Abs(anchor.y - weapon.center.y) < 1f)
+            Vector2 normal = card.Rail ? card.Outward : Vector2.Zero;
+            bool constrained = Math.Abs(normal.X) + Math.Abs(normal.Y) > 0.001f;
+            double outward = constrained ? Math.Atan2(normal.Y, normal.X)
+                : Math.Atan2(anchor.Y - weapon.center.Y, anchor.X - weapon.center.X);
+            if (!constrained && Math.Abs(anchor.X - weapon.center.X) + Math.Abs(anchor.Y - weapon.center.Y) < 1f)
                 outward = index * 2.399963;
             for (int ring = 0; ring < 5; ring++)
                 for (int step = 0; step < 24; step++)
@@ -103,18 +104,18 @@ namespace Helodrace.ModernWar
         private static void Consider(Rect area, float width, float height, Vector2 center, Vector2 anchor,
             Vector2 normal, Rect weapon, Layout layout, int page, bool allowWeaponOverlap, ref Rect? best, ref float score)
         {
-            Rect box = new Rect(Math.Max(area.x, Math.Min(area.xMax - width, center.x - width * 0.5f)),
-                Math.Max(area.y, Math.Min(area.yMax - height, center.y - height * 0.5f)), width, height);
+            Rect box = new Rect(Math.Max(area.x, Math.Min(area.xMax - width, center.X - width * 0.5f)),
+                Math.Max(area.y, Math.Min(area.yMax - height, center.Y - height * 0.5f)), width, height);
             Vector2 delta = box.center - anchor;
-            float extent = (Math.Abs(normal.x) * width + Math.Abs(normal.y) * height) * 0.5f;
+            float extent = (Math.Abs(normal.X) * width + Math.Abs(normal.Y) * height) * 0.5f;
             // Relax only when even an empty viewport cannot fit a box fully outside the rail.
-            float maxProjection = normal.x * ((normal.x >= 0f ? area.xMax - width * 0.5f : area.x + width * 0.5f) - anchor.x)
-                + normal.y * ((normal.y >= 0f ? area.yMax - height * 0.5f : area.y + height * 0.5f) - anchor.y);
-            if (delta.x * normal.x + delta.y * normal.y < Math.Min(extent, maxProjection) - 0.001f) return;
+            float maxProjection = normal.X * ((normal.X >= 0f ? area.xMax - width * 0.5f : area.x + width * 0.5f) - anchor.X)
+                + normal.Y * ((normal.Y >= 0f ? area.yMax - height * 0.5f : area.y + height * 0.5f) - anchor.Y);
+            if (delta.X * normal.X + delta.Y * normal.Y < Math.Min(extent, maxProjection) - 0.001f) return;
             if (!allowWeaponOverlap && Overlap(box, weapon, 8f)) return;
             for (int i = 0; i < layout.Rects.Count; i++)
                 if (layout.Pages[i] == page && Overlap(box, layout.Rects[i], 8f)) return;
-            float candidate = delta.x * delta.x + delta.y * delta.y;
+            float candidate = delta.X * delta.X + delta.Y * delta.Y;
             if (candidate >= score) return;
             best = box;
             score = candidate;
@@ -125,7 +126,7 @@ namespace Helodrace.ModernWar
                 && a.yMin < b.yMax + gap && a.yMax + gap > b.yMin;
 
         public static Rect Follow(Rect box, Vector2 offset)
-            => new Rect(box.x + offset.x, box.y + offset.y, box.width, box.height);
+            => new Rect(box.x + offset.X, box.y + offset.Y, box.width, box.height);
 
         public sealed class RailSlider
         {
@@ -137,27 +138,27 @@ namespace Helodrace.ModernWar
 
         public static RailSlider FloatingSlider(Vector2 start, Vector2 end)
         {
-            float dx = end.x - start.x, dy = end.y - start.y;
+            float dx = end.X - start.X, dy = end.Y - start.Y;
             float length = (float)Math.Sqrt(dx * dx + dy * dy);
-            Vector2 offset = length < 0.001f ? Vector2.zero : new Vector2(dy / length, -dx / length) * 20f;
-            if (offset.y > 0f) offset = offset * -1f;
+            Vector2 offset = length < 0.001f ? Vector2.Zero : new Vector2(dy / length, -dx / length) * 20f;
+            if (offset.Y > 0f) offset = offset * -1f;
             Vector2 center = (start + end) * 0.5f + offset;
-            return new RailSlider { Rect = new Rect(center.x - length * 0.5f, center.y - 8f, length, 16f),
+            return new RailSlider { Rect = new Rect(center.X - length * 0.5f, center.Y - 8f, length, 16f),
                 Angle = (float)(Math.Atan2(dy, dx) * 180.0 / Math.PI), Start = start + offset, End = end + offset };
         }
 
         public static float Fraction(Vector2 point, Vector2 start, Vector2 end)
         {
-            float x = end.x - start.x, y = end.y - start.y;
+            float x = end.X - start.X, y = end.Y - start.Y;
             float length = x * x + y * y;
             if (length < 0.00001f) return 0.5f;
-            return Math.Max(0f, Math.Min(1f, ((point.x - start.x) * x + (point.y - start.y) * y) / length));
+            return Math.Max(0f, Math.Min(1f, ((point.X - start.X) * x + (point.Y - start.Y) * y) / length));
         }
 
         public static float Distance(Vector2 point, Vector2 start, Vector2 end)
         {
             Vector2 closest = start + (end - start) * Fraction(point, start, end);
-            float x = point.x - closest.x, y = point.y - closest.y;
+            float x = point.X - closest.X, y = point.Y - closest.Y;
             return (float)Math.Sqrt(x * x + y * y);
         }
     }

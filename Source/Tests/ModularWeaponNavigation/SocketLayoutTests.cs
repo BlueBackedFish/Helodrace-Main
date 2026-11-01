@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Helodrace.ModernWar;
-using UnityEngine;
+using System.Numerics;
+using Rect = Waylith.Math.Rect;
 
 internal static class SocketLayoutTests
 {
@@ -49,7 +50,7 @@ internal static class SocketLayoutTests
             new[] { false, true, false, true, true, false },
             new[] { new Vector2(180, 160), new Vector2(300, 130), new Vector2(500, 175),
                 new Vector2(350, 220), new Vector2(420, 190), new Vector2(260, 180) }, new Rect(175, 135, 350, 90));
-        if (distributed.Rects.Select(box => (int)box.center.y).Distinct().Count() < 3)
+        if (distributed.Rects.Select(box => (int)box.center.Y).Distinct().Count() < 3)
             throw new Exception("Callouts must fan around their socket anchors instead of forming two fixed rows.");
         var repeated = Arrange(new Rect(0, 0, 700, 360),
             new[] { false, true, false, true, true, false },
@@ -70,7 +71,7 @@ internal static class SocketLayoutTests
             || ModularWeaponSocketLayout.Fraction(middle, start, start) != 0.5f)
             throw new Exception("Rail endpoint clamping and zero-length rails must be safe.");
         foreach (float zoom in new[] { 0.25f, 1f, 3f, 8f })
-            foreach (var shift in new[] { Vector2.zero, new Vector2(-500, -500), new Vector2(2000, 2000) })
+            foreach (var shift in new[] { Vector2.Zero, new Vector2(-500, -500), new Vector2(2000, 2000) })
             {
                 var slider = ModularWeaponSocketLayout.FloatingSlider(start * zoom + shift, end * zoom + shift);
                 float expected = (float)Math.Sqrt(200f * 200f + 100f * 100f) * zoom;
@@ -80,7 +81,7 @@ internal static class SocketLayoutTests
                     throw new Exception("The slider must match projected rail length at every zoom, retain its thickness and follow rotated rails.");
             }
         var above = ModularWeaponSocketLayout.FloatingSlider(new Vector2(100, 200), new Vector2(500, 200));
-        if (above.Rect.yMax >= 200 || Math.Abs(above.Rect.center.x - 300f) > 0.001f || above.Rect.width != 400f)
+        if (above.Rect.yMax >= 200 || Math.Abs(above.Rect.center.X - 300f) > 0.001f || above.Rect.width != 400f)
             throw new Exception("Only the slider should appear, centered above the parent rail.");
         var original = new Rect(25, 80, 172, 56);
         var followed = ModularWeaponSocketLayout.Follow(original, new Vector2(1000, -500));
@@ -116,7 +117,7 @@ internal static class SocketLayoutTests
             if (layout.Rects[16].yMin < 200 - 0.001f)
                 throw new Exception("Bottom rail boxes must remain below their rail.");
             for (int i = 15; i < crowded.Count; i++)
-                if (i != 16 && layout.Rects[i].yMax > anchor.y + 0.001f)
+                if (i != 16 && layout.Rects[i].yMax > anchor.Y + 0.001f)
                     throw new Exception("Crowded top rails must use another page instead of moving underneath the gun.");
             if (layout.PageCount <= 1 || layout.PageCount != layout.Pages.Max() + 1)
                 throw new Exception("Rail-first pagination must count pages independently of source order.");

@@ -4,6 +4,9 @@ using System.Globalization;
 using System.Linq;
 using RimWorld;
 using UnityEngine;
+using Rect = Waylith.Math.Rect;
+using Vector2 = System.Numerics.Vector2;
+using Color = Waylith.Math.Color;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -38,10 +41,11 @@ namespace Helodrace.ModernWar
             resizeable = true;
         }
 
-        public override Vector2 InitialSize => new Vector2(1380f, 860f);
+        public override UnityEngine.Vector2 InitialSize => new UnityEngine.Vector2(1380f, 860f);
 
-        public override void DoWindowContents(Rect inRect)
+        public override void DoWindowContents(UnityEngine.Rect gameRect)
         {
+            Rect inRect = gameRect.ToNative();
             hoveredPart = null;
             hoveredNode = null;
             if (workshop != null && !workshop.IsValidFor(root))
@@ -51,7 +55,7 @@ namespace Helodrace.ModernWar
             }
             if (root?.parent == null || root.parent.Destroyed)
             {
-                Widgets.Label(inRect, "HD_ModularWeapon_Missing".Translate());
+                Widgets.Label(inRect.ToGame(), "HD_ModularWeapon_Missing".Translate());
                 return;
             }
 
@@ -69,11 +73,11 @@ namespace Helodrace.ModernWar
             EnsureSelectedSocket(selected);
 
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(0f, 0f, inRect.width - 205f, 32f),
+            Widgets.Label(new Rect(0f, 0f, inRect.width - 205f, 32f).ToGame(),
                 "HD_ModularWeapon_Title".Translate(root.parent.LabelCap));
             Text.Font = GameFont.Small;
             Rect exportRect = new Rect(inRect.width - 190f, 0f, 170f, 30f);
-            if (Widgets.ButtonText(exportRect,
+            if (Widgets.ButtonText(exportRect.ToGame(),
                 "HD_ModularWeapon_ExportPreset".Translate()))
             {
                 GUIUtility.systemCopyBuffer = ModularPresetXmlExporter.ExportWeapon(root);
@@ -83,7 +87,7 @@ namespace Helodrace.ModernWar
                     false);
             }
             TooltipHandler.TipRegion(
-                exportRect,
+                exportRect.ToGame(),
                 "HD_ModularWeapon_ExportPresetDesc".Translate());
 
             float bodyTop = 40f;
@@ -121,12 +125,12 @@ namespace Helodrace.ModernWar
 
             Rect footer = new Rect(0f, inRect.height - footerHeight,
                 inRect.width, footerHeight);
-            Widgets.Label(new Rect(4f, footer.y + 9f, footer.width - 150f, 24f),
+            Widgets.Label(new Rect(4f, footer.y + 9f, footer.width - 150f, 24f).ToGame(),
                 (workshop == null
                     ? "HD_ModularWeapon_ImmediateHintDev"
                     : "HD_ModularWeapon_WorkshopHint").Translate());
             if (Widgets.ButtonText(new Rect(footer.xMax - 120f, footer.y + 4f,
-                120f, 30f), "CloseButton".Translate()))
+                120f, 30f).ToGame(), "CloseButton".Translate()))
                 Close();
 
             if (hoveredPart != null) DrawHoveredPartPreview(inRect, hoveredPart);
@@ -136,23 +140,21 @@ namespace Helodrace.ModernWar
             Rect rect,
             ModularRenderNode selected)
         {
-            Widgets.DrawBoxSolidWithOutline(rect,
-                new Color(0.055f, 0.06f, 0.07f, 1f),
-                new Color(0.35f, 0.38f, 0.42f), 2);
+            Widgets.DrawBoxSolidWithOutline(rect.ToGame(), new Color(0.055f, 0.06f, 0.07f, 1f).ToGame(), new Color(0.35f, 0.38f, 0.42f).ToGame(), 2);
             Rect inner = PreviewArea(rect);
             Rect cameraArea = PreviewCameraArea(rect);
-            Vector2 origin = previewCamera.OriginFor(cameraArea.ToNative()).ToGame();
-            float pixelsPerCell = previewCamera.ScaleFor(cameraArea.ToNative());
+            Vector2 origin = previewCamera.OriginFor(cameraArea);
+            float pixelsPerCell = previewCamera.ScaleFor(cameraArea);
             ModularRenderNode front = SelectedPreviewPart(selected);
             ModularRenderNode focus = IsPreviewPart(hoveredNode) ? hoveredNode : front;
-            GUI.BeginGroup(inner);
+            GUI.BeginGroup(inner.ToGame());
             Vector2 localOrigin = origin - inner.position;
             DrawPreviewAssembly(localOrigin, pixelsPerCell, front);
 
             GUI.EndGroup();
             DrawPreviewHighlight(rect, focus, origin, pixelsPerCell);
             Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(rect.x + 12f, rect.y + 43f, rect.width - 150f, 25f),
+            Widgets.Label(new Rect(rect.x + 12f, rect.y + 43f, rect.width - 150f, 25f).ToGame(),
                 "HD_ModularWeapon_SocketOverlayTitle".Translate(selected?.thing.LabelCap.ToString() ?? string.Empty));
             Text.Font = GameFont.Small;
             DrawSocketOverlay(rect);
@@ -194,15 +196,14 @@ namespace Helodrace.ModernWar
                     border = new Color(0.50f, 0.32f, 0.28f);
                     break;
             }
-            Widgets.DrawBoxSolidWithOutline(rect,
-                new Color(0.07f, 0.08f, 0.085f, 0.93f),
-                border,
+            Widgets.DrawBoxSolidWithOutline(rect.ToGame(), new Color(0.07f, 0.08f, 0.085f, 0.93f).ToGame(), (
+                border).ToGame(),
                 compatibility.kind == ModularAmmunitionCompatibilityKind.Catastrophic
                     ? 2
                     : 1);
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(rect.ContractedBy(7f),
+            Widgets.Label(UiMath.Inset(rect, 7f).ToGame(),
                 "HD_ModularWeapon_SelectedAmmunition".Translate(label)
                 + "\n" + status);
             Text.Anchor = TextAnchor.UpperLeft;
@@ -213,28 +214,27 @@ namespace Helodrace.ModernWar
         {
             bool available = root.HasAdjustableGasSystem;
             Widgets.DrawBoxSolidWithOutline(
-                rect,
-                new Color(0.085f, 0.105f, 0.10f),
+                rect.ToGame(), new Color(0.085f, 0.105f, 0.10f).ToGame(), (
                 available
                     ? new Color(0.34f, 0.48f, 0.38f)
-                    : new Color(0.36f, 0.36f, 0.36f),
+                    : new Color(0.36f, 0.36f, 0.36f)).ToGame(),
                 1);
 
             float setting = root.GasTubeFlowSetting;
             Widgets.Label(
-                new Rect(rect.x + 8f, rect.y + 5f, rect.width - 75f, 22f),
+                new Rect(rect.x + 8f, rect.y + 5f, rect.width - 75f, 22f).ToGame(),
                 "HD_ModularWeapon_GasTubeSetting".Translate(
                     setting.ToString("P0", CultureInfo.InvariantCulture)));
             Rect resetRect = new Rect(rect.xMax - 60f, rect.y + 3f, 53f, 23f);
             if (available && Widgets.ButtonText(
-                resetRect,
+                resetRect.ToGame(),
                 "HD_ModularWeapon_GasTubeReset".Translate()))
                 root.SetGasTubeFlowSetting(ModularWeaponGasSystemUtility.DefaultSetting);
 
             if (available)
             {
                 float edited = Widgets.HorizontalSlider(
-                    new Rect(rect.x + 9f, rect.y + 30f, rect.width - 18f, 18f),
+                    new Rect(rect.x + 9f, rect.y + 30f, rect.width - 18f, 18f).ToGame(),
                     setting,
                     ModularWeaponGasSystemUtility.MinimumSetting,
                     ModularWeaponGasSystemUtility.MaximumSetting,
@@ -247,7 +247,7 @@ namespace Helodrace.ModernWar
                 ModularWeaponMuzzleSignature muzzle = root.MuzzleSignature;
                 Text.Font = GameFont.Tiny;
                 Widgets.Label(
-                    new Rect(rect.x + 8f, rect.y + 55f, rect.width - 16f, 20f),
+                    new Rect(rect.x + 8f, rect.y + 55f, rect.width - 16f, 20f).ToGame(),
                     "HD_ModularWeapon_GasTubeEffects".Translate(
                         root.EffectiveRoundsPerMinute.ToString(
                             "0.#", CultureInfo.InvariantCulture),
@@ -260,31 +260,29 @@ namespace Helodrace.ModernWar
             else
             {
                 Text.Font = GameFont.Tiny;
-                GUI.color = new Color(0.65f, 0.65f, 0.65f);
+                GUI.color = new Color(0.65f, 0.65f, 0.65f).ToGame();
                 Widgets.Label(
-                    new Rect(rect.x + 8f, rect.y + 34f, rect.width - 16f, 38f),
+                    new Rect(rect.x + 8f, rect.y + 34f, rect.width - 16f, 38f).ToGame(),
                     "HD_ModularWeapon_GasTubeUnavailable".Translate());
-                GUI.color = Color.white;
+                GUI.color = Color.white.ToGame();
                 Text.Font = GameFont.Small;
             }
 
             TooltipHandler.TipRegion(
-                rect,
+                rect.ToGame(),
                 "HD_ModularWeapon_GasTubeDesc".Translate());
         }
 
         private void DrawCatalog(Rect rect, ModularRenderNode node)
         {
-            Widgets.DrawBoxSolidWithOutline(rect,
-                new Color(0.075f, 0.085f, 0.08f),
-                new Color(0.32f, 0.37f, 0.34f), 1);
+            Widgets.DrawBoxSolidWithOutline(rect.ToGame(), new Color(0.075f, 0.085f, 0.08f).ToGame(), new Color(0.32f, 0.37f, 0.34f).ToGame(), 1);
             ModularAttachmentSocket socket = node?.Props.SocketNamed(selectedSocketId);
             if (ShouldHideCEAmmunitionSocket(socket)) socket = null;
             string title = socket == null
                 ? "HD_ModularWeapon_SelectSocket".Translate()
                 : "HD_ModularWeapon_Catalog".Translate(socket.Label);
             Widgets.Label(new Rect(rect.x + 10f, rect.y + 7f,
-                rect.width - 20f, 25f), title);
+                rect.width - 20f, 25f).ToGame(), title);
             if (socket == null || node == null) return;
 
             List<ThingDef> candidates = CompatibleParts(socket);
@@ -321,17 +319,17 @@ namespace Helodrace.ModernWar
                         + (i % buttonsPerRow) * (buttonWidth + 6f),
                     rect.y + 34f + (i / buttonsPerRow) * (buttonHeight + 4f),
                     buttonWidth, buttonHeight);
-                GUI.color = key == "Discouraged"
+                GUI.color = (key == "Discouraged"
                     ? new Color(1f, 0.72f, 0.42f)
                     : key == selectedCatalogGroup
-                        ? new Color(0.68f, 0.92f, 0.76f) : Color.white;
-                if (Widgets.ButtonText(button,
+                        ? new Color(0.68f, 0.92f, 0.76f) : Color.white).ToGame();
+                if (Widgets.ButtonText(button.ToGame(),
                     ("HD_ModularWeapon_CatalogGroup_" + key).Translate()))
                 {
                     selectedCatalogGroup = key;
-                    catalogScroll = Vector2.zero;
+                    catalogScroll = Vector2.Zero;
                 }
-                GUI.color = Color.white;
+                GUI.color = Color.white.ToGame();
             }
 
             Rect outRect = new Rect(rect.x + 6f,
@@ -346,7 +344,9 @@ namespace Helodrace.ModernWar
                     * (tileHeight + gap);
             Rect viewRect = new Rect(0f, 0f, outRect.width - 18f,
                 Mathf.Max(outRect.height, contentHeight));
-            Widgets.BeginScrollView(outRect, ref catalogScroll, viewRect);
+            UnityEngine.Vector2 gameScroll = catalogScroll.ToGame();
+            Widgets.BeginScrollView(outRect.ToGame(), ref gameScroll, viewRect.ToGame());
+            catalogScroll = gameScroll.ToNative();
             int replacementIndex = ReplacementIndex(node.comp, socket);
             Thing replacement = node.comp.ChildAt(replacementIndex);
             for (int i = 0; i < entries.Count; i++)
@@ -365,14 +365,14 @@ namespace Helodrace.ModernWar
                     Rect tile = new Rect(6f + (i % columns) * (tileWidth + gap),
                         6f + (i / columns) * (tileHeight + gap),
                         tileWidth, tileHeight);
-                    bool hovered = Mouse.IsOver(tile);
-                    Widgets.DrawBoxSolidWithOutline(tile,
+                    bool hovered = Mouse.IsOver(tile.ToGame());
+                    Widgets.DrawBoxSolidWithOutline(tile.ToGame(), (
                         hovered ? new Color(0.18f, 0.22f, 0.18f)
-                            : new Color(0.105f, 0.12f, 0.11f),
-                        hovered ? Color.yellow : new Color(0.36f, 0.42f, 0.37f),
+                            : new Color(0.105f, 0.12f, 0.11f)).ToGame(), (
+                        hovered ? Color.yellow : new Color(0.36f, 0.42f, 0.37f)).ToGame(),
                         hovered ? 2 : 1);
                     Text.Font = GameFont.Tiny;
-                    GUI.color = unavailable ? Color.red : new Color(0.65f, 0.9f, 0.65f);
+                    GUI.color = (unavailable ? Color.red : new Color(0.65f, 0.9f, 0.65f)).ToGame();
                     string status = conflict != null
                         ? "HD_ModularWeapon_ConflictingPart".Translate()
                         : workshop == null
@@ -388,31 +388,31 @@ namespace Helodrace.ModernWar
                             ? "HD_ModularWeapon_MaterialUnavailable".Translate()
                             : "HD_ModularWeapon_MustObtain".Translate();
                     Widgets.Label(new Rect(tile.x + 6f, tile.y + 4f,
-                        tile.width - 12f, 18f), status);
-                    GUI.color = Color.white;
+                        tile.width - 12f, 18f).ToGame(), status);
+                    GUI.color = Color.white.ToGame();
                     ModularWeaponPartImage.For(def).Draw(new Rect(tile.x + 6f,
-                        tile.y + 22f, tile.width - 12f, 61f).ToNative());
+                        tile.y + 22f, tile.width - 12f, 61f));
                     Text.Anchor = TextAnchor.UpperCenter;
                     Widgets.Label(new Rect(tile.x + 5f, tile.y + 85f,
-                        tile.width - 10f, 34f), def.LabelCap);
+                        tile.width - 10f, 34f).ToGame(), def.LabelCap);
                     Text.Anchor = TextAnchor.UpperLeft;
                     Text.Font = GameFont.Small;
                     if (hovered) hoveredPart = def;
                     string discouragedReason = DiscouragedReason(def, socket);
                     if (conflict != null)
-                        TooltipHandler.TipRegion(tile, conflict.Reason);
+                        TooltipHandler.TipRegion(tile.ToGame(), conflict.Reason);
                     else if (discouragedReason != null)
-                        TooltipHandler.TipRegion(tile, discouragedReason.Translate());
+                        TooltipHandler.TipRegion(tile.ToGame(), discouragedReason.Translate());
                     else if (socket.railSurface == ModularRailSurface.Side
                         && props.performanceRole
                             == ModularWeaponPerformanceRole.Foregrip)
-                        TooltipHandler.TipRegion(tile,
+                        TooltipHandler.TipRegion(tile.ToGame(),
                             "HD_ModularWeapon_SideGripEfficiency".Translate());
                     else if (props.performanceRole
                         == ModularWeaponPerformanceRole.RailPanel)
-                        TooltipHandler.TipRegion(tile,
+                        TooltipHandler.TipRegion(tile.ToGame(),
                             "HD_ModularWeapon_RailPanelEfficiency".Translate());
-                    if (!unavailable && Widgets.ButtonInvisible(tile))
+                    if (!unavailable && Widgets.ButtonInvisible(tile.ToGame()))
                         InstallPart(node, socket, def, CompatibleMount(props, socket));
             }
             Widgets.EndScrollView();
@@ -606,22 +606,21 @@ namespace Helodrace.ModernWar
         private void DrawHoveredPartPreview(Rect windowRect, ThingDef def)
         {
             ModularWeaponPartImage data = ModularWeaponPartImage.For(def);
-            Vector2 mouse = Event.current.mousePosition;
+            Vector2 mouse = Event.current.mousePosition.ToNative();
             float width = Mathf.Min(360f, windowRect.width - 8f);
             float height = Mathf.Min(480f, windowRect.height - 8f);
-            float x = Mathf.Min(windowRect.xMax - width - 4f, mouse.x + 20f);
-            float y = Mathf.Clamp(mouse.y - height * 0.5f,
+            float x = Mathf.Min(windowRect.xMax - width - 4f, mouse.X + 20f);
+            float y = Mathf.Clamp(mouse.Y - height * 0.5f,
                 windowRect.y + 4f, windowRect.yMax - height - 4f);
             Rect panel = new Rect(x, y, width, height);
-            Widgets.DrawBoxSolidWithOutline(panel,
-                new Color(0.035f, 0.04f, 0.045f, 0.98f), Color.yellow, 2);
+            Widgets.DrawBoxSolidWithOutline(panel.ToGame(), new Color(0.035f, 0.04f, 0.045f, 0.98f).ToGame(), Color.yellow.ToGame(), 2);
             Widgets.Label(new Rect(panel.x + 10f, panel.y + 8f,
-                panel.width - 20f, 26f), def.LabelCap);
+                panel.width - 20f, 26f).ToGame(), def.LabelCap);
 
             Rect imageArea = new Rect(panel.x + 12f, panel.y + 38f,
                 panel.width - 24f, Mathf.Min(250f, height * 0.52f));
-            Widgets.DrawBoxSolid(imageArea, new Color(0.16f, 0.18f, 0.20f));
-            data.Draw(imageArea.ContractedBy(4f).ToNative());
+            Widgets.DrawBoxSolid(imageArea.ToGame(), new Color(0.16f, 0.18f, 0.20f).ToGame());
+            data.Draw(UiMath.Inset(imageArea, 4f));
 
             CompProperties_ModularWeaponNode props =
                 def.GetCompProperties<CompProperties_ModularWeaponNode>();
@@ -698,7 +697,7 @@ namespace Helodrace.ModernWar
             }
             Text.Font = GameFont.Tiny;
             Widgets.Label(new Rect(panel.x + 10f, imageArea.yMax + 8f,
-                panel.width - 20f, panel.yMax - imageArea.yMax - 16f), details);
+                panel.width - 20f, panel.yMax - imageArea.yMax - 16f).ToGame(), details);
             Text.Font = GameFont.Small;
         }
 
@@ -741,7 +740,7 @@ namespace Helodrace.ModernWar
             selectedAttachmentId = -1;
             preferredRailOffset = null;
             selectedCatalogGroup = null;
-            catalogScroll = Vector2.zero;
+            catalogScroll = Vector2.Zero;
         }
 
         private bool SynchronizeCEAmmunitionToChamber(
@@ -886,18 +885,13 @@ namespace Helodrace.ModernWar
             }
         }
 
-        private static Vector2 WorldToGui(System.Numerics.Vector2 point, Vector2 origin, float scale)
-            => (origin.ToNative() + new System.Numerics.Vector2(point.X, -point.Y) * scale).ToGame();
-
         private static Vector2 WorldToGui(Vector2 point, Vector2 origin, float scale)
-        {
-            return new Vector2(origin.x + point.x * scale, origin.y - point.y * scale);
-        }
+            => origin + new Vector2(point.X, -point.Y) * scale;
 
         private static Rect CenteredRect(Vector2 center, Vector2 size)
         {
-            return new Rect(center.x - size.x * 0.5f,
-                center.y - size.y * 0.5f, size.x, size.y);
+            return new Rect(center.X - size.X * 0.5f,
+                center.Y - size.Y * 0.5f, size.X, size.Y);
         }
 
         private static void DrawTexture(Rect rect, Texture texture, bool flipVertical)
@@ -905,7 +899,7 @@ namespace Helodrace.ModernWar
             Rect uv = flipVertical
                 ? new Rect(0f, 1f, 1f, -1f)
                 : new Rect(0f, 0f, 1f, 1f);
-            GUI.DrawTextureWithTexCoords(rect, texture, uv, true);
+            GUI.DrawTextureWithTexCoords(rect.ToGame(), texture, uv.ToGame(), true);
         }
 
         private sealed class DetachedPart

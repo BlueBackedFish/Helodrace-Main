@@ -422,6 +422,7 @@ namespace Helodrace.Tests
                 else if (mode == "native-overlays") NativeWindowSubmissionChecks.RunOverlays(output, Check);
                 else if (mode == "native-preview-images") NativePreviewImageChecks.Run(output, Check);
                 else if (mode == "native-armor-ui") NativeWindowSubmissionChecks.RunArmor(output, Check);
+                else if (mode == "native-weapon-ui") NativeWindowSubmissionChecks.RunWeapon(output, Check);
                 else if (mode == "main-state")
                 {
                     if (!mainStatePrepared)

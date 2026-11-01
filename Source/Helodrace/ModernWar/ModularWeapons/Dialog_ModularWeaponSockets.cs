@@ -3,6 +3,11 @@ using System.Globalization;
 using System.Linq;
 using RimWorld;
 using UnityEngine;
+using Waylith.Math;
+using Vector3 = System.Numerics.Vector3;
+using Rect = Waylith.Math.Rect;
+using Vector2 = System.Numerics.Vector2;
+using Color = Waylith.Math.Color;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -81,32 +86,32 @@ namespace Helodrace.ModernWar
             }
             Rect area = PreviewArea(rect);
             Rect cameraArea = PreviewCameraArea(rect);
-            Vector2 origin = previewCamera.OriginFor(cameraArea.ToNative()).ToGame();
-            float scale = previewCamera.ScaleFor(cameraArea.ToNative());
+            Vector2 origin = previewCamera.OriginFor(cameraArea);
+            float scale = previewCamera.ScaleFor(cameraArea);
             var layoutCards = new List<ModularWeaponSocketLayout.Card>();
             foreach (var card in socketCards)
             {
-                Vector3 local = card.Socket.transform?.position ?? Vector3.zero;
-                if (card.Child?.attachedToRail == true) local.x += card.Child.railOffset;
+                Vector3 local = card.Socket.transform?.position.ToNative() ?? Vector3.Zero;
+                if (card.Child?.attachedToRail == true) local.X += card.Child.railOffset;
                 var point = RealtimeSocketPoint(owner, local);
                 card.Anchor = WorldToGui(point, origin, scale);
-                Vector2 outward = Vector2.zero;
+                Vector2 outward = Vector2.Zero;
                 if (card.Socket.isRail && (card.Socket.railSurface == ModularRailSurface.Top
                     || card.Socket.railSurface == ModularRailSurface.Bottom))
                 {
                     Vector3 outside = local;
-                    outside.z += card.Socket.railSurface == ModularRailSurface.Top ? 1f : -1f;
+                    outside.Z += card.Socket.railSurface == ModularRailSurface.Top ? 1f : -1f;
                     var direction = RealtimeSocketPoint(owner, outside) - point;
                     outward = new Vector2(direction.X, -direction.Y).normalized;
                 }
                 layoutCards.Add(new ModularWeaponSocketLayout.Card {
                     Compact = card.Compact, Rail = card.Socket.isRail, Outward = outward,
-                    Anchor = card.Anchor - previewCamera.OffsetFromFit(cameraArea.ToNative(), point).ToGame() });
+                    Anchor = card.Anchor - previewCamera.OffsetFromFit(cameraArea, point) });
             }
             if (!ReferenceEquals(socketLayoutSnapshot, snapshot) || socketLayoutOwner != owner.path
                 || socketLayoutGroup != activePreviewGroup?.Key || socketLayoutArea != area)
             {
-                socketLayout = ModularWeaponSocketLayout.Arrange(area, layoutCards, previewCamera.BoundsAtFit(cameraArea.ToNative()).ToGame());
+                socketLayout = ModularWeaponSocketLayout.Arrange(area, layoutCards, previewCamera.BoundsAtFit(cameraArea));
                 socketLayoutSnapshot = snapshot;
                 socketLayoutOwner = owner.path;
                 socketLayoutGroup = activePreviewGroup?.Key;
@@ -123,26 +128,26 @@ namespace Helodrace.ModernWar
                 }
             }
             socketPage = Mathf.Clamp(socketPage, 0, socketPages - 1);
-            System.Numerics.Vector2 ownerCenter;
+            Vector2 ownerCenter;
             float ownerAngle;
             ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(root, owner, false, out ownerCenter, out ownerAngle);
-            Vector2 boxOffset = previewCamera.OffsetFromFit(cameraArea.ToNative(), ownerCenter).ToGame();
+            Vector2 boxOffset = previewCamera.OffsetFromFit(cameraArea, ownerCenter);
             for (int i = 0; i < socketCards.Count; i++)
             {
                 var card = socketCards[i];
                 card.Rect = socketLayout.PageFor(i) == socketPage
                     ? ModularWeaponSocketLayout.Follow(socketLayout.Rects[i], boxOffset) : default(Rect);
-                if (!previewDrag.Active && card.Rect.width > 0f && Mouse.IsOver(area) && Mouse.IsOver(card.Rect))
+                if (!previewDrag.Active && card.Rect.width > 0f && Mouse.IsOver(area.ToGame()) && Mouse.IsOver(card.Rect.ToGame()))
                     hoveredNode = card.Child ?? owner;
             }
         }
 
-        private System.Numerics.Vector2 RealtimeSocketPoint(ModularRenderNode owner, Vector3 local)
+        private Vector2 RealtimeSocketPoint(ModularRenderNode owner, Vector3 local)
         {
-            System.Numerics.Vector2 center;
+            Vector2 center;
             float angle;
             ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(root, owner, false, out center, out angle);
-            var offset = owner.transform.TransformPoint(local.ToNative()) - owner.GraphicCenter;
+            var offset = owner.transform.TransformPoint(local) - owner.GraphicCenter;
             return center + ModularTransform2D.Rotate(offset, angle - owner.GraphicAngle);
         }
 
@@ -152,21 +157,21 @@ namespace Helodrace.ModernWar
         private void RailScreenPoints(Rect rect, ModularRenderNode owner,
             ModularAttachmentSocket socket, out Vector2 start, out Vector2 end)
         {
-            Vector3 a = socket.transform?.position ?? Vector3.zero, b = a;
-            a.x -= socket.railLength * 0.5f;
-            b.x += socket.railLength * 0.5f;
+            Vector3 a = socket.transform?.position.ToNative() ?? Vector3.Zero, b = a;
+            a.X -= socket.railLength * 0.5f;
+            b.X += socket.railLength * 0.5f;
             Rect area = PreviewCameraArea(rect);
-            Vector2 origin = previewCamera.OriginFor(area.ToNative()).ToGame();
-            float scale = previewCamera.ScaleFor(area.ToNative());
+            Vector2 origin = previewCamera.OriginFor(area);
+            float scale = previewCamera.ScaleFor(area);
             start = WorldToGui(RealtimeSocketPoint(owner, a), origin, scale);
             end = WorldToGui(RealtimeSocketPoint(owner, b), origin, scale);
         }
 
         private bool PointerOverSocketCard(Rect rect)
         {
-            return Mouse.IsOver(PreviewArea(rect)) && (socketCards.Any(card => card.Rect.width > 0f && Mouse.IsOver(card.Rect))
-                || (FloatingRailSliderGeometry(rect)?.Contains(Event.current.mousePosition) == true))
-                || (socketPages > 1 && Mouse.IsOver(SocketPageControls(rect)));
+            return Mouse.IsOver(PreviewArea(rect).ToGame()) && (socketCards.Any(card => card.Rect.width > 0f && Mouse.IsOver(card.Rect.ToGame()))
+                || (FloatingRailSliderGeometry(rect)?.Contains(Event.current.mousePosition.ToNative()) == true))
+                || (socketPages > 1 && Mouse.IsOver(SocketPageControls(rect).ToGame()));
         }
 
         private void SelectPreviewSocket(ModularRenderNode owner, ModularAttachmentSocket socket,
@@ -176,7 +181,7 @@ namespace Helodrace.ModernWar
             selectedSocketId = socket.id;
             selectedAttachmentId = -1;
             selectedCatalogGroup = null;
-            catalogScroll = Vector2.zero;
+            catalogScroll = Vector2.Zero;
             preferredRailOffset = railOffset;
             preferredRailOwner = owner.path;
             preferredRailSocket = socket.id;
@@ -184,7 +189,7 @@ namespace Helodrace.ModernWar
 
         private void HandleRailClick(Rect rect)
         {
-            if (socketOwner == null || !Mouse.IsOver(PreviewArea(rect)) || PointerOverSocketCard(rect)) return;
+            if (socketOwner == null || !Mouse.IsOver(PreviewArea(rect).ToGame()) || PointerOverSocketCard(rect)) return;
             Event current = Event.current;
             if (current.type != EventType.MouseUp || current.button != 0) return;
             ModularAttachmentSocket closest = null;
@@ -195,12 +200,12 @@ namespace Helodrace.ModernWar
                 if (!socket.isRail || ShouldHideCEAmmunitionSocket(socket)) continue;
                 Vector2 start, end;
                 RailScreenPoints(rect, socket, out start, out end);
-                float candidate = ModularWeaponSocketLayout.Distance(current.mousePosition, start, end);
+                float candidate = ModularWeaponSocketLayout.Distance(current.mousePosition.ToNative(), start, end);
                 if (candidate > distance || (closest != null && Mathf.Approximately(candidate, distance)
                     && socket.id != selectedSocketId)) continue;
                 closest = socket;
                 distance = candidate;
-                fraction = ModularWeaponSocketLayout.Fraction(current.mousePosition, start, end);
+                fraction = ModularWeaponSocketLayout.Fraction(current.mousePosition.ToNative(), start, end);
             }
             if (closest == null) return;
             SelectPreviewSocket(socketOwner, closest, (fraction - 0.5f) * closest.railLength);
@@ -218,7 +223,7 @@ namespace Helodrace.ModernWar
         {
             if (socketOwner == null) return;
             Rect area = PreviewArea(rect);
-            GUI.BeginGroup(area);
+            GUI.BeginGroup(area.ToGame());
             foreach (var socket in socketOwner.Props.sockets)
             {
                 if (!socket.isRail || ShouldHideCEAmmunitionSocket(socket)) continue;
@@ -226,47 +231,45 @@ namespace Helodrace.ModernWar
                 RailScreenPoints(rect, socket, out start, out end);
                 bool active = selectedSocketId == socket.id;
                 Color color = active ? new Color(1f, 0.82f, 0.25f) : new Color(0.25f, 0.8f, 0.95f);
-                Widgets.DrawLine(start - area.position, end - area.position, color, active ? 6f : 4f);
+                Widgets.DrawLine((start - area.position).ToGame(), ( end - area.position).ToGame(), color.ToGame(), active ? 6f : 4f);
                 foreach (var card in socketCards.Where(card => card.Socket == socket && card.Child != null))
                 {
                     float fraction = socket.railLength <= 0f ? 0.5f
                         : card.Child.railOffset / socket.railLength + 0.5f;
                     Vector2 marker = start + (end - start) * fraction - area.position;
-                    Widgets.DrawBoxSolidWithOutline(CenteredRect(marker, new Vector2(9f, 9f)),
-                        new Color(0.08f, 0.12f, 0.14f),
-                        card.Child.thing.thingIDNumber == selectedAttachmentId ? Color.yellow : Color.white, 1);
+                    Widgets.DrawBoxSolidWithOutline(CenteredRect(marker, new Vector2(9f, 9f)).ToGame(), new Color(0.08f, 0.12f, 0.14f).ToGame(), (
+                        card.Child.thing.thingIDNumber == selectedAttachmentId ? Color.yellow : Color.white).ToGame(), 1);
                 }
                 if (active && preferredRailOffset.HasValue && preferredRailOwner == socketOwner.path
                     && preferredRailSocket == socket.id && socket.railLength > 0f)
                 {
                     Vector2 marker = start + (end - start)
                         * (preferredRailOffset.Value / socket.railLength + 0.5f) - area.position;
-                    Widgets.DrawBoxSolid(CenteredRect(marker, new Vector2(4f, 15f)), Color.yellow);
+                    Widgets.DrawBoxSolid(CenteredRect(marker, new Vector2(4f, 15f)).ToGame(), Color.yellow.ToGame());
                 }
             }
             foreach (SocketCard card in socketCards)
             {
                 if (card.Rect.width <= 0f) continue;
-                Vector2 target = new Vector2(card.Rect.center.x,
-                    card.Anchor.y > card.Rect.center.y ? card.Rect.yMax : card.Rect.y);
+                Vector2 target = new Vector2(card.Rect.center.X,
+                    card.Anchor.Y > card.Rect.center.Y ? card.Rect.yMax : card.Rect.y);
                 bool active = card.Child == null ? card.Socket.id == selectedSocketId
                     : card.Child.thing.thingIDNumber == selectedAttachmentId;
                 Color color = active ? new Color(1f, 0.85f, 0.35f) : new Color(0.48f, 0.65f, 0.72f);
-                Widgets.DrawLine(card.Anchor - area.position, target - area.position, color, active ? 2f : 1f);
+                Widgets.DrawLine((card.Anchor - area.position).ToGame(), ( target - area.position).ToGame(), color.ToGame(), active ? 2f : 1f);
                 if (!card.Socket.isRail)
-                    Widgets.DrawBoxSolidWithOutline(CenteredRect(card.Anchor - area.position, new Vector2(8f, 8f)),
-                        new Color(0.08f, 0.12f, 0.14f), color, 1);
+                    Widgets.DrawBoxSolidWithOutline(CenteredRect(card.Anchor - area.position, new Vector2(8f, 8f)).ToGame(), new Color(0.08f, 0.12f, 0.14f).ToGame(), color.ToGame(), 1);
             }
             if (activeRailSocket != null && activeRailOwner != socketOwner)
             {
                 Vector2 start, end;
                 RailScreenPoints(rect, activeRailOwner, activeRailSocket, out start, out end);
-                Widgets.DrawLine(start - area.position, end - area.position, Color.yellow, 6f);
+                Widgets.DrawLine((start - area.position).ToGame(), ( end - area.position).ToGame(), Color.yellow.ToGame(), 6f);
             }
             GUI.EndGroup();
             bool wrap = Text.WordWrap;
             Text.WordWrap = false;
-            GUI.BeginGroup(area);
+            GUI.BeginGroup(area.ToGame());
             foreach (var card in socketCards)
             {
                 if (card.Rect.width <= 0f || card.Child?.thing.Destroyed == true) continue;
@@ -279,15 +282,15 @@ namespace Helodrace.ModernWar
             if (socketPages > 1)
             {
                 Rect controls = SocketPageControls(rect);
-                if (Widgets.ButtonText(new Rect(controls.x, controls.y, 24f, controls.height), "‹"))
+                if (Widgets.ButtonText(new Rect(controls.x, controls.y, 24f, controls.height).ToGame(), "‹"))
                     socketPage = (socketPage + socketPages - 1) % socketPages;
                 Text.Font = GameFont.Tiny;
                 Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(new Rect(controls.x + 27f, controls.y, 62f, controls.height),
+                Widgets.Label(new Rect(controls.x + 27f, controls.y, 62f, controls.height).ToGame(),
                     (socketPage + 1) + " / " + socketPages);
                 Text.Anchor = TextAnchor.UpperLeft;
                 Text.Font = GameFont.Small;
-                if (Widgets.ButtonText(new Rect(controls.xMax - 24f, controls.y, 24f, controls.height), "›"))
+                if (Widgets.ButtonText(new Rect(controls.xMax - 24f, controls.y, 24f, controls.height).ToGame(), "›"))
                     socketPage = (socketPage + 1) % socketPages;
             }
         }
@@ -298,42 +301,42 @@ namespace Helodrace.ModernWar
             bool active = card.Child == null ? card.Socket.id == selectedSocketId && selectedAttachmentId < 0
                 : card.Child.thing.thingIDNumber == selectedAttachmentId;
             Rect box = ModularWeaponSocketLayout.Follow(card.Rect, offset * -1f);
-            Widgets.DrawBoxSolidWithOutline(box, active ? new Color(0.13f, 0.22f, 0.24f)
-                : new Color(0.065f, 0.09f, 0.11f), active ? Color.yellow : new Color(0.37f, 0.52f, 0.59f), 1);
+            Widgets.DrawBoxSolidWithOutline(box.ToGame(), ( active ? new Color(0.13f, 0.22f, 0.24f)
+                : new Color(0.065f, 0.09f, 0.11f)).ToGame(), ( active ? Color.yellow : new Color(0.37f, 0.52f, 0.59f)).ToGame(), 1);
             string label = card.Child?.thing.LabelCap.ToString()
                 ?? (card.Add ? "HD_ModularWeapon_AddRailPart" : "HD_ModularWeapon_AddSocketPart").Translate().ToString();
             if (!card.Compact)
             {
                 Text.Font = GameFont.Tiny;
-                Widgets.Label(new Rect(box.x + 6f, box.y + 2f, box.width - 34f, 18f), card.Socket.Label);
+                Widgets.Label(new Rect(box.x + 6f, box.y + 2f, box.width - 34f, 18f).ToGame(), card.Socket.Label);
                 float textX = box.x + 7f;
                 if (card.Child != null)
                 {
                     Rect image = new Rect(box.x + 5f, box.y + 20f, 25f, 25f);
-                    ModularWeaponPartImage.For(card.Child.thing.def).Draw(image.ToNative());
-                    TooltipHandler.TipRegion(image, "HD_ModularWeapon_InspectSocketPart".Translate());
-                    if (Widgets.ButtonInvisible(image))
+                    ModularWeaponPartImage.For(card.Child.thing.def).Draw(image);
+                    TooltipHandler.TipRegion(image.ToGame(), "HD_ModularWeapon_InspectSocketPart".Translate());
+                    if (Widgets.ButtonInvisible(image.ToGame()))
                     {
                         SelectNode(card.Child);
                         return true;
                     }
                     textX = image.xMax + 4f;
                 }
-                Widgets.Label(new Rect(textX, box.y + 21f, box.xMax - textX - 5f, 19f), label);
+                Widgets.Label(new Rect(textX, box.y + 21f, box.xMax - textX - 5f, 19f).ToGame(), label);
                 if (card.Child?.attachedToRail == true)
-                    Widgets.Label(new Rect(textX, box.y + 38f, box.xMax - textX - 5f, 17f),
+                    Widgets.Label(new Rect(textX, box.y + 38f, box.xMax - textX - 5f, 17f).ToGame(),
                         card.Child.railOffset.ToString("0.###", CultureInfo.InvariantCulture));
                 Text.Font = GameFont.Small;
             }
             else if (card.Child != null)
             {
-                ModularWeaponPartImage.For(card.Child.thing.def).Draw(box.ContractedBy(4f).ToNative());
+                ModularWeaponPartImage.For(card.Child.thing.def).Draw(UiMath.Inset(box, 4f));
             }
             else
             {
                 Text.Font = GameFont.Medium;
                 Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(box, "+");
+                Widgets.Label(box.ToGame(), "+");
                 Text.Anchor = TextAnchor.UpperLeft;
                 Text.Font = GameFont.Small;
             }
@@ -341,8 +344,8 @@ namespace Helodrace.ModernWar
             {
                 Rect remove = card.Compact ? new Rect(box.xMax - 18f, box.y + 1f, 17f, 17f)
                     : new Rect(box.xMax - 25f, box.y + 3f, 21f, 21f);
-                TooltipHandler.TipRegion(remove, "HD_ModularWeapon_RemoveSocketPart".Translate());
-                if (Widgets.ButtonText(remove, "×"))
+                TooltipHandler.TipRegion(remove.ToGame(), "HD_ModularWeapon_RemoveSocketPart".Translate());
+                if (Widgets.ButtonText(remove.ToGame(), "×"))
                 {
                     int index = ChildIndex(socketOwner.comp, card.Child.thing.thingIDNumber);
                     if (index >= 0)
@@ -359,14 +362,14 @@ namespace Helodrace.ModernWar
                 }
             }
             bool inspect = Event.current.clickCount >= 2;
-            if (Widgets.ButtonInvisible(box))
+            if (Widgets.ButtonInvisible(box.ToGame()))
             {
                 if (inspect && card.Child != null) SelectNode(card.Child);
                 else if (card.Child != null) SelectSocketAttachment(preview, card, card.Compact);
                 else SelectPreviewSocket(socketOwner, card.Socket);
                 return true;
             }
-            TooltipHandler.TipRegion(box, card.Socket.Label + "\n" + label + "\n"
+            TooltipHandler.TipRegion(box.ToGame(), card.Socket.Label + "\n" + label + "\n"
                 + "HD_ModularWeapon_SocketOverlayHint".Translate());
             return false;
         }
@@ -388,9 +391,9 @@ namespace Helodrace.ModernWar
             if (!focus) return;
             Rect area = PreviewCameraArea(preview);
             float angle;
-            Vector2 center = PreviewPartRect(card.Child, previewCamera.OriginFor(area.ToNative()).ToGame(),
-                previewCamera.ScaleFor(area.ToNative()), out angle).center;
-            previewCamera.Move((area.center - center).ToNative());
+            Vector2 center = PreviewPartRect(card.Child, previewCamera.OriginFor(area),
+                previewCamera.ScaleFor(area), out angle).center;
+            previewCamera.Move(area.center - center);
         }
 
         private ModularWeaponSocketLayout.RailSlider FloatingRailSliderGeometry(Rect preview)
@@ -414,16 +417,16 @@ namespace Helodrace.ModernWar
             float old = owner.RailOffsetAt(index);
             var slider = FloatingRailSliderGeometry(preview);
             if (slider == null || slider.Rect.width < 0.001f) return;
-            if (slider.Contains(Event.current.mousePosition))
-                TooltipHandler.TipRegion(new Rect(Event.current.mousePosition.x - 2f,
-                    Event.current.mousePosition.y - 2f, 4f, 4f), activeRailPart.thing.LabelCap + "\n"
+            if (slider.Contains(Event.current.mousePosition.ToNative()))
+                TooltipHandler.TipRegion(new Rect(Event.current.mousePosition.ToNative().X - 2f,
+                    Event.current.mousePosition.ToNative().Y - 2f, 4f, 4f).ToGame(), activeRailPart.thing.LabelCap + "\n"
                     + "HD_ModularWeapon_RailOffset".Translate(old.ToString("0.###", CultureInfo.InvariantCulture)));
             Rect area = PreviewArea(preview);
             Rect panel = ModularWeaponSocketLayout.Follow(slider.Rect, area.position * -1f);
-            GUI.BeginGroup(area);
+            GUI.BeginGroup(area.ToGame());
             Matrix4x4 matrix = GUI.matrix;
-            UI.RotateAroundPivot(slider.Angle, panel.center);
-            float value = half <= 0f ? 0f : Widgets.HorizontalSlider(panel, old, -half, half, true);
+            UI.RotateAroundPivot(slider.Angle, panel.center.ToGame());
+            float value = half <= 0f ? 0f : Widgets.HorizontalSlider(panel.ToGame(), old, -half, half, true);
             GUI.matrix = matrix;
             GUI.EndGroup();
             if (Mathf.Approximately(old, value)) return;

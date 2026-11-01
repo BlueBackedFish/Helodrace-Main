@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Rect = Waylith.Math.Rect;
+using Vector2 = System.Numerics.Vector2;
+using Color = Waylith.Math.Color;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -50,7 +53,7 @@ namespace Helodrace.ModernWar
             previewCamera.Reset();
             navigationSearch = string.Empty;
             collapsedParts.Clear();
-            navigationScroll = Vector2.zero;
+            navigationScroll = Vector2.Zero;
             if (selectRoot) SelectNode(activePreviewGroup.Root);
             revealNavigationSelection = true;
         }
@@ -59,7 +62,7 @@ namespace Helodrace.ModernWar
         {
             Text.Font = GameFont.Tiny;
             string label = PreviewGroupLabel(activePreviewGroup);
-            if (Widgets.ButtonText(rect, "HD_ModularWeapon_ViewGroup".Translate(label)))
+            if (Widgets.ButtonText(rect.ToGame(), "HD_ModularWeapon_ViewGroup".Translate(label)))
             {
                 var options = new List<FloatMenuOption>();
                 foreach (var group in previewGroups)
@@ -70,7 +73,7 @@ namespace Helodrace.ModernWar
                 }
                 Find.WindowStack.Add(new FloatMenu(options));
             }
-            TooltipHandler.TipRegion(rect, label + "\n" + "HD_ModularWeapon_GroupMenuHint".Translate());
+            TooltipHandler.TipRegion(rect.ToGame(), label + "\n" + "HD_ModularWeapon_GroupMenuHint".Translate());
             Text.Font = GameFont.Small;
         }
 
@@ -97,7 +100,7 @@ namespace Helodrace.ModernWar
         {
             if (!previewNeedsFit) return;
             bool found = false;
-            Waylith.Math.Rect bounds = default(Waylith.Math.Rect);
+            Rect bounds = default(Rect);
             foreach (var node in previewLayers)
             {
                 if (!ModularWeaponAssemblyRenderer.ShouldDrawNode(node)) continue;
@@ -111,30 +114,30 @@ namespace Helodrace.ModernWar
                     : ContentFinder<Texture2D>.Get(path + "_Outline", false);
                 if (outline != null) IncludePreviewBounds(node, outline, ref bounds, ref found);
             }
-            previewCamera.SetBounds(found ? bounds : new Waylith.Math.Rect(-0.5f, -0.5f, 1f, 1f));
+            previewCamera.SetBounds(found ? bounds : new Rect(-0.5f, -0.5f, 1f, 1f));
             socketLayoutSnapshot = null;
             previewNeedsFit = false;
         }
 
         private void IncludePreviewBounds(ModularRenderNode node, Texture2D texture,
-            ref Waylith.Math.Rect bounds, ref bool found)
+            ref Rect bounds, ref bool found)
         {
             var data = ModularWeaponTextureData.For(texture);
             if (!data.HasPixels) return;
-            Waylith.Math.Rect uv = data.VisibleUv;
+            Rect uv = data.VisibleUv;
             if (node.GraphicVerticallyFlipped) uv.y = 1f - uv.yMax;
             var graphicScale = node.GraphicScale;
-            Waylith.Math.Rect local = ModularWeaponImageBounds.OnCanvas(uv, node.Graphic.drawSize.ToNative() *
-                new System.Numerics.Vector2(Mathf.Abs(graphicScale.X), Mathf.Abs(graphicScale.Y)));
-            System.Numerics.Vector2 center;
+            Rect local = ModularWeaponImageBounds.OnCanvas(uv, node.Graphic.drawSize.ToNative() *
+                new Vector2(Mathf.Abs(graphicScale.X), Mathf.Abs(graphicScale.Y)));
+            Vector2 center;
             float angle;
             ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(root, node, false, out center, out angle);
             for (int x = 0; x < 2; x++)
                 for (int y = 0; y < 2; y++)
                 {
-                    System.Numerics.Vector2 point = center + ModularTransform2D.Rotate(
-                        new System.Numerics.Vector2(x == 0 ? local.xMin : local.xMax, y == 0 ? local.yMin : local.yMax), angle);
-                    var corner = new Waylith.Math.Rect(point.X, point.Y, 0f, 0f);
+                    Vector2 point = center + ModularTransform2D.Rotate(
+                        new Vector2(x == 0 ? local.xMin : local.xMax, y == 0 ? local.yMin : local.yMax), angle);
+                    var corner = new Rect(point.X, point.Y, 0f, 0f);
                     bounds = found ? ModularWeaponImageBounds.Union(bounds, corner) : corner;
                     found = true;
                 }
