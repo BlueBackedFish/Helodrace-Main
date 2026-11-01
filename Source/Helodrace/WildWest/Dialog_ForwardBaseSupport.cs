@@ -3,6 +3,10 @@ using System.Linq;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
+using Waylith.Math;
+using Rect = Waylith.Math.Rect;
+using Vector2 = System.Numerics.Vector2;
+using Color = Waylith.Math.Color;
 using Verse;
 
 namespace Helodrace
@@ -14,35 +18,36 @@ namespace Helodrace
         private readonly CompTelegraphTable telegraphComp;
         private HelodForwardBase selectedBase;
         private Map selectedMap;
-        public override Vector2 InitialSize => new Vector2(760f, 620f);
+        public override UnityEngine.Vector2 InitialSize => (new Vector2(760f, 620f)).ToGame();
 
         public Dialog_ForwardBaseSupport(Faction faction, Dialog_TelegraphTable telegraphDialog = null, CompTelegraphTable telegraphComp = null) { this.faction = faction; this.telegraphDialog = telegraphDialog; this.telegraphComp = telegraphComp; doCloseX = true; absorbInputAroundWindow = true; }
 
-        public override void DoWindowContents(Rect rect)
+        public override void DoWindowContents(UnityEngine.Rect gameRect)
         {
+            Rect rect = gameRect.ToNative();
             string connectionFailure = telegraphComp?.TransmissionFailure(faction);
             if (connectionFailure != null)
             {
-                Widgets.Label(rect, connectionFailure);
+                Widgets.Label(rect.ToGame(), connectionFailure);
                 return;
             }
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(rect.x, rect.y, rect.width, 32f), "HD_TelegraphTable_Support_Title".Translate());
+            Widgets.Label((new Rect(rect.x, rect.y, rect.width, 32f)).ToGame(), "HD_TelegraphTable_Support_Title".Translate());
             Text.Font = GameFont.Small;
             List<HelodForwardBase> bases = Find.WorldObjects.AllWorldObjects.OfType<HelodForwardBase>().Where(x => (faction == null || x.Faction == faction) && HasCombatSupport(x)).ToList();
             float y = rect.y + 42f;
-            Widgets.Label(new Rect(rect.x, y, rect.width, 24f), "HD_TelegraphTable_Support_Base".Translate()); y += 28f;
+            Widgets.Label((new Rect(rect.x, y, rect.width, 24f)).ToGame(), "HD_TelegraphTable_Support_Base".Translate()); y += 28f;
             string baseLabel = selectedBase == null ? "HD_TelegraphTable_Support_SelectBaseOnMap".Translate().ToString() : selectedBase.LabelCap + " (" + selectedBase.Tile + ")";
-            GUI.color = bases.Count > 0 ? Color.white : Color.gray;
-            if (Widgets.ButtonText(new Rect(rect.x, y, rect.width, 36f), baseLabel) && bases.Count > 0) BeginBaseTargeting();
-            GUI.color = Color.white;
-            y += 48f; Widgets.Label(new Rect(rect.x, y, rect.width, 24f), "HD_TelegraphTable_Support_TargetMap".Translate()); y += 28f;
+            GUI.color = (bases.Count > 0 ? Color.white : Color.gray).ToGame();
+            if (Widgets.ButtonText((new Rect(rect.x, y, rect.width, 36f)).ToGame(), baseLabel) && bases.Count > 0) BeginBaseTargeting();
+            GUI.color = Color.white.ToGame();
+            y += 48f; Widgets.Label((new Rect(rect.x, y, rect.width, 24f)).ToGame(), "HD_TelegraphTable_Support_TargetMap".Translate()); y += 28f;
             string mapLabel = selectedMap == null ? "HD_TelegraphTable_Support_SelectTargetOnMap".Translate().ToString() : (selectedMap.IsPlayerHome ? "HD_TelegraphTable_Support_Settlement".Translate() : "HD_TelegraphTable_Support_Encounter".Translate()) + ": " + selectedMap.Parent.LabelCap + " (" + selectedMap.Tile + ")";
-            GUI.color = selectedBase != null ? Color.white : Color.gray;
-            if (Widgets.ButtonText(new Rect(rect.x, y, rect.width, 36f), mapLabel) && selectedBase != null) BeginTargetMapTargeting();
-            GUI.color = Color.white; y += 52f;
+            GUI.color = (selectedBase != null ? Color.white : Color.gray).ToGame();
+            if (Widgets.ButtonText((new Rect(rect.x, y, rect.width, 36f)).ToGame(), mapLabel) && selectedBase != null) BeginTargetMapTargeting();
+            GUI.color = Color.white.ToGame(); y += 52f;
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(rect.x, y, rect.width, 28f), "HD_TelegraphTable_Support_Catalog".Translate());
+            Widgets.Label((new Rect(rect.x, y, rect.width, 28f)).ToGame(), "HD_TelegraphTable_Support_Catalog".Translate());
             Text.Font = GameFont.Small;
             y += 34f;
             bool sniper = selectedMap != null && HelodSniperSupportUtility.IsBaseInRange(selectedMap, selectedBase);
@@ -50,7 +55,7 @@ namespace Helodrace
             bool artillery105 = selectedMap != null && HelodMortarSupportUtility.CanUseBase(selectedMap, selectedBase, HelodForwardBaseService.Artillery105mmSupport) && HelodForwardBaseServiceUtility.AvailableSupportShells(HelodForwardBaseService.Artillery105mmSupport).Count > 0;
             bool artillery155 = selectedMap != null && HelodMortarSupportUtility.CanUseBase(selectedMap, selectedBase, HelodForwardBaseService.Artillery155mmSupport) && HelodForwardBaseServiceUtility.AvailableSupportShells(HelodForwardBaseService.Artillery155mmSupport).Count > 0;
             float cardWidth = (rect.width - 10f) / 2f;
-            if (selectedBase == null) Widgets.Label(new Rect(rect.x, y, rect.width, 90f), "HD_TelegraphTable_Support_SelectFirst".Translate());
+            if (selectedBase == null) Widgets.Label((new Rect(rect.x, y, rect.width, 90f)).ToGame(), "HD_TelegraphTable_Support_SelectFirst".Translate());
             else
             {
                 int cardIndex = 0;
@@ -140,13 +145,13 @@ namespace Helodrace
 
         private static void DrawServiceCard(Rect rect, string title, string description, bool available, System.Action action)
         {
-            Widgets.DrawMenuSection(rect);
-            Rect inner = rect.ContractedBy(10f);
-            Text.Font = GameFont.Medium; Widgets.Label(new Rect(inner.x, inner.y, inner.width, 26f), title); Text.Font = GameFont.Small;
-            GUI.color = Color.gray; Widgets.Label(new Rect(inner.x, inner.y + 30f, inner.width, 32f), description); GUI.color = Color.white;
-            GUI.color = available ? Color.white : Color.gray;
-            if (Widgets.ButtonText(new Rect(inner.x, inner.yMax - 28f, inner.width, 28f), available ? "HD_TelegraphTable_Support_Select".Translate() : "HD_TelegraphTable_Support_UnavailableShort".Translate()) && available) action();
-            GUI.color = Color.white;
+            Widgets.DrawMenuSection(rect.ToGame());
+            Rect inner = UiMath.Inset(rect, 10f);
+            Text.Font = GameFont.Medium; Widgets.Label((new Rect(inner.x, inner.y, inner.width, 26f)).ToGame(), title); Text.Font = GameFont.Small;
+            GUI.color = Color.gray.ToGame(); Widgets.Label((new Rect(inner.x, inner.y + 30f, inner.width, 32f)).ToGame(), description); GUI.color = Color.white.ToGame();
+            GUI.color = (available ? Color.white : Color.gray).ToGame();
+            if (Widgets.ButtonText((new Rect(inner.x, inner.yMax - 28f, inner.width, 28f)).ToGame(), available ? "HD_TelegraphTable_Support_Select".Translate() : "HD_TelegraphTable_Support_UnavailableShort".Translate()) && available) action();
+            GUI.color = Color.white.ToGame();
         }
 
         private void OpenMortarAmmoMenu()
@@ -263,7 +268,7 @@ namespace Helodrace
         private readonly Pawn radioOperator;
         private readonly HelodForwardBaseService service;
         private Vector2 scroll;
-        public override Vector2 InitialSize => new Vector2(680f, 520f);
+        public override UnityEngine.Vector2 InitialSize => (new Vector2(680f, 520f)).ToGame();
 
         public Dialog_MortarAmmoSelection(Map targetMap, HelodForwardBase forwardBase,
             CompTelegraphTable telegraphComp, Pawn radioOperator = null,
@@ -278,33 +283,36 @@ namespace Helodrace
             absorbInputAroundWindow = true;
         }
 
-        public override void DoWindowContents(Rect rect)
+        public override void DoWindowContents(UnityEngine.Rect gameRect)
         {
+            Rect rect = gameRect.ToNative();
             string connectionFailure = telegraphComp?.TransmissionFailure(forwardBase?.Faction);
             if (connectionFailure != null)
             {
-                Widgets.Label(rect, connectionFailure);
+                Widgets.Label(rect.ToGame(), connectionFailure);
                 return;
             }
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(rect.x, rect.y, rect.width, 30f), service == HelodForwardBaseService.InfantryMortarSupport ? "HD_MortarSupport_SelectAmmoTitle".Translate() : "HD_ArtillerySupport_SelectAmmoTitle".Translate());
+            Widgets.Label((new Rect(rect.x, rect.y, rect.width, 30f)).ToGame(), service == HelodForwardBaseService.InfantryMortarSupport ? "HD_MortarSupport_SelectAmmoTitle".Translate() : "HD_ArtillerySupport_SelectAmmoTitle".Translate());
             Text.Font = GameFont.Small;
-            Widgets.Label(new Rect(rect.x, rect.y + 36f, rect.width, 28f), "HD_MortarSupport_SelectAmmoDesc".Translate(targetMap?.Parent?.LabelCap ?? "-"));
+            Widgets.Label((new Rect(rect.x, rect.y + 36f, rect.width, 28f)).ToGame(), "HD_MortarSupport_SelectAmmoDesc".Translate(targetMap?.Parent?.LabelCap ?? "-"));
             List<ThingDef> shells = HelodForwardBaseServiceUtility.AvailableSupportShells(service);
             Rect outRect = new Rect(rect.x, rect.y + 72f, rect.width, rect.height - 72f);
             Rect viewRect = new Rect(0f, 0f, outRect.width - 20f, Mathf.Max(outRect.height, shells.Count * 92f));
-            Widgets.BeginScrollView(outRect, ref scroll, viewRect);
+            UnityEngine.Vector2 gameScroll0 = scroll.ToGame();
+            Widgets.BeginScrollView(outRect.ToGame(), ref gameScroll0, viewRect.ToGame());
+            scroll = gameScroll0.ToNative();
             for (int i = 0; i < shells.Count; i++)
             {
                 ThingDef shell = shells[i];
                 Rect row = new Rect(0f, i * 92f, viewRect.width, 84f);
-                Widgets.DrawMenuSection(row);
-                Rect inner = row.ContractedBy(10f);
-                Widgets.ThingIcon(new Rect(inner.x, inner.y, 52f, 52f), shell);
-                Text.Font = GameFont.Medium; Widgets.Label(new Rect(inner.x + 62f, inner.y, inner.width - 182f, 26f), shell.LabelCap); Text.Font = GameFont.Small;
+                Widgets.DrawMenuSection(row.ToGame());
+                Rect inner = UiMath.Inset(row, 10f);
+                Widgets.ThingIcon((new Rect(inner.x, inner.y, 52f, 52f)).ToGame(), shell);
+                Text.Font = GameFont.Medium; Widgets.Label((new Rect(inner.x + 62f, inner.y, inner.width - 182f, 26f)).ToGame(), shell.LabelCap); Text.Font = GameFont.Small;
                 string price = PriceLabel(shell);
-                Widgets.Label(new Rect(inner.x + 62f, inner.y + 30f, inner.width - 182f, 24f), price);
-                if (Widgets.ButtonText(new Rect(inner.xMax - 110f, inner.y + 12f, 110f, 34f), "HD_TelegraphTable_Support_Select".Translate())) Select(shell, price);
+                Widgets.Label((new Rect(inner.x + 62f, inner.y + 30f, inner.width - 182f, 24f)).ToGame(), price);
+                if (Widgets.ButtonText((new Rect(inner.xMax - 110f, inner.y + 12f, 110f, 34f)).ToGame(), "HD_TelegraphTable_Support_Select".Translate())) Select(shell, price);
             }
             Widgets.EndScrollView();
         }

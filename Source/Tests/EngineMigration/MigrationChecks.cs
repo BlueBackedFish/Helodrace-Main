@@ -289,6 +289,7 @@ namespace Helodrace.Tests
                 else if (mode == "native-anti-air") NativeAntiAirChecks.Run(output, Check);
                 else if (mode == "native-m167") NativeM167Checks.Run(output, Check);
                 else if (mode == "native-support-helicopter") NativeSupportHelicopterChecks.Run(output, Check);
+                else if (mode == "native-telegraph-ui") NativeTelegraphWindowChecks.Run(output, Check);
                 else if (mode == "main-state")
                 {
                     if (!mainStatePrepared)

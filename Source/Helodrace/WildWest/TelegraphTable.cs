@@ -4,6 +4,10 @@ using System.Text;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
+using Waylith.Math;
+using Rect = Waylith.Math.Rect;
+using Vector2 = System.Numerics.Vector2;
+using Color = Waylith.Math.Color;
 using Verse;
 using Verse.AI;
 using ForwardBaseService = Helodrace.HelodForwardBaseService;
@@ -84,10 +88,6 @@ namespace Helodrace
         private readonly Dictionary<ForwardBaseService, string> ffpServiceUnitBuffers = new Dictionary<ForwardBaseService, string>();
         private readonly ContractDocumentSurface forwardBaseDocumentSurface = new ContractDocumentSurface();
         private Vector2 forwardBaseContractsScroll;
-        private Vector2 infantryServiceScroll;
-        private Vector2 artilleryServiceScroll;
-        private Vector2 logisticsServiceScroll;
-        private Vector2 airForceServiceScroll;
 
         private static readonly Vector2 TelegraphWindowSize = new Vector2(960f, 760f);
         private static readonly Vector2 ContractWindowSize = new Vector2(820f, 1080f);
@@ -98,9 +98,9 @@ namespace Helodrace
         private Vector2 contractEntranceStartPosition;
         private Vector2 contractEntranceTargetPosition;
 
-        public override Vector2 InitialSize => selectedMilitaryActivity == MilitaryActivity.ForwardBaseContract
+        public override UnityEngine.Vector2 InitialSize => (selectedMilitaryActivity == MilitaryActivity.ForwardBaseContract
             ? ContractWindowSize
-            : TelegraphWindowSize;
+            : TelegraphWindowSize).ToGame();
 
         public Dialog_TelegraphTable(Thing telegraphTable, Pawn operatorPawn)
         {
@@ -113,12 +113,12 @@ namespace Helodrace
 
         private void StartContractEntranceAnimation()
         {
-            windowRect.size = ContractWindowSize;
+            windowRect.size = ContractWindowSize.ToGame();
             contractEntranceTargetPosition = new Vector2(
-                Mathf.Max(0f, (UI.screenWidth - ContractWindowSize.x) * 0.5f),
-                Mathf.Max(0f, (UI.screenHeight - ContractWindowSize.y) * 0.5f));
-            contractEntranceStartPosition = new Vector2(contractEntranceTargetPosition.x, -ContractWindowSize.y - 24f);
-            windowRect.position = contractEntranceStartPosition;
+                Mathf.Max(0f, (UI.screenWidth - ContractWindowSize.X) * 0.5f),
+                Mathf.Max(0f, (UI.screenHeight - ContractWindowSize.Y) * 0.5f));
+            contractEntranceStartPosition = new Vector2(contractEntranceTargetPosition.X, -ContractWindowSize.Y - 24f);
+            windowRect.position = contractEntranceStartPosition.ToGame();
             contractEntranceStartedAt = Waylith.Time.RealtimeSinceStartupAsDouble;
             contractEntranceAnimating = true;
         }
@@ -132,16 +132,17 @@ namespace Helodrace
 
             float progress = (float)Math.Clamp((Waylith.Time.RealtimeSinceStartupAsDouble - contractEntranceStartedAt) / ContractEntranceDuration, 0.0, 1.0);
             float easedProgress = 1f - Mathf.Pow(1f - progress, 3f);
-            windowRect.position = Vector2.Lerp(contractEntranceStartPosition, contractEntranceTargetPosition, easedProgress);
+            windowRect.position = (SpatialMath.Interpolate2D(contractEntranceStartPosition, contractEntranceTargetPosition, easedProgress)).ToGame();
             if (progress >= 1f)
             {
-                windowRect.position = contractEntranceTargetPosition;
+                windowRect.position = contractEntranceTargetPosition.ToGame();
                 contractEntranceAnimating = false;
             }
         }
 
-        public override void DoWindowContents(Rect inRect)
+        public override void DoWindowContents(UnityEngine.Rect gameRect)
         {
+            Rect inRect = gameRect.ToNative();
             CompTelegraphTable comp = telegraphTable?.TryGetComp<CompTelegraphTable>();
             string failure = comp?.ConnectionFailure ?? (comp == null ? "HD_Telegraph_Status_ProviderUnavailable".Translate().ToString() : null);
             if (failure != null && selectedMilitaryActivity == MilitaryActivity.ForwardBaseContract)
@@ -149,9 +150,9 @@ namespace Helodrace
                 directory.Clear();
                 selectedMilitaryActivity = MilitaryActivity.None;
                 contractEntranceAnimating = false;
-                windowRect.size = TelegraphWindowSize;
-                windowRect.position = new Vector2(Mathf.Max(0f, (UI.screenWidth - windowRect.width) / 2f),
-                    Mathf.Max(0f, (UI.screenHeight - windowRect.height) / 2f));
+                windowRect.size = TelegraphWindowSize.ToGame();
+                windowRect.position = (new Vector2(Mathf.Max(0f, (UI.screenWidth - windowRect.width) / 2f),
+                    Mathf.Max(0f, (UI.screenHeight - windowRect.height) / 2f))).ToGame();
                 return;
             }
             if (failure != null) directory.Clear();
@@ -171,24 +172,24 @@ namespace Helodrace
             doCloseX = true;
             draggable = true;
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 34f),
+            Widgets.Label((new Rect(inRect.x, inRect.y, inRect.width, 34f)).ToGame(),
                 (comp?.IsWireless == true ? "HD_Radio_WindowTitle" : "HD_TelegraphTable_Window_Title").Translate());
             Text.Font = GameFont.Small;
 
             bool wireless = comp?.IsWireless == true;
             Rect statusRect = new Rect(inRect.x, inRect.y + 42f, inRect.width, wireless ? 94f : 116f);
-            Widgets.DrawMenuSection(statusRect);
-            Rect status = statusRect.ContractedBy(12f);
-            Widgets.Label(new Rect(status.x, status.y, status.width, 22f),
+            Widgets.DrawMenuSection(statusRect.ToGame());
+            Rect status = UiMath.Inset(statusRect, 12f);
+            Widgets.Label((new Rect(status.x, status.y, status.width, 22f)).ToGame(),
                 "HD_TelegraphTable_Operator".Translate(operatorPawn?.LabelShortCap ?? "Unknown".Translate()));
             if (!wireless)
-                Widgets.Label(new Rect(status.x, status.y + 22f, status.width, 22f),
+                Widgets.Label((new Rect(status.x, status.y + 22f, status.width, 22f)).ToGame(),
                     "HD_Telegraph_LocalTime".Translate(comp?.Network?.LocalHour ?? 0, comp?.StoredPrimaryCells ?? 0));
-            GUI.color = failure == null ? new Color(0.65f, 0.9f, 0.65f) : Color.gray;
-            Widgets.Label(new Rect(status.x, status.y + (wireless ? 24f : 46f), status.width, 44f), failure ??
+            GUI.color = (failure == null ? new Color(0.65f, 0.9f, 0.65f) : Color.gray).ToGame();
+            Widgets.Label((new Rect(status.x, status.y + (wireless ? 24f : 46f), status.width, 44f)).ToGame(), failure ??
                 (comp?.IsWireless == true ? "HD_Radio_CompanyFrequency" : "HD_Telegraph_OnlineProvider")
                     .Translate(SelectedMilitaryFaction().Name).ToString());
-            GUI.color = Color.white;
+            GUI.color = Color.white.ToGame();
 
             float contentY = statusRect.yMax + 10f;
             float contentHeight = inRect.yMax - contentY - 50f;
@@ -196,12 +197,12 @@ namespace Helodrace
             {
                 selectedMilitaryActivity = MilitaryActivity.None;
                 Rect offlineRect = new Rect(inRect.x, contentY, inRect.width, contentHeight);
-                Widgets.DrawMenuSection(offlineRect);
+                Widgets.DrawMenuSection(offlineRect.ToGame());
                 Text.Anchor = TextAnchor.MiddleCenter;
-                GUI.color = Color.gray;
-                Widgets.Label(offlineRect.ContractedBy(12f),
+                GUI.color = Color.gray.ToGame();
+                Widgets.Label((UiMath.Inset(offlineRect, 12f)).ToGame(),
                     (comp?.IsWireless == true ? "HD_Radio_OfflineDirectory" : "HD_Telegraph_OfflineDirectory").Translate());
-                GUI.color = Color.white;
+                GUI.color = Color.white.ToGame();
                 Text.Anchor = TextAnchor.UpperLeft;
             }
             else
@@ -215,12 +216,12 @@ namespace Helodrace
                 if (directory.TabOpen)
                 {
                     Rect bodyRect = new Rect(inRect.x, directoryRect.yMax + 8f, inRect.width, contentHeight - directoryHeight - 8f);
-                    Widgets.DrawMenuSection(bodyRect);
-                    Rect inner = bodyRect.ContractedBy(12f);
+                    Widgets.DrawMenuSection(bodyRect.ToGame());
+                    Rect inner = UiMath.Inset(bodyRect, 12f);
                     Text.Font = GameFont.Medium;
-                    Widgets.Label(new Rect(inner.x, inner.y, inner.width - 132f, 30f), TelegraphCompanies.Name(SelectedCompany));
+                    Widgets.Label((new Rect(inner.x, inner.y, inner.width - 132f, 30f)).ToGame(), TelegraphCompanies.Name(SelectedCompany));
                     Text.Font = GameFont.Small;
-                    if (Widgets.ButtonText(new Rect(inner.xMax - 120f, inner.y, 120f, 26f), "HD_Company_CloseTab".Translate()))
+                    if (Widgets.ButtonText((new Rect(inner.xMax - 120f, inner.y, 120f, 26f)).ToGame(), "HD_Company_CloseTab".Translate()))
                     {
                         directory.CloseTab();
                         selectedMilitaryActivity = MilitaryActivity.None;
@@ -230,14 +231,16 @@ namespace Helodrace
                     else
                     {
                         Rect view = new Rect(0f, 0f, page.width - 18f, Mathf.Max(page.height, 240f));
-                        Widgets.BeginScrollView(page, ref companyPageScroll, view);
+                        UnityEngine.Vector2 gameScroll0 = companyPageScroll.ToGame();
+                        Widgets.BeginScrollView(page.ToGame(), ref gameScroll0, view.ToGame());
+                        companyPageScroll = gameScroll0.ToNative();
                         DrawCompanyPage(view, comp);
                         Widgets.EndScrollView();
                     }
                 }
             }
 
-            if (Widgets.ButtonText(new Rect(inRect.xMax - 120f, inRect.yMax - 38f, 120f, 38f), "CloseButton".Translate())) Close();
+            if (Widgets.ButtonText((new Rect(inRect.xMax - 120f, inRect.yMax - 38f, 120f, 38f)).ToGame(), "CloseButton".Translate())) Close();
         }
 
         private sealed class DirectoryGroup
@@ -256,32 +259,34 @@ namespace Helodrace
 
         private void DrawContactDirectory(Rect rect)
         {
-            Widgets.DrawMenuSection(rect);
-            Rect inner = rect.ContractedBy(8f);
-            Widgets.Label(new Rect(inner.x, inner.y, inner.width, 24f), "HD_Company_Directory".Translate());
+            Widgets.DrawMenuSection(rect.ToGame());
+            Rect inner = UiMath.Inset(rect, 8f);
+            Widgets.Label((new Rect(inner.x, inner.y, inner.width, 24f)).ToGame(), "HD_Company_Directory".Translate());
             Rect list = new Rect(inner.x, inner.y + 28f, inner.width, inner.height - 28f);
             float height = 0f;
             foreach (DirectoryGroup group in DirectoryGroups())
                 height += 46f + (directory.IsExpanded(group.Faction.loadID) ? group.Companies.Count * 40f : 0f);
             Rect view = new Rect(0f, 0f, list.width - 18f, Mathf.Max(list.height, height));
-            Widgets.BeginScrollView(list, ref directoryScroll, view);
+            UnityEngine.Vector2 gameScroll1 = directoryScroll.ToGame();
+            Widgets.BeginScrollView(list.ToGame(), ref gameScroll1, view.ToGame());
+            directoryScroll = gameScroll1.ToNative();
             float y = 0f;
             foreach (DirectoryGroup group in DirectoryGroups())
             {
                 Faction faction = group.Faction;
                 Rect row = new Rect(0f, y, view.width, 42f);
-                Widgets.DrawHighlightIfMouseover(row);
+                Widgets.DrawHighlightIfMouseover(row.ToGame());
                 bool expanded = directory.IsExpanded(faction.loadID);
                 Text.Anchor = TextAnchor.MiddleLeft;
-                Widgets.Label(new Rect(row.x + 8f, row.y, 20f, row.height), expanded ? "v" : ">");
+                Widgets.Label((new Rect(row.x + 8f, row.y, 20f, row.height)).ToGame(), expanded ? "v" : ">");
                 GUI.color = faction.Color;
-                GUI.DrawTexture(new Rect(row.x + 32f, row.y + 9f, 24f, 24f), faction.def.FactionIcon);
-                GUI.color = Color.white;
-                Widgets.Label(new Rect(row.x + 64f, row.y, row.width - 314f, row.height), faction.Name);
-                Widgets.Label(new Rect(row.xMax - 246f, row.y, 238f, row.height),
+                GUI.DrawTexture((new Rect(row.x + 32f, row.y + 9f, 24f, 24f)).ToGame(), faction.def.FactionIcon);
+                GUI.color = Color.white.ToGame();
+                Widgets.Label((new Rect(row.x + 64f, row.y, row.width - 314f, row.height)).ToGame(), faction.Name);
+                Widgets.Label((new Rect(row.xMax - 246f, row.y, 238f, row.height)).ToGame(),
                     "HD_Company_FactionGoodwill".Translate(faction.PlayerRelationKind.GetLabelCap(), faction.PlayerGoodwill.ToStringWithSign()));
                 Text.Anchor = TextAnchor.UpperLeft;
-                if (Widgets.ButtonInvisible(row))
+                if (Widgets.ButtonInvisible(row.ToGame()))
                 {
                     directory.ToggleFaction(faction.loadID);
                     selectedMilitaryActivity = MilitaryActivity.None;
@@ -294,19 +299,19 @@ namespace Helodrace
                 {
                     Rect companyRow = new Rect(32f, y, view.width - 32f, 36f);
                     bool selected = directory.FactionId == faction.loadID && directory.Company == company;
-                    if (selected) Widgets.DrawBoxSolid(companyRow, new Color(0.2f, 0.3f, 0.4f, 0.7f));
-                    Widgets.DrawHighlightIfMouseover(companyRow);
+                    if (selected) Widgets.DrawBoxSolid(companyRow.ToGame(), (new Color(0.2f, 0.3f, 0.4f, 0.7f)).ToGame());
+                    Widgets.DrawHighlightIfMouseover(companyRow.ToGame());
                     Text.Anchor = TextAnchor.MiddleLeft;
-                    Widgets.Label(new Rect(companyRow.x + 12f, companyRow.y, companyRow.width - 248f, companyRow.height), TelegraphCompanies.Name(company));
-                    Widgets.Label(new Rect(companyRow.xMax - 224f, companyRow.y, 212f, companyRow.height), TelegraphCompanies.ServiceKey(company).Translate());
+                    Widgets.Label((new Rect(companyRow.x + 12f, companyRow.y, companyRow.width - 248f, companyRow.height)).ToGame(), TelegraphCompanies.Name(company));
+                    Widgets.Label((new Rect(companyRow.xMax - 224f, companyRow.y, 212f, companyRow.height)).ToGame(), TelegraphCompanies.ServiceKey(company).Translate());
                     Text.Anchor = TextAnchor.UpperLeft;
-                    TooltipHandler.TipRegion(companyRow, TelegraphCompanies.Name(company));
-                    if (Widgets.ButtonInvisible(companyRow))
+                    TooltipHandler.TipRegion(companyRow.ToGame(), TelegraphCompanies.Name(company));
+                    if (Widgets.ButtonInvisible(companyRow.ToGame()))
                     {
                         SelectedCompany = company;
-                        companyPageScroll = Vector2.zero;
+                        companyPageScroll = Vector2.Zero;
                         selectedMilitaryActivity = MilitaryActivity.None;
-                        directoryScroll.y = Mathf.Max(0f, y - 46f);
+                        directoryScroll.Y = Mathf.Max(0f, y - 46f);
                     }
                     y += 40f;
                 }
@@ -321,16 +326,16 @@ namespace Helodrace
                 && SelectedCompany != TelegraphCompany.WhitmoreArms && SelectedCompany != TelegraphCompany.ContinentalPetroleum
                 && SelectedCompany != TelegraphCompany.HarringtonProtective)
             {
-                Widgets.Label(new Rect(rect.x, rect.y, rect.width, 82f), "HD_Company_Service_Unavailable".Translate());
+                Widgets.Label((new Rect(rect.x, rect.y, rect.width, 82f)).ToGame(), "HD_Company_Service_Unavailable".Translate());
                 return;
             }
             bool harrington = SelectedCompany == TelegraphCompany.HarringtonProtective;
             string description = TelegraphCompanies.DescriptionKey(SelectedCompany);
-            Widgets.Label(new Rect(rect.x, rect.y, rect.width, 82f), description.Translate(comp.TransmissionCostLabel));
+            Widgets.Label((new Rect(rect.x, rect.y, rect.width, 82f)).ToGame(), description.Translate(comp.TransmissionCostLabel));
             int now = Find.TickManager.TicksGame;
             if (harrington)
             {
-                Widgets.Label(new Rect(rect.x, rect.y + 90f, rect.width, 40f), companies.HarringtonWait > 0
+                Widgets.Label((new Rect(rect.x, rect.y + 90f, rect.width, 40f)).ToGame(), companies.HarringtonWait > 0
                     ? "HD_Company_Cooldown".Translate(companies.HarringtonWait.ToStringTicksToPeriod())
                     : "HD_Company_Ready".Translate());
                 DrawCompanyButton(new Rect(rect.x, rect.y + 146f, rect.width, 42f), "HD_Company_HireHarrington".Translate(TelegraphCompanies.HarringtonCost),
@@ -346,18 +351,18 @@ namespace Helodrace
             if (SelectedCompany == TelegraphCompany.NationalIndustrialCredit)
             {
                 goodwillRect.width -= 160f;
-                if (Widgets.ButtonText(new Rect(rect.xMax - 150f, goodwillRect.y, 150f, 30f), "HD_CaravanLoss_Open".Translate()))
+                if (Widgets.ButtonText((new Rect(rect.xMax - 150f, goodwillRect.y, 150f, 30f)).ToGame(), "HD_CaravanLoss_Open".Translate()))
                     Find.WindowStack.Add(new Economy.Dialog_CaravanLosses(SelectedMilitaryFaction()));
             }
             float financialGoodwill = Economy.GameComponent_FinancialGoodwill.Current?.Get(SelectedMilitaryFaction()) ?? 0f;
-            Widgets.Label(goodwillRect, "HD_Company_FinancialGoodwill".Translate(financialGoodwill.ToString("0.##")));
-            TooltipHandler.TipRegion(goodwillRect, "HD_Company_FinancialGoodwillTip".Translate());
+            Widgets.Label(goodwillRect.ToGame(), "HD_Company_FinancialGoodwill".Translate(financialGoodwill.ToString("0.##")));
+            TooltipHandler.TipRegion(goodwillRect.ToGame(), "HD_Company_FinancialGoodwillTip".Translate());
             CompanyDispatchSchedule schedule = companies.Schedule(SelectedCompany);
             string status = schedule.Pending
                 ? "HD_Company_InTransit".Translate(Mathf.Max(0, schedule.ArrivalTick - now).ToStringTicksToPeriod()).ToString()
                 : schedule.CanRequest(now) ? "HD_Company_Ready".Translate().ToString()
                 : "HD_Company_Cooldown".Translate(Mathf.Max(0, schedule.LastRequestTick + CompanyDispatchSchedule.CooldownTicks - now).ToStringTicksToPeriod()).ToString();
-            Widgets.Label(new Rect(rect.x, rect.y + 90f, rect.width, 40f), status);
+            Widgets.Label((new Rect(rect.x, rect.y + 90f, rect.width, 40f)).ToGame(), status);
             var requested = new[] { SelectedCompany };
             Rect requestRect = new Rect(rect.x, rect.y + 146f, rect.width, 42f);
             if (SelectedCompany == TelegraphCompany.NationalIndustrialCredit)
@@ -370,7 +375,7 @@ namespace Helodrace
             string failure = companies.CaravanRequestFailure(comp, requested);
             DrawCompanyButton(requestRect, "HD_Company_RequestCaravan".Translate(), failure == null,
                 () => ConfirmCaravanRequest(companies, comp, requested));
-            if (failure != null) TooltipHandler.TipRegion(requestRect, failure);
+            if (failure != null) TooltipHandler.TipRegion(requestRect.ToGame(), failure);
         }
 
         private void ConfirmCaravanRequest(MapComponent_TelegraphCompanies companies, CompTelegraphTable comp, IReadOnlyList<TelegraphCompany> requested)
@@ -388,9 +393,9 @@ namespace Helodrace
 
         private static void DrawCompanyButton(Rect rect, string label, bool available, Action action)
         {
-            GUI.color = available ? Color.white : Color.gray;
-            if (Widgets.ButtonText(rect, label) && available) action();
-            GUI.color = Color.white;
+            GUI.color = (available ? Color.white : Color.gray).ToGame();
+            if (Widgets.ButtonText(rect.ToGame(), label) && available) action();
+            GUI.color = Color.white.ToGame();
         }
 
         private void DrawMilitaryTab(Rect bodyInner)
@@ -412,20 +417,20 @@ namespace Helodrace
 
         private void DrawMilitaryActivityList(Rect rect)
         {
-            Widgets.Label(new Rect(rect.x, rect.y, rect.width, 50f), "HD_Company_PioneerDesc".Translate());
+            Widgets.Label((new Rect(rect.x, rect.y, rect.width, 50f)).ToGame(), "HD_Company_PioneerDesc".Translate());
             float width = (rect.width - 24f) / 3f;
-            if (Widgets.ButtonText(new Rect(rect.x, rect.y + 68f, width, 42f), "HD_TelegraphTable_Military_ForwardBase".Translate()))
+            if (Widgets.ButtonText((new Rect(rect.x, rect.y + 68f, width, 42f)).ToGame(), "HD_TelegraphTable_Military_ForwardBase".Translate()))
             {
                 selectedMilitaryActivity = MilitaryActivity.ForwardBaseContract;
-                windowRect.size = ContractWindowSize;
+                windowRect.size = ContractWindowSize.ToGame();
                 doWindowBackground = false;
                 doCloseX = false;
                 closeOnClickedOutside = false;
                 StartContractEntranceAnimation();
             }
-            if (Widgets.ButtonText(new Rect(rect.x + width + 12f, rect.y + 68f, width, 42f), "HD_TelegraphTable_Military_ForwardBaseContracts".Translate()))
+            if (Widgets.ButtonText((new Rect(rect.x + width + 12f, rect.y + 68f, width, 42f)).ToGame(), "HD_TelegraphTable_Military_ForwardBaseContracts".Translate()))
                 selectedMilitaryActivity = MilitaryActivity.ForwardBaseContracts;
-            if (Widgets.ButtonText(new Rect(rect.x + (width + 12f) * 2f, rect.y + 68f, width, 42f), "HD_TelegraphTable_Military_RequestSupport".Translate()))
+            if (Widgets.ButtonText((new Rect(rect.x + (width + 12f) * 2f, rect.y + 68f, width, 42f)).ToGame(), "HD_TelegraphTable_Military_RequestSupport".Translate()))
                 Find.WindowStack.Add(new Dialog_ForwardBaseSupport(SelectedMilitaryFaction(), this,
                     telegraphTable.TryGetComp<CompTelegraphTable>()));
         }
@@ -442,55 +447,57 @@ namespace Helodrace
         private void DrawForwardBaseContracts(Rect rect)
         {
             Rect backRect = new Rect(rect.x, rect.y, 96f, 32f);
-            if (Widgets.ButtonText(backRect, "Back".Translate()))
+            if (Widgets.ButtonText(backRect.ToGame(), "Back".Translate()))
             {
                 selectedMilitaryActivity = MilitaryActivity.None;
                 return;
             }
 
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(rect.x + 110f, rect.y + 3f, rect.width - 110f, 30f), "HD_TelegraphTable_ForwardBaseContracts_Title".Translate());
+            Widgets.Label((new Rect(rect.x + 110f, rect.y + 3f, rect.width - 110f, 30f)).ToGame(), "HD_TelegraphTable_ForwardBaseContracts_Title".Translate());
             Text.Font = GameFont.Small;
 
             Rect listRect = new Rect(rect.x, rect.y + 44f, rect.width, rect.height - 44f);
-            Widgets.DrawMenuSection(listRect);
-            Rect inner = listRect.ContractedBy(10f);
+            Widgets.DrawMenuSection(listRect.ToGame());
+            Rect inner = UiMath.Inset(listRect, 10f);
 
             List<WorldObject> contracts = ForwardBaseContractObjects();
             if (contracts.Count == 0)
             {
                 Text.Anchor = TextAnchor.MiddleCenter;
-                GUI.color = Color.gray;
-                Widgets.Label(inner, "HD_TelegraphTable_ForwardBaseContracts_None".Translate());
-                GUI.color = Color.white;
+                GUI.color = Color.gray.ToGame();
+                Widgets.Label(inner.ToGame(), "HD_TelegraphTable_ForwardBaseContracts_None".Translate());
+                GUI.color = Color.white.ToGame();
                 Text.Anchor = TextAnchor.UpperLeft;
                 return;
             }
 
             const float rowHeight = 76f;
             Rect viewRect = new Rect(0f, 0f, inner.width - 16f, contracts.Count * rowHeight);
-            Widgets.BeginScrollView(inner, ref forwardBaseContractsScroll, viewRect);
+            UnityEngine.Vector2 gameScroll2 = forwardBaseContractsScroll.ToGame();
+            Widgets.BeginScrollView(inner.ToGame(), ref gameScroll2, viewRect.ToGame());
+            forwardBaseContractsScroll = gameScroll2.ToNative();
             float y = 0f;
             for (int i = 0; i < contracts.Count; i++)
             {
                 WorldObject contract = contracts[i];
                 Rect row = new Rect(0f, y, viewRect.width, rowHeight - 8f);
-                Widgets.DrawBox(row);
-                Widgets.DrawHighlightIfMouseover(row);
+                Widgets.DrawBox(row.ToGame());
+                Widgets.DrawHighlightIfMouseover(row.ToGame());
 
                 string status = ForwardBaseContractStatus(contract);
                 string rowText = string.Format("HD_TelegraphTable_ForwardBaseContracts_Row".Translate().ToString(), status, contract.Tile);
-                Widgets.Label(new Rect(row.x + 8f, row.y + 6f, row.width - 220f, 22f), contract.LabelCap);
-                Widgets.Label(new Rect(row.x + 8f, row.y + 28f, row.width - 220f, 22f), rowText);
+                Widgets.Label((new Rect(row.x + 8f, row.y + 6f, row.width - 220f, 22f)).ToGame(), contract.LabelCap);
+                Widgets.Label((new Rect(row.x + 8f, row.y + 28f, row.width - 220f, 22f)).ToGame(), rowText);
 
                 Rect infoRect = new Rect(row.xMax - 208f, row.y + 17f, 96f, 34f);
-                if (Widgets.ButtonText(infoRect, "HD_TelegraphTable_ForwardBaseContracts_Info".Translate()))
+                if (Widgets.ButtonText(infoRect.ToGame(), "HD_TelegraphTable_ForwardBaseContracts_Info".Translate()))
                 {
                     Find.WindowStack.Add(new ForwardBaseContractViewer(contract, ForwardBaseContractInfo(contract)));
                 }
 
                 Rect jumpRect = new Rect(row.xMax - 104f, row.y + 17f, 96f, 34f);
-                if (Widgets.ButtonText(jumpRect, "HD_TelegraphTable_ForwardBaseContracts_Jump".Translate()))
+                if (Widgets.ButtonText(jumpRect.ToGame(), "HD_TelegraphTable_ForwardBaseContracts_Jump".Translate()))
                 {
                     CameraJumper.TryJump(new GlobalTargetInfo(contract.Tile));
                 }
@@ -509,37 +516,37 @@ namespace Helodrace
             EnsureForwardBaseSelectionCredit(credit);
 
             Rect paper = forwardBaseDocumentSurface.Begin(inRect);
-            Widgets.DrawBoxSolid(paper, Color.white);
-            Widgets.DrawBox(paper);
-            Rect content = paper.ContractedBy(22f);
+            Widgets.DrawBoxSolid(paper.ToGame(), Color.white.ToGame());
+            Widgets.DrawBox(paper.ToGame());
+            Rect content = UiMath.Inset(paper, 22f);
             float y = content.y;
-            GUI.color = Color.black;
+            GUI.color = Color.black.ToGame();
             Text.Anchor = TextAnchor.UpperLeft;
 
             Texture2D logo = SelectedProviderLogo();
             if (logo != null)
             {
-                GUI.color = Color.white;
-                Widgets.DrawTextureFitted(new Rect(content.x, y, 88f, 88f), logo, 0.9f);
-                GUI.color = Color.black;
+                GUI.color = Color.white.ToGame();
+                Widgets.DrawTextureFitted((new Rect(content.x, y, 88f, 88f)).ToGame(), logo, 0.9f);
+                GUI.color = Color.black.ToGame();
             }
 
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(content.x + 106f, y + 3f, content.width - 260f, 30f), ProviderCompanyName());
+            Widgets.Label((new Rect(content.x + 106f, y + 3f, content.width - 260f, 30f)).ToGame(), ProviderCompanyName());
             Text.Font = GameFont.Small;
-            GUI.color = new Color(0.12f, 0.12f, 0.12f);
-            Widgets.Label(new Rect(content.x + 106f, y + 38f, content.width - 260f, 22f), "EXPEDITIONARY LOGISTICS DIVISION");
-            Widgets.Label(new Rect(content.x + 106f, y + 61f, content.width - 260f, 22f), "Official provider document");
-            Widgets.Label(new Rect(content.xMax - 150f, y + 8f, 150f, 22f), "FORM FB-01");
-            Widgets.Label(new Rect(content.xMax - 150f, y + 34f, 150f, 22f), "DRAFT / UNEXECUTED");
-            GUI.color = Color.black;
+            GUI.color = (new Color(0.12f, 0.12f, 0.12f)).ToGame();
+            Widgets.Label((new Rect(content.x + 106f, y + 38f, content.width - 260f, 22f)).ToGame(), "EXPEDITIONARY LOGISTICS DIVISION");
+            Widgets.Label((new Rect(content.x + 106f, y + 61f, content.width - 260f, 22f)).ToGame(), "Official provider document");
+            Widgets.Label((new Rect(content.xMax - 150f, y + 8f, 150f, 22f)).ToGame(), "FORM FB-01");
+            Widgets.Label((new Rect(content.xMax - 150f, y + 34f, 150f, 22f)).ToGame(), "DRAFT / UNEXECUTED");
+            GUI.color = Color.black.ToGame();
             y += 100f;
             Widgets.DrawLineHorizontal(content.x, y, content.width);
             y += 18f;
 
             Text.Anchor = TextAnchor.MiddleCenter;
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(content.x, y, content.width, 30f), "FORWARD BASE SERVICE AGREEMENT");
+            Widgets.Label((new Rect(content.x, y, content.width, 30f)).ToGame(), "FORWARD BASE SERVICE AGREEMENT");
             Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.UpperLeft;
             y += 36f;
@@ -549,7 +556,7 @@ namespace Helodrace
             string providerValue = ProviderCompanyName() + "  /  " + MilitaryFactionLabel(selectedFaction);
             float providerHeight = ContractEditableRowHeight(providerValue, content.width);
             Rect providerRect = new Rect(content.x, y, content.width, providerHeight);
-            Widgets.Label(providerRect, "PROVIDER: " + providerValue);
+            Widgets.Label(providerRect.ToGame(), "PROVIDER: " + providerValue);
             y += providerHeight + 8f;
             string locationValue = hasSelectedTile
                 ? "Tile " + selectedForwardBaseTile + "  /  " + distance.ToString("F0") + " tiles from nearest settlement"
@@ -585,21 +592,21 @@ namespace Helodrace
 
             y = DrawContractArticleHeader(content, y, "3. SCHEDULE A - SELECTED SERVICES");
             Rect servicesRect = new Rect(content.x, y, content.width, 250f);
-            Widgets.DrawBox(servicesRect);
-            Widgets.DrawHighlightIfMouseover(servicesRect);
-            Widgets.Label(new Rect(servicesRect.x + 12f, servicesRect.y + 10f, servicesRect.width - 24f, 22f), "The following services are incorporated into this agreement:");
-            DrawContractServiceText(servicesRect.ContractedBy(12f));
-            if (Widgets.ButtonInvisible(servicesRect))
+            Widgets.DrawBox(servicesRect.ToGame());
+            Widgets.DrawHighlightIfMouseover(servicesRect.ToGame());
+            Widgets.Label((new Rect(servicesRect.x + 12f, servicesRect.y + 10f, servicesRect.width - 24f, 22f)).ToGame(), "The following services are incorporated into this agreement:");
+            DrawContractServiceText(UiMath.Inset(servicesRect, 12f));
+            if (Widgets.ButtonInvisible(servicesRect.ToGame()))
             {
-                GUI.color = Color.white;
+                GUI.color = Color.white.ToGame();
                 Find.WindowStack.Add(new ForwardBaseServiceEditor(this));
-                GUI.color = Color.black;
+                GUI.color = Color.black.ToGame();
             }
             y += 266f;
 
             y = DrawContractArticleHeader(content, y, "4. COMMERCIAL TERMS");
             Rect creditRect = new Rect(content.x, y, content.width, 26f);
-            Widgets.Label(creditRect, "CREDIT AVAILABLE     " + credit.ToString("F0"));
+            Widgets.Label(creditRect.ToGame(), "CREDIT AVAILABLE     " + credit.ToString("F0"));
             y += 24f;
             string total = hasSelectedTile
                 ? FormatContractValue(EstimateForwardBaseCost(credit, distance))
@@ -618,151 +625,50 @@ namespace Helodrace
             float signatureWidth = (content.width - signatureGap) * 0.5f;
             Widgets.DrawLineHorizontal(content.x, y, signatureWidth);
             Widgets.DrawLineHorizontal(content.x + signatureWidth + signatureGap, y, signatureWidth);
-            Widgets.Label(new Rect(content.x, y + 8f, signatureWidth, 22f), "AUTHORIZED PROVIDER");
-            Widgets.Label(new Rect(content.x + signatureWidth + signatureGap, y + 8f, signatureWidth, 22f), "CONTRACTING PARTY");
+            Widgets.Label((new Rect(content.x, y + 8f, signatureWidth, 22f)).ToGame(), "AUTHORIZED PROVIDER");
+            Widgets.Label((new Rect(content.x + signatureWidth + signatureGap, y + 8f, signatureWidth, 22f)).ToGame(), "CONTRACTING PARTY");
             Rect executeRect = new Rect(content.x + signatureWidth + signatureGap, y + 32f, signatureWidth, 36f);
-            GUI.color = Color.white;
-            if (Widgets.ButtonText(executeRect, "CONCLUDE CONTRACT"))
+            GUI.color = Color.white.ToGame();
+            if (Widgets.ButtonText(executeRect.ToGame(), "CONCLUDE CONTRACT"))
             {
                 TryStartForwardBaseConstructionContract(credit, distance);
             }
-            GUI.color = Color.black;
+            GUI.color = Color.black.ToGame();
             forwardBaseDocumentSurface.End();
 
             Rect closeRect = new Rect(inRect.xMax - 34f, inRect.y + 2f, 30f, 30f);
-            Widgets.DrawHighlightIfMouseover(closeRect);
-            GUI.color = Color.black;
+            Widgets.DrawHighlightIfMouseover(closeRect.ToGame());
+            GUI.color = Color.black.ToGame();
             Text.Font = GameFont.Medium;
             Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(closeRect, "×");
+            Widgets.Label(closeRect.ToGame(), "×");
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
-            if (Widgets.ButtonInvisible(closeRect))
+            if (Widgets.ButtonInvisible(closeRect.ToGame()))
             {
                 Close();
             }
-            GUI.color = Color.white;
+            GUI.color = Color.white.ToGame();
         }
 
         private static float DrawContractArticleHeader(Rect content, float y, string title)
         {
-            GUI.color = new Color(0.1f, 0.1f, 0.1f);
-            Widgets.Label(new Rect(content.x, y, content.width, 22f), title);
-            GUI.color = Color.black;
+            GUI.color = (new Color(0.1f, 0.1f, 0.1f)).ToGame();
+            Widgets.Label((new Rect(content.x, y, content.width, 22f)).ToGame(), title);
+            GUI.color = Color.black.ToGame();
             Widgets.DrawLineHorizontal(content.x, y + 24f, content.width);
             return y + 28f;
         }
 
-        private void DrawStandaloneForwardBaseContract(Rect inRect)
-        {
-            Faction selectedFaction = SelectedMilitaryFaction();
-            float credit = MilitaryCredit(telegraphTable.Map, selectedFaction);
-            bool hasSelectedTile = selectedForwardBaseTile >= 0;
-            float distance = hasSelectedTile ? NearestMilitarySettlementDistance(selectedForwardBaseTile, selectedFaction) : MaxForwardBaseDistance;
-            EnsureForwardBaseSelectionCredit(credit);
-
-            Widgets.DrawBoxSolid(inRect, Color.white);
-            Widgets.DrawBox(inRect);
-            Rect paper = inRect.ContractedBy(28f);
-            float y = paper.y;
-
-            Texture2D logo = SelectedProviderLogo();
-            if (logo != null)
-            {
-                GUI.color = Color.white;
-                Widgets.DrawTextureFitted(new Rect(paper.x, y, 72f, 72f), logo, 0.9f);
-                GUI.color = Color.black;
-            }
-
-            Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(paper.x + 88f, y + 2f, paper.width - 90f, 30f), ProviderCompanyName());
-            Text.Font = GameFont.Small;
-            GUI.color = new Color(0.12f, 0.12f, 0.12f);
-            Widgets.Label(new Rect(paper.x + 88f, y + 36f, paper.width - 90f, 24f), "FORWARD BASE SERVICE AGREEMENT");
-            Widgets.Label(new Rect(paper.x + 88f, y + 58f, paper.width - 90f, 20f), "Provider-issued contract draft");
-            GUI.color = Color.white;
-            y += 88f;
-            Widgets.DrawLineHorizontal(paper.x, y, paper.width);
-            y += 16f;
-
-            Rect providerRect = new Rect(paper.x, y, paper.width, 34f);
-            Widgets.Label(providerRect, "PROVIDER: " + ProviderCompanyName() + "  /  " + MilitaryFactionLabel(selectedFaction));
-            y += 40f;
-
-            Rect locationRect = new Rect(paper.x, y, paper.width, 34f);
-            if (DrawContractEditableRow(locationRect, "LOCATION", hasSelectedTile
-                ? "Tile " + selectedForwardBaseTile + "  /  " + distance.ToString("F0") + " tiles from nearest settlement"
-                : "Select a world tile"))
-            {
-                BeginForwardBaseTileTargeting();
-                return;
-            }
-            y += 40f;
-
-            float columnGap = 18f;
-            float columnWidth = (paper.width - columnGap) / 2f;
-            Rect baseRect = new Rect(paper.x, y, columnWidth, 34f);
-            if (DrawContractEditableRow(baseRect, "BASE TYPE", ForwardBaseKindLabel(selectedForwardBaseKind)))
-            {
-                OpenBaseKindEditor(credit);
-            }
-            Rect costRect = new Rect(baseRect.xMax + columnGap, y, columnWidth, 34f);
-            if (DrawContractEditableRow(costRect, "COST MODEL", ContractCostKindLabel(selectedContractCostKind)))
-            {
-                OpenCostKindEditor(credit);
-            }
-            y += 40f;
-
-            Rect durationRect = new Rect(paper.x, y, paper.width, 34f);
-            if (DrawContractEditableRow(durationRect, "TERM", ContractDurationLabel(selectedContractDuration)))
-            {
-                OpenDurationEditor();
-            }
-            y += 48f;
-
-            Rect servicesRect = new Rect(paper.x, y, paper.width, 176f);
-            Widgets.DrawBox(servicesRect);
-            Widgets.DrawHighlightIfMouseover(servicesRect);
-            Widgets.Label(new Rect(servicesRect.x + 12f, servicesRect.y + 8f, servicesRect.width - 24f, 22f), "SELECTED SERVICES  /  click to edit");
-            DrawContractServiceText(servicesRect.ContractedBy(12f));
-            if (Widgets.ButtonInvisible(servicesRect))
-            {
-                GUI.color = Color.white;
-                Find.WindowStack.Add(new ForwardBaseServiceEditor(this));
-                GUI.color = Color.black;
-            }
-            y += 188f;
-
-            Rect creditRect = new Rect(paper.x, y, paper.width, 26f);
-            Widgets.Label(creditRect, "CREDIT AVAILABLE     " + credit.ToString("F0"));
-            y += 28f;
-
-            string total = hasSelectedTile
-                ? FormatContractValue(EstimateForwardBaseCost(credit, distance))
-                : "HD_TelegraphTable_ForwardBase_CostPending".Translate().ToString();
-            Rect amountRect = new Rect(paper.x, y, paper.width, 32f);
-            if (DrawContractEditableRow(amountRect, "ESTIMATED CONTRACT VALUE", ContractAmountLabel(selectedContractCostKind) + "  /  " + total))
-            {
-                OpenCostKindEditor(credit);
-            }
-            y += 48f;
-
-            Rect draftRect = new Rect(paper.x, paper.yMax - 42f, paper.width, 38f);
-            if (Widgets.ButtonText(draftRect, "SIGN / DRAFT CONTRACT"))
-            {
-                TryStartForwardBaseConstructionContract(credit, distance);
-            }
-        }
-
         private bool DrawContractEditableRow(Rect rect, string caption, string value)
         {
-            Widgets.DrawHighlightIfMouseover(rect);
-            GUI.color = new Color(0.1f, 0.1f, 0.1f);
-            Widgets.Label(new Rect(rect.x + 8f, rect.y + 6f, 154f, rect.height - 12f), caption);
-            GUI.color = Color.black;
-            Widgets.Label(new Rect(rect.x + 164f, rect.y + 6f, rect.width - 172f, rect.height - 12f), value);
-            GUI.color = Color.black;
-            return Widgets.ButtonInvisible(rect);
+            Widgets.DrawHighlightIfMouseover(rect.ToGame());
+            GUI.color = (new Color(0.1f, 0.1f, 0.1f)).ToGame();
+            Widgets.Label((new Rect(rect.x + 8f, rect.y + 6f, 154f, rect.height - 12f)).ToGame(), caption);
+            GUI.color = Color.black.ToGame();
+            Widgets.Label((new Rect(rect.x + 164f, rect.y + 6f, rect.width - 172f, rect.height - 12f)).ToGame(), value);
+            GUI.color = Color.black.ToGame();
+            return Widgets.ButtonInvisible(rect.ToGame());
         }
 
         private static float ContractEditableRowHeight(string value, float width)
@@ -773,8 +679,8 @@ namespace Helodrace
         private static float DrawContractParagraph(Rect rect, string text)
         {
             float height = Mathf.Max(22f, Text.CalcHeight(text, rect.width));
-            GUI.color = Color.black;
-            Widgets.Label(new Rect(rect.x, rect.y, rect.width, height), text);
+            GUI.color = Color.black.ToGame();
+            Widgets.Label((new Rect(rect.x, rect.y, rect.width, height)).ToGame(), text);
             return height;
         }
 
@@ -792,9 +698,9 @@ namespace Helodrace
             DrawContractServiceGroup(rightColumn, ref rightY, ForwardBaseServiceType.Logistics, LogisticsServices);
             if (leftY <= leftColumn.y + 26f && rightY <= rightColumn.y + 26f)
             {
-                GUI.color = new Color(0.16f, 0.16f, 0.16f);
-                Widgets.Label(new Rect(rect.x, rect.y + 26f, rect.width, 22f), "- " + "HD_TelegraphTable_ForwardBase_Service_None".Translate());
-                GUI.color = Color.black;
+                GUI.color = (new Color(0.16f, 0.16f, 0.16f)).ToGame();
+                Widgets.Label((new Rect(rect.x, rect.y + 26f, rect.width, 22f)).ToGame(), "- " + "HD_TelegraphTable_ForwardBase_Service_None".Translate());
+                GUI.color = Color.black.ToGame();
             }
         }
 
@@ -815,9 +721,9 @@ namespace Helodrace
                 return;
             }
 
-            GUI.color = new Color(0.12f, 0.12f, 0.12f);
-            Widgets.Label(new Rect(rect.x, y, rect.width, 20f), ForwardBaseServiceTypeLabel(type).ToUpperInvariant());
-            GUI.color = Color.black;
+            GUI.color = (new Color(0.12f, 0.12f, 0.12f)).ToGame();
+            Widgets.Label((new Rect(rect.x, y, rect.width, 20f)).ToGame(), ForwardBaseServiceTypeLabel(type).ToUpperInvariant());
+            GUI.color = Color.black.ToGame();
             y += 20f;
             for (int i = 0; i < services.Length; i++)
             {
@@ -833,7 +739,7 @@ namespace Helodrace
                     line += "  /  " + FfpServiceUnitCount(service).ToString() + " per 30 days";
                 }
                 float lineHeight = Mathf.Max(20f, Text.CalcHeight(line, rect.width - 12f));
-                Widgets.Label(new Rect(rect.x + 12f, y, rect.width - 12f, lineHeight), line);
+                Widgets.Label((new Rect(rect.x + 12f, y, rect.width - 12f, lineHeight)).ToGame(), line);
                 y += lineHeight;
             }
         }
@@ -1074,176 +980,11 @@ namespace Helodrace
             dialog.doWindowBackground = false;
             dialog.doCloseX = false;
             dialog.closeOnClickedOutside = false;
-            dialog.windowRect.size = ContractWindowSize;
+            dialog.windowRect.size = ContractWindowSize.ToGame();
             dialog.ApplySelectedServiceFlags(selectedServices);
             dialog.ApplySelectedServiceUnitCounts(serviceUnitCounts);
             Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
             Find.WindowStack.Add(dialog);
-        }
-
-        private void DrawForwardBaseKindOptions(Rect rect, float credit)
-        {
-            float gap = 8f;
-            float width = (rect.width - gap * 3f) / 4f;
-            DrawForwardBaseKindOption(new Rect(rect.x, rect.y, width, rect.height), ForwardBaseKind.PB, credit);
-            DrawForwardBaseKindOption(new Rect(rect.x + (width + gap), rect.y, width, rect.height), ForwardBaseKind.FB, credit);
-            DrawForwardBaseKindOption(new Rect(rect.x + (width + gap) * 2f, rect.y, width, rect.height), ForwardBaseKind.COP, credit);
-            DrawForwardBaseKindOption(new Rect(rect.x + (width + gap) * 3f, rect.y, width, rect.height), ForwardBaseKind.FOB, credit);
-        }
-
-        private void DrawForwardBaseKindOption(Rect rect, ForwardBaseKind kind, float credit)
-        {
-            bool locked = credit < RequiredCredit(kind);
-            if (locked)
-            {
-                DrawLockedOption(rect, ForwardBaseKindLabel(kind), RequiredCredit(kind));
-                return;
-            }
-
-            if (Widgets.ButtonText(rect, ForwardBaseKindLabel(kind), selectedForwardBaseKind == kind))
-            {
-                selectedForwardBaseKind = kind;
-            }
-        }
-
-        private void DrawContractCostKindOptions(Rect rect, float credit)
-        {
-            float gap = 8f;
-            float width = (rect.width - gap) / 2f;
-            DrawContractCostKindOption(new Rect(rect.x, rect.y, width, rect.height), ContractCostKind.FFP, credit);
-            DrawContractCostKindOption(new Rect(rect.x + width + gap, rect.y, width, rect.height), ContractCostKind.CostReimbursement, credit);
-        }
-
-        private void DrawContractCostKindOption(Rect rect, ContractCostKind kind, float credit)
-        {
-            bool locked = credit < RequiredCredit(kind);
-            if (locked)
-            {
-                DrawLockedOption(rect, ContractCostKindLabel(kind), RequiredCredit(kind));
-                return;
-            }
-
-            if (Widgets.ButtonText(rect, ContractCostKindLabel(kind), selectedContractCostKind == kind))
-            {
-                selectedContractCostKind = kind;
-            }
-        }
-
-        private void DrawContractDurationOptions(Rect rect)
-        {
-            float gap = 8f;
-            float width = (rect.width - gap * 3f) / 4f;
-            DrawContractDurationOption(new Rect(rect.x, rect.y, width, rect.height), ContractDuration.Days30);
-            DrawContractDurationOption(new Rect(rect.x + width + gap, rect.y, width, rect.height), ContractDuration.Days60);
-            DrawContractDurationOption(new Rect(rect.x + (width + gap) * 2f, rect.y, width, rect.height), ContractDuration.Days120);
-            DrawContractDurationOption(new Rect(rect.x + (width + gap) * 3f, rect.y, width, rect.height), ContractDuration.Days240);
-        }
-
-        private void DrawContractDurationOption(Rect rect, ContractDuration duration)
-        {
-            if (Widgets.ButtonText(rect, ContractDurationLabel(duration), selectedContractDuration == duration))
-            {
-                selectedContractDuration = duration;
-            }
-        }
-
-        private void DrawForwardBaseServiceOptions(Rect rect, float credit)
-        {
-            Widgets.DrawMenuSection(rect);
-            Rect inner = rect.ContractedBy(8f);
-            float gap = 10f;
-            float columnWidth = (inner.width - gap) / 2f;
-            float categoryHeight = (inner.height - gap) / 2f;
-            DrawForwardBaseServiceCategory(new Rect(inner.x, inner.y, columnWidth, categoryHeight), ForwardBaseServiceType.Infantry, InfantryServices, credit, ref infantryServiceScroll);
-            DrawForwardBaseServiceCategory(new Rect(inner.x + columnWidth + gap, inner.y, columnWidth, categoryHeight), ForwardBaseServiceType.Artillery, ArtilleryServices, credit, ref artilleryServiceScroll);
-            DrawForwardBaseServiceCategory(new Rect(inner.x, inner.y + categoryHeight + gap, columnWidth, categoryHeight), ForwardBaseServiceType.Logistics, LogisticsServices, credit, ref logisticsServiceScroll);
-            DrawForwardBaseServiceCategory(new Rect(inner.x + columnWidth + gap, inner.y + categoryHeight + gap, columnWidth, categoryHeight), ForwardBaseServiceType.AirForce, AirForceServices, credit, ref airForceServiceScroll);
-        }
-
-        private void DrawForwardBaseServiceCategory(Rect rect, ForwardBaseServiceType type, ForwardBaseService[] services, float credit, ref Vector2 scrollPosition)
-        {
-            Widgets.DrawBox(rect);
-            Rect titleRect = new Rect(rect.x + 8f, rect.y + 5f, rect.width - 16f, 22f);
-            bool typeAllowed = BaseAllowsServiceType(selectedForwardBaseKind, type);
-            GUI.color = typeAllowed ? Color.white : Color.gray;
-            Widgets.Label(titleRect, ForwardBaseServiceTypeLabel(type));
-            GUI.color = Color.white;
-
-            Rect listRect = new Rect(rect.x + 6f, rect.y + 30f, rect.width - 12f, rect.height - 36f);
-            if (services.Length == 0)
-            {
-                GUI.color = Color.gray;
-                Widgets.Label(listRect.ContractedBy(2f), "HD_TelegraphTable_ForwardBase_ServiceType_Empty".Translate());
-                GUI.color = Color.white;
-                return;
-            }
-
-            const float rowHeight = 28f;
-            const float rowGap = 3f;
-            float viewHeight = Mathf.Max(listRect.height, services.Length * (rowHeight + rowGap));
-            Rect viewRect = new Rect(0f, 0f, listRect.width - 16f, viewHeight);
-            Widgets.BeginScrollView(listRect, ref scrollPosition, viewRect);
-            float y = 0f;
-            for (int i = 0; i < services.Length; i++)
-            {
-                DrawForwardBaseServiceOption(new Rect(0f, y, viewRect.width, rowHeight), services[i], credit);
-                y += rowHeight + rowGap;
-            }
-            Widgets.EndScrollView();
-        }
-
-        private void DrawForwardBaseServiceOption(Rect rect, ForwardBaseService service, float credit)
-        {
-            string label = ForwardBaseServiceLabel(service) + "  " + "HD_TelegraphTable_ForwardBase_ServiceLevel".Translate(ForwardBaseServiceLevel(service));
-            if (service == ForwardBaseService.W48Support && !includeArtillery155mmSupport)
-            {
-                SetServiceSelected(service, false);
-                DrawServiceDependencyOption(rect, label);
-                return;
-            }
-            if (!HelodHelicopterSupport.ProviderAllows(SelectedMilitaryFaction(), service) || !IsServiceAvailableForBase(selectedForwardBaseKind, service))
-            {
-                SetServiceSelected(service, false);
-                DrawUnavailableOption(rect, label);
-                return;
-            }
-
-            bool locked = credit < RequiredCredit(service);
-            if (locked)
-            {
-                SetServiceSelected(service, false);
-                DrawLockedOption(rect, label, RequiredCredit(service));
-                return;
-            }
-
-            bool selected = IsServiceSelected(service);
-            if (selectedContractCostKind == ContractCostKind.FFP && selected)
-            {
-                float countFieldWidth = 64f;
-                float countLabelWidth = 82f;
-                Widgets.CheckboxLabeled(
-                    new Rect(rect.x, rect.y, rect.width - countFieldWidth - countLabelWidth - 8f, rect.height),
-                    label,
-                    ref selected);
-                Widgets.Label(
-                    new Rect(rect.xMax - countFieldWidth - countLabelWidth - 4f, rect.y, countLabelWidth, rect.height),
-                    "HD_TelegraphTable_ForwardBase_ServiceUnitCountShort".Translate());
-                int units = FfpServiceUnitCount(service);
-                string buffer = FfpServiceUnitBuffer(service);
-                Widgets.TextFieldNumeric(
-                    new Rect(rect.xMax - countFieldWidth, rect.y + 2f, countFieldWidth, rect.height - 4f),
-                    ref units,
-                    ref buffer,
-                    1,
-                    999999);
-                ffpServiceUnitCounts[service] = Mathf.Clamp(units, 1, 999999);
-                ffpServiceUnitBuffers[service] = buffer;
-            }
-            else
-            {
-                Widgets.CheckboxLabeled(rect, label, ref selected);
-            }
-            SetServiceSelected(service, selected);
         }
 
         private int FfpServiceUnitCount(ForwardBaseService service)
@@ -1268,39 +1009,6 @@ namespace Helodrace
             }
 
             return buffer;
-        }
-
-        private static void DrawLockedOption(Rect rect, string label, float requiredCredit)
-        {
-            GUI.color = Color.gray;
-            Widgets.DrawOptionBackground(rect, false);
-            Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(rect, label + "  " + "HD_TelegraphTable_ForwardBase_Locked".Translate(requiredCredit.ToString("F0")));
-            Text.Anchor = TextAnchor.UpperLeft;
-            TooltipHandler.TipRegion(rect, "HD_TelegraphTable_ForwardBase_LockedTooltip".Translate(requiredCredit.ToString("F0")));
-            GUI.color = Color.white;
-        }
-
-        private static void DrawUnavailableOption(Rect rect, string label)
-        {
-            GUI.color = Color.gray;
-            Widgets.DrawOptionBackground(rect, false);
-            Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(rect, label + "  " + "HD_TelegraphTable_ForwardBase_ServiceUnavailableForBase".Translate());
-            Text.Anchor = TextAnchor.UpperLeft;
-            TooltipHandler.TipRegion(rect, "HD_TelegraphTable_ForwardBase_ServiceUnavailableForBaseTooltip".Translate());
-            GUI.color = Color.white;
-        }
-
-        private static void DrawServiceDependencyOption(Rect rect, string label)
-        {
-            GUI.color = Color.gray;
-            Widgets.DrawOptionBackground(rect, false);
-            Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(rect, label + "  " + "HD_TelegraphTable_ForwardBase_ServiceDependency".Translate());
-            Text.Anchor = TextAnchor.UpperLeft;
-            TooltipHandler.TipRegion(rect, "HD_TelegraphTable_ForwardBase_ServiceDependency_M114".Translate());
-            GUI.color = Color.white;
         }
 
         private static string ForwardBaseKindLabel(ForwardBaseKind kind)
@@ -1837,22 +1545,12 @@ namespace Helodrace
             }
         }
 
-        private static void DrawDisabledButton(Rect rect, string label)
-        {
-            GUI.color = Color.gray;
-            Widgets.DrawOptionBackground(rect, false);
-            Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(rect, label);
-            Text.Anchor = TextAnchor.UpperLeft;
-            GUI.color = Color.white;
-        }
-
         private sealed class ForwardBaseContractViewer : Window
         {
             private readonly WorldObject contract;
             private readonly string contractInfo;
 
-            public override Vector2 InitialSize => ContractViewerWindowSize;
+            public override UnityEngine.Vector2 InitialSize => ContractViewerWindowSize.ToGame();
 
             public ForwardBaseContractViewer(WorldObject contract, string contractInfo)
             {
@@ -1865,80 +1563,81 @@ namespace Helodrace
                 draggable = true;
             }
 
-            public override void DoWindowContents(Rect inRect)
+            public override void DoWindowContents(UnityEngine.Rect gameRect)
             {
-                Widgets.DrawBoxSolid(inRect, Color.white);
+                Rect inRect = gameRect.ToNative();
+                Widgets.DrawBoxSolid(inRect.ToGame(), Color.white.ToGame());
                 float pageWidth = 740f;
                 float pageHeight = pageWidth * (297f / 210f);
                 float noteWidth = 120f;
                 float noteGap = 14f;
                 float compositionWidth = pageWidth + noteGap + noteWidth;
                 Rect paper = new Rect((inRect.width - compositionWidth) * 0.5f, 14f, pageWidth, pageHeight);
-                Widgets.DrawBoxSolid(paper, Color.white);
-                Widgets.DrawBox(paper);
-                Rect content = paper.ContractedBy(22f);
+                Widgets.DrawBoxSolid(paper.ToGame(), Color.white.ToGame());
+                Widgets.DrawBox(paper.ToGame());
+                Rect content = UiMath.Inset(paper, 22f);
                 Faction faction = contract?.Faction;
                 float y = content.y;
 
-                GUI.color = Color.black;
+                GUI.color = Color.black.ToGame();
                 Texture2D logo = ContentFinder<Texture2D>.Get("Icons/HD_POSC", false);
                 if (logo != null)
                 {
-                    GUI.color = Color.white;
-                    Widgets.DrawTextureFitted(new Rect(content.x, y, 88f, 88f), logo, 0.9f);
-                    GUI.color = Color.black;
+                    GUI.color = Color.white.ToGame();
+                    Widgets.DrawTextureFitted((new Rect(content.x, y, 88f, 88f)).ToGame(), logo, 0.9f);
+                    GUI.color = Color.black.ToGame();
                 }
 
                 Text.Font = GameFont.Medium;
-                Widgets.Label(new Rect(content.x + 106f, y + 3f, content.width - 260f, 30f), Dialog_TelegraphTable.ProviderCompanyName());
+                Widgets.Label((new Rect(content.x + 106f, y + 3f, content.width - 260f, 30f)).ToGame(), Dialog_TelegraphTable.ProviderCompanyName());
                 Text.Font = GameFont.Small;
-                Widgets.Label(new Rect(content.x + 106f, y + 38f, content.width - 260f, 22f), "FORWARD BASE SERVICE AGREEMENT");
-                Widgets.Label(new Rect(content.x + 106f, y + 61f, content.width - 260f, 22f), "EXECUTED CONTRACT RECORD");
-                Widgets.Label(new Rect(content.xMax - 170f, y + 8f, 170f, 22f), "CONTRACT RECORD");
-                Widgets.Label(new Rect(content.xMax - 170f, y + 34f, 170f, 22f), contract?.LabelCap ?? "Unknown contract");
+                Widgets.Label((new Rect(content.x + 106f, y + 38f, content.width - 260f, 22f)).ToGame(), "FORWARD BASE SERVICE AGREEMENT");
+                Widgets.Label((new Rect(content.x + 106f, y + 61f, content.width - 260f, 22f)).ToGame(), "EXECUTED CONTRACT RECORD");
+                Widgets.Label((new Rect(content.xMax - 170f, y + 8f, 170f, 22f)).ToGame(), "CONTRACT RECORD");
+                Widgets.Label((new Rect(content.xMax - 170f, y + 34f, 170f, 22f)).ToGame(), contract?.LabelCap ?? "Unknown contract");
                 y += 100f;
                 Widgets.DrawLineHorizontal(content.x, y, content.width);
                 y += 18f;
 
-                Widgets.Label(new Rect(content.x, y, content.width, 22f), "PROVIDER");
+                Widgets.Label((new Rect(content.x, y, content.width, 22f)).ToGame(), "PROVIDER");
                 y += 24f;
-                Widgets.Label(new Rect(content.x + 12f, y, content.width - 12f, 24f), Dialog_TelegraphTable.ProviderCompanyName() + "  /  " + (faction?.Name ?? "Unknown faction"));
+                Widgets.Label((new Rect(content.x + 12f, y, content.width - 12f, 24f)).ToGame(), Dialog_TelegraphTable.ProviderCompanyName() + "  /  " + (faction?.Name ?? "Unknown faction"));
                 y += 36f;
-                Widgets.Label(new Rect(content.x, y, content.width, 22f), "STATUS");
+                Widgets.Label((new Rect(content.x, y, content.width, 22f)).ToGame(), "STATUS");
                 y += 24f;
-                Widgets.Label(new Rect(content.x + 12f, y, content.width - 12f, 24f), Dialog_TelegraphTable.ForwardBaseContractStatus(contract));
+                Widgets.Label((new Rect(content.x + 12f, y, content.width - 12f, 24f)).ToGame(), Dialog_TelegraphTable.ForwardBaseContractStatus(contract));
                 y += 42f;
                 Widgets.DrawLineHorizontal(content.x, y, content.width);
                 y += 18f;
-                Widgets.Label(new Rect(content.x, y, content.width, 22f), "CONTRACT TERMS");
+                Widgets.Label((new Rect(content.x, y, content.width, 22f)).ToGame(), "CONTRACT TERMS");
                 y += 30f;
-                GUI.color = Color.black;
+                GUI.color = Color.black.ToGame();
                 float infoHeight = Mathf.Max(22f, Text.CalcHeight(contractInfo, content.width));
                 Rect termsRect = new Rect(content.x, y, content.width, infoHeight + 16f);
-                Widgets.DrawBox(termsRect);
-                Widgets.Label(termsRect.ContractedBy(8f), contractInfo);
+                Widgets.DrawBox(termsRect.ToGame());
+                Widgets.Label((UiMath.Inset(termsRect, 8f)).ToGame(), contractInfo);
 
                 Rect noteRect = new Rect(paper.xMax + noteGap, paper.y + 176f, noteWidth, 126f);
-                Widgets.DrawBoxSolid(noteRect, new Color(1f, 0.93f, 0.45f));
-                Widgets.DrawBox(noteRect);
+                Widgets.DrawBoxSolid(noteRect.ToGame(), (new Color(1f, 0.93f, 0.45f)).ToGame());
+                Widgets.DrawBox(noteRect.ToGame());
                 Text.Font = GameFont.Medium;
-                Widgets.Label(new Rect(noteRect.x + 10f, noteRect.y + 10f, noteRect.width - 20f, 24f), "POST-IT");
+                Widgets.Label((new Rect(noteRect.x + 10f, noteRect.y + 10f, noteRect.width - 20f, 24f)).ToGame(), "POST-IT");
                 Text.Font = GameFont.Small;
-                Widgets.Label(new Rect(noteRect.x + 10f, noteRect.y + 42f, noteRect.width - 20f, 22f), "TIME REMAINING");
-                Widgets.Label(new Rect(noteRect.x + 10f, noteRect.y + 68f, noteRect.width - 20f, 42f), RemainingContractTime());
+                Widgets.Label((new Rect(noteRect.x + 10f, noteRect.y + 42f, noteRect.width - 20f, 22f)).ToGame(), "TIME REMAINING");
+                Widgets.Label((new Rect(noteRect.x + 10f, noteRect.y + 68f, noteRect.width - 20f, 42f)).ToGame(), RemainingContractTime());
 
                 Rect closeRect = new Rect(inRect.xMax - 34f, inRect.y + 2f, 30f, 30f);
-                Widgets.DrawHighlightIfMouseover(closeRect);
+                Widgets.DrawHighlightIfMouseover(closeRect.ToGame());
                 Text.Font = GameFont.Medium;
                 Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(closeRect, "×");
+                Widgets.Label(closeRect.ToGame(), "×");
                 Text.Anchor = TextAnchor.UpperLeft;
                 Text.Font = GameFont.Small;
-                if (Widgets.ButtonInvisible(closeRect))
+                if (Widgets.ButtonInvisible(closeRect.ToGame()))
                 {
                     Close();
                 }
-                GUI.color = Color.white;
+                GUI.color = Color.white.ToGame();
             }
 
             private string RemainingContractTime()
@@ -1966,7 +1665,7 @@ namespace Helodrace
         {
             public Rect Begin(Rect windowRect)
             {
-                Widgets.DrawBoxSolid(windowRect, Color.white);
+                Widgets.DrawBoxSolid(windowRect.ToGame(), Color.white.ToGame());
                 float pageWidth = Mathf.Min(740f, windowRect.width - 28f);
                 float pageHeight = pageWidth * (297f / 210f);
                 return new Rect((windowRect.width - pageWidth) * 0.5f, 14f, pageWidth, pageHeight);
@@ -1982,7 +1681,7 @@ namespace Helodrace
             private readonly Dialog_TelegraphTable owner;
             private Vector2 scrollPosition;
 
-            public override Vector2 InitialSize => new Vector2(720f, 680f);
+            public override UnityEngine.Vector2 InitialSize => (new Vector2(720f, 680f)).ToGame();
 
             public ForwardBaseServiceEditor(Dialog_TelegraphTable owner)
             {
@@ -1993,20 +1692,23 @@ namespace Helodrace
                 doWindowBackground = false;
             }
 
-            public override void DoWindowContents(Rect inRect)
+            public override void DoWindowContents(UnityEngine.Rect gameRect)
             {
-                GUI.color = Color.white;
+                Rect inRect = gameRect.ToNative();
+                GUI.color = Color.white.ToGame();
                 Text.Anchor = TextAnchor.UpperLeft;
-                Widgets.DrawWindowBackground(inRect);
+                Widgets.DrawWindowBackground(inRect.ToGame());
                 Text.Font = GameFont.Medium;
-                Widgets.Label(new Rect(inRect.x + 16f, inRect.y + 12f, inRect.width - 32f, 30f), "EDIT SELECTED SERVICES");
+                Widgets.Label((new Rect(inRect.x + 16f, inRect.y + 12f, inRect.width - 32f, 30f)).ToGame(), "EDIT SELECTED SERVICES");
                 Text.Font = GameFont.Small;
                 float descriptionHeight = Dialog_TelegraphTable.DrawContractParagraph(new Rect(inRect.x + 16f, inRect.y + 45f, inRect.width - 32f, 60f), "Click a text line to include or remove it. FFP lines also define stock per 30 days.");
-                GUI.color = Color.white;
+                GUI.color = Color.white.ToGame();
 
                 Rect listRect = new Rect(inRect.x + 16f, inRect.y + 52f + descriptionHeight, inRect.width - 32f, inRect.height - 68f - descriptionHeight);
                 Rect viewRect = new Rect(0f, 0f, listRect.width - 18f, 640f);
-                Widgets.BeginScrollView(listRect, ref scrollPosition, viewRect);
+                UnityEngine.Vector2 gameScroll4 = scrollPosition.ToGame();
+                Widgets.BeginScrollView(listRect.ToGame(), ref gameScroll4, viewRect.ToGame());
+                scrollPosition = gameScroll4.ToNative();
                 float y = 0f;
                 DrawServiceGroup(viewRect, ref y, ForwardBaseServiceType.Artillery, ArtilleryServices);
                 DrawServiceGroup(viewRect, ref y, ForwardBaseServiceType.Infantry, InfantryServices);
@@ -2017,8 +1719,8 @@ namespace Helodrace
 
             private void DrawServiceGroup(Rect viewRect, ref float y, ForwardBaseServiceType type, ForwardBaseService[] services)
             {
-                GUI.color = Color.white;
-                Widgets.Label(new Rect(viewRect.x, y, viewRect.width, 24f), Dialog_TelegraphTable.ForwardBaseServiceTypeLabel(type).ToUpperInvariant());
+                GUI.color = Color.white.ToGame();
+                Widgets.Label((new Rect(viewRect.x, y, viewRect.width, 24f)).ToGame(), Dialog_TelegraphTable.ForwardBaseServiceTypeLabel(type).ToUpperInvariant());
                 y += 28f;
                 float credit = Dialog_TelegraphTable.MilitaryCredit(owner.telegraphTable.Map, owner.SelectedMilitaryFaction());
                 for (int i = 0; i < services.Length; i++)
@@ -2031,33 +1733,33 @@ namespace Helodrace
                     Rect row = new Rect(viewRect.x, y, viewRect.width, 32f);
                     if (!available)
                     {
-                        GUI.color = new Color(0.22f, 0.22f, 0.22f);
-                        Widgets.Label(new Rect(row.x + 10f, row.y + 6f, row.width - 20f, 20f), "- " + Dialog_TelegraphTable.ForwardBaseServiceLabel(service) + "  (unavailable)");
-                        GUI.color = Color.white;
+                        GUI.color = (new Color(0.22f, 0.22f, 0.22f)).ToGame();
+                        Widgets.Label((new Rect(row.x + 10f, row.y + 6f, row.width - 20f, 20f)).ToGame(), "- " + Dialog_TelegraphTable.ForwardBaseServiceLabel(service) + "  (unavailable)");
+                        GUI.color = Color.white.ToGame();
                         y += 38f;
                         continue;
                     }
 
-                    Widgets.DrawHighlightIfMouseover(row);
+                    Widgets.DrawHighlightIfMouseover(row.ToGame());
                     float countWidth = owner.selectedContractCostKind == ContractCostKind.FFP ? 116f : 0f;
                     bool selected = owner.IsServiceSelected(service);
                     Rect checkRect = new Rect(row.x + 6f, row.y, row.width - countWidth - 12f, row.height);
-                    Widgets.CheckboxLabeled(checkRect, Dialog_TelegraphTable.ForwardBaseServiceLabel(service), ref selected);
+                    Widgets.CheckboxLabeled(checkRect.ToGame(), Dialog_TelegraphTable.ForwardBaseServiceLabel(service), ref selected);
                     owner.SetServiceSelected(service, selected);
 
                     if (owner.selectedContractCostKind == ContractCostKind.FFP && owner.IsServiceSelected(service))
                     {
                         int units = owner.FfpServiceUnitCount(service);
                         string buffer = owner.FfpServiceUnitBuffer(service);
-                        Widgets.Label(new Rect(row.xMax - countWidth, row.y + 6f, 60f, 20f), "per 30d");
-                        Widgets.TextFieldNumeric(new Rect(row.xMax - 48f, row.y + 3f, 48f, 26f), ref units, ref buffer, 1, 999999);
+                        Widgets.Label((new Rect(row.xMax - countWidth, row.y + 6f, 60f, 20f)).ToGame(), "per 30d");
+                        Widgets.TextFieldNumeric((new Rect(row.xMax - 48f, row.y + 3f, 48f, 26f)).ToGame(), ref units, ref buffer, 1, 999999);
                         owner.ffpServiceUnitCounts[service] = Mathf.Clamp(units, 1, 999999);
                         owner.ffpServiceUnitBuffers[service] = buffer;
                     }
-                    GUI.color = Color.white;
+                    GUI.color = Color.white.ToGame();
                     y += 38f;
                 }
-                GUI.color = Color.white;
+                GUI.color = Color.white.ToGame();
                 y += 8f;
             }
         }

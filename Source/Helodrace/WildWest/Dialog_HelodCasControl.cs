@@ -1,6 +1,10 @@
 using System;
 using RimWorld;
 using UnityEngine;
+using Waylith.Math;
+using Rect = Waylith.Math.Rect;
+using Vector2 = System.Numerics.Vector2;
+using Color = Waylith.Math.Color;
 using Verse;
 
 namespace Helodrace
@@ -13,7 +17,7 @@ namespace Helodrace
         private readonly Action<HelodCasAircraftKind, HelodCasAttackKind> beginAttack;
         private readonly HelodCasAircraftKind selectedAircraft;
 
-        public override Vector2 InitialSize => new Vector2(720f, 650f);
+        public override UnityEngine.Vector2 InitialSize => (new Vector2(720f, 650f)).ToGame();
 
         public Dialog_HelodCasControl(Map map, HelodForwardBase forwardBase,
             Pawn caller, Action<HelodCasAircraftKind, HelodCasAttackKind> beginAttack)
@@ -28,16 +32,17 @@ namespace Helodrace
             closeOnClickedOutside = false;
         }
 
-        public override void DoWindowContents(Rect inRect)
+        public override void DoWindowContents(UnityEngine.Rect gameRect)
         {
+            Rect inRect = gameRect.ToNative();
             MapComponent_HelodCasSupport support = map?
                 .GetComponent<MapComponent_HelodCasSupport>();
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 32f),
+            Widgets.Label((new Rect(inRect.x, inRect.y, inRect.width, 32f)).ToGame(),
                 "HD_CAS_Control_Title".Translate());
             Text.Font = GameFont.Small;
             float y = inRect.y + 42f;
-            Widgets.Label(new Rect(inRect.x, y, inRect.width, 24f),
+            Widgets.Label((new Rect(inRect.x, y, inRect.width, 24f)).ToGame(),
                 "HD_CAS_Control_Base".Translate(
                     forwardBase?.LabelCap ?? "HD_SCR300_None".Translate()));
             y += 32f;
@@ -52,25 +57,25 @@ namespace Helodrace
             support?.GetPlaytimeStatus(forwardBase, selectedAircraft,
                 out flightRequested, out remainingPlaytime, out reservedAircraftCount);
             Rect statusRect = new Rect(inRect.x, y, inRect.width, 122f);
-            Widgets.DrawMenuSection(statusRect);
-            Rect statusInner = statusRect.ContractedBy(14f);
+            Widgets.DrawMenuSection(statusRect.ToGame());
+            Rect statusInner = UiMath.Inset(statusRect, 14f);
             bool activeFlight = support != null && remainingPlaytime > 0;
             string aircraftLabel = HelodCasSupportUtility.AircraftLabel(selectedAircraft);
             string statusKey = activeFlight ? "HD_CAS_Control_StatusActiveAircraft"
                 : flightRequested ? "HD_CAS_Control_StatusExhaustedAircraft"
                 : "HD_CAS_Control_StatusNotRequestedAircraft";
-            Widgets.Label(new Rect(statusInner.x, statusInner.y,
-                statusInner.width, 24f), statusKey.Translate(aircraftLabel));
-            Widgets.Label(new Rect(statusInner.x, statusInner.y + 31f,
-                statusInner.width, 22f), "HD_CAS_Control_Playtime".Translate());
+            Widgets.Label((new Rect(statusInner.x, statusInner.y,
+                statusInner.width, 24f)).ToGame(), statusKey.Translate(aircraftLabel));
+            Widgets.Label((new Rect(statusInner.x, statusInner.y + 31f,
+                statusInner.width, 22f)).ToGame(), "HD_CAS_Control_Playtime".Translate());
             Rect barRect = new Rect(statusInner.x, statusInner.y + 57f,
                 statusInner.width, 22f);
             DrawPlaytimeBar(barRect, remainingPlaytime
                 / (float)HelodCasSupportUtility.Playtime(selectedAircraft), aircraftLabel);
             if (reservedAircraftCount > 0)
             {
-                Widgets.Label(new Rect(statusInner.x, statusInner.y + 86f,
-                    statusInner.width, 22f),
+                Widgets.Label((new Rect(statusInner.x, statusInner.y + 86f,
+                    statusInner.width, 22f)).ToGame(),
                     "HD_CAS_Control_ReservedAircraft".Translate(reservedAircraftCount));
             }
             y = statusRect.yMax + 12f;
@@ -80,8 +85,8 @@ namespace Helodrace
                 HelodForwardBaseService.CloseAirSupport) == true;
             bool canRequest = support?.CanRequestFlight(forwardBase, selectedAircraft)
                 == true && hasServiceCapacity && !blackout;
-            GUI.color = canRequest ? Color.white : Color.gray;
-            if (Widgets.ButtonText(new Rect(inRect.x, y, inRect.width, 34f),
+            GUI.color = (canRequest ? Color.white : Color.gray).ToGame();
+            if (Widgets.ButtonText((new Rect(inRect.x, y, inRect.width, 34f)).ToGame(),
                 "HD_CAS_Control_RequestAircraft".Translate(aircraftLabel)) && canRequest)
             {
                 if (support.TryRequestFlight(forwardBase, selectedAircraft,
@@ -92,7 +97,7 @@ namespace Helodrace
                         MessageTypeDefOf.PositiveEvent);
                 }
             }
-            GUI.color = Color.white;
+            GUI.color = Color.white.ToGame();
             y += 46f;
 
             bool activeStrike = support?.HasActiveStrike(caller) == true;
@@ -107,16 +112,16 @@ namespace Helodrace
                 : null;
             if (footer != null)
             {
-                Widgets.Label(new Rect(inRect.x, inRect.yMax - 22f,
-                    inRect.width, 22f), footer);
+                Widgets.Label((new Rect(inRect.x, inRect.yMax - 22f,
+                    inRect.width, 22f)).ToGame(), footer);
             }
         }
 
         private void DrawAircraftTab(Rect rect, HelodCasAircraftKind aircraftKind)
         {
-            GUI.color = selectedAircraft == aircraftKind ? Color.white : Color.gray;
-            Widgets.ButtonText(rect, HelodCasSupportUtility.AircraftLabel(aircraftKind));
-            GUI.color = Color.white;
+            GUI.color = (selectedAircraft == aircraftKind ? Color.white : Color.gray).ToGame();
+            Widgets.ButtonText(rect.ToGame(), HelodCasSupportUtility.AircraftLabel(aircraftKind));
+            GUI.color = Color.white.ToGame();
         }
 
         private void DrawLoadouts(Rect area, bool enabled)
@@ -166,36 +171,36 @@ namespace Helodrace
             bool hasAmmo = support?.HasAmmoForAttack(forwardBase, selectedAircraft,
                 attackKind, munitionCount, out _) == true;
             bool cardEnabled = enabled && hasAmmo;
-            Widgets.DrawMenuSection(rect);
-            Rect inner = rect.ContractedBy(8f);
+            Widgets.DrawMenuSection(rect.ToGame());
+            Rect inner = UiMath.Inset(rect, 8f);
             Text.Font = GameFont.Small;
-            Widgets.Label(new Rect(inner.x, inner.y, inner.width, 22f),
+            Widgets.Label((new Rect(inner.x, inner.y, inner.width, 22f)).ToGame(),
                 "HD_CAS_AmmoCount".Translate(titleKey.Translate(), ammoRemaining));
-            GUI.color = Color.gray;
-            Widgets.Label(new Rect(inner.x, inner.y + 22f, inner.width - 82f,
-                inner.height - 22f), descriptionKey.Translate());
-            GUI.color = cardEnabled ? Color.white : Color.gray;
-            if (Widgets.ButtonText(new Rect(inner.xMax - 76f, inner.yMax - 30f,
-                76f, 30f), "HD_CAS_Control_Select".Translate()) && cardEnabled)
+            GUI.color = Color.gray.ToGame();
+            Widgets.Label((new Rect(inner.x, inner.y + 22f, inner.width - 82f,
+                inner.height - 22f)).ToGame(), descriptionKey.Translate());
+            GUI.color = (cardEnabled ? Color.white : Color.gray).ToGame();
+            if (Widgets.ButtonText((new Rect(inner.xMax - 76f, inner.yMax - 30f,
+                76f, 30f)).ToGame(), "HD_CAS_Control_Select".Translate()) && cardEnabled)
             {
                 Close(false);
                 beginAttack?.Invoke(selectedAircraft, attackKind);
             }
-            GUI.color = Color.white;
+            GUI.color = Color.white.ToGame();
         }
 
         private static void DrawPlaytimeBar(Rect rect, float fraction,
             string aircraftLabel)
         {
             fraction = Mathf.Clamp01(fraction);
-            Widgets.DrawBoxSolid(rect, new Color(0.12f, 0.12f, 0.12f));
-            Rect fill = rect.ContractedBy(2f);
+            Widgets.DrawBoxSolid(rect.ToGame(), (new Color(0.12f, 0.12f, 0.12f)).ToGame());
+            Rect fill = UiMath.Inset(rect, 2f);
             fill.width *= fraction;
             Color fillColor = Color.Lerp(new Color(0.75f, 0.18f, 0.12f),
                 new Color(0.18f, 0.72f, 0.26f), fraction);
-            Widgets.DrawBoxSolid(fill, fillColor);
-            Widgets.DrawBox(rect);
-            TooltipHandler.TipRegion(rect,
+            Widgets.DrawBoxSolid(fill.ToGame(), fillColor.ToGame());
+            Widgets.DrawBox(rect.ToGame());
+            TooltipHandler.TipRegion(rect.ToGame(),
                 "HD_CAS_Control_PlaytimeTooltipAircraft".Translate(aircraftLabel));
         }
     }

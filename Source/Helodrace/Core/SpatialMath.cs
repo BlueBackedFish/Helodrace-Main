@@ -13,6 +13,9 @@ namespace Helodrace
         internal static Vector3 Interpolate(Vector3 from, Vector3 to, float fraction)
             => from + (to - from) * Mathf.Clamp01(fraction);
 
+        internal static Vector2 Interpolate2D(Vector2 from, Vector2 to, float fraction)
+            => from + (to - from) * Mathf.Clamp01(fraction);
+
         internal static float AngleBetween(Vector3 from, Vector3 to)
         {
             static float Dot(Vector3 a, Vector3 b) => a.X * b.X + a.Y * b.Y + a.Z * b.Z;
