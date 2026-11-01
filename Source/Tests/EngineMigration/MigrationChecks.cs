@@ -22,6 +22,7 @@ namespace Helodrace.Tests
         private bool m47Prepared;
         private bool shotgunPrepared;
         private bool switchbladePrepared;
+        private bool casPrepared;
 #if HELODRACE_MAIN_CHECKS
         private bool lra7VerifiedOnLoad;
         private bool grenadeVerifiedOnLoad;
@@ -29,6 +30,7 @@ namespace Helodrace.Tests
         private bool m47VerifiedOnLoad;
         private bool shotgunVerifiedOnLoad;
         private bool switchbladeVerifiedOnLoad;
+        private bool casVerifiedOnLoad;
 #endif
         private string output, mode;
 
@@ -45,13 +47,14 @@ namespace Helodrace.Tests
             Scribe_Values.Look(ref m47Prepared, "migrationM47Prepared", false);
             Scribe_Values.Look(ref shotgunPrepared, "migrationShotgunPrepared", false);
             Scribe_Values.Look(ref switchbladePrepared, "migrationSwitchbladePrepared", false);
+            Scribe_Values.Look(ref casPrepared, "migrationCasPrepared", false);
         }
 
 #if HELODRACE_MAIN_CHECKS
         public override void LoadedGame()
         {
             if (!GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string activeCase)
-                || !((lra7Prepared && activeCase == "native-lra7") || (grenadePrepared && activeCase == "native-grenades") || (towPrepared && activeCase == "native-tow") || (m47Prepared && activeCase == "native-m47") || (shotgunPrepared && activeCase == "native-shotgun") || (switchbladePrepared && activeCase == "native-switchblade"))
+                || !((lra7Prepared && activeCase == "native-lra7") || (grenadePrepared && activeCase == "native-grenades") || (towPrepared && activeCase == "native-tow") || (m47Prepared && activeCase == "native-m47") || (shotgunPrepared && activeCase == "native-shotgun") || (switchbladePrepared && activeCase == "native-switchblade") || (casPrepared && activeCase == "native-cas"))
                 || !GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out output)) return;
             try
             {
@@ -81,10 +84,15 @@ namespace Helodrace.Tests
                     NativeShotgunChecks.Verify(output, Check);
                     shotgunVerifiedOnLoad = true;
                 }
-                else
+                else if (activeCase == "native-switchblade")
                 {
                     NativeSwitchbladeChecks.Verify(output, Check);
                     switchbladeVerifiedOnLoad = true;
+                }
+                else
+                {
+                    NativeCasChecks.Verify(output, Check);
+                    casVerifiedOnLoad = true;
                 }
             }
             catch (Exception error)
@@ -123,7 +131,7 @@ namespace Helodrace.Tests
             try
             {
                 if ((mode != "main-state" || !mainStatePrepared) && (mode != "blancas-generation" || !blancasGenerationPrepared)
-                    && (mode != "native-lra7" || !lra7Prepared) && (mode != "native-grenades" || !grenadePrepared) && (mode != "native-tow" || !towPrepared) && (mode != "native-m47" || !m47Prepared) && (mode != "native-shotgun" || !shotgunPrepared) && (mode != "native-switchblade" || !switchbladePrepared))
+                    && (mode != "native-lra7" || !lra7Prepared) && (mode != "native-grenades" || !grenadePrepared) && (mode != "native-tow" || !towPrepared) && (mode != "native-m47" || !m47Prepared) && (mode != "native-shotgun" || !shotgunPrepared) && (mode != "native-switchblade" || !switchbladePrepared) && (mode != "native-cas" || !casPrepared))
                     File.WriteAllText(Path.Combine(output, "checks.txt"), "Engine migration: " + mode + "\n");
                 else File.AppendAllText(Path.Combine(output, "checks.txt"), "Loaded new 1.7 state\n");
                 Check(DefDatabase<ThingDef>.GetNamedSilentFail("BD_Ketamine") != null, "Blancas drug definitions loaded");
@@ -170,6 +178,18 @@ namespace Helodrace.Tests
                     BlancasGenerationChecks.Verify(Check);
                 }
 #if HELODRACE_MAIN_CHECKS
+                else if (mode == "native-cas")
+                {
+                    if (!casPrepared)
+                    {
+                        NativeCasChecks.Create(output, Check);
+                        casPrepared = true;
+                        GameDataSaveLoader.SaveGame("CasNativeState17");
+                        GameDataSaveLoader.LoadGame("CasNativeState17");
+                        return;
+                    }
+                    Check(casVerifiedOnLoad, "native CAS state verified before the first simulation tick");
+                }
                 else if (mode == "native-switchblade")
                 {
                     if (!switchbladePrepared)
