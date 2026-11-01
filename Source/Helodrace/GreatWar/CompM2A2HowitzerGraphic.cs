@@ -1,6 +1,9 @@
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
+using Waylith.Math;
+using Vector3 = System.Numerics.Vector3;
+using Quaternion = System.Numerics.Quaternion;
 using Verse;
 using Verse.Sound;
 
@@ -176,10 +179,10 @@ namespace Helodrace
             {
                 Quaternion smokeRotation = Quaternion.AngleAxis(
                     casingEjectRotationDegrees,
-                    Vector3.up);
-                Vector3 backward = -(smokeRotation * Vector3.right);
+                    Vector3.UnitY);
+                Vector3 backward = -(Vector3.Transform(Vector3.UnitX, smokeRotation));
                 TryThrowSmoke(
-                    parent.DrawPos + backward * 0.24f,
+                    parent.DrawPos.ToNative() + backward * 0.24f,
                     Props.casingSmokeSize);
             }
 
@@ -196,8 +199,8 @@ namespace Helodrace
 
             Quaternion rotation = Quaternion.AngleAxis(
                 casingEjectRotationDegrees,
-                Vector3.up);
-            IntVec3 soundCell = CasingLandingPosition(rotation).ToIntVec3();
+                Vector3.UnitY);
+            IntVec3 soundCell = CasingLandingPosition(rotation).ToGame().ToIntVec3();
             if (!soundCell.InBounds(parent.Map))
             {
                 soundCell = parent.Position;
@@ -221,10 +224,10 @@ namespace Helodrace
             }
 
             float graphicRotationDegrees = GraphicRotationDegrees(turret);
-            Quaternion rotation = Quaternion.AngleAxis(graphicRotationDegrees, Vector3.up);
-            Vector3 forward = rotation * Vector3.right;
-            Vector3 drawPos = parent.DrawPos;
-            drawPos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
+            Quaternion rotation = Quaternion.AngleAxis(graphicRotationDegrees, Vector3.UnitY);
+            Vector3 forward = Vector3.Transform(Vector3.UnitX, rotation);
+            Vector3 drawPos = parent.DrawPos.ToNative();
+            drawPos.Y = AltitudeLayer.BuildingOnTop.AltitudeFor();
             Vector3 scale = new Vector3(Props.drawSize, 1f, Props.drawSize);
 
             if (Props.useM114LayerLayout)
@@ -246,7 +249,7 @@ namespace Helodrace
             DrawLayer(ref drawPos, rotation, scale, BodyOutlineMaterial);
             Vector3 barrelPos = drawPos - forward * CurrentRecoil;
             DrawLayer(ref barrelPos, rotation, scale, BarrelOutlineMaterial);
-            drawPos.y = barrelPos.y;
+            drawPos.Y = barrelPos.Y;
             DrawMovingLayer(ref drawPos, lever1Offset, rotation, scale, Lever1OutlineMaterial);
             DrawMovingLayer(ref drawPos, lever2Offset, rotation, scale, Lever2OutlineMaterial);
             DrawMovingLayer(ref drawPos, lever3Offset, rotation, scale, Lever3OutlineMaterial);
@@ -271,7 +274,7 @@ namespace Helodrace
             Vector3 scale)
         {
             drawPos -= forward * Props.m114GraphicDownOffset;
-            Vector3 right = new Vector3(forward.z, 0f, -forward.x);
+            Vector3 right = new Vector3(forward.Z, 0f, -forward.X);
             drawPos += right * Props.m114GraphicRightOffset;
             GetM114LeverOffsets(
                 turret,
@@ -337,9 +340,9 @@ namespace Helodrace
 
             Quaternion ejectionRotation = Quaternion.AngleAxis(
                 casingEjectRotationDegrees,
-                Vector3.up);
-            Vector3 backward = -(ejectionRotation * Vector3.right);
-            Vector3 side = ejectionRotation * Vector3.forward;
+                Vector3.UnitY);
+            Vector3 backward = -(Vector3.Transform(Vector3.UnitX, ejectionRotation));
+            Vector3 side = Vector3.Transform(Vector3.UnitZ, ejectionRotation);
             Vector3 position;
             float casingAngle = casingEjectRotationDegrees;
 
@@ -348,7 +351,7 @@ namespace Helodrace
                 // The airborne phase is a clean, straight rearward ejection.
                 float flightProgress = age
                     / (float)Mathf.Max(1, Props.casingDropDelayTicks);
-                position = parent.DrawPos
+                position = parent.DrawPos.ToNative()
                     + backward * (0.22f + Props.casingEjectDistance * flightProgress);
             }
             else
@@ -366,24 +369,24 @@ namespace Helodrace
                 casingAngle += rock * 22f;
             }
 
-            position.y = AltitudeLayer.BuildingOnTop.AltitudeFor() + 0.03f;
+            position.Y = AltitudeLayer.BuildingOnTop.AltitudeFor() + 0.03f;
 
-            Quaternion casingRotation = Quaternion.AngleAxis(casingAngle, Vector3.up);
+            Quaternion casingRotation = Quaternion.AngleAxis(casingAngle, Vector3.UnitY);
             Vector3 casingScale = new Vector3(
                 Props.casingDrawSize / 10f,
                 1f,
                 Props.casingDrawSize / 10f);
             Graphics.DrawMesh(
                 MeshPool.plane10,
-                Matrix4x4.TRS(position, casingRotation, casingScale),
+                SpatialMath.CreateTransform(position, casingRotation, casingScale).ToGame(),
                 CasingMaterial,
                 0);
         }
 
         private Vector3 CasingLandingPosition(Quaternion rotation)
         {
-            Vector3 backward = -(rotation * Vector3.right);
-            return parent.DrawPos + backward * (0.22f + Props.casingEjectDistance);
+            Vector3 backward = -(Vector3.Transform(Vector3.UnitX, rotation));
+            return parent.DrawPos.ToNative() + backward * (0.22f + Props.casingEjectDistance);
         }
 
         private void SpawnImmediateFiringEffects()
@@ -399,8 +402,8 @@ namespace Helodrace
 
             Quaternion shotRotation = Quaternion.AngleAxis(
                 casingEjectRotationDegrees,
-                Vector3.up);
-            Vector3 forward = shotRotation * Vector3.right;
+                Vector3.UnitY);
+            Vector3 forward = Vector3.Transform(Vector3.UnitX, shotRotation);
 
             // Scatter uniformly across the area of a radius-four disc. Taking
             // the square root of the random radius avoids crowding the center.
@@ -409,10 +412,9 @@ namespace Helodrace
             {
                 float angle = Rand.Range(0f, 360f);
                 float radius = Mathf.Sqrt(Rand.Value) * Props.firingDustRadius;
-                Vector3 direction = Quaternion.AngleAxis(angle, Vector3.up)
-                    * Vector3.right;
+                Vector3 direction = SpatialMath.RotateAroundY(Vector3.UnitX, angle);
                 TryThrowDust(
-                    parent.DrawPos + direction * radius,
+                    parent.DrawPos.ToNative() + direction * radius,
                     Rand.Range(0.42f, 0.62f));
             }
 
@@ -428,9 +430,8 @@ namespace Helodrace
                 for (int i = 0; i < rearArcPoints; i++)
                 {
                     float angle = Mathf.Lerp(-30f, 30f, i / (rearArcPoints - 1f));
-                    Vector3 direction = Quaternion.AngleAxis(angle, Vector3.up)
-                        * rearward;
-                    Vector3 position = parent.DrawPos + direction * radius;
+                    Vector3 direction = SpatialMath.RotateAroundY(rearward, angle);
+                    Vector3 position = parent.DrawPos.ToNative() + direction * radius;
                     TryThrowDust(position, Rand.Range(0.46f, 0.68f));
                 }
             }
@@ -447,10 +448,10 @@ namespace Helodrace
 
             Quaternion shotRotation = Quaternion.AngleAxis(
                 casingEjectRotationDegrees,
-                Vector3.up);
-            Vector3 forward = shotRotation * Vector3.right;
+                Vector3.UnitY);
+            Vector3 forward = Vector3.Transform(Vector3.UnitX, shotRotation);
             Vector3 smokeOrigin =
-                parent.DrawPos + forward * Props.frontSmokeOriginOffset;
+                parent.DrawPos.ToNative() + forward * Props.frontSmokeOriginOffset;
             // Scatter only the vanilla smoke-shell burst visual throughout the
             // complete 100-degree fan. This has no gas or accuracy gameplay.
             // Random area sampling removes the visible concentric arcs.
@@ -485,8 +486,7 @@ namespace Helodrace
                     continue;
                 }
 
-                Vector3 direction = Quaternion.AngleAxis(angle, Vector3.up)
-                    * forward;
+                Vector3 direction = SpatialMath.RotateAroundY(forward, angle);
                 float edgeJitter = Rand.Range(-0.18f, 0.18f);
                 TrySpawnSmokeScreenVisual(
                     smokeOrigin + direction * (radius + edgeJitter));
@@ -495,28 +495,28 @@ namespace Helodrace
 
         private void TryThrowDust(Vector3 position, float size)
         {
-            if (parent.Map != null && position.ToIntVec3().InBounds(parent.Map))
+            if (parent.Map != null && position.ToGame().ToIntVec3().InBounds(parent.Map))
             {
-                FleckMaker.ThrowDustPuff(position, parent.Map, size);
+                FleckMaker.ThrowDustPuff(position.ToGame(), parent.Map, size);
             }
         }
 
         private void TryThrowSmoke(Vector3 position, float size)
         {
-            if (parent.Map != null && position.ToIntVec3().InBounds(parent.Map))
+            if (parent.Map != null && position.ToGame().ToIntVec3().InBounds(parent.Map))
             {
-                FleckMaker.Static(position, parent.Map, FleckDefOf.Smoke, size);
+                FleckMaker.Static(position.ToGame(), parent.Map, FleckDefOf.Smoke, size);
             }
         }
 
         private void TrySpawnSmokeScreenVisual(Vector3 position)
         {
-            IntVec3 cell = position.ToIntVec3();
+            IntVec3 cell = position.ToGame().ToIntVec3();
             FleckDef fleck = SmokeScreenFleck;
             if (parent.Map != null && cell.InBounds(parent.Map) && fleck != null)
             {
                 FleckMaker.Static(
-                    position,
+                    position.ToGame(),
                     parent.Map,
                     fleck,
                     Rand.Range(0.8f, 1.2f));
@@ -555,9 +555,9 @@ namespace Helodrace
             out Vector3 lever2Offset,
             out Vector3 lever3Offset)
         {
-            lever1Offset = Vector3.zero;
-            lever2Offset = Vector3.zero;
-            lever3Offset = Vector3.zero;
+            lever1Offset = Vector3.Zero;
+            lever2Offset = Vector3.Zero;
+            lever3Offset = Vector3.Zero;
 
             float progress = WarmupAnimationProgress(turret);
             if (progress < 0f || progress >= 0.94f)
@@ -565,7 +565,7 @@ namespace Helodrace
                 return;
             }
 
-            Vector3 localRight = rotation * Vector3.right;
+            Vector3 localRight = Vector3.Transform(Vector3.UnitX, rotation);
             float elevationStroke = DetailedHandwheelStroke(
                 WindowProgress(progress, 0f, 0.60f),
                 lever1Cycles);
@@ -580,10 +580,10 @@ namespace Helodrace
                 WindowProgress(progress, 0.43f, 0.91f),
                 lever3Cycles);
             float angle = 104f * Mathf.Deg2Rad;
-            Vector3 lever3Direction = rotation * new Vector3(
+            Vector3 lever3Direction = Vector3.Transform(new Vector3(
                 Mathf.Cos(angle),
                 0f,
-                -Mathf.Sin(angle));
+                -Mathf.Sin(angle)), rotation);
             lever3Offset = lever3Direction * (Props.lever3Stroke * sightStroke);
         }
 
@@ -593,8 +593,8 @@ namespace Helodrace
             out Vector3 lever1Offset,
             out Vector3 lever2Offset)
         {
-            lever1Offset = Vector3.zero;
-            lever2Offset = Vector3.zero;
+            lever1Offset = Vector3.Zero;
+            lever2Offset = Vector3.Zero;
 
             float progress = WarmupAnimationProgress(turret);
             if (progress < 0f || progress >= 0.94f)
@@ -608,17 +608,17 @@ namespace Helodrace
             float angle = Props.m114Lever1AngleDegrees * Mathf.Deg2Rad;
             // The artwork is end-aligned, not center-anchored. Move the whole
             // handle on the axis 90 degrees from its authored 66-degree angle.
-            Vector3 lever1Direction = rotation * new Vector3(
+            Vector3 lever1Direction = Vector3.Transform(new Vector3(
                 Mathf.Cos(angle),
                 0f,
-                Mathf.Sin(angle));
+                Mathf.Sin(angle)), rotation);
             lever1Offset = lever1Direction * (Props.lever1Stroke * lever1Stroke);
 
             float lever2Stroke = EndpointHarmonicStroke(
                 WindowProgress(progress, 0.16f, 0.74f),
                 lever2Cycles);
             // Lever 2 is horizontal in the artwork, so its travel is vertical.
-            Vector3 lever2Direction = rotation * Vector3.right;
+            Vector3 lever2Direction = Vector3.Transform(Vector3.UnitX, rotation);
             lever2Offset = lever2Direction * (Props.lever2Stroke * lever2Stroke);
         }
 
@@ -628,7 +628,7 @@ namespace Helodrace
                 -Props.chamberDownOffset,
                 0f,
                 Props.chamberLeftOffset);
-            return rotation * staticOffset;
+            return Vector3.Transform(staticOffset, rotation);
         }
 
         private void ConfigureLeverMotion()
@@ -875,12 +875,12 @@ namespace Helodrace
             {
                 Graphics.DrawMesh(
                     MeshPool.plane10,
-                    Matrix4x4.TRS(drawPos, rotation, scale),
+                    SpatialMath.CreateTransform(drawPos, rotation, scale).ToGame(),
                     material,
                     0);
             }
 
-            drawPos.y += LayerStep;
+            drawPos.Y += LayerStep;
         }
 
         private static void DrawMovingLayer(
@@ -892,7 +892,7 @@ namespace Helodrace
         {
             Vector3 movingPos = layerCursor + movementOffset;
             DrawLayer(ref movingPos, rotation, scale, material);
-            layerCursor.y = movingPos.y;
+            layerCursor.Y = movingPos.Y;
         }
 
         private void DrawRecoilLayer(
@@ -904,7 +904,7 @@ namespace Helodrace
         {
             Vector3 movingPos = layerCursor - forward * CurrentRecoil;
             DrawLayer(ref movingPos, rotation, scale, material);
-            layerCursor.y = movingPos.y;
+            layerCursor.Y = movingPos.Y;
         }
 
         private void DrawRotatedOffsetRecoilLayer(
@@ -919,10 +919,10 @@ namespace Helodrace
             Vector3 layerCenter = layerCursor
                 - forward * CurrentRecoil
                 + offset;
-            Quaternion layerRotation = rotation
-                * Quaternion.AngleAxis(additionalAngle, Vector3.up);
+            Quaternion layerRotation = Quaternion.Normalize(rotation
+                * Quaternion.AngleAxis(additionalAngle, Vector3.UnitY));
             DrawLayer(ref layerCenter, layerRotation, scale, material);
-            layerCursor.y = layerCenter.y;
+            layerCursor.Y = layerCenter.Y;
         }
 
         private static Material MaterialFrom(string texPath)
