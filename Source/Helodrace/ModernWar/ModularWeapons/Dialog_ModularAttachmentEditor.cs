@@ -4,6 +4,11 @@ using System.Globalization;
 using System.Text;
 using RimWorld;
 using UnityEngine;
+using Waylith.Math;
+using Rect = Waylith.Math.Rect;
+using Color = Waylith.Math.Color;
+using Vector2 = System.Numerics.Vector2;
+using Vector3 = System.Numerics.Vector3;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -70,17 +75,18 @@ namespace Helodrace.ModernWar
             resizeable = true;
         }
 
-        public override Vector2 InitialSize => new Vector2(1380f, 850f);
+        public override UnityEngine.Vector2 InitialSize => new UnityEngine.Vector2(1380f, 850f);
 
-        public override void DoWindowContents(Rect inRect)
+        public override void DoWindowContents(UnityEngine.Rect gameRect)
         {
+            Rect inRect = gameRect.ToNative();
             HandleUndoInput();
             if (Event.current.type == EventType.MouseUp) activeEditKey = null;
             DrawWorkspaceControls(inRect);
 
             if (root?.parent == null || root.parent.Destroyed)
             {
-                Widgets.Label(new Rect(0f, 112f, inRect.width, 40f), "The edited weapon no longer exists. Switch to another weapon above.");
+                Widgets.Label(new Rect(0f, 112f, inRect.width, 40f).ToGame(), "The edited weapon no longer exists. Switch to another weapon above.");
                 return;
             }
 
@@ -94,7 +100,7 @@ namespace Helodrace.ModernWar
                 inRect.height - header - 46f);
 
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(0f, 0f, inRect.width, 32f),
+            Widgets.Label(new Rect(0f, 0f, inRect.width, 32f).ToGame(),
                 "Modular attachment editor — " + root.parent.LabelCap);
             Text.Font = GameFont.Small;
 
@@ -107,17 +113,17 @@ namespace Helodrace.ModernWar
                 SetSection(EditorSection.Animation, selected);
 
             Rect liveRect = new Rect(inRect.width - 190f, 2f, 188f, 29f);
-            GUI.color = new Color(0.55f, 1f, 0.58f);
-            if (Widgets.ButtonText(liveRect, "LIVE APPLY • refresh now"))
+            GUI.color = new Color(0.55f, 1f, 0.58f).ToGame();
+            if (Widgets.ButtonText(liveRect.ToGame(), "LIVE APPLY • refresh now"))
                 root.InvalidateTree();
-            GUI.color = Color.white;
+            GUI.color = Color.white.ToGame();
 
             DrawTree(treeRect, snapshot);
             DrawPreview(previewRect, snapshot, selected);
             DrawInspector(inspectorRect, selected);
 
             Rect footer = new Rect(0f, inRect.height - 38f, inRect.width, 38f);
-            if (Widgets.ButtonText(new Rect(footer.x, footer.y + 4f, 110f, 30f),
+            if (Widgets.ButtonText(new Rect(footer.x, footer.y + 4f, 110f, 30f).ToGame(),
                 "Copy XML"))
             {
                 string xml = BuildXml(snapshot);
@@ -127,40 +133,42 @@ namespace Helodrace.ModernWar
                     MessageTypeDefOf.PositiveEvent, false);
             }
 
-            if (Widgets.ButtonText(new Rect(footer.x + 118f, footer.y + 4f, 130f, 30f),
+            if (Widgets.ButtonText(new Rect(footer.x + 118f, footer.y + 4f, 130f, 30f).ToGame(),
                 "HD_Placement_CopyBatch".Translate())) CopyBatch();
-            if (Widgets.ButtonText(new Rect(footer.x + 256f, footer.y + 4f, 130f, 30f),
+            if (Widgets.ButtonText(new Rect(footer.x + 256f, footer.y + 4f, 130f, 30f).ToGame(),
                 "HD_Placement_SaveBatch".Translate())) SaveBatch();
 
-            if (Widgets.ButtonText(new Rect(footer.x + 394f, footer.y + 4f, 105f, 30f),
+            if (Widgets.ButtonText(new Rect(footer.x + 394f, footer.y + 4f, 105f, 30f).ToGame(),
                 "Reset view"))
             {
                 zoom = 1f;
-                pan = Vector2.zero;
+                pan = Vector2.Zero;
             }
 
-            if (Widgets.ButtonText(new Rect(footer.x + 507f, footer.y + 4f, 145f, 30f),
+            if (Widgets.ButtonText(new Rect(footer.x + 507f, footer.y + 4f, 145f, 30f).ToGame(),
                 "Undo (Ctrl+Z) " + undoHistory.Count))
                 UndoLastEdit();
 
             Widgets.Label(new Rect(footer.x + 664f, footer.y + 8f,
-                Mathf.Max(1f, footer.width - 796f), 26f), "HD_Placement_MultiHint".Translate());
+                Mathf.Max(1f, footer.width - 796f), 26f).ToGame(), "HD_Placement_MultiHint".Translate());
 
-            if (Widgets.ButtonText(new Rect(footer.xMax - 120f, footer.y + 4f, 120f, 30f),
+            if (Widgets.ButtonText(new Rect(footer.xMax - 120f, footer.y + 4f, 120f, 30f).ToGame(),
                 "CloseButton".Translate()))
                 Close();
         }
 
         private void DrawTree(Rect rect, List<ModularRenderNode> snapshot)
         {
-            Widgets.DrawMenuSection(rect);
-            Widgets.Label(new Rect(rect.x + 8f, rect.y + 6f, rect.width - 16f, 24f),
+            Widgets.DrawMenuSection(rect.ToGame());
+            Widgets.Label(new Rect(rect.x + 8f, rect.y + 6f, rect.width - 16f, 24f).ToGame(),
                 "Assembly tree");
 
             Rect outRect = new Rect(rect.x + 4f, rect.y + 34f, rect.width - 8f, rect.height - 38f);
             Rect viewRect = new Rect(0f, 0f, outRect.width - 18f,
                 Mathf.Max(outRect.height, snapshot.Count * 30f + 8f));
-            Widgets.BeginScrollView(outRect, ref treeScroll, viewRect);
+            UnityEngine.Vector2 gameScroll = treeScroll.ToGame();
+            Widgets.BeginScrollView(outRect.ToGame(), ref gameScroll, viewRect.ToGame());
+            treeScroll = gameScroll.ToNative();
 
             List<ModularRenderNode> treeOrder = new List<ModularRenderNode>(snapshot);
             treeOrder.Sort((a, b) => string.CompareOrdinal(a.path, b.path));
@@ -170,13 +178,13 @@ namespace Helodrace.ModernWar
                 ModularRenderNode node = treeOrder[i];
                 Rect row = new Rect(4f + node.depth * 15f, y,
                     viewRect.width - 8f - node.depth * 15f, 25f);
-                if (node.path == selectedPath || selectedPaths.Contains(node.path)) Widgets.DrawHighlightSelected(row);
-                if (Widgets.ButtonInvisible(row))
+                if (node.path == selectedPath || selectedPaths.Contains(node.path)) Widgets.DrawHighlightSelected(row.ToGame());
+                if (Widgets.ButtonInvisible(row.ToGame()))
                 {
                     SelectNode(node, Event.current.control || Event.current.command);
                 }
 
-                Widgets.Label(row.ContractedBy(4f, 2f),
+                Widgets.Label(new Rect(row.x+4f,row.y+2f,row.width-8f,row.height-4f).ToGame(),
                     (node.depth == 0 ? "◆ " : "└ ") + node.thing.LabelCap);
                 y += 30f;
             }
@@ -189,16 +197,14 @@ namespace Helodrace.ModernWar
             List<ModularRenderNode> snapshot,
             ModularRenderNode selected)
         {
-            Widgets.DrawBoxSolidWithOutline(rect,
-                new Color(0.055f, 0.06f, 0.07f, 1f),
-                new Color(0.35f, 0.38f, 0.42f), 2);
+            Widgets.DrawBoxSolidWithOutline(rect.ToGame(),new Color(0.055f, 0.06f, 0.07f, 1f).ToGame(),new Color(0.35f, 0.38f, 0.42f).ToGame(), 2);
 
-            Rect inner = rect.ContractedBy(14f);
+            Rect inner = UiMath.Inset(rect, 14f);
             HandlePreviewNavigation(inner);
             Vector2 origin = inner.center + pan;
             Graphic rootGraphic = root.parent.Graphic;
-            Vector2 rootSize = rootGraphic?.drawSize ?? Vector2.one;
-            float cells = Mathf.Max(rootSize.x, rootSize.y, 0.01f);
+            Vector2 rootSize = rootGraphic?.drawSize.ToNative() ?? Vector2.One;
+            float cells = Mathf.Max(rootSize.X, rootSize.Y, 0.01f);
             float pixelsPerCell = Mathf.Min(inner.width, inner.height) * 0.86f * zoom / cells;
 
             var visualSnapshot = ModularWeaponVisualLayers.Expand(snapshot);
@@ -216,16 +222,15 @@ namespace Helodrace.ModernWar
                 if (graphic == null || outline == null) continue;
 
                 ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(
-                    root, node, false, out System.Numerics.Vector2 posedCenter, out float posedAngle);
+                    root, node, false, out Vector2 posedCenter, out float posedAngle);
                 Vector2 center = WorldToGui(posedCenter, origin, pixelsPerCell);
                 var graphicScale = node.GraphicScale;
-                Vector2 size = Vector2.Scale(graphic.drawSize,
-                    new Vector2(Mathf.Abs(graphicScale.X),
-                        Mathf.Abs(graphicScale.Y))) * pixelsPerCell;
+                Vector2 size = graphic.drawSize.ToNative() *
+                    new Vector2(Mathf.Abs(graphicScale.X), Mathf.Abs(graphicScale.Y)) * pixelsPerCell;
                 Rect drawRect = CenteredRect(center, size);
                 Matrix4x4 matrix = GUI.matrix;
                 if (!Mathf.Approximately(posedAngle, 0f))
-                    UI.RotateAroundPivot(-posedAngle, drawRect.center);
+                    UI.RotateAroundPivot(-posedAngle, drawRect.center.ToGame());
                 DrawTexture(drawRect, outline, node.GraphicVerticallyFlipped);
                 GUI.matrix = matrix;
             }
@@ -239,23 +244,22 @@ namespace Helodrace.ModernWar
                 if (texture == null) continue;
 
                 ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(
-                    root, node, false, out System.Numerics.Vector2 posedCenter, out float posedAngle);
+                    root, node, false, out Vector2 posedCenter, out float posedAngle);
                 Vector2 center = WorldToGui(posedCenter, origin, pixelsPerCell);
                 var graphicScale = node.GraphicScale;
-                Vector2 size = Vector2.Scale(graphic.drawSize,
-                    new Vector2(Mathf.Abs(graphicScale.X),
-                        Mathf.Abs(graphicScale.Y))) * pixelsPerCell;
+                Vector2 size = graphic.drawSize.ToNative() *
+                    new Vector2(Mathf.Abs(graphicScale.X), Mathf.Abs(graphicScale.Y)) * pixelsPerCell;
                 Rect drawRect = CenteredRect(center, size);
-                Color old = GUI.color;
-                GUI.color = (node.path == selectedPath || selectedPaths.Contains(node.path))
-                    ? graphic.Color
-                    : new Color(graphic.Color.r, graphic.Color.g, graphic.Color.b, 0.72f);
+                Color old = GUI.color.ToNative();
+                GUI.color = ((node.path == selectedPath || selectedPaths.Contains(node.path))
+                    ? graphic.Color.ToNative()
+                    : new Color(graphic.Color.r, graphic.Color.g, graphic.Color.b, 0.72f)).ToGame();
                 Matrix4x4 matrix = GUI.matrix;
                 if (!Mathf.Approximately(posedAngle, 0f))
-                    UI.RotateAroundPivot(-posedAngle, drawRect.center);
+                    UI.RotateAroundPivot(-posedAngle, drawRect.center.ToGame());
                 DrawTexture(drawRect, texture, node.GraphicVerticallyFlipped);
                 GUI.matrix = matrix;
-                GUI.color = old;
+                GUI.color = old.ToGame();
             }
 
             if (target == EditTarget.Sight)
@@ -268,7 +272,7 @@ namespace Helodrace.ModernWar
             }
 
             Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(inner.x + 4f, inner.y + 4f, inner.width - 8f, 22f),
+            Widgets.Label(new Rect(inner.x + 4f, inner.y + 4f, inner.width - 8f, 22f).ToGame(),
                 "Wheel: zoom   Middle drag: pan   Left drag: move   Shift: temporary axis lock   "
                 + AxisLabel() + "   "
                 + zoom.ToString("0.00", CultureInfo.InvariantCulture) + "x");
@@ -284,30 +288,29 @@ namespace Helodrace.ModernWar
             for (int i = 0; i < groups.Count; i++)
             {
                 ModularSightGroupStatus group = groups[i];
-                float lineY = WorldToGui(
+                float lineY = WorldToGuiAxes(
                     new Vector2(0f, group.axisHeight),
                     origin,
-                    pixelsPerCell).y;
+                    pixelsPerCell).Y;
                 Color color = group.isActive
                     ? new Color(0.25f, 1f, 0.35f, 0.85f)
                     : group.belowWeaponSightCount == group.sightCount
                         ? new Color(1f, 0.3f, 0.25f, 0.8f)
                         : new Color(0.55f, 0.55f, 0.65f, 0.65f);
-                Widgets.DrawLine(
-                    new Vector2(rect.x, lineY),
-                    new Vector2(rect.xMax, lineY),
-                    color,
+                Widgets.DrawLine((
+                    new Vector2(rect.x, lineY)).ToGame(),(
+                    new Vector2(rect.xMax, lineY)).ToGame(),color.ToGame(),
                     group.isActive ? 2f : 1f);
                 Text.Font = GameFont.Tiny;
-                GUI.color = color;
-                Widgets.Label(new Rect(rect.x + 4f, lineY - 18f, 260f, 18f),
+                GUI.color = color.ToGame();
+                Widgets.Label(new Rect(rect.x + 4f, lineY - 18f, 260f, 18f).ToGame(),
                     "Group " + (i + 1) + (group.isActive ? " ACTIVE" : string.Empty)
                     + (group.belowWeaponSightCount == group.sightCount
                         ? " DISABLED" : string.Empty)
                     + "  H " + group.axisHeight.ToString("0.###",
                         CultureInfo.InvariantCulture)
                     + "  " + group.efficiency.ToString("P0"));
-                GUI.color = Color.white;
+                GUI.color = Color.white.ToGame();
                 Text.Font = GameFont.Small;
             }
         }
@@ -322,9 +325,8 @@ namespace Helodrace.ModernWar
                     node.occupiedRailStart, origin, pixelsPerCell);
                 Vector2 occupiedEnd = WorldToGui(
                     node.occupiedRailEnd, origin, pixelsPerCell);
-                Widgets.DrawLine(railStart, railEnd,
-                    new Color(0.15f, 0.65f, 1f), 4f);
-                Widgets.DrawLine(occupiedStart, occupiedEnd, Color.yellow, 7f);
+                Widgets.DrawLine((railStart).ToGame(),( railEnd).ToGame(),new Color(0.15f, 0.65f, 1f).ToGame(), 4f);
+                Widgets.DrawLine((occupiedStart).ToGame(),( occupiedEnd).ToGame(),Color.yellow.ToGame(), 7f);
                 DrawCross(occupiedStart, Color.yellow, 4f);
                 DrawCross(occupiedEnd, Color.yellow, 4f);
             }
@@ -338,8 +340,8 @@ namespace Helodrace.ModernWar
             ModularWeaponFlashlightProperties flashlight = node.Props.flashlight;
             if (section == EditorSection.Placement && flashlight != null)
             {
-                Vector3 emitterLocal = node.Props.graphicOffset + flashlight.emitterOffset;
-                var emitterWorld = node.transform.TransformPoint(emitterLocal.ToNative());
+                Vector3 emitterLocal = node.Props.graphicOffset.ToNative() + flashlight.emitterOffset.ToNative();
+                var emitterWorld = node.transform.TransformPoint(emitterLocal);
                 Vector2 emitter = WorldToGui(emitterWorld, origin, pixelsPerCell);
                 Color lightColor = target == EditTarget.Flashlight
                     ? Color.yellow
@@ -351,31 +353,31 @@ namespace Helodrace.ModernWar
                     + new Vector3(previewLength, 0f, flashlight.farWidth * 0.5f);
                 Vector3 farBottomLocal = emitterLocal
                     + new Vector3(previewLength, 0f, -flashlight.farWidth * 0.5f);
-                Vector2 farTop = WorldToGui(node.transform.TransformPoint(farTopLocal.ToNative()),
+                Vector2 farTop = WorldToGui(node.transform.TransformPoint(farTopLocal),
                     origin, pixelsPerCell);
-                Vector2 farBottom = WorldToGui(node.transform.TransformPoint(farBottomLocal.ToNative()),
+                Vector2 farBottom = WorldToGui(node.transform.TransformPoint(farBottomLocal),
                     origin, pixelsPerCell);
-                Widgets.DrawLine(emitter, farTop, lightColor, 2f);
-                Widgets.DrawLine(emitter, farBottom, lightColor, 2f);
-                Widgets.DrawLine(farTop, farBottom, lightColor, 2f);
+                Widgets.DrawLine((emitter).ToGame(),( farTop).ToGame(),( lightColor).ToGame(), 2f);
+                Widgets.DrawLine((emitter).ToGame(),( farBottom).ToGame(),( lightColor).ToGame(), 2f);
+                Widgets.DrawLine((farTop).ToGame(),( farBottom).ToGame(),( lightColor).ToGame(), 2f);
             }
 
             ModularWeaponLaserProperties laser = node.Props.laser;
             if (section == EditorSection.Placement && laser != null)
             {
-                Vector3 emitterLocal = node.Props.graphicOffset + laser.emitterOffset;
-                var emitterWorld = node.transform.TransformPoint(emitterLocal.ToNative());
+                Vector3 emitterLocal = node.Props.graphicOffset.ToNative() + laser.emitterOffset.ToNative();
+                var emitterWorld = node.transform.TransformPoint(emitterLocal);
                 Vector2 emitter = WorldToGui(emitterWorld, origin, pixelsPerCell);
                 Color laserColor = target == EditTarget.Laser
                     ? Color.yellow
-                    : laser.color;
+                    : laser.color.ToNative();
                 DrawCross(emitter, laserColor, 7f);
                 Vector2 endpoint = WorldToGui(
-                    node.transform.TransformPoint((emitterLocal
-                        + new Vector3(Mathf.Min(1.4f, laser.maxLength), 0f, 0f)).ToNative()),
+                    node.transform.TransformPoint(emitterLocal
+                        + new Vector3(Mathf.Min(1.4f, laser.maxLength), 0f, 0f)),
                     origin,
                     pixelsPerCell);
-                Widgets.DrawLine(emitter, endpoint, laserColor,
+                Widgets.DrawLine((emitter).ToGame(),( endpoint).ToGame(),( laserColor).ToGame(),
                     Mathf.Max(1f, laser.beamWidth * pixelsPerCell));
             }
 
@@ -383,18 +385,18 @@ namespace Helodrace.ModernWar
                 && node.Props.verticalOccupancy > 0f)
             {
                 float half = node.Props.verticalOccupancy * 0.5f;
-                Vector3 lowLocal = node.Props.graphicOffset + new Vector3(
+                Vector3 lowLocal = node.Props.graphicOffset.ToNative() + new Vector3(
                     0f, 0f, node.Props.verticalOccupancyOffset - half);
-                Vector3 highLocal = node.Props.graphicOffset + new Vector3(
+                Vector3 highLocal = node.Props.graphicOffset.ToNative() + new Vector3(
                     0f, 0f, node.Props.verticalOccupancyOffset + half);
-                Vector2 low = WorldToGui(node.transform.TransformPoint(lowLocal.ToNative()),
+                Vector2 low = WorldToGui(node.transform.TransformPoint(lowLocal),
                     origin, pixelsPerCell);
-                Vector2 high = WorldToGui(node.transform.TransformPoint(highLocal.ToNative()),
+                Vector2 high = WorldToGui(node.transform.TransformPoint(highLocal),
                     origin, pixelsPerCell);
                 Color occupancyColor = target == EditTarget.Sight
                     ? new Color(0.2f, 1f, 0.75f)
                     : new Color(0.2f, 0.75f, 0.6f, 0.8f);
-                Widgets.DrawLine(low, high, occupancyColor, 5f);
+                Widgets.DrawLine((low).ToGame(),( high).ToGame(),( occupancyColor).ToGame(), 5f);
                 DrawCross(low, occupancyColor, 4f);
                 DrawCross(high, occupancyColor, 4f);
             }
@@ -402,78 +404,78 @@ namespace Helodrace.ModernWar
             ModularWeaponSightProperties sight = node.Props.sight;
             if (section == EditorSection.Placement && sight != null)
             {
-                Vector3 axisLocal = node.Props.graphicOffset + sight.axisOffset;
-                Vector2 axis = WorldToGui(node.transform.TransformPoint(axisLocal.ToNative()),
+                Vector3 axisLocal = node.Props.graphicOffset.ToNative() + sight.axisOffset.ToNative();
+                Vector2 axis = WorldToGui(node.transform.TransformPoint(axisLocal),
                     origin, pixelsPerCell);
                 Vector3 lowLocal = axisLocal
                     + new Vector3(0f, 0f, -sight.sightClearanceRadius);
                 Vector3 highLocal = axisLocal
                     + new Vector3(0f, 0f, sight.sightClearanceRadius);
-                Vector2 low = WorldToGui(node.transform.TransformPoint(lowLocal.ToNative()),
+                Vector2 low = WorldToGui(node.transform.TransformPoint(lowLocal),
                     origin, pixelsPerCell);
-                Vector2 high = WorldToGui(node.transform.TransformPoint(highLocal.ToNative()),
+                Vector2 high = WorldToGui(node.transform.TransformPoint(highLocal),
                     origin, pixelsPerCell);
                 Color sightColor = target == EditTarget.Sight
                     ? Color.yellow
                     : new Color(0.95f, 0.35f, 1f);
-                Widgets.DrawLine(low, high, sightColor, 3f);
-                Widgets.DrawLine(axis, axis + new Vector2(80f, 0f), sightColor, 2f);
+                Widgets.DrawLine((low).ToGame(),( high).ToGame(),( sightColor).ToGame(), 3f);
+                Widgets.DrawLine((axis).ToGame(),( axis + new Vector2(80f, 0f)).ToGame(),( sightColor).ToGame(), 2f);
                 DrawCross(axis, sightColor, 7f);
             }
 
             if (section == EditorSection.Animation
                 && node.Props.animatedPart != ModularWeaponAnimatedPartKind.None)
             {
-                Vector3 motionStartLocal = node.Props.graphicOffset;
-                Vector3 motionEndLocal = node.Props.graphicOffset
-                    + node.Props.animationTravel;
-                Vector3 pivotLocal = node.Props.graphicOffset
-                    + node.Props.animationPivot;
+                Vector3 motionStartLocal = node.Props.graphicOffset.ToNative();
+                Vector3 motionEndLocal = node.Props.graphicOffset.ToNative()
+                    + node.Props.animationTravel.ToNative();
+                Vector3 pivotLocal = node.Props.graphicOffset.ToNative()
+                    + node.Props.animationPivot.ToNative();
                 Vector2 motionStart = WorldToGui(
-                    node.transform.TransformPoint(motionStartLocal.ToNative()),
+                    node.transform.TransformPoint(motionStartLocal),
                     origin,
                     pixelsPerCell);
                 Vector2 motionEnd = WorldToGui(
-                    node.transform.TransformPoint(motionEndLocal.ToNative()),
+                    node.transform.TransformPoint(motionEndLocal),
                     origin,
                     pixelsPerCell);
                 Vector2 pivot = WorldToGui(
-                    node.transform.TransformPoint(pivotLocal.ToNative()),
+                    node.transform.TransformPoint(pivotLocal),
                     origin,
                     pixelsPerCell);
                 Color motionColor = target == EditTarget.AnimationPart
                     ? Color.yellow
                     : new Color(1f, 0.65f, 0.15f);
-                Widgets.DrawLine(motionStart, motionEnd, motionColor, 5f);
+                Widgets.DrawLine((motionStart).ToGame(),( motionEnd).ToGame(),( motionColor).ToGame(), 5f);
                 DrawCross(motionStart, new Color(0.95f, 0.5f, 0.1f), 5f);
                 DrawCross(motionEnd, motionColor, 8f);
                 DrawCross(pivot, new Color(0.75f, 0.35f, 1f), 5f);
                 Text.Font = GameFont.Tiny;
-                GUI.color = motionColor;
-                Widgets.Label(new Rect(motionEnd.x + 7f, motionEnd.y - 18f,
-                    100f, 18f), "motion end");
-                GUI.color = Color.white;
+                GUI.color = (motionColor).ToGame();
+                Widgets.Label(new Rect(motionEnd.X + 7f, motionEnd.Y - 18f,
+                    100f, 18f).ToGame(), "motion end");
+                GUI.color = Color.white.ToGame();
                 Text.Font = GameFont.Small;
             }
 
             ModularWeaponCasingPortProperties casingPort = node.Props.casingPort;
             if (section == EditorSection.Animation && casingPort != null)
             {
-                Vector3 casingLocal = node.Props.graphicOffset + casingPort.offset;
+                Vector3 casingLocal = node.Props.graphicOffset.ToNative() + casingPort.offset.ToNative();
                 Vector2 casing = WorldToGui(
-                    node.transform.TransformPoint(casingLocal.ToNative()),
+                    node.transform.TransformPoint(casingLocal),
                     origin,
                     pixelsPerCell);
-                Vector3 startLocal = node.Props.graphicOffset
-                    + casingPort.feedStartOffset;
-                Vector3 endLocal = node.Props.graphicOffset
-                    + casingPort.feedEndOffset;
+                Vector3 startLocal = node.Props.graphicOffset.ToNative()
+                    + casingPort.feedStartOffset.ToNative();
+                Vector3 endLocal = node.Props.graphicOffset.ToNative()
+                    + casingPort.feedEndOffset.ToNative();
                 Vector2 start = WorldToGui(
-                    node.transform.TransformPoint(startLocal.ToNative()),
+                    node.transform.TransformPoint(startLocal),
                     origin,
                     pixelsPerCell);
                 Vector2 end = WorldToGui(
-                    node.transform.TransformPoint(endLocal.ToNative()),
+                    node.transform.TransformPoint(endLocal),
                     origin,
                     pixelsPerCell);
                 Color startColor = target == EditTarget.FeedStart
@@ -485,21 +487,21 @@ namespace Helodrace.ModernWar
                 Color casingColor = target == EditTarget.CasingPort
                     ? Color.yellow
                     : new Color(0.35f, 0.75f, 1f);
-                Widgets.DrawLine(start, end, new Color(0.75f, 0.8f, 1f), 3f);
+                Widgets.DrawLine((start).ToGame(),( end).ToGame(),new Color(0.75f, 0.8f, 1f).ToGame(), 3f);
                 DrawCross(casing, casingColor, 8f);
                 DrawCross(start, startColor, 7f);
                 DrawCross(end, endColor, 7f);
                 Text.Font = GameFont.Tiny;
-                GUI.color = startColor;
-                Widgets.Label(new Rect(start.x + 7f, start.y - 18f, 90f, 18f),
+                GUI.color = (startColor).ToGame();
+                Widgets.Label(new Rect(start.X + 7f, start.Y - 18f, 90f, 18f).ToGame(),
                     "feed start");
-                GUI.color = endColor;
-                Widgets.Label(new Rect(end.x + 7f, end.y - 18f, 90f, 18f),
+                GUI.color = (endColor).ToGame();
+                Widgets.Label(new Rect(end.X + 7f, end.Y - 18f, 90f, 18f).ToGame(),
                     "feed end");
-                GUI.color = casingColor;
-                Widgets.Label(new Rect(casing.x + 7f, casing.y - 18f, 100f, 18f),
+                GUI.color = (casingColor).ToGame();
+                Widgets.Label(new Rect(casing.X + 7f, casing.Y - 18f, 100f, 18f).ToGame(),
                     "casing port");
-                GUI.color = Color.white;
+                GUI.color = Color.white.ToGame();
                 Text.Font = GameFont.Small;
             }
 
@@ -513,37 +515,36 @@ namespace Helodrace.ModernWar
                     ? Color.yellow : new Color(1f, 0.45f, 0.08f);
                 if (mount.EffectivePhysicalLength > 0f)
                 {
-                    Vector3 leftLocal = mount.transform.position
+                    Vector3 leftLocal = mount.transform.position.ToNative()
                         + new Vector3(mount.physicalCenterOffset, 0f, 0f);
                     Vector3 rightLocal = leftLocal;
-                    leftLocal.x -= mount.EffectivePhysicalLength * 0.5f;
-                    rightLocal.x += mount.EffectivePhysicalLength * 0.5f;
-                    Vector2 left = WorldToGui(node.transform.TransformPoint(leftLocal.ToNative()),
+                    leftLocal.X -= mount.EffectivePhysicalLength * 0.5f;
+                    rightLocal.X += mount.EffectivePhysicalLength * 0.5f;
+                    Vector2 left = WorldToGui(node.transform.TransformPoint(leftLocal),
                         origin, pixelsPerCell);
-                    Vector2 right = WorldToGui(node.transform.TransformPoint(rightLocal.ToNative()),
+                    Vector2 right = WorldToGui(node.transform.TransformPoint(rightLocal),
                         origin, pixelsPerCell);
-                    Widgets.DrawLine(left, right, color,
+                    Widgets.DrawLine((left).ToGame(),( right).ToGame(),color.ToGame(),
                         target == EditTarget.Mount && i == selectedMountIndex ? 7f : 3f);
                     DrawCross(left, color, 3f);
                     DrawCross(right, color, 3f);
                 }
                 if (mount.EffectiveRailContactLength > 0f)
                 {
-                    Vector3 leftLocal = mount.transform.position;
+                    Vector3 leftLocal = mount.transform.position.ToNative();
                     Vector3 rightLocal = leftLocal;
-                    leftLocal.x -= mount.EffectiveRailContactLength * 0.5f;
-                    rightLocal.x += mount.EffectiveRailContactLength * 0.5f;
-                    Widgets.DrawLine(
-                        WorldToGui(node.transform.TransformPoint(leftLocal.ToNative()),
-                            origin, pixelsPerCell),
-                        WorldToGui(node.transform.TransformPoint(rightLocal.ToNative()),
-                            origin, pixelsPerCell),
-                        new Color(0.25f, 0.9f, 0.55f), 2f);
+                    leftLocal.X -= mount.EffectiveRailContactLength * 0.5f;
+                    rightLocal.X += mount.EffectiveRailContactLength * 0.5f;
+                    Widgets.DrawLine((
+                        WorldToGui(node.transform.TransformPoint(leftLocal),
+                            origin, pixelsPerCell)).ToGame(),(
+                        WorldToGui(node.transform.TransformPoint(rightLocal),
+                            origin, pixelsPerCell)).ToGame(),new Color(0.25f, 0.9f, 0.55f).ToGame(), 2f);
                 }
-                Widgets.DrawBox(new Rect(point.x - 5f, point.y - 5f, 10f, 10f), 2, null);
-                GUI.color = color;
-                Widgets.DrawBox(new Rect(point.x - 4f, point.y - 4f, 8f, 8f), 2, null);
-                GUI.color = Color.white;
+                Widgets.DrawBox(new Rect(point.X - 5f, point.Y - 5f, 10f, 10f).ToGame(), 2, null);
+                GUI.color = color.ToGame();
+                Widgets.DrawBox(new Rect(point.X - 4f, point.Y - 4f, 8f, 8f).ToGame(), 2, null);
+                GUI.color = Color.white.ToGame();
             }
 
             for (int i = 0; section == EditorSection.Placement
@@ -556,38 +557,38 @@ namespace Helodrace.ModernWar
                     ? Color.yellow : new Color(0.15f, 0.65f, 1f);
                 if (socket.isRail && socket.railLength > 0f)
                 {
-                    Vector3 leftLocal = socket.transform.position;
-                    Vector3 rightLocal = socket.transform.position;
-                    leftLocal.x -= socket.railLength * 0.5f;
-                    rightLocal.x += socket.railLength * 0.5f;
-                    Vector2 left = WorldToGui(node.transform.TransformPoint(leftLocal.ToNative()),
+                    Vector3 leftLocal = socket.transform.position.ToNative();
+                    Vector3 rightLocal = socket.transform.position.ToNative();
+                    leftLocal.X -= socket.railLength * 0.5f;
+                    rightLocal.X += socket.railLength * 0.5f;
+                    Vector2 left = WorldToGui(node.transform.TransformPoint(leftLocal),
                         origin, pixelsPerCell);
-                    Vector2 right = WorldToGui(node.transform.TransformPoint(rightLocal.ToNative()),
+                    Vector2 right = WorldToGui(node.transform.TransformPoint(rightLocal),
                         origin, pixelsPerCell);
-                    Widgets.DrawLine(left, right, color, 3f);
+                    Widgets.DrawLine((left).ToGame(),( right).ToGame(),color.ToGame(), 3f);
                 }
                 DrawCross(point, color, 5f);
                 Text.Font = GameFont.Tiny;
-                GUI.color = color;
-                Widgets.Label(new Rect(point.x + 6f, point.y - 9f, 130f, 18f), socket.id);
-                GUI.color = Color.white;
+                GUI.color = color.ToGame();
+                Widgets.Label(new Rect(point.X + 6f, point.Y - 9f, 130f, 18f).ToGame(), socket.id);
+                GUI.color = Color.white.ToGame();
                 Text.Font = GameFont.Small;
             }
         }
 
         private void DrawInspector(Rect rect, ModularRenderNode node)
         {
-            Widgets.DrawMenuSection(rect);
-            Rect inner = rect.ContractedBy(10f);
+            Widgets.DrawMenuSection(rect.ToGame());
+            Rect inner = UiMath.Inset(rect, 10f);
             if (node == null)
             {
-                Widgets.Label(inner, "Select a node.");
+                Widgets.Label(inner.ToGame(), "Select a node.");
                 return;
             }
 
             float y = inner.y;
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(inner.x, y, inner.width, 28f), node.thing.LabelCap);
+            Widgets.Label(new Rect(inner.x, y, inner.width, 28f).ToGame(), node.thing.LabelCap);
             Text.Font = GameFont.Small;
             y += 34f;
 
@@ -628,7 +629,7 @@ namespace Helodrace.ModernWar
             }
             y += 38f;
 
-            Widgets.Label(new Rect(inner.x, y + 3f, 58f, 24f), "Move");
+            Widgets.Label(new Rect(inner.x, y + 3f, 58f, 24f).ToGame(), "Move");
             float axisWidth = (inner.width - 64f - 12f) / 3f;
             if (ModeButton(new Rect(inner.x + 64f, y, axisWidth, 28f), "Free",
                 movementConstraint == MovementConstraint.Free))
@@ -645,7 +646,7 @@ namespace Helodrace.ModernWar
             if (inspectorScrollContext != scrollContext)
             {
                 inspectorScrollContext = scrollContext;
-                inspectorScroll = Vector2.zero;
+                inspectorScroll = Vector2.Zero;
                 inspectorContentHeight = 1000f;
             }
             Rect propertyViewport = new Rect(inner.x, y, inner.width,
@@ -653,8 +654,9 @@ namespace Helodrace.ModernWar
             Rect propertyContent = new Rect(0f, 0f,
                 Mathf.Max(1f, propertyViewport.width - 18f),
                 Mathf.Max(propertyViewport.height, inspectorContentHeight));
-            Widgets.BeginScrollView(propertyViewport, ref inspectorScroll,
-                propertyContent);
+            UnityEngine.Vector2 gameInspectorScroll = inspectorScroll.ToGame();
+            Widgets.BeginScrollView(propertyViewport.ToGame(), ref gameInspectorScroll, propertyContent.ToGame());
+            inspectorScroll = gameInspectorScroll.ToNative();
             inner = propertyContent;
             y = 0f;
 
@@ -669,7 +671,7 @@ namespace Helodrace.ModernWar
                 selectedSocketIndex = Mathf.Clamp(
                     selectedSocketIndex, 0, node.Props.sockets.Count - 1);
                 ModularAttachmentSocket socket = node.Props.sockets[selectedSocketIndex];
-                Widgets.Label(new Rect(inner.x, y, 92f, 24f), "Socket types");
+                Widgets.Label(new Rect(inner.x, y, 92f, 24f).ToGame(), "Socket types");
                 string key = node.path + ":socketTypes:" + selectedSocketIndex;
                 string value;
                 if (!textBuffers.TryGetValue(key, out value))
@@ -677,7 +679,7 @@ namespace Helodrace.ModernWar
                         ? string.Empty
                         : string.Join(", ", socket.tags.ToArray());
                 string edited = Widgets.TextField(
-                    new Rect(inner.x + 96f, y, inner.width - 96f, 24f), value);
+                    new Rect(inner.x + 96f, y, inner.width - 96f, 24f).ToGame(), value);
                 textBuffers[key] = edited;
                 if (edited != value)
                 {
@@ -685,12 +687,12 @@ namespace Helodrace.ModernWar
                     socket.tags = ParseTags(edited);
                     root.InvalidateTree();
                 }
-                TooltipHandler.TipRegion(new Rect(inner.x + 96f, y, inner.width - 96f, 24f),
+                TooltipHandler.TipRegion(new Rect(inner.x + 96f, y, inner.width - 96f, 24f).ToGame(),
                     "Comma-separated compatibility types, for example: picatinny, top_rail");
                 y += 32f;
 
                 bool rail = socket.isRail;
-                Widgets.CheckboxLabeled(new Rect(inner.x, y, inner.width, 24f),
+                Widgets.CheckboxLabeled(new Rect(inner.x, y, inner.width, 24f).ToGame(),
                     "Continuous horizontal rail", ref rail);
                 if (rail != socket.isRail)
                 {
@@ -732,7 +734,7 @@ namespace Helodrace.ModernWar
                     mount.railContactLength = contact;
                     root.InvalidateTree();
                 }
-                TooltipHandler.TipRegion(new Rect(inner.x, y - 28f, inner.width, 24f),
+                TooltipHandler.TipRegion(new Rect(inner.x, y - 28f, inner.width, 24f).ToGame(),
                     "Only this contact length must fit on the rail. "
                     + "The green segment marks the rail contact.");
                 float bodyLength = SliderRow(inner, ref y, "Body length",
@@ -757,22 +759,22 @@ namespace Helodrace.ModernWar
                         || mount.railSurface == ModularRailSurface.Bottom)
                     {
                         float oppositeX = SliderRow(inner, ref y, "Opposite X",
-                            mount.oppositeSurfaceOffset.x, -1.5f, 1.5f);
+                            mount.oppositeSurfaceOffset.ToNative().X, -1.5f, 1.5f);
                         float oppositeZ = SliderRow(inner, ref y, "Opposite Z",
-                            mount.oppositeSurfaceOffset.z, -1.5f, 1.5f);
+                            mount.oppositeSurfaceOffset.ToNative().Z, -1.5f, 1.5f);
                         if (!Mathf.Approximately(oppositeX,
-                                mount.oppositeSurfaceOffset.x)
+                                mount.oppositeSurfaceOffset.ToNative().X)
                             || !Mathf.Approximately(oppositeZ,
-                                mount.oppositeSurfaceOffset.z))
+                                mount.oppositeSurfaceOffset.ToNative().Z))
                         {
                             EnsureUndoCheckpoint(CurrentEditKey(node)
                                 + ":oppositeSurfaceOffset");
                             mount.oppositeSurfaceOffset = new Vector3(
-                                oppositeX, 0f, oppositeZ);
+                                oppositeX, 0f, oppositeZ).ToGame();
                             root.InvalidateTree();
                         }
                         TooltipHandler.TipRegion(new Rect(inner.x, y - 56f,
-                            inner.width, 52f),
+                            inner.width, 52f).ToGame(),
                             "Extra local offset used only when a top/bottom part is "
                             + "mounted on the opposite surface. Vertical texture and "
                             + "child transforms are flipped automatically.");
@@ -807,58 +809,59 @@ namespace Helodrace.ModernWar
             }
             else
             {
-            ModularAttachmentTransform transform = target == EditTarget.Graphic
-                ? new ModularAttachmentTransform
-                {
-                    position = node.Props.graphicOffset,
-                    angle = node.Props.graphicAngle,
-                    scale = node.Props.graphicScale,
-                    layer = node.Props.graphicLayer
-                }
-                : ActiveTransform(node);
+            ModularAttachmentTransform authored = target == EditTarget.Graphic ? null : ActiveTransform(node);
+            ModularAttachmentPose? transform = target == EditTarget.Graphic
+                ? new ModularAttachmentPose(node.Props.graphicOffset.ToNative(), node.Props.graphicAngle,
+                    node.Props.graphicScale.ToNative(), node.Props.graphicLayer)
+                : authored?.ToNativePose();
             if (transform == null)
             {
-                Widgets.Label(new Rect(inner.x, y, inner.width, 25f),
+                Widgets.Label(new Rect(inner.x, y, inner.width, 25f).ToGame(),
                     target == EditTarget.Mount ? "This node has no mount." : "This node has no socket.");
                 y += 32f;
             }
             else
             {
                 bool changed = false;
-                float x = SliderRow(inner, ref y, "X", transform.position.x, -1.5f, 1.5f);
-                float z = SliderRow(inner, ref y, "Z", transform.position.z, -1.5f, 1.5f);
+                float x = SliderRow(inner, ref y, "X", transform.Value.position.X, -1.5f, 1.5f);
+                float z = SliderRow(inner, ref y, "Z", transform.Value.position.Z, -1.5f, 1.5f);
                 string angleLabel = target == EditTarget.Graphic
                     ? "Assembly angle"
                     : "Angle";
-                float angle = SliderRow(inner, ref y, angleLabel, transform.angle, -180f, 180f);
+                float angle = SliderRow(inner, ref y, angleLabel, transform.Value.angle, -180f, 180f);
                 ModularAttachmentSocket activeSocket = target == EditTarget.Socket
                     && !node.Props.sockets.NullOrEmpty()
                     ? node.Props.sockets[selectedSocketIndex]
                     : null;
                 if (activeSocket?.isRail == true) angle = 0f;
-                float scaleX = SliderRow(inner, ref y, "Scale X", transform.scale.x, 0.1f, 3f);
-                float scaleY = SliderRow(inner, ref y, "Scale Z", transform.scale.y, 0.1f, 3f);
-                float layer = SliderRow(inner, ref y, "Layer", transform.layer, -20f, 20f);
+                float scaleX = SliderRow(inner, ref y, "Scale X", transform.Value.scale.X, 0.1f, 3f);
+                float scaleY = SliderRow(inner, ref y, "Scale Z", transform.Value.scale.Y, 0.1f, 3f);
+                float layer = SliderRow(inner, ref y, "Layer", transform.Value.layer, -20f, 20f);
 
-                changed |= !Mathf.Approximately(x, transform.position.x)
-                    || !Mathf.Approximately(z, transform.position.z)
-                    || !Mathf.Approximately(angle, transform.angle)
-                    || !Mathf.Approximately(scaleX, transform.scale.x)
-                    || !Mathf.Approximately(scaleY, transform.scale.y)
-                    || !Mathf.Approximately(layer, transform.layer);
+                changed |= !Mathf.Approximately(x, transform.Value.position.X)
+                    || !Mathf.Approximately(z, transform.Value.position.Z)
+                    || !Mathf.Approximately(angle, transform.Value.angle)
+                    || !Mathf.Approximately(scaleX, transform.Value.scale.X)
+                    || !Mathf.Approximately(scaleY, transform.Value.scale.Y)
+                    || !Mathf.Approximately(layer, transform.Value.layer);
                 if (changed)
                 {
                     EnsureUndoCheckpoint(CurrentEditKey(node));
-                    transform.position = new Vector3(x, 0f, z);
-                    transform.angle = angle;
-                    transform.scale = new Vector2(scaleX, scaleY);
-                    transform.layer = layer;
+                    var pose = new ModularAttachmentPose(new Vector3(x, 0f, z), angle,
+                        new Vector2(scaleX, scaleY), layer);
                     if (target == EditTarget.Graphic)
                     {
-                        node.Props.graphicOffset = transform.position;
-                        node.Props.graphicAngle = transform.angle;
-                        node.Props.graphicScale = transform.scale;
-                        node.Props.graphicLayer = transform.layer;
+                        node.Props.graphicOffset = pose.position.ToGame();
+                        node.Props.graphicAngle = pose.angle;
+                        node.Props.graphicScale = pose.scale.ToGame();
+                        node.Props.graphicLayer = pose.layer;
+                    }
+                    else
+                    {
+                        authored.position = pose.position.ToGame();
+                        authored.angle = pose.angle;
+                        authored.scale = pose.scale.ToGame();
+                        authored.layer = pose.layer;
                     }
                     root.InvalidateTree();
                 }
@@ -872,7 +875,7 @@ namespace Helodrace.ModernWar
                 DrawSocketSelector(inner, node, ref y);
 
             y += 10f;
-            Widgets.Label(new Rect(inner.x, y, inner.width, 90f),
+            Widgets.Label(new Rect(inner.x, y, inner.width, 90f).ToGame(),
                 "Red: logical origin\nWhite: texture centre\nOrange: incoming mount\nBlue: outgoing socket\nYellow: active edit target");
             inspectorContentHeight = y + 98f;
             Widgets.EndScrollView();
@@ -886,16 +889,16 @@ namespace Helodrace.ModernWar
             ModularWeaponFlashlightProperties light = node.Props.flashlight;
             if (light == null)
             {
-                Widgets.Label(new Rect(inner.x, y, inner.width, 48f),
+                Widgets.Label(new Rect(inner.x, y, inner.width, 48f).ToGame(),
                     "This part has no <flashlight> data.");
                 y += 54f;
                 return;
             }
 
             float x = SliderRow(inner, ref y, "Emitter X",
-                light.emitterOffset.x, -1.5f, 1.5f);
+                light.emitterOffset.ToNative().X, -1.5f, 1.5f);
             float z = SliderRow(inner, ref y, "Emitter Z",
-                light.emitterOffset.z, -1.5f, 1.5f);
+                light.emitterOffset.ToNative().Z, -1.5f, 1.5f);
             float near = SliderRow(inner, ref y, "Near width",
                 light.nearWidth, 0.01f, 1.5f);
             float far = SliderRow(inner, ref y, "Far width",
@@ -907,8 +910,8 @@ namespace Helodrace.ModernWar
             float overshoot = SliderRow(inner, ref y, "Length overshoot",
                 light.lengthOvershoot, -2f, 2f);
 
-            if (!Mathf.Approximately(x, light.emitterOffset.x)
-                || !Mathf.Approximately(z, light.emitterOffset.z)
+            if (!Mathf.Approximately(x, light.emitterOffset.ToNative().X)
+                || !Mathf.Approximately(z, light.emitterOffset.ToNative().Z)
                 || !Mathf.Approximately(near, light.nearWidth)
                 || !Mathf.Approximately(far, light.farWidth)
                 || !Mathf.Approximately(pool, light.circleRadius)
@@ -916,7 +919,7 @@ namespace Helodrace.ModernWar
                 || !Mathf.Approximately(overshoot, light.lengthOvershoot))
             {
                 EnsureUndoCheckpoint(CurrentEditKey(node));
-                light.emitterOffset = new Vector3(x, 0f, z);
+                light.emitterOffset = new Vector3(x, 0f, z).ToGame();
                 light.nearWidth = near;
                 light.farWidth = far;
                 light.circleRadius = pool;
@@ -934,27 +937,27 @@ namespace Helodrace.ModernWar
             ModularWeaponCasingPortProperties port = node.Props.casingPort;
             if (port == null)
             {
-                Widgets.Label(new Rect(inner.x, y, inner.width, 48f),
+                Widgets.Label(new Rect(inner.x, y, inner.width, 48f).ToGame(),
                     "This part has no <casingPort> data.");
                 y += 54f;
                 return;
             }
 
             bool start = target == EditTarget.FeedStart;
-            Vector3 value = start ? port.feedStartOffset : port.feedEndOffset;
+            Vector3 value = start ? port.feedStartOffset.ToNative() : port.feedEndOffset.ToNative();
             string label = start ? "Feed start" : "Feed end";
-            Widgets.Label(new Rect(inner.x, y, inner.width, 24f),
+            Widgets.Label(new Rect(inner.x, y, inner.width, 24f).ToGame(),
                 label + " — drag the marker or use X/Z below");
             y += 28f;
-            float x = SliderRow(inner, ref y, label + " X", value.x, -1.5f, 1.5f);
-            float z = SliderRow(inner, ref y, label + " Z", value.z, -1.5f, 1.5f);
-            if (!Mathf.Approximately(x, value.x)
-                || !Mathf.Approximately(z, value.z))
+            float x = SliderRow(inner, ref y, label + " X", value.X, -1.5f, 1.5f);
+            float z = SliderRow(inner, ref y, label + " Z", value.Z, -1.5f, 1.5f);
+            if (!Mathf.Approximately(x, value.X)
+                || !Mathf.Approximately(z, value.Z))
             {
                 EnsureUndoCheckpoint(CurrentEditKey(node));
                 Vector3 edited = new Vector3(x, 0f, z);
-                if (start) port.feedStartOffset = edited;
-                else port.feedEndOffset = edited;
+                if (start) port.feedStartOffset = edited.ToGame();
+                else port.feedEndOffset = edited.ToGame();
                 root.InvalidateTree();
             }
         }
@@ -964,7 +967,7 @@ namespace Helodrace.ModernWar
             ModularRenderNode node,
             ref float y)
         {
-            if (Widgets.ButtonText(new Rect(inner.x, y, inner.width, 26f),
+            if (Widgets.ButtonText(new Rect(inner.x, y, inner.width, 26f).ToGame(),
                 "Animated part: " + node.Props.animatedPart))
             {
                 List<FloatMenuOption> options = new List<FloatMenuOption>();
@@ -984,36 +987,36 @@ namespace Helodrace.ModernWar
             y += 30f;
             if (node.Props.animatedPart == ModularWeaponAnimatedPartKind.None)
             {
-                Widgets.Label(new Rect(inner.x, y, inner.width, 48f),
+                Widgets.Label(new Rect(inner.x, y, inner.width, 48f).ToGame(),
                     "This part has no animatedPart data.");
                 y += 54f;
                 return;
             }
 
-            Widgets.Label(new Rect(inner.x, y, inner.width, 24f),
+            Widgets.Label(new Rect(inner.x, y, inner.width, 24f).ToGame(),
                 "Animated part: " + node.Props.animatedPart);
             y += 28f;
-            Vector3 travel = node.Props.animationTravel;
-            Vector3 pivot = node.Props.animationPivot;
+            Vector3 travel = node.Props.animationTravel.ToNative();
+            Vector3 pivot = node.Props.animationPivot.ToNative();
             float travelX = SliderRow(inner, ref y, "Travel X",
-                travel.x, -1.5f, 1.5f);
+                travel.X, -1.5f, 1.5f);
             float travelZ = SliderRow(inner, ref y, "Travel Z",
-                travel.z, -1.5f, 1.5f);
+                travel.Z, -1.5f, 1.5f);
             float pivotX = SliderRow(inner, ref y, "Pivot X",
-                pivot.x, -1.5f, 1.5f);
+                pivot.X, -1.5f, 1.5f);
             float pivotZ = SliderRow(inner, ref y, "Pivot Z",
-                pivot.z, -1.5f, 1.5f);
+                pivot.Z, -1.5f, 1.5f);
             float angle = SliderRow(inner, ref y, "Rotation",
                 node.Props.animationAngle, -180f, 180f);
-            if (!Mathf.Approximately(travelX, travel.x)
-                || !Mathf.Approximately(travelZ, travel.z)
-                || !Mathf.Approximately(pivotX, pivot.x)
-                || !Mathf.Approximately(pivotZ, pivot.z)
+            if (!Mathf.Approximately(travelX, travel.X)
+                || !Mathf.Approximately(travelZ, travel.Z)
+                || !Mathf.Approximately(pivotX, pivot.X)
+                || !Mathf.Approximately(pivotZ, pivot.Z)
                 || !Mathf.Approximately(angle, node.Props.animationAngle))
             {
                 EnsureUndoCheckpoint(CurrentEditKey(node));
-                node.Props.animationTravel = new Vector3(travelX, 0f, travelZ);
-                node.Props.animationPivot = new Vector3(pivotX, 0f, pivotZ);
+                node.Props.animationTravel = new Vector3(travelX, 0f, travelZ).ToGame();
+                node.Props.animationPivot = new Vector3(pivotX, 0f, pivotZ).ToGame();
                 node.Props.animationAngle = angle;
                 root.InvalidateTree();
             }
@@ -1027,30 +1030,30 @@ namespace Helodrace.ModernWar
             ModularWeaponCasingPortProperties port = node.Props.casingPort;
             if (port == null)
             {
-                Widgets.Label(new Rect(inner.x, y, inner.width, 48f),
+                Widgets.Label(new Rect(inner.x, y, inner.width, 48f).ToGame(),
                     "This part has no <casingPort> data.");
                 y += 54f;
                 return;
             }
 
             float x = SliderRow(inner, ref y, "Ejection X",
-                port.offset.x, -1.5f, 1.5f);
+                port.offset.ToNative().X, -1.5f, 1.5f);
             float z = SliderRow(inner, ref y, "Ejection Z",
-                port.offset.z, -1.5f, 1.5f);
+                port.offset.ToNative().Z, -1.5f, 1.5f);
             float angle = SliderRow(inner, ref y, "Direction offset",
                 port.ejectionAngleOffset, -180f, 180f);
             float phase = SliderRow(inner, ref y, "Cycle phase",
                 port.ejectionCycleFraction, 0f, 1f);
             float scale = SliderRow(inner, ref y, "Casing scale",
                 port.scale, 0.01f, 2f);
-            if (!Mathf.Approximately(x, port.offset.x)
-                || !Mathf.Approximately(z, port.offset.z)
+            if (!Mathf.Approximately(x, port.offset.ToNative().X)
+                || !Mathf.Approximately(z, port.offset.ToNative().Z)
                 || !Mathf.Approximately(angle, port.ejectionAngleOffset)
                 || !Mathf.Approximately(phase, port.ejectionCycleFraction)
                 || !Mathf.Approximately(scale, port.scale))
             {
                 EnsureUndoCheckpoint(CurrentEditKey(node));
-                port.offset = new Vector3(x, 0f, z);
+                port.offset = new Vector3(x, 0f, z).ToGame();
                 port.ejectionAngleOffset = angle;
                 port.ejectionCycleFraction = phase;
                 port.scale = scale;
@@ -1066,16 +1069,16 @@ namespace Helodrace.ModernWar
             ModularWeaponLaserProperties laser = node.Props.laser;
             if (laser == null)
             {
-                Widgets.Label(new Rect(inner.x, y, inner.width, 48f),
+                Widgets.Label(new Rect(inner.x, y, inner.width, 48f).ToGame(),
                     "This part has no <laser> data.");
                 y += 54f;
                 return;
             }
 
             float x = SliderRow(inner, ref y, "Emitter X",
-                laser.emitterOffset.x, -1.5f, 1.5f);
+                laser.emitterOffset.ToNative().X, -1.5f, 1.5f);
             float z = SliderRow(inner, ref y, "Emitter Z",
-                laser.emitterOffset.z, -1.5f, 1.5f);
+                laser.emitterOffset.ToNative().Z, -1.5f, 1.5f);
             float width = SliderRow(inner, ref y, "Beam width",
                 laser.beamWidth, 0.005f, 0.15f);
             float dot = SliderRow(inner, ref y, "Dot size",
@@ -1083,14 +1086,14 @@ namespace Helodrace.ModernWar
             float range = SliderRow(inner, ref y, "Maximum length",
                 laser.maxLength, 1f, 100f);
 
-            if (!Mathf.Approximately(x, laser.emitterOffset.x)
-                || !Mathf.Approximately(z, laser.emitterOffset.z)
+            if (!Mathf.Approximately(x, laser.emitterOffset.ToNative().X)
+                || !Mathf.Approximately(z, laser.emitterOffset.ToNative().Z)
                 || !Mathf.Approximately(width, laser.beamWidth)
                 || !Mathf.Approximately(dot, laser.dotSize)
                 || !Mathf.Approximately(range, laser.maxLength))
             {
                 EnsureUndoCheckpoint(CurrentEditKey(node));
-                laser.emitterOffset = new Vector3(x, 0f, z);
+                laser.emitterOffset = new Vector3(x, 0f, z).ToGame();
                 laser.beamWidth = width;
                 laser.dotSize = dot;
                 laser.maxLength = range;
@@ -1117,7 +1120,7 @@ namespace Helodrace.ModernWar
                 node.Props.verticalOccupancyOffset = occupancyOffset;
                 root.InvalidateTree();
             }
-            TooltipHandler.TipRegion(new Rect(inner.x, y - 56f, inner.width, 52f),
+            TooltipHandler.TipRegion(new Rect(inner.x, y - 56f, inner.width, 52f).ToGame(),
                 "Visual obstruction only. This range never blocks attachment placement; "
                 + "it reduces a sight's usable aiming window when it is in front.");
 
@@ -1138,7 +1141,7 @@ namespace Helodrace.ModernWar
             ModularWeaponSightProperties sight = node.Props.sight;
             if (sight == null)
             {
-                if (Widgets.ButtonText(new Rect(inner.x, y, inner.width, 28f),
+                if (Widgets.ButtonText(new Rect(inner.x, y, inner.width, 28f).ToGame(),
                     "+ Add sight data"))
                 {
                     PushUndoSnapshot();
@@ -1152,16 +1155,16 @@ namespace Helodrace.ModernWar
                 return;
             }
 
-            Widgets.Label(new Rect(inner.x, y + 3f, 88f, 24f), "Sight type");
+            Widgets.Label(new Rect(inner.x, y + 3f, 88f, 24f).ToGame(), "Sight type");
             if (Widgets.ButtonText(new Rect(inner.x + 92f, y,
-                inner.width - 132f, 28f), sight.kind.ToString()))
+                inner.width - 132f, 28f).ToGame(), sight.kind.ToString()))
             {
                 PushUndoSnapshot();
                 int count = Enum.GetValues(typeof(ModularSightKind)).Length;
                 sight.kind = (ModularSightKind)(((int)sight.kind + 1) % count);
                 root.InvalidateTree();
             }
-            if (Widgets.ButtonText(new Rect(inner.xMax - 34f, y, 34f, 28f), "X"))
+            if (Widgets.ButtonText(new Rect(inner.xMax - 34f, y, 34f, 28f).ToGame(), "X"))
             {
                 PushUndoSnapshot();
                 node.Props.sight = null;
@@ -1172,20 +1175,20 @@ namespace Helodrace.ModernWar
             y += 34f;
 
             float axisX = SliderRow(inner, ref y, "Optical axis X",
-                sight.axisOffset.x, -0.5f, 0.5f);
+                sight.axisOffset.ToNative().X, -0.5f, 0.5f);
             float axisZ = SliderRow(inner, ref y, "Optical axis Z",
-                sight.axisOffset.z, -0.5f, 0.5f);
+                sight.axisOffset.ToNative().Z, -0.5f, 0.5f);
             float radius = SliderRow(inner, ref y, "Aim radius",
                 sight.sightClearanceRadius, 0.001f, 0.15f);
             float priority = SliderRow(inner, ref y, "Selection priority",
                 sight.selectionPriority, 0f, 100f);
-            if (!Mathf.Approximately(axisX, sight.axisOffset.x)
-                || !Mathf.Approximately(axisZ, sight.axisOffset.z)
+            if (!Mathf.Approximately(axisX, sight.axisOffset.ToNative().X)
+                || !Mathf.Approximately(axisZ, sight.axisOffset.ToNative().Z)
                 || !Mathf.Approximately(radius, sight.sightClearanceRadius)
                 || !Mathf.Approximately(priority, sight.selectionPriority))
             {
                 EnsureUndoCheckpoint(CurrentEditKey(node) + ":sightData");
-                sight.axisOffset = new Vector3(axisX, 0f, axisZ);
+                sight.axisOffset = new Vector3(axisX, 0f, axisZ).ToGame();
                 sight.sightClearanceRadius = radius;
                 sight.selectionPriority = priority;
                 root.InvalidateTree();
@@ -1197,9 +1200,9 @@ namespace Helodrace.ModernWar
             ModularRenderNode node,
             ref float y)
         {
-            Widgets.Label(new Rect(inner.x, y + 3f, 96f, 24f), "Part category");
+            Widgets.Label(new Rect(inner.x, y + 3f, 96f, 24f).ToGame(), "Part category");
             if (Widgets.ButtonText(new Rect(inner.x + 100f, y,
-                inner.width - 100f, 28f), node.Props.partCategory.Label()))
+                inner.width - 100f, 28f).ToGame(), node.Props.partCategory.Label()))
             {
                 PushUndoSnapshot();
                 int count = Enum.GetValues(typeof(ModularWeaponPartCategory)).Length;
@@ -1256,7 +1259,7 @@ namespace Helodrace.ModernWar
                 node.Props.fireDelayMultiplier = partDelay;
                 root.InvalidateTree();
             }
-            TooltipHandler.TipRegion(new Rect(inner.x, y - 28f, inner.width, 24f),
+            TooltipHandler.TipRegion(new Rect(inner.x, y - 28f, inner.width, 24f).ToGame(),
                 "Multiplies fire delay. Values below 1 fire faster, but the root weapon's "
                     + "real RPM always remains the mechanical lower-delay limit.");
 
@@ -1294,7 +1297,7 @@ namespace Helodrace.ModernWar
             bool enabled = node.Props.missingFunctions.Contains(function);
             bool edited = enabled;
             Widgets.CheckboxLabeled(
-                new Rect(inner.x, y, inner.width, 24f), label, ref edited);
+                new Rect(inner.x, y, inner.width, 24f).ToGame(), label, ref edited);
             if (edited != enabled)
             {
                 PushUndoSnapshot();
@@ -1313,7 +1316,7 @@ namespace Helodrace.ModernWar
             ModularWeaponInternalStats stats = node.Props.internalStats;
             if (stats == null)
             {
-                if (Widgets.ButtonText(new Rect(inner.x, y, inner.width, 28f),
+                if (Widgets.ButtonText(new Rect(inner.x, y, inner.width, 28f).ToGame(),
                     "+ Add internal conversion stats"))
                 {
                     PushUndoSnapshot();
@@ -1324,9 +1327,9 @@ namespace Helodrace.ModernWar
                 return;
             }
 
-            Widgets.Label(new Rect(inner.x, y + 3f, inner.width - 40f, 24f),
+            Widgets.Label(new Rect(inner.x, y + 3f, inner.width - 40f, 24f).ToGame(),
                 "Internal conversion inputs (hidden from player UI)");
-            if (Widgets.ButtonText(new Rect(inner.xMax - 34f, y, 34f, 28f), "X"))
+            if (Widgets.ButtonText(new Rect(inner.xMax - 34f, y, 34f, 28f).ToGame(), "X"))
             {
                 PushUndoSnapshot();
                 node.Props.internalStats = null;
@@ -1365,7 +1368,7 @@ namespace Helodrace.ModernWar
         {
             y += 12f;
             var stock = node.Props.stock;
-            if (Widgets.ButtonText(new Rect(inner.x, y, inner.width, 27f),
+            if (Widgets.ButtonText(new Rect(inner.x, y, inner.width, 27f).ToGame(),
                 stock == null ? "Add physical stock profile" : "Remove physical stock profile"))
             {
                 PushUndoSnapshot();
@@ -1376,7 +1379,7 @@ namespace Helodrace.ModernWar
             y += 34f;
             if (stock == null) return;
             bool adjustable = stock.adjustable;
-            Widgets.CheckboxLabeled(new Rect(inner.x, y, inner.width, 24f), "Rail-driven stock extension", ref adjustable);
+            Widgets.CheckboxLabeled(new Rect(inner.x, y, inner.width, 24f).ToGame(), "Rail-driven stock extension", ref adjustable);
             y += 30f;
             if (adjustable != stock.adjustable)
             {
@@ -1412,7 +1415,7 @@ namespace Helodrace.ModernWar
             float body = Mathf.Max(0f,
                 mount?.EffectivePhysicalLength ?? 0f);
             float limit = Mathf.Max(0f, (socket.railLength - contact) * 0.5f);
-            Widgets.Label(new Rect(inner.x, y, inner.width, 24f),
+            Widgets.Label(new Rect(inner.x, y, inner.width, 24f).ToGame(),
                 "Rail: " + socket.Label + "   contact "
                 + contact.ToString("0.###", CultureInfo.InvariantCulture)
                 + "   body " + body.ToString("0.###",
@@ -1437,13 +1440,13 @@ namespace Helodrace.ModernWar
 
         private void DrawMountSelector(Rect inner, ModularRenderNode node, ref float y)
         {
-            Widgets.Label(new Rect(inner.x, y, inner.width, 22f), "Mount points");
+            Widgets.Label(new Rect(inner.x, y, inner.width, 22f).ToGame(), "Mount points");
             y += 24f;
             for (int i = 0; i < node.Props.mounts.Count; i++)
             {
                 Rect row = new Rect(inner.x, y, inner.width, 25f);
-                if (i == selectedMountIndex) Widgets.DrawHighlightSelected(row);
-                if (Widgets.ButtonText(row, node.Props.mounts[i].Label))
+                if (i == selectedMountIndex) Widgets.DrawHighlightSelected(row.ToGame());
+                if (Widgets.ButtonText(row.ToGame(), node.Props.mounts[i].Label))
                 {
                     activeEditKey = null;
                     selectedMountIndex = i;
@@ -1451,7 +1454,7 @@ namespace Helodrace.ModernWar
                 y += 28f;
             }
 
-            if (Widgets.ButtonText(new Rect(inner.x, y, inner.width, 25f), "+ Add mount"))
+            if (Widgets.ButtonText(new Rect(inner.x, y, inner.width, 25f).ToGame(), "+ Add mount"))
             {
                 PushUndoSnapshot();
                 node.Props.mounts.Add(new ModularAttachmentMount
@@ -1466,13 +1469,13 @@ namespace Helodrace.ModernWar
 
         private void DrawSocketSelector(Rect inner, ModularRenderNode node, ref float y)
         {
-            Widgets.Label(new Rect(inner.x, y, inner.width, 22f), "Sockets");
+            Widgets.Label(new Rect(inner.x, y, inner.width, 22f).ToGame(), "Sockets");
             y += 24f;
             for (int i = 0; i < node.Props.sockets.Count; i++)
             {
                 Rect row = new Rect(inner.x, y, inner.width, 25f);
-                if (i == selectedSocketIndex) Widgets.DrawHighlightSelected(row);
-                if (Widgets.ButtonText(row, node.Props.sockets[i].Label))
+                if (i == selectedSocketIndex) Widgets.DrawHighlightSelected(row.ToGame());
+                if (Widgets.ButtonText(row.ToGame(), node.Props.sockets[i].Label))
                 {
                     activeEditKey = null;
                     selectedSocketIndex = i;
@@ -1480,7 +1483,7 @@ namespace Helodrace.ModernWar
                 y += 28f;
             }
 
-            if (Widgets.ButtonText(new Rect(inner.x, y, inner.width, 25f), "+ Add socket"))
+            if (Widgets.ButtonText(new Rect(inner.x, y, inner.width, 25f).ToGame(), "+ Add socket"))
             {
                 Find.WindowStack.Add(new Dialog_CreateModularSocket(
                     node.Props,
@@ -1513,16 +1516,16 @@ namespace Helodrace.ModernWar
         private void HandlePreviewNavigation(Rect rect)
         {
             Event current = Event.current;
-            if (!rect.Contains(current.mousePosition)) return;
+            if (!rect.Contains(current.mousePosition.ToNative())) return;
 
             if (current.type == EventType.ScrollWheel)
             {
-                zoom = Mathf.Clamp(zoom * (1f - current.delta.y * 0.07f), 0.2f, 8f);
+                zoom = Mathf.Clamp(zoom * (1f - current.delta.ToNative().Y * 0.07f), 0.2f, 8f);
                 current.Use();
             }
             else if (current.type == EventType.MouseDrag && current.button == 2)
             {
-                pan += current.delta;
+                pan += current.delta.ToNative();
                 current.Use();
             }
         }
@@ -1531,28 +1534,28 @@ namespace Helodrace.ModernWar
         {
             Event current = Event.current;
             if (current.type != EventType.MouseDrag || current.button != 0
-                || !rect.Contains(current.mousePosition)) return;
+                || !rect.Contains(current.mousePosition.ToNative())) return;
 
             Vector2 rootDelta = new Vector2(
-                current.delta.x / pixelsPerCell,
-                -current.delta.y / pixelsPerCell);
+                current.delta.ToNative().X / pixelsPerCell,
+                -current.delta.ToNative().Y / pixelsPerCell);
 
             if (current.shift && movementConstraint == MovementConstraint.Free)
             {
-                if (Mathf.Abs(rootDelta.x) >= Mathf.Abs(rootDelta.y)) rootDelta.y = 0f;
-                else rootDelta.x = 0f;
+                if (Mathf.Abs(rootDelta.X) >= Mathf.Abs(rootDelta.Y)) rootDelta.Y = 0f;
+                else rootDelta.X = 0f;
             }
             else if (movementConstraint == MovementConstraint.Horizontal)
             {
-                rootDelta.y = 0f;
+                rootDelta.Y = 0f;
             }
             else if (movementConstraint == MovementConstraint.Vertical)
             {
-                rootDelta.x = 0f;
+                rootDelta.X = 0f;
             }
 
-            var localDelta = ModularTransform2D.Rotate(rootDelta.ToNative(), -node.transform.angle);
-            localDelta = new System.Numerics.Vector2(
+            var localDelta = ModularTransform2D.Rotate(rootDelta, -node.transform.angle);
+            localDelta = new Vector2(
                 localDelta.X / SafeSignedScale(node.transform.scale.X),
                 localDelta.Y / SafeSignedScale(node.transform.scale.Y));
             Vector3 delta = new Vector3(localDelta.X, 0f, localDelta.Y);
@@ -1566,49 +1569,49 @@ namespace Helodrace.ModernWar
                         if (candidate != node && selectedPaths.Contains(candidate.path)) moving.Add(candidate);
                     MoveGraphics(moving, rootDelta);
                 }
-                else node.Props.graphicOffset += delta;
+                else node.Props.graphicOffset = (node.Props.graphicOffset.ToNative() + delta).ToGame();
             }
             else if (target == EditTarget.Flashlight)
             {
                 if (node.Props.flashlight == null) return;
-                node.Props.flashlight.emitterOffset += delta;
+                node.Props.flashlight.emitterOffset = (node.Props.flashlight.emitterOffset.ToNative() + delta).ToGame();
             }
             else if (target == EditTarget.Laser)
             {
                 if (node.Props.laser == null) return;
-                node.Props.laser.emitterOffset += delta;
+                node.Props.laser.emitterOffset = (node.Props.laser.emitterOffset.ToNative() + delta).ToGame();
             }
             else if (target == EditTarget.Sight)
             {
                 if (node.Props.sight == null) return;
-                node.Props.sight.axisOffset += delta;
+                node.Props.sight.axisOffset = (node.Props.sight.axisOffset.ToNative() + delta).ToGame();
             }
             else if (target == EditTarget.AnimationPart)
             {
                 if (node.Props.animatedPart == ModularWeaponAnimatedPartKind.None)
                     return;
-                node.Props.animationTravel += delta;
+                node.Props.animationTravel = (node.Props.animationTravel.ToNative() + delta).ToGame();
             }
             else if (target == EditTarget.CasingPort)
             {
                 if (node.Props.casingPort == null) return;
-                node.Props.casingPort.offset += delta;
+                node.Props.casingPort.offset = (node.Props.casingPort.offset.ToNative() + delta).ToGame();
             }
             else if (target == EditTarget.FeedStart)
             {
                 if (node.Props.casingPort == null) return;
-                node.Props.casingPort.feedStartOffset += delta;
+                node.Props.casingPort.feedStartOffset = (node.Props.casingPort.feedStartOffset.ToNative() + delta).ToGame();
             }
             else if (target == EditTarget.FeedEnd)
             {
                 if (node.Props.casingPort == null) return;
-                node.Props.casingPort.feedEndOffset += delta;
+                node.Props.casingPort.feedEndOffset = (node.Props.casingPort.feedEndOffset.ToNative() + delta).ToGame();
             }
             else
             {
                 ModularAttachmentTransform transform = ActiveTransform(node);
                 if (transform == null) return;
-                transform.position += delta;
+                transform.position = (transform.position.ToNative() + delta).ToGame();
             }
             root.InvalidateTree();
             current.Use();
@@ -1719,8 +1722,8 @@ namespace Helodrace.ModernWar
 
         private static bool ModeButton(Rect rect, string label, bool selected)
         {
-            if (selected) Widgets.DrawHighlightSelected(rect);
-            return Widgets.ButtonText(rect, label);
+            if (selected) Widgets.DrawHighlightSelected(rect.ToGame());
+            return Widgets.ButtonText(rect.ToGame(), label);
         }
 
         private void DrawRailSurfaceRow(
@@ -1730,9 +1733,9 @@ namespace Helodrace.ModernWar
             ref ModularRailSurface surface,
             string undoKey)
         {
-            Widgets.Label(new Rect(inner.x, y + 3f, 112f, 24f), label);
+            Widgets.Label(new Rect(inner.x, y + 3f, 112f, 24f).ToGame(), label);
             if (Widgets.ButtonText(new Rect(inner.x + 116f, y,
-                inner.width - 116f, 26f), RailSurfaceLabel(surface)))
+                inner.width - 116f, 26f).ToGame(), RailSurfaceLabel(surface)))
             {
                 EnsureUndoCheckpoint(undoKey);
                 surface = NextRailSurface(surface);
@@ -1771,36 +1774,36 @@ namespace Helodrace.ModernWar
             float min,
             float max)
         {
-            Widgets.Label(new Rect(inner.x, y, 86f, 24f), label);
+            Widgets.Label(new Rect(inner.x, y, 86f, 24f).ToGame(), label);
             float result = Widgets.HorizontalSlider(
-                new Rect(inner.x + 90f, y + 3f, inner.width - 180f, 18f),
+                new Rect(inner.x + 90f, y + 3f, inner.width - 180f, 18f).ToGame(),
                 value, min, max, true);
             string key = selectedPath + ":" + target + ":" + selectedMountIndex + ":"
                 + selectedSocketIndex + ":" + label;
             string buffer;
             if (!numericBuffers.TryGetValue(key, out buffer))
                 buffer = result.ToString("0.###", CultureInfo.InvariantCulture);
-            Widgets.TextFieldNumeric(new Rect(inner.xMax - 82f, y, 82f, 24f),
+            Widgets.TextFieldNumeric(new Rect(inner.xMax - 82f, y, 82f, 24f).ToGame(),
                 ref result, ref buffer, min, max);
             numericBuffers[key] = buffer;
             y += 28f;
             return result;
         }
 
-        private static Vector2 WorldToGui(System.Numerics.Vector2 point, Vector2 origin, float scale)
-            => (origin.ToNative() + new System.Numerics.Vector2(point.X, -point.Y) * scale).ToGame();
+        private static Vector2 WorldToGui(Vector2 point, Vector2 origin, float scale)
+            => origin + new Vector2(point.X, -point.Y) * scale;
 
-        private static Vector2 WorldToGui(Vector2 point, Vector2 origin, float pixelsPerCell)
+        private static Vector2 WorldToGuiAxes(Vector2 point, Vector2 origin, float pixelsPerCell)
         {
             return new Vector2(
-                origin.x + point.x * pixelsPerCell,
-                origin.y - point.y * pixelsPerCell);
+                origin.X + point.X * pixelsPerCell,
+                origin.Y - point.Y * pixelsPerCell);
         }
 
         private static Rect CenteredRect(Vector2 center, Vector2 size)
         {
-            return new Rect(center.x - size.x * 0.5f, center.y - size.y * 0.5f,
-                size.x, size.y);
+            return new Rect(center.X - size.X * 0.5f, center.Y - size.Y * 0.5f,
+                size.X, size.Y);
         }
 
         private static void DrawTexture(Rect rect, Texture texture, bool flipVertical)
@@ -1808,7 +1811,7 @@ namespace Helodrace.ModernWar
             Rect uv = flipVertical
                 ? new Rect(0f, 1f, 1f, -1f)
                 : new Rect(0f, 0f, 1f, 1f);
-            GUI.DrawTextureWithTexCoords(rect, texture, uv, true);
+            GUI.DrawTextureWithTexCoords(rect.ToGame(), texture, uv.ToGame(), true);
         }
 
         private static float SafeSignedScale(float value)
@@ -1819,10 +1822,10 @@ namespace Helodrace.ModernWar
 
         private static void DrawCross(Vector2 point, Color color, float size)
         {
-            Widgets.DrawLine(new Vector2(point.x - size, point.y),
-                new Vector2(point.x + size, point.y), color, 2f);
-            Widgets.DrawLine(new Vector2(point.x, point.y - size),
-                new Vector2(point.x, point.y + size), color, 2f);
+            Widgets.DrawLine((new Vector2(point.X - size, point.Y)).ToGame(),(
+                new Vector2(point.X + size, point.Y)).ToGame(),color.ToGame(), 2f);
+            Widgets.DrawLine((new Vector2(point.X, point.Y - size)).ToGame(),(
+                new Vector2(point.X, point.Y + size)).ToGame(),color.ToGame(), 2f);
         }
 
         private static string UniquePointId(string prefix, List<string> existing)
@@ -1977,12 +1980,12 @@ namespace Helodrace.ModernWar
                 if (props.muzzleEffectKind != ModularMuzzleEffectKind.Auto)
                     builder.AppendLine("<muzzleEffectKind>" + props.muzzleEffectKind
                         + "</muzzleEffectKind>");
-                builder.AppendLine("<graphicOffset>" + Vector(props.graphicOffset) + "</graphicOffset>");
+                builder.AppendLine("<graphicOffset>" + Vector(props.graphicOffset.ToNative()) + "</graphicOffset>");
                 if (!Mathf.Approximately(props.graphicAngle, 0f))
                     builder.AppendLine("<graphicAngle>" + Number(props.graphicAngle) + "</graphicAngle>");
-                if (props.graphicScale != Vector2.one)
-                    builder.AppendLine("<graphicScale>(" + Number(props.graphicScale.x) + ","
-                        + Number(props.graphicScale.y) + ")</graphicScale>");
+                if (!IsAuthoredUnitScale(props.graphicScale.ToNative()))
+                    builder.AppendLine("<graphicScale>(" + Number(props.graphicScale.ToNative().X) + ","
+                        + Number(props.graphicScale.ToNative().Y) + ")</graphicScale>");
                 if (!Mathf.Approximately(props.graphicLayer, 0f))
                     builder.AppendLine("<graphicLayer>" + Number(props.graphicLayer) + "</graphicLayer>");
                 if (props.additionalGraphics != null && props.additionalGraphics.Count > 0)
@@ -2009,9 +2012,9 @@ namespace Helodrace.ModernWar
                     builder.AppendLine("<animatedPart>" + props.animatedPart
                         + "</animatedPart>");
                     builder.AppendLine("<animationTravel>"
-                        + Vector(props.animationTravel) + "</animationTravel>");
+                        + Vector(props.animationTravel.ToNative()) + "</animationTravel>");
                     builder.AppendLine("<animationPivot>"
-                        + Vector(props.animationPivot) + "</animationPivot>");
+                        + Vector(props.animationPivot.ToNative()) + "</animationPivot>");
                     builder.AppendLine("<animationAngle>"
                         + Number(props.animationAngle) + "</animationAngle>");
                 }
@@ -2110,7 +2113,7 @@ namespace Helodrace.ModernWar
             builder.AppendLine("<sight>");
             builder.AppendLine("  <kind>" + sight.kind + "</kind>");
             builder.AppendLine("  <integrated>" + sight.integrated.ToString().ToLowerInvariant() + "</integrated>");
-            builder.AppendLine("  <axisOffset>" + Vector(sight.axisOffset)
+            builder.AppendLine("  <axisOffset>" + Vector(sight.axisOffset.ToNative())
                 + "</axisOffset>");
             builder.AppendLine("  <sightClearanceRadius>" + Number(sight.sightClearanceRadius)
                 + "</sightClearanceRadius>");
@@ -2125,7 +2128,7 @@ namespace Helodrace.ModernWar
         {
             if (light == null) return;
             builder.AppendLine("<flashlight>");
-            builder.AppendLine("  <emitterOffset>" + Vector(light.emitterOffset)
+            builder.AppendLine("  <emitterOffset>" + Vector(light.emitterOffset.ToNative())
                 + "</emitterOffset>");
             builder.AppendLine("  <color>(" + Number(light.color.r) + ","
                 + Number(light.color.g) + "," + Number(light.color.b) + ","
@@ -2170,7 +2173,7 @@ namespace Helodrace.ModernWar
         {
             if (laser == null) return;
             builder.AppendLine("<laser>");
-            builder.AppendLine("  <emitterOffset>" + Vector(laser.emitterOffset)
+            builder.AppendLine("  <emitterOffset>" + Vector(laser.emitterOffset.ToNative())
                 + "</emitterOffset>");
             builder.AppendLine("  <color>(" + Number(laser.color.r) + ","
                 + Number(laser.color.g) + "," + Number(laser.color.b) + ","
@@ -2192,7 +2195,7 @@ namespace Helodrace.ModernWar
         {
             if (port == null) return;
             builder.AppendLine("<casingPort>");
-            builder.AppendLine("  <offset>" + Vector(port.offset) + "</offset>");
+            builder.AppendLine("  <offset>" + Vector(port.offset.ToNative()) + "</offset>");
             builder.AppendLine("  <ejectionAngleOffset>"
                 + Number(port.ejectionAngleOffset) + "</ejectionAngleOffset>");
             builder.AppendLine("  <speedMin>" + Number(port.speedMin)
@@ -2209,9 +2212,9 @@ namespace Helodrace.ModernWar
             builder.AppendLine("  <feedEndCycleFraction>"
                 + Number(port.feedEndCycleFraction)
                 + "</feedEndCycleFraction>");
-            builder.AppendLine("  <feedStartOffset>" + Vector(port.feedStartOffset)
+            builder.AppendLine("  <feedStartOffset>" + Vector(port.feedStartOffset.ToNative())
                 + "</feedStartOffset>");
-            builder.AppendLine("  <feedEndOffset>" + Vector(port.feedEndOffset)
+            builder.AppendLine("  <feedEndOffset>" + Vector(port.feedEndOffset.ToNative())
                 + "</feedEndOffset>");
             builder.AppendLine("  <feedingRoundDrawSize>"
                 + Number(port.feedingRoundDrawSize)
@@ -2247,9 +2250,9 @@ namespace Helodrace.ModernWar
                 if (mount.railSurface != ModularRailSurface.Unspecified)
                     builder.AppendLine("    <railSurface>" + mount.railSurface
                         + "</railSurface>");
-                if (mount.oppositeSurfaceOffset != Vector3.zero)
+                if (!IsAuthoredZeroOffset(mount.oppositeSurfaceOffset.ToNative()))
                     builder.AppendLine("    <oppositeSurfaceOffset>"
-                        + Vector(mount.oppositeSurfaceOffset)
+                        + Vector(mount.oppositeSurfaceOffset.ToNative())
                         + "</oppositeSurfaceOffset>");
                 AppendTransform(builder, mount.transform, 4);
                 builder.AppendLine("  </li>");
@@ -2314,20 +2317,25 @@ namespace Helodrace.ModernWar
         {
             string pad = new string(' ', indent);
             builder.AppendLine(pad + "<transform>");
-            builder.AppendLine(pad + "  <position>" + Vector(transform.position) + "</position>");
+            builder.AppendLine(pad + "  <position>" + Vector(transform.position.ToNative()) + "</position>");
             if (!Mathf.Approximately(transform.angle, 0f))
                 builder.AppendLine(pad + "  <angle>" + Number(transform.angle) + "</angle>");
-            if (transform.scale != Vector2.one)
-                builder.AppendLine(pad + "  <scale>(" + Number(transform.scale.x) + ","
-                    + Number(transform.scale.y) + ")</scale>");
+            if (!IsAuthoredUnitScale(transform.scale.ToNative()))
+                builder.AppendLine(pad + "  <scale>(" + Number(transform.scale.ToNative().X) + ","
+                    + Number(transform.scale.ToNative().Y) + ")</scale>");
             if (!Mathf.Approximately(transform.layer, 0f))
                 builder.AppendLine(pad + "  <layer>" + Number(transform.layer) + "</layer>");
             builder.AppendLine(pad + "</transform>");
         }
 
+        // Current 1.7 compatibility vector operators use exact component Equals.
+        private static bool IsAuthoredUnitScale(Vector2 value) => value == Vector2.One;
+
+        private static bool IsAuthoredZeroOffset(Vector3 value) => value == Vector3.Zero;
+
         private static string Vector(Vector3 value)
         {
-            return "(" + Number(value.x) + ",0," + Number(value.z) + ")";
+            return "(" + Number(value.X) + ",0," + Number(value.Z) + ")";
         }
 
         private static string Number(float value)
@@ -2423,9 +2431,9 @@ namespace Helodrace.ModernWar
             public NodePropertiesState(CompProperties_ModularWeaponNode props)
             {
                 targetProps = props;
-                graphicOffset = props.graphicOffset;
+                graphicOffset = props.graphicOffset.ToNative();
                 graphicAngle = props.graphicAngle;
-                graphicScale = props.graphicScale;
+                graphicScale = props.graphicScale.ToNative();
                 graphicLayer = props.graphicLayer;
                 partCategory = props.partCategory;
                 performanceRole = props.performanceRole;
@@ -2443,8 +2451,8 @@ namespace Helodrace.ModernWar
                 burstShotCountMultiplier = props.burstShotCountMultiplier;
                 burstShotSpeedMultiplier = props.burstShotSpeedMultiplier;
                 animatedPart = props.animatedPart;
-                animationTravel = props.animationTravel;
-                animationPivot = props.animationPivot;
+                animationTravel = props.animationTravel.ToNative();
+                animationPivot = props.animationPivot.ToNative();
                 animationAngle = props.animationAngle;
                 flashlight = CloneFlashlight(props.flashlight);
                 laser = CloneLaser(props.laser);
@@ -2456,9 +2464,9 @@ namespace Helodrace.ModernWar
 
             public void Restore()
             {
-                targetProps.graphicOffset = graphicOffset;
+                targetProps.graphicOffset = graphicOffset.ToGame();
                 targetProps.graphicAngle = graphicAngle;
-                targetProps.graphicScale = graphicScale;
+                targetProps.graphicScale = graphicScale.ToGame();
                 targetProps.graphicLayer = graphicLayer;
                 targetProps.partCategory = partCategory;
                 targetProps.performanceRole = performanceRole;
@@ -2476,8 +2484,8 @@ namespace Helodrace.ModernWar
                 targetProps.burstShotCountMultiplier = burstShotCountMultiplier;
                 targetProps.burstShotSpeedMultiplier = burstShotSpeedMultiplier;
                 targetProps.animatedPart = animatedPart;
-                targetProps.animationTravel = animationTravel;
-                targetProps.animationPivot = animationPivot;
+                targetProps.animationTravel = animationTravel.ToGame();
+                targetProps.animationPivot = animationPivot.ToGame();
                 targetProps.animationAngle = animationAngle;
                 targetProps.flashlight = CloneFlashlight(flashlight);
                 targetProps.laser = CloneLaser(laser);
@@ -2675,44 +2683,45 @@ namespace Helodrace.ModernWar
             closeOnClickedOutside = false;
         }
 
-        public override Vector2 InitialSize => new Vector2(520f, 410f);
+        public override UnityEngine.Vector2 InitialSize => new UnityEngine.Vector2(520f, 410f);
 
-        public override void DoWindowContents(Rect inRect)
+        public override void DoWindowContents(UnityEngine.Rect gameRect)
         {
+            Rect inRect = gameRect.ToNative();
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(0f, 0f, inRect.width, 30f), "Create attachment socket");
+            Widgets.Label(new Rect(0f, 0f, inRect.width, 30f).ToGame(), "Create attachment socket");
             Text.Font = GameFont.Small;
 
             float y = 48f;
             DrawTextRow(inRect, ref y, "Socket ID", ref socketId);
             DrawTextRow(inRect, ref y, "Display label", ref socketLabel);
             DrawTextRow(inRect, ref y, "Socket types", ref socketTypes);
-            TooltipHandler.TipRegion(new Rect(130f, y - 34f, inRect.width - 130f, 28f),
+            TooltipHandler.TipRegion(new Rect(130f, y - 34f, inRect.width - 130f, 28f).ToGame(),
                 "Comma-separated types. A mount is compatible when at least one type matches.");
 
-            Widgets.CheckboxLabeled(new Rect(0f, y, inRect.width, 28f),
+            Widgets.CheckboxLabeled(new Rect(0f, y, inRect.width, 28f).ToGame(),
                 "Continuous horizontal rail", ref isRail);
             y += 34f;
             if (isRail)
             {
                 DrawTextRow(inRect, ref y, "Rail length", ref railLength);
-                Widgets.Label(new Rect(0f, y + 3f, 122f, 26f), "Rail surface");
+                Widgets.Label(new Rect(0f, y + 3f, 122f, 26f).ToGame(), "Rail surface");
                 if (Widgets.ButtonText(new Rect(130f, y,
-                    inRect.width - 130f, 28f),
+                    inRect.width - 130f, 28f).ToGame(),
                     Dialog_ModularAttachmentEditor.RailSurfaceLabel(railSurface)))
                     railSurface = Dialog_ModularAttachmentEditor
                         .NextRailSurface(railSurface);
                 y += 38f;
             }
 
-            Widgets.Label(new Rect(0f, y + 8f, inRect.width, 48f),
+            Widgets.Label(new Rect(0f, y + 8f, inRect.width, 48f).ToGame(),
                 "Examples: picatinny, top_rail, receiver_rail\n"
                 + "The new socket starts at (0, 0) and can be moved immediately in the editor.");
 
             Rect buttons = new Rect(0f, inRect.height - 38f, inRect.width, 34f);
-            if (Widgets.ButtonText(new Rect(buttons.x, buttons.y, 120f, 32f), "Cancel"))
+            if (Widgets.ButtonText(new Rect(buttons.x, buttons.y, 120f, 32f).ToGame(), "Cancel"))
                 Close();
-            if (Widgets.ButtonText(new Rect(buttons.xMax - 140f, buttons.y, 140f, 32f),
+            if (Widgets.ButtonText(new Rect(buttons.xMax - 140f, buttons.y, 140f, 32f).ToGame(),
                 "Create socket"))
                 Create();
         }
@@ -2769,8 +2778,8 @@ namespace Helodrace.ModernWar
 
         private static void DrawTextRow(Rect inRect, ref float y, string label, ref string value)
         {
-            Widgets.Label(new Rect(0f, y + 3f, 122f, 26f), label);
-            value = Widgets.TextField(new Rect(130f, y, inRect.width - 130f, 28f), value ?? string.Empty);
+            Widgets.Label(new Rect(0f, y + 3f, 122f, 26f).ToGame(), label);
+            value = Widgets.TextField(new Rect(130f, y, inRect.width - 130f, 28f).ToGame(), value ?? string.Empty);
             y += 38f;
         }
 

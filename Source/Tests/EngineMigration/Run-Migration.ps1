@@ -1,5 +1,5 @@
 param(
-    [Parameter(Mandatory=$true)][ValidateSet('baseline','load','blancas-drug-fixture','blancas-drug-load','blancas-drug-main','blancas-sleep-fixture','blancas-sleep-load','blancas-sleep-main','blancas-mkultra-fixture','blancas-mkultra-load','blancas-mkultra-main','main','blancas','blancas-integration','blancas-generation','main-state','native-runtime','native-math','native-geometry','native-lra7','native-grenades','native-anti-air','native-tow','native-m47','native-m167','native-shotgun','native-switchblade','native-cas','native-mh60','native-support-helicopter','native-telegraph-ui','native-economy-ui','native-research-ui','native-overlays','native-cigarette','native-preview-images','native-armor-ui','native-weapon-ui')][string]$Case,
+    [Parameter(Mandatory=$true)][ValidateSet('baseline','load','blancas-drug-fixture','blancas-drug-load','blancas-drug-main','blancas-sleep-fixture','blancas-sleep-load','blancas-sleep-main','blancas-mkultra-fixture','blancas-mkultra-load','blancas-mkultra-main','main','blancas','blancas-integration','blancas-generation','main-state','native-runtime','native-math','native-geometry','native-lra7','native-grenades','native-anti-air','native-tow','native-m47','native-m167','native-shotgun','native-switchblade','native-cas','native-mh60','native-support-helicopter','native-telegraph-ui','native-economy-ui','native-research-ui','native-overlays','native-cigarette','native-preview-images','native-armor-ui','native-weapon-ui','native-attachment-ui')][string]$Case,
     [Parameter(Mandatory=$true)][string]$RuntimeRoot,
     [string]$GameRoot='C:\Program Files (x86)\Steam\steamapps\common\RimWorld',
     [string]$BlancasRoot='C:\Users\human\Documents\GitHub\Helodrace-blancasdrugs',
@@ -13,7 +13,7 @@ param(
     [int]$TimeoutSeconds=300
 )
 $ErrorActionPreference='Stop'
-$mainCases=@('blancas-drug-main','blancas-mkultra-main','blancas-sleep-main','main','blancas-integration','main-state','native-runtime','native-math','native-geometry','native-lra7','native-grenades','native-anti-air','native-tow','native-m47','native-m167','native-shotgun','native-switchblade','native-cas','native-mh60','native-support-helicopter','native-telegraph-ui','native-economy-ui','native-research-ui','native-overlays','native-cigarette','native-preview-images','native-armor-ui','native-weapon-ui')
+$mainCases=@('blancas-drug-main','blancas-mkultra-main','blancas-sleep-main','main','blancas-integration','main-state','native-runtime','native-math','native-geometry','native-lra7','native-grenades','native-anti-air','native-tow','native-m47','native-m167','native-shotgun','native-switchblade','native-cas','native-mh60','native-support-helicopter','native-telegraph-ui','native-economy-ui','native-research-ui','native-overlays','native-cigarette','native-preview-images','native-armor-ui','native-weapon-ui','native-attachment-ui')
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
 $runtime=[IO.Path]::GetFullPath($RuntimeRoot)
 $allowed=[IO.Path]::GetFullPath((Join-Path $repository '.codex-staging'))+[IO.Path]::DirectorySeparatorChar

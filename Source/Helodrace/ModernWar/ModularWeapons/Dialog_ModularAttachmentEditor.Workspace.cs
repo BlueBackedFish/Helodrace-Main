@@ -2,6 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Waylith.Math;
+using Rect = Waylith.Math.Rect;
+using Color = Waylith.Math.Color;
+using Vector2 = System.Numerics.Vector2;
+using Vector3 = System.Numerics.Vector3;
 using Verse;
 using RimWorld;
 
@@ -50,7 +55,7 @@ namespace Helodrace.ModernWar
                 view = new ViewState {Path="root", Selected=new HashSet<string> {"root"}, Zoom=1f, Target=EditTarget.Graphic};
             selectedPath=view.Path; selectedPaths=view.Selected; selectedMountIndex=view.Mount; selectedSocketIndex=view.Socket;
             target=view.Target; section=view.Section; zoom=view.Zoom; pan=view.Pan; treeScroll=view.Scroll;
-            activeEditKey=null; inspectorScrollContext=null; inspectorScroll=Vector2.zero;
+            activeEditKey=null; inspectorScrollContext=null; inspectorScroll=Vector2.Zero;
             numericBuffers.Clear(); textBuffers.Clear();
             workspace.Visit(root);
             batchDirty=workspace.Batch.HasUnsavedChanges;
@@ -63,12 +68,12 @@ namespace Helodrace.ModernWar
                 workspace.Refresh(); batchDirty=workspace.Batch.HasUnsavedChanges;
                 nextWorkspaceRefresh=Waylith.Time.RealtimeSinceStartupAsDouble+.4f;
             }
-            if (Widgets.ButtonText(new Rect(324f,36f,Mathf.Max(140f,Mathf.Min(360f,rect.width-530f)),30f),
+            if (Widgets.ButtonText(new Rect(324f,36f,Mathf.Max(140f,Mathf.Min(360f,rect.width-530f)),30f).ToGame(),
                 "HD_Placement_SwitchWeapon".Translate())) ShowWeapons();
             string state=(batchDirty ? "HD_Placement_Unsaved" : "HD_Placement_Saved").Translate();
             Rect summary=new Rect(0f,74f,rect.width,28f);
-            Widgets.Label(summary,"HD_Placement_BatchStatus".Translate(workspace.Batch.WeaponCount,workspace.Batch.PartCount,state,selectedPaths.Count));
-            TooltipHandler.TipRegion(summary,"HD_Placement_SessionHint".Translate());
+            Widgets.Label(summary.ToGame(),"HD_Placement_BatchStatus".Translate(workspace.Batch.WeaponCount,workspace.Batch.PartCount,state,selectedPaths.Count));
+            TooltipHandler.TipRegion(summary.ToGame(),"HD_Placement_SessionHint".Translate());
         }
 
         private void ShowWeapons()
@@ -142,13 +147,13 @@ namespace Helodrace.ModernWar
         internal static void MoveGraphics(List<ModularRenderNode> nodes, Vector2 rootDelta)
         {
             var moved=new HashSet<CompProperties_ModularWeaponNode>();
-            var nativeDelta=rootDelta.ToNative();
+            var nativeDelta=rootDelta;
             foreach (ModularRenderNode node in nodes)
             {
                 if (!moved.Add(node.Props)) continue; // Shared Def: move once, not once per instance.
                 var local=ModularTransform2D.Rotate(nativeDelta,-node.transform.angle);
-                node.Props.graphicOffset+=new Vector3(local.X/SafeSignedScale(node.transform.scale.X),0f,
-                    local.Y/SafeSignedScale(node.transform.scale.Y));
+                node.Props.graphicOffset = (node.Props.graphicOffset.ToNative() + new Vector3(local.X/SafeSignedScale(node.transform.scale.X),0f,
+                    local.Y/SafeSignedScale(node.transform.scale.Y))).ToGame();
             }
         }
     }
