@@ -21,12 +21,14 @@ namespace Helodrace.Tests
         private bool towPrepared;
         private bool m47Prepared;
         private bool shotgunPrepared;
+        private bool switchbladePrepared;
 #if HELODRACE_MAIN_CHECKS
         private bool lra7VerifiedOnLoad;
         private bool grenadeVerifiedOnLoad;
         private bool towVerifiedOnLoad;
         private bool m47VerifiedOnLoad;
         private bool shotgunVerifiedOnLoad;
+        private bool switchbladeVerifiedOnLoad;
 #endif
         private string output, mode;
 
@@ -42,13 +44,14 @@ namespace Helodrace.Tests
             Scribe_Values.Look(ref towPrepared, "migrationTowPrepared", false);
             Scribe_Values.Look(ref m47Prepared, "migrationM47Prepared", false);
             Scribe_Values.Look(ref shotgunPrepared, "migrationShotgunPrepared", false);
+            Scribe_Values.Look(ref switchbladePrepared, "migrationSwitchbladePrepared", false);
         }
 
 #if HELODRACE_MAIN_CHECKS
         public override void LoadedGame()
         {
             if (!GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string activeCase)
-                || !((lra7Prepared && activeCase == "native-lra7") || (grenadePrepared && activeCase == "native-grenades") || (towPrepared && activeCase == "native-tow") || (m47Prepared && activeCase == "native-m47") || (shotgunPrepared && activeCase == "native-shotgun"))
+                || !((lra7Prepared && activeCase == "native-lra7") || (grenadePrepared && activeCase == "native-grenades") || (towPrepared && activeCase == "native-tow") || (m47Prepared && activeCase == "native-m47") || (shotgunPrepared && activeCase == "native-shotgun") || (switchbladePrepared && activeCase == "native-switchblade"))
                 || !GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out output)) return;
             try
             {
@@ -73,10 +76,15 @@ namespace Helodrace.Tests
                     NativeM47Checks.Verify(output, Check);
                     m47VerifiedOnLoad = true;
                 }
-                else
+                else if (activeCase == "native-shotgun")
                 {
                     NativeShotgunChecks.Verify(output, Check);
                     shotgunVerifiedOnLoad = true;
+                }
+                else
+                {
+                    NativeSwitchbladeChecks.Verify(output, Check);
+                    switchbladeVerifiedOnLoad = true;
                 }
             }
             catch (Exception error)
@@ -115,7 +123,7 @@ namespace Helodrace.Tests
             try
             {
                 if ((mode != "main-state" || !mainStatePrepared) && (mode != "blancas-generation" || !blancasGenerationPrepared)
-                    && (mode != "native-lra7" || !lra7Prepared) && (mode != "native-grenades" || !grenadePrepared) && (mode != "native-tow" || !towPrepared) && (mode != "native-m47" || !m47Prepared) && (mode != "native-shotgun" || !shotgunPrepared))
+                    && (mode != "native-lra7" || !lra7Prepared) && (mode != "native-grenades" || !grenadePrepared) && (mode != "native-tow" || !towPrepared) && (mode != "native-m47" || !m47Prepared) && (mode != "native-shotgun" || !shotgunPrepared) && (mode != "native-switchblade" || !switchbladePrepared))
                     File.WriteAllText(Path.Combine(output, "checks.txt"), "Engine migration: " + mode + "\n");
                 else File.AppendAllText(Path.Combine(output, "checks.txt"), "Loaded new 1.7 state\n");
                 Check(DefDatabase<ThingDef>.GetNamedSilentFail("BD_Ketamine") != null, "Blancas drug definitions loaded");
@@ -162,6 +170,18 @@ namespace Helodrace.Tests
                     BlancasGenerationChecks.Verify(Check);
                 }
 #if HELODRACE_MAIN_CHECKS
+                else if (mode == "native-switchblade")
+                {
+                    if (!switchbladePrepared)
+                    {
+                        NativeSwitchbladeChecks.Create(output, Check);
+                        switchbladePrepared = true;
+                        GameDataSaveLoader.SaveGame("SwitchbladeNativeState17");
+                        GameDataSaveLoader.LoadGame("SwitchbladeNativeState17");
+                        return;
+                    }
+                    Check(switchbladeVerifiedOnLoad, "native Switchblade state verified before the first simulation tick");
+                }
                 else if (mode == "native-shotgun")
                 {
                     if (!shotgunPrepared)

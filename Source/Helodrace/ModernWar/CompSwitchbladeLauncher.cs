@@ -3,6 +3,9 @@ using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Waylith.Math;
+using Vector3 = System.Numerics.Vector3;
+using Quaternion = System.Numerics.Quaternion;
 using Verse;
 using Verse.Sound;
 
@@ -120,7 +123,7 @@ namespace Helodrace
                 return false;
             }
 
-            IntVec3 loiterCenter = (launcher.Position.ToVector3Shifted() + launchDirection * DefaultLoiterDistance).ToIntVec3();
+            IntVec3 loiterCenter = (launcher.Position.ToVector3Shifted().ToNative() + launchDirection * DefaultLoiterDistance).ToGame().ToIntVec3();
             loiterCenter = ClampToMap(loiterCenter, launcher.Map);
             drone.InitializeLoiter(loiterCenter, DefaultLoiterRadius, tablet.parent, operatorPawn, launchDirection);
             tablet.SetActiveDrone(drone);
@@ -132,12 +135,12 @@ namespace Helodrace
         private static Vector3 LaunchDirectionFor(Thing launcher, LocalTargetInfo target)
         {
             Vector3 direction = target.IsValid
-                ? target.Cell.ToVector3Shifted() - launcher.Position.ToVector3Shifted()
-                : launcher.Rotation.FacingCell.ToVector3();
-            direction.y = 0f;
-            if (direction.sqrMagnitude < 0.001f)
+                ? target.Cell.ToVector3Shifted().ToNative() - launcher.Position.ToVector3Shifted().ToNative()
+                : launcher.Rotation.FacingCell.ToVector3().ToNative();
+            direction.Y = 0f;
+            if (direction.LengthSquared() < 0.001f)
             {
-                direction = launcher.Rotation.FacingCell.ToVector3();
+                direction = launcher.Rotation.FacingCell.ToVector3().ToNative();
             }
 
             return direction.normalized;
@@ -145,8 +148,8 @@ namespace Helodrace
 
         private static IntVec3 CellForDirection(Vector3 direction)
         {
-            int x = Mathf.RoundToInt(direction.x);
-            int z = Mathf.RoundToInt(direction.z);
+            int x = Mathf.RoundToInt(direction.X);
+            int z = Mathf.RoundToInt(direction.Z);
             if (x == 0 && z == 0)
             {
                 z = 1;
@@ -195,11 +198,11 @@ namespace Helodrace
         public override void PostDraw()
         {
             base.PostDraw();
-            Vector3 drawPos = parent.DrawPos;
-            drawPos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
+            Vector3 drawPos = parent.DrawPos.ToNative();
+            drawPos.Y = AltitudeLayer.BuildingOnTop.AltitudeFor();
             Vector3 scale = new Vector3(1.25f / 10f, 1f, 1.25f / 10f);
-            Quaternion rotation = parent.Rotation.AsQuat;
-            Graphics.DrawMesh(MeshPool.plane10, Matrix4x4.TRS(drawPos, rotation, scale), CurrentMaterial, 0);
+            Quaternion rotation = parent.Rotation.AsQuat.ToNative();
+            Graphics.DrawMesh(MeshPool.plane10, SpatialMath.CreateTransform(drawPos, rotation, scale).ToGame(), CurrentMaterial, 0);
         }
 
         private Material CurrentMaterial => SwitchbladeLauncherUtility.HasLoadedMunition(parent) ? LoadedMaterial : FiredMaterial;

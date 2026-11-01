@@ -1,6 +1,11 @@
 using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
+using Waylith.Math;
+using Vector2 = System.Numerics.Vector2;
+using Vector3 = System.Numerics.Vector3;
+using Quaternion = System.Numerics.Quaternion;
+using Color = Waylith.Math.Color;
 using Verse;
 using Verse.Sound;
 
@@ -223,7 +228,8 @@ namespace Helodrace
         private static Material zoomHighlightMaterial;
         private static Material shadowMaterial;
 
-        public override Vector3 DrawPos => exactPosition == default ? base.DrawPos : exactPosition;
+        private Vector3 NativeDrawPosition => exactPosition == default ? base.DrawPos.ToNative() : exactPosition;
+        public override UnityEngine.Vector3 DrawPos => NativeDrawPosition.ToGame();
         public Thing DroneThing => this;
         public bool IsAttackRunActive => mode == SwitchbladeDroneMode.TurningToTarget || mode == SwitchbladeDroneMode.Diving;
         public float LoiterRadius => loiterRadius;
@@ -235,7 +241,7 @@ namespace Helodrace
             linkedTablet = tablet;
             linkedOperator = operatorPawn;
             angle = Rand.Range(0f, Mathf.PI * 2f);
-            exactPosition = Position.ToVector3Shifted();
+            exactPosition = Position.ToVector3Shifted().ToNative();
             drawRotationDegrees = RotationDegreesForDirection(launchDirection);
             UpdateLoiterTurnSign();
             deploymentTicks = 0;
@@ -285,7 +291,7 @@ namespace Helodrace
             if (!respawningAfterLoad)
             {
                 loiterCenter = Position;
-                exactPosition = Position.ToVector3Shifted();
+                exactPosition = Position.ToVector3Shifted().ToNative();
                 mode = SwitchbladeDroneMode.Deploying;
             }
         }
@@ -296,7 +302,7 @@ namespace Helodrace
             Scribe_Values.Look(ref loiterCenter, "loiterCenter");
             Scribe_Values.Look(ref loiterRadius, "loiterRadius", 8f);
             Scribe_Values.Look(ref angle, "angle");
-            Scribe_Values.Look(ref exactPosition, "exactPosition");
+            NativeVectorScribe.Look(ref exactPosition, "exactPosition");
             Scribe_Values.Look(ref ticksSinceSmoke, "ticksSinceSmoke");
             Scribe_Values.Look(ref deploymentTicks, "deploymentTicks");
             Scribe_Values.Look(ref drawRotationDegrees, "drawRotationDegrees");
@@ -316,7 +322,7 @@ namespace Helodrace
             ticksSinceSmoke++;
             if (Map != null && ticksSinceSmoke >= 18)
             {
-                FleckMaker.ThrowSmoke(exactPosition, Map, 0.25f);
+                FleckMaker.ThrowSmoke(exactPosition.ToGame(), Map, 0.25f);
                 ticksSinceSmoke = 0;
             }
 
@@ -411,14 +417,14 @@ namespace Helodrace
                 return;
             }
 
-            Vector3 desiredDirection = targetCell.ToVector3Shifted() - exactPosition;
-            desiredDirection.y = 0f;
+            Vector3 desiredDirection = targetCell.ToVector3Shifted().ToNative() - exactPosition;
+            desiredDirection.Y = 0f;
             TurnTowardsDirection(desiredDirection, AttackTurnDegreesPerTick);
             AdvanceForward(LoiterSpeed);
 
             if (Mathf.Abs(Mathf.DeltaAngle(drawRotationDegrees, RotationDegreesForDirection(desiredDirection))) < 4f)
             {
-                diveStartDistance = Mathf.Max(1f, desiredDirection.magnitude);
+                diveStartDistance = Mathf.Max(1f, desiredDirection.Length());
                 mode = SwitchbladeDroneMode.Diving;
             }
         }
@@ -431,10 +437,10 @@ namespace Helodrace
                 return;
             }
 
-            Vector3 target = targetCell.ToVector3Shifted();
+            Vector3 target = targetCell.ToVector3Shifted().ToNative();
             Vector3 direction = target - exactPosition;
-            direction.y = 0f;
-            float distance = direction.magnitude;
+            direction.Y = 0f;
+            float distance = direction.Length();
             if (distance <= ImpactDistance)
             {
                 Impact();
@@ -472,31 +478,31 @@ namespace Helodrace
 
         private Vector3 DesiredLoiterDirection()
         {
-            Vector3 radial = exactPosition - loiterCenter.ToVector3Shifted();
-            radial.y = 0f;
-            if (radial.sqrMagnitude < 0.001f)
+            Vector3 radial = exactPosition - loiterCenter.ToVector3Shifted().ToNative();
+            radial.Y = 0f;
+            if (radial.LengthSquared() < 0.001f)
             {
                 return DirectionForRotationDegrees(drawRotationDegrees);
             }
 
-            float distance = radial.magnitude;
+            float distance = radial.Length();
             Vector3 radialDirection = radial / distance;
-            Vector3 tangentDirection = new Vector3(-radialDirection.z, 0f, radialDirection.x) * loiterTurnSign;
+            Vector3 tangentDirection = new Vector3(-radialDirection.Z, 0f, radialDirection.X) * loiterTurnSign;
             float radialCorrection = Mathf.Clamp((distance - loiterRadius) / loiterRadius, -0.85f, 0.85f);
             return (tangentDirection - radialDirection * radialCorrection).normalized;
         }
 
         private void UpdateLoiterTurnSign()
         {
-            Vector3 radial = exactPosition - loiterCenter.ToVector3Shifted();
-            radial.y = 0f;
-            if (radial.sqrMagnitude < 0.001f)
+            Vector3 radial = exactPosition - loiterCenter.ToVector3Shifted().ToNative();
+            radial.Y = 0f;
+            if (radial.LengthSquared() < 0.001f)
             {
                 return;
             }
 
             Vector3 radialDirection = radial.normalized;
-            Vector3 clockwiseTangent = new Vector3(-radialDirection.z, 0f, radialDirection.x);
+            Vector3 clockwiseTangent = new Vector3(-radialDirection.Z, 0f, radialDirection.X);
             Vector3 currentDirection = DirectionForRotationDegrees(drawRotationDegrees);
             loiterTurnSign = Vector3.Dot(currentDirection, clockwiseTangent) >= 0f ? 1 : -1;
         }
@@ -543,11 +549,11 @@ namespace Helodrace
 
             Vector3 direction = DirectionForRotationDegrees(drawRotationDegrees);
             Vector3 nextPosition = exactPosition + direction * speed;
-            if (!nextPosition.ToIntVec3().InBounds(Map))
+            if (!nextPosition.ToGame().ToIntVec3().InBounds(Map))
             {
-                Vector3 recoveryDirection = loiterCenter.ToVector3Shifted() - exactPosition;
-                recoveryDirection.y = 0f;
-                if (recoveryDirection.sqrMagnitude > 0.001f)
+                Vector3 recoveryDirection = loiterCenter.ToVector3Shifted().ToNative() - exactPosition;
+                recoveryDirection.Y = 0f;
+                if (recoveryDirection.LengthSquared() > 0.001f)
                 {
                     drawRotationDegrees = RotationDegreesForDirection(recoveryDirection);
                     nextPosition = exactPosition + DirectionForRotationDegrees(drawRotationDegrees) * speed;
@@ -565,14 +571,14 @@ namespace Helodrace
                 return;
             }
 
-            IntVec3 cell = exactPosition.ToIntVec3();
+            IntVec3 cell = exactPosition.ToGame().ToIntVec3();
             if (!cell.InBounds(Map))
             {
                 cell = new IntVec3(
                     Mathf.Clamp(cell.x, 0, Map.Size.x - 1),
                     0,
                     Mathf.Clamp(cell.z, 0, Map.Size.z - 1));
-                exactPosition = cell.ToVector3Shifted();
+                exactPosition = cell.ToVector3Shifted().ToNative();
             }
 
             Position = cell;
@@ -580,8 +586,8 @@ namespace Helodrace
 
         private void TurnTowardsDirection(Vector3 desiredDirection, float maxDegrees)
         {
-            desiredDirection.y = 0f;
-            if (desiredDirection.sqrMagnitude < 0.001f)
+            desiredDirection.Y = 0f;
+            if (desiredDirection.LengthSquared() < 0.001f)
             {
                 return;
             }
@@ -607,14 +613,14 @@ namespace Helodrace
 
         private static float RotationDegreesForDirection(Vector3 direction)
         {
-            direction.y = 0f;
-            if (direction.sqrMagnitude < 0.001f)
+            direction.Y = 0f;
+            if (direction.LengthSquared() < 0.001f)
             {
                 return 0f;
             }
 
-            direction.Normalize();
-            return Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            direction = direction.normalized;
+            return Mathf.Atan2(direction.X, direction.Z) * Mathf.Rad2Deg;
         }
 
         private static Vector3 DirectionForRotationDegrees(float rotationDegrees)
@@ -623,7 +629,7 @@ namespace Helodrace
             return new Vector3(Mathf.Sin(radians), 0f, Mathf.Cos(radians));
         }
 
-        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
+        protected override void DrawAt(UnityEngine.Vector3 drawLoc, bool flip = false)
         {
             Material material = CurrentMaterial;
             if (material == null)
@@ -632,26 +638,26 @@ namespace Helodrace
                 return;
             }
 
-            drawLoc = DrawPos;
+            Vector3 position = NativeDrawPosition;
             float altitudeScale = VisualAltitudeScale;
-            DrawGroundShadow(drawLoc);
-            drawLoc.y = AltitudeLayer.MoteOverhead.AltitudeFor();
-            DrawZoomHighlight(drawLoc, altitudeScale);
-            Vector3 scale = new Vector3(DroneDrawSize.x * altitudeScale / 10f, 1f, DroneDrawSize.y * altitudeScale / 10f);
-            Matrix4x4 matrix = Matrix4x4.TRS(drawLoc, Quaternion.AngleAxis(drawRotationDegrees, Vector3.up), scale);
-            Graphics.DrawMesh(MeshPool.plane10, matrix, material, 0);
+            DrawGroundShadow(position);
+            position.Y = AltitudeLayer.MoteOverhead.AltitudeFor();
+            DrawZoomHighlight(position, altitudeScale);
+            Vector3 scale = new Vector3(DroneDrawSize.X * altitudeScale / 10f, 1f, DroneDrawSize.Y * altitudeScale / 10f);
+            var matrix = SpatialMath.CreateTransform(position, Quaternion.AngleAxis(drawRotationDegrees, Vector3.UnitY), scale);
+            Graphics.DrawMesh(MeshPool.plane10, matrix.ToGame(), material, 0);
         }
 
         private void DrawGroundShadow(Vector3 drawLoc)
         {
             float altitudeFactor = VisualAltitudeFactor;
-            drawLoc.y = AltitudeLayer.Shadows.AltitudeFor();
+            drawLoc.Y = AltitudeLayer.Shadows.AltitudeFor();
             Vector3 scale = new Vector3(
-                DroneDrawSize.x * Mathf.Lerp(0.55f, 0.9f, altitudeFactor) / 10f,
+                DroneDrawSize.X * Mathf.Lerp(0.55f, 0.9f, altitudeFactor) / 10f,
                 1f,
-                DroneDrawSize.y * Mathf.Lerp(0.28f, 0.48f, altitudeFactor) / 10f);
-            Matrix4x4 matrix = Matrix4x4.TRS(drawLoc, Quaternion.AngleAxis(drawRotationDegrees, Vector3.up), scale);
-            Graphics.DrawMesh(MeshPool.plane10, matrix, ShadowMaterial, 0);
+                DroneDrawSize.Y * Mathf.Lerp(0.28f, 0.48f, altitudeFactor) / 10f);
+            var matrix = SpatialMath.CreateTransform(drawLoc, Quaternion.AngleAxis(drawRotationDegrees, Vector3.UnitY), scale);
+            Graphics.DrawMesh(MeshPool.plane10, matrix.ToGame(), ShadowMaterial, 0);
         }
 
         private void DrawZoomHighlight(Vector3 drawLoc, float altitudeScale)
@@ -662,10 +668,10 @@ namespace Helodrace
             }
 
             float pulse = 1f + Mathf.Sin((Find.TickManager?.TicksGame ?? 0) * 0.08f) * 0.08f;
-            drawLoc.y -= 0.02f;
-            Vector3 scale = new Vector3(DroneDrawSize.x * altitudeScale * 1.18f * pulse / 10f, 1f, DroneDrawSize.y * altitudeScale * 1.18f * pulse / 10f);
-            Matrix4x4 matrix = Matrix4x4.TRS(drawLoc, Quaternion.AngleAxis(45f, Vector3.up), scale);
-            Graphics.DrawMesh(MeshPool.plane10, matrix, ZoomHighlightMaterial, 0);
+            drawLoc.Y -= 0.02f;
+            Vector3 scale = new Vector3(DroneDrawSize.X * altitudeScale * 1.18f * pulse / 10f, 1f, DroneDrawSize.Y * altitudeScale * 1.18f * pulse / 10f);
+            var matrix = SpatialMath.CreateTransform(drawLoc, Quaternion.AngleAxis(45f, Vector3.UnitY), scale);
+            Graphics.DrawMesh(MeshPool.plane10, matrix.ToGame(), ZoomHighlightMaterial, 0);
         }
 
         private static bool ShouldDrawZoomHighlight
@@ -701,7 +707,7 @@ namespace Helodrace
 
                 if (mode == SwitchbladeDroneMode.Diving)
                 {
-                    float targetDistance = targetCell.IsValid ? (exactPosition - targetCell.ToVector3Shifted()).magnitude : diveStartDistance;
+                    float targetDistance = targetCell.IsValid ? (exactPosition - targetCell.ToVector3Shifted().ToNative()).Length() : diveStartDistance;
                     float diveProgress = 1f - Mathf.Clamp01(targetDistance / Mathf.Max(1f, diveStartDistance));
                     return Mathf.Lerp(0.82f, 0.03f, diveProgress);
                 }
@@ -732,8 +738,8 @@ namespace Helodrace
         private static Material FoldedMaterial => foldedMaterial ?? (foldedMaterial = MaterialPool.MatFrom("Weapons/ModernWar/Projectiles/HD_SwitchBlade600_FoldBlade", ShaderDatabase.Cutout));
         private static Material HalfBladeMaterial => halfBladeMaterial ?? (halfBladeMaterial = MaterialPool.MatFrom("Weapons/ModernWar/Projectiles/HD_SwitchBlade600_halfBlade", ShaderDatabase.Cutout));
         private static Material FullBladeMaterial => fullBladeMaterial ?? (fullBladeMaterial = MaterialPool.MatFrom("Weapons/ModernWar/Projectiles/HD_SwitchBlade600_FullBlade", ShaderDatabase.Cutout));
-        private static Material ZoomHighlightMaterial => zoomHighlightMaterial ?? (zoomHighlightMaterial = SolidColorMaterials.SimpleSolidColorMaterial(ZoomHighlightColor, false));
-        private static Material ShadowMaterial => shadowMaterial ?? (shadowMaterial = SolidColorMaterials.SimpleSolidColorMaterial(ShadowColor, false));
+        private static Material ZoomHighlightMaterial => zoomHighlightMaterial ?? (zoomHighlightMaterial = SolidColorMaterials.SimpleSolidColorMaterial(ZoomHighlightColor.ToGame(), false));
+        private static Material ShadowMaterial => shadowMaterial ?? (shadowMaterial = SolidColorMaterials.SimpleSolidColorMaterial(ShadowColor.ToGame(), false));
     }
 
 }
