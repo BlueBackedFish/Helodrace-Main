@@ -4,7 +4,7 @@
     <LangVersion>14.0</LangVersion>
     <RimWorldPath Condition="'$(RimWorldPath)' == ''">C:\Program Files (x86)\Steam\steamapps\common\RimWorld</RimWorldPath>
     <RimWorldReferencePath Condition="'$(RimWorldReferencePath)' == ''">$(RimWorldPath)</RimWorldReferencePath>
-    <RimWorldReferenceVersion>1.7.4990-unstable</RimWorldReferenceVersion>
+    <RimWorldReferenceVersion>1.7.4995-unstable</RimWorldReferenceVersion>
     <HarmonyRoot Condition="'$(HarmonyRoot)' == ''">$(RimWorldPath)\..\..\workshop\content\294100\2009463077</HarmonyRoot>
     <HarmonyAssemblyPath Condition="'$(HarmonyAssemblyPath)' == ''">$(HarmonyRoot)\1.7\Assemblies\0Harmony.dll</HarmonyAssemblyPath>
     <HelodAssembly Condition="'$(HelodAssembly)' == ''">$(MSBuildThisFileDirectory)..\Assemblies\Helodrace.dll</HelodAssembly>
