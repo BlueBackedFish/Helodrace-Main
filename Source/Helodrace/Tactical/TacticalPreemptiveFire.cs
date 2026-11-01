@@ -7,6 +7,9 @@ using System.Reflection;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
+using Waylith.Math;
+using Vector3 = System.Numerics.Vector3;
+using Color = Waylith.Math.Color;
 using Verse;
 using Verse.AI;
 
@@ -165,26 +168,26 @@ namespace Helodrace.Tactical
                 return;
             }
 
-            Vector3 start = origin.ToVector3Shifted();
-            Vector3 raw = destination.ToVector3Shifted() - start;
-            raw.y = 0f;
-            if (raw.sqrMagnitude < 0.001f)
+            Vector3 start = origin.ToVector3Shifted().ToNative();
+            Vector3 raw = destination.ToVector3Shifted().ToNative() - start;
+            raw.Y = 0f;
+            if (raw.LengthSquared() < 0.001f)
             {
                 return;
             }
 
             Vector3 direction = raw.normalized;
             float length = Mathf.Min(
-                raw.magnitude,
-                verb?.EffectiveRange ?? raw.magnitude);
+                raw.Length(),
+                verb?.EffectiveRange ?? raw.Length());
             Vector3 end = start + direction * length;
-            Vector3 lateral = new Vector3(-direction.z, 0f, direction.x)
+            Vector3 lateral = new Vector3(-direction.Z, 0f, direction.X)
                 * CorridorHalfWidth;
             SimpleColor color = valid ? SimpleColor.Green : SimpleColor.Red;
-            GenDraw.DrawLineBetween(start, end, color, 0.08f);
-            GenDraw.DrawLineBetween(start - lateral, end - lateral, color, 0.04f);
-            GenDraw.DrawLineBetween(start + lateral, end + lateral, color, 0.04f);
-            GenDraw.DrawRadiusRing(destination, 0.5f, valid ? Color.green : Color.red);
+            GenDraw.DrawLineBetween(start.ToGame(), end.ToGame(), color, 0.08f);
+            GenDraw.DrawLineBetween((start - lateral).ToGame(), (end - lateral).ToGame(), color, 0.04f);
+            GenDraw.DrawLineBetween((start + lateral).ToGame(), (end + lateral).ToGame(), color, 0.04f);
+            GenDraw.DrawRadiusRing(destination, 0.5f, (valid ? Color.green : Color.red).ToGame());
         }
 
         private static void Start(Pawn pawn, IntVec3 destination)
@@ -202,11 +205,11 @@ namespace Helodrace.Tactical
                 return;
             pawn.pather?.StopDead();
 
-            Vector3 direction = destination.ToVector3Shifted()
-                - pawn.Position.ToVector3Shifted();
-            direction.y = 0f;
-            float length = Mathf.Min(direction.magnitude, verb.EffectiveRange);
-            direction.Normalize();
+            Vector3 direction = destination.ToVector3Shifted().ToNative()
+                - pawn.Position.ToVector3Shifted().ToNative();
+            direction.Y = 0f;
+            float length = Mathf.Min(direction.Length(), verb.EffectiveRange);
+            direction = direction.normalized;
 
             State state = new State
             {
@@ -411,16 +414,16 @@ namespace Helodrace.Tactical
                     continue;
                 }
 
-                Vector3 start = state.origin.ToVector3Shifted();
+                Vector3 start = state.origin.ToVector3Shifted().ToNative();
                 Vector3 end = start + state.direction * state.length;
-                Vector3 lateral = new Vector3(-state.direction.z, 0f, state.direction.x)
+                Vector3 lateral = new Vector3(-state.direction.Z, 0f, state.direction.X)
                     * CorridorHalfWidth;
                 SimpleColor color = CurrentTick < state.readyTick
                     ? SimpleColor.Yellow
                     : SimpleColor.Red;
-                GenDraw.DrawLineBetween(start, end, color, 0.08f);
-                GenDraw.DrawLineBetween(start - lateral, end - lateral, color, 0.035f);
-                GenDraw.DrawLineBetween(start + lateral, end + lateral, color, 0.035f);
+                GenDraw.DrawLineBetween(start.ToGame(), end.ToGame(), color, 0.08f);
+                GenDraw.DrawLineBetween((start - lateral).ToGame(), (end - lateral).ToGame(), color, 0.035f);
+                GenDraw.DrawLineBetween((start + lateral).ToGame(), (end + lateral).ToGame(), color, 0.035f);
             }
         }
 
@@ -518,7 +521,7 @@ namespace Helodrace.Tactical
     }
 
     [HarmonyPatch(typeof(Projectile), nameof(Projectile.Launch), new[] {
-        typeof(Thing), typeof(Vector3), typeof(LocalTargetInfo), typeof(LocalTargetInfo),
+        typeof(Thing), typeof(UnityEngine.Vector3), typeof(LocalTargetInfo), typeof(LocalTargetInfo),
         typeof(ProjectileHitFlags), typeof(bool), typeof(Thing), typeof(ThingDef) })]
     public static class Patch_Projectile_Launch_TacticalPreemptiveFire
     {
