@@ -3,6 +3,8 @@ using System.Linq;
 using HarmonyLib;
 using LudeonTK;
 using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
+using Vector3 = System.Numerics.Vector3;
 using Verse;
 
 namespace Helodrace.Tactics
@@ -60,10 +62,10 @@ namespace Helodrace.Tactics
             foreach (PlanOverlayNode node in planOverlayNodes)
             {
                 if (!view.Contains(node.Cell)) continue;
-                Vector3 center = node.Cell.ToVector3Shifted(); center.y = AltitudeLayer.MetaOverlays.AltitudeFor();
+                Vector3 center = new Vector3(node.Cell.x + .5f, AltitudeLayer.MetaOverlays.AltitudeFor(), node.Cell.z + .5f);
                 // Two short strokes rather than a many-segment circle per slot.
-                GenDraw.DrawLineBetween(center + new Vector3(-.3f,0,-.3f), center + new Vector3(.3f,0,.3f), node.Color, .06f);
-                GenDraw.DrawLineBetween(center + new Vector3(-.3f,0,.3f), center + new Vector3(.3f,0,-.3f), node.Color, .06f);
+                GenDraw.DrawLineBetween((center + new Vector3(-.3f,0,-.3f)).ToGame(), (center + new Vector3(.3f,0,.3f)).ToGame(), node.Color, .06f);
+                GenDraw.DrawLineBetween((center + new Vector3(-.3f,0,.3f)).ToGame(), (center + new Vector3(.3f,0,-.3f)).ToGame(), node.Color, .06f);
             }
         }
 
@@ -78,8 +80,8 @@ namespace Helodrace.Tactics
             {
                 if (!view.Contains(node.Cell) || !node.Major && node.Cell.DistanceToSquared(mouse) > 4) continue;
                 if (drawn++ >= OverlayLabelLimit) break;
-                Vector2 position = GenMapUI.LabelDrawPosFor(node.Cell); position.y -= 14f * (node.LabelRow + 1);
-                GenMapUI.DrawThingLabel(position, node.Label, node.Color.ToUnityColor());
+                Vector2 position = GenMapUI.LabelDrawPosFor(node.Cell).ToNative(); position.Y -= 14f * (node.LabelRow + 1);
+                GenMapUI.DrawThingLabel(position.ToGame(), node.Label, node.Color.ToUnityColor());
             }
         }
 

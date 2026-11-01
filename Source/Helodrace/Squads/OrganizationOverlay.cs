@@ -1,7 +1,9 @@
 using System.Linq;
 using HarmonyLib;
 using LudeonTK;
-using UnityEngine;
+using Waylith.Math;
+using Vector2 = System.Numerics.Vector2;
+using Color = Waylith.Math.Color;
 using Verse;
 
 namespace Helodrace.Squads
@@ -58,15 +60,15 @@ namespace Helodrace.Squads
 
             // Begin below the normal pawn-name label. Screen-space line spacing remains
             // legible at different camera zoom levels and UI scales.
-            Vector2 position = GenMapUI.LabelDrawPosFor(pawn, -0.6f);
-            position.y += 20f;
-            GenMapUI.DrawThingLabel(position, comp.overlayGroupLabel, DetailColor);
-            position.y += 14f;
-            GenMapUI.DrawThingLabel(position, comp.overlayRoleLabel,
-                comp.ActingRole != null ? ActingColor : group.EffectiveCommander == pawn ? LeaderColor : Color.white);
-            position.y += 14f;
-            GenMapUI.DrawThingLabel(position, comp.overlayCommandLabel,
-                group.EffectiveCommander == null ? LostColor : DetailColor);
+            Vector2 position = GenMapUI.LabelDrawPosFor(pawn, -0.6f).ToNative();
+            position.Y += 20f;
+            GenMapUI.DrawThingLabel(position.ToGame(), comp.overlayGroupLabel, DetailColor.ToGame());
+            position.Y += 14f;
+            GenMapUI.DrawThingLabel(position.ToGame(), comp.overlayRoleLabel,
+                (comp.ActingRole != null ? ActingColor : group.EffectiveCommander == pawn ? LeaderColor : Color.white).ToGame());
+            position.Y += 14f;
+            GenMapUI.DrawThingLabel(position.ToGame(), comp.overlayCommandLabel,
+                (group.EffectiveCommander == null ? LostColor : DetailColor).ToGame());
         }
 
         private static void Refresh(PawnOrganizationComponent comp, CombatGroup group)

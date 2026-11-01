@@ -292,6 +292,7 @@ namespace Helodrace.Tests
                 else if (mode == "native-telegraph-ui") NativeWindowSubmissionChecks.Run(output, Check);
                 else if (mode == "native-economy-ui") NativeWindowSubmissionChecks.RunEconomy(output, Check);
                 else if (mode == "native-research-ui") NativeWindowSubmissionChecks.RunResearch(output, Check);
+                else if (mode == "native-overlays") NativeWindowSubmissionChecks.RunOverlays(output, Check);
                 else if (mode == "main-state")
                 {
                     if (!mainStatePrepared)
