@@ -1,5 +1,9 @@
 using System.Text;
 using UnityEngine;
+using Waylith.Math;
+using Vector2 = System.Numerics.Vector2;
+using Rect = Waylith.Math.Rect;
+using Color = Waylith.Math.Color;
 using Verse;
 
 namespace Helodrace
@@ -133,19 +137,19 @@ namespace Helodrace
         {
             GameFont oldFont = Text.Font;
             TextAnchor oldAnchor = Text.Anchor;
-            Color oldColor = GUI.color;
+            Color oldColor = GUI.color.ToNative();
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.UpperLeft;
-            GUI.color = Color.white;
+            GUI.color = Color.white.ToGame();
 
-            Vector2 size = Text.CalcSize(label);
-            Rect rect = new Rect(CornerMargin, UI.screenHeight - BottomOffset - size.y - LabelPadding * 2f, size.x + LabelPadding * 2f, size.y + LabelPadding * 2f);
+            Vector2 size = Text.CalcSize(label).ToNative();
+            Rect rect = new Rect(CornerMargin, UI.screenHeight - BottomOffset - size.Y - LabelPadding * 2f, size.X + LabelPadding * 2f, size.Y + LabelPadding * 2f);
             rect.y = Mathf.Max(CornerMargin, rect.y);
 
-            Widgets.DrawBoxSolidWithOutline(rect, BackgroundColor, OutlineColor, 1);
-            Widgets.Label(rect.ContractedBy(LabelPadding), label);
+            Widgets.DrawBoxSolidWithOutline(rect.ToGame(), BackgroundColor.ToGame(), OutlineColor.ToGame(), 1);
+            Widgets.Label((UiMath.Inset(rect, LabelPadding)).ToGame(), label);
 
-            GUI.color = oldColor;
+            GUI.color = oldColor.ToGame();
             Text.Anchor = oldAnchor;
             Text.Font = oldFont;
         }

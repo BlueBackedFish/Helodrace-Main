@@ -3,6 +3,10 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using RimWorld;
 using UnityEngine;
+using Waylith.Math;
+using Vector2 = System.Numerics.Vector2;
+using Rect = Waylith.Math.Rect;
+using Color = Waylith.Math.Color;
 using Verse;
 
 namespace Helodrace
@@ -18,7 +22,7 @@ namespace Helodrace
         private Vector2 scrollPosition;
         private string search = string.Empty;
 
-        public override Vector2 InitialSize => new Vector2(760f, 620f);
+        public override UnityEngine.Vector2 InitialSize => new UnityEngine.Vector2(760f, 620f);
 
         public Dialog_WeaponLoadout(CompM6RocketBag loadout)
         {
@@ -29,30 +33,31 @@ namespace Helodrace
             forcePause = true;
         }
 
-        public override void DoWindowContents(Rect inRect)
+        public override void DoWindowContents(UnityEngine.Rect gameRect)
         {
+            Rect inRect = gameRect.ToNative();
             if (loadout?.Wearer == null)
             {
-                Widgets.Label(inRect, "HD_WeaponLoadout_NotEquipped".Translate());
+                Widgets.Label(inRect.ToGame(), "HD_WeaponLoadout_NotEquipped".Translate());
                 return;
             }
 
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 32f), "HD_WeaponLoadout_Title".Translate());
+            Widgets.Label((new Rect(inRect.x, inRect.y, inRect.width, 32f)).ToGame(), "HD_WeaponLoadout_Title".Translate());
             Text.Font = GameFont.Small;
 
             float totalMass = loadout.AllowedAmmoDefs.Sum(def =>
                 loadout.DesiredCountFor(def) * def.GetStatValueAbstract(StatDefOf.Mass));
-            Widgets.Label(new Rect(inRect.x, inRect.y + 38f, inRect.width * 0.55f, 28f),
+            Widgets.Label((new Rect(inRect.x, inRect.y + 38f, inRect.width * 0.55f, 28f)).ToGame(),
                 "HD_WeaponLoadout_TotalMass".Translate(totalMass.ToStringMass()));
 
             Rect searchRect = new Rect(inRect.x + inRect.width - 280f, inRect.y + 34f, 280f, 30f);
-            search = Widgets.TextField(searchRect, search ?? string.Empty);
+            search = Widgets.TextField(searchRect.ToGame(), search ?? string.Empty);
             if (search.NullOrEmpty())
             {
-                GUI.color = Color.gray;
-                Widgets.Label(searchRect.ContractedBy(5f, 3f), "HD_WeaponLoadout_Search".Translate());
-                GUI.color = Color.white;
+                GUI.color = Color.gray.ToGame();
+                Widgets.Label((new Rect(searchRect.x + 5f, searchRect.y + 3f, searchRect.width - 10f, searchRect.height - 6f)).ToGame(), "HD_WeaponLoadout_Search".Translate());
+                GUI.color = Color.white.ToGame();
             }
 
             Rect header = new Rect(inRect.x, inRect.y + 72f, inRect.width - 16f, 28f);
@@ -69,7 +74,9 @@ namespace Helodrace
             Rect outRect = new Rect(inRect.x, inRect.y + 102f, inRect.width, inRect.height - 102f);
             float contentHeight = ammoGroups.Sum(group => 48f + (expandedGroups.Contains(group.Key) ? group.Count() * 48f : 0f));
             Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, Mathf.Max(outRect.height, contentHeight));
-            Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
+            UnityEngine.Vector2 gameScroll = scrollPosition.ToGame();
+            Widgets.BeginScrollView(outRect.ToGame(), ref gameScroll, viewRect.ToGame());
+            scrollPosition = gameScroll.ToNative();
 
             float y = 0f;
             foreach (IGrouping<string, ThingDef> group in ammoGroups)
@@ -95,10 +102,10 @@ namespace Helodrace
         private void DrawGroupRow(IGrouping<string, ThingDef> group, Rect rect)
         {
             bool expanded = expandedGroups.Contains(group.Key);
-            Widgets.DrawMenuSection(rect);
-            Widgets.DrawHighlightIfMouseover(rect);
+            Widgets.DrawMenuSection(rect.ToGame());
+            Widgets.DrawHighlightIfMouseover(rect.ToGame());
 
-            if (Widgets.ButtonInvisible(rect))
+            if (Widgets.ButtonInvisible(rect.ToGame()))
             {
                 if (expanded)
                 {
@@ -111,16 +118,16 @@ namespace Helodrace
             }
 
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(rect.x + 10f, rect.y + 7f, 28f, 30f), expanded ? "−" : "+");
-            Widgets.Label(new Rect(rect.x + 42f, rect.y + 7f, 268f, 30f), group.Key);
+            Widgets.Label((new Rect(rect.x + 10f, rect.y + 7f, 28f, 30f)).ToGame(), expanded ? "−" : "+");
+            Widgets.Label((new Rect(rect.x + 42f, rect.y + 7f, 268f, 30f)).ToGame(), group.Key);
             Text.Font = GameFont.Small;
 
             int current = group.Sum(def => InventoryAmmoUtility.Count(loadout.Wearer, def));
             int desired = group.Sum(def => loadout.DesiredCountFor(def));
             float desiredMass = group.Sum(def => loadout.DesiredCountFor(def) * def.GetStatValueAbstract(StatDefOf.Mass));
-            Widgets.Label(new Rect(rect.x + 320f, rect.y + 11f, 100f, 28f), current.ToString());
-            Widgets.Label(new Rect(rect.x + 457f, rect.y + 11f, 86f, 28f), desired.ToString());
-            Widgets.Label(new Rect(rect.x + 560f, rect.y + 11f, 160f, 28f), desiredMass.ToStringMass());
+            Widgets.Label((new Rect(rect.x + 320f, rect.y + 11f, 100f, 28f)).ToGame(), current.ToString());
+            Widgets.Label((new Rect(rect.x + 457f, rect.y + 11f, 86f, 28f)).ToGame(), desired.ToString());
+            Widgets.Label((new Rect(rect.x + 560f, rect.y + 11f, 160f, 28f)).ToGame(), desiredMass.ToStringMass());
         }
 
         private static string CaliberGroupLabel(ThingDef ammoDef)
@@ -154,26 +161,26 @@ namespace Helodrace
 
         private static void DrawHeader(Rect rect)
         {
-            GUI.color = Color.gray;
-            Widgets.Label(new Rect(rect.x + 42f, rect.y, 270f, rect.height), "HD_WeaponLoadout_Ammo".Translate());
-            Widgets.Label(new Rect(rect.x + 320f, rect.y, 105f, rect.height), "HD_WeaponLoadout_Current".Translate());
-            Widgets.Label(new Rect(rect.x + 435f, rect.y, 105f, rect.height), "HD_WeaponLoadout_Desired".Translate());
-            Widgets.Label(new Rect(rect.x + 560f, rect.y, 160f, rect.height), "HD_WeaponLoadout_Mass".Translate());
-            GUI.color = Color.white;
+            GUI.color = Color.gray.ToGame();
+            Widgets.Label((new Rect(rect.x + 42f, rect.y, 270f, rect.height)).ToGame(), "HD_WeaponLoadout_Ammo".Translate());
+            Widgets.Label((new Rect(rect.x + 320f, rect.y, 105f, rect.height)).ToGame(), "HD_WeaponLoadout_Current".Translate());
+            Widgets.Label((new Rect(rect.x + 435f, rect.y, 105f, rect.height)).ToGame(), "HD_WeaponLoadout_Desired".Translate());
+            Widgets.Label((new Rect(rect.x + 560f, rect.y, 160f, rect.height)).ToGame(), "HD_WeaponLoadout_Mass".Translate());
+            GUI.color = Color.white.ToGame();
         }
 
         private void DrawAmmoRow(ThingDef ammoDef, Rect rect)
         {
-            Widgets.DrawHighlightIfMouseover(rect);
+            Widgets.DrawHighlightIfMouseover(rect.ToGame());
             Widgets.DrawLineHorizontal(rect.x, rect.yMax, rect.width);
-            Widgets.ThingIcon(new Rect(rect.x + 4f, rect.y + 4f, 36f, 36f), ammoDef);
+            Widgets.ThingIcon((new Rect(rect.x + 4f, rect.y + 4f, 36f, 36f)).ToGame(), ammoDef);
 
             Rect labelRect = new Rect(rect.x + 46f, rect.y + 11f, 264f, 28f);
-            Widgets.Label(labelRect, ammoDef.LabelCap);
-            TooltipHandler.TipRegion(labelRect, ammoDef.description);
+            Widgets.Label(labelRect.ToGame(), ammoDef.LabelCap);
+            TooltipHandler.TipRegion(labelRect.ToGame(), ammoDef.description);
 
             int current = InventoryAmmoUtility.Count(loadout.Wearer, ammoDef);
-            Widgets.Label(new Rect(rect.x + 320f, rect.y + 11f, 100f, 28f), current.ToString());
+            Widgets.Label((new Rect(rect.x + 320f, rect.y + 11f, 100f, 28f)).ToGame(), current.ToString());
 
             int desired = loadout.DesiredCountFor(ammoDef);
             if (!countBuffers.TryGetValue(ammoDef, out string buffer))
@@ -185,15 +192,15 @@ namespace Helodrace
             Rect countRect = new Rect(rect.x + 457f, rect.y + 7f, 54f, 30f);
             Rect plusRect = new Rect(rect.x + 515f, rect.y + 7f, 28f, 30f);
 
-            if (Widgets.ButtonText(minusRect, "−"))
+            if (Widgets.ButtonText(minusRect.ToGame(), "−"))
             {
                 desired = Mathf.Max(0, desired - 1);
                 buffer = desired.ToString();
             }
 
-            Widgets.TextFieldNumeric(countRect, ref desired, ref buffer, 0, 9999);
+            Widgets.TextFieldNumeric(countRect.ToGame(), ref desired, ref buffer, 0, 9999);
 
-            if (Widgets.ButtonText(plusRect, "+"))
+            if (Widgets.ButtonText(plusRect.ToGame(), "+"))
             {
                 desired = Mathf.Min(9999, desired + 1);
                 buffer = desired.ToString();
@@ -203,7 +210,7 @@ namespace Helodrace
             loadout.SetDesiredCount(ammoDef, desired);
 
             float unitMass = ammoDef.GetStatValueAbstract(StatDefOf.Mass);
-            Widgets.Label(new Rect(rect.x + 560f, rect.y + 11f, 160f, 28f),
+            Widgets.Label((new Rect(rect.x + 560f, rect.y + 11f, 160f, 28f)).ToGame(),
                 "HD_WeaponLoadout_MassValue".Translate(unitMass.ToStringMass(), (unitMass * desired).ToStringMass()));
         }
     }
