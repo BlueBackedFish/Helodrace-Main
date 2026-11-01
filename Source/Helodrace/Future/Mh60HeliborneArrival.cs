@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using UnityEngine;
+using Waylith.Math;
+using Vector3 = System.Numerics.Vector3;
+using Quaternion = System.Numerics.Quaternion;
 using Verse;
 using Verse.Sound;
 
@@ -386,7 +389,7 @@ namespace Helodrace.Future
             }
 
             Vector3 center = AircraftDrawPosition();
-            center.z -= Mh60HeliborneUtility.RopeLandingDistance;
+            center.Z -= Mh60HeliborneUtility.RopeLandingDistance;
             int dustCount = hovering ? 14 : 11;
             float baseAngle = ageTicks * 13f + Rand.Range(0f, 360f);
             for (int index = 0; index < dustCount; index++)
@@ -396,10 +399,9 @@ namespace Helodrace.Future
                     + Rand.Range(-8f, 8f);
                 float radius = Rand.Range(
                     DustRingInnerRadius, DustRingOuterRadius);
-                Vector3 direction = Quaternion.AngleAxis(angle, Vector3.up)
-                    * Vector3.right;
+                Vector3 direction = Vector3.Transform(Vector3.UnitX, Quaternion.AngleAxis(angle, Vector3.UnitY));
                 Vector3 dustPosition = center + direction * radius;
-                if (!dustPosition.ToIntVec3().InBounds(Map))
+                if (!dustPosition.ToGame().ToIntVec3().InBounds(Map))
                 {
                     continue;
                 }
@@ -407,7 +409,7 @@ namespace Helodrace.Future
                 float size = hovering
                     ? Rand.Range(0.9f, 1.35f)
                     : Rand.Range(0.65f, 0.95f);
-                FleckMaker.ThrowDustPuff(dustPosition, Map, size);
+                FleckMaker.ThrowDustPuff(dustPosition.ToGame(), Map, size);
             }
 
             // Sparse interior particles keep the rotor wash from looking like
@@ -417,13 +419,12 @@ namespace Helodrace.Future
             {
                 float angle = Rand.Range(0f, 360f);
                 float radius = Mathf.Sqrt(Rand.Value) * DustRingInnerRadius;
-                Vector3 direction = Quaternion.AngleAxis(angle, Vector3.up)
-                    * Vector3.right;
+                Vector3 direction = Vector3.Transform(Vector3.UnitX, Quaternion.AngleAxis(angle, Vector3.UnitY));
                 Vector3 dustPosition = center + direction * radius;
-                if (dustPosition.ToIntVec3().InBounds(Map))
+                if (dustPosition.ToGame().ToIntVec3().InBounds(Map))
                 {
                     FleckMaker.ThrowDustPuff(
-                        dustPosition,
+                        dustPosition.ToGame(),
                         Map,
                         hovering
                             ? Rand.Range(0.55f, 0.85f)
@@ -438,13 +439,12 @@ namespace Helodrace.Future
             {
                 float angle = Rand.Range(0f, 360f);
                 float radius = Mathf.Sqrt(Rand.Value) * DustRingOuterRadius;
-                Vector3 direction = Quaternion.AngleAxis(angle, Vector3.up)
-                    * Vector3.right;
+                Vector3 direction = Vector3.Transform(Vector3.UnitX, Quaternion.AngleAxis(angle, Vector3.UnitY));
                 Vector3 smokePosition = center + direction * radius;
-                if (smokePosition.ToIntVec3().InBounds(Map))
+                if (smokePosition.ToGame().ToIntVec3().InBounds(Map))
                 {
                     FleckMaker.Static(
-                        smokePosition,
+                        smokePosition.ToGame(),
                         Map,
                         RotorWashSmokeFleck,
                         Rand.Range(0.45f, 0.75f));
@@ -457,16 +457,16 @@ namespace Helodrace.Future
                 DefDatabase<FleckDef>.GetNamedSilentFail(
                     RotorWashSmokeFleckDefName));
 
-        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
+        protected override void DrawAt(UnityEngine.Vector3 drawLoc, bool flip = false)
         {
             Vector3 aircraftPosition = AircraftDrawPosition();
             float baseAltitude = AltitudeLayer.MoteOverhead.AltitudeFor();
-            aircraftPosition.y = baseAltitude;
-            Quaternion aircraftRotation = Quaternion.AngleAxis(AircraftAngleDegrees(), Vector3.up);
+            aircraftPosition.Y = baseAltitude;
+            Quaternion aircraftRotation = Quaternion.AngleAxis(AircraftAngleDegrees(), Vector3.UnitY);
 
             float doorOpen = DoorOpenFactor();
-            Vector3 doorOffset = aircraftRotation
-                * new Vector3(Mathf.Lerp(ClosedDoorEastOffset, 0f, doorOpen), 0f, 0f);
+            Vector3 doorOffset = Vector3.Transform(
+                new Vector3(Mathf.Lerp(ClosedDoorEastOffset, 0f, doorOpen), 0f, 0f), aircraftRotation);
             Vector3 doorPosition = aircraftPosition + doorOffset;
 
             // The outline is intentionally the very bottom aircraft layer.
@@ -538,7 +538,7 @@ namespace Helodrace.Future
 
         private Vector3 AircraftDrawPosition()
         {
-            Vector3 target = Position.ToVector3Shifted();
+            Vector3 target = Position.ToVector3Shifted().ToNative();
             if (Map == null)
             {
                 return target;
@@ -547,7 +547,7 @@ namespace Helodrace.Future
             if (approachCompleteTick < 0)
             {
                 EnsureApproachInitialized();
-                target.x = approachDrawX;
+                target.X = approachDrawX;
                 return target;
             }
 
@@ -555,14 +555,14 @@ namespace Helodrace.Future
             {
                 float progress = ExitProgress((ageTicks - DoorCloseEnd) / (float)ExitTicks);
                 Vector3 end = target;
-                end.x = Map.Size.x + AircraftDrawSize;
-                return Vector3.Lerp(target, end, progress);
+                end.X = Map.Size.x + AircraftDrawSize;
+                return SpatialMath.Interpolate(target, end, progress);
             }
 
             float hoverBlend = Smooth01(
                 (ageTicks - ApproachEndTick) / (float)SettleTicks);
-            target.x += Mathf.Sin(ageTicks * 0.052f) * 0.035f * hoverBlend;
-            target.z += Mathf.Sin(ageTicks * 0.075f) * 0.08f * hoverBlend;
+            target.X += Mathf.Sin(ageTicks * 0.052f) * 0.035f * hoverBlend;
+            target.Z += Mathf.Sin(ageTicks * 0.075f) * 0.08f * hoverBlend;
             return target;
         }
 
@@ -629,7 +629,7 @@ namespace Helodrace.Future
             }
 
             EnsureApproachInitialized();
-            float targetX = Position.ToVector3Shifted().x;
+            float targetX = Position.ToVector3Shifted().ToNative().X;
             float remainingDistance = Mathf.Max(0f, targetX - approachDrawX);
             if (remainingDistance <= 0.001f)
             {
@@ -730,15 +730,15 @@ namespace Helodrace.Future
             float height = FastRopeDrawSize;
             // Keep the rope's vertical placement fixed in map space, but inherit
             // the helicopter's horizontal hover so the attachment point stays aligned.
-            Vector3 ropePosition = Position.ToVector3Shifted();
-            ropePosition.x = aircraftPosition.x + PassengerEastOffset;
+            Vector3 ropePosition = Position.ToVector3Shifted().ToNative();
+            ropePosition.X = aircraftPosition.X + PassengerEastOffset;
             // The source texture has transparent space above the rope. Moving the
             // draw box uses the original, unscaled placement size. Only the
             // texture itself is enlarged; its positional offset stays unchanged.
-            ropePosition.z -= RopeTopSouthOffset
+            ropePosition.Z -= RopeTopSouthOffset
                 + FastRopePlacementSize * (0.5f - 0.0625f);
             DrawPart(ropePosition, altitude, RopeMaterial,
-                FastRopeDrawSize, height, Quaternion.identity);
+                FastRopeDrawSize, height, Quaternion.Identity);
         }
 
         private void DrawDescendingPassenger(Vector3 aircraftPosition, float altitude)
@@ -760,13 +760,13 @@ namespace Helodrace.Future
                 float progress = Smooth01(
                     (ageTicks - descendingStartTicks[index])
                     / (float)PassengerDescentTicks);
-                Vector3 ropeTop = Position.ToVector3Shifted()
+                Vector3 ropeTop = Position.ToVector3Shifted().ToNative()
                     + new Vector3(0f, 0f, -RopeTopSouthOffset);
-                Vector3 ropeBottom = Mh60HeliborneUtility.LandingCell(Position).ToVector3Shifted();
-                Vector3 pawnPosition = Vector3.Lerp(ropeTop, ropeBottom, progress);
-                pawnPosition.x = aircraftPosition.x + PassengerEastOffset;
-                pawnPosition.y = altitude + index * 0.0001f;
-                pawn.Drawer.renderer.RenderPawnAt(pawnPosition, Rot4.South, false);
+                Vector3 ropeBottom = Mh60HeliborneUtility.LandingCell(Position).ToVector3Shifted().ToNative();
+                Vector3 pawnPosition = SpatialMath.Interpolate(ropeTop, ropeBottom, progress);
+                pawnPosition.X = aircraftPosition.X + PassengerEastOffset;
+                pawnPosition.Y = altitude + index * 0.0001f;
+                pawn.Drawer.renderer.RenderPawnAt(pawnPosition.ToGame(), Rot4.South, false);
             }
         }
 
@@ -778,10 +778,10 @@ namespace Helodrace.Future
                 return;
             }
 
-            position.y = altitude;
+            position.Y = altitude;
             Vector3 scale = new Vector3(width / 10f, 1f, height / 10f);
             Graphics.DrawMesh(MeshPool.plane10,
-                Matrix4x4.TRS(position, rotation, scale), material, 0);
+                SpatialMath.CreateTransform(position, rotation, scale).ToGame(), material, 0);
         }
 
         private static float Smooth01(float value)

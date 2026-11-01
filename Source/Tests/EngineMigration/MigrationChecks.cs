@@ -23,6 +23,7 @@ namespace Helodrace.Tests
         private bool shotgunPrepared;
         private bool switchbladePrepared;
         private bool casPrepared;
+        private bool mh60Prepared;
 #if HELODRACE_MAIN_CHECKS
         private bool lra7VerifiedOnLoad;
         private bool grenadeVerifiedOnLoad;
@@ -31,6 +32,7 @@ namespace Helodrace.Tests
         private bool shotgunVerifiedOnLoad;
         private bool switchbladeVerifiedOnLoad;
         private bool casVerifiedOnLoad;
+        private bool mh60VerifiedOnLoad;
 #endif
         private string output, mode;
 
@@ -48,13 +50,14 @@ namespace Helodrace.Tests
             Scribe_Values.Look(ref shotgunPrepared, "migrationShotgunPrepared", false);
             Scribe_Values.Look(ref switchbladePrepared, "migrationSwitchbladePrepared", false);
             Scribe_Values.Look(ref casPrepared, "migrationCasPrepared", false);
+            Scribe_Values.Look(ref mh60Prepared, "migrationMh60Prepared", false);
         }
 
 #if HELODRACE_MAIN_CHECKS
         public override void LoadedGame()
         {
             if (!GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string activeCase)
-                || !((lra7Prepared && activeCase == "native-lra7") || (grenadePrepared && activeCase == "native-grenades") || (towPrepared && activeCase == "native-tow") || (m47Prepared && activeCase == "native-m47") || (shotgunPrepared && activeCase == "native-shotgun") || (switchbladePrepared && activeCase == "native-switchblade") || (casPrepared && activeCase == "native-cas"))
+                || !((lra7Prepared && activeCase == "native-lra7") || (grenadePrepared && activeCase == "native-grenades") || (towPrepared && activeCase == "native-tow") || (m47Prepared && activeCase == "native-m47") || (shotgunPrepared && activeCase == "native-shotgun") || (switchbladePrepared && activeCase == "native-switchblade") || (casPrepared && activeCase == "native-cas") || (mh60Prepared && activeCase == "native-mh60"))
                 || !GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out output)) return;
             try
             {
@@ -89,10 +92,15 @@ namespace Helodrace.Tests
                     NativeSwitchbladeChecks.Verify(output, Check);
                     switchbladeVerifiedOnLoad = true;
                 }
-                else
+                else if (activeCase == "native-cas")
                 {
                     NativeCasChecks.Verify(output, Check);
                     casVerifiedOnLoad = true;
+                }
+                else
+                {
+                    NativeMh60Checks.Verify(output, Check);
+                    mh60VerifiedOnLoad = true;
                 }
             }
             catch (Exception error)
@@ -131,7 +139,7 @@ namespace Helodrace.Tests
             try
             {
                 if ((mode != "main-state" || !mainStatePrepared) && (mode != "blancas-generation" || !blancasGenerationPrepared)
-                    && (mode != "native-lra7" || !lra7Prepared) && (mode != "native-grenades" || !grenadePrepared) && (mode != "native-tow" || !towPrepared) && (mode != "native-m47" || !m47Prepared) && (mode != "native-shotgun" || !shotgunPrepared) && (mode != "native-switchblade" || !switchbladePrepared) && (mode != "native-cas" || !casPrepared))
+                    && (mode != "native-lra7" || !lra7Prepared) && (mode != "native-grenades" || !grenadePrepared) && (mode != "native-tow" || !towPrepared) && (mode != "native-m47" || !m47Prepared) && (mode != "native-shotgun" || !shotgunPrepared) && (mode != "native-switchblade" || !switchbladePrepared) && (mode != "native-cas" || !casPrepared) && (mode != "native-mh60" || !mh60Prepared))
                     File.WriteAllText(Path.Combine(output, "checks.txt"), "Engine migration: " + mode + "\n");
                 else File.AppendAllText(Path.Combine(output, "checks.txt"), "Loaded new 1.7 state\n");
                 Check(DefDatabase<ThingDef>.GetNamedSilentFail("BD_Ketamine") != null, "Blancas drug definitions loaded");
@@ -178,6 +186,18 @@ namespace Helodrace.Tests
                     BlancasGenerationChecks.Verify(Check);
                 }
 #if HELODRACE_MAIN_CHECKS
+                else if (mode == "native-mh60")
+                {
+                    if (!mh60Prepared)
+                    {
+                        NativeMh60Checks.Create(output, Check);
+                        mh60Prepared = true;
+                        GameDataSaveLoader.SaveGame("Mh60NativeState17");
+                        GameDataSaveLoader.LoadGame("Mh60NativeState17");
+                        return;
+                    }
+                    Check(mh60VerifiedOnLoad, "native MH-60 state verified before the first simulation tick and resumed through departure");
+                }
                 else if (mode == "native-cas")
                 {
                     if (!casPrepared)
