@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using UnityEngine;
+using Rect = Waylith.Math.Rect;
+using Vector2 = System.Numerics.Vector2;
+using Color = Waylith.Math.Color;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -76,29 +79,31 @@ namespace Helodrace.ModernWar
 
         private void DrawArmorStatsPanel(Rect rect)
         {
-            Widgets.DrawMenuSection(rect);
-            Rect inner = rect.ContractedBy(10f);
-            Widgets.Label(new Rect(inner.x, inner.y, inner.width, 26f),
+            Widgets.DrawMenuSection(rect.ToGame());
+            Rect inner = UiMath.Inset(rect, 10f);
+            Widgets.Label(new Rect(inner.x, inner.y, inner.width, 26f).ToGame(),
                 "HD_ModularArmor_StatsTitle".Translate());
             Rect modeButton = new Rect(inner.x, inner.y + 32f, inner.width, 28f);
-            if (Widgets.ButtonText(modeButton, (showRawStats
+            if (Widgets.ButtonText(modeButton.ToGame(), (showRawStats
                 ? "HD_ModularArmor_StatsModeRaw" : "HD_ModularArmor_StatsModeConverted").Translate()))
             {
                 showRawStats = !showRawStats;
-                statsScroll = Vector2.zero;
+                statsScroll = Vector2.Zero;
                 statMotions.Clear();
             }
             Text.Font = GameFont.Tiny;
             string hint = (showRawStats ? "HD_ModularArmor_RawStatsHint"
                 : "HD_ModularArmor_ConvertedStatsHint").Translate();
             float hintHeight = Text.CalcHeight(hint, inner.width);
-            Widgets.Label(new Rect(inner.x, modeButton.yMax + 7f, inner.width, hintHeight), hint);
+            Widgets.Label(new Rect(inner.x, modeButton.yMax + 7f, inner.width, hintHeight).ToGame(), hint);
             float top = modeButton.yMax + hintHeight + 15f;
             Rect outRect = new Rect(inner.x, top, inner.width, Mathf.Max(1f, inner.yMax - top));
             List<ArmorStatRow> rows = ArmorStatRows();
             const float rowHeight = 76f;
             Rect view = new Rect(0f, 0f, outRect.width - 18f, Mathf.Max(50f, rows.Count * rowHeight));
-            Widgets.BeginScrollView(outRect, ref statsScroll, view);
+            UnityEngine.Vector2 gameScroll = statsScroll.ToGame();
+            Widgets.BeginScrollView(outRect.ToGame(), ref gameScroll, view.ToGame());
+            statsScroll = gameScroll.ToNative();
             double now = Waylith.Time.RealtimeSinceStartupAsDouble;
             for (int i = 0; i < rows.Count; i++)
             {
@@ -115,18 +120,17 @@ namespace Helodrace.ModernWar
                 Color color = changed ? new Color(0.55f, 0.88f, 0.95f)
                     : new Color(0.35f, 0.72f, 0.8f);
                 Rect card = new Rect(0f, i * rowHeight, view.width, rowHeight - 6f);
-                Widgets.DrawBoxSolidWithOutline(card, new Color(0.075f, 0.085f, 0.09f),
-                    new Color(0.30f, 0.36f, 0.38f), 1);
+                Widgets.DrawBoxSolidWithOutline(card.ToGame(), new Color(0.075f, 0.085f, 0.09f).ToGame(), new Color(0.30f, 0.36f, 0.38f).ToGame(), 1);
                 Text.Font = GameFont.Tiny;
-                Widgets.Label(new Rect(card.x + 7f, card.y + 4f, card.width - 14f, 22f),
+                Widgets.Label(new Rect(card.x + 7f, card.y + 4f, card.width - 14f, 22f).ToGame(),
                     row.Stat.LabelCap);
                 Text.Font = GameFont.Small;
-                GUI.color = changed ? color : Color.white;
-                Widgets.Label(new Rect(card.x + 7f, card.y + 25f, card.width - 14f, 26f),
+                GUI.color = (changed ? color : Color.white).ToGame();
+                Widgets.Label(new Rect(card.x + 7f, card.y + 25f, card.width - 14f, 26f).ToGame(),
                     row.FormatValue(current) + (changed ? delta > 0 ? " ↑" : " ↓" : string.Empty));
-                GUI.color = Color.white;
+                GUI.color = Color.white.ToGame();
                 Rect track = new Rect(card.x + 7f, card.yMax - 14f, card.width - 14f, 7f);
-                Widgets.DrawBoxSolid(track, new Color(0.035f, 0.045f, 0.05f));
+                Widgets.DrawBoxSolid(track.ToGame(), new Color(0.035f, 0.045f, 0.05f).ToGame());
                 // Signed effects extend to either side of a neutral center marker.
                 float scale = Mathf.Max(row.Scale, Mathf.Abs(row.Value - row.Neutral),
                     Mathf.Abs((float)motion.PreviousTarget - row.Neutral));
@@ -134,17 +138,17 @@ namespace Helodrace.ModernWar
                 float fill = row.Raw ? Mathf.Clamp01((float)current / scale)
                     : Mathf.Clamp01(0.5f + ((float)current - row.Neutral) / (2f * scale));
                 Widgets.DrawBoxSolid(new Rect(track.x + track.width * Mathf.Min(neutral, fill),
-                    track.y, track.width * Mathf.Abs(fill - neutral), track.height), color);
+                    track.y, track.width * Mathf.Abs(fill - neutral), track.height).ToGame(), color.ToGame());
                 Widgets.DrawBoxSolid(new Rect(track.x + track.width * neutral,
-                    track.y - 1f, 1f, track.height + 2f), Color.white);
+                    track.y - 1f, 1f, track.height + 2f).ToGame(), Color.white.ToGame());
                 string tip = row.Stat.LabelCap + ": " + row.FormatValue(row.Value);
                 if (changed)
                     tip += "\n" + "HD_ModularArmor_StatChange".Translate(
                         row.FormatValue(motion.PreviousTarget), row.FormatValue(row.Value));
-                TooltipHandler.TipRegion(card, tip);
+                TooltipHandler.TipRegion(card.ToGame(), tip);
             }
             if (rows.Count == 0)
-                Widgets.Label(new Rect(0f, 0f, view.width, 50f), "HD_ModularArmor_NoConversions".Translate());
+                Widgets.Label(new Rect(0f, 0f, view.width, 50f).ToGame(), "HD_ModularArmor_NoConversions".Translate());
             Widgets.EndScrollView();
             Text.Font = GameFont.Small;
         }
