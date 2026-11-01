@@ -15,6 +15,7 @@ namespace Helodrace.Tests
         private static bool requestedLoad;
         private bool complete;
         private bool blancasSleepRoundtrip, blancasSleepVerified;
+        private bool blancasMkultraRoundtrip, blancasMkultraVerified;
         private bool mainStatePrepared;
         private bool blancasGenerationPrepared;
         private bool lra7Prepared;
@@ -43,6 +44,7 @@ namespace Helodrace.Tests
         {
             base.ExposeData();
             Scribe_Values.Look(ref blancasSleepRoundtrip, "migrationBlancasSleepRoundtrip", false);
+            Scribe_Values.Look(ref blancasMkultraRoundtrip, "migrationBlancasMkultraRoundtrip", false);
             Scribe_Values.Look(ref mainStatePrepared, "migrationMainStatePrepared", false);
             Scribe_Values.Look(ref blancasGenerationPrepared, "migrationBlancasGenerationPrepared", false);
             Scribe_Values.Look(ref lra7Prepared, "migrationLra7Prepared", false);
@@ -57,6 +59,24 @@ namespace Helodrace.Tests
 
         public override void LoadedGame()
         {
+            if (GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string mkCase)
+                && (mkCase == "blancas-mkultra-load" || mkCase == "blancas-mkultra-main")
+                && GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out string mkOutput))
+            {
+                output = mkOutput; Directory.CreateDirectory(output);
+                File.AppendAllText(Path.Combine(output, "checks.txt"), "MKultra verification before first simulation tick; roundtrip=" + blancasMkultraRoundtrip + "\n");
+                try
+                {
+                    BlancasMkultraChecks.VerifyLoaded(output, blancasMkultraRoundtrip, Check);
+                    blancasMkultraVerified = true;
+                }
+                catch (Exception error)
+                {
+                    complete = true; File.AppendAllText(Path.Combine(output, "checks.txt"), "FAIL " + error + "\n");
+                    Log.Error("MKultra migration verification failed: " + error); Quit(1);
+                }
+                return;
+            }
             if (GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string sleepCase)
                 && (sleepCase == "blancas-sleep-load" || sleepCase == "blancas-sleep-main")
                 && GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out string sleepOutput))
@@ -151,17 +171,17 @@ namespace Helodrace.Tests
             if (mode == "native-runtime" && !NativeRuntimeChecks.FrameProbeReady) return;
 #endif
             Directory.CreateDirectory(output);
-            if ((mode == "load" || mode == "blancas-sleep-load" || mode == "blancas-sleep-main") && !requestedLoad)
+            if ((mode == "load" || mode == "blancas-sleep-load" || mode == "blancas-sleep-main" || mode == "blancas-mkultra-load" || mode == "blancas-mkultra-main") && !requestedLoad)
             {
                 requestedLoad = true;
                 complete = true;
-                GameDataSaveLoader.LoadGame(mode == "load" ? SaveName : BlancasSleepChecks.FixtureSave);
+                GameDataSaveLoader.LoadGame(mode == "load" ? SaveName : mode.StartsWith("blancas-mkultra", StringComparison.Ordinal) ? BlancasMkultraChecks.FixtureSave : BlancasSleepChecks.FixtureSave);
                 return;
             }
             complete = true;
             try
             {
-                if (mode != "blancas-sleep-load" && mode != "blancas-sleep-main" && (mode != "main-state" || !mainStatePrepared) && (mode != "blancas-generation" || !blancasGenerationPrepared)
+                if (mode != "blancas-mkultra-load" && mode != "blancas-mkultra-main" && mode != "blancas-sleep-load" && mode != "blancas-sleep-main" && (mode != "main-state" || !mainStatePrepared) && (mode != "blancas-generation" || !blancasGenerationPrepared)
                     && (mode != "native-lra7" || !lra7Prepared) && (mode != "native-grenades" || !grenadePrepared) && (mode != "native-tow" || !towPrepared) && (mode != "native-m47" || !m47Prepared) && (mode != "native-shotgun" || !shotgunPrepared) && (mode != "native-switchblade" || !switchbladePrepared) && (mode != "native-cas" || !casPrepared) && (mode != "native-mh60" || !mh60Prepared))
                     File.WriteAllText(Path.Combine(output, "checks.txt"), "Engine migration: " + mode + "\n");
                 else File.AppendAllText(Path.Combine(output, "checks.txt"), "Loaded new 1.7 state\n");
@@ -169,7 +189,25 @@ namespace Helodrace.Tests
                 Check(DefDatabase<HediffDef>.GetNamedSilentFail("BD_DeepSleep") != null, "Blancas sleep definitions loaded");
                 Assembly drugAssembly = AppDomain.CurrentDomain.GetAssemblies().Single(a => a.GetName().Name == "HelodBlancasDrug");
                 Check(drugAssembly != null, "Blancas versioned assembly: " + drugAssembly.Location);
-                if (mode == "blancas-sleep-fixture")
+                if (mode == "blancas-mkultra-fixture")
+                {
+                    BlancasMkultraChecks.Create(output, Check);
+                    GameDataSaveLoader.SaveGame(BlancasMkultraChecks.FixtureSave);
+                    Check(File.Exists(GenFilePaths.FilePathForSavedGame(BlancasMkultraChecks.FixtureSave)), "actual frozen 1.6 MKultra fixture saved");
+                }
+                else if (mode == "blancas-mkultra-load" || mode == "blancas-mkultra-main")
+                {
+                    Check(blancasMkultraVerified, "MKultra stored state verified before simulation resumed");
+                    if (!blancasMkultraRoundtrip)
+                    {
+                        BlancasMkultraChecks.CompareCurrent(output, Check);
+                        blancasMkultraRoundtrip = true; BlancasMkultraChecks.Snapshot(output, true);
+                        GameDataSaveLoader.SaveGame(BlancasMkultraChecks.RoundtripSave);
+                        GameDataSaveLoader.LoadGame(BlancasMkultraChecks.RoundtripSave); return;
+                    }
+                    Check(File.Exists(GenFilePaths.FilePathForSavedGame(BlancasMkultraChecks.RoundtripSave)), "migrated and current MKultra state saved/reloaded without duplicate or reset");
+                }
+                else if (mode == "blancas-sleep-fixture")
                 {
                     BlancasSleepChecks.Create(output, Check);
                     GameDataSaveLoader.SaveGame(BlancasSleepChecks.FixtureSave);
