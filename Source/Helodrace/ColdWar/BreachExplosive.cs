@@ -461,7 +461,7 @@ namespace Helodrace
                     fragmentation,
                     instigator,
                     parent,
-                    beyondDirection.ToVector3(),
+                    beyondDirection.ToVector3().ToNative(),
                     Props.beyondFragmentConeDegrees,
                     Fragments);
             }

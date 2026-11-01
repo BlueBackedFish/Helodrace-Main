@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using RimWorld;
-using UnityEngine;
+using Waylith.Math;
+using Vector3 = System.Numerics.Vector3;
+using Color = Waylith.Math.Color;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -94,7 +96,7 @@ namespace Helodrace.ModernWar
             float initialRadius = Mathf.Max(0f, extension?.initialRadius ?? 0.28f);
             float expansionSpeed = Mathf.Max(0.1f, extension?.expansionSpeed ?? 1.8f);
             float smokeScale = Mathf.Max(0.1f, extension?.smokeScale ?? 0.9f);
-            Vector3 origin = center.ToVector3Shifted();
+            Vector3 origin = center.ToVector3Shifted().ToNative();
             FleckDef radialSmokeDef = DefDatabase<FleckDef>.GetNamedSilentFail(RapidSmokeDefName)
                 ?? FleckDefOf.Smoke;
 
@@ -130,29 +132,29 @@ namespace Helodrace.ModernWar
                 0.8f,
                 (extension?.expansionSpeed ?? 1.8f) * 0.85f);
             float baseScale = Mathf.Max(0.2f, extension?.smokeScale ?? 0.9f);
-            Vector3 origin = center.ToVector3Shifted();
+            Vector3 origin = center.ToVector3Shifted().ToNative();
 
             for (int i = 0; i < dustCount; i++)
             {
                 float angle = Rand.Range(0f, 360f);
-                Vector3 direction = Quaternion.AngleAxis(angle, Vector3.up) * Vector3.forward;
+                Vector3 direction = SpatialMath.RotateAroundY(Vector3.UnitZ, angle);
                 float distance = Mathf.Sqrt(Rand.Value) * dustRadius;
                 Vector3 position = origin + direction * distance;
-                if (!position.ToIntVec3().InBounds(map))
+                if (!position.ToGame().ToIntVec3().InBounds(map))
                 {
                     continue;
                 }
 
                 FleckCreationData dust = FleckMaker.GetDataStatic(
-                    position,
+                    position.ToGame(),
                     map,
                     FleckDefOf.DustPuffThick,
                     baseScale * Rand.Range(0.75f, 1.35f));
                 dust.rotation = Rand.Range(0f, 360f);
                 dust.rotationRate = Rand.Range(-9f, 9f);
-                dust.velocity = direction * Rand.Range(0.04f, 0.14f);
+                dust.velocity = (direction * Rand.Range(0.04f, 0.14f)).ToGame();
                 dust.solidTimeOverride = Rand.Range(1.6f, 3.0f);
-                dust.instanceColor = new Color(0.50f, 0.46f, 0.40f, 0.72f);
+                dust.instanceColor = new Color(0.50f, 0.46f, 0.40f, 0.72f).ToGame();
                 map.flecks.CreateFleck(dust);
             }
         }
@@ -190,7 +192,7 @@ namespace Helodrace.ModernWar
             float longRangeMinimum = Mathf.Max(
                 radius,
                 longRangeRadius * Mathf.Clamp(extension.longRangeMinimumFactor, 0.1f, 1f));
-            Vector3 origin = center.ToVector3Shifted();
+            Vector3 origin = center.ToVector3Shifted().ToNative();
             int launchedCount = LaunchTargetedFragments(
                 center,
                 map,
@@ -208,12 +210,12 @@ namespace Helodrace.ModernWar
             {
                 int i = launchedCount + randomIndex;
                 float angle = (i + Rand.Range(-0.42f, 0.42f)) * 360f / fragmentCount;
-                Vector3 direction = Quaternion.AngleAxis(angle, Vector3.up) * Vector3.forward;
+                Vector3 direction = SpatialMath.RotateAroundY(Vector3.UnitZ, angle);
                 bool longRange = randomIndex >= randomFragmentCount - longRangeCount;
                 float distance = longRange
                     ? Rand.Range(longRangeMinimum, longRangeRadius)
                     : Rand.Range(minimumRange, radius);
-                IntVec3 targetCell = (origin + direction * distance).ToIntVec3();
+                IntVec3 targetCell = (origin + direction * distance).ToGame().ToIntVec3();
                 targetCell.x = Mathf.Clamp(targetCell.x, 0, map.Size.x - 1);
                 targetCell.z = Mathf.Clamp(targetCell.z, 0, map.Size.z - 1);
                 targetCell.y = center.y;
@@ -246,35 +248,33 @@ namespace Helodrace.ModernWar
             ICollection<Projectile> launched = null)
         {
             ThingDef fragmentDef = extension?.fragmentProjectile;
-            direction.y = 0f;
+            direction.Y = 0f;
             if (map == null
                 || fragmentDef?.projectile == null
                 || shotCaster == null
                 || !center.InBounds(map)
-                || direction.sqrMagnitude < 0.001f)
+                || direction.LengthSquared() < 0.001f)
             {
                 return;
             }
 
             instigator = instigator ?? shotCaster;
-            direction.Normalize();
+            direction = direction.normalized;
             int fragmentCount = Mathf.Clamp(extension.fragmentCount, 1, 64);
             float radius = Mathf.Max(0.1f, extension.radius);
             float minimumRange = radius
                 * Mathf.Clamp(extension.minimumRangeFactor, 0.05f, 1f);
             float cone = Mathf.Clamp(coneDegrees, 1f, 360f);
-            float coneStart = direction.AngleFlat() - cone * 0.5f;
-            Vector3 origin = center.ToVector3Shifted();
+            float coneStart = SpatialMath.FlatAngle(direction) - cone * 0.5f;
+            Vector3 origin = center.ToVector3Shifted().ToNative();
 
             for (int i = 0; i < fragmentCount; i++)
             {
                 float angle = coneStart
                     + (i + Rand.Range(0.05f, 0.95f)) * cone / fragmentCount;
-                Vector3 fragmentDirection = Quaternion.AngleAxis(
-                    angle,
-                    Vector3.up) * Vector3.forward;
+                Vector3 fragmentDirection = SpatialMath.RotateAroundY(Vector3.UnitZ, angle);
                 float distance = Rand.Range(minimumRange, radius);
-                IntVec3 targetCell = (origin + fragmentDirection * distance).ToIntVec3();
+                IntVec3 targetCell = (origin + fragmentDirection * distance).ToGame().ToIntVec3();
                 targetCell.x = Mathf.Clamp(targetCell.x, 0, map.Size.x - 1);
                 targetCell.z = Mathf.Clamp(targetCell.z, 0, map.Size.z - 1);
                 targetCell.y = center.y;
@@ -413,7 +413,7 @@ namespace Helodrace.ModernWar
             Projectile fragment = GenSpawn.Spawn(fragmentDef, center, map) as Projectile;
             fragment?.Launch(
                 instigator,
-                origin,
+                origin.ToGame(),
                 usedTarget,
                 intendedTarget,
                 ProjectileHitFlags.All,
@@ -518,7 +518,7 @@ namespace Helodrace.ModernWar
                 return;
             }
 
-            Vector3 origin = center.ToVector3Shifted();
+            Vector3 origin = center.ToVector3Shifted().ToNative();
             FleckDef rapidSmokeDef = DefDatabase<FleckDef>.GetNamedSilentFail(RapidSmokeDefName)
                 ?? FleckDefOf.Smoke;
             DirectionalSmokeFleckUtility.ThrowRadialEaseOut(
@@ -561,8 +561,8 @@ namespace Helodrace.ModernWar
                 4f);
 
             ThrowFlashbangSparks(origin, map);
-            FleckMaker.Static(origin, map, FleckDefOf.ExplosionFlash, 13f);
-            FleckMaker.ThrowFireGlow(origin, map, 5.6f);
+            FleckMaker.Static(origin.ToGame(), map, FleckDefOf.ExplosionFlash, 13f);
+            FleckMaker.ThrowFireGlow(origin.ToGame(), map, 5.6f);
 
             SpawnFlashbangLight(center, map);
         }
@@ -571,33 +571,33 @@ namespace Helodrace.ModernWar
         {
             for (int i = 0; i < 2; i++)
             {
-                FleckMaker.ThrowMicroSparks(origin, map);
+                FleckMaker.ThrowMicroSparks(origin.ToGame(), map);
             }
 
             const int sparkCount = 28;
             for (int i = 0; i < sparkCount; i++)
             {
                 float angle = (i + Rand.Range(-0.38f, 0.38f)) * 360f / sparkCount;
-                Vector3 direction = Quaternion.AngleAxis(angle, Vector3.up) * Vector3.forward;
+                Vector3 direction = SpatialMath.RotateAroundY(Vector3.UnitZ, angle);
                 Vector3 position = origin + direction * Rand.Range(0.02f, 0.10f);
-                if (!position.ToIntVec3().InBounds(map))
+                if (!position.ToGame().ToIntVec3().InBounds(map))
                 {
                     continue;
                 }
 
                 FleckCreationData data = FleckMaker.GetDataStatic(
-                    position,
+                    position.ToGame(),
                     map,
                     FleckDefOf.MicroSparks,
                     Rand.Range(0.38f, 0.92f));
                 data.rotation = angle + Rand.Range(-12f, 12f);
                 data.rotationRate = Rand.Range(-35f, 35f);
-                data.velocity = direction * Rand.Range(0.18f, 0.42f);
+                data.velocity = (direction * Rand.Range(0.18f, 0.42f)).ToGame();
                 data.instanceColor = new Color(
                     1f,
                     Rand.Range(0.72f, 0.94f),
                     0.35f,
-                    1f);
+                    1f).ToGame();
                 map.flecks.CreateFleck(data);
             }
         }
