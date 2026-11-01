@@ -1,5 +1,8 @@
 using RimWorld;
 using UnityEngine;
+using Waylith.Math;
+using Vector3 = System.Numerics.Vector3;
+using Quaternion = System.Numerics.Quaternion;
 using Verse;
 
 namespace Helodrace
@@ -55,9 +58,9 @@ namespace Helodrace
 
             Quaternion rotation = Quaternion.AngleAxis(
                 turret.Top.CurRotation + Props.rotationOffsetDegrees,
-                Vector3.up);
-            Vector3 drawPos = parent.DrawPos;
-            drawPos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
+                Vector3.UnitY);
+            Vector3 drawPos = parent.DrawPos.ToNative();
+            drawPos.Y = AltitudeLayer.BuildingOnTop.AltitudeFor();
             Vector3 scale = new Vector3(Props.drawSize, 1f, Props.drawSize);
 
             CompChangeableProjectile loader = turret.GunCompEq?.parent?.TryGetComp<CompChangeableProjectile>();
@@ -73,16 +76,16 @@ namespace Helodrace
                 DrawLayer(drawPos, rotation, scale, loadedLineMaterial);
             }
 
-            drawPos.y += 0.001f;
+            drawPos.Y += 0.001f;
             DrawLayer(drawPos, rotation, scale, LowMaterial);
 
             if (shellGraphic != null)
             {
-                drawPos.y += 0.001f;
+                drawPos.Y += 0.001f;
                 DrawLayer(drawPos, rotation, scale, loadedMaterial);
             }
 
-            drawPos.y += 0.001f;
+            drawPos.Y += 0.001f;
             DrawLayer(drawPos, rotation, scale, HighMaterial);
         }
 
@@ -90,7 +93,7 @@ namespace Helodrace
         {
             if (material != null)
             {
-                Graphics.DrawMesh(MeshPool.plane10, Matrix4x4.TRS(drawPos, rotation, scale), material, 0);
+                Graphics.DrawMesh(MeshPool.plane10, SpatialMath.CreateTransform(drawPos, rotation, scale).ToGame(), material, 0);
             }
         }
 

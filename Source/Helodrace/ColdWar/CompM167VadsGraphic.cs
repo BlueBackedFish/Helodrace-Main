@@ -397,7 +397,7 @@ namespace Helodrace
             CompM167VadsGraphic graphic = turret?.TryGetComp<CompM167VadsGraphic>();
             if (graphic != null)
             {
-                drawLoc += graphic.TurretCenterWorldOffset.ToGame();
+                drawLoc = (drawLoc.ToNative() + graphic.TurretCenterWorldOffset).ToGame();
             }
         }
     }
