@@ -5,6 +5,12 @@ using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
+using Waylith.Math;
+using Rect = Waylith.Math.Rect;
+using Vector2 = System.Numerics.Vector2;
+using Vector3 = System.Numerics.Vector3;
+using Quaternion = System.Numerics.Quaternion;
+using Color = UnityEngine.Color;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -99,33 +105,37 @@ namespace Helodrace
         private readonly Action<List<Pawn>> accept;
         private readonly List<Pawn> selected = new List<Pawn>();
         private Vector2 scroll;
-        public override Vector2 InitialSize => new Vector2(520f, 550f);
+        public override UnityEngine.Vector2 InitialSize => new UnityEngine.Vector2(520f, 550f);
         public Dialog_HelodMedevac(Map map, Action<List<Pawn>> accept)
         {
             this.map = map; this.accept = accept;
             forcePause = true; doCloseX = true; closeOnClickedOutside = true; absorbInputAroundWindow = true;
         }
-        public override void DoWindowContents(Rect rect)
+        public override void DoWindowContents(UnityEngine.Rect gameRect)
         {
-            Widgets.Label(new Rect(0, 0, rect.width, 55), "HD_Heli_SelectPatients".Translate(selected.Count));
+            Rect rect = gameRect.ToNative();
+            Widgets.Label(new Rect(0, 0, rect.width, 55).ToGame(), "HD_Heli_SelectPatients".Translate(selected.Count));
             var pawns = map.mapPawns.AllPawnsSpawned.Where(p => HelodHelicopterSupport.AvailablePatient(p, map)).ToList();
             selected.RemoveAll(p => !pawns.Contains(p));
             Rect list = new Rect(0, 60, rect.width, rect.height - 115);
-            Widgets.BeginScrollView(list, ref scroll, new Rect(0, 0, list.width - 18, pawns.Count * 34));
+            UnityEngine.Vector2 gameScroll = scroll.ToGame();
+            Widgets.BeginScrollView(list.ToGame(), ref gameScroll,
+                new Rect(0, 0, list.width - 18, pawns.Count * 34).ToGame());
+            scroll = gameScroll.ToNative();
             for (int i = 0; i < pawns.Count; i++)
             {
                 Pawn pawn = pawns[i];
                 bool value = selected.Contains(pawn), previous = value;
-                Widgets.CheckboxLabeled(new Rect(0, i * 34, list.width - 22, 30), pawn.LabelShortCap
+                Widgets.CheckboxLabeled(new Rect(0, i * 34, list.width - 22, 30).ToGame(), pawn.LabelShortCap
                     + (Tactical.TcccUtility.MistReady(pawn) ? " (MIST)" : ""), ref value);
                 if (Tactical.TcccUtility.MistReady(pawn))
-                    TooltipHandler.TipRegion(new Rect(0, i * 34, list.width - 22, 30),
+                    TooltipHandler.TipRegion(new Rect(0, i * 34, list.width - 22, 30).ToGame(),
                         Tactical.TcccUtility.Effect(pawn, "HD_TCCC_Mist").report);
                 if (value && !previous && selected.Count < 3) selected.Add(pawn);
                 if (!value) selected.Remove(pawn);
             }
             Widgets.EndScrollView();
-            if (Widgets.ButtonText(new Rect(0, rect.height - 42, rect.width, 38), "HD_Heli_ChooseDZ".Translate())
+            if (Widgets.ButtonText(new Rect(0, rect.height - 42, rect.width, 38).ToGame(), "HD_Heli_ChooseDZ".Translate())
                 && selected.Count > 0)
             {
                 Close(); accept(new List<Pawn>(selected));
@@ -426,23 +436,24 @@ namespace Helodrace
             ("HD_TelegraphTable_ForwardBase_Service_" + service).Translate(),
             ("HD_Heli_Phase_" + phase).Translate(), passengers.Count);
 
-        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
+        protected override void DrawAt(UnityEngine.Vector3 drawLoc, bool flip = false)
         {
+            Vector3 position = drawLoc.ToNative();
             float progress = Mathf.Clamp01(phaseTicks / (float)(phase == FlightPhase.Arriving && mistDispatch ? FlightTicks * 3 / 4 : FlightTicks));
             bool arriving = phase == FlightPhase.Arriving || phase == FlightPhase.Returning;
             bool leaving = phase == FlightPhase.Leaving || phase == FlightPhase.LeavingForBase;
             float height = arriving ? (1f - Mathf.SmoothStep(0, 1, progress)) : leaving ? Mathf.SmoothStep(0, 1, progress) : 0f;
-            drawLoc.z += height * 18f;
-            drawLoc.x += arriving ? -height * 12f : height * 12f;
+            position.Z += height * 18f;
+            position.X += arriving ? -height * 12f : height * 12f;
             float doorOffset = (phase == FlightPhase.Loading || phase == FlightPhase.Unloading)
                 ? .45f * Mathf.SmoothStep(0f, 1f, phaseTicks / 60f) : 0f;
             for (int i = 0; i < 5; i++)
             {
-                Vector3 partPosition = drawLoc;
-                partPosition.y = AltitudeLayer.MoteOverhead.AltitudeFor() + i * .01f;
-                if (i == 0 || i == 2) partPosition.x -= doorOffset;
-                Graphics.DrawMesh(MeshPool.plane10, Matrix4x4.TRS(partPosition, Quaternion.identity,
-                    new Vector3(5.2f, 1, 5.2f)), i < 4 ? BodyMaterials[i]
+                Vector3 partPosition = position;
+                partPosition.Y = AltitudeLayer.MoteOverhead.AltitudeFor() + i * .01f;
+                if (i == 0 || i == 2) partPosition.X -= doorOffset;
+                Graphics.DrawMesh(MeshPool.plane10, SpatialMath.CreateTransform(partPosition, Quaternion.Identity,
+                    new Vector3(5.2f, 1, 5.2f)).ToGame(), i < 4 ? BodyMaterials[i]
                         : RotorMaterials[Find.TickManager.TicksGame / 2 % 4], 0);
             }
         }
