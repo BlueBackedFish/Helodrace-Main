@@ -17,7 +17,7 @@ using NR = Waylith.Math.Rect;
 
 namespace Helodrace.Tests
 {
-    internal static class NativeTelegraphWindowChecks
+    internal static partial class NativeWindowSubmissionChecks
     {
         private const BindingFlags All = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
         private sealed record Submission(string Kind, GR Rect, string Text, float[] Values);
@@ -65,7 +65,9 @@ namespace Helodrace.Tests
             if (!float.IsFinite(a) || !float.IsFinite(e) || Math.Abs(a - e) > 2e-5f * Math.Max(1, Math.Abs(e))) throw new InvalidOperationException("Telegraph layout component changed: " + a + " != " + e);
         }
         private static void Rect(GR a, GR e) { Same(a.x, e.x, "rect"); Same(a.y, e.y, "rect"); Same(a.width, e.width, "rect"); Same(a.height, e.height, "rect"); }
-        private static float[] Style() => new[] { color.r, color.g, color.b, color.a, (float)font, (float)anchor };
+        private static float[] Style() => economyActive
+            ? new[] { color.r, color.g, color.b, color.a, (float)font, (float)anchor, guiEnabled ? 1f : 0f }
+            : new[] { color.r, color.g, color.b, color.a, (float)font, (float)anchor };
         private static void Add(string kind, GR rect, string text = null, params float[] values)
             => trace?.Add(new Submission(kind, rect, text, Style().Concat(values).ToArray()));
         private static string TextArg(object[] args) => string.Join("|", args.Skip(1).Where(v => v is string || v is TaggedString).Select(v => v.ToString()));
@@ -265,29 +267,33 @@ namespace Helodrace.Tests
             }
             finally { Set(support, "playtimeStates", original); }
         }
-        private static void Patch(Harmony h, Type type, string method, string prefix) => h.Patch(AccessTools.Method(type, method), prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), prefix));
+        private static void Patch(Harmony h, Type type, string method, string prefix) => h.Patch(AccessTools.Method(type, method), prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), prefix));
+        private static void InstallUi(Harmony h, string scrollPrefix = nameof(Scroll), string numericPrefix = nameof(Numeric), string closePrefix = nameof(Close))
+        {
+            foreach (MethodInfo method in AccessTools.GetDeclaredMethods(typeof(Widgets)).Where(m => m.GetParameters().Length > 0 && m.GetParameters()[0].ParameterType == typeof(GR) && !m.IsGenericMethodDefinition))
+            {
+                if (method.Name == "BeginScrollView") h.Patch(method, prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), scrollPrefix));
+                else if (method.Name == "CheckboxLabeled") h.Patch(method, prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(Checkbox)));
+                else if (method.ReturnType == typeof(void)) h.Patch(method, prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(VoidWidget)));
+                else if (method.ReturnType == typeof(bool)) h.Patch(method, prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(BoolWidget)));
+            }
+            h.Patch(AccessTools.GetDeclaredMethods(typeof(Widgets)).Single(m => m.Name == "TextFieldNumeric" && m.IsGenericMethodDefinition).MakeGenericMethod(typeof(int)), prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), numericPrefix));
+            Patch(h, typeof(Widgets), "EndScrollView", nameof(EndScroll));
+            h.Patch(AccessTools.Method(typeof(Widgets), "DrawLineHorizontal", new[] { typeof(float), typeof(float), typeof(float) }), prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(Line)));
+            h.Patch(AccessTools.Method(typeof(TooltipHandler), "TipRegion", new[] { typeof(GR), typeof(TipSignal) }), prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(Tip)));
+            h.Patch(AccessTools.Method(typeof(UnityEngine.GUI), "DrawTexture", new[] { typeof(GR), typeof(UnityEngine.Texture) }), prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(Texture)));
+            h.Patch(AccessTools.PropertySetter(typeof(UnityEngine.GUI), "color"), prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(ColorSet))); h.Patch(AccessTools.PropertyGetter(typeof(UnityEngine.GUI), "color"), prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(ColorGet)));
+            h.Patch(AccessTools.PropertySetter(typeof(Verse.Text), "Font"), prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(FontSet))); h.Patch(AccessTools.PropertyGetter(typeof(Verse.Text), "Font"), prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(FontGet)));
+            h.Patch(AccessTools.PropertySetter(typeof(Verse.Text), "Anchor"), prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(AnchorSet))); h.Patch(AccessTools.PropertyGetter(typeof(Verse.Text), "Anchor"), prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(AnchorGet)));
+            Patch(h, typeof(Verse.Text), "CalcHeight", nameof(Height)); Patch(h, typeof(Window), "Close", closePrefix); Patch(h, typeof(WindowStack), "Add", nameof(WindowAdd));
+        }
         internal static void Run(string output, Action<bool, string> check)
         {
             var h = new Harmony("Helodrace.Tests.NativeTelegraphWindows");
-            foreach (MethodInfo method in AccessTools.GetDeclaredMethods(typeof(Widgets)).Where(m => m.GetParameters().Length > 0 && m.GetParameters()[0].ParameterType == typeof(GR) && !m.IsGenericMethodDefinition))
-            {
-                if (method.Name == "BeginScrollView") h.Patch(method, prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(Scroll)));
-                else if (method.Name == "CheckboxLabeled") h.Patch(method, prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(Checkbox)));
-                else if (method.ReturnType == typeof(void)) h.Patch(method, prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(VoidWidget)));
-                else if (method.ReturnType == typeof(bool)) h.Patch(method, prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(BoolWidget)));
-            }
-            h.Patch(AccessTools.GetDeclaredMethods(typeof(Widgets)).Single(m => m.Name == "TextFieldNumeric" && m.IsGenericMethodDefinition).MakeGenericMethod(typeof(int)), prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(Numeric)));
-            Patch(h, typeof(Widgets), "EndScrollView", nameof(EndScroll));
-            h.Patch(AccessTools.Method(typeof(Widgets), "DrawLineHorizontal", new[] { typeof(float), typeof(float), typeof(float) }), prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(Line)));
-            h.Patch(AccessTools.Method(typeof(TooltipHandler), "TipRegion", new[] { typeof(GR), typeof(TipSignal) }), prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(Tip)));
-            h.Patch(AccessTools.Method(typeof(UnityEngine.GUI), "DrawTexture", new[] { typeof(GR), typeof(UnityEngine.Texture) }), prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(Texture)));
-            h.Patch(AccessTools.PropertySetter(typeof(UnityEngine.GUI), "color"), prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(ColorSet))); h.Patch(AccessTools.PropertyGetter(typeof(UnityEngine.GUI), "color"), prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(ColorGet)));
-            h.Patch(AccessTools.PropertySetter(typeof(Verse.Text), "Font"), prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(FontSet))); h.Patch(AccessTools.PropertyGetter(typeof(Verse.Text), "Font"), prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(FontGet)));
-            h.Patch(AccessTools.PropertySetter(typeof(Verse.Text), "Anchor"), prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(AnchorSet))); h.Patch(AccessTools.PropertyGetter(typeof(Verse.Text), "Anchor"), prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(AnchorGet)));
-            Patch(h, typeof(Verse.Text), "CalcHeight", nameof(Height)); Patch(h, typeof(Window), "Close", nameof(Close)); Patch(h, typeof(WindowStack), "Add", nameof(WindowAdd));
-            h.Patch(AccessTools.PropertyGetter(typeof(Waylith.Time), "RealtimeSinceStartupAsDouble"), prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(Time)));
+            InstallUi(h);
+            h.Patch(AccessTools.PropertyGetter(typeof(Waylith.Time), "RealtimeSinceStartupAsDouble"), prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(Time)));
             foreach (Type t in new[] { typeof(Dialog_TelegraphTable), typeof(Frozen.Dialog_TelegraphTable) }) Patch(h, t, "MilitaryCredit", nameof(Credit));
-            h.Patch(AccessTools.PropertyGetter(typeof(CompTelegraphTable), "Provider"), prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(Provider))); h.Patch(AccessTools.PropertyGetter(typeof(CompTelegraphTable), "ConnectionFailure"), prefix: new HarmonyMethod(typeof(NativeTelegraphWindowChecks), nameof(Connection)));
+            h.Patch(AccessTools.PropertyGetter(typeof(CompTelegraphTable), "Provider"), prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(Provider))); h.Patch(AccessTools.PropertyGetter(typeof(CompTelegraphTable), "ConnectionFailure"), prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(Connection)));
             Map map = Find.CurrentMap; var table = (ThingWithComps)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("HD_TelegraphTable"), ThingDefOf.Steel); table.SetFaction(Faction.OfPlayer); GenSpawn.Spawn(table, map.Center, map); terminal = table.GetComp<CompTelegraphTable>();
             Pawn pawn = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist, Faction.OfPlayer); GenSpawn.Spawn(pawn, map.Center + new IntVec3(3, 0, 0), map); provider = Find.FactionManager.AllFactions.FirstOrDefault(f => TelegraphNetworkRules.IsProvider(f.def.defName)) ?? Faction.OfPlayer;
             active = true; realtime = 100; clickButtons = false; clickText = string.Empty;
