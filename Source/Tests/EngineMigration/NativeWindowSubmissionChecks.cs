@@ -50,6 +50,7 @@ namespace Helodrace.Tests
             {
                 Type type = parameters[i].ParameterType;
                 if (type == typeof(NR) && result[i] is GR r) result[i] = new NR(r.x, r.y, r.width, r.height);
+                if (type == typeof(NV) && result[i] is GV v) result[i] = new NV(v.x, v.y);
                 if (type.IsEnum && result[i] is string s) result[i] = Enum.Parse(type, s);
             }
             return result;
@@ -268,14 +269,14 @@ namespace Helodrace.Tests
             finally { Set(support, "playtimeStates", original); }
         }
         private static void Patch(Harmony h, Type type, string method, string prefix) => h.Patch(AccessTools.Method(type, method), prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), prefix));
-        private static void InstallUi(Harmony h, string scrollPrefix = nameof(Scroll), string numericPrefix = nameof(Numeric), string closePrefix = nameof(Close))
+        private static void InstallUi(Harmony h, string scrollPrefix = nameof(Scroll), string numericPrefix = nameof(Numeric), string closePrefix = nameof(Close), string boolPrefix = nameof(BoolWidget))
         {
             foreach (MethodInfo method in AccessTools.GetDeclaredMethods(typeof(Widgets)).Where(m => m.GetParameters().Length > 0 && m.GetParameters()[0].ParameterType == typeof(GR) && !m.IsGenericMethodDefinition))
             {
                 if (method.Name == "BeginScrollView") h.Patch(method, prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), scrollPrefix));
                 else if (method.Name == "CheckboxLabeled") h.Patch(method, prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(Checkbox)));
                 else if (method.ReturnType == typeof(void)) h.Patch(method, prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(VoidWidget)));
-                else if (method.ReturnType == typeof(bool)) h.Patch(method, prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), nameof(BoolWidget)));
+                else if (method.ReturnType == typeof(bool)) h.Patch(method, prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), boolPrefix));
             }
             h.Patch(AccessTools.GetDeclaredMethods(typeof(Widgets)).Single(m => m.Name == "TextFieldNumeric" && m.IsGenericMethodDefinition).MakeGenericMethod(typeof(int)), prefix: new HarmonyMethod(typeof(NativeWindowSubmissionChecks), numericPrefix));
             Patch(h, typeof(Widgets), "EndScrollView", nameof(EndScroll));

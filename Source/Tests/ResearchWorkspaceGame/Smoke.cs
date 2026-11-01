@@ -7,6 +7,8 @@ using HarmonyLib;
 using Helodrace.ResearchUI;
 using RimWorld;
 using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
+using Rect = Waylith.Math.Rect;
 using Verse;
 
 namespace Helodrace.ResearchWorkspaceSmoke
@@ -18,7 +20,7 @@ namespace Helodrace.ResearchWorkspaceSmoke
         public static bool LeftDrag, MapClick, CardClick, WheelZoom, MinimumZoom;
         public sealed class PointerState
         {
-            public EventType Type; public int Button; public Vector2 Pointer, Scroll;
+            public EventType Type; public int Button; public UnityEngine.Vector2 Pointer; public Vector2 Scroll;
             public float Zoom; public bool Control;
         }
         private static readonly FieldInfo Scroll = AccessTools.Field(typeof(ResearchWorkspaceView), "scroll");
@@ -61,7 +63,7 @@ namespace Helodrace.ResearchWorkspaceSmoke
             bool moved = Vector2.Distance(__state.Scroll, (Vector2)Scroll.GetValue(__instance)) > 0.1f;
             if (moved && __state.Button == 0 && __state.Type == EventType.MouseDrag) LeftDrag = true;
             Rect map = new Rect(__0.x + 10, __0.yMax - 126, Mathf.Min(190, __0.width - 38), 104);
-            if (moved && __state.Button == 0 && __state.Type == EventType.MouseDown && map.Contains(__state.Pointer)) MapClick = true;
+            if (moved && __state.Button == 0 && __state.Type == EventType.MouseDown && map.Contains(new Vector2(__state.Pointer.x, __state.Pointer.y))) MapClick = true;
             float zoom = (float)AccessTools.Field(typeof(ResearchWorkspaceView), "zoom").GetValue(__instance);
             if (__state.Type == EventType.ScrollWheel && !__state.Control && Math.Abs(zoom - __state.Zoom) > 0.001f) WheelZoom = true;
             if (__state.Type == EventType.ScrollWheel && !__state.Control && Math.Abs(zoom - 0.3f) < 0.001f) MinimumZoom = true;
@@ -255,7 +257,7 @@ namespace Helodrace.ResearchWorkspaceSmoke
             if (stage >= 3)
             {
                 AccessTools.Method(typeof(ResearchWorkspaceView), "SetZoom").Invoke(view,
-                    new object[] { stage == 3 ? 0.3f : stage == 5 ? 0.55f : 0.65f, Vector2.zero });
+                    new object[] { stage == 3 ? 0.3f : stage == 5 ? 0.55f : 0.65f, Vector2.Zero });
                 AccessTools.Field(typeof(ResearchWorkspaceView), "scroll").SetValue(view, new Vector2(0, 0));
             }
             startedDraw = Bootstrap.Draws;

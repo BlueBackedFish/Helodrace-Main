@@ -5,6 +5,10 @@ using System.Runtime.CompilerServices;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
+using Waylith.Math;
+using Rect = Waylith.Math.Rect;
+using Vector2 = System.Numerics.Vector2;
+using Color = Waylith.Math.Color;
 using Verse;
 
 namespace Helodrace.ResearchUI
@@ -50,11 +54,12 @@ namespace Helodrace.ResearchUI
         private int panControl;
         private const float NodeWidth = 180, ColumnWidth = 400, RowGap = 96;
 
-        public void Draw(Rect rect, IResearchWorkspaceHost host, Window window)
+        public void Draw(UnityEngine.Rect gameRect, IResearchWorkspaceHost host, Window window)
         {
+            Rect rect = gameRect.ToNative();
             GameFont font = Text.Font;
             TextAnchor anchor = Text.Anchor;
-            Color color = GUI.color;
+            Color color = GUI.color.ToNative();
             try
             {
                 Text.Font = GameFont.Small; Text.Anchor = TextAnchor.UpperLeft;
@@ -64,7 +69,7 @@ namespace Helodrace.ResearchUI
                 if (lastSelected != selected || revision != ResearchWorkspaceRevision.Value)
                 {
                     lastSelected = selected; revision = ResearchWorkspaceRevision.Value;
-                    detailScroll = Vector2.zero; edgeKey = null;
+                    detailScroll = Vector2.Zero; edgeKey = null;
                     preview = selected == null ? new List<ResearchProjectDef>() : ResearchWorkspaceData.Predict(selected)
                         .Where(p => p != selected && !p.IsFinished).OrderBy(p => p.label).ToList();
                 }
@@ -87,7 +92,7 @@ namespace Helodrace.ResearchUI
                 DrawGraph(graph, host, window, selected);
                 DrawDetails(details, host, window, selected);
             }
-            finally { Text.Font = font; Text.Anchor = anchor; GUI.color = color; }
+            finally { Text.Font = font; Text.Anchor = anchor; GUI.color = color.ToGame(); }
         }
 
         private void Build()
@@ -100,7 +105,7 @@ namespace Helodrace.ResearchUI
             {
                 var projects = (def.projects ?? new List<ResearchProjectDef>()).Where(p => p != null && remaining.Remove(p)).ToList();
                 if (projects.Count > 0) sections.Add(new Section { Id = def.defName, Label = def.LabelCap,
-                    Color = def.color, Projects = projects });
+                    Color = def.color.ToNative(), Projects = projects });
             }
             foreach (var project in remaining.OrderBy(p => p.defName))
                 sections.Add(new Section { Id = "other." + project.defName, Label = project.LabelCap,
@@ -152,7 +157,7 @@ namespace Helodrace.ResearchUI
         private void DrawToolbar(Rect rect, IResearchWorkspaceHost host, Window window)
         {
             float x = rect.x;
-            if (Widgets.ButtonText(new Rect(x, rect.y, 100, 28), "HD_Research_Sections".Translate()))
+            if (Widgets.ButtonText((new Rect(x, rect.y, 100, 28)).ToGame(), "HD_Research_Sections".Translate()))
             {
                 var options = sections.Select(section => new FloatMenuOption(section.Label, () =>
                 {
@@ -161,16 +166,16 @@ namespace Helodrace.ResearchUI
                 Find.WindowStack.Add(new FloatMenu(options));
             }
             x += 106;
-            if (Widgets.ButtonText(new Rect(x, rect.y, 28, 28), "−")) { SetZoom(zoom - 0.1f, Vector2.zero); }
+            if (Widgets.ButtonText((new Rect(x, rect.y, 28, 28)).ToGame(), "−")) { SetZoom(zoom - 0.1f, Vector2.Zero); }
             x += 32;
-            if (Widgets.ButtonText(new Rect(x, rect.y, 58, 28), (zoom * 100).ToString("0") + "%")) { SetZoom(1, Vector2.zero); }
+            if (Widgets.ButtonText((new Rect(x, rect.y, 58, 28)).ToGame(), (zoom * 100).ToString("0") + "%")) { SetZoom(1, Vector2.Zero); }
             x += 62;
-            if (Widgets.ButtonText(new Rect(x, rect.y, 28, 28), "+")) { SetZoom(zoom + 0.1f, Vector2.zero); }
+            if (Widgets.ButtonText((new Rect(x, rect.y, 28, 28)).ToGame(), "+")) { SetZoom(zoom + 0.1f, Vector2.Zero); }
             x += 36;
             if (rect.xMax - x < 140) return;
             float fieldWidth = Mathf.Min(210, rect.xMax - x - 64);
-            search = Widgets.TextField(new Rect(x, rect.y, fieldWidth, 28), search);
-            if (Widgets.ButtonText(new Rect(x + fieldWidth + 4, rect.y, 60, 28), "HD_Research_Find".Translate()))
+            search = Widgets.TextField((new Rect(x, rect.y, fieldWidth, 28)).ToGame(), search);
+            if (Widgets.ButtonText((new Rect(x + fieldWidth + 4, rect.y, 60, 28)).ToGame(), "HD_Research_Find".Translate()))
             {
                 var match = sections.SelectMany(s => s.Projects).FirstOrDefault(Matches);
                 if (match != null)
@@ -195,54 +200,58 @@ namespace Helodrace.ResearchUI
         private void SetZoom(float value, Vector2 pivot)
         {
             float next = ResearchZoom.Clamp(value);
-            scroll = new Vector2(ResearchZoom.Anchor(scroll.x, pivot.x, zoom, next),
-                ResearchZoom.Anchor(scroll.y, pivot.y, zoom, next));
+            scroll = new Vector2(ResearchZoom.Anchor(scroll.X, pivot.X, zoom, next),
+                ResearchZoom.Anchor(scroll.Y, pivot.Y, zoom, next));
             zoom = next; edgeKey = null; canvasStyles.Clear();
         }
 
         private void DrawGraph(Rect rect, IResearchWorkspaceHost host, Window window, ResearchProjectDef selected)
         {
             var evt = Event.current;
-            if (rect.Contains(evt.mousePosition) && evt.type == EventType.ScrollWheel)
+            Vector2 mousePosition = evt.mousePosition.ToNative();
+            Vector2 delta = evt.delta.ToNative();
+            if (rect.Contains(mousePosition) && evt.type == EventType.ScrollWheel)
             {
-                SetZoom(zoom - evt.delta.y * 0.05f, evt.mousePosition - rect.position);
+                SetZoom(zoom - delta.Y * 0.05f, mousePosition - rect.position);
                 evt.Use();
             }
             Rect map = new Rect(rect.x + 10, rect.yMax - 126, Mathf.Min(190, rect.width - 38), 104);
-            Rect mapContent = map.ContractedBy(6); mapContent.yMin += 16;
-            Vector2 pointer = evt.mousePosition - rect.position + scroll;
+            Rect mapContent = UiMath.Inset(map, 6); mapContent.yMin += 16;
+            Vector2 pointer = mousePosition - rect.position + scroll;
             bool overControl = nodes.Values.Any(n => Scaled(n).Contains(pointer))
                 || sections.Any(s => Header(s).Contains(pointer));
             int control = GUIUtility.GetControlID(0x484452, FocusType.Passive);
-            if (map.Contains(evt.mousePosition) && evt.button == 0
+            if (map.Contains(mousePosition) && evt.button == 0
                 && (evt.type == EventType.MouseDown || evt.type == EventType.MouseDrag))
             {
-                scroll = new Vector2((evt.mousePosition.x - mapContent.x) / mapContent.width * width * zoom - rect.width / 2,
-                    (evt.mousePosition.y - mapContent.y) / mapContent.height * height * zoom - rect.height / 2);
+                scroll = new Vector2((mousePosition.X - mapContent.x) / mapContent.width * width * zoom - rect.width / 2,
+                    (mousePosition.Y - mapContent.y) / mapContent.height * height * zoom - rect.height / 2);
                 evt.Use();
             }
-            if (evt.type == EventType.MouseDown && rect.ContractedBy(18).Contains(evt.mousePosition)
+            if (evt.type == EventType.MouseDown && UiMath.Inset(rect, 18).Contains(mousePosition)
                 && (evt.button == 2 || evt.button == 0 && !overControl))
             { panControl = control; GUIUtility.hotControl = control; evt.Use(); }
             if (panControl == control && GUIUtility.hotControl == control)
             {
-                if (evt.type == EventType.MouseDrag) { scroll -= evt.delta; evt.Use(); }
+                if (evt.type == EventType.MouseDrag) { scroll -= delta; evt.Use(); }
                 if (evt.rawType == EventType.MouseUp)
                 { panControl = 0; GUIUtility.hotControl = 0; evt.Use(); }
             }
-            scroll.x = Mathf.Clamp(scroll.x, 0, Mathf.Max(0, width * zoom - rect.width + 18));
-            scroll.y = Mathf.Clamp(scroll.y, 0, Mathf.Max(0, height * zoom - rect.height + 18));
-            Widgets.BeginScrollView(rect, ref scroll, new Rect(0, 0, width * zoom, height * zoom));
+            scroll.X = Mathf.Clamp(scroll.X, 0, Mathf.Max(0, width * zoom - rect.width + 18));
+            scroll.Y = Mathf.Clamp(scroll.Y, 0, Mathf.Max(0, height * zoom - rect.height + 18));
+            UnityEngine.Vector2 gameScroll0 = scroll.ToGame();
+            Widgets.BeginScrollView(rect.ToGame(), ref gameScroll0, (new Rect(0, 0, width * zoom, height * zoom)).ToGame());
+            scroll = gameScroll0.ToNative();
             try
             {
                 foreach (var section in sections)
                 {
                     Rect bounds = Scaled(section.Bounds);
-                    Widgets.DrawBoxSolid(bounds, new Color(section.Color.r * 0.12f, section.Color.g * 0.12f, section.Color.b * 0.12f, 0.95f));
-                    Widgets.DrawBoxSolid(new Rect(bounds.x, bounds.y, 4, bounds.height), section.Color * 0.75f);
+                    Widgets.DrawBoxSolid(bounds.ToGame(), (new Color(section.Color.r * 0.12f, section.Color.g * 0.12f, section.Color.b * 0.12f, 0.95f)).ToGame());
+                    Widgets.DrawBoxSolid((new Rect(bounds.x, bounds.y, 4, bounds.height)).ToGame(), (section.Color * 0.75f).ToGame());
                 }
                 DrawEdges(selected, host.Queue.Plan);
-                Rect visible = new Rect(scroll.x, scroll.y, rect.width, rect.height).ExpandedBy(30);
+                Rect visible = UiMath.Inset(new Rect(scroll.X, scroll.Y, rect.width, rect.height), -30);
                 foreach (var pair in nodes)
                 {
                     Rect node = Scaled(pair.Value);
@@ -255,7 +264,7 @@ namespace Helodrace.ResearchUI
                     if (!visible.Overlaps(header)) continue;
                     string label = (collapsed.Contains(section.Id) ? "+ " : "− ") + section.Label + "  "
                         + section.Projects.Count(p => p.IsFinished) + "/" + section.Projects.Count;
-                    bool clicked = Widgets.ButtonText(header, "");
+                    bool clicked = Widgets.ButtonText(header.ToGame(), "");
                     DrawCanvasLabel(header, label, GameFont.Small, TextAnchor.MiddleCenter);
                     if (clicked)
                     { if (!collapsed.Add(section.Id)) collapsed.Remove(section.Id); dirty = true; }
@@ -272,25 +281,25 @@ namespace Helodrace.ResearchUI
 
         private void DrawMinimap(Rect rect, Rect content, Rect viewport, ResearchProjectDef selected)
         {
-            Widgets.DrawBoxSolid(rect, new Color(0.07f, 0.09f, 0.11f, 0.98f));
+            Widgets.DrawBoxSolid(rect.ToGame(), (new Color(0.07f, 0.09f, 0.11f, 0.98f)).ToGame());
             Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(rect.x + 6, rect.y + 2, rect.width - 12, 18), "HD_Research_Map".Translate());
+            Widgets.Label((new Rect(rect.x + 6, rect.y + 2, rect.width - 12, 18)).ToGame(), "HD_Research_Map".Translate());
             foreach (var section in sections)
             {
                 var bounds = section.Bounds;
-                Widgets.DrawBoxSolid(new Rect(content.x + bounds.x / width * content.width,
+                Widgets.DrawBoxSolid((new Rect(content.x + bounds.x / width * content.width,
                     content.y + bounds.y / height * content.height, bounds.width / width * content.width,
-                    bounds.height / height * content.height), section.Color * 0.7f);
+                    bounds.height / height * content.height)).ToGame(), (section.Color * 0.7f).ToGame());
             }
             if (selected != null && nodes.TryGetValue(selected, out Rect node))
-                Widgets.DrawBoxSolid(new Rect(content.x + node.center.x / width * content.width - 2,
-                    content.y + node.center.y / height * content.height - 2, 4, 4), Color.white);
-            var view = new Rect(content.x + scroll.x / zoom / width * content.width,
-                content.y + scroll.y / zoom / height * content.height,
+                Widgets.DrawBoxSolid((new Rect(content.x + node.center.X / width * content.width - 2,
+                    content.y + node.center.Y / height * content.height - 2, 4, 4)).ToGame(),Color.white.ToGame());
+            var view = new Rect(content.x + scroll.X / zoom / width * content.width,
+                content.y + scroll.Y / zoom / height * content.height,
                 Mathf.Min(1, viewport.width / zoom / width) * content.width,
                 Mathf.Min(1, viewport.height / zoom / height) * content.height);
-            GUI.color = new Color(0.4f, 0.95f, 1); Widgets.DrawBox(view, 1); GUI.color = Color.white;
-            TooltipHandler.TipRegion(rect, "HD_Research_PanTip".Translate());
+            GUI.color = (new Color(0.4f, 0.95f, 1)).ToGame(); Widgets.DrawBox(view.ToGame(), 1); GUI.color = Color.white.ToGame();
+            TooltipHandler.TipRegion(rect.ToGame(), "HD_Research_PanTip".Translate());
             Text.Font = GameFont.Small;
         }
 
@@ -305,7 +314,7 @@ namespace Helodrace.ResearchUI
                 canvasStyles[font] = style;
             }
             style.alignment = anchor;
-            GUI.Label(rect, text, style);
+            GUI.Label(rect.ToGame(), text, style);
         }
 
         private void DrawNode(Rect rect, ResearchProjectDef project, ResearchProjectDef selected,
@@ -316,12 +325,12 @@ namespace Helodrace.ResearchUI
             if (project == selected) fill = new Color(0.15f, 0.38f, 0.48f);
             if (!Matches(project)) fill *= 0.55f;
             fill.a = 1;
-            Widgets.DrawBoxSolid(rect, fill);
+            Widgets.DrawBoxSolid(rect.ToGame(),fill.ToGame());
             var section = ResearchWorkspaceData.SectionFor(project);
-            if (section != null) Widgets.DrawBoxSolid(new Rect(rect.x + 1, rect.y + 1, Mathf.Max(1, 3 * zoom), rect.height - 2), section.color * 0.8f);
-            GUI.color = project == selected ? new Color(0.35f, 0.9f, 1) : preview.Contains(project)
-                ? new Color(1, 0.75f, 0.3f) : new Color(0.35f, 0.45f, 0.5f);
-            Widgets.DrawBox(rect, project == selected || preview.Contains(project) ? 2 : 1); GUI.color = Color.white;
+            if (section != null) Widgets.DrawBoxSolid((new Rect(rect.x + 1, rect.y + 1, Mathf.Max(1, 3 * zoom), rect.height - 2)).ToGame(), (section.color.ToNative() * 0.8f).ToGame());
+            GUI.color = (project == selected ? new Color(0.35f, 0.9f, 1) : preview.Contains(project)
+                ? new Color(1, 0.75f, 0.3f) : new Color(0.35f, 0.45f, 0.5f)).ToGame();
+            Widgets.DrawBox(rect.ToGame(), project == selected || preview.Contains(project) ? 2 : 1); GUI.color = Color.white.ToGame();
             int count = ResearchWorkspaceData.PartsFor(project).Count;
             int links = ResearchWorkspaceData.LinksFor(project).Count;
             string badges = (count > 0 ? "  P:" + count : "") + (links > 0 ? "  OR" : "");
@@ -329,19 +338,19 @@ namespace Helodrace.ResearchUI
                 project.LabelCap, GameFont.Small);
             DrawCanvasLabel(new Rect(rect.x + 6 * zoom, rect.yMax - 28 * zoom, rect.width - 36 * zoom, 22 * zoom),
                 project.CostApparent.ToString("0") + badges, GameFont.Tiny);
-            Widgets.DrawBoxSolid(new Rect(rect.x + 1, rect.yMax - 4, (rect.width - 2) * project.ProgressPercent, 3), new Color(0.3f, 0.8f, 0.7f));
+            Widgets.DrawBoxSolid((new Rect(rect.x + 1, rect.yMax - 4, (rect.width - 2) * project.ProgressPercent, 3)).ToGame(), (new Color(0.3f, 0.8f, 0.7f)).ToGame());
             if (!project.IsFinished)
             {
                 Rect add = new Rect(rect.xMax - 27 * zoom, rect.yMax - 27 * zoom, 24 * zoom, 22 * zoom);
-                if (Widgets.ButtonText(add, "")) host.Queue.Add(project);
+                if (Widgets.ButtonText(add.ToGame(), "")) host.Queue.Add(project);
                 DrawCanvasLabel(add, "+", GameFont.Small, TextAnchor.MiddleCenter);
             }
-            if (Widgets.ButtonInvisible(rect))
+            if (Widgets.ButtonInvisible(rect.ToGame()))
             {
-                host.Select(window, project); detailScroll = Vector2.zero;
+                host.Select(window, project); detailScroll = Vector2.Zero;
                 if (count > 0) page = 1; else if (links > 0) page = 2;
             }
-            TooltipHandler.TipRegion(rect, project.LabelCap + "\n" + project.description + "\n"
+            TooltipHandler.TipRegion(rect.ToGame(), project.LabelCap + "\n" + project.description + "\n"
                 + (section == null ? "HD_Research_Other".Translate().ToString() : section.LabelCap.ToString()) + "\n"
                 + "HD_Research_NodeTip".Translate());
             Text.Font = GameFont.Small;
@@ -352,25 +361,25 @@ namespace Helodrace.ResearchUI
             routes.Clear();
             var boxes = layoutFrames.Values.Select(n => new ResearchBox(n.xMin - 8, n.yMin - 8, n.xMax + 8, n.yMax + 8))
                 .Concat(sections.Select(s => new ResearchBox(s.Bounds.x, s.Bounds.y, s.Bounds.xMax, s.Bounds.y + 38))).ToList();
-            var ports = layoutFrames.Values.SelectMany(n => new[] { new ResearchPoint(n.xMax + 8, n.center.y),
-                new ResearchPoint(n.xMin - 8, n.center.y) }).ToList();
+            var ports = layoutFrames.Values.SelectMany(n => new[] { new ResearchPoint(n.xMax + 8, n.center.Y),
+                new ResearchPoint(n.xMin - 8, n.center.Y) }).ToList();
             var router = new ResearchOrthogonalRouter(boxes, ports);
             var pending = layoutFrames.SelectMany(pair => ResearchQueue.Prerequisites(pair.Key).Distinct().Where(layoutFrames.ContainsKey)
                 .Select(parent => new Edge { From = parent, To = pair.Key, Key = parent.defName + ">" + pair.Key.defName }))
-                .OrderBy(e => Mathf.Abs(layoutFrames[e.To].center.x - layoutFrames[e.From].center.x))
+                .OrderBy(e => Mathf.Abs(layoutFrames[e.To].center.X - layoutFrames[e.From].center.X))
                 .ThenBy(e => e.Key, StringComparer.Ordinal).ToList();
             foreach (var edge in pending)
             {
                 Rect from = layoutFrames[edge.From], to = layoutFrames[edge.To];
-                bool right = to.center.x >= from.center.x;
+                bool right = to.center.X >= from.center.X;
                 float fromX = right ? from.xMax : from.xMin, toX = right ? to.xMin : to.xMax;
                 float direction = right ? 1 : -1;
-                var start = new ResearchPoint(fromX + direction * 8, from.center.y);
-                var end = new ResearchPoint(toX - direction * 8, to.center.y);
+                var start = new ResearchPoint(fromX + direction * 8, from.center.Y);
+                var end = new ResearchPoint(toX - direction * 8, to.center.Y);
                 var lines = router.Route(start, end, edge.From, edge.To);
                 if (lines.Count == 0) continue;
-                lines.Insert(0, new ResearchLine(new ResearchPoint(fromX + direction, from.center.y), start));
-                lines.Add(new ResearchLine(end, new ResearchPoint(toX - direction * 2, to.center.y)));
+                lines.Insert(0, new ResearchLine(new ResearchPoint(fromX + direction, from.center.Y), start));
+                lines.Add(new ResearchLine(end, new ResearchPoint(toX - direction * 2, to.center.Y)));
                 router.Reserve(lines, edge.From, edge.To);
                 edge.Lines = lines; routes.Add(edge);
             }
@@ -410,8 +419,8 @@ namespace Helodrace.ResearchUI
                 float direction = end.B.X >= end.A.X ? 1 : -1;
                 Vector2 tip = new Vector2(end.B.X * zoom, end.B.Y * zoom);
                 Color color = edge.Priority == 3 ? new Color(0.35f, 0.95f, 1) : new Color(0.95f, 0.74f, 0.3f);
-                for (int i = 0; i < 3; i++) Widgets.DrawBoxSolid(new Rect(Mathf.Round(tip.x) - direction * (1 + i),
-                    Mathf.Round(tip.y) - i, 1, i * 2 + 1), color);
+                for (int i = 0; i < 3; i++) Widgets.DrawBoxSolid((new Rect(Mathf.Round(tip.X) - direction * (1 + i),
+                    Mathf.Round(tip.Y) - i, 1, i * 2 + 1)).ToGame(),color.ToGame());
             }
         }
 
@@ -422,18 +431,18 @@ namespace Helodrace.ResearchUI
             float bx = Mathf.Round(line.B.X * zoom), by = Mathf.Round(line.B.Y * zoom);
             if (ax == bx && ay == by) return;
             if (Mathf.Abs(ax - bx) < 0.01f)
-                Widgets.DrawBoxSolid(new Rect(ax - thickness / 2, Mathf.Min(ay, by), thickness, Mathf.Abs(by - ay)), color);
+                Widgets.DrawBoxSolid((new Rect(ax - thickness / 2, Mathf.Min(ay, by), thickness, Mathf.Abs(by - ay))).ToGame(),color.ToGame());
             else
-                Widgets.DrawBoxSolid(new Rect(Mathf.Min(ax, bx), ay - thickness / 2, Mathf.Abs(bx - ax), thickness), color);
+                Widgets.DrawBoxSolid((new Rect(Mathf.Min(ax, bx), ay - thickness / 2, Mathf.Abs(bx - ax), thickness)).ToGame(),color.ToGame());
         }
 
         private void DrawDetails(Rect rect, IResearchWorkspaceHost host, Window window, ResearchProjectDef selected)
         {
-            Widgets.DrawMenuSection(rect); rect = rect.ContractedBy(6);
+            Widgets.DrawMenuSection(rect.ToGame()); rect = UiMath.Inset(rect, 6);
             string[] labels = { "HD_Research_Queue", "HD_Research_Parts", "HD_Research_Links" };
             for (int i = 0; i < labels.Length; i++)
-                if (Widgets.ButtonText(new Rect(rect.x + rect.width / 3 * i, rect.y, rect.width / 3 - 2, 28), labels[i].Translate()))
-                { page = i; detailScroll = Vector2.zero; }
+                if (Widgets.ButtonText((new Rect(rect.x + rect.width / 3 * i, rect.y, rect.width / 3 - 2, 28)).ToGame(), labels[i].Translate()))
+                { page = i; detailScroll = Vector2.Zero; }
             rect.yMin += 34;
             if (page == 0) DrawQueue(rect, host, window);
             else if (page == 1) DrawParts(rect, selected);
@@ -443,7 +452,7 @@ namespace Helodrace.ResearchUI
         private void DrawQueue(Rect rect, IResearchWorkspaceHost host, Window window)
         {
             var queue = host.Queue;
-            if (Widgets.ButtonText(new Rect(rect.x, rect.y, rect.width, 26),
+            if (Widgets.ButtonText((new Rect(rect.x, rect.y, rect.width, 26)).ToGame(),
                 (queue.Paused ? "HD_Research_Resume" : "HD_Research_Pause").Translate())) queue.TogglePause();
             rect.yMin += 32;
             var goals = queue.Goals.ToList(); var plan = queue.Plan.ToList();
@@ -453,45 +462,49 @@ namespace Helodrace.ResearchUI
             var planHeights = plan.Select(p => Mathf.Max(24, Text.CalcHeight("▶ " + p.LabelCap, panelWidth) + 4)).ToList();
             Text.Font = GameFont.Small;
             float contentHeight = 54 + goalHeights.Sum(h => h + 8) + planHeights.Sum(h => h + 3);
-            Widgets.BeginScrollView(rect, ref detailScroll, new Rect(0, 0, Mathf.Max(1, rect.width - 18), contentHeight));
+            UnityEngine.Vector2 gameScroll1 = detailScroll.ToGame();
+            Widgets.BeginScrollView(rect.ToGame(), ref gameScroll1, (new Rect(0, 0, Mathf.Max(1, rect.width - 18), contentHeight)).ToGame());
+            detailScroll = gameScroll1.ToNative();
             try
             {
                 float y = 0, w = rect.width - 20;
-                if (goals.Count == 0) { Widgets.Label(new Rect(0, 0, w, 90), "HD_Research_EmptyQueue".Translate()); return; }
+                if (goals.Count == 0) { Widgets.Label((new Rect(0, 0, w, 90)).ToGame(), "HD_Research_EmptyQueue".Translate()); return; }
                 for (int i = 0; i < goals.Count; i++)
                 {
                     var goal = goals[i];
-                    if (Widgets.ButtonText(new Rect(0, y, w - 78, goalHeights[i]), (i + 1) + ". " + goal.LabelCap))
+                    if (Widgets.ButtonText((new Rect(0, y, w - 78, goalHeights[i])).ToGame(), (i + 1) + ". " + goal.LabelCap))
                     { host.Select(window, goal); }
-                    if (Widgets.ButtonText(new Rect(w - 76, y, 24, 25), "↑")) queue.Move(i, -1);
-                    if (Widgets.ButtonText(new Rect(w - 50, y, 24, 25), "↓")) queue.Move(i, 1);
-                    if (Widgets.ButtonText(new Rect(w - 24, y, 24, 25), "×")) queue.Remove(goal);
+                    if (Widgets.ButtonText((new Rect(w - 76, y, 24, 25)).ToGame(), "↑")) queue.Move(i, -1);
+                    if (Widgets.ButtonText((new Rect(w - 50, y, 24, 25)).ToGame(), "↓")) queue.Move(i, 1);
+                    if (Widgets.ButtonText((new Rect(w - 24, y, 24, 25)).ToGame(), "×")) queue.Remove(goal);
                     y += goalHeights[i] + 8;
                 }
-                Widgets.Label(new Rect(0, y, w, 24), "HD_Research_Plan".Translate()); y += 28;
+                Widgets.Label((new Rect(0, y, w, 24)).ToGame(), "HD_Research_Plan".Translate()); y += 28;
                 Text.Font = GameFont.Tiny;
                 for (int i = 0; i < plan.Count; i++)
                 {
                     var project = plan[i];
                     string mark = Find.ResearchManager.IsCurrentProject(project) ? "▶ " : "  ";
-                    GUI.color = project.CanStartNow ? Color.white : Color.gray;
-                    if (Widgets.ButtonText(new Rect(0, y, w, planHeights[i]), mark + project.LabelCap))
+                    GUI.color = (project.CanStartNow ? Color.white : Color.gray).ToGame();
+                    if (Widgets.ButtonText((new Rect(0, y, w, planHeights[i])).ToGame(), mark + project.LabelCap))
                     { host.Select(window, project); }
                     y += planHeights[i] + 3;
                 }
-                GUI.color = Color.white; Text.Font = GameFont.Small;
+                GUI.color = Color.white.ToGame(); Text.Font = GameFont.Small;
             }
             finally { Widgets.EndScrollView(); }
         }
 
         private void DrawParts(Rect rect, ResearchProjectDef selected)
         {
-            if (selected == null) { Widgets.Label(rect, "HD_Research_Select".Translate()); return; }
+            if (selected == null) { Widgets.Label(rect.ToGame(), "HD_Research_Select".Translate()); return; }
             var parts = ResearchWorkspaceData.PartsFor(selected);
-            if (parts.Count == 0) { Widgets.Label(rect, "HD_Research_NoParts".Translate()); return; }
+            if (parts.Count == 0) { Widgets.Label(rect.ToGame(), "HD_Research_NoParts".Translate()); return; }
             var projected = new HashSet<ResearchProjectDef>(preview); projected.Add(selected);
             var rowHeights = parts.Select(part => Mathf.Max(40, Text.CalcHeight(part.LabelCap, Mathf.Max(1, rect.width - 60)) + 8)).ToList();
-            Widgets.BeginScrollView(rect, ref detailScroll, new Rect(0, 0, Mathf.Max(1, rect.width - 18), rowHeights.Sum(h => h + 36)));
+            UnityEngine.Vector2 gameScroll2 = detailScroll.ToGame();
+            Widgets.BeginScrollView(rect.ToGame(), ref gameScroll2, (new Rect(0, 0, Mathf.Max(1, rect.width - 18), rowHeights.Sum(h => h + 36))).ToGame());
+            detailScroll = gameScroll2.ToNative();
             try
             {
                 float y = 0, w = rect.width - 20;
@@ -501,13 +514,13 @@ namespace Helodrace.ResearchUI
                     var requirements = ResearchWorkspaceData.RequirementsFor(part);
                     bool open = requirements.All(p => p.IsFinished);
                     bool next = requirements.All(p => p.IsFinished || projected.Contains(p));
-                    Widgets.ThingIcon(new Rect(0, y, 36, 36), part);
-                    if (Widgets.ButtonText(new Rect(40, y, w - 40, headerHeight), part.LabelCap)) Find.WindowStack.Add(new Dialog_InfoCard(part));
+                    Widgets.ThingIcon((new Rect(0, y, 36, 36)).ToGame(), part);
+                    if (Widgets.ButtonText((new Rect(40, y, w - 40, headerHeight)).ToGame(), part.LabelCap)) Find.WindowStack.Add(new Dialog_InfoCard(part));
                     Text.Font = GameFont.Tiny;
-                    GUI.color = open ? new Color(0.45f, 0.9f, 0.65f) : next ? new Color(1, 0.8f, 0.4f) : Color.gray;
-                    Widgets.Label(new Rect(0, y + headerHeight + 3, w, 28), (open ? "HD_Research_PartOpen" : next ? "HD_Research_PartNext" : "HD_Research_PartBlocked").Translate());
-                    TooltipHandler.TipRegion(new Rect(0, y, w, headerHeight + 32), string.Join("\n", requirements.Select(p => (p.IsFinished ? "✓ " : "• ") + p.LabelCap)));
-                    GUI.color = Color.white; Text.Font = GameFont.Small; y += headerHeight + 36;
+                    GUI.color = (open ? new Color(0.45f, 0.9f, 0.65f) : next ? new Color(1, 0.8f, 0.4f) : Color.gray).ToGame();
+                    Widgets.Label((new Rect(0, y + headerHeight + 3, w, 28)).ToGame(), (open ? "HD_Research_PartOpen" : next ? "HD_Research_PartNext" : "HD_Research_PartBlocked").Translate());
+                    TooltipHandler.TipRegion((new Rect(0, y, w, headerHeight + 32)).ToGame(), string.Join("\n", requirements.Select(p => (p.IsFinished ? "✓ " : "• ") + p.LabelCap)));
+                    GUI.color = Color.white.ToGame(); Text.Font = GameFont.Small; y += headerHeight + 36;
                 }
             }
             finally { Widgets.EndScrollView(); }
@@ -523,15 +536,15 @@ namespace Helodrace.ResearchUI
             Color accent = project == selected ? new Color(0.35f, 0.9f, 1)
                 : project.IsFinished ? new Color(0.3f, 0.8f, 0.6f)
                 : preview.Contains(project) ? new Color(1, 0.75f, 0.3f) : new Color(0.4f, 0.5f, 0.6f);
-            Widgets.DrawBoxSolid(rect, project == selected ? new Color(0.13f, 0.3f, 0.38f) : new Color(0.13f, 0.16f, 0.2f));
-            GUI.color = accent; Widgets.DrawBox(rect, project == selected ? 2 : 1); GUI.color = Color.white;
-            Widgets.DrawBoxSolid(new Rect(rect.x + 5, rect.y + 7, 5, 5), accent);
-            Widgets.Label(new Rect(rect.x + 14, rect.y + 2, rect.width - 18, 19),
+            Widgets.DrawBoxSolid(rect.ToGame(), (project == selected ? new Color(0.13f, 0.3f, 0.38f) : new Color(0.13f, 0.16f, 0.2f)).ToGame());
+            GUI.color = accent.ToGame(); Widgets.DrawBox(rect.ToGame(), project == selected ? 2 : 1); GUI.color = Color.white.ToGame();
+            Widgets.DrawBoxSolid((new Rect(rect.x + 5, rect.y + 7, 5, 5)).ToGame(),accent.ToGame());
+            Widgets.Label((new Rect(rect.x + 14, rect.y + 2, rect.width - 18, 19)).ToGame(),
                 (ResearchWorkspaceData.IsHelod(project) ? "HD_Research_Helod" : "HD_Research_Vanilla").Translate());
-            Widgets.Label(new Rect(rect.x + 7, rect.y + 22, rect.width - 14, rect.height - 24), project.LabelCap);
-            Widgets.DrawBoxSolid(new Rect(rect.x + 1, rect.yMax - 3, (rect.width - 2) * project.ProgressPercent, 2), accent);
-            if (Widgets.ButtonInvisible(rect)) { host.Select(window, project); }
-            TooltipHandler.TipRegion(rect, project.LabelCap + "\n" + project.description + "\n"
+            Widgets.Label((new Rect(rect.x + 7, rect.y + 22, rect.width - 14, rect.height - 24)).ToGame(), project.LabelCap);
+            Widgets.DrawBoxSolid((new Rect(rect.x + 1, rect.yMax - 3, (rect.width - 2) * project.ProgressPercent, 2)).ToGame(),accent.ToGame());
+            if (Widgets.ButtonInvisible(rect.ToGame())) { host.Select(window, project); }
+            TooltipHandler.TipRegion(rect.ToGame(), project.LabelCap + "\n" + project.description + "\n"
                 + (project.IsFinished ? "HD_Research_Completed" : preview.Contains(project) ? "HD_Research_LinkNext" : "HD_Research_Select").Translate());
         }
 
@@ -539,10 +552,10 @@ namespace Helodrace.ResearchUI
             IResearchWorkspaceHost host, Window window)
         {
             Color color = projects.All(p => p.IsFinished) ? new Color(0.2f, 0.5f, 0.4f) : new Color(0.25f, 0.3f, 0.35f);
-            GUI.color = color; Widgets.DrawBox(rect); GUI.color = Color.white;
+            GUI.color = color.ToGame(); Widgets.DrawBox(rect.ToGame()); GUI.color = Color.white.ToGame();
             float y = rect.y + 6;
             if (projects.Count > 1)
-            { Widgets.Label(new Rect(rect.x + 6, y, rect.width - 12, 18), "AND"); y += 22; }
+            { Widgets.Label((new Rect(rect.x + 6, y, rect.width - 12, 18)).ToGame(), "AND"); y += 22; }
             foreach (var project in projects)
             {
                 float h = CardHeight(project, rect.width - 12);
@@ -552,7 +565,7 @@ namespace Helodrace.ResearchUI
 
         private void DrawLinks(Rect rect, ResearchProjectDef selected, IResearchWorkspaceHost host, Window window)
         {
-            if (selected == null) { Widgets.Label(rect, "HD_Research_Select".Translate()); return; }
+            if (selected == null) { Widgets.Label(rect.ToGame(), "HD_Research_Select".Translate()); return; }
             var links = ResearchWorkspaceData.LinksFor(selected);
             float w = rect.width - 20, groupWidth = (w - 32) / 2;
             Text.Font = GameFont.Tiny;
@@ -560,7 +573,9 @@ namespace Helodrace.ResearchUI
             float captionHeight = Text.CalcHeight(caption, w);
             var heights = links.Select(link => Mathf.Max(GroupHeight(link.leftProjects, groupWidth), GroupHeight(link.rightProjects, groupWidth))).ToList();
             float contentHeight = captionHeight + 8 + heights.Sum(h => h + 18) + preview.Sum(p => CardHeight(p, w) + 6);
-            Widgets.BeginScrollView(rect, ref detailScroll, new Rect(0, 0, Mathf.Max(1, rect.width - 18), contentHeight));
+            UnityEngine.Vector2 gameScroll3 = detailScroll.ToGame();
+            Widgets.BeginScrollView(rect.ToGame(), ref gameScroll3, (new Rect(0, 0, Mathf.Max(1, rect.width - 18), contentHeight)).ToGame());
+            detailScroll = gameScroll3.ToNative();
             try
             {
                 float y = 0;
@@ -569,15 +584,15 @@ namespace Helodrace.ResearchUI
                     var link = links[i]; float h = heights[i];
                     float leftHeight = GroupHeight(link.leftProjects, groupWidth), rightHeight = GroupHeight(link.rightProjects, groupWidth);
                     Color lineColor = new Color(0.4f, 0.8f, 0.85f);
-                    Widgets.DrawBoxSolid(new Rect(groupWidth, y + h / 2 - 1, 32, 2), lineColor);
+                    Widgets.DrawBoxSolid((new Rect(groupWidth, y + h / 2 - 1, 32, 2)).ToGame(),lineColor.ToGame());
                     Rect badge = new Rect(groupWidth + 2, y + h / 2 - 14, 28, 28);
-                    Widgets.DrawBoxSolid(badge, new Color(0.12f, 0.25f, 0.3f));
-                    Text.Anchor = TextAnchor.MiddleCenter; Widgets.Label(badge, "↔\nOR"); Text.Anchor = TextAnchor.UpperLeft;
+                    Widgets.DrawBoxSolid(badge.ToGame(), (new Color(0.12f, 0.25f, 0.3f)).ToGame());
+                    Text.Anchor = TextAnchor.MiddleCenter; Widgets.Label(badge.ToGame(), "↔\nOR"); Text.Anchor = TextAnchor.UpperLeft;
                     DrawLinkGroup(new Rect(0, y + (h - leftHeight) / 2, groupWidth, leftHeight), link.leftProjects, selected, host, window);
                     DrawLinkGroup(new Rect(groupWidth + 32, y + (h - rightHeight) / 2, groupWidth, rightHeight), link.rightProjects, selected, host, window);
                     y += h + 18;
                 }
-                Widgets.Label(new Rect(0, y, w, captionHeight), caption); y += captionHeight + 8;
+                Widgets.Label((new Rect(0, y, w, captionHeight)).ToGame(), caption); y += captionHeight + 8;
                 foreach (var project in preview)
                 {
                     float h = CardHeight(project, w);

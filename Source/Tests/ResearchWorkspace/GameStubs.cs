@@ -11,6 +11,7 @@ namespace HarmonyLib
     public static class AccessTools
     {
         public delegate F FieldRef<T, F>(T instance);
+        public static Type Inner(Type type, string name) => type.GetNestedType(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
         public static System.Reflection.FieldInfo Field(Type type, string name) => type.GetField(name,
             System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
         public static FieldRef<T, F> FieldRefAccess<T, F>(string name) => instance => (F)Field(typeof(T), name).GetValue(instance);
@@ -34,7 +35,11 @@ namespace Verse
             && prerequisites.Concat(hiddenPrerequisites).All(p => p.IsFinished);
     }
     public static class DefDatabase<T> where T : Def
-    { public static List<T> AllDefsListForReading = new List<T>(); }
+    {
+        public static List<T> AllDefsListForReading = new List<T>();
+        public static T GetNamedSilentFail(string name) => AllDefsListForReading.FirstOrDefault(d => d.defName == name);
+        public static T GetNamed(string name) => AllDefsListForReading.First(d => d.defName == name);
+    }
     public class Pawn { }
     public class Game
     {
@@ -56,7 +61,7 @@ namespace Verse
         public static TickManager TickManager = new TickManager();
     }
     public static class Log { public static void Warning(string message) { } }
-    public class Window { }
+    public class Window { public virtual void PostOpen() { } }
     public class TabRecord { }
     public static class TabDrawer
     {
@@ -101,6 +106,7 @@ namespace RimWorld
     public class ResearchTabDef : Verse.Def { }
     public class MainTabWindow_Research : Verse.Window
     {
+        private sealed class ResearchTabRecord : Verse.TabRecord { public ResearchTabDef def = null; }
         private Verse.ResearchProjectDef selectedProject;
         private List<Verse.TabRecord> tabs = new List<Verse.TabRecord>();
         public ResearchTabDef CurTab;
