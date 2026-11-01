@@ -5,6 +5,9 @@ using System.Runtime.CompilerServices;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
+using Waylith.Math;
+using Vector3 = System.Numerics.Vector3;
+using Color = Waylith.Math.Color;
 using Verse;
 using Verse.AI;
 
@@ -25,8 +28,8 @@ namespace Helodrace.Tactical
     [StaticConstructorOnStartup]
     public sealed class MapComponent_TcccDragging : MapComponent
     {
-        private static readonly Material RopeOutline = SolidColorMaterials.SimpleSolidColorMaterial(new Color(.10f, .08f, .05f));
-        private static readonly Material RopeCore = SolidColorMaterials.SimpleSolidColorMaterial(new Color(.85f, .70f, .36f));
+        private static readonly Material RopeOutline = SolidColorMaterials.SimpleSolidColorMaterial(new Color(.10f, .08f, .05f).ToGame());
+        private static readonly Material RopeCore = SolidColorMaterials.SimpleSolidColorMaterial(new Color(.85f, .70f, .36f).ToGame());
         private List<TcccDragLink> links = new List<TcccDragLink>();
         public MapComponent_TcccDragging(Map map) : base(map) { }
         public bool IsDragging(Pawn pawn) => links.Any(l => l.carrier == pawn);
@@ -84,22 +87,22 @@ namespace Helodrace.Tactical
             foreach (TcccDragLink link in links)
                 if (link.carrier?.Map == map && link.patient?.Map == map)
                 {
-                    Vector3 start = link.carrier.DrawPos + new Vector3(.24f, 0, .08f);
-                    Vector3 end = link.patient.DrawPos + new Vector3(.15f, 0, .08f);
-                    start.y = end.y = AltitudeLayer.MoteOverhead.AltitudeFor();
+                    Vector3 start = link.carrier.DrawPos.ToNative() + new Vector3(.24f, 0, .08f);
+                    Vector3 end = link.patient.DrawPos.ToNative() + new Vector3(.15f, 0, .08f);
+                    start.Y = end.Y = AltitudeLayer.MoteOverhead.AltitudeFor();
                     // Route a short slack bend outside the sprites: a center-to-center line
                     // disappears underneath adjacent standing/downed pawn bodies.
                     Vector3 direction = end - start;
-                    Vector3 side = new Vector3(-direction.z, 0, direction.x).normalized;
+                    Vector3 side = new Vector3(-direction.Z, 0, direction.X).normalized;
                     Vector3 bend = (start + end) * .5f + side * .38f;
                     DrawRopeSegment(start, bend); DrawRopeSegment(bend, end);
                 }
         }
         private static void DrawRopeSegment(Vector3 start, Vector3 end)
         {
-            GenDraw.DrawLineBetween(start, end, RopeOutline, .09f);
-            start.y += .01f; end.y += .01f;
-            GenDraw.DrawLineBetween(start, end, RopeCore, .045f);
+            GenDraw.DrawLineBetween(start.ToGame(), end.ToGame(), RopeOutline, .09f);
+            start.Y += .01f; end.Y += .01f;
+            GenDraw.DrawLineBetween(start.ToGame(), end.ToGame(), RopeCore, .045f);
         }
     }
 

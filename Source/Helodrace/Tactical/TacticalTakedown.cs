@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using RimWorld;
 using UnityEngine;
+using Vector3 = System.Numerics.Vector3;
+using Color = Waylith.Math.Color;
 using Verse;
 using Verse.AI;
 using Verse.Sound;
@@ -95,16 +97,16 @@ namespace Helodrace.Tactical
                 return;
             }
 
-            GenDraw.DrawRadiusRing(pawn.Position, MaximumRange, Color.white);
+            GenDraw.DrawRadiusRing(pawn.Position, MaximumRange, Color.white.ToGame());
             Pawn victim = target.Thing as Pawn;
             if (victim != null && victim.Map == map)
             {
                 GenDraw.DrawRadiusRing(
                     victim.Position,
                     0.55f,
-                    IsValidTarget(pawn, victim, out _)
+                    (IsValidTarget(pawn, victim, out _)
                         ? Color.green
-                        : Color.red);
+                        : Color.red).ToGame());
             }
         }
 
@@ -158,14 +160,14 @@ namespace Helodrace.Tactical
 
         private static bool IsBehindTarget(Pawn attacker, Pawn target)
         {
-            Vector3 direction = attacker.DrawPos - target.DrawPos;
-            direction.y = 0f;
-            if (direction.sqrMagnitude < 0.001f)
+            Vector3 direction = attacker.DrawPos.ToNative() - target.DrawPos.ToNative();
+            direction.Y = 0f;
+            if (direction.LengthSquared() < 0.001f)
             {
                 return false;
             }
 
-            float toAttackerAngle = direction.AngleFlat();
+            float toAttackerAngle = SpatialMath.FlatAngle(direction);
             float facingDelta = Mathf.Abs(Mathf.DeltaAngle(
                 target.Rotation.AsAngle,
                 toAttackerAngle));
@@ -327,7 +329,7 @@ namespace Helodrace.Tactical
                 || IsProtectedByApparel(target, part)) return false;
 
             Map impactMap = target.Map;
-            Vector3 impactPosition = target.DrawPos;
+            UnityEngine.Vector3 impactPosition = target.DrawPos;
             BeginAnimation(pawn, target);
             SoundDefOf.Pawn_Melee_Punch_HitPawn.PlayOneShot(
                 new TargetInfo(target.Position, target.Map));
@@ -368,14 +370,14 @@ namespace Helodrace.Tactical
 
         private static void BeginAnimation(Pawn attacker, Pawn target)
         {
-            Vector3 direction = target.DrawPos - attacker.DrawPos;
-            direction.y = 0f;
-            if (direction.sqrMagnitude < 0.001f)
+            Vector3 direction = target.DrawPos.ToNative() - attacker.DrawPos.ToNative();
+            direction.Y = 0f;
+            if (direction.LengthSquared() < 0.001f)
             {
                 return;
             }
 
-            attacker.Rotation = Rot4.FromAngleFlat(direction.AngleFlat());
+            attacker.Rotation = Rot4.FromAngleFlat(SpatialMath.FlatAngle(direction));
         }
 
         public static Command CreateCommand(Pawn pawn)

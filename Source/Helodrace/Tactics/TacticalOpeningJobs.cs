@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
+using Vector3 = System.Numerics.Vector3;
 using Verse;
 using Verse.AI;
 
@@ -203,14 +204,14 @@ namespace Helodrace.Tactics
     [NewTactical, HarmonyPatch(typeof(PawnRenderUtility), nameof(PawnRenderUtility.DrawEquipmentAndApparelExtras))]
     public static class Patch_NewTactical_DrawGrenade
     {
-        public static void Postfix(Pawn pawn, Vector3 drawPos, Rot4 facing, PawnRenderFlags flags)
+        public static void Postfix(Pawn pawn, UnityEngine.Vector3 drawPos, Rot4 facing, PawnRenderFlags flags)
         {
             var driver = pawn.jobs?.curDriver as JobDriver_TacticalThrow;
             Thing grenade = driver?.Prepared == true && !driver.Released ? driver.Grenade : null;
             if (pawn.jobs?.curDriver is JobDriver_ThrowInventoryGrenade inventory && !inventory.Released) grenade = inventory.Grenade;
             if (grenade?.Graphic == null || flags.HasFlag(PawnRenderFlags.Portrait) || pawn.Dead || pawn.Downed) return;
-            Vector3 hand = drawPos + new Vector3(.23f, .045f, .25f).RotatedBy(facing.AsAngle);
-            Graphics.DrawMesh(MeshPool.plane10, Matrix4x4.TRS(hand, facing.AsQuat, new Vector3(.42f, 1f, .42f)),
+            Vector3 hand = drawPos.ToNative() + SpatialMath.RotateAroundY(new Vector3(.23f, .045f, .25f), facing.AsAngle);
+            Graphics.DrawMesh(MeshPool.plane10, SpatialMath.CreateTransform(hand, facing.AsQuat.ToNative(), new Vector3(.42f, 1f, .42f)).ToGame(),
                 grenade.Graphic.MatAt(facing, grenade), 0);
         }
     }

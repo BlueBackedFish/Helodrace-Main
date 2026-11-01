@@ -423,6 +423,7 @@ namespace Helodrace.Tests
                 else if (mode == "native-preview-images") NativePreviewImageChecks.Run(output, Check);
                 else if (mode == "native-armor-ui") NativeWindowSubmissionChecks.RunArmor(output, Check);
                 else if (mode == "native-weapon-ui") NativeWindowSubmissionChecks.RunWeapon(output, Check);
+                else if (mode == "native-tactical-presentation") NativeTacticalPresentationChecks.Run(output, Check);
                 else if (mode == "native-tactical-geometry") NativeTacticalGeometryChecks.Run(output, Check);
                 else if (mode == "native-small-ui") NativeWindowSubmissionChecks.RunSmallUi(output, Check);
                 else if (mode == "native-preemptive") NativePreemptiveChecks.Run(output, Check);
