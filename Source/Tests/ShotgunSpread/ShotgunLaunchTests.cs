@@ -4,6 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using Helodrace;
 using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
 using Verse;
 
 internal static class ShotgunLaunchTests
@@ -95,11 +96,11 @@ internal static class ShotgunLaunchTests
             Rand.PushState(7891);
             try
             {
-                launch.Capture(NewPellet(projectile), null, new Vector3(3.5f, 0f, 3.5f),
+                launch.Capture(NewPellet(projectile), null, new System.Numerics.Vector3(3.5f, 0f, 3.5f),
                     new IntVec3(3, 0, 13), target, ProjectileHitFlags.NonTargetWorld, false, null, null);
             }
             finally { Rand.PopState(); }
-            Program.Check(launch.shell.aimError.magnitude < 0.3f, "Pawn aiming must replace the coarse vanilla miss tile with a close continuous error.");
+            Program.Check(launch.shell.aimError.Length() < 0.3f, "Pawn aiming must replace the coarse vanilla miss tile with a close continuous error.");
             Program.Check(launch.handlingSpread > 1f && launch.handlingSpread <= 1.25f, "Poor aim must add only a modest handling penalty to base spread.");
             if (size == 0.5f) first = launch.shell.aimError;
             else Program.Check(first == launch.shell.aimError, "Target size must affect the silhouette without also worsening shared aim.");

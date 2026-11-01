@@ -20,11 +20,13 @@ namespace Helodrace.Tests
         private bool grenadePrepared;
         private bool towPrepared;
         private bool m47Prepared;
+        private bool shotgunPrepared;
 #if HELODRACE_MAIN_CHECKS
         private bool lra7VerifiedOnLoad;
         private bool grenadeVerifiedOnLoad;
         private bool towVerifiedOnLoad;
         private bool m47VerifiedOnLoad;
+        private bool shotgunVerifiedOnLoad;
 #endif
         private string output, mode;
 
@@ -39,13 +41,14 @@ namespace Helodrace.Tests
             Scribe_Values.Look(ref grenadePrepared, "migrationGrenadePrepared", false);
             Scribe_Values.Look(ref towPrepared, "migrationTowPrepared", false);
             Scribe_Values.Look(ref m47Prepared, "migrationM47Prepared", false);
+            Scribe_Values.Look(ref shotgunPrepared, "migrationShotgunPrepared", false);
         }
 
 #if HELODRACE_MAIN_CHECKS
         public override void LoadedGame()
         {
             if (!GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string activeCase)
-                || !((lra7Prepared && activeCase == "native-lra7") || (grenadePrepared && activeCase == "native-grenades") || (towPrepared && activeCase == "native-tow") || (m47Prepared && activeCase == "native-m47"))
+                || !((lra7Prepared && activeCase == "native-lra7") || (grenadePrepared && activeCase == "native-grenades") || (towPrepared && activeCase == "native-tow") || (m47Prepared && activeCase == "native-m47") || (shotgunPrepared && activeCase == "native-shotgun"))
                 || !GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out output)) return;
             try
             {
@@ -65,10 +68,15 @@ namespace Helodrace.Tests
                     NativeTowChecks.Verify(output, Check);
                     towVerifiedOnLoad = true;
                 }
-                else
+                else if (activeCase == "native-m47")
                 {
                     NativeM47Checks.Verify(output, Check);
                     m47VerifiedOnLoad = true;
+                }
+                else
+                {
+                    NativeShotgunChecks.Verify(output, Check);
+                    shotgunVerifiedOnLoad = true;
                 }
             }
             catch (Exception error)
@@ -107,7 +115,7 @@ namespace Helodrace.Tests
             try
             {
                 if ((mode != "main-state" || !mainStatePrepared) && (mode != "blancas-generation" || !blancasGenerationPrepared)
-                    && (mode != "native-lra7" || !lra7Prepared) && (mode != "native-grenades" || !grenadePrepared) && (mode != "native-tow" || !towPrepared) && (mode != "native-m47" || !m47Prepared))
+                    && (mode != "native-lra7" || !lra7Prepared) && (mode != "native-grenades" || !grenadePrepared) && (mode != "native-tow" || !towPrepared) && (mode != "native-m47" || !m47Prepared) && (mode != "native-shotgun" || !shotgunPrepared))
                     File.WriteAllText(Path.Combine(output, "checks.txt"), "Engine migration: " + mode + "\n");
                 else File.AppendAllText(Path.Combine(output, "checks.txt"), "Loaded new 1.7 state\n");
                 Check(DefDatabase<ThingDef>.GetNamedSilentFail("BD_Ketamine") != null, "Blancas drug definitions loaded");
@@ -154,6 +162,18 @@ namespace Helodrace.Tests
                     BlancasGenerationChecks.Verify(Check);
                 }
 #if HELODRACE_MAIN_CHECKS
+                else if (mode == "native-shotgun")
+                {
+                    if (!shotgunPrepared)
+                    {
+                        NativeShotgunChecks.Create(output, Check);
+                        shotgunPrepared = true;
+                        GameDataSaveLoader.SaveGame("ShotgunNativeState17");
+                        GameDataSaveLoader.LoadGame("ShotgunNativeState17");
+                        return;
+                    }
+                    Check(shotgunVerifiedOnLoad, "native shotgun state verified before the first simulation tick");
+                }
                 else if (mode == "native-m47")
                 {
                     if (!m47Prepared)

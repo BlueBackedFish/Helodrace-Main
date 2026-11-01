@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using HarmonyLib;
 using RimWorld;
-using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
+using Vector3 = System.Numerics.Vector3;
 using Verse;
 
 namespace Helodrace
@@ -44,7 +45,7 @@ namespace Helodrace
             hitFlags = flags;
             preventFriendlyFire = preventFriendly;
             cover = coverDef;
-            shell = new ShotgunShell { id = pellet.thingIDNumber, origin = origin, targetPoint = intended.Cell.ToVector3Shifted() };
+            shell = new ShotgunShell { id = pellet.thingIDNumber, origin = origin, targetPoint = intended.Cell.ToVector3Shifted().ToNative() };
             if (intended.Thing is Pawn pawn)
             {
                 shell.targetPoint = ShotgunBallistics.AimPoint(pawn, origin, pellet.def.projectile.SpeedTilesPerTick);
@@ -64,7 +65,7 @@ namespace Helodrace
             {
                 // Keep map-space misses for buildings and ground targeting.
                 Vector3 aim = used.HasThing && used.Thing != intended.Thing
-                    ? shell.targetPoint : used.Cell.ToVector3Shifted();
+                    ? shell.targetPoint : used.Cell.ToVector3Shifted().ToNative();
                 Vector3 error = aim - shell.targetPoint;
                 float jitter = 0.03f + 0.12f * Math.Max(0f, 1f - Math.Min(1f, report?.AimOnTargetChance_IgnoringPosture ?? 1f));
                 shell.aimError = new Vector2(Vector3.Dot(error, shell.Right) + Rand.Gaussian(0f, jitter),
@@ -80,7 +81,7 @@ namespace Helodrace
                 var pellet = (Projectile_ShotgunPellet)GenSpawn.Spawn(template.def, template.Position, template.Map);
                 pellet.damageDefOverride = template.damageDefOverride;
                 pellet.extraDamages = template.extraDamages == null ? new List<ExtraDamage>() : new List<ExtraDamage>(template.extraDamages);
-                pellet.Launch(launcher, shell.origin, usedTarget, intendedTarget, hitFlags, preventFriendlyFire, equipment, cover);
+                pellet.Launch(launcher, shell.origin.ToGame(), usedTarget, intendedTarget, hitFlags, preventFriendlyFire, equipment, cover);
             }
         }
     }
@@ -105,7 +106,7 @@ namespace Helodrace
         internal ShotgunProjectileExtension Settings => def.GetModExtension<ShotgunProjectileExtension>() ?? defaults;
         private static readonly ShotgunProjectileExtension defaults = new ShotgunProjectileExtension();
         internal ShotgunShell Shell => shell ?? (shell = Map?.GetComponent<MapComponent_ShotgunShells>().ShellFor(this));
-        internal float TravelDistance => impactDistance >= 0f ? impactDistance : (ExactPosition - origin).MagnitudeHorizontal();
+        internal float TravelDistance => impactDistance >= 0f ? impactDistance : SpatialMath.HorizontalLength(ExactPosition.ToNative() - origin.ToNative());
         internal float Energy => ShotgunBallistics.Energy(TravelDistance, Settings.energyHalfDistance);
         public override int DamageAmount => Shell == null ? base.DamageAmount : Math.Max(1, (int)Math.Round(base.DamageAmount * Energy));
         public override float ArmorPenetration => Shell == null ? base.ArmorPenetration : base.ArmorPenetration * (float)Math.Sqrt(Energy);
@@ -114,7 +115,7 @@ namespace Helodrace
         // into staggered 15-tick updates.
         public override int UpdateRateTicks => 1;
 
-        public override void Launch(Thing launcher, Vector3 origin, LocalTargetInfo usedTarget, LocalTargetInfo intendedTarget,
+        public override void Launch(Thing launcher, UnityEngine.Vector3 origin, LocalTargetInfo usedTarget, LocalTargetInfo intendedTarget,
             ProjectileHitFlags hitFlags, bool preventFriendlyFire = false, Thing equipment = null, ThingDef targetCoverDef = null)
         {
             ShotgunLaunch launch = ShotgunSpreadContext.Launching;
@@ -123,11 +124,11 @@ namespace Helodrace
                 base.Launch(launcher, origin, usedTarget, intendedTarget, hitFlags, preventFriendlyFire, equipment, targetCoverDef);
                 return;
             }
-            launch.Capture(this, launcher, origin, usedTarget, intendedTarget, hitFlags, preventFriendlyFire, equipment, targetCoverDef);
+            launch.Capture(this, launcher, origin.ToNative(), usedTarget, intendedTarget, hitFlags, preventFriendlyFire, equipment, targetCoverDef);
             shell = launch.shell;
             slope = ShotgunBallistics.Sample(launch.angle * Math.Max(0f, Settings.spreadMultiplier) * launch.handlingSpread);
-            Vector3 endpoint = shell.targetPoint + shell.Right * (shell.aimError.x + slope.x * shell.AimDistance);
-            LocalTargetInfo actualTarget = endpoint.ToIntVec3();
+            Vector3 endpoint = shell.targetPoint + shell.Right * (shell.aimError.X + slope.X * shell.AimDistance);
+            LocalTargetInfo actualTarget = endpoint.ToGame().ToIntVec3();
             hitFlags |= ProjectileHitFlags.NonTargetWorld;
             if (intendedTarget.Thing is Pawn pawn)
             {
@@ -145,7 +146,7 @@ namespace Helodrace
                         if (obstruction != null)
                         {
                             actualTarget = obstruction;
-                            endpoint = obstruction.Position.ToVector3Shifted();
+                            endpoint = obstruction.Position.ToVector3Shifted().ToNative();
                             targetCoverDef = obstruction.def;
                         }
                     }
@@ -155,9 +156,9 @@ namespace Helodrace
             {
                 // World targets have no vertical silhouette. Preserve both
                 // map-space axes of the shared miss and pellet spread.
-                endpoint += shell.Forward * (shell.aimError.y + slope.y * shell.AimDistance);
-                actualTarget = endpoint.ToIntVec3();
-                if (endpoint.ToIntVec3() == intendedTarget.Cell)
+                endpoint += shell.Forward * (shell.aimError.Y + slope.Y * shell.AimDistance);
+                actualTarget = endpoint.ToGame().ToIntVec3();
+                if (endpoint.ToGame().ToIntVec3() == intendedTarget.Cell)
                 {
                     actualTarget = intendedTarget;
                     hitFlags |= ProjectileHitFlags.IntendedTarget;
@@ -166,11 +167,11 @@ namespace Helodrace
             // Native flight time uses full Vector3 distance, while flight is
             // horizontal. Keep equal render heights so altitude is not added
             // to the travel distance and the moving-target lead stays valid.
-            endpoint.y = origin.y;
+            endpoint.Y = origin.y;
             base.Launch(launcher, origin, actualTarget, intendedTarget, hitFlags, preventFriendlyFire, equipment, targetCoverDef);
             // The base launch adds unrelated cell jitter. Preserve the sampled
             // continuous trajectory and recompute its flight time instead.
-            destination = endpoint;
+            destination = endpoint.ToGame();
             ticksToImpact = Math.Max(1, (int)Math.Ceiling(StartingTicksToImpact));
             lifetime = ticksToImpact;
             Map.GetComponent<MapComponent_ShotgunShells>().Register(this, shell);
@@ -180,9 +181,9 @@ namespace Helodrace
         {
             ShotgunShell current = Shell;
             if (current == null) { base.TickInterval(delta); return; }
-            stepStart = current.DistanceTo(ExactPosition);
+            stepStart = current.DistanceTo(ExactPosition.ToNative());
             float fraction = Mathf.Clamp01(1f - (ticksToImpact - delta) / StartingTicksToImpact);
-            stepEnd = current.DistanceTo(origin + (destination - origin) * fraction);
+            stepEnd = current.DistanceTo(origin.ToNative() + (destination.ToNative() - origin.ToNative()) * fraction);
             flightStep = true;
             try
             {
@@ -205,7 +206,7 @@ namespace Helodrace
             ShotgunPose pose = current.PoseFor(pawn);
             float distance = current.DistanceTo(pose.position);
             return HitsAt(pose.position, pose.radii) && (!flightStep ||
-                (distance >= Math.Min(stepStart, stepEnd) - pose.radii.x && distance <= Math.Max(stepStart, stepEnd) + pose.radii.x));
+                (distance >= Math.Min(stepStart, stepEnd) - pose.radii.X && distance <= Math.Max(stepStart, stepEnd) + pose.radii.X));
         }
 
         internal bool HitsAt(Pawn pawn, Vector3 position) => HitsAt(position,
@@ -216,7 +217,7 @@ namespace Helodrace
             ShotgunShell current = Shell;
             if (current == null) return true;
             return current.DistanceTo(position) > 0f
-                && current.DistanceTo(position) <= current.AimDistance + radii.x
+                && current.DistanceTo(position) <= current.AimDistance + radii.X
                 && ShotgunBallistics.Hits(current.OffsetAt(position, slope),
                     radii);
         }
@@ -228,7 +229,7 @@ namespace Helodrace
             // Do not add vanilla's second random hit/posture roll at the end.
             if (usedTarget.HasThing && CanHit(usedTarget.Thing)
                 && (!(usedTarget.Thing is Pawn target) || Math.Abs(Shell.DistanceTo(Shell.PoseFor(target).position) - Shell.AimDistance)
-                    <= Shell.PoseFor(target).radii.x + 0.5f))
+                    <= Shell.PoseFor(target).radii.X + 0.5f))
             { Impact(usedTarget.Thing); return; }
             List<Thing> things = VerbUtility.ThingsToHit(Position, Map, CanHit);
             things.Shuffle();
@@ -253,7 +254,7 @@ namespace Helodrace
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
             ShotgunImpact previous = ShotgunSpreadContext.Impact;
-            impactDistance = (ExactPosition - origin).MagnitudeHorizontal();
+            impactDistance = SpatialMath.HorizontalLength(ExactPosition.ToNative() - origin.ToNative());
             ShotgunSpreadContext.Impact = null;
             if (!blockedByShield && Shell != null && hitThing is Pawn pawn)
             {
@@ -262,7 +263,7 @@ namespace Helodrace
                 {
                     shell = Shell, pellet = this, pawn = pawn, damageDef = DamageDef,
                     energy = Energy, incomingDamage = DamageAmount,
-                    relativeSpread = (slope * Shell.DistanceTo(pose.position)).magnitude / Math.Min(pose.radii.x, pose.radii.y)
+                    relativeSpread = (slope * Shell.DistanceTo(pose.position)).Length() / Math.Min(pose.radii.X, pose.radii.Y)
                 };
             }
             try { base.Impact(hitThing, blockedByShield); }
@@ -272,8 +273,7 @@ namespace Helodrace
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref slope.x, "pelletSlopeX");
-            Scribe_Values.Look(ref slope.y, "pelletSlopeY");
+            NativeVectorScribe.Look(ref slope, "pelletSlope");
         }
     }
 

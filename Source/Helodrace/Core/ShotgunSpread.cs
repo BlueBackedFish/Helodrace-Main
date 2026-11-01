@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using RimWorld;
 using Verse;
-using UnityEngine;
+using System.Numerics;
+using Waylith.Math;
 
 namespace Helodrace
 {
@@ -52,18 +53,18 @@ namespace Helodrace
             get
             {
                 Vector3 delta = targetPoint - origin;
-                delta.y = 0f;
-                return delta.sqrMagnitude > 0.001f ? delta.normalized : new Vector3(0f, 0f, 1f);
+                delta.Y = 0f;
+                return delta.LengthSquared() > 0.001f ? delta.normalized : new Vector3(0f, 0f, 1f);
             }
         }
-        internal Vector3 Right => new Vector3(Forward.z, 0f, -Forward.x);
-        internal float AimDistance => Math.Max(0.1f, (targetPoint - origin).MagnitudeHorizontal());
+        internal Vector3 Right => new Vector3(Forward.Z, 0f, -Forward.X);
+        internal float AimDistance => Math.Max(0.1f, SpatialMath.HorizontalLength(targetPoint - origin));
         internal float DistanceTo(Vector3 point) => Math.Max(0f, Vector3.Dot(point - origin, Forward));
         internal Vector2 OffsetAt(Vector3 point, Vector2 slope)
         {
             float distance = DistanceTo(point);
             Vector2 offset = aimError * (distance / AimDistance) + slope * distance;
-            offset.x -= Vector3.Dot(point - origin, Right);
+            offset.X -= Vector3.Dot(point - origin, Right);
             return offset;
         }
 
@@ -94,14 +95,9 @@ namespace Helodrace
         public void ExposeData()
         {
             Scribe_Values.Look(ref id, "id");
-            Scribe_Values.Look(ref origin.x, "originX");
-            Scribe_Values.Look(ref origin.y, "originY");
-            Scribe_Values.Look(ref origin.z, "originZ");
-            Scribe_Values.Look(ref targetPoint.x, "targetX");
-            Scribe_Values.Look(ref targetPoint.y, "targetY");
-            Scribe_Values.Look(ref targetPoint.z, "targetZ");
-            Scribe_Values.Look(ref aimError.x, "aimX");
-            Scribe_Values.Look(ref aimError.y, "aimY");
+            NativeVectorScribe.Look(ref origin, "origin");
+            NativeVectorScribe.Look(ref targetPoint, "targetPoint");
+            NativeVectorScribe.Look(ref aimError, "aimError");
             Scribe_Collections.Look(ref projectiles, "projectiles", LookMode.Reference);
             Scribe_Collections.Look(ref targets, "targets", LookMode.Deep);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)

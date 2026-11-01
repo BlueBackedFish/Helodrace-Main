@@ -5,6 +5,9 @@ namespace Helodrace
 {
     internal static class SpatialMath
     {
+        internal static float HorizontalLength(Vector3 value)
+            => Mathf.Sqrt(value.X * value.X + value.Z * value.Z);
+
         // Retain subtraction-first interpolation at grid boundaries. BCL Lerp
         // may use a different arithmetic order on SIMD hardware.
         internal static Vector3 Interpolate(Vector3 from, Vector3 to, float fraction)

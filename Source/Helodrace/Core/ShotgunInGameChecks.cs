@@ -24,6 +24,7 @@ namespace Helodrace
         private int expectedHits;
         private float expectedDamageBudget;
         private Thing testWall;
+        private bool accuracyPairPrepared;
         private string Results => Path.Combine(GenFilePaths.SaveDataFolderPath, "shotgun-results.txt");
         public ShotgunInGameChecks(Game game) { }
         private void Check(bool condition, string message)
@@ -105,12 +106,13 @@ namespace Helodrace
                 foreach (Thing thing in cell.GetThingList(map).ToArray())
                     if (!(thing is Pawn) && (thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Plant
                         || thing.def.Fillage != FillCategory.None)) thing.Destroy();
-            if (shooter != null && !shooter.Destroyed) shooter.Destroy();
-            if (victim != null && !victim.Destroyed) victim.Destroy();
-            if (accuracyFixture)
+            bool reuse = accuracyFixture && accuracyPairPrepared && shooter?.Spawned == true && victim?.Spawned == true;
+            if (!reuse)
             {
-                // Compare skill using identical generation inputs, not random apparel,
-                // age, xenotypes, disabled skills and health on different new pawns.
+                if (shooter != null && !shooter.Destroyed) shooter.Destroy();
+                if (victim != null && !victim.Destroyed) victim.Destroy();
+                // Functional damage checks also need healthy adult inputs. The
+                // accuracy sweep reuses this exact pair across skill changes.
                 Rand.PushState(70012);
                 try
                 {
@@ -125,19 +127,15 @@ namespace Helodrace
                 shooter.apparel?.DestroyAll();
                 shooter.health.RemoveAllHediffs();
                 victim.health.RemoveAllHediffs();
+                accuracyPairPrepared = accuracyFixture;
+                GenSpawn.Spawn(shooter, source, map);
+                GenSpawn.Spawn(victim, destination, map);
             }
-            else
-            {
-                shooter = PawnGenerator.GeneratePawn(new PawnGenerationRequest(PawnKindDefOf.Colonist, Faction.OfPlayer,
-                    forceGenerateNewPawn: true, mustBeCapableOfViolence: true, canGeneratePawnRelations: false));
-                victim = PawnGenerator.GeneratePawn(kind);
-            }
+            else { shooter.Position = source; victim.Position = destination; }
             Check(!shooter.skills.GetSkill(SkillDefOf.Shooting).TotallyDisabled, "test shooter can use shooting accuracy");
             shooter.skills.GetSkill(SkillDefOf.Shooting).Level = skill;
             victim.apparel?.DestroyAll();
             victim.equipment?.DestroyAllEquipment();
-            GenSpawn.Spawn(shooter, source, map);
-            GenSpawn.Spawn(victim, destination, map);
             foreach (Pawn pawn in new[] { shooter, victim })
             {
                 Job wait = JobMaker.MakeJob(JobDefOf.Wait);
@@ -149,6 +147,12 @@ namespace Helodrace
             shooter.equipment.AddEquipment(weapon);
             if (accuracyFixture)
             {
+                // Ideology's darkness offsets and weather are independent of
+                // skill and can floor both native hit reports at 0.0201.
+                shooter.ideo?.SetIdeo(null);
+                victim.ideo?.SetIdeo(null);
+                map.weatherManager.curWeather = map.weatherManager.lastWeather = WeatherDefOf.Clear;
+                map.skyManager.ForceSetCurSkyGlow(1f);
                 foreach (StatDef stat in DefDatabase<StatDef>.AllDefsListForReading) stat.Worker.ClearCacheForThing(shooter);
                 Check(shooter.skills.GetSkill(SkillDefOf.Shooting).Level == skill, "controlled shooter has the requested effective skill");
             }
@@ -216,6 +220,9 @@ namespace Helodrace
                 AccessTools.FieldRefAccess<CompM79Launcher, ThingDef>("selectedAmmoDef")(launcher) = DefDatabase<ThingDef>.GetNamed("HD_40mmM576MP_Round");
             int count = launcher == null ? 9 : 20;
             var initialReport = ShotReport.HitReportFor(shooter, verb, victim);
+            float weatherFactor = (float)AccessTools.Field(typeof(ShotReport), "factorFromWeather").GetValue(initialReport);
+            float darknessOffset = (float)AccessTools.Field(typeof(ShotReport), "offsetFromDarkness").GetValue(initialReport);
+            Check(weatherFactor == 1f && darknessOffset == 0f, "controlled accuracy excludes weather and ideology lighting offsets");
             File.AppendAllText(Results, $"AIM skill={shooter.skills.GetSkill(SkillDefOf.Shooting).Level}, pawnAccuracy={shooter.GetStatValue(StatDefOf.ShootingAccuracyPawn):R}, factor={ShotReport.HitFactorFromShooter(shooter, distance):R}, report={initialReport.AimOnTargetChance_StandardTarget:R}\n");
             int total = 0, four = 0, five = 0;
             bool validShells = true;
@@ -258,6 +265,7 @@ namespace Helodrace
             Check(actualHits >= Math.Min(4, expectedHits), label + " sampled close trajectories reach the target during native flight");
             var wounds = victim.health.hediffSet.hediffs.OfType<Hediff_Injury>()
                 .Where(injury => GameComponent_ShotgunWounds.Current.For(injury)?.shellId == shellId).ToArray();
+            File.AppendAllText(Results, $"WOUNDS expectedShell={shellId}, total={victim.health.hediffSet.hediffs.OfType<Hediff_Injury>().Count()}, tracked={wounds.Length}, dead={victim.Dead}, destroyed={victim.Destroyed}, budget={expectedDamageBudget:R}\n");
             Check(wounds.Length > 0, label + " received native pellet injuries");
             Check(wounds.Sum(injury => injury.Severity) <= expectedDamageBudget + 0.01f, label + " surface and internal injuries respect shell damage budget");
             Check(wounds.All(injury => GameComponent_ShotgunWounds.Current.For(injury).pelletCount > 0), label + " wounds retain pellet counts");
@@ -292,6 +300,14 @@ namespace Helodrace
         {
             if (!blockedByShield && hitThing is Pawn && hitThing == __instance.intendedTarget.Thing && __instance.Shell?.id == shellId)
                 hits.Add(__instance.thingIDNumber);
+        }
+        private static void Postfix(Projectile_ShotgunPellet __instance, Thing hitThing)
+        {
+            if (!(hitThing is Pawn pawn) || !hits.Contains(__instance.thingIDNumber)) return;
+            string injuries = string.Join(";", pawn.health.hediffSet.hediffs.OfType<Hediff_Injury>().Select(i =>
+                $"{i.def.defName}:{i.Severity:R}:{i.Part?.def.defName}:shell={GameComponent_ShotgunWounds.Current.For(i)?.shellId}:pellets={GameComponent_ShotgunWounds.Current.For(i)?.pelletCount}"));
+            File.AppendAllText(Path.Combine(GenFilePaths.SaveDataFolderPath, "shotgun-results.txt"),
+                $"AFTER_IMPACT pellet={__instance.thingIDNumber}, expectedShell={shellId}, damage={__instance.DamageAmount}, energy={__instance.Energy:R}, dead={pawn.Dead}, injuries=[{injuries}]\n");
         }
     }
 }

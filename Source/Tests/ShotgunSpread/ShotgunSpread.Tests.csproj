@@ -10,5 +10,8 @@
     <Compile Include="../../Helodrace/Core/Shotgun*.cs" Link="%(Filename)%(Extension)" />
     <Compile Include="../../Helodrace/Core/Projectile_ShotgunPellet.cs" Link="Projectile_ShotgunPellet.cs" />
     <Compile Include="../../Helodrace/Core/Verb_ShootShotgun.cs" Link="Verb_ShootShotgun.cs" />
+    <Compile Include="../../Helodrace/Core/GameGeometry.cs" Link="GameGeometry.cs" />
+    <Compile Include="../../Helodrace/Core/SpatialMath.cs" Link="SpatialMath.cs" />
+    <Compile Include="../../Helodrace/Core/NativeVectorScribe.cs" Link="NativeVectorScribe.cs" />
   </ItemGroup>
 </Project>

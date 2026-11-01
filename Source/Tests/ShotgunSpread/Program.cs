@@ -7,6 +7,8 @@ using HarmonyLib;
 using Helodrace;
 using RimWorld;
 using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
+using Vector3 = System.Numerics.Vector3;
 using Verse;
 
 internal static class Program
@@ -107,7 +109,7 @@ internal static class Program
         var normal = ShotgunBallistics.BodyRadii(1f, true);
         var large = ShotgunBallistics.BodyRadii(8f, true);
         var tiny = ShotgunBallistics.BodyRadii(0.125f, true);
-        Near(large.x, normal.x * 2f, "Large races must scale by linear size.");
+        Near(large.X, normal.X * 2f, "Large races must scale by linear size.");
         int near = 0, far = 0, big = 0, small = 0, fringe = 0;
         for (int i = 0; i < 10000; i++)
         {
@@ -121,10 +123,10 @@ internal static class Program
         Check(near > 9900 && near > far * 2, "Near targets must catch tight groups; distant targets must lose pellets.");
         Check(big > far && far > small, "A fixed pattern must hit large races more often than small races.");
         Check(fringe > 0 && fringe < far, "The edge of a shared missed aim must produce partial hits.");
-        var shell = new ShotgunShell { origin = Vector3.zero, targetPoint = new Vector3(0f, 0f, 10f), aimError = new Vector2(0.2f, 0.1f) };
+        var shell = new ShotgunShell { origin = Vector3.Zero, targetPoint = new Vector3(0f, 0f, 10f), aimError = new Vector2(0.2f, 0.1f) };
         Vector2 offset = shell.OffsetAt(shell.targetPoint, new Vector2(0.01f, 0.02f));
-        Near(offset.x, 0.3f, "Pellets must add their offset to the common horizontal aiming error.");
-        Near(offset.y, 0.3f, "Pellets must share the vertical aiming error.");
+        Near(offset.X, 0.3f, "Pellets must add their offset to the common horizontal aiming error.");
+        Near(offset.Y, 0.3f, "Pellets must share the vertical aiming error.");
     }
 
     private static void AccuracyTests()
@@ -263,7 +265,7 @@ internal static class Program
         first.def.defName = "FixturePellet";
         first.thingIDNumber = 112;
         second.thingIDNumber = 113;
-        var shell = new ShotgunShell { id = 112, origin = Vector3.zero, targetPoint = new Vector3(0f, 0f, 15f), aimError = new Vector2(0.1f, 0.2f) };
+        var shell = new ShotgunShell { id = 112, origin = Vector3.Zero, targetPoint = new Vector3(0f, 0f, 15f), aimError = new Vector2(0.1f, 0.2f) };
         shell.CentreFor(pawn, new DamageDef());
         Check(shell.TrySetAimCentre(pawn, selected), "The saved fixture must have an explicitly selected aim centre.");
         var tracker = new MapComponent_ShotgunShells(null);

@@ -1,5 +1,6 @@
 using System;
-using UnityEngine;
+using System.Numerics;
+using Waylith.Math;
 using Verse;
 
 namespace Helodrace
@@ -33,28 +34,28 @@ namespace Helodrace
         // frame-dependent render interpolation from Pawn.DrawPos.
         internal static Vector3 Position(Pawn pawn)
         {
-            Vector3 position = pawn.Position.ToVector3Shifted();
+            Vector3 position = pawn.Position.ToVector3Shifted().ToNative();
             var path = pawn.pather;
             return path != null && path.Moving && path.nextCell.IsValid
-                ? Vector3.Lerp(position, path.nextCell.ToVector3Shifted(), path.MovePercentage)
+                ? SpatialMath.Interpolate(position, path.nextCell.ToVector3Shifted().ToNative(), path.MovePercentage)
                 : position;
         }
         internal static Vector3 Velocity(Pawn pawn)
         {
             var path = pawn.pather;
-            if (path == null || !path.MovingNow || !path.nextCell.IsValid) return Vector3.zero;
+            if (path == null || !path.MovingNow || !path.nextCell.IsValid) return Vector3.Zero;
             float step = 1f;
             if (pawn.stances?.stagger?.Staggered == true) step *= pawn.stances.stagger.StaggerMoveSpeedFactor;
             if (pawn.Flying) step *= pawn.RaceProps.flightSpeedFactor;
             step = Math.Max(step, path.nextCellCostTotal / 450f);
-            return (path.nextCell - pawn.Position).ToVector3() * (step / Math.Max(1f, path.nextCellCostTotal));
+            return (path.nextCell - pawn.Position).ToVector3().ToNative() * (step / Math.Max(1f, path.nextCellCostTotal));
         }
         internal static float InterceptTicks(Vector3 offset, Vector3 velocity, float speed)
         {
-            offset.y = velocity.y = 0f;
-            float a = velocity.sqrMagnitude - speed * speed;
+            offset.Y = velocity.Y = 0f;
+            float a = velocity.LengthSquared() - speed * speed;
             float b = 2f * Vector3.Dot(offset, velocity);
-            float c = offset.sqrMagnitude;
+            float c = offset.LengthSquared();
             if (c < 0.0001f || speed <= 0f) return 0f;
             float time;
             if (Math.Abs(a) < 0.000001f) time = b < 0f ? -c / b : 0f;
@@ -76,8 +77,15 @@ namespace Helodrace
             // Do not lead past a known stopping point. Turns after firing can
             // still evade the fixed trajectory; pellets never home in flight.
             if (pawn.pather != null && pawn.pather.Destination.IsValid)
-                lead = Vector3.ClampMagnitude(lead, (pawn.pather.Destination.Cell.ToVector3Shifted() - position).MagnitudeHorizontal());
+                lead = ClampLead(lead, SpatialMath.HorizontalLength(pawn.pather.Destination.Cell.ToVector3Shifted().ToNative() - position));
             return position + lead;
+        }
+        private static Vector3 ClampLead(Vector3 lead, float maximumDistance)
+        {
+            float squareLength = lead.LengthSquared();
+            if (squareLength <= maximumDistance * maximumDistance) return lead;
+            float length = MathF.Sqrt(squareLength);
+            return new Vector3(lead.X / length * maximumDistance, lead.Y / length * maximumDistance, lead.Z / length * maximumDistance);
         }
         internal static float Energy(float distance, float halfDistance) =>
             (float)Math.Pow(0.5d, Math.Max(0f, distance) / Math.Max(1f, halfDistance));
@@ -87,7 +95,7 @@ namespace Helodrace
             return new Vector2(standing ? 0.32f : 0.55f, standing ? 0.55f : 0.20f) * scale;
         }
         internal static bool Hits(Vector2 offset, Vector2 radii) =>
-            offset.x * offset.x / (radii.x * radii.x) + offset.y * offset.y / (radii.y * radii.y) <= 1f;
+            offset.X * offset.X / (radii.X * radii.X) + offset.Y * offset.Y / (radii.Y * radii.Y) <= 1f;
         internal static bool IsPresent(Pawn pawn, BodyPartRecord part)
         {
             for (BodyPartRecord node = part; node != null; node = node.parent)
