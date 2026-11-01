@@ -15,6 +15,7 @@
     <Compile Include="BlancasGenerationChecks.cs" />
     <Compile Include="BlancasSleepChecks.cs" />
     <Compile Include="BlancasMkultraChecks.cs" />
+    <Compile Include="BlancasDrugChecks.cs" />
     <Compile Include="$(BlancasRepository)/Tests/ExclusiveGroup/LegacyExclusiveGroup.cs" Link="BlancasLegacyExclusiveGroup.cs" />
     <Reference Include="HelodBlancasDrug"><HintPath>$(BlancasRepository)/1.7/Assemblies/HelodBlancasDrug.dll</HintPath><Private>false</Private></Reference>
   </ItemGroup>

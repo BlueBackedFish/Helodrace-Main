@@ -1,5 +1,5 @@
 param(
-    [Parameter(Mandatory=$true)][ValidateSet('baseline','load','blancas-sleep-fixture','blancas-sleep-load','blancas-sleep-main','blancas-mkultra-fixture','blancas-mkultra-load','blancas-mkultra-main','main','blancas','blancas-integration','blancas-generation','main-state','native-runtime','native-math','native-geometry','native-lra7','native-grenades','native-anti-air','native-tow','native-m47','native-m167','native-shotgun','native-switchblade','native-cas','native-mh60','native-support-helicopter','native-telegraph-ui','native-economy-ui','native-research-ui','native-overlays')][string]$Case,
+    [Parameter(Mandatory=$true)][ValidateSet('baseline','load','blancas-drug-fixture','blancas-drug-load','blancas-drug-main','blancas-sleep-fixture','blancas-sleep-load','blancas-sleep-main','blancas-mkultra-fixture','blancas-mkultra-load','blancas-mkultra-main','main','blancas','blancas-integration','blancas-generation','main-state','native-runtime','native-math','native-geometry','native-lra7','native-grenades','native-anti-air','native-tow','native-m47','native-m167','native-shotgun','native-switchblade','native-cas','native-mh60','native-support-helicopter','native-telegraph-ui','native-economy-ui','native-research-ui','native-overlays')][string]$Case,
     [Parameter(Mandatory=$true)][string]$RuntimeRoot,
     [string]$GameRoot='C:\Program Files (x86)\Steam\steamapps\common\RimWorld',
     [string]$BlancasRoot='C:\Users\human\Documents\GitHub\Helodrace-blancasdrugs',
@@ -13,7 +13,7 @@ param(
     [int]$TimeoutSeconds=300
 )
 $ErrorActionPreference='Stop'
-$mainCases=@('blancas-mkultra-main','blancas-sleep-main','main','blancas-integration','main-state','native-runtime','native-math','native-geometry','native-lra7','native-grenades','native-anti-air','native-tow','native-m47','native-m167','native-shotgun','native-switchblade','native-cas','native-mh60','native-support-helicopter','native-telegraph-ui','native-economy-ui','native-research-ui','native-overlays')
+$mainCases=@('blancas-drug-main','blancas-mkultra-main','blancas-sleep-main','main','blancas-integration','main-state','native-runtime','native-math','native-geometry','native-lra7','native-grenades','native-anti-air','native-tow','native-m47','native-m167','native-shotgun','native-switchblade','native-cas','native-mh60','native-support-helicopter','native-telegraph-ui','native-economy-ui','native-research-ui','native-overlays')
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
 $runtime=[IO.Path]::GetFullPath($RuntimeRoot)
 $allowed=[IO.Path]::GetFullPath((Join-Path $repository '.codex-staging'))+[IO.Path]::DirectorySeparatorChar
@@ -22,7 +22,7 @@ if(Test-Path -LiteralPath $runtime){throw 'Use a fresh runtime to preserve earli
 # Early Waylith logging uses a shared host log even with -savedatafolder.
 if(Get-Process -Name RimWorld,RimWorldWin64 -ErrorAction SilentlyContinue){throw 'Wait for the running game to exit before collecting a migration log.'}
 $gameVersion=(Get-Content -LiteralPath (Join-Path $GameRoot 'Version.txt') -Raw).Trim()
-if($Case -in @('blancas-sleep-fixture','blancas-mkultra-fixture') -and -not $Legacy16){throw 'Create legacy compatibility fixtures with the frozen 1.6 release.'}
+if($Case -in @('blancas-sleep-fixture','blancas-mkultra-fixture','blancas-drug-fixture') -and -not $Legacy16){throw 'Create legacy compatibility fixtures with the frozen 1.6 release.'}
 if($Legacy16 -and -not $gameVersion.StartsWith('1.6.')){throw 'Legacy fixture creation requires the preserved 1.6 runtime.'}
 if(-not $Legacy16 -and -not $gameVersion.StartsWith('1.7.')){throw 'A real 1.7 runtime is required.'}
 if(-not $BridgeAssembly){
@@ -65,10 +65,12 @@ if($FixtureRoot){
     New-Item -ItemType Directory -Path (Join-Path $profile 'Saves') -Force | Out-Null
     $sleepFixture=$Case -in @('blancas-sleep-load','blancas-sleep-main')
     $mkFixture=$Case -in @('blancas-mkultra-load','blancas-mkultra-main')
-    $fixtureSave=if($mkFixture){'BlancasMkultraFixture16.rws'}elseif($sleepFixture){'BlancasSleepFixture16.rws'}else{'BlancasMigrationFixture16.rws'}
-    $fixtureSnapshot=if($mkFixture){'blancas-mkultra-state.xml'}elseif($sleepFixture){'blancas-sleep.xml'}else{'fixture.xml'}
+    $drugFixture=$Case -in @('blancas-drug-load','blancas-drug-main')
+    $fixtureSave=if($drugFixture){'BlancasDrugFixture16.rws'}elseif($mkFixture){'BlancasMkultraFixture16.rws'}elseif($sleepFixture){'BlancasSleepFixture16.rws'}else{'BlancasMigrationFixture16.rws'}
+    $fixtureSnapshot=if($drugFixture){'blancas-drug-state.xml'}elseif($mkFixture){'blancas-mkultra-state.xml'}elseif($sleepFixture){'blancas-sleep.xml'}else{'fixture.xml'}
     Copy-Item -LiteralPath (Join-Path $FixtureRoot ('Profile/Saves/'+$fixtureSave)) -Destination (Join-Path $profile ('Saves/'+$fixtureSave))
     Copy-Item -LiteralPath (Join-Path $FixtureRoot ('Evidence/'+$fixtureSnapshot)) -Destination (Join-Path $evidence $fixtureSnapshot)
+    if($drugFixture){Copy-Item -LiteralPath (Join-Path $FixtureRoot 'Evidence/blancas-drug-actions.xml') -Destination (Join-Path $evidence 'blancas-drug-actions.xml')}
     if($mkFixture){Copy-Item -LiteralPath (Join-Path $FixtureRoot 'Evidence/blancas-mkultra-actions.xml') -Destination (Join-Path $evidence 'blancas-mkultra-actions.xml')}
 }
 $arguments=@('-quicktest',('"-savedatafolder='+$profile+'"'),('-hdMigrationCase='+$Case),('"-hdMigrationOutput='+$evidence+'"'))

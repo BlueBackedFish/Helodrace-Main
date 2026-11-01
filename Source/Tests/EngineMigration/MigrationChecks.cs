@@ -16,6 +16,7 @@ namespace Helodrace.Tests
         private bool complete;
         private bool blancasSleepRoundtrip, blancasSleepVerified;
         private bool blancasMkultraRoundtrip, blancasMkultraVerified;
+        private bool blancasDrugRoundtrip, blancasDrugVerified;
         private bool mainStatePrepared;
         private bool blancasGenerationPrepared;
         private bool lra7Prepared;
@@ -45,6 +46,7 @@ namespace Helodrace.Tests
             base.ExposeData();
             Scribe_Values.Look(ref blancasSleepRoundtrip, "migrationBlancasSleepRoundtrip", false);
             Scribe_Values.Look(ref blancasMkultraRoundtrip, "migrationBlancasMkultraRoundtrip", false);
+            Scribe_Values.Look(ref blancasDrugRoundtrip, "migrationBlancasDrugRoundtrip", false);
             Scribe_Values.Look(ref mainStatePrepared, "migrationMainStatePrepared", false);
             Scribe_Values.Look(ref blancasGenerationPrepared, "migrationBlancasGenerationPrepared", false);
             Scribe_Values.Look(ref lra7Prepared, "migrationLra7Prepared", false);
@@ -59,6 +61,20 @@ namespace Helodrace.Tests
 
         public override void LoadedGame()
         {
+            if (GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string drugCase)
+                && (drugCase == "blancas-drug-load" || drugCase == "blancas-drug-main")
+                && GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out string drugOutput))
+            {
+                output = drugOutput; Directory.CreateDirectory(output);
+                File.AppendAllText(Path.Combine(output, "checks.txt"), "Drug verification before first simulation tick; roundtrip=" + blancasDrugRoundtrip + "\n");
+                try { BlancasDrugChecks.VerifyLoaded(output, blancasDrugRoundtrip, Check); blancasDrugVerified = true; }
+                catch (Exception error)
+                {
+                    complete = true; File.AppendAllText(Path.Combine(output, "checks.txt"), "FAIL " + error + "\n");
+                    Log.Error("Drug migration verification failed: " + error); Quit(1);
+                }
+                return;
+            }
             if (GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string mkCase)
                 && (mkCase == "blancas-mkultra-load" || mkCase == "blancas-mkultra-main")
                 && GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out string mkOutput))
@@ -171,17 +187,17 @@ namespace Helodrace.Tests
             if (mode == "native-runtime" && !NativeRuntimeChecks.FrameProbeReady) return;
 #endif
             Directory.CreateDirectory(output);
-            if ((mode == "load" || mode == "blancas-sleep-load" || mode == "blancas-sleep-main" || mode == "blancas-mkultra-load" || mode == "blancas-mkultra-main") && !requestedLoad)
+            if ((mode == "load" || mode == "blancas-sleep-load" || mode == "blancas-sleep-main" || mode == "blancas-mkultra-load" || mode == "blancas-mkultra-main" || mode == "blancas-drug-load" || mode == "blancas-drug-main") && !requestedLoad)
             {
                 requestedLoad = true;
                 complete = true;
-                GameDataSaveLoader.LoadGame(mode == "load" ? SaveName : mode.StartsWith("blancas-mkultra", StringComparison.Ordinal) ? BlancasMkultraChecks.FixtureSave : BlancasSleepChecks.FixtureSave);
+                GameDataSaveLoader.LoadGame(mode == "load" ? SaveName : mode.StartsWith("blancas-drug", StringComparison.Ordinal) ? BlancasDrugChecks.FixtureSave : mode.StartsWith("blancas-mkultra", StringComparison.Ordinal) ? BlancasMkultraChecks.FixtureSave : BlancasSleepChecks.FixtureSave);
                 return;
             }
             complete = true;
             try
             {
-                if (mode != "blancas-mkultra-load" && mode != "blancas-mkultra-main" && mode != "blancas-sleep-load" && mode != "blancas-sleep-main" && (mode != "main-state" || !mainStatePrepared) && (mode != "blancas-generation" || !blancasGenerationPrepared)
+                if (mode != "blancas-drug-load" && mode != "blancas-drug-main" && mode != "blancas-mkultra-load" && mode != "blancas-mkultra-main" && mode != "blancas-sleep-load" && mode != "blancas-sleep-main" && (mode != "main-state" || !mainStatePrepared) && (mode != "blancas-generation" || !blancasGenerationPrepared)
                     && (mode != "native-lra7" || !lra7Prepared) && (mode != "native-grenades" || !grenadePrepared) && (mode != "native-tow" || !towPrepared) && (mode != "native-m47" || !m47Prepared) && (mode != "native-shotgun" || !shotgunPrepared) && (mode != "native-switchblade" || !switchbladePrepared) && (mode != "native-cas" || !casPrepared) && (mode != "native-mh60" || !mh60Prepared))
                     File.WriteAllText(Path.Combine(output, "checks.txt"), "Engine migration: " + mode + "\n");
                 else File.AppendAllText(Path.Combine(output, "checks.txt"), "Loaded new 1.7 state\n");
@@ -189,7 +205,22 @@ namespace Helodrace.Tests
                 Check(DefDatabase<HediffDef>.GetNamedSilentFail("BD_DeepSleep") != null, "Blancas sleep definitions loaded");
                 Assembly drugAssembly = AppDomain.CurrentDomain.GetAssemblies().Single(a => a.GetName().Name == "HelodBlancasDrug");
                 Check(drugAssembly != null, "Blancas versioned assembly: " + drugAssembly.Location);
-                if (mode == "blancas-mkultra-fixture")
+                if (mode == "blancas-drug-fixture")
+                {
+                    BlancasDrugChecks.Create(output, Check); GameDataSaveLoader.SaveGame(BlancasDrugChecks.FixtureSave);
+                    Check(File.Exists(GenFilePaths.FilePathForSavedGame(BlancasDrugChecks.FixtureSave)), "actual frozen 1.6 drug matrix fixture saved");
+                }
+                else if (mode == "blancas-drug-load" || mode == "blancas-drug-main")
+                {
+                    Check(blancasDrugVerified, "drug state verified before first simulation tick");
+                    if (!blancasDrugRoundtrip)
+                    {
+                        BlancasDrugChecks.CompareCurrent(output, Check); blancasDrugRoundtrip = true; BlancasDrugChecks.Snapshot(output, true);
+                        GameDataSaveLoader.SaveGame(BlancasDrugChecks.RoundtripSave); GameDataSaveLoader.LoadGame(BlancasDrugChecks.RoundtripSave); return;
+                    }
+                    Check(File.Exists(GenFilePaths.FilePathForSavedGame(BlancasDrugChecks.RoundtripSave)), "migrated and current drug states saved and reloaded");
+                }
+                else if (mode == "blancas-mkultra-fixture")
                 {
                     BlancasMkultraChecks.Create(output, Check);
                     GameDataSaveLoader.SaveGame(BlancasMkultraChecks.FixtureSave);
