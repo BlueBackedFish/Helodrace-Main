@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Rect = Waylith.Math.Rect;
 
 namespace Helodrace.ModernWar
 {
@@ -70,8 +71,8 @@ namespace Helodrace.ModernWar
             float scale = Math.Min(available.width / canvasWidth, available.height / canvasHeight);
             float width = bounds.width * textureWidth * scale;
             float height = bounds.height * textureHeight * scale;
-            return new Rect(available.center.x - width * 0.5f,
-                available.center.y - height * 0.5f, width, height);
+            return new Rect(available.center.X - width * 0.5f,
+                available.center.Y - height * 0.5f, width, height);
         }
 
         private static Color32[] ReadPixels(Texture2D texture)
@@ -86,7 +87,7 @@ namespace Helodrace.ModernWar
                 Graphics.Blit(texture, buffer);
                 RenderTexture.active = buffer;
                 readable = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false, true);
-                readable.ReadPixels(new Rect(0f, 0f, texture.width, texture.height), 0, 0, false);
+                readable.ReadPixels(new Rect(0f, 0f, texture.width, texture.height).ToGame(), 0, 0, false);
                 readable.Apply(false, false);
                 return readable.GetPixels32();
             }

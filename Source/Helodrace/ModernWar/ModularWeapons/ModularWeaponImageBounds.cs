@@ -1,4 +1,5 @@
-using UnityEngine;
+using System.Numerics;
+using Rect = Waylith.Math.Rect;
 
 namespace Helodrace.ModernWar
 {
@@ -35,7 +36,7 @@ namespace Helodrace.ModernWar
         }
 
         public static Rect OnCanvas(Rect uv, Vector2 size)
-            => new Rect((uv.x - 0.5f) * size.x, (uv.y - 0.5f) * size.y,
-                uv.width * size.x, uv.height * size.y);
+            => new Rect((uv.x - 0.5f) * size.X, (uv.y - 0.5f) * size.Y,
+                uv.width * size.X, uv.height * size.Y);
     }
 }

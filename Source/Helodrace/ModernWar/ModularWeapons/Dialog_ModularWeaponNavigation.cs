@@ -156,7 +156,7 @@ namespace Helodrace.ModernWar
                 {
                     Widgets.DrawBoxSolidWithOutline(imageRect, new Color(0.16f, 0.18f, 0.20f),
                         new Color(0.32f, 0.39f, 0.42f), 1);
-                    ModularWeaponPartImage.For(row.Node.thing.def).Draw(imageRect.ContractedBy(2f));
+                    ModularWeaponPartImage.For(row.Node.thing.def).Draw(imageRect.ContractedBy(2f).ToNative());
                     if (pointerInTree && Mouse.IsOver(imageRect)) hoveredPart = row.Node.thing.def;
                     TooltipHandler.TipRegion(imageRect, "HD_ModularWeapon_OpenPartImage".Translate());
                     if (Widgets.ButtonInvisible(imageRect))

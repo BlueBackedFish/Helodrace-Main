@@ -1,6 +1,7 @@
 using System;
 using Helodrace.ModernWar;
-using UnityEngine;
+using System.Numerics;
+using Rect = Waylith.Math.Rect;
 
 internal static class ImageBoundsTests
 {

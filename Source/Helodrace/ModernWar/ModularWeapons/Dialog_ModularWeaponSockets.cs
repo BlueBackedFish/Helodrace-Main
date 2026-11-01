@@ -310,7 +310,7 @@ namespace Helodrace.ModernWar
                 if (card.Child != null)
                 {
                     Rect image = new Rect(box.x + 5f, box.y + 20f, 25f, 25f);
-                    ModularWeaponPartImage.For(card.Child.thing.def).Draw(image);
+                    ModularWeaponPartImage.For(card.Child.thing.def).Draw(image.ToNative());
                     TooltipHandler.TipRegion(image, "HD_ModularWeapon_InspectSocketPart".Translate());
                     if (Widgets.ButtonInvisible(image))
                     {
@@ -327,7 +327,7 @@ namespace Helodrace.ModernWar
             }
             else if (card.Child != null)
             {
-                ModularWeaponPartImage.For(card.Child.thing.def).Draw(box.ContractedBy(4f));
+                ModularWeaponPartImage.For(card.Child.thing.def).Draw(box.ContractedBy(4f).ToNative());
             }
             else
             {

@@ -391,7 +391,7 @@ namespace Helodrace.ModernWar
                         tile.width - 12f, 18f), status);
                     GUI.color = Color.white;
                     ModularWeaponPartImage.For(def).Draw(new Rect(tile.x + 6f,
-                        tile.y + 22f, tile.width - 12f, 61f));
+                        tile.y + 22f, tile.width - 12f, 61f).ToNative());
                     Text.Anchor = TextAnchor.UpperCenter;
                     Widgets.Label(new Rect(tile.x + 5f, tile.y + 85f,
                         tile.width - 10f, 34f), def.LabelCap);
@@ -621,7 +621,7 @@ namespace Helodrace.ModernWar
             Rect imageArea = new Rect(panel.x + 12f, panel.y + 38f,
                 panel.width - 24f, Mathf.Min(250f, height * 0.52f));
             Widgets.DrawBoxSolid(imageArea, new Color(0.16f, 0.18f, 0.20f));
-            data.Draw(imageArea.ContractedBy(4f));
+            data.Draw(imageArea.ContractedBy(4f).ToNative());
 
             CompProperties_ModularWeaponNode props =
                 def.GetCompProperties<CompProperties_ModularWeaponNode>();

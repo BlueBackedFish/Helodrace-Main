@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
+using Vector2 = System.Numerics.Vector2;
+using Rect = Waylith.Math.Rect;
+using Color = Waylith.Math.Color;
 
 namespace Helodrace.ModernWar
 {
@@ -34,7 +37,7 @@ namespace Helodrace.ModernWar
                 Graphics.Blit(texture, temporary);
                 RenderTexture.active = temporary;
                 copy = new Texture2D(Resolution, Resolution, TextureFormat.RGBA32, false);
-                copy.ReadPixels(new Rect(0f, 0f, Resolution, Resolution), 0, 0, false);
+                copy.ReadPixels(new Rect(0f, 0f, Resolution, Resolution).ToGame(), 0, 0, false);
                 Color32[] pixels = copy.GetPixels32();
                 result.Alpha = new byte[pixels.Length];
                 for (int i = 0; i < pixels.Length; i++) result.Alpha[i] = pixels[i].a;
@@ -103,7 +106,7 @@ namespace Helodrace.ModernWar
             Texture2D texture = ContentFinder<Texture2D>.Get(graphic.texPath, false);
             if (texture == null) return;
             Texture2D outline = ContentFinder<Texture2D>.Get(graphic.texPath + "_Outline", false);
-            var layer = new Layer { Texture = texture, Outline = outline, Size = graphic.drawSize, Order = order };
+            var layer = new Layer { Texture = texture, Outline = outline, Size = graphic.drawSize.ToNative(), Order = order };
             layers.Add(layer);
             Include(texture, layer.Size);
             if (outline != null) Include(outline, layer.Size);
@@ -123,40 +126,40 @@ namespace Helodrace.ModernWar
             if (!hasBounds || area.width <= 0f || area.height <= 0f) return;
             float scale = Mathf.Min(area.width / Mathf.Max(0.001f, bounds.width),
                 area.height / Mathf.Max(0.001f, bounds.height)) * 0.94f * zoom;
-            GUI.BeginGroup(area);
+            GUI.BeginGroup(area.ToGame());
             Vector2 origin = area.size * 0.5f + pan
-                - new Vector2(bounds.center.x, -bounds.center.y) * scale;
-            Color previous = GUI.color;
+                - new Vector2(bounds.center.X, -bounds.center.Y) * scale;
+            Color previous = GUI.color.ToNative();
             foreach (Layer layer in layers)
             {
                 Rect rect = Centered(origin, layer.Size * scale);
-                if (layer.Outline != null) GUI.DrawTexture(rect, layer.Outline);
+                if (layer.Outline != null) GUI.DrawTexture(rect.ToGame(), layer.Outline);
                 else
                 {
-                    GUI.color = new Color(0f, 0f, 0f, previous.a);
+                    GUI.color = new Color(0f, 0f, 0f, previous.a).ToGame();
                     float edge = Mathf.Clamp(zoom, 1f, 3f);
                     for (int x = -1; x <= 1; x++)
                         for (int y = -1; y <= 1; y++)
                             if (x != 0 || y != 0)
                                 GUI.DrawTexture(new Rect(rect.x + x * edge, rect.y + y * edge,
-                                    rect.width, rect.height), layer.Texture);
-                    GUI.color = previous;
+                                    rect.width, rect.height).ToGame(), layer.Texture);
+                    GUI.color = previous.ToGame();
                 }
             }
-            foreach (Layer layer in layers) GUI.DrawTexture(Centered(origin, layer.Size * scale), layer.Texture);
-            GUI.color = previous;
+            foreach (Layer layer in layers) GUI.DrawTexture(Centered(origin, layer.Size * scale).ToGame(), layer.Texture);
+            GUI.color = previous.ToGame();
             GUI.EndGroup();
         }
 
         private static Rect Centered(Vector2 center, Vector2 size)
-            => new Rect(center.x - size.x * 0.5f, center.y - size.y * 0.5f, size.x, size.y);
+            => new Rect(center.X - size.X * 0.5f, center.Y - size.Y * 0.5f, size.X, size.Y);
     }
 
     internal sealed class Dialog_ModularWeaponPartImage : Window
     {
         private readonly ThingDef part;
         private readonly ModularWeaponPreviewCamera camera = new ModularWeaponPreviewCamera();
-        public override Vector2 InitialSize => new Vector2(760f, 560f);
+        public override UnityEngine.Vector2 InitialSize => new UnityEngine.Vector2(760f, 560f);
 
         public Dialog_ModularWeaponPartImage(ThingDef part)
         {
@@ -168,27 +171,28 @@ namespace Helodrace.ModernWar
             resizeable = true;
         }
 
-        public override void DoWindowContents(Rect inRect)
+        public override void DoWindowContents(UnityEngine.Rect gameRect)
         {
+            Rect inRect = gameRect.ToNative();
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(0f, 0f, inRect.width - 30f, 35f), part.LabelCap);
+            Widgets.Label(new Rect(0f, 0f, inRect.width - 30f, 35f).ToGame(), part.LabelCap);
             Text.Font = GameFont.Small;
             Rect area = new Rect(0f, 78f, inRect.width, Mathf.Max(1f, inRect.height - 120f));
-            if (Widgets.ButtonText(new Rect(0f, 40f, 32f, 28f), "−"))
-                camera.ZoomAt(area.ToNative(), camera.Zoom / 1.25f, area.center.ToNative());
-            if (Widgets.ButtonText(new Rect(38f, 40f, 32f, 28f), "+"))
-                camera.ZoomAt(area.ToNative(), camera.Zoom * 1.25f, area.center.ToNative());
-            Widgets.Label(new Rect(80f, 43f, 70f, 25f), camera.Zoom.ToString("P0"));
-            if (Widgets.ButtonText(new Rect(155f, 40f, 115f, 28f),
+            if (Widgets.ButtonText(new Rect(0f, 40f, 32f, 28f).ToGame(), "−"))
+                camera.ZoomAt(area, camera.Zoom / 1.25f, area.center);
+            if (Widgets.ButtonText(new Rect(38f, 40f, 32f, 28f).ToGame(), "+"))
+                camera.ZoomAt(area, camera.Zoom * 1.25f, area.center);
+            Widgets.Label(new Rect(80f, 43f, 70f, 25f).ToGame(), camera.Zoom.ToString("P0"));
+            if (Widgets.ButtonText(new Rect(155f, 40f, 115f, 28f).ToGame(),
                 "HD_ModularWeapon_ResetView".Translate())) camera.Reset();
-            Widgets.DrawBoxSolidWithOutline(area, new Color(0.16f, 0.18f, 0.20f),
-                new Color(0.4f, 0.45f, 0.5f), 1);
+            Widgets.DrawBoxSolidWithOutline(area.ToGame(), new Color(0.16f, 0.18f, 0.20f).ToGame(),
+                new Color(0.4f, 0.45f, 0.5f).ToGame(), 1);
             Event current = Event.current;
-            if (Mouse.IsOver(area))
+            if (Mouse.IsOver(area.ToGame()))
             {
                 if (current.type == EventType.ScrollWheel)
                 {
-                    camera.ZoomAt(area.ToNative(), camera.Zoom * Mathf.Pow(1.12f, -current.delta.y), current.mousePosition.ToNative());
+                    camera.ZoomAt(area, camera.Zoom * Mathf.Pow(1.12f, -current.delta.y), current.mousePosition.ToNative());
                     current.Use();
                 }
                 else if (current.type == EventType.MouseDrag && current.button == 2)
@@ -197,9 +201,9 @@ namespace Helodrace.ModernWar
                     current.Use();
                 }
             }
-            ModularWeaponPartImage.For(part).Draw(area, camera.Zoom, camera.Pan.ToGame());
+            ModularWeaponPartImage.For(part).Draw(area, camera.Zoom, camera.Pan);
             Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(0f, inRect.height - 34f, inRect.width, 34f),
+            Widgets.Label(new Rect(0f, inRect.height - 34f, inRect.width, 34f).ToGame(),
                 "HD_ModularWeapon_ZoomHint".Translate());
             Text.Font = GameFont.Small;
         }

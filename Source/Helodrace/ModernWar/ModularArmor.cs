@@ -2642,7 +2642,7 @@ namespace Helodrace.ModernWar
             if (!layers.NullOrEmpty())
             {
                 DrawPreviewTextureLayers(
-                    new Rect(rect.x + 38f, rect.y + 48f, rect.width - 76f, rect.height - 98f),
+                    new Waylith.Math.Rect(rect.x + 38f, rect.y + 48f, rect.width - 76f, rect.height - 98f),
                     layers);
             }
             else
@@ -2859,19 +2859,21 @@ namespace Helodrace.ModernWar
             return "east";
         }
 
-        private void DrawPreviewTextureLayers(Rect availableRect, List<Texture2D> layers)
+        private void DrawPreviewTextureLayers(Waylith.Math.Rect availableRect, List<Texture2D> layers)
         {
-            Rect uv = previewBounds.CombinedBounds(layers);
-            Rect minimumCrop = comp.Props.previewCrop?.Rect ?? new Rect(0f, 0f, 1f, 1f);
-            Rect destination = ModularArmorPreviewBounds.DestinationFor(availableRect, uv,
+            Waylith.Math.Rect uv = previewBounds.CombinedBounds(layers);
+            Waylith.Math.Rect minimumCrop = comp.Props.previewCrop?.Rect.ToNative() ?? new Waylith.Math.Rect(0f, 0f, 1f, 1f);
+            Waylith.Math.Rect destination = ModularArmorPreviewBounds.DestinationFor(availableRect, uv,
                 layers[0].width, layers[0].height, minimumCrop);
 
-            Rect drawUv = previewFacing == Rot4.West
-                ? new Rect(uv.xMax, uv.y, -uv.width, uv.height)
+            Waylith.Math.Rect drawUv = previewFacing == Rot4.West
+                ? new Waylith.Math.Rect(uv.xMax, uv.y, -uv.width, uv.height)
                 : uv;
+            Rect gameDestination = destination.ToGame();
+            Rect gameUv = drawUv.ToGame();
             for (int i = 0; i < layers.Count; i++)
             {
-                GUI.DrawTextureWithTexCoords(destination, layers[i], drawUv, true);
+                GUI.DrawTextureWithTexCoords(gameDestination, layers[i], gameUv, true);
             }
         }
 

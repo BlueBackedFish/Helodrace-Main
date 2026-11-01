@@ -74,7 +74,7 @@ namespace Helodrace.ModernWar
                             : new Color(0.35f, 0.46f, 0.40f),
                         hovered ? 2 : 1);
                     Rect image = new Rect(card.x + 12f, card.y + 12f, 220f, 100f);
-                    DrawWeaponImage(image, weapon);
+                    DrawWeaponImage(image.ToNative(), weapon);
 
                     float textX = image.xMax + 14f;
                     float textWidth = Mathf.Max(1f, card.xMax - 170f - textX);
@@ -107,7 +107,7 @@ namespace Helodrace.ModernWar
                 Close();
         }
 
-        private static void DrawWeaponImage(Rect area, Thing weapon)
+        private static void DrawWeaponImage(Waylith.Math.Rect area, Thing weapon)
         {
             CompModularWeaponNode root = weapon.TryGetComp<CompModularWeaponNode>();
             Texture2D icon = ModularWeaponIconCache.Get(root);
@@ -115,7 +115,7 @@ namespace Helodrace.ModernWar
             {
                 // Keep the existing fallback while the shared cache finishes baking.
                 if (weapon.def.uiIcon != null)
-                    Widgets.DrawTextureFitted(area, weapon.def.uiIcon, 1f);
+                    Widgets.DrawTextureFitted(area.ToGame(), weapon.def.uiIcon, 1f);
                 return;
             }
 
@@ -123,11 +123,11 @@ namespace Helodrace.ModernWar
             // so long guns fill the wide preview without transparent padding.
             ModularWeaponTextureData pixels = ModularWeaponTextureData.For(icon);
             if (!pixels.HasPixels) return;
-            Rect uv = pixels.VisibleUv;
-            Vector2 size = new Vector2(icon.width * uv.width, icon.height * uv.height);
-            size *= Mathf.Min(area.width / Mathf.Max(0.001f, size.x),
-                area.height / Mathf.Max(0.001f, size.y)) * 0.96f;
-            GUI.DrawTextureWithTexCoords(new Rect(area.center - size * 0.5f, size), icon, uv);
+            Waylith.Math.Rect uv = pixels.VisibleUv;
+            System.Numerics.Vector2 size = new System.Numerics.Vector2(icon.width * uv.width, icon.height * uv.height);
+            size *= Mathf.Min(area.width / Mathf.Max(0.001f, size.X),
+                area.height / Mathf.Max(0.001f, size.Y)) * 0.96f;
+            GUI.DrawTextureWithTexCoords(new Waylith.Math.Rect(area.center - size * 0.5f, size).ToGame(), icon, uv.ToGame());
         }
     }
 }

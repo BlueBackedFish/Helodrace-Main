@@ -97,7 +97,7 @@ namespace Helodrace.ModernWar
         {
             if (!previewNeedsFit) return;
             bool found = false;
-            Rect bounds = default(Rect);
+            Waylith.Math.Rect bounds = default(Waylith.Math.Rect);
             foreach (var node in previewLayers)
             {
                 if (!ModularWeaponAssemblyRenderer.ShouldDrawNode(node)) continue;
@@ -111,21 +111,21 @@ namespace Helodrace.ModernWar
                     : ContentFinder<Texture2D>.Get(path + "_Outline", false);
                 if (outline != null) IncludePreviewBounds(node, outline, ref bounds, ref found);
             }
-            previewCamera.SetBounds((found ? bounds : new Rect(-0.5f, -0.5f, 1f, 1f)).ToNative());
+            previewCamera.SetBounds(found ? bounds : new Waylith.Math.Rect(-0.5f, -0.5f, 1f, 1f));
             socketLayoutSnapshot = null;
             previewNeedsFit = false;
         }
 
         private void IncludePreviewBounds(ModularRenderNode node, Texture2D texture,
-            ref Rect bounds, ref bool found)
+            ref Waylith.Math.Rect bounds, ref bool found)
         {
             var data = ModularWeaponTextureData.For(texture);
             if (!data.HasPixels) return;
-            Rect uv = data.VisibleUv;
+            Waylith.Math.Rect uv = data.VisibleUv;
             if (node.GraphicVerticallyFlipped) uv.y = 1f - uv.yMax;
             var graphicScale = node.GraphicScale;
-            Rect local = ModularWeaponImageBounds.OnCanvas(uv, Vector2.Scale(node.Graphic.drawSize,
-                new Vector2(Mathf.Abs(graphicScale.X), Mathf.Abs(graphicScale.Y))));
+            Waylith.Math.Rect local = ModularWeaponImageBounds.OnCanvas(uv, node.Graphic.drawSize.ToNative() *
+                new System.Numerics.Vector2(Mathf.Abs(graphicScale.X), Mathf.Abs(graphicScale.Y)));
             System.Numerics.Vector2 center;
             float angle;
             ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(root, node, false, out center, out angle);
@@ -134,7 +134,7 @@ namespace Helodrace.ModernWar
                 {
                     System.Numerics.Vector2 point = center + ModularTransform2D.Rotate(
                         new System.Numerics.Vector2(x == 0 ? local.xMin : local.xMax, y == 0 ? local.yMin : local.yMax), angle);
-                    var corner = new Rect(point.X, point.Y, 0f, 0f);
+                    var corner = new Waylith.Math.Rect(point.X, point.Y, 0f, 0f);
                     bounds = found ? ModularWeaponImageBounds.Union(bounds, corner) : corner;
                     found = true;
                 }
