@@ -207,6 +207,7 @@ namespace Helodrace.Tests
                 else if (mode == "native-math") NativeMathChecks.Run(output, Check);
                 else if (mode == "native-geometry") NativeGeometryChecks.Run(output, Check);
                 else if (mode == "native-anti-air") NativeAntiAirChecks.Run(output, Check);
+                else if (mode == "native-m167") NativeM167Checks.Run(output, Check);
                 else if (mode == "main-state")
                 {
                     if (!mainStatePrepared)

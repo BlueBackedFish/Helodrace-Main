@@ -4,6 +4,9 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
+using Vector3 = System.Numerics.Vector3;
+using Quaternion = System.Numerics.Quaternion;
+using Matrix4x4 = System.Numerics.Matrix4x4;
 
 namespace Helodrace
 {
@@ -77,7 +80,7 @@ namespace Helodrace
                     Props.turretCenterOffset.x,
                     0f,
                     Props.turretCenterOffset.y);
-                return Quaternion.AngleAxis(parent.Rotation.AsAngle, Vector3.up) * localOffset;
+                return SpatialMath.RotateAroundY(localOffset, parent.Rotation.AsAngle);
             }
         }
 
@@ -91,14 +94,14 @@ namespace Helodrace
             }
 
             float aimAngle = top.CurRotation;
-            Quaternion aimRotation = Quaternion.AngleAxis(aimAngle, Vector3.up);
+            Quaternion aimRotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, aimAngle * Mathf.Deg2Rad);
 
-            Vector3 forward = aimRotation * Vector3.forward;
-            Vector3 right = aimRotation * Vector3.right;
+            Vector3 forward = Vector3.Transform(Vector3.UnitZ, aimRotation);
+            Vector3 right = Vector3.Transform(Vector3.UnitX, aimRotation);
             casings.Add(new CasingVisual
             {
                 spawnTick = Find.TickManager.TicksGame,
-                origin = parent.DrawPos
+                origin = parent.DrawPos.ToNative()
                     + TurretCenterWorldOffset
                     + forward * Props.casingPortDistance
                     + right * Props.casingPortRightOffset,
@@ -166,26 +169,24 @@ namespace Helodrace
             }
 
             int frame = barrelFrame % frameCount;
-            Quaternion rotation = Quaternion.AngleAxis(
-                top.CurRotation + Props.rotationOffsetDegrees,
-                Vector3.up);
+            Quaternion rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, (top.CurRotation + Props.rotationOffsetDegrees) * Mathf.Deg2Rad);
             // MeshPool.plane10 scaling was authored at one tenth of the size
             // required by these additional 1024x1024 M167 layers.
             Vector3 scale = new Vector3(Props.drawSize, 1f, Props.drawSize);
 
             // Every *OutLine texture sits below both vanilla graphics: the
             // building base and the turret top. The filled barrel is uppermost.
-            Vector3 outlinePos = parent.DrawPos + TurretCenterWorldOffset;
-            outlinePos.y = AltitudeLayer.Building.AltitudeFor() - 0.001f;
-            Matrix4x4 outlineMatrix = Matrix4x4.TRS(outlinePos, rotation, scale);
-            Graphics.DrawMesh(MeshPool.plane10, outlineMatrix, topOutlineMaterial, 0);
-            Graphics.DrawMesh(MeshPool.plane10, outlineMatrix, barrelOutlineMaterials[frame], 0);
+            Vector3 outlinePos = parent.DrawPos.ToNative() + TurretCenterWorldOffset;
+            outlinePos.Y = AltitudeLayer.Building.AltitudeFor() - 0.001f;
+            Matrix4x4 outlineMatrix = SpatialMath.CreateTransform(outlinePos, rotation, scale);
+            Graphics.DrawMesh(MeshPool.plane10, outlineMatrix.ToGame(), topOutlineMaterial, 0);
+            Graphics.DrawMesh(MeshPool.plane10, outlineMatrix.ToGame(), barrelOutlineMaterials[frame], 0);
 
             Vector3 barrelPos = outlinePos;
-            barrelPos.y = AltitudeLayer.BuildingOnTop.AltitudeFor() + 0.001f;
+            barrelPos.Y = AltitudeLayer.BuildingOnTop.AltitudeFor() + 0.001f;
             Graphics.DrawMesh(
                 MeshPool.plane10,
-                Matrix4x4.TRS(barrelPos, rotation, scale),
+                SpatialMath.CreateTransform(barrelPos, rotation, scale).ToGame(),
                 barrelMaterials[frame],
                 0);
 
@@ -214,7 +215,7 @@ namespace Helodrace
                 Vector3 position = casing.origin
                     + casing.initialVelocity * age
                     + casing.randomVelocity * randomAge;
-                position.y = AltitudeLayer.BuildingOnTop.AltitudeFor()
+                position.Y = AltitudeLayer.BuildingOnTop.AltitudeFor()
                     + 0.002f
                     + Mathf.Sin(progress * Mathf.PI) * 0.018f;
 
@@ -222,10 +223,10 @@ namespace Helodrace
                     + casing.spinDegreesPerTick * randomAge;
                 Graphics.DrawMesh(
                     MeshPool.plane10,
-                    Matrix4x4.TRS(
+                    SpatialMath.CreateTransform(
                         position,
-                        Quaternion.AngleAxis(angle, Vector3.up),
-                        casingScale),
+                        Quaternion.CreateFromAxisAngle(Vector3.UnitY, angle * Mathf.Deg2Rad),
+                        casingScale).ToGame(),
                     casingMaterial,
                     0);
             }
@@ -258,7 +259,7 @@ namespace Helodrace
                 Vector3 landingPosition = casing.origin
                     + casing.initialVelocity * age
                     + casing.randomVelocity * randomAge;
-                IntVec3 soundCell = landingPosition.ToIntVec3();
+                IntVec3 soundCell = landingPosition.ToGame().ToIntVec3();
                 if (!soundCell.InBounds(parent.Map))
                 {
                     soundCell = parent.Position;
@@ -389,14 +390,14 @@ namespace Helodrace
         private static readonly System.Reflection.FieldInfo ParentTurretField =
             AccessTools.Field(typeof(TurretTop), "parentTurret");
 
-        public static void Prefix(TurretTop __instance, ref Vector3 drawLoc)
+        public static void Prefix(TurretTop __instance, ref UnityEngine.Vector3 drawLoc)
         {
             ThingWithComps turret =
                 ParentTurretField?.GetValue(__instance) as ThingWithComps;
             CompM167VadsGraphic graphic = turret?.TryGetComp<CompM167VadsGraphic>();
             if (graphic != null)
             {
-                drawLoc += graphic.TurretCenterWorldOffset;
+                drawLoc += graphic.TurretCenterWorldOffset.ToGame();
             }
         }
     }
