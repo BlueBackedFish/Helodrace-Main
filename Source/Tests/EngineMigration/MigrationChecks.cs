@@ -14,6 +14,7 @@ namespace Helodrace.Tests
         private const string Prefix = "BlancasFixture_";
         private static bool requestedLoad;
         private bool complete;
+        private bool blancasSleepRoundtrip, blancasSleepVerified;
         private bool mainStatePrepared;
         private bool blancasGenerationPrepared;
         private bool lra7Prepared;
@@ -41,6 +42,7 @@ namespace Helodrace.Tests
         public override void ExposeData()
         {
             base.ExposeData();
+            Scribe_Values.Look(ref blancasSleepRoundtrip, "migrationBlancasSleepRoundtrip", false);
             Scribe_Values.Look(ref mainStatePrepared, "migrationMainStatePrepared", false);
             Scribe_Values.Look(ref blancasGenerationPrepared, "migrationBlancasGenerationPrepared", false);
             Scribe_Values.Look(ref lra7Prepared, "migrationLra7Prepared", false);
@@ -53,9 +55,28 @@ namespace Helodrace.Tests
             Scribe_Values.Look(ref mh60Prepared, "migrationMh60Prepared", false);
         }
 
-#if HELODRACE_MAIN_CHECKS
         public override void LoadedGame()
         {
+            if (GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string sleepCase)
+                && (sleepCase == "blancas-sleep-load" || sleepCase == "blancas-sleep-main")
+                && GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out string sleepOutput))
+            {
+                output = sleepOutput; Directory.CreateDirectory(output);
+                File.AppendAllText(Path.Combine(output, "checks.txt"), "Sleep verification before first simulation tick; roundtrip=" + blancasSleepRoundtrip + "\n");
+                try
+                {
+                    BlancasSleepChecks.VerifyLoaded(output, blancasSleepRoundtrip, Check);
+                    if (!blancasSleepRoundtrip) BlancasSleepChecks.Resume(output, Check);
+                    blancasSleepVerified = true;
+                }
+                catch (Exception error)
+                {
+                    complete = true; File.AppendAllText(Path.Combine(output, "checks.txt"), "FAIL " + error + "\n");
+                    Log.Error("Sleep migration verification failed: " + error); Quit(1);
+                }
+                return;
+            }
+#if HELODRACE_MAIN_CHECKS
             if (!GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string activeCase)
                 || !((lra7Prepared && activeCase == "native-lra7") || (grenadePrepared && activeCase == "native-grenades") || (towPrepared && activeCase == "native-tow") || (m47Prepared && activeCase == "native-m47") || (shotgunPrepared && activeCase == "native-shotgun") || (switchbladePrepared && activeCase == "native-switchblade") || (casPrepared && activeCase == "native-cas") || (mh60Prepared && activeCase == "native-mh60"))
                 || !GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out output)) return;
@@ -110,8 +131,10 @@ namespace Helodrace.Tests
                 Log.Error("Engine migration checks failed: " + error);
                 Quit(1);
             }
+#endif
         }
 
+#if HELODRACE_MAIN_CHECKS
         public override void GameComponentUpdate()
         {
             if (Find.CurrentMap != null && GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string activeCase)
@@ -128,17 +151,17 @@ namespace Helodrace.Tests
             if (mode == "native-runtime" && !NativeRuntimeChecks.FrameProbeReady) return;
 #endif
             Directory.CreateDirectory(output);
-            if (mode == "load" && !requestedLoad)
+            if ((mode == "load" || mode == "blancas-sleep-load" || mode == "blancas-sleep-main") && !requestedLoad)
             {
                 requestedLoad = true;
                 complete = true;
-                GameDataSaveLoader.LoadGame(SaveName);
+                GameDataSaveLoader.LoadGame(mode == "load" ? SaveName : BlancasSleepChecks.FixtureSave);
                 return;
             }
             complete = true;
             try
             {
-                if ((mode != "main-state" || !mainStatePrepared) && (mode != "blancas-generation" || !blancasGenerationPrepared)
+                if (mode != "blancas-sleep-load" && mode != "blancas-sleep-main" && (mode != "main-state" || !mainStatePrepared) && (mode != "blancas-generation" || !blancasGenerationPrepared)
                     && (mode != "native-lra7" || !lra7Prepared) && (mode != "native-grenades" || !grenadePrepared) && (mode != "native-tow" || !towPrepared) && (mode != "native-m47" || !m47Prepared) && (mode != "native-shotgun" || !shotgunPrepared) && (mode != "native-switchblade" || !switchbladePrepared) && (mode != "native-cas" || !casPrepared) && (mode != "native-mh60" || !mh60Prepared))
                     File.WriteAllText(Path.Combine(output, "checks.txt"), "Engine migration: " + mode + "\n");
                 else File.AppendAllText(Path.Combine(output, "checks.txt"), "Loaded new 1.7 state\n");
@@ -146,7 +169,24 @@ namespace Helodrace.Tests
                 Check(DefDatabase<HediffDef>.GetNamedSilentFail("BD_DeepSleep") != null, "Blancas sleep definitions loaded");
                 Assembly drugAssembly = AppDomain.CurrentDomain.GetAssemblies().Single(a => a.GetName().Name == "HelodBlancasDrug");
                 Check(drugAssembly != null, "Blancas versioned assembly: " + drugAssembly.Location);
-                if (mode == "baseline")
+                if (mode == "blancas-sleep-fixture")
+                {
+                    BlancasSleepChecks.Create(output, Check);
+                    GameDataSaveLoader.SaveGame(BlancasSleepChecks.FixtureSave);
+                    Check(File.Exists(GenFilePaths.FilePathForSavedGame(BlancasSleepChecks.FixtureSave)), "actual frozen 1.6 sleep fixture saved");
+                }
+                else if (mode == "blancas-sleep-load" || mode == "blancas-sleep-main")
+                {
+                    Check(blancasSleepVerified, "sleep state and callbacks verified before simulation resumed");
+                    if (!blancasSleepRoundtrip)
+                    {
+                        blancasSleepRoundtrip = true; BlancasSleepChecks.Snapshot(output, true);
+                        GameDataSaveLoader.SaveGame(BlancasSleepChecks.RoundtripSave);
+                        GameDataSaveLoader.LoadGame(BlancasSleepChecks.RoundtripSave); return;
+                    }
+                    Check(File.Exists(GenFilePaths.FilePathForSavedGame(BlancasSleepChecks.RoundtripSave)), "migrated sleep state saved and reloaded without duplicate or reset");
+                }
+                else if (mode == "baseline")
                 {
                     CreateFixture();
                     WriteSnapshot();

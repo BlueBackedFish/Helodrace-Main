@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>Helodrace.EngineMigrationChecks</AssemblyName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <BaseOutputPath>bin/Blancas16/</BaseOutputPath>
+    <LegacyGameRoot Condition="'$(LegacyGameRoot)' == ''">$(MSBuildThisFileDirectory)../../../.codex-staging/migration17/game16</LegacyGameRoot>
+    <BlancasRepository Condition="'$(BlancasRepository)' == ''">$(MSBuildThisFileDirectory)../../../../Helodrace-blancasdrugs</BlancasRepository>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="MigrationChecks.cs" />
+    <Compile Include="BlancasSleepChecks.cs" />
+    <Reference Include="Assembly-CSharp"><HintPath>$(LegacyGameRoot)/RimWorldWin64_Data/Managed/Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine"><HintPath>$(LegacyGameRoot)/RimWorldWin64_Data/Managed/UnityEngine.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(LegacyGameRoot)/RimWorldWin64_Data/Managed/UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="HelodBlancasDrug"><HintPath>$(BlancasRepository)/1.6/Assemblies/HelodBlancasDrug.dll</HintPath><Private>false</Private></Reference>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net48" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+</Project>

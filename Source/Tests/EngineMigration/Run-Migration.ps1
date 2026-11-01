@@ -1,5 +1,5 @@
 param(
-    [Parameter(Mandatory=$true)][ValidateSet('baseline','load','main','blancas','blancas-integration','blancas-generation','main-state','native-runtime','native-math','native-geometry','native-lra7','native-grenades','native-anti-air','native-tow','native-m47','native-m167','native-shotgun','native-switchblade','native-cas','native-mh60','native-support-helicopter','native-telegraph-ui','native-economy-ui','native-research-ui','native-overlays')][string]$Case,
+    [Parameter(Mandatory=$true)][ValidateSet('baseline','load','blancas-sleep-fixture','blancas-sleep-load','blancas-sleep-main','main','blancas','blancas-integration','blancas-generation','main-state','native-runtime','native-math','native-geometry','native-lra7','native-grenades','native-anti-air','native-tow','native-m47','native-m167','native-shotgun','native-switchblade','native-cas','native-mh60','native-support-helicopter','native-telegraph-ui','native-economy-ui','native-research-ui','native-overlays')][string]$Case,
     [Parameter(Mandatory=$true)][string]$RuntimeRoot,
     [string]$GameRoot='C:\Program Files (x86)\Steam\steamapps\common\RimWorld',
     [string]$BlancasRoot='C:\Users\human\Documents\GitHub\Helodrace-blancasdrugs',
@@ -13,7 +13,7 @@ param(
     [int]$TimeoutSeconds=300
 )
 $ErrorActionPreference='Stop'
-$mainCases=@('main','blancas-integration','main-state','native-runtime','native-math','native-geometry','native-lra7','native-grenades','native-anti-air','native-tow','native-m47','native-m167','native-shotgun','native-switchblade','native-cas','native-mh60','native-support-helicopter','native-telegraph-ui','native-economy-ui','native-research-ui','native-overlays')
+$mainCases=@('blancas-sleep-main','main','blancas-integration','main-state','native-runtime','native-math','native-geometry','native-lra7','native-grenades','native-anti-air','native-tow','native-m47','native-m167','native-shotgun','native-switchblade','native-cas','native-mh60','native-support-helicopter','native-telegraph-ui','native-economy-ui','native-research-ui','native-overlays')
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
 $runtime=[IO.Path]::GetFullPath($RuntimeRoot)
 $allowed=[IO.Path]::GetFullPath((Join-Path $repository '.codex-staging'))+[IO.Path]::DirectorySeparatorChar
@@ -22,6 +22,7 @@ if(Test-Path -LiteralPath $runtime){throw 'Use a fresh runtime to preserve earli
 # Early Waylith logging uses a shared host log even with -savedatafolder.
 if(Get-Process -Name RimWorld,RimWorldWin64 -ErrorAction SilentlyContinue){throw 'Wait for the running game to exit before collecting a migration log.'}
 $gameVersion=(Get-Content -LiteralPath (Join-Path $GameRoot 'Version.txt') -Raw).Trim()
+if($Case -eq 'blancas-sleep-fixture' -and -not $Legacy16){throw 'Create the sleep compatibility fixture with the frozen 1.6 release.'}
 if($Legacy16 -and -not $gameVersion.StartsWith('1.6.')){throw 'Legacy fixture creation requires the preserved 1.6 runtime.'}
 if(-not $Legacy16 -and -not $gameVersion.StartsWith('1.7.')){throw 'A real 1.7 runtime is required.'}
 if(-not $BridgeAssembly){
@@ -62,8 +63,11 @@ $active='<li>brrainz.harmony</li><li>ludeon.rimworld</li><li>ludeon.rimworld.roy
 [IO.File]::WriteAllText((Join-Path $profile 'Config/Prefs.xml'),'<PrefsData><devMode>True</devMode><runInBackground>True</runInBackground><volumeGame>0</volumeGame><volumeMusic>0</volumeMusic></PrefsData>',$encoding)
 if($FixtureRoot){
     New-Item -ItemType Directory -Path (Join-Path $profile 'Saves') -Force | Out-Null
-    Copy-Item -LiteralPath (Join-Path $FixtureRoot 'Profile/Saves/BlancasMigrationFixture16.rws') -Destination (Join-Path $profile 'Saves/BlancasMigrationFixture16.rws')
-    Copy-Item -LiteralPath (Join-Path $FixtureRoot 'Evidence/fixture.xml') -Destination (Join-Path $evidence 'fixture.xml')
+    $sleepFixture=$Case -in @('blancas-sleep-load','blancas-sleep-main')
+    $fixtureSave=if($sleepFixture){'BlancasSleepFixture16.rws'}else{'BlancasMigrationFixture16.rws'}
+    $fixtureSnapshot=if($sleepFixture){'blancas-sleep.xml'}else{'fixture.xml'}
+    Copy-Item -LiteralPath (Join-Path $FixtureRoot ('Profile/Saves/'+$fixtureSave)) -Destination (Join-Path $profile ('Saves/'+$fixtureSave))
+    Copy-Item -LiteralPath (Join-Path $FixtureRoot ('Evidence/'+$fixtureSnapshot)) -Destination (Join-Path $evidence $fixtureSnapshot)
 }
 $arguments=@('-quicktest',('"-savedatafolder='+$profile+'"'),('-hdMigrationCase='+$Case),('"-hdMigrationOutput='+$evidence+'"'))
 if($Legacy16){$arguments+=@('-batchmode','-nographics');$executable='RimWorldWin64.exe'}
