@@ -26,6 +26,7 @@ namespace Helodrace.Tests
         private bool shotgunPrepared;
         private bool switchbladePrepared;
         private bool casPrepared;
+        private bool cigarettePrepared;
         private bool mh60Prepared;
 #if HELODRACE_MAIN_CHECKS
         private bool lra7VerifiedOnLoad;
@@ -35,6 +36,7 @@ namespace Helodrace.Tests
         private bool shotgunVerifiedOnLoad;
         private bool switchbladeVerifiedOnLoad;
         private bool casVerifiedOnLoad;
+        private bool cigaretteVerifiedOnLoad;
         private bool mh60VerifiedOnLoad;
 #endif
         private string output, mode;
@@ -56,6 +58,7 @@ namespace Helodrace.Tests
             Scribe_Values.Look(ref shotgunPrepared, "migrationShotgunPrepared", false);
             Scribe_Values.Look(ref switchbladePrepared, "migrationSwitchbladePrepared", false);
             Scribe_Values.Look(ref casPrepared, "migrationCasPrepared", false);
+            Scribe_Values.Look(ref cigarettePrepared, "migrationCigarettePrepared", false);
             Scribe_Values.Look(ref mh60Prepared, "migrationMh60Prepared", false);
         }
 
@@ -114,7 +117,7 @@ namespace Helodrace.Tests
             }
 #if HELODRACE_MAIN_CHECKS
             if (!GenCommandLine.TryGetCommandLineArg("hdMigrationCase", out string activeCase)
-                || !((lra7Prepared && activeCase == "native-lra7") || (grenadePrepared && activeCase == "native-grenades") || (towPrepared && activeCase == "native-tow") || (m47Prepared && activeCase == "native-m47") || (shotgunPrepared && activeCase == "native-shotgun") || (switchbladePrepared && activeCase == "native-switchblade") || (casPrepared && activeCase == "native-cas") || (mh60Prepared && activeCase == "native-mh60"))
+                || !((lra7Prepared && activeCase == "native-lra7") || (grenadePrepared && activeCase == "native-grenades") || (towPrepared && activeCase == "native-tow") || (m47Prepared && activeCase == "native-m47") || (shotgunPrepared && activeCase == "native-shotgun") || (switchbladePrepared && activeCase == "native-switchblade") || (casPrepared && activeCase == "native-cas") || (cigarettePrepared && activeCase == "native-cigarette") || (mh60Prepared && activeCase == "native-mh60"))
                 || !GenCommandLine.TryGetCommandLineArg("hdMigrationOutput", out output)) return;
             try
             {
@@ -148,6 +151,11 @@ namespace Helodrace.Tests
                 {
                     NativeSwitchbladeChecks.Verify(output, Check);
                     switchbladeVerifiedOnLoad = true;
+                }
+                else if (activeCase == "native-cigarette")
+                {
+                    NativeCigaretteChecks.Verify(output, Check);
+                    cigaretteVerifiedOnLoad = true;
                 }
                 else if (activeCase == "native-cas")
                 {
@@ -198,7 +206,7 @@ namespace Helodrace.Tests
             try
             {
                 if (mode != "blancas-drug-load" && mode != "blancas-drug-main" && mode != "blancas-mkultra-load" && mode != "blancas-mkultra-main" && mode != "blancas-sleep-load" && mode != "blancas-sleep-main" && (mode != "main-state" || !mainStatePrepared) && (mode != "blancas-generation" || !blancasGenerationPrepared)
-                    && (mode != "native-lra7" || !lra7Prepared) && (mode != "native-grenades" || !grenadePrepared) && (mode != "native-tow" || !towPrepared) && (mode != "native-m47" || !m47Prepared) && (mode != "native-shotgun" || !shotgunPrepared) && (mode != "native-switchblade" || !switchbladePrepared) && (mode != "native-cas" || !casPrepared) && (mode != "native-mh60" || !mh60Prepared))
+                    && (mode != "native-lra7" || !lra7Prepared) && (mode != "native-grenades" || !grenadePrepared) && (mode != "native-tow" || !towPrepared) && (mode != "native-m47" || !m47Prepared) && (mode != "native-shotgun" || !shotgunPrepared) && (mode != "native-switchblade" || !switchbladePrepared) && (mode != "native-cas" || !casPrepared) && (mode != "native-mh60" || !mh60Prepared) && (mode != "native-cigarette" || !cigarettePrepared))
                     File.WriteAllText(Path.Combine(output, "checks.txt"), "Engine migration: " + mode + "\n");
                 else File.AppendAllText(Path.Combine(output, "checks.txt"), "Loaded new 1.7 state\n");
                 Check(DefDatabase<ThingDef>.GetNamedSilentFail("BD_Ketamine") != null, "Blancas drug definitions loaded");
@@ -342,6 +350,16 @@ namespace Helodrace.Tests
                         return;
                     }
                     Check(shotgunVerifiedOnLoad, "native shotgun state verified before the first simulation tick");
+                }
+                else if (mode == "native-cigarette")
+                {
+                    if (!cigarettePrepared)
+                    {
+                        NativeCigaretteChecks.Create(output, Check); cigarettePrepared = true;
+                        GameDataSaveLoader.SaveGame("CigaretteNativeState17");
+                        GameDataSaveLoader.LoadGame("CigaretteNativeState17"); return;
+                    }
+                    Check(cigaretteVerifiedOnLoad, "native cigarette state verified before first simulation tick");
                 }
                 else if (mode == "native-m47")
                 {

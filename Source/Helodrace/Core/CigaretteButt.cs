@@ -2,6 +2,8 @@ using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using NV = System.Numerics.Vector3;
+using NC = Waylith.Math.Color;
 
 namespace Helodrace
 {
@@ -70,14 +72,14 @@ namespace Helodrace
             {
                 int duration = Mathf.Max(12, Mathf.RoundToInt(
                     34f * (flightDistance / 2f) * Rand.Range(0.85f, 1.15f)));
-                butt.BeginFlight(pawn.DrawPos, duration,
+                butt.BeginFlight(pawn.DrawPos.ToNative(), duration,
                     Rand.Range(0.18f, 0.42f), Rand.Range(10f, 18f));
                 butt.BeginEmber(Rand.RangeInclusive(300, 600));
             }
             else if (habit == CigaretteButtHabit.Flick)
             {
                 float speedFactor = Rand.Range(1f, 2f);
-                butt.BeginFlight(pawn.DrawPos,
+                butt.BeginFlight(pawn.DrawPos.ToNative(),
                     Mathf.Max(12, Mathf.RoundToInt(
                         48f * (flightDistance / 4f) / speedFactor)),
                     Rand.Range(0.35f, 0.70f), 32f * speedFactor);
@@ -114,7 +116,7 @@ namespace Helodrace
         public string texturePath;
         public string fireTexturePath;
 
-        private Vector3 startDrawOffset;
+        private NV startDrawOffset;
         private int flightTicksLeft;
         private int flightTicksTotal;
         private float arcHeight;
@@ -129,12 +131,12 @@ namespace Helodrace
                 : texturePath,
             ShaderDatabase.Cutout,
             new Vector2(0.385f, 0.385f),
-            Color.white);
+            NC.white.ToGame());
 
-        public void BeginFlight(Vector3 origin, int duration, float height, float degreesPerTick)
+        public void BeginFlight(NV origin, int duration, float height, float degreesPerTick)
         {
-            startDrawOffset = origin - Position.ToVector3Shifted();
-            startDrawOffset.y = 0f;
+            startDrawOffset = origin - new NV(Position.x + .5f, Position.y, Position.z + .5f);
+            startDrawOffset.Y = 0f;
             flightTicksLeft = flightTicksTotal = Mathf.Max(1, duration);
             arcHeight = height;
             spinRate = degreesPerTick;
@@ -151,7 +153,7 @@ namespace Helodrace
             base.ExposeData();
             Scribe_Values.Look(ref texturePath, "cigaretteTexturePath");
             Scribe_Values.Look(ref fireTexturePath, "cigaretteFireTexturePath");
-            Scribe_Values.Look(ref startDrawOffset, "startDrawOffset");
+            NativeVectorScribe.Look(ref startDrawOffset, "startDrawOffset");
             Scribe_Values.Look(ref flightTicksLeft, "flightTicksLeft");
             Scribe_Values.Look(ref flightTicksTotal, "flightTicksTotal");
             Scribe_Values.Look(ref arcHeight, "arcHeight");
@@ -177,16 +179,17 @@ namespace Helodrace
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
+            NV position = drawLoc.ToNative();
             float progress = flightTicksTotal > 0
                 ? 1f - flightTicksLeft / (float)flightTicksTotal
                 : 1f;
             if (flightTicksLeft > 0)
             {
-                drawLoc += Vector3.Lerp(startDrawOffset, Vector3.zero, progress);
-                drawLoc.y = AltitudeLayer.MoteOverhead.AltitudeFor()
+                position += SpatialMath.Interpolate(startDrawOffset, NV.Zero, progress);
+                position.Y = AltitudeLayer.MoteOverhead.AltitudeFor()
                     + Mathf.Sin(progress * Mathf.PI) * arcHeight;
             }
-            Graphic.Draw(drawLoc, Rot4.North, this, angle);
+            Graphic.Draw(position.ToGame(), Rot4.North, this, angle);
             if (emberTicksLeft > 0 && !fireTexturePath.NullOrEmpty())
             {
                 float life = emberTicksTotal > 0
@@ -199,11 +202,11 @@ namespace Helodrace
                 Graphic emberGraphic = GraphicDatabase.Get<Graphic_Single>(
                     fireTexturePath, ShaderDatabase.MoteGlow,
                     new Vector2(0.385f, 0.385f),
-                    new Color(intensity, intensity * 0.82f,
-                        intensity * 0.48f, intensity));
-                Vector3 emberLoc = drawLoc;
-                emberLoc.y += 0.001f;
-                emberGraphic.Draw(emberLoc, Rot4.North, this, angle);
+                    new NC(intensity, intensity * 0.82f,
+                        intensity * 0.48f, intensity).ToGame());
+                NV emberLoc = position;
+                emberLoc.Y += 0.001f;
+                emberGraphic.Draw(emberLoc.ToGame(), Rot4.North, this, angle);
             }
         }
     }
