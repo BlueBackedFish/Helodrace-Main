@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
+using Vector3 = System.Numerics.Vector3;
+using Color = Waylith.Math.Color;
 using Verse;
 
 namespace Helodrace.Tactical
@@ -126,14 +128,14 @@ namespace Helodrace.Tactical
                 return;
             }
 
-            GenDraw.DrawRadiusRing(pawn.Position, PartnerMaximumDistance, Color.white);
+            GenDraw.DrawRadiusRing(pawn.Position, PartnerMaximumDistance, Color.white.ToGame());
             Pawn partner = target.Thing as Pawn;
             if (partner != null && partner.Map == map)
             {
                 GenDraw.DrawRadiusRing(
                     partner.Position,
                     0.55f,
-                    CanSelectPartner(pawn, partner) ? Color.green : Color.red);
+                    (CanSelectPartner(pawn, partner) ? Color.green : Color.red).ToGame());
             }
         }
 
@@ -277,16 +279,16 @@ namespace Helodrace.Tactical
             }
 
             Vector3 direction = target.HasThing
-                ? target.Thing.DrawPos - state.shooter.DrawPos
-                : target.Cell.ToVector3Shifted() - state.shooter.DrawPos;
-            direction.y = 0f;
-            if (direction.sqrMagnitude < 0.001f)
+                ? target.Thing.DrawPos.ToNative() - state.shooter.DrawPos.ToNative()
+                : target.Cell.ToVector3Shifted().ToNative() - state.shooter.DrawPos.ToNative();
+            direction.Y = 0f;
+            if (direction.LengthSquared() < 0.001f)
             {
                 return false;
             }
 
-            float targetAngle = direction.AngleFlat();
-            float referenceAngle = (state.partner.DrawPos - state.shooter.DrawPos).AngleFlat();
+            float targetAngle = SpatialMath.FlatAngle(direction);
+            float referenceAngle = SpatialMath.FlatAngle(state.partner.DrawPos.ToNative() - state.shooter.DrawPos.ToNative());
             return IsWithinArc(referenceAngle, targetAngle)
                 && state.shooter.Position.DistanceTo(target.Cell)
                     <= state.verb.EffectiveRange
@@ -418,17 +420,17 @@ namespace Helodrace.Tactical
                     continue;
                 }
 
-                Vector3 start = state.shooter.DrawPos;
-                float referenceAngle = (state.partner.DrawPos - start).AngleFlat();
-                Vector3 left = start + Vector3.forward.RotatedBy(
+                Vector3 start = state.shooter.DrawPos.ToNative();
+                float referenceAngle = SpatialMath.FlatAngle(state.partner.DrawPos.ToNative() - start);
+                Vector3 left = start + SpatialMath.RotateAroundY(Vector3.UnitZ,
                     referenceAngle - TargetHalfAngle)
                     * state.verb.EffectiveRange;
-                Vector3 right = start + Vector3.forward.RotatedBy(
+                Vector3 right = start + SpatialMath.RotateAroundY(Vector3.UnitZ,
                     referenceAngle + TargetHalfAngle)
                     * state.verb.EffectiveRange;
                 GenDraw.DrawLineBetween(state.shooter.DrawPos, state.partner.DrawPos, SimpleColor.Cyan, 0.08f);
-                GenDraw.DrawLineBetween(start, left, SimpleColor.Cyan, 0.04f);
-                GenDraw.DrawLineBetween(start, right, SimpleColor.Cyan, 0.04f);
+                GenDraw.DrawLineBetween(start.ToGame(), left.ToGame(), SimpleColor.Cyan, 0.04f);
+                GenDraw.DrawLineBetween(start.ToGame(), right.ToGame(), SimpleColor.Cyan, 0.04f);
             }
         }
 
@@ -491,7 +493,7 @@ namespace Helodrace.Tactical
     }
 
     [HarmonyPatch(typeof(Projectile), nameof(Projectile.Launch), new[] {
-        typeof(Thing), typeof(Vector3), typeof(LocalTargetInfo), typeof(LocalTargetInfo),
+        typeof(Thing), typeof(UnityEngine.Vector3), typeof(LocalTargetInfo), typeof(LocalTargetInfo),
         typeof(ProjectileHitFlags), typeof(bool), typeof(Thing), typeof(ThingDef) })]
     public static class Patch_CoordinatedProjectile
     {

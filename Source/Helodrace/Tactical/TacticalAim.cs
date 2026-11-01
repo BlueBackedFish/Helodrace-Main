@@ -5,6 +5,7 @@ using System.Reflection;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
+using Vector3 = System.Numerics.Vector3;
 using Verse;
 
 namespace Helodrace.Tactical
@@ -27,7 +28,7 @@ namespace Helodrace.Tactical
             {
                 if (focusCell.IsValid && pawn?.Spawned == true)
                 {
-                    focusAngle = AngleToFocus(pawn.DrawPos, focusCell.ToVector3Shifted(), focusAngle);
+                    focusAngle = AngleToFocus(pawn.DrawPos.ToNative(), focusCell.ToVector3Shifted().ToNative(), focusAngle);
                 }
                 return focusAngle;
             }
@@ -35,10 +36,10 @@ namespace Helodrace.Tactical
         private static float AngleToFocus(Vector3 origin, Vector3 point, float fallback)
         {
             Vector3 direction = point - origin;
-            direction.y = 0f;
-            return direction.sqrMagnitude > 0.001f
+            direction.Y = 0f;
+            return direction.LengthSquared() > 0.001f
                 ? TacticalAimUtility.NormalizeAngle(
-                    (float)(Math.Atan2(direction.x, direction.z) * 180.0 / Math.PI)) : fallback;
+                    (float)(Math.Atan2(direction.X, direction.Z) * 180.0 / Math.PI)) : fallback;
         }
         public bool IsPeripheralAngle(float targetAngle)
         {
@@ -167,14 +168,14 @@ namespace Helodrace.Tactical
             }
 
             Vector3 direction = (target.HasThing ? target.Thing.DrawPos
-                : target.Cell.ToVector3Shifted()) - pawn.DrawPos;
-            direction.y = 0f;
-            if (direction.sqrMagnitude < 0.001f)
+                : target.Cell.ToVector3Shifted()).ToNative() - pawn.DrawPos.ToNative();
+            direction.Y = 0f;
+            if (direction.LengthSquared() < 0.001f)
             {
                 return false;
             }
 
-            angle = NormalizeAngle(direction.AngleFlat());
+            angle = NormalizeAngle(SpatialMath.FlatAngle(direction));
             return true;
         }
 
@@ -330,13 +331,13 @@ namespace Helodrace.Tactical
                 return false;
             }
 
-            Vector3 direction = (targetCell - pawn.Position).ToVector3();
-            if (direction.sqrMagnitude < 0.001f)
+            Vector3 direction = (targetCell - pawn.Position).ToVector3().ToNative();
+            if (direction.LengthSquared() < 0.001f)
             {
                 return false;
             }
 
-            angle = NormalizeAngle(direction.AngleFlat());
+            angle = NormalizeAngle(SpatialMath.FlatAngle(direction));
             return true;
         }
 
@@ -523,10 +524,10 @@ namespace Helodrace.Tactical
 
         public static IntVec3 VisualAimTargetCell(Pawn pawn)
         {
-            Vector3 direction = Vector3.forward.RotatedBy(VisualAimAngle(pawn));
+            Vector3 direction = SpatialMath.RotateAroundY(Vector3.UnitZ, VisualAimAngle(pawn));
             return pawn.Position + new IntVec3(
-                Mathf.RoundToInt(direction.x * 12f), 0,
-                Mathf.RoundToInt(direction.z * 12f));
+                Mathf.RoundToInt(direction.X * 12f), 0,
+                Mathf.RoundToInt(direction.Z * 12f));
         }
 
         public static void NotifyShot(Verb verb)
@@ -783,16 +784,16 @@ namespace Helodrace.Tactical
     public static class Patch_DrawEquipmentAiming_TacticalAim
     {
         [HarmonyPriority(Priority.First)]
-        public static void Prefix(Thing eq, ref Vector3 drawLoc, ref float aimAngle)
+        public static void Prefix(Thing eq, ref UnityEngine.Vector3 drawLoc, ref float aimAngle)
         {
             float previousAngle = aimAngle;
             if (!TacticalAimUtility.TryGetEquipmentVisualAngle(eq, ref aimAngle)) return;
             Pawn pawn = (eq.ParentHolder as Pawn_EquipmentTracker)?.pawn;
             if (pawn == null) return;
-            Vector3 offset = drawLoc - pawn.DrawPos;
+            Vector3 offset = drawLoc.ToNative() - pawn.DrawPos.ToNative();
             float height = drawLoc.y;
-            offset.y = 0f;
-            drawLoc = pawn.DrawPos + offset.RotatedBy(Mathf.DeltaAngle(previousAngle, aimAngle));
+            offset.Y = 0f;
+            drawLoc = (pawn.DrawPos.ToNative() + SpatialMath.RotateAroundY(offset, Mathf.DeltaAngle(previousAngle, aimAngle))).ToGame();
             drawLoc.y = height;
         }
     }

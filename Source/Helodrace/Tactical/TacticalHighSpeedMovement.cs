@@ -5,6 +5,8 @@ using System.Reflection;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
+using Vector3 = System.Numerics.Vector3;
+using Color = Waylith.Math.Color;
 using Verse;
 using Verse.AI;
 
@@ -106,13 +108,13 @@ namespace Helodrace.Tactical
                 return false;
             }
 
-            Vector3 direction = (state.destination - state.origin).ToVector3();
-            if (direction.sqrMagnitude < 0.01f)
+            Vector3 direction = (state.destination - state.origin).ToVector3().ToNative();
+            if (direction.LengthSquared() < 0.01f)
             {
                 return false;
             }
 
-            angle = direction.AngleFlat();
+            angle = SpatialMath.FlatAngle(direction);
             return true;
         }
 
@@ -187,13 +189,13 @@ namespace Helodrace.Tactical
                 return SlideAdvanceResult.Completed;
             }
 
-            Vector3 delta = (state.destination - state.origin).ToVector3();
+            Vector3 delta = (state.destination - state.origin).ToVector3().ToNative();
             float progress = Mathf.Clamp01(
                 state.travelledDistance / totalDistance);
             IntVec3 next = new IntVec3(
-                Mathf.RoundToInt(state.origin.x + delta.x * progress),
+                Mathf.RoundToInt(state.origin.x + delta.X * progress),
                 0,
-                Mathf.RoundToInt(state.origin.z + delta.z * progress));
+                Mathf.RoundToInt(state.origin.z + delta.Z * progress));
             if (next == pawn.Position)
             {
                 return SlideAdvanceResult.Continue;
@@ -242,16 +244,16 @@ namespace Helodrace.Tactical
             }
 
             IntVec3 origin = pawn.Position;
-            Vector3 delta = (destination - origin).ToVector3();
-            int steps = Mathf.CeilToInt(delta.magnitude * 2f);
+            Vector3 delta = (destination - origin).ToVector3().ToNative();
+            int steps = Mathf.CeilToInt(delta.Length() * 2f);
             IntVec3 previous = origin;
             for (int i = 1; i <= steps; i++)
             {
                 float t = i / (float)steps;
                 IntVec3 cell = new IntVec3(
-                    Mathf.RoundToInt(origin.x + delta.x * t),
+                    Mathf.RoundToInt(origin.x + delta.X * t),
                     0,
-                    Mathf.RoundToInt(origin.z + delta.z * t));
+                    Mathf.RoundToInt(origin.z + delta.Z * t));
                 if (cell == previous)
                 {
                     continue;
@@ -303,15 +305,15 @@ namespace Helodrace.Tactical
             IntVec3 origin = pawn.Position;
             Action<LocalTargetInfo> drawPreview = target =>
             {
-                GenDraw.DrawRadiusRing(origin, MaximumDistance, Color.cyan);
+                GenDraw.DrawRadiusRing(origin, MaximumDistance, Color.cyan.ToGame());
                 if (target.IsValid && target.Cell.InBounds(map))
                 {
                     GenDraw.DrawRadiusRing(
                         target.Cell,
                         0.55f,
-                        IsValidDestination(pawn, target)
+                        (IsValidDestination(pawn, target)
                             ? Color.green
-                            : Color.red);
+                            : Color.red).ToGame());
                 }
             };
 

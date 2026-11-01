@@ -4,6 +4,8 @@ using System.Linq;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
+using Vector3 = System.Numerics.Vector3;
+using Color = Waylith.Math.Color;
 using Verse;
 using Verse.Sound;
 
@@ -89,14 +91,14 @@ namespace Helodrace.Tactical
             Map map = pawn.Map;
             Action<LocalTargetInfo> drawPreview = target =>
             {
-                GenDraw.DrawRadiusRing(pawn.Position, Range, Color.white);
+                GenDraw.DrawRadiusRing(pawn.Position, Range, Color.white.ToGame());
                 Pawn victim = PawnAt(pawn, target);
                 if (victim != null && victim.Map == map)
                 {
                     GenDraw.DrawRadiusRing(
                         victim.Position,
                         0.55f,
-                        CheckTarget(pawn, target, false) ? Color.yellow : Color.red);
+                        (CheckTarget(pawn, target, false) ? Color.yellow : Color.red).ToGame());
                 }
             };
 
@@ -155,14 +157,14 @@ namespace Helodrace.Tactical
 
         private static void BeginStrikeAnimation(Pawn attacker, Pawn victim)
         {
-            Vector3 direction = victim.DrawPos - attacker.DrawPos;
-            direction.y = 0f;
-            if (direction.sqrMagnitude < 0.001f)
+            Vector3 direction = victim.DrawPos.ToNative() - attacker.DrawPos.ToNative();
+            direction.Y = 0f;
+            if (direction.LengthSquared() < 0.001f)
             {
                 return;
             }
 
-            float targetAngle = TacticalAimUtility.NormalizeAngle(direction.AngleFlat());
+            float targetAngle = TacticalAimUtility.NormalizeAngle(SpatialMath.FlatAngle(direction));
             float returnAngle = TacticalAimUtility.IsAiming(attacker)
                 ? TacticalAimUtility.VisualAimAngle(attacker)
                 : attacker.Rotation.AsAngle;
@@ -218,7 +220,7 @@ namespace Helodrace.Tactical
 
         public static void AdjustEquipmentDraw(
             Thing equipment,
-            ref Vector3 drawLoc,
+            ref UnityEngine.Vector3 drawLoc,
             ref float aimAngle)
         {
             Pawn pawn = WielderOf(equipment);
@@ -229,14 +231,15 @@ namespace Helodrace.Tactical
 
             float previousAngle = aimAngle;
             float height = drawLoc.y;
-            Vector3 offset = drawLoc - pawn.DrawPos;
-            offset.y = 0f;
+            Vector3 offset = drawLoc.ToNative() - pawn.DrawPos.ToNative();
+            offset.Y = 0f;
             aimAngle = visualAngle;
-            drawLoc = pawn.DrawPos
-                + offset.RotatedBy(Mathf.DeltaAngle(previousAngle, visualAngle));
-            drawLoc.y = height;
-            drawLoc += Vector3.forward.RotatedBy(visualAngle)
+            Vector3 adjusted = pawn.DrawPos.ToNative()
+                + SpatialMath.RotateAroundY(offset, Mathf.DeltaAngle(previousAngle, visualAngle));
+            adjusted.Y = height;
+            adjusted += SpatialMath.RotateAroundY(Vector3.UnitZ, visualAngle)
                 * (StrikeThrustDistance * thrust);
+            drawLoc = adjusted.ToGame();
         }
 
         private static Pawn WielderOf(Thing equipment)
@@ -414,7 +417,7 @@ namespace Helodrace.Tactical
     public static class Patch_DrawEquipmentAiming_TacticalCloseQuartersStrike
     {
         [HarmonyPriority(Priority.Last)]
-        public static void Prefix(Thing eq, ref Vector3 drawLoc, ref float aimAngle)
+        public static void Prefix(Thing eq, ref UnityEngine.Vector3 drawLoc, ref float aimAngle)
         {
             TacticalCloseQuartersStrikeUtility.AdjustEquipmentDraw(
                 eq,
