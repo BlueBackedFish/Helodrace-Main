@@ -735,7 +735,8 @@ namespace Helodrace.Tests.Frozen
             ITowGuidanceSource source = GuidanceSource;
             if (source != null)
             {
-                launcherPoint = source.TowWireOrigin;
+                var supplied = source.TowWireOrigin;
+                launcherPoint = new Vector3(supplied.X, supplied.Y, supplied.Z);
             }
             else
             {

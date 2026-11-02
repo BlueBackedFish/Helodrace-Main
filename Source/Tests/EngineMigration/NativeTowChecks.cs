@@ -24,6 +24,15 @@ namespace Helodrace.Tests
         [ThreadStatic] private static Thing impacted;
         private static int components, angles, steering, frames, flightTicks, collisions, wireTests, retargets, hits, misses;
         private static float maximumError;
+        private static int providerCases, providerBits, providerReads, providerGuards;
+
+        private sealed class GuidanceProvider : ThingComp, ITowGuidanceSource
+        {
+            internal NV Origin;
+            internal bool Enabled = true;
+            public bool CanGuideTow => Enabled;
+            public NV TowWireOrigin { get { providerReads++; return Origin; } }
+        }
 
         public sealed class SavedMissile
         {
@@ -114,6 +123,7 @@ namespace Helodrace.Tests
                 PureSteering(source, target);
                 ActualFlight(source, launcher, target);
                 CollisionChecks(source, launcher, target);
+                ProviderEndpoints(source, launcher, check);
                 SaveProbes(source, launcher, output);
             }
             finally { captureImpact = false; matrices = null; lines = null; harmony.UnpatchAll(harmony.Id); if (!target.Destroyed) target.Destroy(); }
@@ -128,7 +138,63 @@ namespace Helodrace.Tests
                 Angles = angles, SteeringSteps = steering, ActualFlightTicks = flightTicks, Retargets = retargets,
                 CollisionCases = collisions, CollisionHits = hits, CollisionMisses = misses, WireCases = wireTests,
                 DrawCallbacks = frames, Components = components, MaximumFloatError = maximumError, Baseline = "a70f624f"
+                , ProviderEndpointCases = providerCases, ProviderComponentBits = providerBits, ProviderReads = providerReads, ProviderGuardCases = providerGuards
             }, new JsonSerializerOptions { WriteIndented = true }));
+        }
+        private static void ProviderEndpoints(ThingDef source, Building_TurretGun launcher, Action<bool,string> check)
+        {
+            var provider = new GuidanceProvider { parent=launcher, props=new CompProperties() };
+            var a=(Projectile_Tow)ThingMaker.MakeThing(source);
+            var e=(Frozen.Projectile_Tow)ThingMaker.MakeThing(Definition(source,true));
+            var unspawned=(ThingWithComps)ThingMaker.MakeThing(launcher.def,GenStuff.DefaultStuffFor(launcher.def));
+            GenSpawn.Spawn(a,launcher.Position,launcher.Map); GenSpawn.Spawn(e,launcher.Position,launcher.Map);
+            GV missile=new GV(launcher.Position.x+15.125f,-2,launcher.Position.z+.75f);
+            foreach(object v in new object[]{a,e})
+            { Set(v,"launcherPlatform",launcher); Set(v,"flightInitialized",true); SetVector(v,"exactPosition",missile); }
+            void Exact(float actual,float expected)
+            {
+                if(BitConverter.SingleToInt32Bits(actual)!=BitConverter.SingleToInt32Bits(expected))
+                    throw new InvalidOperationException("TOW provider endpoint component bits changed.");
+                providerBits++;
+            }
+            void Probe(bool expected, NV origin)
+            {
+                int reads=providerReads;
+                object[] aa={null,null},ee={null,null};
+                bool av=(bool)Call(a,"TryGetWireEndpoints",aa),ev=(bool)Call(e,"TryGetWireEndpoints",ee);
+                if(av!=expected || ev!=expected || providerReads-reads!=(expected?2:0))
+                    throw new InvalidOperationException("TOW provider availability/getter dispatch changed.");
+                if(!expected){providerGuards++;return;}
+                var ap=(NV)aa[0]; var ep=(GV)ee[0]; var am=(NV)aa[1]; var em=(GV)ee[1];
+                Exact(ap.X,origin.X); Exact(ap.Y,0f); Exact(ap.Z,origin.Z);
+                Exact(ep.x,origin.X); Exact(ep.y,0f); Exact(ep.z,origin.Z);
+                Exact(am.X,missile.x); Exact(am.Y,0f); Exact(am.Z,missile.z);
+                Exact(em.x,missile.x); Exact(em.y,0f); Exact(em.z,missile.z); providerCases++;
+            }
+            launcher.AllComps.Add(provider);
+            try
+            {
+                foreach(NV origin in new[]{NV.Zero,new NV(-0f,float.Epsilon,-0f),
+                    new NV(launcher.Position.x+.125f,23,launcher.Position.z+1.5f),
+                    new NV(launcher.Position.x+2,-17,launcher.Position.z+.75f),new NV(-100,1,200),
+                    new NV(float.Epsilon,float.MaxValue,MathF.BitIncrement(.25f)),
+                    new NV(BitConverter.Int32BitsToSingle(unchecked((int)0x7FC12345)),float.NegativeInfinity,17.5f),
+                    new NV(float.PositiveInfinity,float.NaN,-float.Epsilon)})
+                { provider.Origin=origin; Probe(true,origin); }
+                provider.Enabled=false; Probe(false,default); provider.Enabled=true;
+                foreach(object v in new object[]{a,e}) Set(v,"launcherPlatform",unspawned);
+                Probe(false,default);
+                foreach(object v in new object[]{a,e}) Set(v,"launcherPlatform",null);
+                Probe(false,default);
+                check(providerCases==8 && providerBits==96 && providerReads==16 && providerGuards==3,
+                    "native TOW provider preserves moving endpoint/ground projection bits and disabled/unspawned/missing provider gates");
+                check(typeof(ITowGuidanceSource).GetProperty("TowWireOrigin").PropertyType==typeof(NV),
+                    "TOW platform extension owns a native endpoint contract");
+            }
+            finally
+            {
+                launcher.AllComps.Remove(provider); a.Destroy(); e.Destroy(); unspawned.Destroy();
+            }
         }
         private static void Angles()
         {

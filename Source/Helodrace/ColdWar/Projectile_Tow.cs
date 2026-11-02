@@ -774,7 +774,7 @@ namespace Helodrace
             ITowGuidanceSource source = GuidanceSource;
             if (source != null)
             {
-                launcherPoint = source.TowWireOrigin.ToNative();
+                launcherPoint = source.TowWireOrigin;
             }
             else
             {
