@@ -3,6 +3,9 @@ using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
+using Waylith.Math;
+using NativeVector2 = System.Numerics.Vector2;
+using NativeVector3 = System.Numerics.Vector3;
 
 namespace Helodrace
 {
@@ -341,21 +344,25 @@ namespace Helodrace
         private void CancelLineTargeting() { lineTargetBase = null; lineTargetShell = null; lineTargetTelegraph = null; lineTargetRadioOperator = null; lineTargetService = HelodForwardBaseService.InfantryMortarSupport; lineDragStart = IntVec3.Invalid; lineDragEnd = IntVec3.Invalid; }
 
         private IntVec3 IncomingEdgeCell(HelodForwardBase forwardBase)
+            => IncomingEdgeCell(Find.WorldGrid.GetTileCenter(map.Tile).ToNative(),
+                Find.WorldGrid.GetTileCenter(forwardBase.Tile).ToNative(), map.Size);
+
+        internal static IntVec3 IncomingEdgeCell(NativeVector3 targetCenter, NativeVector3 baseCenter, IntVec3 size)
         {
-            Vector3 target = Find.WorldGrid.GetTileCenter(map.Tile).normalized;
-            Vector3 origin = Find.WorldGrid.GetTileCenter(forwardBase.Tile).normalized;
-            Vector3 towardBase = Vector3.ProjectOnPlane(origin - target, target).normalized;
-            Vector3 east = Vector3.Cross(Vector3.up, target).normalized;
-            if (east.sqrMagnitude < 0.01f) east = Vector3.right;
-            Vector3 north = Vector3.Cross(target, east).normalized;
-            Vector2 direction = new Vector2(Vector3.Dot(towardBase, east), Vector3.Dot(towardBase, north)).normalized;
-            if (direction.sqrMagnitude < 0.01f) direction = Vector2.up;
-            float halfX = (map.Size.x - 1) * 0.5f;
-            float halfZ = (map.Size.z - 1) * 0.5f;
-            float scale = Mathf.Min(Mathf.Abs(direction.x) > 0.001f ? halfX / Mathf.Abs(direction.x) : float.MaxValue,
-                Mathf.Abs(direction.y) > 0.001f ? halfZ / Mathf.Abs(direction.y) : float.MaxValue);
-            return new IntVec3(Mathf.Clamp(Mathf.RoundToInt(halfX + direction.x * scale), 0, map.Size.x - 1), 0,
-                Mathf.Clamp(Mathf.RoundToInt(halfZ + direction.y * scale), 0, map.Size.z - 1));
+            NativeVector3 target = targetCenter.normalized;
+            NativeVector3 origin = baseCenter.normalized;
+            NativeVector3 towardBase = NativeVector3.ProjectOnPlane(origin - target, target).normalized;
+            NativeVector3 east = NativeVector3.Cross(NativeVector3.UnitY, target).normalized;
+            if (east.LengthSquared() < 0.01f) east = NativeVector3.UnitX;
+            NativeVector3 north = NativeVector3.Cross(target, east).normalized;
+            NativeVector2 direction = new NativeVector2(NativeVector3.Dot(towardBase, east), NativeVector3.Dot(towardBase, north)).normalized;
+            if (direction.LengthSquared() < 0.01f) direction = NativeVector2.UnitY;
+            float halfX = (size.x - 1) * 0.5f;
+            float halfZ = (size.z - 1) * 0.5f;
+            float scale = Mathf.Min(Mathf.Abs(direction.X) > 0.001f ? halfX / Mathf.Abs(direction.X) : float.MaxValue,
+                Mathf.Abs(direction.Y) > 0.001f ? halfZ / Mathf.Abs(direction.Y) : float.MaxValue);
+            return new IntVec3(Mathf.Clamp(Mathf.RoundToInt(halfX + direction.X * scale), 0, size.x - 1), 0,
+                Mathf.Clamp(Mathf.RoundToInt(halfZ + direction.Y * scale), 0, size.z - 1));
         }
 
         public override void MapComponentTick()

@@ -87,7 +87,7 @@ namespace Helodrace
     public class Projectile_BallisticBullet : Bullet
     {
         private BulletBallisticsSnapshot ballistics;
-        protected float TravelDistance => (ExactPosition - origin).MagnitudeHorizontal();
+        protected float TravelDistance => SpatialMath.HorizontalLength(ExactPosition.ToNative() - origin.ToNative());
         protected float ImpactVelocityFactor => ballistics?.VelocityAt(TravelDistance)
             ?? BulletBallisticsRules.RetainedVelocity(1f, TravelDistance,
                 def.GetModExtension<BulletBallisticsExtension>()?.velocityHalfDistance ?? 55f);

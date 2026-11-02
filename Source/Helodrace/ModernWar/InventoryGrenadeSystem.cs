@@ -4,6 +4,10 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Waylith.Math;
+using NativeVector2 = System.Numerics.Vector2;
+using NativeVector3 = System.Numerics.Vector3;
+using Color = UnityEngine.Color;
 
 namespace Helodrace
 {
@@ -249,10 +253,10 @@ namespace Helodrace
         {
             float distance = pawn.Position.DistanceTo(intendedTarget.Cell);
             float missRadius = ThrowMissRadius(pawn, distance);
-            Vector2 missOffset = Rand.InsideUnitCircle * missRadius;
-            Vector3 scatteredPosition = intendedTarget.CenterVector3
-                + new Vector3(missOffset.x, 0f, missOffset.y);
-            IntVec3 scatteredCell = scatteredPosition.ToIntVec3();
+            NativeVector2 missOffset = Rand.InsideUnitCircle.ToNative() * missRadius;
+            NativeVector3 scatteredPosition = intendedTarget.CenterVector3.ToNative()
+                + new NativeVector3(missOffset.X, 0f, missOffset.Y);
+            IntVec3 scatteredCell = scatteredPosition.ToGame().ToIntVec3();
             return scatteredCell.InBounds(pawn.Map)
                 ? new LocalTargetInfo(scatteredCell)
                 : intendedTarget;
@@ -279,17 +283,17 @@ namespace Helodrace
             if (projectile != null)
             {
                 LocalTargetInfo usedTarget = ScatteredThrowTarget(pawn, target);
-                Vector3 throwOrigin = pawn.DrawPos;
+                NativeVector3 throwOrigin = pawn.DrawPos.ToNative();
                 if (sourceCell != pawn.Position)
                 {
-                    Vector3 leanDirection = sourceCell.ToVector3Shifted() - pawn.DrawPos;
-                    leanDirection.y = 0f;
+                    NativeVector3 leanDirection = sourceCell.ToVector3Shifted().ToNative() - pawn.DrawPos.ToNative();
+                    leanDirection.Y = 0f;
                     throwOrigin += leanDirection.normalized * 0.65f;
                 }
 
                 projectile.Launch(
                     pawn,
-                    throwOrigin,
+                    throwOrigin.ToGame(),
                     usedTarget,
                     target,
                     ProjectileHitFlags.All,

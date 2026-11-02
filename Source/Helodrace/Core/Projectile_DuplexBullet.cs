@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
+using NativeVector3 = System.Numerics.Vector3;
 
 namespace Helodrace
 {
@@ -20,13 +21,13 @@ namespace Helodrace
     {
         // Spread around the already resolved primary trajectory, never re-aim at
         // the intended pawn after the first bullet has missed or hit cover.
-        public static Vector3 SecondaryEndpoint(Vector3 origin, Vector3 primary,
+        public static NativeVector3 SecondaryEndpoint(NativeVector3 origin, NativeVector3 primary,
             float spreadDegrees, float sample)
         {
-            Vector3 delta = primary - origin;
+            NativeVector3 delta = primary - origin;
             float radians = Math.Max(0f, Math.Min(10f, spreadDegrees)) * (float)Math.PI / 180f;
             float offset = (float)Math.Tan(radians) * Math.Max(-1f, Math.Min(1f, sample));
-            return primary + new Vector3(-delta.z * offset, 0f, delta.x * offset);
+            return primary + new NativeVector3(-delta.Z * offset, 0f, delta.X * offset);
         }
     }
 
@@ -51,8 +52,8 @@ namespace Helodrace
             secondary.damageDefOverride = damageDefOverride;
             secondary.extraDamages = extraDamages == null ? new List<ExtraDamage>() : new List<ExtraDamage>(extraDamages);
             float spread = def.GetModExtension<DuplexProjectileExtension>()?.secondarySpreadDegrees ?? 1.2f;
-            Vector3 endpoint = DuplexProjectileRules.SecondaryEndpoint(origin, destination,
-                spread, Rand.Range(-1f, 1f));
+            Vector3 endpoint = DuplexProjectileRules.SecondaryEndpoint(origin.ToNative(), destination.ToNative(),
+                spread, Rand.Range(-1f, 1f)).ToGame();
             if (Map != null && !endpoint.ToIntVec3().InBounds(Map)) endpoint = destination;
             LocalTargetInfo secondaryTarget = endpoint.ToIntVec3() == usedTarget.Cell
                 ? usedTarget : new LocalTargetInfo(endpoint.ToIntVec3());

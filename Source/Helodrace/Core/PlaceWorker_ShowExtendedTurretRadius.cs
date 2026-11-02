@@ -2,6 +2,7 @@ using System;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using NativeVector3 = System.Numerics.Vector3;
 
 namespace Helodrace
 {
@@ -68,15 +69,15 @@ namespace Helodrace
 
         private static bool CoversWholeMap(IntVec3 center, float radius, Map map)
         {
-            Vector3 origin = center.ToVector3Shifted();
+            NativeVector3 origin = center.ToVector3Shifted().ToNative();
             float maxX = map.Size.x - 0.5f;
             float maxZ = map.Size.z - 0.5f;
             float radiusSquared = radius * radius;
 
-            return (new Vector3(0.5f, 0f, 0.5f) - origin).sqrMagnitude <= radiusSquared
-                && (new Vector3(maxX, 0f, 0.5f) - origin).sqrMagnitude <= radiusSquared
-                && (new Vector3(0.5f, 0f, maxZ) - origin).sqrMagnitude <= radiusSquared
-                && (new Vector3(maxX, 0f, maxZ) - origin).sqrMagnitude <= radiusSquared;
+            return (new NativeVector3(0.5f, 0f, 0.5f) - origin).LengthSquared() <= radiusSquared
+                && (new NativeVector3(maxX, 0f, 0.5f) - origin).LengthSquared() <= radiusSquared
+                && (new NativeVector3(0.5f, 0f, maxZ) - origin).LengthSquared() <= radiusSquared
+                && (new NativeVector3(maxX, 0f, maxZ) - origin).LengthSquared() <= radiusSquared;
         }
     }
 }

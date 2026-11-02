@@ -348,9 +348,9 @@ internal static partial class Program
         Check(match.RangeFactor>epr.RangeFactor && match.VanillaAccuracyLongFactor>epr.VanillaAccuracyLongFactor,"MATCH provides a real precision/range benefit");
         Check(builds["HD_Ammunition_76251MK319_Ammo"].RecoilControl>epr.RecoilControl,"OTM has a real recoil tradeoff");
         Check(profiles["HD_Ammunition_76251MK316_Ammo"].FragmentationChanceAt()>0 && profiles["HD_Ammunition_76251MK319_Ammo"].FragmentationChanceAt()>0,"MATCH/OTM use the fragmentation system");
-        var endpoint=DuplexProjectileRules.SecondaryEndpoint(Vector3.zero,new Vector3(20,0,0),1.2f,1);
-        var far=DuplexProjectileRules.SecondaryEndpoint(Vector3.zero,new Vector3(40,0,0),1.2f,1);
-        Near(endpoint.x,20,"Duplex spread stays around the primary resolved trajectory");Near(far.z,endpoint.z*2,"Duplex dispersion grows with distance");
+        var endpoint=DuplexProjectileRules.SecondaryEndpoint(System.Numerics.Vector3.Zero,new System.Numerics.Vector3(20,0,0),1.2f,1);
+        var far=DuplexProjectileRules.SecondaryEndpoint(System.Numerics.Vector3.Zero,new System.Numerics.Vector3(40,0,0),1.2f,1);
+        Near(endpoint.X,20,"Duplex spread stays around the primary resolved trajectory");Near(far.Z,endpoint.Z*2,"Duplex dispersion grows with distance");
         Check(new DuplexProjectileExtension {secondarySpreadDegrees=float.NaN}.ConfigErrors().Any(),"Invalid duplex XML spread is rejected");
         Console.WriteLine("PASS: all 8 7.62x51 profiles, distinct projectiles, duplex count/spread and barrel-independent terminal damage.");
     }
