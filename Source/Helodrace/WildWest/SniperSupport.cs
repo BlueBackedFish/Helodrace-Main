@@ -4,6 +4,8 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
+using NativeVector3 = System.Numerics.Vector3;
+using NativeQuaternion = System.Numerics.Quaternion;
 
 namespace Helodrace
 {
@@ -685,40 +687,43 @@ namespace Helodrace
                 return;
             }
 
-            Vector3 start = trail.Source.ToVector3Shifted();
-            Vector3 end = trail.Impact.ToVector3Shifted();
-            start.y = AltitudeLayer.MoteOverhead.AltitudeFor();
-            end.y = start.y;
-            Vector3 delta = end - start;
-            float length = delta.magnitude;
+            NativeVector3 start = trail.Source.ToVector3Shifted().ToNative();
+            NativeVector3 end = trail.Impact.ToVector3Shifted().ToNative();
+            start.Y = AltitudeLayer.MoteOverhead.AltitudeFor();
+            end.Y = start.Y;
+            NativeVector3 delta = end - start;
+            float length = delta.Length();
             if (length <= 0.01f)
             {
                 return;
             }
 
-            Vector3 center = (start + end) * 0.5f;
-            float angle = Mathf.Atan2(delta.x, delta.z) * Mathf.Rad2Deg;
+            NativeVector3 center = (start + end) * 0.5f;
+            float angle = Mathf.Atan2(delta.X, delta.Z) * Mathf.Rad2Deg;
             DrawTrailLayer(center, angle, length, Mathf.Lerp(0.18f, 0.07f, trail.Progress), HelodSniperSupportUtility.TrailGlowMaterial);
             DrawTrailLayer(center, angle, length, Mathf.Lerp(0.07f, 0.025f, trail.Progress), HelodSniperSupportUtility.TrailCoreMaterial);
         }
 
-        private static void DrawTrailLayer(Vector3 center, float angle, float length, float width, Material material)
+        private static void DrawTrailLayer(NativeVector3 center, float angle, float length, float width, Material material)
         {
-            Matrix4x4 matrix = Matrix4x4.TRS(center, Quaternion.AngleAxis(angle, Vector3.up), new Vector3(width, 1f, length));
-            Graphics.DrawMesh(MeshPool.plane10, matrix, material, 0);
+            var matrix = SpatialMath.CreateTransform(center,
+                NativeQuaternion.CreateFromAxisAngle(NativeVector3.UnitY, angle * Mathf.Deg2Rad),
+                new NativeVector3(width, 1f, length));
+            Graphics.DrawMesh(MeshPool.plane10, matrix.ToGame(), material, 0);
         }
 
         private static void DrawAimIcon(SniperSupportEffect effect)
         {
             Thing target = effect.Target;
-            Vector3 pos = target.DrawPos;
-            pos.y = AltitudeLayer.MoteOverhead.AltitudeFor();
+            NativeVector3 pos = target.DrawPos.ToNative();
+            pos.Y = AltitudeLayer.MoteOverhead.AltitudeFor();
             float progress = effect.Progress;
             float eased = 1f - Mathf.Pow(1f - progress, 3f);
             float angle = Mathf.Lerp(0f, 450f, eased);
             float scale = Mathf.Lerp(1.15f, 0.85f, Mathf.SmoothStep(0f, 1f, progress));
-            Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.AngleAxis(angle, Vector3.up), Vector3.one * scale);
-            Graphics.DrawMesh(MeshPool.plane10, matrix, HelodSniperSupportUtility.AimMaterial, 0);
+            var matrix = SpatialMath.CreateTransform(pos,
+                NativeQuaternion.CreateFromAxisAngle(NativeVector3.UnitY, angle * Mathf.Deg2Rad), NativeVector3.One * scale);
+            Graphics.DrawMesh(MeshPool.plane10, matrix.ToGame(), HelodSniperSupportUtility.AimMaterial, 0);
         }
     }
 

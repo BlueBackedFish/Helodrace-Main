@@ -4,6 +4,9 @@ using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.Sound;
+using Waylith.Math;
+using Color = UnityEngine.Color;
+using NativeVector3 = System.Numerics.Vector3;
 
 namespace Helodrace.ModernWar
 {
@@ -340,7 +343,7 @@ namespace Helodrace.ModernWar
             Pawn firingPawn = Launcher as Pawn;
             Pawn hitPawn = !blockedByShield ? hitThing as Pawn : null;
             CompZaperX26 zaperComp = equipment?.TryGetComp<CompZaperX26>();
-            float impactAngle = ExactRotation.eulerAngles.y;
+            float impactAngle = ExactRotation.ToNative().eulerAngles.Y;
             Thing intendedThing = intendedTarget.Thing;
             ThingDef sourceWeaponDef = equipmentDef;
 
@@ -382,26 +385,26 @@ namespace Helodrace.ModernWar
                 return;
             }
 
-            DrawSaggingWire(pawn.DrawPos, probePosition, 0f, WireWidth);
+            DrawSaggingWire(pawn.DrawPos.ToNative(), probePosition.ToNative(), 0f, WireWidth);
         }
 
-        internal static void DrawSaggingWire(Vector3 start, Vector3 end, float lateralOffset, float width)
+        internal static void DrawSaggingWire(NativeVector3 start, NativeVector3 end, float lateralOffset, float width)
         {
-            Vector3 direction = end - start;
-            Vector3 lateral = direction.sqrMagnitude > 0.001f
-                ? new Vector3(-direction.z, 0f, direction.x).normalized * lateralOffset
-                : Vector3.zero;
+            NativeVector3 direction = end - start;
+            NativeVector3 lateral = direction.LengthSquared() > 0.001f
+                ? new NativeVector3(-direction.Z, 0f, direction.X).normalized * lateralOffset
+                : NativeVector3.Zero;
             start += lateral;
             end += lateral;
 
             float altitude = AltitudeLayer.MoteOverhead.AltitudeFor();
-            start.y = altitude;
-            end.y = altitude;
-            Vector3 midpoint = Vector3.Lerp(start, end, 0.5f);
-            midpoint.z -= Mathf.Min(0.12f, Vector3.Distance(start, end) * 0.014f);
+            start.Y = altitude;
+            end.Y = altitude;
+            NativeVector3 midpoint = SpatialMath.Interpolate(start, end, 0.5f);
+            midpoint.Z -= Mathf.Min(0.12f, NativeVector3.Distance(start, end) * 0.014f);
 
-            GenDraw.DrawLineBetween(start, midpoint, WireMaterial, width);
-            GenDraw.DrawLineBetween(midpoint, end, WireMaterial, width);
+            GenDraw.DrawLineBetween(start.ToGame(), midpoint.ToGame(), WireMaterial, width);
+            GenDraw.DrawLineBetween(midpoint.ToGame(), end.ToGame(), WireMaterial, width);
         }
     }
 
@@ -498,8 +501,8 @@ namespace Helodrace.ModernWar
                 return;
             }
 
-            Vector3 start = launcher.DrawPos;
-            Vector3 end = target.DrawPos;
+            NativeVector3 start = launcher.DrawPos.ToNative();
+            NativeVector3 end = target.DrawPos.ToNative();
             Projectile_ZaperX26Probe.DrawSaggingWire(start, end, -0.045f, ActiveWireWidth);
             Projectile_ZaperX26Probe.DrawSaggingWire(start, end, 0.045f, ActiveWireWidth);
         }
