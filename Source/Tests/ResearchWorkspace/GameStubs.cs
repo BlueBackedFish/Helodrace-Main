@@ -139,7 +139,7 @@ namespace Helodrace.ResearchUI
         public static int Calls;
         public static IResearchWorkspaceHost LastHost;
         public static ResearchWorkspaceView For(Verse.Window window) => new ResearchWorkspaceView();
-        public void Draw(UnityEngine.Rect rect, IResearchWorkspaceHost host, Verse.Window window) { Calls++; LastHost = host; }
+        public void Draw(Waylith.Math.Rect rect, IResearchWorkspaceHost host, Verse.Window window) { Calls++; LastHost = host; }
     }
 }
 namespace UnityEngine
@@ -150,5 +150,15 @@ namespace UnityEngine
         public float xMax { get => x + width; set => width = value - x; }
         public float yMin { get => y; set { height += y - value; y = value; } }
         public Rect ContractedBy(float value) => this;
+    }
+}
+namespace Helodrace
+{
+    internal static class ResearchTestBoundary
+    {
+        internal static Waylith.Math.Rect ToNative(this UnityEngine.Rect value)
+            => new(value.x,value.y,value.width,value.height);
+        internal static UnityEngine.Rect ToGame(this Waylith.Math.Rect value)
+            => new() { x=value.x,y=value.y,width=value.width,height=value.height };
     }
 }

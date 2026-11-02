@@ -54,9 +54,8 @@ namespace Helodrace.ResearchUI
         private int panControl;
         private const float NodeWidth = 180, ColumnWidth = 400, RowGap = 96;
 
-        public void Draw(UnityEngine.Rect gameRect, IResearchWorkspaceHost host, Window window)
+        public void Draw(Rect rect, IResearchWorkspaceHost host, Window window)
         {
-            Rect rect = gameRect.ToNative();
             GameFont font = Text.Font;
             TextAnchor anchor = Text.Anchor;
             Color color = GUI.color.ToNative();

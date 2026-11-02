@@ -38,6 +38,7 @@ internal static class ResearchWindowCompatibility
    return (bool)host.GetType().GetMethod("IsActive").Invoke(host,new object[]{window});
   }
  }
- internal static bool TryDraw(Window window,Rect rect)=>global::Helodrace.ResearchUI.ResearchWindowCompatibility.TryDraw(window,rect);
+ internal static bool TryDraw(Window window,Rect rect)=>global::Helodrace.ResearchUI.ResearchWindowCompatibility.TryDraw(window,
+  new Waylith.Math.Rect(rect.x,rect.y,rect.width,rect.height));
 }
 }

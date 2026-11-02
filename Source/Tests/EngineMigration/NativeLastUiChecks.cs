@@ -41,8 +41,8 @@ namespace Helodrace.Tests
             if(!lastUiActive||!active)return true;lastTabCalls++;Add("tabs-overflow",__0,null,__1.Count,__2,__3);
             if(lastClickAway)AccessTools.Field(typeof(MainTabWindow_Research),"curTabInt").SetValue(lastResearchWindow,ResearchTabDefOf.Main);__result=null;return false;
         }
-        private static bool LastCanvas(Window __0,GR __1,ref bool __result)
-        {if(!lastUiActive||!active)return true;if(__0!=lastResearchWindow)throw new InvalidOperationException("Research viewport delivered to wrong window.");lastCanvasCalls++;Add("research-canvas",__1);__result=lastCanvasAccepted;return false;}
+        private static bool LastCanvas(Window __0,Waylith.Math.Rect __1,ref bool __result)
+        {if(!lastUiActive||!active)return true;if(__0!=lastResearchWindow)throw new InvalidOperationException("Research viewport delivered to wrong window.");lastCanvasCalls++;Add("research-canvas",new GR(__1.x,__1.y,__1.width,__1.height));__result=lastCanvasAccepted;return false;}
         private static float LastOverflowBoundary(GR rect,List<TabRecord> tabs,float min,float max)
         {float result=0;return LastOverflow(rect,tabs,min,max,ref result)?TabDrawer.GetOverflowTabHeight(rect,tabs,min,max):result;}
         private static TabRecord LastTabsBoundary(GR rect,List<TabRecord> tabs,float min,float max)

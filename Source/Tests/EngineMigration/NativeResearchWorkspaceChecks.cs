@@ -138,7 +138,7 @@ namespace Helodrace.Tests
                                 ah.Selection = eh.Selection = selected;
                                 foreach (object v in new[] { a, e }) { Set(v, "zoom", z); Set(v, "page", page); Set(v, "edgeKey", null); ((IDictionary)Get(v, "canvasStyles")).Clear(); }
                                 SetResearchScroll(a, e, "scroll", scroll); SetResearchScroll(a, e, "detailScroll", new GV(float.Epsilon, -0f));
-                                ResearchFrame(() => ((ResearchWorkspaceView)a).Draw(rect, ah, window), () => ((FrozenResearch.ResearchWorkspaceView)e).Draw(rect, eh, window)); ResearchState(a, e); researchDraws++;
+                                ResearchFrame(() => ((ResearchWorkspaceView)a).Draw(new NR(rect.x,rect.y,rect.width,rect.height), ah, window), () => ((FrozenResearch.ResearchWorkspaceView)e).Draw(rect, eh, window)); ResearchState(a, e); researchDraws++;
                             }
             // Exercise current node actions through the same host contract the real view uses.
             foreach (bool select in new[] { false, true })

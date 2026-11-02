@@ -92,16 +92,16 @@ internal static partial class Program
             && ResearchWorkspaceView.Calls == draws + 1, "Only the Helod graph area is replaced");
         MainButtonDefOf.Research.tabWindowClass = typeof(ForeignWindow);
         Check(ResearchWindowCompatibility.ExternalQueueOwnsResearch, "Unknown replacement window disables the native queue");
-        Check(!ResearchWindowCompatibility.TryDraw(new ForeignWindow(), new UnityEngine.Rect()), "Unknown replacement UI falls back safely");
+        Check(!ResearchWindowCompatibility.TryDraw(new ForeignWindow(), new Waylith.Math.Rect()), "Unknown replacement UI falls back safely");
         Check(ResearchWorkspaceWindowPatch.Prefix(vanilla, new UnityEngine.Rect(), 1000), "Replacement main button prevents vanilla interception");
         var host = new ForeignHost(); ResearchWindowCompatibility.Register(host);
-        Check(ResearchWindowCompatibility.TryDraw(new ForeignWindow(), new UnityEngine.Rect())
+        Check(ResearchWindowCompatibility.TryDraw(new ForeignWindow(), new Waylith.Math.Rect())
             && ReferenceEquals(ResearchWorkspaceView.LastHost, host), "A registered replacement uses its own host bridge");
         Check(ResearchWindowCompatibility.ExternalQueueOwnsResearch, "Registered foreign queue remains in charge");
         host.OwnsResearchQueue = false;
         Check(!ResearchWindowCompatibility.ExternalQueueOwnsResearch, "A registered renderer may explicitly retain the native queue");
         var replacement = new ForeignHost(); ResearchWindowCompatibility.Register(replacement);
-        ResearchWindowCompatibility.TryDraw(new ForeignWindow(), new UnityEngine.Rect());
+        ResearchWindowCompatibility.TryDraw(new ForeignWindow(), new Waylith.Math.Rect());
         Check(ReferenceEquals(ResearchWorkspaceView.LastHost, replacement), "Re-registering the same adapter ID replaces it");
     }
     private static ResearchLine Line(float ax, float ay, float bx, float by) =>

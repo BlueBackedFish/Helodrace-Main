@@ -55,7 +55,7 @@ namespace Helodrace.ResearchUI
             }
         }
 
-        public static bool TryDraw(Window window, Rect viewport)
+        public static bool TryDraw(Window window, NativeRect viewport)
         {
             var host = hosts.FirstOrDefault(candidate => candidate.IsActive(window));
             if (host == null && Vanilla.IsActive(window)) host = Vanilla;
@@ -129,7 +129,7 @@ namespace Helodrace.ResearchUI
             TabDrawer.DrawTabsOverflow(header.ToGame(), tabs, 100f, 200f);
             // A tab click may have switched away while drawing the shared tab strip.
             if (__instance.CurTab?.defName == "HelodTechTab")
-                return !ResearchWindowCompatibility.TryDraw(__instance, UiMath.Inset(viewport, 8).ToGame());
+                return !ResearchWindowCompatibility.TryDraw(__instance, UiMath.Inset(viewport, 8));
             return false;
         }
     }
