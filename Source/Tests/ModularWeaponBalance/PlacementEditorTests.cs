@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using Helodrace.ModernWar;
 using UnityEngine;
 using Verse;
+using NativeVector2 = System.Numerics.Vector2;
 
 internal static class PlacementEditorTests
 {
@@ -60,13 +61,13 @@ internal static class PlacementEditorTests
         var rotated=Node("MoveB",202,new CompProperties_ModularWeaponNode());
         moving.transform=new ModularTransform2D {scale=new System.Numerics.Vector2(.5f,.5f)};
         rotated.transform=new ModularTransform2D {angle=90,scale=new System.Numerics.Vector2(2f,-.25f)};
-        Vector2 delta=new Vector2(.12f,-.07f);
+        NativeVector2 delta=new NativeVector2(.12f,-.07f);
         var move=Editor.GetMethod("MoveGraphics",Static);
         move.Invoke(null,new object[]{new List<ModularRenderNode>{moving,rotated},delta});
         foreach(var node in new[]{moving,rotated})
         {
             var actual=node.transform.TransformPoint(node.Props.graphicOffset.ToNative())-node.transform.position;
-            check((actual-delta.ToNative()).LengthSquared()<.000001f,"Group graphics move by identical screen-space distances across rotation, palette scale and mirroring");
+            check((actual-delta).LengthSquared()<.000001f,"Group graphics move by identical screen-space distances across rotation, palette scale and mirroring");
         }
         var duplicate=Node("MoveA",203,moving.Props);Vector3 before=moving.Props.graphicOffset;
         move.Invoke(null,new object[]{new List<ModularRenderNode>{moving,duplicate},delta});
@@ -110,14 +111,14 @@ internal static class PlacementEditorTests
         foreach(string field in new[]{"views","numericBuffers","textBuffers","undoHistory"})
             Set(dialog,field,Activator.CreateInstance(Editor.GetField(field,Instance).FieldType));
         Set(dialog,"selectedPath","root");Set(dialog,"selectedPaths",new HashSet<string>{"root"});
-        Set(dialog,"zoom",3f);Set(dialog,"pan",new Vector2(8,9));
+        Set(dialog,"zoom",3f);Set(dialog,"pan",new NativeVector2(8,9));
         object undo=Field(dialog,"undoHistory");
         var change=Editor.GetMethod("SwitchWeapon",Instance);
         change.Invoke(dialog,new object[]{b.comp});
         check(ReferenceEquals(Field(dialog,"root"),b.comp),"In-editor weapon switch selects the next live weapon");
         check((float)Field(dialog,"zoom")==1,"A newly visited weapon gets a clean view");
         Set(dialog,"zoom",2f);change.Invoke(dialog,new object[]{a.comp});
-        check((float)Field(dialog,"zoom")==3 && (Vector2)Field(dialog,"pan")==new Vector2(8,9),"Returning to a weapon restores its view");
+        check((float)Field(dialog,"zoom")==3 && (NativeVector2)Field(dialog,"pan")==new NativeVector2(8,9),"Returning to a weapon restores its view");
         check(ReferenceEquals(undo,Field(dialog,"undoHistory")),"Undo history remains chronological across weapon switches");
         var select=Editor.GetMethod("SelectNode",Instance);
         select.Invoke(dialog,new object[]{child,false});select.Invoke(dialog,new object[]{a,true});
