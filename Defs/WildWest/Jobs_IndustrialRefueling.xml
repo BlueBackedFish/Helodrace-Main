@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ReservationLayerDef>
+    <defName>HD_IndustrialRefueling</defName>
+  </ReservationLayerDef>
+  <JobDef>
+    <defName>HD_RefuelIndustrialMachine</defName>
+    <driverClass>Helodrace.JobDriver_RefuelIndustrialMachine</driverClass>
+    <reportString>refueling TargetA.</reportString>
+  </JobDef>
+  <WorkGiverDef>
+    <defName>HD_RefuelIndustrialMachine</defName>
+    <label>refuel industrial machines</label>
+    <giverClass>Helodrace.WorkGiver_RefuelIndustrialMachine</giverClass>
+    <workType>Hauling</workType>
+    <priorityInType>150</priorityInType>
+    <verb>refuel</verb>
+    <gerund>refueling</gerund>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+    <prioritizeSustains>true</prioritizeSustains>
+  </WorkGiverDef>
+</Defs>

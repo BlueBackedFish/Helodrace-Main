@@ -138,9 +138,10 @@
         <sourceType>SteamEngine</sourceType>
       </li>
       <li Class="CompProperties_Flickable"/>
-      <li Class="CompProperties_Refuelable">
+      <li Class="Helodrace.CompProperties_IndustrialRefuelable">
         <fuelConsumptionRate>50.0</fuelConsumptionRate>
         <fuelCapacity>25.0</fuelCapacity>
+        <autoRefuelPercent>0.75</autoRefuelPercent>
         <fuelFilter>
           <thingDefs>
             <li>WoodLog</li>
@@ -225,9 +226,10 @@
         <sourceType>SteamEngine</sourceType>
       </li>
       <li Class="CompProperties_Flickable"/>
-      <li Class="CompProperties_Refuelable">
+      <li Class="Helodrace.CompProperties_IndustrialRefuelable">
         <fuelConsumptionRate>120.0</fuelConsumptionRate>
         <fuelCapacity>120.0</fuelCapacity>
+        <autoRefuelPercent>0.50</autoRefuelPercent>
         <fuelFilter>
           <thingDefs>
             <li>HD_Charcoal</li>
@@ -310,9 +312,10 @@
         <sourceType>Engine</sourceType>
       </li>
       <li Class="CompProperties_Flickable"/>
-      <li Class="CompProperties_Refuelable">
+      <li Class="Helodrace.CompProperties_IndustrialRefuelable">
         <fuelConsumptionRate>40.0</fuelConsumptionRate>
         <fuelCapacity>80.0</fuelCapacity>
+        <autoRefuelPercent>0.40</autoRefuelPercent>
         <fuelFilter>
           <thingDefs>
             <li>HD_Diesel</li>
@@ -616,9 +619,10 @@
     </inspectorTabs>  
     <comps>
       <li Class="CompProperties_Flickable"/>
-      <li Class="CompProperties_Refuelable">
+      <li Class="Helodrace.CompProperties_IndustrialRefuelable">
         <fuelConsumptionRate>200.0</fuelConsumptionRate>
         <fuelCapacity>50.0</fuelCapacity>
+        <autoRefuelPercent>0.75</autoRefuelPercent>
         <fuelFilter>
           <thingDefs>
             <li>WoodLog</li>
@@ -700,9 +704,10 @@
         <basePowerConsumption>2500</basePowerConsumption>
       </li>
       <li Class="CompProperties_Flickable"/>
-      <li Class="CompProperties_Refuelable">
+      <li Class="Helodrace.CompProperties_IndustrialRefuelable">
         <fuelConsumptionRate>10.0</fuelConsumptionRate>
         <fuelCapacity>50.0</fuelCapacity>
+        <autoRefuelPercent>0.40</autoRefuelPercent>
         <fuelFilter>
           <thingDefs>
             <li>HD_Diesel</li>
@@ -1318,9 +1323,10 @@
         </linkableFacilities>
       </li>
       <li Class="CompProperties_Flickable"/>
-      <li Class="CompProperties_Refuelable">
+      <li Class="Helodrace.CompProperties_IndustrialRefuelable">
         <fuelConsumptionRate>400.0</fuelConsumptionRate>
         <fuelCapacity>100.0</fuelCapacity>
+        <autoRefuelPercent>0.75</autoRefuelPercent>
         <fuelFilter>
           <categories>
             <li>HD_BlastFurnaceFuel</li>

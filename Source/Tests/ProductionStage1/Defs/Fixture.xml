@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <HediffDef>
+    <defName>HD_TestSlowLabor</defName>
+    <label>controlled slow labor fixture</label>
+    <description>A test-only labor-speed factor used to verify production across fuel exhaustion.</description>
+    <hediffClass>Hediff</hediffClass>
+    <isBad>false</isBad>
+    <stages><li><statFactors><GeneralLaborSpeed>0.25</GeneralLaborSpeed></statFactors></li></stages>
+  </HediffDef>
+</Defs>

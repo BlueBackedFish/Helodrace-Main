@@ -11,7 +11,7 @@ using Verse.AI;
 
 namespace Helodrace.Tests.ProductionStage1;
 
-public sealed class Checks : GameComponent
+public sealed partial class Checks : GameComponent
 {
     private bool complete;
     private string output;
@@ -20,6 +20,7 @@ public sealed class Checks : GameComponent
     private IEnumerator<int> steps;
     private int remainingTicks;
     private bool started;
+    private Action sampleTick;
     private Building_WorkTable mechanicalTable;
     private WorkGiver_DoBill mechanicalGiver;
     private Bill_Production mechanicalBill;
@@ -35,7 +36,13 @@ public sealed class Checks : GameComponent
             Directory.CreateDirectory(output);
             File.WriteAllText(Path.Combine(output, "checks.txt"), "Actual RimWorld 1.7 production checks\n");
             map = Find.CurrentMap;
-            foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned.ToList()) pawn.drafter.Drafted = true;
+            ConfigureFixture();
+            foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned.Where(p => p.Faction != Faction.OfPlayer).ToList()) pawn.DeSpawn();
+            foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned.ToList())
+            {
+                EnsureBodyType(pawn);
+                pawn.drafter.Drafted = true;
+            }
             foreach (IntVec3 cell in CellRect.CenteredOn(map.Center, 30))
             {
                 foreach (Thing thing in cell.GetThingList(map).ToList())
@@ -47,21 +54,28 @@ public sealed class Checks : GameComponent
                 map.terrainGrid.SetTerrain(cell, TerrainDefOf.Concrete);
                 map.roofGrid.SetRoof(cell, null);
                 map.fogGrid.Unfog(cell);
+                map.areaManager.Home[cell] = true;
             }
-            worker = PawnGenerator.GeneratePawn(new PawnGenerationRequest(DefDatabase<PawnKindDef>.GetNamed("HD_WW_HelodColonist"), Faction.OfPlayer,
-                canGeneratePawnRelations: false, fixedBiologicalAge: 25, fixedChronologicalAge: 25));
+            var request = new PawnGenerationRequest(DefDatabase<PawnKindDef>.GetNamed("HD_WW_HelodColonist"), Faction.OfPlayer,
+                canGeneratePawnRelations: false, fixedBiologicalAge: 25, fixedChronologicalAge: 25);
+            request.ForceNoBackstory = true;
+            worker = PawnGenerator.GeneratePawn(request);
+            EnsureBodyType(worker);
             GenSpawn.Spawn(worker, map.Center + new IntVec3(0, 0, -8), map);
+            worker.playerSettings.hostilityResponse = HostilityResponseMode.Ignore;
             worker.workSettings.EnableAndInitialize();
             worker.workSettings.SetPriority(WorkTypeDefOf.Crafting, 1);
             worker.workSettings.SetPriority(DefDatabase<WorkTypeDef>.GetNamed("Tailoring"), 1);
             worker.workSettings.SetPriority(WorkTypeDefOf.Hauling, 2);
+            for (int hour = 0; hour < 24; hour++) worker.timetable.SetAssignment(hour, TimeAssignmentDefOf.Work);
             foreach (SkillRecord skill in worker.skills.skills) skill.Level = 12;
-            Snapshot();
+            bool fuelOnly = GenCommandLine.TryGetCommandLineArg("hdProductionFuelOnly", out _);
+            if (!fuelOnly) Snapshot();
             if (GenCommandLine.TryGetCommandLineArg("hdProductionBaseline", out _)) Finish();
             else
             {
                 Find.TickManager.Pause();
-                steps = WorktableJobs().GetEnumerator();
+                steps = (fuelOnly ? FuelJobs() : AllJobs()).GetEnumerator();
             }
         }
         catch (Exception error)
@@ -80,12 +94,24 @@ public sealed class Checks : GameComponent
             if (remainingTicks == 0)
             {
                 if (!steps.MoveNext()) { Finish(); return; }
+                if (loadRequested)
+                {
+                    loadRequested = false;
+                    steps = null;
+                    GameDataSaveLoader.LoadGame("ProductionStage1Roundtrip");
+                    return;
+                }
                 remainingTicks = steps.Current;
             }
             int batch = Math.Min(remainingTicks, 200);
-            for (int i = 0; i < batch; i++) Find.TickManager.DoSingleTick();
+            for (int i = 0; i < batch; i++)
+            {
+                Find.TickManager.DoSingleTick();
+                sampleTick?.Invoke();
+            }
             remainingTicks -= batch;
-            foreach (Need need in worker.needs.AllNeeds) need.CurLevel = need.MaxLevel;
+            foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)
+                foreach (Need need in pawn.needs.AllNeeds) need.CurLevel = need.MaxLevel;
         }
         catch (Exception error)
         {
@@ -96,11 +122,35 @@ public sealed class Checks : GameComponent
         }
     }
 
+    private IEnumerable<int> AllJobs()
+    {
+        foreach (int ticks in WorktableJobs()) yield return ticks;
+        foreach (int ticks in FuelJobs()) yield return ticks;
+    }
+
     private void Finish()
     {
         complete = true;
         Write("COMPLETE");
         Waylith.EngineApplication.Instance.Quit(0);
+    }
+
+    private static void ConfigureFixture()
+    {
+        DebugSettings.noAnimals = true;
+        DebugSettings.enableRandomMentalStates = false;
+        Find.Storyteller.difficulty.allowBigThreats = false;
+        Find.Storyteller.difficulty.allowIntroThreats = false;
+        Find.Storyteller.difficulty.allowExtremeWeatherIncidents = false;
+        Find.Storyteller.difficulty.diseaseIntervalFactor = 100000f;
+    }
+
+    private static void EnsureBodyType(Pawn pawn)
+    {
+        // ForceNoBackstory leaves this required renderer input unset in the
+        // current host. The fixture must still provide a valid pawn body type.
+        if (pawn.story != null && pawn.story.bodyType == null)
+            pawn.story.bodyType = pawn.gender == Gender.Female ? BodyTypeDefOf.Female : BodyTypeDefOf.Male;
     }
 
     private void Snapshot()
@@ -203,6 +253,12 @@ public sealed class Checks : GameComponent
         while (bill.repeatCount > 0 && waited < 12000) { waited += 120; yield return 120; }
         Check(bill.repeatCount == 0 && map.listerThings.ThingsOfDef(recipe.ProducedThingDef).Count == 1,
             "clothing worktable completes the actual garment");
+        int beforeAutomatic = CountPhysical(recipe.ProducedThingDef);
+        Bill_Production automaticBill = AddBillAndIngredients(clothing, recipe);
+        waited = 0;
+        while (automaticBill.repeatCount > 0 && waited < 12000) { waited += 120; yield return 120; }
+        Check(automaticBill.repeatCount == 0 && CountPhysical(recipe.ProducedThingDef) == beforeAutomatic + 1,
+            "normal pawn work scheduling completes another garment without an ordered job");
 
         var preset = DefDatabase<ModularArmorPresetDef>.GetNamed("HD_ArmorPreset_IBTV_Rifleman");
         var apparel = (Apparel)ThingMaker.MakeThing(preset.armorDef, GenStuff.DefaultStuffFor(preset.armorDef));
