@@ -426,6 +426,7 @@ namespace Helodrace.Tests
                 else if (mode == "native-power-cutter") NativePowerCutterChecks.Run(output, Check);
                 else if (mode == "native-trajectory") NativeTrajectoryChecks.Run(output, Check);
                 else if (mode == "native-render-offsets") NativeRenderOffsetChecks.Run(output, Check);
+                else if (mode == "native-snapshot") NativeSnapshotChecks.Run(output, Check);
                 else if (mode == "native-turret-graphics") NativeTurretGraphicChecks.Run(output, Check);
                 else if (mode == "native-smoke") NativeSmokeChecks.Run(output, Check);
                 else if (mode == "native-howitzer") NativeHowitzerChecks.Run(output, Check);

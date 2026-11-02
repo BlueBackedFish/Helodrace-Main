@@ -389,7 +389,7 @@ internal static partial class Program
                 if(socket.isRail){effective.angle=0;effective.position.x+=offset;}
                 float ratio=Palette(childDef)/Palette(parentDef);
                 if(mount.UsesOppositeSurface(socket)) effective.position+=mount.oppositeSurfaceOffset*ratio;
-                child.transform=parent.transform.Attach(effective.ToNativePose(),mount.EffectiveTransform(socket).ToNativePose(),child.Props.graphicAngle,ratio);
+                child.transform=parent.transform.Attach(effective.ToNativePose(),mount.EffectiveTransform(socket),child.Props.graphicAngle,ratio);
                 child.railOffset=offset;child.parentComp=parent.comp;child.parentSocketId=socketId;child.mountId=mount.id;child.attachedToRail=socket.isRail;
                 float half=mount.EffectivePhysicalLength*ratio*.5f;
                 var left=socket.transform.position;var right=left;

@@ -297,12 +297,13 @@ namespace Helodrace.ModernWar
                 && railSurface != socket.railSurface;
         }
 
-        public ModularAttachmentTransform EffectiveTransform(
+        public ModularAttachmentPose EffectiveTransform(
             ModularAttachmentSocket socket)
         {
-            ModularAttachmentTransform result = transform?.Clone()
-                ?? new ModularAttachmentTransform();
-            if (UsesOppositeSurface(socket)) result.scale.y *= -1f;
+            ModularAttachmentPose result = transform?.ToNativePose()
+                ?? ModularAttachmentPose.Identity;
+            if (UsesOppositeSurface(socket))
+                result = result with { scale = new System.Numerics.Vector2(result.scale.X, result.scale.Y * -1f) };
             return result;
         }
 

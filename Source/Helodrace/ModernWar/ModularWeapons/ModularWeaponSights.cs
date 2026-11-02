@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Vector2 = System.Numerics.Vector2;
+using Vector3 = System.Numerics.Vector3;
 using Verse;
 
 namespace Helodrace.ModernWar
@@ -177,13 +178,13 @@ namespace Helodrace.ModernWar
                 ModularRenderNode node = nodes[i];
                 ModularWeaponSightProperties sight = node.Props.sight;
                 if (sight == null || sight.sightClearanceRadius <= 0f) continue;
-                Vector3 local = node.Props.graphicOffset + sight.axisOffset;
+                Vector3 local = node.Props.graphicOffset.ToNative() + sight.axisOffset.ToNative();
                 result.Add(new SightRecord
                 {
                     node = node,
                     props = sight,
                     weaponOwner = WeaponOwner(node, nodes, root),
-                    axis = node.transform.TransformPoint(local.ToNative()),
+                    axis = node.transform.TransformPoint(local),
                     mountSurface = ModularWeaponPartPerformance.MountSurface(
                         node, nodes)
                 });
@@ -213,18 +214,18 @@ namespace Helodrace.ModernWar
                 ModularRenderNode node = nodes[i];
                 float height = node.Props.verticalOccupancy;
                 if (height <= 0f) continue;
-                Vector3 low = node.Props.graphicOffset + new Vector3(
+                Vector3 low = node.Props.graphicOffset.ToNative() + new Vector3(
                     0f, 0f, node.Props.verticalOccupancyOffset - height * 0.5f);
-                Vector3 high = node.Props.graphicOffset + new Vector3(
+                Vector3 high = node.Props.graphicOffset.ToNative() + new Vector3(
                     0f, 0f, node.Props.verticalOccupancyOffset + height * 0.5f);
-                Vector2 a = node.transform.TransformPoint(low.ToNative());
-                Vector2 b = node.transform.TransformPoint(high.ToNative());
+                Vector2 a = node.transform.TransformPoint(low);
+                Vector2 b = node.transform.TransformPoint(high);
                 float centerX = (a.X + b.X) * 0.5f;
                 if (node.Props.sight != null)
                 {
-                    Vector3 axisLocal = node.Props.graphicOffset
-                        + node.Props.sight.axisOffset;
-                    centerX = node.transform.TransformPoint(axisLocal.ToNative()).X;
+                    Vector3 axisLocal = node.Props.graphicOffset.ToNative()
+                        + node.Props.sight.axisOffset.ToNative();
+                    centerX = node.transform.TransformPoint(axisLocal).X;
                 }
                 else if (node.attachedToRail)
                 {

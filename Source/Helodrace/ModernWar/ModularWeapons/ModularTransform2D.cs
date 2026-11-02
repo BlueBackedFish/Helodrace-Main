@@ -3,7 +3,10 @@ using System.Numerics;
 namespace Helodrace.ModernWar
 {
     // Immutable input copied once from XML authoring data at snapshot creation.
-    public readonly record struct ModularAttachmentPose(Vector3 position, float angle, Vector2 scale, float layer);
+    public readonly record struct ModularAttachmentPose(Vector3 position, float angle, Vector2 scale, float layer)
+    {
+        public static ModularAttachmentPose Identity => new(Vector3.Zero, 0f, Vector2.One, 0f);
+    }
 
     public struct ModularTransform2D
     {

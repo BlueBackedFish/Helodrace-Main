@@ -5,6 +5,7 @@ using RimWorld;
 using UnityEngine;
 using Vector2 = System.Numerics.Vector2;
 using Verse;
+using NativeVector3 = System.Numerics.Vector3;
 
 namespace Helodrace.ModernWar
 {
@@ -1321,18 +1322,20 @@ namespace Helodrace.ModernWar
                 ModularAttachmentMount mount = childComp?.Props.MountNamed(childMountIds[i]);
                 if (childComp == null || socket == null || mount == null) continue;
 
-                ModularAttachmentTransform effectiveSocket = socket.transform?.Clone()
-                    ?? new ModularAttachmentTransform();
+                ModularAttachmentPose effectiveSocket = socket.transform?.ToNativePose()
+                    ?? ModularAttachmentPose.Identity;
+                NativeVector3 socketPosition = effectiveSocket.position;
                 if (socket.isRail)
                 {
-                    effectiveSocket.angle = 0f;
-                    effectiveSocket.position.x += childRailOffsets[i];
+                    effectiveSocket = effectiveSocket with { angle = 0f };
+                    socketPosition.X += childRailOffsets[i];
                 }
                 bool oppositeSurface = mount.UsesOppositeSurface(socket);
                 float childPaletteRatio = PaletteRatioFor(childComp);
                 if (oppositeSurface)
-                    effectiveSocket.position += mount.oppositeSurfaceOffset
+                    socketPosition += mount.oppositeSurfaceOffset.ToNative()
                         * childPaletteRatio;
+                effectiveSocket = effectiveSocket with { position = socketPosition };
                 bool childAttachedToRail = socket.isRail;
                 Vector2 childRailStart = Vector2.Zero;
                 Vector2 childRailEnd = Vector2.Zero;
@@ -1340,29 +1343,29 @@ namespace Helodrace.ModernWar
                 Vector2 childOccupiedEnd = Vector2.Zero;
                 if (childAttachedToRail)
                 {
-                    Vector3 left = socket.transform.position;
-                    Vector3 right = socket.transform.position;
-                    left.x -= socket.railLength * 0.5f;
-                    right.x += socket.railLength * 0.5f;
-                    childRailStart = transform.TransformPoint(left.ToNative());
-                    childRailEnd = transform.TransformPoint(right.ToNative());
+                    NativeVector3 left = socket.transform.position.ToNative();
+                    NativeVector3 right = socket.transform.position.ToNative();
+                    left.X -= socket.railLength * 0.5f;
+                    right.X += socket.railLength * 0.5f;
+                    childRailStart = transform.TransformPoint(left);
+                    childRailEnd = transform.TransformPoint(right);
 
                     float occupiedHalf = Mathf.Max(0f,
                         mount.EffectivePhysicalLength * childPaletteRatio) * 0.5f;
-                    left = socket.transform.position;
-                    right = socket.transform.position;
-                    left.x += childRailOffsets[i]
+                    left = socket.transform.position.ToNative();
+                    right = socket.transform.position.ToNative();
+                    left.X += childRailOffsets[i]
                         + mount.physicalCenterOffset * childPaletteRatio
                         - occupiedHalf;
-                    right.x += childRailOffsets[i]
+                    right.X += childRailOffsets[i]
                         + mount.physicalCenterOffset * childPaletteRatio
                         + occupiedHalf;
-                    childOccupiedStart = transform.TransformPoint(left.ToNative());
-                    childOccupiedEnd = transform.TransformPoint(right.ToNative());
+                    childOccupiedStart = transform.TransformPoint(left);
+                    childOccupiedEnd = transform.TransformPoint(right);
                 }
                 ModularTransform2D childTransform = transform.Attach(
-                    effectiveSocket.ToNativePose(),
-                    mount.EffectiveTransform(socket).ToNativePose(),
+                    effectiveSocket,
+                    mount.EffectiveTransform(socket),
                     childComp.Props.graphicAngle,
                     childPaletteRatio);
                 childComp.BuildSnapshotRecursive(
