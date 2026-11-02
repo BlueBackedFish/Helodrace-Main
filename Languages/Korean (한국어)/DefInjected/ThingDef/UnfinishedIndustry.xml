@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_UnfinishedIndustrialBatch.label>미완성 산업 부품 배치</HD_UnfinishedIndustrialBatch.label>
+  <HD_UnfinishedIndustrialBatch.description>가공이나 조립 중인 산업 부품 배치입니다. 작업이 중단돼도 투입 재료와 진행량을 보존합니다.</HD_UnfinishedIndustrialBatch.description>
+</LanguageData>

@@ -23,7 +23,7 @@ public sealed partial class Checks
             engine.TryGetComp<CompRefuelable>().Refuel(25f);
         yield return 120;
         Check(mechanical.HasPower, "loaded engine and shaft recover mechanical power");
-        Bill_Production mechanicalBill = AddBillAndIngredients(lathe, DefDatabase<RecipeDef>.GetNamed("HD_TurnGeneralMachinePart"));
+        Bill_Production mechanicalBill = AddBillAndIngredients(lathe, DefDatabase<RecipeDef>.GetNamed("HD_MakeShaft"));
         int before = CountPhysical(mechanicalBill.recipe.ProducedThingDef);
         for (int waited = 0; mechanicalBill.repeatCount > 0 && waited < 8000; waited += 120)
         {

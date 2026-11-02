@@ -16,6 +16,10 @@ public sealed partial class Checks : GameComponent
     private Map map;
     private Pawn worker;
     private Building_WorkTable reactor;
+    private Building_WorkTable componentBench;
+    private float savedComponentWork;
+    private int savedComponentIngredients;
+    private Dictionary<ThingDef, int> componentRawAtPause;
     private int stage, remaining;
     private IEnumerator<int> steps;
     private static Map fixtureMap;
@@ -31,6 +35,23 @@ public sealed partial class Checks : GameComponent
         Scribe_Values.Look(ref stage, "industryStage3", 0);
         Scribe_References.Look(ref worker, "industryWorker");
         Scribe_References.Look(ref reactor, "industryReactor");
+        Scribe_References.Look(ref componentBench, "componentBench");
+        Scribe_Values.Look(ref savedComponentWork, "componentWork", 0f);
+        Scribe_Values.Look(ref savedComponentIngredients, "componentIngredients", 0);
+        Scribe_Collections.Look(ref componentRawAtPause, "componentRawAtPause", LookMode.Def, LookMode.Value);
+    }
+    public override void LoadedGame()
+    {
+        if (stage != 2 || !GenCommandLine.TryGetCommandLineArg("hdIndustryStage3", out output)) return;
+        try
+        {
+            var bill = componentBench.BillStack.Bills.OfType<Bill_ProductionWithUft>().Single(b => b.repeatCount > 0);
+            Check(bill.BoundUft != null && bill.BoundUft.workLeft == savedComponentWork
+                && bill.BoundUft.ingredients.Sum(t => t.stackCount) == savedComponentIngredients
+                && bill.BoundUft.Creator == worker,
+                "Actual component save/load preserves exact work, ingredients and maker before the first tick");
+        }
+        catch (Exception error) { Fail(error); }
     }
     private void Write(string text) => File.AppendAllText(Path.Combine(output, "checks.txt"), text + "\n");
     private void Check(bool ok, string text)
@@ -55,6 +76,8 @@ public sealed partial class Checks : GameComponent
                 climatePatched = true;
             }
             Find.TickManager.Pause();
+            DebugSettings.enableStoryteller = false;
+            if (stage == 2) { steps = ResumeComponentBatch().GetEnumerator(); return; }
             if (stage == 1) { steps = AfterLoad().GetEnumerator(); return; }
             File.WriteAllText(Path.Combine(output, "checks.txt"), "Actual RimWorld 1.7 industry checks\n");
             DebugSettings.noAnimals = true;
@@ -110,7 +133,7 @@ public sealed partial class Checks : GameComponent
             if (remaining == 0)
             {
                 if (!steps.MoveNext()) { Finish(); return; }
-                if (loadRequested) { steps = null; GameDataSaveLoader.LoadGame("IndustryStage3"); return; }
+                if (loadRequested) { steps = null; GameDataSaveLoader.LoadGame(stage == 2 ? "IndustryStage3Components" : "IndustryStage3"); return; }
                 remaining = steps.Current;
             }
             int count = Math.Min(remaining, 200);
@@ -160,7 +183,9 @@ public sealed partial class Checks : GameComponent
         return bill;
     }
     private int Count(ThingDef def) => map.listerThings.ThingsOfDef(def).Sum(t => t.stackCount)
-        + map.mapPawns.AllPawnsSpawned.Sum(p => p.inventory?.innerContainer.Where(t => t.def == def).Sum(t => t.stackCount) ?? 0);
+        + map.mapPawns.AllPawnsSpawned.Where(p => p.Faction == Faction.OfPlayer).Sum(p =>
+            (p.inventory?.innerContainer.Where(t => t.def == def).Sum(t => t.stackCount) ?? 0)
+            + (p.carryTracker?.CarriedThing?.def == def ? p.carryTracker.CarriedThing.stackCount : 0));
     private IEnumerable<int> CompleteBill(Building_WorkTable table, Bill_Production bill, bool forced)
     {
         if (forced)
@@ -229,5 +254,6 @@ public sealed partial class Checks : GameComponent
         foreach (int ticks in CompleteBill(stirred, tntBill, false)) yield return ticks;
         Check(Count(tnt.ProducedThingDef) == tntBefore + tnt.products.Single().count, "Stirred-tank chemistry still produces the exact output");
         foreach (int ticks in BarrelChecks()) yield return ticks;
+        foreach (int ticks in ComponentChecks()) yield return ticks;
     }
 }

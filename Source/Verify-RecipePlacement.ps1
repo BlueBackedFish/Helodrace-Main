@@ -63,19 +63,36 @@ foreach ($entry in $foldedGunCosts.GetEnumerator()) {
     Assert ($node.workAmount -eq $entry.Value[2]) "Folded barrel machining work mismatch in $($entry.Key)"
 }
 
-$families = @(
-    @('HD_MakePressComponent', 'HD_MakePressComponentBulk5', 'HD_MakePressComponentBulk10'),
-    @('HD_MillGeneralMachinePart', 'HD_MillGeneralMachinePartBulk5', 'HD_MillGeneralMachinePartBulk10'),
-    @('HD_TurnGeneralMachinePart', 'HD_TurnGeneralMachinePartBulk5', 'HD_TurnGeneralMachinePartBulk10')
-)
-foreach ($family in $families) {
-    $baseline = $recipes[$family[0]]
-    Assert ($null -ne $baseline) "Missing main recipe: $($family[0])"
-    foreach ($name in $family) {
+$componentUsers = [ordered]@{
+    HD_ConvertIndustrialComponentToGeneralMachinePart = @('HD_BasicWorkbench')
+    HD_MakePressComponent = @('HD_LineShaftHydraulicPress')
+    HD_MillGeneralMachinePart = @('HD_LineShaftMillingMachine')
+    HD_MakeShaft = @('HD_TreadleLathe', 'HD_LineShaftTurretLathe')
+    HD_RollUniformSteelPlate = @('HD_LineShaftRollingMachine')
+    HD_MakeBasicElectricalComponents = @('HD_BasicWorkbench')
+    HD_MakeBasicElectronicComponents = @('HD_BasicWorkbench')
+}
+foreach ($baseName in $componentUsers.Keys) {
+    $baseline = $recipes[$baseName]
+    Assert ($null -ne $baseline) "Missing main recipe: $baseName"
+    foreach ($quantity in @(1, 5, 10)) {
+        $name = if ($quantity -eq 1) { $baseName } else { $baseName + 'Bulk' + $quantity }
         $candidate = $recipes[$name]
         Assert ($null -ne $candidate) "Missing family recipe: $name"
         Assert (($candidate.Users -join '|') -ceq ($baseline.Users -join '|')) "recipeUsers drift in $name"
         Assert (($candidate.Research -join '|') -ceq ($baseline.Research -join '|')) "research prerequisite drift in $name"
+        Assert (($candidate.Users -join '|') -ceq ($componentUsers[$baseName] -join '|')) "Wrong primary worktable in $name"
+        Assert ($candidate.Node.unfinishedThingDef -eq 'HD_UnfinishedIndustrialBatch') "Component progress is not preserved in $name"
+        $workFactor = if ($quantity -eq 1) { 1 } elseif ($quantity -eq 5) { 4.5 } else { 8 }
+        Assert ([double]$candidate.Node.workAmount -eq [double]$baseline.Node.workAmount * $workFactor) "Batch labor discount mismatch in $name"
+        $baseIngredients = @($baseline.Node.SelectNodes('ingredients/li'))
+        $batchIngredients = @($candidate.Node.SelectNodes('ingredients/li'))
+        Assert ($baseIngredients.Count -eq $batchIngredients.Count) "Batch ingredient count mismatch in $name"
+        for ($i=0; $i -lt $baseIngredients.Count; $i++) {
+            Assert ($baseIngredients[$i].filter.InnerText -ceq $batchIngredients[$i].filter.InnerText) "Batch material filter mismatch in $name"
+            Assert ([double]$batchIngredients[$i].count -eq [double]$baseIngredients[$i].count * $quantity) "Batch material discount is forbidden in $name"
+        }
+        Assert ([double]$candidate.Node.products.FirstChild.InnerText -eq [double]$baseline.Node.products.FirstChild.InnerText * $quantity) "Batch output mismatch in $name"
     }
 }
 
@@ -86,9 +103,6 @@ $expectedUsers = [ordered]@{
     HD_MillGeneralMachinePart = @('HD_LineShaftMillingMachine')
     HD_MillGeneralMachinePartBulk5 = @('HD_LineShaftMillingMachine')
     HD_MillGeneralMachinePartBulk10 = @('HD_LineShaftMillingMachine')
-    HD_TurnGeneralMachinePart = @('HD_LineShaftTurretLathe')
-    HD_TurnGeneralMachinePartBulk5 = @('HD_LineShaftTurretLathe')
-    HD_TurnGeneralMachinePartBulk10 = @('HD_LineShaftTurretLathe')
     HD_RollUniformSteelPlate = @('HD_LineShaftRollingMachine')
 }
 foreach ($entry in $expectedUsers.GetEnumerator()) {

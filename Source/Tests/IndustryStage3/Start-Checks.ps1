@@ -1,4 +1,4 @@
-param([Parameter(Mandatory)][string]$RuntimeRoot, [switch]$Baseline)
+param([Parameter(Mandatory)][string]$RuntimeRoot, [switch]$Baseline, [string]$ResumeSave)
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot '../Game17Runtime.ps1')
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
@@ -12,6 +12,10 @@ if($LASTEXITCODE -ne 0){throw 'Main build failed.'}
 dotnet build (Join-Path $PSScriptRoot 'IndustryStage3.csproj') ("-p:OutputPath="+(Join-Path $checks 'Assemblies/')) ("-p:HelodAssembly="+(Join-Path $mainOutput 'Helodrace.dll')) -v:minimal
 if($LASTEXITCODE -ne 0){throw 'Industry checks build failed.'}
 $arguments=@('-hdIndustryStage3='+$runtime.Evidence)
+if($ResumeSave){
+    New-Item -ItemType Directory -Path (Join-Path $runtime.Profile 'Saves') -Force | Out-Null
+    Copy-Item -LiteralPath (Get-Item -LiteralPath $ResumeSave).FullName -Destination (Join-Path $runtime.Profile 'Saves/Autostart.rws')
+}
 if($Baseline){$arguments+='-hdIndustryBaseline=true'}
-$process=Start-Game17Runtime -Runtime $runtime -Arguments $arguments -ResultFile (Join-Path $runtime.Evidence 'checks.txt') -CompletionPattern '(?m)^COMPLETE\r?$'
+$process=Start-Game17Runtime -Runtime $runtime -Arguments $arguments -ResultFile (Join-Path $runtime.Evidence 'checks.txt') -CompletionPattern '(?m)^COMPLETE\r?$' -SkipQuicktest:([bool]$ResumeSave)
 Write-Output ('Observe with Source/Tests/Wait-Game17Host.ps1 -RuntimeRoot "'+$runtime.Root+'" -TimeoutSeconds 45')

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="UnfinishedBase">
+    <defName>HD_UnfinishedIndustrialBatch</defName>
+    <label>unfinished industrial batch</label>
+    <description>Partly machined or assembled industrial components. The batch retains its ingredients and completed work when interrupted.</description>
+    <graphicData>
+      <texPath>Items/HD_GeneralMachinePart/HD_GeneralMachinePart_a</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stuffCategories Inherit="False" />
+  </ThingDef>
+</Defs>

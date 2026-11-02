@@ -156,7 +156,7 @@ public sealed partial class Checks : GameComponent
     private void Snapshot()
     {
         Building_WorkTable table = Table("HD_LineShaftTurretLathe", new IntVec3(-8, 0, 0));
-        RecipeDef recipe = DefDatabase<RecipeDef>.GetNamed("HD_TurnGeneralMachinePart");
+        RecipeDef recipe = DefDatabase<RecipeDef>.GetNamed("HD_MakeShaft");
         if (recipe.researchPrerequisite != null) Find.ResearchManager.FinishProject(recipe.researchPrerequisite, doCompletionDialog: false);
         Bill_Production bill = (Bill_Production)recipe.MakeNewBill();
         table.BillStack.AddBill(bill);

@@ -685,6 +685,7 @@
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
     <researchPrerequisite>HelodBasicMachineTool</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
     <ingredients>
       <li>
         <filter>
@@ -713,6 +714,86 @@
   </RecipeDef>
 
   <RecipeDef>
+    <defName>HD_MakeShaftBulk5</defName>
+    <label>make shaft (x5)</label>
+    <description>Turn carbon steel into a straight mechanical shaft on a lathe.</description>
+    <jobString>Turning shaft.</jobString>
+    <workAmount>5400</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodBasicMachineTool</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CarbonSteel</li>
+          </thingDefs>
+        </filter>
+        <count>25</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_CarbonSteel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Shaft>5</HD_Shaft>
+    </products>
+    <recipeUsers>
+      <li>HD_TreadleLathe</li>
+      <li>HD_LineShaftTurretLathe</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>4</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_MakeShaftBulk10</defName>
+    <label>make shaft (x10)</label>
+    <description>Turn carbon steel into a straight mechanical shaft on a lathe.</description>
+    <jobString>Turning shaft.</jobString>
+    <workAmount>9600</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodBasicMachineTool</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CarbonSteel</li>
+          </thingDefs>
+        </filter>
+        <count>50</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_CarbonSteel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Shaft>10</HD_Shaft>
+    </products>
+    <recipeUsers>
+      <li>HD_TreadleLathe</li>
+      <li>HD_LineShaftTurretLathe</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>4</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
     <defName>HD_ConvertIndustrialComponentToGeneralMachinePart</defName>
     <label>convert component into general machine part</label>
     <description>Rework a standard industrial component into a general-purpose machine part at a basic workbench.</description>
@@ -723,6 +804,7 @@
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
     <ingredients>
       <li>
         <filter>
@@ -747,6 +829,76 @@
   </RecipeDef>
 
   <RecipeDef>
+    <defName>HD_ConvertIndustrialComponentToGeneralMachinePartBulk5</defName>
+    <label>convert component into general machine part (x5)</label>
+    <description>Rework a standard industrial component into a general-purpose machine part at a basic workbench.</description>
+    <jobString>Converting component into general machine part.</jobString>
+    <workAmount>2700</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>ComponentIndustrial</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_GeneralMachinePart>5</HD_GeneralMachinePart>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_ConvertIndustrialComponentToGeneralMachinePartBulk10</defName>
+    <label>convert component into general machine part (x10)</label>
+    <description>Rework a standard industrial component into a general-purpose machine part at a basic workbench.</description>
+    <jobString>Converting component into general machine part.</jobString>
+    <workAmount>4800</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>10</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>ComponentIndustrial</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_GeneralMachinePart>10</HD_GeneralMachinePart>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <RecipeDef>
     <defName>HD_MakePressComponent</defName>
     <label>press component</label>
     <description>Stamp carbon steel into rough press components with the hydraulic press.</description>
@@ -758,6 +910,7 @@
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
     <researchPrerequisite>HelodMetalFormingMachine</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
     <ingredients>
       <li>
         <filter>
@@ -786,16 +939,17 @@
 
   <RecipeDef>
     <defName>HD_MakePressComponentBulk5</defName>
-    <label>press component x5</label>
+    <label>press component (x5)</label>
     <description>Stamp carbon steel into rough press components with the hydraulic press.</description>
-    <jobString>Pressing components.</jobString>
-    <workAmount>600</workAmount>
+    <jobString>Pressing component.</jobString>
+    <workAmount>2700</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
     <researchPrerequisite>HelodMetalFormingMachine</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
     <ingredients>
       <li>
         <filter>
@@ -824,16 +978,17 @@
 
   <RecipeDef>
     <defName>HD_MakePressComponentBulk10</defName>
-    <label>press component x10</label>
+    <label>press component (x10)</label>
     <description>Stamp carbon steel into rough press components with the hydraulic press.</description>
-    <jobString>Pressing components.</jobString>
-    <workAmount>600</workAmount>
+    <jobString>Pressing component.</jobString>
+    <workAmount>4800</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
     <researchPrerequisite>HelodMetalFormingMachine</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
     <ingredients>
       <li>
         <filter>
@@ -860,6 +1015,10 @@
     </skillRequirements>
   </RecipeDef>
 
+
+
+
+
   <RecipeDef>
     <defName>HD_MillGeneralMachinePart</defName>
     <label>mill general machine part</label>
@@ -872,6 +1031,7 @@
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
     <researchPrerequisite>HelodMetalCuttingMachine</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
     <ingredients>
       <li>
         <filter>
@@ -900,16 +1060,17 @@
 
   <RecipeDef>
     <defName>HD_MillGeneralMachinePartBulk5</defName>
-    <label>mill general machine part x5</label>
-    <description>Mill carbon steel into general-purpose machine parts.</description>
-    <jobString>Milling general machine parts.</jobString>
-    <workAmount>3000</workAmount>
+    <label>mill general machine part (x5)</label>
+    <description>Mill carbon steel into a general-purpose machine part.</description>
+    <jobString>Milling general machine part.</jobString>
+    <workAmount>4050</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
     <researchPrerequisite>HelodMetalCuttingMachine</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
     <ingredients>
       <li>
         <filter>
@@ -938,16 +1099,17 @@
 
   <RecipeDef>
     <defName>HD_MillGeneralMachinePartBulk10</defName>
-    <label>mill general machine part x10</label>
-    <description>Mill carbon steel into general-purpose machine parts.</description>
-    <jobString>Milling general machine parts.</jobString>
-    <workAmount>5400</workAmount>
+    <label>mill general machine part (x10)</label>
+    <description>Mill carbon steel into a general-purpose machine part.</description>
+    <jobString>Milling general machine part.</jobString>
+    <workAmount>7200</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
     <researchPrerequisite>HelodMetalCuttingMachine</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
     <ingredients>
       <li>
         <filter>
@@ -974,119 +1136,15 @@
     </skillRequirements>
   </RecipeDef>
 
-  <RecipeDef>
-    <defName>HD_TurnGeneralMachinePart</defName>
-    <label>turn general machine part</label>
-    <description>Slowly turn extra carbon steel into a general-purpose machine part on a lathe.</description>
-    <jobString>Turning general machine part.</jobString>
-    <workAmount>1200</workAmount>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <workSkill>Crafting</workSkill>
-    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
-    <effectWorking>Sculpt</effectWorking>
-    <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodMetalCuttingMachine</researchPrerequisite>
-    <ingredients>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_CarbonSteel</li>
-          </thingDefs>
-        </filter>
-        <count>12</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <thingDefs>
-        <li>HD_CarbonSteel</li>
-      </thingDefs>
-    </fixedIngredientFilter>
-    <products>
-      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
-    </products>
-    <recipeUsers>
-      <li>HD_LineShaftTurretLathe</li>
-    </recipeUsers>
-    <skillRequirements>
-      <Crafting>5</Crafting>
-    </skillRequirements>
-  </RecipeDef>
 
-  <RecipeDef>
-    <defName>HD_TurnGeneralMachinePartBulk5</defName>
-    <label>turn general machine part x5</label>
-    <description>Turn extra carbon steel into general-purpose machine parts on a lathe.</description>
-    <jobString>Turning general machine parts.</jobString>
-    <workAmount>4200</workAmount>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <workSkill>Crafting</workSkill>
-    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
-    <effectWorking>Sculpt</effectWorking>
-    <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodMetalCuttingMachine</researchPrerequisite>
-    <ingredients>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_CarbonSteel</li>
-          </thingDefs>
-        </filter>
-        <count>60</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <thingDefs>
-        <li>HD_CarbonSteel</li>
-      </thingDefs>
-    </fixedIngredientFilter>
-    <products>
-      <HD_GeneralMachinePart>5</HD_GeneralMachinePart>
-    </products>
-    <recipeUsers>
-      <li>HD_LineShaftTurretLathe</li>
-    </recipeUsers>
-    <skillRequirements>
-      <Crafting>5</Crafting>
-    </skillRequirements>
-  </RecipeDef>
 
-  <RecipeDef>
-    <defName>HD_TurnGeneralMachinePartBulk10</defName>
-    <label>turn general machine part x10</label>
-    <description>Turn extra carbon steel into general-purpose machine parts on a lathe.</description>
-    <jobString>Turning general machine parts.</jobString>
-    <workAmount>7800</workAmount>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <workSkill>Crafting</workSkill>
-    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
-    <effectWorking>Sculpt</effectWorking>
-    <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodMetalCuttingMachine</researchPrerequisite>
-    <ingredients>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_CarbonSteel</li>
-          </thingDefs>
-        </filter>
-        <count>120</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <thingDefs>
-        <li>HD_CarbonSteel</li>
-      </thingDefs>
-    </fixedIngredientFilter>
-    <products>
-      <HD_GeneralMachinePart>10</HD_GeneralMachinePart>
-    </products>
-    <recipeUsers>
-      <li>HD_LineShaftTurretLathe</li>
-    </recipeUsers>
-    <skillRequirements>
-      <Crafting>5</Crafting>
-    </skillRequirements>
-  </RecipeDef>
+
+
+
+
+
+
+
 
   <RecipeDef>
     <defName>HD_RollUniformSteelPlate</defName>
@@ -1100,6 +1158,7 @@
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
     <researchPrerequisite>HelodMetalFormingMachine</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
     <ingredients>
       <li>
         <filter>
@@ -1117,6 +1176,84 @@
     </fixedIngredientFilter>
     <products>
       <HD_UniformRolledSteelPlate>1</HD_UniformRolledSteelPlate>
+    </products>
+    <recipeUsers>
+      <li>HD_LineShaftRollingMachine</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>5</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_RollUniformSteelPlateBulk5</defName>
+    <label>roll uniform steel plate (x5)</label>
+    <description>Roll carbon steel into an even, uniform steel plate.</description>
+    <jobString>Rolling uniform steel plate.</jobString>
+    <workAmount>5400</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodMetalFormingMachine</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CarbonSteel</li>
+          </thingDefs>
+        </filter>
+        <count>50</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_CarbonSteel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_UniformRolledSteelPlate>5</HD_UniformRolledSteelPlate>
+    </products>
+    <recipeUsers>
+      <li>HD_LineShaftRollingMachine</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>5</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_RollUniformSteelPlateBulk10</defName>
+    <label>roll uniform steel plate (x10)</label>
+    <description>Roll carbon steel into an even, uniform steel plate.</description>
+    <jobString>Rolling uniform steel plate.</jobString>
+    <workAmount>9600</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodMetalFormingMachine</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CarbonSteel</li>
+          </thingDefs>
+        </filter>
+        <count>100</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_CarbonSteel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_UniformRolledSteelPlate>10</HD_UniformRolledSteelPlate>
     </products>
     <recipeUsers>
       <li>HD_LineShaftRollingMachine</li>
@@ -2627,6 +2764,7 @@
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
     <researchPrerequisite>HelodBasicElectronics</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
     <ingredients>
       <li>
         <filter><thingDefs><li>Steel</li></thingDefs></filter>
@@ -2649,6 +2787,74 @@
   </RecipeDef>
 
   <RecipeDef>
+    <defName>HD_MakeBasicElectricalComponentsBulk5</defName>
+    <label>make basic electrical components (x5)</label>
+    <description>Fabricate insulated wiring, terminals, switches, and simple resistive elements for early electrical machinery.</description>
+    <jobString>Making basic electrical components.</jobString>
+    <workAmount>8100</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodBasicElectronics</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
+    <ingredients>
+      <li>
+        <filter><thingDefs><li>Steel</li></thingDefs></filter>
+        <count>40</count>
+      </li>
+      <li>
+        <filter><thingDefs><li>Chemfuel</li></thingDefs></filter>
+        <count>10</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>Chemfuel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products><HD_BasicElectricalComponents>5</HD_BasicElectricalComponents></products>
+    <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
+    <skillRequirements><Crafting>4</Crafting></skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_MakeBasicElectricalComponentsBulk10</defName>
+    <label>make basic electrical components (x10)</label>
+    <description>Fabricate insulated wiring, terminals, switches, and simple resistive elements for early electrical machinery.</description>
+    <jobString>Making basic electrical components.</jobString>
+    <workAmount>14400</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodBasicElectronics</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
+    <ingredients>
+      <li>
+        <filter><thingDefs><li>Steel</li></thingDefs></filter>
+        <count>80</count>
+      </li>
+      <li>
+        <filter><thingDefs><li>Chemfuel</li></thingDefs></filter>
+        <count>20</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>Chemfuel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products><HD_BasicElectricalComponents>10</HD_BasicElectricalComponents></products>
+    <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
+    <skillRequirements><Crafting>4</Crafting></skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
     <defName>HD_MakeBasicElectronicComponents</defName>
     <label>make basic electronic components</label>
     <description>Assemble vacuum tubes, sockets, control elements, and precision contacts for early electronic equipment.</description>
@@ -2660,6 +2866,7 @@
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
     <researchPrerequisite>HelodHighElectronics</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
     <ingredients>
       <li>
         <filter><thingDefs><li>HD_BasicElectricalComponents</li></thingDefs></filter>
@@ -2682,6 +2889,84 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products><HD_BasicElectronicComponents>1</HD_BasicElectronicComponents></products>
+    <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
+    <skillRequirements><Crafting>6</Crafting></skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_MakeBasicElectronicComponentsBulk5</defName>
+    <label>make basic electronic components (x5)</label>
+    <description>Assemble vacuum tubes, sockets, control elements, and precision contacts for early electronic equipment.</description>
+    <jobString>Making basic electronic components.</jobString>
+    <workAmount>11700</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodHighElectronics</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
+    <ingredients>
+      <li>
+        <filter><thingDefs><li>HD_BasicElectricalComponents</li></thingDefs></filter>
+        <count>5</count>
+      </li>
+      <li>
+        <filter><thingDefs><li>Steel</li></thingDefs></filter>
+        <count>20</count>
+      </li>
+      <li>
+        <filter><thingDefs><li>Chemfuel</li></thingDefs></filter>
+        <count>10</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_BasicElectricalComponents</li>
+        <li>Steel</li>
+        <li>Chemfuel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products><HD_BasicElectronicComponents>5</HD_BasicElectronicComponents></products>
+    <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
+    <skillRequirements><Crafting>6</Crafting></skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_MakeBasicElectronicComponentsBulk10</defName>
+    <label>make basic electronic components (x10)</label>
+    <description>Assemble vacuum tubes, sockets, control elements, and precision contacts for early electronic equipment.</description>
+    <jobString>Making basic electronic components.</jobString>
+    <workAmount>20800</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodHighElectronics</researchPrerequisite>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
+    <ingredients>
+      <li>
+        <filter><thingDefs><li>HD_BasicElectricalComponents</li></thingDefs></filter>
+        <count>10</count>
+      </li>
+      <li>
+        <filter><thingDefs><li>Steel</li></thingDefs></filter>
+        <count>40</count>
+      </li>
+      <li>
+        <filter><thingDefs><li>Chemfuel</li></thingDefs></filter>
+        <count>20</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_BasicElectricalComponents</li>
+        <li>Steel</li>
+        <li>Chemfuel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products><HD_BasicElectronicComponents>10</HD_BasicElectronicComponents></products>
     <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
     <skillRequirements><Crafting>6</Crafting></skillRequirements>
   </RecipeDef>
