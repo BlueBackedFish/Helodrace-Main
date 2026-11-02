@@ -25,7 +25,7 @@ namespace Helodrace
             set => targetColdHeatRemovalPerSecond = Mathf.Clamp(value, 0f, Props.maxColdHeatRemovalPerSecond);
         }
 
-        public float TorqueDemandFactor => TargetColdHeatRemovalPerSecond
+        public float PowerDemandFactor => TargetColdHeatRemovalPerSecond
             / Mathf.Max(0.01f, Props.defaultColdHeatRemovalPerSecond);
 
         public override void PostSpawnSetup(bool respawningAfterLoad)

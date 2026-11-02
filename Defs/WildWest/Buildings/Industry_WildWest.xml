@@ -66,8 +66,7 @@
         <wickTicks>70~150</wickTicks>
       </li>
       <li Class="Helodrace.CompProperties_MechanicalUser">
-        <powerConsumed>0</powerConsumed>
-        <requireTorque>300</requireTorque>
+        <mechanicalPowerRequired>300</mechanicalPowerRequired>
         <minimalRPM>100</minimalRPM>
         <recommendedRPM>100</recommendedRPM>
       </li>
@@ -480,7 +479,7 @@
     </inspectorTabs>
     <comps>
       <li Class="Helodrace.CompProperties_MechanicalUser">
-        <requireTorque>10000</requireTorque>
+        <mechanicalPowerRequired>10000</mechanicalPowerRequired>
         <minimalRPM>100</minimalRPM>
         <recommendedRPM>1200</recommendedRPM>
       </li>
@@ -556,7 +555,7 @@
     </inspectorTabs>
     <comps>
       <li Class="Helodrace.CompProperties_MechanicalUser">
-        <requireTorque>250</requireTorque>
+        <mechanicalPowerRequired>250</mechanicalPowerRequired>
         <minimalRPM>60</minimalRPM>
         <recommendedRPM>60</recommendedRPM>
       </li>
@@ -1001,7 +1000,7 @@
         <maxDistance>6</maxDistance>
       </li>
       <li Class="Helodrace.CompProperties_MechanicalUser">
-        <requireTorque>250</requireTorque>
+        <mechanicalPowerRequired>250</mechanicalPowerRequired>
         <minimalRPM>150</minimalRPM>
         <recommendedRPM>250</recommendedRPM>
       </li>
@@ -1094,7 +1093,7 @@
         <maxDistance>6</maxDistance>
       </li>
       <li Class="Helodrace.CompProperties_MechanicalUser">
-        <requireTorque>300</requireTorque>
+        <mechanicalPowerRequired>300</mechanicalPowerRequired>
         <minimalRPM>180</minimalRPM>
         <recommendedRPM>300</recommendedRPM>
       </li>
@@ -1183,7 +1182,7 @@
     <comps>
       <li Class="CompProperties_Flickable"/>
       <li Class="Helodrace.CompProperties_MechanicalUser">
-        <requireTorque>450</requireTorque>
+        <mechanicalPowerRequired>450</mechanicalPowerRequired>
         <minimalRPM>60</minimalRPM>
         <recommendedRPM>120</recommendedRPM>
       </li>
@@ -1264,7 +1263,7 @@
     <comps>
       <li Class="CompProperties_Flickable"/>
       <li Class="Helodrace.CompProperties_MechanicalUser">
-        <requireTorque>500</requireTorque>
+        <mechanicalPowerRequired>500</mechanicalPowerRequired>
         <minimalRPM>60</minimalRPM>
         <recommendedRPM>120</recommendedRPM>
       </li>
@@ -1576,7 +1575,7 @@
     <comps>
       <li Class="CompProperties_Flickable"/>
       <li Class="Helodrace.CompProperties_MechanicalUser">
-        <requireTorque>40</requireTorque>
+        <mechanicalPowerRequired>40</mechanicalPowerRequired>
         <minimalRPM>5</minimalRPM>
         <recommendedRPM>20</recommendedRPM>
       </li>

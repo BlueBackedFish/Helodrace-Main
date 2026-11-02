@@ -84,8 +84,8 @@ namespace Helodrace
             float ratedInput = Mathf.Max(1f, Props.ratedMechanicalInput);
             float actualInput = Mathf.Max(
                 0f,
-                mechanicalUser.GridTorqueDemanded
-                    * Mathf.Clamp01(mechanicalUser.TorqueFulfillmentRatio));
+                mechanicalUser.GridPowerDemanded
+                    * Mathf.Clamp01(mechanicalUser.PowerFulfillmentRatio));
 
             float stepWidth = ratedInput * Mathf.Max(0.001f, Props.inputDeviationPerStep);
             float deviation = Mathf.Abs(actualInput - ratedInput);

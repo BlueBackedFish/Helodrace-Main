@@ -5,8 +5,8 @@
   <HD_MechanicalEmitter_On>동력원: {0}\n출력: {1} W / {2} W (최대)</HD_MechanicalEmitter_On>
 
   <!-- Mechanical User -->
-  <HD_MechanicalUser_TorqueStruggle> (과부하 토크 {0}%)</HD_MechanicalUser_TorqueStruggle>
-  <HD_MechanicalUser_Info>기계 요구 토크: {0}\n그리드 필요 토크: {1}{2}</HD_MechanicalUser_Info>
+  <HD_MechanicalUser_PowerShortage> (동력 공급 {0}%)</HD_MechanicalUser_PowerShortage>
+  <HD_MechanicalUser_Info>정격 기계 입력: {0} W\n현재 요구 동력: {1} W{2}\n정격 토크: {3} N·m @ {4} RPM</HD_MechanicalUser_Info>
   <HD_MechanicalUser_Status>상태: {0}</HD_MechanicalUser_Status>
   <HD_MechanicalUser_Operating>작동 중</HD_MechanicalUser_Operating>
   <HD_MechanicalUser_Stalled>정지됨/무동력</HD_MechanicalUser_Stalled>
@@ -33,8 +33,8 @@
   <HD_Stat_MechanicalRecommendedPower_Desc>정상 안정 상태에서 이 장치가 공급할 수 있는 기계 동력 출력입니다.</HD_Stat_MechanicalRecommendedPower_Desc>
   <HD_Stat_MechanicalMaxPower>최대 출력</HD_Stat_MechanicalMaxPower>
   <HD_Stat_MechanicalMaxPower_Desc>과부하 상황에서 이 장치가 버틸 수 있는 최대 기계 동력 출력입니다.</HD_Stat_MechanicalMaxPower_Desc>
-  <HD_Stat_MechanicalRequiredTorque>요구 토크</HD_Stat_MechanicalRequiredTorque>
-  <HD_Stat_MechanicalRequiredTorque_Desc>자동 변속으로 요구하는 기본 토크입니다. 열펌프는 냉각량 설정에 따라 요구량이 달라집니다.</HD_Stat_MechanicalRequiredTorque_Desc>
+  <HD_Stat_MechanicalRequiredTorque>정격 토크</HD_Stat_MechanicalRequiredTorque>
+  <HD_Stat_MechanicalRequiredTorque_Desc>정격 동력과 기계의 정격 회전수로 계산한 토크입니다. 토크를 동력망의 W와 직접 더하지 않습니다.</HD_Stat_MechanicalRequiredTorque_Desc>
 
   <!-- Sharpshooter Mode -->
   <HD_SharpshooterMode_Label>명사수 모드</HD_SharpshooterMode_Label>
@@ -47,8 +47,8 @@
   <HD_ITab_MechanicalNetwork_Title>기계 동력망 정보</HD_ITab_MechanicalNetwork_Title>
   <HD_ITab_MechanicalNetwork_NotConnected>기계 동력망에 연결되어 있지 않습니다.</HD_ITab_MechanicalNetwork_NotConnected>
   <HD_ITab_MechanicalNetwork_Summary>동력망 요약</HD_ITab_MechanicalNetwork_Summary>
-  <HD_ITab_MechanicalNetwork_PowerOutput>전체 출력 토크: {0} W</HD_ITab_MechanicalNetwork_PowerOutput>
-  <HD_ITab_MechanicalNetwork_PowerNeeded>전체 요구 토크: {0} W</HD_ITab_MechanicalNetwork_PowerNeeded>
+  <HD_ITab_MechanicalNetwork_PowerOutput>공급 가능 기계 동력: {0} W</HD_ITab_MechanicalNetwork_PowerOutput>
+  <HD_ITab_MechanicalNetwork_PowerNeeded>전체 요구 기계 동력: {0} W</HD_ITab_MechanicalNetwork_PowerNeeded>
   <HD_ITab_MechanicalNetwork_PowerSurplus>그리드 잉여/부족: {0} W</HD_ITab_MechanicalNetwork_PowerSurplus>
   <HD_ITab_MechanicalNetwork_Nodes>연결된 노드 수: {0}</HD_ITab_MechanicalNetwork_Nodes>
   <HD_ITab_MechanicalNetwork_Status>상태</HD_ITab_MechanicalNetwork_Status>
@@ -68,4 +68,6 @@
   <HD_SharpshooterMode_InstantSwitch>즉시 전환하며 무기의 조준을 취소합니다. 연사 중이거나 무기 재사용 대기 중에는 전환할 수 없습니다.</HD_SharpshooterMode_InstantSwitch>
   <HD_SharpshooterMode_StationarySetup>정지 후 {0}초간 준비해야 사격할 수 있습니다. 이동하면 준비가 초기화되며, 준비 중에는 사격하지 않습니다.</HD_SharpshooterMode_StationarySetup>
   <HD_SharpshooterMode_CooldownLocked>연사 중이거나 무기 재사용 대기 중에는 전환할 수 없습니다.</HD_SharpshooterMode_CooldownLocked>
+  <HD_Stat_MechanicalRequiredPower>정격 기계 입력</HD_Stat_MechanicalRequiredPower>
+  <HD_Stat_MechanicalRequiredPower_Desc>정격 상태에서 필요한 기계 입력 W입니다. 동력망은 기계 W의 수지를 계산하고 변속기가 회전수와 토크를 변환합니다.</HD_Stat_MechanicalRequiredPower_Desc>
 </LanguageData>

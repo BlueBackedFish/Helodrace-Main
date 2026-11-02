@@ -56,7 +56,7 @@ namespace Helodrace
                 listing.GapLine();
             }
 
-            // Power (Torque)
+            // Mechanical power in watts; torque belongs to each geared shaft.
             listing.Label("HD_ITab_MechanicalNetwork_PowerOutput".Translate(net.CurrentPowerOutput.ToString("F0")).Resolve());
             listing.Label("HD_ITab_MechanicalNetwork_MaxPower".Translate(net.CurrentMaximumPower.ToString("F0")).Resolve());
             listing.Label("HD_ITab_MechanicalNetwork_PowerNeeded".Translate(net.CurrentPowerNeeded.ToString("F0")).Resolve());

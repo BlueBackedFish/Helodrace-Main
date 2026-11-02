@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <HD_MechanicalEmitter_On>Power source: {0}\nOutput: {1} W / {2} W (maximum)</HD_MechanicalEmitter_On>
-  <HD_MechanicalUser_TorqueStruggle> (available torque {0}%)</HD_MechanicalUser_TorqueStruggle>
-  <HD_MechanicalUser_Info>Machine torque demand: {0}\nNetwork torque demand: {1}{2}</HD_MechanicalUser_Info>
+  <HD_MechanicalUser_PowerShortage> (power supplied {0}%)</HD_MechanicalUser_PowerShortage>
+  <HD_MechanicalUser_Info>Rated mechanical input: {0} W\nCurrent demand: {1} W{2}\nRated torque: {3} N·m @ {4} RPM</HD_MechanicalUser_Info>
   <HD_MechanicalUser_Status>Status: {0}</HD_MechanicalUser_Status>
   <HD_MechanicalUser_Operating>Operating</HD_MechanicalUser_Operating>
   <HD_MechanicalUser_Stalled>Stopped / no power</HD_MechanicalUser_Stalled>
@@ -21,8 +21,8 @@
   <HD_Stat_MechanicalRecommendedPower_Desc>The mechanical power output this device can supply during normal stable operation.</HD_Stat_MechanicalRecommendedPower_Desc>
   <HD_Stat_MechanicalMaxPower>Maximum output</HD_Stat_MechanicalMaxPower>
   <HD_Stat_MechanicalMaxPower_Desc>The maximum mechanical power output this device can tolerate during overload.</HD_Stat_MechanicalMaxPower_Desc>
-  <HD_Stat_MechanicalRequiredTorque>Required torque</HD_Stat_MechanicalRequiredTorque>
-  <HD_Stat_MechanicalRequiredTorque_Desc>The baseline torque this device demands with automatic gearing. Heat pump demand scales with its cooling setting.</HD_Stat_MechanicalRequiredTorque_Desc>
+  <HD_Stat_MechanicalRequiredTorque>Rated torque</HD_Stat_MechanicalRequiredTorque>
+  <HD_Stat_MechanicalRequiredTorque_Desc>Torque at the rated machine speed, calculated as mechanical power divided by angular speed. It is not added directly to network watts.</HD_Stat_MechanicalRequiredTorque_Desc>
   <HD_HeatPump_Inspect>Cold-side heat removal setting: {0} W\nActual transfer: cold side -{1} W / hot side +{2} W\nCold side: {3}\nHot side: {4}</HD_HeatPump_Inspect>
   <HD_HeatPump_AdjustCooling>Adjust cold-side heat removal by {0} W.</HD_HeatPump_AdjustCooling>
   <HD_HeatPump_OutOfBounds>out of bounds</HD_HeatPump_OutOfBounds>
@@ -55,4 +55,6 @@
   <HD_SharpshooterMode_InstantSwitch>Switches instantly and cancels weapon warmup. Switching is unavailable during a burst or weapon cooldown.</HD_SharpshooterMode_InstantSwitch>
   <HD_SharpshooterMode_StationarySetup>Requires {0}s stationary preparation before firing. Movement resets preparation; no shots are fired while preparing.</HD_SharpshooterMode_StationarySetup>
   <HD_SharpshooterMode_CooldownLocked>Cannot switch during a burst or weapon cooldown.</HD_SharpshooterMode_CooldownLocked>
+  <HD_Stat_MechanicalRequiredPower>Rated mechanical input</HD_Stat_MechanicalRequiredPower>
+  <HD_Stat_MechanicalRequiredPower_Desc>Mechanical input in watts at the rated operating point. The network balances mechanical watts; gearing converts speed and torque.</HD_Stat_MechanicalRequiredPower_Desc>
 </LanguageData>

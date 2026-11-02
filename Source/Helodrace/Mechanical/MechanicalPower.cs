@@ -74,8 +74,7 @@ namespace Helodrace
 
     public class CompProperties_MechanicalUser : CompProperties
     {
-        public float powerConsumed = 0f;
-        public float requireTorque = 100f;
+        public float mechanicalPowerRequired = 100f;
         public float minimalRPM = 50f;
         public float recommendedRPM = 300f;
 
@@ -92,7 +91,8 @@ namespace Helodrace
             }
 
             yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRole", "HD_Stat_MechanicalRole_User".Translate().Resolve(), "HD_Stat_MechanicalRole_User_Desc");
-            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRequiredTorque", requireTorque.ToString("F0"), "HD_Stat_MechanicalRequiredTorque_Desc", 1);
+            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRequiredPower", mechanicalPowerRequired.ToString("F0") + " W", "HD_Stat_MechanicalRequiredPower_Desc", 1);
+            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRequiredTorque", MechanicalPowerMath.TorqueForPower(mechanicalPowerRequired, recommendedRPM).ToString("F2") + " N·m @ " + recommendedRPM.ToString("F0") + " RPM", "HD_Stat_MechanicalRequiredTorque_Desc", 2);
         }
     }
 
@@ -197,8 +197,8 @@ namespace Helodrace
         public CompMechanicalGenerator Generator { get; private set; }
         public CompMechanicalTemperatureControl TemperatureControl { get; private set; }
         
-        // This holds the actual ratio of torque the network was able to provide (1.0 = fully powered, <1.0 = overloaded)
-        public float TorqueFulfillmentRatio { get; private set; } = 0f;
+        // This holds the fraction of requested mechanical power supplied (1.0 = fully powered, <1.0 = overloaded)
+        public float PowerFulfillmentRatio { get; private set; } = 0f;
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
@@ -222,9 +222,9 @@ namespace Helodrace
             && Network.GridRPM < Network.NominalGridRPM
             && (Flickable == null || Flickable.SwitchIsOn);
 
-        public float GridTorqueDemanded => Network != null
-            ? Waylith.Math.Mathf.Max(0f, Props.requireTorque)
-                * (TemperatureControl?.TorqueDemandFactor ?? 1f)
+        public float GridPowerDemanded => Network != null
+            ? Waylith.Math.Mathf.Max(0f, Props.mechanicalPowerRequired)
+                * (TemperatureControl?.PowerDemandFactor ?? 1f)
             : 0f;
         
         // Effective RPM caps at recommendedRPM. Used by other systems to calculate actual work speed.
@@ -233,19 +233,21 @@ namespace Helodrace
         public void UpdatePowerStatus(bool isPowered, float fulfillmentRatio)
         {
             HasPower = isPowered;
-            TorqueFulfillmentRatio = fulfillmentRatio;
+            PowerFulfillmentRatio = fulfillmentRatio;
         }
 
         public override string CompInspectStringExtra()
         {
-            string torqueStatus = TorqueFulfillmentRatio < 1.0f && TorqueFulfillmentRatio > 0f 
-                ? "HD_MechanicalUser_TorqueStruggle".Translate((TorqueFulfillmentRatio*100).ToString("F0")).Resolve()
+            string powerStatus = PowerFulfillmentRatio < 1.0f && PowerFulfillmentRatio > 0f
+                ? "HD_MechanicalUser_PowerShortage".Translate((PowerFulfillmentRatio*100).ToString("F0")).Resolve()
                 : "";
 
             string str = "HD_MechanicalUser_Info".Translate(
-                Props.requireTorque.ToString("F0"),
-                GridTorqueDemanded.ToString("F1"),
-                torqueStatus
+                Props.mechanicalPowerRequired.ToString("F0"),
+                GridPowerDemanded.ToString("F1"),
+                powerStatus,
+                MechanicalPowerMath.TorqueForPower(Props.mechanicalPowerRequired, Props.recommendedRPM).ToString("F2"),
+                Props.recommendedRPM.ToString("F0")
             ).Resolve() + "\n";
 
             string opStatus = IsOverloaded
@@ -324,14 +326,14 @@ namespace Helodrace
                     CompFlickable flickable = user.Flickable;
                     if (flickable == null || flickable.SwitchIsOn)
                     {
-                        CurrentPowerNeeded += user.GridTorqueDemanded;
+                        CurrentPowerNeeded += user.GridPowerDemanded;
                     }
                 }
             }
 
             // Final output calculation. This is the only stage that assigns
             // CurrentPowerOutput, and it is capped again unconditionally below.
-            float torqueFulfillment = 1.0f;
+            float powerFulfillment = 1.0f;
             CurrentPowerOutput = normalPowerAvailable;
 
             if (CurrentPowerNeeded > normalPowerAvailable && maximumPowerAvailable > 0f)
@@ -341,11 +343,11 @@ namespace Helodrace
                 if (CurrentPowerNeeded > maximumPowerAvailable)
                 {
                     // Engines pushed beyond max limits!
-                    // The ratio of how much torque we have versus what we actually need
-                    torqueFulfillment = maximumPowerAvailable / CurrentPowerNeeded;
+                    // The ratio of how much mechanical power is available versus required
+                    powerFulfillment = maximumPowerAvailable / CurrentPowerNeeded;
                     
                     // RPM drops drastically because it can't handle the load
-                    GridRPM *= torqueFulfillment;
+                    GridRPM *= powerFulfillment;
 
                     // Power sources retain their original overload maintenance
                     // and building-damage behavior.
@@ -353,7 +355,7 @@ namespace Helodrace
                     {
                         foreach (var emitter in activeEmitters)
                         {
-                            ApplyOverloadEffect(emitter, torqueFulfillment);
+                            ApplyOverloadEffect(emitter, powerFulfillment);
                         }
                     }
                 }
@@ -364,7 +366,7 @@ namespace Helodrace
             CurrentPowerOutput = Waylith.Math.Mathf.Clamp(
                 CurrentPowerOutput, 0f, CurrentMaximumPower);
 
-            bool gridHasEnoughTorque = CurrentPowerOutput > 0;
+            bool gridHasPower = CurrentPowerOutput > 0;
 
             // Update users
             foreach (var node in nodes)
@@ -374,8 +376,8 @@ namespace Helodrace
                     CompFlickable flickable = user.Flickable;
                     bool isSwitchedOn = flickable == null || flickable.SwitchIsOn;
                     
-                    // Update user with the torque ratio before checking RPM
-                    user.UpdatePowerStatus(gridHasEnoughTorque && isSwitchedOn, torqueFulfillment);
+                    // Update user with the power ratio before checking RPM
+                    user.UpdatePowerStatus(gridHasPower && isSwitchedOn, powerFulfillment);
                     
                     bool meetsRpm = user.RealRPM >= user.Props.minimalRPM;
                     
@@ -387,7 +389,7 @@ namespace Helodrace
 
                     user.Hazard?.Evaluate(user.HasPower, user.IsOverloaded);
 
-                    // Use the final network state after torque and minimum-RPM
+                    // Use the final network state after power and minimum-RPM
                     // checks, so electrical output cannot lead the mechanical
                     // calculation by one update.
                     user.Generator?.RefreshOutput();
@@ -395,14 +397,14 @@ namespace Helodrace
             }
         }
 
-        private void ApplyOverloadEffect(CompMechanicalEmitter emitter, float torqueFulfillment)
+        private void ApplyOverloadEffect(CompMechanicalEmitter emitter, float powerFulfillment)
         {
             switch (emitter.Props.sourceType)
             {
                 case PowerSourceType.SteamEngine:
                     // Steam engines take structural damage only under severe
                     // power shortage, independent of the common shaft speed.
-                    if (torqueFulfillment < 0.1f)
+                    if (powerFulfillment < 0.1f)
                     {
                         emitter.parent.TakeDamage(new DamageInfo(DamageDefOf.Crush, 25f));
                         FleckMaker.ThrowDustPuff(emitter.parent.DrawPos, emitter.parent.Map, 2.0f);
