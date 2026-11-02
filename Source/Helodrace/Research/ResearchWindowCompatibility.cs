@@ -5,6 +5,7 @@ using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using NativeRect = Waylith.Math.Rect;
 
 namespace Helodrace.ResearchUI
 {
@@ -121,13 +122,14 @@ namespace Helodrace.ResearchUI
             if (!ResearchWindowCompatibility.Vanilla.IsActive(__instance)
                 || __instance.CurTab?.defName != "HelodTechTab") return true;
             var tabs = ((IEnumerable<TabRecord>)tabsField.GetValue(__instance)).ToList();
-            Rect header = __0; header.xMax = __1;
-            __0.yMin += TabDrawer.GetOverflowTabHeight(header, tabs, 100f, 200f);
-            Widgets.DrawMenuSection(__0);
-            TabDrawer.DrawTabsOverflow(header, tabs, 100f, 200f);
+            NativeRect viewport = __0.ToNative();
+            NativeRect header = viewport; header.xMax = __1;
+            viewport.yMin += TabDrawer.GetOverflowTabHeight(header.ToGame(), tabs, 100f, 200f);
+            Widgets.DrawMenuSection(viewport.ToGame());
+            TabDrawer.DrawTabsOverflow(header.ToGame(), tabs, 100f, 200f);
             // A tab click may have switched away while drawing the shared tab strip.
             if (__instance.CurTab?.defName == "HelodTechTab")
-                return !ResearchWindowCompatibility.TryDraw(__instance, __0.ContractedBy(8));
+                return !ResearchWindowCompatibility.TryDraw(__instance, UiMath.Inset(viewport, 8).ToGame());
             return false;
         }
     }
