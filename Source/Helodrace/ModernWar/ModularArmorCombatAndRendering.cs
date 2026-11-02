@@ -269,7 +269,7 @@ namespace Helodrace.ModernWar
             PawnDrawParms parms,
             out Vector3 pivot)
         {
-            Vector3 result = base.OffsetFor(node, parms, out pivot);
+            var result = base.OffsetFor(node, parms, out pivot).ToNative();
             PawnRenderNode_ModularArmorPart modularNode =
                 (PawnRenderNode_ModularArmorPart)node;
             ModularArmorPartDef part = modularNode.Installed.part;
@@ -277,17 +277,17 @@ namespace Helodrace.ModernWar
 
             if (modularNode.IsAuthoredPals)
             {
-                return result;
+                return result.ToGame();
             }
 
             if (position.drawOffsets != null)
             {
-                result += position.drawOffsets.For(parms.facing);
+                result += position.drawOffsets.For(parms.facing).ToNative();
             }
 
             if (part.drawOffsets != null)
             {
-                result += part.drawOffsets.For(parms.facing);
+                result += part.drawOffsets.For(parms.facing).ToNative();
             }
 
             if (modularNode.Installed.IsPalsMounted)
@@ -295,7 +295,7 @@ namespace Helodrace.ModernWar
                 ModularArmorPalsPanelDef panel = modularNode.Installed.palsPanel;
                 if (panel.drawOrigin != null)
                 {
-                    result += panel.drawOrigin.For(parms.facing);
+                    result += panel.drawOrigin.For(parms.facing).ToNative();
                 }
 
                 float gridX = modularNode.Installed.palsX
@@ -308,12 +308,12 @@ namespace Helodrace.ModernWar
                     || parms.facing == Rot4.West
                     ? 0.35f
                     : 1f;
-                result.x += gridX * panel.drawCellSize.x * sideCompression;
-                result.z += gridY * panel.drawCellSize.y;
+                result.X += gridX * panel.drawCellSize.x * sideCompression;
+                result.Z += gridY * panel.drawCellSize.y;
             }
 
-            result += modularNode.NodeGraphicData.DrawOffsetForRot(parms.facing);
-            return result;
+            result += modularNode.NodeGraphicData.DrawOffsetForRot(parms.facing).ToNative();
+            return result.ToGame();
         }
 
         public override Vector3 ScaleFor(PawnRenderNode node, PawnDrawParms parms)

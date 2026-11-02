@@ -4,6 +4,7 @@ using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using NativeVector3 = System.Numerics.Vector3;
 
 namespace Helodrace
 {
@@ -156,25 +157,25 @@ namespace Helodrace
 
         public override Vector3 OffsetFor(PawnRenderNode node, PawnDrawParms parms, out Vector3 pivot)
         {
-            Vector3 result = base.OffsetFor(node, parms, out pivot);
+            NativeVector3 result = base.OffsetFor(node, parms, out pivot).ToNative();
             var renderKind = ((PawnRenderNodeProperties_HelodAppendage)node.Props).appendage;
             Rot4 facing = parms.flipHead && renderKind != HelodAppendage.Tail
                 ? parms.facing.Opposite : parms.facing;
             HelodAppendageOffset entry = ConfiguredOffsetFor(renderKind);
-            if (entry == null) return result;
-            Vector3 offset = DirectionalOffsetFor(entry, facing);
+            if (entry == null) return result.ToGame();
+            NativeVector3 offset = DirectionalOffsetFor(entry, facing);
             HelodAppendage anatomicalKind = AnatomicalKind(renderKind, parms.facing);
             HelodAppendageOffset developmentalEntry = ConfiguredOffsetFor(anatomicalKind);
             if (developmentalEntry != null)
                 offset += DevelopmentalOffsetFor(developmentalEntry,
                     parms.pawn.DevelopmentalStage, parms.facing);
-            return result + offset;
+            return (result + offset).ToGame();
         }
 
         internal static bool TryGetConfiguredOffset(
-            HelodAppendage kind, Rot4 facing, out Vector3 offset)
+            HelodAppendage kind, Rot4 facing, out NativeVector3 offset)
         {
-            offset = Vector3.zero;
+            offset = NativeVector3.Zero;
             HelodAppendageOffset entry = ConfiguredOffsetFor(kind);
             if (entry == null) return false;
             offset = DirectionalOffsetFor(entry, facing);
@@ -194,25 +195,25 @@ namespace Helodrace
             return null;
         }
 
-        private static Vector3 DirectionalOffsetFor(HelodAppendageOffset entry, Rot4 facing)
+        private static NativeVector3 DirectionalOffsetFor(HelodAppendageOffset entry, Rot4 facing)
         {
-            return facing == Rot4.North ? entry.north
+            return (facing == Rot4.North ? entry.north
                 : facing == Rot4.South ? entry.south
-                : facing == Rot4.East ? entry.east : entry.west;
+                : facing == Rot4.East ? entry.east : entry.west).ToNative();
         }
 
-        internal static Vector3 DevelopmentalOffsetFor(
+        internal static NativeVector3 DevelopmentalOffsetFor(
             HelodAppendageOffset entry, DevelopmentalStage stage, Rot4 facing)
         {
             if (stage.Baby())
-                return facing == Rot4.North ? entry.babyNorth
+                return (facing == Rot4.North ? entry.babyNorth
                     : facing == Rot4.South ? entry.babySouth
-                    : facing == Rot4.East ? entry.babyEast : entry.babyWest;
+                    : facing == Rot4.East ? entry.babyEast : entry.babyWest).ToNative();
             if (stage.Child())
-                return facing == Rot4.North ? entry.childNorth
+                return (facing == Rot4.North ? entry.childNorth
                     : facing == Rot4.South ? entry.childSouth
-                    : facing == Rot4.East ? entry.childEast : entry.childWest;
-            return Vector3.zero;
+                    : facing == Rot4.East ? entry.childEast : entry.childWest).ToNative();
+            return NativeVector3.Zero;
         }
 
         public override Vector3 ScaleFor(PawnRenderNode node, PawnDrawParms parms)

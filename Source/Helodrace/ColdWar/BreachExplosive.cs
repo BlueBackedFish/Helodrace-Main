@@ -87,10 +87,10 @@ namespace Helodrace
         {
             get
             {
-                Vector3 drawPos = base.DrawPos;
-                Vector3 outward = Rotation.FacingCell.ToVector3();
+                var drawPos = base.DrawPos.ToNative();
+                var outward = Rotation.FacingCell.ToVector3().ToNative();
                 drawPos += outward * 0.5f;
-                return drawPos;
+                return drawPos.ToGame();
             }
         }
     }
