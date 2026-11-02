@@ -8,7 +8,7 @@ namespace Helodrace.ModernWar
     public delegate bool ModularWeaponRecoilResolver(
         Thing equipment,
         float aimAngle,
-        out GameVector3 drawOffset,
+        out Vector3 drawOffset,
         out float angleOffset);
 
     /// <summary>
@@ -19,19 +19,9 @@ namespace Helodrace.ModernWar
     {
         public static ModularWeaponRecoilResolver ExternalResolver { get; set; }
 
+        // The extension contract and renderer own native data. Only the actual
+        // EquipmentUtility callback below requires a game-vector crossing.
         public static void Resolve(
-            Thing equipment,
-            float aimAngle,
-            out GameVector3 drawOffset,
-            out float angleOffset)
-        {
-            ResolveNative(equipment, aimAngle, out Vector3 nativeOffset, out angleOffset);
-            drawOffset = nativeOffset.ToGame();
-        }
-
-        // External resolvers and EquipmentUtility are game API boundaries.
-        // All owned adjustment and callers inside the modular renderer use native data.
-        internal static void ResolveNative(
             Thing equipment,
             float aimAngle,
             out Vector3 drawOffset,
@@ -48,10 +38,10 @@ namespace Helodrace.ModernWar
                     if (resolver(
                         equipment,
                         aimAngle,
-                        out GameVector3 externalOffset,
+                        out Vector3 externalOffset,
                         out angleOffset))
                     {
-                        drawOffset = externalOffset.ToNative();
+                        drawOffset = externalOffset;
                         return;
                     }
                 }

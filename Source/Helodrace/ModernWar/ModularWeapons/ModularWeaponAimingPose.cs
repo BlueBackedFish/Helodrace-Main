@@ -130,7 +130,7 @@ namespace Helodrace.ModernWar
 
             Vector3 recoilOffset;
             float recoilAngle;
-            ModularWeaponRecoilUtility.ResolveNative(
+            ModularWeaponRecoilUtility.Resolve(
                 equipment,
                 aimAngle,
                 out recoilOffset,

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using Helodrace.ModernWar;
@@ -30,8 +31,7 @@ namespace Helodrace.Tests
                 .CreateDelegate(typeof(Action<Thing, NativeVector, float, float, bool, bool>));
             var rotate = (Func<NativeVector, float, NativeVector>)product.GetType("Helodrace.SpatialMath", true)
                 .GetMethod("RotateAroundY", allStatic).CreateDelegate(typeof(Func<NativeVector, float, NativeVector>));
-            var recoil = (ResolveRecoil)typeof(ModularWeaponRecoilUtility).GetMethod("ResolveNative", allStatic)
-                .CreateDelegate(typeof(ResolveRecoil));
+            ResolveRecoil recoil = ModularWeaponRecoilUtility.Resolve;
             var cache = (IDictionary)poses.GetField("poses", allStatic).GetValue(null);
             var savedResolver = ModularWeaponRecoilUtility.ExternalResolver;
             var equipment = new Thing { def = new ThingDef(), thingIDNumber = -1707001 };
@@ -60,8 +60,8 @@ namespace Helodrace.Tests
                 GenSpawn.Spawn(pawn, Find.CurrentMap.Center, Find.CurrentMap);
                 var gameRecoil = GameVector.zero;
                 float recoilAngle = 0;
-                ModularWeaponRecoilUtility.ExternalResolver = (Thing item, float aim, out GameVector offset, out float angle) =>
-                { offset = gameRecoil; angle = recoilAngle; return true; };
+                ModularWeaponRecoilUtility.ExternalResolver = (Thing item, float aim, out NativeVector offset, out float angle) =>
+                { offset = new NativeVector(gameRecoil.x, gameRecoil.y, gameRecoil.z); angle = recoilAngle; return true; };
                 foreach (Pawn wielder in new[] { null, pawn })
                     foreach (float distance in new[] { -.4f, 0f, .7f })
                         foreach (float equippedAngle in new[] { -15f, 0f, 23f })
@@ -109,12 +109,17 @@ namespace Helodrace.Tests
                         cache.Remove(equipment.thingIDNumber);
                     }
                 // Resolver refusal must discard all its output before the vanilla path.
-                ModularWeaponRecoilUtility.ExternalResolver = (Thing item, float aim, out GameVector offset, out float angle) =>
-                { offset = new GameVector(5, 6, 7); angle = 12; return false; };
+                ModularWeaponRecoilUtility.ExternalResolver = (Thing item, float aim, out NativeVector offset, out float angle) =>
+                { offset = new NativeVector(5, 6, 7); angle = 12; return false; };
                 recoil(null, 25, out var discarded, out float discardedAngle);
                 check(discarded == NativeVector.Zero && discardedAngle == 0, "refused external recoil is reset before fallback");
-                ModularWeaponRecoilUtility.Resolve(null, 25, out GameVector publicOffset, out float publicAngle);
-                check(publicOffset == GameVector.zero && publicAngle == 0, "public game recoil boundary preserves fallback behavior");
+                ModularWeaponRecoilUtility.Resolve(null, 25, out NativeVector publicOffset, out float publicAngle);
+                check(publicOffset == NativeVector.Zero && publicAngle == 0, "public native recoil API preserves fallback behavior");
+                check(typeof(ModularWeaponRecoilResolver).GetMethod("Invoke").GetParameters()[2].ParameterType
+                    == typeof(NativeVector).MakeByRefType()
+                    && typeof(ModularWeaponRecoilUtility).GetMethods().Count(m => m.Name == "Resolve") == 1
+                    && typeof(ModularWeaponRecoilUtility).GetMethod("ResolveNative", allStatic) == null,
+                    "recoil extension and primary API expose one native contract without old game/native wrapper overloads");
                 check(cache.GetType().GetGenericArguments()[1].GetField("drawLoc").FieldType == typeof(NativeVector),
                     "aiming cache owns native vectors rather than compatibility structs");
                 check(true, components + " aiming/rotation components and " + flags + " flip/recoil thresholds match frozen game calculations");
