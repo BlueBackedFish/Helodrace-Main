@@ -2205,9 +2205,7 @@
       </li>
     </tools>
     <comps>
-      <li Class="Helodrace.CompProperties_WornMeleeWeapon">
-        <minimumBestVerbWeightFactor>1.15</minimumBestVerbWeightFactor>
-      </li>
+      <li Class="Helodrace.CompProperties_WornMeleeWeapon" />
     </comps>
     <recipeMaker>
       <recipeUsers>
