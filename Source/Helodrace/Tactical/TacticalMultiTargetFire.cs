@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using RimWorld;
-using UnityEngine;
+using Color = Waylith.Math.Color;
+using Texture2D = UnityEngine.Texture2D;
 using Verse;
 
 namespace Helodrace.Tactical
@@ -185,7 +186,7 @@ namespace Helodrace.Tactical
         {
             if (target.IsValid)
             {
-                GenDraw.DrawRadiusRing(target.Cell, 0.55f, color);
+                GenDraw.DrawRadiusRing(target.Cell, 0.55f, color.ToGame());
             }
         }
 

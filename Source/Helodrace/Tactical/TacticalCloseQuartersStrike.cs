@@ -220,7 +220,7 @@ namespace Helodrace.Tactical
 
         public static void AdjustEquipmentDraw(
             Thing equipment,
-            ref UnityEngine.Vector3 drawLoc,
+            ref Vector3 drawLoc,
             ref float aimAngle)
         {
             Pawn pawn = WielderOf(equipment);
@@ -230,8 +230,8 @@ namespace Helodrace.Tactical
             }
 
             float previousAngle = aimAngle;
-            float height = drawLoc.y;
-            Vector3 offset = drawLoc.ToNative() - pawn.DrawPos.ToNative();
+            float height = drawLoc.Y;
+            Vector3 offset = drawLoc - pawn.DrawPos.ToNative();
             offset.Y = 0f;
             aimAngle = visualAngle;
             Vector3 adjusted = pawn.DrawPos.ToNative()
@@ -239,7 +239,7 @@ namespace Helodrace.Tactical
             adjusted.Y = height;
             adjusted += SpatialMath.RotateAroundY(Vector3.UnitZ, visualAngle)
                 * (StrikeThrustDistance * thrust);
-            drawLoc = adjusted.ToGame();
+            drawLoc = adjusted;
         }
 
         private static Pawn WielderOf(Thing equipment)
@@ -419,10 +419,12 @@ namespace Helodrace.Tactical
         [HarmonyPriority(Priority.Last)]
         public static void Prefix(Thing eq, ref UnityEngine.Vector3 drawLoc, ref float aimAngle)
         {
+            Vector3 nativeDrawLoc = drawLoc.ToNative();
             TacticalCloseQuartersStrikeUtility.AdjustEquipmentDraw(
                 eq,
-                ref drawLoc,
+                ref nativeDrawLoc,
                 ref aimAngle);
+            drawLoc = nativeDrawLoc.ToGame();
         }
     }
 

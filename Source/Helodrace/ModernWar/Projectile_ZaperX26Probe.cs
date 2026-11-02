@@ -374,18 +374,18 @@ namespace Helodrace.ModernWar
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            DrawFlightWire(drawLoc);
+            DrawFlightWire(drawLoc.ToNative());
             base.DrawAt(drawLoc, flip);
         }
 
-        private void DrawFlightWire(Vector3 probePosition)
+        private void DrawFlightWire(NativeVector3 probePosition)
         {
             if (!(Launcher is Pawn pawn) || !pawn.Spawned || pawn.Map != Map)
             {
                 return;
             }
 
-            DrawSaggingWire(pawn.DrawPos.ToNative(), probePosition.ToNative(), 0f, WireWidth);
+            DrawSaggingWire(pawn.DrawPos.ToNative(), probePosition, 0f, WireWidth);
         }
 
         internal static void DrawSaggingWire(NativeVector3 start, NativeVector3 end, float lateralOffset, float width)

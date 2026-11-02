@@ -85,7 +85,7 @@ namespace Helodrace.Tests
             foreach(GV offset in deltas)
             {
                 positions[launcher]=map.Center.ToVector3Shifted();positions[target]=positions[launcher]+offset;
-                foreach(bool present in new[]{false,true}){Set(actual,"launcher",present?launcher:null);Set(frozen,"launcher",present?launcher:null);Pair(()=>Call(actual,"DrawFlightWire",positions[target]),()=>Call(frozen,"DrawFlightWire",positions[target]),!present);flightPairs++;}
+                foreach(bool present in new[]{false,true}){Set(actual,"launcher",present?launcher:null);Set(frozen,"launcher",present?launcher:null);Pair(()=>Call(actual,"DrawFlightWire",Native(positions[target])),()=>Call(frozen,"DrawFlightWire",positions[target]),!present);flightPairs++;}
                 foreach(int ticks in new[]{0,300})foreach(bool equipped in new[]{false,true})
                 {Set(tether,"ticksLeft",ticks);Set(tether,"sourceWeapon",equipped?weapon:null);Pair(()=>Call(tether,"DrawAt",GV.zero,false),()=>FrozenWireSniper.Tether.Draw(tether),ticks==0||!equipped);tetherPairs++;}
             }

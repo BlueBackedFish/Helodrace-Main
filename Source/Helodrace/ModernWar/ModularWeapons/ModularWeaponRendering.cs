@@ -26,7 +26,7 @@ namespace Helodrace.ModernWar
                 ModularWeaponAssemblyRenderer.DrawRealtime(
                     comp,
                     this,
-                    drawLoc,
+                    drawLoc.ToNative(),
                     ModularWeaponAssemblyRenderer.GroundExtraRotation(this),
                     flip);
         }
@@ -250,11 +250,11 @@ namespace Helodrace.ModernWar
         public static void DrawRealtime(
             CompModularWeaponNode comp,
             Thing root,
-            UnityEngine.Vector3 drawLoc,
+            Vector3 drawLoc,
             float bodyAngle,
             bool flipped)
         {
-            DrawRealtime(comp, root, drawLoc.ToNative(), bodyAngle, flipped,
+            DrawRealtime(comp, root, drawLoc, bodyAngle, flipped,
                 flipped ? MeshPool.plane10Flip : MeshPool.plane10);
         }
 
@@ -574,7 +574,7 @@ namespace Helodrace.ModernWar
             return material;
         }
 
-        public static void DrawAiming(Thing equipment, UnityEngine.Vector3 drawLoc, float aimAngle)
+        public static void DrawAiming(Thing equipment, Vector3 drawLoc, float aimAngle)
         {
             CompModularWeaponNode comp = (equipment as ThingWithComps)
                 ?.GetComp<CompModularWeaponNode>();
@@ -608,7 +608,7 @@ namespace Helodrace.ModernWar
                 out recoilOffset,
                 out recoilAngle);
             // Apply the combat system's complete transform to every modular layer.
-            Vector3 center = drawLoc.ToNative() + recoilOffset;
+            Vector3 center = drawLoc + recoilOffset;
             // The west mesh is mirrored. Applying the same angular delta after that
             // mirror makes muzzle rise appear as muzzle drop, so mirror the recoil
             // rotation as well while leaving its world-space translation untouched.
@@ -662,7 +662,7 @@ namespace Helodrace.ModernWar
         {
             if (eq?.TryGetComp<CompModularWeaponNode>()?.Props.isAssemblyRoot != true)
                 return true;
-            ModularWeaponAssemblyRenderer.DrawAiming(eq, drawLoc, aimAngle);
+            ModularWeaponAssemblyRenderer.DrawAiming(eq, drawLoc.ToNative(), aimAngle);
             return false;
         }
     }
