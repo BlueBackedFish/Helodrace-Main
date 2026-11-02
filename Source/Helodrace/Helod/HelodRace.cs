@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
@@ -217,6 +218,21 @@ namespace Helodrace
     {
         public static void Postfix(ApparelProperties __instance, Pawn pawn, ref bool __result)
             => __result &= HelodRace.CanWear(pawn, __instance);
+    }
+
+    [HarmonyPatch]
+    public static class Patch_HelodInitialApparelPermission
+    {
+        public static IEnumerable<MethodBase> TargetMethods()
+        {
+            yield return AccessTools.Method(typeof(PawnApparelGenerator), "CanUsePair");
+            yield return AccessTools.Method(typeof(PawnApparelGenerator), "CanUseStuff");
+        }
+
+        // Reject race-exclusive gear before the generator spends its clothing
+        // budget or picks a required/stuff candidate that Wear would reject.
+        public static void Postfix(Pawn pawn, ThingStuffPair pair, ref bool __result)
+            => __result &= HelodRace.CanWear(pawn, pair.thing);
     }
 
     [HarmonyPatch(typeof(EquipmentUtility), nameof(EquipmentUtility.CanEquip),
