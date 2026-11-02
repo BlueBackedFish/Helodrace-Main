@@ -77,9 +77,28 @@ namespace Helodrace.Economy
                 .OfType<TraderSpecificPawnGroupMaker>()
                 .FirstOrDefault(maker => maker.traderKindDefName == parms.traderKind.defName);
             pawnGroupMaker = selected;
-            if (selected != null) parms.points = System.Math.Max(parms.points, selected.minimumGuardPoints);
+            // Vanilla subtracts the trader's combat cost before choosing guards.
+            // Keep the authored minimum as a guard budget after that deduction.
+            if (selected != null && selected.minimumGuardPoints > 0f)
+                parms.points = System.Math.Max(parms.points, selected.minimumGuardPoints
+                    + selected.traders.Max(option => option.kind.combatPower));
             __result = pawnGroupMaker != null && pawnGroupMaker.CanGenerateFrom(parms);
             return false;
+        }
+    }
+
+    [HarmonyPatch(typeof(PawnGroupMakerUtility), nameof(PawnGroupMakerUtility.MaxPawnCost))]
+    internal static class Patch_HelodTraderGuardCost
+    {
+        private static void Postfix(Faction faction, PawnGroupKindDef groupKind, ref float __result)
+        {
+            if (groupKind != PawnGroupKindDefOf.Trader || faction?.def?.defName != HelodCommercialCaravan.FactionName) return;
+            // The faction's curve is balanced for raids. At low wealth it rules
+            // out every petroleum escort, even with enough total guard points.
+            // The remaining-points check still limits the actual caravan size.
+            float guardCost = faction.def.pawnGroupMakers.OfType<TraderSpecificPawnGroupMaker>()
+                .SelectMany(maker => maker.guards).Select(option => option.kind.combatPower).DefaultIfEmpty(0f).Max();
+            __result = System.Math.Max(__result, guardCost);
         }
     }
 

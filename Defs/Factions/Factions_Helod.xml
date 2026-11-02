@@ -188,7 +188,8 @@
       <li Class="Helodrace.Economy.TraderSpecificPawnGroupMaker">
         <kindDef>Trader</kindDef>
         <traderKindDefName>HD_WW_Caravan_HelodPetroleum</traderKindDefName>
-        <minimumGuardPoints>260</minimumGuardPoints>
+        <!-- Two escorts even if both are the 160-point captain option. -->
+        <minimumGuardPoints>320</minimumGuardPoints>
         <traders>
           <HD_GW_HelodCaravanMaster>1</HD_GW_HelodCaravanMaster>
         </traders>
