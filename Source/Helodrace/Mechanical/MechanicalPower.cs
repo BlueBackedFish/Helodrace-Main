@@ -146,10 +146,17 @@ namespace Helodrace
             powerTrader = parent.GetComp<CompPowerTrader>();
         }
 
+        public override void ReceiveCompSignal(string signal)
+        {
+            base.ReceiveCompSignal(signal);
+            if (signal == CompFlickable.FlickedOnSignal || signal == CompFlickable.FlickedOffSignal)
+                Network?.UpdateNetwork();
+        }
         public bool IsProducingPower
         {
             get
             {
+                if (!parent.Spawned || parent.IsBrokenDown()) return false;
                 if (flickable != null && !flickable.SwitchIsOn) return false;
 
                 if (refuelable != null && !refuelable.HasFuel) return false;
@@ -222,8 +229,8 @@ namespace Helodrace
             && Network.GridRPM < Network.NominalGridRPM
             && (Flickable == null || Flickable.SwitchIsOn);
 
-        public float GridPowerDemanded => Network != null
-            ? Waylith.Math.Mathf.Max(0f, Props.mechanicalPowerRequired)
+        public float GridPowerDemanded => Network != null && (Flickable == null || Flickable.SwitchIsOn)
+            ? Generator?.RequestedMechanicalInput ?? Waylith.Math.Mathf.Max(0f, Props.mechanicalPowerRequired)
                 * (TemperatureControl?.PowerDemandFactor ?? 1f)
             : 0f;
         
@@ -487,6 +494,7 @@ namespace Helodrace
         private HashSet<CompMechanicalNode> allNodes = new HashSet<CompMechanicalNode>();
         private List<MechanicalNetwork> networks = new List<MechanicalNetwork>();
         private bool isDirty = true;
+        private int lastUpdateTick = -1;
 
         public MechanicalNetworkManager(Map map) : base(map) { }
 
@@ -520,7 +528,7 @@ namespace Helodrace
         {
             base.MapComponentTick();
 
-            // Old versions only deregistered on destruction. Minification,
+// Old versions only deregistered on destruction. Minification,
             // transfer and some debug clear paths can despawn without destroying,
             // leaving nodes and whole networks ticking forever in a long save.
             if (allNodes.Count > 0 && map.IsHashIntervalTick(GenTicks.TickRareInterval))
@@ -545,14 +553,17 @@ namespace Helodrace
                 return;
             }
 
+            bool rebuilt = isDirty;
             if (isDirty)
             {
                 RebuildNetworks();
                 isDirty = false;
             }
 
-            if (Find.TickManager.TicksGame % 60 == 0)
+            int now = Find.TickManager.TicksGame;
+            if (rebuilt || lastUpdateTick < 0 || now < lastUpdateTick || now - lastUpdateTick >= 60)
             {
+                lastUpdateTick = now;
                 foreach (var net in networks)
                 {
                     net.UpdateNetwork();

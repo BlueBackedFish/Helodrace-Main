@@ -50,11 +50,17 @@
   <HD_Stat_GeneratorRatedInput>Rated mechanical input</HD_Stat_GeneratorRatedInput>
   <HD_Stat_GeneratorRatedInput_Desc>The mechanical input at which this generator reaches its peak conversion efficiency.</HD_Stat_GeneratorRatedInput_Desc>
   <HD_Stat_GeneratorEfficiency>Peak / minimum efficiency</HD_Stat_GeneratorEfficiency>
-  <HD_Stat_GeneratorEfficiency_Desc>Conversion efficiency drops by 5 percentage points for every 10% that mechanical input deviates from the rated input, down to the minimum.</HD_Stat_GeneratorEfficiency_Desc>
+  <HD_Stat_GeneratorEfficiency_Desc>Efficiency increases continuously from the minimum at low load to the peak at rated input. The requested electrical output determines the mechanical load.</HD_Stat_GeneratorEfficiency_Desc>
   <HD_SharpshooterMode_Preparing>(preparing: {0}s)</HD_SharpshooterMode_Preparing>
   <HD_SharpshooterMode_InstantSwitch>Switches instantly and cancels weapon warmup. Switching is unavailable during a burst or weapon cooldown.</HD_SharpshooterMode_InstantSwitch>
   <HD_SharpshooterMode_StationarySetup>Requires {0}s stationary preparation before firing. Movement resets preparation; no shots are fired while preparing.</HD_SharpshooterMode_StationarySetup>
   <HD_SharpshooterMode_CooldownLocked>Cannot switch during a burst or weapon cooldown.</HD_SharpshooterMode_CooldownLocked>
   <HD_Stat_MechanicalRequiredPower>Rated mechanical input</HD_Stat_MechanicalRequiredPower>
   <HD_Stat_MechanicalRequiredPower_Desc>Mechanical input in watts at the rated operating point. The network balances mechanical watts; gearing converts speed and torque.</HD_Stat_MechanicalRequiredPower_Desc>
+  <HD_MechanicalGenerator_Target>Target electrical output: {0} W\nRequested shaft input: {1} W</HD_MechanicalGenerator_Target>
+  <HD_Generator_SetOutput>Output: {0} W</HD_Generator_SetOutput>
+  <HD_Generator_SetOutputDesc>Choose the target electrical output. Lower output reduces shaft load; zero unloads the generator. Engine fuel consumption follows the engine settings.</HD_Generator_SetOutputDesc>
+  <HD_ITab_MechanicalNetwork_PowerOutput>Available mechanical power: {0} W</HD_ITab_MechanicalNetwork_PowerOutput>
+  <HD_ITab_MechanicalNetwork_PowerNeeded>Required mechanical power: {0} W</HD_ITab_MechanicalNetwork_PowerNeeded>
+  <HD_ITab_MechanicalNetwork_PowerSurplus>Mechanical margin: {0} W</HD_ITab_MechanicalNetwork_PowerSurplus>
 </LanguageData>

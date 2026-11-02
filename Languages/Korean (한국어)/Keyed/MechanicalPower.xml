@@ -63,11 +63,14 @@
   <HD_Stat_GeneratorRatedInput>정격 기계 입력</HD_Stat_GeneratorRatedInput>
   <HD_Stat_GeneratorRatedInput_Desc>발전기가 최고 변환 효율에 도달하는 기계 동력 입력입니다.</HD_Stat_GeneratorRatedInput_Desc>
   <HD_Stat_GeneratorEfficiency>최고 / 최저 효율</HD_Stat_GeneratorEfficiency>
-  <HD_Stat_GeneratorEfficiency_Desc>기계 입력이 정격 입력에서 10% 멀어질 때마다 변환 효율이 5%p씩 감소하며, 최저 효율 아래로는 내려가지 않습니다.</HD_Stat_GeneratorEfficiency_Desc>
+  <HD_Stat_GeneratorEfficiency_Desc>저부하의 최저 효율에서 정격 입력의 최고 효율까지 연속적으로 증가합니다. 설정한 전기 출력에 필요한 기계 입력을 역산해 축 부하에 반영합니다.</HD_Stat_GeneratorEfficiency_Desc>
   <HD_SharpshooterMode_Preparing>(준비 중: {0}초)</HD_SharpshooterMode_Preparing>
   <HD_SharpshooterMode_InstantSwitch>즉시 전환하며 무기의 조준을 취소합니다. 연사 중이거나 무기 재사용 대기 중에는 전환할 수 없습니다.</HD_SharpshooterMode_InstantSwitch>
   <HD_SharpshooterMode_StationarySetup>정지 후 {0}초간 준비해야 사격할 수 있습니다. 이동하면 준비가 초기화되며, 준비 중에는 사격하지 않습니다.</HD_SharpshooterMode_StationarySetup>
   <HD_SharpshooterMode_CooldownLocked>연사 중이거나 무기 재사용 대기 중에는 전환할 수 없습니다.</HD_SharpshooterMode_CooldownLocked>
   <HD_Stat_MechanicalRequiredPower>정격 기계 입력</HD_Stat_MechanicalRequiredPower>
   <HD_Stat_MechanicalRequiredPower_Desc>정격 상태에서 필요한 기계 입력 W입니다. 동력망은 기계 W의 수지를 계산하고 변속기가 회전수와 토크를 변환합니다.</HD_Stat_MechanicalRequiredPower_Desc>
+  <HD_MechanicalGenerator_Target>목표 전기 출력: {0} W\n요구 축 입력: {1} W</HD_MechanicalGenerator_Target>
+  <HD_Generator_SetOutput>발전량: {0} W</HD_Generator_SetOutput>
+  <HD_Generator_SetOutputDesc>목표 전기 출력을 선택합니다. 출력을 낮추면 축 부하도 감소하며 0은 무부하입니다. 기관의 연료 소비는 기관 설정을 따릅니다.</HD_Generator_SetOutputDesc>
 </LanguageData>

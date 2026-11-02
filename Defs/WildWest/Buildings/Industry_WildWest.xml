@@ -428,7 +428,7 @@
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsPower</li></thingCategories>
     <label>early industrial generator</label>
-    <description>An early industrial generator that converts line-shaft rotation into electricity. Efficiency falls when the mechanical input moves away from its rated load.</description>
+    <description>A line-shaft generator with adjustable electrical output. Its target output determines shaft load. Efficiency rises continuously from 60% at low load to 80% at the 10 kW rated input.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_EarlyIndustrialGenerator</texPath>
@@ -487,8 +487,7 @@
         <ratedMechanicalInput>10000</ratedMechanicalInput>
         <peakEfficiency>0.80</peakEfficiency>
         <minimumEfficiency>0.60</minimumEfficiency>
-        <inputDeviationPerStep>0.10</inputDeviationPerStep>
-        <efficiencyStep>0.05</efficiencyStep>
+        <defaultTargetElectricalOutput>300</defaultTargetElectricalOutput>
       </li>
       <li Class="CompProperties_Power">
         <compClass>Helodrace.CompPowerPlantMechanical</compClass>

@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework><HelodUsesGame>true</HelodUsesGame><HelodUsesHarmony>true</HelodUsesHarmony><AssemblyName>Helodrace.PowerStageGChecks</AssemblyName><GenerateDependencyFile>false</GenerateDependencyFile></PropertyGroup>
+  <ItemGroup><Reference Include="Helodrace"><HintPath>$(HelodAssembly)</HintPath><Private>false</Private></Reference></ItemGroup>
+</Project>

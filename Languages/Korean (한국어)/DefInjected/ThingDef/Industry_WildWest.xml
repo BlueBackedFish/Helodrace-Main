@@ -17,7 +17,7 @@
   <HD_EarlyIndustrialLargeMotor.description>전력을 라인 샤프트용 회전 동력으로 바꾸는 대형 전동기입니다. 심한 과부하는 단락과 배터리 방전을 일으킬 수 있습니다.</HD_EarlyIndustrialLargeMotor.description>
 
   <HD_EarlyIndustrialGenerator.label>초기 산업용 발전기</HD_EarlyIndustrialGenerator.label>
-  <HD_EarlyIndustrialGenerator.description>라인 샤프트의 회전력을 전기로 바꾸는 초기 산업용 발전기입니다. 정격 입력에서 벗어나면 발전 효율이 낮아집니다.</HD_EarlyIndustrialGenerator.description>
+  <HD_EarlyIndustrialGenerator.description>축 동력을 전기로 바꾸는 발전기입니다. 목표 전기 출력을 설정하면 필요한 축 부하도 함께 바뀝니다. 효율은 저부하의 60%에서 정격 입력 10 kW의 80%까지 연속적으로 증가합니다.</HD_EarlyIndustrialGenerator.description>
 
   <HD_BasicPumpJack.label>기본 펌프잭</HD_BasicPumpJack.label>
   <HD_BasicPumpJack.description>개발된 유전에서 원유를 추출하는 데 사용되는 간단한 기계식 펌프입니다. 필요한 회전력을 제공하기 위해 동력원이 있어야 합니다.</HD_BasicPumpJack.description>
