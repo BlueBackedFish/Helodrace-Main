@@ -12,7 +12,7 @@ In-game checks still required:
 
 1. Build and fuel a telegraph. Verify use is unavailable before installation and the inspect text explains how to connect.
 2. Select a colonist and right-click a visiting LOW caravan trader, both drafted and undrafted. Verify ordinary trading and the separate installation request both appear. Clicking the same caravan's escort must also offer installation and send the colonist to its merchant. HIGH traders and unrelated LOW visitors must not offer installation. A merchant's temporarily unavailable merchandise trade must not hide installation.
-3. Request installation, cancel once, then confirm with 500 accessible Sthaler. Verify only confirmation charges the fee and repeating the request is unavailable.
+3. Request installation, cancel once, then confirm with 250 accessible Sthaler. Verify only confirmation charges the fee, awards 12.5 financial goodwill, and repeating the request is unavailable.
 4. Save/load during the 2–3 day wait. Verify completion time persists, the activation letter appears once, and another telegraph in the same settlement shares the connection.
 5. At 08:00–17:59 local time, expand the LOW faction row and company rows. At 18:00–07:59, or without primary cells, verify all company names and buttons disappear.
 6. Test the separate financial and commercial company requests, the combined request, and Harrington guard hiring as described in `Source/Tests/Communications/README.md`.

@@ -192,6 +192,8 @@ internal static partial class Program
 
     private static void TransactionsAndPersistence()
     {
+        Check(TelegraphNetworkRules.InstallationCost == 250 && FinancialGoodwillRules.ServiceReward(250) == 12.5f,
+            "Installation costs 250 STL and awards exactly 12.5 financial goodwill");
         DefDatabase<ThingDef>.Value = new ThingDef { defName = "HD_Money" };
         Find.TickManager.TicksGame = 1000;
         var s = Settlement();
@@ -208,12 +210,12 @@ internal static partial class Program
         var unreachable = Notes(s.map, 1000); unreachable.Accessible = false;
         var fogged = Notes(s.map, 1000); fogged.Position.IsFogged = true;
         Check(s.network.TryRequestInstallation(s.trader, s.actor, out _), "Accessible notes from multiple stacks fund installation");
-        Check(Balance(s.map) == 3100, "Payment removes exactly 500 notes");
+        Check(Balance(s.map) == 3350, "Payment removes exactly 250 notes");
         Check(forbidden.stackCount == 1000 && unreachable.stackCount == 1000 && fogged.stackCount == 1000,
             "Forbidden, unreachable, and fogged money stays untouched");
         Check(s.network.Provider == s.trader.Faction, "The actual LOW trader faction owns the connection");
         Check(!s.network.TryRequestInstallation(s.trader, s.actor, out _), "Duplicate pending request rejected");
-        Check(Balance(s.map) == 3100 && s.network.TicksUntilReady == 120000, "Duplicate request neither charges nor reschedules installation");
+        Check(Balance(s.map) == 3350 && s.network.TicksUntilReady == 120000, "Duplicate request neither charges nor reschedules installation");
 
         Scribe.Values.Clear(); Scribe.Loading = false;
         s.network.ExposeData();
@@ -227,7 +229,7 @@ internal static partial class Program
         Find.TickManager.TicksGame++;
         loaded.MapComponentTick(); loaded.MapComponentTick();
         Check(loaded.Status() == TelegraphConnectionStatus.Online && Find.LetterStack.Count == 1, "Deadline activates and notifies exactly once");
-        Check(!loaded.TryRequestInstallation(s.trader, s.actor, out _) && Balance(s.map) == 3100, "Active installation cannot be purchased again");
+        Check(!loaded.TryRequestInstallation(s.trader, s.actor, out _) && Balance(s.map) == 3350, "Active installation cannot be purchased again");
         loaded.ExposeData();
         var reloaded = new MapComponent_TelegraphNetwork(s.map);
         Scribe.Loading = true; reloaded.ExposeData(); Scribe.Loading = false;
@@ -241,21 +243,21 @@ internal static partial class Program
         Check(reloaded.Status() == TelegraphConnectionStatus.Online, "An installed line stays available for financially authorized hostile trade requests");
         s.trader.Faction.Hostile = false;
 
-        var other = Settlement(); Notes(other.map, 500);
+        var other = Settlement(); Notes(other.map, 250);
         Check(!other.network.InstallationRequested, "Another settlement does not inherit an installed line");
         other.trader.Faction.def.defName = "HD_HelodCivilHighFaction";
-        Check(!other.network.TryRequestInstallation(other.trader, other.actor, out _) && Balance(other.map) == 500,
+        Check(!other.network.TryRequestInstallation(other.trader, other.actor, out _) && Balance(other.map) == 250,
             "HIGH caravan cannot install or collect payment");
         other.trader.Faction.def.defName = TelegraphNetworkRules.ProviderDefName;
         other.trader.Spawned = false;
         Check(!other.network.TryRequestInstallation(other.trader, other.actor, out _), "Departed trader invalidates a pending confirmation");
         other.trader.Spawned = true;
         other.actor.Downed = true;
-        Check(!other.network.TryRequestInstallation(other.trader, other.actor, out _) && Balance(other.map) == 500,
+        Check(!other.network.TryRequestInstallation(other.trader, other.actor, out _) && Balance(other.map) == 250,
             "Incapacitated negotiator cannot pay from a stale confirmation");
         other.actor.Downed = false;
         other.map.listerThings.AllThings[0].Faction = other.trader.Faction;
-        Check(!other.network.TryRequestInstallation(other.trader, other.actor, out _) && Balance(other.map) == 500,
+        Check(!other.network.TryRequestInstallation(other.trader, other.actor, out _) && Balance(other.map) == 250,
             "Unowned terminal cannot qualify for installation");
         other.map.listerThings.AllThings[0].Faction = Faction.OfPlayer;
         Rand.UseMaximum = true;
@@ -265,15 +267,15 @@ internal static partial class Program
         Rand.UseMaximum = false;
 
         var blocked = Settlement();
-        Notes(blocked.map, 499);
+        Notes(blocked.map, 249);
         Notes(blocked.map, 1000).Forbidden = true;
         Notes(blocked.map, 1000).Accessible = false;
         Notes(blocked.map, 1000).Position.IsFogged = true;
         Check(!blocked.network.TryRequestInstallation(blocked.trader, blocked.actor, out _), "Unavailable notes cannot make up an insufficient accessible balance");
-        Check(!blocked.network.InstallationRequested && Balance(blocked.map) == 3499, "Unavailable-funds rejection consumes nothing");
+        Check(!blocked.network.InstallationRequested && Balance(blocked.map) == 3249, "Unavailable-funds rejection consumes nothing");
         blocked.map.listerThings.AllThings.RemoveAt(0);
         Notes(blocked.map, 500);
         Check(!blocked.network.TryRequestInstallation(blocked.trader, blocked.actor, out _), "Installation requires a constructed terminal");
-        Check(!blocked.network.InstallationRequested && Balance(blocked.map) == 3999, "Missing terminal never charges a fee");
+        Check(!blocked.network.InstallationRequested && Balance(blocked.map) == 3749, "Missing terminal never charges a fee");
     }
 }

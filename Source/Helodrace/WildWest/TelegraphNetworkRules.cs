@@ -13,7 +13,7 @@ namespace Helodrace
     public static class TelegraphNetworkRules
     {
         public const string ProviderDefName = "HD_HelodCivilLowFaction";
-        public const int InstallationCost = 500;
+        public const int InstallationCost = 250;
         public const int OpeningHour = 8;
         public const int ClosingHour = 18;
         public const int MinimumInstallationTicks = 120000;

@@ -181,9 +181,9 @@ internal static partial class Program
         Find.TickManager.TicksGame = 1000; GenDate.LocalHour = 12; Rand.UseMaximum = false;
         DefDatabase<ThingDef>.Value = new ThingDef { defName = "HD_Money" };
         DefDatabase<TraderKindDef>.Value = new TraderKindDef();
-        var s = Settlement(); Notes(s.map, 500);
+        var s = Settlement(); Notes(s.map, 250);
         Check(s.network.TryRequestInstallation(s.trader, s.actor, out _), "Loan fixture has an installed telegraph");
-        Check(ledger.Get(s.trader.Faction) == 25f, "Successful installation records its actual 500-note service payment");
+        Check(ledger.Get(s.trader.Faction) == 12.5f, "Successful installation records its actual 250-note service payment");
         Find.TickManager.TicksGame += 120000;
         Find.Maps.Clear(); Find.Maps.Add(s.map);
         s.trader.Faction.PlayerGoodwill = 30; ledger.TrySet(s.trader.Faction, 40f);
