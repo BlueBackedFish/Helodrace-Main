@@ -57,6 +57,7 @@ public sealed partial class Checks
                 if (table.AllRecipes.Contains(Def<RecipeDef>(name)))
                     Check(table.AllRecipes.Contains(Def<RecipeDef>(name + "Bulk5")) && table.AllRecipes.Contains(Def<RecipeDef>(name + "Bulk10")),
                         "Every supported table retains both bulk sizes: " + table.defName + "/" + name);
+        foreach (int ticks in OilRemovalChecks()) yield return ticks;
         componentBench = bench;
         var partial = (Bill_ProductionWithUft)Bill(bench, "HD_MakeBasicElectronicComponentsBulk10");
         int elapsed = 0;
@@ -71,6 +72,7 @@ public sealed partial class Checks
         savedComponentIngredients = partial.BoundUft.ingredients.Sum(t => t.stackCount);
         componentRawAtPause = partial.recipe.ingredients.Select(i => i.filter.AnyAllowedDef).Distinct().ToDictionary(d => d, Count);
         Check(savedComponentIngredients == 70, "Partial electronic batch retains all 70 physical material units");
+        foreach (int ticks in RelocationBeforeSave()) yield return ticks;
         stage = 2;
         GameDataSaveLoader.SaveGame("IndustryStage3Components");
         Write("SAVE: partial electronic components workLeft=" + savedComponentWork + "; materialUnits=" + savedComponentIngredients);
@@ -78,6 +80,7 @@ public sealed partial class Checks
     }
     private IEnumerable<int> ResumeComponentBatch()
     {
+        foreach (int ticks in RelocationAfterLoad()) yield return ticks;
         var bill = componentBench.BillStack.Bills.OfType<Bill_ProductionWithUft>().Single(b => b.repeatCount > 0);
         Thing unfinished = bill.BoundUft;
         int before = Count(bill.recipe.ProducedThingDef);

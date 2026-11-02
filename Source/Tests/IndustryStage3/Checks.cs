@@ -32,6 +32,8 @@ public sealed partial class Checks : GameComponent
     public Checks(Game game) { }
     public override void ExposeData()
     {
+        ExposeRelocation();
+        ExposeOilRemoval();
         Scribe_Values.Look(ref stage, "industryStage3", 0);
         Scribe_References.Look(ref worker, "industryWorker");
         Scribe_References.Look(ref reactor, "industryReactor");
@@ -45,6 +47,8 @@ public sealed partial class Checks : GameComponent
         if (stage != 2 || !GenCommandLine.TryGetCommandLineArg("hdIndustryStage3", out output)) return;
         try
         {
+            CheckRelocationLoaded();
+            CheckOilRemovalLoaded();
             var bill = componentBench.BillStack.Bills.OfType<Bill_ProductionWithUft>().Single(b => b.repeatCount > 0);
             Check(bill.BoundUft != null && bill.BoundUft.workLeft == savedComponentWork
                 && bill.BoundUft.ingredients.Sum(t => t.stackCount) == savedComponentIngredients
