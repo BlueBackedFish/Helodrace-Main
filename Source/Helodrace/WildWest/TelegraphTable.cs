@@ -355,8 +355,11 @@ namespace Helodrace
                     Find.WindowStack.Add(new Economy.Dialog_CaravanLosses(SelectedMilitaryFaction()));
             }
             float financialGoodwill = Economy.GameComponent_FinancialGoodwill.Current?.Get(SelectedMilitaryFaction()) ?? 0f;
-            Widgets.Label(goodwillRect.ToGame(), "HD_Company_FinancialGoodwill".Translate(financialGoodwill.ToString("0.##")));
-            TooltipHandler.TipRegion(goodwillRect.ToGame(), "HD_Company_FinancialGoodwillTip".Translate());
+            if (Economy.GameComponent_FinancialGoodwill.Supports(SelectedMilitaryFaction()))
+            {
+                Widgets.Label(goodwillRect.ToGame(), "HD_Company_FinancialGoodwill".Translate(financialGoodwill.ToString("0.##")));
+                TooltipHandler.TipRegion(goodwillRect.ToGame(), "HD_Company_FinancialGoodwillTip".Translate());
+            }
             CompanyDispatchSchedule schedule = companies.Schedule(SelectedCompany);
             string status = schedule.Pending
                 ? "HD_Company_InTransit".Translate(Mathf.Max(0, schedule.ArrivalTick - now).ToStringTicksToPeriod()).ToString()

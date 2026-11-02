@@ -16,12 +16,15 @@ namespace Helodrace.Economy
         public static GameComponent_FinancialGoodwill Current
             => Verse.Current.Game?.GetComponent<GameComponent_FinancialGoodwill>();
 
+        public static bool Supports(Faction faction)
+            => faction != null && !faction.IsPlayer && FinancialFactionPolicy.Includes(faction.def?.defName);
+
         public float Get(Faction faction)
-            => faction != null && !faction.IsPlayer && values != null && values.TryGetValue(faction, out float value) ? value : 0f;
+            => Supports(faction) && values != null && values.TryGetValue(faction, out float value) ? value : 0f;
 
         public bool TrySet(Faction faction, float goodwill)
         {
-            if (faction == null || faction.IsPlayer || float.IsNaN(goodwill) || float.IsInfinity(goodwill)) return false;
+            if (!Supports(faction) || float.IsNaN(goodwill) || float.IsInfinity(goodwill)) return false;
             if (values == null) values = new Dictionary<Faction, float>();
             float value = FinancialGoodwillRules.Add(0f, goodwill);
             if (value == 0f) values.Remove(faction);

@@ -44,7 +44,8 @@ namespace Helodrace.Economy
         public const string Tag = "HD_FinancialCaravan";
         private const string LordTag = Tag + ":";
         public static bool IsProtected(Thing thing)
-            => thing is Pawn pawn && pawn.Spawned && pawn.GetLord()?.LordJob is LordJob_FinancialCaravan job && job.Protected;
+            => thing is Pawn pawn && GameComponent_FinancialGoodwill.Supports(pawn.Faction)
+                && pawn.Spawned && pawn.GetLord()?.LordJob is LordJob_FinancialCaravan job && job.Protected;
         public static bool TraderFactionHostile(Faction a, Faction b, Pawn trader)
             => !IsProtected(trader) && a.HostileTo(b);
 

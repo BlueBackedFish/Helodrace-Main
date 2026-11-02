@@ -10,5 +10,6 @@
     <Compile Include="GameStubs.cs" />
     <Compile Include="../../Helodrace/Economy/FinancialCaravanAccess.cs" Link="FinancialCaravanAccess.cs" />
     <Compile Include="../../Helodrace/Economy/FinancialCaravanScope.cs" Link="FinancialCaravanScope.cs" />
+    <Compile Include="../../Helodrace/Economy/FinancialFactionPolicy.cs" Link="FinancialFactionPolicy.cs" />
   </ItemGroup>
 </Project>

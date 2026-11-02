@@ -51,8 +51,21 @@ internal static partial class Program
     {
         var game = new Game(); Current.Game = game;
         var ledger = new GameComponent_FinancialGoodwill(game); game.Component = ledger;
-        var faction = new Faction { PlayerGoodwill = 20, NativeNaturalGoodwill = -10 };
+        var faction = new Faction { def = new FactionDef { defName = "HD_HelodCivilLowFaction" }, PlayerGoodwill = 20, NativeNaturalGoodwill = -10 };
         Check(ledger.Get(faction) == 0, "Financial reputation starts independently at zero");
+        foreach (string name in new[] { null, "OutlanderCivil", "TribeCivil", "ExternalRaceFaction", "HD_HelodPlayerColony", "HD_HelodOtherFaction" })
+        {
+            var outsider = new Faction { def = new FactionDef { defName = name } };
+            Check(!ledger.TrySet(outsider, 40f) && ledger.Adjust(outsider, 10f) == 0f
+                && ledger.RecordServicePayment(outsider, 250) == 0f && !ledger.TrySpend(outsider, 1f)
+                && ledger.Get(outsider) == 0f, "Unsupported factions cannot hold or spend financial credit: " + name);
+            float ignored = 0f; bool result = false;
+            Check(Patch_FinancialEconomicReward.Prefix(Faction.OfPlayer, outsider, 10, HistoryEventDefOf.Traded, ref ignored, ref result)
+                && ignored == 0f, "Ordinary non-Helod trading retains diplomacy without financial rewards");
+        }
+        var high = new Faction { def = new FactionDef { defName = "HD_HelodCivilHighFaction" } };
+        Check(ledger.TrySet(high, 25f) && ledger.TrySpend(high, 5f) && ledger.Get(high) == 20f,
+            "HIGH shares the Helod currency and financial ledger, without gaining LOW company service access");
         Check(ledger.RecordServicePayment(faction, 25) == 1.25f && ledger.Get(faction) == 1.25f,
             "Paid services award one financial point per 20 notes, preserving fractional payments");
         Check(ledger.RecordServicePayment(faction, 0) == 0f && ledger.RecordServicePayment(faction, -20) == 0f,

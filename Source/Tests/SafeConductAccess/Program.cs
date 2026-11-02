@@ -15,8 +15,11 @@ internal static class Program
 
     private static void Main()
     {
-        var faction = new Faction { Hostile = true };
-        var other = new Faction { Hostile = true };
+        var faction = new Faction { def = new FactionDef { defName = "HD_HelodCivilLowFaction" }, Hostile = true };
+        var other = new Faction { def = new FactionDef { defName = "HD_HelodCivilHighFaction" }, Hostile = true };
+        var outsider = new Faction { def = new FactionDef { defName = "OutlanderCivil" }, Hostile = true };
+        using (FinancialCaravanScope.Enter(outsider))
+            Check(!FinancialCaravanScope.Covers(outsider, Faction.OfPlayer), "An unrelated faction cannot acquire a financial safe-conduct scope");
         var kind = new TraderKindDef();
         var actor = new Pawn { Faction = Faction.OfPlayer };
         var trader = new Pawn { Faction = faction, TraderKind = kind, Protected = true };

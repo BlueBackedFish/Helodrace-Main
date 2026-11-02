@@ -19,8 +19,9 @@ namespace Helodrace.Economy
                 || (reason != HistoryEventDefOf.GaveGift && reason != HistoryEventDefOf.Traded)
                 || goodwillChange <= 0 || __instance.IsPlayer == other.IsPlayer
                 || !__instance.CanChangeGoodwillFor(other, goodwillChange)) return true;
-            __state = FinancialGoodwillRules.HalfReward(__instance.CalculateAdjustedGoodwillChange(other, goodwillChange));
             Faction recipient = __instance.IsPlayer ? other : __instance;
+            if (!GameComponent_FinancialGoodwill.Supports(recipient)) return true;
+            __state = FinancialGoodwillRules.HalfReward(__instance.CalculateAdjustedGoodwillChange(other, goodwillChange));
             if (reason == HistoryEventDefOf.Traded && TradeSession.trader is Pawn trader
                 && trader.Faction == recipient && FinancialCaravanUtility.IsProtected(trader))
             {

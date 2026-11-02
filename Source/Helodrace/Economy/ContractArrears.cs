@@ -15,7 +15,7 @@ namespace Helodrace.Economy
         public static bool Process(Faction provider, CaravanLossKind kind, string contractKey, string label, string location,
             int unpaidNotes, float loanCreditUsed)
         {
-            if (provider == null || provider.IsPlayer) return false;
+            if (!GameComponent_FinancialGoodwill.Supports(provider)) return false;
             bool loan = kind == CaravanLossKind.LoanOverdue;
             if (loan && (loanCreditUsed <= 0f || float.IsNaN(loanCreditUsed) || float.IsInfinity(loanCreditUsed))) return false;
             double conversion = HelodMoneyTrading.MoneyDef?.BaseMarketValue ?? HelodForwardBaseServiceUtility.SthalerSilverValue;

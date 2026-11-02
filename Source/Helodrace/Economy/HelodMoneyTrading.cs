@@ -18,8 +18,7 @@ namespace Helodrace.Economy
 
         internal static bool IsHelodFactionDef(FactionDef faction)
         {
-            string name = faction?.defName;
-            return name == "HD_HelodCivilLowFaction" || name == "HD_HelodCivilHighFaction";
+            return FinancialFactionPolicy.Includes(faction?.defName);
         }
 
         internal static bool IsHelodTrade => IsHelodFaction(TradeSession.trader?.Faction);

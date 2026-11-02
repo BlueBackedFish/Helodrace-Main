@@ -15,7 +15,7 @@ internal static partial class Program
         game.Components[typeof(GameComponent_FinancialGoodwill)] = financial;
         game.Components[typeof(GameComponent_CaravanLosses)] = losses;
         DefDatabase<ThingDef>.Value = new ThingDef { defName = "HD_Money" };
-        var provider = new Faction { PlayerGoodwill = 70 };
+        var provider = new Faction { def = new FactionDef { defName = "HD_HelodCivilLowFaction" }, PlayerGoodwill = 70 };
         financial.TrySet(provider, 80);
         var forward = new HelodForwardBase { Faction = provider };
         int messages = Messages.Count;
@@ -37,7 +37,7 @@ internal static partial class Program
 
         foreach (var pair in new[] { (0f, -10f), (-20f, -30f), (-95f, -100f), (100f, 90f) })
         {
-            var faction = new Faction { PlayerGoodwill = 80 };
+            var faction = new Faction { def = new FactionDef { defName = "HD_HelodCivilLowFaction" }, PlayerGoodwill = 80 };
             financial.TrySet(faction, pair.Item1);
             Check(ContractArrears.Process(faction, CaravanLossKind.LoanOverdue, Guid.NewGuid().ToString(), "NICC", "Colony", 20, 20f)
                 && financial.Get(faction) == pair.Item2 && faction.PlayerGoodwill == 50,
@@ -59,7 +59,7 @@ internal static partial class Program
         Check(loadedLosses.Entries(provider).Single().GoodwillPenalty == 15
             && loadedLosses.Entries(provider).Single().FinancialPenalty == 30f,
             "The loss history preserves actual additional diplomatic and financial deductions");
-        var negative = new Faction { PlayerGoodwill = 20 };
+        var negative = new Faction { def = new FactionDef { defName = "HD_HelodCivilLowFaction" }, PlayerGoodwill = 20 };
         financial.TrySet(negative, -80f);
         Check(ContractArrears.Process(negative, CaravanLossKind.ForwardBaseOverdue, "NegativeBase", "Pioneer", "Base", 10, 0f)
             && negative.PlayerGoodwill == 5 && financial.Get(negative) == -100f,

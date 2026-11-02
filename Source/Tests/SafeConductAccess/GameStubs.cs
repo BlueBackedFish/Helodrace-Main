@@ -20,9 +20,11 @@ namespace Verse
 }
 namespace RimWorld
 {
+    public sealed class FactionDef { public string defName; }
     public sealed class Faction
     {
         public static readonly Faction OfPlayer = new Faction();
+        public FactionDef def = new FactionDef();
         public bool Hostile;
         public bool IsPlayer => this == OfPlayer;
     }
