@@ -35,8 +35,8 @@ namespace Helodrace.ModernWar
             }
 
             ticksUntilVisual = VisualIntervalTicks;
-            Vector3 rearDirection = -pawn.Rotation.FacingCell.ToVector3();
-            Vector3 position = pawn.DrawPos + rearDirection * 0.22f;
+            var rearDirection = -pawn.Rotation.FacingCell.ToVector3().ToNative();
+            var position = pawn.DrawPos.ToNative() + rearDirection * 0.22f;
             float scale = Mathf.Lerp(0.28f, 0.55f, Mathf.Clamp01(Severity));
             FleckDef lightDef = suppressionLightDef
                 ?? (suppressionLightDef = DefDatabase<FleckDef>.GetNamedSilentFail(
@@ -47,7 +47,7 @@ namespace Helodrace.ModernWar
             }
 
             FleckMaker.Static(
-                position,
+                position.ToGame(),
                 pawn.Map,
                 lightDef,
                 scale);

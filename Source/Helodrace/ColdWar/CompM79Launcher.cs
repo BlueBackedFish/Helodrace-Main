@@ -186,8 +186,8 @@ namespace Helodrace
                 return;
             }
 
-            Vector3 direction = verb.CurrentTarget.CenterVector3 - wielder.DrawPos;
-            casingAngle = direction.AngleFlat() + 90f + Rand.Range(-12f, 12f);
+            var direction = verb.CurrentTarget.CenterVector3.ToNative() - wielder.DrawPos.ToNative();
+            casingAngle = SpatialMath.FlatAngle(direction) + 90f + Rand.Range(-12f, 12f);
             casingDueTick = Find.TickManager.TicksGame + Mathf.Max(1, Props.casingDelayTicks);
             pendingDelayedEffects.Add(this);
         }
@@ -250,13 +250,13 @@ namespace Helodrace
                 return;
             }
 
-            Vector3 origin = wielder.DrawPos;
-            casing.exactPosition = origin + new Vector3(0f, 0f, 0.18f);
+            var origin = wielder.DrawPos.ToNative();
+            casing.exactPosition = (origin + new System.Numerics.Vector3(0f, 0f, 0.18f)).ToGame();
             casing.exactRotation = Rand.Range(0f, 360f);
             casing.rotationRate = Rand.Range(-720f, 720f);
             casing.Scale = 0.8f;
             casing.SetVelocity(casingAngle, Rand.Range(1.5f, 2.2f));
-            GenSpawn.Spawn(casing, origin.ToIntVec3(), wielder.Map);
+            GenSpawn.Spawn(casing, origin.ToGame().ToIntVec3(), wielder.Map);
         }
 
         public void SetSelectedAmmo(ThingDef ammoDef)

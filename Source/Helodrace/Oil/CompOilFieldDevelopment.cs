@@ -91,9 +91,9 @@ namespace Helodrace
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        Vector3 loc = (this.parent.Position + Props.floorOffset).ToVector3Shifted();
-                        loc += new Vector3(Rand.Range(-0.4f, 0.4f), 0, Rand.Range(-0.4f, 0.4f));
-                        FleckMaker.ThrowDustPuff(loc, this.parent.Map, Rand.Range(0.8f, 1.3f));
+                        var loc = (this.parent.Position + Props.floorOffset).ToVector3Shifted().ToNative();
+                        loc += new System.Numerics.Vector3(Rand.Range(-0.4f, 0.4f), 0, Rand.Range(-0.4f, 0.4f));
+                        FleckMaker.ThrowDustPuff(loc.ToGame(), this.parent.Map, Rand.Range(0.8f, 1.3f));
                     }
                 }
 

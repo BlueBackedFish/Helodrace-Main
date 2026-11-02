@@ -6,6 +6,8 @@ using System.Reflection;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using NativeVector3 = System.Numerics.Vector3;
+using NativeColor = Waylith.Math.Color;
 
 namespace Helodrace
 {
@@ -154,11 +156,11 @@ namespace Helodrace
             return FireTextureRoot + unburnedProgress.ToString("00");
         }
 
-        public static Color EmberColorFor(Pawn pawn, float rawProgress)
+        public static NativeColor EmberColorFor(Pawn pawn, float rawProgress)
         {
             if (rawProgress < LightingFraction)
             {
-                return Color.clear;
+                return NativeColor.clear;
             }
 
             SmokingHabit habit = HabitFor(pawn);
@@ -183,7 +185,7 @@ namespace Helodrace
             // Quantize the smooth curve to 16 reusable materials. This remains
             // visually gradual without creating a new cached material per tick.
             float level = Mathf.Round(inhaleStrength * 16f) / 16f;
-            return new Color(
+            return new NativeColor(
                 Mathf.Lerp(0.42f, 1f, level),
                 Mathf.Lerp(0.20f, 0.94f, level),
                 Mathf.Lerp(0.07f, 0.72f, level),
@@ -372,16 +374,16 @@ namespace Helodrace
 
         private static void ThrowDirectionalSmoke(Pawn pawn, float size)
         {
-            Vector3 direction = pawn.Rotation.FacingCell.ToVector3();
-            Vector3 spawnPosition = EffectPosition(pawn, 0.24f);
+            NativeVector3 direction = pawn.Rotation.FacingCell.ToVector3().ToNative();
+            NativeVector3 spawnPosition = EffectPosition(pawn, 0.24f);
             FleckCreationData data = new FleckCreationData
             {
                 def = FleckDefOf.Smoke,
-                spawnPosition = spawnPosition,
+                spawnPosition = spawnPosition.ToGame(),
                 scale = size,
                 rotation = Rand.Range(0f, 360f),
                 rotationRate = Rand.Range(-18f, 18f),
-                velocity = direction * Rand.Range(0.28f, 0.42f)
+                velocity = (direction * Rand.Range(0.28f, 0.42f)).ToGame()
             };
             pawn.Map.flecks.CreateFleck(data);
         }
@@ -405,17 +407,17 @@ namespace Helodrace
             return toils != null && index >= 0 && index < toils.Count ? toils[index] : null;
         }
 
-        private static Vector3 EffectPosition(Pawn pawn, float forwardDistance)
+        private static NativeVector3 EffectPosition(Pawn pawn, float forwardDistance)
         {
-            Vector3 position = pawn.DrawPos;
+            NativeVector3 position = pawn.DrawPos.ToNative();
             switch (pawn.Rotation.AsInt)
             {
-                case 0: position.z += forwardDistance; break; // north
-                case 1: position.x += forwardDistance; break; // east
-                case 2: position.z -= forwardDistance * 0.35f; break; // south
-                case 3: position.x -= forwardDistance; break; // west
+                case 0: position.Z += forwardDistance; break; // north
+                case 1: position.X += forwardDistance; break; // east
+                case 2: position.Z -= forwardDistance * 0.35f; break; // south
+                case 3: position.X -= forwardDistance; break; // west
             }
-            position.y = AltitudeLayer.MoteOverhead.AltitudeFor();
+            position.Y = AltitudeLayer.MoteOverhead.AltitudeFor();
             return position;
         }
     }
@@ -452,13 +454,13 @@ namespace Helodrace
 
             if (!fireTexturePath.NullOrEmpty())
             {
-                Color emberColor = CigaretteSmokingUtility.EmberColorFor(pawn, progress);
+                NativeColor emberColor = CigaretteSmokingUtility.EmberColorFor(pawn, progress);
                 Graphic emberGraphic = GraphicDatabase.Get<Graphic_Single>(
                     fireTexturePath, ShaderDatabase.MoteGlow, drawSize,
-                    emberColor);
-                Vector3 emberLoc = drawLoc;
-                emberLoc.y += 0.001f;
-                emberGraphic.Draw(emberLoc, rotation, carriedThing, 0f);
+                    emberColor.ToGame());
+                NativeVector3 emberLoc = drawLoc.ToNative();
+                emberLoc.Y += 0.001f;
+                emberGraphic.Draw(emberLoc.ToGame(), rotation, carriedThing, 0f);
             }
             return false;
         }

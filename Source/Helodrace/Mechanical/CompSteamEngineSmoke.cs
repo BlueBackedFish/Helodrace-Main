@@ -53,12 +53,12 @@ namespace Helodrace
         {
             // Rotate the physical outlet first. Its apparent height always points
             // upward in the sprite, including East/West, rather than rotating sideways.
-            Vector3 offset = Props.smokeOffset.RotatedBy(parent.Rotation.AsAngle);
+            var offset = SpatialMath.RotateAroundY(Props.smokeOffset.ToNative(), parent.Rotation.AsAngle);
             float elevation = 64f * Mathf.Deg2Rad;
-            Vector3 loc = parent.DrawPos;
-            loc.x += offset.x;
-            loc.z += offset.z * Mathf.Sin(elevation) + offset.y * Mathf.Cos(elevation);
-            FleckMaker.ThrowSmoke(loc, this.parent.Map, 1.5f);
+            var loc = parent.DrawPos.ToNative();
+            loc.X += offset.X;
+            loc.Z += offset.Z * Mathf.Sin(elevation) + offset.Y * Mathf.Cos(elevation);
+            FleckMaker.ThrowSmoke(loc.ToGame(), this.parent.Map, 1.5f);
         }
     }
 }
