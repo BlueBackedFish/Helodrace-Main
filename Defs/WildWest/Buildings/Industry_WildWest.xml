@@ -86,6 +86,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_SmallSteamEngine</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsPower</li></thingCategories>
     <label>small steam engine</label>
     <description>A compact steam engine that supplies rotary power to nearby machinery. Heavy loads increase the risk of boiler damage and explosion.</description>
     <thingClass>Building</thingClass>
@@ -171,6 +173,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_LargeSteamEngine</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsPower</li></thingCategories>
     <label>large steam engine</label>
     <description>A large coal-fired steam engine for industrial line shafts. It produces high torque along with substantial heat and explosion risk.</description>
     <thingClass>Building</thingClass>
@@ -256,6 +260,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_IndustrialDieselEngine</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsPower</li></thingCategories>
     <label>industrial diesel engine</label>
     <description>A large diesel engine that drives an industrial line shaft. Its speed is easy to regulate, but it consumes costly fuel and is vulnerable to fire.</description>
     <thingClass>Building</thingClass>
@@ -348,6 +354,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_EarlyIndustrialLargeMotor</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsPower</li></thingCategories>
     <label>large industrial motor</label>
     <description>A large electric motor that drives a line shaft. Severe overloads can short the motor or discharge connected batteries.</description>
     <thingClass>Building</thingClass>
@@ -418,6 +426,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_EarlyIndustrialGenerator</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsPower</li></thingCategories>
     <label>early industrial generator</label>
     <description>An early industrial generator that converts line-shaft rotation into electricity. Efficiency falls when the mechanical input moves away from its rated load.</description>
     <thingClass>Building</thingClass>
@@ -567,6 +577,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_BatchStill</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsProduction</li></thingCategories>
     <label>batch still</label>
     <description>A crude batch still used to recover one selected fuel fraction from heavy crude oil. It is simple to operate, but cannot recover the other useful fractions.</description>
     <thingClass>Building_WorkTable</thingClass>
@@ -801,6 +813,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_LineShaft</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsPower</li></thingCategories>
     <label>line shaft</label>
     <description>A system of rotating shafts used to transmit mechanical power from a steam engine to other machines.</description>
     <thingClass>Building</thingClass>
@@ -825,6 +839,7 @@
     <passability>Standable</passability>
     <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <statBases>
+      <Mass>2.5</Mass>
       <MaxHitPoints>40</MaxHitPoints>
       <WorkToBuild>35</WorkToBuild>
       <Flammability>0</Flammability>
@@ -851,6 +866,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_TreadleLathe</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsProduction</li></thingCategories>
     <label>treadle lathe</label>
     <description>A human-powered lathe for turning wood and metal without external power. When linked to a basic workbench, it enables early firearm assembly.</description>
     <thingClass>Building_WorkTable</thingClass>
@@ -923,6 +940,8 @@
   <!-- Line Shaft Turret Lathe -->
   <ThingDef ParentName="BuildingBase">
     <defName>HD_LineShaftTurretLathe</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsProduction</li></thingCategories>
     <label>line shaft turret lathe</label>
     <description>A line-shaft turret lathe for repeat machining of metal parts and rifling gun barrels. It also links to a basic workbench for firearm assembly.</description>
     <thingClass>Building_WorkTable</thingClass>
@@ -1014,6 +1033,8 @@
   <!-- Line Shaft Milling Machine -->
   <ThingDef ParentName="BuildingBase">
     <defName>HD_LineShaftMillingMachine</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsProduction</li></thingCategories>
     <label>line shaft milling machine</label>
     <description>A line-shaft milling machine for precision metal shaping. It also links to a basic workbench alongside a turret lathe for advanced firearm assembly.</description>
     <thingClass>Building_WorkTable</thingClass>
@@ -1105,6 +1126,8 @@
   <!-- Line Shaft Hydraulic Press -->
   <ThingDef ParentName="BuildingBase">
     <defName>HD_LineShaftHydraulicPress</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsProduction</li></thingCategories>
     <label>line shaft hydraulic press</label>
     <description>A heavy hydraulic press driven by the line shaft network. It forms steel stock into springs, stamped plates, and other force-shaped metal parts.</description>
     <thingClass>Building_WorkTable</thingClass>
@@ -1184,6 +1207,8 @@
   <!-- Line Shaft Rolling Machine -->
   <ThingDef ParentName="BuildingBase">
     <defName>HD_LineShaftRollingMachine</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsProduction</li></thingCategories>
     <label>line shaft rolling machine</label>
     <description>A heavy rolling machine driven by the line shaft network. It squeezes heated metal stock between paired rollers to draw it into bars, plates, and other flat forms.</description>
     <thingClass>Building_WorkTable</thingClass>
@@ -1492,6 +1517,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_LineShaftHeatPump</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsTemperature</li></thingCategories>
     <label>line shaft heat pump</label>
     <description>A line-shaft-driven heat pump that fits into a wall. Set how much heat to remove from the cold side; higher settings require more mechanical power and dump more heat on the hot side.</description>
     <thingClass>Building</thingClass>
@@ -1565,6 +1592,8 @@
   <!-- Basic Workbench -->
   <ThingDef ParentName="BuildingBase">
     <defName>HD_BasicWorkbench</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsProduction</li></thingCategories>
     <label>basic workbench</label>
     <description>A hand-powered workbench for frontier crafting and firearm assembly. Firearms unlocked through breech-loading require a linked lathe; later firearms require a linked turret lathe and milling machine.</description>
     <thingClass>Building_WorkTable</thingClass>
@@ -1632,6 +1661,8 @@
   <!-- Gunsmith Table -->
   <ThingDef ParentName="BuildingBase">
     <defName>HD_GunSmithTable</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsProduction</li></thingCategories>
     <label>gunsmith table</label>
     <description>A dedicated workbench for assembling, repairing, and modifying firearms. Firearm assembly requires linked lathes and, for later designs, a milling machine. Insert a weapon-parts box to modify modular weapons.</description>
     <thingClass>Building_WorkTable</thingClass>

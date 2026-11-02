@@ -2,6 +2,8 @@
 <Defs>
   <ThingDef ParentName="BuildingBase">
     <defName>HD_ClothingBench</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsProduction</li></thingCategories>
     <label>clothing workbench</label>
     <description>A dedicated workbench for tailoring clothing and customizing modular apparel. Select this workbench to change armor parts, arrange PALS pouches, or swap front and rear plates.</description>
     <thingClass>Helodrace.ModernWar.Building_ClothingWorkbench</thingClass>

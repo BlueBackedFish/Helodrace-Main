@@ -2,6 +2,8 @@
 <Defs>
   <ThingDef ParentName="BuildingBase">
     <defName>HD_HydraulicPress1970Bench</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsProduction</li></thingCategories>
     <label>1970s hydraulic press</label>
     <description>A straight-side production press with its own electric hydraulic unit, a large overhead cylinder and analog pressure controls. Forms steel components and pressed helmets faster than a line-shaft press. Requires electricity and an operator.</description>
     <thingClass>Building_WorkTable</thingClass>

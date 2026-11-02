@@ -2,6 +2,8 @@
 <Defs>
   <ThingDef ParentName="BuildingBase">
     <defName>HD_MachiningCenter1970Bench</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsProduction</li></thingCategories>
     <label>1970s machining center</label>
     <description>A vertical machining center with automatic tool changing, electric servo axes and a CRT control console. Repeats milling operations faster than early numerical-control machines and links to firearm workbenches as a milling facility. Requires electricity and an operator.</description>
     <thingClass>Building_WorkTable</thingClass>
