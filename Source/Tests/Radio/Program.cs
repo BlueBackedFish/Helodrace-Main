@@ -127,6 +127,17 @@ internal static class Program
     private static void Definitions()
     {
         var radio = XDocument.Load("Defs/WildWest/Buildings/Radio.xml").Root.Element("ThingDef");
+        Check((string)radio.Element("designationCategory") == "HD_HelodTechnology_Build"
+            && (int)radio.Element("costList").Element("HD_BasicElectronicComponents") == 4
+            && radio.Element("costList").Element("HD_BasicElectricalComponents") == null,
+            "Radio belongs to technology construction and uses electronic components");
+        var recipes = XDocument.Load("Defs/Recipes/Recipes_Helod.xml").Root.Elements("RecipeDef");
+        var electronicRecipe = recipes.Single(r => r.Element("products")?.Element("HD_BasicElectronicComponents") != null);
+        var research = XDocument.Load("Defs/Research/ResearchProjects_Helod.xml").Root.Elements("ResearchProjectDef");
+        var wireless = research.Single(r => (string)r.Element("defName") == "HelodWireless");
+        Check(wireless.Element("prerequisites").Elements().Any(p => p.Value == (string)electronicRecipe.Element("researchPrerequisite"))
+            && electronicRecipe.Element("recipeUsers").Elements().Any(u => u.Value == "HD_BasicWorkbench"),
+            "Radio research already unlocks self-produced electronic components at the basic workbench");
         Check((string)radio.Element("size") == "(1,1)" && (string)radio.Element("graphicData").Element("drawSize") == "(1.5,1.5)", "Radio footprint and half-size texture are preserved");
         Check(radio.Element("comps").Elements().Any(e => (string)e.Element("wireless") == "true"), "The radio is configured as a wireless company terminal");
         Check((string)radio.Element("building").Element("joyKind") == "Television"

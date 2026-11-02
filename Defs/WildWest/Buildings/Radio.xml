@@ -32,7 +32,7 @@
     </statBases>
     <costList>
       <Steel>40</Steel>
-      <HD_BasicElectricalComponents>4</HD_BasicElectricalComponents>
+      <HD_BasicElectronicComponents>4</HD_BasicElectronicComponents>
     </costList>
     <comps>
       <li Class="Helodrace.CompProperties_TelegraphTable">
@@ -48,7 +48,7 @@
     <building>
       <joyKind>Television</joyKind>
     </building>
-    <designationCategory>Joy</designationCategory>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2460</uiOrder>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
