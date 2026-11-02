@@ -227,7 +227,7 @@ namespace Helodrace
                 && result.fixtureCase != "inside-goal" && result.fixtureCase != "door-contact"
                 && result.fixtureCase != "outdoor-opening" && result.fixtureCase != "small-unseen"
                 && result.fixtureCase != "room-recovery" && result.fixtureCase != "cutter-active-recovery"
-                && result.fixtureCase != "tiny-adjacent" && result.fixtureCase != "r4-contact-drill"
+                && result.fixtureCase != "tiny-adjacent" && result.fixtureCase != "r4-contact-drill" && !DoorFunctionalFixture
                 && !CooperationFixture && !FieldFixture && !MedicalFixture && !TimedFieldFixture && !TimedCqbFixture && !LifecycleFixture && !ReloadFixture && !MultiMapFixture && !DefenseFixture && !OfferRetirementFixture && !ExternalSupportFixture) throw new ArgumentException("Unknown audit case.");
             if (result.fixtureCase == "r4-contact-drill") result.fixtureVersion = 18;
             if (CooperationFixture) result.fixtureVersion = 19;
@@ -235,6 +235,7 @@ namespace Helodrace
             if (MedicalFixture) result.fixtureVersion = 23;
             if (TimedFieldFixture) result.fixtureVersion = 24;
             if (TimedCqbFixture) result.fixtureVersion = 34;
+            if (DoorFunctionalFixture) result.fixtureVersion = 35;
             if (LifecycleFixture) result.fixtureVersion = 25;
             if (ReloadFixture) result.fixtureVersion = 26;
             if (result.fixtureCase == "r7-charge-load") result.fixtureVersion = 27;
@@ -299,6 +300,7 @@ namespace Helodrace
                     if (result.fixtureCase != "tiny-adjacent" || x < 114 || x <= 117 && z >= 107 && z <= 109)
                         map.roofGrid.SetRoof(new IntVec3(x, 0, z), RoofDefOf.RoofConstructed);
             }
+            InitializeDoorFunctionalFixture();
             if (MultiRoomFixture)
             {
                 for (int z = 101; z < top; z++) Place(z == 108 ? ThingDefOf.Door : ThingDefOf.Wall, new IntVec3(114, 0, z));
@@ -439,7 +441,7 @@ namespace Helodrace
         {
             string fixture = result.fixtureCase;
             if (fixture != "narrow" && fixture != "unexpected-hole" && fixture != "inside-goal"
-                && fixture != "room-recovery" && fixture != "door-contact" && fixture != "outdoor-opening") return;
+                && fixture != "room-recovery" && fixture != "door-contact" && fixture != "outdoor-opening" && !DoorFunctionalFixture) return;
             var service = map.GetComponent<Tactics.MapComponent_TacticalCommands>();
             // Preserve an actual observation even if a later contact response
             // restarts the opening action. Never fabricate an enemy sample.
@@ -457,7 +459,7 @@ namespace Helodrace
                 owner.Position = new IntVec3(180, 0, 180);
                 result.r7FixtureActorWithdrawn = true;
                 result.r7FixtureActorWithdrawTick = GenTicks.TicksGame - started;
-                if (fixture == "narrow") result.caseTriggered = true;
+                if (fixture == "narrow" || DoorFunctionalFixture) result.caseTriggered = true;
                 Log.Message("R7 " + fixture + " defender withdrawn at " + result.r7FixtureActorWithdrawTick
                     + " observed=" + result.r7FixtureContactBeforeWithdrawal);
             }
@@ -773,6 +775,7 @@ namespace Helodrace
                         + ":entryOwner=" + member.EntryOwner + ":" + (member.Pawn.jobs?.curDriver is Helodrace.Tactics.JobDriver_TacticalActor actor
                             ? actor.RouteDiagnostic : member.Pawn.jobs?.curDriver?.GetType().Name))).ToArray();
                 if (CooperationFixture) FinalCooperationDiagnostics(commands);
+                CaptureDoorFunctionalFixture(commands);
                 result.newFunctionalComplete = commands.Length == result.units && result.newCompletedUnits == result.units
                     && result.newEntryAssignmentsComplete == result.alive && result.newEnteredByOrder > 0
                     && result.newConnectedStacks && result.newPhysicalPlansValid && result.newWideOpeningReused && result.newRoomProgressComplete && result.newTinyAdjacentCleared

@@ -15,7 +15,8 @@ function Add-Case([string]$Name, [string]$Case, [int]$Population = 12, [int]$Tic
     $script:specs += [pscustomobject]@{ name=$Name; case=$Case; population=$Population; ticks=$Ticks;
         workload=$Workload; high=$High; reload=$Reload; flags=$Flags; functional=$Functional; reloads=$Reloads; retained=$Retained; minimums=$Minimums }
 }
-Add-Case door normal -Workload sapper-door -Minimums @{ newDoorFaults=1 }
+Add-Case door r7-door -Workload sapper-door -Flags @('caseTriggered','r7FixtureActorWithdrawn',
+    'r7DoorApproachIsolated','r7DoorApproachPreserved','r7DoorOpeningUsed') -Minimums @{ newDoorFaults=1; newContactShots=1 }
 Add-Case narrow narrow -Ticks 10000 -Flags @('caseTriggered','r7FixtureActorWithdrawn','r7FixtureContactBeforeWithdrawal') -Minimums @{ newContactResponses=1; newContactResumes=1 }
 foreach ($case in @('rocks','interrupt','recovery','cutter','cutter-active-recovery',
     'charge-recovery','charge-fuse-casualty','charge-change','wide-opening','unexpected-hole','inside-goal',

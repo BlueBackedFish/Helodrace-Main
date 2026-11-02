@@ -2,6 +2,8 @@
 
 현재 사용자가 진행할 약식 검사는 [12개 실행 묶음](../../../Docs/전술/습격%20기능%20약식%20테스트%20목록.md)을 따른다. 아래 R1~R7 성능 대조 절차는 과거 진단 도구 설명이며 현재 기능 테스트의 필수 절차가 아니다.
 
+1.7 전환용 R7 `door` 항목은 [문 전용 구조 fixture와 검증 범위](DOOR-FUNCTIONAL-1.7.md)를 따른다. LOW의 벽 우선 교리와 지속 교전이 있는 `normal`/CPU fixture는 유지한다. 문 항목은 `r7-door`의 실제 지형·문 고장·사격·표적 철수 후 전체 완료를 함께 검사하며, 단일 항목 통과를 전체 R7/CPU 합격으로 세지 않는다.
+
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File Source/Benchmarks/TacticalEngineAudit/Prepare-ManualRaidTests.ps1 -SaveFile "$env:USERPROFILE/AppData/LocalLow/Ludeon Studios/RimWorld by Ludeon Studios/Saves/외부인들2.rws" -OutputRoot 'C:/Users/Public/Documents/ESTsoft/CreatorTemp/manual-raid-tests-new'
 ```

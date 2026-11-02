@@ -7,6 +7,15 @@ $tokens=$null; $parseErrors=$null
 if ($parseErrors.Count) { throw ($parseErrors | Out-String) }
 $queue = $source.Substring($source.IndexOf('$records = @()'))
 $specs = & $runner -Preview | ConvertFrom-Json
+$door = @($specs | Where-Object name -eq 'door')
+if ($door.Count -ne 1 -or $door[0].case -ne 'r7-door' -or $door[0].workload -ne 'sapper-door' -or
+    $door[0].population -ne 12 -or $door[0].high -or $door[0].ticks -ne 8000 -or -not $door[0].functional -or
+    $door[0].minimums.newDoorFaults -ne 1 -or $door[0].minimums.newContactShots -ne 1) {
+    throw 'Door gate must require LOW 12, 8000 ticks, actual door fault, actual firing and full functional completion.'
+}
+foreach ($flag in @('caseTriggered','r7FixtureActorWithdrawn','r7DoorApproachIsolated','r7DoorApproachPreserved','r7DoorOpeningUsed')) {
+    if ($door[0].flags -notcontains $flag) { throw "Door proof missing from queue: $flag" }
+}
 $tail = @($specs | Select-Object -Skip 28 | ForEach-Object { $_.name })
 if ($specs.Count -ne 44 -or $tail.Count -ne 16 -or $tail[0] -ne 'care-interrupt' -or $tail[-1] -ne 'reload-support') {
     throw 'Diagnostic selection must be exactly cases 29-44.'
