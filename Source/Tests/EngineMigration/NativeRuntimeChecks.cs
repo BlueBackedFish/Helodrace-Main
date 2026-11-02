@@ -31,13 +31,29 @@ namespace Helodrace.Tests
             double compatNow = UnityEngine.Time.realtimeSinceStartupAsDouble;
             int nativeFrames = Waylith.Time.FrameCount - nativeStartFrame;
             int compatFrames = UnityEngine.Time.frameCount - compatStartFrame;
+            bool originalBackground = Waylith.EngineWindow.RunInBackground;
+            try
+            {
+                foreach (bool value in new[] { false, true })
+                {
+                    Waylith.EngineWindow.RunInBackground = value;
+                    check(UnityEngine.Application.runInBackground == value,
+                        "native background setting reaches the actual compatibility application: " + value);
+                    UnityEngine.Application.runInBackground = !value;
+                    check(Waylith.EngineWindow.RunInBackground == !value,
+                        "actual compatibility background setter maps to the same native window state: " + !value);
+                }
+            }
+            finally { Waylith.EngineWindow.RunInBackground = originalBackground; }
+            check(Waylith.EngineWindow.RunInBackground == originalBackground, "background API probe restores the host setting before the next frame");
             // Each clock has its own epoch; native counts at EndFrame and compatibility
             // counts at BeginFrame. Compare durations/cadence, never absolute values.
             var paths = new { app.DataPath, app.PersistentDataPath, app.LogDataPath, app.CacheDataPath, app.TemporaryCachePath,
                 GameSavePath = GenFilePaths.SaveDataFolderPath, Frame = Waylith.Time.FrameCount, Time = now,
                 CompatibilityFrame = UnityEngine.Time.frameCount, CompatibilityTime = compatNow,
                 NativeElapsed = now - nativeStartTime, CompatibilityElapsed = compatNow - compatStartTime,
-                NativeFrameDelta = nativeFrames, CompatibilityFrameDelta = compatFrames };
+                NativeFrameDelta = nativeFrames, CompatibilityFrameDelta = compatFrames,
+                BackgroundSettingBefore = originalBackground, BackgroundSettingRestored = Waylith.EngineWindow.RunInBackground };
             File.WriteAllText(Path.Combine(output, "runtime.json"), JsonSerializer.Serialize(paths, new JsonSerializerOptions { WriteIndented = true }));
             check(Math.Abs((now - nativeStartTime) - (compatNow - compatStartTime)) < .01,
                 "native and compatibility clocks measure the same elapsed duration across actual frames");

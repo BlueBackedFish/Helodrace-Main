@@ -1,5 +1,4 @@
 using HarmonyLib;
-using UnityEngine;
 using Verse;
 
 namespace Helodrace
@@ -20,7 +19,7 @@ namespace Helodrace
                 || GenCommandLine.TryGetCommandLineArg("hdCqbSavedMapAudit", out _))
             {
                 Prefs.RunInBackground = true;
-                Application.runInBackground = true;
+                Waylith.EngineWindow.RunInBackground = true;
                 if (GenCommandLine.TryGetCommandLineArg("hdCqbSavedMapAudit", out _)) Prefs.DevMode = true;
             }
         }
