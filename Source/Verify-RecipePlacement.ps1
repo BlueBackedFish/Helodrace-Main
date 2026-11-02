@@ -21,6 +21,9 @@ foreach ($document in $documents) {
     foreach ($node in @($document.Xml.SelectNodes('/Defs/ThingDef[defName]'))) {
         $name = $node.SelectSingleNode('defName').InnerText.Trim()
         Assert (!$thingDefs.ContainsKey($name)) "Duplicate ThingDef: $name"
+        Assert ($node.SelectNodes('li').Count -eq 0) "Misnested list entry directly under ThingDef: $name"
+        $listedRecipes = @(Values $node 'recipes/li')
+        Assert (@($listedRecipes | Group-Object | Where-Object Count -gt 1).Count -eq 0) "Duplicate explicit recipes in $name"
         $thingDefs[$name] = $node
     }
 
@@ -93,6 +96,15 @@ foreach ($baseName in $componentUsers.Keys) {
             Assert ([double]$batchIngredients[$i].count -eq [double]$baseIngredients[$i].count * $quantity) "Batch material discount is forbidden in $name"
         }
         Assert ([double]$candidate.Node.products.FirstChild.InnerText -eq [double]$baseline.Node.products.FirstChild.InnerText * $quantity) "Batch output mismatch in $name"
+    }
+}
+
+foreach ($tableName in $thingDefs.Keys) {
+    $listedRecipes = @(Values $thingDefs[$tableName] 'recipes/li')
+    foreach ($baseName in $componentUsers.Keys) {
+        if ($listedRecipes -contains $baseName) {
+            Assert ($listedRecipes -contains ($baseName + 'Bulk5') -and $listedRecipes -contains ($baseName + 'Bulk10')) "Explicit worktable list is missing batch sizes: $tableName/$baseName"
+        }
     }
 }
 

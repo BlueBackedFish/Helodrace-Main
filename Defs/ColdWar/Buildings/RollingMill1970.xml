@@ -66,8 +66,8 @@
     </researchPrerequisites>
     <recipes>
       <li>HD_RollUniformSteelPlate</li>
-    </recipes>
       <li>HD_RollUniformSteelPlateBulk5</li>
       <li>HD_RollUniformSteelPlateBulk10</li>
+    </recipes>
   </ThingDef>
 </Defs>

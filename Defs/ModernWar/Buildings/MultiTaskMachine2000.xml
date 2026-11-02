@@ -83,8 +83,8 @@
       <li>HD_MillGeneralMachinePart</li>
       <li>HD_MillGeneralMachinePartBulk5</li>
       <li>HD_MillGeneralMachinePartBulk10</li>
-    </recipes>
       <li>HD_MakeShaftBulk5</li>
       <li>HD_MakeShaftBulk10</li>
+    </recipes>
   </ThingDef>
 </Defs>
