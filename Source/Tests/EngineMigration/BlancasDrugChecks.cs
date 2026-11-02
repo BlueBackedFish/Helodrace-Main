@@ -16,13 +16,14 @@ namespace Helodrace.Tests
         internal const string FixtureSave = "BlancasDrugFixture16", RoundtripSave = "BlancasDrugRoundtrip17";
         private const string Prefix = "BlancasDose_";
         private static readonly FieldInfo Transitioned = typeof(HediffComp_SleepLogic).GetField("hasTransitioned", BindingFlags.Instance | BindingFlags.NonPublic);
-        private static bool Equivalent(XElement actual, XElement expected)
+        internal static bool Equivalent(XElement actual, XElement expected)
         {
             var a = new XElement(actual); var e = new XElement(expected);
             string[] floatFields = { "rest", "food", "severity", "severityPerDay", "strength", "level" };
             foreach (var tree in new[] { a, e })
                 foreach (var field in tree.DescendantsAndSelf().Attributes().Where(v => floatFields.Contains(v.Name.LocalName)))
                 {
+                    if (field.Value == "absent") continue; // Exact need absence is data, not a numeric value or omitted field.
                     float value = float.Parse(field.Value, CultureInfo.InvariantCulture);
                     field.Value = BitConverter.ToInt32(BitConverter.GetBytes(value), 0).ToString(CultureInfo.InvariantCulture);
                 }
@@ -30,10 +31,11 @@ namespace Helodrace.Tests
         }
         private static List<Pawn> Subjects() => Find.CurrentMap.mapPawns.AllPawnsSpawned.Concat(Find.CurrentMap.listerThings.AllThings.OfType<Corpse>().Select(c => c.InnerPawn))
             .Where(p => p.Name?.ToStringFull.StartsWith(Prefix, StringComparison.Ordinal) == true).Distinct().OrderBy(p => p.Name.ToStringFull, StringComparer.Ordinal).ToList();
-        private static XElement State(Pawn pawn, string name)
+        internal static XElement State(Pawn pawn, string name)
         {
             var node = new XElement("pawn", new XAttribute("name", name), new XAttribute("dead", pawn.Dead),
-                new XAttribute("rest", pawn.needs.rest.CurLevel.ToString("R", CultureInfo.InvariantCulture)), new XAttribute("food", pawn.needs.food.CurLevel.ToString("R", CultureInfo.InvariantCulture)));
+                new XAttribute("rest", pawn.needs?.rest == null ? "absent" : pawn.needs.rest.CurLevel.ToString("R", CultureInfo.InvariantCulture)),
+                new XAttribute("food", pawn.needs?.food == null ? "absent" : pawn.needs.food.CurLevel.ToString("R", CultureInfo.InvariantCulture)));
             foreach (Hediff h in pawn.health.hediffSet.hediffs.OrderBy(h => h.def.defName, StringComparer.Ordinal).ThenBy(h => h.Part?.def.defName ?? "", StringComparer.Ordinal).ThenBy(h => h.Severity))
             {
                 var entry = new XElement("hediff", new XAttribute("def", h.def.defName), new XAttribute("type", h.GetType().FullName),
@@ -48,7 +50,7 @@ namespace Helodrace.Tests
                 if (sleep != null) entry.Add(new XAttribute("sleepType", sleep.GetType().FullName), new XAttribute("hasTransitioned", (bool)Transitioned.GetValue(sleep)));
                 node.Add(entry);
             }
-            foreach (Need n in pawn.needs.AllNeeds.Where(n => n.def.defName.StartsWith("BD_", StringComparison.Ordinal)).OrderBy(n => n.def.defName, StringComparer.Ordinal))
+            foreach (Need n in (pawn.needs?.AllNeeds ?? new List<Need>()).Where(n => n.def.defName.StartsWith("BD_", StringComparison.Ordinal)).OrderBy(n => n.def.defName, StringComparer.Ordinal))
                 node.Add(new XElement("need", new XAttribute("def", n.def.defName), new XAttribute("type", n.GetType().FullName), new XAttribute("level", n.CurLevel.ToString("R", CultureInfo.InvariantCulture))));
             return node;
         }
