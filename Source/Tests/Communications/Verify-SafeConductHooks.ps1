@@ -30,16 +30,21 @@ try {
         $expected = if ($name -eq 'Patch_CaravanLossDrops') { 2 } else { 1 }
         if ($patched.Count -ne $expected) { throw "Expected $expected method(s) for $name" }
     }
-    function New-FactionFixture([bool]$player) {
+    function New-FactionFixture([bool]$player, [string]$defName = 'OutlanderCivil') {
         $faction = [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject([RimWorld.Faction])
         $def = [Runtime.CompilerServices.RuntimeHelpers]::GetUninitializedObject([RimWorld.FactionDef])
         [RimWorld.FactionDef].GetField('isPlayer').SetValue($def, $player)
+        [Verse.Def].GetField('defName').SetValue($def, $defName)
         [RimWorld.Faction].GetField('def').SetValue($faction, $def)
         return ,$faction
     }
-    $source = New-FactionFixture $false
+    $source = New-FactionFixture $false 'HD_HelodCivilLowFaction'
     $player = New-FactionFixture $true
     $other = New-FactionFixture $false
+    $unsupported = [Helodrace.Economy.FinancialCaravanScope]::Enter($other)
+    try {
+        if ([Helodrace.Economy.FinancialCaravanScope]::Covers($other, $player)) { throw 'Non-Helod faction acquired safe conduct' }
+    } finally { $unsupported.Dispose() }
     if ([Helodrace.Economy.FinancialCaravanScope]::Covers($source, $player)) { throw 'Generation scope leaked before entering' }
     $scope = [Helodrace.Economy.FinancialCaravanScope]::Enter($source)
     try {
