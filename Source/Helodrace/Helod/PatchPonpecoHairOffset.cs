@@ -23,7 +23,9 @@ namespace Helodrace
                 hairDefName.StartsWith(PonpecoFemaleDefPrefix, StringComparison.Ordinal) &&
                 (parms.facing == Rot4.North || parms.facing == Rot4.South))
             {
-                __result.z += NorthSouthOffset;
+                var result = __result.ToNative();
+                result.Z += NorthSouthOffset;
+                __result = result.ToGame();
             }
         }
     }

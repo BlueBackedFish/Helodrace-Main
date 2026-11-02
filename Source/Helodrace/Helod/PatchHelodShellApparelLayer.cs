@@ -222,16 +222,18 @@ namespace Helodrace
                 return;
             }
 
-            __result.z += AllDirectionsOffsetZ;
+            var result = __result.ToNative();
+            result.Z += AllDirectionsOffsetZ;
 
             if (parms.facing == Rot4.East)
             {
-                __result.x += EastWestOffsetX;
+                result.X += EastWestOffsetX;
             }
             else if (parms.facing == Rot4.West)
             {
-                __result.x -= EastWestOffsetX;
+                result.X -= EastWestOffsetX;
             }
+            __result = result.ToGame();
         }
     }
 }

@@ -646,7 +646,11 @@ namespace Helodrace.ModernWar
         {
             if (eq?.def?.IsRangedWeapon == true
                 && eq.def.modContentPack == HelodraceBase.Instance?.Content)
-                drawLoc.z += 0.05f;
+            {
+                Vector3 result = drawLoc.ToNative();
+                result.Z += 0.05f;
+                drawLoc = result.ToGame();
+            }
         }
     }
 

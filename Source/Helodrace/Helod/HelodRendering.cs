@@ -256,10 +256,12 @@ namespace Helodrace
             HelodHeadOffset entry = OffsetForAge(age);
             if (entry == null) return;
             float value = ___pawn.gender == Gender.Female ? entry.female : entry.male;
+            NativeVector3 result = __result.ToNative();
             if (entry.absolute)
-                __result.z = value;
+                result.Z = value;
             else
-                __result.z += value * Mathf.Sqrt(___pawn.ageTracker.CurLifeStage.bodySizeFactor);
+                result.Z += value * Mathf.Sqrt(___pawn.ageTracker.CurLifeStage.bodySizeFactor);
+            __result = result.ToGame();
         }
 
         internal static HelodHeadOffset OffsetForAge(float age)
@@ -283,7 +285,11 @@ namespace Helodrace
         {
             if (HelodRace.IsHelod(___pawn) && ___pawn.DevelopmentalStage.Baby()
                 && posture == PawnPosture.LayingInBed)
-                __result.z -= 0.3f;
+            {
+                NativeVector3 result = __result.ToNative();
+                result.Z -= 0.3f;
+                __result = result.ToGame();
+            }
         }
     }
 

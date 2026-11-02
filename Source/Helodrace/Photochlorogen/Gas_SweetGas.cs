@@ -417,19 +417,19 @@ namespace Helodrace
 
         private void ThrowIgnitionEffect()
         {
-            Vector3 loc = parent.DrawPos;
-            loc.z += 0.45f;
-            FleckMaker.ThrowFireGlow(loc, parent.Map, 2.0f);
-            FleckMaker.ThrowMicroSparks(loc, parent.Map);
-            FleckMaker.ThrowSmoke(loc, parent.Map, 1.4f);
+            var loc = parent.DrawPos.ToNative();
+            loc.Z += 0.45f;
+            FleckMaker.ThrowFireGlow(loc.ToGame(), parent.Map, 2.0f);
+            FleckMaker.ThrowMicroSparks(loc.ToGame(), parent.Map);
+            FleckMaker.ThrowSmoke(loc.ToGame(), parent.Map, 1.4f);
         }
 
         private void ThrowBurningEffect()
         {
-            Vector3 loc = parent.DrawPos;
-            loc.z += 0.45f;
-            FleckMaker.ThrowFireGlow(loc, parent.Map, 1.25f);
-            FleckMaker.ThrowSmoke(loc, parent.Map, 0.7f);
+            var loc = parent.DrawPos.ToNative();
+            loc.Z += 0.45f;
+            FleckMaker.ThrowFireGlow(loc.ToGame(), parent.Map, 1.25f);
+            FleckMaker.ThrowSmoke(loc.ToGame(), parent.Map, 0.7f);
         }
     }
 
