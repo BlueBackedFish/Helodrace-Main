@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <HD_OilFieldFloor.label>유전</HD_OilFieldFloor.label>
-  <HD_OilFieldFloor.description>개발된 석유 함유 지반입니다. 매장 품질과 점차 낮아지는 유정 압력에 따라 원유 산출량이 달라집니다.</HD_OilFieldFloor.description>
+  <HD_OilFieldFloor.description>개발된 석유 함유 지반입니다. 매장 품질과 점차 낮아지는 유정 압력에 따라 원유 산출량이 달라집니다. 시추기와 펌프를 먼저 철거한 뒤 바닥 제거로 유정을 봉쇄하고 아래 지형을 복구할 수 있습니다. 건설 작업량 200, 재료 비용 없음. 석유는 회수하지 않습니다.</HD_OilFieldFloor.description>
 </LanguageData>
 

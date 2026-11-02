@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using UnityEngine;
+using System;
 using Verse;
 
 namespace Helodrace
@@ -62,8 +62,8 @@ namespace Helodrace
                 oilFieldsByCell[cell] = record;
             }
 
-            record.quality = Mathf.Max(0.01f, quality);
-            record.pressure = Mathf.Clamp01(pressure);
+            record.quality = MathF.Max(0.01f, quality);
+            record.pressure = Math.Clamp(pressure, 0f, 1f);
             return record;
         }
 
@@ -91,8 +91,8 @@ namespace Helodrace
                 return;
             }
 
-            float pressureFloor = Mathf.Clamp01(minimumPressure);
-            record.pressure = Mathf.Max(pressureFloor, record.pressure - Mathf.Max(0f, amount));
+            float pressureFloor = Math.Clamp(minimumPressure, 0f, 1f);
+            record.pressure = MathF.Max(pressureFloor, record.pressure - MathF.Max(0f, amount));
         }
 
         public bool IsOilFieldTerrain(IntVec3 cell)
@@ -106,6 +106,10 @@ namespace Helodrace
             return defName == OilFieldTerrainDefName;
         }
 
+        public void NotifyTerrainChanged(IntVec3 cell)
+        {
+            if (oilFieldsByCell.ContainsKey(cell) && !IsOilFieldTerrain(cell)) RemoveAt(cell);
+        }
         private void RemoveAt(IntVec3 cell)
         {
             oilFieldsByCell.Remove(cell);

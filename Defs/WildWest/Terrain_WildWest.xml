@@ -4,7 +4,7 @@
   <TerrainDef>
     <defName>HD_OilFieldFloor</defName>
     <label>oil field</label>
-    <description>A developed petroleum-bearing floor. Its hidden quality and declining well pressure determine extraction speed. It can be removed with the remove-floor designation.</description>
+    <description>A developed petroleum-bearing floor. Its hidden quality and declining well pressure determine extraction speed. After removing drilling and pumping equipment, use Remove floor to seal the well and restore its underlying ground. This uses 200 construction work and no materials; no petroleum is recovered.</description>
     <texturePath>Buildings/HD_OilRig</texturePath>
     <edgeType>Fade</edgeType>
     <renderPrecedence>340</renderPrecedence>
