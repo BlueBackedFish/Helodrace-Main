@@ -15,6 +15,9 @@ foreach ($file in Get-ChildItem "$repo/Patches","$repo/Languages" -Recurse -Filt
 $nodes = $all.SelectNodes('/Defs/ThingDef[defName="HD_ClothingBench"]')
 Assert ($nodes.Count -eq 1) 'Clothing workbench is missing or duplicated.'
 $bench = $nodes[0]
+$workGivers = $all.SelectNodes('/Defs/WorkGiverDef[giverClass="WorkGiver_DoBill" and fixedBillGiverDefs/li="HD_ClothingBench"]')
+Assert ($workGivers.Count -gt 0) 'Clothing workbench recipes have no work giver for automatic or ordered jobs.'
+Assert (@($workGivers | Where-Object { $_.workType -eq 'Tailoring' }).Count -gt 0) 'Clothing workbench is not assigned to tailoring.'
 $gun = $all.SelectSingleNode('/Defs/ThingDef[defName="HD_GunSmithTable"]')
 foreach ($key in 'size','graphicData/drawSize','interactionCellOffset','hasInteractionCell') {
     Assert ($bench.SelectSingleNode($key).InnerText -eq $gun.SelectSingleNode($key).InnerText) "Gunsmith placement mismatch: $key"
