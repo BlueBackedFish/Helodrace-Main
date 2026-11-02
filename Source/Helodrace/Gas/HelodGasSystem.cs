@@ -718,7 +718,8 @@ namespace Helodrace
             float xOffset = ((hash >> 8) & 255u) / 637.5f - 0.2f;
             float zOffset = ((hash >> 16) & 255u) / 637.5f - 0.2f;
             float alpha = Mathf.Lerp(0.16f, gas.color.a, density / (float)byte.MaxValue);
-            Color vertexColor = new Color(1f, 1f, 1f, alpha);
+            var vertexColor = (Waylith.Math.Color32)new Waylith.Math.Color(1f, 1f, 1f, alpha);
+            Color32 gameVertexColor = vertexColor.ToGame();
 
             float x1 = cell.x - scaleOffset + xOffset;
             float x2 = cell.x + 1f + scaleOffset + xOffset;
@@ -735,7 +736,7 @@ namespace Helodrace
             subMesh.uvs.Add(new Vector3(1f, 0f, mapIndex));
             for (int i = 0; i < 4; i++)
             {
-                subMesh.colors.Add(vertexColor);
+                subMesh.colors.Add(gameVertexColor);
             }
             subMesh.tris.Add(start);
             subMesh.tris.Add(start + 1);

@@ -5,6 +5,8 @@ using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using NativeColor = Waylith.Math.Color;
+using NativeColor32 = Waylith.Math.Color32;
 
 namespace Helodrace
 {
@@ -163,14 +165,14 @@ namespace Helodrace
     [HarmonyPatch(typeof(PawnHairColors), nameof(PawnHairColors.RandomHairColor))]
     public static class Patch_HelodHairPalette
     {
-        private static readonly Color32[] Colors =
+        private static readonly NativeColor32[] Colors =
         {
-            new Color32(92,92,92,255), new Color32(181,132,102,255),
-            new Color32(153,69,0,255), new Color32(221,150,0,255),
-            new Color32(242,214,153,255), new Color32(148,138,138,255),
-            new Color32(181,135,89,255), new Color32(171,40,46,255),
-            new Color32(229,193,255,255), new Color32(0,206,255,255),
-            new Color32(230,230,230,255)
+            new NativeColor32(92,92,92,255), new NativeColor32(181,132,102,255),
+            new NativeColor32(153,69,0,255), new NativeColor32(221,150,0,255),
+            new NativeColor32(242,214,153,255), new NativeColor32(148,138,138,255),
+            new NativeColor32(181,135,89,255), new NativeColor32(171,40,46,255),
+            new NativeColor32(229,193,255,255), new NativeColor32(0,206,255,255),
+            new NativeColor32(230,230,230,255)
         };
         private static readonly int[] Weights = { 70,150,150,100,100,50,40,30,40,40,20 };
         private static readonly int[] ColorIndices = { 0,1,2,3,4,5,6,7,8,9,10 };
@@ -181,7 +183,7 @@ namespace Helodrace
             // Gene hair overrides still take precedence in the vanilla gene tracker.
             __result = PawnHairColors.HasGreyHair(pawn, ageYears)
                 ? PawnHairColors.RandomGreyHairColor()
-                : (Color)Colors[ColorIndices.RandomElementByWeight(i => Weights[i])];
+                : ((NativeColor)Colors[ColorIndices.RandomElementByWeight(i => Weights[i])]).ToGame();
             return false;
         }
     }
