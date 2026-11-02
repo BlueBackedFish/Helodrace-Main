@@ -48,12 +48,12 @@ namespace Helodrace.ModernWar
         public Vector3 south;
         public Vector3 west;
 
-        public Vector3 For(Rot4 facing)
+        public System.Numerics.Vector3 For(Rot4 facing)
         {
-            if (facing == Rot4.North) return north;
-            if (facing == Rot4.East) return east;
-            if (facing == Rot4.West) return west;
-            return south;
+            if (facing == Rot4.North) return north.ToNative();
+            if (facing == Rot4.East) return east.ToNative();
+            if (facing == Rot4.West) return west.ToNative();
+            return south.ToNative();
         }
     }
 
@@ -330,7 +330,7 @@ namespace Helodrace.ModernWar
         public float width = 1f;
         public float height = 1f;
 
-        public Rect Rect => new Rect(x, y, width, height);
+        public Waylith.Math.Rect Rect => new Waylith.Math.Rect(x, y, width, height);
     }
 
     public sealed class CompProperties_ArmorPlateSet : CompProperties

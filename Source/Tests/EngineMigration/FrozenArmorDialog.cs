@@ -357,7 +357,9 @@ namespace Helodrace.Tests.FrozenArmorUI
         private void DrawPreviewTextureLayers(Waylith.Math.Rect availableRect, List<Texture2D> layers)
         {
             Waylith.Math.Rect uv = previewBounds.CombinedBounds(layers);
-            Waylith.Math.Rect minimumCrop = comp.Props.previewCrop?.Rect.ToNative() ?? new Waylith.Math.Rect(0f, 0f, 1f, 1f);
+            var crop = comp.Props.previewCrop;
+            Waylith.Math.Rect minimumCrop = crop == null ? new Waylith.Math.Rect(0f, 0f, 1f, 1f)
+                : new UnityEngine.Rect(crop.x, crop.y, crop.width, crop.height).ToNative();
             Waylith.Math.Rect destination = ModularArmorPreviewBounds.DestinationFor(availableRect, uv,
                 layers[0].width, layers[0].height, minimumCrop);
 

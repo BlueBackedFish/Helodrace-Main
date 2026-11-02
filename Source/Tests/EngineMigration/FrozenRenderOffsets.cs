@@ -74,6 +74,14 @@ internal static Vector3 DevelopmentalOffsetFor(
 }
 public sealed class ArmorWorker : PawnRenderNodeWorker
 {
+// Original authored selector from d822f681. Do not call the migrated selector.
+private static Vector3 AuthoredOffset(ModularArmorDrawOffsets offsets, Rot4 facing)
+        {
+            if (facing == Rot4.North) return offsets.north;
+            if (facing == Rot4.East) return offsets.east;
+            if (facing == Rot4.West) return offsets.west;
+            return offsets.south;
+        }
 public override Vector3 OffsetFor(
             PawnRenderNode node,
             PawnDrawParms parms,
@@ -92,12 +100,12 @@ public override Vector3 OffsetFor(
 
             if (position.drawOffsets != null)
             {
-                result += position.drawOffsets.For(parms.facing);
+                result += AuthoredOffset(position.drawOffsets, parms.facing);
             }
 
             if (part.drawOffsets != null)
             {
-                result += part.drawOffsets.For(parms.facing);
+                result += AuthoredOffset(part.drawOffsets, parms.facing);
             }
 
             if (modularNode.Installed.IsPalsMounted)
@@ -105,7 +113,7 @@ public override Vector3 OffsetFor(
                 ModularArmorPalsPanelDef panel = modularNode.Installed.palsPanel;
                 if (panel.drawOrigin != null)
                 {
-                    result += panel.drawOrigin.For(parms.facing);
+                    result += AuthoredOffset(panel.drawOrigin, parms.facing);
                 }
 
                 float gridX = modularNode.Installed.palsX

@@ -357,7 +357,7 @@ namespace Helodrace.ModernWar
         private void DrawPreviewTextureLayers(Rect availableRect, List<Texture2D> layers)
         {
             Rect uv = previewBounds.CombinedBounds(layers);
-            Rect minimumCrop = comp.Props.previewCrop?.Rect.ToNative() ?? new Rect(0f, 0f, 1f, 1f);
+            Rect minimumCrop = comp.Props.previewCrop?.Rect ?? new Rect(0f, 0f, 1f, 1f);
             Rect destination = ModularArmorPreviewBounds.DestinationFor(availableRect, uv,
                 layers[0].width, layers[0].height, minimumCrop);
 

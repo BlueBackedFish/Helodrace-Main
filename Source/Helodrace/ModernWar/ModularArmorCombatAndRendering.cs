@@ -282,12 +282,12 @@ namespace Helodrace.ModernWar
 
             if (position.drawOffsets != null)
             {
-                result += position.drawOffsets.For(parms.facing).ToNative();
+                result += position.drawOffsets.For(parms.facing);
             }
 
             if (part.drawOffsets != null)
             {
-                result += part.drawOffsets.For(parms.facing).ToNative();
+                result += part.drawOffsets.For(parms.facing);
             }
 
             if (modularNode.Installed.IsPalsMounted)
@@ -295,7 +295,7 @@ namespace Helodrace.ModernWar
                 ModularArmorPalsPanelDef panel = modularNode.Installed.palsPanel;
                 if (panel.drawOrigin != null)
                 {
-                    result += panel.drawOrigin.For(parms.facing).ToNative();
+                    result += panel.drawOrigin.For(parms.facing);
                 }
 
                 float gridX = modularNode.Installed.palsX

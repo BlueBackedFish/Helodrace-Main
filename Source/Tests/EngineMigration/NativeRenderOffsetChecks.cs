@@ -24,6 +24,7 @@ namespace Helodrace.Tests
         private static HelodRaceSettingsDef settings;
         private static int appendages,armor,chargeCases,components,pivotBits,baseCalls,positionCalls,authoredBits,settingsCalls;
         private static float maximumError;
+        private static int selectorCases, cropCases, bridgeBits;
         private static readonly Dictionary<string,float> differences=new();
         private static readonly GV[] offsets={GV.zero,new GV(-0f,float.Epsilon,-0f),new GV(.13f,-2,.37f),new GV(-4000,50,7000)};
         private static T Bare<T>()=>(T)RuntimeHelpers.GetUninitializedObject(typeof(T));
@@ -95,6 +96,38 @@ namespace Helodrace.Tests
             {basePosition=value;a.Rotation=e.Rotation=facing;int calls=positionCalls;Vector(a.DrawPos,e.DrawPos,"installed charge");if(positionCalls!=calls+2)throw new InvalidOperationException("Charge base position did not bind to both copies.");chargeCases++;}
             charges.Clear();
         }
+        private static void AuthoredBoundaries()
+        {
+            void Exact(float actual, float expected)
+            {
+                if (BitConverter.SingleToInt32Bits(actual) != BitConverter.SingleToInt32Bits(expected))
+                    throw new InvalidOperationException("Authored native boundary altered component bits.");
+                bridgeBits++;
+            }
+            float[] values = { 0f, -0f, float.Epsilon, -.25f, 23.5f,
+                float.PositiveInfinity, BitConverter.Int32BitsToSingle(unchecked((int)0xFFC12345)) };
+            foreach (float value in values)
+            {
+                var authored = new ModularArmorDrawOffsets {
+                    north = new GV(value, -.5f, 1), east = new GV(2, value, 3),
+                    south = new GV(4, 5, value), west = new GV(value, value, value) };
+                foreach (Rot4 facing in new[] { Rot4.North, Rot4.East, Rot4.South, Rot4.West, Rot4.Invalid })
+                {
+                    var actual = authored.For(facing);
+                    GV expected = facing == Rot4.North ? authored.north : facing == Rot4.East ? authored.east
+                        : facing == Rot4.West ? authored.west : authored.south;
+                    Exact(actual.X, expected.x); Exact(actual.Y, expected.y); Exact(actual.Z, expected.z); selectorCases++;
+                }
+            }
+            foreach (float x in values) foreach (float y in values)
+                foreach (float width in values) foreach (float height in values)
+                {
+                    var actual = new ModularArmorPreviewCrop { x=x, y=y, width=width, height=height }.Rect;
+                    var expected = new UnityEngine.Rect(x, y, width, height);
+                    Exact(actual.x, expected.x); Exact(actual.y, expected.y);
+                    Exact(actual.width, expected.width); Exact(actual.height, expected.height); cropCases++;
+                }
+        }
         internal static void Run(string output,Action<bool,string> check)
         {
             var h=new Harmony("helodrace.tests.native-render-offsets");
@@ -104,6 +137,12 @@ namespace Helodrace.Tests
             h.Patch(AccessTools.PropertyGetter(typeof(HelodRace),"Settings"),prefix:new HarmonyMethod(typeof(NativeRenderOffsetChecks),nameof(Settings)));
             try
             {
+                AuthoredBoundaries();
+                check(selectorCases == 35 && cropCases == 2401 && bridgeBits == 9709,
+                    "native armor selectors/crop preserve authored component bits, negative extents, invalid-facing fallback and nonfinite inputs");
+                check(typeof(ModularArmorDrawOffsets).GetMethod("For").ReturnType == typeof(System.Numerics.Vector3)
+                    && typeof(ModularArmorPreviewCrop).GetProperty("Rect").PropertyType == typeof(Waylith.Math.Rect),
+                    "owned armor selectors/crop return native values without game overloads");
                 pawn=PawnGenerator.GeneratePawn(new PawnGenerationRequest(DefDatabase<PawnKindDef>.GetNamed("HD_WW_HelodColonist"),Faction.OfPlayer,canGeneratePawnRelations:false));controlled=true;
                 Appendages();check(appendages==1440,"native appendage offsets preserve growth stage, missing settings, directional and flipped-head/anatomical ear rules");
                 Armor();check(armor==9216,"native armor offsets preserve directional optional offsets, PALS grids, narrow panel widths and authored/north-underlay branches");
@@ -114,7 +153,7 @@ namespace Helodrace.Tests
             }
             finally
             {
-                File.WriteAllText(Path.Combine(output,"native-render-offsets.json"),JsonSerializer.Serialize(new{AppendageCases=appendages,ArmorCases=armor,ChargeCases=chargeCases,BaseOffsetCalls=baseCalls,ChargePositionCalls=positionCalls,SettingsReads=settingsCalls,PivotComponentBits=pivotBits,AuthoredBaseComponentBits=authoredBits,Components=components,MaximumFloatError=maximumError,NonzeroDifferences=differences,Baseline="a4f805c4",ControlledBaseOffsetPivotAgeAndSettings=true,SyntheticUnregisteredRenderNodesAndArmorDefinitions=true},new JsonSerializerOptions{WriteIndented=true}));
+                File.WriteAllText(Path.Combine(output,"native-render-offsets.json"),JsonSerializer.Serialize(new{AppendageCases=appendages,ArmorCases=armor,ChargeCases=chargeCases,SelectorCases=selectorCases,CropCases=cropCases,AuthoredBoundaryBits=bridgeBits,BaseOffsetCalls=baseCalls,ChargePositionCalls=positionCalls,SettingsReads=settingsCalls,PivotComponentBits=pivotBits,AuthoredBaseComponentBits=authoredBits,Components=components,MaximumFloatError=maximumError,NonzeroDifferences=differences,Baseline="a4f805c4",AuthoredSelectorBaseline="d822f681",ControlledBaseOffsetPivotAgeAndSettings=true,SyntheticUnregisteredRenderNodesAndArmorDefinitions=true},new JsonSerializerOptions{WriteIndented=true}));
                 controlled=false;nodes.Clear();charges.Clear();settings=null;h.UnpatchAll(h.Id);if(pawn!=null&&!pawn.Destroyed)pawn.Destroy();pawn=null;
             }
         }
