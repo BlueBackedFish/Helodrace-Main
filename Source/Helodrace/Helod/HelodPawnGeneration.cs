@@ -27,18 +27,6 @@ namespace Helodrace
                 request.PawnKindDefGetter = null;
                 request.KindDef = colonist;
             }
-            if (!request.AllowedDevelopmentalStages.Newborn()
-                && request.ForcedXenotype == null && request.ForcedCustomXenotype == null)
-            {
-                string kind = request.KindDef.defName;
-                float chance = kind == "Slave" ? settings.slaveChance
-                    : kind == "Refugee" || kind == "SpaceRefugee" ? settings.refugeeChance : 0f;
-                if (request.KindDef.race == ThingDefOf.Human && chance > 0f && Rand.Chance(chance))
-                {
-                    request.PawnKindDefGetter = null;
-                    request.KindDef = colonist;
-                }
-            }
             if (request.KindDef.race != HelodRace.Def) return;
             if (!request.FixedGender.HasValue && !request.KindDef.fixedGender.HasValue)
                 request.FixedGender = Rand.Chance(settings.maleProbability) ? Gender.Male : Gender.Female;
@@ -99,7 +87,7 @@ namespace Helodrace
         {
             if (HelodRace.Settings == null || HelodRace.ColonistKind == null) return;
             string faction = __result.Faction?.def?.defName;
-            if ((faction == "PlayerColony" || faction == "HD_HelodPlayerColony")
+            if (faction == "HD_HelodPlayerColony"
                 && __result.KindDef == PawnKindDefOf.Colonist
                 && __result.ForcedCustomXenotype == null
                 && (__result.ForcedXenotype == null || __result.ForcedXenotype == XenotypeDefOf.Baseliner))

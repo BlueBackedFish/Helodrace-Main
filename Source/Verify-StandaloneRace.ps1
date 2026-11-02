@@ -34,8 +34,11 @@ foreach ($property in $baseline.policy.PSObject.Properties) {
     })
     Assert (($property.Value -join "`n") -ceq ($actual -join "`n")) "Pre-1.7 policy values/order/DLC conditions changed: $($property.Name)"
 }
-foreach ($pair in @(@('drawScale','0.8'), @('maleProbability','0.0000001'), @('socialFightDamageLimit','6'), @('refugeeChance','0.15'), @('slaveChance','0.15'), @('wandererChance','0.15'))) {
+foreach ($pair in @(@('drawScale','0.8'), @('maleProbability','0.0000001'), @('socialFightDamageLimit','6'))) {
     Assert ($settings.SelectSingleNode($pair[0]).InnerText -eq $pair[1]) "Policy value changed: $($pair[0])"
+}
+foreach ($removed in @('refugeeChance','slaveChance','wandererChance')) {
+    Assert ($null -eq $settings.SelectSingleNode($removed)) "Test-only replacement setting remains: $removed"
 }
 Write-Output 'PASS: pre-1.7 policy values, ordering, apparel paths and DLC conditions preserved.'
 $managed = $RimWorldPath
@@ -196,7 +199,7 @@ foreach ($case in @(
     @([Helodrace.HelodAppendage]::Tail, [Verse.Rot4]::East, -0.095),
     @([Helodrace.HelodAppendage]::LeftEar, [Verse.Rot4]::West, -0.115),
     @([Helodrace.HelodAppendage]::RightEar, [Verse.Rot4]::South, -0.13))) {
-    $args = @($case[0], $case[1], [UnityEngine.Vector3]::zero)
+    $args = @($case[0], $case[1], [System.Numerics.Vector3]::Zero)
     Assert ($appendageMethod.Invoke($null, $args)) "Missing appendage offset for $($case[0])/$($case[1])."
     Assert ([Math]::Abs($args[2].x - $case[2]) -lt 0.000001) "Appendage X offset regression for $($case[0])/$($case[1])."
 }
@@ -216,7 +219,7 @@ foreach ($case in @(
     $actual = $developmentalMethod.Invoke($null, @($tailOffset, $case[0], $case[1]))
     Assert ([Math]::Abs($actual.x - $case[2]) -lt 0.000001 -and [Math]::Abs($actual.z - $case[3]) -lt 0.000001) "Developmental tail offset regression for $($case[0])/$($case[1])."
 }
-$args = @([Helodrace.HelodAppendage]::Tail, [Verse.Rot4]::North, [UnityEngine.Vector3]::zero)
+$args = @([Helodrace.HelodAppendage]::Tail, [Verse.Rot4]::North, [System.Numerics.Vector3]::Zero)
 $fixtureSettings.appendageOffsets.Clear()
 Assert (!$appendageMethod.Invoke($null, $args)) 'Missing appendage settings should not create an offset.'
 Write-Output 'PASS: XML appendage offsets, developmental tail offsets, and missing-configuration fallback.'

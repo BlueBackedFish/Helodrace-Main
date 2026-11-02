@@ -69,9 +69,6 @@
       <durationTicks>360~600</durationTicks>
       <fullMediationTicks>120</fullMediationTicks>
     </confrontation>
-    <refugeeChance>0.15</refugeeChance>
-    <slaveChance>0.15</slaveChance>
-    <wandererChance>0.15</wandererChance>
     <headTypes>
       <li>HD_HelodHead000000</li>
       <li>HD_HelodHead010101</li>
