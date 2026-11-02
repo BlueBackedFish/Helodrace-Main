@@ -49,9 +49,6 @@
       <li>HD_TurnGeneralMachinePart</li>
       <li>HD_TurnGeneralMachinePartBulk5</li>
       <li>HD_TurnGeneralMachinePartBulk10</li>
-      <li>HD_MakeLowQualityBarrel</li>
-      <li>HD_MakeShotgunBarrel</li>
-      <li>HD_MakeWildWestBarrel</li>
     </recipes>
     <comps>
       <li Class="CompProperties_Power">
@@ -116,7 +113,6 @@
       <li>HD_MillGeneralMachinePart</li>
       <li>HD_MillGeneralMachinePartBulk5</li>
       <li>HD_MillGeneralMachinePartBulk10</li>
-      <li>HD_MakeWildWestBarrel</li>
     </recipes>
     <comps>
       <li Class="CompProperties_Power">

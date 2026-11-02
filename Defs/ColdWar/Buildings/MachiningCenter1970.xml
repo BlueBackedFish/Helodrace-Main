@@ -80,7 +80,6 @@
       <li>HD_MillGeneralMachinePart</li>
       <li>HD_MillGeneralMachinePartBulk5</li>
       <li>HD_MillGeneralMachinePartBulk10</li>
-      <li>HD_MakeWildWestBarrel</li>
     </recipes>
   </ThingDef>
 </Defs>

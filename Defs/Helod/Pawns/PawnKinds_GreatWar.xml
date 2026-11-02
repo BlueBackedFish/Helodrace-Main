@@ -115,7 +115,7 @@
   <PawnKindDef ParentName="HD_GW_HelodSoldierBase">
     <defName>HD_GW_HelodBazooka</defName>
     <label>Great War Helod bazooka gunner</label>
-    <weaponMoney><min>975</min><max>2500</max></weaponMoney>
+    <weaponMoney><min>1350</min><max>2500</max></weaponMoney>
     <combatPower>150</combatPower>
     <weaponTags><li>HD_GreatWarRecoillessWeapon</li></weaponTags>
     <apparelRequired><li>HD_Apparel_M6RocketBag</li></apparelRequired>

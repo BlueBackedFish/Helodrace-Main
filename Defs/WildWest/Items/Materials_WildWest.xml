@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
   <!-- Industrial feedstocks, processed materials, and craft components. -->
@@ -611,72 +611,12 @@
   </ThingDef>
 
   <!-- Low Quality Gun Barrel -->
-  <ThingDef ParentName="ResourceBase">
-    <defName>HD_LowQualityBarrel</defName>
-    <label>low quality gun barrel</label>
-    <description>A crude, low-quality metal gun barrel bored and turned on a lathe. Used as a core component for crafting frontier firearms.</description>
-    <graphicData>
-      <texPath>Items/HD_LowQualityBarrel</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <stackLimit>75</stackLimit>
-    <healthAffectsPrice>false</healthAffectsPrice>
-    <statBases>
-      <MaxHitPoints>80</MaxHitPoints>
-      <MarketValue>15.0</MarketValue>
-      <Mass>1.5</Mass>
-      <Flammability>0</Flammability>
-      <DeteriorationRate>0.5</DeteriorationRate>
-    </statBases>
-    <thingCategories>
-      <li>Manufactured</li>
-    </thingCategories>
-  </ThingDef>
+
 
   <!-- Shotgun Barrel -->
-  <ThingDef ParentName="ResourceBase">
-    <defName>HD_ShotgunBarrel</defName>
-    <label>shotgun barrel</label>
-    <description>A thick, heavy metal barrel specifically designed for shotguns. Bored and turned on a workbench.</description>
-    <graphicData>
-      <texPath>Items/HD_ShotgunBarrel</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <stackLimit>75</stackLimit>
-    <healthAffectsPrice>false</healthAffectsPrice>
-    <statBases>
-      <MaxHitPoints>100</MaxHitPoints>
-      <MarketValue>22.0</MarketValue>
-      <Mass>2.0</Mass>
-      <Flammability>0</Flammability>
-      <DeteriorationRate>0.5</DeteriorationRate>
-    </statBases>
-    <thingCategories>
-      <li>Manufactured</li>
-    </thingCategories>
-  </ThingDef>
+
 
   <!-- Medium Quality Gun Barrel -->
-  <ThingDef ParentName="ResourceBase">
-    <defName>HD_WildWestBarrel</defName>
-    <label>medium quality gun barrel</label>
-    <description>A medium-quality, precision-rifled metal gun barrel bored and turned on a specialized lathe. Used for crafting frontier breech-loading and repeating firearms.</description>
-    <graphicData>
-      <texPath>Items/HD_WildWestBarrel</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <stackLimit>75</stackLimit>
-    <healthAffectsPrice>false</healthAffectsPrice>
-    <statBases>
-      <MaxHitPoints>120</MaxHitPoints>
-      <MarketValue>32.0</MarketValue>
-      <Mass>1.8</Mass>
-      <Flammability>0</Flammability>
-      <DeteriorationRate>0.5</DeteriorationRate>
-    </statBases>
-    <thingCategories>
-      <li>Manufactured</li>
-    </thingCategories>
-  </ThingDef>
+
 
   </Defs>

@@ -2,7 +2,7 @@
 <Defs>
   <Helodrace.CrowsWeaponDef>
     <defName>HD_CrowsWeapon_M2HB</defName><label>M2HB QCB</label><gunDef>HD_Gun_CrowsII</gunDef>
-    <costList><HD_WildWestBarrel>1</HD_WildWestBarrel><HD_GeneralMachinePart>8</HD_GeneralMachinePart><HD_CarbonSteel>70</HD_CarbonSteel><HD_PressComponent>4</HD_PressComponent></costList>
+    <costList><HD_GeneralMachinePart>9</HD_GeneralMachinePart><HD_CarbonSteel>100</HD_CarbonSteel><HD_PressComponent>4</HD_PressComponent></costList>
     <workToInstall>1800</workToInstall><fuelCapacity>100</fuelCapacity><barrelRecoil>true</barrelRecoil>
     <frameTexPath>Buildings/Security/CROWSII/HD_CROWSII_M2_Frame</frameTexPath>
     <barrelTexPath>Buildings/Security/CROWSII/HD_CROWSII_M2Barrel</barrelTexPath>
@@ -12,7 +12,7 @@
   </Helodrace.CrowsWeaponDef>
   <Helodrace.CrowsWeaponDef>
     <defName>HD_CrowsWeapon_MK19</defName><label>Mk 19</label><gunDef>HD_Gun_CrowsII_MK19Weapon</gunDef>
-    <costList><HD_WildWestBarrel>1</HD_WildWestBarrel><HD_GeneralMachinePart>10</HD_GeneralMachinePart><HD_CarbonSteel>80</HD_CarbonSteel><HD_PressComponent>6</HD_PressComponent></costList>
+    <costList><HD_GeneralMachinePart>11</HD_GeneralMachinePart><HD_CarbonSteel>110</HD_CarbonSteel><HD_PressComponent>6</HD_PressComponent></costList>
     <workToInstall>2200</workToInstall><fuelCapacity>48</fuelCapacity>
     <frameTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_MK19_Frame</frameTexPath>
     <barrelTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_MK19_Barrel</barrelTexPath>
@@ -22,7 +22,7 @@
   </Helodrace.CrowsWeaponDef>
   <Helodrace.CrowsWeaponDef>
     <defName>HD_CrowsWeapon_M240B</defName><label>M240B</label><gunDef>HD_Gun_CrowsII_M240B</gunDef>
-    <costList><HD_WildWestBarrel>1</HD_WildWestBarrel><HD_GeneralMachinePart>6</HD_GeneralMachinePart><HD_CarbonSteel>45</HD_CarbonSteel><HD_PressComponent>3</HD_PressComponent></costList>
+    <costList><HD_GeneralMachinePart>7</HD_GeneralMachinePart><HD_CarbonSteel>75</HD_CarbonSteel><HD_PressComponent>3</HD_PressComponent></costList>
     <workToInstall>1500</workToInstall><fuelCapacity>200</fuelCapacity>
     <frameTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_M240B_Frame</frameTexPath>
     <barrelTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_M240B_Barrel</barrelTexPath>
@@ -32,7 +32,7 @@
   </Helodrace.CrowsWeaponDef>
   <Helodrace.CrowsWeaponDef>
     <defName>HD_CrowsWeapon_M249</defName><label>M249</label><gunDef>HD_Gun_CrowsII_M249Weapon</gunDef>
-    <costList><HD_WildWestBarrel>1</HD_WildWestBarrel><HD_GeneralMachinePart>5</HD_GeneralMachinePart><HD_CarbonSteel>35</HD_CarbonSteel><HD_PressComponent>3</HD_PressComponent></costList>
+    <costList><HD_GeneralMachinePart>6</HD_GeneralMachinePart><HD_CarbonSteel>65</HD_CarbonSteel><HD_PressComponent>3</HD_PressComponent></costList>
     <workToInstall>1400</workToInstall><fuelCapacity>200</fuelCapacity>
     <frameTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_M249_Frame</frameTexPath>
     <barrelTexPath>Buildings/Security/CROWSII/Variants/HD_CROWSII_M249_Barrel</barrelTexPath>

@@ -49,7 +49,7 @@
   <HD_MakeShaft.label>샤프트 제작</HD_MakeShaft.label>
   <HD_MakeShaft.description>선반에서 탄소강을 곧은 기계식 샤프트로 깎아냅니다.</HD_MakeShaft.description>
   <HD_MakeShaft.jobString>샤프트를 가공하는 중</HD_MakeShaft.jobString>
-  
+
   <HD_RollUniformSteelPlate.label>균일압연강판 압연</HD_RollUniformSteelPlate.label>
   <HD_RollUniformSteelPlate.description>압연기에서 탄소강을 일정한 두께의 균일압연강판으로 만듭니다.</HD_RollUniformSteelPlate.description>
   <HD_RollUniformSteelPlate.jobString>균일압연강판을 압연하는 중</HD_RollUniformSteelPlate.jobString>
@@ -74,23 +74,11 @@
   <HD_MakeSlush_High.description>디젤을 정제하여 오랫동안 지속되는 순수하고 고품질의 윤활 슬러시를 만듭니다.</HD_MakeSlush_High.description>
   <HD_MakeSlush_High.jobString>고품질 슬러시 만드는 중.</HD_MakeSlush_High.jobString>
 
-  <HD_MakeLowQualityBarrel.label>저품질 총열 제작</HD_MakeLowQualityBarrel.label>
-  <HD_MakeLowQualityBarrel.description>강철을 가공하고 선반에서 구멍을 뚫어 투박한 저품질 금속제 총열을 가공합니다.</HD_MakeLowQualityBarrel.description>
-  <HD_MakeLowQualityBarrel.jobString>저품질 총열 가공하는 중.</HD_MakeLowQualityBarrel.jobString>
 
-  <HD_MakeShotgunBarrel.label>산탄총 총열 제작</HD_MakeShotgunBarrel.label>
-  <HD_MakeShotgunBarrel.description>강철을 가공하고 구멍을 뚫어 단단하고 굵은 산탄총용 금속제 총열을 가공합니다.</HD_MakeShotgunBarrel.description>
-  <HD_MakeShotgunBarrel.jobString>산탄총 총열 가공하는 중.</HD_MakeShotgunBarrel.jobString>
 
   <HD_Make_Gun_SprMOne_Weapon.label>스프링필드 M1861 제작</HD_Make_Gun_SprMOne_Weapon.label>
 
-  <HD_MakeWildWestBarrel_BasicWorkbench.label>중품질 총열 수제 제작</HD_MakeWildWestBarrel_BasicWorkbench.label>
-  <HD_MakeWildWestBarrel_BasicWorkbench.description>기초 작업대에서 강철과 산업 부품을 천천히 가공해 강선이 파인 중품질 총열을 제작합니다.</HD_MakeWildWestBarrel_BasicWorkbench.description>
-  <HD_MakeWildWestBarrel_BasicWorkbench.jobString>중품질 총열 수제 제작하는 중.</HD_MakeWildWestBarrel_BasicWorkbench.jobString>
 
-  <HD_MakeWildWestBarrel.label>중품질 총열 제작</HD_MakeWildWestBarrel.label>
-  <HD_MakeWildWestBarrel.description>선삭 절삭 공구를 장착한 정밀 선반에서 강철과 기계 부품을 깎아 정밀 강선이 가공된 중품질 총열을 제작합니다.</HD_MakeWildWestBarrel.description>
-  <HD_MakeWildWestBarrel.jobString>중품질 총열 가공하는 중.</HD_MakeWildWestBarrel.jobString>
 
   <HD_Make_Gun_SprMThreeHigh_Weapon.label>스프링필드 M1873 제작</HD_Make_Gun_SprMThreeHigh_Weapon.label>
 
@@ -151,12 +139,6 @@
   <HD_TurnGeneralMachinePartBulk10.label>범용 기계 부품 x10 선반 가공</HD_TurnGeneralMachinePartBulk10.label>
   <HD_TurnGeneralMachinePartBulk10.description>남는 탄소강을 선반에서 깎아 범용 기계 부품으로 만듭니다.</HD_TurnGeneralMachinePartBulk10.description>
   <HD_TurnGeneralMachinePartBulk10.jobString>범용 기계 부품 선반 가공 중.</HD_TurnGeneralMachinePartBulk10.jobString>
-  <HD_MakeLowQualityBarrel_BasicWorkbench.label>저품질 총열 수작업 제작</HD_MakeLowQualityBarrel_BasicWorkbench.label>
-  <HD_MakeLowQualityBarrel_BasicWorkbench.description>기초 작업대에서 강철을 천천히 뚫고 마감하여 저품질 금속 총열을 수작업으로 만듭니다.</HD_MakeLowQualityBarrel_BasicWorkbench.description>
-  <HD_MakeLowQualityBarrel_BasicWorkbench.jobString>저품질 총열 수작업 제작 중.</HD_MakeLowQualityBarrel_BasicWorkbench.jobString>
-  <HD_MakeShotgunBarrel_BasicWorkbench.label>산탄총 총열 수작업 제작</HD_MakeShotgunBarrel_BasicWorkbench.label>
-  <HD_MakeShotgunBarrel_BasicWorkbench.description>기초 작업대에서 강철을 천천히 뚫고 마감하여 두꺼운 산탄총 총열을 만듭니다.</HD_MakeShotgunBarrel_BasicWorkbench.description>
-  <HD_MakeShotgunBarrel_BasicWorkbench.jobString>산탄총 총열 수작업 제작 중.</HD_MakeShotgunBarrel_BasicWorkbench.jobString>
   <HD_Make_Gun_ColtArmyModel1860_Weapon.label>콜트 아미 모델 1860 제작</HD_Make_Gun_ColtArmyModel1860_Weapon.label>
   <HD_Make_Gun_ColtSAA_Weapon.label>콜트 SAA 제작</HD_Make_Gun_ColtSAA_Weapon.label>
   <HD_Make_Gun_SWModelThree_Weapon.label>S&amp;W 모델 3 제작</HD_Make_Gun_SWModelThree_Weapon.label>

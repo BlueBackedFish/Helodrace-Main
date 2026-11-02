@@ -19,14 +19,8 @@
   <HD_Kerosene.label>등유</HD_Kerosene.label>
   <HD_Kerosene.description>원유에서 정제된 깨끗하게 연소되는 가벼운 액체 연료입니다. 난방, 조명 및 특수 엔진에 사용됩니다.</HD_Kerosene.description>
 
-  <HD_LowQualityBarrel.label>저품질 총열</HD_LowQualityBarrel.label>
-  <HD_LowQualityBarrel.description>선반에서 깎고 구멍을 뚫어 만든 투박하고 저품질인 금속제 총열입니다. 개척지의 기본 무기를 제작할 때 핵심적인 부품으로 사용됩니다.</HD_LowQualityBarrel.description>
 
-  <HD_ShotgunBarrel.label>산탄총 총열</HD_ShotgunBarrel.label>
-  <HD_ShotgunBarrel.description>산탄총에 사용하도록 두껍고 단단하게 디자인된 금속제 총열입니다. 작업대에서 깎고 가공할 수 있습니다.</HD_ShotgunBarrel.description>
 
-  <HD_WildWestBarrel.label>중품질 총열</HD_WildWestBarrel.label>
-  <HD_WildWestBarrel.description>정교한 기계식 선반에서 정밀하게 깎고 강선을 판 중품질 금속제 총열입니다. 후장식 소총이나 연사식 화기 등 개척지 무기를 제작할 때 부품으로 쓰입니다.</HD_WildWestBarrel.description>
 
   <HD_PigIron.label>주철</HD_PigIron.label>
   <HD_PigIron.description>고로에서 주조한 탄소 함량이 높고 부서지기 쉬운 철 제품입니다. 이후 가공 가능한 철이나 강철로 정련하기 위한 중간 재료입니다.</HD_PigIron.description>
@@ -42,7 +36,7 @@
   <HD_UniformRolledSteelPlate.label>균일압연강판</HD_UniformRolledSteelPlate.label>
   <HD_UniformRolledSteelPlate.description>일정한 두께로 압연한 평평한 탄소강 판재입니다. 기계 프레임, 총몸, 방호판처럼 균일한 강도가 필요한 부품에 쓰입니다.</HD_UniformRolledSteelPlate.description>
   <HD_UniformRolledSteelPlate.stuffProps.stuffAdjective>균일압연강</HD_UniformRolledSteelPlate.stuffProps.stuffAdjective>
-  
+
   <HD_Charcoal.label>숯</HD_Charcoal.label>
   <HD_Charcoal.description>나무를 공기가 적은 상태에서 구워 만든 탄소가 풍부한 연료입니다. 생목재보다 깨끗하고 뜨겁게 타기 때문에 고로 운전에 적합합니다.</HD_Charcoal.description>
   <HD_PressComponent.label>프레스 부품</HD_PressComponent.label>

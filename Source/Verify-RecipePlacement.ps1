@@ -48,6 +48,21 @@ foreach ($recipe in $recipes.Values) {
     }
 }
 
+foreach ($document in $documents) {
+    Assert ($document.Xml.OuterXml -notmatch '\bHD_(?:LowQualityBarrel|ShotgunBarrel|WildWestBarrel)\b|\bHD_Make(?:LowQuality|Shotgun|WildWest)Barrel(?:_BasicWorkbench)?\b') "Removed barrel reference remains in $($document.File.FullName)"
+}
+$foldedGunCosts = @{
+    HD_Make_Gun_SprMOne_Weapon = @(50, 1, 37500)
+    HD_Make_Gun_WinM1887_Weapon = @(75, 3, 58800)
+    HD_Make_Gun_Henry_Weapon = @(75, 4, 56100)
+}
+foreach ($entry in $foldedGunCosts.GetEnumerator()) {
+    $node = $recipes[$entry.Key].Node
+    Assert ($node.SelectSingleNode('ingredients/li[filter/thingDefs/li="HD_CarbonSteel"]/count').InnerText -eq $entry.Value[0]) "Folded barrel steel mismatch in $($entry.Key)"
+    Assert ($node.SelectSingleNode('ingredients/li[filter/thingDefs/li="HD_GeneralMachinePart"]/count').InnerText -eq $entry.Value[1]) "Folded barrel machine part mismatch in $($entry.Key)"
+    Assert ($node.workAmount -eq $entry.Value[2]) "Folded barrel machining work mismatch in $($entry.Key)"
+}
+
 $families = @(
     @('HD_MakePressComponent', 'HD_MakePressComponentBulk5', 'HD_MakePressComponentBulk10'),
     @('HD_MillGeneralMachinePart', 'HD_MillGeneralMachinePartBulk5', 'HD_MillGeneralMachinePartBulk10'),

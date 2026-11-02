@@ -170,8 +170,10 @@ public sealed partial class Checks : GameComponent
             Check(job?.def == JobDefOf.DoBill && worker.jobs.TryTakeOrderedJob(job), "Ordered bill starts at " + table.def.defName + ": " + JobFailReason.Reason);
         }
         int elapsed = 0;
-        while (bill.repeatCount > 0 && elapsed < 24000) { yield return 120; elapsed += 120; }
-        Check(bill.repeatCount == 0, (forced ? "Ordered" : "Automatic AI") + " completes " + bill.recipe.defName);
+        while (bill.repeatCount > 0 && elapsed < 90000) { yield return 120; elapsed += 120; }
+        Check(bill.repeatCount == 0, (forced ? "Ordered" : "Automatic AI") + " completes " + bill.recipe.defName
+            + "; current=" + worker.CurJobDef + "; available=" + bill.recipe.Worker.AvailableOnNow(table)
+            + "; bound=" + (bill as Bill_ProductionWithUft)?.BoundUft?.workLeft + "; downed=" + worker.Downed);
     }
     private IEnumerable<int> ReactorChecks()
     {
@@ -226,5 +228,6 @@ public sealed partial class Checks : GameComponent
         var tntBill = Bill(stirred, tnt.defName);
         foreach (int ticks in CompleteBill(stirred, tntBill, false)) yield return ticks;
         Check(Count(tnt.ProducedThingDef) == tntBefore + tnt.products.Single().count, "Stirred-tank chemistry still produces the exact output");
+        foreach (int ticks in BarrelChecks()) yield return ticks;
     }
 }

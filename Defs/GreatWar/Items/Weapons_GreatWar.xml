@@ -651,9 +651,9 @@
       <RangedWeapon_Cooldown>0.9</RangedWeapon_Cooldown>
     </statBases>
     <costList>
-      <HD_WildWestBarrel>1</HD_WildWestBarrel>
-      <HD_CarbonSteel>55</HD_CarbonSteel>
-      <HD_GeneralMachinePart>5</HD_GeneralMachinePart>
+
+      <HD_CarbonSteel>85</HD_CarbonSteel>
+      <HD_GeneralMachinePart>6</HD_GeneralMachinePart>
       <HD_PressComponent>3</HD_PressComponent>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />

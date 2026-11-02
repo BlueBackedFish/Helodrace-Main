@@ -46,9 +46,9 @@
       <ShootingAccuracyTurret>0.90</ShootingAccuracyTurret>
     </statBases>
     <costList>
-      <HD_WildWestBarrel>1</HD_WildWestBarrel>
-      <HD_GeneralMachinePart>10</HD_GeneralMachinePart>
-      <HD_CarbonSteel>95</HD_CarbonSteel>
+
+      <HD_GeneralMachinePart>11</HD_GeneralMachinePart>
+      <HD_CarbonSteel>125</HD_CarbonSteel>
       <HD_PressComponent>6</HD_PressComponent>
       <HD_UniformRolledSteelPlate>1</HD_UniformRolledSteelPlate>
     </costList>
@@ -129,9 +129,9 @@
       <ShootingAccuracyTurret>0.92</ShootingAccuracyTurret>
     </statBases>
     <costList>
-      <HD_WildWestBarrel>1</HD_WildWestBarrel>
-      <HD_GeneralMachinePart>12</HD_GeneralMachinePart>
-      <HD_CarbonSteel>115</HD_CarbonSteel>
+
+      <HD_GeneralMachinePart>13</HD_GeneralMachinePart>
+      <HD_CarbonSteel>145</HD_CarbonSteel>
       <HD_PressComponent>8</HD_PressComponent>
       <HD_UniformRolledSteelPlate>2</HD_UniformRolledSteelPlate>
     </costList>
@@ -216,9 +216,9 @@
       <ShootingAccuracyTurret>0.82</ShootingAccuracyTurret>
     </statBases>
     <costList>
-      <HD_WildWestBarrel>1</HD_WildWestBarrel>
-      <HD_CarbonSteel>75</HD_CarbonSteel>
-      <HD_GeneralMachinePart>5</HD_GeneralMachinePart>
+
+      <HD_CarbonSteel>105</HD_CarbonSteel>
+      <HD_GeneralMachinePart>6</HD_GeneralMachinePart>
       <HD_UniformRolledSteelPlate>1</HD_UniformRolledSteelPlate>
     </costList>
     <building>
@@ -281,9 +281,9 @@
       <ShootingAccuracyTurret>0.75</ShootingAccuracyTurret>
     </statBases>
     <costList>
-      <HD_WildWestBarrel>1</HD_WildWestBarrel>
-      <HD_CarbonSteel>70</HD_CarbonSteel>
-      <HD_GeneralMachinePart>4</HD_GeneralMachinePart>
+
+      <HD_CarbonSteel>100</HD_CarbonSteel>
+      <HD_GeneralMachinePart>5</HD_GeneralMachinePart>
       <HD_UniformRolledSteelPlate>1</HD_UniformRolledSteelPlate>
     </costList>
     <building>
@@ -346,9 +346,9 @@
       <ShootingAccuracyTurret>0.85</ShootingAccuracyTurret>
     </statBases>
     <costList>
-      <HD_WildWestBarrel>1</HD_WildWestBarrel>
-      <HD_CarbonSteel>85</HD_CarbonSteel>
-      <HD_GeneralMachinePart>5</HD_GeneralMachinePart>
+
+      <HD_CarbonSteel>115</HD_CarbonSteel>
+      <HD_GeneralMachinePart>6</HD_GeneralMachinePart>
       <HD_UniformRolledSteelPlate>1</HD_UniformRolledSteelPlate>
     </costList>
     <building>
@@ -412,9 +412,9 @@
       <ShootingAccuracyTurret>0.92</ShootingAccuracyTurret>
     </statBases>
     <costList>
-      <HD_WildWestBarrel>1</HD_WildWestBarrel>
-      <HD_CarbonSteel>170</HD_CarbonSteel>
-      <HD_GeneralMachinePart>12</HD_GeneralMachinePart>
+
+      <HD_CarbonSteel>200</HD_CarbonSteel>
+      <HD_GeneralMachinePart>13</HD_GeneralMachinePart>
       <HD_PressComponent>8</HD_PressComponent>
       <HD_UniformRolledSteelPlate>4</HD_UniformRolledSteelPlate>
     </costList>
@@ -593,9 +593,9 @@
       <ShootingAccuracyTurret>0.9</ShootingAccuracyTurret>
     </statBases>
     <costList>
-      <HD_WildWestBarrel>1</HD_WildWestBarrel>
-      <HD_CarbonSteel>350</HD_CarbonSteel>
-      <HD_GeneralMachinePart>24</HD_GeneralMachinePart>
+
+      <HD_CarbonSteel>380</HD_CarbonSteel>
+      <HD_GeneralMachinePart>25</HD_GeneralMachinePart>
       <HD_PressComponent>16</HD_PressComponent>
       <HD_UniformRolledSteelPlate>8</HD_UniformRolledSteelPlate>
     </costList>
