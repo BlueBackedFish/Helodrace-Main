@@ -3,6 +3,9 @@ using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Waylith.Math;
+using Vector3 = System.Numerics.Vector3;
+using Color = Waylith.Math.Color;
 using Verse;
 using Verse.AI;
 using Verse.Sound;
@@ -102,7 +105,7 @@ namespace Helodrace
                         Props.cuttingGraphicPath,
                         ShaderDatabase.Cutout,
                         drawSize,
-                        Color.white);
+                        Color.white.ToGame());
                 }
 
                 return cuttingGraphic;
@@ -243,19 +246,19 @@ namespace Helodrace
 
         public static Vector3 CardinalTowardTarget(Pawn worker, Building target)
         {
-            Vector3 direction = target.DrawPos - worker.DrawPos;
-            direction.y = 0f;
-            if (direction.sqrMagnitude < 0.001f)
+            Vector3 direction = target.DrawPos.ToNative() - worker.DrawPos.ToNative();
+            direction.Y = 0f;
+            if (direction.LengthSquared() < 0.001f)
             {
-                direction = worker.Rotation.FacingCell.ToVector3();
+                direction = worker.Rotation.FacingCell.ToVector3().ToNative();
             }
 
-            return Rot4.FromAngleFlat(direction.AngleFlat()).FacingCell.ToVector3();
+            return Rot4.FromAngleFlat(SpatialMath.FlatAngle(direction)).FacingCell.ToVector3().ToNative();
         }
 
         public static Vector3 CuttingGraphicUpDirection(Pawn worker, Building target)
         {
-            float aimAngle = CardinalTowardTarget(worker, target).AngleFlat();
+            float aimAngle = SpatialMath.FlatAngle(CardinalTowardTarget(worker, target));
             float graphicAngle = aimAngle - 90f;
 
             // Match PawnRenderUtility.DrawEquipmentAiming: weapons aimed to
@@ -266,7 +269,7 @@ namespace Helodrace
                 graphicAngle -= 180f;
             }
 
-            return Quaternion.AngleAxis(graphicAngle, Vector3.up) * Vector3.forward;
+            return SpatialMath.RotateAroundY(Vector3.UnitZ, graphicAngle);
         }
 
         public static bool IsValidBreachTarget(Thing thing)
@@ -486,9 +489,9 @@ namespace Helodrace
 
             Vector3 spawnPosition = EffectOrigin(target, pawn, cutter);
             float originRadius = Mathf.Max(0f, cutter?.Props.sparkOriginRadius ?? 0.04f);
-            spawnPosition.x += Rand.Range(-originRadius, originRadius);
-            spawnPosition.z += Rand.Range(-originRadius, originRadius);
-            if (!spawnPosition.ToIntVec3().InBounds(map))
+            spawnPosition.X += Rand.Range(-originRadius, originRadius);
+            spawnPosition.Z += Rand.Range(-originRadius, originRadius);
+            if (!spawnPosition.ToGame().ToIntVec3().InBounds(map))
             {
                 return;
             }
@@ -497,17 +500,15 @@ namespace Helodrace
                 -CompPowerCutterBreach.CardinalTowardTarget(pawn, target);
 
             // Emit toward the worker, then bias the fan slightly screen-up.
-            Vector3 velocityDirection = Quaternion.AngleAxis(
-                Rand.Range(-20f, 20f),
-                Vector3.up) * wallToWorker;
-            velocityDirection += Vector3.forward
+            Vector3 velocityDirection = SpatialMath.RotateAroundY(wallToWorker, Rand.Range(-20f, 20f));
+            velocityDirection += Vector3.UnitZ
                 * Mathf.Max(0f, cutter?.Props.sparkUpwardBias ?? 0.18f);
-            velocityDirection.Normalize();
-            float travelAngle = velocityDirection.AngleFlat();
+            velocityDirection = velocityDirection.normalized;
+            float travelAngle = SpatialMath.FlatAngle(velocityDirection);
             // Use the vanilla creation path so altitude, age and render
             // state are initialized exactly like built-in sparks.
             FleckCreationData spark = FleckMaker.GetDataStatic(
-                spawnPosition,
+                spawnPosition.ToGame(),
                 map,
                 fleckDef,
                 // 60% of the original 0.9-1.45 range.
@@ -517,12 +518,12 @@ namespace Helodrace
                 1f * brightness,
                 0.92f * brightness,
                 0.62f * brightness,
-                1f);
+                1f).ToGame();
             // All active assets point up at zero rotation.
             spark.rotation = travelAngle;
             spark.rotationRate = 0f;
             // Three times the original 0.12-0.38 movement speed.
-            spark.velocity = velocityDirection * Rand.Range(6.0f, 7.0f);
+            spark.velocity = (velocityDirection * Rand.Range(6.0f, 7.0f)).ToGame();
             map.flecks.CreateFleck(spark);
         }
 
@@ -543,9 +544,9 @@ namespace Helodrace
             for (int i = 0; i < smokeCount; i++)
             {
                 Vector3 variedPosition = spawnPosition;
-                variedPosition.x += Rand.Range(-0.06f, 0.06f);
-                variedPosition.z += Rand.Range(-0.06f, 0.06f);
-                if (!variedPosition.ToIntVec3().InBounds(map))
+                variedPosition.X += Rand.Range(-0.06f, 0.06f);
+                variedPosition.Z += Rand.Range(-0.06f, 0.06f);
+                if (!variedPosition.ToGame().ToIntVec3().InBounds(map))
                 {
                     continue;
                 }
@@ -553,15 +554,13 @@ namespace Helodrace
                 float scale = Mathf.Max(0.05f, cutter?.Props.smokeScale ?? 0.30f)
                     * Rand.Range(0.85f, 1.20f);
                 FleckCreationData smoke = FleckMaker.GetDataStatic(
-                    variedPosition,
+                    variedPosition.ToGame(),
                     map,
                     smokeDef,
                     scale);
                 smoke.rotation = Rand.Range(0f, 360f);
                 smoke.rotationRate = Rand.Range(-12f, 12f);
-                smoke.velocity = Quaternion.AngleAxis(
-                    Rand.Range(-34f, 34f),
-                    Vector3.up) * wallToWorker * Rand.Range(0.16f, 0.32f);
+                smoke.velocity = (SpatialMath.RotateAroundY(wallToWorker, Rand.Range(-34f, 34f)) * Rand.Range(0.16f, 0.32f)).ToGame();
                 map.flecks.CreateFleck(smoke);
             }
         }
@@ -584,27 +583,25 @@ namespace Helodrace
             for (int i = 0; i < dustCount; i++)
             {
                 Vector3 position = origin;
-                position.x += Rand.Range(-radius, radius);
-                position.z += Rand.Range(-radius, radius);
-                if (!position.ToIntVec3().InBounds(map))
+                position.X += Rand.Range(-radius, radius);
+                position.Z += Rand.Range(-radius, radius);
+                if (!position.ToGame().ToIntVec3().InBounds(map))
                 {
                     continue;
                 }
 
                 float scale = Mathf.Max(0.05f, cutter?.Props.dustScale ?? 0.34f)
                     * Rand.Range(0.75f, 1.30f);
-                Vector3 direction = Quaternion.AngleAxis(
-                    Rand.Range(-70f, 70f),
-                    Vector3.up) * wallToWorker;
+                Vector3 direction = SpatialMath.RotateAroundY(wallToWorker, Rand.Range(-70f, 70f));
                 FleckCreationData dust = FleckMaker.GetDataStatic(
-                    position,
+                    position.ToGame(),
                     map,
                     dustDef,
                     scale);
-                dust.instanceColor = new Color(0.78f, 0.72f, 0.62f, 0.88f);
+                dust.instanceColor = new Color(0.78f, 0.72f, 0.62f, 0.88f).ToGame();
                 dust.rotation = Rand.Range(0f, 360f);
                 dust.rotationRate = Rand.Range(-24f, 24f);
-                dust.velocity = direction * Rand.Range(0.30f, 0.70f);
+                dust.velocity = (direction * Rand.Range(0.30f, 0.70f)).ToGame();
                 map.flecks.CreateFleck(dust);
             }
         }
@@ -626,19 +623,19 @@ namespace Helodrace
                 float scale = Mathf.Max(0.05f, cutter?.Props.metalFlashScale ?? 0.24f)
                     * Rand.Range(0.75f, 1.25f);
                 FleckCreationData flash = FleckMaker.GetDataStatic(
-                    origin,
+                    origin.ToGame(),
                     map,
                     flashDef,
                     scale);
-                flash.instanceColor = new Color(2.4f, 1.85f, 0.85f, 1f);
+                flash.instanceColor = new Color(2.4f, 1.85f, 0.85f, 1f).ToGame();
                 map.flecks.CreateFleck(flash);
             }
 
             ThingDef lightDef = DefDatabase<ThingDef>.GetNamedSilentFail(
                 "HD_PowerCutterMetalFlashLight");
-            if (lightDef != null && origin.ToIntVec3().InBounds(map))
+            if (lightDef != null && origin.ToGame().ToIntVec3().InBounds(map))
             {
-                GenSpawn.Spawn(ThingMaker.MakeThing(lightDef), origin.ToIntVec3(), map);
+                GenSpawn.Spawn(ThingMaker.MakeThing(lightDef), origin.ToGame().ToIntVec3(), map);
             }
         }
 
@@ -652,7 +649,7 @@ namespace Helodrace
             float offset = Mathf.Max(
                 0f,
                 cutter?.Props.breachContactCenterOffset ?? 0.30f);
-            return target.DrawPos + wallToWorker * offset;
+            return target.DrawPos.ToNative() + wallToWorker * offset;
         }
 
         private static Vector3 EffectOrigin(
@@ -734,7 +731,7 @@ namespace Helodrace
     [HarmonyPatch(typeof(PawnRenderUtility), nameof(PawnRenderUtility.DrawEquipmentAiming))]
     public static class Patch_PawnRenderUtility_DrawEquipmentAiming_PowerCutterBreach
     {
-        public static void Prefix(Thing eq, ref Vector3 drawLoc, ref float aimAngle)
+        public static void Prefix(Thing eq, ref UnityEngine.Vector3 drawLoc, ref float aimAngle)
         {
             CompPowerCutterBreach comp =
                 (eq as ThingWithComps)?.TryGetComp<CompPowerCutterBreach>();
@@ -750,11 +747,11 @@ namespace Helodrace
 
             float contactOffset = Mathf.Max(0f, comp.Props.breachContactCenterOffset);
             float graphicReach = Mathf.Max(0f, comp.Props.cuttingGraphicRightReach);
-            Vector3 contactPoint = target.DrawPos - towardTarget * contactOffset;
+            Vector3 contactPoint = target.DrawPos.ToNative() - towardTarget * contactOffset;
             Vector3 desiredCenter = contactPoint - towardTarget * graphicReach;
-            drawLoc.x = desiredCenter.x;
-            drawLoc.z = desiredCenter.z;
-            aimAngle = towardTarget.AngleFlat();
+            drawLoc.x = desiredCenter.X;
+            drawLoc.z = desiredCenter.Z;
+            aimAngle = SpatialMath.FlatAngle(towardTarget);
         }
     }
 }
