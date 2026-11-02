@@ -190,7 +190,7 @@ namespace Helodrace.Tests.Frozen
                     continue;
                 }
                 if (!HelodCasCombatBridge.TryLaunchProjectile(projectileDef,
-                    strike.Caller, origin, impact, map))
+                    strike.Caller, new System.Numerics.Vector3(origin.x, origin.y, origin.z), impact, map))
                 {
                     Projectile projectile = (Projectile)GenSpawn.Spawn(projectileDef,
                         originCell, map);

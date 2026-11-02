@@ -72,8 +72,8 @@ namespace Helodrace.Tests
         private static bool Line(GV __0, GV __1, Mat __2, float __3) { if (lines == null) return true; lines.Add((__0, __1, __2, __3)); return false; }
         private static bool Smoke(GV __0, float __2) { if (smoke == null) return true; smoke.Add((__0, __2)); return false; }
         private static bool Sound() => projectiles == null;
-        private static bool Projectile(ThingDef def, Pawn caller, GV origin, IntVec3 impact, Map map)
-        { projectiles.Add((def, caller, origin, impact)); return true; }
+        private static bool Projectile(ThingDef def, Pawn caller, NV origin, IntVec3 impact, Map map)
+        { projectiles.Add((def, caller, new GV(origin.X,origin.Y,origin.Z), impact)); return true; }
         private static void Material(Mat a, Mat e)
         {
             if (a.mainTexture != e.mainTexture || a.shader != e.shader) throw new InvalidOperationException("CAS texture/shader changed.");
@@ -159,6 +159,7 @@ namespace Helodrace.Tests
         }
         internal static void Create(string output, Action<bool, string> check)
         {
+            OriginContract(check);
             var harmony = new Harmony("Helodrace.Tests.NativeCas");
             harmony.Patch(AccessTools.Method(typeof(UnityEngine.Graphics), "DrawMesh", new[] { typeof(UnityEngine.Mesh), typeof(GM), typeof(Mat), typeof(int) }), prefix: new HarmonyMethod(typeof(NativeCasChecks), nameof(Mesh)));
             harmony.Patch(AccessTools.Method(typeof(GenDraw), "DrawLineBetween", new[] { typeof(GV), typeof(GV), typeof(Mat), typeof(float) }), prefix: new HarmonyMethod(typeof(NativeCasChecks), nameof(Line)));
@@ -229,6 +230,32 @@ namespace Helodrace.Tests
                 StrafeBursts = bursts, StrafeRounds = rounds, Releases = releases, DrawCalls = draws, MeshSubmissions = meshSubmissions,
                 LineSubmissions = lineSubmissions, Components = components, MaximumFloatError = maximumError, Baseline = "97ab8f7b"
             }, new JsonSerializerOptions { WriteIndented = true }));
+        }
+        private static void OriginContract(Action<bool,string> check)
+        {
+            check(typeof(HelodCasCombatBridge.ProjectileLaunchHandler).GetMethod("Invoke").GetParameters()[2].ParameterType==typeof(NV)
+                && typeof(HelodCasCombatBridge).GetMethod("TryLaunchProjectile").GetParameters()[2].ParameterType==typeof(NV),
+                "CAS extension and dispatch expose a native origin without a game-vector overload");
+            var saved=HelodCasCombatBridge.ExternalProjectileLauncher;
+            try
+            {
+                var origin=new NV(-0f,float.Epsilon,BitConverter.Int32BitsToSingle(unchecked((int)0x7FC12345)));
+                var impact=new IntVec3(12,0,34); Map map=Find.CurrentMap; int calls=0; bool forwarded=false;
+                HelodCasCombatBridge.ExternalProjectileLauncher=null;
+                check(!HelodCasCombatBridge.TryLaunchProjectile(null,null,origin,impact,map),"missing CAS handler still delegates to the caller's vanilla fallback");
+                HelodCasCombatBridge.ExternalProjectileLauncher=(ThingDef def,Pawn caller,NV point,IntVec3 cell,Map host) =>
+                {
+                    calls++;
+                    forwarded=def==null && caller==null && host==map && cell==impact
+                        && BitConverter.SingleToInt32Bits(point.X)==BitConverter.SingleToInt32Bits(origin.X)
+                        && BitConverter.SingleToInt32Bits(point.Y)==BitConverter.SingleToInt32Bits(origin.Y)
+                        && BitConverter.SingleToInt32Bits(point.Z)==BitConverter.SingleToInt32Bits(origin.Z);
+                    return false;
+                };
+                check(!HelodCasCombatBridge.TryLaunchProjectile(null,null,origin,impact,map) && calls==1 && forwarded,
+                    "refusing CAS handler preserves native component bits and fallback result");
+            }
+            finally { HelodCasCombatBridge.ExternalProjectileLauncher=saved; }
         }
         private static void VisualChecks(Map map, Pawn caller, Thing guided)
         {

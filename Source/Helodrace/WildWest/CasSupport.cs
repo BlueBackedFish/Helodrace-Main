@@ -18,7 +18,7 @@ namespace Helodrace
     public static class HelodCasCombatBridge
     {
         public delegate bool ProjectileLaunchHandler(ThingDef projectileDef,
-            Pawn launcher, UnityEngine.Vector3 origin, IntVec3 impact, Map map);
+            Pawn launcher, Vector3 origin, IntVec3 impact, Map map);
         public delegate bool MunitionImpactHandler(HelodCasFallingBomb munition,
             Map map);
 
@@ -26,7 +26,7 @@ namespace Helodrace
         public static MunitionImpactHandler ExternalMunitionImpact;
 
         public static bool TryLaunchProjectile(ThingDef projectileDef,
-            Pawn launcher, UnityEngine.Vector3 origin, IntVec3 impact, Map map)
+            Pawn launcher, Vector3 origin, IntVec3 impact, Map map)
         {
             ProjectileLaunchHandler handler = ExternalProjectileLauncher;
             if (handler == null)
@@ -1831,7 +1831,7 @@ namespace Helodrace
                     continue;
                 }
                 if (!HelodCasCombatBridge.TryLaunchProjectile(projectileDef,
-                    strike.Caller, origin.ToGame(), impact, map))
+                    strike.Caller, origin, impact, map))
                 {
                     Projectile projectile = (Projectile)GenSpawn.Spawn(projectileDef,
                         originCell, map);
