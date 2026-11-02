@@ -4,6 +4,11 @@
     <defName>HD_WW_Caravan_HelodArms</defName>
     <label>Whitmore Arms &amp; Sporting Goods Co.</label>
     <stockGenerators>
+      <!-- Buy civilian Core firearms without adding them to sale stock. -->
+      <li Class="StockGenerator_BuySingleDef"><thingDef>Gun_Revolver</thingDef></li>
+      <li Class="StockGenerator_BuySingleDef"><thingDef>Gun_Autopistol</thingDef></li>
+      <li Class="StockGenerator_BuySingleDef"><thingDef>Gun_BoltActionRifle</thingDef></li>
+      <li Class="StockGenerator_BuySingleDef"><thingDef>Gun_PumpShotgun</thingDef></li>
       <li Class="StockGenerator_SingleDef">
         <thingDef>Silver</thingDef>
         <countRange>200~400</countRange>
