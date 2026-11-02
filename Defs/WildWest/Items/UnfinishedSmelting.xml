@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="UnfinishedBase">
+    <defName>HD_UnfinishedSmeltingBatch</defName>
+    <label>unfinished smelting batch</label>
+    <description>An unfinished iron or steel batch. Its ingredients and completed work are kept so its maker can resume after a break or a fuel interruption.</description>
+    <graphicData>
+      <texPath>Items/HD_CarbonSteel/HD_CarbonSteel_a</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stuffCategories Inherit="False" />
+  </ThingDef>
+</Defs>

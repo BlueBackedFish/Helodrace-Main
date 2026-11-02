@@ -7,12 +7,13 @@
 | 시대 | 공정 | 제품군/조합법 | 작업대 |
 |---|---|---|---|
 | 서부 | 수동 선삭 | 저급 총열, 산탄총 총열 | `HD_TreadleLathe` |
-| 서부 | 범용 선삭 | 축, 범용 기계 부품(기본·5개·10개) | `HD_TreadleLathe`, `HD_LineShaftTurretLathe` |
+| 서부 | 수동·동력 선삭 | 축 | `HD_TreadleLathe`, `HD_LineShaftTurretLathe` |
+| 서부 | 범용 부품 선삭 | 범용 기계 부품(기본·5개·10개) | `HD_LineShaftTurretLathe` |
 | 서부 | 동력 선삭·밀링 | 서부 총열 | `HD_LineShaftTurretLathe`, `HD_LineShaftMillingMachine` |
 | 서부 | 밀링 | 범용 기계 부품(기본·5개·10개) | `HD_LineShaftMillingMachine` |
 | 서부 | 유압 프레스 | 프레스 부품(기본·5개·10개) | `HD_LineShaftHydraulicPress` |
 | 서부 | 압연 | 균일 압연 강판 | `HD_LineShaftRollingMachine` |
-| 대전기 | 프레스 성형 | M1 철모 | `HD_LineShaftHydraulicPress` |
+| 대전기 | 프레스 성형 | M1 철모 | `HD_LineShaftHydraulicPress`, 후대 대체 설비 `HD_HydraulicPress1970Bench` |
 | 서부~현대 | 최종 조립·탄약 조립 | 총기, 전기 부품, 포탄·로켓 등 | `HD_BasicWorkbench` |
 | 서부 | 원유 분별·정제 | 연료유, 등유, 나프타, 화학연료 | `HD_DistillationTower`, `HD_BatchStill` |
 | 대전기 | 제강 | 주철, 탄소강 | `HD_BlastFurnace` (전로 연결 시 탄소강), `HD_Converter` (시설물) |
@@ -22,7 +23,8 @@
 
 - 기본·대량 조합법은 같은 제품군이면 `recipeUsers`와 연구 선행 조건이 같아야 한다.
 - 성형 부품과 M1 철모는 프레스, 압연 강판은 압연기, 밀링 부품은 밀링 머신에 둔다.
-- 두 공정에서 실제로 만들 수 있는 품목만 복수 작업대를 허용한다. 현재 허용 대상은 범용 선삭 부품, 축, 서부 총열이다.
+- 두 공정에서 실제로 만들 수 있는 품목만 복수 작업대를 허용한다. 현재 허용 대상은 축, 서부 총열이다. 범용 기계 부품의 선삭은 현재 제품 정의에 맞춰 동력 선반으로 한정한다.
+- 주철·탄소강의 소·중·대 배치는 고로에서 미완성 제련 배치를 사용해 진행량을 보존한다. 전로는 탄소강을 해금하는 연결 시설이며, 연료가 없는 별도 제작 작업대로 사용하지 않는다.
 - `HD_BasicWorkbench`는 최종 조립 및 저기술 대체 공정에 사용한다. 전용 기계 공정을 가진 기본·대량 파생 조합법을 이 작업대에 따로 흩어 놓지 않는다.
 
 ## 검증

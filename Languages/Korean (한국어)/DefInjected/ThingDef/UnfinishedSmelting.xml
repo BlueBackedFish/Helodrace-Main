@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_UnfinishedSmeltingBatch.label>미완성 제련 배치</HD_UnfinishedSmeltingBatch.label>
+  <HD_UnfinishedSmeltingBatch.description>아직 완성되지 않은 철·강철 제련 배치입니다. 재료와 진행량을 보존하므로 휴식이나 연료 보충 후 작업자가 이어서 작업할 수 있습니다.</HD_UnfinishedSmeltingBatch.description>
+</LanguageData>

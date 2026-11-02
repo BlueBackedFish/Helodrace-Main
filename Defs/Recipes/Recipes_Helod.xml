@@ -74,6 +74,7 @@
 
   <RecipeDef>
     <defName>HD_CastPigIronSmall</defName>
+    <unfinishedThingDef>HD_UnfinishedSmeltingBatch</unfinishedThingDef>
     <label>cast small pig iron batch</label>
     <description>Smelt steel into pig iron at a blast furnace.</description>
     <jobString>Casting pig iron.</jobString>
@@ -109,6 +110,7 @@
 
   <RecipeDef>
     <defName>HD_RefineCarbonSteelSmall</defName>
+    <unfinishedThingDef>HD_UnfinishedSmeltingBatch</unfinishedThingDef>
     <label>refine small carbon steel batch</label>
     <description>Refine steel into carbon steel at a blast furnace linked to a converter.</description>
     <jobString>Refining carbon steel.</jobString>
@@ -146,12 +148,12 @@
     </products>
     <recipeUsers>
       <li>HD_BlastFurnace</li>
-      <li>HD_Converter</li>
     </recipeUsers>
   </RecipeDef>
 
   <RecipeDef>
     <defName>HD_CastPigIronMedium</defName>
+    <unfinishedThingDef>HD_UnfinishedSmeltingBatch</unfinishedThingDef>
     <label>cast medium pig iron batch</label>
     <description>Smelt steel into pig iron at a blast furnace.</description>
     <jobString>Casting pig iron.</jobString>
@@ -187,6 +189,7 @@
 
   <RecipeDef>
     <defName>HD_RefineCarbonSteelMedium</defName>
+    <unfinishedThingDef>HD_UnfinishedSmeltingBatch</unfinishedThingDef>
     <label>refine medium carbon steel batch</label>
     <description>Refine steel into carbon steel at a blast furnace linked to a converter.</description>
     <jobString>Refining carbon steel.</jobString>
@@ -224,12 +227,12 @@
     </products>
     <recipeUsers>
       <li>HD_BlastFurnace</li>
-      <li>HD_Converter</li>
     </recipeUsers>
   </RecipeDef>
 
   <RecipeDef>
     <defName>HD_CastPigIronLarge</defName>
+    <unfinishedThingDef>HD_UnfinishedSmeltingBatch</unfinishedThingDef>
     <label>cast large pig iron batch</label>
     <description>Smelt steel into pig iron at a blast furnace.</description>
     <jobString>Casting pig iron.</jobString>
@@ -265,6 +268,7 @@
 
   <RecipeDef>
     <defName>HD_RefineCarbonSteelLarge</defName>
+    <unfinishedThingDef>HD_UnfinishedSmeltingBatch</unfinishedThingDef>
     <label>refine large carbon steel batch</label>
     <description>Refine steel into carbon steel at a blast furnace linked to a converter.</description>
     <jobString>Refining carbon steel.</jobString>
@@ -302,7 +306,6 @@
     </products>
     <recipeUsers>
       <li>HD_BlastFurnace</li>
-      <li>HD_Converter</li>
     </recipeUsers>
   </RecipeDef>
 

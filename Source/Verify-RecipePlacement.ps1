@@ -71,9 +71,9 @@ $expectedUsers = [ordered]@{
     HD_MillGeneralMachinePart = @('HD_LineShaftMillingMachine')
     HD_MillGeneralMachinePartBulk5 = @('HD_LineShaftMillingMachine')
     HD_MillGeneralMachinePartBulk10 = @('HD_LineShaftMillingMachine')
-    HD_TurnGeneralMachinePart = @('HD_TreadleLathe', 'HD_LineShaftTurretLathe')
-    HD_TurnGeneralMachinePartBulk5 = @('HD_TreadleLathe', 'HD_LineShaftTurretLathe')
-    HD_TurnGeneralMachinePartBulk10 = @('HD_TreadleLathe', 'HD_LineShaftTurretLathe')
+    HD_TurnGeneralMachinePart = @('HD_LineShaftTurretLathe')
+    HD_TurnGeneralMachinePartBulk5 = @('HD_LineShaftTurretLathe')
+    HD_TurnGeneralMachinePartBulk10 = @('HD_LineShaftTurretLathe')
     HD_RollUniformSteelPlate = @('HD_LineShaftRollingMachine')
 }
 foreach ($entry in $expectedUsers.GetEnumerator()) {
@@ -92,7 +92,10 @@ foreach ($size in @('Small', 'Medium', 'Large')) {
     Assert ($null -ne $pig -and $null -ne $steel) "Missing $size ironmaking recipes."
     Assert (($pig.Users -join '|') -ceq 'HD_BlastFurnace') "Pig iron $size must be made at the blast furnace."
     Assert ($null -ne $pig.Node.SelectSingleNode('products/HD_PigIron')) "Pig iron $size has the wrong product."
-    Assert (($steel.Users -join '|') -ceq 'HD_BlastFurnace|HD_Converter') "Carbon steel $size must display both buildings."
+    Assert (($steel.Users -join '|') -ceq 'HD_BlastFurnace') "Carbon steel $size must run at the fueled blast furnace."
+    foreach ($recipe in @($pig, $steel)) {
+        Assert ((Values $recipe.Node 'unfinishedThingDef' -join '|') -ceq 'HD_UnfinishedSmeltingBatch') "$($recipe.Name) must preserve smelting progress across interruptions."
+    }
     Assert ($null -ne $steel.Node.SelectSingleNode('products/HD_CarbonSteel')) "Carbon steel $size has the wrong product."
     Assert ((Values $steel.Node 'workerClass' -join '|') -ceq 'Helodrace.RecipeWorker_RequiresLinkedFacility') "Carbon steel $size must check the live facility connection."
     Assert ((Values $steel.Node 'modExtensions/li/workTable' -join '|') -ceq 'HD_BlastFurnace') "Carbon steel $size has the wrong worktable requirement."
@@ -102,7 +105,7 @@ foreach ($size in @('Small', 'Medium', 'Large')) {
 $m1 = $thingDefs['HD_Apparel_GreatWarM1Helmet']
 Assert ($null -ne $m1) 'Missing M1 helmet ThingDef.'
 $m1Users = @(Values $m1 'recipeMaker/recipeUsers/li')
-Assert (($m1Users -join '|') -ceq 'HD_LineShaftHydraulicPress') 'M1 helmet must be made at the hydraulic press.'
+Assert (($m1Users -join '|') -ceq 'HD_LineShaftHydraulicPress|HD_HydraulicPress1970Bench') 'M1 helmet must be made at the authored hydraulic presses.'
 
 $mappedRecipeNames = @($expectedUsers.Keys)
 Write-Output "PASS: $($recipes.Count) explicit RecipeDefs and $($thingDefs.Count) concrete ThingDefs are unique."
