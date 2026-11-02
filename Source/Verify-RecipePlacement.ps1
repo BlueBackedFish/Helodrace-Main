@@ -108,6 +108,12 @@ $m1Users = @(Values $m1 'recipeMaker/recipeUsers/li')
 Assert (($m1Users -join '|') -ceq 'HD_LineShaftHydraulicPress|HD_HydraulicPress1970Bench') 'M1 helmet must be made at the authored hydraulic presses.'
 
 $mappedRecipeNames = @($expectedUsers.Keys)
+$chemicalJobs = [xml](Get-Content -LiteralPath (Join-Path $RepositoryRoot 'Defs/GreatWar/Jobs_GreatWar.xml') -Raw -Encoding UTF8)
+$reactorGiver = $chemicalJobs.SelectSingleNode('/Defs/WorkGiverDef[defName="DoBillsHD_HaberBoschHighPressureReactor"]')
+Assert ($reactorGiver.giverClass -eq 'WorkGiver_DoBill' -and $reactorGiver.workType -eq 'Crafting' -and $reactorGiver.fixedBillGiverDefs.li -eq 'HD_HaberBoschHighPressureReactor') 'High-pressure reactor must have a Crafting bill work giver.'
+Assert (($recipes['HD_SynthesizeAmmoniumNitrate'].Users -join '|') -ceq 'HD_HaberBoschHighPressureReactor') 'Ammonium nitrate must run at the high-pressure reactor.'
+Assert ($recipes['HD_SynthesizeAmmoniumNitrate'].Node.requiredGiverWorkType -eq $reactorGiver.workType) 'Reactor recipe and work giver work types must agree.'
+Write-Output 'PASS: high-pressure reactor recipe, work type and bill work giver are connected.'
 Write-Output "PASS: $($recipes.Count) explicit RecipeDefs and $($thingDefs.Count) concrete ThingDefs are unique."
 Write-Output "PASS: no orphan recipes; all Helod recipeUsers resolve to concrete worktables and contain no duplicate entries."
 Write-Output "PASS: base/bulk recipe families share worktables and research prerequisites."
