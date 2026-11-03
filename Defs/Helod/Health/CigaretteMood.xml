@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThoughtDef>
+    <defName>HD_CigaretteCalm</defName>
+    <thoughtClass>Thought_Situational</thoughtClass>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>HD_NicotineRush</hediff>
+    <stages><li><label>quiet cigarette break</label><description>A cigarette gave me a brief moment to settle my nerves.</description><baseMoodEffect>3</baseMoodEffect></li></stages>
+  </ThoughtDef>
+</Defs>
