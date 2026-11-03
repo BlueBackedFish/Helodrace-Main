@@ -32,7 +32,7 @@
       <HD_CarbonSteel>90</HD_CarbonSteel>
       <HD_GeneralMachinePart>10</HD_GeneralMachinePart>
       <HD_BasicElectricalComponents>12</HD_BasicElectricalComponents>
-      <HD_BasicElectronicComponents>10</HD_BasicElectronicComponents>
+      <HD_ElectronicComponent>10</HD_ElectronicComponent>
       <ComponentIndustrial>4</ComponentIndustrial>
     </costList>
     <size>(3,3)</size>

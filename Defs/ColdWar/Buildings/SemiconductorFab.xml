@@ -3,7 +3,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_SemiconductorFab</defName>
     <label>early semiconductor fab</label>
-    <description>A compact transistor-era fabrication workshop. A horizontal diffusion furnace, bell-jar vacuum evaporator, wet-processing bench and microscope inspection station share a 3-by-3 equipment platform. Packages early solid-state devices and electrical fittings into industrial components. Requires electricity and a skilled operator.</description>
+    <description>A compact transistor-era fabrication workshop. A horizontal diffusion furnace, bell-jar vacuum evaporator, wet-processing bench and microscope inspection station share a 3-by-3 equipment platform. Fabricates solid-state electronic components and assembles them into general industrial components. Requires electricity and a skilled operator.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
       <texPath>Buildings/HD_SemiconductorFab</texPath>

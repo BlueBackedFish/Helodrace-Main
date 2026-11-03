@@ -3,7 +3,7 @@
   <RecipeDef>
     <defName>HD_FabricateSolidStateComponents</defName>
     <label>fabricate solid-state components</label>
-    <description>Fabricate and package early semiconductor devices with electrical fittings into an industrial component. Chemical feedstocks and semiconductor processing are abstracted into the existing material chain.</description>
+    <description>Fabricate and package solid-state electronic components for transistor-era control systems. These are a higher tier than vacuum-tube basic electronic components and have the same market value as an industrial component.</description>
     <jobString>Fabricating solid-state components.</jobString>
     <workAmount>6000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -19,8 +19,21 @@
       <li><filter><thingDefs><li>HD_BasicElectricalComponents</li></thingDefs></filter><count>2</count></li>
     </ingredients>
     <fixedIngredientFilter><thingDefs><li>Steel</li><li>Silver</li><li>Chemfuel</li><li>HD_BasicElectricalComponents</li></thingDefs></fixedIngredientFilter>
-    <products><ComponentIndustrial>1</ComponentIndustrial></products>
+    <products><HD_ElectronicComponent>1</HD_ElectronicComponent></products>
     <recipeUsers><li>HD_SemiconductorFab</li></recipeUsers>
+    <skillRequirements><Crafting>10</Crafting></skillRequirements>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>HD_AssembleIndustrialComponent</defName>
+    <label>assemble industrial component</label>
+    <description>Package one set of solid-state electronic components into one general industrial component. Both have the same market value; assembly requires additional work.</description>
+    <jobString>Assembling an industrial component.</jobString>
+    <workAmount>300</workAmount><workSpeedStat>GeneralLaborSpeed</workSpeedStat><workSkill>Crafting</workSkill><requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking><soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodTransistor</researchPrerequisite>
+    <ingredients><li><filter><thingDefs><li>HD_ElectronicComponent</li></thingDefs></filter><count>1</count></li></ingredients>
+    <fixedIngredientFilter><thingDefs><li>HD_ElectronicComponent</li></thingDefs></fixedIngredientFilter>
+    <products><ComponentIndustrial>1</ComponentIndustrial></products><recipeUsers><li>HD_SemiconductorFab</li></recipeUsers>
     <skillRequirements><Crafting>10</Crafting></skillRequirements>
   </RecipeDef>
 </Defs>

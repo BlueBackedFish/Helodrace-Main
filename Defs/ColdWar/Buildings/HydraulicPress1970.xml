@@ -33,7 +33,7 @@
       <HD_GeneralMachinePart>12</HD_GeneralMachinePart>
       <HD_UniformRolledSteelPlate>16</HD_UniformRolledSteelPlate>
       <HD_BasicElectricalComponents>10</HD_BasicElectricalComponents>
-      <HD_BasicElectronicComponents>6</HD_BasicElectronicComponents>
+      <HD_ElectronicComponent>6</HD_ElectronicComponent>
     </costList>
     <size>(3,3)</size>
     <hasInteractionCell>true</hasInteractionCell>

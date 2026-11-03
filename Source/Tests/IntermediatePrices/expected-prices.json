@@ -1,0 +1,134 @@
+[
+  {
+    "defName": "HD_BasicElectricalComponents",
+    "before": 18.0,
+    "after": 6,
+    "reduction": 66.67
+  },
+  {
+    "defName": "HD_BasicElectronicComponents",
+    "before": 32.0,
+    "after": 12,
+    "reduction": 62.5
+  },
+  {
+    "defName": "HD_BasicMedicalSupplies",
+    "before": 24.0,
+    "after": 10,
+    "reduction": 58.33
+  },
+  {
+    "defName": "HD_CrudeOil_Low",
+    "before": 1.5,
+    "after": 0.6,
+    "reduction": 60.0
+  },
+  {
+    "defName": "HD_Diesel",
+    "before": 4.0,
+    "after": 1.6,
+    "reduction": 60.0
+  },
+  {
+    "defName": "HD_Kerosene",
+    "before": 3.5,
+    "after": 1.4,
+    "reduction": 60.0
+  },
+  {
+    "defName": "HD_Naphtha",
+    "before": 5.0,
+    "after": 2,
+    "reduction": 60.0
+  },
+  {
+    "defName": "HD_AromaticBaseOil",
+    "before": 7.0,
+    "after": 2.8,
+    "reduction": 60.0
+  },
+  {
+    "defName": "HD_Charcoal",
+    "before": 2.0,
+    "after": 0.8,
+    "reduction": 60.0
+  },
+  {
+    "defName": "HD_PigIron",
+    "before": 8.0,
+    "after": 2.4,
+    "reduction": 70.0
+  },
+  {
+    "defName": "HD_CarbonSteel",
+    "before": 12.0,
+    "after": 3.2,
+    "reduction": 73.33
+  },
+  {
+    "defName": "HD_Shaft",
+    "before": 18.0,
+    "after": 6,
+    "reduction": 66.67
+  },
+  {
+    "defName": "HD_PressComponent",
+    "before": 8.0,
+    "after": 3.2,
+    "reduction": 60.0
+  },
+  {
+    "defName": "HD_GeneralMachinePart",
+    "before": 14.0,
+    "after": 6,
+    "reduction": 57.14
+  },
+  {
+    "defName": "HD_UniformRolledSteelPlate",
+    "before": 20.0,
+    "after": 8,
+    "reduction": 60.0
+  },
+  {
+    "defName": "HD_PrimaryCell",
+    "before": 3.5,
+    "after": 1.4,
+    "reduction": 60.0
+  },
+  {
+    "defName": "HD_AmmoniumNitrate",
+    "before": 4.0,
+    "after": 1.6,
+    "reduction": 60.0
+  },
+  {
+    "defName": "HD_TNT",
+    "before": 12.0,
+    "after": 4.8,
+    "reduction": 60.0
+  },
+  {
+    "defName": "HD_RDX",
+    "before": 18.0,
+    "after": 7.2,
+    "reduction": 60.0
+  },
+  {
+    "defName": "HD_C4_Charge",
+    "before": 24.0,
+    "after": 9.6,
+    "reduction": 60.0
+  },
+  {
+    "defName": "HD_M60Igniter",
+    "before": 95.0,
+    "after": 20,
+    "reduction": 78.95
+  },
+  {
+    "defName": "HD_M81Igniter",
+    "before": 140.0,
+    "after": 28,
+    "reduction": 80.0
+  }
+]

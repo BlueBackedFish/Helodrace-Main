@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_ElectronicComponent</defName>
+    <label>electronic components</label>
+    <description>Packaged transistors, circuit boards and solid-state control devices. More capable than basic vacuum-tube electronics, these components are used in automated industrial machines. They can also be assembled into a general industrial component at a semiconductor fab.</description>
+    <graphicData><texPath>Items/HD_ElectronicComponent</texPath><graphicClass>Graphic_StackCount</graphicClass></graphicData>
+    <soundInteract>Metal_Drop</soundInteract><soundDrop>Standard_Drop</soundDrop>
+    <stackLimit>50</stackLimit><healthAffectsPrice>false</healthAffectsPrice>
+    <statBases><MaxHitPoints>70</MaxHitPoints><MarketValue>32</MarketValue><Mass>0.6</Mass><Flammability>0.4</Flammability><DeteriorationRate>1</DeteriorationRate></statBases>
+    <intricate>true</intricate><thingCategories><li>Manufactured</li></thingCategories>
+    <researchPrerequisites><li>HelodTransistor</li></researchPrerequisites>
+  </ThingDef>
+</Defs>

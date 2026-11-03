@@ -12,6 +12,7 @@
 | 서부 | 압연 | 균일 압연 강판(기본·5개·10개) | `HD_LineShaftRollingMachine` |
 | 서부 | 전기·전자 조립 | 기초 전기 부품·기초 전자 부품(기본·5개·10개) | `HD_BasicWorkbench` |
 | 서부 | 비상 부품 전환 | 바닐라 산업 부품 → 범용 기계 부품(기본·5개·10개) | `HD_BasicWorkbench` |
+| 냉전기 | 반도체 제조·산업용 조립 | 전자 부품 → 같은 기준가의 바닐라 산업용 부품 1:1 조립 | `HD_SemiconductorFab` |
 | 대전기 | 프레스 성형 | M1 철모 | `HD_LineShaftHydraulicPress`, 후대 대체 설비 `HD_HydraulicPress1970Bench` |
 | 서부~현대 | 최종 조립·탄약 조립 | 총기, 전기 부품, 포탄·로켓 등 | `HD_BasicWorkbench` |
 | 서부 | 원유 분별·정제 | 연료유, 등유, 나프타, 화학연료 | `HD_DistillationTower`, `HD_BatchStill` |

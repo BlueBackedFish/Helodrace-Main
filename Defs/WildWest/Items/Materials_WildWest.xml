@@ -22,7 +22,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>80</MaxHitPoints>
-      <MarketValue>18</MarketValue>
+      <MarketValue>6</MarketValue>
       <Mass>0.6</Mass>
       <Flammability>0.3</Flammability>
       <DeteriorationRate>0.5</DeteriorationRate>
@@ -48,7 +48,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>65</MaxHitPoints>
-      <MarketValue>32</MarketValue>
+      <MarketValue>12</MarketValue>
       <Mass>0.4</Mass>
       <Flammability>0.2</Flammability>
       <DeteriorationRate>0.4</DeteriorationRate>
@@ -74,7 +74,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>55</MaxHitPoints>
-      <MarketValue>24</MarketValue>
+      <MarketValue>10</MarketValue>
       <Mass>0.35</Mass>
       <WorkToMake>900</WorkToMake>
       <Flammability>0.4</Flammability>
@@ -110,7 +110,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>50</MaxHitPoints>
-      <MarketValue>1.5</MarketValue>
+      <MarketValue>0.6</MarketValue>
       <Mass>0.12</Mass>
       <Flammability>1.8</Flammability>
       <DeteriorationRate>2</DeteriorationRate>
@@ -157,7 +157,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>50</MaxHitPoints>
-      <MarketValue>4.0</MarketValue>
+      <MarketValue>1.6</MarketValue>
       <Mass>0.1</Mass>
       <Flammability>2.0</Flammability>
       <DeteriorationRate>1</DeteriorationRate>
@@ -180,7 +180,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>50</MaxHitPoints>
-      <MarketValue>3.5</MarketValue>
+      <MarketValue>1.4</MarketValue>
       <Mass>0.08</Mass>
       <Flammability>2.2</Flammability>
       <DeteriorationRate>1</DeteriorationRate>
@@ -206,7 +206,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>45</MaxHitPoints>
-      <MarketValue>5.0</MarketValue>
+      <MarketValue>2</MarketValue>
       <Mass>0.06</Mass>
       <Flammability>2.6</Flammability>
       <DeteriorationRate>1</DeteriorationRate>
@@ -258,7 +258,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>45</MaxHitPoints>
-      <MarketValue>7.0</MarketValue>
+      <MarketValue>2.8</MarketValue>
       <Mass>0.06</Mass>
       <Flammability>2.8</Flammability>
       <DeteriorationRate>1</DeteriorationRate>
@@ -308,7 +308,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>50</MaxHitPoints>
-      <MarketValue>2.0</MarketValue>
+      <MarketValue>0.8</MarketValue>
       <Mass>0.2</Mass>
       <Flammability>1.8</Flammability>
       <DeteriorationRate>1</DeteriorationRate>
@@ -331,7 +331,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>100</MaxHitPoints>
-      <MarketValue>8</MarketValue>
+      <MarketValue>2.4</MarketValue>
       <Mass>2.5</Mass>
       <Flammability>0</Flammability>
       <DeteriorationRate>0.5</DeteriorationRate>
@@ -379,7 +379,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>120</MaxHitPoints>
-      <MarketValue>12</MarketValue>
+      <MarketValue>3.2</MarketValue>
       <Mass>2.0</Mass>
       <Flammability>0</Flammability>
       <DeteriorationRate>0.4</DeteriorationRate>
@@ -426,7 +426,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>90</MaxHitPoints>
-      <MarketValue>18</MarketValue>
+      <MarketValue>6</MarketValue>
       <Mass>2.0</Mass>
       <Flammability>0</Flammability>
       <DeteriorationRate>0.4</DeteriorationRate>
@@ -449,7 +449,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>80</MaxHitPoints>
-      <MarketValue>8</MarketValue>
+      <MarketValue>3.2</MarketValue>
       <Mass>0.5</Mass>
       <Flammability>0</Flammability>
       <DeteriorationRate>0.4</DeteriorationRate>
@@ -472,7 +472,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>90</MaxHitPoints>
-      <MarketValue>14</MarketValue>
+      <MarketValue>6</MarketValue>
       <Mass>1.0</Mass>
       <Flammability>0</Flammability>
       <DeteriorationRate>0.4</DeteriorationRate>
@@ -495,7 +495,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>130</MaxHitPoints>
-      <MarketValue>20</MarketValue>
+      <MarketValue>8</MarketValue>
       <Mass>3.0</Mass>
       <Flammability>0</Flammability>
       <DeteriorationRate>0.4</DeteriorationRate>
@@ -600,7 +600,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>50</MaxHitPoints>
-      <MarketValue>3.5</MarketValue>
+      <MarketValue>1.4</MarketValue>
       <Mass>0.08</Mass>
       <Flammability>2.2</Flammability>
       <DeteriorationRate>1</DeteriorationRate>

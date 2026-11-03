@@ -72,6 +72,10 @@
       <li Class="StockGenerator_BuySingleDef">
         <thingDef>HD_Naphtha</thingDef>
       </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_ElectronicComponent</thingDef>
+        <countRange>8~16</countRange>
+      </li>
     </stockGenerators>
   </TraderKindDef>
 </Defs>

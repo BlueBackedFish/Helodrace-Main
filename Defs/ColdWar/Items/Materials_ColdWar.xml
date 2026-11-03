@@ -16,7 +16,7 @@
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>50</MaxHitPoints>
-      <MarketValue>24</MarketValue>
+      <MarketValue>9.6</MarketValue>
       <Mass>0.13</Mass>
       <Flammability>0.2</Flammability>
       <DeteriorationRate>0.35</DeteriorationRate>
@@ -53,7 +53,7 @@
     <statBases>
       <MaxHitPoints>70</MaxHitPoints>
       <WorkToMake>1800</WorkToMake>
-      <MarketValue>95</MarketValue>
+      <MarketValue>20</MarketValue>
       <Mass>0.18</Mass>
       <Flammability>0.25</Flammability>
       <DeteriorationRate>0.8</DeteriorationRate>
@@ -98,7 +98,7 @@
     <statBases>
       <MaxHitPoints>80</MaxHitPoints>
       <WorkToMake>2400</WorkToMake>
-      <MarketValue>140</MarketValue>
+      <MarketValue>28</MarketValue>
       <Mass>0.20</Mass>
       <Flammability>0.20</Flammability>
       <DeteriorationRate>0.7</DeteriorationRate>
