@@ -1,0 +1,1520 @@
+{
+  "values": {
+    "HelodFrontierSpirit": 100,
+    "HelodMechanicalEngineering": 500,
+    "HelodExperimentalAnalysis": 500,
+    "HelodIronMaking": 1000,
+    "HelodSteamEngine": 1200,
+    "HelodBasicMachineTool": 1000,
+    "HelodIngredientExtraction": 700,
+    "HelodPrimaryCell": 600,
+    "HelodBasicOilDevelopment": 900,
+    "HelodLineShaft": 1000,
+    "HelodTelegraph": 600,
+    "HelodMetalCuttingMachine": 1000,
+    "HelodMetalFormingMachine": 1000,
+    "HelodBreechLoadingGun": 700,
+    "HelodBasicEngine": 1400,
+    "HelodLargeSteamEngine": 900,
+    "HelodHeatPump": 700,
+    "HelodBasicPetrochemistry": 1200,
+    "HelodHighOilDevelopment": 1100,
+    "HelodTotalSynthesisMedicine": 1200,
+    "HelodBasicElectronics": 1000,
+    "HelodBasicMotor": 1200,
+    "HelodWireless": 1000,
+    "HelodLeverAction": 600,
+    "HelodSmokeLessGunpowder": 1000,
+    "HelodBoltAction": 650,
+    "HelodChokingAgent": 650,
+    "HelodFirstAid": 600,
+    "HelodBasicMachineGun": 800,
+    "HelodSamiAutomaticPistol": 650,
+    "HelodHighElectronics": 1500,
+    "HelodHighMachineGun": 800,
+    "HelodHaberBosch": 1600,
+    "HelodBasicModernRifle": 850,
+    "HelodHighExplosive": 1000,
+    "HelodBlisterAgent": 700,
+    "HelodSniperRifle": 700,
+    "HelodLowGranade": 600,
+    "HelodLowLightArtillery": 900,
+    "HelodLowHeavyArtillery": 1200,
+    "HelodRespectForPatrioticMartyrs": 600,
+    "HelodGreatWarTech": 1200,
+    "HelodLowAutomaticRifle": 900,
+    "HelodTransistor": 2200,
+    "HelodAntiAirMachineGun": 1200,
+    "HelodMidAutomaticRifle": 1000,
+    "HelodHighAutomaticRifle": 1100,
+    "HelodWireGuidedMissile": 1600,
+    "HelodColdWarTech": 1500,
+    "HelodLessLethalLowRanged": 650,
+    "HelodLessLethalClose": 600,
+    "HelodLessLethalChemical": 700,
+    "HelodSpecialOperationsWeapons": 1100,
+    "HelodFlakJacket": 900,
+    "HelodPASGT": 1200,
+    "HelodLowHeadSet": 700,
+    "HelodModernDiversionaryGrenades": 1000,
+    "HelodModernOffensiveGrenades": 1200,
+    "HelodAdvancedWeaponOptics": 1600,
+    "HelodLaserTargetDesignators": 1800,
+    "HelodLowVelocityGrenades": 800,
+    "HelodAdvancedAmmunition": 1400,
+    "HelodRemoteWeaponControl": 1600,
+    "HelodNumericalControl": 1800,
+    "HelodIndustrialAutomation": 2200,
+    "HelodMultiTaskMachining": 2800
+  },
+  "changes": [
+    {
+      "name": "AdvancedFabrication",
+      "label": "advanced fabrication",
+      "source": "ludeon.rimworld",
+      "base_before": 4000,
+      "base_after": 6000,
+      "new_helod_apparent": 12000,
+      "old_helod_apparent": 4000,
+      "prerequisites": [
+        "Fabrication"
+      ]
+    },
+    {
+      "name": "AirConditioning",
+      "label": "air conditioning",
+      "source": "ludeon.rimworld",
+      "base_before": 500,
+      "base_after": 700,
+      "new_helod_apparent": 1400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "Electricity"
+      ]
+    },
+    {
+      "name": "Autodoors",
+      "label": "autodoor",
+      "source": "ludeon.rimworld",
+      "base_before": 600,
+      "base_after": 800,
+      "new_helod_apparent": 1600,
+      "old_helod_apparent": 600,
+      "prerequisites": [
+        "Electricity"
+      ]
+    },
+    {
+      "name": "Batteries",
+      "label": "battery",
+      "source": "ludeon.rimworld",
+      "base_before": 400,
+      "base_after": 700,
+      "new_helod_apparent": 1400,
+      "old_helod_apparent": 400,
+      "prerequisites": [
+        "Electricity"
+      ]
+    },
+    {
+      "name": "BiofuelRefining",
+      "label": "biofuel refining",
+      "source": "ludeon.rimworld",
+      "base_before": 700,
+      "base_after": 1000,
+      "new_helod_apparent": 2000,
+      "old_helod_apparent": 700,
+      "prerequisites": [
+        "Electricity"
+      ]
+    },
+    {
+      "name": "Bionics",
+      "label": "bionic replacements",
+      "source": "ludeon.rimworld",
+      "base_before": 2000,
+      "base_after": 3000,
+      "new_helod_apparent": 6000,
+      "old_helod_apparent": 2000,
+      "prerequisites": [
+        "Fabrication"
+      ]
+    },
+    {
+      "name": "BlowbackOperation",
+      "label": "blowback operation",
+      "source": "ludeon.rimworld",
+      "base_before": 500,
+      "base_after": 1450,
+      "new_helod_apparent": 2900,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "Gunsmithing"
+      ]
+    },
+    {
+      "name": "ChargedShot",
+      "label": "pulse-charged munitions",
+      "source": "ludeon.rimworld",
+      "base_before": 3000,
+      "base_after": 4000,
+      "new_helod_apparent": 8000,
+      "old_helod_apparent": 3000,
+      "prerequisites": [
+        "Fabrication"
+      ]
+    },
+    {
+      "name": "DeepDrilling",
+      "label": "deep drilling",
+      "source": "ludeon.rimworld",
+      "base_before": 1000,
+      "base_after": 1800,
+      "new_helod_apparent": 3600,
+      "old_helod_apparent": 1000,
+      "prerequisites": [
+        "MicroelectronicsBasics"
+      ]
+    },
+    {
+      "name": "DrugProduction",
+      "label": "drug production",
+      "source": "ludeon.rimworld",
+      "base_before": 500,
+      "base_after": 700,
+      "new_helod_apparent": 1400,
+      "old_helod_apparent": 500,
+      "prerequisites": []
+    },
+    {
+      "name": "Electricity",
+      "label": "electricity",
+      "source": "ludeon.rimworld",
+      "base_before": 1600,
+      "base_after": 11100,
+      "new_helod_apparent": 22200,
+      "old_helod_apparent": 11200,
+      "prerequisites": []
+    },
+    {
+      "name": "Fabrication",
+      "label": "fabrication",
+      "source": "ludeon.rimworld",
+      "base_before": 4000,
+      "base_after": 5000,
+      "new_helod_apparent": 10000,
+      "old_helod_apparent": 4000,
+      "prerequisites": [
+        "MultiAnalyzer"
+      ]
+    },
+    {
+      "name": "FlakArmor",
+      "label": "flak armor",
+      "source": "ludeon.rimworld",
+      "base_before": 1200,
+      "base_after": 8600,
+      "new_helod_apparent": 17200,
+      "old_helod_apparent": 1200,
+      "prerequisites": [
+        "Machining"
+      ]
+    },
+    {
+      "name": "GasOperation",
+      "label": "gas operation",
+      "source": "ludeon.rimworld",
+      "base_before": 1000,
+      "base_after": 1650,
+      "new_helod_apparent": 3300,
+      "old_helod_apparent": 1000,
+      "prerequisites": [
+        "BlowbackOperation"
+      ]
+    },
+    {
+      "name": "GeothermalPower",
+      "label": "geothermal power",
+      "source": "ludeon.rimworld",
+      "base_before": 3200,
+      "base_after": 4000,
+      "new_helod_apparent": 8000,
+      "old_helod_apparent": 3200,
+      "prerequisites": [
+        "Electricity"
+      ]
+    },
+    {
+      "name": "GroundPenetratingScanner",
+      "label": "ground-penetrating scanner",
+      "source": "ludeon.rimworld",
+      "base_before": 1000,
+      "base_after": 2000,
+      "new_helod_apparent": 4000,
+      "old_helod_apparent": 1000,
+      "prerequisites": [
+        "DeepDrilling"
+      ]
+    },
+    {
+      "name": "Gunsmithing",
+      "label": "gunsmithing",
+      "source": "ludeon.rimworld",
+      "base_before": 500,
+      "base_after": 3650,
+      "new_helod_apparent": 7300,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "Machining"
+      ]
+    },
+    {
+      "name": "GunTurrets",
+      "label": "gun turrets",
+      "source": "ludeon.rimworld",
+      "base_before": 500,
+      "base_after": 800,
+      "new_helod_apparent": 1600,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "BlowbackOperation"
+      ]
+    },
+    {
+      "name": "HeavyTurrets",
+      "label": "autocannon turret",
+      "source": "ludeon.rimworld",
+      "base_before": 1600,
+      "base_after": 2200,
+      "new_helod_apparent": 4400,
+      "old_helod_apparent": 1600,
+      "prerequisites": [
+        "MicroelectronicsBasics"
+      ]
+    },
+    {
+      "name": "HelodAdvancedAmmunition",
+      "label": "Engineering Inside the Bullet",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1000,
+      "base_after": 1400,
+      "new_helod_apparent": 2800,
+      "old_helod_apparent": 1000,
+      "prerequisites": [
+        "HelodHighAutomaticRifle",
+        "HelodIndustrialAutomation"
+      ]
+    },
+    {
+      "name": "HelodAdvancedWeaponOptics",
+      "label": "Advanced Weapon Optics",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1100,
+      "base_after": 1600,
+      "new_helod_apparent": 3200,
+      "old_helod_apparent": 1100,
+      "prerequisites": [
+        "HelodHighAutomaticRifle",
+        "HelodTransistor"
+      ]
+    },
+    {
+      "name": "HelodAntiAirMachineGun",
+      "label": "The Wall of Steel",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1200,
+      "new_helod_apparent": 2400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodWireless",
+        "HelodNumericalControl",
+        "HelodBasicModernRifle",
+        "HelodHighExplosive"
+      ]
+    },
+    {
+      "name": "HelodBasicElectronics",
+      "label": "Ohm's Law Applied",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1000,
+      "new_helod_apparent": 2000,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodTelegraph"
+      ]
+    },
+    {
+      "name": "HelodBasicEngine",
+      "label": "Controlled Explosions",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1400,
+      "new_helod_apparent": 2800,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodBasicOilDevelopment",
+        "HelodMetalCuttingMachine",
+        "HelodMetalFormingMachine"
+      ]
+    },
+    {
+      "name": "HelodBasicMachineGun",
+      "label": "The Devil's Paintbrush",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 800,
+      "new_helod_apparent": 1600,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodSmokeLessGunpowder"
+      ]
+    },
+    {
+      "name": "HelodBasicMachineTool",
+      "label": "Machine That Makes Machine",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1000,
+      "new_helod_apparent": 2000,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodIronMaking"
+      ]
+    },
+    {
+      "name": "HelodBasicModernRifle",
+      "label": "The Rifleman's Century",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 850,
+      "new_helod_apparent": 1700,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodSamiAutomaticPistol",
+        "HelodHighMachineGun"
+      ]
+    },
+    {
+      "name": "HelodBasicMotor",
+      "label": "Kinetic-Electric Synergy",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1200,
+      "new_helod_apparent": 2400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodMetalCuttingMachine",
+        "HelodMetalFormingMachine",
+        "HelodBasicElectronics"
+      ]
+    },
+    {
+      "name": "HelodBasicOilDevelopment",
+      "label": "Blood of the Iron Age",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 900,
+      "new_helod_apparent": 1800,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodSteamEngine"
+      ]
+    },
+    {
+      "name": "HelodBasicPetrochemistry",
+      "label": "Liquid Alchemy",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1200,
+      "new_helod_apparent": 2400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodBasicEngine"
+      ]
+    },
+    {
+      "name": "HelodBlisterAgent",
+      "label": "Scorched Earth Therapy",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 700,
+      "new_helod_apparent": 1400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodChokingAgent"
+      ]
+    },
+    {
+      "name": "HelodBoltAction",
+      "label": "Lock, Stock, and Barrel",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 650,
+      "new_helod_apparent": 1300,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodSmokeLessGunpowder"
+      ]
+    },
+    {
+      "name": "HelodBreechLoadingGun",
+      "label": "Loading from the back",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 700,
+      "new_helod_apparent": 1400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodLineShaft"
+      ]
+    },
+    {
+      "name": "HelodChokingAgent",
+      "label": "The Poison Wind",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 650,
+      "new_helod_apparent": 1300,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodTotalSynthesisMedicine"
+      ]
+    },
+    {
+      "name": "HelodColdWarTech",
+      "label": "Better Living",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1500,
+      "new_helod_apparent": 3000,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodRespectForPatrioticMartyrs"
+      ]
+    },
+    {
+      "name": "HelodFirstAid",
+      "label": "Keeping Death Waiting",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 600,
+      "new_helod_apparent": 1200,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodTotalSynthesisMedicine"
+      ]
+    },
+    {
+      "name": "HelodFlakJacket",
+      "label": "The First Layer",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 900,
+      "new_helod_apparent": 1800,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodGreatWarTech"
+      ]
+    },
+    {
+      "name": "HelodGreatWarTech",
+      "label": "The Practical Arts",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1200,
+      "new_helod_apparent": 2400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodBasicPetrochemistry",
+        "HelodSmokeLessGunpowder"
+      ]
+    },
+    {
+      "name": "HelodHaberBosch",
+      "label": "Bread from Air",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1600,
+      "new_helod_apparent": 3200,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodTotalSynthesisMedicine"
+      ]
+    },
+    {
+      "name": "HelodHeatPump",
+      "label": "The Cold-Hot Siphoner",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 700,
+      "new_helod_apparent": 1400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodMetalCuttingMachine",
+        "HelodMetalFormingMachine"
+      ]
+    },
+    {
+      "name": "HelodHighAutomaticRifle",
+      "label": "Mature Service Rifles",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1100,
+      "new_helod_apparent": 2200,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodMidAutomaticRifle"
+      ]
+    },
+    {
+      "name": "HelodHighElectronics",
+      "label": "The Thermionic Age",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1500,
+      "new_helod_apparent": 3000,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodBasicElectronics",
+        "HelodBasicMotor"
+      ]
+    },
+    {
+      "name": "HelodHighExplosive",
+      "label": "Brisance and Thunder",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1000,
+      "new_helod_apparent": 2000,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodHaberBosch"
+      ]
+    },
+    {
+      "name": "HelodHighMachineGun",
+      "label": "Beaten Zone",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 800,
+      "new_helod_apparent": 1600,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodBasicMachineGun"
+      ]
+    },
+    {
+      "name": "HelodHighOilDevelopment",
+      "label": "High-Pressure Scavenging",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1100,
+      "new_helod_apparent": 2200,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodBasicOilDevelopment"
+      ]
+    },
+    {
+      "name": "HelodIndustrialAutomation",
+      "label": "industrial automation",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1000,
+      "base_after": 2200,
+      "new_helod_apparent": 4400,
+      "old_helod_apparent": 1000,
+      "prerequisites": [
+        "HelodNumericalControl",
+        "HelodTransistor",
+        "HelodMetalFormingMachine"
+      ]
+    },
+    {
+      "name": "HelodIngredientExtraction",
+      "label": "Distilling nature",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 700,
+      "new_helod_apparent": 1400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodExperimentalAnalysis"
+      ]
+    },
+    {
+      "name": "HelodIronMaking",
+      "label": "The Bones of the Machine",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1000,
+      "new_helod_apparent": 2000,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodMechanicalEngineering"
+      ]
+    },
+    {
+      "name": "HelodLargeSteamEngine",
+      "label": "Screaming Cylinders",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 900,
+      "new_helod_apparent": 1800,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodSteamEngine",
+        "HelodMetalCuttingMachine",
+        "HelodMetalFormingMachine"
+      ]
+    },
+    {
+      "name": "HelodLaserTargetDesignators",
+      "label": "Laser Target Designation",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1300,
+      "base_after": 1800,
+      "new_helod_apparent": 3600,
+      "old_helod_apparent": 1300,
+      "prerequisites": [
+        "HelodAdvancedWeaponOptics",
+        "HelodWireless"
+      ]
+    },
+    {
+      "name": "HelodLessLethalChemical",
+      "label": "Chemical Compliance",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 700,
+      "new_helod_apparent": 1400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodLessLethalClose"
+      ]
+    },
+    {
+      "name": "HelodLessLethalClose",
+      "label": "Shield and Baton",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 600,
+      "new_helod_apparent": 1200,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodColdWarTech"
+      ]
+    },
+    {
+      "name": "HelodLessLethalLowRanged",
+      "label": "Measured Response",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 650,
+      "new_helod_apparent": 1300,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodLowAutomaticRifle",
+        "HelodLessLethalClose"
+      ]
+    },
+    {
+      "name": "HelodLeverAction",
+      "label": "The Gun that Won the West",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 600,
+      "new_helod_apparent": 1200,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodMetalCuttingMachine",
+        "HelodMetalFormingMachine",
+        "HelodBreechLoadingGun"
+      ]
+    },
+    {
+      "name": "HelodLineShaft",
+      "label": "One engine, Many machines",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1000,
+      "new_helod_apparent": 2000,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodSteamEngine",
+        "HelodBasicMachineTool"
+      ]
+    },
+    {
+      "name": "HelodLowAutomaticRifle",
+      "label": "Fire and Maneuver",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 900,
+      "new_helod_apparent": 1800,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodBasicModernRifle",
+        "HelodLowGranade"
+      ]
+    },
+    {
+      "name": "HelodLowGranade",
+      "label": "The Hand-Held Artillery",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 600,
+      "new_helod_apparent": 1200,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodHighExplosive"
+      ]
+    },
+    {
+      "name": "HelodLowHeadSet",
+      "label": "Hear and Be Heard",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 700,
+      "new_helod_apparent": 1400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodTransistor",
+        "HelodColdWarTech"
+      ]
+    },
+    {
+      "name": "HelodLowHeavyArtillery",
+      "label": "The Multi-Purpose Rain",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1200,
+      "new_helod_apparent": 2400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodLowLightArtillery"
+      ]
+    },
+    {
+      "name": "HelodLowLightArtillery",
+      "label": "The Trench Flatteners",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 900,
+      "new_helod_apparent": 1800,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodBoltAction",
+        "HelodHighExplosive"
+      ]
+    },
+    {
+      "name": "HelodLowVelocityGrenades",
+      "label": "Artillery in a Single Round",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 700,
+      "base_after": 800,
+      "new_helod_apparent": 1600,
+      "old_helod_apparent": 700,
+      "prerequisites": [
+        "HelodLowAutomaticRifle",
+        "HelodNumericalControl"
+      ]
+    },
+    {
+      "name": "HelodMetalCuttingMachine",
+      "label": "Shaving the micron",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1000,
+      "new_helod_apparent": 2000,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodLineShaft"
+      ]
+    },
+    {
+      "name": "HelodMetalFormingMachine",
+      "label": "Brute Force Shaping",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1000,
+      "new_helod_apparent": 2000,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodLineShaft"
+      ]
+    },
+    {
+      "name": "HelodMidAutomaticRifle",
+      "label": "The Service Rifle",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1000,
+      "new_helod_apparent": 2000,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodLowAutomaticRifle"
+      ]
+    },
+    {
+      "name": "HelodModernDiversionaryGrenades",
+      "label": "Modern Diversionary Grenades",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 900,
+      "base_after": 1000,
+      "new_helod_apparent": 2000,
+      "old_helod_apparent": 900,
+      "prerequisites": [
+        "HelodColdWarTech",
+        "HelodLessLethalChemical"
+      ]
+    },
+    {
+      "name": "HelodModernOffensiveGrenades",
+      "label": "Modern Offensive Grenades",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1100,
+      "base_after": 1200,
+      "new_helod_apparent": 2400,
+      "old_helod_apparent": 1100,
+      "prerequisites": [
+        "HelodColdWarTech",
+        "HelodHighAutomaticRifle"
+      ]
+    },
+    {
+      "name": "HelodMultiTaskMachining",
+      "label": "integrated mill-turn machining",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1500,
+      "base_after": 2800,
+      "new_helod_apparent": 5600,
+      "old_helod_apparent": 1500,
+      "prerequisites": [
+        "HelodIndustrialAutomation"
+      ]
+    },
+    {
+      "name": "HelodNumericalControl",
+      "label": "numerical control",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1000,
+      "base_after": 1800,
+      "new_helod_apparent": 3600,
+      "old_helod_apparent": 1000,
+      "prerequisites": [
+        "HelodHighElectronics",
+        "HelodMetalCuttingMachine"
+      ]
+    },
+    {
+      "name": "HelodPASGT",
+      "label": "Modern Ballistic Protection",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1200,
+      "new_helod_apparent": 2400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodMidAutomaticRifle",
+        "HelodFlakJacket"
+      ]
+    },
+    {
+      "name": "HelodPrimaryCell",
+      "label": "Lightning in a bottle",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 600,
+      "new_helod_apparent": 1200,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodExperimentalAnalysis"
+      ]
+    },
+    {
+      "name": "HelodRemoteWeaponControl",
+      "label": "A Hand Beyond the Trigger",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1000,
+      "base_after": 1600,
+      "new_helod_apparent": 3200,
+      "old_helod_apparent": 1000,
+      "prerequisites": [
+        "HelodAdvancedWeaponOptics",
+        "HelodIndustrialAutomation"
+      ]
+    },
+    {
+      "name": "HelodRespectForPatrioticMartyrs",
+      "label": "hymn to the fallen",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 600,
+      "new_helod_apparent": 1200,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodBlisterAgent",
+        "HelodLowGranade"
+      ]
+    },
+    {
+      "name": "HelodSamiAutomaticPistol",
+      "label": "One Pull, One Shot",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 650,
+      "new_helod_apparent": 1300,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodBoltAction",
+        "HelodBasicMachineGun"
+      ]
+    },
+    {
+      "name": "HelodSmokeLessGunpowder",
+      "label": "Clear Skies, Deadly Horizon",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1000,
+      "new_helod_apparent": 2000,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodIngredientExtraction",
+        "HelodLeverAction"
+      ]
+    },
+    {
+      "name": "HelodSniperRifle",
+      "label": "Sub-MOA Precision",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 700,
+      "new_helod_apparent": 1400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodBoltAction"
+      ]
+    },
+    {
+      "name": "HelodSpecialOperationsWeapons",
+      "label": "Special Operations Firearms",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 900,
+      "base_after": 1100,
+      "new_helod_apparent": 2200,
+      "old_helod_apparent": 900,
+      "prerequisites": [
+        "HelodLessLethalChemical",
+        "HelodLessLethalLowRanged"
+      ]
+    },
+    {
+      "name": "HelodSteamEngine",
+      "label": "Harnessing the fire",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1200,
+      "new_helod_apparent": 2400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodIronMaking"
+      ]
+    },
+    {
+      "name": "HelodTelegraph",
+      "label": "The Victorian internet",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 600,
+      "new_helod_apparent": 1200,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodPrimaryCell"
+      ]
+    },
+    {
+      "name": "HelodTotalSynthesisMedicine",
+      "label": "Molecular Assembly Line",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1200,
+      "new_helod_apparent": 2400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodIngredientExtraction",
+        "HelodBasicPetrochemistry"
+      ]
+    },
+    {
+      "name": "HelodTransistor",
+      "label": "Silicon Revolution",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 2200,
+      "new_helod_apparent": 4400,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodWireless"
+      ]
+    },
+    {
+      "name": "HelodWireGuidedMissile",
+      "label": "Holding the Crosshair",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1600,
+      "new_helod_apparent": 3200,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodTransistor",
+        "HelodAntiAirMachineGun",
+        "HelodMidAutomaticRifle"
+      ]
+    },
+    {
+      "name": "HelodWireless",
+      "label": "Breaking the Wire",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500,
+      "base_after": 1000,
+      "new_helod_apparent": 2000,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "HelodHighElectronics"
+      ]
+    },
+    {
+      "name": "HospitalBed",
+      "label": "hospital bed",
+      "source": "ludeon.rimworld",
+      "base_before": 1200,
+      "base_after": 1600,
+      "new_helod_apparent": 3200,
+      "old_helod_apparent": 1200,
+      "prerequisites": [
+        "MicroelectronicsBasics"
+      ]
+    },
+    {
+      "name": "Hydroponics",
+      "label": "hydroponics",
+      "source": "ludeon.rimworld",
+      "base_before": 700,
+      "base_after": 1000,
+      "new_helod_apparent": 2000,
+      "old_helod_apparent": 700,
+      "prerequisites": [
+        "Electricity"
+      ]
+    },
+    {
+      "name": "IEDs",
+      "label": "IEDs",
+      "source": "ludeon.rimworld",
+      "base_before": 500,
+      "base_after": 800,
+      "new_helod_apparent": 1600,
+      "old_helod_apparent": 500,
+      "prerequisites": [
+        "Electricity"
+      ]
+    },
+    {
+      "name": "LongRangeMineralScanner",
+      "label": "long-range mineral scanner",
+      "source": "ludeon.rimworld",
+      "base_before": 2000,
+      "base_after": 3000,
+      "new_helod_apparent": 6000,
+      "old_helod_apparent": 2000,
+      "prerequisites": [
+        "MicroelectronicsBasics"
+      ]
+    },
+    {
+      "name": "Machining",
+      "label": "machining",
+      "source": "ludeon.rimworld",
+      "base_before": 1000,
+      "base_after": 1800,
+      "new_helod_apparent": 3600,
+      "old_helod_apparent": 1000,
+      "prerequisites": [
+        "Electricity",
+        "Smithing"
+      ]
+    },
+    {
+      "name": "MedicineProduction",
+      "label": "medicine production",
+      "source": "ludeon.rimworld",
+      "base_before": 1500,
+      "base_after": 4700,
+      "new_helod_apparent": 9400,
+      "old_helod_apparent": 1500,
+      "prerequisites": [
+        "DrugProduction",
+        "MicroelectronicsBasics"
+      ]
+    },
+    {
+      "name": "MicroelectronicsBasics",
+      "label": "microelectronics",
+      "source": "ludeon.rimworld",
+      "base_before": 3000,
+      "base_after": 3200,
+      "new_helod_apparent": 6400,
+      "old_helod_apparent": 3000,
+      "prerequisites": [
+        "Electricity"
+      ]
+    },
+    {
+      "name": "MoisturePump",
+      "label": "moisture pump",
+      "source": "ludeon.rimworld",
+      "base_before": 1200,
+      "base_after": 1500,
+      "new_helod_apparent": 3000,
+      "old_helod_apparent": 1200,
+      "prerequisites": [
+        "MicroelectronicsBasics"
+      ]
+    },
+    {
+      "name": "Mortars",
+      "label": "mortars",
+      "source": "ludeon.rimworld",
+      "base_before": 2000,
+      "base_after": 8200,
+      "new_helod_apparent": 16400,
+      "old_helod_apparent": 2000,
+      "prerequisites": [
+        "Gunsmithing"
+      ]
+    },
+    {
+      "name": "MultiAnalyzer",
+      "label": "multi-analyzer",
+      "source": "ludeon.rimworld",
+      "base_before": 4000,
+      "base_after": 5000,
+      "new_helod_apparent": 10000,
+      "old_helod_apparent": 4000,
+      "prerequisites": [
+        "MicroelectronicsBasics"
+      ]
+    },
+    {
+      "name": "MultibarrelWeapons",
+      "label": "multibarrel weapons",
+      "source": "ludeon.rimworld",
+      "base_before": 2600,
+      "base_after": 17050,
+      "new_helod_apparent": 34100,
+      "old_helod_apparent": 2600,
+      "prerequisites": [
+        "MicroelectronicsBasics"
+      ]
+    },
+    {
+      "name": "PoweredArmor",
+      "label": "marine armor",
+      "source": "ludeon.rimworld",
+      "base_before": 6000,
+      "base_after": 8000,
+      "new_helod_apparent": 16000,
+      "old_helod_apparent": 6000,
+      "prerequisites": [
+        "ReconArmor"
+      ]
+    },
+    {
+      "name": "PrecisionRifling",
+      "label": "precision rifling",
+      "source": "ludeon.rimworld",
+      "base_before": 1400,
+      "base_after": 9500,
+      "new_helod_apparent": 19000,
+      "old_helod_apparent": 1400,
+      "prerequisites": [
+        "GasOperation",
+        "MicroelectronicsBasics"
+      ]
+    },
+    {
+      "name": "ReconArmor",
+      "label": "recon armor",
+      "source": "ludeon.rimworld",
+      "base_before": 6000,
+      "base_after": 7000,
+      "new_helod_apparent": 14000,
+      "old_helod_apparent": 6000,
+      "prerequisites": [
+        "Fabrication"
+      ]
+    },
+    {
+      "name": "ShieldBelt",
+      "label": "shields",
+      "source": "ludeon.rimworld",
+      "base_before": 1000,
+      "base_after": 1500,
+      "new_helod_apparent": 3000,
+      "old_helod_apparent": 1000,
+      "prerequisites": [
+        "MicroelectronicsBasics"
+      ]
+    },
+    {
+      "name": "SolarPanels",
+      "label": "solar panel",
+      "source": "ludeon.rimworld",
+      "base_before": 600,
+      "base_after": 1000,
+      "new_helod_apparent": 2000,
+      "old_helod_apparent": 600,
+      "prerequisites": [
+        "Electricity"
+      ]
+    },
+    {
+      "name": "SterileMaterials",
+      "label": "sterile materials",
+      "source": "ludeon.rimworld",
+      "base_before": 600,
+      "base_after": 6000,
+      "new_helod_apparent": 12000,
+      "old_helod_apparent": 600,
+      "prerequisites": [
+        "Electricity"
+      ]
+    },
+    {
+      "name": "TransportPod",
+      "label": "transport pod",
+      "source": "ludeon.rimworld",
+      "base_before": 1000,
+      "base_after": 1500,
+      "new_helod_apparent": 3000,
+      "old_helod_apparent": 1000,
+      "prerequisites": [
+        "MicroelectronicsBasics"
+      ]
+    },
+    {
+      "name": "WatermillGenerator",
+      "label": "watermill generator",
+      "source": "ludeon.rimworld",
+      "base_before": 700,
+      "base_after": 1000,
+      "new_helod_apparent": 2000,
+      "old_helod_apparent": 700,
+      "prerequisites": [
+        "Electricity"
+      ]
+    }
+  ],
+  "linked": [
+    {
+      "name": "Electricity",
+      "base_before": 1600,
+      "base_after": 11100,
+      "additional_projects": [
+        "HelodPrimaryCell",
+        "HelodTelegraph",
+        "HelodBasicElectronics",
+        "HelodIronMaking",
+        "HelodSteamEngine",
+        "HelodBasicMachineTool",
+        "HelodLineShaft",
+        "HelodMetalCuttingMachine",
+        "HelodMetalFormingMachine",
+        "HelodBasicMotor",
+        "HelodHighElectronics"
+      ],
+      "additional_budget": 11100
+    },
+    {
+      "name": "Machining",
+      "base_before": 1000,
+      "base_after": 1800,
+      "additional_projects": [
+        "HelodNumericalControl"
+      ],
+      "additional_budget": 1800
+    },
+    {
+      "name": "AirConditioning",
+      "base_before": 500,
+      "base_after": 700,
+      "additional_projects": [
+        "HelodHeatPump"
+      ],
+      "additional_budget": 700
+    },
+    {
+      "name": "MicroelectronicsBasics",
+      "base_before": 3000,
+      "base_after": 3200,
+      "additional_projects": [
+        "HelodWireless",
+        "HelodTransistor"
+      ],
+      "additional_budget": 3200
+    },
+    {
+      "name": "DrugProduction",
+      "base_before": 500,
+      "base_after": 700,
+      "additional_projects": [
+        "HelodIngredientExtraction"
+      ],
+      "additional_budget": 700
+    },
+    {
+      "name": "MedicineProduction",
+      "base_before": 1500,
+      "base_after": 4700,
+      "additional_projects": [
+        "HelodBasicOilDevelopment",
+        "HelodBasicEngine",
+        "HelodBasicPetrochemistry",
+        "HelodTotalSynthesisMedicine"
+      ],
+      "additional_budget": 4700
+    },
+    {
+      "name": "SterileMaterials",
+      "base_before": 600,
+      "base_after": 6000,
+      "additional_projects": [
+        "HelodIngredientExtraction",
+        "HelodBasicOilDevelopment",
+        "HelodBasicEngine",
+        "HelodBasicPetrochemistry",
+        "HelodTotalSynthesisMedicine",
+        "HelodFirstAid"
+      ],
+      "additional_budget": 6000
+    },
+    {
+      "name": "Gunsmithing",
+      "base_before": 500,
+      "base_after": 3650,
+      "additional_projects": [
+        "HelodIngredientExtraction",
+        "HelodBreechLoadingGun",
+        "HelodLeverAction",
+        "HelodSmokeLessGunpowder",
+        "HelodBoltAction"
+      ],
+      "additional_budget": 3650
+    },
+    {
+      "name": "BlowbackOperation",
+      "base_before": 500,
+      "base_after": 1450,
+      "additional_projects": [
+        "HelodBasicMachineGun",
+        "HelodSamiAutomaticPistol"
+      ],
+      "additional_budget": 1450
+    },
+    {
+      "name": "GasOperation",
+      "base_before": 1000,
+      "base_after": 1650,
+      "additional_projects": [
+        "HelodHighMachineGun",
+        "HelodBasicModernRifle"
+      ],
+      "additional_budget": 1650
+    },
+    {
+      "name": "PrecisionRifling",
+      "base_before": 1400,
+      "base_after": 9500,
+      "additional_projects": [
+        "HelodSniperRifle",
+        "HelodBasicOilDevelopment",
+        "HelodBasicEngine",
+        "HelodBasicPetrochemistry",
+        "HelodTotalSynthesisMedicine",
+        "HelodHaberBosch",
+        "HelodHighExplosive",
+        "HelodLowGranade",
+        "HelodLowAutomaticRifle"
+      ],
+      "additional_budget": 9500
+    },
+    {
+      "name": "Mortars",
+      "base_before": 2000,
+      "base_after": 8200,
+      "additional_projects": [
+        "HelodBasicOilDevelopment",
+        "HelodBasicEngine",
+        "HelodBasicPetrochemistry",
+        "HelodTotalSynthesisMedicine",
+        "HelodHaberBosch",
+        "HelodHighExplosive",
+        "HelodLowLightArtillery"
+      ],
+      "additional_budget": 8200
+    },
+    {
+      "name": "FlakArmor",
+      "base_before": 1200,
+      "base_after": 8600,
+      "additional_projects": [
+        "HelodBasicOilDevelopment",
+        "HelodBasicEngine",
+        "HelodBasicPetrochemistry",
+        "HelodIngredientExtraction",
+        "HelodBreechLoadingGun",
+        "HelodLeverAction",
+        "HelodSmokeLessGunpowder",
+        "HelodGreatWarTech",
+        "HelodFlakJacket"
+      ],
+      "additional_budget": 8600
+    },
+    {
+      "name": "MultibarrelWeapons",
+      "base_before": 2600,
+      "base_after": 17050,
+      "additional_projects": [
+        "HelodNumericalControl",
+        "HelodIngredientExtraction",
+        "HelodBreechLoadingGun",
+        "HelodLeverAction",
+        "HelodSmokeLessGunpowder",
+        "HelodBoltAction",
+        "HelodBasicMachineGun",
+        "HelodSamiAutomaticPistol",
+        "HelodHighMachineGun",
+        "HelodBasicModernRifle",
+        "HelodBasicOilDevelopment",
+        "HelodBasicEngine",
+        "HelodBasicPetrochemistry",
+        "HelodTotalSynthesisMedicine",
+        "HelodHaberBosch",
+        "HelodHighExplosive",
+        "HelodAntiAirMachineGun"
+      ],
+      "additional_budget": 17050
+    }
+  ],
+  "free": [
+    "ComplexClothing",
+    "ComplexFurniture",
+    "HelodExperimentalAnalysis",
+    "HelodFrontierSpirit",
+    "HelodMechanicalEngineering",
+    "Smithing"
+  ]
+}

@@ -104,8 +104,8 @@ internal static class Program
     private static void ConsolidatedMotorResearch()
     {
         Check(!definitions.ContainsKey("HelodMiniMotor"), "The separate compact-motor research is removed");
-        Check((int)definitions["HelodNumericalControl"].Element("baseCost") == 1000,
-            "Numerical control retains the combined 500 + 500 research cost");
+        Check((int)definitions["HelodNumericalControl"].Element("baseCost") == 1800,
+            "Consolidated numerical control uses the Stage I 1800-point infrastructure budget");
         Check(Requires("HelodNumericalControl", "HelodBasicMotor")
             && Requires("HelodNumericalControl", "HelodHighElectronics"),
             "The consolidated research follows motors and vacuum-tube electronics");

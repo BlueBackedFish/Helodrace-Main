@@ -2,10 +2,10 @@
 <Defs>
 
   <ScenPartDef>
-    <defName>HD_ResearchCostFactor</defName>
-    <label>research cost factor</label>
+    <defName>HD_ResearchTechBaseline</defName>
+    <label>tribal research baseline</label>
     <category>Rule</category>
-    <scenPartClass>Helodrace.ScenPart_ResearchCostFactor</scenPartClass>
+    <scenPartClass>Helodrace.ScenPart_ResearchTechBaseline</scenPartClass>
     <summaryPriority>20</summaryPriority>
     <canBeRandomlyAdded>false</canBeRandomlyAdded>
     <canBePlayerAddedRemoved>false</canBePlayerAddedRemoved>

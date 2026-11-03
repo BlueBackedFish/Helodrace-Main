@@ -1,0 +1,3841 @@
+[
+  {
+    "name": "AdvancedFabrication",
+    "label": "advanced fabrication",
+    "source": "ludeon.rimworld",
+    "baseCost": 6000,
+    "helodScenarioCost": 6000,
+    "helodScenarioApparent": 12000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Fabrication"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "AdvancedGravtech",
+    "label": "advanced gravtech",
+    "source": "ludeon.rimworld.odyssey",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "StandardGravtech",
+      "Fabrication"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "AdvancedPsychicRituals",
+    "label": "advanced psychic rituals",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 15,
+    "helodScenarioApparent": 15,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "BasicPsychicRituals"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "AirConditioning",
+    "label": "air conditioning",
+    "source": "ludeon.rimworld",
+    "baseCost": 700,
+    "helodScenarioCost": 700,
+    "helodScenarioApparent": 1400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": [
+      "ClassicStart"
+    ]
+  },
+  {
+    "name": "Archogenetics",
+    "label": "archogenetics",
+    "source": "ludeon.rimworld.biotech",
+    "baseCost": 2500,
+    "helodScenarioCost": 2500,
+    "helodScenarioApparent": 5000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Fabrication",
+      "GeneProcessor"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "ArtificialMetabolism",
+    "label": "artificial metabolism",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Ultra",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Fabrication"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "AtmosphericHeater",
+    "label": "atmospheric heater",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 60,
+    "helodScenarioApparent": 60,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "BioferriteGenerator"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Autodoors",
+    "label": "autodoor",
+    "source": "ludeon.rimworld",
+    "baseCost": 800,
+    "helodScenarioCost": 800,
+    "helodScenarioApparent": 1600,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BasicGravtech",
+    "label": "basic gravtech",
+    "source": "ludeon.rimworld.odyssey",
+    "baseCost": 300,
+    "helodScenarioCost": 300,
+    "helodScenarioApparent": 600,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BasicMechtech",
+    "label": "basic mechtech",
+    "source": "ludeon.rimworld.biotech",
+    "baseCost": 200,
+    "helodScenarioCost": 200,
+    "helodScenarioApparent": 400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BasicPsychicRituals",
+    "label": "void provocation",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 5,
+    "helodScenarioApparent": 5,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Batteries",
+    "label": "battery",
+    "source": "ludeon.rimworld",
+    "baseCost": 700,
+    "helodScenarioCost": 700,
+    "helodScenarioApparent": 1400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BD_HelodBlancaAdvancedPainkillers",
+    "label": "advanced painkillers",
+    "source": "bluebackedfish.helod.blancasdrugs",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "BD_HelodBlancaEarlyNarcotics"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BD_HelodBlancaAdvancedSomnifacients",
+    "label": "advanced somnifacients",
+    "source": "bluebackedfish.helod.blancasdrugs",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "DrugProduction"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BD_HelodBlancaAdvancedStimulants",
+    "label": "advanced stimulants",
+    "source": "bluebackedfish.helod.blancasdrugs",
+    "baseCost": 1200,
+    "helodScenarioCost": 1200,
+    "helodScenarioApparent": 2400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "BD_HelodBlancaEarlyNarcotics"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BD_HelodBlancaEarlyNarcotics",
+    "label": "early narcotics",
+    "source": "bluebackedfish.helod.blancasdrugs",
+    "baseCost": 500,
+    "helodScenarioCost": 500,
+    "helodScenarioApparent": 1000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "DrugProduction"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BD_HelodBlancaMKultraProject",
+    "label": "MKultra project",
+    "source": "bluebackedfish.helod.blancasdrugs",
+    "baseCost": 3000,
+    "helodScenarioCost": 3000,
+    "helodScenarioApparent": 6000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "BD_HelodBlancaAdvancedPainkillers",
+      "BD_HelodBlancaAdvancedStimulants",
+      "BD_HelodBlancaAdvancedSomnifacients"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BeamWeapons",
+    "label": "beam weapons",
+    "source": "ludeon.rimworld.odyssey",
+    "baseCost": 4000,
+    "helodScenarioCost": 4000,
+    "helodScenarioApparent": 8000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "AdvancedFabrication",
+      "ChargedShot"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "BioferriteExtraction",
+    "label": "bioferrite extraction",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 5,
+    "helodScenarioApparent": 5,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BioferriteGenerator",
+    "label": "bioferrite generator",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 40,
+    "helodScenarioApparent": 40,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "Electroharvester"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BioferriteHarvesting",
+    "label": "bioferrite harvester",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 10,
+    "helodScenarioApparent": 10,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "EntityContainment",
+      "BioferriteExtraction"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BioferriteIgnition",
+    "label": "bioferrite weaponry",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 60,
+    "helodScenarioApparent": 60,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "BioferriteShaping",
+      "PrecisionRifling"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BioferriteShaping",
+    "label": "bioferrite shaping",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 20,
+    "helodScenarioApparent": 20,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "BioferriteExtraction",
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BiofuelRefining",
+    "label": "biofuel refining",
+    "source": "ludeon.rimworld",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Bionics",
+    "label": "bionic replacements",
+    "source": "ludeon.rimworld",
+    "baseCost": 3000,
+    "helodScenarioCost": 3000,
+    "helodScenarioApparent": 6000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Fabrication"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "Bioregeneration",
+    "label": "bioregeneration",
+    "source": "ludeon.rimworld.ideology",
+    "baseCost": 4000,
+    "helodScenarioCost": 4000,
+    "helodScenarioApparent": 8000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Biosculpting",
+      "MultiAnalyzer"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "Biosculpting",
+    "label": "biosculpting",
+    "source": "ludeon.rimworld.ideology",
+    "baseCost": 1500,
+    "helodScenarioCost": 1500,
+    "helodScenarioApparent": 3000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "BlissLobotomy",
+    "label": "bliss lobotomy",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 25,
+    "helodScenarioApparent": 25,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "BioferriteExtraction"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BloodRain",
+    "label": "blood rain",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 50,
+    "helodScenarioApparent": 50,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "AdvancedPsychicRituals"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BlowbackOperation",
+    "label": "blowback operation",
+    "source": "ludeon.rimworld",
+    "baseCost": 1450,
+    "helodScenarioCost": 1450,
+    "helodScenarioApparent": 2900,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Gunsmithing"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Brainwipe",
+    "label": "brainwipe",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 40,
+    "helodScenarioApparent": 40,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "Philophagy"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "BrainWiring",
+    "label": "brain wiring",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "Brewing",
+    "label": "beer brewing",
+    "source": "ludeon.rimworld",
+    "baseCost": 400,
+    "helodScenarioCost": 400,
+    "helodScenarioApparent": 400,
+    "tech": "Neolithic",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "CarpetMaking",
+    "label": "carpet-making",
+    "source": "ludeon.rimworld",
+    "baseCost": 800,
+    "helodScenarioCost": 800,
+    "helodScenarioApparent": 1200,
+    "tech": "Medieval",
+    "tribalFactor": 1.5,
+    "industrialFactor": 1.5,
+    "prerequisites": [],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "CataphractArmor",
+    "label": "cataphract armor",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 6000,
+    "helodScenarioCost": 6000,
+    "helodScenarioApparent": 12000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "PoweredArmor"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "ChargedShot",
+    "label": "pulse-charged munitions",
+    "source": "ludeon.rimworld",
+    "baseCost": 4000,
+    "helodScenarioCost": 4000,
+    "helodScenarioApparent": 8000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Fabrication"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "Chronophagy",
+    "label": "chronophagy",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 30,
+    "helodScenarioApparent": 30,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "Psychophagy"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "CircadianInfluence",
+    "label": "circadian influence",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Ultra",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Fabrication"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "Cocoa",
+    "label": "cocoa",
+    "source": "ludeon.rimworld",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 1000,
+    "tech": "Neolithic",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "TreeSowing"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "ColoredLights",
+    "label": "advanced lights",
+    "source": "ludeon.rimworld",
+    "baseCost": 300,
+    "helodScenarioCost": 300,
+    "helodScenarioApparent": 600,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "CompactWeaponry",
+    "label": "compact weaponry",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "ComplexClothing",
+    "label": "complex clothing",
+    "source": "ludeon.rimworld",
+    "baseCost": 600,
+    "helodScenarioCost": 600,
+    "helodScenarioApparent": 900,
+    "tech": "Medieval",
+    "tribalFactor": 1.5,
+    "industrialFactor": 1.5,
+    "prerequisites": [],
+    "bench": null,
+    "tags": [
+      "ClassicStart",
+      "HD_HelodWildWestScenarioStart"
+    ]
+  },
+  {
+    "name": "ComplexFurniture",
+    "label": "complex furniture",
+    "source": "ludeon.rimworld",
+    "baseCost": 300,
+    "helodScenarioCost": 300,
+    "helodScenarioApparent": 450,
+    "tech": "Medieval",
+    "tribalFactor": 1.5,
+    "industrialFactor": 1.5,
+    "prerequisites": [],
+    "bench": null,
+    "tags": [
+      "ClassicStart",
+      "HD_HelodWildWestScenarioStart"
+    ]
+  },
+  {
+    "name": "Cryptosleep",
+    "label": "cryptosleep casket",
+    "source": "ludeon.rimworld",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MultiAnalyzer"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "DeadlifeDust",
+    "label": "deadlife dust",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 60,
+    "helodScenarioApparent": 60,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "BioferriteShaping"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "DeathRefusal",
+    "label": "death refusal",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 30,
+    "helodScenarioApparent": 30,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "AdvancedPsychicRituals"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Deathrest",
+    "label": "deathrest",
+    "source": "ludeon.rimworld.biotech",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "DeepDrilling",
+    "label": "deep drilling",
+    "source": "ludeon.rimworld",
+    "baseCost": 1800,
+    "helodScenarioCost": 1800,
+    "helodScenarioApparent": 3600,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "Devilstrand",
+    "label": "devilstrand",
+    "source": "ludeon.rimworld",
+    "baseCost": 800,
+    "helodScenarioCost": 800,
+    "helodScenarioApparent": 800,
+    "tech": "Neolithic",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "DisruptorFlares",
+    "label": "disruptor flares",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 30,
+    "helodScenarioApparent": 30,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "EntityContainment",
+      "BioferriteShaping"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "DrugProduction",
+    "label": "drug production",
+    "source": "ludeon.rimworld",
+    "baseCost": 700,
+    "helodScenarioCost": 700,
+    "helodScenarioApparent": 1400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Electricity",
+    "label": "electricity",
+    "source": "ludeon.rimworld",
+    "baseCost": 11100,
+    "helodScenarioCost": 11100,
+    "helodScenarioApparent": 22200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [],
+    "bench": null,
+    "tags": [
+      "ClassicStart"
+    ]
+  },
+  {
+    "name": "Electroharvester",
+    "label": "electroharvester",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 30,
+    "helodScenarioApparent": 30,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "EntityContainment"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "EntityContainment",
+    "label": "entity containment",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 10,
+    "helodScenarioApparent": 10,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Fabrication",
+    "label": "fabrication",
+    "source": "ludeon.rimworld",
+    "baseCost": 5000,
+    "helodScenarioCost": 5000,
+    "helodScenarioApparent": 10000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MultiAnalyzer"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "FertilityProcedures",
+    "label": "fertility procedures",
+    "source": "ludeon.rimworld.biotech",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Firefoam",
+    "label": "firefoam",
+    "source": "ludeon.rimworld",
+    "baseCost": 600,
+    "helodScenarioCost": 600,
+    "helodScenarioApparent": 1200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Fishing",
+    "label": "fishing",
+    "source": "ludeon.rimworld.odyssey",
+    "baseCost": 600,
+    "helodScenarioCost": 600,
+    "helodScenarioApparent": 600,
+    "tech": "Neolithic",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [],
+    "bench": null,
+    "tags": [
+      "TribalStart"
+    ]
+  },
+  {
+    "name": "FlakArmor",
+    "label": "flak armor",
+    "source": "ludeon.rimworld",
+    "baseCost": 8600,
+    "helodScenarioCost": 8600,
+    "helodScenarioApparent": 17200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Machining"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "FlatscreenTelevision",
+    "label": "flatscreen television",
+    "source": "ludeon.rimworld",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "TubeTelevision",
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "FleshShaping",
+    "label": "flesh shaping",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Ultra",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Fabrication"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "FoamTurret",
+    "label": "foam turret",
+    "source": "ludeon.rimworld",
+    "baseCost": 800,
+    "helodScenarioCost": 800,
+    "helodScenarioApparent": 1600,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "GunTurrets"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "FrenzyInducer",
+    "label": "frenzy inducer",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 60,
+    "helodScenarioApparent": 60,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "SleepSuppressor"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "GasOperation",
+    "label": "gas operation",
+    "source": "ludeon.rimworld",
+    "baseCost": 1650,
+    "helodScenarioCost": 1650,
+    "helodScenarioApparent": 3300,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "BlowbackOperation"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "GeneProcessor",
+    "label": "gene processor",
+    "source": "ludeon.rimworld.biotech",
+    "baseCost": 1500,
+    "helodScenarioCost": 1500,
+    "helodScenarioApparent": 3000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Xenogermination",
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "GeothermalPower",
+    "label": "geothermal power",
+    "source": "ludeon.rimworld",
+    "baseCost": 4000,
+    "helodScenarioCost": 4000,
+    "helodScenarioApparent": 8000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "GhoulEnhancements",
+    "label": "ghoul enhancements",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 40,
+    "helodScenarioApparent": 40,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "GhoulInfusion"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "GhoulInfusion",
+    "label": "ghoul infusion",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 30,
+    "helodScenarioApparent": 30,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "BioferriteExtraction"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "GhoulResurrection",
+    "label": "ghoul resurrection",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 20,
+    "helodScenarioApparent": 20,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "SerumSynthesis",
+      "GhoulEnhancements"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "GoJuiceProduction",
+    "label": "go-juice production",
+    "source": "ludeon.rimworld",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "DrugProduction"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Greatbow",
+    "label": "greatbow",
+    "source": "ludeon.rimworld",
+    "baseCost": 600,
+    "helodScenarioCost": 600,
+    "helodScenarioApparent": 900,
+    "tech": "Medieval",
+    "tribalFactor": 1.5,
+    "industrialFactor": 1.5,
+    "prerequisites": [
+      "RecurveBow"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "GroundPenetratingScanner",
+    "label": "ground-penetrating scanner",
+    "source": "ludeon.rimworld",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "DeepDrilling"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "GrowthVats",
+    "label": "growth vats",
+    "source": "ludeon.rimworld.biotech",
+    "baseCost": 500,
+    "helodScenarioCost": 500,
+    "helodScenarioApparent": 1000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "Gunlink",
+    "label": "gunlink",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Fabrication"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "Gunsmithing",
+    "label": "gunsmithing",
+    "source": "ludeon.rimworld",
+    "baseCost": 3650,
+    "helodScenarioCost": 3650,
+    "helodScenarioApparent": 7300,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Machining"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "GunTurrets",
+    "label": "gun turrets",
+    "source": "ludeon.rimworld",
+    "baseCost": 800,
+    "helodScenarioCost": 800,
+    "helodScenarioApparent": 1600,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "BlowbackOperation"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Harp",
+    "label": "harp",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 500,
+    "helodScenarioCost": 500,
+    "helodScenarioApparent": 750,
+    "tech": "Medieval",
+    "tribalFactor": 1.5,
+    "industrialFactor": 1.5,
+    "prerequisites": [
+      "ComplexFurniture"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Harpsichord",
+    "label": "harpsichord",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 500,
+    "helodScenarioCost": 500,
+    "helodScenarioApparent": 750,
+    "tech": "Medieval",
+    "tribalFactor": 1.5,
+    "industrialFactor": 1.5,
+    "prerequisites": [
+      "Harp",
+      "Smithing"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HealingFactors",
+    "label": "healing factors",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Ultra",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Fabrication"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "HeavyBridges",
+    "label": "heavy bridges",
+    "source": "ludeon.rimworld.odyssey",
+    "baseCost": 800,
+    "helodScenarioCost": 800,
+    "helodScenarioApparent": 1600,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HeavyTurrets",
+    "label": "autocannon turret",
+    "source": "ludeon.rimworld",
+    "baseCost": 2200,
+    "helodScenarioCost": 2200,
+    "helodScenarioApparent": 4400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "HelodAdvancedAmmunition",
+    "label": "Engineering Inside the Bullet",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1400,
+    "helodScenarioCost": 1400,
+    "helodScenarioApparent": 2800,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodHighAutomaticRifle",
+      "HelodIndustrialAutomation"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodAdvancedWeaponOptics",
+    "label": "Advanced Weapon Optics",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1600,
+    "helodScenarioCost": 1600,
+    "helodScenarioApparent": 3200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodHighAutomaticRifle",
+      "HelodTransistor"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodAntiAirMachineGun",
+    "label": "The Wall of Steel",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1200,
+    "helodScenarioCost": 1200,
+    "helodScenarioApparent": 2400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodWireless",
+      "HelodNumericalControl",
+      "HelodBasicModernRifle",
+      "HelodHighExplosive"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodBasicElectronics",
+    "label": "Ohm\u0027s Law Applied",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodTelegraph"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodBasicEngine",
+    "label": "Controlled Explosions",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1400,
+    "helodScenarioCost": 1400,
+    "helodScenarioApparent": 2800,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodBasicOilDevelopment",
+      "HelodMetalCuttingMachine",
+      "HelodMetalFormingMachine"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodBasicMachineGun",
+    "label": "The Devil\u0027s Paintbrush",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 800,
+    "helodScenarioCost": 800,
+    "helodScenarioApparent": 1600,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodSmokeLessGunpowder"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodBasicMachineTool",
+    "label": "Machine That Makes Machine",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodIronMaking"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodBasicModernRifle",
+    "label": "The Rifleman\u0027s Century",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 850,
+    "helodScenarioCost": 850,
+    "helodScenarioApparent": 1700,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodSamiAutomaticPistol",
+      "HelodHighMachineGun"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodBasicMotor",
+    "label": "Kinetic-Electric Synergy",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1200,
+    "helodScenarioCost": 1200,
+    "helodScenarioApparent": 2400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodMetalCuttingMachine",
+      "HelodMetalFormingMachine",
+      "HelodBasicElectronics"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodBasicOilDevelopment",
+    "label": "Blood of the Iron Age",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 900,
+    "helodScenarioCost": 900,
+    "helodScenarioApparent": 1800,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodSteamEngine"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodBasicPetrochemistry",
+    "label": "Liquid Alchemy",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1200,
+    "helodScenarioCost": 1200,
+    "helodScenarioApparent": 2400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodBasicEngine"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodBlisterAgent",
+    "label": "Scorched Earth Therapy",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 700,
+    "helodScenarioCost": 700,
+    "helodScenarioApparent": 1400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodChokingAgent"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodBoltAction",
+    "label": "Lock, Stock, and Barrel",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 650,
+    "helodScenarioCost": 650,
+    "helodScenarioApparent": 1300,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodSmokeLessGunpowder"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodBreechLoadingGun",
+    "label": "Loading from the back",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 700,
+    "helodScenarioCost": 700,
+    "helodScenarioApparent": 1400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodLineShaft"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodChokingAgent",
+    "label": "The Poison Wind",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 650,
+    "helodScenarioCost": 650,
+    "helodScenarioApparent": 1300,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodTotalSynthesisMedicine"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodColdWarTech",
+    "label": "Better Living",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1500,
+    "helodScenarioCost": 1500,
+    "helodScenarioApparent": 3000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodRespectForPatrioticMartyrs"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodExperimentalAnalysis",
+    "label": "Trial, Error, and Litmus",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 500,
+    "helodScenarioCost": 500,
+    "helodScenarioApparent": 1000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodFrontierSpirit"
+    ],
+    "bench": null,
+    "tags": [
+      "HD_HelodWildWestScenarioStart"
+    ]
+  },
+  {
+    "name": "HelodFirstAid",
+    "label": "Keeping Death Waiting",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 600,
+    "helodScenarioCost": 600,
+    "helodScenarioApparent": 1200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodTotalSynthesisMedicine"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodFlakJacket",
+    "label": "The First Layer",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 900,
+    "helodScenarioCost": 900,
+    "helodScenarioApparent": 1800,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodGreatWarTech"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodFrontierSpirit",
+    "label": "Frontier Spirit",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 100,
+    "helodScenarioCost": 100,
+    "helodScenarioApparent": 200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "ComplexFurniture",
+      "Smithing",
+      "ComplexClothing"
+    ],
+    "bench": null,
+    "tags": [
+      "HD_HelodWildWestScenarioStart"
+    ]
+  },
+  {
+    "name": "HelodGreatWarTech",
+    "label": "The Practical Arts",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1200,
+    "helodScenarioCost": 1200,
+    "helodScenarioApparent": 2400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodBasicPetrochemistry",
+      "HelodSmokeLessGunpowder"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodHaberBosch",
+    "label": "Bread from Air",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1600,
+    "helodScenarioCost": 1600,
+    "helodScenarioApparent": 3200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodTotalSynthesisMedicine"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodHeatPump",
+    "label": "The Cold-Hot Siphoner",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 700,
+    "helodScenarioCost": 700,
+    "helodScenarioApparent": 1400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodMetalCuttingMachine",
+      "HelodMetalFormingMachine"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodHighAutomaticRifle",
+    "label": "Mature Service Rifles",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1100,
+    "helodScenarioCost": 1100,
+    "helodScenarioApparent": 2200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodMidAutomaticRifle"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodHighElectronics",
+    "label": "The Thermionic Age",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1500,
+    "helodScenarioCost": 1500,
+    "helodScenarioApparent": 3000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodBasicElectronics",
+      "HelodBasicMotor"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodHighExplosive",
+    "label": "Brisance and Thunder",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodHaberBosch"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodHighMachineGun",
+    "label": "Beaten Zone",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 800,
+    "helodScenarioCost": 800,
+    "helodScenarioApparent": 1600,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodBasicMachineGun"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodHighOilDevelopment",
+    "label": "High-Pressure Scavenging",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1100,
+    "helodScenarioCost": 1100,
+    "helodScenarioApparent": 2200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodBasicOilDevelopment"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodIndustrialAutomation",
+    "label": "industrial automation",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 2200,
+    "helodScenarioCost": 2200,
+    "helodScenarioApparent": 4400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodNumericalControl",
+      "HelodTransistor",
+      "HelodMetalFormingMachine"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodIngredientExtraction",
+    "label": "Distilling nature",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 700,
+    "helodScenarioCost": 700,
+    "helodScenarioApparent": 1400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodExperimentalAnalysis"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodIronMaking",
+    "label": "The Bones of the Machine",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodMechanicalEngineering"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodLargeSteamEngine",
+    "label": "Screaming Cylinders",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 900,
+    "helodScenarioCost": 900,
+    "helodScenarioApparent": 1800,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodSteamEngine",
+      "HelodMetalCuttingMachine",
+      "HelodMetalFormingMachine"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodLaserTargetDesignators",
+    "label": "Laser Target Designation",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1800,
+    "helodScenarioCost": 1800,
+    "helodScenarioApparent": 3600,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodAdvancedWeaponOptics",
+      "HelodWireless"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodLessLethalChemical",
+    "label": "Chemical Compliance",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 700,
+    "helodScenarioCost": 700,
+    "helodScenarioApparent": 1400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodLessLethalClose"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodLessLethalClose",
+    "label": "Shield and Baton",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 600,
+    "helodScenarioCost": 600,
+    "helodScenarioApparent": 1200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodColdWarTech"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodLessLethalLowRanged",
+    "label": "Measured Response",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 650,
+    "helodScenarioCost": 650,
+    "helodScenarioApparent": 1300,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodLowAutomaticRifle",
+      "HelodLessLethalClose"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodLeverAction",
+    "label": "The Gun that Won the West",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 600,
+    "helodScenarioCost": 600,
+    "helodScenarioApparent": 1200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodMetalCuttingMachine",
+      "HelodMetalFormingMachine",
+      "HelodBreechLoadingGun"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodLineShaft",
+    "label": "One engine, Many machines",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodSteamEngine",
+      "HelodBasicMachineTool"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodLowAutomaticRifle",
+    "label": "Fire and Maneuver",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 900,
+    "helodScenarioCost": 900,
+    "helodScenarioApparent": 1800,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodBasicModernRifle",
+      "HelodLowGranade"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodLowGranade",
+    "label": "The Hand-Held Artillery",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 600,
+    "helodScenarioCost": 600,
+    "helodScenarioApparent": 1200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodHighExplosive"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodLowHeadSet",
+    "label": "Hear and Be Heard",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 700,
+    "helodScenarioCost": 700,
+    "helodScenarioApparent": 1400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodTransistor",
+      "HelodColdWarTech"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodLowHeavyArtillery",
+    "label": "The Multi-Purpose Rain",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1200,
+    "helodScenarioCost": 1200,
+    "helodScenarioApparent": 2400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodLowLightArtillery"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodLowLightArtillery",
+    "label": "The Trench Flatteners",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 900,
+    "helodScenarioCost": 900,
+    "helodScenarioApparent": 1800,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodBoltAction",
+      "HelodHighExplosive"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodLowVelocityGrenades",
+    "label": "Artillery in a Single Round",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 800,
+    "helodScenarioCost": 800,
+    "helodScenarioApparent": 1600,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodLowAutomaticRifle",
+      "HelodNumericalControl"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodMechanicalEngineering",
+    "label": "Mechanical engineering 101",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 500,
+    "helodScenarioCost": 500,
+    "helodScenarioApparent": 1000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodFrontierSpirit"
+    ],
+    "bench": null,
+    "tags": [
+      "HD_HelodWildWestScenarioStart"
+    ]
+  },
+  {
+    "name": "HelodMetalCuttingMachine",
+    "label": "Shaving the micron",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodLineShaft"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodMetalFormingMachine",
+    "label": "Brute Force Shaping",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodLineShaft"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodMidAutomaticRifle",
+    "label": "The Service Rifle",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodLowAutomaticRifle"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodModernDiversionaryGrenades",
+    "label": "Modern Diversionary Grenades",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodColdWarTech",
+      "HelodLessLethalChemical"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodModernOffensiveGrenades",
+    "label": "Modern Offensive Grenades",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1200,
+    "helodScenarioCost": 1200,
+    "helodScenarioApparent": 2400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodColdWarTech",
+      "HelodHighAutomaticRifle"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodMultiTaskMachining",
+    "label": "integrated mill-turn machining",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 2800,
+    "helodScenarioCost": 2800,
+    "helodScenarioApparent": 5600,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodIndustrialAutomation"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodNumericalControl",
+    "label": "numerical control",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1800,
+    "helodScenarioCost": 1800,
+    "helodScenarioApparent": 3600,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodHighElectronics",
+      "HelodMetalCuttingMachine"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodPASGT",
+    "label": "Modern Ballistic Protection",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1200,
+    "helodScenarioCost": 1200,
+    "helodScenarioApparent": 2400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodMidAutomaticRifle",
+      "HelodFlakJacket"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodPrimaryCell",
+    "label": "Lightning in a bottle",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 600,
+    "helodScenarioCost": 600,
+    "helodScenarioApparent": 1200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodExperimentalAnalysis"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodRemoteWeaponControl",
+    "label": "A Hand Beyond the Trigger",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1600,
+    "helodScenarioCost": 1600,
+    "helodScenarioApparent": 3200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodAdvancedWeaponOptics",
+      "HelodIndustrialAutomation"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodRespectForPatrioticMartyrs",
+    "label": "hymn to the fallen",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 600,
+    "helodScenarioCost": 600,
+    "helodScenarioApparent": 1200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodBlisterAgent",
+      "HelodLowGranade"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodSamiAutomaticPistol",
+    "label": "One Pull, One Shot",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 650,
+    "helodScenarioCost": 650,
+    "helodScenarioApparent": 1300,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodBoltAction",
+      "HelodBasicMachineGun"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodSmokeLessGunpowder",
+    "label": "Clear Skies, Deadly Horizon",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodIngredientExtraction",
+      "HelodLeverAction"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodSniperRifle",
+    "label": "Sub-MOA Precision",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 700,
+    "helodScenarioCost": 700,
+    "helodScenarioApparent": 1400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodBoltAction"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodSpecialOperationsWeapons",
+    "label": "Special Operations Firearms",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1100,
+    "helodScenarioCost": 1100,
+    "helodScenarioApparent": 2200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodLessLethalChemical",
+      "HelodLessLethalLowRanged"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodSteamEngine",
+    "label": "Harnessing the fire",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1200,
+    "helodScenarioCost": 1200,
+    "helodScenarioApparent": 2400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodIronMaking"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodTelegraph",
+    "label": "The Victorian internet",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 600,
+    "helodScenarioCost": 600,
+    "helodScenarioApparent": 1200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodPrimaryCell"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodTotalSynthesisMedicine",
+    "label": "Molecular Assembly Line",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1200,
+    "helodScenarioCost": 1200,
+    "helodScenarioApparent": 2400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodIngredientExtraction",
+      "HelodBasicPetrochemistry"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodTransistor",
+    "label": "Silicon Revolution",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 2200,
+    "helodScenarioCost": 2200,
+    "helodScenarioApparent": 4400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodWireless"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodWireGuidedMissile",
+    "label": "Holding the Crosshair",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1600,
+    "helodScenarioCost": 1600,
+    "helodScenarioApparent": 3200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodTransistor",
+      "HelodAntiAirMachineGun",
+      "HelodMidAutomaticRifle"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HelodWireless",
+    "label": "Breaking the Wire",
+    "source": "bluebackedfish.helodrace.main",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "HelodHighElectronics"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "HighMechtech",
+    "label": "high mechtech",
+    "source": "ludeon.rimworld.biotech",
+    "baseCost": 3000,
+    "helodScenarioCost": 3000,
+    "helodScenarioApparent": 6000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "StandardMechtech",
+      "MultiAnalyzer"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "HospitalBed",
+    "label": "hospital bed",
+    "source": "ludeon.rimworld",
+    "baseCost": 1600,
+    "helodScenarioCost": 1600,
+    "helodScenarioApparent": 3200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "HunterDrones",
+    "label": "hunter drone",
+    "source": "ludeon.rimworld.odyssey",
+    "baseCost": 1600,
+    "helodScenarioCost": 1600,
+    "helodScenarioApparent": 3200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "Hydroponics",
+    "label": "hydroponics",
+    "source": "ludeon.rimworld",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "IEDs",
+    "label": "IEDs",
+    "source": "ludeon.rimworld",
+    "baseCost": 800,
+    "helodScenarioCost": 800,
+    "helodScenarioApparent": 1600,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "InsanityWeaponry",
+    "label": "insanity weaponry",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 30,
+    "helodScenarioApparent": 30,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "BioferriteShaping"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "JuggernautSerum",
+    "label": "juggernaut serum",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 35,
+    "helodScenarioApparent": 35,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "SerumSynthesis"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "JumpPack",
+    "label": "jump packs",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "LongBlades",
+    "label": "long blades",
+    "source": "ludeon.rimworld",
+    "baseCost": 400,
+    "helodScenarioCost": 400,
+    "helodScenarioApparent": 600,
+    "tech": "Medieval",
+    "tribalFactor": 1.5,
+    "industrialFactor": 1.5,
+    "prerequisites": [
+      "Smithing"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "LongRangeMineralScanner",
+    "label": "long-range mineral scanner",
+    "source": "ludeon.rimworld",
+    "baseCost": 3000,
+    "helodScenarioCost": 3000,
+    "helodScenarioApparent": 6000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "Machining",
+    "label": "machining",
+    "source": "ludeon.rimworld",
+    "baseCost": 1800,
+    "helodScenarioCost": 1800,
+    "helodScenarioApparent": 3600,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity",
+      "Smithing"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "MedicineProduction",
+    "label": "medicine production",
+    "source": "ludeon.rimworld",
+    "baseCost": 4700,
+    "helodScenarioCost": 4700,
+    "helodScenarioApparent": 9400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "DrugProduction",
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "MetalbloodSerum",
+    "label": "metalblood serum",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 35,
+    "helodScenarioApparent": 35,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "SerumSynthesis"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "MicroelectronicsBasics",
+    "label": "microelectronics",
+    "source": "ludeon.rimworld",
+    "baseCost": 3200,
+    "helodScenarioCost": 3200,
+    "helodScenarioApparent": 6400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "MindNumbSerum",
+    "label": "mind-numb serum",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 35,
+    "helodScenarioApparent": 35,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "SerumSynthesis"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "MoisturePump",
+    "label": "moisture pump",
+    "source": "ludeon.rimworld",
+    "baseCost": 1500,
+    "helodScenarioCost": 1500,
+    "helodScenarioApparent": 3000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "MolecularAnalysis",
+    "label": "molecular analysis",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Ultra",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Fabrication"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "Mortars",
+    "label": "mortars",
+    "source": "ludeon.rimworld",
+    "baseCost": 8200,
+    "helodScenarioCost": 8200,
+    "helodScenarioApparent": 16400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Gunsmithing"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "MultiAnalyzer",
+    "label": "multi-analyzer",
+    "source": "ludeon.rimworld",
+    "baseCost": 5000,
+    "helodScenarioCost": 5000,
+    "helodScenarioApparent": 10000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "MultibarrelWeapons",
+    "label": "multibarrel weapons",
+    "source": "ludeon.rimworld",
+    "baseCost": 17050,
+    "helodScenarioCost": 17050,
+    "helodScenarioApparent": 34100,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "MutationWeaponry",
+    "label": "mutation weaponry",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 35,
+    "helodScenarioApparent": 35,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "BioferriteShaping"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "NeuralComputation",
+    "label": "neural computation",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Ultra",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Fabrication"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "NeuralSupercharger",
+    "label": "neural supercharger",
+    "source": "ludeon.rimworld.ideology",
+    "baseCost": 1500,
+    "helodScenarioCost": 1500,
+    "helodScenarioApparent": 3000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "NeurosisPulse",
+    "label": "neurosis pulse",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 40,
+    "helodScenarioApparent": 40,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "AdvancedPsychicRituals"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "NobleApparel",
+    "label": "noble apparel",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 400,
+    "helodScenarioCost": 400,
+    "helodScenarioApparent": 600,
+    "tech": "Medieval",
+    "tribalFactor": 1.5,
+    "industrialFactor": 1.5,
+    "prerequisites": [
+      "ComplexClothing"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "NutrientPaste",
+    "label": "nutrient paste",
+    "source": "ludeon.rimworld",
+    "baseCost": 400,
+    "helodScenarioCost": 400,
+    "helodScenarioApparent": 800,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": [
+      "ClassicStart"
+    ]
+  },
+  {
+    "name": "OrbitalTech",
+    "label": "orbital tech",
+    "source": "ludeon.rimworld.odyssey",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "PackagedSurvivalMeal",
+    "label": "packaged survival meal",
+    "source": "ludeon.rimworld",
+    "baseCost": 500,
+    "helodScenarioCost": 500,
+    "helodScenarioApparent": 1000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "NutrientPaste"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "PassiveCooler",
+    "label": "passive cooler",
+    "source": "ludeon.rimworld",
+    "baseCost": 400,
+    "helodScenarioCost": 400,
+    "helodScenarioApparent": 400,
+    "tech": "Neolithic",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [],
+    "bench": null,
+    "tags": [
+      "ClassicStart",
+      "TribalStart"
+    ]
+  },
+  {
+    "name": "Pemmican",
+    "label": "pemmican",
+    "source": "ludeon.rimworld",
+    "baseCost": 500,
+    "helodScenarioCost": 500,
+    "helodScenarioApparent": 500,
+    "tech": "Neolithic",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [],
+    "bench": null,
+    "tags": [
+      "TribalStart"
+    ]
+  },
+  {
+    "name": "PenoxycylineProduction",
+    "label": "penoxycyline production",
+    "source": "ludeon.rimworld",
+    "baseCost": 500,
+    "helodScenarioCost": 500,
+    "helodScenarioApparent": 1000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "DrugProduction"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Philophagy",
+    "label": "philophagy",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 30,
+    "helodScenarioApparent": 30,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "Chronophagy",
+      "AdvancedPsychicRituals"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Piano",
+    "label": "piano",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Harpsichord"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "PlateArmor",
+    "label": "plate armor",
+    "source": "ludeon.rimworld",
+    "baseCost": 600,
+    "helodScenarioCost": 600,
+    "helodScenarioApparent": 900,
+    "tech": "Medieval",
+    "tribalFactor": 1.5,
+    "industrialFactor": 1.5,
+    "prerequisites": [
+      "Smithing",
+      "ComplexClothing"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "PleasurePulse",
+    "label": "pleasure pulse",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 30,
+    "helodScenarioApparent": 30,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "AdvancedPsychicRituals"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "PoweredArmor",
+    "label": "marine armor",
+    "source": "ludeon.rimworld",
+    "baseCost": 8000,
+    "helodScenarioCost": 8000,
+    "helodScenarioApparent": 16000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "ReconArmor"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "PrecisionRifling",
+    "label": "precision rifling",
+    "source": "ludeon.rimworld",
+    "baseCost": 9500,
+    "helodScenarioCost": 9500,
+    "helodScenarioApparent": 19000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "GasOperation",
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "Prosthetics",
+    "label": "prosthetics",
+    "source": "ludeon.rimworld",
+    "baseCost": 600,
+    "helodScenarioCost": 600,
+    "helodScenarioApparent": 1200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Machining"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "ProximityDetector",
+    "label": "proximity detector",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 15,
+    "helodScenarioApparent": 15,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "EntityContainment"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "PsychiteRefining",
+    "label": "psychite refining",
+    "source": "ludeon.rimworld",
+    "baseCost": 400,
+    "helodScenarioCost": 400,
+    "helodScenarioApparent": 800,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "DrugProduction"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "PsychoidBrewing",
+    "label": "psychoid brewing",
+    "source": "ludeon.rimworld",
+    "baseCost": 500,
+    "helodScenarioCost": 500,
+    "helodScenarioApparent": 500,
+    "tech": "Neolithic",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [],
+    "bench": null,
+    "tags": [
+      "TribalStart"
+    ]
+  },
+  {
+    "name": "Psychophagy",
+    "label": "psychophagy",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 20,
+    "helodScenarioApparent": 20,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "BasicPsychicRituals"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "ReconArmor",
+    "label": "recon armor",
+    "source": "ludeon.rimworld",
+    "baseCost": 7000,
+    "helodScenarioCost": 7000,
+    "helodScenarioApparent": 14000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Fabrication"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "RecurveBow",
+    "label": "recurve bow",
+    "source": "ludeon.rimworld",
+    "baseCost": 400,
+    "helodScenarioCost": 400,
+    "helodScenarioApparent": 400,
+    "tech": "Neolithic",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [],
+    "bench": null,
+    "tags": [
+      "TribalStart"
+    ]
+  },
+  {
+    "name": "RevenantInvisibility",
+    "label": "revenant invisibility",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 40,
+    "helodScenarioApparent": 40,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "DisruptorFlares"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "RocketswarmLauncher",
+    "label": "rocketswarm launcher",
+    "source": "ludeon.rimworld",
+    "baseCost": 3000,
+    "helodScenarioCost": 3000,
+    "helodScenarioApparent": 6000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MultiAnalyzer",
+      "HeavyTurrets"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "RoyalApparel",
+    "label": "royal apparel",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 400,
+    "helodScenarioCost": 400,
+    "helodScenarioApparent": 600,
+    "tech": "Medieval",
+    "tribalFactor": 1.5,
+    "industrialFactor": 1.5,
+    "prerequisites": [
+      "NobleApparel"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "SecurityDoor",
+    "label": "security door",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 700,
+    "helodScenarioCost": 700,
+    "helodScenarioApparent": 1400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Autodoors"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "SerumSynthesis",
+    "label": "serum synthesis",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 15,
+    "helodScenarioApparent": 15,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "BioferriteShaping"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "ShieldBelt",
+    "label": "shields",
+    "source": "ludeon.rimworld",
+    "baseCost": 1500,
+    "helodScenarioCost": 1500,
+    "helodScenarioApparent": 3000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "ShipBasics",
+    "label": "starflight basics",
+    "source": "ludeon.rimworld",
+    "baseCost": 4000,
+    "helodScenarioCost": 4000,
+    "helodScenarioApparent": 8000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "AdvancedFabrication"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": [
+      "ShipRelated"
+    ]
+  },
+  {
+    "name": "ShipComputerCore",
+    "label": "machine persuasion",
+    "source": "ludeon.rimworld",
+    "baseCost": 3000,
+    "helodScenarioCost": 3000,
+    "helodScenarioApparent": 6000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "ShipBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": [
+      "ShipRelated"
+    ]
+  },
+  {
+    "name": "ShipCryptosleep",
+    "label": "vacuum cryptosleep casket",
+    "source": "ludeon.rimworld",
+    "baseCost": 2800,
+    "helodScenarioCost": 2800,
+    "helodScenarioApparent": 5600,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "ShipBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": [
+      "ShipRelated"
+    ]
+  },
+  {
+    "name": "ShipEngine",
+    "label": "Johnson-Tanaka drive",
+    "source": "ludeon.rimworld",
+    "baseCost": 6000,
+    "helodScenarioCost": 6000,
+    "helodScenarioApparent": 12000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "ShipBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": [
+      "ShipRelated"
+    ]
+  },
+  {
+    "name": "ShipReactor",
+    "label": "starship reactor",
+    "source": "ludeon.rimworld",
+    "baseCost": 6000,
+    "helodScenarioCost": 6000,
+    "helodScenarioApparent": 12000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "ShipBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": [
+      "ShipRelated"
+    ]
+  },
+  {
+    "name": "ShipSensorCluster",
+    "label": "starflight sensors",
+    "source": "ludeon.rimworld",
+    "baseCost": 4000,
+    "helodScenarioCost": 4000,
+    "helodScenarioApparent": 8000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "ShipBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": [
+      "ShipRelated"
+    ]
+  },
+  {
+    "name": "Shuttles",
+    "label": "shuttle",
+    "source": "ludeon.rimworld.odyssey",
+    "baseCost": 2500,
+    "helodScenarioCost": 2500,
+    "helodScenarioApparent": 5000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MultiAnalyzer",
+      "TransportPod"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "SkinHardening",
+    "label": "skin hardening",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Ultra",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Fabrication"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "SkipAbductionPlayer",
+    "label": "skip abduction",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 40,
+    "helodScenarioApparent": 40,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "BasicPsychicRituals"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "SleepSuppressor",
+    "label": "sleep suppressor",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 30,
+    "helodScenarioApparent": 30,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "BioferriteExtraction",
+      "EntityContainment"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Smithing",
+    "label": "smithing",
+    "source": "ludeon.rimworld",
+    "baseCost": 700,
+    "helodScenarioCost": 700,
+    "helodScenarioApparent": 1050,
+    "tech": "Medieval",
+    "tribalFactor": 1.5,
+    "industrialFactor": 1.5,
+    "prerequisites": [],
+    "bench": null,
+    "tags": [
+      "HD_HelodWildWestScenarioStart"
+    ]
+  },
+  {
+    "name": "SmokepopBelt",
+    "label": "smokepop packs",
+    "source": "ludeon.rimworld",
+    "baseCost": 300,
+    "helodScenarioCost": 300,
+    "helodScenarioApparent": 600,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Machining"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "SniperTurret",
+    "label": "uranium slug turret",
+    "source": "ludeon.rimworld",
+    "baseCost": 3000,
+    "helodScenarioCost": 3000,
+    "helodScenarioApparent": 6000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MultiAnalyzer",
+      "HeavyTurrets"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "SolarPanels",
+    "label": "solar panel",
+    "source": "ludeon.rimworld",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "SpecializedLimbs",
+    "label": "specialized limbs",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "StandardGravtech",
+    "label": "standard gravtech",
+    "source": "ludeon.rimworld.odyssey",
+    "baseCost": 1200,
+    "helodScenarioCost": 1200,
+    "helodScenarioApparent": 2400,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "BasicGravtech",
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "StandardMechtech",
+    "label": "standard mechtech",
+    "source": "ludeon.rimworld.biotech",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "BasicMechtech"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "SterileMaterials",
+    "label": "sterile materials",
+    "source": "ludeon.rimworld",
+    "baseCost": 6000,
+    "helodScenarioCost": 6000,
+    "helodScenarioApparent": 12000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Stonecutting",
+    "label": "stonecutting",
+    "source": "ludeon.rimworld",
+    "baseCost": 300,
+    "helodScenarioCost": 300,
+    "helodScenarioApparent": 450,
+    "tech": "Medieval",
+    "tribalFactor": 1.5,
+    "industrialFactor": 1.5,
+    "prerequisites": [],
+    "bench": null,
+    "tags": [
+      "ClassicStart"
+    ]
+  },
+  {
+    "name": "SummonAnimals",
+    "label": "draw animals",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 20,
+    "helodScenarioApparent": 20,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "BasicPsychicRituals"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "SummonFleshbeastsPlayer",
+    "label": "summon fleshbeasts",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 30,
+    "helodScenarioApparent": 30,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "SummonAnimals"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "SummonPitGate",
+    "label": "provoke pit gate",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 80,
+    "helodScenarioApparent": 80,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "AdvancedPsychicRituals"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "SummonShamblers",
+    "label": "draw shamblers",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 25,
+    "helodScenarioApparent": 25,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "SummonAnimals"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "ToxFiltration",
+    "label": "toxin filtration",
+    "source": "ludeon.rimworld.biotech",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Fabrication"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "ToxGas",
+    "label": "tox gas",
+    "source": "ludeon.rimworld.biotech",
+    "baseCost": 600,
+    "helodScenarioCost": 600,
+    "helodScenarioApparent": 1200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Machining"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "ToxifierGenerator",
+    "label": "toxifier generator",
+    "source": "ludeon.rimworld.biotech",
+    "baseCost": 500,
+    "helodScenarioCost": 500,
+    "helodScenarioApparent": 1000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "TransportPod",
+    "label": "transport pod",
+    "source": "ludeon.rimworld",
+    "baseCost": 1500,
+    "helodScenarioCost": 1500,
+    "helodScenarioApparent": 3000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "TreeSowing",
+    "label": "tree sowing",
+    "source": "ludeon.rimworld",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 1000,
+    "tech": "Neolithic",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [],
+    "bench": null,
+    "tags": [
+      "TribalStart"
+    ]
+  },
+  {
+    "name": "TubeTelevision",
+    "label": "tube television",
+    "source": "ludeon.rimworld",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "TurretPack",
+    "label": "turret pack",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 1400,
+    "helodScenarioCost": 1400,
+    "helodScenarioApparent": 2800,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MicroelectronicsBasics"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "UltraMechtech",
+    "label": "ultra mechtech",
+    "source": "ludeon.rimworld.biotech",
+    "baseCost": 5000,
+    "helodScenarioCost": 5000,
+    "helodScenarioApparent": 10000,
+    "tech": "Ultra",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Fabrication",
+      "HighMechtech"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "VenomSynthesis",
+    "label": "poison synthesis",
+    "source": "ludeon.rimworld.royalty",
+    "baseCost": 2000,
+    "helodScenarioCost": 2000,
+    "helodScenarioApparent": 4000,
+    "tech": "Spacer",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "CompactWeaponry"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "VitalsMonitor",
+    "label": "vitals monitor",
+    "source": "ludeon.rimworld",
+    "baseCost": 2500,
+    "helodScenarioCost": 2500,
+    "helodScenarioApparent": 5000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "MultiAnalyzer",
+      "HospitalBed"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "VoidSculptures",
+    "label": "void sculptures",
+    "source": "ludeon.rimworld.anomaly",
+    "baseCost": 0,
+    "helodScenarioCost": 25,
+    "helodScenarioApparent": 25,
+    "tech": "Undefined",
+    "tribalFactor": 1,
+    "industrialFactor": 1,
+    "prerequisites": [
+      "BioferriteExtraction",
+      "BasicPsychicRituals"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "WakeUpProduction",
+    "label": "wake-up production",
+    "source": "ludeon.rimworld",
+    "baseCost": 600,
+    "helodScenarioCost": 600,
+    "helodScenarioApparent": 1200,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "DrugProduction"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "WastepackAtomizer",
+    "label": "wastepack atomizer",
+    "source": "ludeon.rimworld.biotech",
+    "baseCost": 8000,
+    "helodScenarioCost": 8000,
+    "helodScenarioApparent": 16000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "AdvancedFabrication"
+    ],
+    "bench": "HiTechResearchBench",
+    "tags": []
+  },
+  {
+    "name": "WatermillGenerator",
+    "label": "watermill generator",
+    "source": "ludeon.rimworld",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  },
+  {
+    "name": "Xenogermination",
+    "label": "xenogenetics",
+    "source": "ludeon.rimworld.biotech",
+    "baseCost": 1000,
+    "helodScenarioCost": 1000,
+    "helodScenarioApparent": 2000,
+    "tech": "Industrial",
+    "tribalFactor": 2,
+    "industrialFactor": 2,
+    "prerequisites": [
+      "Electricity"
+    ],
+    "bench": null,
+    "tags": []
+  }
+]

@@ -48,7 +48,7 @@
         <defName>HelodSteamEngine</defName>
         <label>Harnessing the fire</label>
         <description>technology for steamengine</description>
-        <baseCost>500</baseCost>
+        <baseCost>1200</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodIronMaking</li>
@@ -62,7 +62,7 @@
         <defName>HelodBasicMachineTool</defName>
         <label>Machine That Makes Machine</label>
         <description>human powered tools</description>
-        <baseCost>500</baseCost>
+        <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodIronMaking</li>
@@ -76,7 +76,7 @@
         <defName>HelodIngredientExtraction</defName>
         <label>Distilling nature</label>
         <description>feel good drugs</description>
-        <baseCost>500</baseCost>
+        <baseCost>700</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodExperimentalAnalysis</li>
@@ -90,7 +90,7 @@
         <defName>HelodPrimaryCell</defName>
         <label>Lightning in a bottle</label>
         <description>primary cell</description>
-        <baseCost>500</baseCost>
+        <baseCost>600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodExperimentalAnalysis</li>
@@ -104,7 +104,7 @@
         <defName>HelodBasicOilDevelopment</defName>
         <label>Blood of the Iron Age</label>
         <description>oilsssssssssss</description>
-        <baseCost>500</baseCost>
+        <baseCost>900</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodSteamEngine</li>
@@ -118,7 +118,7 @@
         <defName>HelodLineShaft</defName>
         <label>One engine, Many machines</label>
         <description>shaft</description>
-        <baseCost>500</baseCost>
+        <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodSteamEngine</li>
@@ -133,7 +133,7 @@
         <defName>HelodTelegraph</defName>
         <label>The Victorian internet</label>
         <description>dot dash</description>
-        <baseCost>500</baseCost>
+        <baseCost>600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodPrimaryCell</li>
@@ -147,7 +147,7 @@
         <defName>HelodMetalCuttingMachine</defName>
         <label>Shaving the micron</label>
         <description>lathe</description>
-        <baseCost>500</baseCost>
+        <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodLineShaft</li>
@@ -161,7 +161,7 @@
         <defName>HelodMetalFormingMachine</defName>
         <label>Brute Force Shaping</label>
         <description>press</description>
-        <baseCost>500</baseCost>
+        <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodLineShaft</li>
@@ -175,7 +175,7 @@
         <defName>HelodBreechLoadingGun</defName>
         <label>Loading from the back</label>
         <description>gun!</description>
-        <baseCost>500</baseCost>
+        <baseCost>700</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodLineShaft</li>
@@ -189,7 +189,7 @@
         <defName>HelodIronMaking</defName>
         <label>The Bones of the Machine</label>
         <description>Unlocks the basic processes needed to smelt and refine iron for frontier industry.</description>
-        <baseCost>500</baseCost>
+        <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodMechanicalEngineering</li>
@@ -203,7 +203,7 @@
         <defName>HelodBasicEngine</defName>
         <label>Controlled Explosions</label>
         <description>Studies early internal-combustion engines that turn liquid fuel into rotary power.</description>
-        <baseCost>500</baseCost>
+        <baseCost>1400</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodBasicOilDevelopment</li>
@@ -219,7 +219,7 @@
         <defName>HelodLargeSteamEngine</defName>
         <label>Screaming Cylinders</label>
         <description>Studies large steam engines that use high-pressure cylinders to drive industrial machinery.</description>
-        <baseCost>500</baseCost>
+        <baseCost>900</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodSteamEngine</li>
@@ -235,7 +235,7 @@
         <defName>HelodHeatPump</defName>
         <label>The Cold-Hot Siphoner</label>
         <description>Studies heating and cooling systems that move heat by compressing and expanding a refrigerant.</description>
-        <baseCost>500</baseCost>
+        <baseCost>700</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodMetalCuttingMachine</li>
@@ -250,7 +250,7 @@
         <defName>HelodBasicPetrochemistry</defName>
         <label>Liquid Alchemy</label>
         <description>Studies the fractional distillation and treatment of crude oil into fuels and chemical feedstocks.</description>
-        <baseCost>500</baseCost>
+        <baseCost>1200</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodBasicEngine</li>
@@ -264,7 +264,7 @@
         <defName>HelodHighOilDevelopment</defName>
         <label>High-Pressure Scavenging</label>
         <description>Studies high-pressure drilling equipment for reaching deep oil deposits through hard rock.</description>
-        <baseCost>500</baseCost>
+        <baseCost>1100</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodBasicOilDevelopment</li>
@@ -278,7 +278,7 @@
         <defName>HelodTotalSynthesisMedicine</defName>
         <label>Molecular Assembly Line</label>
         <description>Studies processes for synthesizing medicinal compounds from purified chemical feedstocks.</description>
-        <baseCost>500</baseCost>
+        <baseCost>1200</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodIngredientExtraction</li>
@@ -293,7 +293,7 @@
         <defName>HelodBasicElectronics</defName>
         <label>Ohm's Law Applied</label>
         <description>Studies basic electrical circuits built from insulated wiring, switches, terminals, and resistors.</description>
-        <baseCost>500</baseCost>
+        <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodTelegraph</li>
@@ -307,7 +307,7 @@
         <defName>HelodBasicMotor</defName>
         <label>Kinetic-Electric Synergy</label>
         <description>Studies industrial motors and generators that convert between electricity and rotary motion.</description>
-        <baseCost>500</baseCost>
+        <baseCost>1200</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodMetalCuttingMachine</li>
@@ -323,7 +323,7 @@
         <defName>HelodWireless</defName>
         <label>Breaking the Wire</label>
         <description>Studies wireless communication that transmits voice and signals by radio.</description>
-        <baseCost>500</baseCost>
+        <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodHighElectronics</li>
@@ -337,7 +337,7 @@
         <defName>HelodLeverAction</defName>
         <label>The Gun that Won the West</label>
         <description>Studies repeating rifles that eject and chamber cartridges with a lever action.</description>
-        <baseCost>500</baseCost>
+        <baseCost>600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodMetalCuttingMachine</li>
@@ -353,7 +353,7 @@
         <defName>HelodSmokeLessGunpowder</defName>
         <label>Clear Skies, Deadly Horizon</label>
         <description>Studies propellants that leave less smoke and fouling than black powder.</description>
-        <baseCost>500</baseCost>
+        <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodIngredientExtraction</li>
@@ -368,7 +368,7 @@
         <defName>HelodBoltAction</defName>
         <label>Lock, Stock, and Barrel</label>
         <description>Studies bolt-action rifles whose rotating bolts lock the breech for firing.</description>
-        <baseCost>500</baseCost>
+        <baseCost>650</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodSmokeLessGunpowder</li>
@@ -382,7 +382,7 @@
         <defName>HelodChokingAgent</defName>
         <label>The Poison Wind</label>
         <description>Phosgene, gas mask</description>
-        <baseCost>500</baseCost>
+        <baseCost>650</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodTotalSynthesisMedicine</li>
@@ -396,7 +396,7 @@
         <defName>HelodFirstAid</defName>
         <label>Keeping Death Waiting</label>
         <description>blood transfusion, basic disinfection</description>
-        <baseCost>500</baseCost>
+        <baseCost>600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodTotalSynthesisMedicine</li>
@@ -410,7 +410,7 @@
         <defName>HelodBasicMachineGun</defName>
         <label>The Devil's Paintbrush</label>
         <description>maxim</description>
-        <baseCost>500</baseCost>
+        <baseCost>800</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodSmokeLessGunpowder</li>
@@ -424,7 +424,7 @@
         <defName>HelodSamiAutomaticPistol</defName>
         <label>One Pull, One Shot</label>
         <description>1911, Whitmore Device</description>
-        <baseCost>500</baseCost>
+        <baseCost>650</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodBoltAction</li>
@@ -439,7 +439,7 @@
         <defName>HelodHighElectronics</defName>
         <label>The Thermionic Age</label>
         <description>Vaccum tube, computer, Radio wave</description>
-        <baseCost>500</baseCost>
+        <baseCost>1500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodBasicElectronics</li>
@@ -454,7 +454,7 @@
         <defName>HelodHighMachineGun</defName>
         <label>Beaten Zone</label>
         <description>Light machine gun, heavy machine gun with high caliber</description>
-        <baseCost>500</baseCost>
+        <baseCost>800</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodBasicMachineGun</li>
@@ -468,7 +468,7 @@
         <defName>HelodHaberBosch</defName>
         <label>Bread from Air</label>
         <description>fertilizer</description>
-        <baseCost>500</baseCost>
+        <baseCost>1600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodTotalSynthesisMedicine</li>
@@ -482,7 +482,7 @@
         <defName>HelodBasicModernRifle</defName>
         <label>The Rifleman's Century</label>
         <description>Develops modern infantry arms, including semi-automatic rifles, lightweight carbines, and submachine guns.</description>
-        <baseCost>500</baseCost>
+        <baseCost>850</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodSamiAutomaticPistol</li>
@@ -497,7 +497,7 @@
         <defName>HelodHighExplosive</defName>
         <label>Brisance and Thunder</label>
         <description>Unlocks powerful explosive compounds for advanced industrial and military applications.</description>
-        <baseCost>500</baseCost>
+        <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodHaberBosch</li>
@@ -511,7 +511,7 @@
         <defName>HelodBlisterAgent</defName>
         <label>Scorched Earth Therapy</label>
         <description>Anti-cancer agent, HN-2, Primitive rubber CBRN protection</description>
-        <baseCost>500</baseCost>
+        <baseCost>700</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodChokingAgent</li>
@@ -525,7 +525,7 @@
         <defName>HelodSniperRifle</defName>
         <label>Sub-MOA Precision</label>
         <description>m1903a4, m1c</description>
-        <baseCost>500</baseCost>
+        <baseCost>700</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodBoltAction</li>
@@ -539,7 +539,7 @@
         <defName>HelodLowGranade</defName>
         <label>The Hand-Held Artillery</label>
         <description>granade, m1, m7, m8 rifle granade launcher</description>
-        <baseCost>500</baseCost>
+        <baseCost>600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodHighExplosive</li>
@@ -553,7 +553,7 @@
         <defName>HelodLowLightArtillery</defName>
         <label>The Trench Flatteners</label>
         <description>3-inch Stokes Mortar, M1 81mm Mortar</description>
-        <baseCost>500</baseCost>
+        <baseCost>900</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodBoltAction</li>
@@ -568,7 +568,7 @@
         <defName>HelodLowHeavyArtillery</defName>
         <label>The Multi-Purpose Rain</label>
         <description>M1 4.2-inch chemical mortar and M114 155mm howitzer</description>
-        <baseCost>500</baseCost>
+        <baseCost>1200</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodLowLightArtillery</li>
@@ -584,7 +584,7 @@
         <description>"But, in a larger sense, we can not dedicate—we can not consecrate—we can not hallow—this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract."
 
 //m1902 saber, service dress</description>
-        <baseCost>500</baseCost>
+        <baseCost>600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodBlisterAgent</li>
@@ -599,7 +599,7 @@
         <defName>HelodGreatWarTech</defName>
         <label>The Practical Arts</label>
         <description>Develop the industrial and military foundations of Great War equipment.</description>
-        <baseCost>500</baseCost>
+        <baseCost>1200</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodBasicPetrochemistry</li>
@@ -614,7 +614,7 @@
         <defName>HelodLowAutomaticRifle</defName>
         <label>Fire and Maneuver</label>
         <description>Develops the M14, M16A1, and M2 carbine.</description>
-        <baseCost>500</baseCost>
+        <baseCost>900</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodBasicModernRifle</li>
@@ -629,7 +629,7 @@
         <defName>HelodTransistor</defName>
         <label>Silicon Revolution</label>
         <description>Transistor, 9n silicon, tube furnice</description>
-        <baseCost>500</baseCost>
+        <baseCost>2200</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodWireless</li>
@@ -643,7 +643,7 @@
         <defName>HelodAntiAirMachineGun</defName>
         <label>The Wall of Steel</label>
         <description>m167</description>
-        <baseCost>500</baseCost>
+        <baseCost>1200</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodWireless</li>
@@ -660,7 +660,7 @@
         <defName>HelodMidAutomaticRifle</defName>
         <label>The Service Rifle</label>
         <description>m16a2, m16a3</description>
-        <baseCost>500</baseCost>
+        <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodLowAutomaticRifle</li>
@@ -674,7 +674,7 @@
         <defName>HelodHighAutomaticRifle</defName>
         <label>Mature Service Rifles</label>
         <description>Develops the M16A4 and M4A1 alongside SOCOM 16 and MK14 EBR components.</description>
-        <baseCost>500</baseCost>
+        <baseCost>1100</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodMidAutomaticRifle</li>
@@ -688,7 +688,7 @@
         <defName>HelodWireGuidedMissile</defName>
         <label>Holding the Crosshair</label>
         <description>Tow</description>
-        <baseCost>500</baseCost>
+        <baseCost>1600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodTransistor</li>
@@ -704,7 +704,7 @@
         <defName>HelodColdWarTech</defName>
         <label>Better Living</label>
         <description>hood</description>
-        <baseCost>500</baseCost>
+        <baseCost>1500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodRespectForPatrioticMartyrs</li>
@@ -718,7 +718,7 @@
         <defName>HelodLessLethalLowRanged</defName>
         <label>Measured Response</label>
         <description>beanbag</description>
-        <baseCost>500</baseCost>
+        <baseCost>650</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodLowAutomaticRifle</li>
@@ -733,7 +733,7 @@
         <defName>HelodLessLethalClose</defName>
         <label>Shield and Baton</label>
         <description>Develop shields and batons for less-lethal close-range restraint.</description>
-        <baseCost>500</baseCost>
+        <baseCost>600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodColdWarTech</li>
@@ -747,7 +747,7 @@
         <defName>HelodLessLethalChemical</defName>
         <label>Chemical Compliance</label>
         <description>Develop chemical agents and delivery equipment for less-lethal restraint.</description>
-        <baseCost>500</baseCost>
+        <baseCost>700</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodLessLethalClose</li>
@@ -761,7 +761,7 @@
         <defName>HelodSpecialOperationsWeapons</defName>
         <label>Special Operations Firearms</label>
         <description>Adopts the MP5 and its components for specialized operations after developing CS and electroshock equipment.</description>
-        <baseCost>900</baseCost>
+        <baseCost>1100</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodLessLethalChemical</li>
@@ -776,7 +776,7 @@
         <defName>HelodFlakJacket</defName>
         <label>The First Layer</label>
         <description>FlakJacket</description>
-        <baseCost>500</baseCost>
+        <baseCost>900</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodGreatWarTech</li>
@@ -790,7 +790,7 @@
         <defName>HelodPASGT</defName>
         <label>Modern Ballistic Protection</label>
         <description>Develops composite helmets, ballistic shields, and combat uniforms for modern protective equipment.</description>
-        <baseCost>500</baseCost>
+        <baseCost>1200</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodMidAutomaticRifle</li>
@@ -805,7 +805,7 @@
         <defName>HelodLowHeadSet</defName>
         <label>Hear and Be Heard</label>
         <description>Basic Tactical Headset</description>
-        <baseCost>500</baseCost>
+        <baseCost>700</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodTransistor</li>
@@ -822,7 +822,7 @@
         <defName>HelodModernDiversionaryGrenades</defName>
         <label>Modern Diversionary Grenades</label>
         <description>Develops flash and blast devices for disorienting targets without relying on lethal fragments.</description>
-        <baseCost>900</baseCost>
+        <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodColdWarTech</li>
@@ -837,7 +837,7 @@
         <defName>HelodModernOffensiveGrenades</defName>
         <label>Modern Offensive Grenades</label>
         <description>Develops low-fragmentation blast grenades for assaults in confined spaces.</description>
-        <baseCost>1100</baseCost>
+        <baseCost>1200</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodColdWarTech</li>
@@ -852,7 +852,7 @@
         <defName>HelodAdvancedWeaponOptics</defName>
         <label>Advanced Weapon Optics</label>
         <description>Develops compact combat optics, rail-mounted aiming devices, and electronic weapon sights.</description>
-        <baseCost>1100</baseCost>
+        <baseCost>1600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodHighAutomaticRifle</li>
@@ -867,7 +867,7 @@
         <defName>HelodLaserTargetDesignators</defName>
         <label>Laser Target Designation</label>
         <description>Develops portable laser designators for guiding precision air support onto marked targets.</description>
-        <baseCost>1300</baseCost>
+        <baseCost>1800</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodAdvancedWeaponOptics</li>

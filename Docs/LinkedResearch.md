@@ -97,3 +97,5 @@ dotnet run --project Source/Tests/LinkedResearch/LinkedResearch.Tests.csproj
 ```
 
 게임 경로가 다르면 `RIMWORLD_PATH` 환경 변수 또는 실행 인자로 게임 폴더를 지정한다.
+
+2026-11-03 I 그룹에서 연결 관계를 유지하면서 연구 예산을 재배분했다. 수치제어 기본량은 1,800, 시나리오는 엔진의 부족민 기술 계수를 사용한다. [바닐라·헤로드 예산 비교와 검증](I_Research_Balance.md).

@@ -9,7 +9,7 @@ using Verse;
 
 namespace Helodrace.Tests.StageI;
 
-public sealed class Checks : GameComponent
+public sealed partial class Checks : GameComponent
 {
     private bool started, complete, load;
     private int phase;
@@ -18,6 +18,7 @@ public sealed class Checks : GameComponent
     private Pawn worker;
     private Thing notes;
     private float baseline;
+    private bool uiShown;
     public Checks(Game game) { }
     private static T Def<T>(string n) where T : Verse.Def => DefDatabase<T>.GetNamed(n);
     private void Write(string text) => File.AppendAllText(Path.Combine(output, "checks.txt"), text + "\n");
@@ -45,6 +46,9 @@ public sealed class Checks : GameComponent
             {
                 Check(notes.Spawned && notes.stackCount == 600 && notes.MarketValue == 5, "Native save/load preserves cash quantity and purchasing value");
                 Check(Math.Abs(Wealth() - baseline - 750) < .1, "Cash wealth discount remains correct after save/load");
+                Check(Find.Scenario.AllParts.OfType<ScenPart_ResearchTechBaseline>().Count() == 1
+                    && Def<ResearchProjectDef>("Electricity").CostApparent == 22200,
+                    "Tribal research baseline survives native scenario save/load exactly once");
                 Finish(); return;
             }
             File.WriteAllText(Path.Combine(output, "checks.txt"), "Actual RimWorld 1.7 I economy and research audit\n");
@@ -56,14 +60,16 @@ public sealed class Checks : GameComponent
                 map.fogGrid.Unfog(c);
             }
             worker = NewPawn(Faction.OfPlayer, map.Center); worker.skills.GetSkill(SkillDefOf.Social).Level = 15;
-            ExportResearch(); MoneyChecks(); phase = 1; GameDataSaveLoader.SaveGame("StageI"); load = true;
+            ExportResearch(); ResearchChecks(); MoneyChecks(); phase = 1; GameDataSaveLoader.SaveGame("StageI"); load = true;
         }
         catch (Exception e) { Fail(e); }
     }
     public override void GameComponentUpdate()
     {
         if (!load || complete) return;
-        Find.TickManager.Pause(); load = false; GameDataSaveLoader.LoadGame("StageI");
+        Find.TickManager.Pause();
+        if (!uiShown) { uiShown = true; Find.MainTabsRoot.SetCurrentTab(MainButtonDefOf.Research); return; }
+        Find.MainTabsRoot.SetCurrentTab(null); load = false; GameDataSaveLoader.LoadGame("StageI");
     }
     private float Wealth() { map.wealthWatcher.ForceRecount(); return map.wealthWatcher.WealthItems; }
     private void ExportResearch()
@@ -75,14 +81,14 @@ public sealed class Checks : GameComponent
             var data = DefDatabase<ResearchProjectDef>.AllDefsListForReading.Select(p => new
             {
                 name=p.defName, label=p.label, source=p.modContentPack?.PackageId,
-                baseCost=p.baseCost, helodScenarioCost=p.Cost, tech=p.techLevel.ToString(),
+                baseCost=p.baseCost, helodScenarioCost=p.Cost, helodScenarioApparent=p.CostApparent, tech=p.techLevel.ToString(),
                 tribalFactor=p.CostFactor(TechLevel.Neolithic), industrialFactor=p.CostFactor(TechLevel.Industrial),
                 prerequisites=p.prerequisites?.Select(x => x.defName).ToArray() ?? Array.Empty<string>(),
                 bench=p.requiredResearchBuilding?.defName, tags=p.tags?.Select(x => x.defName).ToArray() ?? Array.Empty<string>()
             }).OrderBy(x => x.name).ToArray();
-            File.WriteAllText(Path.Combine(output, "research-before.json"), JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented=true }));
+            File.WriteAllText(Path.Combine(output, "research-current.json"), JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented=true }));
             Check(data.Count(p => p.name.StartsWith("Helod")) == 66, "Export all 66 Helod projects alongside effective vanilla costs and tech penalties");
-            Check(Def<ResearchProjectDef>("Electricity").Cost == Def<ResearchProjectDef>("Electricity").baseCost * 7, "Audit captures existing scenario electricity multiplier seven");
+            Check(Def<ResearchProjectDef>("Electricity").CostApparent == Def<ResearchProjectDef>("Electricity").baseCost * 2, "Scenario electricity uses native tribal penalty twice, with raw completion cost preserved");
         }
         finally { Current.Game.Scenario = old; }
     }

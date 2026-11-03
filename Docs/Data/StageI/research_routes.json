@@ -1,0 +1,286 @@
+{
+  "routes": [
+    {
+      "vanilla": "Electricity",
+      "helod": [
+        "HelodHighElectronics"
+      ],
+      "vanilla_work": 22200,
+      "helod_work": 22200
+    },
+    {
+      "vanilla": "Machining",
+      "helod": [
+        "HelodNumericalControl"
+      ],
+      "vanilla_work": 25800,
+      "helod_work": 25800
+    },
+    {
+      "vanilla": "AirConditioning",
+      "helod": [
+        "HelodHeatPump",
+        "HelodHighElectronics"
+      ],
+      "vanilla_work": 23600,
+      "helod_work": 23600
+    },
+    {
+      "vanilla": "MicroelectronicsBasics",
+      "helod": [
+        "HelodTransistor"
+      ],
+      "vanilla_work": 28600,
+      "helod_work": 28600
+    },
+    {
+      "vanilla": "DrugProduction",
+      "helod": [
+        "HelodIngredientExtraction"
+      ],
+      "vanilla_work": 1400,
+      "helod_work": 1400
+    },
+    {
+      "vanilla": "MedicineProduction",
+      "helod": [
+        "HelodTotalSynthesisMedicine",
+        "HelodTransistor"
+      ],
+      "vanilla_work": 39400,
+      "helod_work": 39400
+    },
+    {
+      "vanilla": "SterileMaterials",
+      "helod": [
+        "HelodFirstAid",
+        "HelodHighElectronics"
+      ],
+      "vanilla_work": 34200,
+      "helod_work": 34200
+    },
+    {
+      "vanilla": "Gunsmithing",
+      "helod": [
+        "HelodBoltAction",
+        "HelodNumericalControl"
+      ],
+      "vanilla_work": 33100,
+      "helod_work": 33100
+    },
+    {
+      "vanilla": "BlowbackOperation",
+      "helod": [
+        "HelodSamiAutomaticPistol",
+        "HelodNumericalControl"
+      ],
+      "vanilla_work": 36000,
+      "helod_work": 36000
+    },
+    {
+      "vanilla": "GasOperation",
+      "helod": [
+        "HelodBasicModernRifle",
+        "HelodHighMachineGun",
+        "HelodNumericalControl"
+      ],
+      "vanilla_work": 39300,
+      "helod_work": 39300
+    },
+    {
+      "vanilla": "PrecisionRifling",
+      "helod": [
+        "HelodSniperRifle",
+        "HelodLowAutomaticRifle",
+        "HelodNumericalControl",
+        "HelodTransistor"
+      ],
+      "vanilla_work": 64700,
+      "helod_work": 64700
+    },
+    {
+      "vanilla": "Mortars",
+      "helod": [
+        "HelodLowLightArtillery",
+        "HelodNumericalControl"
+      ],
+      "vanilla_work": 49500,
+      "helod_work": 49500
+    },
+    {
+      "vanilla": "FlakArmor",
+      "helod": [
+        "HelodFlakJacket",
+        "HelodNumericalControl"
+      ],
+      "vanilla_work": 43000,
+      "helod_work": 43000
+    },
+    {
+      "vanilla": "MultibarrelWeapons",
+      "helod": [
+        "HelodAntiAirMachineGun",
+        "HelodTransistor"
+      ],
+      "vanilla_work": 62700,
+      "helod_work": 62700
+    }
+  ],
+  "milestones": [
+    {
+      "name": "HelodBasicOilDevelopment",
+      "before_work": 1500,
+      "after_work": 6200,
+      "normalized_full_days_before": 3.0303030303030303,
+      "normalized_full_days_after": 12.525252525252526,
+      "paid_projects": [
+        "HelodIronMaking",
+        "HelodSteamEngine",
+        "HelodBasicOilDevelopment"
+      ]
+    },
+    {
+      "name": "HelodHighOilDevelopment",
+      "before_work": 2000,
+      "after_work": 8400,
+      "normalized_full_days_before": 4.040404040404041,
+      "normalized_full_days_after": 16.96969696969697,
+      "paid_projects": [
+        "HelodIronMaking",
+        "HelodSteamEngine",
+        "HelodBasicOilDevelopment",
+        "HelodHighOilDevelopment"
+      ]
+    },
+    {
+      "name": "HelodBasicPetrochemistry",
+      "before_work": 4500,
+      "after_work": 19400,
+      "normalized_full_days_before": 9.090909090909092,
+      "normalized_full_days_after": 39.19191919191919,
+      "paid_projects": [
+        "HelodIronMaking",
+        "HelodSteamEngine",
+        "HelodBasicOilDevelopment",
+        "HelodBasicMachineTool",
+        "HelodLineShaft",
+        "HelodMetalCuttingMachine",
+        "HelodMetalFormingMachine",
+        "HelodBasicEngine",
+        "HelodBasicPetrochemistry"
+      ]
+    },
+    {
+      "name": "HelodHighElectronics",
+      "before_work": 5500,
+      "after_work": 22200,
+      "normalized_full_days_before": 11.11111111111111,
+      "normalized_full_days_after": 44.84848484848485,
+      "paid_projects": [
+        "HelodPrimaryCell",
+        "HelodTelegraph",
+        "HelodBasicElectronics",
+        "HelodIronMaking",
+        "HelodSteamEngine",
+        "HelodBasicMachineTool",
+        "HelodLineShaft",
+        "HelodMetalCuttingMachine",
+        "HelodMetalFormingMachine",
+        "HelodBasicMotor",
+        "HelodHighElectronics"
+      ]
+    },
+    {
+      "name": "HelodNumericalControl",
+      "before_work": 6500,
+      "after_work": 25800,
+      "normalized_full_days_before": 13.131313131313131,
+      "normalized_full_days_after": 52.121212121212125,
+      "paid_projects": [
+        "HelodPrimaryCell",
+        "HelodTelegraph",
+        "HelodBasicElectronics",
+        "HelodIronMaking",
+        "HelodSteamEngine",
+        "HelodBasicMachineTool",
+        "HelodLineShaft",
+        "HelodMetalCuttingMachine",
+        "HelodMetalFormingMachine",
+        "HelodBasicMotor",
+        "HelodHighElectronics",
+        "HelodNumericalControl"
+      ]
+    },
+    {
+      "name": "HelodTransistor",
+      "before_work": 6500,
+      "after_work": 28600,
+      "normalized_full_days_before": 13.131313131313131,
+      "normalized_full_days_after": 57.77777777777778,
+      "paid_projects": [
+        "HelodPrimaryCell",
+        "HelodTelegraph",
+        "HelodBasicElectronics",
+        "HelodIronMaking",
+        "HelodSteamEngine",
+        "HelodBasicMachineTool",
+        "HelodLineShaft",
+        "HelodMetalCuttingMachine",
+        "HelodMetalFormingMachine",
+        "HelodBasicMotor",
+        "HelodHighElectronics",
+        "HelodWireless",
+        "HelodTransistor"
+      ]
+    },
+    {
+      "name": "HelodIndustrialAutomation",
+      "before_work": 8500,
+      "after_work": 36600,
+      "normalized_full_days_before": 17.171717171717173,
+      "normalized_full_days_after": 73.93939393939394,
+      "paid_projects": [
+        "HelodPrimaryCell",
+        "HelodTelegraph",
+        "HelodBasicElectronics",
+        "HelodIronMaking",
+        "HelodSteamEngine",
+        "HelodBasicMachineTool",
+        "HelodLineShaft",
+        "HelodMetalCuttingMachine",
+        "HelodMetalFormingMachine",
+        "HelodBasicMotor",
+        "HelodHighElectronics",
+        "HelodNumericalControl",
+        "HelodWireless",
+        "HelodTransistor",
+        "HelodIndustrialAutomation"
+      ]
+    },
+    {
+      "name": "HelodMultiTaskMachining",
+      "before_work": 10000,
+      "after_work": 42200,
+      "normalized_full_days_before": 20.2020202020202,
+      "normalized_full_days_after": 85.25252525252525,
+      "paid_projects": [
+        "HelodPrimaryCell",
+        "HelodTelegraph",
+        "HelodBasicElectronics",
+        "HelodIronMaking",
+        "HelodSteamEngine",
+        "HelodBasicMachineTool",
+        "HelodLineShaft",
+        "HelodMetalCuttingMachine",
+        "HelodMetalFormingMachine",
+        "HelodBasicMotor",
+        "HelodHighElectronics",
+        "HelodNumericalControl",
+        "HelodWireless",
+        "HelodTransistor",
+        "HelodIndustrialAutomation",
+        "HelodMultiTaskMachining"
+      ]
+    }
+  ]
+}

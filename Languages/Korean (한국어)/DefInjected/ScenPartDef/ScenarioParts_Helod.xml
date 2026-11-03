@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-  <HD_ResearchCostFactor.label>연구 비용 계수</HD_ResearchCostFactor.label>
+  <HD_ResearchTechBaseline.label>부족민 기준 연구 기술 보정</HD_ResearchTechBaseline.label>
 </LanguageData>
 

@@ -61,7 +61,7 @@ namespace RimWorld
         {
             if (++FinishCalls > 2000) throw new Exception("Research completion did not terminate");
             if (project.defName == ThrowOn) throw new InvalidOperationException("Injected completion failure");
-            // RimWorld 1.6 FinishProject recursively finishes all ordinary prerequisites.
+            // RimWorld 1.7 FinishProject recursively finishes all ordinary prerequisites.
             foreach (Verse.ResearchProjectDef prerequisite in project.prerequisites)
                 if (!prerequisite.IsFinished)
                     FinishProject(prerequisite, doCompletionDialog, researcher, doCompletionLetter);

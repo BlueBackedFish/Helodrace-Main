@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!-- Equivalent linked knowledge budgets plus industrial infrastructure milestones. -->
+  <Operation Class="PatchOperationSequence"><operations>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="AdvancedFabrication"]/baseCost</xpath><value><baseCost>6000</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="AirConditioning"]/baseCost</xpath><value><baseCost>700</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="Autodoors"]/baseCost</xpath><value><baseCost>800</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="Batteries"]/baseCost</xpath><value><baseCost>700</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="BiofuelRefining"]/baseCost</xpath><value><baseCost>1000</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="Bionics"]/baseCost</xpath><value><baseCost>3000</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="BlowbackOperation"]/baseCost</xpath><value><baseCost>1450</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="ChargedShot"]/baseCost</xpath><value><baseCost>4000</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="DeepDrilling"]/baseCost</xpath><value><baseCost>1800</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="DrugProduction"]/baseCost</xpath><value><baseCost>700</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="Electricity"]/baseCost</xpath><value><baseCost>11100</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="Fabrication"]/baseCost</xpath><value><baseCost>5000</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="FlakArmor"]/baseCost</xpath><value><baseCost>8600</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="GasOperation"]/baseCost</xpath><value><baseCost>1650</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="GeothermalPower"]/baseCost</xpath><value><baseCost>4000</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="GroundPenetratingScanner"]/baseCost</xpath><value><baseCost>2000</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="Gunsmithing"]/baseCost</xpath><value><baseCost>3650</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="GunTurrets"]/baseCost</xpath><value><baseCost>800</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="HeavyTurrets"]/baseCost</xpath><value><baseCost>2200</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="HospitalBed"]/baseCost</xpath><value><baseCost>1600</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="Hydroponics"]/baseCost</xpath><value><baseCost>1000</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="IEDs"]/baseCost</xpath><value><baseCost>800</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="LongRangeMineralScanner"]/baseCost</xpath><value><baseCost>3000</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="Machining"]/baseCost</xpath><value><baseCost>1800</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="MedicineProduction"]/baseCost</xpath><value><baseCost>4700</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="MicroelectronicsBasics"]/baseCost</xpath><value><baseCost>3200</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="MoisturePump"]/baseCost</xpath><value><baseCost>1500</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="Mortars"]/baseCost</xpath><value><baseCost>8200</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="MultiAnalyzer"]/baseCost</xpath><value><baseCost>5000</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="MultibarrelWeapons"]/baseCost</xpath><value><baseCost>17050</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="PoweredArmor"]/baseCost</xpath><value><baseCost>8000</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="PrecisionRifling"]/baseCost</xpath><value><baseCost>9500</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="ReconArmor"]/baseCost</xpath><value><baseCost>7000</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="ShieldBelt"]/baseCost</xpath><value><baseCost>1500</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="SolarPanels"]/baseCost</xpath><value><baseCost>1000</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="SterileMaterials"]/baseCost</xpath><value><baseCost>6000</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="TransportPod"]/baseCost</xpath><value><baseCost>1500</baseCost></value></li>
+    <li Class="PatchOperationReplace"><xpath>/Defs/ResearchProjectDef[defName="WatermillGenerator"]/baseCost</xpath><value><baseCost>1000</baseCost></value></li>
+  </operations></Operation>
+</Patch>

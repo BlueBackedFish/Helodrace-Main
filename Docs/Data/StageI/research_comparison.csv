@@ -1,0 +1,144 @@
+﻿name,label,source,base_before,base_after,helod_work_before,helod_work_after,start_completed,reason
+AdvancedFabrication,advanced fabrication,ludeon.rimworld,4000,6000,4000,12000,False,industrial infrastructure
+AirConditioning,air conditioning,ludeon.rimworld,500,700,500,1400,False,linked knowledge package
+Autodoors,autodoor,ludeon.rimworld,600,800,600,1600,False,industrial infrastructure
+Batteries,battery,ludeon.rimworld,400,700,400,1400,False,industrial infrastructure
+BiofuelRefining,biofuel refining,ludeon.rimworld,700,1000,700,2000,False,industrial infrastructure
+Bionics,bionic replacements,ludeon.rimworld,2000,3000,2000,6000,False,industrial infrastructure
+BlowbackOperation,blowback operation,ludeon.rimworld,500,1450,500,2900,False,linked knowledge package
+Brewing,beer brewing,ludeon.rimworld,400,400,400,400,False,native base retained
+CarpetMaking,carpet-making,ludeon.rimworld,800,800,800,1200.0,False,native base retained
+ChargedShot,pulse-charged munitions,ludeon.rimworld,3000,4000,3000,8000,False,industrial infrastructure
+Cocoa,cocoa,ludeon.rimworld,1000,1000,1000,1000,False,native base retained
+ColoredLights,advanced lights,ludeon.rimworld,300,300,300,600,False,native base retained
+ComplexClothing,complex clothing,ludeon.rimworld,600,600,600,900.0,True,native base retained
+ComplexFurniture,complex furniture,ludeon.rimworld,300,300,300,450.0,True,native base retained
+Cryptosleep,cryptosleep casket,ludeon.rimworld,2000,2000,2000,4000,False,native base retained
+DeepDrilling,deep drilling,ludeon.rimworld,1000,1800,1000,3600,False,industrial infrastructure
+Devilstrand,devilstrand,ludeon.rimworld,800,800,800,800,False,native base retained
+DrugProduction,drug production,ludeon.rimworld,500,700,500,1400,False,linked knowledge package
+Electricity,electricity,ludeon.rimworld,1600,11100,11200,22200,False,linked knowledge package
+Fabrication,fabrication,ludeon.rimworld,4000,5000,4000,10000,False,industrial infrastructure
+Firefoam,firefoam,ludeon.rimworld,600,600,600,1200,False,native base retained
+FlakArmor,flak armor,ludeon.rimworld,1200,8600,1200,17200,False,linked knowledge package
+FlatscreenTelevision,flatscreen television,ludeon.rimworld,2000,2000,2000,4000,False,native base retained
+FoamTurret,foam turret,ludeon.rimworld,800,800,800,1600,False,native base retained
+GasOperation,gas operation,ludeon.rimworld,1000,1650,1000,3300,False,linked knowledge package
+GeothermalPower,geothermal power,ludeon.rimworld,3200,4000,3200,8000,False,industrial infrastructure
+GoJuiceProduction,go-juice production,ludeon.rimworld,1000,1000,1000,2000,False,native base retained
+Greatbow,greatbow,ludeon.rimworld,600,600,600,900.0,False,native base retained
+GroundPenetratingScanner,ground-penetrating scanner,ludeon.rimworld,1000,2000,1000,4000,False,industrial infrastructure
+Gunsmithing,gunsmithing,ludeon.rimworld,500,3650,500,7300,False,linked knowledge package
+GunTurrets,gun turrets,ludeon.rimworld,500,800,500,1600,False,industrial infrastructure
+HeavyTurrets,autocannon turret,ludeon.rimworld,1600,2200,1600,4400,False,industrial infrastructure
+HelodAdvancedAmmunition,Engineering Inside the Bullet,bluebackedfish.helodrace.main,1000,1400,1000,2800,False,Helod milestone/derivative
+HelodAdvancedWeaponOptics,Advanced Weapon Optics,bluebackedfish.helodrace.main,1100,1600,1100,3200,False,Helod milestone/derivative
+HelodAntiAirMachineGun,The Wall of Steel,bluebackedfish.helodrace.main,500,1200,500,2400,False,Helod milestone/derivative
+HelodBasicElectronics,Ohm's Law Applied,bluebackedfish.helodrace.main,500,1000,500,2000,False,Helod milestone/derivative
+HelodBasicEngine,Controlled Explosions,bluebackedfish.helodrace.main,500,1400,500,2800,False,Helod milestone/derivative
+HelodBasicMachineGun,The Devil's Paintbrush,bluebackedfish.helodrace.main,500,800,500,1600,False,Helod milestone/derivative
+HelodBasicMachineTool,Machine That Makes Machine,bluebackedfish.helodrace.main,500,1000,500,2000,False,Helod milestone/derivative
+HelodBasicModernRifle,The Rifleman's Century,bluebackedfish.helodrace.main,500,850,500,1700,False,Helod milestone/derivative
+HelodBasicMotor,Kinetic-Electric Synergy,bluebackedfish.helodrace.main,500,1200,500,2400,False,Helod milestone/derivative
+HelodBasicOilDevelopment,Blood of the Iron Age,bluebackedfish.helodrace.main,500,900,500,1800,False,Helod milestone/derivative
+HelodBasicPetrochemistry,Liquid Alchemy,bluebackedfish.helodrace.main,500,1200,500,2400,False,Helod milestone/derivative
+HelodBlisterAgent,Scorched Earth Therapy,bluebackedfish.helodrace.main,500,700,500,1400,False,Helod milestone/derivative
+HelodBoltAction,"Lock, Stock, and Barrel",bluebackedfish.helodrace.main,500,650,500,1300,False,Helod milestone/derivative
+HelodBreechLoadingGun,Loading from the back,bluebackedfish.helodrace.main,500,700,500,1400,False,Helod milestone/derivative
+HelodChokingAgent,The Poison Wind,bluebackedfish.helodrace.main,500,650,500,1300,False,Helod milestone/derivative
+HelodColdWarTech,Better Living,bluebackedfish.helodrace.main,500,1500,500,3000,False,Helod milestone/derivative
+HelodExperimentalAnalysis,"Trial, Error, and Litmus",bluebackedfish.helodrace.main,500,500,500,1000,True,Helod milestone/derivative
+HelodFirstAid,Keeping Death Waiting,bluebackedfish.helodrace.main,500,600,500,1200,False,Helod milestone/derivative
+HelodFlakJacket,The First Layer,bluebackedfish.helodrace.main,500,900,500,1800,False,Helod milestone/derivative
+HelodFrontierSpirit,Frontier Spirit,bluebackedfish.helodrace.main,100,100,100,200,True,Helod milestone/derivative
+HelodGreatWarTech,The Practical Arts,bluebackedfish.helodrace.main,500,1200,500,2400,False,Helod milestone/derivative
+HelodHaberBosch,Bread from Air,bluebackedfish.helodrace.main,500,1600,500,3200,False,Helod milestone/derivative
+HelodHeatPump,The Cold-Hot Siphoner,bluebackedfish.helodrace.main,500,700,500,1400,False,Helod milestone/derivative
+HelodHighAutomaticRifle,Mature Service Rifles,bluebackedfish.helodrace.main,500,1100,500,2200,False,Helod milestone/derivative
+HelodHighElectronics,The Thermionic Age,bluebackedfish.helodrace.main,500,1500,500,3000,False,Helod milestone/derivative
+HelodHighExplosive,Brisance and Thunder,bluebackedfish.helodrace.main,500,1000,500,2000,False,Helod milestone/derivative
+HelodHighMachineGun,Beaten Zone,bluebackedfish.helodrace.main,500,800,500,1600,False,Helod milestone/derivative
+HelodHighOilDevelopment,High-Pressure Scavenging,bluebackedfish.helodrace.main,500,1100,500,2200,False,Helod milestone/derivative
+HelodIndustrialAutomation,industrial automation,bluebackedfish.helodrace.main,1000,2200,1000,4400,False,Helod milestone/derivative
+HelodIngredientExtraction,Distilling nature,bluebackedfish.helodrace.main,500,700,500,1400,False,Helod milestone/derivative
+HelodIronMaking,The Bones of the Machine,bluebackedfish.helodrace.main,500,1000,500,2000,False,Helod milestone/derivative
+HelodLargeSteamEngine,Screaming Cylinders,bluebackedfish.helodrace.main,500,900,500,1800,False,Helod milestone/derivative
+HelodLaserTargetDesignators,Laser Target Designation,bluebackedfish.helodrace.main,1300,1800,1300,3600,False,Helod milestone/derivative
+HelodLessLethalChemical,Chemical Compliance,bluebackedfish.helodrace.main,500,700,500,1400,False,Helod milestone/derivative
+HelodLessLethalClose,Shield and Baton,bluebackedfish.helodrace.main,500,600,500,1200,False,Helod milestone/derivative
+HelodLessLethalLowRanged,Measured Response,bluebackedfish.helodrace.main,500,650,500,1300,False,Helod milestone/derivative
+HelodLeverAction,The Gun that Won the West,bluebackedfish.helodrace.main,500,600,500,1200,False,Helod milestone/derivative
+HelodLineShaft,"One engine, Many machines",bluebackedfish.helodrace.main,500,1000,500,2000,False,Helod milestone/derivative
+HelodLowAutomaticRifle,Fire and Maneuver,bluebackedfish.helodrace.main,500,900,500,1800,False,Helod milestone/derivative
+HelodLowGranade,The Hand-Held Artillery,bluebackedfish.helodrace.main,500,600,500,1200,False,Helod milestone/derivative
+HelodLowHeadSet,Hear and Be Heard,bluebackedfish.helodrace.main,500,700,500,1400,False,Helod milestone/derivative
+HelodLowHeavyArtillery,The Multi-Purpose Rain,bluebackedfish.helodrace.main,500,1200,500,2400,False,Helod milestone/derivative
+HelodLowLightArtillery,The Trench Flatteners,bluebackedfish.helodrace.main,500,900,500,1800,False,Helod milestone/derivative
+HelodLowVelocityGrenades,Artillery in a Single Round,bluebackedfish.helodrace.main,700,800,700,1600,False,Helod milestone/derivative
+HelodMechanicalEngineering,Mechanical engineering 101,bluebackedfish.helodrace.main,500,500,500,1000,True,Helod milestone/derivative
+HelodMetalCuttingMachine,Shaving the micron,bluebackedfish.helodrace.main,500,1000,500,2000,False,Helod milestone/derivative
+HelodMetalFormingMachine,Brute Force Shaping,bluebackedfish.helodrace.main,500,1000,500,2000,False,Helod milestone/derivative
+HelodMidAutomaticRifle,The Service Rifle,bluebackedfish.helodrace.main,500,1000,500,2000,False,Helod milestone/derivative
+HelodModernDiversionaryGrenades,Modern Diversionary Grenades,bluebackedfish.helodrace.main,900,1000,900,2000,False,Helod milestone/derivative
+HelodModernOffensiveGrenades,Modern Offensive Grenades,bluebackedfish.helodrace.main,1100,1200,1100,2400,False,Helod milestone/derivative
+HelodMultiTaskMachining,integrated mill-turn machining,bluebackedfish.helodrace.main,1500,2800,1500,5600,False,Helod milestone/derivative
+HelodNumericalControl,numerical control,bluebackedfish.helodrace.main,1000,1800,1000,3600,False,Helod milestone/derivative
+HelodPASGT,Modern Ballistic Protection,bluebackedfish.helodrace.main,500,1200,500,2400,False,Helod milestone/derivative
+HelodPrimaryCell,Lightning in a bottle,bluebackedfish.helodrace.main,500,600,500,1200,False,Helod milestone/derivative
+HelodRemoteWeaponControl,A Hand Beyond the Trigger,bluebackedfish.helodrace.main,1000,1600,1000,3200,False,Helod milestone/derivative
+HelodRespectForPatrioticMartyrs,hymn to the fallen,bluebackedfish.helodrace.main,500,600,500,1200,False,Helod milestone/derivative
+HelodSamiAutomaticPistol,"One Pull, One Shot",bluebackedfish.helodrace.main,500,650,500,1300,False,Helod milestone/derivative
+HelodSmokeLessGunpowder,"Clear Skies, Deadly Horizon",bluebackedfish.helodrace.main,500,1000,500,2000,False,Helod milestone/derivative
+HelodSniperRifle,Sub-MOA Precision,bluebackedfish.helodrace.main,500,700,500,1400,False,Helod milestone/derivative
+HelodSpecialOperationsWeapons,Special Operations Firearms,bluebackedfish.helodrace.main,900,1100,900,2200,False,Helod milestone/derivative
+HelodSteamEngine,Harnessing the fire,bluebackedfish.helodrace.main,500,1200,500,2400,False,Helod milestone/derivative
+HelodTelegraph,The Victorian internet,bluebackedfish.helodrace.main,500,600,500,1200,False,Helod milestone/derivative
+HelodTotalSynthesisMedicine,Molecular Assembly Line,bluebackedfish.helodrace.main,500,1200,500,2400,False,Helod milestone/derivative
+HelodTransistor,Silicon Revolution,bluebackedfish.helodrace.main,500,2200,500,4400,False,Helod milestone/derivative
+HelodWireGuidedMissile,Holding the Crosshair,bluebackedfish.helodrace.main,500,1600,500,3200,False,Helod milestone/derivative
+HelodWireless,Breaking the Wire,bluebackedfish.helodrace.main,500,1000,500,2000,False,Helod milestone/derivative
+HospitalBed,hospital bed,ludeon.rimworld,1200,1600,1200,3200,False,industrial infrastructure
+Hydroponics,hydroponics,ludeon.rimworld,700,1000,700,2000,False,industrial infrastructure
+IEDs,IEDs,ludeon.rimworld,500,800,500,1600,False,industrial infrastructure
+LongBlades,long blades,ludeon.rimworld,400,400,400,600.0,False,native base retained
+LongRangeMineralScanner,long-range mineral scanner,ludeon.rimworld,2000,3000,2000,6000,False,industrial infrastructure
+Machining,machining,ludeon.rimworld,1000,1800,1000,3600,False,linked knowledge package
+MedicineProduction,medicine production,ludeon.rimworld,1500,4700,1500,9400,False,linked knowledge package
+MicroelectronicsBasics,microelectronics,ludeon.rimworld,3000,3200,3000,6400,False,linked knowledge package
+MoisturePump,moisture pump,ludeon.rimworld,1200,1500,1200,3000,False,industrial infrastructure
+Mortars,mortars,ludeon.rimworld,2000,8200,2000,16400,False,linked knowledge package
+MultiAnalyzer,multi-analyzer,ludeon.rimworld,4000,5000,4000,10000,False,industrial infrastructure
+MultibarrelWeapons,multibarrel weapons,ludeon.rimworld,2600,17050,2600,34100,False,linked knowledge package
+NutrientPaste,nutrient paste,ludeon.rimworld,400,400,400,800,False,native base retained
+PackagedSurvivalMeal,packaged survival meal,ludeon.rimworld,500,500,500,1000,False,native base retained
+PassiveCooler,passive cooler,ludeon.rimworld,400,400,400,400,False,native base retained
+Pemmican,pemmican,ludeon.rimworld,500,500,500,500,False,native base retained
+PenoxycylineProduction,penoxycyline production,ludeon.rimworld,500,500,500,1000,False,native base retained
+PlateArmor,plate armor,ludeon.rimworld,600,600,600,900.0,False,native base retained
+PoweredArmor,marine armor,ludeon.rimworld,6000,8000,6000,16000,False,industrial infrastructure
+PrecisionRifling,precision rifling,ludeon.rimworld,1400,9500,1400,19000,False,linked knowledge package
+Prosthetics,prosthetics,ludeon.rimworld,600,600,600,1200,False,native base retained
+PsychiteRefining,psychite refining,ludeon.rimworld,400,400,400,800,False,native base retained
+PsychoidBrewing,psychoid brewing,ludeon.rimworld,500,500,500,500,False,native base retained
+ReconArmor,recon armor,ludeon.rimworld,6000,7000,6000,14000,False,industrial infrastructure
+RecurveBow,recurve bow,ludeon.rimworld,400,400,400,400,False,native base retained
+RocketswarmLauncher,rocketswarm launcher,ludeon.rimworld,3000,3000,3000,6000,False,native base retained
+ShieldBelt,shields,ludeon.rimworld,1000,1500,1000,3000,False,industrial infrastructure
+ShipBasics,starflight basics,ludeon.rimworld,4000,4000,4000,8000,False,native base retained
+ShipComputerCore,machine persuasion,ludeon.rimworld,3000,3000,3000,6000,False,native base retained
+ShipCryptosleep,vacuum cryptosleep casket,ludeon.rimworld,2800,2800,2800,5600,False,native base retained
+ShipEngine,Johnson-Tanaka drive,ludeon.rimworld,6000,6000,6000,12000,False,native base retained
+ShipReactor,starship reactor,ludeon.rimworld,6000,6000,6000,12000,False,native base retained
+ShipSensorCluster,starflight sensors,ludeon.rimworld,4000,4000,4000,8000,False,native base retained
+Smithing,smithing,ludeon.rimworld,700,700,700,1050.0,True,native base retained
+SmokepopBelt,smokepop packs,ludeon.rimworld,300,300,300,600,False,native base retained
+SniperTurret,uranium slug turret,ludeon.rimworld,3000,3000,3000,6000,False,native base retained
+SolarPanels,solar panel,ludeon.rimworld,600,1000,600,2000,False,industrial infrastructure
+SterileMaterials,sterile materials,ludeon.rimworld,600,6000,600,12000,False,linked knowledge package
+Stonecutting,stonecutting,ludeon.rimworld,300,300,300,450.0,False,native base retained
+TransportPod,transport pod,ludeon.rimworld,1000,1500,1000,3000,False,industrial infrastructure
+TreeSowing,tree sowing,ludeon.rimworld,1000,1000,1000,1000,False,native base retained
+TubeTelevision,tube television,ludeon.rimworld,1000,1000,1000,2000,False,native base retained
+VitalsMonitor,vitals monitor,ludeon.rimworld,2500,2500,2500,5000,False,native base retained
+WakeUpProduction,wake-up production,ludeon.rimworld,600,600,600,1200,False,native base retained
+WatermillGenerator,watermill generator,ludeon.rimworld,700,1000,700,2000,False,industrial infrastructure

@@ -4,7 +4,7 @@
     <defName>HelodLowVelocityGrenades</defName>
     <label>Artillery in a Single Round</label>
     <description>Develops portable launchers and 40x46mm low-velocity ammunition. Chemical and less-lethal rounds also require their corresponding control technologies.</description>
-    <baseCost>700</baseCost>
+    <baseCost>800</baseCost>
     <techLevel>Industrial</techLevel>
     <prerequisites><li>HelodLowAutomaticRifle</li><li>HelodNumericalControl</li></prerequisites>
     <tab>HelodTechTab</tab>
@@ -15,7 +15,7 @@
     <defName>HelodAdvancedAmmunition</defName>
     <label>Engineering Inside the Bullet</label>
     <description>Develops enhanced-performance, armor-piercing and specialized precision cartridges beyond standard service ammunition.</description>
-    <baseCost>1000</baseCost>
+    <baseCost>1400</baseCost>
     <techLevel>Industrial</techLevel>
     <prerequisites><li>HelodHighAutomaticRifle</li><li>HelodIndustrialAutomation</li></prerequisites>
     <tab>HelodTechTab</tab>
@@ -26,7 +26,7 @@
     <defName>HelodRemoteWeaponControl</defName>
     <label>A Hand Beyond the Trigger</label>
     <description>Connects dedicated control terminals, powered mounts and sighting systems so an operator can control a weapon from cover.</description>
-    <baseCost>1000</baseCost>
+    <baseCost>1600</baseCost>
     <techLevel>Industrial</techLevel>
     <prerequisites><li>HelodAdvancedWeaponOptics</li><li>HelodIndustrialAutomation</li></prerequisites>
     <tab>HelodTechTab</tab>

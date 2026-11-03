@@ -20,11 +20,9 @@
           <method>Standing</method>
         </li>
 
-        <!-- Helod scenario balance: electricity research takes three times longer. -->
-        <li Class="Helodrace.ScenPart_ResearchCostFactor">
-          <def>HD_ResearchCostFactor</def>
-          <project>Electricity</project>
-          <factor>7</factor>
+        <!-- Research uses the same tech-level penalty as a tribal starting colony. -->
+        <li Class="Helodrace.ScenPart_ResearchTechBaseline">
+          <def>HD_ResearchTechBaseline</def>
         </li>
 
         <!-- Config page (Advanced Biotech Xenotypes configuration) -->
