@@ -1,4 +1,4 @@
-param([Parameter(Mandatory)][string]$RuntimeRoot)
+param([Parameter(Mandatory)][string]$RuntimeRoot,[switch]$Recreation,[switch]$State)
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot '../Game17Runtime.ps1')
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
@@ -12,5 +12,7 @@ if($LASTEXITCODE -ne 0){throw 'Main build failed.'}
 dotnet build (Join-Path $PSScriptRoot 'StageK.csproj') ("-p:OutputPath="+(Join-Path $checks 'Assemblies/')) ("-p:HelodAssembly="+(Join-Path $mainOutput 'Helodrace.dll')) -v:minimal
 if($LASTEXITCODE -ne 0){throw 'Stage K life checks build failed.'}
 $arguments=@('-hdStageK='+$runtime.Evidence)
+if($Recreation){$arguments+='-hdKRecreation=true'}
+if($State){$arguments+='-hdKState=true'}
 $process=Start-Game17Runtime -Runtime $runtime -Arguments $arguments -ResultFile (Join-Path $runtime.Evidence 'checks.txt') -CompletionPattern '(?m)^COMPLETE\r?$'
 Write-Output ('Observe with Source/Tests/Wait-Game17Host.ps1 -RuntimeRoot "'+$runtime.Root+'" -TimeoutSeconds 45')

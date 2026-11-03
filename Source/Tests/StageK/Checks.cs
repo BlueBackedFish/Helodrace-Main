@@ -9,15 +9,17 @@ public sealed partial class Checks:GameComponent
     bool started;string output;
     public Checks(Game game){}
     partial void MoodChecks(Pawn pawn);
+    void Finish(){File.AppendAllText(Path.Combine(output,"checks.txt"),"COMPLETE\n");Waylith.EngineApplication.Instance.Quit(0);}
     static T Def<T>(string n)where T:Verse.Def=>DefDatabase<T>.GetNamed(n);
     void Check(bool ok,string message){if(!ok)throw new Exception(message);File.AppendAllText(Path.Combine(output,"checks.txt"),"PASS: "+message+"\n");}
     public override void GameComponentTick()
     {
         if(started||Find.CurrentMap==null||!GenCommandLine.TryGetCommandLineArg("hdStageK",out output))return;started=true;
-        Directory.CreateDirectory(output);File.WriteAllText(Path.Combine(output,"checks.txt"),"Actual 1.7 Stage K life checks\n");
+        Directory.CreateDirectory(output);if(statePhase==0)File.WriteAllText(Path.Combine(output,"checks.txt"),"Actual 1.7 Stage K life checks\n");
         try
         {
             Find.TickManager.Pause();var map=Find.CurrentMap;
+            if(GenCommandLine.TryGetCommandLineArg("hdKState",out _)){playMap=map;ResumeState();return;}
             var incident=Def<IncidentDef>("StrangerInBlackJoin");
             Check(incident.pawnKind.defName=="HD_RescuerInBlack"&&incident.Worker.GetType()==typeof(IncidentWorker_WandererJoin),"Only crisis rescuer pawn kind changes; native worker remains");
             Check(Def<PawnKindDef>("StrangerInBlack").race==ThingDefOf.Human,"Original stranger pawn definition is preserved for other consumers");
@@ -34,7 +36,8 @@ public sealed partial class Checks:GameComponent
                 MoodChecks(pawn);
                 pawn.Destroy(DestroyMode.Vanish);
             }
-            File.AppendAllText(Path.Combine(output,"checks.txt"),"COMPLETE\n");Waylith.EngineApplication.Instance.Quit(0);
+            if(GenCommandLine.TryGetCommandLineArg("hdKRecreation",out _)){steps=RecreationChecks().GetEnumerator();return;}
+            Finish();
         }
         catch(Exception e){File.AppendAllText(Path.Combine(output,"checks.txt"),"FAIL: "+e+"\n");Log.Error(e.ToString());Waylith.EngineApplication.Instance.Quit(1);}
     }

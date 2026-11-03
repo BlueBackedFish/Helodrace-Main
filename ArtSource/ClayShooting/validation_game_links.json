@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "actual_four_views": true,
+  "flat_emission": true,
+  "no_lamps_AO_shadows": true,
+  "building_pixels": 512,
+  "item_pixels": 256,
+  "building_outline": 12,
+  "footprint": [
+    2,
+    1
+  ],
+  "game_draw_size": [
+    3,
+    3
+  ],
+  "in_game_visual_tested": false
+}

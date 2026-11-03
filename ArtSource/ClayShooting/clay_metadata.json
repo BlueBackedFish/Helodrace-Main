@@ -1,0 +1,11 @@
+{
+  "source": "clay_pigeon.blend",
+  "resolution": 256,
+  "draw_size": 0.4,
+  "outline_pixels": 12,
+  "orthographic_degrees": 64,
+  "flat_emission": true,
+  "transparent": true,
+  "shadows": false,
+  "AO": false
+}

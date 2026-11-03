@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Patch>
+  <Operation Class="PatchOperationSequence">
+    <operations>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Gun_BoltActionRifle"]/modExtensions</xpath>
+        <match Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Gun_BoltActionRifle"]/modExtensions</xpath>
+          <value>
+            <li Class="Helodrace.HuntingWeaponExtension" />
+          </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Gun_BoltActionRifle"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.HuntingWeaponExtension" />
+            </modExtensions>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Gun_PumpShotgun"]/modExtensions</xpath>
+        <match Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Gun_PumpShotgun"]/modExtensions</xpath>
+          <value>
+            <li Class="Helodrace.HuntingWeaponExtension" />
+          </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Gun_PumpShotgun"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.HuntingWeaponExtension" />
+            </modExtensions>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Gun_SniperRifle"]/modExtensions</xpath>
+        <match Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Gun_SniperRifle"]/modExtensions</xpath>
+          <value>
+            <li Class="Helodrace.HuntingWeaponExtension" />
+          </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Gun_SniperRifle"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.HuntingWeaponExtension" />
+            </modExtensions>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="HD_Gun_KragJorgensen_Weapon"]/modExtensions</xpath>
+        <match Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="HD_Gun_KragJorgensen_Weapon"]/modExtensions</xpath>
+          <value>
+            <li Class="Helodrace.HuntingWeaponExtension" />
+          </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="HD_Gun_KragJorgensen_Weapon"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.HuntingWeaponExtension" />
+            </modExtensions>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="HD_Gun_M1897_Weapon"]/modExtensions</xpath>
+        <match Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="HD_Gun_M1897_Weapon"]/modExtensions</xpath>
+          <value>
+            <li Class="Helodrace.HuntingWeaponExtension" />
+          </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="HD_Gun_M1897_Weapon"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.HuntingWeaponExtension" />
+            </modExtensions>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="HD_Gun_SprMThreeHigh_Weapon"]/modExtensions</xpath>
+        <match Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="HD_Gun_SprMThreeHigh_Weapon"]/modExtensions</xpath>
+          <value>
+            <li Class="Helodrace.HuntingWeaponExtension" />
+          </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="HD_Gun_SprMThreeHigh_Weapon"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.HuntingWeaponExtension" />
+            </modExtensions>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="HD_Gun_SprMThree_Weapon"]/modExtensions</xpath>
+        <match Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="HD_Gun_SprMThree_Weapon"]/modExtensions</xpath>
+          <value>
+            <li Class="Helodrace.HuntingWeaponExtension" />
+          </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="HD_Gun_SprMThree_Weapon"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.HuntingWeaponExtension" />
+            </modExtensions>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="HD_Gun_WinM1887_Weapon"]/modExtensions</xpath>
+        <match Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="HD_Gun_WinM1887_Weapon"]/modExtensions</xpath>
+          <value>
+            <li Class="Helodrace.HuntingWeaponExtension" />
+          </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="HD_Gun_WinM1887_Weapon"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.HuntingWeaponExtension" />
+            </modExtensions>
+          </value>
+        </nomatch>
+      </li>
+    </operations>
+  </Operation>
+</Patch>
