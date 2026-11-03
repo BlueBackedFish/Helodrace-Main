@@ -22,7 +22,7 @@ public sealed partial class Checks:GameComponent
             Find.TickManager.Pause();var map=Find.CurrentMap;
             if(GenCommandLine.TryGetCommandLineArg("hdKGeneAudit",out _)){GeneAudit();Finish();return;}
             if(GenCommandLine.TryGetCommandLineArg("hdKState",out _)){playMap=map;ResumeState();return;}
-            if(GenCommandLine.TryGetCommandLineArg("hdKTextureItems",out _)){steps=TextureItemChecks().GetEnumerator();return;}
+            if(GenCommandLine.TryGetCommandLineArg("hdKTextureItems",out _)||GenCommandLine.TryGetCommandLineArg("hdKMinerals",out _)){steps=TextureItemChecks().GetEnumerator();return;}
             var incident=Def<IncidentDef>("StrangerInBlackJoin");
             Check(incident.pawnKind.defName=="HD_RescuerInBlack"&&incident.Worker.GetType()==typeof(IncidentWorker_WandererJoin),"Only crisis rescuer pawn kind changes; native worker remains");
             Check(Def<PawnKindDef>("StrangerInBlack").race==ThingDefOf.Human,"Original stranger pawn definition is preserved for other consumers");

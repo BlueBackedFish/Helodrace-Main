@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-04",
+  "runtime": ".codex-staging\\MineralFollowup\\native-01",
+  "gameVersion": "1.7.4995 rev309",
+  "passes": 66,
+  "complete": true,
+  "mainAssemblySha256": "2F99EAA45793698FDD1FFE4C3493DDA5748CC4E5E4284FB19FA1E901EF163248",
+  "recipeDefinitions": 91,
+  "concreteThingDefinitions": 541,
+  "intermediatePrices": 25,
+  "newSiliconPngCount": 2,
+  "remainingEngineErrors": [
+    "2026-11-04 05:44:28.615 ERROR [Verse] Created WorkshopItem for 3781143823 but there is no folder for it."
+  ]
+}

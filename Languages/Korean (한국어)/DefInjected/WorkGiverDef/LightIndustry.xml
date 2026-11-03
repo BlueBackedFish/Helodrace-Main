@@ -3,4 +3,7 @@
   <DoBillsHD_SAFurnace.label>전기 아크로 사용</DoBillsHD_SAFurnace.label>
   <DoBillsHD_SAFurnace.verb>제련</DoBillsHD_SAFurnace.verb>
   <DoBillsHD_SAFurnace.gerund>제련 중</DoBillsHD_SAFurnace.gerund>
+  <DoBillsHD_VIMFurnace.label>진공 유도로 사용</DoBillsHD_VIMFurnace.label>
+  <DoBillsHD_VIMFurnace.verb>정제</DoBillsHD_VIMFurnace.verb>
+  <DoBillsHD_VIMFurnace.gerund>정제 중</DoBillsHD_VIMFurnace.gerund>
 </LanguageData>

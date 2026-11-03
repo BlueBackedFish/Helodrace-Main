@@ -2,7 +2,7 @@
 <Defs>
   <RecipeDef>
     <defName>HD_ExtractAlumina</defName>
-    <label>extract alumina from slate</label>
+    <label>extract alumina from slate blocks</label>
     <description>Leach aluminous slate and calcine the recovered material into alumina.</description>
     <jobString>Processing industrial minerals.</jobString>
     <workAmount>4000</workAmount>
@@ -48,8 +48,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>HD_SmeltSilicon</defName>
-    <label>smelt silicon from sandstone</label>
-    <description>Reduce quartz-bearing sandstone with charcoal to produce silicon.</description>
+    <label>smelt silicon from sandstone blocks</label>
+    <description>Process quartz-bearing sandstone blocks with charcoal in the vacuum induction furnace to produce silicon.</description>
     <jobString>Processing industrial minerals.</jobString>
     <workAmount>4000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -57,7 +57,7 @@
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Smelt</effectWorking>
     <soundWorking>Recipe_Smelt</soundWorking>
-    <researchPrerequisite>HelodBasicElectronics</researchPrerequisite>
+    <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
     <ingredients>
       <li>
         <filter>
@@ -86,7 +86,7 @@
       <HD_Silicon>10</HD_Silicon>
     </products>
     <recipeUsers>
-      <li>HD_SAFurnace</li>
+      <li>HD_VIMFurnace</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>8</Crafting>
@@ -95,7 +95,7 @@
   <RecipeDef>
     <defName>HD_RefineAluminiumAlloy</defName>
     <label>refine aluminium alloy</label>
-    <description>Electrolyze alumina and cast lightweight aluminium-silicon alloy billets.</description>
+    <description>Refine alumina and a small amount of plasteel in the vacuum induction furnace, then cast lightweight aluminium alloy billets.</description>
     <jobString>Processing industrial minerals.</jobString>
     <workAmount>5000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -103,7 +103,7 @@
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Smelt</effectWorking>
     <soundWorking>Recipe_Smelt</soundWorking>
-    <researchPrerequisite>HelodBasicElectronics</researchPrerequisite>
+    <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
     <ingredients>
       <li>
         <filter>
@@ -116,15 +116,7 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_Charcoal</li>
-          </thingDefs>
-        </filter>
-        <count>4</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_Silicon</li>
+            <li>Plasteel</li>
           </thingDefs>
         </filter>
         <count>1</count>
@@ -133,15 +125,106 @@
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_Alumina</li>
-        <li>HD_Charcoal</li>
-        <li>HD_Silicon</li>
+        <li>Plasteel</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
       <HD_AluminiumAlloy>4</HD_AluminiumAlloy>
     </products>
     <recipeUsers>
-      <li>HD_SAFurnace</li>
+      <li>HD_VIMFurnace</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>8</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>HD_ExtractAluminaFromChunks</defName>
+    <label>extract alumina from slate chunks</label>
+    <description>Crush and leach raw slate chunks, then calcine the recovered material into alumina.</description>
+    <jobString>Processing industrial minerals.</jobString>
+    <workAmount>4500</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Smelt</effectWorking>
+    <soundWorking>Recipe_Smelt</soundWorking>
+    <researchPrerequisite>HelodTotalSynthesisMedicine</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ChunkSlate</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>ChunkSlate</li>
+        <li>Chemfuel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Alumina>20</HD_Alumina>
+    </products>
+    <recipeUsers>
+      <li>HD_StirredTankReactor</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>8</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>HD_SmeltSiliconFromChunks</defName>
+    <label>smelt silicon from sandstone chunks</label>
+    <description>Crush quartz-bearing sandstone chunks and process them with charcoal in the vacuum induction furnace to produce silicon.</description>
+    <jobString>Processing industrial minerals.</jobString>
+    <workAmount>4500</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Smelt</effectWorking>
+    <soundWorking>Recipe_Smelt</soundWorking>
+    <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ChunkSandstone</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_Charcoal</li>
+          </thingDefs>
+        </filter>
+        <count>10</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>ChunkSandstone</li>
+        <li>HD_Charcoal</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Silicon>10</HD_Silicon>
+    </products>
+    <recipeUsers>
+      <li>HD_VIMFurnace</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>8</Crafting>

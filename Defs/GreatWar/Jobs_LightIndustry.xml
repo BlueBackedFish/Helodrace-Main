@@ -15,4 +15,19 @@
       <li>Manipulation</li>
     </requiredCapacities>
   </WorkGiverDef>
+  <WorkGiverDef>
+    <defName>DoBillsHD_VIMFurnace</defName>
+    <label>use vacuum induction furnace</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HD_VIMFurnace</li>
+    </fixedBillGiverDefs>
+    <verb>smelt</verb>
+    <gerund>smelting at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
 </Defs>

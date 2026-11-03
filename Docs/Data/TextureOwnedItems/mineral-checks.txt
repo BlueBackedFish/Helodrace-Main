@@ -1,0 +1,96 @@
+Actual 1.7 Stage K life checks
+PASS: Real power grid powers HD_StirredTankReactor
+PASS: Real power grid powers HD_VIMFurnace
+PASS: Real power grid powers HD_SemiconductorFab
+PASS: Real power grid powers TableMachining
+PASS: Intermediate price remains below vanilla component: HD_Alumina
+PASS: Actual resource graphics resolve: HD_Alumina
+PASS: Three existing suppliers stock HD_Alumina
+PASS: Intermediate price remains below vanilla component: HD_AluminiumAlloy
+PASS: Actual resource graphics resolve: HD_AluminiumAlloy
+PASS: Three existing suppliers stock HD_AluminiumAlloy
+PASS: Intermediate price remains below vanilla component: HD_Silicon
+PASS: Actual resource graphics resolve: HD_Silicon
+PASS: Three existing suppliers stock HD_Silicon
+PASS: Recipe appears on the actual worktable: HD_ExtractAlumina
+BILL HD_ExtractAlumina work=Crafting givers=DoBillsHD_StirredTankReactor:Crafting filters=BlocksSlate:True:True,Chemfuel:True:True should=True available=True skill=True area= worker=(138, 0, 135) costs=BlocksSlate:25,Chemfuel:4
+INGREDIENTS HD_ExtractAlumina found=True chosen=BlocksSlate:25,Chemfuel:4 missing=
+JOBEND HD_ExtractAlumina InterruptForced toil=4
+PASS: Native work giver starts production: HD_ExtractAlumina; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND HD_ExtractAlumina Succeeded toil=16
+PASS: Native bill completes: HD_ExtractAlumina; current=HaulToCell
+PASS: Exact material consumption: HD_ExtractAlumina/BlocksSlate
+PASS: Exact material consumption: HD_ExtractAlumina/Chemfuel
+PASS: Exact physical output: HD_ExtractAlumina
+PASS: Recipe appears on the actual worktable: HD_SmeltSilicon
+BILL HD_SmeltSilicon work=Crafting givers=DoBillsHD_VIMFurnace:Crafting filters=BlocksSandstone:True:True,HD_Charcoal:True:True should=True available=True skill=True area=PowerConduit worker=(147, 0, 111) costs=BlocksSandstone:25,HD_Charcoal:10
+INGREDIENTS HD_SmeltSilicon found=True chosen=BlocksSandstone:25,HD_Charcoal:10 missing=
+JOBEND HD_SmeltSilicon InterruptForced toil=4
+PASS: Native work giver starts production: HD_SmeltSilicon; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND HD_SmeltSilicon Succeeded toil=16
+PASS: Native bill completes: HD_SmeltSilicon; current=HaulToCell
+PASS: Exact material consumption: HD_SmeltSilicon/BlocksSandstone
+PASS: Exact material consumption: HD_SmeltSilicon/HD_Charcoal
+PASS: Exact physical output: HD_SmeltSilicon
+PASS: Recipe appears on the actual worktable: HD_RefineAluminiumAlloy
+BILL HD_RefineAluminiumAlloy work=Crafting givers=DoBillsHD_VIMFurnace:Crafting filters=HD_Alumina:True:True,Plasteel:True:True should=True available=True skill=True area=PowerConduit worker=(148, 0, 111) costs=HD_Alumina:20,Plasteel:1
+INGREDIENTS HD_RefineAluminiumAlloy found=True chosen=HD_Alumina:6,Plasteel:1 missing=
+JOBEND HD_RefineAluminiumAlloy InterruptForced toil=4
+PASS: Native work giver starts production: HD_RefineAluminiumAlloy; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE HD_RefineAluminiumAlloy ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=HD_Alumina:20,Plasteel:1
+JOBEND HD_RefineAluminiumAlloy Succeeded toil=16
+PASS: Native bill completes: HD_RefineAluminiumAlloy; current=HaulToCell
+PASS: Exact material consumption: HD_RefineAluminiumAlloy/HD_Alumina
+PASS: Exact material consumption: HD_RefineAluminiumAlloy/Plasteel
+PASS: Exact physical output: HD_RefineAluminiumAlloy
+PASS: Recipe appears on the actual worktable: HD_FabricateSolidStateComponents
+BILL HD_FabricateSolidStateComponents work=Crafting givers=DoBillsHD_SemiconductorFab:Crafting filters=HD_Silicon:True:True,HD_AluminiumAlloy:True:True,Silver:True:True,Chemfuel:True:True,HD_BasicElectricalComponents:True:True should=True available=True skill=True area= worker=(149, 0, 111) costs=HD_Silicon:10,HD_AluminiumAlloy:4,Silver:40,Chemfuel:4,HD_BasicElectricalComponents:2
+INGREDIENTS HD_FabricateSolidStateComponents found=True chosen=HD_Silicon:2,HD_AluminiumAlloy:4,Silver:40,Chemfuel:4,HD_BasicElectricalComponents:2 missing=
+JOBEND HD_FabricateSolidStateComponents InterruptForced toil=4
+PASS: Native work giver starts production: HD_FabricateSolidStateComponents; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE HD_FabricateSolidStateComponents ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=HD_Silicon:10,HD_AluminiumAlloy:4,Silver:40,Chemfuel:4,HD_BasicElectricalComponents:2
+JOBEND HD_FabricateSolidStateComponents Succeeded toil=16
+PASS: Native bill completes: HD_FabricateSolidStateComponents; current=HaulToCell
+PASS: Exact material consumption: HD_FabricateSolidStateComponents/HD_Silicon
+PASS: Exact material consumption: HD_FabricateSolidStateComponents/HD_AluminiumAlloy
+PASS: Exact material consumption: HD_FabricateSolidStateComponents/Silver
+PASS: Exact material consumption: HD_FabricateSolidStateComponents/Chemfuel
+PASS: Exact material consumption: HD_FabricateSolidStateComponents/HD_BasicElectricalComponents
+PASS: Exact physical output: HD_FabricateSolidStateComponents
+PASS: Recipe appears on the actual worktable: HD_ExtractAluminaFromChunks
+BILL HD_ExtractAluminaFromChunks work=Crafting givers=DoBillsHD_StirredTankReactor:Crafting filters=ChunkSlate:True:True,Chemfuel:True:True should=True available=True skill=True area= worker=(149, 0, 111) costs=ChunkSlate:186,Chemfuel:4
+INGREDIENTS HD_ExtractAluminaFromChunks found=True chosen=ChunkSlate:1,ChunkSlate:1,Chemfuel:4 missing=
+JOBEND HD_ExtractAluminaFromChunks InterruptForced toil=4
+PASS: Native work giver starts production: HD_ExtractAluminaFromChunks; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE HD_ExtractAluminaFromChunks ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=ChunkSlate:186,Chemfuel:4
+JOBEND HD_ExtractAluminaFromChunks Succeeded toil=16
+PASS: Native bill completes: HD_ExtractAluminaFromChunks; current=HaulToCell
+PASS: Exact material consumption: HD_ExtractAluminaFromChunks/ChunkSlate
+PASS: Exact material consumption: HD_ExtractAluminaFromChunks/Chemfuel
+PASS: Exact physical output: HD_ExtractAluminaFromChunks
+PASS: Recipe appears on the actual worktable: HD_SmeltSiliconFromChunks
+BILL HD_SmeltSiliconFromChunks work=Crafting givers=DoBillsHD_VIMFurnace:Crafting filters=ChunkSandstone:True:True,HD_Charcoal:True:True should=True available=True skill=True area=PowerConduit worker=(147, 0, 111) costs=ChunkSandstone:150,HD_Charcoal:10
+INGREDIENTS HD_SmeltSiliconFromChunks found=True chosen=ChunkSandstone:1,ChunkSandstone:1,HD_Charcoal:10 missing=
+JOBEND HD_SmeltSiliconFromChunks InterruptForced toil=4
+PASS: Native work giver starts production: HD_SmeltSiliconFromChunks; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE HD_SmeltSiliconFromChunks ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=ChunkSandstone:150,HD_Charcoal:10
+JOBEND HD_SmeltSiliconFromChunks Succeeded toil=16
+PASS: Native bill completes: HD_SmeltSiliconFromChunks; current=HaulToCell
+PASS: Exact material consumption: HD_SmeltSiliconFromChunks/ChunkSandstone
+PASS: Exact material consumption: HD_SmeltSiliconFromChunks/HD_Charcoal
+PASS: Exact physical output: HD_SmeltSiliconFromChunks
+PASS: Alumina uses existing slate blocks without a new ore
+PASS: Silicon uses existing sandstone blocks without a new ore
+PASS: Raw slate chunks are accepted by the alumina route
+PASS: Raw sandstone chunks are accepted by the silicon route
+PASS: Mineral recipe belongs exclusively to VIM: HD_SmeltSilicon
+PASS: Recipe research matches VIM access: HD_SmeltSilicon
+PASS: Mineral recipe belongs exclusively to VIM: HD_SmeltSiliconFromChunks
+PASS: Recipe research matches VIM access: HD_SmeltSiliconFromChunks
+PASS: Mineral recipe belongs exclusively to VIM: HD_RefineAluminiumAlloy
+PASS: Recipe research matches VIM access: HD_RefineAluminiumAlloy
+PASS: Alloy uses six alumina and one plasteel without charcoal or silicon
+PASS: Silicon uses the provided ingot graphics
+PASS: Silicon graphic resolves at stack count 1
+PASS: Silicon graphic resolves at stack count 75
+COMPLETE

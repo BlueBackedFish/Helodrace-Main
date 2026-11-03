@@ -52,3 +52,6 @@ The current recreation run also executes `RadioChatChecks.cs`: a native Social c
 & Source/Tests/StageK/Start-Checks.ps1 -RuntimeRoot .codex-staging/TextureItems/fresh -TextureItems
 & Source/Tests/Wait-Game17Host.ps1 -RuntimeRoot .codex-staging/TextureItems/fresh -TimeoutSeconds 45
 ```
+
+
+`-Minerals` runs the material portion of `TextureItemChecks.cs`: both slate/sandstone block and chunk routes, VIM-only silicon/alloy recipes and matching research/work giver, exact alumina/plasteel alloy consumption, downstream semiconductor production, and the new silicon stack graphics. It exits before the equipment/combat checks, which are unaffected by this follow-up. The full `-TextureItems` mode also uses these updated recipes.

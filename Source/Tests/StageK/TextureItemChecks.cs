@@ -98,7 +98,7 @@ public sealed partial class Checks
         worker.workSettings.SetPriority(WorkTypeDefOf.Crafting,1);worker.workSettings.SetPriority(WorkTypeDefOf.Smithing,1);
         for(int hour=0;hour<24;hour++)worker.timetable.SetAssignment(hour,TimeAssignmentDefOf.Work);
         var stirred=(Building_WorkTable)ItemBuilding("HD_StirredTankReactor",-12,3);
-        var furnace=(Building_WorkTable)ItemBuilding("HD_SAFurnace",-4,3);
+        var furnace=(Building_WorkTable)ItemBuilding("HD_VIMFurnace",-4,3);
         var fab=(Building_WorkTable)ItemBuilding("HD_SemiconductorFab",4,3);
         var machining=(Building_WorkTable)ItemBuilding("TableMachining",12,3);
         for(int x=-30;x<=24;x++){ItemBuilding("PowerConduit",x,0);ItemBuilding("PowerConduit",x,-1);}
@@ -113,10 +113,26 @@ public sealed partial class Checks
             var t=ThingMaker.MakeThing(d);Check(t.Graphic.MatSingle!=BaseContent.BadMat&&d.uiIcon!=BaseContent.BadTex,"Actual resource graphics resolve: "+n);
             Check(DefDatabase<TraderKindDef>.AllDefsListForReading.Count(k=>k.stockGenerators.OfType<StockGenerator_SingleDef>().Any(g=>Traverse.Create(g).Field("thingDef").GetValue<ThingDef>()==d))>=3,"Three existing suppliers stock "+n);
         }
-        foreach(var tuple in new[]{(stirred,"HD_ExtractAlumina"),(furnace,"HD_SmeltSilicon"),(furnace,"HD_RefineAluminiumAlloy"),(fab,"HD_FabricateSolidStateComponents")})
+        foreach(var tuple in new[]{(stirred,"HD_ExtractAlumina"),(furnace,"HD_SmeltSilicon"),(furnace,"HD_RefineAluminiumAlloy"),(fab,"HD_FabricateSolidStateComponents"),(stirred,"HD_ExtractAluminaFromChunks"),(furnace,"HD_SmeltSiliconFromChunks")})
             foreach(int ticks in ItemBill(worker,tuple.Item1,tuple.Item2))yield return ticks;
         Check(Def<RecipeDef>("HD_ExtractAlumina").ingredients.Any(i=>i.filter.Allows(Def<ThingDef>("BlocksSlate"))),"Alumina uses existing slate blocks without a new ore");
         Check(Def<RecipeDef>("HD_SmeltSilicon").ingredients.Any(i=>i.filter.Allows(Def<ThingDef>("BlocksSandstone"))),"Silicon uses existing sandstone blocks without a new ore");
+        Check(Def<RecipeDef>("HD_ExtractAluminaFromChunks").ingredients[0].filter.Allows(Def<ThingDef>("ChunkSlate")),"Raw slate chunks are accepted by the alumina route");
+        Check(Def<RecipeDef>("HD_SmeltSiliconFromChunks").ingredients[0].filter.Allows(Def<ThingDef>("ChunkSandstone")),"Raw sandstone chunks are accepted by the silicon route");
+        var arc=Def<ThingDef>("HD_SAFurnace");
+        foreach(string n in new[]{"HD_SmeltSilicon","HD_SmeltSiliconFromChunks","HD_RefineAluminiumAlloy"})
+        {
+            var recipe=Def<RecipeDef>(n);
+            Check(!arc.AllRecipes.Contains(recipe)&&recipe.recipeUsers.Count==1&&recipe.recipeUsers[0]==furnace.def,"Mineral recipe belongs exclusively to VIM: "+n);
+            Check(recipe.researchPrerequisite==furnace.def.researchPrerequisites.Single(),"Recipe research matches VIM access: "+n);
+        }
+        var alloy=Def<RecipeDef>("HD_RefineAluminiumAlloy");
+        Check(alloy.ingredients.Count==2&&alloy.ingredients[0].filter.AnyAllowedDef.defName=="HD_Alumina"&&alloy.ingredients[0].GetBaseCount()==6&&alloy.ingredients[1].filter.AnyAllowedDef==ThingDefOf.Plasteel&&alloy.ingredients[1].GetBaseCount()==1,"Alloy uses six alumina and one plasteel without charcoal or silicon");
+        var silicon=Def<ThingDef>("HD_Silicon");
+        Check(silicon.graphicData.texPath=="Items/HD_SiliconIngot","Silicon uses the provided ingot graphics");
+        foreach(int amount in new[]{1,75})
+        {var stack=ThingMaker.MakeThing(silicon);stack.stackCount=amount;Check(stack.Graphic.MatAt(Rot4.South,stack)!=BaseContent.BadMat,"Silicon graphic resolves at stack count "+amount);}
+        if(GenCommandLine.TryGetCommandLineArg("hdKMinerals",out _)){itemChecks=null;h.UnpatchAll(h.Id);yield break;}
         foreach(string name in new[]{"Make_HD_ExpandableBaton","Make_HD_Apparel_ShieldIronHideRiot","Make_HD_Apparel_ShieldIronHideIV"})
             foreach(int ticks in ItemBill(worker,machining,name))yield return ticks;
         var baton=playMap.listerThings.ThingsOfDef(Def<ThingDef>("HD_ExpandableBaton")).OfType<ThingWithComps>().Single();
