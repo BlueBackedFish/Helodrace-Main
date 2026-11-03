@@ -85,8 +85,11 @@ internal static class Program
         var toils = driver.Toils();
         toils.Last().initAction(); toils.Last().initAction();
         Check(radio.Map.Ham.Calls == 1 && low.Calls == 0, "Autonomous chatter consults the shared rumor calendar once, without opening dialogue windows");
+        radio.JoyFactor=1.35f;
         toils.Last().tickIntervalAction(60);
         Check(JoyUtility.Ticks == 60 && pawn.ComfortTicks == 60, "Chatting gains normal recreation and chair comfort");
+        Check(JoyUtility.LastSource==null&&Math.Abs(JoyUtility.LastFactor-1.35f)<.0001f,
+            "Social chatter avoids the TV building kind while preserving its quality joy multiplier");
         driver.ExposeData(); Scribe_Values.Loading = true;
         var restored = new JobDriver_ChatOnRadio { pawn = pawn, job = job };
         restored.ExposeData(); restored.Toils().Last().initAction(); Scribe_Values.Loading = false;
@@ -132,7 +135,7 @@ internal static class Program
             && radio.Element("costList").Element("HD_BasicElectricalComponents") == null,
             "Radio belongs to technology construction and uses electronic components");
         var recipes = XDocument.Load("Defs/Recipes/Recipes_Helod.xml").Root.Elements("RecipeDef");
-        var electronicRecipe = recipes.Single(r => r.Element("products")?.Element("HD_BasicElectronicComponents") != null);
+        var electronicRecipe = recipes.Single(r => (string)r.Element("products")?.Element("HD_BasicElectronicComponents") == "1");
         var research = XDocument.Load("Defs/Research/ResearchProjects_Helod.xml").Root.Elements("ResearchProjectDef");
         var wireless = research.Single(r => (string)r.Element("defName") == "HelodWireless");
         Check(wireless.Element("prerequisites").Elements().Any(p => p.Value == (string)electronicRecipe.Element("researchPrerequisite"))

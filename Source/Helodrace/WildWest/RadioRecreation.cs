@@ -56,7 +56,10 @@ namespace Helodrace
             {
                 pawn.rotationTracker.FaceTarget(Radio);
                 pawn.GainComfortFromCellIfPossible(delta);
-                JoyUtility.JoyTickCheckEnd(pawn, delta, JoyTickFullJoyAction.EndJob, 1f, Radio);
+                // This building also supplies TV-style listening. Chat uses the job's
+                // Social kind and retains the building's quality/joy multiplier explicitly.
+                JoyUtility.JoyTickCheckEnd(pawn, delta, JoyTickFullJoyAction.EndJob,
+                    Radio.GetStatValue(StatDefOf.JoyGainFactor), null);
             };
             chat.AddFinishAction(() => JoyUtility.TryGainRecRoomThought(pawn));
             yield return chat;

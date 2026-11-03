@@ -29,6 +29,7 @@ namespace Verse
         public ThingDef def = new ThingDef();
         public RimWorld.CompPowerTrader Power = new RimWorld.CompPowerTrader();
         public RimWorld.CompRefuelable Fuel;
+        public float JoyFactor=1f;
         public string LabelShort = "radio";
     }
     public class Building : Thing
@@ -228,10 +229,15 @@ namespace RimWorld
     public static class JoyUtility
     {
         public static int Ticks, RoomThoughts;
-        public static bool JoyTickCheckEnd(Verse.Pawn pawn, int delta, JoyTickFullJoyAction action, float factor, Verse.Building building) { Ticks += delta; return false; }
+        public static Verse.Building LastSource;
+        public static float LastFactor;
+        public static bool JoyTickCheckEnd(Verse.Pawn pawn, int delta, JoyTickFullJoyAction action, float factor, Verse.Building building) { Ticks += delta; LastSource=building; LastFactor=factor; return false; }
         public static void TryGainRecRoomThought(Verse.Pawn pawn) => RoomThoughts++;
     }
     public static class PawnUtility { public static void GainComfortFromCellIfPossible(this Verse.Pawn pawn, int delta) => pawn.ComfortTicks += delta; }
+    public sealed class StatDef { }
+    public static class StatDefOf { public static readonly StatDef JoyGainFactor=new(); }
+    public static class StatExtension { public static float GetStatValue(this Verse.Thing thing,StatDef stat)=>thing.JoyFactor; }
 }
 namespace Helodrace
 {
