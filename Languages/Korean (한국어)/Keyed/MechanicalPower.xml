@@ -11,8 +11,8 @@
   <HD_MechanicalUser_Operating>작동 중</HD_MechanicalUser_Operating>
   <HD_MechanicalUser_Stalled>정지됨/무동력</HD_MechanicalUser_Stalled>
   <HD_MechanicalUser_Overloaded>과부하</HD_MechanicalUser_Overloaded>
-  <HD_HeatPump_Inspect>찬쪽 열 감소량 설정: {0} W\n실제 열 이동: 찬쪽 -{1} W / 뜨거운쪽 +{2} W\n찬쪽: {3}\n뜨거운쪽: {4}</HD_HeatPump_Inspect>
-  <HD_HeatPump_AdjustCooling>찬쪽 열 감소량을 {0} W만큼 조정합니다.</HD_HeatPump_AdjustCooling>
+  <HD_HeatPump_Inspect>찬쪽 열 감소량 설정: {0} HU/s\n실제 열 이동: 찬쪽 -{1} HU/s / 뜨거운쪽 +{2} HU/s\n찬쪽: {3}\n뜨거운쪽: {4}</HD_HeatPump_Inspect>
+  <HD_HeatPump_AdjustCooling>찬쪽 열 감소량을 {0} HU/s만큼 조정합니다.</HD_HeatPump_AdjustCooling>
   <HD_HeatPump_OutOfBounds>지도 밖</HD_HeatPump_OutOfBounds>
   <HD_HeatPump_NoRoom>방 없음 ({0})</HD_HeatPump_NoRoom>
   <HD_HeatPump_Outdoors>실외 ({0})</HD_HeatPump_Outdoors>
@@ -73,4 +73,5 @@
   <HD_MechanicalGenerator_Target>목표 전기 출력: {0} W\n요구 축 입력: {1} W</HD_MechanicalGenerator_Target>
   <HD_Generator_SetOutput>발전량: {0} W</HD_Generator_SetOutput>
   <HD_Generator_SetOutputDesc>목표 전기 출력을 선택합니다. 출력을 낮추면 축 부하도 감소하며 0은 무부하입니다. 기관의 연료 소비는 기관 설정을 따릅니다.</HD_Generator_SetOutputDesc>
+  <HD_IndustrialWorktable_Power>작업 중 입력: {0} W / 대기 입력: {1} W</HD_IndustrialWorktable_Power>
 </LanguageData>

@@ -1,4 +1,4 @@
-param([Parameter(Mandatory)][string]$RuntimeRoot, [string]$ResumeSave)
+param([Parameter(Mandatory)][string]$RuntimeRoot, [string]$ResumeSave, [switch]$Balance, [ValidateSet(0,4,8)][int]$Population=0)
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot '../Game17Runtime.ps1')
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
@@ -16,5 +16,7 @@ if($ResumeSave){
     New-Item -ItemType Directory -Path (Join-Path $runtime.Profile 'Saves') -Force | Out-Null
     Copy-Item -LiteralPath (Get-Item -LiteralPath $ResumeSave).FullName -Destination (Join-Path $runtime.Profile 'Saves/Autostart.rws')
 }
+if($Balance){$arguments+='-hdPowerBalance=true'}
+if($Population){$arguments+=('-hdPowerPopulation='+$Population)}
 $process=Start-Game17Runtime -Runtime $runtime -Arguments $arguments -ResultFile (Join-Path $runtime.Evidence 'checks.txt') -CompletionPattern '(?m)^COMPLETE\r?$' -SkipQuicktest:([bool]$ResumeSave)
 Write-Output ('Observe with Source/Tests/Wait-Game17Host.ps1 -RuntimeRoot "'+$runtime.Root+'" -TimeoutSeconds 45')

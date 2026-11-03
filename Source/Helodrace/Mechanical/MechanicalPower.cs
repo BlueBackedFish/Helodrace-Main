@@ -75,6 +75,7 @@ namespace Helodrace
     public class CompProperties_MechanicalUser : CompProperties
     {
         public float mechanicalPowerRequired = 100f;
+        public float idlePowerFactor = .1f;
         public float minimalRPM = 50f;
         public float recommendedRPM = 300f;
 
@@ -204,6 +205,15 @@ namespace Helodrace
         public CompMechanicalGenerator Generator { get; private set; }
         public CompMechanicalTemperatureControl TemperatureControl { get; private set; }
         
+        private int lastWorkTick = -1;
+        public bool IsWorking => parent is not Building_WorkTable || WorktableLoad.IsActive(lastWorkTick);
+        public void NotifyUsedThisTick()
+        {
+            bool active = IsWorking;
+            lastWorkTick = Find.TickManager.TicksGame;
+            if (!active) Network?.UpdateNetwork();
+        }
+
         // This holds the fraction of requested mechanical power supplied (1.0 = fully powered, <1.0 = overloaded)
         public float PowerFulfillmentRatio { get; private set; } = 0f;
 
@@ -229,11 +239,18 @@ namespace Helodrace
             && Network.GridRPM < Network.NominalGridRPM
             && (Flickable == null || Flickable.SwitchIsOn);
 
-        public float GridPowerDemanded => Network != null && (Flickable == null || Flickable.SwitchIsOn)
-            ? Generator?.RequestedMechanicalInput ?? Waylith.Math.Mathf.Max(0f, Props.mechanicalPowerRequired)
-                * (TemperatureControl?.PowerDemandFactor ?? 1f)
-            : 0f;
-        
+        public float GridPowerDemanded
+        {
+            get
+            {
+                if (Network == null || !parent.Spawned || Flickable != null && !Flickable.SwitchIsOn) return 0f;
+                if (Generator != null) return Generator.RequestedMechanicalInput;
+                return Waylith.Math.Mathf.Max(0f, Props.mechanicalPowerRequired)
+                    * (TemperatureControl?.PowerDemandFactor ?? 1f)
+                    * (IsWorking ? 1f : Props.idlePowerFactor);
+            }
+        }
+
         // Effective RPM caps at recommendedRPM. Used by other systems to calculate actual work speed.
         public float EffectiveRPM => Waylith.Math.Mathf.Min(RealRPM, Props.recommendedRPM);
 

@@ -134,8 +134,8 @@
     </inspectorTabs>
     <comps>
       <li Class="Helodrace.CompProperties_MechanicalEmitter">
-        <maxPossiblePower>1200</maxPossiblePower>
-        <recommendedPower>1000</recommendedPower>
+        <maxPossiblePower>1800</maxPossiblePower>
+        <recommendedPower>1500</recommendedPower>
         <sourceType>SteamEngine</sourceType>
       </li>
       <li Class="CompProperties_Flickable"/>
@@ -711,8 +711,9 @@
     <comps>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>2500</basePowerConsumption>
+        <basePowerConsumption>1200</basePowerConsumption>
       </li>
+      <li Class="Helodrace.CompProperties_IndustrialWorktablePower"/>
       <li Class="CompProperties_Flickable"/>
       <li Class="Helodrace.CompProperties_IndustrialRefuelable">
         <fuelConsumptionRate>10.0</fuelConsumptionRate>
@@ -1496,8 +1497,9 @@
     <comps>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>16000</basePowerConsumption>
+        <basePowerConsumption>6000</basePowerConsumption>
       </li>
+      <li Class="Helodrace.CompProperties_IndustrialWorktablePower"/>
       <li Class="CompProperties_Flickable"/>
       <li Class="CompProperties_Glower">
         <glowRadius>10</glowRadius>
@@ -1574,15 +1576,16 @@
     <comps>
       <li Class="CompProperties_Flickable"/>
       <li Class="Helodrace.CompProperties_MechanicalUser">
-        <mechanicalPowerRequired>40</mechanicalPowerRequired>
+        <mechanicalPowerRequired>200</mechanicalPowerRequired>
         <minimalRPM>5</minimalRPM>
         <recommendedRPM>20</recommendedRPM>
       </li>
       <li Class="Helodrace.CompProperties_MechanicalTemperatureControl">
-        <defaultColdHeatRemovalPerSecond>2</defaultColdHeatRemovalPerSecond>
+        <defaultColdHeatRemovalPerSecond>40</defaultColdHeatRemovalPerSecond>
         <maxColdHeatRemovalPerSecond>80</maxColdHeatRemovalPerSecond>
         <heatDumpFactor>1.25</heatDumpFactor>
         <outdoorSideEfficiencyMultiplier>1</outdoorSideEfficiencyMultiplier>
+        <coldSideTargetTemperature>-5</coldSideTargetTemperature>
       </li>
     </comps>
   </ThingDef>

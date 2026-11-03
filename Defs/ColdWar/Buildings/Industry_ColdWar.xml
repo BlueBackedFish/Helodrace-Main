@@ -57,8 +57,9 @@
     <comps>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>20000</basePowerConsumption>
+        <basePowerConsumption>8000</basePowerConsumption>
       </li>
+      <li Class="Helodrace.CompProperties_IndustrialWorktablePower"/>
       <li Class="CompProperties_Flickable"/>
       <li Class="CompProperties_Glower">
         <glowRadius>7</glowRadius>

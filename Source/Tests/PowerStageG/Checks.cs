@@ -70,6 +70,7 @@ public sealed partial class Checks : GameComponent
     public override void GameComponentUpdate()
     {
         if (steps == null || complete || Current.ProgramState != ProgramState.Playing) return;
+        Find.TickManager.Pause();
         try
         {
             if (remaining == 0)
@@ -79,7 +80,7 @@ public sealed partial class Checks : GameComponent
                 remaining = steps.Current;
             }
             int ticks = Math.Min(remaining, 240);
-            for (int i = 0; i < ticks; i++) Find.TickManager.DoSingleTick();
+            for (int i = 0; i < ticks; i++) { Find.TickManager.DoSingleTick(); sampleTick?.Invoke(); }
             remaining -= ticks;
             foreach (var pawn in map.mapPawns.FreeColonistsSpawned)
                 foreach (var need in pawn.needs.AllNeeds) need.CurLevel = need.MaxLevel;
@@ -123,7 +124,7 @@ public sealed partial class Checks : GameComponent
             generator.TargetElectricalOutput = target; yield return 180;
             Near(generator.CurrentElectricalOutput, target, "Actual generator reaches selected electrical output");
             Near(user.GridPowerDemanded, generator.RequestedMechanicalInput, "Target controls real requested shaft load");
-            Near(net.CurrentPowerNeeded, generator.RequestedMechanicalInput + lathe.GetComp<CompMechanicalUser>().GridPowerDemanded, "Shared network includes the generator and lathe exactly once");
+            Near(user.Network.CurrentPowerNeeded, generator.RequestedMechanicalInput + lathe.GetComp<CompMechanicalUser>().GridPowerDemanded, "Shared network includes the generator and lathe exactly once; latheSpawned=" + lathe.Spawned + "; latheOn=" + lathe.GetComp<CompFlickable>().SwitchIsOn + "; sameNet=" + ReferenceEquals(user.Network, lathe.GetComp<CompMechanicalUser>().Network) + "; cachedNet=" + ReferenceEquals(net, user.Network));
             Check(generator.CurrentElectricalOutput <= generator.CurrentMechanicalInput + .01f, "Electrical output never exceeds actual shaft input");
             if (target == 0f) Check(generator.CurrentMechanicalInput == 0f, "Zero output fully unloads the generator");
             if (target == 300f) Check(lamp.GetComp<CompPowerTrader>().PowerOn && generatorBuilding.GetComp<CompPowerPlant>().PowerNet == lamp.GetComp<CompPowerTrader>().PowerNet,
@@ -157,5 +158,6 @@ public sealed partial class Checks : GameComponent
             "Selecting zero after load removes actual output and shaft load");
         generator.TargetElectricalOutput = 1800f; yield return 120;
         Near(generator.CurrentElectricalOutput, 1800f, "Selecting 1800 W again restores actual output");
+        if (GenCommandLine.TryGetCommandLineArg("hdPowerBalance", out _)) foreach (int ticks in ColonyBudgets()) yield return ticks;
     }
 }

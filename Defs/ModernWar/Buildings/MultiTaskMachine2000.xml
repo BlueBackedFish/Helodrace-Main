@@ -52,9 +52,10 @@
     <comps>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>6500</basePowerConsumption>
+        <basePowerConsumption>3000</basePowerConsumption>
         <shortCircuitInRain>true</shortCircuitInRain>
       </li>
+      <li Class="Helodrace.CompProperties_IndustrialWorktablePower"/>
       <li Class="CompProperties_Flickable" />
       <li Class="CompProperties_Facility">
         <maxSimultaneous>1</maxSimultaneous>

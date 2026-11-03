@@ -23,8 +23,8 @@
   <HD_Stat_MechanicalMaxPower_Desc>The maximum mechanical power output this device can tolerate during overload.</HD_Stat_MechanicalMaxPower_Desc>
   <HD_Stat_MechanicalRequiredTorque>Rated torque</HD_Stat_MechanicalRequiredTorque>
   <HD_Stat_MechanicalRequiredTorque_Desc>Torque at the rated machine speed, calculated as mechanical power divided by angular speed. It is not added directly to network watts.</HD_Stat_MechanicalRequiredTorque_Desc>
-  <HD_HeatPump_Inspect>Cold-side heat removal setting: {0} W\nActual transfer: cold side -{1} W / hot side +{2} W\nCold side: {3}\nHot side: {4}</HD_HeatPump_Inspect>
-  <HD_HeatPump_AdjustCooling>Adjust cold-side heat removal by {0} W.</HD_HeatPump_AdjustCooling>
+  <HD_HeatPump_Inspect>Cold-side heat removal setting: {0} HU/s\nActual transfer: cold side -{1} HU/s / hot side +{2} HU/s\nCold side: {3}\nHot side: {4}</HD_HeatPump_Inspect>
+  <HD_HeatPump_AdjustCooling>Adjust cold-side heat removal by {0} HU/s.</HD_HeatPump_AdjustCooling>
   <HD_HeatPump_OutOfBounds>out of bounds</HD_HeatPump_OutOfBounds>
   <HD_HeatPump_NoRoom>no room ({0})</HD_HeatPump_NoRoom>
   <HD_HeatPump_Outdoors>outdoors ({0})</HD_HeatPump_Outdoors>
@@ -63,4 +63,5 @@
   <HD_ITab_MechanicalNetwork_PowerOutput>Available mechanical power: {0} W</HD_ITab_MechanicalNetwork_PowerOutput>
   <HD_ITab_MechanicalNetwork_PowerNeeded>Required mechanical power: {0} W</HD_ITab_MechanicalNetwork_PowerNeeded>
   <HD_ITab_MechanicalNetwork_PowerSurplus>Mechanical margin: {0} W</HD_ITab_MechanicalNetwork_PowerSurplus>
+  <HD_IndustrialWorktable_Power>Work input: {0} W / waiting input: {1} W</HD_IndustrialWorktable_Power>
 </LanguageData>

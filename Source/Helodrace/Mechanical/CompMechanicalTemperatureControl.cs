@@ -164,7 +164,7 @@ namespace Helodrace
                 yield return new Command_Action
                 {
                     action = () => TargetColdHeatRemovalPerSecond += step,
-                    defaultLabel = (step > 0 ? "+" : "") + step + " W",
+                    defaultLabel = (step > 0 ? "+" : "") + step + " HU/s",
                     defaultDesc = "HD_HeatPump_AdjustCooling".Translate(step.ToString()),
                     icon = ContentFinder<Texture2D>.Get(
                         step < 0 ? "UI/Commands/TempLower" : "UI/Commands/TempRaise", true)
@@ -203,11 +203,11 @@ namespace Helodrace
 
     public class CompProperties_MechanicalTemperatureControl : CompProperties
     {
-        public float defaultColdHeatRemovalPerSecond = 2f;
+        public float defaultColdHeatRemovalPerSecond = 40f;
         public float maxColdHeatRemovalPerSecond = 80f;
         public float heatDumpFactor = 1.25f;
         public float outdoorSideEfficiencyMultiplier = 1f;
-        public float coldSideTargetTemperature = -273.15f;
+        public float coldSideTargetTemperature = -5f;
         public float hotSideTargetTemperature = 1000f;
 
         public CompProperties_MechanicalTemperatureControl()

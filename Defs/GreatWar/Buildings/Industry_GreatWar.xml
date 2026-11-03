@@ -59,8 +59,9 @@
     <comps>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>3500</basePowerConsumption>
+        <basePowerConsumption>1800</basePowerConsumption>
       </li>
+      <li Class="Helodrace.CompProperties_IndustrialWorktablePower"/>
       <li Class="CompProperties_Flickable"/>
     </comps>
     <building>
@@ -125,8 +126,9 @@
     <comps>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>2200</basePowerConsumption>
+        <basePowerConsumption>1200</basePowerConsumption>
       </li>
+      <li Class="Helodrace.CompProperties_IndustrialWorktablePower"/>
       <li Class="CompProperties_Flickable"/>
     </comps>
     <building>

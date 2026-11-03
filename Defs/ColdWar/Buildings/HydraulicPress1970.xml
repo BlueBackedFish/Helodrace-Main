@@ -51,9 +51,10 @@
     <comps>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>4500</basePowerConsumption>
+        <basePowerConsumption>1800</basePowerConsumption>
         <shortCircuitInRain>true</shortCircuitInRain>
       </li>
+      <li Class="Helodrace.CompProperties_IndustrialWorktablePower"/>
       <li Class="CompProperties_Flickable" />
       <li Class="Helodrace.CompProperties_OperatingHeatPusher">
         <heatPerSecond>7</heatPerSecond>

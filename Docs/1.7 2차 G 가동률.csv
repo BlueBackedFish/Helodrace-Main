@@ -1,0 +1,10 @@
+colonists,worktable,full_draw_ticks,waiting_ticks,duty_fraction,mean_requested_input_W
+"4","HD_LineShaftTurretLathe","8089","51911","0.134816666666667","55.33375"
+"4","HD_LineShaftMillingMachine","6089","53911","0.101483333333333","57.4005"
+"4","HD_LineShaftHydraulicPress","4091","55909","0.0681833333333333","72.61425"
+"4","HD_LineShaftRollingMachine","8089","51911","0.134816666666667","110.6675"
+"8","HD_LineShaftTurretLathe","8089","51911","0.134816666666667","55.33375"
+"8","HD_LineShaftMillingMachine","6089","53911","0.101483333333333","57.4005"
+"8","HD_LineShaftHydraulicPress","4092","55908","0.0682","72.621"
+"8","HD_LineShaftRollingMachine","8090","51910","0.134833333333333","110.675"
+"8","HD_CNCLathe","5052","54948","0.0842","158.202"
