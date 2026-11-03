@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_StarterSupply_Summary>A supply caravan is scheduled one day after the pioneers settle. Blocked arrivals are retried.</HD_StarterSupply_Summary>
+  <HD_StarterSupply_Arrived>The pioneer supply caravan has arrived with steel and basic industrial materials.</HD_StarterSupply_Arrived>
+  <HD_StarterSupply_Delayed>The supply caravan is delayed by access, weather or diplomatic conditions. It will keep trying to reach a friendly player settlement.</HD_StarterSupply_Delayed>
+</LanguageData>

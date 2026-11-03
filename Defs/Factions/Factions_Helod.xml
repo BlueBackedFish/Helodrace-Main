@@ -58,7 +58,9 @@
       <li>HD_GW_Caravan_HelodCommercial</li>
       <li>HD_WW_Caravan_HelodArms</li>
       <li>HD_WW_Caravan_HelodPetroleum</li>
+      <li>HD_Caravan_FrontierPeddler</li>
     </caravanTraderKinds>
+    <baseTraderKinds><li>HD_Settlement_HelodMercantile</li></baseTraderKinds>
     <techLevel>Industrial</techLevel>
     <factionNameMaker>NamerFactionOutlander</factionNameMaker>
     <settlementNameMaker>NamerSettlementOutlander</settlementNameMaker>
@@ -213,6 +215,22 @@
           <HD_WW_HelodCavalry>75</HD_WW_HelodCavalry>
         </options>
       </li>
+      <li Class="Helodrace.Economy.TraderSpecificPawnGroupMaker">
+        <kindDef>Trader</kindDef>
+        <traderKindDefName>HD_Caravan_FrontierPeddler</traderKindDefName>
+        <minimumGuardPoints>120</minimumGuardPoints>
+        <traders><HD_GW_HelodCaravanMaster>1</HD_GW_HelodCaravanMaster></traders>
+        <carriers><Horse>18</Horse><Muffalo>2</Muffalo><Dromedary>1</Dromedary><Alpaca>1</Alpaca></carriers>
+        <guards><HD_GW_HelodCaravanGuard>12</HD_GW_HelodCaravanGuard><HD_GW_HelodCaravanLaborer>3</HD_GW_HelodCaravanLaborer></guards>
+      </li>
+      <li Class="Helodrace.Economy.TraderSpecificPawnGroupMaker">
+        <kindDef>Trader</kindDef>
+        <traderKindDefName>HD_Caravan_StarterSupply</traderKindDefName>
+        <minimumGuardPoints>120</minimumGuardPoints>
+        <traders><HD_GW_HelodCaravanMaster>1</HD_GW_HelodCaravanMaster></traders>
+        <carriers><Horse>18</Horse><Muffalo>2</Muffalo><Dromedary>1</Dromedary><Alpaca>1</Alpaca></carriers>
+        <guards><HD_GW_HelodCaravanGuard>12</HD_GW_HelodCaravanGuard><HD_GW_HelodCaravanLaborer>3</HD_GW_HelodCaravanLaborer></guards>
+      </li>
     </pawnGroupMakers>
     <apparelStuffFilter>
       <thingDefs>
@@ -246,6 +264,7 @@
     <fixedLeaderKinds>
       <li>HD_WW_HelodUpperClass</li>
     </fixedLeaderKinds>
+    <baseTraderKinds><li>HD_Settlement_VesenicaQuartermaster</li></baseTraderKinds>
     <techLevel>Industrial</techLevel>
     <settlementNameMaker>NamerSettlementOutlander</settlementNameMaker>
     <allowedCultures><li>HD_HelodCulture</li></allowedCultures>

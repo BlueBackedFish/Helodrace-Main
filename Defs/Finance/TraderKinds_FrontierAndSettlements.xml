@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <TraderKindDef>
+    <defName>HD_Caravan_FrontierPeddler</defName>
+    <label>frontier general peddlers</label>
+    <requestable>false</requestable>
+    <commonality>0.8</commonality>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>120~240</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_Money</thingDef>
+        <countRange>100~200</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Pemmican</thingDef>
+        <countRange>80~160</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MealSurvivalPack</thingDef>
+        <countRange>15~30</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineHerbal</thingDef>
+        <countRange>20~40</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineIndustrial</thingDef>
+        <countRange>4~10</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Cloth</thingDef>
+        <countRange>50~100</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MeleeWeapon_Knife</thingDef>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_Apparel_WildWestFormalShirt</thingDef>
+        <countRange>2~4</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Steel</thingDef>
+        <countRange>250~450</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_PigIron</thingDef>
+        <countRange>30~60</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_CarbonSteel</thingDef>
+        <countRange>25~50</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_GeneralMachinePart</thingDef>
+        <countRange>10~20</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_PressComponent</thingDef>
+        <countRange>10~25</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_Shaft</thingDef>
+        <countRange>5~15</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_UniformRolledSteelPlate</thingDef>
+        <countRange>10~20</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_BasicElectricalComponents</thingDef>
+        <countRange>8~18</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_PrimaryCell</thingDef>
+        <countRange>5~12</countRange>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>WoodLog</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Cloth</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Pemmican</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>MealSurvivalPack</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>MedicineHerbal</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>MedicineIndustrial</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Steel</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_PigIron</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_CarbonSteel</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Charcoal</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_UniformRolledSteelPlate</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_GeneralMachinePart</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_PressComponent</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Shaft</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_BasicElectricalComponents</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_BasicElectronicComponents</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Chemfuel</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Diesel</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Kerosene</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Naphtha</thingDef>
+      </li>
+    </stockGenerators>
+  </TraderKindDef>
+  <TraderKindDef>
+    <defName>HD_Caravan_StarterSupply</defName>
+    <label>pioneer supply caravan</label>
+    <requestable>false</requestable>
+    <commonality>0</commonality>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>400~600</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_Money</thingDef>
+        <countRange>100~200</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Steel</thingDef>
+        <countRange>600~900</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_PigIron</thingDef>
+        <countRange>80~120</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_CarbonSteel</thingDef>
+        <countRange>60~100</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_GeneralMachinePart</thingDef>
+        <countRange>20~35</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_PressComponent</thingDef>
+        <countRange>20~35</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_Shaft</thingDef>
+        <countRange>15~25</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_UniformRolledSteelPlate</thingDef>
+        <countRange>30~50</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>ComponentIndustrial</thingDef>
+        <countRange>15~25</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineHerbal</thingDef>
+        <countRange>20~40</countRange>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>WoodLog</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Cloth</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Pemmican</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>MealSurvivalPack</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>MedicineHerbal</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>MedicineIndustrial</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Steel</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_PigIron</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_CarbonSteel</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Charcoal</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_UniformRolledSteelPlate</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_GeneralMachinePart</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_PressComponent</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Shaft</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_BasicElectricalComponents</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_BasicElectronicComponents</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Chemfuel</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Diesel</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Kerosene</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Naphtha</thingDef>
+      </li>
+    </stockGenerators>
+  </TraderKindDef>
+  <TraderKindDef>
+    <defName>HD_Settlement_HelodMercantile</defName>
+    <label>Helod settlement exchange</label>
+    <requestable>false</requestable>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>1200~1800</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_Money</thingDef>
+        <countRange>800~1400</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Steel</thingDef>
+        <countRange>800~1600</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WoodLog</thingDef>
+        <countRange>500~1000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Cloth</thingDef>
+        <countRange>120~240</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Pemmican</thingDef>
+        <countRange>200~400</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MealSurvivalPack</thingDef>
+        <countRange>30~60</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineHerbal</thingDef>
+        <countRange>40~80</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineIndustrial</thingDef>
+        <countRange>20~40</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>ComponentIndustrial</thingDef>
+        <countRange>40~80</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_PigIron</thingDef>
+        <countRange>150~300</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_CarbonSteel</thingDef>
+        <countRange>120~240</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_GeneralMachinePart</thingDef>
+        <countRange>50~100</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_PressComponent</thingDef>
+        <countRange>50~100</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_Shaft</thingDef>
+        <countRange>30~60</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_UniformRolledSteelPlate</thingDef>
+        <countRange>50~100</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_BasicElectricalComponents</thingDef>
+        <countRange>40~80</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_BasicElectronicComponents</thingDef>
+        <countRange>20~40</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_PrimaryCell</thingDef>
+        <countRange>15~30</countRange>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>WoodLog</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Cloth</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Pemmican</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>MealSurvivalPack</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>MedicineHerbal</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>MedicineIndustrial</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Steel</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_PigIron</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_CarbonSteel</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Charcoal</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_UniformRolledSteelPlate</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_GeneralMachinePart</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_PressComponent</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Shaft</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_BasicElectricalComponents</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_BasicElectronicComponents</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Chemfuel</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Diesel</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Kerosene</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Naphtha</thingDef>
+      </li>
+    </stockGenerators>
+  </TraderKindDef>
+  <TraderKindDef>
+    <defName>HD_Settlement_VesenicaQuartermaster</defName>
+    <label>Vesenican settlement quartermaster</label>
+    <requestable>false</requestable>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>1800~2600</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_Money</thingDef>
+        <countRange>1200~2000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Steel</thingDef>
+        <countRange>1200~2400</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>ComponentIndustrial</thingDef>
+        <countRange>60~120</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineIndustrial</thingDef>
+        <countRange>40~80</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MealSurvivalPack</thingDef>
+        <countRange>50~100</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_CarbonSteel</thingDef>
+        <countRange>180~360</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_GeneralMachinePart</thingDef>
+        <countRange>70~140</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_UniformRolledSteelPlate</thingDef>
+        <countRange>80~160</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_BasicElectricalComponents</thingDef>
+        <countRange>60~120</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_BasicElectronicComponents</thingDef>
+        <countRange>40~80</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_Gun_SprMThree_Weapon</thingDef>
+        <countRange>2~4</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_Gun_M1897_Weapon</thingDef>
+        <countRange>1~3</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_Apparel_GreatWarM1Helmet</thingDef>
+        <countRange>2~5</countRange>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>WoodLog</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Cloth</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Pemmican</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>MealSurvivalPack</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>MedicineHerbal</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>MedicineIndustrial</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Steel</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_PigIron</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_CarbonSteel</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Charcoal</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_UniformRolledSteelPlate</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_GeneralMachinePart</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_PressComponent</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Shaft</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_BasicElectricalComponents</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_BasicElectronicComponents</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Chemfuel</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Diesel</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Kerosene</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>HD_Naphtha</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Gun_Revolver</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Gun_Autopistol</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Gun_BoltActionRifle</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>Gun_PumpShotgun</thingDef>
+      </li>
+    </stockGenerators>
+  </TraderKindDef>
+</Defs>

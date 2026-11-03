@@ -11,4 +11,13 @@
     <canBePlayerAddedRemoved>false</canBePlayerAddedRemoved>
   </ScenPartDef>
 
+  <ScenPartDef>
+    <defName>HD_StarterSupplyCaravan</defName>
+    <label>pioneer supply caravan</label>
+    <category>Rule</category>
+    <scenPartClass>Helodrace.Economy.ScenPart_StarterSupplyCaravan</scenPartClass>
+    <summaryPriority>21</summaryPriority>
+    <canBeRandomlyAdded>false</canBeRandomlyAdded>
+    <canBePlayerAddedRemoved>false</canBePlayerAddedRemoved>
+  </ScenPartDef>
 </Defs>

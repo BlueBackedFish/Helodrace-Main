@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Commitment_Active>이 회사와 진행 중인 최소 거래액 약정이 있습니다.</HD_Commitment_Active>
+  <HD_Commitment_GoodsOnly>최소 거래액 약정은 공업·무기·석유 상단만 이용할 수 있습니다.</HD_Commitment_GoodsOnly>
+  <HD_Commitment_PeaceRequired>최소 거래액 약정은 비적대 세력만 이용할 수 있습니다.</HD_Commitment_PeaceRequired>
+  <HD_Commitment_WealthRequired>기지가치가 은 {0} 이상이어야 합니다.</HD_Commitment_WealthRequired>
+  <HD_Commitment_Request>최소 거래액 은 {0} 약정으로 호출</HD_Commitment_Request>
+  <HD_Commitment_Confirm>이 상단에서 상품 매입·매각 합계 은 {0} 이상을 거래하기로 약정합니다. 은·슈탈러 교환과 선물은 제외합니다. 약정액은 호출 시 확정됩니다. 통신 비용: {1}. 금융 우호도 호출 비용은 없습니다. 정상 출발 시 부족한 비율만큼 금융 우호도가 최대 10 감소합니다. 취소·조기 해산·상단 공격 시에도 정산합니다. 미도착과 외부 사유로 중단된 방문은 면제됩니다. 진행하시겠습니까?</HD_Commitment_Confirm>
+  <HD_Commitment_Progress>상품 거래액: 은 {0} / {1}</HD_Commitment_Progress>
+  <HD_Commitment_Cancel>약정 취소</HD_Commitment_Cancel>
+  <HD_Commitment_CancelConfirm>상단 호출을 취소하시겠습니까? 미이행 거래액에 따라 금융 우호도가 최대 10 감소합니다.</HD_Commitment_CancelConfirm>
+  <HD_Commitment_Waived>면제</HD_Commitment_Waived>
+  <HD_Commitment_Defaulted>미이행</HD_Commitment_Defaulted>
+  <HD_Commitment_Fulfilled>이행 완료</HD_Commitment_Fulfilled>
+  <HD_Commitment_Settled>{0}: 약정 {1}. 상품 거래액 은 {2}/{3}, 금융 우호도 감소 {4}.</HD_Commitment_Settled>
+</LanguageData>

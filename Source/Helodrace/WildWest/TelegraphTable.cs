@@ -379,6 +379,30 @@ namespace Helodrace
             DrawCompanyButton(requestRect, "HD_Company_RequestCaravan".Translate(), failure == null,
                 () => ConfirmCaravanRequest(companies, comp, requested));
             if (failure != null) TooltipHandler.TipRegion(requestRect.ToGame(), failure);
+            if (SelectedCompany is TelegraphCompany.CentralHardwareSupply or TelegraphCompany.WhitmoreArms or TelegraphCompany.ContinentalPetroleum)
+            {
+                var contract = companies.ActiveCommitment(SelectedCompany);
+                Rect commitmentRect = new Rect(rect.x, rect.y + 202f, rect.width, 40f);
+                if (contract == null)
+                {
+                    string commitmentFailure = companies.CommitmentFailure(comp, SelectedCompany);
+                    DrawCompanyButton(commitmentRect, "HD_Commitment_Request".Translate(companies.CommitmentMinimum.ToString("0")), commitmentFailure == null,
+                        () => Find.WindowStack.Add(new Dialog_MessageBox("HD_Commitment_Confirm".Translate(companies.CommitmentMinimum.ToString("0"), comp.TransmissionCostLabel),
+                            "Confirm".Translate(), () =>
+                            {
+                                if (!companies.TryRequestCommittedCaravan(operatorPawn, comp, SelectedCompany, out string reason)) Messages.Message(reason, MessageTypeDefOf.RejectInput);
+                            }, "CancelButton".Translate(), null)));
+                    if (commitmentFailure != null) TooltipHandler.TipRegion(commitmentRect.ToGame(), commitmentFailure);
+                }
+                else
+                {
+                    Widgets.Label(commitmentRect.ToGame(), "HD_Commitment_Progress".Translate(contract.Turnover.ToString("0.##"), contract.Minimum.ToString("0.##")));
+                    if (!contract.Arrived)
+                        DrawCompanyButton(new Rect(rect.x, rect.y + 252f, rect.width, 32f), "HD_Commitment_Cancel".Translate(), true,
+                            () => Find.WindowStack.Add(new Dialog_MessageBox("HD_Commitment_CancelConfirm".Translate(), "Confirm".Translate(),
+                                () => companies.CancelCommitment(SelectedCompany), "CancelButton".Translate(), null)));
+                }
+            }
         }
 
         private void ConfirmCaravanRequest(MapComponent_TelegraphCompanies companies, CompTelegraphTable comp, IReadOnlyList<TelegraphCompany> requested)

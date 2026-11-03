@@ -1,16 +1,17 @@
 using System.Collections.Generic;
 using Helodrace.Economy;
 using RimWorld;
-using UnityEngine;
 using Verse;
 using Verse.AI.Group;
 
 namespace Helodrace
 {
-    public sealed class MapComponent_TelegraphCompanies : MapComponent
+    public sealed partial class MapComponent_TelegraphCompanies : MapComponent
     {
         private readonly CompanyDispatchBook dispatches = new CompanyDispatchBook();
-        private Faction caravanProvider;
+        private Dictionary<TelegraphCompany, Faction> caravanProviders = new();
+        private List<TelegraphCompany> savedProviderKeys;
+        private List<Faction> savedProviderValues;
         private int harringtonNextRequestTick;
         public MapComponent_TelegraphCompanies(Map map) : base(map) { }
         public CompanyDispatchSchedule Schedule(TelegraphCompany company) => dispatches.Schedule(company);
@@ -20,7 +21,9 @@ namespace Helodrace
         {
             base.ExposeData();
             foreach (TelegraphCompany company in TelegraphCompanies.CaravanCompanies) ExposeSchedule(company.ToString(), dispatches.Schedule(company));
-            Scribe_References.Look(ref caravanProvider, "companyCaravanProvider");
+            Scribe_Collections.Look(ref caravanProviders, "companyCaravanProviders", LookMode.Value, LookMode.Reference, ref savedProviderKeys, ref savedProviderValues);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit) caravanProviders ??= new();
+            ExposeCommitments();
             Scribe_Values.Look(ref harringtonNextRequestTick, "harringtonNextRequestTick", 0);
         }
 
@@ -48,6 +51,8 @@ namespace Helodrace
         {
             if (comp?.Provider == null) return "HD_Telegraph_Status_ProviderUnavailable".Translate();
             if (!dispatches.CanRequest(Find.TickManager.TicksGame, requested)) return "HD_Company_RequestUnavailable".Translate();
+            foreach (var company in requested)
+                if (ActiveCommitment(company) != null) return "HD_Commitment_Active".Translate();
             Faction provider = comp.Provider;
             bool hostile = provider.HostileTo(Faction.OfPlayer);
             float finance = GameComponent_FinancialGoodwill.Current?.Get(provider) ?? 0f;
@@ -87,7 +92,7 @@ namespace Helodrace
                 reason = "HD_Company_RequestUnavailable".Translate(); return false;
             }
             for (int i = 0; i < requested.Count; i++) comp.TryTransmit();
-            caravanProvider = provider;
+            foreach (var company in requested) caravanProviders[company] = provider;
             Messages.Message("HD_Company_CaravansRequested".Translate(requested.Count), actor, MessageTypeDefOf.PositiveEvent);
             return true;
         }
@@ -96,15 +101,18 @@ namespace Helodrace
         {
             int now = Find.TickManager.TicksGame;
             if (now % 250 != 0) return;
+            TickCommitments();
             foreach (TelegraphCompany company in TelegraphCompanies.CaravanCompanies) TryArrival(dispatches.Schedule(company), company, now);
         }
 
         private void TryArrival(CompanyDispatchSchedule schedule, TelegraphCompany company, int now)
         {
             if (!schedule.Pending || now < schedule.ArrivalTick) return;
+            caravanProviders.TryGetValue(company, out Faction caravanProvider);
             if (caravanProvider == null || caravanProvider.defeated || (caravanProvider.HostileTo(Faction.OfPlayer) && !schedule.SafeConduct))
             {
                 schedule.Complete();
+                ActiveCommitment(company)?.Settle(false);
                 Messages.Message("HD_Company_DispatchCancelled".Translate(TelegraphCompanies.Name(company)), MessageTypeDefOf.NegativeEvent);
                 return;
             }
@@ -113,11 +121,19 @@ namespace Helodrace
             parms.traderKind = DefDatabase<TraderKindDef>.GetNamed(TelegraphCompanies.TraderKind(company));
             parms.forced = true;
             bool arrived;
+            var prior = new HashSet<Lord>(map.lordManager.lords);
             using (FinancialCaravanScope.Enter(schedule.SafeConduct ? caravanProvider : null))
                 arrived = IncidentDefOf.TraderCaravanArrival.Worker.TryExecute(parms);
-            if (arrived) schedule.Complete();
+            if (arrived)
+            {
+                schedule.Complete();
+                BindCommitment(company, prior);
+            }
             else if (!schedule.Retry(now))
+            {
+                ActiveCommitment(company)?.Settle(false);
                 Messages.Message("HD_Company_DispatchCancelled".Translate(TelegraphCompanies.Name(company)), MessageTypeDefOf.NegativeEvent);
+            }
         }
 
         public bool TryRequestHarrington(Pawn actor, CompTelegraphTable comp, out string reason)

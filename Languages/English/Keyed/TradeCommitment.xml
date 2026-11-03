@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Commitment_Active>An active minimum-turnover agreement already covers this company.</HD_Commitment_Active>
+  <HD_Commitment_GoodsOnly>Turnover agreements are available for hardware, arms and petroleum caravans.</HD_Commitment_GoodsOnly>
+  <HD_Commitment_PeaceRequired>A non-hostile provider is required for a turnover agreement.</HD_Commitment_PeaceRequired>
+  <HD_Commitment_WealthRequired>Colony wealth of at least {0} silver is required.</HD_Commitment_WealthRequired>
+  <HD_Commitment_Request>Request with {0} silver turnover agreement</HD_Commitment_Request>
+  <HD_Commitment_Confirm>Commit to at least {0} silver in goods bought and sold with this caravan. Silver and Sthaler exchanges and gifts do not count. The minimum is fixed at request time. Normal transmission cost: {1}. No financial-goodwill fee is charged. On normal departure, missing turnover costs up to 10 financial goodwill, proportional to the shortfall. Cancellation, dismissal or attacking the caravan also settles the agreement. Non-arrival and externally interrupted visits are waived. Continue?</HD_Commitment_Confirm>
+  <HD_Commitment_Progress>Goods turnover: {0} / {1} silver</HD_Commitment_Progress>
+  <HD_Commitment_Cancel>Cancel agreement</HD_Commitment_Cancel>
+  <HD_Commitment_CancelConfirm>Cancel this caravan request? Unfulfilled turnover costs up to 10 financial goodwill.</HD_Commitment_CancelConfirm>
+  <HD_Commitment_Waived>waived</HD_Commitment_Waived>
+  <HD_Commitment_Defaulted>shortfall</HD_Commitment_Defaulted>
+  <HD_Commitment_Fulfilled>fulfilled</HD_Commitment_Fulfilled>
+  <HD_Commitment_Settled>{0}: agreement {1}. Goods turnover {2}/{3} silver; financial goodwill penalty {4}.</HD_Commitment_Settled>
+</LanguageData>

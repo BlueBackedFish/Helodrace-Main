@@ -12,6 +12,7 @@
         <factionDef>HD_HelodPlayerColony</factionDef>
       </playerFaction>
       <parts Inherit="False">
+        <li Class="Helodrace.Economy.ScenPart_StarterSupplyCaravan"><def>HD_StarterSupplyCaravan</def><visible>false</visible></li>
         <!-- Arrival Method (Standard Vanilla DropPods arrival) -->
         <li Class="ScenPart_PlayerPawnsArriveMethod">
           <def>PlayerPawnsArriveMethod</def>
