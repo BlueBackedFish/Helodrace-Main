@@ -1,0 +1,60 @@
+{
+  "prices": {
+    "Chemfuel": 2.3,
+    "HD_Naphtha": 2.0,
+    "HD_Kerosene": 1.4,
+    "HD_Diesel": 1.6,
+    "WoodLog": 1.2
+  },
+  "cases": [
+    {
+      "case": "A · 80% 유정 / 목제 펌프잭",
+      "quality": 0.8,
+      "pressure_start": 1,
+      "pressure_floor": 0.35,
+      "rated_crude_per_day": 40.0,
+      "floor_crude_per_day": 14.0,
+      "first_crude_day": 1.2541666666666667,
+      "first_refined_day": 2.5833333333333335,
+      "refinery_raw_capacity_per_day": 1500.0,
+      "diesel_per_refinery_batch": 0.6666666666666666,
+      "peak_electrical_watts": 1200.0,
+      "wood_per_day": 50.0,
+      "products": {
+        "Chemfuel": 45.0,
+        "HD_Naphtha": 10.0,
+        "HD_Kerosene": 15.0,
+        "HD_Diesel": 20.0
+      }
+    },
+    {
+      "case": "B · 120% 유정 / 철제 펌프잭",
+      "quality": 1.2,
+      "pressure_start": 1,
+      "pressure_floor": 0.35,
+      "rated_crude_per_day": 120.0,
+      "floor_crude_per_day": 42.0,
+      "first_crude_day": 0.8375,
+      "first_refined_day": 0.9041666666666667,
+      "refinery_raw_capacity_per_day": 1500.0,
+      "diesel_per_refinery_batch": 0.6666666666666666,
+      "peak_electrical_watts": 3000.0,
+      "wood_per_day": 0,
+      "products": {
+        "Chemfuel": 45.0,
+        "HD_Naphtha": 10.0,
+        "HD_Kerosene": 15.0,
+        "HD_Diesel": 20.0
+      }
+    }
+  ],
+  "assumptions": {
+    "pressure_recovery": false,
+    "external_electricity": true,
+    "rated_RPM": true,
+    "labor_speed": 1,
+    "travel_and_hauling": false,
+    "power_grace_and_polling": false,
+    "initial_diesel_seed_required": true
+  }
+}
