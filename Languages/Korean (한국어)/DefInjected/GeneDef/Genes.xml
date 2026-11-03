@@ -1,32 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <LanguageData>
-
-  <!-- BTX Dependency Gene -->
   <HD_Gene_BTXDependency.label>BTX 의존</HD_Gene_BTXDependency.label>
   <HD_Gene_BTXDependency.description>이 유전자의 보유자는 영구적인 BTX 중독에 걸립니다. 중독 헤디프가 BTX 욕구를 생성하며, 위험한 금단 증상을 막으려면 벤젠, 톨루엔 또는 자일렌 화합물을 섭취해 욕구를 채워야 합니다.</HD_Gene_BTXDependency.description>
-
-  <!-- Amphetamine Dependency Gene -->
   <HD_Gene_AmphetamineDependency.label>암페타민 의존</HD_Gene_AmphetamineDependency.label>
   <HD_Gene_AmphetamineDependency.description>이 유전자의 보유자는 생존을 위해 암페타민을 주기적으로 섭취해야 합니다. 암페타민을 섭취하지 않고 5일이 지나면 결핍이 시작되고, 30일 뒤에는 혼수상태에 빠지며, 60일 뒤에는 사망합니다.</HD_Gene_AmphetamineDependency.description>
-
-  <!-- Sharpshooter Gene -->
   <HD_Gene_Sharpshooter.label>명사수</HD_Gene_Sharpshooter.label>
   <HD_Gene_Sharpshooter.description>총을 잘 다루는 정도의 능력 (총기의 특수 조작을 사용할 수 있습니다)</HD_Gene_Sharpshooter.description>
-
-  <!-- Arrogant Leader Gene -->
   <HD_Gene_ArrogantLeader.label>오만한 지도자</HD_Gene_ArrogantLeader.label>
-  <HD_Gene_ArrogantLeader.description>오만하지만 사람을 끌어당기는 카리스마를 지녔습니다.</HD_Gene_ArrogantLeader.description>
-
-  <!-- Polar Precision Gene -->
+  <HD_Gene_ArrogantLeader.description>사회적 영향력이 15% 증가합니다. 자존심 때문에 정신 붕괴 임계치가 4%p 높아지고 학습 속도는 10%p 낮아집니다.</HD_Gene_ArrogantLeader.description>
   <HD_Gene_PolarPrecision.label>극지의 정밀함</HD_Gene_PolarPrecision.label>
-  <HD_Gene_PolarPrecision.description>극도의 집중력으로 표적을 놓치지 않습니다.</HD_Gene_PolarPrecision.description>
-
-  <!-- Monopolist Gene -->
-  <HD_Gene_Monopolist.label>독점가</HD_Gene_Monopolist.label>
-  <HD_Gene_Monopolist.description>돈은 항상 옳다!</HD_Gene_Monopolist.description>
-
-  <!-- Mercenary Cohesion Gene -->
+  <HD_Gene_PolarPrecision.description>지붕 없는 야외에서 기온이 10도 이하이면 조준 준비 시간이 기존의 85%가 됩니다. 일반 작업 속도는 5%p 낮아집니다.</HD_Gene_PolarPrecision.description>
+  <HD_Gene_Monopolist.label>도시의 정밀함</HD_Gene_Monopolist.label>
+  <HD_Gene_Monopolist.description>연구·일반 노동 속도가 각각 5% 빨라집니다. 거래 가격 개선이 8%p, 협상 능력이 10%p 높아집니다.</HD_Gene_Monopolist.description>
   <HD_Gene_MercenaryCohesion.label>용병대 결속</HD_Gene_MercenaryCohesion.label>
-  <HD_Gene_MercenaryCohesion.description>헤로드 뭉치면 강하다</HD_Gene_MercenaryCohesion.description>
-
+  <HD_Gene_MercenaryCohesion.description>8칸 이내에 쓰러지지 않은 같은 세력의 헤로드 전우가 있으면 통증 쇼크 임계치가 10%p 높아지고 근접 공격을 더 잘 피합니다. 혼자 있거나 쓰러진 전우·적과 함께 있을 때는 적용되지 않습니다.</HD_Gene_MercenaryCohesion.description>
 </LanguageData>

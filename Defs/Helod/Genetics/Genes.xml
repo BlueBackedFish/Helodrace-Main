@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version='1.0' encoding='utf-8'?>
 <Defs>
-
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_Gene_BTXDependency</defName>
     <label>BTX dependency</label>
@@ -16,7 +15,6 @@
       <li>AddictionBTX</li>
     </exclusionTags>
   </GeneDef>
-
   <GeneDef MayRequire="BlueBackedFish.Helod.BlancasDrugs">
     <defName>HD_Gene_AmphetamineDependency</defName>
     <label>amphetamine dependency</label>
@@ -34,7 +32,6 @@
       <li>AddictionBD_Amphetamines</li>
     </exclusionTags>
   </GeneDef>
-
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_Gene_Sharpshooter</defName>
     <label>sharpshooter</label>
@@ -43,7 +40,7 @@
     <displayCategory>Miscellaneous</displayCategory>
     <biostatCpx>0</biostatCpx>
     <biostatMet>0</biostatMet>
-    <biostatArc>1</biostatArc>
+    <biostatArc>0</biostatArc>
     <statOffsets>
       <ShootingAccuracyPawn>1.5</ShootingAccuracyPawn>
     </statOffsets>
@@ -51,67 +48,71 @@
       <RangedWeapon_Cooldown>0.9</RangedWeapon_Cooldown>
     </statFactors>
   </GeneDef>
-
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_Gene_ArrogantLeader</defName>
     <label>arrogant leader</label>
-    <description>Arrogant but with charisma</description>
+    <description>A commanding presence improves social impact by 15%, but pride raises mental break threshold by 4% and lowers learning speed by 10%.</description>
     <iconPath>Icons/HD_Helod</iconPath>
     <displayCategory>Miscellaneous</displayCategory>
     <biostatCpx>2</biostatCpx>
-    <biostatMet>0</biostatMet>
+    <biostatMet>-2</biostatMet>
     <statOffsets>
-      <SocialImpact>0.20</SocialImpact>
-      <MentalBreakThreshold>0.06</MentalBreakThreshold>
-      <GlobalLearningFactor>-0.15</GlobalLearningFactor>
+      <SocialImpact>0.15</SocialImpact>
+      <MentalBreakThreshold>0.04</MentalBreakThreshold>
+      <GlobalLearningFactor>-0.1</GlobalLearningFactor>
     </statOffsets>
   </GeneDef>
-
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_Gene_PolarPrecision</defName>
     <label>polar precision</label>
-    <description>HYPERFOCUS</description>
+    <description>In an unroofed position at 10 C or colder, aiming time is 85% of normal. General work speed is reduced by 5%.</description>
     <iconPath>Icons/HD_Sharpshooter</iconPath>
     <displayCategory>Miscellaneous</displayCategory>
     <biostatCpx>2</biostatCpx>
     <biostatMet>-1</biostatMet>
+    <conditionalStatAffecters>
+      <li Class="Helodrace.ConditionalStatAffecter_PolarField">
+        <statFactors>
+          <AimingDelayFactor>0.85</AimingDelayFactor>
+        </statFactors>
+      </li>
+    </conditionalStatAffecters>
     <statOffsets>
-      <ShootingAccuracyPawn>2.0</ShootingAccuracyPawn>
-      <MeleeHitChance>0.5</MeleeHitChance>
       <WorkSpeedGlobal>-0.05</WorkSpeedGlobal>
     </statOffsets>
   </GeneDef>
-
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_Gene_Monopolist</defName>
-    <label>monopolist</label>
-    <description>The money is always right!</description>
+    <label>urban precision</label>
+    <description>Urban experience improves research speed and general labor speed by 5%, trade price improvement by 8%, and negotiation ability by 10%.</description>
     <iconPath>Icons/HD_Helod</iconPath>
     <displayCategory>Miscellaneous</displayCategory>
     <biostatCpx>2</biostatCpx>
-    <biostatMet>-1</biostatMet>
+    <biostatMet>-3</biostatMet>
     <statOffsets>
-      <TradePriceImprovement>0.12</TradePriceImprovement>
-      <NegotiationAbility>0.25</NegotiationAbility>
-      <SocialImpact>0.15</SocialImpact>
+      <TradePriceImprovement>0.08</TradePriceImprovement>
+      <NegotiationAbility>0.1</NegotiationAbility>
     </statOffsets>
+    <statFactors>
+      <ResearchSpeed>1.05</ResearchSpeed>
+      <GeneralLaborSpeed>1.05</GeneralLaborSpeed>
+    </statFactors>
   </GeneDef>
-
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_Gene_MercenaryCohesion</defName>
     <label>mercenary cohesion</label>
-    <description>Helod together strong</description>
+    <description>With a healthy allied Helod within eight cells, pain shock threshold increases by 10% and melee dodging improves. The effect requires an allied Helod who is not downed.</description>
     <iconPath>Icons/HD_Sharpshooter</iconPath>
     <displayCategory>Miscellaneous</displayCategory>
     <biostatCpx>3</biostatCpx>
     <biostatMet>-2</biostatMet>
-    <statOffsets>
-      <MeleeDodgeChance>2.0</MeleeDodgeChance>
-      <PainShockThreshold>0.15</PainShockThreshold>
-    </statOffsets>
-    <statFactors>
-      <IncomingDamageFactor>0.92</IncomingDamageFactor>
-    </statFactors>
+    <conditionalStatAffecters>
+      <li Class="Helodrace.ConditionalStatAffecter_HelodComrades">
+        <statOffsets>
+          <PainShockThreshold>0.10</PainShockThreshold>
+          <MeleeDodgeChance>5</MeleeDodgeChance>
+        </statOffsets>
+      </li>
+    </conditionalStatAffecters>
   </GeneDef>
-
 </Defs>

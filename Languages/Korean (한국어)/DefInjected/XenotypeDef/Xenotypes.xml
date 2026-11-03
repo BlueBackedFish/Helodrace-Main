@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version='1.0' encoding='utf-8'?>
 <LanguageData>
   <HD_MackenzieValleyHelod.label>매켄지 밸리 헤로드</HD_MackenzieValleyHelod.label>
-  <HD_MackenzieValleyHelod.description>큰 체격과 침착한 성향을 지닌 헤로드 계통입니다. 집단을 이끌고 동료를 지키는 데 능하지만 많은 식량을 필요로 하며 움직임은 느린 편입니다.</HD_MackenzieValleyHelod.description>
+  <HD_MackenzieValleyHelod.description>집단을 이끄는 지휘관이자 야전 의료 담당 계통입니다. 뛰어난 사교·의료 적성과 통증 저항을 지녔지만 이동이 느리고 식량 부담이 크며, 자존심과 낮은 연구 적성이 약점입니다.</HD_MackenzieValleyHelod.description>
   <HD_TexasHelod.label>텍사스 헤로드</HD_TexasHelod.label>
-  <HD_TexasHelod.description>고온 건조한 초원에 적응한 헤로드 계통입니다. 빠른 움직임과 사격 솜씨가 강점이지만 경계심이 강해 충돌을 일으키기 쉽습니다.</HD_TexasHelod.description>
+  <HD_TexasHelod.description>농사·목축·사냥으로 변방의 식량을 책임지는 계통입니다. 빠른 이동과 더위 적응이 장점이며 몸이 약하고 추위와 사교에 취약합니다.</HD_TexasHelod.description>
   <HD_ArcticHelod.label>북극 헤로드</HD_ArcticHelod.label>
-  <HD_ArcticHelod.description>한랭지 정찰과 장거리 사격에 적응한 헤로드 계통입니다. 추위에는 강하지만 더위와 질병에 약하며 혼자 행동하려는 경향이 있습니다.</HD_ArcticHelod.description>
+  <HD_ArcticHelod.description>추운 지역의 정찰과 사격에 특화된 계통입니다. 뛰어난 사격 적성을 지니며, 지붕 없는 야외에서 기온이 10도 이하이면 조준 준비 시간이 기존의 85%가 됩니다. 더위·질병·농사·사교에 약하고 일반 작업 속도가 조금 느립니다.</HD_ArcticHelod.description>
   <HD_EasternHelod.label>동부 헤로드</HD_EasternHelod.label>
-  <HD_EasternHelod.description>상업과 정밀 작업에 익숙한 도시형 헤로드 계통입니다. 사교, 연구와 제작에 능하지만 체력이 약하고 정신 자극에 민감합니다.</HD_EasternHelod.description>
+  <HD_EasternHelod.description>연구와 정밀 제작에 특화된 도시형 계통입니다. 연구·제작 적성과 소폭의 작업 속도 보너스를 지녔으며 거래도 보조합니다. 몸이 약하고 상처 회복이 느려 전선에서 보호가 필요합니다.</HD_EasternHelod.description>
   <HD_MexicanHelod.label>멕시코 헤로드</HD_MexicanHelod.label>
-  <HD_MexicanHelod.description>조직적인 용병 생활에 적응한 헤로드 계통입니다. 튼튼한 체력과 빠른 회복을 지녔지만 전투 자극제에 의존하는 경우가 많습니다.</HD_MexicanHelod.description>
-  <HD_MackenzieValleyHelod.descriptionShort>크고 강인하며 권위적인 헤로드입니다.</HD_MackenzieValleyHelod.descriptionShort>
-  <HD_TexasHelod.descriptionShort>빠르고 열에 강한 명사수 헤로드입니다.</HD_TexasHelod.descriptionShort>
-  <HD_ArcticHelod.descriptionShort>정예 극지 저격수이자 고독한 헤로드입니다.</HD_ArcticHelod.descriptionShort>
-  <HD_EasternHelod.descriptionShort>지적이고 사교적이며 내정에 특화된 독점가 헤로드입니다.</HD_EasternHelod.descriptionShort>
-  <HD_MexicanHelod.descriptionShort>튼튼하고 민첩한 전투 PMC 헤로드로, 암페타민 의존증이 있습니다.</HD_MexicanHelod.descriptionShort>
+  <HD_MexicanHelod.description>기동과 근접·총기 전투에 특화된 용병 계통입니다. 강건한 몸과 빠른 회복을 지니며, 8칸 이내의 건강한 아군 헤로드 전우가 있으면 통증을 버티고 공격을 피하는 능력이 높아집니다. BTX와 암페타민 두 보급망이 필요합니다.</HD_MexicanHelod.description>
+  <HD_MackenzieValleyHelod.descriptionShort>지휘·의료 담당. 느린 이동과 식량 부담, 자존심이 대가입니다.</HD_MackenzieValleyHelod.descriptionShort>
+  <HD_TexasHelod.descriptionShort>농사·동물·사냥 담당. 빠르지만 몸이 약하고 추위에 민감합니다.</HD_TexasHelod.descriptionShort>
+  <HD_ArcticHelod.descriptionShort>극지 정찰·사격 담당. 추운 야외에 강하고 더위와 질병에 약합니다.</HD_ArcticHelod.descriptionShort>
+  <HD_EasternHelod.descriptionShort>연구·제작 담당, 거래 보조. 몸이 약하고 상처 회복이 느립니다.</HD_EasternHelod.descriptionShort>
+  <HD_MexicanHelod.descriptionShort>기동·용병 담당. 전우와 함께 강해지고 BTX·암페타민 보급이 필요합니다.</HD_MexicanHelod.descriptionShort>
 </LanguageData>

@@ -1,0 +1,33 @@
+{
+  "inherited": [
+    "AptitudeStrong_Animals",
+    "AptitudeStrong_Social",
+    "HD_Gene_Monopolist",
+    "WoundHealing_Slow",
+    "AptitudeStrong_Intellectual",
+    "AptitudeStrong_Shooting",
+    "AptitudePoor_Social",
+    "Delicate",
+    "MaxTemp_LargeIncrease",
+    "MoveSpeed_Quick",
+    "HD_Gene_BTXDependency",
+    "HD_Gene_Sharpshooter",
+    "Hair_SandyBlonde"
+  ],
+  "actual": [
+    "AptitudeStrong_Animals",
+    "AptitudeStrong_Social",
+    "HD_Gene_Monopolist",
+    "WoundHealing_Slow",
+    "AptitudeStrong_Intellectual",
+    "AptitudeStrong_Shooting",
+    "AptitudePoor_Social",
+    "Delicate",
+    "MaxTemp_LargeIncrease",
+    "MoveSpeed_Quick",
+    "HD_Gene_BTXDependency",
+    "HD_Gene_Sharpshooter",
+    "Hair_SandyBlonde"
+  ],
+  "xenotype": "Baseliner"
+}

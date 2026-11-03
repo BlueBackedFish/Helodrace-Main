@@ -1,0 +1,162 @@
+[
+  {
+    "name": "HD_MackenzieValleyHelod",
+    "metabolism": -2,
+    "foodFactorFromMetabolism": 1.5,
+    "genes": [
+      "HD_Gene_BTXDependency",
+      "HD_Gene_Sharpshooter",
+      "Hair_DarkBlack",
+      "MoveSpeed_Slow",
+      "Beauty_Pretty",
+      "Pain_Reduced",
+      "HD_Gene_ArrogantLeader",
+      "AptitudeStrong_Medicine",
+      "AptitudePoor_Intellectual",
+      "AptitudeStrong_Shooting",
+      "AptitudeRemarkable_Social"
+    ],
+    "aptitudes": {
+      "Shooting": 4,
+      "Melee": 0,
+      "Construction": 0,
+      "Mining": 0,
+      "Cooking": 0,
+      "Plants": 0,
+      "Animals": 0,
+      "Crafting": 0,
+      "Artistic": 0,
+      "Medicine": 4,
+      "Social": 8,
+      "Intellectual": -4
+    }
+  },
+  {
+    "name": "HD_TexasHelod",
+    "metabolism": 0,
+    "foodFactorFromMetabolism": 1,
+    "genes": [
+      "HD_Gene_BTXDependency",
+      "HD_Gene_Sharpshooter",
+      "Hair_SandyBlonde",
+      "MoveSpeed_Quick",
+      "MaxTemp_LargeIncrease",
+      "MinTemp_SmallIncrease",
+      "Delicate",
+      "AptitudeStrong_Plants",
+      "AptitudeStrong_Animals",
+      "AptitudeStrong_Shooting",
+      "AptitudePoor_Social"
+    ],
+    "aptitudes": {
+      "Shooting": 4,
+      "Melee": 0,
+      "Construction": 0,
+      "Mining": 0,
+      "Cooking": 0,
+      "Plants": 4,
+      "Animals": 4,
+      "Crafting": 0,
+      "Artistic": 0,
+      "Medicine": 0,
+      "Social": -4,
+      "Intellectual": 0
+    }
+  },
+  {
+    "name": "HD_ArcticHelod",
+    "metabolism": -1,
+    "foodFactorFromMetabolism": 1.25,
+    "genes": [
+      "HD_Gene_BTXDependency",
+      "HD_Gene_Sharpshooter",
+      "Hair_SnowWhite",
+      "MoveSpeed_Quick",
+      "MinTemp_LargeDecrease",
+      "MaxTemp_SmallDecrease",
+      "HD_Gene_PolarPrecision",
+      "Immunity_Weak",
+      "AptitudePoor_Plants",
+      "AptitudeRemarkable_Shooting",
+      "AptitudePoor_Social"
+    ],
+    "aptitudes": {
+      "Shooting": 8,
+      "Melee": 0,
+      "Construction": 0,
+      "Mining": 0,
+      "Cooking": 0,
+      "Plants": -4,
+      "Animals": 0,
+      "Crafting": 0,
+      "Artistic": 0,
+      "Medicine": 0,
+      "Social": -4,
+      "Intellectual": 0
+    }
+  },
+  {
+    "name": "HD_EasternHelod",
+    "metabolism": 2,
+    "foodFactorFromMetabolism": 0.8,
+    "genes": [
+      "HD_Gene_BTXDependency",
+      "HD_Gene_Sharpshooter",
+      "Hair_Gray",
+      "Delicate",
+      "WoundHealing_Slow",
+      "HD_Gene_Monopolist",
+      "AptitudeStrong_Intellectual",
+      "AptitudeStrong_Crafting",
+      "AptitudeStrong_Social"
+    ],
+    "aptitudes": {
+      "Shooting": 0,
+      "Melee": 0,
+      "Construction": 0,
+      "Mining": 0,
+      "Cooking": 0,
+      "Plants": 0,
+      "Animals": 0,
+      "Crafting": 4,
+      "Artistic": 0,
+      "Medicine": 0,
+      "Social": 4,
+      "Intellectual": 4
+    }
+  },
+  {
+    "name": "HD_MexicanHelod",
+    "metabolism": -3,
+    "foodFactorFromMetabolism": 1.75,
+    "genes": [
+      "HD_Gene_BTXDependency",
+      "HD_Gene_Sharpshooter",
+      "Hair_DarkBrown",
+      "MoveSpeed_Quick",
+      "Robust",
+      "WoundHealing_Fast",
+      "KindInstinct",
+      "HD_Gene_AmphetamineDependency",
+      "HD_Gene_MercenaryCohesion",
+      "AptitudePoor_Plants",
+      "AptitudeStrong_Shooting",
+      "AptitudeStrong_Melee",
+      "AptitudePoor_Social"
+    ],
+    "aptitudes": {
+      "Shooting": 4,
+      "Melee": 4,
+      "Construction": 0,
+      "Mining": 0,
+      "Cooking": 0,
+      "Plants": -4,
+      "Animals": 0,
+      "Crafting": 0,
+      "Artistic": 0,
+      "Medicine": 0,
+      "Social": -4,
+      "Intellectual": 0
+    }
+  }
+]

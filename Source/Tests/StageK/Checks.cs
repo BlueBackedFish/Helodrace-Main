@@ -20,6 +20,7 @@ public sealed partial class Checks:GameComponent
         try
         {
             Find.TickManager.Pause();var map=Find.CurrentMap;
+            if(GenCommandLine.TryGetCommandLineArg("hdKGeneAudit",out _)){GeneAudit();Finish();return;}
             if(GenCommandLine.TryGetCommandLineArg("hdKState",out _)){playMap=map;ResumeState();return;}
             var incident=Def<IncidentDef>("StrangerInBlackJoin");
             Check(incident.pawnKind.defName=="HD_RescuerInBlack"&&incident.Worker.GetType()==typeof(IncidentWorker_WandererJoin),"Only crisis rescuer pawn kind changes; native worker remains");
@@ -40,6 +41,7 @@ public sealed partial class Checks:GameComponent
             }
             if(GenCommandLine.TryGetCommandLineArg("hdKRecreation",out _)){steps=RecreationChecks().GetEnumerator();return;}
             if(GenCommandLine.TryGetCommandLineArg("hdKPistols",out _)){steps=PistolChecks().GetEnumerator();return;}
+            if(GenCommandLine.TryGetCommandLineArg("hdKXenotypes",out _)){steps=XenotypeLifeChecks().GetEnumerator();return;}
             Finish();
         }
         catch(Exception e){File.AppendAllText(Path.Combine(output,"checks.txt"),"FAIL: "+e+"\n");Log.Error(e.ToString());Waylith.EngineApplication.Instance.Quit(1);}

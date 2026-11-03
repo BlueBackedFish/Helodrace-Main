@@ -13,6 +13,16 @@
 				<weightFactor>1</weightFactor>
 			</li>
 		</styleItemTags>
+		<useFactionXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</useFactionXenotypes>
+		<xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
+			<xenotypeChances>
+				<HD_MackenzieValleyHelod>0.3</HD_MackenzieValleyHelod>
+				<HD_TexasHelod>0.3</HD_TexasHelod>
+				<HD_ArcticHelod>0.1</HD_ArcticHelod>
+				<HD_EasternHelod>0.25</HD_EasternHelod>
+				<HD_MexicanHelod>0.05</HD_MexicanHelod>
+			</xenotypeChances>
+		</xenotypeSet>
 	</PawnKindDef>
 
 	<!-- Trained, medically fit military recruits. Shared by all military eras. -->
@@ -26,6 +36,16 @@
 				<range>8~12</range>
 			</li>
 		</skills>
+		<useFactionXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</useFactionXenotypes>
+		<xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
+			<xenotypeChances>
+				<HD_MackenzieValleyHelod>0.25</HD_MackenzieValleyHelod>
+				<HD_TexasHelod>0.1</HD_TexasHelod>
+				<HD_ArcticHelod>0.2</HD_ArcticHelod>
+				<HD_EasternHelod>0.05</HD_EasternHelod>
+				<HD_MexicanHelod>0.4</HD_MexicanHelod>
+			</xenotypeChances>
+		</xenotypeSet>
 	</PawnKindDef>
 
 	<!-- Helod Player Colonist -->
@@ -60,27 +80,6 @@
 		<backstoryCryptosleepCommonality>1</backstoryCryptosleepCommonality>
 		<initialWillRange>0~0</initialWillRange>
 		<initialResistanceRange>10~15</initialResistanceRange>
-		<useFactionXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</useFactionXenotypes>
-		<xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
-			<xenotypeChances>
-				<HD_MackenzieValleyHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MackenzieValleyHelod>
-				<HD_TexasHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_TexasHelod>
-				<HD_ArcticHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_ArcticHelod>
-				<HD_EasternHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_EasternHelod>
-				<HD_MexicanHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MexicanHelod>
-				<Baseliner MayRequire="Ludeon.RimWorld.Biotech">0</Baseliner>
-				<Dirtmole MayRequire="Ludeon.RimWorld.Biotech">0</Dirtmole>
-				<Genie MayRequire="Ludeon.RimWorld.Biotech">0</Genie>
-				<Hussar MayRequire="Ludeon.RimWorld.Biotech">0</Hussar>
-				<Sanguophage MayRequire="Ludeon.RimWorld.Biotech">0</Sanguophage>
-				<Neanderthal MayRequire="Ludeon.RimWorld.Biotech">0</Neanderthal>
-				<Pigskin MayRequire="Ludeon.RimWorld.Biotech">0</Pigskin>
-				<Impid MayRequire="Ludeon.RimWorld.Biotech">0</Impid>
-				<Waster MayRequire="Ludeon.RimWorld.Biotech">0</Waster>
-				<Yttakin MayRequire="Ludeon.RimWorld.Biotech">0</Yttakin>
-				<Highmate MayRequire="Ludeon.RimWorld.Biotech">0</Highmate>
-			</xenotypeChances>
-		</xenotypeSet>
 	</PawnKindDef>
 
 	<!-- Helod NPC settler -->
@@ -139,27 +138,6 @@
 		<backstoryCryptosleepCommonality>1</backstoryCryptosleepCommonality>
 		<initialWillRange>0~0</initialWillRange>
 		<initialResistanceRange>10~15</initialResistanceRange>
-		<useFactionXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</useFactionXenotypes>
-		<xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
-			<xenotypeChances>
-				<HD_MackenzieValleyHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MackenzieValleyHelod>
-				<HD_TexasHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_TexasHelod>
-				<HD_ArcticHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_ArcticHelod>
-				<HD_EasternHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_EasternHelod>
-				<HD_MexicanHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MexicanHelod>
-				<Baseliner MayRequire="Ludeon.RimWorld.Biotech">0</Baseliner>
-				<Dirtmole MayRequire="Ludeon.RimWorld.Biotech">0</Dirtmole>
-				<Genie MayRequire="Ludeon.RimWorld.Biotech">0</Genie>
-				<Hussar MayRequire="Ludeon.RimWorld.Biotech">0</Hussar>
-				<Sanguophage MayRequire="Ludeon.RimWorld.Biotech">0</Sanguophage>
-				<Neanderthal MayRequire="Ludeon.RimWorld.Biotech">0</Neanderthal>
-				<Pigskin MayRequire="Ludeon.RimWorld.Biotech">0</Pigskin>
-				<Impid MayRequire="Ludeon.RimWorld.Biotech">0</Impid>
-				<Waster MayRequire="Ludeon.RimWorld.Biotech">0</Waster>
-				<Yttakin MayRequire="Ludeon.RimWorld.Biotech">0</Yttakin>
-				<Highmate MayRequire="Ludeon.RimWorld.Biotech">0</Highmate>
-			</xenotypeChances>
-		</xenotypeSet>
 	</PawnKindDef>
 
 	<!-- Helod upper class -->
@@ -212,22 +190,11 @@
 		<useFactionXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</useFactionXenotypes>
 		<xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
 			<xenotypeChances>
-				<HD_MackenzieValleyHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MackenzieValleyHelod>
-				<HD_TexasHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_TexasHelod>
-				<HD_ArcticHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_ArcticHelod>
-				<HD_EasternHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_EasternHelod>
-				<HD_MexicanHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MexicanHelod>
-				<Baseliner MayRequire="Ludeon.RimWorld.Biotech">0</Baseliner>
-				<Dirtmole MayRequire="Ludeon.RimWorld.Biotech">0</Dirtmole>
-				<Genie MayRequire="Ludeon.RimWorld.Biotech">0</Genie>
-				<Hussar MayRequire="Ludeon.RimWorld.Biotech">0</Hussar>
-				<Sanguophage MayRequire="Ludeon.RimWorld.Biotech">0</Sanguophage>
-				<Neanderthal MayRequire="Ludeon.RimWorld.Biotech">0</Neanderthal>
-				<Pigskin MayRequire="Ludeon.RimWorld.Biotech">0</Pigskin>
-				<Impid MayRequire="Ludeon.RimWorld.Biotech">0</Impid>
-				<Waster MayRequire="Ludeon.RimWorld.Biotech">0</Waster>
-				<Yttakin MayRequire="Ludeon.RimWorld.Biotech">0</Yttakin>
-				<Highmate MayRequire="Ludeon.RimWorld.Biotech">0</Highmate>
+				<HD_MackenzieValleyHelod>0.2</HD_MackenzieValleyHelod>
+				<HD_TexasHelod>0.15</HD_TexasHelod>
+				<HD_ArcticHelod>0.05</HD_ArcticHelod>
+				<HD_EasternHelod>0.55</HD_EasternHelod>
+				<HD_MexicanHelod>0.05</HD_MexicanHelod>
 			</xenotypeChances>
 		</xenotypeSet>
 	</PawnKindDef>
@@ -285,22 +252,11 @@
 		<useFactionXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</useFactionXenotypes>
 		<xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
 			<xenotypeChances>
-				<HD_MackenzieValleyHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MackenzieValleyHelod>
-				<HD_TexasHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_TexasHelod>
-				<HD_ArcticHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_ArcticHelod>
-				<HD_EasternHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_EasternHelod>
-				<HD_MexicanHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MexicanHelod>
-				<Baseliner MayRequire="Ludeon.RimWorld.Biotech">0</Baseliner>
-				<Dirtmole MayRequire="Ludeon.RimWorld.Biotech">0</Dirtmole>
-				<Genie MayRequire="Ludeon.RimWorld.Biotech">0</Genie>
-				<Hussar MayRequire="Ludeon.RimWorld.Biotech">0</Hussar>
-				<Sanguophage MayRequire="Ludeon.RimWorld.Biotech">0</Sanguophage>
-				<Neanderthal MayRequire="Ludeon.RimWorld.Biotech">0</Neanderthal>
-				<Pigskin MayRequire="Ludeon.RimWorld.Biotech">0</Pigskin>
-				<Impid MayRequire="Ludeon.RimWorld.Biotech">0</Impid>
-				<Waster MayRequire="Ludeon.RimWorld.Biotech">0</Waster>
-				<Yttakin MayRequire="Ludeon.RimWorld.Biotech">0</Yttakin>
-				<Highmate MayRequire="Ludeon.RimWorld.Biotech">0</Highmate>
+				<HD_MackenzieValleyHelod>0.2</HD_MackenzieValleyHelod>
+				<HD_TexasHelod>0.15</HD_TexasHelod>
+				<HD_ArcticHelod>0.05</HD_ArcticHelod>
+				<HD_EasternHelod>0.55</HD_EasternHelod>
+				<HD_MexicanHelod>0.05</HD_MexicanHelod>
 			</xenotypeChances>
 		</xenotypeSet>
 	</PawnKindDef>
@@ -364,22 +320,11 @@
 		<useFactionXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</useFactionXenotypes>
 		<xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
 			<xenotypeChances>
-				<HD_MackenzieValleyHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MackenzieValleyHelod>
-				<HD_TexasHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_TexasHelod>
-				<HD_ArcticHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_ArcticHelod>
-				<HD_EasternHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_EasternHelod>
-				<HD_MexicanHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MexicanHelod>
-				<Baseliner MayRequire="Ludeon.RimWorld.Biotech">0</Baseliner>
-				<Dirtmole MayRequire="Ludeon.RimWorld.Biotech">0</Dirtmole>
-				<Genie MayRequire="Ludeon.RimWorld.Biotech">0</Genie>
-				<Hussar MayRequire="Ludeon.RimWorld.Biotech">0</Hussar>
-				<Sanguophage MayRequire="Ludeon.RimWorld.Biotech">0</Sanguophage>
-				<Neanderthal MayRequire="Ludeon.RimWorld.Biotech">0</Neanderthal>
-				<Pigskin MayRequire="Ludeon.RimWorld.Biotech">0</Pigskin>
-				<Impid MayRequire="Ludeon.RimWorld.Biotech">0</Impid>
-				<Waster MayRequire="Ludeon.RimWorld.Biotech">0</Waster>
-				<Yttakin MayRequire="Ludeon.RimWorld.Biotech">0</Yttakin>
-				<Highmate MayRequire="Ludeon.RimWorld.Biotech">0</Highmate>
+				<HD_MackenzieValleyHelod>0.25</HD_MackenzieValleyHelod>
+				<HD_TexasHelod>0.2</HD_TexasHelod>
+				<HD_ArcticHelod>0.25</HD_ArcticHelod>
+				<HD_EasternHelod>0.05</HD_EasternHelod>
+				<HD_MexicanHelod>0.25</HD_MexicanHelod>
 			</xenotypeChances>
 		</xenotypeSet>
 	</PawnKindDef>
@@ -435,22 +380,11 @@
 		<useFactionXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</useFactionXenotypes>
 		<xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
 			<xenotypeChances>
-				<HD_MackenzieValleyHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MackenzieValleyHelod>
-				<HD_TexasHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_TexasHelod>
-				<HD_ArcticHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_ArcticHelod>
-				<HD_EasternHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_EasternHelod>
-				<HD_MexicanHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MexicanHelod>
-				<Baseliner MayRequire="Ludeon.RimWorld.Biotech">0</Baseliner>
-				<Dirtmole MayRequire="Ludeon.RimWorld.Biotech">0</Dirtmole>
-				<Genie MayRequire="Ludeon.RimWorld.Biotech">0</Genie>
-				<Hussar MayRequire="Ludeon.RimWorld.Biotech">0</Hussar>
-				<Sanguophage MayRequire="Ludeon.RimWorld.Biotech">0</Sanguophage>
-				<Neanderthal MayRequire="Ludeon.RimWorld.Biotech">0</Neanderthal>
-				<Pigskin MayRequire="Ludeon.RimWorld.Biotech">0</Pigskin>
-				<Impid MayRequire="Ludeon.RimWorld.Biotech">0</Impid>
-				<Waster MayRequire="Ludeon.RimWorld.Biotech">0</Waster>
-				<Yttakin MayRequire="Ludeon.RimWorld.Biotech">0</Yttakin>
-				<Highmate MayRequire="Ludeon.RimWorld.Biotech">0</Highmate>
+				<HD_MackenzieValleyHelod>0.2</HD_MackenzieValleyHelod>
+				<HD_TexasHelod>0.35</HD_TexasHelod>
+				<HD_ArcticHelod>0.15</HD_ArcticHelod>
+				<HD_EasternHelod>0.05</HD_EasternHelod>
+				<HD_MexicanHelod>0.25</HD_MexicanHelod>
 			</xenotypeChances>
 		</xenotypeSet>
 	</PawnKindDef>
