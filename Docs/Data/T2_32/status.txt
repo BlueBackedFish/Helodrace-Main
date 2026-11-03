@@ -1,0 +1,66 @@
+T2-32 actual native single-shell benchmark
+Samples per valid condition: 128
+CASE 0 Case { weapon = HD_Gun_WinM1887_Weapon, alt = False, armor = 0, distance = 3 } available=True
+DONE case=0 samples=128
+CASE 1 Case { weapon = HD_Gun_WinM1887_Weapon, alt = False, armor = 0, distance = 7 } available=True
+DONE case=1 samples=128
+CASE 2 Case { weapon = HD_Gun_WinM1887_Weapon, alt = False, armor = 0, distance = 15 } available=True
+DONE case=2 samples=128
+CASE 3 Case { weapon = HD_Gun_WinM1887_Weapon, alt = False, armor = 1, distance = 3 } available=True
+DONE case=3 samples=128
+CASE 4 Case { weapon = HD_Gun_WinM1887_Weapon, alt = False, armor = 1, distance = 7 } available=True
+DONE case=4 samples=128
+CASE 5 Case { weapon = HD_Gun_WinM1887_Weapon, alt = False, armor = 1, distance = 15 } available=True
+DONE case=5 samples=128
+CASE 6 Case { weapon = HD_Gun_WinM1887_Weapon, alt = False, armor = 2, distance = 3 } available=True
+DONE case=6 samples=128
+CASE 7 Case { weapon = HD_Gun_WinM1887_Weapon, alt = False, armor = 2, distance = 7 } available=True
+DONE case=7 samples=128
+CASE 8 Case { weapon = HD_Gun_WinM1887_Weapon, alt = False, armor = 2, distance = 15 } available=True
+DONE case=8 samples=128
+CASE 9 Case { weapon = HD_Gun_WinM1887_Weapon, alt = True, armor = 0, distance = 3 } available=True
+DONE case=9 samples=128
+CASE 10 Case { weapon = HD_Gun_WinM1887_Weapon, alt = True, armor = 0, distance = 7 } available=False
+CASE 11 Case { weapon = HD_Gun_WinM1887_Weapon, alt = True, armor = 0, distance = 15 } available=False
+CASE 12 Case { weapon = HD_Gun_WinM1887_Weapon, alt = True, armor = 1, distance = 3 } available=True
+DONE case=12 samples=128
+CASE 13 Case { weapon = HD_Gun_WinM1887_Weapon, alt = True, armor = 1, distance = 7 } available=False
+CASE 14 Case { weapon = HD_Gun_WinM1887_Weapon, alt = True, armor = 1, distance = 15 } available=False
+CASE 15 Case { weapon = HD_Gun_WinM1887_Weapon, alt = True, armor = 2, distance = 3 } available=True
+DONE case=15 samples=128
+CASE 16 Case { weapon = HD_Gun_WinM1887_Weapon, alt = True, armor = 2, distance = 7 } available=False
+CASE 17 Case { weapon = HD_Gun_WinM1887_Weapon, alt = True, armor = 2, distance = 15 } available=False
+CASE 18 Case { weapon = HD_Gun_M1897_Weapon, alt = False, armor = 0, distance = 3 } available=True
+DONE case=18 samples=128
+CASE 19 Case { weapon = HD_Gun_M1897_Weapon, alt = False, armor = 0, distance = 7 } available=True
+DONE case=19 samples=128
+CASE 20 Case { weapon = HD_Gun_M1897_Weapon, alt = False, armor = 0, distance = 15 } available=True
+DONE case=20 samples=128
+CASE 21 Case { weapon = HD_Gun_M1897_Weapon, alt = False, armor = 1, distance = 3 } available=True
+DONE case=21 samples=128
+CASE 22 Case { weapon = HD_Gun_M1897_Weapon, alt = False, armor = 1, distance = 7 } available=True
+DONE case=22 samples=128
+CASE 23 Case { weapon = HD_Gun_M1897_Weapon, alt = False, armor = 1, distance = 15 } available=True
+DONE case=23 samples=128
+CASE 24 Case { weapon = HD_Gun_M1897_Weapon, alt = False, armor = 2, distance = 3 } available=True
+DONE case=24 samples=128
+CASE 25 Case { weapon = HD_Gun_M1897_Weapon, alt = False, armor = 2, distance = 7 } available=True
+DONE case=25 samples=128
+CASE 26 Case { weapon = HD_Gun_M1897_Weapon, alt = False, armor = 2, distance = 15 } available=True
+DONE case=26 samples=128
+CASE 27 Case { weapon = HD_Gun_M1897_Weapon, alt = True, armor = 0, distance = 3 } available=True
+DONE case=27 samples=128
+CASE 28 Case { weapon = HD_Gun_M1897_Weapon, alt = True, armor = 0, distance = 7 } available=True
+DONE case=28 samples=128
+CASE 29 Case { weapon = HD_Gun_M1897_Weapon, alt = True, armor = 0, distance = 15 } available=False
+CASE 30 Case { weapon = HD_Gun_M1897_Weapon, alt = True, armor = 1, distance = 3 } available=True
+DONE case=30 samples=128
+CASE 31 Case { weapon = HD_Gun_M1897_Weapon, alt = True, armor = 1, distance = 7 } available=True
+DONE case=31 samples=128
+CASE 32 Case { weapon = HD_Gun_M1897_Weapon, alt = True, armor = 1, distance = 15 } available=False
+CASE 33 Case { weapon = HD_Gun_M1897_Weapon, alt = True, armor = 2, distance = 3 } available=True
+DONE case=33 samples=128
+CASE 34 Case { weapon = HD_Gun_M1897_Weapon, alt = True, armor = 2, distance = 7 } available=True
+DONE case=34 samples=128
+CASE 35 Case { weapon = HD_Gun_M1897_Weapon, alt = True, armor = 2, distance = 15 } available=False
+COMPLETE
