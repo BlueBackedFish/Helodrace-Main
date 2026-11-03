@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/IncidentDef[defName="StrangerInBlackJoin"]/pawnKind</xpath>
+    <value><pawnKind>HD_RescuerInBlack</pawnKind></value>
+  </Operation>
+</Patch>

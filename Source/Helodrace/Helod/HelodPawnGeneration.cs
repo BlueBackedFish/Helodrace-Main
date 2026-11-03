@@ -28,6 +28,11 @@ namespace Helodrace
                 request.KindDef = colonist;
             }
             if (request.KindDef.race != HelodRace.Def) return;
+            // The crisis replacement is a trained Mackenzie rescuer. Keep this
+            // default ahead of the ordinary five-lineage random fallback.
+            if (request.KindDef.defName == "HD_RescuerInBlack"
+                && request.ForcedCustomXenotype == null && !explicitHelod)
+                request.ForcedXenotype = DefDatabase<XenotypeDef>.GetNamed("HD_MackenzieValleyHelod");
             if (!request.FixedGender.HasValue && !request.KindDef.fixedGender.HasValue)
                 request.FixedGender = Rand.Chance(settings.maleProbability) ? Gender.Male : Gender.Female;
             // Keep explicit custom xenotypes; their incompatible genes are filtered on insertion.
