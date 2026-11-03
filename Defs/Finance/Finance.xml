@@ -5,7 +5,7 @@
   <ThingDef ParentName="ResourceBase">
     <defName>HD_Money</defName>
     <label>sthaler banknote</label>
-    <description>A beautifully engraved paper banknote used as the standard currency among Helod settlements. Known as Sthaler, it carries significant value but is highly fragile and will dissolve quickly if left unroofed in the rain.</description>
+    <description>A beautifully engraved paper banknote used as the standard currency among Helod settlements. Known as Sthaler, it carries significant value but is highly fragile and will dissolve quickly if left unroofed in the rain. Only 25% of its market value contributes to colony item wealth.</description>
     <graphicData>
       <texPath>Items/HD_Money</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>

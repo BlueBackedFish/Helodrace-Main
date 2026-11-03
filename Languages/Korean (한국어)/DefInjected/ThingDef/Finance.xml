@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <HD_Money.label>스탈레르 지폐</HD_Money.label>
-  <HD_Money.description>아름답게 도안된 종이 지폐형 스탈레르 통화입니다. 매우 높은 가치와 가벼운 무게를 지니고 있지만, 종이로 제작되어 무척 연약하며 지붕이 없는 곳에서 비나 눈을 맞으면 빠르게 녹아내려 소실됩니다.</HD_Money.description>
+  <HD_Money.description>아름답게 도안된 종이 지폐형 스탈레르 통화입니다. 매우 높은 가치와 가벼운 무게를 지니고 있지만, 종이로 제작되어 무척 연약하며 지붕이 없는 곳에서 비나 눈을 맞으면 빠르게 녹아내려 소실됩니다. 시장가의 25%만 기지가치에 반영됩니다.</HD_Money.description>
   <HD_GovernmentBond.label>정부 채권</HD_GovernmentBond.label>
   <HD_GovernmentBond.description>베세니카 합중국 정부가 발행한 고액 채권 증서입니다. 많은 자산을 적은 부피로 보관할 수 있지만 종이라 불과 손상에 약합니다.</HD_GovernmentBond.description>
   <HD_ContinentalPetroleumBond.label>콘티넨탈 석유회사 채권</HD_ContinentalPetroleumBond.label>
