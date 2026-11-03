@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ProductionPlanningDesk.label>생산 계획대</HD_ProductionPlanningDesk.label>
+  <HD_ProductionPlanningDesk.description>기초 부품 여섯 종류의 목표 재고를 설정하고, 부족한 수량을 기존의 적합한 작업대에 자동 등록하는 계획대입니다. 계획대 자체는 전기와 전담 작업자가 필요하지 않으며, 부품 제작과 운반은 기존 작업자가 수행합니다.</HD_ProductionPlanningDesk.description>
+</LanguageData>

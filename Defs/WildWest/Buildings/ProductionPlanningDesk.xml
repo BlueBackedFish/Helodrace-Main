@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_ProductionPlanningDesk</defName>
+    <label>production planning desk</label>
+    <description>Set shared target stocks for six basic components. This desk adds native production bills to the appropriate existing machines. It needs no operator or power; workers still make and haul every item.</description>
+    <thingClass>Helodrace.Building_ProductionPlanningDesk</thingClass>
+    <graphicData><texPath>Buildings/HD_BasicWorkbench</texPath><graphicClass>Graphic_Multi</graphicClass><drawSize>(3.75,3.75)</drawSize><shaderType>CutoutComplex</shaderType><color>(0.65,0.8,0.7)</color></graphicData>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsProduction</li></thingCategories>
+    <altitudeLayer>Building</altitudeLayer><passability>PassThroughOnly</passability><fillPercent>0.5</fillPercent><pathCost>50</pathCost>
+    <statBases><MaxHitPoints>150</MaxHitPoints><WorkToBuild>1200</WorkToBuild><Mass>25</Mass><Flammability>1.0</Flammability></statBases>
+    <stuffCategories><li>Woody</li><li>Metallic</li></stuffCategories><costStuffCount>50</costStuffCount>
+    <size>(2,1)</size><rotatable>true</rotatable><surfaceType>Item</surfaceType>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory><uiOrder>1951</uiOrder><constructionSkillPrerequisite>2</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded><researchPrerequisites><li>HelodFrontierSpirit</li></researchPrerequisites>
+  </ThingDef>
+</Defs>

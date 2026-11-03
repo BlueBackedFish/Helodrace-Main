@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ProductionPlanning_Bill>{0} (automatic plan)</HD_ProductionPlanning_Bill>
+  <HD_ProductionPlanning_Open>Production plan</HD_ProductionPlanning_Open>
+  <HD_ProductionPlanning_Title>Basic component production plan</HD_ProductionPlanning_Title>
+  <HD_ProductionPlanning_Description>Set target stocks for six components. All planning desks share this map's plan. Deficits add 1/5/10-piece bills to existing suitable machines; workers need the usual materials, research and power. Manual bills and unfinished batches count toward pending output. A target of 0 disables that product.</HD_ProductionPlanning_Description>
+  <HD_ProductionPlanning_Enabled>Enable automatic production planning</HD_ProductionPlanning_Enabled>
+  <HD_ProductionPlanning_Target>Target stock</HD_ProductionPlanning_Target>
+  <HD_ProductionPlanning_Columns>Stock / Pending / Completed</HD_ProductionPlanning_Columns>
+  <HD_ProductionPlanning_Status>Unstarted surplus orders are removed when stock arrives or targets fall. An already-started batch finishes. Removing the last desk or disabling planning pauses its bills and preserves unfinished work.</HD_ProductionPlanning_Status>
+</LanguageData>

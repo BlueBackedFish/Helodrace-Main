@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ProductionPlanning_Bill>{0} (자동 계획)</HD_ProductionPlanning_Bill>
+  <HD_ProductionPlanning_Open>생산 계획</HD_ProductionPlanning_Open>
+  <HD_ProductionPlanning_Title>기초 부품 생산 계획</HD_ProductionPlanning_Title>
+  <HD_ProductionPlanning_Description>기초 부품 여섯 종류의 목표 재고를 설정합니다. 같은 맵의 계획대는 하나의 계획을 공유합니다. 부족하면 기존의 적합한 작업대에 1·5·10개 제작 작업을 등록합니다. 재료·연구·동력과 작업 인력은 그대로 필요합니다. 수동 작업과 미완성품도 생산 예정 수량에 포함합니다. 목표 0은 해당 품목의 자동 생산을 끕니다.</HD_ProductionPlanning_Description>
+  <HD_ProductionPlanning_Enabled>자동 생산 계획 사용</HD_ProductionPlanning_Enabled>
+  <HD_ProductionPlanning_Target>목표 재고</HD_ProductionPlanning_Target>
+  <HD_ProductionPlanning_Columns>현재 / 예정 / 누적 생산</HD_ProductionPlanning_Columns>
+  <HD_ProductionPlanning_Status>재고가 들어오거나 목표를 낮추면 시작 전의 불필요한 자동 작업은 삭제합니다. 이미 시작한 배치는 마칩니다. 마지막 계획대를 철거하거나 자동 생산을 끄면 자동 작업을 일시 중지하고 미완성품을 보존합니다.</HD_ProductionPlanning_Status>
+</LanguageData>
