@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-04",
+  "runtime": ".codex-staging\\TextureItems\\native-13",
+  "gameVersion": "1.7.4995 rev309",
+  "passes": 107,
+  "complete": true,
+  "mainAssemblySha256": "4BC53391FFB54EEFC8CE1DC7400C603F8BCFBDB8CA289FDECCF72E290F3730C4",
+  "remainingEngineErrors": [
+    "2026-11-04 04:47:50.960 ERROR [Verse] Created WorkshopItem for 3781143823 but there is no folder for it."
+  ],
+  "authorizedPngCount": 39,
+  "recipeDefinitions": 89,
+  "concreteThingDefinitions": 541,
+  "ballisticArmorChecks": 128,
+  "intermediatePrices": 25
+}

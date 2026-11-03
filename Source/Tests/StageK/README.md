@@ -44,3 +44,11 @@ Historical 2x1/refueling version, 2026-11-03 `.codex-staging/StageK/state-03`: *
 The Blender pipeline is independently checked by `python ArtSource/ClayShooting/verify.py`; recipe references by `Source/Verify-RecipePlacement.ps1` (86 explicit recipes, 535 concrete things after removal of the obsolete clay consumable and recipe). The native runs do not constitute in-game screenshot approval, long-term joy-selection balance, every hunting weapon's animation coverage, or all third-party ammunition compatibility.
 
 The current recreation run also executes `RadioChatChecks.cs`: a native Social conversation at a Television listening building, with native job/joy ticks and observation of the exact prior `Log.ErrorOnce` message. Power availability is controlled for this one fixture radio, daily rumor rolls are suppressed, and the native giver, conversation job and JoyUtility remain real. Existing standalone Radio checks cover power loss and quality multipliers.
+
+
+`-TextureItems` runs `TextureItemChecks.cs` independently of the earlier K-group checks. It uses the actual 1.7 power grid, work givers, jobs and physical recipe inputs/outputs for slate alumina, sandstone silicon, alloy, electronics and both new equipment recipes (plus ceramic armor consumption). It resolves inventory/projectile/worn-direction graphics and exercises directional melee blocking. Native Projectile.Launch observations check actual M2HB/CROWS belt order and refuel consumption. The CROWS fixture installs its weapon with physical materials and runs the real remote operation job. This is functional coverage, not a natural accuracy/balance experiment or visual screenshot approval.
+
+```powershell
+& Source/Tests/StageK/Start-Checks.ps1 -RuntimeRoot .codex-staging/TextureItems/fresh -TextureItems
+& Source/Tests/Wait-Game17Host.ps1 -RuntimeRoot .codex-staging/TextureItems/fresh -TimeoutSeconds 45
+```

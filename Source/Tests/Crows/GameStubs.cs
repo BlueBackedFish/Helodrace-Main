@@ -1,5 +1,5 @@
-// Lightweight game surfaces for exercising production control flow outside Unity.
-// The mod is also built separately against the installed RimWorld 1.6 assemblies.
+// Lightweight game surfaces for control-flow checks.
+// Actual firing and native rendering are covered by the RimWorld 1.7 host.
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -167,6 +167,7 @@ namespace Verse
     {
         public Thing caster; public Thing Caster=>caster; public int Shots,ResetCalls;
         public Action castCompleteCallback;
+        public Thing EquipmentSource; public virtual ThingDef Projectile=>null; public virtual void WarmupComplete(){}
         public virtual bool Available()=>true;
         protected virtual bool TryCastShot(){Shots++;return true;}
         public bool TestShot()=>TryCastShot(); public virtual void Reset(){ResetCalls++;}
@@ -224,3 +225,5 @@ namespace Verse.AI
         public static void FailOnDestroyedOrNull(this JobDriver j,TargetIndex i){ }
     }
 }
+
+namespace Helodrace { public class CompM167VadsGraphic:Verse.ThingComp { public void NotifyShotFired(){} } }

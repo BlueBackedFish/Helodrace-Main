@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_RiotShield_MeleeBlunt>Frontal melee protection - blunt</HD_RiotShield_MeleeBlunt>
+  <HD_RiotShield_MeleeSharp>Frontal melee protection - sharp</HD_RiotShield_MeleeSharp>
+  <HD_RiotShield_MeleeArmor_Desc>Protection against frontal melee blows before penetration and durability are applied. Attacks from the sides and rear bypass the shield.</HD_RiotShield_MeleeArmor_Desc>
+</LanguageData>

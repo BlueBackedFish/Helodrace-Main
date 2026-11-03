@@ -76,6 +76,9 @@
         <thingDef>HD_ElectronicComponent</thingDef>
         <countRange>8~16</countRange>
       </li>
+      <li Class="StockGenerator_SingleDef"><thingDef>HD_Alumina</thingDef><countRange>20~50</countRange></li>
+      <li Class="StockGenerator_SingleDef"><thingDef>HD_AluminiumAlloy</thingDef><countRange>20~50</countRange></li>
+      <li Class="StockGenerator_SingleDef"><thingDef>HD_Silicon</thingDef><countRange>20~50</countRange></li>
     </stockGenerators>
   </TraderKindDef>
 </Defs>

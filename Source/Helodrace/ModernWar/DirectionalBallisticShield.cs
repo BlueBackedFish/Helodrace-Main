@@ -12,6 +12,9 @@ namespace Helodrace.ModernWar
     {
         public float frontalArcDegrees = 90f;
         public float sharpArmorRating = 2f;
+        // Opt-in melee protection: existing ballistic shields remain ranged-only.
+        public float meleeSharpArmorRating;
+        public float meleeBluntArmorRating;
         public float guaranteedBlockPenetration;
         public float rangedAccuracyMultiplier = 0.75f;
         public float minimumRangedAccuracyMultiplier = 0.35f;
@@ -142,6 +145,14 @@ namespace Helodrace.ModernWar
 
         public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
         {
+            if (Props.meleeBluntArmorRating > 0f)
+                yield return new StatDrawEntry(StatCategoryDefOf.Apparel,
+                    "HD_RiotShield_MeleeBlunt".Translate().Resolve(), Props.meleeBluntArmorRating.ToStringPercent(),
+                    "HD_RiotShield_MeleeArmor_Desc".Translate().Resolve(), 5498);
+            if (Props.meleeSharpArmorRating > 0f)
+                yield return new StatDrawEntry(StatCategoryDefOf.Apparel,
+                    "HD_RiotShield_MeleeSharp".Translate().Resolve(), Props.meleeSharpArmorRating.ToStringPercent(),
+                    "HD_RiotShield_MeleeArmor_Desc".Translate().Resolve(), 5497);
             if (Props.guaranteedBlockPenetration > 0f)
             {
                 yield return new StatDrawEntry(
@@ -341,7 +352,7 @@ namespace Helodrace.ModernWar
 
             TryDamageViewport(pawn);
 
-            float effectiveArmor = Mathf.Max(Props.sharpArmorRating - dinfo.ArmorPenetrationInt, 0f);
+            float effectiveArmor = Mathf.Max(ArmorRating(dinfo) - dinfo.ArmorPenetrationInt, 0f);
             float durabilityRatio = parent.MaxHitPoints > 0
                 ? Mathf.Clamp01((float)parent.HitPoints / parent.MaxHitPoints)
                 : 0f;
@@ -351,7 +362,7 @@ namespace Helodrace.ModernWar
                 ? 1f
                 : durabilityRatio / failureThreshold;
             float blockChance = Mathf.Clamp01(effectiveArmor) * durabilityFactor;
-            bool guaranteedBlock = BallisticArmorRules.CanGuaranteeBlock(
+            bool guaranteedBlock = IsRanged(dinfo) && BallisticArmorRules.CanGuaranteeBlock(
                 dinfo.ArmorPenetrationInt,
                 Props.guaranteedBlockPenetration,
                 durabilityRatio,
@@ -402,23 +413,25 @@ namespace Helodrace.ModernWar
             }
         }
 
-        private static bool CanAttemptBlock(Pawn pawn, DamageInfo dinfo)
-        {
-            if (pawn == null
-                || pawn.Dead
-                || pawn.Downed
-                || dinfo.IgnoreArmor
-                || dinfo.Def == null
-                || dinfo.Def.isExplosive
-                || dinfo.Def.ignoreShields
-                || dinfo.Def.armorCategory != DamageArmorCategoryDefOf.Sharp)
-            {
-                return false;
-            }
+        private static bool IsRanged(DamageInfo dinfo) => dinfo.Def == DamageDefOf.Bullet
+            || dinfo.Def.isRanged || dinfo.Weapon?.IsRangedWeapon == true;
 
-            return dinfo.Def == DamageDefOf.Bullet
-                || dinfo.Def.isRanged
-                || dinfo.Weapon?.IsRangedWeapon == true;
+        private float ArmorRating(DamageInfo dinfo)
+        {
+            if (IsRanged(dinfo)) return Props.sharpArmorRating;
+            return dinfo.Def.armorCategory == DamageDefOf.Blunt.armorCategory
+                ? Props.meleeBluntArmorRating : Props.meleeSharpArmorRating;
+        }
+
+        private bool CanAttemptBlock(Pawn pawn, DamageInfo dinfo)
+        {
+            if (pawn == null || pawn.Dead || pawn.Downed || dinfo.IgnoreArmor
+                || dinfo.Def == null || dinfo.Def.isExplosive || dinfo.Def.ignoreShields)
+                return false;
+            bool sharp = dinfo.Def.armorCategory == DamageArmorCategoryDefOf.Sharp;
+            bool blunt = dinfo.Def.armorCategory == DamageDefOf.Blunt.armorCategory;
+            // Neither fire, environmental damage nor armorless damage is a melee blow.
+            return IsRanged(dinfo) ? sharp : dinfo.Instigator is Pawn && (sharp || blunt) && ArmorRating(dinfo) > 0f;
         }
 
         private bool IsWithinFrontalArc(Pawn pawn, DamageInfo dinfo)

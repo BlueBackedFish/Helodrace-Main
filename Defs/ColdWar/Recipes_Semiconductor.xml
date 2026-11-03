@@ -13,12 +13,13 @@
     <soundWorking>Recipe_Machining</soundWorking>
     <researchPrerequisite>HelodTransistor</researchPrerequisite>
     <ingredients>
-      <li><filter><thingDefs><li>Steel</li></thingDefs></filter><count>10</count></li>
+      <li><filter><thingDefs><li>HD_Silicon</li></thingDefs></filter><count>2</count></li>
+      <li><filter><thingDefs><li>HD_AluminiumAlloy</li></thingDefs></filter><count>4</count></li>
       <li><filter><thingDefs><li>Silver</li></thingDefs></filter><count>4</count></li>
       <li><filter><thingDefs><li>Chemfuel</li></thingDefs></filter><count>4</count></li>
       <li><filter><thingDefs><li>HD_BasicElectricalComponents</li></thingDefs></filter><count>2</count></li>
     </ingredients>
-    <fixedIngredientFilter><thingDefs><li>Steel</li><li>Silver</li><li>Chemfuel</li><li>HD_BasicElectricalComponents</li></thingDefs></fixedIngredientFilter>
+    <fixedIngredientFilter><thingDefs><li>HD_Silicon</li><li>HD_AluminiumAlloy</li><li>Silver</li><li>Chemfuel</li><li>HD_BasicElectricalComponents</li></thingDefs></fixedIngredientFilter>
     <products><HD_ElectronicComponent>1</HD_ElectronicComponent></products>
     <recipeUsers><li>HD_SemiconductorFab</li></recipeUsers>
     <skillRequirements><Crafting>10</Crafting></skillRequirements>

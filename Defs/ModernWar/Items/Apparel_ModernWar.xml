@@ -653,6 +653,7 @@
       </defaultOutfitTags>
     </apparel>
     <recipeMaker>
+      <defaultIngredientFilter><thingDefs><li>Steel</li><li>Plasteel</li><li>HD_Alumina</li><li>ComponentIndustrial</li></thingDefs></defaultIngredientFilter>
       <workSkill>Crafting</workSkill>
       <skillRequirements>
         <Crafting>8</Crafting>
@@ -664,7 +665,8 @@
     </recipeMaker>
     <costList>
       <Steel>120</Steel>
-      <Plasteel>80</Plasteel>
+      <Plasteel>40</Plasteel>
+      <HD_Alumina>40</HD_Alumina>
       <ComponentIndustrial>4</ComponentIndustrial>
     </costList>
     <comps>

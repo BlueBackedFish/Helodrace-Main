@@ -32,7 +32,7 @@ public sealed partial class Checks
                 foreach(var other in playMap.mapPawns.AllPawnsSpawned.Where(p=>!fixtures.Contains(p)).ToList())other.DeSpawn();
                 Find.TickManager.DoSingleTick();
                 foreach(var pawn in playMap.mapPawns.FreeColonistsSpawned)
-                    foreach(var need in pawn.needs.AllNeeds)if(need is not Need_Joy)need.CurLevel=need.MaxLevel;
+                    foreach(var need in pawn.needs.AllNeeds)if(need is not Need_Joy || itemChecks!=null)need.CurLevel=need.MaxLevel;
             }
             remaining-=Math.Min(120,remaining);
         }

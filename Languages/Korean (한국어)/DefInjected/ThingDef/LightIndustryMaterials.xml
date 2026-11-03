@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Alumina.label>알루미나</HD_Alumina.label>
+  <HD_Alumina.description>알루미늄 함유 암석에서 정제한 산화알루미늄 분말입니다. 알루미늄 합금과 세라믹 방호재에 사용합니다.</HD_Alumina.description>
+  <HD_AluminiumAlloy.label>알루미늄 합금</HD_AluminiumAlloy.label>
+  <HD_AluminiumAlloy.description>장비 골격과 전자 부품 외함에 사용하는 가벼운 알루미늄-실리콘 합금입니다.</HD_AluminiumAlloy.description>
+  <HD_Silicon.label>실리콘</HD_Silicon.label>
+  <HD_Silicon.description>사암의 석영 성분을 환원해 얻은 실리콘입니다. 합금 첨가재로 쓰거나 반도체 공정에서 정제합니다.</HD_Silicon.description>
+</LanguageData>

@@ -240,7 +240,7 @@ namespace Helodrace
                 : "HD_Crows_Unlinked".Translate());
     }
 
-    public sealed class Verb_Crows : Verb_Shoot
+    public sealed class Verb_Crows : Verb_ShootMixedMagazine
     {
         public override bool Available() => Caster is Building_Crows turret && turret.CanFireNow && base.Available();
 

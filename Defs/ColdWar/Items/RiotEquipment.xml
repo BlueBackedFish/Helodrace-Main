@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BaseMeleeWeapon_Blunt">
+    <defName>HD_ExpandableBaton</defName>
+    <label>expandable baton</label>
+    <description>A compact telescoping steel baton. Carried collapsed and extended for close combat. Its fast blunt strikes can still cause serious injury.</description>
+    <graphicData>
+      <texPath>Weapons/ColdWar/HD_ExpandableBaton_Weapon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.85,0.85)</drawSize>
+    </graphicData>
+    <uiIconPath>Weapons/ColdWar/HD_ExpandableBaton_Item</uiIconPath>
+    <equippedAngleOffset>-65</equippedAngleOffset>
+    <techLevel>Industrial</techLevel>
+    <statBases>
+      <MaxHitPoints>160</MaxHitPoints>
+      <WorkToMake>3600</WorkToMake>
+      <MarketValue>95</MarketValue>
+      <Mass>0.65</Mass>
+      <Flammability>0.1</Flammability>
+    </statBases>
+    <costList>
+      <HD_CarbonSteel>8</HD_CarbonSteel>
+      <HD_AluminiumAlloy>4</HD_AluminiumAlloy>
+      <Chemfuel>2</Chemfuel>
+    </costList>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <skillRequirements>
+        <Crafting>5</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+    </recipeMaker>
+    <tools>
+      <li>
+        <label>shaft</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <armorPenetration>0.08</armorPenetration>
+        <cooldownTime>1.3</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+</Defs>

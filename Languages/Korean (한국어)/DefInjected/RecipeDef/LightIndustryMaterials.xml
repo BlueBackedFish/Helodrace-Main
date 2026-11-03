@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ExtractAlumina.label>점판암에서 알루미나 추출</HD_ExtractAlumina.label>
+  <HD_ExtractAlumina.description>알루미늄을 함유한 점판암을 침출하고 소성하여 알루미나를 얻습니다.</HD_ExtractAlumina.description>
+  <HD_ExtractAlumina.jobString>산업 광물 가공 중.</HD_ExtractAlumina.jobString>
+  <HD_SmeltSilicon.label>사암에서 실리콘 제련</HD_SmeltSilicon.label>
+  <HD_SmeltSilicon.description>석영 성분이 있는 사암을 목탄으로 환원하여 실리콘을 얻습니다.</HD_SmeltSilicon.description>
+  <HD_SmeltSilicon.jobString>산업 광물 가공 중.</HD_SmeltSilicon.jobString>
+  <HD_RefineAluminiumAlloy.label>알루미늄 합금 정제</HD_RefineAluminiumAlloy.label>
+  <HD_RefineAluminiumAlloy.description>알루미나를 전기분해하고 실리콘을 첨가하여 가벼운 합금으로 주조합니다.</HD_RefineAluminiumAlloy.description>
+  <HD_RefineAluminiumAlloy.jobString>산업 광물 가공 중.</HD_RefineAluminiumAlloy.jobString>
+</LanguageData>

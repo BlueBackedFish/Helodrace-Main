@@ -2,6 +2,8 @@
   <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><HelodUsesNativeMath>true</HelodUsesNativeMath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="../../Helodrace/Core/SpatialMath.cs" Link="SpatialMath.cs"/>
+    <Compile Include="../../Helodrace/Core/Verb_ShootMixedMagazine.cs" Link="Verb_ShootMixedMagazine.cs"/>
     <Compile Include="../../Helodrace/ModernWar/CrowsControl.cs" Link="CrowsControl.cs"/>
     <Compile Include="../../Helodrace/ModernWar/CompCrowsGraphic.cs" Link="CompCrowsGraphic.cs"/>
     <Compile Include="../../Helodrace/ModernWar/CrowsAccuracy.cs" Link="CrowsAccuracy.cs"/>

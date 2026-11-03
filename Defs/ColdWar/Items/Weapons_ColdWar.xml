@@ -54,7 +54,7 @@
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Projectile_M167_20mmAPI</defName>
     <label>20 mm armor-piercing incendiary projectile</label>
-    <thingClass>Helodrace.Projectile_20mmArmorPiercingIncendiary</thingClass>
+    <thingClass>Helodrace.Projectile_ArmorPiercingIncendiary</thingClass>
     <graphicData>
       <texPath>Weapons/ColdWar/Projectiles/20x102mm/HD_20X102MMM53_proj</texPath>
       <graphicClass>Graphic_Single</graphicClass>

@@ -1,0 +1,145 @@
+Actual 1.7 Stage K life checks
+PASS: Real power grid powers HD_StirredTankReactor
+PASS: Real power grid powers HD_SAFurnace
+PASS: Real power grid powers HD_SemiconductorFab
+PASS: Real power grid powers TableMachining
+PASS: Intermediate price remains below vanilla component: HD_Alumina
+PASS: Actual resource graphics resolve: HD_Alumina
+PASS: Three existing suppliers stock HD_Alumina
+PASS: Intermediate price remains below vanilla component: HD_AluminiumAlloy
+PASS: Actual resource graphics resolve: HD_AluminiumAlloy
+PASS: Three existing suppliers stock HD_AluminiumAlloy
+PASS: Intermediate price remains below vanilla component: HD_Silicon
+PASS: Actual resource graphics resolve: HD_Silicon
+PASS: Three existing suppliers stock HD_Silicon
+PASS: Recipe appears on the actual worktable: HD_ExtractAlumina
+BILL HD_ExtractAlumina work=Crafting givers=DoBillsHD_StirredTankReactor:Crafting filters=BlocksSlate:True:True,Chemfuel:True:True should=True available=True skill=True area= worker=(102, 0, 117) costs=BlocksSlate:25,Chemfuel:4
+INGREDIENTS HD_ExtractAlumina found=True chosen=BlocksSlate:25,Chemfuel:4 missing=
+JOBEND HD_ExtractAlumina InterruptForced toil=4
+PASS: Native work giver starts production: HD_ExtractAlumina; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND HD_ExtractAlumina Succeeded toil=16
+PASS: Native bill completes: HD_ExtractAlumina; current=HaulToCell
+PASS: Exact material consumption: HD_ExtractAlumina/BlocksSlate
+PASS: Exact material consumption: HD_ExtractAlumina/Chemfuel
+PASS: Exact physical output: HD_ExtractAlumina
+PASS: Recipe appears on the actual worktable: HD_SmeltSilicon
+BILL HD_SmeltSilicon work=Crafting givers=DoBillsHD_SAFurnace:Crafting filters=BlocksSandstone:True:True,HD_Charcoal:True:True should=True available=True skill=True area=PowerConduit worker=(147, 0, 111) costs=BlocksSandstone:25,HD_Charcoal:10
+INGREDIENTS HD_SmeltSilicon found=True chosen=BlocksSandstone:25,HD_Charcoal:10 missing=
+JOBEND HD_SmeltSilicon InterruptForced toil=4
+PASS: Native work giver starts production: HD_SmeltSilicon; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND HD_SmeltSilicon Succeeded toil=16
+PASS: Native bill completes: HD_SmeltSilicon; current=HaulToCell
+PASS: Exact material consumption: HD_SmeltSilicon/BlocksSandstone
+PASS: Exact material consumption: HD_SmeltSilicon/HD_Charcoal
+PASS: Exact physical output: HD_SmeltSilicon
+PASS: Recipe appears on the actual worktable: HD_RefineAluminiumAlloy
+BILL HD_RefineAluminiumAlloy work=Crafting givers=DoBillsHD_SAFurnace:Crafting filters=HD_Alumina:True:True,HD_Charcoal:True:True,HD_Silicon:True:True should=True available=True skill=True area=PowerConduit worker=(148, 0, 111) costs=HD_Alumina:20,HD_Charcoal:4,HD_Silicon:10
+INGREDIENTS HD_RefineAluminiumAlloy found=True chosen=HD_Alumina:6,HD_Charcoal:4,HD_Silicon:1 missing=
+JOBEND HD_RefineAluminiumAlloy InterruptForced toil=4
+PASS: Native work giver starts production: HD_RefineAluminiumAlloy; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE HD_RefineAluminiumAlloy ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=HD_Alumina:20,HD_Charcoal:4,HD_Silicon:10
+JOBEND HD_RefineAluminiumAlloy Succeeded toil=16
+PASS: Native bill completes: HD_RefineAluminiumAlloy; current=HaulToCell
+PASS: Exact material consumption: HD_RefineAluminiumAlloy/HD_Alumina
+PASS: Exact material consumption: HD_RefineAluminiumAlloy/HD_Charcoal
+PASS: Exact material consumption: HD_RefineAluminiumAlloy/HD_Silicon
+PASS: Exact physical output: HD_RefineAluminiumAlloy
+PASS: Recipe appears on the actual worktable: HD_FabricateSolidStateComponents
+BILL HD_FabricateSolidStateComponents work=Crafting givers=DoBillsHD_SemiconductorFab:Crafting filters=HD_Silicon:True:True,HD_AluminiumAlloy:True:True,Silver:True:True,Chemfuel:True:True,HD_BasicElectricalComponents:True:True should=True available=True skill=True area= worker=(148, 0, 112) costs=HD_Silicon:9,HD_AluminiumAlloy:4,Silver:40,Chemfuel:4,HD_BasicElectricalComponents:2
+INGREDIENTS HD_FabricateSolidStateComponents found=True chosen=HD_Silicon:2,HD_AluminiumAlloy:4,Silver:40,Chemfuel:4,HD_BasicElectricalComponents:2 missing=
+JOBEND HD_FabricateSolidStateComponents InterruptForced toil=4
+PASS: Native work giver starts production: HD_FabricateSolidStateComponents; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE HD_FabricateSolidStateComponents ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=HD_Silicon:9,HD_AluminiumAlloy:4,Silver:40,Chemfuel:4,HD_BasicElectricalComponents:2
+JOBEND HD_FabricateSolidStateComponents Succeeded toil=16
+PASS: Native bill completes: HD_FabricateSolidStateComponents; current=HaulToCell
+PASS: Exact material consumption: HD_FabricateSolidStateComponents/HD_Silicon
+PASS: Exact material consumption: HD_FabricateSolidStateComponents/HD_AluminiumAlloy
+PASS: Exact material consumption: HD_FabricateSolidStateComponents/Silver
+PASS: Exact material consumption: HD_FabricateSolidStateComponents/Chemfuel
+PASS: Exact material consumption: HD_FabricateSolidStateComponents/HD_BasicElectricalComponents
+PASS: Exact physical output: HD_FabricateSolidStateComponents
+PASS: Alumina uses existing slate blocks without a new ore
+PASS: Silicon uses existing sandstone blocks without a new ore
+PASS: Recipe appears on the actual worktable: Make_HD_ExpandableBaton
+BILL Make_HD_ExpandableBaton work= givers=DoBillsMachiningTable:Smithing filters=HD_CarbonSteel:True:False,HD_AluminiumAlloy:True:False,Chemfuel:True:False should=True available=True skill=True area= worker=(148, 0, 112) costs=HD_CarbonSteel:8,HD_AluminiumAlloy:4,Chemfuel:2
+INGREDIENTS Make_HD_ExpandableBaton found=True chosen=HD_CarbonSteel:8,HD_AluminiumAlloy:4,Chemfuel:2 missing=
+JOBEND Make_HD_ExpandableBaton InterruptForced toil=4
+PASS: Native work giver starts production: Make_HD_ExpandableBaton; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND Make_HD_ExpandableBaton InterruptOptional toil=14
+TRACE Make_HD_ExpandableBaton ticks=4800 job=DoBill driver=14 bound=86.44841 carry= power=True available=True materials=HD_CarbonSteel:0,HD_AluminiumAlloy:0,Chemfuel:0
+JOBEND Make_HD_ExpandableBaton Succeeded toil=16
+PASS: Native bill completes: Make_HD_ExpandableBaton; current=HaulToCell
+PASS: Exact material consumption: Make_HD_ExpandableBaton/HD_CarbonSteel
+PASS: Exact material consumption: Make_HD_ExpandableBaton/HD_AluminiumAlloy
+PASS: Exact material consumption: Make_HD_ExpandableBaton/Chemfuel
+PASS: Exact physical output: Make_HD_ExpandableBaton
+PASS: Recipe appears on the actual worktable: Make_HD_Apparel_ShieldIronHideRiot
+BILL Make_HD_Apparel_ShieldIronHideRiot work=Smithing givers=DoBillsMachiningTable:Smithing filters=HD_AluminiumAlloy:True:False,Steel:True:False,Chemfuel:True:False should=True available=True skill=True area= worker=(149, 0, 112) costs=HD_AluminiumAlloy:20,Steel:740,Chemfuel:12
+INGREDIENTS Make_HD_Apparel_ShieldIronHideRiot found=True chosen=HD_AluminiumAlloy:20,Steel:20,Chemfuel:12 missing=
+JOBEND Make_HD_Apparel_ShieldIronHideRiot InterruptForced toil=4
+PASS: Native work giver starts production: Make_HD_Apparel_ShieldIronHideRiot; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE Make_HD_Apparel_ShieldIronHideRiot ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=HD_AluminiumAlloy:20,Steel:740,Chemfuel:12
+JOBEND Make_HD_Apparel_ShieldIronHideRiot Succeeded toil=16
+PASS: Native bill completes: Make_HD_Apparel_ShieldIronHideRiot; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideRiot/HD_AluminiumAlloy
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideRiot/Steel
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideRiot/Chemfuel
+PASS: Exact physical output: Make_HD_Apparel_ShieldIronHideRiot
+PASS: Recipe appears on the actual worktable: Make_HD_Apparel_ShieldIronHideIV
+BILL Make_HD_Apparel_ShieldIronHideIV work= givers=DoBillsMachiningTable:Smithing filters=Steel:True:False,Plasteel:True:False,HD_Alumina:True:False,ComponentIndustrial:True:False should=True available=True skill=True area= worker=(151, 0, 111) costs=Steel:840,Plasteel:40,HD_Alumina:40,ComponentIndustrial:4
+INGREDIENTS Make_HD_Apparel_ShieldIronHideIV found=True chosen=Steel:75,Steel:45,Plasteel:40,HD_Alumina:26,HD_Alumina:14,ComponentIndustrial:4 missing=
+PASS: Native work giver starts production: Make_HD_Apparel_ShieldIronHideIV; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE Make_HD_Apparel_ShieldIronHideIV ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=Steel:840,Plasteel:40,HD_Alumina:40,ComponentIndustrial:4
+TRACE Make_HD_Apparel_ShieldIronHideIV ticks=9600 job=DoBill driver=14 bound= carry= power=True available=True materials=Steel:840,Plasteel:40,HD_Alumina:40,ComponentIndustrial:4
+TRACE Make_HD_Apparel_ShieldIronHideIV ticks=14400 job=DoBill driver=14 bound= carry= power=True available=True materials=Steel:840,Plasteel:40,HD_Alumina:40,ComponentIndustrial:4
+TRACE Make_HD_Apparel_ShieldIronHideIV ticks=19200 job=DoBill driver=14 bound= carry= power=True available=True materials=Steel:840,Plasteel:40,HD_Alumina:40,ComponentIndustrial:4
+JOBEND Make_HD_Apparel_ShieldIronHideIV Succeeded toil=16
+PASS: Native bill completes: Make_HD_Apparel_ShieldIronHideIV; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideIV/Steel
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideIV/Plasteel
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideIV/HD_Alumina
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideIV/ComponentIndustrial
+PASS: Exact physical output: Make_HD_Apparel_ShieldIronHideIV
+PASS: Crafted baton equips with native melee attacks
+PASS: Collapsed inventory and extended held baton graphics load
+PASS: Riot shield permits baton and restricts rifles
+PASS: Riot shield worn direction resolves: 0
+PASS: Riot shield worn direction resolves: 1
+PASS: Riot shield worn direction resolves: 2
+PASS: Riot shield worn direction resolves: 3
+PASS: Frontal blunt blow is absorbed and wears the riot shield
+PASS: Rear melee bypasses riot shield
+PASS: Rifle penetration bypasses light riot protection
+PASS: Environmental blunt damage cannot be blocked as a melee attack
+PASS: Existing ballistic shield remains ranged-only
+PASS: Native firing starts: HD_Building_M2HB
+PASS: Native launched projectile sequence: HD_Building_M2HB; actual=HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_M20_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_M20_Proj
+PASS: Exactly one replenishment unit is consumed per shot: HD_Building_M2HB
+PASS: Native firing starts: HD_Building_M2HB
+PASS: Native launched projectile sequence: HD_Building_M2HB; actual=HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_M20_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_M20_Proj
+PASS: Exactly one replenishment unit is consumed per shot: HD_Building_M2HB
+PASS: M2HB retains Steel replenishment
+PASS: Empty CROWS selects M2HB mount
+PASS: Native mounting material accepted: HD_GeneralMachinePart
+PASS: Native mounting material accepted: HD_CarbonSteel
+PASS: Native mounting material accepted: HD_PressComponent
+PASS: Native CROWS installation finishes with the mixed-feed gun
+PASS: Powered but unmanned CROWS cannot fire
+PASS: Actual remote-control operation job starts
+PASS: Actual operator at powered console enables CROWS
+PASS: Native firing starts: HD_Building_CrowsII
+PASS: Native launched projectile sequence: HD_Building_CrowsII; actual=HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_M20_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_M20_Proj
+PASS: Exactly one replenishment unit is consumed per shot: HD_Building_CrowsII
+PASS: Disconnect blocks an actual attempted CROWS shot
+PASS: Failed remote shot changes neither feed position nor Steel
+PASS: Other CROWS calibers retain native single-projectile feeds: HD_Gun_CrowsII_M240B
+PASS: Other CROWS calibers retain native single-projectile feeds: HD_Gun_CrowsII_M249Weapon
+PASS: Other CROWS calibers retain native single-projectile feeds: HD_Gun_CrowsII_MK19Weapon
+PASS: Existing M167 sequence remains unchanged
+PASS: M167 still resolves its shared incendiary impact class
+PASS: Mixed round is a projectile, not a craftable ammunition item: HD_Bullet_M2HB_Proj
+PASS: Mixed projectile texture loads: HD_Bullet_M2HB_Proj
+PASS: Mixed round is a projectile, not a craftable ammunition item: HD_Bullet_M2HB_M20_Proj
+PASS: Mixed projectile texture loads: HD_Bullet_M2HB_M20_Proj
+PASS: Aircraft support bullet is unchanged
+COMPLETE

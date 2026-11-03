@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ExpandableBaton.label>접이식 진압봉</HD_ExpandableBaton.label>
+  <HD_ExpandableBaton.description>휴대할 때는 접고 근접전에서는 펼쳐 쓰는 강철 진압봉입니다. 빠른 둔기 공격으로 상대를 제압하지만 심각한 부상을 입힐 수도 있습니다.</HD_ExpandableBaton.description>
+  <HD_Apparel_ShieldIronHideRiot.label>아이언하이드 진압 방패</HD_Apparel_ShieldIronHideRiot.label>
+  <HD_Apparel_ShieldIronHideRiot.description>알루미늄 골격을 갖춘 가벼운 투명 진압 방패입니다. 정면의 근접 공격을 막을 수 있지만 총탄 방호력은 낮습니다. 측후방 공격은 막지 못하며, 접이식 진압봉과 지정된 권총을 병용할 수 있습니다. 이동과 사격에 불편함이 있습니다.</HD_Apparel_ShieldIronHideRiot.description>
+  <HD_ExpandableBaton.tools.0.label>봉</HD_ExpandableBaton.tools.0.label>
+</LanguageData>

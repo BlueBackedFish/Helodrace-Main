@@ -1,4 +1,4 @@
-param([Parameter(Mandatory)][string]$RuntimeRoot,[switch]$Recreation,[switch]$State,[switch]$Pistols,[switch]$GeneAudit,[switch]$Xenotypes)
+param([Parameter(Mandatory)][string]$RuntimeRoot,[switch]$Recreation,[switch]$State,[switch]$Pistols,[switch]$GeneAudit,[switch]$Xenotypes,[switch]$TextureItems)
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot '../Game17Runtime.ps1')
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
@@ -16,6 +16,7 @@ if($Recreation){$arguments+='-hdKRecreation=true'}
 if($State){$arguments+='-hdKState=true'}
 if($Pistols){$arguments+='-hdKPistols=true'}
 if($GeneAudit){$arguments+='-hdKGeneAudit=true'}
+if($TextureItems){$arguments+='-hdKTextureItems=true'}
 if($Xenotypes){$arguments+='-hdKXenotypes=true'}
 $process=Start-Game17Runtime -Runtime $runtime -Arguments $arguments -ResultFile (Join-Path $runtime.Evidence 'checks.txt') -CompletionPattern '(?m)^COMPLETE\r?$'
 Write-Output ('Observe with Source/Tests/Wait-Game17Host.ps1 -RuntimeRoot "'+$runtime.Root+'" -TimeoutSeconds 45')

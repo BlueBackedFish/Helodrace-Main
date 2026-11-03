@@ -13,7 +13,7 @@ namespace Helodrace
         public List<ThingDef> projectileSequence = new List<ThingDef>();
     }
 
-    public sealed class Verb_ShootMixedMagazine : Verb_Shoot
+    public class Verb_ShootMixedMagazine : Verb_Shoot
     {
         private int projectileIndex;
 

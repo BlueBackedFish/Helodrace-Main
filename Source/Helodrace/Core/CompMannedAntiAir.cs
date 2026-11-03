@@ -982,10 +982,10 @@ namespace Helodrace
         }
     }
 
-    [HarmonyPatch(typeof(Projectile_20mmArmorPiercingIncendiary), "Impact")]
+    [HarmonyPatch(typeof(Projectile_ArmorPiercingIncendiary), "Impact")]
     public static class Patch_Projectile20mmApi_Impact_AntiAirRound
     {
-        public static bool Prefix(Projectile_20mmArmorPiercingIncendiary __instance)
+        public static bool Prefix(Projectile_ArmorPiercingIncendiary __instance)
         {
             AntiAirRoundRegistry.Remove(__instance);
             return true;

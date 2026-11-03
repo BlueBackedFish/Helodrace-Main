@@ -151,11 +151,32 @@
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_M2HB_Proj</defName>
-    <label>.50 caliber heavy machine gun bullet</label>
+    <thingClass>Helodrace.Projectile_ArmorPiercingIncendiary</thingClass>
+    <label>12.7x99mm M8 armor-piercing incendiary bullet</label>
     <graphicData>
-      <texPath>Things/Projectile/Bullet_Big</texPath>
+      <texPath>Weapons/GreatWar/Projectiles/12.7x99mm/HD_12X99MMM8_proj</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
+    <modExtensions><li Class="Helodrace.IncendiaryProjectileExtension"><ignitionChance>0.15</ignitionChance><fireSize>0.15</fireSize></li></modExtensions>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>32</damageAmountBase>
+      <armorPenetrationBase>0.42</armorPenetrationBase>
+      <stoppingPower>2.2</stoppingPower>
+      <speed>90</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_M2HB_M20_Proj</defName>
+    <thingClass>Helodrace.Projectile_ArmorPiercingIncendiary</thingClass>
+    <label>12.7x99mm M20 armor-piercing incendiary tracer</label>
+    <graphicData>
+      <texPath>Weapons/GreatWar/Projectiles/12.7x99mm/HD_12X99MMM20_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <modExtensions><li Class="Helodrace.IncendiaryProjectileExtension"><ignitionChance>0.15</ignitionChance><fireSize>0.15</fireSize></li></modExtensions>
     <projectile>
       <damageDef>Bullet</damageDef>
       <damageAmountBase>32</damageAmountBase>
@@ -754,7 +775,7 @@
     </statBases>
     <verbs>
       <li>
-        <verbClass>Verb_Shoot</verbClass>
+        <verbClass>Helodrace.Verb_ShootMixedMagazine</verbClass>
         <defaultProjectile>HD_Bullet_M2HB_Proj</defaultProjectile>
         <warmupTime>0</warmupTime>
         <range>42.9</range>
@@ -769,6 +790,9 @@
         <consumeFuelPerShot>1</consumeFuelPerShot>
       </li>
     </verbs>
+    <modExtensions><li Class="Helodrace.MixedMagazineExtension"><projectileSequence>
+      <li>HD_Bullet_M2HB_Proj</li><li>HD_Bullet_M2HB_Proj</li><li>HD_Bullet_M2HB_Proj</li><li>HD_Bullet_M2HB_Proj</li><li>HD_Bullet_M2HB_M20_Proj</li>
+    </projectileSequence></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseWeaponTurret">

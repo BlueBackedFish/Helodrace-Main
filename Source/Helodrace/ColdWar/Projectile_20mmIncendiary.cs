@@ -46,7 +46,7 @@ namespace Helodrace
         }
     }
 
-    public sealed class Projectile_20mmArmorPiercingIncendiary : Bullet
+    public sealed class Projectile_ArmorPiercingIncendiary : Bullet
     {
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {

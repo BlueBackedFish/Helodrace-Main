@@ -38,4 +38,11 @@ foreach($file in @('ColdWar/Buildings/HydraulicPress1970.xml','ColdWar/Buildings
         if(-not $available){throw ('Electronic consumer can unlock before its supply: '+$def.defName)}
     }
 }
-Write-Output ('PASS: '+$found.Count+' intermediate prices, 32-silver electronics, and post-transistor supply access.')
+[xml]$light=Get-Content -LiteralPath (Join-Path $repository 'Defs/GreatWar/Items/LightIndustryMaterials.xml') -Raw
+$newValues=@{HD_Alumina=3;HD_AluminiumAlloy=8;HD_Silicon=6}
+foreach($def in $light.SelectNodes('/Defs/ThingDef[defName]')) {
+    $name=[string]$def.defName
+    if(-not $newValues.ContainsKey($name) -or [double]$def.statBases.MarketValue -ne $newValues[$name] -or [double]$def.statBases.MarketValue -ge 32){throw ('Incorrect new intermediate: '+$name)}
+}
+if($light.SelectNodes('/Defs/ThingDef[defName]').Count -ne $newValues.Count){throw 'New intermediate coverage changed.'}
+Write-Output ('PASS: '+($found.Count+$newValues.Count)+' intermediate prices, 32-silver electronics, and post-transistor supply access.')
