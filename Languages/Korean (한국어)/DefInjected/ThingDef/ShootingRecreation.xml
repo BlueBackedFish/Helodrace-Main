@@ -1,2 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LanguageData><HD_ClayTrap.label>클레이 사격 발사기</HD_ClayTrap.label><HD_ClayTrap.description>스프링으로 클레이 피전을 날리는 야외 사격 오락 시설입니다. 클레이 피전을 장전하고 단발식 실탄 총기를 장착한 뒤 사용합니다. 전방 14칸의 사선을 비워 두세요. 발사할 때마다 피전 하나를 소모합니다.</HD_ClayTrap.description><HD_ClayTrap.comps.0.fuelLabel>클레이 피전</HD_ClayTrap.comps.0.fuelLabel><HD_ClayTrap.comps.0.fuelGizmoLabel>표적 잔량</HD_ClayTrap.comps.0.fuelGizmoLabel><HD_ClayTrap.comps.0.outOfFuelMessage>클레이 피전 없음</HD_ClayTrap.comps.0.outOfFuelMessage><HD_ClayPigeon.label>클레이 피전</HD_ClayPigeon.label><HD_ClayPigeon.description>클레이 발사기에 사용하는 주황색 접시 표적입니다. 명중 여부와 관계없이 발사할 때 하나씩 소모합니다.</HD_ClayPigeon.description><HD_ClayPigeonFlying.label>날아가는 클레이 피전</HD_ClayPigeonFlying.label></LanguageData>
+<?xml version='1.0' encoding='utf-8'?>
+<LanguageData>
+  <HD_ClayTrap.label>클레이 사격 발사기</HD_ClayTrap.label>
+  <HD_ClayTrap.description>스프링으로 클레이 피전을 날리는 1칸 크기의 야외 사격 오락 시설입니다. 표적은 자동으로 제공됩니다. 단발식 실탄 총기를 장착하고 전방 14칸의 사선을 비워 두세요.</HD_ClayTrap.description>
+  <HD_ClayPigeonFlying.label>날아가는 클레이 피전</HD_ClayPigeonFlying.label>
+</LanguageData>

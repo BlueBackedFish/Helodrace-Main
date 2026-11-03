@@ -1,40 +1,120 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <Defs>
-  <JoyKindDef><defName>HD_TargetShooting</defName><label>target shooting</label></JoyKindDef>
-  <JoyKindDef><defName>HD_OutdoorHunting</defName><label>outdoor hunting</label></JoyKindDef>
+  <JoyKindDef>
+    <defName>HD_TargetShooting</defName>
+    <label>target shooting</label>
+  </JoyKindDef>
+  <JoyKindDef>
+    <defName>HD_OutdoorHunting</defName>
+    <label>outdoor hunting</label>
+  </JoyKindDef>
   <ThingDef ParentName="BuildingBase">
-    <defName>HD_ClayTrap</defName><label>clay shooting trap</label>
-    <description>A spring-powered clay-target launcher for outdoor shooting recreation. Load clay pigeons, equip a single-shot bullet-firing gun, and leave fourteen tiles clear in front of the launcher. Uses one clay per launch.</description>
+    <defName>HD_ClayTrap</defName>
+    <label>clay shooting trap</label>
+    <description>A compact spring-powered clay-target launcher for outdoor shooting recreation. It supplies its own practice targets. Equip a single-shot bullet-firing gun and leave fourteen tiles clear in front of the launcher.</description>
     <thingClass>Helodrace.Building_ClayTrap</thingClass>
-    <graphicData><texPath>Buildings/HD_ClayTrap</texPath><graphicClass>Graphic_Multi</graphicClass><shaderType>CutoutComplex</shaderType><color>(255,255,255)</color><colorTwo>(105,105,105)</colorTwo><drawSize>(3,3)</drawSize></graphicData>
-    <size>(2,1)</size><rotatable>true</rotatable><hasInteractionCell>true</hasInteractionCell><interactionCellOffset>(0,0,-2)</interactionCellOffset>
-    <altitudeLayer>Building</altitudeLayer><passability>PassThroughOnly</passability><pathCost>40</pathCost><fillPercent>0.4</fillPercent>
-    <tickerType>Normal</tickerType><designationCategory>Joy</designationCategory><uiOrder>2520</uiOrder>
-    <building><joyKind>HD_TargetShooting</joyKind></building>
-    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded><constructionSkillPrerequisite>3</constructionSkillPrerequisite>
-    <statBases><MaxHitPoints>180</MaxHitPoints><WorkToBuild>2200</WorkToBuild><Mass>45</Mass><Flammability>0.2</Flammability><Beauty>1</Beauty></statBases>
-    <costList><Steel>70</Steel><HD_GeneralMachinePart>2</HD_GeneralMachinePart></costList>
-    <comps><li Class="CompProperties_Refuelable"><fuelConsumptionRate>0</fuelConsumptionRate><fuelCapacity>25</fuelCapacity><initialFuelPercent>0</initialFuelPercent><autoRefuelPercent>0.25</autoRefuelPercent><fuelFilter><thingDefs><li>HD_ClayPigeon</li></thingDefs></fuelFilter><showFuelGizmo>true</showFuelGizmo><fuelLabel>Clay pigeons</fuelLabel><fuelGizmoLabel>Clay targets</fuelGizmoLabel><outOfFuelMessage>No clay targets</outOfFuelMessage></li></comps>
-  </ThingDef>
-  <ThingDef ParentName="ResourceBase">
-    <defName>HD_ClayPigeon</defName><label>clay pigeon</label><description>A bright orange clay target for a shooting trap. One is consumed on every launch, whether the shooter hits or misses.</description>
-    <graphicData><texPath>Items/HD_ClayPigeon</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.4,0.4)</drawSize></graphicData>
-    <stackLimit>150</stackLimit><techLevel>Industrial</techLevel><thingCategories><li>Manufactured</li></thingCategories>
-    <statBases><MaxHitPoints>25</MaxHitPoints><MarketValue>0.15</MarketValue><Mass>0.1</Mass><Flammability>0</Flammability><DeteriorationRate>5</DeteriorationRate></statBases>
+    <graphicData>
+      <texPath>Buildings/HD_ClayTrap</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <color>(255,255,255)</color>
+      <colorTwo>(105,105,105)</colorTwo>
+      <drawSize>(1.5,1.5)</drawSize>
+    </graphicData>
+    <size>(1,1)</size>
+    <rotatable>true</rotatable>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>40</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <tickerType>Normal</tickerType>
+    <designationCategory>Joy</designationCategory>
+    <uiOrder>2520</uiOrder>
+    <building>
+      <joyKind>HD_TargetShooting</joyKind>
+    </building>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <constructionSkillPrerequisite>3</constructionSkillPrerequisite>
+    <statBases>
+      <MaxHitPoints>180</MaxHitPoints>
+      <WorkToBuild>2200</WorkToBuild>
+      <Mass>45</Mass>
+      <Flammability>0.2</Flammability>
+      <Beauty>1</Beauty>
+    </statBases>
+    <costList>
+      <Steel>70</Steel>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
+    </costList>
   </ThingDef>
   <ThingDef>
-    <defName>HD_ClayPigeonFlying</defName><label>flying clay pigeon</label><thingClass>Helodrace.Thing_ClayPigeon</thingClass><category>Item</category>
-    <graphicData><texPath>Items/HD_ClayPigeon</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.4,0.4)</drawSize></graphicData>
-    <altitudeLayer>Projectile</altitudeLayer><drawerType>RealtimeOnly</drawerType><tickerType>Normal</tickerType><selectable>false</selectable><useHitPoints>true</useHitPoints><rotatable>false</rotatable><fillPercent>0.5</fillPercent>
-    <statBases><MaxHitPoints>1</MaxHitPoints><Mass>0.1</Mass><Flammability>0</Flammability></statBases>
+    <defName>HD_ClayPigeonFlying</defName>
+    <label>flying clay pigeon</label>
+    <thingClass>Helodrace.Thing_ClayPigeon</thingClass>
+    <category>Item</category>
+    <graphicData>
+      <texPath>Items/HD_ClayPigeon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.4,0.4)</drawSize>
+    </graphicData>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <drawerType>RealtimeOnly</drawerType>
+    <tickerType>Normal</tickerType>
+    <selectable>false</selectable>
+    <useHitPoints>true</useHitPoints>
+    <rotatable>false</rotatable>
+    <fillPercent>0.5</fillPercent>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <Mass>0.1</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
   </ThingDef>
-  <RecipeDef>
-    <defName>HD_MakeClayPigeons</defName><label>make clay pigeons x20</label><jobString>Forming clay targets.</jobString><workAmount>600</workAmount><workSpeedStat>GeneralLaborSpeed</workSpeedStat><workSkill>Crafting</workSkill><effectWorking>Smith</effectWorking><soundWorking>Recipe_Smith</soundWorking>
-    <ingredients><li><filter><categories><li>StoneBlocks</li></categories></filter><count>1</count></li></ingredients><fixedIngredientFilter><categories><li>StoneBlocks</li></categories></fixedIngredientFilter>
-    <products><HD_ClayPigeon>20</HD_ClayPigeon></products><recipeUsers><li>CraftingSpot</li><li>TableStonecutter</li></recipeUsers>
-  </RecipeDef>
-  <JobDef><defName>HD_ClayShooting</defName><driverClass>Helodrace.JobDriver_ClayShooting</driverClass><reportString>shooting clay pigeons.</reportString><joyDuration>3000</joyDuration><joyMaxParticipants>1</joyMaxParticipants><joyKind>HD_TargetShooting</joyKind></JobDef>
-  <JobDef><defName>HD_RecreationalHunt</defName><driverClass>Helodrace.JobDriver_RecreationalHunt</driverClass><reportString>tracking TargetA for recreation.</reportString><joyDuration>24000</joyDuration><joyMaxParticipants>1</joyMaxParticipants><joyKind>HD_OutdoorHunting</joyKind></JobDef>
-  <JoyGiverDef><defName>HD_ClayShooting</defName><giverClass>Helodrace.JoyGiver_ClayShooting</giverClass><baseChance>2</baseChance><thingDefs><li>HD_ClayTrap</li></thingDefs><jobDef>HD_ClayShooting</jobDef><joyKind>HD_TargetShooting</joyKind><requiresEnjoyOutdoors>true</requiresEnjoyOutdoors><requiredCapacities><li>Sight</li><li>Manipulation</li><li>Moving</li></requiredCapacities></JoyGiverDef>
-  <JoyGiverDef><defName>HD_RecreationalHunt</defName><giverClass>Helodrace.JoyGiver_RecreationalHunt</giverClass><baseChance>1</baseChance><jobDef>HD_RecreationalHunt</jobDef><joyKind>HD_OutdoorHunting</joyKind><requiresEnjoyOutdoors>true</requiresEnjoyOutdoors><requiredCapacities><li>Sight</li><li>Manipulation</li><li>Moving</li></requiredCapacities></JoyGiverDef>
+  <JobDef>
+    <defName>HD_ClayShooting</defName>
+    <driverClass>Helodrace.JobDriver_ClayShooting</driverClass>
+    <reportString>shooting clay pigeons.</reportString>
+    <joyDuration>3000</joyDuration>
+    <joyMaxParticipants>1</joyMaxParticipants>
+    <joyKind>HD_TargetShooting</joyKind>
+  </JobDef>
+  <JobDef>
+    <defName>HD_RecreationalHunt</defName>
+    <driverClass>Helodrace.JobDriver_RecreationalHunt</driverClass>
+    <reportString>tracking TargetA for recreation.</reportString>
+    <joyDuration>24000</joyDuration>
+    <joyMaxParticipants>1</joyMaxParticipants>
+    <joyKind>HD_OutdoorHunting</joyKind>
+  </JobDef>
+  <JoyGiverDef>
+    <defName>HD_ClayShooting</defName>
+    <giverClass>Helodrace.JoyGiver_ClayShooting</giverClass>
+    <baseChance>2</baseChance>
+    <thingDefs>
+      <li>HD_ClayTrap</li>
+    </thingDefs>
+    <jobDef>HD_ClayShooting</jobDef>
+    <joyKind>HD_TargetShooting</joyKind>
+    <requiresEnjoyOutdoors>true</requiresEnjoyOutdoors>
+    <requiredCapacities>
+      <li>Sight</li>
+      <li>Manipulation</li>
+      <li>Moving</li>
+    </requiredCapacities>
+  </JoyGiverDef>
+  <JoyGiverDef>
+    <defName>HD_RecreationalHunt</defName>
+    <giverClass>Helodrace.JoyGiver_RecreationalHunt</giverClass>
+    <baseChance>1</baseChance>
+    <jobDef>HD_RecreationalHunt</jobDef>
+    <joyKind>HD_OutdoorHunting</joyKind>
+    <requiresEnjoyOutdoors>true</requiresEnjoyOutdoors>
+    <requiredCapacities>
+      <li>Sight</li>
+      <li>Manipulation</li>
+      <li>Moving</li>
+    </requiredCapacities>
+  </JoyGiverDef>
 </Defs>

@@ -70,15 +70,16 @@ public sealed partial class Checks
         var shooter=Player(trap.InteractionCell);Gun(shooter,"HD_Gun_M1897_Weapon");
         Check(ShootingRecreation.HasHuntingGun(shooter),"Loaded hunting classification accepts the M1897");
         Gun(shooter,"Gun_AssaultRifle");Check(!ShootingRecreation.HasHuntingGun(shooter),"Automatic assault rifle cannot start recreational hunting");Gun(shooter,"HD_Gun_M1897_Weapon");
-        Check(trap.GetComp<CompRefuelable>().Fuel==0&&!trap.CanPlay(shooter),"Clay trap starts empty and refuses recreation without physical target fuel");trap.GetComp<CompRefuelable>().Refuel(25);
-        Check(trap.CanPlay(shooter),"Loaded trap and actual equipped gun accept an unobstructed outdoor lane");
+        Check(trap.GetComp<CompRefuelable>()==null,"Clay trap has no refueling component or target-stock requirement");
+        Check(trap.def.Size==new IntVec2(1,1),"Actual clay trap occupies one tile");
+        Check(trap.CanPlay(shooter),"Unfilled trap and actual equipped gun accept an unobstructed outdoor lane");
         var friend=Player(trap.Position+IntVec3.North*5);Check(!trap.CanPlay(shooter),"Friendly pawn in lane prevents clay shooting");friend.Destroy();
         var job=Def<JoyGiverDef>("HD_ClayShooting").Worker.TryGiveJob(shooter);Check(job!=null,"Native joy giver produces the clay shooting job");
         int before=(int)shooter.records.GetValue(RecordDefOf.ShotsFired);Check(shooter.jobs.TryTakeOrderedJob(job),"Pawn starts actual clay recreation");
         for(int elapsed=0;elapsed<4000&&shooter.CurJobDef==Def<JobDef>("HD_ClayShooting");elapsed+=60)yield return 60;
         Check(shooter.CurJobDef!=Def<JobDef>("HD_ClayShooting"),"Clay session completes within its duration");
         Check(shooter.records.GetValue(RecordDefOf.ShotsFired)>before,"Clay recreation fires actual native ammunition");
-        Check(trap.GetComp<CompRefuelable>().Fuel<25&&shooter.needs.joy.CurLevel>.15f,"Clay recreation consumes targets and raises actual joy");
+        Check(shooter.needs.joy.CurLevel>.15f,"Clay recreation raises actual joy without supplying target items");
         Check(clayHits>0&&safeProjectileFlags,"Actual moving clay targets are hit and live rounds exclude non-target pawns; hits="+clayHits);
         shooter.Destroy();trap.Destroy();
         foreach(int forced in new[]{-1,1})
@@ -104,5 +105,6 @@ public sealed partial class Checks
             else Check(animal.Dead&&hunter.needs.joy.CurLevel>.55f,"A first-shot hit continues to a real kill and grants the large success reward");
             forcePattern=0;hunter.Destroy();if(animal.Corpse!=null)animal.Corpse.Destroy();else animal.Destroy();
         }
+        foreach(int ticks in RadioChatChecks())yield return ticks;
     }
 }

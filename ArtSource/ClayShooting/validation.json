@@ -1,7 +1,7 @@
 {
   "asset": "HD_ClayTrap",
   "footprint": [
-    2,
+    1,
     1
   ],
   "features": [
@@ -13,17 +13,17 @@
   "mesh_objects": 21,
   "design_period": "mechanical spring trap, 20th century outdoor recreation",
   "texture_resolution": [
-    512,
-    512
+    256,
+    256
   ],
   "nominal_pixels_per_footprint_tile": 256,
   "pixels_per_game_unit": 170.66666666666666,
   "outline_width_in_game_units": 0.0703125,
-  "orthographic_scale": 3.0,
+  "orthographic_scale": 1.5,
   "outline_pixels": 12,
   "expected_draw_size": [
-    3.0,
-    3.0
+    1.5,
+    1.5
   ],
   "presentation_rule": "one_model_unit_per_game_tile",
   "ground_anchor": [
@@ -45,22 +45,22 @@
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 93,
+      "minimum_margin": 41,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 45,
+      "minimum_margin": 17,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 93,
+      "minimum_margin": 41,
       "mask_alpha_matches": true
     },
     "West": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 67,
+      "minimum_margin": 28,
       "mask_alpha_matches": true
     }
   },

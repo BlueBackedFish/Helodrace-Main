@@ -26,7 +26,11 @@ for x in [-.86,-.48]:s.rod('12_Magazine_guide_'+str(x),(x,.12,.51),(x,.12,.85),.
 s.cube('13_Release_pedal',(.32,-.35,.06),(.38,.19,.065),black)
 s.rod('14_Pedal_link',(.10,-.33,.08),(-.27,-.11,.64),.022,s.steel)
 s.cube('15_Arm_guard',(-.24,.31,.72),(.65,.055,.25),s.cast)
-s.export(str(ROOT),'HD_ClayTrap',(2,1),['spring drum','throwing arm','orange clay magazine','foot release pedal'])
+# Preserve the existing shape and materials; halve geometry only. The exporter
+# reapplies the same 12px exterior outline at the calibrated 1x1 density.
+for obj in list(scene.objects):
+ if obj.type=='MESH':obj.location*=.5;obj.scale*=.5
+s.export(str(ROOT),'HD_ClayTrap',(1,1),['spring drum','throwing arm','orange clay magazine','foot release pedal'])
 # Separate editable 3D target source and transparent item sprite.
 sys.path.insert(0,str(ROOT.parent/'PropAssets'));import modeling as m
 scene=m.start();scene['presentation_rule']='3D clay disc item proxy';scene['outline_pixels']=12
@@ -37,4 +41,4 @@ m.cylinder('03_Raised orange crown',(0,0,.09),(0,0,.13),.245,orange,48)
 m.cylinder('04_Central orange disc',(0,0,.13),(0,0,.15),.165,orange,48)
 cam=m.camera('Target_64deg',-90,64,.9,(0,0,.06));m.render(ROOT/'clay_raw.png',cam,256);m.save(ROOT/'clay_pigeon.blend')
 (ROOT/'clay_metadata.json').write_text(json.dumps(dict(source='clay_pigeon.blend',resolution=256,draw_size=.4,outline_pixels=12,orthographic_degrees=64,flat_emission=True,transparent=True,shadows=False,AO=False),indent=2))
-print('CLAY_BUILD_PASS: 2x1 trap at 512px / 64deg / four real views; separate 3D clay target')
+print('CLAY_BUILD_PASS: existing trap at half geometry, 1x1 / 256px / 64deg / four views / unchanged 12px outline')

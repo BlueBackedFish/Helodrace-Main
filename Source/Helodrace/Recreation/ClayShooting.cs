@@ -22,8 +22,7 @@ public sealed class Building_ClayTrap:Building
                     ||cell.GetThingList(Map).OfType<Pawn>().Any(p=>p!=user&&!p.Dead))return false;
         return true;
     }
-    public bool CanPlay(Pawn pawn)=>ShootingRecreation.CanShoot(pawn)&&SafeLane(pawn)
-        &&this.TryGetComp<CompRefuelable>()?.HasFuel==true;
+    public bool CanPlay(Pawn pawn)=>ShootingRecreation.CanShoot(pawn)&&SafeLane(pawn);
     public override string GetInspectString()=>base.GetInspectString()+"\n"+"HD_ClayTrap_Lane".Translate(LaneLength);
 }
 public sealed class Thing_ClayPigeon:Thing
@@ -86,8 +85,6 @@ public sealed class JobDriver_ClayShooting:JobDriver,IRecreationRound
             if(elapsed>=3000||pawn.needs.joy?.CurLevel>=.99f){EndJobWith(JobCondition.Succeeded);return;}
             if(!round.active&&Find.TickManager.TicksGame>=nextLaunch)
             {
-                var fuel=Trap.GetComp<CompRefuelable>();if(fuel.Fuel<1){EndJobWith(JobCondition.Succeeded);return;}
-                fuel.ConsumeFuel(1);
                 var start=Trap.Position+Trap.Rotation.FacingCell*2;
                 pigeon=(Thing_ClayPigeon)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("HD_ClayPigeonFlying"));
                 pigeon.Launch(start,Trap.Rotation.FacingCell);GenSpawn.Spawn(pigeon,start,Map);

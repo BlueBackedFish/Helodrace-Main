@@ -11,7 +11,6 @@ namespace Helodrace.Tests.StageK;
 public sealed partial class Checks
 {
     private int statePhase,stateShots,stateToil,stateTicksLeft;
-    private float stateFuel;
     private static int stateNewTargets;
     private IntVec3 stateClayCell;
     private Pawn statePawn,stateAnimal;
@@ -21,7 +20,6 @@ public sealed partial class Checks
     {
         base.ExposeData();Scribe_Values.Look(ref statePhase,"statePhase");Scribe_Values.Look(ref stateShots,"stateShots");
         Scribe_Values.Look(ref stateToil,"stateToil");Scribe_Values.Look(ref stateTicksLeft,"stateTicksLeft");Scribe_Values.Look(ref stateClayCell,"stateClayCell");
-        Scribe_Values.Look(ref stateFuel,"stateFuel");
         Scribe_References.Look(ref statePawn,"statePawn");Scribe_References.Look(ref stateAnimal,"stateAnimal");Scribe_References.Look(ref stateTrap,"stateTrap");
     }
     private void ResumeState()
@@ -51,14 +49,14 @@ public sealed partial class Checks
             playMap.terrainGrid.SetTerrain(cell,TerrainDefOf.Concrete);playMap.roofGrid.SetRoof(cell,null);playMap.fogGrid.Unfog(cell);
         }
         stateTrap=(Building_ClayTrap)ThingMaker.MakeThing(Def<ThingDef>("HD_ClayTrap"));stateTrap.SetFaction(Faction.OfPlayer);GenSpawn.Spawn(stateTrap,playMap.Center,playMap,Rot4.North);
-        stateTrap.GetComp<CompRefuelable>().Refuel(25);statePawn=Player(stateTrap.InteractionCell);Gun(statePawn,"HD_Gun_M1897_Weapon");
+        statePawn=Player(stateTrap.InteractionCell);Gun(statePawn,"HD_Gun_M1897_Weapon");
         var job=JobMaker.MakeJob(Def<JobDef>("HD_ClayShooting"),stateTrap,stateTrap.InteractionCell,statePawn.equipment.Primary);
         Check(statePawn.jobs.TryTakeOrderedJob(job),"State fixture starts real clay recreation");
         for(int tick=0;tick<2000;tick++)
         {
             if(statePawn.jobs.curDriver is JobDriver_ClayShooting driver&&driver.Round.fired&&!driver.Round.Resolved)
             {
-                stateShots=(int)statePawn.records.GetValue(RecordDefOf.ShotsFired);stateClayCell=driver.Round.target.Position;stateFuel=stateTrap.GetComp<CompRefuelable>().Fuel;
+                stateShots=(int)statePawn.records.GetValue(RecordDefOf.ShotsFired);stateClayCell=driver.Round.target.Position;
                 Check(driver.Round.target is Thing_ClayPigeon&&driver.Round.target.Spawned,"Save point contains a flying clay target and launched live round");
                 SaveState(1);yield return 0;yield break;
             }
@@ -74,14 +72,12 @@ public sealed partial class Checks
             var driver=(JobDriver_ClayShooting)statePawn.jobs.curDriver;
             Check(driver.Round.active&&driver.Round.fired&&!driver.Round.Resolved&&driver.Round.target?.Spawned==true,"Round ownership and pending projectile references survive native load");
             Check(driver.Round.target.Position==stateClayCell&&statePawn.records.GetValue(RecordDefOf.ShotsFired)==stateShots,"Flying target location and pre-save shot count do not reset or duplicate");
-            Check(Math.Abs(stateTrap.GetComp<CompRefuelable>().Fuel-stateFuel)<.01f,"Target stock is unchanged across native save/load");
+            Check(stateTrap.GetComp<CompRefuelable>()==null,"Loaded clay trap still requires no refill");
             bool ended=false;driver.AddFinishAction(_=>ended=true);
             for(int elapsed=0;elapsed<3600&&!ended;elapsed+=60)yield return 60;
             Check(ended,"Loaded clay session completes normally");
-            float spent=stateFuel-stateTrap.GetComp<CompRefuelable>().Fuel;
-            // Targets are consumed on launch; a session may end before the final target is shot.
-            Check(Math.Abs(spent-stateNewTargets)<.01f,"Loaded session consumes exactly one target per observed new launch; launches="+stateNewTargets+" spent="+spent);
-            Check(statePawn.records.GetValue(RecordDefOf.ShotsFired)>=stateShots&&statePawn.records.GetValue(RecordDefOf.ShotsFired)<=25-stateTrap.GetComp<CompRefuelable>().Fuel,"Loaded session does not fire more cartridges than launched targets");
+            Check(stateNewTargets>0,"Loaded session launches additional free targets normally");
+            Check(statePawn.records.GetValue(RecordDefOf.ShotsFired)>=stateShots&&statePawn.records.GetValue(RecordDefOf.ShotsFired)<=stateShots+stateNewTargets,"Loaded session does not duplicate cartridges for previously launched targets");
             // Keep a previously socialized test colonist deep-saved for relation references.
             statePawn.DeSpawn();Find.WorldPawns.PassToWorld(statePawn,PawnDiscardDecideMode.KeepForever);
             stateTrap.Destroy();stateTrap=null;
