@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_FrontierSixgunTraining.degreeDatas.0.label>변방의 속사술</HD_FrontierSixgunTraining.degreeDatas.0.label>
-  <HD_FrontierSixgunTraining.degreeDatas.0.description>[PAWN_nameDef]는 떠돌이 총잡이 생활을 통해 빠른 조준과 더욱 빠른 사격 자세 회복을 익혔습니다. 원거리 조준 준비 시간 ×75%, 발사 후 재사용 대기 시간 ×50%. 변방을 떠도는 총잡이 백스토리에서 얻는 훈련입니다.</HD_FrontierSixgunTraining.degreeDatas.0.description>
+  <HD_FrontierSixgunTraining.degreeDatas.0.label>총잡이</HD_FrontierSixgunTraining.degreeDatas.0.label>
+  <HD_FrontierSixgunTraining.degreeDatas.0.description>[PAWN_nameDef]는 떠돌이 총잡이 생활을 통해 빠른 조준과 더욱 빠른 사격 자세 회복을 익혔습니다. 원거리 조준 준비 시간은 기존의 80%, 발사 후 재사용 대기 시간은 기존의 85%로 적용됩니다. 변방을 떠도는 총잡이 백스토리에서 얻는 훈련입니다.</HD_FrontierSixgunTraining.degreeDatas.0.description>
 </LanguageData>

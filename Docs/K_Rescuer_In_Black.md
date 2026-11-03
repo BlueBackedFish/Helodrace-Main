@@ -6,7 +6,7 @@
 
 2026-11-04 후속 요청으로 무작위 리볼버·검은 의복을 교체했다. 헤로드 전용 카우보이 모자는 황갈색 RGB(156,117,68), 천 셔츠는 크림색 (225,210,175), 천 바지는 짙은 회갈색 (57,52,44), 일반 가죽 더스터는 갈색 (112,74,43)으로 고정한다. 현대 방탄조끼는 제거하고 네 벌만 지정한다. native `specificApparelRequirements`로 품질 Good과 개별 색상을 고정하며, SAA만 가진 전용 생성 태그를 사용한다. 다른 SAA 사용자나 무기의 기본 수치는 바꾸지 않는다.
 
-전용 성인 백스토리 **변방을 떠도는 총잡이**는 외딴 마을을 떠돌며 분쟁을 해결하고 부상자를 치료해 온 인물이다. 사격 +6, 의료 +3, 사교 +1을 부여한다. 이 배경에서만 강제 부여되는 **변방의 속사술** 특성은 조준 준비 시간 ×0.75, 원거리 발사 후 쿨다운 ×0.5로, 쿨다운 감소를 더 크게 한다. 일반 무작위 특성/백스토리 선택에는 등장하지 않는다. 현재 엔진 BackstoryDef에는 직접 statFactors 필드가 없으므로 native forcedTraits와 TraitDef statFactors를 통해 효과를 연결했다. 실제 `VerbProperties.AdjustedCooldown`이 RangedCooldownFactor를 곱하는 것을 확인했다.
+전용 성인 백스토리 **변방을 떠도는 총잡이**는 외딴 마을을 떠돌며 분쟁을 해결하고 부상자를 치료해 온 인물이다. 사격 +6, 의료 +3, 사교 +1을 부여한다. 이 배경에서만 강제 부여되는 **총잡이 / gunslinger** 특성은 조준 준비 시간 ×0.8(기존의 80%), 원거리 발사 후 쿨다운 ×0.85(기존의 85%)로 적용한다. 일반 무작위 특성/백스토리 선택에는 등장하지 않는다. 현재 엔진 BackstoryDef에는 직접 statFactors 필드가 없으므로 native forcedTraits와 TraitDef statFactors를 통해 효과를 연결했다. 실제 `VerbProperties.AdjustedCooldown`이 RangedCooldownFactor를 곱하는 것을 확인했다. [후속 권총·패닝 조정과 실제 검증](Gunslinger_Pistol_Balance.md).
 
 기존 헤로드 생성 보정이 PawnKind의 제노타입 설정에 앞서 다섯 계통을 무작위 지정하므로, `Patch_HelodPawnRequest`에서 이 새 PawnKind의 기본 요청에만 매켄지를 지정했다. 명시적인 헤로드/사용자 제노타입 요청과 다른 PawnKind의 생성 정책은 유지한다.
 

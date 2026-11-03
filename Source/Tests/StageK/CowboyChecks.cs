@@ -34,8 +34,8 @@ public sealed partial class Checks
         float ordinaryAim=StatDefOf.AimingDelayFactor.Worker.GetValue(StatRequest.For(pawn));
         float ordinaryCooldown=StatDefOf.RangedCooldownFactor.Worker.GetValue(StatRequest.For(pawn));
         pawn.story.traits.GainTrait(trait);
-        Check(Math.Abs(aim/ordinaryAim-.75f)<.001,"Native pawn warmup factor is reduced by 25 percent by the backstory training");
-        Check(Math.Abs(cooldown/ordinaryCooldown-.5f)<.001,"Native pawn ranged cooldown factor is reduced by 50 percent, more than warmup");
+        Check(Math.Abs(aim/ordinaryAim-.8f)<.001,"Native pawn warmup time is 80 percent of the value without gunslinger");
+        Check(Math.Abs(cooldown/ordinaryCooldown-.85f)<.001,"Native pawn ranged cooldown time is 85 percent of the value without gunslinger");
         var verb=pawn.equipment.Primary.GetComp<CompEquippable>().PrimaryVerb;
         float actual=verb.verbProps.AdjustedCooldown(verb,pawn);
         float expectedCooldown=pawn.equipment.Primary.GetStatValue(StatDefOf.RangedWeapon_Cooldown)*pawn.GetStatValue(StatDefOf.RangedCooldownFactor);

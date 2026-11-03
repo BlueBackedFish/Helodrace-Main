@@ -1,0 +1,328 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Patch>
+  <Operation Class="PatchOperationSequence">
+    <operations>
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[defName="HD_Gun_ColtSAA_Weapon"]/comps/li[@Class="Helodrace.CompProperties_SharpshooterWeapon"]/altCooldownMultiplier</xpath>
+        <value>
+          <altCooldownMultiplier>2</altCooldownMultiplier>
+        </value>
+      </li>
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[defName="HD_Gun_ColtArmyModel1860_Weapon"]/comps/li[@Class="Helodrace.CompProperties_SharpshooterWeapon"]/altCooldownMultiplier</xpath>
+        <value>
+          <altCooldownMultiplier>3</altCooldownMultiplier>
+        </value>
+      </li>
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[defName="HD_Gun_SWModelThree_Weapon"]/comps/li[@Class="Helodrace.CompProperties_SharpshooterWeapon"]/altCooldownMultiplier</xpath>
+        <value>
+          <altCooldownMultiplier>1.5</altCooldownMultiplier>
+        </value>
+      </li>
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[defName="HD_Gun_ColtSAA_Weapon"]/verbs/li[2]/range</xpath>
+        <value>
+          <range>9.9</range>
+        </value>
+      </li>
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[defName="HD_Gun_ColtArmyModel1860_Weapon"]/verbs/li[2]/range</xpath>
+        <value>
+          <range>9.9</range>
+        </value>
+      </li>
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[defName="HD_Gun_SWModelThree_Weapon"]/verbs/li[2]/range</xpath>
+        <value>
+          <range>9.9</range>
+        </value>
+      </li>
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[defName="HD_Gun_M1911_Weapon"]/verbs/li[2]/range</xpath>
+        <value>
+          <range>13.9</range>
+        </value>
+      </li>
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[defName="HD_Gun_Glock19Gen5_Weapon"]/verbs/li[2]/range</xpath>
+        <value>
+          <range>18.9</range>
+        </value>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="HD_Gun_P320_Weapon"]/verbs</xpath>
+        <match Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="HD_Gun_P320_Weapon"]/verbs</xpath>
+          <value>
+            <verbs Inherit="False">
+              <li>
+                <verbClass>Verb_Shoot</verbClass>
+                <hasStandardCommand>true</hasStandardCommand>
+                <defaultProjectile>HD_Bullet_Glock19_Proj</defaultProjectile>
+                <warmupTime>0.25</warmupTime>
+                <range>22</range>
+                <burstShotCount>1</burstShotCount>
+                <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+                <soundCast>Shot_Autopistol</soundCast>
+                <soundCastTail>GunTail_Light</soundCastTail>
+                <muzzleFlashScale>8</muzzleFlashScale>
+                <isPrimary>true</isPrimary>
+              </li>
+              <li>
+                <verbClass>Verb_Shoot</verbClass>
+                <hasStandardCommand>false</hasStandardCommand>
+                <defaultProjectile>HD_Bullet_Glock19_Proj</defaultProjectile>
+                <warmupTime>0.25</warmupTime>
+                <range>25.0</range>
+                <burstShotCount>1</burstShotCount>
+                <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+                <soundCast>Shot_Autopistol</soundCast>
+                <soundCastTail>GunTail_Light</soundCastTail>
+                <muzzleFlashScale>8</muzzleFlashScale>
+                <isPrimary>false</isPrimary>
+              </li>
+            </verbs>
+          </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="HD_Gun_P320_Weapon"]</xpath>
+          <value>
+            <verbs Inherit="False">
+              <li>
+                <verbClass>Verb_Shoot</verbClass>
+                <hasStandardCommand>true</hasStandardCommand>
+                <defaultProjectile>HD_Bullet_Glock19_Proj</defaultProjectile>
+                <warmupTime>0.25</warmupTime>
+                <range>22</range>
+                <burstShotCount>1</burstShotCount>
+                <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+                <soundCast>Shot_Autopistol</soundCast>
+                <soundCastTail>GunTail_Light</soundCastTail>
+                <muzzleFlashScale>8</muzzleFlashScale>
+                <isPrimary>true</isPrimary>
+              </li>
+              <li>
+                <verbClass>Verb_Shoot</verbClass>
+                <hasStandardCommand>false</hasStandardCommand>
+                <defaultProjectile>HD_Bullet_Glock19_Proj</defaultProjectile>
+                <warmupTime>0.25</warmupTime>
+                <range>25.0</range>
+                <burstShotCount>1</burstShotCount>
+                <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+                <soundCast>Shot_Autopistol</soundCast>
+                <soundCastTail>GunTail_Light</soundCastTail>
+                <muzzleFlashScale>8</muzzleFlashScale>
+                <isPrimary>false</isPrimary>
+              </li>
+            </verbs>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="HD_Gun_P320_Weapon"]/comps</xpath>
+        <match Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="HD_Gun_P320_Weapon"]/comps</xpath>
+          <value>
+            <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+              <altVerbIndex>1</altVerbIndex>
+              <altModeLabelKey>HD_SharpshooterMode_PistolRange</altModeLabelKey>
+              <modeDescriptionKey>HD_SharpshooterMode_PistolRange_Desc</modeDescriptionKey>
+            </li>
+          </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="HD_Gun_P320_Weapon"]</xpath>
+          <value>
+            <comps>
+              <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+                <altVerbIndex>1</altVerbIndex>
+                <altModeLabelKey>HD_SharpshooterMode_PistolRange</altModeLabelKey>
+                <modeDescriptionKey>HD_SharpshooterMode_PistolRange_Desc</modeDescriptionKey>
+              </li>
+            </comps>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[defName="Gun_Revolver"]/verbs</xpath>
+        <value>
+          <verbs Inherit="False">
+            <li>
+              <verbClass>Verb_Shoot</verbClass>
+              <hasStandardCommand>true</hasStandardCommand>
+              <defaultProjectile>Bullet_Revolver</defaultProjectile>
+              <warmupTime>0.3</warmupTime>
+              <range>25.9</range>
+              <soundCast>Shot_Revolver</soundCast>
+              <soundCastTail>GunTail_Light</soundCastTail>
+              <muzzleFlashScale>9</muzzleFlashScale>
+              <isPrimary>true</isPrimary>
+            </li>
+            <li>
+              <verbClass>Verb_Shoot</verbClass>
+              <hasStandardCommand>false</hasStandardCommand>
+              <defaultProjectile>Bullet_Revolver</defaultProjectile>
+              <warmupTime>0.3</warmupTime>
+              <range>28.9</range>
+              <soundCast>Shot_Revolver</soundCast>
+              <soundCastTail>GunTail_Light</soundCastTail>
+              <muzzleFlashScale>9</muzzleFlashScale>
+              <isPrimary>false</isPrimary>
+            </li>
+          </verbs>
+        </value>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Gun_Revolver"]/comps</xpath>
+        <match Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Gun_Revolver"]/comps</xpath>
+          <value>
+            <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+              <altVerbIndex>1</altVerbIndex>
+              <altModeLabelKey>HD_SharpshooterMode_PistolRange</altModeLabelKey>
+              <modeDescriptionKey>HD_SharpshooterMode_PistolRange_Desc</modeDescriptionKey>
+            </li>
+          </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Gun_Revolver"]</xpath>
+          <value>
+            <comps>
+              <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+                <altVerbIndex>1</altVerbIndex>
+                <altModeLabelKey>HD_SharpshooterMode_PistolRange</altModeLabelKey>
+                <modeDescriptionKey>HD_SharpshooterMode_PistolRange_Desc</modeDescriptionKey>
+              </li>
+            </comps>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[defName="Gun_Autopistol"]/verbs</xpath>
+        <value>
+          <verbs Inherit="False">
+            <li>
+              <verbClass>Verb_Shoot</verbClass>
+              <hasStandardCommand>true</hasStandardCommand>
+              <defaultProjectile>Bullet_Autopistol</defaultProjectile>
+              <warmupTime>0.3</warmupTime>
+              <range>25.9</range>
+              <soundCast>Shot_Autopistol</soundCast>
+              <soundCastTail>GunTail_Light</soundCastTail>
+              <muzzleFlashScale>9</muzzleFlashScale>
+              <isPrimary>true</isPrimary>
+            </li>
+            <li>
+              <verbClass>Verb_Shoot</verbClass>
+              <hasStandardCommand>false</hasStandardCommand>
+              <defaultProjectile>Bullet_Autopistol</defaultProjectile>
+              <warmupTime>0.3</warmupTime>
+              <range>28.9</range>
+              <soundCast>Shot_Autopistol</soundCast>
+              <soundCastTail>GunTail_Light</soundCastTail>
+              <muzzleFlashScale>9</muzzleFlashScale>
+              <isPrimary>false</isPrimary>
+            </li>
+          </verbs>
+        </value>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Gun_Autopistol"]/comps</xpath>
+        <match Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Gun_Autopistol"]/comps</xpath>
+          <value>
+            <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+              <altVerbIndex>1</altVerbIndex>
+              <altModeLabelKey>HD_SharpshooterMode_PistolRange</altModeLabelKey>
+              <modeDescriptionKey>HD_SharpshooterMode_PistolRange_Desc</modeDescriptionKey>
+            </li>
+          </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Gun_Autopistol"]</xpath>
+          <value>
+            <comps>
+              <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+                <altVerbIndex>1</altVerbIndex>
+                <altModeLabelKey>HD_SharpshooterMode_PistolRange</altModeLabelKey>
+                <modeDescriptionKey>HD_SharpshooterMode_PistolRange_Desc</modeDescriptionKey>
+              </li>
+            </comps>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[defName="Gun_MachinePistol"]/verbs</xpath>
+        <value>
+          <verbs Inherit="False">
+            <li>
+              <verbClass>Verb_Shoot</verbClass>
+              <hasStandardCommand>true</hasStandardCommand>
+              <defaultProjectile>Bullet_MachinePistol</defaultProjectile>
+              <warmupTime>0.5</warmupTime>
+              <range>19.9</range>
+              <burstShotCount>3</burstShotCount>
+              <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+              <soundCast>Shot_MachinePistol</soundCast>
+              <soundCastTail>GunTail_Light</soundCastTail>
+              <muzzleFlashScale>9</muzzleFlashScale>
+              <isPrimary>true</isPrimary>
+            </li>
+            <li>
+              <verbClass>Verb_Shoot</verbClass>
+              <hasStandardCommand>false</hasStandardCommand>
+              <defaultProjectile>Bullet_MachinePistol</defaultProjectile>
+              <warmupTime>0.5</warmupTime>
+              <range>22.9</range>
+              <burstShotCount>3</burstShotCount>
+              <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+              <soundCast>Shot_MachinePistol</soundCast>
+              <soundCastTail>GunTail_Light</soundCastTail>
+              <muzzleFlashScale>9</muzzleFlashScale>
+              <isPrimary>false</isPrimary>
+            </li>
+          </verbs>
+        </value>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Gun_MachinePistol"]/comps</xpath>
+        <match Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Gun_MachinePistol"]/comps</xpath>
+          <value>
+            <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+              <altVerbIndex>1</altVerbIndex>
+              <altModeLabelKey>HD_SharpshooterMode_PistolRange</altModeLabelKey>
+              <modeDescriptionKey>HD_SharpshooterMode_PistolRange_Desc</modeDescriptionKey>
+            </li>
+          </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Gun_MachinePistol"]</xpath>
+          <value>
+            <comps>
+              <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+                <altVerbIndex>1</altVerbIndex>
+                <altModeLabelKey>HD_SharpshooterMode_PistolRange</altModeLabelKey>
+                <modeDescriptionKey>HD_SharpshooterMode_PistolRange_Desc</modeDescriptionKey>
+              </li>
+            </comps>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Gun_Revolver_Unique"]</xpath>
+        <match Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Gun_Revolver_Unique"]/comps</xpath>
+          <value>
+            <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+              <altVerbIndex>1</altVerbIndex>
+              <altModeLabelKey>HD_SharpshooterMode_PistolRange</altModeLabelKey>
+              <modeDescriptionKey>HD_SharpshooterMode_PistolRange_Desc</modeDescriptionKey>
+            </li>
+          </value>
+        </match>
+      </li>
+    </operations>
+  </Operation>
+</Patch>

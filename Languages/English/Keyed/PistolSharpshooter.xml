@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_SharpshooterMode_PistolRange>Sharpshooter fire</HD_SharpshooterMode_PistolRange>
+  <HD_SharpshooterMode_PistolRange_Desc>Extends the pistol's base range by 3 cells while retaining its normal firing pattern.</HD_SharpshooterMode_PistolRange_Desc>
+</LanguageData>

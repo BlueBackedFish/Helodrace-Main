@@ -39,6 +39,7 @@ public sealed partial class Checks:GameComponent
                 pawn.Destroy(DestroyMode.Vanish);
             }
             if(GenCommandLine.TryGetCommandLineArg("hdKRecreation",out _)){steps=RecreationChecks().GetEnumerator();return;}
+            if(GenCommandLine.TryGetCommandLineArg("hdKPistols",out _)){steps=PistolChecks().GetEnumerator();return;}
             Finish();
         }
         catch(Exception e){File.AppendAllText(Path.Combine(output,"checks.txt"),"FAIL: "+e+"\n");Log.Error(e.ToString());Waylith.EngineApplication.Instance.Quit(1);}
