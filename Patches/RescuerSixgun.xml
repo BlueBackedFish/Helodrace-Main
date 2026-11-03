@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="HD_Gun_ColtSAA_Weapon"]/weaponTags</xpath>
+    <value><li>HD_RescuerSixgun</li></value>
+  </Operation>
+</Patch>

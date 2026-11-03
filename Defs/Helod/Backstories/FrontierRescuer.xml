@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <BackstoryDef>
+    <defName>HD_FrontierRescuer</defName>
+    <title>wandering frontier gunslinger</title>
+    <titleShort>gunslinger</titleShort>
+    <description>[PAWN_nameDef] spent years riding between isolated settlements, settling trouble with a sixgun and patching up those left behind. A dusty hat and weathered brown coat became familiar signs of help on the frontier. Long practice taught [PAWN_objective] to take a quick sight picture and recover exceptionally fast between shots.</description>
+    <slot>Adulthood</slot>
+    <shuffleable>false</shuffleable>
+    <spawnCategories><li>HD_FrontierRescuerOnly</li></spawnCategories>
+    <skillGains><Shooting>6</Shooting><Medicine>3</Medicine><Social>1</Social></skillGains>
+    <forcedTraits><HD_FrontierSixgunTraining>0</HD_FrontierSixgunTraining></forcedTraits>
+  </BackstoryDef>
+  <TraitDef>
+    <defName>HD_FrontierSixgunTraining</defName>
+    <commonality>0</commonality>
+    <canBeSuppressed>false</canBeSuppressed>
+    <degreeDatas>
+      <li>
+        <label>frontier sixgun training</label>
+        <description>Years as a wandering frontier gunslinger taught [PAWN_nameDef] to aim quickly and recover even faster. Ranged warmup time ×75%; ranged cooldown time ×50%. This training comes from the wandering frontier gunslinger backstory.</description>
+        <statFactors><AimingDelayFactor>0.75</AimingDelayFactor><RangedCooldownFactor>0.5</RangedCooldownFactor></statFactors>
+      </li>
+    </degreeDatas>
+  </TraitDef>
+</Defs>

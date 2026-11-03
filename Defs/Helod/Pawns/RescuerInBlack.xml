@@ -2,10 +2,10 @@
 <Defs>
   <PawnKindDef>
     <defName>HD_RescuerInBlack</defName>
-    <label>Helod rescuer in black</label>
-    <labelMale>Helod rescuer in black</labelMale>
-    <labelFemale>Helod rescuer in black</labelFemale>
-    <labelPlural>Helod rescuers in black</labelPlural>
+    <label>frontier Helod gunslinger</label>
+    <labelMale>frontier Helod gunslinger</labelMale>
+    <labelFemale>frontier Helod gunslinger</labelFemale>
+    <labelPlural>frontier Helod gunslingers</labelPlural>
     <race>Helod</race>
     <defaultFactionDef>OutlanderCivil</defaultFactionDef>
     <combatPower>55</combatPower>
@@ -40,24 +40,19 @@
     </inventoryOptions>
     <gearHealthRange>1~1</gearHealthRange>
     <itemQuality>Good</itemQuality>
-    <weaponMoney>500~500</weaponMoney>
+    <weaponMoney>1000~1000</weaponMoney>
     <weaponTags>
-      <li>Revolver</li>
+      <li>HD_RescuerSixgun</li>
     </weaponTags>
-    <apparelTags>
-      <li>IndustrialBasic</li>
-      <li>IndustrialAdvanced</li>
-    </apparelTags>
+    <ignoreIdeoApparelColors>true</ignoreIdeoApparelColors>
+    <ignoreFactionApparelStuffRequirements>true</ignoreFactionApparelStuffRequirements>
+    <apparelIgnoreSeasons>true</apparelIgnoreSeasons>
     <apparelRequired>
+      <li>HD_Apparel_CowboyHat</li>
       <li>Apparel_CollarShirt</li>
       <li>Apparel_Pants</li>
       <li>Apparel_Duster</li>
-      <li>Apparel_FlakVest</li>
-      <li>Apparel_CowboyHat</li>
     </apparelRequired>
-    <apparelColor>(0.2, 0.2, 0.2)</apparelColor>
-    <ignoreIdeoApparelColors>true</ignoreIdeoApparelColors>
-    <favoriteColor MayRequire="Ludeon.RimWorld.Ideology">Black</favoriteColor>
     <initialWillRange>0~0</initialWillRange>
     <initialResistanceRange>0~2</initialResistanceRange>
     <humanPregnancyChance>0</humanPregnancyChance>
@@ -78,5 +73,33 @@
         <HD_MackenzieValleyHelod>1</HD_MackenzieValleyHelod>
       </xenotypeChances>
     </xenotypeSet>
+    <fixedAdultBackstories>
+      <li>HD_FrontierRescuer</li>
+    </fixedAdultBackstories>
+    <specificApparelRequirements>
+      <li>
+        <apparelDef>HD_Apparel_CowboyHat</apparelDef>
+        <color>(156,117,68)</color>
+        <quality>Good</quality>
+      </li>
+      <li>
+        <apparelDef>Apparel_CollarShirt</apparelDef>
+        <stuff>Cloth</stuff>
+        <color>(225,210,175)</color>
+        <quality>Good</quality>
+      </li>
+      <li>
+        <apparelDef>Apparel_Pants</apparelDef>
+        <stuff>Cloth</stuff>
+        <color>(57,52,44)</color>
+        <quality>Good</quality>
+      </li>
+      <li>
+        <apparelDef>Apparel_Duster</apparelDef>
+        <stuff>Leather_Plain</stuff>
+        <color>(112,74,43)</color>
+        <quality>Good</quality>
+      </li>
+    </specificApparelRequirements>
   </PawnKindDef>
 </Defs>

@@ -9,6 +9,7 @@ public sealed partial class Checks:GameComponent
     bool started;string output;
     public Checks(Game game){}
     partial void MoodChecks(Pawn pawn);
+    partial void CowboyChecks(Pawn pawn);
     void Finish(){File.AppendAllText(Path.Combine(output,"checks.txt"),"COMPLETE\n");Waylith.EngineApplication.Instance.Quit(0);}
     static T Def<T>(string n)where T:Verse.Def=>DefDatabase<T>.GetNamed(n);
     void Check(bool ok,string message){if(!ok)throw new Exception(message);File.AppendAllText(Path.Combine(output,"checks.txt"),"PASS: "+message+"\n");}
@@ -32,6 +33,7 @@ public sealed partial class Checks:GameComponent
                 Check(!pawn.WorkTagIsDisabled(WorkTags.Caring)&&!pawn.WorkTagIsDisabled(WorkTags.Violent),"Rescuer can fight and rescue/tend");
                 Check(pawn.inventory.innerContainer.Any(t=>t.def==ThingDefOf.MedicineIndustrial)&&pawn.inventory.innerContainer.Any(t=>t.def.defName=="HD_PlainDogChew"),"Medical and BTX supplies survive native inventory generation");
                 Check(pawn.genes.Xenotype.defName=="HD_MackenzieValleyHelod","Rescuer uses the current Mackenzie lineage without editing its genes: "+pawn.genes.Xenotype.defName);
+                CowboyChecks(pawn);
                 GenSpawn.Spawn(pawn,map.Center+new IntVec3(12+i*2,0,8),map);
                 MoodChecks(pawn);
                 pawn.Destroy(DestroyMode.Vanish);

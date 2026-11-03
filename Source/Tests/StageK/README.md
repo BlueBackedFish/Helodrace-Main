@@ -6,6 +6,8 @@ Run `Start-Checks.ps1 -RuntimeRoot .codex-staging/StageK/fresh-name`, then colle
 
 2026-11-03 `.codex-staging/StageK/events-mood-03`: 35 PASS, COMPLETE. Early failed fixtures were corrected for the race request's random lineage fallback and native thought preconditions; the final run is the evidence. It does not claim an end-to-end crisis scheduler playthrough or a full smoking animation/tolerance soak.
 
+2026-11-04 `.codex-staging/StageKFollowup/cowboy-03`: **95 PASS, COMPLETE**. `CowboyChecks.cs` adds four real native-generated rescuers' SAA, exact four-piece western outfit and individual colors, dedicated adult backstory/forced training trait, ×0.75 aiming and ×0.5 ranged cooldown versus the same pawn without that trait, and the actual SAA adjusted cooldown calculation. No extra command switch is needed. The native apparel generator needs `apparelRequired` for fixed garments; `specificApparelRequirements` supplies material/color, with faction material restrictions bypassed for this kind only. Early failed runs are retained.
+
 ## Shooting recreation
 
 ```powershell
