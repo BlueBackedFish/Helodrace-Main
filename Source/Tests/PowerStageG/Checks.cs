@@ -158,6 +158,7 @@ public sealed partial class Checks : GameComponent
             "Selecting zero after load removes actual output and shaft load");
         generator.TargetElectricalOutput = 1800f; yield return 120;
         Near(generator.CurrentElectricalOutput, 1800f, "Selecting 1800 W again restores actual output");
+        if (GenCommandLine.TryGetCommandLineArg("hdOilBalance", out _)) foreach (int ticks in OilBalanceChecks()) yield return ticks;
         if (GenCommandLine.TryGetCommandLineArg("hdPowerBalance", out _)) foreach (int ticks in ColonyBudgets()) yield return ticks;
     }
 }

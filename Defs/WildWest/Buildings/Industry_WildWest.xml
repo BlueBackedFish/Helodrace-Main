@@ -7,7 +7,7 @@
     <defName>HD_CableToolRig</defName>
     <label>cable-tool rig</label>
     <description>A traditional drilling rig using a heavy bit suspended by a cable to pound through
-      rock. Used for finding water or oil in the frontier.</description>
+      rock. Develops frontier oil wells with 75–80% quality.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_CableToolRig</texPath>
@@ -77,7 +77,7 @@
       <li Class="CompProperties_Flickable"/>
       <li Class="Helodrace.CompProperties_OilFieldDevelopment">
         <minimumQuality>0.75</minimumQuality>
-        <maximumQuality>1.25</maximumQuality>
+        <maximumQuality>0.8</maximumQuality>
         <initialPressure>1.0</initialPressure>
       </li>
     </comps>
@@ -262,7 +262,7 @@
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsPower</li></thingCategories>
     <label>industrial diesel engine</label>
-    <description>A large diesel engine that drives an industrial line shaft. Its speed is easy to regulate, but it consumes costly fuel and is vulnerable to fire.</description>
+    <description>A large diesel engine that drives an industrial line shaft. Consumes 20 diesel per day while running and holds 80 units. Its speed is easy to regulate, but it is vulnerable to fire.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_IndustrialDieselEngine</texPath>
@@ -318,7 +318,7 @@
       </li>
       <li Class="CompProperties_Flickable"/>
       <li Class="Helodrace.CompProperties_IndustrialRefuelable">
-        <fuelConsumptionRate>40.0</fuelConsumptionRate>
+        <fuelConsumptionRate>20.0</fuelConsumptionRate>
         <fuelCapacity>80.0</fuelCapacity>
         <autoRefuelPercent>0.40</autoRefuelPercent>
         <fuelFilter>

@@ -45,3 +45,12 @@ producer=comps['Helodrace.CompProperties_OilProducer'];assert producer.findtext(
 assert pump.findtext('placeWorkers/li')=='Helodrace.PlaceWorker_OnOilFloor'
 assert pump.findtext('tickerType')=='Rare'
 print('PASS: two unique playable defs, resolved resources/research/jobs, Korean text, fuel/power contracts, four-view textures and footprint metadata.')
+
+# Rebalance contracts cover both drill tiers and the two-pump diesel reference.
+cable=things['HD_CableToolRig'].find("comps/li[@Class='Helodrace.CompProperties_OilFieldDevelopment']")
+assert float(cable.findtext('minimumQuality'))==.75 and float(cable.findtext('maximumQuality'))==.8
+assert float(drill.findtext('minimumQuality'))==1 and float(drill.findtext('maximumQuality'))==1.3
+assert int(producer.findtext('amount'))==75 and float(producer.findtext('daysToProduce'))==1
+engine=things['HD_IndustrialDieselEngine'].find("comps/li[@Class='Helodrace.CompProperties_IndustrialRefuelable']")
+assert float(engine.findtext('fuelConsumptionRate'))==20 and float(engine.findtext('fuelCapacity'))==80
+print('PASS: cable 75-80%, rotary 100-130%, steel pump 75/day and engine 20 diesel/day.')

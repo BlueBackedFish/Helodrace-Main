@@ -128,7 +128,7 @@ def main():
     a, meta_a = model("A · 80% 유정 / 목제 펌프잭", defs["HD_BasicPumpJack"], .8, tower, recipe, prices, steam_rate, idle)
     b, meta_b = model("B · 120% 유정 / 철제 펌프잭", defs["HD_MetalPumpJack"], 1.2, tower, recipe, prices, steam_rate, idle)
     # Continuous initial steady-state bounds, independent of batch/pressure simulation.
-    assert meta_a["rated_crude_per_day"] == 40 and meta_b["rated_crude_per_day"] == 120
+    assert meta_a["rated_crude_per_day"] == 40 and meta_b["rated_crude_per_day"] == 90
     assert meta_a["refinery_raw_capacity_per_day"] == 1500
     assert abs(meta_a["diesel_per_refinery_batch"] - 2/3) < 1e-9
     out = ROOT / "Docs/Data/StageI"

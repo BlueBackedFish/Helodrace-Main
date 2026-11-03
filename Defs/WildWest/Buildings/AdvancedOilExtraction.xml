@@ -3,7 +3,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_RotaryDrill</defName>
     <label>rotary drilling rig</label>
-    <description>A diesel-driven steel derrick with a rotary table and circulating drilling mud. Develops an oil field faster than a cable-tool rig and produces better-quality wells. Stops when maintenance is needed; a colonist must service it. Uses diesel only while drilling. Dismantle the completed rig and place a pump jack over the developed field.</description>
+    <description>A diesel-driven steel derrick with a rotary table and circulating drilling mud. Develops an oil field faster than a cable-tool rig and produces wells with 100–130% quality. Stops when maintenance is needed; a colonist must service it. Uses diesel only while drilling. Dismantle the completed rig and place a pump jack over the developed field.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_RotaryDrill</texPath>
@@ -59,7 +59,7 @@
         <mtbDaysConfirmation>2</mtbDaysConfirmation>
         <mtbDaysMaintenance>1.25</mtbDaysMaintenance>
         <minimumQuality>1</minimumQuality>
-        <maximumQuality>1.5</maximumQuality>
+        <maximumQuality>1.3</maximumQuality>
         <initialPressure>1</initialPressure>
       </li>
     </comps>
@@ -68,7 +68,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_MetalPumpJack</defName>
     <label>steel pump jack</label>
-    <description>A heavy steel walking-beam pump driven by an electric motor. Extracts crude oil from a developed field at twice the basic pump's nominal rate. Output depends on well quality and pressure. Requires electricity and must be placed over a developed oil field.</description>
+    <description>A heavy steel walking-beam pump driven by an electric motor. Extracts crude oil from a developed field at a nominal rate of 75 units per day (100% quality and pressure). Output depends on well quality and pressure. Requires electricity and must be placed over a developed oil field.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_MetalPumpJack</texPath>
@@ -120,7 +120,7 @@
       </li>
       <li Class="Helodrace.CompProperties_OilProducer">
         <product>HD_CrudeOil_Low</product>
-        <amount>100</amount>
+        <amount>75</amount>
         <daysToProduce>1</daysToProduce>
         <pressureLossPerProduction>0.01</pressureLossPerProduction>
         <minimumPressure>0.35</minimumPressure>

@@ -2,7 +2,7 @@
 <LanguageData>
   <!-- Defs/WildWest/Buildings/Industry_WildWest.xml -->
   <HD_CableToolRig.label>케이블식 굴착기</HD_CableToolRig.label>
-  <HD_CableToolRig.description>케이블에 매달린 무거운 드릴 비트를 사용하여 암석을 뚫는 전통적인 굴착 장비입니다. 개척지에서 기름을 찾는 데 사용됩니다.</HD_CableToolRig.description>
+  <HD_CableToolRig.description>케이블에 매달린 무거운 드릴 비트를 사용하여 암석을 뚫는 전통적인 굴착 장비입니다. 개척지에서 품질 75~80%의 유정을 개발합니다.</HD_CableToolRig.description>
 
   <HD_SmallSteamEngine.label>소형 증기 기관</HD_SmallSteamEngine.label>
   <HD_SmallSteamEngine.description>주변 기계에 회전 동력을 공급하는 소형 증기 기관입니다. 높은 부하에서는 보일러 손상과 폭발 위험이 커집니다.</HD_SmallSteamEngine.description>
@@ -11,7 +11,7 @@
   <HD_LargeSteamEngine.description>산업용 라인 샤프트를 구동하는 대형 석탄 연소식 증기 기관입니다. 큰 토크를 내는 대신 열과 폭발 위험도 큽니다.</HD_LargeSteamEngine.description>
 
   <HD_IndustrialDieselEngine.label>산업용 디젤 엔진</HD_IndustrialDieselEngine.label>
-  <HD_IndustrialDieselEngine.description>디젤 연료로 라인 샤프트를 구동하는 대형 내연기관입니다. 회전 속도 조절이 쉽지만 연료비가 들고 화재에 약합니다.</HD_IndustrialDieselEngine.description>
+  <HD_IndustrialDieselEngine.description>디젤 연료로 라인 샤프트를 구동하는 대형 내연기관입니다. 가동 중 디젤 20개/일을 사용하며 연료 80개를 보관합니다. 회전 속도 조절이 쉽지만 화재에 약합니다.</HD_IndustrialDieselEngine.description>
 
   <HD_EarlyIndustrialLargeMotor.label>대형 산업용 모터</HD_EarlyIndustrialLargeMotor.label>
   <HD_EarlyIndustrialLargeMotor.description>전력을 라인 샤프트용 회전 동력으로 바꾸는 대형 전동기입니다. 심한 과부하는 단락과 배터리 방전을 일으킬 수 있습니다.</HD_EarlyIndustrialLargeMotor.description>

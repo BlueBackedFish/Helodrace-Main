@@ -13,7 +13,7 @@ namespace Helodrace
         public string floorDefName = MapComponent_OilFields.OilFieldTerrainDefName;
         public IntVec3 floorOffset = new IntVec3(0, 0, 0);
         public float minimumQuality = 0.75f;
-        public float maximumQuality = 1.25f;
+        public float maximumQuality = 0.8f;
         public float initialPressure = 1f;
 
         public CompProperties_OilFieldDevelopment()

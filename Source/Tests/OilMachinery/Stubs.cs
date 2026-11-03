@@ -114,3 +114,13 @@ namespace Helodrace
         public void ReducePressure(OilFieldRecord field,float amount,float minimum) { PressureReductions++;field.pressure=Math.Max(minimum,field.pressure-amount); }
     }
 }
+
+namespace Helodrace
+{
+    // Game-contract vector conversion used at Verse's particle API boundary.
+    public static class NativeBoundaryStub
+    {
+        public static System.Numerics.Vector3 ToNative(this UnityEngine.Vector3 value) => new();
+        public static UnityEngine.Vector3 ToGame(this System.Numerics.Vector3 value) => new();
+    }
+}

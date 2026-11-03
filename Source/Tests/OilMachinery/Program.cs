@@ -20,7 +20,7 @@ static class Program
         var map = new Map();
         var fuel = new CompRefuelable { HasFuel = true };
         var flick = new CompFlickable { SwitchIsOn = true };
-        var drill = new CompOilFieldDevelopment { props = new CompProperties_OilFieldDevelopment { totalDaysNeeded = 3, minimumQuality = 1, maximumQuality = 1.5f } };
+        var drill = new CompOilFieldDevelopment { props = new CompProperties_OilFieldDevelopment { totalDaysNeeded = 3, minimumQuality = 1, maximumQuality = 1.3f } };
         var rig = Machine(map, flick, fuel, drill);
         Check(drill.IsWorking, "Fueled rotary rig must run without a shaft network.");
         drill.CompTick();
@@ -43,12 +43,12 @@ static class Program
         Check(!worker.HasJobOnThing(pawn, rig, true), "Completed rig must not receive maintenance jobs.");
 
         var electric = new CompPowerTrader { PowerOn = true };
-        var producer = new CompOilProducer { props = new CompProperties_OilProducer { amount = 100, product = new ThingDef() } };
+        var producer = new CompOilProducer { props = new CompProperties_OilProducer { amount = 75, product = new ThingDef() } };
         var pump = Machine(map, electric, new CompFlickable { SwitchIsOn = true }, producer);
         // The field can be below another footprint cell after a differently-sized rig is removed.
         map.Fields.FieldPosition = new IntVec3(1, 0, 0);
         for (int i = 0; i < 241; i++) producer.CompTickRare();
-        Check(GenPlace.Last?.stackCount == 100 && map.Fields.PressureReductions == 1, "Electric pump must produce oil and reduce field pressure.");
+        Check(GenPlace.Last?.stackCount == 75 && map.Fields.PressureReductions == 1, "Electric pump must produce oil and reduce field pressure.");
         Check(map.Fields.Field.pressure < 1, "Oil extraction must deplete pressure.");
         paused = producer.progressDays; electric.PowerOn = false; producer.CompTickRare();
         Check(producer.progressDays == paused, "Power outage must pause electric extraction.");
