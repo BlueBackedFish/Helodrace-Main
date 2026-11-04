@@ -14,7 +14,7 @@ public sealed partial class Checks
         CheckArmorRecipe("HD_Apparel_GreatWarM1Helmet",new (string,int)[]{("HD_UniformRolledSteelPlate",5)});
         CheckArmorRecipe("HD_Apparel_ShieldDefenTechIIIA",new (string,int)[]{("Steel",55),("HD_Aramid",30),("HD_GeneralMachinePart",2)});
         CheckArmorRecipe("HD_Apparel_ShieldIronHideIV",new (string,int)[]{("Steel",120),("HD_Aramid",40),("HD_Alumina",40),("HD_GeneralMachinePart",4)});
-        CheckArmorRecipe("HD_Apparel_ShieldIronHideRiot",new (string,int)[]{("HD_AluminiumAlloy",20),("Steel",20),("Chemfuel",12)});
+        CheckArmorRecipe("HD_Apparel_ShieldIronHideRiot",new (string,int)[]{("HD_CarbonSteel",20),("Steel",20),("Chemfuel",12)});
 
         var ibtv=Def<ThingDef>("HD_Apparel_IBTVAssault");
         Check(ibtv.GetCompProperties<CompProperties_ModularArmor>().defaultParts.NullOrEmpty(),"IBTV declares no free default parts");

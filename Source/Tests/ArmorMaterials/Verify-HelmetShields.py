@@ -7,6 +7,7 @@ rows = json.loads((ROOT / 'Docs/Data/HelmetShields/recipe-materials.json').read_
 assert len(rows) == 5
 # Earlier before/after files are immutable records of those engine runs.
 current = {r['defName']: r['after'] for r in json.loads((ROOT / 'Docs/Data/EquipmentMaterials/recipe-materials.json').read_text(encoding='utf-8')) if r['kind'] == 'ThingDef'}
+current.update(json.loads((ROOT / 'Docs/Data/ArmorInstant/current-costs.json').read_text(encoding='utf-8')))
 for row in rows:
     row = dict(row, after=current.get(row['defName'], row['after']))
     d = next(x for x in E.parse(ROOT / row['file']).getroot() if x.findtext('defName') == row['defName'])
@@ -14,7 +15,7 @@ for row in rows:
     assert {x.tag: x.text for x in d.findall('statBases/*')} == row['statBases'], row['defName']
     allowed = {x.text for x in d.findall('recipeMaker/defaultIngredientFilter/thingDefs/li')}
     assert allowed == set(row['after']), row['defName']
-    if row['defName'] in {'HD_Apparel_GreatWarM1Helmet', 'HD_Apparel_ShieldIronHideRiot'}:
+    if row['defName'] == 'HD_Apparel_GreatWarM1Helmet':
         assert row['before'] == row['after'], row['defName']
 
 modern = E.parse(ROOT / 'Defs/ModernWar/Items/Apparel_ModernWar.xml').getroot()

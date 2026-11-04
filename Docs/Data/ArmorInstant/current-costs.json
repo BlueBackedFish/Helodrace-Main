@@ -2,5 +2,10 @@
   "HD_ModularPart_MultiHitVisor": {
     "Chemfuel": 24,
     "HD_GeneralMachinePart": 2
+  },
+  "HD_Apparel_ShieldIronHideRiot": {
+    "HD_CarbonSteel": 20,
+    "Steel": 20,
+    "Chemfuel": 12
   }
 }

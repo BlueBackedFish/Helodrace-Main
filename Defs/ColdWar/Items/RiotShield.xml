@@ -59,7 +59,7 @@
       <soundWorking>Recipe_Machining</soundWorking>
       <defaultIngredientFilter>
         <thingDefs>
-          <li>HD_AluminiumAlloy</li>
+          <li>HD_CarbonSteel</li>
           <li>Steel</li>
           <li>Chemfuel</li>
         </thingDefs>
@@ -73,7 +73,7 @@
       <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
     <costList>
-      <HD_AluminiumAlloy>20</HD_AluminiumAlloy>
+      <HD_CarbonSteel>20</HD_CarbonSteel>
       <Steel>20</Steel>
       <Chemfuel>12</Chemfuel>
     </costList>
