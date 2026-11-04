@@ -2,7 +2,7 @@
 <Defs>
   <ResearchProjectDef>
     <defName>HelodIndustrialAutomation</defName>
-    <label>industrial automation</label>
+    <label>The Tireless Factory</label>
     <description>Develop automatic tool-changing machining centers and electrically controlled hydraulic forming equipment for faster, repeatable metalworking.</description>
     <baseCost>2200</baseCost>
     <techLevel>Industrial</techLevel>

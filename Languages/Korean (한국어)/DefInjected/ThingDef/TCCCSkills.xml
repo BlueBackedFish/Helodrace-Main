@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_TCCC_HemostaticAgent.label>지혈제</HD_TCCC_HemostaticAgent.label>
-  <HD_TCCC_HemostaticAgent.description>대형 의료 파우치에 별도로 적재하는 야전 지혈제입니다. 1초간 투여하면 6시간 동안 전신 출혈량이 70% 감소합니다. 부위별 지혈과 함께 사용할 수 있으며 혈액순환 -10%, 의식 -5%가 적용됩니다.</HD_TCCC_HemostaticAgent.description>
+  <HD_TCCC_HemostaticAgent.description>대형 의료 파우치에 적재하는 야전 지혈제입니다. 전신 출혈을 억제하는 응급 약제로 부위별 지혈 처치와 함께 사용합니다.</HD_TCCC_HemostaticAgent.description>
 </LanguageData>

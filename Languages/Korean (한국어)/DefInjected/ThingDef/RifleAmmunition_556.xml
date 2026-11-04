@@ -2,7 +2,7 @@
 <LanguageData>
   <HD_Bullet_556M193_Proj.label>5.56×45mm M193 탄자</HD_Bullet_556M193_Proj.label>
   <HD_Ammunition_556M193_Ammo.label>5.56×45mm M193 탄약 (FMJ)</HD_Ammunition_556M193_Ammo.label>
-  <HD_Ammunition_556M193_Ammo.description>STANAG 탄창과 M249 탄통에서 선택하는 5.56×45mm 탄약입니다. 기본 피해량과 높은 탄속을 제공하며, 관통력은 M855A1보다 낮습니다.</HD_Ammunition_556M193_Ammo.description>
+  <HD_Ammunition_556M193_Ammo.description>피복 탄자를 사용하는 5.56×45mm 제식 보통탄입니다.</HD_Ammunition_556M193_Ammo.description>
   <HD_Ammunition_556M193_Ammo.comps.0.ammunitionType>5.56 M193 (FMJ)</HD_Ammunition_556M193_Ammo.comps.0.ammunitionType>
   <HD_Bullet_556M855_Proj.label>5.56×45mm M855 탄자</HD_Bullet_556M855_Proj.label>
   <HD_Ammunition_556M855_Ammo.label>5.56×45mm M855 탄약 (FMJ)</HD_Ammunition_556M855_Ammo.label>
@@ -10,14 +10,14 @@
   <HD_Ammunition_556M855_Ammo.comps.0.ammunitionType>5.56 M855 (FMJ)</HD_Ammunition_556M855_Ammo.comps.0.ammunitionType>
   <HD_Bullet_556M995_Proj.label>5.56×45mm M995 탄자</HD_Bullet_556M995_Proj.label>
   <HD_Ammunition_556M995_Ammo.label>5.56×45mm M995 탄약 (AP)</HD_Ammunition_556M995_Ammo.label>
-  <HD_Ammunition_556M995_Ammo.description>STANAG 탄창과 M249 탄통에서 선택하는 5.56×45mm 탄약입니다. 피해량과 저지력이 낮은 대신, 현재 선택 가능한 5.56mm 탄종 중 관통력이 가장 높습니다.</HD_Ammunition_556M995_Ammo.description>
+  <HD_Ammunition_556M995_Ammo.description>단단한 탄심으로 방호재를 상대하는 5.56×45mm 철갑탄입니다.</HD_Ammunition_556M995_Ammo.description>
   <HD_Ammunition_556M995_Ammo.comps.0.ammunitionType>5.56 M995 (AP)</HD_Ammunition_556M995_Ammo.comps.0.ammunitionType>
   <HD_Bullet_556MK262_Proj.label>5.56×45mm MK262 탄자</HD_Bullet_556MK262_Proj.label>
   <HD_Ammunition_556MK262_Ammo.label>5.56×45mm MK262 탄약 (MATCH)</HD_Ammunition_556MK262_Ammo.label>
-  <HD_Ammunition_556MK262_Ammo.description>STANAG 탄창과 M249 탄통에서 선택하는 5.56×45mm 탄약입니다. 경장갑 표적에 대한 피해량과 저지력이 높으며, 관통력과 탄속은 낮습니다.</HD_Ammunition_556MK262_Ammo.description>
+  <HD_Ammunition_556MK262_Ammo.description>탄자 앞부분이 열린 5.56×45mm 매치탄으로, 정밀 사격에 사용합니다.</HD_Ammunition_556MK262_Ammo.description>
   <HD_Ammunition_556MK262_Ammo.comps.0.ammunitionType>5.56 MK262 (MATCH)</HD_Ammunition_556MK262_Ammo.comps.0.ammunitionType>
   <HD_Bullet_556MK318_Proj.label>5.56×45mm MK318 탄자</HD_Bullet_556MK318_Proj.label>
   <HD_Ammunition_556MK318_Ammo.label>5.56×45mm MK318 탄약 (OTM)</HD_Ammunition_556MK318_Ammo.label>
-  <HD_Ammunition_556MK318_Ammo.description>STANAG 탄창과 M249 탄통에서 선택하는 5.56×45mm 탄약입니다. MK262와 M855A1 사이에서 피해량·관통력·저지력의 균형을 제공합니다.</HD_Ammunition_556MK318_Ammo.description>
+  <HD_Ammunition_556MK318_Ammo.description>앞부분이 열리고 뒤쪽이 두꺼운 구리로 지지된 5.56×45mm 탄자입니다. 가벼운 장애물을 통과하는 사격을 염두에 둔 탄종입니다.</HD_Ammunition_556MK318_Ammo.description>
   <HD_Ammunition_556MK318_Ammo.comps.0.ammunitionType>5.56 MK318 (OTM)</HD_Ammunition_556MK318_Ammo.comps.0.ammunitionType>
 </LanguageData>

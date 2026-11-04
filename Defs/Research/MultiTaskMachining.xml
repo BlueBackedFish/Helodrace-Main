@@ -2,7 +2,7 @@
 <Defs>
   <ResearchProjectDef>
     <defName>HelodMultiTaskMachining</defName>
-    <label>integrated mill-turn machining</label>
+    <label>One Setup</label>
     <description>Combine opposed work spindles and an articulated milling head in an enclosed computer-controlled machine for turning and milling operations in one setup.</description>
     <baseCost>2800</baseCost>
     <techLevel>Industrial</techLevel>

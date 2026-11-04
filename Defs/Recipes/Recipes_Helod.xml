@@ -1277,9 +1277,9 @@
 
   <RecipeDef>
     <defName>HD_Make_Gun_SprMOne_Weapon</defName>
-    <label>craft Graylock M1861</label>
+    <label>make Graylock M1861</label>
     <description>Craft Graylock M1861 using firearm components at a workbench.</description>
-    <jobString>Crafting Graylock M1861.</jobString>
+    <jobString>Making Graylock M1861.</jobString>
     <workAmount>37500</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
@@ -1332,9 +1332,9 @@
 
   <RecipeDef>
     <defName>HD_Make_Gun_ColtArmyModel1860_Weapon</defName>
-    <label>craft Ironfang M1860 Army</label>
+    <label>make Ironfang M1860 Army</label>
     <description>Craft Ironfang M1860 Army using firearm components at a workbench.</description>
-    <jobString>Crafting Ironfang M1860 Army.</jobString>
+    <jobString>Making Ironfang M1860 Army.</jobString>
     <workAmount>48000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
@@ -1389,9 +1389,9 @@
 
   <RecipeDef>
     <defName>HD_Make_Gun_ColtSAA_Weapon</defName>
-    <label>craft Ironfang SAA</label>
+    <label>make Ironfang SAA</label>
     <description>Craft Ironfang SAA using firearm components at a workbench.</description>
-    <jobString>Crafting Ironfang SAA.</jobString>
+    <jobString>Making Ironfang SAA.</jobString>
     <workAmount>45000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
@@ -1437,9 +1437,9 @@
 
   <RecipeDef>
     <defName>HD_Make_Gun_SWModelThree_Weapon</defName>
-    <label>craft W&amp;M Model 3</label>
+    <label>make W&amp;M Model 3</label>
     <description>Craft W&amp;M Model 3 using firearm components at a workbench.</description>
-    <jobString>Crafting W&amp;M Model 3.</jobString>
+    <jobString>Making W&amp;M Model 3.</jobString>
     <workAmount>48000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
@@ -1588,9 +1588,9 @@
 
   <RecipeDef>
     <defName>HD_Make_Gun_SprMThreeHigh_Weapon</defName>
-    <label>craft Graylock M1873</label>
+    <label>make Graylock M1873</label>
     <description>Craft Graylock M1873 using firearm components at a workbench.</description>
-    <jobString>Crafting Graylock M1873.</jobString>
+    <jobString>Making Graylock M1873.</jobString>
     <workAmount>43500</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
@@ -1692,9 +1692,9 @@
 
   <RecipeDef>
     <defName>HD_Make_Gun_WinM1887_Weapon</defName>
-    <label>craft Frontier Arms M1887</label>
+    <label>make Frontier Arms M1887</label>
     <description>Craft Frontier Arms M1887 using firearm components at a workbench.</description>
-    <jobString>Crafting Frontier Arms M1887.</jobString>
+    <jobString>Making Frontier Arms M1887.</jobString>
     <workAmount>58800</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
@@ -1750,9 +1750,9 @@
 
   <RecipeDef>
     <defName>HD_Make_Gun_WinMNinetyFive_Weapon</defName>
-    <label>craft Frontier Arms M1895</label>
+    <label>make Frontier Arms M1895</label>
     <description>Craft Frontier Arms M1895 using firearm components at a workbench.</description>
-    <jobString>Crafting Frontier Arms M1895.</jobString>
+    <jobString>Making Frontier Arms M1895.</jobString>
     <workAmount>59100</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
@@ -1806,9 +1806,9 @@
 
   <RecipeDef>
     <defName>HD_Convert_SprMOne_To_SprMThreeHigh_Weapon</defName>
-    <label>convert Graylock M1861 into Graylock M1873</label>
+    <label>convert Graylock M1861 to Graylock M1873</label>
     <description>Convert a Graylock M1861 into a Graylock M1873 breech-loading rifle, replacing its V-spring mechanism with a low-quality torsion spring.</description>
-    <jobString>Converting Graylock M1861 into Graylock M1873.</jobString>
+    <jobString>Converting to Graylock M1873.</jobString>
     <workAmount>9000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
@@ -1911,9 +1911,9 @@
 
   <RecipeDef>
     <defName>HD_Make_Gun_SprMThree_Weapon</defName>
-    <label>craft Graylock M1903</label>
+    <label>make Graylock M1903</label>
     <description>Craft Graylock M1903 using firearm components at a workbench.</description>
-    <jobString>Crafting Graylock M1903.</jobString>
+    <jobString>Making Graylock M1903.</jobString>
     <workAmount>44100</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
@@ -2035,9 +2035,9 @@
 
   <RecipeDef>
     <defName>HD_Make_Gun_M1903A4_Weapon</defName>
-    <label>craft Graylock M1903A4</label>
+    <label>make Graylock M1903A4</label>
     <description>Craft Graylock M1903A4 using firearm components at a workbench.</description>
-    <jobString>Crafting Graylock M1903A4.</jobString>
+    <jobString>Making Graylock M1903A4.</jobString>
     <workAmount>50000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
@@ -2099,9 +2099,9 @@
 
   <RecipeDef>
     <defName>HD_Make_Gun_M1903Pedersen_Weapon</defName>
-    <label>craft Graylock M1903 Whitmore device</label>
+    <label>make Graylock M1903 Whitmore device</label>
     <description>Craft Graylock M1903 Whitmore device using firearm components at a workbench.</description>
-    <jobString>Crafting Graylock M1903 Whitmore device.</jobString>
+    <jobString>Making Graylock M1903 Whitmore device.</jobString>
     <workAmount>18000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
@@ -2348,9 +2348,9 @@
 
   <RecipeDef>
     <defName>HD_Make_Gun_M1Garand_Weapon</defName>
-    <label>craft M1 Hartwell</label>
+    <label>make M1 Hartwell</label>
     <description>Craft M1 Hartwell using firearm components at a workbench.</description>
-    <jobString>Crafting M1 Hartwell.</jobString>
+    <jobString>Making M1 Hartwell.</jobString>
     <workAmount>68100</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>

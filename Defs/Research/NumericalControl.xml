@@ -2,7 +2,7 @@
 <Defs>
   <ResearchProjectDef>
     <defName>HelodNumericalControl</defName>
-    <label>numerical control</label>
+    <label>Punched-Tape Commands</label>
     <description>Develop compact electric motors and servo drives, then combine them with electronic controllers and punched-tape instructions to guide electric lathes and milling machines through repeatable machining operations.</description>
     <baseCost>1800</baseCost>
     <techLevel>Industrial</techLevel>

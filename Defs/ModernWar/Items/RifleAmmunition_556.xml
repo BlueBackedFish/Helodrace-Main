@@ -52,7 +52,7 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_556M193_Ammo</defName>
     <label>5.56x45mm M193 cartridge (FMJ)</label>
-    <description>A 5.56x45mm ammunition selection for STANAG magazines and M249 belt boxes. Baseline damage and high projectile speed, with less penetration than M855A1.</description>
+    <description>A 5.56x45mm service ball cartridge with a jacketed projectile.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556M193</texPath></graphicData>
     <statBases><MarketValue>1.5</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -96,7 +96,7 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_556M995_Ammo</defName>
     <label>5.56x45mm M995 cartridge (AP)</label>
-    <description>A 5.56x45mm ammunition selection for STANAG magazines and M249 belt boxes. Lower damage and stopping power in exchange for the highest penetration of the available 5.56mm selections.</description>
+    <description>A 5.56x45mm armor-piercing cartridge with a hard penetrator core for protected targets.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556M995</texPath></graphicData>
     <statBases><MarketValue>5</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -118,7 +118,7 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_556MK262_Ammo</defName>
     <label>5.56x45mm MK262 cartridge (MATCH)</label>
-    <description>A 5.56x45mm ammunition selection for STANAG magazines and M249 belt boxes. High damage and stopping power against lightly armored targets, with reduced penetration and projectile speed.</description>
+    <description>A 5.56x45mm open-tip match cartridge for precision shooting.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556MK262</texPath></graphicData>
     <statBases><MarketValue>3</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -140,7 +140,7 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_556MK318_Ammo</defName>
     <label>5.56x45mm MK318 cartridge (OTM)</label>
-    <description>A 5.56x45mm ammunition selection for STANAG magazines and M249 belt boxes. Balanced damage, penetration and stopping power between the MK262 and M855A1 selections.</description>
+    <description>A 5.56x45mm open-tip cartridge with a substantial copper base, intended for engagements through light barriers.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556MK318</texPath></graphicData>
     <statBases><MarketValue>3</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">

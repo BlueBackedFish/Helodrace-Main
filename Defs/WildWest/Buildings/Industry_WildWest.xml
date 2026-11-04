@@ -1742,7 +1742,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_TelegraphTable</defName>
     <label>telegraph</label>
-    <description>A wired terminal for contacting LOW Helod companies and organizations. Request financial, industrial, arms and hunting, or petroleum caravans, arrange Pioneer Overseas Service Company forward-base contracts, and hire Harrington Protective Services guards. Caravan requests require financial reputation. After construction, request paid line installation from a visiting LOW Helod caravan; the line opens in 2–3 days. Expand faction and company rows while the relay is open, from 08:00 to 18:00 local time. Transmissions use primary cells.</description>
+    <description>A wired Morse terminal connecting the settlement to LOW Helod trading, financial and service companies.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_TelegraphTable</texPath>
@@ -1799,6 +1799,7 @@
         <outOfFuelMessage>Cannot transmit: no primary cells</outOfFuelMessage>
       </li>
     </comps>
+    <modExtensions><li Class="Helodrace.ContentUsageExtension"><helpKey>HD_ContentUsage_HD_TelegraphTable</helpKey></li></modExtensions>
   </ThingDef>
 
 </Defs>

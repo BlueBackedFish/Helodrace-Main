@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-05",
+  "engine": "1.7.4995 rev309",
+  "baselineCommit": "49201430",
+  "runtime": ".codex-staging/TextContent/native-01",
+  "passCount": 51,
+  "complete": true,
+  "processExitCode": null,
+  "processExitCodeNote": "Host exited before collector could retrieve the exit code; COMPLETE and engine shutdown confirmed.",
+  "assemblySha256": "D455D0895F8C1673EC5D83A63F7C290CF648986A036F790DC316C024FEF663EB",
+  "staticChecks": [
+    "179 recorded before/after strings match baseline/current XML",
+    "All non-text data, research costs and prerequisite graphs preserved",
+    "All three excluded full research definitions and Korean strings preserved",
+    "HelmetShields",
+    "InstantCrafting",
+    "EquipmentMaterials",
+    "Worktables",
+    "RecipePlacement: 95 explicit RecipeDefs and 544 ThingDefs"
+  ],
+  "knownLogMessages": [
+    "Existing missing Workshop folder 3781143823",
+    "Existing English translation warning: 37 errors"
+  ],
+  "limits": [
+    "No live mouse/pixel UI check",
+    "Korean XML and keys validated statically; native run used English",
+    "M167 fuel filter verified; new ammo uses existing ThingDefs, firing behavior unchanged"
+  ]
+}

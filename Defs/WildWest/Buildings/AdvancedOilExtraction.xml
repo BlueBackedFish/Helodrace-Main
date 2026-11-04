@@ -3,7 +3,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_RotaryDrill</defName>
     <label>rotary drilling rig</label>
-    <description>A diesel-driven steel derrick with a rotary table and circulating drilling mud. Develops an oil field faster than a cable-tool rig and produces wells with 100–130% quality. Stops when maintenance is needed; a colonist must service it. Uses diesel only while drilling. Dismantle the completed rig and place a pump jack over the developed field.</description>
+    <description>A diesel-driven steel derrick with a rotary table and circulating drilling mud, using a rotating drill string to develop oil wells.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_RotaryDrill</texPath>
@@ -63,6 +63,7 @@
         <initialPressure>1</initialPressure>
       </li>
     </comps>
+    <modExtensions><li Class="Helodrace.ContentUsageExtension"><helpKey>HD_ContentUsage_HD_RotaryDrill</helpKey></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BuildingBase">

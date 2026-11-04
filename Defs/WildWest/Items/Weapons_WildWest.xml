@@ -445,7 +445,7 @@
       <li>HD_WildWestLeverActionShotgun</li>
     </weaponTags>
     <label>Frontier Arms M1887</label>
-    <description>A lever-action repeating shotgun. Its short range and heavy recoil are offset by overwhelming close-range stopping power.</description>
+    <description>A repeating shotgun whose lever ejects the spent shell and chambers the next round.</description>
     <graphicData>
       <texPath>Weapons/WildWest/HD_WinM1887</texPath>
       <graphicClass>Graphic_Single</graphicClass>

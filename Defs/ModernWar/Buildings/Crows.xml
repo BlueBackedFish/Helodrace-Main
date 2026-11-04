@@ -3,7 +3,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_CrowsComputer</defName>
     <label>computer</label>
-    <description>A desktop computer on a wired workstation. Connect it to a CROWS II emplacement to install its control grip and display. A colonist must operate this computer for the connected weapon to fire. Each computer controls one emplacement on the same map. Both buildings require power.</description>
+    <description>A wired computer workstation with a monitor and input controls for operating a connected CROWS II weapon station.</description>
     <thingClass>Helodrace.Building_CrowsComputer</thingClass>
     <graphicData>
       <texPath>Buildings/ComputerDesk/HD_ComputerDesk</texPath>
@@ -49,15 +49,17 @@
       <li Class="CompProperties_Flickable"/>
       <li Class="CompProperties_Forbiddable"/>
     </comps>
+    <modExtensions><li Class="Helodrace.ContentUsageExtension"><helpKey>HD_ContentUsage_HD_CrowsComputer</helpKey></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_CrowsII</defName>
     <modExtensions>
+      <li Class="Helodrace.ContentUsageExtension"><helpKey>HD_ContentUsage_HD_Building_CrowsII</helpKey></li>
       <li Class="Helodrace.HeavyMachineGunAccuracyExtension"><gunnerBaseAccuracy>0.5</gunnerBaseAccuracy></li>
     </modExtensions>
     <label>CROWS II emplacement</label>
-    <description>An empty powered CROWS II station on an anchored steel plate. After construction, select an M2HB, Mk 19, M240B or M249. A builder brings the additional materials and installs the selected weapon. Supply ammunition, connect a computer and assign an operator to fire. The empty station cannot aim, fire or accept ammunition.</description>
+    <description>An anchored CROWS II weapon station fitted with a weapon and ammunition feed, controlled by an operator at a connected computer.</description>
     <thingClass>Helodrace.Building_Crows</thingClass>
     <graphicData>
       <texPath>Buildings/Security/CROWSII/FixedMount/HD_CROWSII_FixedMount_top</texPath>

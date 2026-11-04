@@ -59,7 +59,7 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251M198_Ammo</defName>
     <label>7.62x51mm M198 cartridge (DUPLEX)</label>
-    <description>Duplex cartridge: two independently colliding 9-damage bullets per round, low penetration and extra dispersion. Best against lightly armored targets at short range.</description>
+    <description>A 7.62x51mm duplex cartridge carrying two projectiles in one case.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M198</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -78,7 +78,7 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251M948_Ammo</defName>
     <label>7.62x51mm M948 cartridge (SLAP)</label>
-    <description>SLAP cartridge: very high penetration and projectile speed, but low damage and stopping power. Does not fragment.</description>
+    <description>A 7.62x51mm SLAP cartridge carrying a sub-caliber penetrator in a discarding sabot.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M948</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -97,7 +97,7 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251M993_Ammo</defName>
     <label>7.62x51mm M993 cartridge (AP)</label>
-    <description>Armor-piercing cartridge: strong penetration in exchange for reduced damage against unarmored targets. Does not fragment.</description>
+    <description>A 7.62x51mm armor-piercing cartridge built around a hard penetrator core.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M993</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -116,7 +116,7 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251M1158_Ammo</defName>
     <label>7.62x51mm M1158 cartridge (ADVAP)</label>
-    <description>Advanced armor-piercing cartridge: improved damage and penetration over M993, with greater recoil. Does not fragment.</description>
+    <description>An advanced 7.62x51mm armor-piercing cartridge with a core and penetrator enclosed in its jacket, intended for protected targets.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M1158</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -135,7 +135,7 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251MK316_Ammo</defName>
     <label>7.62x51mm MK316 cartridge (MATCH)</label>
-    <description>Match cartridge: improved precision, range and long-distance retention, but less armor penetration than M80A1. Can fragment.</description>
+    <description>A 7.62x51mm match cartridge for long-range precision shooting.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251MK316</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -154,7 +154,7 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251MK319_Ammo</defName>
     <label>7.62x51mm MK319 cartridge (OTM)</label>
-    <description>OTM cartridge: high damage and stopping power with lower recoil, moderate penetration and fragmentation after passing light armor.</description>
+    <description>A 7.62x51mm open-tip cartridge intended for light-barrier engagement and projectile fragmentation.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251MK319</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">

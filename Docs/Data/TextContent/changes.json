@@ -1,0 +1,1613 @@
+[
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodBasicMotor",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Kinetic-Electric Synergy",
+    "after": "Lightning in Motion"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodBasicMotor",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/ResearchProjects_Helod.xml",
+    "before": "운동-전기 시너지",
+    "after": "회전하는 번개"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodPASGT",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Modern Ballistic Protection",
+    "after": "Beyond Shrapnel"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodPASGT",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/ResearchProjects_Helod.xml",
+    "before": "현대 방탄 장비",
+    "after": "파편 너머의 방호"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodModernDiversionaryGrenades",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Modern Diversionary Grenades",
+    "after": "Veiling Eyes and Ears"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodModernDiversionaryGrenades",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/ResearchProjects_Helod.xml",
+    "before": "현대식 섬광탄",
+    "after": "눈과 귀를 가리다"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodSpecialOperationsWeapons",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Special Operations Firearms",
+    "after": "Beyond the Closed Door"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodSpecialOperationsWeapons",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/ResearchProjects_Helod.xml",
+    "before": "특수전 화기",
+    "after": "닫힌 문 너머"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodModernOffensiveGrenades",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Modern Offensive Grenades",
+    "after": "Thunder Within Walls"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodModernOffensiveGrenades",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/ResearchProjects_Helod.xml",
+    "before": "현대식 공격 수류탄",
+    "after": "벽 안의 천둥"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodAdvancedWeaponOptics",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Advanced Weapon Optics",
+    "after": "Distant Targets, Close at Hand"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodAdvancedWeaponOptics",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/ResearchProjects_Helod.xml",
+    "before": "고급 총기 광학장비",
+    "after": "먼 표적을 눈앞에"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodLaserTargetDesignators",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Laser Target Designation",
+    "after": "Coordinates for the Sky"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodLaserTargetDesignators",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/ResearchProjects_Helod.xml",
+    "before": "레이저 표적지시",
+    "after": "하늘에 건네는 좌표"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodHighOilDevelopment",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "High-Pressure Scavenging",
+    "after": "Into the Depths"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodHighOilDevelopment",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/ResearchProjects_Helod.xml",
+    "before": "깊은 곳 까지",
+    "after": "깊은 곳까지"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodBasicElectronics",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Ohm's Law Applied",
+    "after": "Giving Current a Path"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodBasicElectronics",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/ResearchProjects_Helod.xml",
+    "before": "옴의 법칙 응용",
+    "after": "흐름에 길을 내다"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodLowLightArtillery",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "The Trench Flatteners",
+    "after": "Portable Firepower"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodLowLightArtillery",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/ResearchProjects_Helod.xml",
+    "before": "분해식 포대",
+    "after": "옮길 수 있는 화력"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodNumericalControl",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Research/NumericalControl.xml",
+    "before": "numerical control",
+    "after": "Punched-Tape Commands"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodNumericalControl",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/NumericalControl.xml",
+    "before": "수치제어",
+    "after": "천공 테이프의 지휘"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodMidAutomaticRifle",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "The Service Rifle",
+    "after": "The Squad Standard"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodMidAutomaticRifle",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/ResearchProjects_Helod.xml",
+    "before": "제식소총",
+    "after": "분대의 표준"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodIndustrialAutomation",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Research/IndustrialAutomation.xml",
+    "before": "industrial automation",
+    "after": "The Tireless Factory"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodIndustrialAutomation",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/LaterIndustry.xml",
+    "before": "산업 자동화",
+    "after": "쉬지 않는 공장"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodHighAutomaticRifle",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Mature Service Rifles",
+    "after": "One Rifle, Many Roles"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodHighAutomaticRifle",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/ResearchProjects_Helod.xml",
+    "before": "성숙한 제식소총",
+    "after": "한 자루의 여러 얼굴"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodMultiTaskMachining",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Research/MultiTaskMachining.xml",
+    "before": "integrated mill-turn machining",
+    "after": "One Setup"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodMultiTaskMachining",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/LaterIndustry.xml",
+    "before": "복합 가공",
+    "after": "한 번의 고정"
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodFrontierSpirit",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "default tech to open cloth",
+    "after": "Establishes the basic workshops and crafting methods needed to make clothing and everyday supplies on the frontier."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodFrontierSpirit",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/ResearchProjects_Helod.xml",
+    "before": "기본적인 의류 제작 기술을 잠금 해제합니다.",
+    "after": "개척지의 의류와 기초 물품을 제작하고 기본 작업 시설을 갖추는 기술을 연구합니다."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodBlisterAgent",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Anti-cancer agent, HN-2, Primitive rubber CBRN protection",
+    "after": "Investigates the toxic and medicinal properties of nitrogen-mustard compounds and develops chemical munitions and protective rubber equipment."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodBlisterAgent",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/ResearchProjects_Helod.xml",
+    "before": "항암제, HN-2, 원시적인 고무 CBRN 방호구를 해금합니다.",
+    "after": "질소겨자계 물질의 독성과 의학적 활용을 연구하고, 화학탄과 고무 방호 장구를 다룹니다."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodLowGranade",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "granade, m1, m7, m8 rifle granade launcher",
+    "after": "Develops hand grenades, rifle-launched munitions and signaling flares."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodLowGranade",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ResearchProjectDef/ResearchProjects_Helod.xml",
+    "before": "수류탄과 M1, M7, M8 소총 유탄 발사기를 해금합니다.",
+    "after": "수류탄과 소총 유탄, 신호탄을 운용하는 기술을 연구합니다."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodMechanicalEngineering",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "basic tech for mechanic engineering",
+    "after": "Studies mechanical construction, motion and the transmission of power between machines."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodExperimentalAnalysis",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "for electricity and medicine",
+    "after": "Develops experimental methods for identifying material properties and studying electrical and medicinal applications."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodSteamEngine",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "technology for steamengine",
+    "after": "Develops steam engines that supply rotary power to industrial machinery."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodBasicMachineTool",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "human powered tools",
+    "after": "Develops hand-powered machine tools for shaping and machining basic components."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodIngredientExtraction",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "feel good drugs",
+    "after": "Develops methods for extracting medicinal compounds from natural materials."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodPrimaryCell",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "primary cell",
+    "after": "Develops disposable cells that convert chemical energy into electrical power."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodBasicOilDevelopment",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "oilsssssssssss",
+    "after": "Develops early oilfield prospecting, drilling and well equipment for extracting crude oil."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodLineShaft",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "shaft",
+    "after": "Transmits rotary power between machines through shared shafts and belts."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodTelegraph",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "dot dash",
+    "after": "Carries coded messages over wires using Morse signals."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodMetalCuttingMachine",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "lathe",
+    "after": "Develops metal-cutting machines for machining accurately shaped mechanical components."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodMetalFormingMachine",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "press",
+    "after": "Develops presses and forming tools that shape metal by compression and bending."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodBreechLoadingGun",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "gun!",
+    "after": "Develops firearms loaded through the rear of the barrel rather than through the muzzle."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodChokingAgent",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Phosgene, gas mask",
+    "after": "Studies choking agents and the respiratory protection needed to handle chemical hazards."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodFirstAid",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "blood transfusion, basic disinfection",
+    "after": "Develops basic disinfection and blood-transfusion methods for emergency treatment."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodBasicMachineGun",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "maxim",
+    "after": "Develops early automatic weapons for sustained suppressive fire."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodSamiAutomaticPistol",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "1911, Whitmore Device",
+    "after": "Develops self-loading pistols and the Whitmore conversion device."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodHighElectronics",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Vaccum tube, computer, Radio wave",
+    "after": "Studies vacuum-tube electronics, radio circuits and early computing devices."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodHighMachineGun",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Light machine gun, heavy machine gun with high caliber",
+    "after": "Develops light machine guns and larger-caliber heavy machine guns for sustained fire support."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodHaberBosch",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "fertilizer",
+    "after": "Fixes atmospheric nitrogen to produce ammonia for fertilizer and industrial chemical feedstocks."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodLowLightArtillery",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "3-inch Stokes Mortar, M1 81mm Mortar",
+    "after": "Develops light field guns and mortar systems that can be moved with their crews or broken down for transport."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodMidAutomaticRifle",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "m16a2, m16a3",
+    "after": "Develops the M16A2 and M16A3 rifles and the M60E3 machine gun."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodColdWarTech",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "hood",
+    "after": "Expands civilian and military manufacturing for Cold War equipment."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodFlakJacket",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "FlakJacket",
+    "after": "Develops early fragmentation-protection vests, including the M1952A."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodLowHeadSet",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Basic Tactical Headset",
+    "after": "Develops headsets for tactical voice communication."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodAntiAirMachineGun",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "m167",
+    "after": "Develops the M167 Vulcan air-defense system and its mixed-feed ammunition supply."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodTransistor",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Transistor, 9n silicon, tube furnice",
+    "after": "Studies semiconductor switching devices and silicon processing for solid-state electronics."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodWireGuidedMissile",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Tow",
+    "after": "Develops wire-guided anti-tank missile systems, including the M47 Dragon and M220 TOW."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodGreatWarTech",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "Develop the industrial and military foundations of Great War equipment.",
+    "after": "Establishes the industrial processes and military manufacturing used in the early twentieth century."
+  },
+  {
+    "kind": "ResearchProjectDef",
+    "defName": "HelodRespectForPatrioticMartyrs",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "before": "\"But, in a larger sense, we can not dedicate—we can not consecrate—we can not hallow—this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract.\"\n\n//m1902 saber, service dress",
+    "after": "\"But, in a larger sense, we can not dedicate—we can not consecrate—we can not hallow—this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract.\"\n\nDevelops the M1902 saber and service dress."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Apparel_WildWestFormalShirt",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/WildWest/Items/Apparel_WildWest.xml",
+    "before": "A clean formal shirt tailored for Helod bodies. Suitable for work, town life, and respectable occasions, lending its wearer a little extra diplomatic presence.",
+    "after": "A formal shirt tailored for Helod bodies, with a neat collar and fastening for everyday work and formal occasions."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Apparel_WildWestFormalShirt",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/Apparel_WildWest.xml",
+    "before": "헤로드 체형에 맞춰 재단한 깔끔한 정장 셔츠입니다. 일상 업무와 도시 생활, 격식 있는 자리에 어울리며 외교적 존재감을 높이고 정신 이상 임계치를 조금 낮춥니다.",
+    "after": "헤로드 체형에 맞춰 재단한 정장 셔츠입니다. 단정한 옷깃과 여밈을 갖춰 일상 업무와 격식 있는 자리에 입습니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Apparel_WildWestFrockCoat",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/WildWest/Items/Apparel_WildWest.xml",
+    "before": "A long, formal frontier coat tailored for Helod bodies. It is worn as a structured middle layer, lending its wearer extra diplomatic presence and a steadier bearing.",
+    "after": "A long formal coat tailored for Helod bodies, worn over a shirt with extended skirts covering the body."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Apparel_WildWestFrockCoat",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/Apparel_WildWest.xml",
+    "before": "헤로드 체형에 맞춰 재단한 긴 정장 코트입니다. 구조적인 중간층 의류로 착용하며, 약간의 보온성과 외교적 존재감을 제공하고 정신 이상 임계치를 조금 낮춥니다.",
+    "after": "헤로드 체형에 맞춘 긴 정장 코트입니다. 셔츠 위에 걸쳐 입으며 길게 내려오는 자락이 몸을 감쌉니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_CrowsComputer",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Buildings/Crows.xml",
+    "before": "A desktop computer on a wired workstation. Connect it to a CROWS II emplacement to install its control grip and display. A colonist must operate this computer for the connected weapon to fire. Each computer controls one emplacement on the same map. Both buildings require power.",
+    "after": "A wired computer workstation with a monitor and input controls for operating a connected CROWS II weapon station."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_CrowsComputer",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/Crows.xml",
+    "before": "모니터, 본체, 키보드, 마우스와 배선이 설치된 컴퓨터 책상입니다. CROWS II 진지와 연결하면 컨트롤러가 장착됩니다. 폰이 이 컴퓨터를 조작하는 동안에만 연결된 진지가 사격합니다. 같은 맵의 진지 한 곳에 연결할 수 있으며, 컴퓨터와 진지 모두 전력이 필요합니다.",
+    "after": "모니터와 입력 장치, 배선을 갖춘 원격 화기 통제용 컴퓨터 책상입니다. CROWS II 진지와 연결해 화기를 조작합니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Building_CrowsII",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Buildings/Crows.xml",
+    "before": "An empty powered CROWS II station on an anchored steel plate. After construction, select an M2HB, Mk 19, M240B or M249. A builder brings the additional materials and installs the selected weapon. Supply ammunition, connect a computer and assign an operator to fire. The empty station cannot aim, fire or accept ammunition.",
+    "after": "An anchored CROWS II weapon station fitted with a weapon and ammunition feed, controlled by an operator at a connected computer."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Building_CrowsII",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/Crows.xml",
+    "before": "처음 건설하면 화기와 급탄 슈트가 없는 CROWS II 진지입니다. 진지의 화기 선택 명령에서 M2HB, Mk 19, M240B 또는 M249를 선택하면 건설 작업자가 추가 자재를 운반하고 장착합니다. 장착 후 탄약을 보급하고 컴퓨터에 연결해 폰에게 조작을 명령해야 사격합니다. 빈 진지는 조준·사격·탄약 보급을 할 수 없습니다.",
+    "after": "고정된 받침대에 화기와 급탄 장치를 결합하는 CROWS II 원격 진지입니다. 연결된 컴퓨터에서 사수가 화기를 통제합니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_InstalledBreachCharge",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ColdWar/BreachExplosive_ColdWar.xml",
+    "before": "C-4 fixed to a wall or door and linked to a nearby operator. Firing it immediately destroys the target structure, suppresses the far side with confined blast pressure, and drives fragments through the breach. Blast damage is limited to the target's remaining hit points, wasting any excess charge strength.",
+    "after": "A C-4 breaching charge attached to a wall or door to open a passage, directing blast pressure and fragments through the breach."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_InstalledBreachCharge",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/BreachExplosive_ColdWar.xml",
+    "before": "벽이나 문에 부착하고 근처의 작업자에게 연결한 C-4입니다. 발파하면 대상 구조물을 즉시 파괴하고, 구조물이 제거되기 전의 방 판정을 기준으로 너머 공간에 폭압 제압과 전방 파편을 가합니다. 폭발 피해량은 대상의 남은 체력까지만 적용되어 남는 폭약 위력은 버려집니다.",
+    "after": "벽이나 문에 붙여 통로를 여는 C-4 돌파 폭약입니다. 발파 시 틈 너머로 폭압과 전방 파편을 가합니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_RotaryDrill",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/WildWest/Buildings/AdvancedOilExtraction.xml",
+    "before": "A diesel-driven steel derrick with a rotary table and circulating drilling mud. Develops an oil field faster than a cable-tool rig and produces wells with 100–130% quality. Stops when maintenance is needed; a colonist must service it. Uses diesel only while drilling. Dismantle the completed rig and place a pump jack over the developed field.",
+    "after": "A diesel-driven steel derrick with a rotary table and circulating drilling mud, using a rotating drill string to develop oil wells."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_RotaryDrill",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/AdvancedOilExtraction.xml",
+    "before": "디젤 엔진으로 회전 테이블과 시추 이수를 구동하는 철제 시추탑입니다. 구형 충격식 시추기보다 빠르게 유전을 개발하며 품질 100~130%의 유정을 만듭니다. 정비가 필요하면 멈추며 정착민이 수리해야 합니다. 시추 중에만 경유를 소비합니다. 개발이 끝나면 시추기를 해체하고 개발된 유전 위에 펌프잭을 설치하세요.",
+    "after": "회전 테이블과 시추 이수 순환 장치를 갖춘 디젤식 철제 시추탑입니다. 회전하는 시추관으로 지층을 뚫어 유정을 개발합니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_TelegraphTable",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/WildWest/Buildings/Industry_WildWest.xml",
+    "before": "A wired terminal for contacting LOW Helod companies and organizations. Request financial, industrial, arms and hunting, or petroleum caravans, arrange Pioneer Overseas Service Company forward-base contracts, and hire Harrington Protective Services guards. Caravan requests require financial reputation. After construction, request paid line installation from a visiting LOW Helod caravan; the line opens in 2–3 days. Expand faction and company rows while the relay is open, from 08:00 to 18:00 local time. Transmissions use primary cells.",
+    "after": "A wired Morse terminal connecting the settlement to LOW Helod trading, financial and service companies."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_TelegraphTable",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/Industry_WildWest.xml",
+    "before": "LOW 헤로드 회사·단체에 연락하는 유선 전신 설비입니다. 금융·산업·총포와 사냥용품·석유제품 상단을 요청하고, 파이오니어 해외용역회사와 전진기지를 계약하거나 해링턴 경비회사의 경비대를 고용할 수 있습니다. 상단 요청에는 금융 우호도가 필요합니다. 건설 후 방문한 LOW 헤로드 상단에 유료 회선 설치를 요청해야 하며, 2~3일 뒤 개통됩니다. 세력·회사 목록은 중계국 영업시간인 현지 시각 08:00~18:00에만 펼쳐볼 수 있습니다. 송신에는 일차 전지를 사용합니다.",
+    "after": "모스 부호로 LOW 헤로드 회사망에 연락하는 유선 전신 설비입니다. 먼 상단과 금융·용역 회사의 서비스를 이어 줍니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Radio",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/WildWest/Buildings/Radio.xml",
+    "before": "An upgraded wireless terminal for all LOW Helod company services, including caravan requests, loans, forward-base contracts and security. Power replaces wired installation and primary cells, with frequencies available around the clock. Colonists can also chat with LOW and HIGH HAM operators or listen to broadcasts during recreation.",
+    "after": "A wireless terminal for LOW Helod company services and HAM frequencies, used for company contacts, radio conversations and broadcast listening."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Radio",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/Radio.xml",
+    "before": "전신기를 발전시킨 무선 통신 단말기입니다. LOW 헤로드 회사 주파수에서 상단 요청, 대출, 전진기지 계약, 경비 고용 등 전신기의 모든 서비스를 이용할 수 있습니다. 개통이나 일차전지 없이 전력만 연결하면 하루 종일 사용할 수 있습니다. 정착민들은 오락 시간에 LOW·HIGH HAM 주파수에서 잡담을 나누거나 TV처럼 주변 자리에서 라디오 방송을 청취합니다.",
+    "after": "LOW 헤로드 회사망과 HAM 주파수에 접속하는 무선 통신 단말기입니다. 회사 연락과 교신, 라디오 방송 청취에 사용합니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_TCCC_HemostaticAgent",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/Tactical/TCCCSkills.xml",
+    "before": "A field hemostatic dose. Load into a large medical pouch and administer with the TCCC menu in 1 second to reduce all bleeding by 70% for 6 hours. Combines with body-part hemostasis. Blood pumping -10%, consciousness -5%. Does not heal injuries or replace lost blood.",
+    "after": "A field hemostatic dose carried in a large medical pouch, used to suppress systemic bleeding alongside treatment of individual wounds."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_TCCC_HemostaticAgent",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/TCCCSkills.xml",
+    "before": "대형 의료 파우치에 별도로 적재하는 야전 지혈제입니다. 1초간 투여하면 6시간 동안 전신 출혈량이 70% 감소합니다. 부위별 지혈과 함께 사용할 수 있으며 혈액순환 -10%, 의식 -5%가 적용됩니다.",
+    "after": "대형 의료 파우치에 적재하는 야전 지혈제입니다. 전신 출혈을 억제하는 응급 약제로 부위별 지혈 처치와 함께 사용합니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Gun_WinM1887_Weapon",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/WildWest/Items/Weapons_WildWest.xml",
+    "before": "A lever-action repeating shotgun. Its short range and heavy recoil are offset by overwhelming close-range stopping power.",
+    "after": "A repeating shotgun whose lever ejects the spent shell and chambers the next round."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Gun_WinM1887_Weapon",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/Weapons_WildWest.xml",
+    "before": "레버 액션 방식의 연발 산탄총입니다. 사거리는 짧고 반동은 크지만 근거리 저지력은 압도적입니다.",
+    "after": "레버를 움직여 탄피를 배출하고 다음 탄을 장전하는 연발 산탄총입니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Gun_M1D_Weapon",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/GreatWar/Items/Weapons_GreatWar.xml",
+    "before": "A scoped M1 Hartwell variant built for accurate semi-automatic fire at extended range. It trades some close handling for steadier long-range shooting.",
+    "after": "An M1 Hartwell semi-automatic rifle modified to carry an optical sight."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Gun_M1D_Weapon",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/Weapons_GreatWar.xml",
+    "before": "조준경을 장착해 확장 사거리의 정밀한 반자동 사격에 맞춘 M1 하츠웰 변형입니다. 근거리 운용성을 조금 희생한 대신 장거리 사격 안정성을 높였습니다.",
+    "after": "광학 조준경을 장착할 수 있도록 개조한 M1 하츠웰 반자동 소총입니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Grenade_M14_Item",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ColdWar/Items/Grenades_ColdWar.xml",
+    "before": "Heavy thermate grenades designed to destroy equipment, weapons and vehicles with an intensely hot incendiary reaction that readily starts fires.",
+    "after": "An incendiary grenade using a high-temperature thermate reaction to damage weapons and equipment and start fires."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Grenade_M14_Item",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/Grenades_ColdWar.xml",
+    "before": "극도로 뜨거운 테르메이트 반응으로 장비, 무기와 차량을 파괴하고 화재를 일으키도록 설계된 무거운 소이 수류탄입니다.",
+    "after": "테르메이트 반응으로 고온을 내는 소이 수류탄입니다. 무기와 장비를 손상시키고 화재를 일으킵니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_Handguard_HACURXM4UP",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/ModularWeapons_Development.xml",
+    "before": "HAC URX M4 upper handguard surrounds the barrel and provides attachment space.",
+    "after": "The upper section of the HAC URX M4 handguard, covering the barrel from above and pairing with the lower section."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_Handguard_HACURXM4UP",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/ModularWeapons_Development.xml",
+    "before": "HAC URX M4 상부 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.",
+    "after": "HAC URX M4 총열덮개의 상부입니다. 총열 위를 덮으며 하부 덮개와 함께 손잡이 부분을 이룹니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_HandguardExt_HACURXM4DOWN",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/ModularWeapons_Development.xml",
+    "before": "HAC URX M4 lower handguard surrounds the barrel and provides attachment space.",
+    "after": "The lower handguard section paired with the HAC URX M4 upper section, forming the support surface beneath the barrel."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_HandguardExt_HACURXM4DOWN",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/ModularWeapons_Development.xml",
+    "before": "HAC URX M4 하부 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.",
+    "after": "HAC URX M4 상부 덮개에 결합하는 하부 총열덮개입니다. 총열 아래의 손을 받치는 부분을 구성합니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_Handguard_MK14EBR",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/ModularWeapons_M14EBR_Development.xml",
+    "before": "MK14 EBR chassis handguard surrounds the barrel and provides attachment space.",
+    "after": "The forward handguard of the MK14 EBR chassis, providing a support area and attachment surfaces around the barrel."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_Handguard_MK14EBR",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/ModularWeapons_M14EBR_Development.xml",
+    "before": "MK14 EBR 섀시 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.",
+    "after": "MK14 EBR 섀시 앞부분의 총열덮개입니다. 총열 둘레의 지지부와 부착 장비 장착면을 구성합니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_HandguardExt_MK14EBRTopRail",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/ModularWeapons_M14EBR_Development.xml",
+    "before": "MK14 EBR receiver top rail surrounds the barrel and provides attachment space.",
+    "after": "An upper rail over the MK14 EBR receiver, providing an aiming-device mount separate from the handguard."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_HandguardExt_MK14EBRTopRail",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/ModularWeapons_M14EBR_Development.xml",
+    "before": "MK14 EBR 총몸 상단 레일은 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.",
+    "after": "MK14 EBR 총몸 위에 놓는 상단 레일입니다. 총열덮개와 구분되는 조준 장비 장착부입니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_Handguard_HACURXUP",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/ModularWeapons_M16A4_Development.xml",
+    "before": "HAC URX upper handguard surrounds the barrel and provides attachment space.",
+    "after": "The upper HAC URX handguard section, covering the barrel from above and joining its matching lower section."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_Handguard_HACURXUP",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/ModularWeapons_M16A4_Development.xml",
+    "before": "HAC URX 상부 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.",
+    "after": "HAC URX 총열덮개의 상부입니다. 총열 위를 덮고 대응하는 하부 덮개와 결합합니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_HandguardExt_HACURXDOWN",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/ModularWeapons_M16A4_Development.xml",
+    "before": "HAC URX lower handguard surrounds the barrel and provides attachment space.",
+    "after": "The lower HAC URX handguard section, covering the area gripped beneath the barrel and joining the matching upper section."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_HandguardExt_HACURXDOWN",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/ModularWeapons_M16A4_Development.xml",
+    "before": "HAC URX 하부 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.",
+    "after": "HAC URX 상부 덮개에 결합하는 하부 총열덮개입니다. 사수가 총열 아래를 잡는 부분을 덮습니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_Handguard_M16A1_Part",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/ModularWeapons_M16Legacy_Development.xml",
+    "before": "M16A1 triangular handguard surrounds the barrel and provides attachment space.",
+    "after": "An M16A1 handguard with a triangular cross-section, enclosing the barrel and shielding the supporting hand."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_Handguard_M16A1_Part",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/ModularWeapons_M16Legacy_Development.xml",
+    "before": "M16A1 삼각형 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.",
+    "after": "삼각형 단면을 가진 M16A1용 총열덮개입니다. 총열을 감싸 사수의 손이 닿는 부분을 보호합니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_Handguard_M16A2UP",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/ModularWeapons_M16Legacy_Development.xml",
+    "before": "M16A2 upper handguard surrounds the barrel and provides attachment space.",
+    "after": "The upper half of an M16A2 handguard, joining the lower half to form a round barrel enclosure."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_Handguard_M16A2UP",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/ModularWeapons_M16Legacy_Development.xml",
+    "before": "M16A2 상부 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.",
+    "after": "M16A2 총열덮개의 위쪽 반쪽입니다. 원형 단면의 덮개를 하부와 함께 구성합니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_HandguardExt_M16A2DOWN",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/ModularWeapons_M16Legacy_Development.xml",
+    "before": "M16A2 lower handguard surrounds the barrel and provides attachment space.",
+    "after": "The lower half of an M16A2 handguard, joining the upper half and supporting the hand beneath the barrel."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_HandguardExt_M16A2DOWN",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/ModularWeapons_M16Legacy_Development.xml",
+    "before": "M16A2 하부 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.",
+    "after": "M16A2 총열덮개의 아래쪽 반쪽입니다. 상부와 결합해 총열 아래의 손을 받칩니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_Handguard_MP5Default",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/ModularWeapons_MP5_Development.xml",
+    "before": "MP5 slim handguard surrounds the barrel and provides attachment space.",
+    "after": "A slim handguard enclosing the MP5 barrel."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_Handguard_MP5Default",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/ModularWeapons_MP5_Development.xml",
+    "before": "MP5 슬림 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.",
+    "after": "MP5 총열 둘레를 감싸는 가는 형태의 총열덮개입니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_Handguard_MP5SD",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/ModularWeapons_MP5_Development.xml",
+    "before": "MP5SD handguard surrounds the barrel and provides attachment space.",
+    "after": "An MP5SD handguard enclosing its integral suppressor."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_ModularPart_Handguard_MP5SD",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/ModularWeapons_MP5_Development.xml",
+    "before": "MP5SD 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.",
+    "after": "MP5SD의 일체형 소음기 둘레를 감싸는 총열덮개입니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_556M193_Ammo",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/RifleAmmunition_556.xml",
+    "before": "A 5.56x45mm ammunition selection for STANAG magazines and M249 belt boxes. Baseline damage and high projectile speed, with less penetration than M855A1.",
+    "after": "A 5.56x45mm service ball cartridge with a jacketed projectile."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_556M193_Ammo",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/RifleAmmunition_556.xml",
+    "before": "STANAG 탄창과 M249 탄통에서 선택하는 5.56×45mm 탄약입니다. 기본 피해량과 높은 탄속을 제공하며, 관통력은 M855A1보다 낮습니다.",
+    "after": "피복 탄자를 사용하는 5.56×45mm 제식 보통탄입니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_556M995_Ammo",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/RifleAmmunition_556.xml",
+    "before": "A 5.56x45mm ammunition selection for STANAG magazines and M249 belt boxes. Lower damage and stopping power in exchange for the highest penetration of the available 5.56mm selections.",
+    "after": "A 5.56x45mm armor-piercing cartridge with a hard penetrator core for protected targets."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_556M995_Ammo",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/RifleAmmunition_556.xml",
+    "before": "STANAG 탄창과 M249 탄통에서 선택하는 5.56×45mm 탄약입니다. 피해량과 저지력이 낮은 대신, 현재 선택 가능한 5.56mm 탄종 중 관통력이 가장 높습니다.",
+    "after": "단단한 탄심으로 방호재를 상대하는 5.56×45mm 철갑탄입니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_556MK262_Ammo",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/RifleAmmunition_556.xml",
+    "before": "A 5.56x45mm ammunition selection for STANAG magazines and M249 belt boxes. High damage and stopping power against lightly armored targets, with reduced penetration and projectile speed.",
+    "after": "A 5.56x45mm open-tip match cartridge for precision shooting."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_556MK262_Ammo",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/RifleAmmunition_556.xml",
+    "before": "STANAG 탄창과 M249 탄통에서 선택하는 5.56×45mm 탄약입니다. 경장갑 표적에 대한 피해량과 저지력이 높으며, 관통력과 탄속은 낮습니다.",
+    "after": "탄자 앞부분이 열린 5.56×45mm 매치탄으로, 정밀 사격에 사용합니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_556MK318_Ammo",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/RifleAmmunition_556.xml",
+    "before": "A 5.56x45mm ammunition selection for STANAG magazines and M249 belt boxes. Balanced damage, penetration and stopping power between the MK262 and M855A1 selections.",
+    "after": "A 5.56x45mm open-tip cartridge with a substantial copper base, intended for engagements through light barriers."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_556MK318_Ammo",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/RifleAmmunition_556.xml",
+    "before": "STANAG 탄창과 M249 탄통에서 선택하는 5.56×45mm 탄약입니다. MK262와 M855A1 사이에서 피해량·관통력·저지력의 균형을 제공합니다.",
+    "after": "앞부분이 열리고 뒤쪽이 두꺼운 구리로 지지된 5.56×45mm 탄자입니다. 가벼운 장애물을 통과하는 사격을 염두에 둔 탄종입니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_76251M198_Ammo",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/RifleAmmunition_76251.xml",
+    "before": "Duplex cartridge: two independently colliding 9-damage bullets per round, low penetration and extra dispersion. Best against lightly armored targets at short range.",
+    "after": "A 7.62x51mm duplex cartridge carrying two projectiles in one case."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_76251M198_Ammo",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/RifleAmmunition_76251.xml",
+    "before": "탄약 한 발로 피해량 9의 탄자 두 개를 발사합니다. 탄자는 각각 충돌·관통 판정을 받으며, 관통력이 낮고 탄착이 벌어져 근거리 경장갑 표적에 적합합니다.",
+    "after": "한 탄피에 탄자 두 개를 넣은 7.62×51mm 듀플렉스탄입니다. 한 번의 발사로 두 탄자가 나갑니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_76251M948_Ammo",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/RifleAmmunition_76251.xml",
+    "before": "SLAP cartridge: very high penetration and projectile speed, but low damage and stopping power. Does not fragment.",
+    "after": "A 7.62x51mm SLAP cartridge carrying a sub-caliber penetrator in a discarding sabot."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_76251M948_Ammo",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/RifleAmmunition_76251.xml",
+    "before": "매우 높은 관통력과 탄속 대신 직접 피해량과 저지력이 낮은 SLAP 탄약입니다. 파편화하지 않습니다.",
+    "after": "사보에 작은 철갑용 탄자를 담은 7.62×51mm SLAP 탄약입니다. 사보는 발사 후 탄자와 분리됩니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_76251M993_Ammo",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/RifleAmmunition_76251.xml",
+    "before": "Armor-piercing cartridge: strong penetration in exchange for reduced damage against unarmored targets. Does not fragment.",
+    "after": "A 7.62x51mm armor-piercing cartridge built around a hard penetrator core."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_76251M993_Ammo",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/RifleAmmunition_76251.xml",
+    "before": "비장갑 표적 피해량을 줄이는 대신 높은 관통력을 제공하는 철갑탄입니다. 파편화하지 않습니다.",
+    "after": "단단한 관통용 탄심을 사용하는 7.62×51mm 철갑탄입니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_76251M1158_Ammo",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/RifleAmmunition_76251.xml",
+    "before": "Advanced armor-piercing cartridge: improved damage and penetration over M993, with greater recoil. Does not fragment.",
+    "after": "An advanced 7.62x51mm armor-piercing cartridge with a core and penetrator enclosed in its jacket, intended for protected targets."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_76251M1158_Ammo",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/RifleAmmunition_76251.xml",
+    "before": "M993보다 높은 피해량과 관통력을 제공하지만 반동도 커지는 개량 철갑탄입니다. 파편화하지 않습니다.",
+    "after": "피복 안에 탄심과 관통체를 담은 7.62×51mm 개량 철갑탄입니다. 방호된 표적을 상대하는 용도로 사용합니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_76251MK316_Ammo",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/RifleAmmunition_76251.xml",
+    "before": "Match cartridge: improved precision, range and long-distance retention, but less armor penetration than M80A1. Can fragment.",
+    "after": "A 7.62x51mm match cartridge for long-range precision shooting."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_76251MK316_Ammo",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/RifleAmmunition_76251.xml",
+    "before": "정밀도·사거리·장거리 탄도 유지력이 우수하지만 관통력은 M80A1보다 낮은 정밀탄입니다. 파편화할 수 있습니다.",
+    "after": "장거리 정밀 사격용 7.62×51mm 매치탄입니다."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_76251MK319_Ammo",
+    "field": "description",
+    "language": "English",
+    "file": "Defs/ModernWar/Items/RifleAmmunition_76251.xml",
+    "before": "OTM cartridge: high damage and stopping power with lower recoil, moderate penetration and fragmentation after passing light armor.",
+    "after": "A 7.62x51mm open-tip cartridge intended for light-barrier engagement and projectile fragmentation."
+  },
+  {
+    "kind": "ThingDef",
+    "defName": "HD_Ammunition_76251MK319_Ammo",
+    "field": "description",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/ThingDef/RifleAmmunition_76251.xml",
+    "before": "높은 피해량·저지력과 낮은 반동을 제공하는 OTM 탄약입니다. 관통력은 중간 수준이며 경장갑 통과 후에도 파편화할 수 있습니다.",
+    "after": "앞부분이 열린 7.62×51mm 탄약입니다. 가벼운 장애물 통과와 탄자 파편화를 고려한 탄종입니다."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_SprMOne_Weapon",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "craft Graylock M1861",
+    "after": "make Graylock M1861"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_SprMOne_Weapon",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "스프링필드 M1861 제작",
+    "after": "그레이록 M1861 제작"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_SprMOne_Weapon",
+    "field": "jobString",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "Crafting Graylock M1861.",
+    "after": "Making Graylock M1861."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_SprMOne_Weapon",
+    "field": "jobString",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "스프링필드 M1861 제작 중.",
+    "after": "그레이록 M1861 제작 중."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_SprMThreeHigh_Weapon",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "craft Graylock M1873",
+    "after": "make Graylock M1873"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_SprMThreeHigh_Weapon",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "스프링필드 M1873 제작",
+    "after": "그레이록 M1873 제작"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_SprMThreeHigh_Weapon",
+    "field": "jobString",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "Crafting Graylock M1873.",
+    "after": "Making Graylock M1873."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_SprMThreeHigh_Weapon",
+    "field": "jobString",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "스프링필드 M1873 제작 중.",
+    "after": "그레이록 M1873 제작 중."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Convert_SprMOne_To_SprMThreeHigh_Weapon",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "convert Graylock M1861 into Graylock M1873",
+    "after": "convert Graylock M1861 to Graylock M1873"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Convert_SprMOne_To_SprMThreeHigh_Weapon",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "스프링필드 M1861을 M1873으로 개조",
+    "after": "그레이록 M1861을 그레이록 M1873으로 개조"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Convert_SprMOne_To_SprMThreeHigh_Weapon",
+    "field": "jobString",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "Converting Graylock M1861 into Graylock M1873.",
+    "after": "Converting to Graylock M1873."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Convert_SprMOne_To_SprMThreeHigh_Weapon",
+    "field": "jobString",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "스프링필드 M1861을 M1873으로 개조하는 중.",
+    "after": "그레이록 M1873으로 개조 중."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_M1Garand_Weapon",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "craft M1 Hartwell",
+    "after": "make M1 Hartwell"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_M1Garand_Weapon",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "M1 개런드 제작",
+    "after": "M1 하츠웰 제작"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_M1Garand_Weapon",
+    "field": "jobString",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "Crafting M1 Hartwell.",
+    "after": "Making M1 Hartwell."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_M1Garand_Weapon",
+    "field": "jobString",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "M1 개런드 제작 중.",
+    "after": "M1 하츠웰 제작 중."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_ColtArmyModel1860_Weapon",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "craft Ironfang M1860 Army",
+    "after": "make Ironfang M1860 Army"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_ColtArmyModel1860_Weapon",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "콜트 아미 모델 1860 제작",
+    "after": "아이언팽 M1860 아미 제작"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_ColtArmyModel1860_Weapon",
+    "field": "jobString",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "Crafting Ironfang M1860 Army.",
+    "after": "Making Ironfang M1860 Army."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_ColtArmyModel1860_Weapon",
+    "field": "jobString",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "콜트 아미 모델 1860 제작 중.",
+    "after": "아이언팽 M1860 아미 제작 중."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_ColtSAA_Weapon",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "craft Ironfang SAA",
+    "after": "make Ironfang SAA"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_ColtSAA_Weapon",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "콜트 SAA 제작",
+    "after": "아이언팽 SAA 제작"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_ColtSAA_Weapon",
+    "field": "jobString",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "Crafting Ironfang SAA.",
+    "after": "Making Ironfang SAA."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_ColtSAA_Weapon",
+    "field": "jobString",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "콜트 SAA 제작 중.",
+    "after": "아이언팽 SAA 제작 중."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_SWModelThree_Weapon",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "craft W&M Model 3",
+    "after": "make W&M Model 3"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_SWModelThree_Weapon",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "S&W 모델 3 제작",
+    "after": "W&M 모델 3 제작"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_SWModelThree_Weapon",
+    "field": "jobString",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "Crafting W&M Model 3.",
+    "after": "Making W&M Model 3."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_SWModelThree_Weapon",
+    "field": "jobString",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "S&W 모델 3 제작 중.",
+    "after": "W&M 모델 3 제작 중."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_WinM1887_Weapon",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "craft Frontier Arms M1887",
+    "after": "make Frontier Arms M1887"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_WinM1887_Weapon",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "윈체스터 M1887 제작",
+    "after": "프론티어 암즈 M1887 제작"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_WinM1887_Weapon",
+    "field": "jobString",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "Crafting Frontier Arms M1887.",
+    "after": "Making Frontier Arms M1887."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_WinM1887_Weapon",
+    "field": "jobString",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "윈체스터 M1887 제작 중.",
+    "after": "프론티어 암즈 M1887 제작 중."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_WinMNinetyFive_Weapon",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "craft Frontier Arms M1895",
+    "after": "make Frontier Arms M1895"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_WinMNinetyFive_Weapon",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "윈체스터 M1895 제작",
+    "after": "프론티어 암즈 M1895 제작"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_WinMNinetyFive_Weapon",
+    "field": "jobString",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "Crafting Frontier Arms M1895.",
+    "after": "Making Frontier Arms M1895."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_WinMNinetyFive_Weapon",
+    "field": "jobString",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "윈체스터 M1895 제작 중.",
+    "after": "프론티어 암즈 M1895 제작 중."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_SprMThree_Weapon",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "craft Graylock M1903",
+    "after": "make Graylock M1903"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_SprMThree_Weapon",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "스프링필드 M1903 제작",
+    "after": "그레이록 M1903 제작"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_SprMThree_Weapon",
+    "field": "jobString",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "Crafting Graylock M1903.",
+    "after": "Making Graylock M1903."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_SprMThree_Weapon",
+    "field": "jobString",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "스프링필드 M1903 제작 중.",
+    "after": "그레이록 M1903 제작 중."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_M1903A4_Weapon",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "craft Graylock M1903A4",
+    "after": "make Graylock M1903A4"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_M1903A4_Weapon",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "스프링필드 M1903A4 제작",
+    "after": "그레이록 M1903A4 제작"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_M1903A4_Weapon",
+    "field": "jobString",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "Crafting Graylock M1903A4.",
+    "after": "Making Graylock M1903A4."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_M1903A4_Weapon",
+    "field": "jobString",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "스프링필드 M1903A4 제작 중.",
+    "after": "그레이록 M1903A4 제작 중."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_M1903Pedersen_Weapon",
+    "field": "label",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "craft Graylock M1903 Whitmore device",
+    "after": "make Graylock M1903 Whitmore device"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_M1903Pedersen_Weapon",
+    "field": "label",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "스프링필드 M1903 페더슨 장치 제작",
+    "after": "그레이록 M1903 휘트모어 장비 제작"
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_M1903Pedersen_Weapon",
+    "field": "jobString",
+    "language": "English",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "before": "Crafting Graylock M1903 Whitmore device.",
+    "after": "Making Graylock M1903 Whitmore device."
+  },
+  {
+    "kind": "RecipeDef",
+    "defName": "HD_Make_Gun_M1903Pedersen_Weapon",
+    "field": "jobString",
+    "language": "Korean",
+    "file": "Languages/Korean (한국어)/DefInjected/RecipeDef/Recipes_Helod.xml",
+    "before": "스프링필드 M1903 페더슨 장치 제작 중.",
+    "after": "그레이록 M1903 휘트모어 장비 제작 중."
+  }
+]

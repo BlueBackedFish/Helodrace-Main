@@ -18,7 +18,7 @@
   <HD_Bullet_Henry_Proj.label>헨리 소총 탄환</HD_Bullet_Henry_Proj.label>
   <!-- Winchester M1887 -->
   <HD_Gun_WinM1887_Weapon.label>프론티어 암즈 M1887</HD_Gun_WinM1887_Weapon.label>
-  <HD_Gun_WinM1887_Weapon.description>레버 액션 방식의 연발 산탄총입니다. 사거리는 짧고 반동은 크지만 근거리 저지력은 압도적입니다.</HD_Gun_WinM1887_Weapon.description>
+  <HD_Gun_WinM1887_Weapon.description>레버를 움직여 탄피를 배출하고 다음 탄을 장전하는 연발 산탄총입니다.</HD_Gun_WinM1887_Weapon.description>
   <HD_Bullet_WinM1887_Proj.label>프론티어 암즈 M1887 산탄</HD_Bullet_WinM1887_Proj.label>
   <!-- Winchester M1895 -->
   <HD_Gun_WinMNinetyFive_Weapon.label>프론티어 암즈 M1895</HD_Gun_WinMNinetyFive_Weapon.label>

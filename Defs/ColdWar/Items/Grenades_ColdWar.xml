@@ -5,7 +5,7 @@
     <defName>HD_Grenade_M14_Item</defName>
     <projectileWhenLoaded>HD_Projectile_M14_Round</projectileWhenLoaded>
     <label>AN-M14 TH3 incendiary grenade</label>
-    <description>Heavy thermate grenades designed to destroy equipment, weapons and vehicles with an intensely hot incendiary reaction that readily starts fires.</description>
+    <description>An incendiary grenade using a high-temperature thermate reaction to damage weapons and equipment and start fires.</description>
     <tickerType>Normal</tickerType>
     <graphicData>
       <texPath>Weapons/ColdWar/HD_M14</texPath>

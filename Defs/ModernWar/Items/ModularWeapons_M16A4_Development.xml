@@ -97,7 +97,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_HACURXUP</defName>
     <label>HAC URX upper handguard</label>
-    <description>HAC URX upper handguard surrounds the barrel and provides attachment space.</description>
+    <description>The upper HAC URX handguard section, covering the barrel from above and joining its matching lower section.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_HACURXUP</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
@@ -115,7 +115,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_HandguardExt_HACURXDOWN</defName>
     <label>HAC URX lower handguard</label>
-    <description>HAC URX lower handguard surrounds the barrel and provides attachment space.</description>
+    <description>The lower HAC URX handguard section, covering the area gripped beneath the barrel and joining the matching upper section.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuardExt_HACURXDOWN</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>

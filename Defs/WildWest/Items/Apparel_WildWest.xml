@@ -458,7 +458,7 @@
   <ThingDef ParentName="ApparelBase">
     <defName>HD_Apparel_WildWestFormalShirt</defName>
     <label>formal shirt</label>
-    <description>A clean formal shirt tailored for Helod bodies. Suitable for work, town life, and respectable occasions, lending its wearer a little extra diplomatic presence.</description>
+    <description>A formal shirt tailored for Helod bodies, with a neat collar and fastening for everyday work and formal occasions.</description>
     <graphicData>
       <texPath>Helod/Apparel/HD_WildWestFormalShirt/HD_WildWestFormalShirt_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -522,7 +522,7 @@
   <ThingDef ParentName="ApparelBase">
     <defName>HD_Apparel_WildWestFrockCoat</defName>
     <label>frock coat</label>
-    <description>A long, formal frontier coat tailored for Helod bodies. It is worn as a structured middle layer, lending its wearer extra diplomatic presence and a steadier bearing.</description>
+    <description>A long formal coat tailored for Helod bodies, worn over a shirt with extended skirts covering the body.</description>
     <graphicData>
       <texPath>Helod/Apparel/HD_WildWestFrockCoat/HD_WildWestFrockCoat_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>

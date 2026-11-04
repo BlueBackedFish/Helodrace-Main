@@ -3,7 +3,7 @@
     <ResearchProjectDef>
         <defName>HelodFrontierSpirit</defName>
         <label>Frontier Spirit</label>
-        <description>default tech to open cloth</description>
+        <description>Establishes the basic workshops and crafting methods needed to make clothing and everyday supplies on the frontier.</description>
         <baseCost>100</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -19,7 +19,7 @@
     <ResearchProjectDef>
         <defName>HelodMechanicalEngineering</defName>
         <label>Mechanical engineering 101</label>
-        <description>basic tech for mechanic engineering</description>
+        <description>Studies mechanical construction, motion and the transmission of power between machines.</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -33,7 +33,7 @@
     <ResearchProjectDef>
         <defName>HelodExperimentalAnalysis</defName>
         <label>Trial, Error, and Litmus</label>
-        <description>for electricity and medicine</description>
+        <description>Develops experimental methods for identifying material properties and studying electrical and medicinal applications.</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -47,7 +47,7 @@
     <ResearchProjectDef>
         <defName>HelodSteamEngine</defName>
         <label>Harnessing the fire</label>
-        <description>technology for steamengine</description>
+        <description>Develops steam engines that supply rotary power to industrial machinery.</description>
         <baseCost>1200</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -61,7 +61,7 @@
     <ResearchProjectDef>
         <defName>HelodBasicMachineTool</defName>
         <label>Machine That Makes Machine</label>
-        <description>human powered tools</description>
+        <description>Develops hand-powered machine tools for shaping and machining basic components.</description>
         <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -75,7 +75,7 @@
     <ResearchProjectDef>
         <defName>HelodIngredientExtraction</defName>
         <label>Distilling nature</label>
-        <description>feel good drugs</description>
+        <description>Develops methods for extracting medicinal compounds from natural materials.</description>
         <baseCost>700</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -89,7 +89,7 @@
     <ResearchProjectDef>
         <defName>HelodPrimaryCell</defName>
         <label>Lightning in a bottle</label>
-        <description>primary cell</description>
+        <description>Develops disposable cells that convert chemical energy into electrical power.</description>
         <baseCost>600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -103,7 +103,7 @@
     <ResearchProjectDef>
         <defName>HelodBasicOilDevelopment</defName>
         <label>Blood of the Iron Age</label>
-        <description>oilsssssssssss</description>
+        <description>Develops early oilfield prospecting, drilling and well equipment for extracting crude oil.</description>
         <baseCost>900</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -117,7 +117,7 @@
     <ResearchProjectDef>
         <defName>HelodLineShaft</defName>
         <label>One engine, Many machines</label>
-        <description>shaft</description>
+        <description>Transmits rotary power between machines through shared shafts and belts.</description>
         <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -132,7 +132,7 @@
     <ResearchProjectDef>
         <defName>HelodTelegraph</defName>
         <label>The Victorian internet</label>
-        <description>dot dash</description>
+        <description>Carries coded messages over wires using Morse signals.</description>
         <baseCost>600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -146,7 +146,7 @@
     <ResearchProjectDef>
         <defName>HelodMetalCuttingMachine</defName>
         <label>Shaving the micron</label>
-        <description>lathe</description>
+        <description>Develops metal-cutting machines for machining accurately shaped mechanical components.</description>
         <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -160,7 +160,7 @@
     <ResearchProjectDef>
         <defName>HelodMetalFormingMachine</defName>
         <label>Brute Force Shaping</label>
-        <description>press</description>
+        <description>Develops presses and forming tools that shape metal by compression and bending.</description>
         <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -174,7 +174,7 @@
     <ResearchProjectDef>
         <defName>HelodBreechLoadingGun</defName>
         <label>Loading from the back</label>
-        <description>gun!</description>
+        <description>Develops firearms loaded through the rear of the barrel rather than through the muzzle.</description>
         <baseCost>700</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -262,7 +262,7 @@
 
     <ResearchProjectDef>
         <defName>HelodHighOilDevelopment</defName>
-        <label>High-Pressure Scavenging</label>
+        <label>Into the Depths</label>
         <description>Studies high-pressure drilling equipment for reaching deep oil deposits through hard rock.</description>
         <baseCost>1100</baseCost>
         <techLevel>Industrial</techLevel>
@@ -291,7 +291,7 @@
 
     <ResearchProjectDef>
         <defName>HelodBasicElectronics</defName>
-        <label>Ohm's Law Applied</label>
+        <label>Giving Current a Path</label>
         <description>Studies basic electrical circuits built from insulated wiring, switches, terminals, and resistors.</description>
         <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
@@ -305,7 +305,7 @@
 
     <ResearchProjectDef>
         <defName>HelodBasicMotor</defName>
-        <label>Kinetic-Electric Synergy</label>
+        <label>Lightning in Motion</label>
         <description>Studies industrial motors and generators that convert between electricity and rotary motion.</description>
         <baseCost>1200</baseCost>
         <techLevel>Industrial</techLevel>
@@ -381,7 +381,7 @@
     <ResearchProjectDef>
         <defName>HelodChokingAgent</defName>
         <label>The Poison Wind</label>
-        <description>Phosgene, gas mask</description>
+        <description>Studies choking agents and the respiratory protection needed to handle chemical hazards.</description>
         <baseCost>650</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -395,7 +395,7 @@
     <ResearchProjectDef>
         <defName>HelodFirstAid</defName>
         <label>Keeping Death Waiting</label>
-        <description>blood transfusion, basic disinfection</description>
+        <description>Develops basic disinfection and blood-transfusion methods for emergency treatment.</description>
         <baseCost>600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -409,7 +409,7 @@
     <ResearchProjectDef>
         <defName>HelodBasicMachineGun</defName>
         <label>The Devil's Paintbrush</label>
-        <description>maxim</description>
+        <description>Develops early automatic weapons for sustained suppressive fire.</description>
         <baseCost>800</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -423,7 +423,7 @@
     <ResearchProjectDef>
         <defName>HelodSamiAutomaticPistol</defName>
         <label>One Pull, One Shot</label>
-        <description>1911, Whitmore Device</description>
+        <description>Develops self-loading pistols and the Whitmore conversion device.</description>
         <baseCost>650</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -438,7 +438,7 @@
     <ResearchProjectDef>
         <defName>HelodHighElectronics</defName>
         <label>The Thermionic Age</label>
-        <description>Vaccum tube, computer, Radio wave</description>
+        <description>Studies vacuum-tube electronics, radio circuits and early computing devices.</description>
         <baseCost>1500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -453,7 +453,7 @@
     <ResearchProjectDef>
         <defName>HelodHighMachineGun</defName>
         <label>Beaten Zone</label>
-        <description>Light machine gun, heavy machine gun with high caliber</description>
+        <description>Develops light machine guns and larger-caliber heavy machine guns for sustained fire support.</description>
         <baseCost>800</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -467,7 +467,7 @@
     <ResearchProjectDef>
         <defName>HelodHaberBosch</defName>
         <label>Bread from Air</label>
-        <description>fertilizer</description>
+        <description>Fixes atmospheric nitrogen to produce ammonia for fertilizer and industrial chemical feedstocks.</description>
         <baseCost>1600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -510,7 +510,7 @@
     <ResearchProjectDef>
         <defName>HelodBlisterAgent</defName>
         <label>Scorched Earth Therapy</label>
-        <description>Anti-cancer agent, HN-2, Primitive rubber CBRN protection</description>
+        <description>Investigates the toxic and medicinal properties of nitrogen-mustard compounds and develops chemical munitions and protective rubber equipment.</description>
         <baseCost>700</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -538,7 +538,7 @@
     <ResearchProjectDef>
         <defName>HelodLowGranade</defName>
         <label>The Hand-Held Artillery</label>
-        <description>granade, m1, m7, m8 rifle granade launcher</description>
+        <description>Develops hand grenades, rifle-launched munitions and signaling flares.</description>
         <baseCost>600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -551,8 +551,8 @@
 
     <ResearchProjectDef>
         <defName>HelodLowLightArtillery</defName>
-        <label>The Trench Flatteners</label>
-        <description>3-inch Stokes Mortar, M1 81mm Mortar</description>
+        <label>Portable Firepower</label>
+        <description>Develops light field guns and mortar systems that can be moved with their crews or broken down for transport.</description>
         <baseCost>900</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -583,7 +583,7 @@
         <label>hymn to the fallen</label>
         <description>"But, in a larger sense, we can not dedicate—we can not consecrate—we can not hallow—this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract."
 
-//m1902 saber, service dress</description>
+Develops the M1902 saber and service dress.</description>
         <baseCost>600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -598,7 +598,7 @@
     <ResearchProjectDef>
         <defName>HelodGreatWarTech</defName>
         <label>The Practical Arts</label>
-        <description>Develop the industrial and military foundations of Great War equipment.</description>
+        <description>Establishes the industrial processes and military manufacturing used in the early twentieth century.</description>
         <baseCost>1200</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -628,7 +628,7 @@
     <ResearchProjectDef>
         <defName>HelodTransistor</defName>
         <label>Silicon Revolution</label>
-        <description>Transistor, 9n silicon, tube furnice</description>
+        <description>Studies semiconductor switching devices and silicon processing for solid-state electronics.</description>
         <baseCost>2200</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -642,7 +642,7 @@
     <ResearchProjectDef>
         <defName>HelodAntiAirMachineGun</defName>
         <label>The Wall of Steel</label>
-        <description>m167</description>
+        <description>Develops the M167 Vulcan air-defense system and its mixed-feed ammunition supply.</description>
         <baseCost>1200</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -658,8 +658,8 @@
 
     <ResearchProjectDef>
         <defName>HelodMidAutomaticRifle</defName>
-        <label>The Service Rifle</label>
-        <description>m16a2, m16a3</description>
+        <label>The Squad Standard</label>
+        <description>Develops the M16A2 and M16A3 rifles and the M60E3 machine gun.</description>
         <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -672,7 +672,7 @@
 
     <ResearchProjectDef>
         <defName>HelodHighAutomaticRifle</defName>
-        <label>Mature Service Rifles</label>
+        <label>One Rifle, Many Roles</label>
         <description>Develops the M16A4 and M4A1 alongside SOCOM 16 and MK14 EBR components.</description>
         <baseCost>1100</baseCost>
         <techLevel>Industrial</techLevel>
@@ -687,7 +687,7 @@
     <ResearchProjectDef>
         <defName>HelodWireGuidedMissile</defName>
         <label>Holding the Crosshair</label>
-        <description>Tow</description>
+        <description>Develops wire-guided anti-tank missile systems, including the M47 Dragon and M220 TOW.</description>
         <baseCost>1600</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -703,7 +703,7 @@
     <ResearchProjectDef>
         <defName>HelodColdWarTech</defName>
         <label>Better Living</label>
-        <description>hood</description>
+        <description>Expands civilian and military manufacturing for Cold War equipment.</description>
         <baseCost>1500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -759,7 +759,7 @@
 
     <ResearchProjectDef>
         <defName>HelodSpecialOperationsWeapons</defName>
-        <label>Special Operations Firearms</label>
+        <label>Beyond the Closed Door</label>
         <description>Adopts the MP5 and its components for specialized operations after developing CS and electroshock equipment.</description>
         <baseCost>1100</baseCost>
         <techLevel>Industrial</techLevel>
@@ -775,7 +775,7 @@
     <ResearchProjectDef>
         <defName>HelodFlakJacket</defName>
         <label>The First Layer</label>
-        <description>FlakJacket</description>
+        <description>Develops early fragmentation-protection vests, including the M1952A.</description>
         <baseCost>900</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -788,7 +788,7 @@
 
     <ResearchProjectDef>
         <defName>HelodPASGT</defName>
-        <label>Modern Ballistic Protection</label>
+        <label>Beyond Shrapnel</label>
         <description>Develops composite helmets, ballistic shields, and combat uniforms for modern protective equipment.</description>
         <baseCost>1200</baseCost>
         <techLevel>Industrial</techLevel>
@@ -804,7 +804,7 @@
     <ResearchProjectDef>
         <defName>HelodLowHeadSet</defName>
         <label>Hear and Be Heard</label>
-        <description>Basic Tactical Headset</description>
+        <description>Develops headsets for tactical voice communication.</description>
         <baseCost>700</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -820,7 +820,7 @@
 
     <ResearchProjectDef>
         <defName>HelodModernDiversionaryGrenades</defName>
-        <label>Modern Diversionary Grenades</label>
+        <label>Veiling Eyes and Ears</label>
         <description>Develops flash and blast devices for disorienting targets without relying on lethal fragments.</description>
         <baseCost>1000</baseCost>
         <techLevel>Industrial</techLevel>
@@ -835,7 +835,7 @@
 
     <ResearchProjectDef>
         <defName>HelodModernOffensiveGrenades</defName>
-        <label>Modern Offensive Grenades</label>
+        <label>Thunder Within Walls</label>
         <description>Develops low-fragmentation blast grenades for assaults in confined spaces.</description>
         <baseCost>1200</baseCost>
         <techLevel>Industrial</techLevel>
@@ -850,7 +850,7 @@
 
     <ResearchProjectDef>
         <defName>HelodAdvancedWeaponOptics</defName>
-        <label>Advanced Weapon Optics</label>
+        <label>Distant Targets, Close at Hand</label>
         <description>Develops compact combat optics, rail-mounted aiming devices, and electronic weapon sights.</description>
         <baseCost>1600</baseCost>
         <techLevel>Industrial</techLevel>
@@ -865,7 +865,7 @@
 
     <ResearchProjectDef>
         <defName>HelodLaserTargetDesignators</defName>
-        <label>Laser Target Designation</label>
+        <label>Coordinates for the Sky</label>
         <description>Develops portable laser designators for guiding precision air support onto marked targets.</description>
         <baseCost>1800</baseCost>
         <techLevel>Industrial</techLevel>

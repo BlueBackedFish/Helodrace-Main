@@ -16,9 +16,9 @@
   <HD_ModularPart_Barrel_MP5SD.comps.0.sockets.1.label>MP5SD 일체형 소음기 나사산</HD_ModularPart_Barrel_MP5SD.comps.0.sockets.1.label>
   <HD_ModularPart_Barrel_MP5SD.comps.0.sockets.2.label>MP5SD 총열덮개 결합부</HD_ModularPart_Barrel_MP5SD.comps.0.sockets.2.label>
   <HD_ModularPart_Handguard_MP5Default.label>MP5 슬림 총열덮개</HD_ModularPart_Handguard_MP5Default.label>
-  <HD_ModularPart_Handguard_MP5Default.description>MP5 슬림 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.</HD_ModularPart_Handguard_MP5Default.description>
+  <HD_ModularPart_Handguard_MP5Default.description>MP5 총열 둘레를 감싸는 가는 형태의 총열덮개입니다.</HD_ModularPart_Handguard_MP5Default.description>
   <HD_ModularPart_Handguard_MP5SD.label>MP5SD 총열덮개</HD_ModularPart_Handguard_MP5SD.label>
-  <HD_ModularPart_Handguard_MP5SD.description>MP5SD 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.</HD_ModularPart_Handguard_MP5SD.description>
+  <HD_ModularPart_Handguard_MP5SD.description>MP5SD의 일체형 소음기 둘레를 감싸는 총열덮개입니다.</HD_ModularPart_Handguard_MP5SD.description>
   <HD_ModularPart_Suppressor_MP5SD.label>MP5SD 일체형 소음기</HD_ModularPart_Suppressor_MP5SD.label>
   <HD_ModularPart_Suppressor_MP5SD.description>MP5SD 일체형 소음기는 총구에 달아 발사음과 화염을 줄이는 소음기입니다.</HD_ModularPart_Suppressor_MP5SD.description>
   <HD_ModularPart_FrontSight_MP5_Part.label>MP5 가늠쇠</HD_ModularPart_FrontSight_MP5_Part.label>

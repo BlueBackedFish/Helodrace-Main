@@ -1628,7 +1628,7 @@
       <li>HD_GreatWarSniper</li>
     </weaponTags>
     <label>M1D Hartwell</label>
-    <description>A scoped M1 Hartwell variant built for accurate semi-automatic fire at extended range. It trades some close handling for steadier long-range shooting.</description>
+    <description>An M1 Hartwell semi-automatic rifle modified to carry an optical sight.</description>
     <graphicData>
       <texPath>Weapons/GreatWar/HD_m1d</texPath>
       <graphicClass>Graphic_Single</graphicClass>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ContentUsage_Title>운용 정보</HD_ContentUsage_Title>
+  <HD_ContentUsage_Details>자세히 보기</HD_ContentUsage_Details>
+  <HD_ContentUsage_HD_CrowsComputer>전력을 공급하고 같은 지도에 있는 CROWS II 진지 한 곳에 연결하세요. 연결하면 조작 장치가 설치됩니다. 컴퓨터와 진지 모두 전력이 필요하며 정착민이 컴퓨터를 조작하는 동안에만 사격합니다.</HD_ContentUsage_HD_CrowsComputer>
+  <HD_ContentUsage_HD_Building_CrowsII>건설 후 화기 선택 명령에서 M2HB, Mk 19, M240B 또는 M249를 선택하세요. 건설 작업자가 추가 자재를 운반해 장착합니다. 탄약을 보급하고 전력과 컴퓨터를 연결한 뒤 조작자를 배정합니다. 빈 진지는 조준·사격·탄약 보급을 할 수 없습니다.</HD_ContentUsage_HD_Building_CrowsII>
+  <HD_ContentUsage_HD_InstalledBreachCharge>벽이나 문에 부착하고 근처 작업자를 지정해 발파합니다. 대상 구조물을 제거하며, 틈 너머에 폭압 제압과 전방 파편을 가합니다. 대상의 남은 체력을 넘는 폭약 위력은 추가 구조물 피해로 전환되지 않습니다.</HD_ContentUsage_HD_InstalledBreachCharge>
+  <HD_ContentUsage_HD_RotaryDrill>완료된 유정의 품질은 100~130%입니다. 시추 중에만 경유를 소비하고 정비가 필요하면 멈춥니다. 정착민에게 정비를 맡기세요. 개발이 끝나면 시추기를 해체하고 개발된 유전 위에 펌프잭을 설치합니다.</HD_ContentUsage_HD_RotaryDrill>
+  <HD_ContentUsage_HD_TelegraphTable>LOW 헤로드 회사·단체에 연락하는 유선 전신 설비입니다. 금융·산업·총포와 사냥용품·석유제품 상단을 요청하고, 파이오니어 해외용역회사와 전진기지를 계약하거나 해링턴 경비회사의 경비대를 고용할 수 있습니다. 상단 요청에는 금융 우호도가 필요합니다. 건설 후 방문한 LOW 헤로드 상단에 유료 회선 설치를 요청해야 하며, 2~3일 뒤 개통됩니다. 세력·회사 목록은 중계국 영업시간인 현지 시각 08:00~18:00에만 펼쳐볼 수 있습니다. 송신에는 일차 전지를 사용합니다.</HD_ContentUsage_HD_TelegraphTable>
+  <HD_ContentUsage_HD_Radio>전신기를 발전시킨 무선 통신 단말기입니다. LOW 헤로드 회사 주파수에서 상단 요청, 대출, 전진기지 계약, 경비 고용 등 전신기의 모든 서비스를 이용할 수 있습니다. 개통이나 일차전지 없이 전력만 연결하면 하루 종일 사용할 수 있습니다. 정착민들은 오락 시간에 LOW·HIGH HAM 주파수에서 잡담을 나누거나 TV처럼 주변 자리에서 라디오 방송을 청취합니다.</HD_ContentUsage_HD_Radio>
+  <HD_ContentUsage_HD_TCCC_HemostaticAgent>대형 의료 파우치에 별도로 적재하고 TCCC 메뉴에서 투여합니다. 투여에는 1초가 걸리며 6시간 동안 전신 출혈량을 70% 줄입니다. 부위별 지혈과 병용할 수 있습니다. 혈액순환 -10%, 의식 -5%가 적용되며 상처를 치료하거나 잃은 혈액을 보충하지는 않습니다.</HD_ContentUsage_HD_TCCC_HemostaticAgent>
+</LanguageData>

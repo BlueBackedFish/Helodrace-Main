@@ -5,7 +5,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_MK14EBR</defName>
     <label>MK14 EBR chassis handguard</label>
-    <description>MK14 EBR chassis handguard surrounds the barrel and provides attachment space.</description>
+    <description>The forward handguard of the MK14 EBR chassis, providing a support area and attachment surfaces around the barrel.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_MK14EBR</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
@@ -26,7 +26,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_HandguardExt_MK14EBRTopRail</defName>
     <label>MK14 EBR receiver top rail</label>
-    <description>MK14 EBR receiver top rail surrounds the barrel and provides attachment space.</description>
+    <description>An upper rail over the MK14 EBR receiver, providing an aiming-device mount separate from the handguard.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuardExt_MK14EBRTopRail</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>

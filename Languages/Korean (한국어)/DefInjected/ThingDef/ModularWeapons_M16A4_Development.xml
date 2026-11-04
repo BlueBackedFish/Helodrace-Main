@@ -13,12 +13,12 @@
   <HD_ModularPart_GasBlock_AR15_Part.label>AR-15 가늠쇠 일체형 가스 블록</HD_ModularPart_GasBlock_AR15_Part.label>
   <HD_ModularPart_GasBlock_AR15_Part.description>AR-15 가늠쇠 일체형 가스 블록은 발사 가스를 작동부로 보내는 가스 계통 부품입니다.</HD_ModularPart_GasBlock_AR15_Part.description>
   <HD_ModularPart_Handguard_HACURXUP.label>HAC URX 상부 총열덮개</HD_ModularPart_Handguard_HACURXUP.label>
-  <HD_ModularPart_Handguard_HACURXUP.description>HAC URX 상부 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.</HD_ModularPart_Handguard_HACURXUP.description>
+  <HD_ModularPart_Handguard_HACURXUP.description>HAC URX 총열덮개의 상부입니다. 총열 위를 덮고 대응하는 하부 덮개와 결합합니다.</HD_ModularPart_Handguard_HACURXUP.description>
   <HD_ModularPart_Handguard_HACURXUP.comps.0.sockets.0.label>URX 하부 총열덮개 결합부</HD_ModularPart_Handguard_HACURXUP.comps.0.sockets.0.label>
   <HD_ModularPart_Handguard_HACURXUP.comps.0.sockets.1.label>상단 전방 레일</HD_ModularPart_Handguard_HACURXUP.comps.0.sockets.1.label>
   <HD_ModularPart_Handguard_HACURXUP.comps.0.sockets.2.label>상부 측면 레일</HD_ModularPart_Handguard_HACURXUP.comps.0.sockets.2.label>
   <HD_ModularPart_HandguardExt_HACURXDOWN.label>HAC URX 하부 총열덮개</HD_ModularPart_HandguardExt_HACURXDOWN.label>
-  <HD_ModularPart_HandguardExt_HACURXDOWN.description>HAC URX 하부 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.</HD_ModularPart_HandguardExt_HACURXDOWN.description>
+  <HD_ModularPart_HandguardExt_HACURXDOWN.description>HAC URX 상부 덮개에 결합하는 하부 총열덮개입니다. 사수가 총열 아래를 잡는 부분을 덮습니다.</HD_ModularPart_HandguardExt_HACURXDOWN.description>
   <HD_ModularPart_HandguardExt_HACURXDOWN.comps.0.sockets.0.label>연속형 하단 레일</HD_ModularPart_HandguardExt_HACURXDOWN.comps.0.sockets.0.label>
   <HD_ModularPart_Magazine_STANAG.label>STANAG 탄창</HD_ModularPart_Magazine_STANAG.label>
   <HD_ModularPart_Magazine_STANAG.description>STANAG 탄창은 탄약을 보관하고 약실 쪽으로 공급하는 탈착식 탄창입니다.</HD_ModularPart_Magazine_STANAG.description>

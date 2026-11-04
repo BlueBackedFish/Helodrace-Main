@@ -32,7 +32,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_M16A1_Part</defName>
     <label>M16A1 triangular handguard</label>
-    <description>M16A1 triangular handguard surrounds the barrel and provides attachment space.</description>
+    <description>An M16A1 handguard with a triangular cross-section, enclosing the barrel and shielding the supporting hand.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_M16a1</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
@@ -70,7 +70,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_M16A2UP</defName>
     <label>M16A2 upper handguard</label>
-    <description>M16A2 upper handguard surrounds the barrel and provides attachment space.</description>
+    <description>The upper half of an M16A2 handguard, joining the lower half to form a round barrel enclosure.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_M16a2UP</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodMidAutomaticRifle</li></requiredResearch>
@@ -84,7 +84,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_HandguardExt_M16A2DOWN</defName>
     <label>M16A2 lower handguard</label>
-    <description>M16A2 lower handguard surrounds the barrel and provides attachment space.</description>
+    <description>The lower half of an M16A2 handguard, joining the upper half and supporting the hand beneath the barrel.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuardExt_M16a2DOWN</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodMidAutomaticRifle</li></requiredResearch>

@@ -84,7 +84,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_MP5Default</defName>
     <label>MP5 slim handguard</label>
-    <description>MP5 slim handguard surrounds the barrel and provides attachment space.</description>
+    <description>A slim handguard enclosing the MP5 barrel.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_MP5Default</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodSpecialOperationsWeapons</li></requiredResearch><graphicLayer>2</graphicLayer><mounts><li><id>handguard_mount</id><socketTags><li>mp5_handguard_standard</li></socketTags><transform><position>(0,0,0.031)</position></transform></li></mounts></li></comps>
   </ThingDef>
@@ -92,7 +92,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_MP5SD</defName>
     <label>MP5SD handguard</label>
-    <description>MP5SD handguard surrounds the barrel and provides attachment space.</description>
+    <description>An MP5SD handguard enclosing its integral suppressor.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_MP5SD</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodSpecialOperationsWeapons</li></requiredResearch><graphicLayer>2</graphicLayer><mounts><li><id>handguard_mount</id><socketTags><li>mp5_handguard_sd</li></socketTags><transform><position>(0,0,0.031)</position></transform></li></mounts></li></comps>
   </ThingDef>

@@ -67,12 +67,13 @@
   </JobDef>
   <ThingDef ParentName="ResourceBase">
     <defName>HD_TCCC_HemostaticAgent</defName><label>hemostatic agent</label>
-    <description>A field hemostatic dose. Load into a large medical pouch and administer with the TCCC menu in 1 second to reduce all bleeding by 70% for 6 hours. Combines with body-part hemostasis. Blood pumping -10%, consciousness -5%. Does not heal injuries or replace lost blood.</description>
+    <description>A field hemostatic dose carried in a large medical pouch, used to suppress systemic bleeding alongside treatment of individual wounds.</description>
     <graphicData><texPath>Things/Item/Resource/Medicine/MedicineIndustrial</texPath><graphicClass>Graphic_StackCount</graphicClass><color>(0.95,0.45,0.40)</color></graphicData>
     <techLevel>Industrial</techLevel><stackLimit>25</stackLimit>
     <thingCategories><li>Manufactured</li></thingCategories>
     <statBases><MaxHitPoints>60</MaxHitPoints><Mass>0.05</Mass><MarketValue>8</MarketValue><WorkToMake>300</WorkToMake><Flammability>0.7</Flammability></statBases>
     <costList><MedicineIndustrial>1</MedicineIndustrial></costList>
     <recipeMaker><productCount>2</productCount><recipeUsers><li>DrugLab</li></recipeUsers><researchPrerequisite>MedicineProduction</researchPrerequisite></recipeMaker>
+    <modExtensions><li Class="Helodrace.ContentUsageExtension"><helpKey>HD_ContentUsage_HD_TCCC_HemostaticAgent</helpKey></li></modExtensions>
   </ThingDef>
 </Defs>

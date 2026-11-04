@@ -3,7 +3,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Radio</defName>
     <label>radio</label>
-    <description>An upgraded wireless terminal for all LOW Helod company services, including caravan requests, loans, forward-base contracts and security. Power replaces wired installation and primary cells, with frequencies available around the clock. Colonists can also chat with LOW and HIGH HAM operators or listen to broadcasts during recreation.</description>
+    <description>A wireless terminal for LOW Helod company services and HAM frequencies, used for company contacts, radio conversations and broadcast listening.</description>
     <thingClass>Helodrace.Building_Radio</thingClass>
     <graphicData>
       <texPath>Buildings/HD_Radio</texPath>
@@ -55,5 +55,6 @@
     <researchPrerequisites>
       <li>HelodWireless</li>
     </researchPrerequisites>
+    <modExtensions><li Class="Helodrace.ContentUsageExtension"><helpKey>HD_ContentUsage_HD_Radio</helpKey></li></modExtensions>
   </ThingDef>
 </Defs>

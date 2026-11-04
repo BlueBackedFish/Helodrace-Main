@@ -1,0 +1,29 @@
+[
+  {
+    "defName": "HelodLessLethalChemical",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "definition": "<ResearchProjectDef>\n        <defName>HelodLessLethalChemical</defName>\n        <label>Chemical Compliance</label>\n        <description>Develop chemical agents and delivery equipment for less-lethal restraint.</description>\n        <baseCost>700</baseCost>\n        <techLevel>Industrial</techLevel>\n        <prerequisites>\n            <li>HelodLessLethalClose</li>\n        </prerequisites>\n        <tab>HelodTechTab</tab>\n        <researchViewX>15</researchViewX>\n        <researchViewY>1.6</researchViewY>\n    </ResearchProjectDef>\n\n    ",
+    "korean": {
+      "HelodLessLethalChemical.label": "화학적 제압",
+      "HelodLessLethalChemical.description": "비살상 화학 제압 장비를 연구합니다."
+    }
+  },
+  {
+    "defName": "HelodLowHeavyArtillery",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "definition": "<ResearchProjectDef>\n        <defName>HelodLowHeavyArtillery</defName>\n        <label>The Multi-Purpose Rain</label>\n        <description>M1 4.2-inch chemical mortar and M114 155mm howitzer</description>\n        <baseCost>1200</baseCost>\n        <techLevel>Industrial</techLevel>\n        <prerequisites>\n            <li>HelodLowLightArtillery</li>\n        </prerequisites>\n        <tab>HelodTechTab</tab>\n        <researchViewX>12</researchViewX>\n        <researchViewY>3.2</researchViewY>\n    </ResearchProjectDef>\n\n    ",
+    "korean": {
+      "HelodLowHeavyArtillery.label": "중탄도학",
+      "HelodLowHeavyArtillery.description": "초기 중포와 중화력 탄도 기술을 연구합니다."
+    }
+  },
+  {
+    "defName": "HelodSniperRifle",
+    "file": "Defs/Research/ResearchProjects_Helod.xml",
+    "definition": "<ResearchProjectDef>\n        <defName>HelodSniperRifle</defName>\n        <label>Sub-MOA Precision</label>\n        <description>m1903a4, m1c</description>\n        <baseCost>700</baseCost>\n        <techLevel>Industrial</techLevel>\n        <prerequisites>\n            <li>HelodBoltAction</li>\n        </prerequisites>\n        <tab>HelodTechTab</tab>\n        <researchViewX>9</researchViewX>\n        <researchViewY>4</researchViewY>\n    </ResearchProjectDef>\n\n    ",
+    "korean": {
+      "HelodSniperRifle.label": "서브 MOA 정밀도",
+      "HelodSniperRifle.description": "M1903A4와 M1C 저격소총을 해금합니다."
+    }
+  }
+]

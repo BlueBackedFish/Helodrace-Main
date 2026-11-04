@@ -1,0 +1,68 @@
+Actual 1.7 Stage K life checks
+PASS: Real power grid powers HD_StirredTankReactor
+PASS: Real power grid powers HD_VIMFurnace
+PASS: Real power grid powers HD_SemiconductorFab
+PASS: Real power grid powers TableMachining
+PASS: Operating information translation resolves: HD_CrowsComputer
+PASS: Exactly one operating information entry in actual info stats: HD_CrowsComputer
+PASS: Operating information translation resolves: HD_Building_CrowsII
+PASS: Exactly one operating information entry in actual info stats: HD_Building_CrowsII
+PASS: Operating information translation resolves: HD_InstalledBreachCharge
+PASS: Exactly one operating information entry in actual info stats: HD_InstalledBreachCharge
+PASS: Operating information translation resolves: HD_RotaryDrill
+PASS: Exactly one operating information entry in actual info stats: HD_RotaryDrill
+PASS: Operating information translation resolves: HD_TelegraphTable
+PASS: Exactly one operating information entry in actual info stats: HD_TelegraphTable
+PASS: Operating information translation resolves: HD_Radio
+PASS: Exactly one operating information entry in actual info stats: HD_Radio
+PASS: Operating information translation resolves: HD_TCCC_HemostaticAgent
+PASS: Exactly one operating information entry in actual info stats: HD_TCCC_HemostaticAgent
+PASS: Unannotated items receive no empty operating information
+PASS: Ammunition is made exclusively at weapons workbench: HD_Make20x102mmMixedRounds
+PASS: Ammunition shares its weapon's research gate: HD_Make20x102mmMixedRounds
+PASS: Unresearched ammunition is unavailable: HD_Make20x102mmMixedRounds
+PASS: Recipe appears on the actual worktable: HD_Make20x102mmMixedRounds
+BILL HD_Make20x102mmMixedRounds work=Crafting givers=DoBillsHD_GunSmithTable:Crafting filters=HD_CarbonSteel:True:True,Chemfuel:True:True,HD_TNT:True:True,HD_GeneralMachinePart:True:True should=True available=True skill=True area= worker=(129, 0, 120) costs=HD_CarbonSteel:12,Chemfuel:8,HD_TNT:2,HD_GeneralMachinePart:1
+INGREDIENTS HD_Make20x102mmMixedRounds found=True chosen=HD_CarbonSteel:12,Chemfuel:8,HD_TNT:2,HD_GeneralMachinePart:1 missing=
+JOBEND HD_Make20x102mmMixedRounds InterruptForced toil=4
+PASS: Native work giver starts production: HD_Make20x102mmMixedRounds; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND HD_Make20x102mmMixedRounds Succeeded toil=16
+PASS: Native bill completes: HD_Make20x102mmMixedRounds; current=HaulToCell
+PASS: Exact material consumption: HD_Make20x102mmMixedRounds/HD_CarbonSteel
+PASS: Exact material consumption: HD_Make20x102mmMixedRounds/Chemfuel
+PASS: Exact material consumption: HD_Make20x102mmMixedRounds/HD_TNT
+PASS: Exact material consumption: HD_Make20x102mmMixedRounds/HD_GeneralMachinePart
+PASS: Exact physical output: HD_Make20x102mmMixedRounds
+PASS: Ammunition is made exclusively at weapons workbench: HD_MakeBGM71AMissile
+PASS: Ammunition shares its weapon's research gate: HD_MakeBGM71AMissile
+PASS: Unresearched ammunition is unavailable: HD_MakeBGM71AMissile
+PASS: Recipe appears on the actual worktable: HD_MakeBGM71AMissile
+BILL HD_MakeBGM71AMissile work=Crafting givers=DoBillsHD_GunSmithTable:Crafting filters=HD_CarbonSteel:True:True,HD_AluminiumAlloy:True:True,HD_ElectronicComponent:True:True,HD_BasicElectricalComponents:True:True,HD_TNT:True:True,Chemfuel:True:True should=True available=True skill=True area= worker=(147, 0, 112) costs=HD_CarbonSteel:10,HD_AluminiumAlloy:12,HD_ElectronicComponent:6,HD_BasicElectricalComponents:4,HD_TNT:12,Chemfuel:8
+INGREDIENTS HD_MakeBGM71AMissile found=True chosen=HD_CarbonSteel:10,HD_AluminiumAlloy:12,HD_ElectronicComponent:6,HD_BasicElectricalComponents:4,HD_TNT:12,Chemfuel:8 missing=
+JOBEND HD_MakeBGM71AMissile InterruptForced toil=4
+PASS: Native work giver starts production: HD_MakeBGM71AMissile; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE HD_MakeBGM71AMissile ticks=4800 job=DoBill driver=14 bound= carry= power= available=True materials=HD_CarbonSteel:10,HD_AluminiumAlloy:12,HD_ElectronicComponent:6,HD_BasicElectricalComponents:4,HD_TNT:12,Chemfuel:8
+TRACE HD_MakeBGM71AMissile ticks=9600 job=DoBill driver=14 bound= carry= power= available=True materials=HD_CarbonSteel:10,HD_AluminiumAlloy:12,HD_ElectronicComponent:6,HD_BasicElectricalComponents:4,HD_TNT:12,Chemfuel:8
+JOBEND HD_MakeBGM71AMissile Succeeded toil=16
+PASS: Native bill completes: HD_MakeBGM71AMissile; current=HaulToCell
+PASS: Exact material consumption: HD_MakeBGM71AMissile/HD_CarbonSteel
+PASS: Exact material consumption: HD_MakeBGM71AMissile/HD_AluminiumAlloy
+PASS: Exact material consumption: HD_MakeBGM71AMissile/HD_ElectronicComponent
+PASS: Exact material consumption: HD_MakeBGM71AMissile/HD_BasicElectricalComponents
+PASS: Exact material consumption: HD_MakeBGM71AMissile/HD_TNT
+PASS: Exact material consumption: HD_MakeBGM71AMissile/Chemfuel
+PASS: Exact physical output: HD_MakeBGM71AMissile
+PASS: Newly crafted mixed ammunition is accepted by M167
+PASS: Recipe appears on the actual worktable: Make_HD_Apparel_ShieldIronHideRiot
+BILL Make_HD_Apparel_ShieldIronHideRiot work=Tailoring givers=DoBillsHD_ClothingBench:Tailoring filters=HD_CarbonSteel:True:False,Steel:True:False,Chemfuel:True:False should=True available=True skill=True area= worker=(124, 0, 126) costs=HD_CarbonSteel:20,Steel:528,Chemfuel:12
+INGREDIENTS Make_HD_Apparel_ShieldIronHideRiot found=True chosen=HD_CarbonSteel:20,Steel:20,Chemfuel:12 missing=
+JOBEND Make_HD_Apparel_ShieldIronHideRiot InterruptForced toil=4
+PASS: Native work giver starts production: Make_HD_Apparel_ShieldIronHideRiot; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE Make_HD_Apparel_ShieldIronHideRiot ticks=4800 job=DoBill driver=14 bound= carry= power= available=True materials=HD_CarbonSteel:20,Steel:528,Chemfuel:12
+JOBEND Make_HD_Apparel_ShieldIronHideRiot Succeeded toil=16
+PASS: Native bill completes: Make_HD_Apparel_ShieldIronHideRiot; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideRiot/HD_CarbonSteel
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideRiot/Steel
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideRiot/Chemfuel
+PASS: Exact physical output: Make_HD_Apparel_ShieldIronHideRiot
+COMPLETE
