@@ -12,6 +12,8 @@ namespace Helodrace.ModernWar
         public int jobId, workTicks;
         public string baseline;
         public List<ModularArmorEdit> plan;
+        public int physicalCount;
+        public List<ThingDef> instantParts = new List<ThingDef>();
 
         public void ExposeData()
         {
@@ -19,6 +21,9 @@ namespace Helodrace.ModernWar
             Scribe_Values.Look(ref workTicks, "workTicks", 60);
             Scribe_Values.Look(ref baseline, "baseline");
             Scribe_Collections.Look(ref plan, "edits", LookMode.Deep);
+            Scribe_Values.Look(ref physicalCount, "physicalCount");
+            Scribe_Collections.Look(ref instantParts, "instantParts", LookMode.Def);
+            instantParts ??= new List<ThingDef>();
         }
     }
 
@@ -181,6 +186,8 @@ namespace Helodrace.ModernWar
                 return false;
             }
             var sources = new List<Thing>();
+            var counts = new List<int>();
+            var instantParts = new List<ThingDef>();
             var allocated = new Dictionary<Thing, int>();
             foreach (var entry in needed)
             {
@@ -195,12 +202,21 @@ namespace Helodrace.ModernWar
                     .ThenBy(item => item.PositionHeld.DistanceToSquared(worker.Position)).FirstOrDefault();
                 if (available == null)
                 {
+                    if (entry.part.CanInstantCraft)
+                    {
+                        instantParts.Add(itemDef);
+                        continue;
+                    }
                     rejection = "HD_ModularArmor_NoReachablePart".Translate(itemDef.LabelCap);
                     return false;
                 }
                 sources.Add(available);
+                counts.Add(1);
                 allocated[available] = allocated.TryGetValue(available, out int count) ? count + 1 : 1;
             }
+            int physicalCount = sources.Count;
+            if (!ArmorInstantCrafting.AllocateMaterials(instantParts, bench, worker,
+                allocated, sources, counts, out rejection)) return false;
             JobDef def = DefDatabase<JobDef>.GetNamedSilentFail("HD_CustomizeModularArmor");
             if (def == null)
             {
@@ -209,7 +225,9 @@ namespace Helodrace.ModernWar
             }
             Job job = JobMaker.MakeJob(def, parent, bench);
             job.targetQueueA = sources.Select(item => new LocalTargetInfo(item)).ToList();
-            var order = new ModularArmorWorkOrder { jobId = job.loadID, plan = plan, baseline = baseline };
+            job.countQueue = counts;
+            var order = new ModularArmorWorkOrder { jobId = job.loadID, plan = plan, baseline = baseline,
+                instantParts = instantParts, physicalCount = physicalCount };
             order.workTicks = Math.Max(60, plan.Sum(entry =>
             {
                 var original = entry.sourceIndex >= 0 && entry.sourceIndex < InstalledParts.Count
@@ -287,6 +305,8 @@ namespace Helodrace.ModernWar
         internal List<ModularArmorEdit> plan;
         internal string baseline;
         internal int workTicks;
+        private int physicalCount;
+        private List<ThingDef> instantParts = new List<ThingDef>();
         private List<Thing> collected = new List<Thing>();
         private Thing Bench => job.GetTarget(TargetIndex.B).Thing;
         private CompModularArmor Armor => job.GetTarget(TargetIndex.A).Thing?.TryGetComp<CompModularArmor>();
@@ -298,6 +318,9 @@ namespace Helodrace.ModernWar
             Scribe_Collections.Look(ref collected, "collectedParts", LookMode.Reference);
             Scribe_Values.Look(ref baseline, "armorBaseline");
             Scribe_Values.Look(ref workTicks, "workTicks", 60);
+            Scribe_Values.Look(ref physicalCount, "physicalCount");
+            Scribe_Collections.Look(ref instantParts, "instantParts", LookMode.Def);
+            instantParts ??= new List<ThingDef>();
         }
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
@@ -308,16 +331,20 @@ namespace Helodrace.ModernWar
                 plan = order?.plan;
                 baseline = order?.baseline;
                 workTicks = order?.workTicks ?? 60;
+                physicalCount = order?.physicalCount ?? 0;
+                instantParts = order?.instantParts ?? new List<ThingDef>();
             }
             if (plan == null || !CompClothingWorkbench.CanWorkAt(pawn, Bench, Armor)
                 || !pawn.Reserve(Bench, job, 1, 1, null, errorOnFailed)) return false;
-            foreach (var group in job.targetQueueA.Skip(collected.Count).Select(target => target.Thing).GroupBy(item => item))
+            foreach (var group in job.targetQueueA.Select((target, index) => new { item = target.Thing, index })
+                .Skip(collected.Count).GroupBy(entry => entry.item))
             {
                 Thing item = group.Key;
-                if (item == null || item.Destroyed || item.stackCount < group.Count()) return false;
+                int count = group.Sum(entry => job.countQueue[entry.index]);
+                if (item == null || item.Destroyed || item.stackCount < count) return false;
                 if (item.Spawned)
                 {
-                    if (!pawn.Reserve(item, job, 1, group.Count(), null, errorOnFailed)) return false;
+                    if (!pawn.Reserve(item, job, 1, count, null, errorOnFailed)) return false;
                 }
                 else if (pawn.inventory?.innerContainer?.Contains(item) != true) return false;
             }
@@ -329,7 +356,8 @@ namespace Helodrace.ModernWar
             AddFinishAction(condition => Armor?.ClearWorkOrder(job.loadID));
             this.FailOnDespawnedNullOrForbidden(TargetIndex.B);
             this.FailOn(() => Armor?.Wearer != pawn || !CompClothingWorkbench.CanUse(Bench, Armor)
-                || Armor.ConfigurationSignature() != baseline);
+                || Armor.ConfigurationSignature() != baseline
+                || !ArmorInstantCrafting.Requirements(instantParts, Bench, out _));
             for (int i = 0; i < job.targetQueueA.Count; i++)
             {
                 int index = i;
@@ -337,8 +365,11 @@ namespace Helodrace.ModernWar
                 {
                     Thing source = job.targetQueueA[index].Thing;
                     Thing carried = pawn.carryTracker.CarriedThing;
-                    Thing item = carried != null ? pawn.carryTracker.innerContainer.Take(carried, 1)
-                        : pawn.inventory.innerContainer.Take(source, 1);
+                    int count = job.countQueue[index];
+                    Thing item = carried != null && carried.stackCount >= count
+                        ? pawn.carryTracker.innerContainer.Take(carried, count)
+                        : carried == null && source.stackCount >= count
+                            ? pawn.inventory.innerContainer.Take(source, count) : null;
                     if (item == null || !pawn.inventory.innerContainer.TryAdd(item, false))
                     {
                         if (item != null) GenPlace.TryPlaceThing(item, pawn.Position, pawn.Map, ThingPlaceMode.Near);
@@ -350,7 +381,7 @@ namespace Helodrace.ModernWar
                 yield return Toils_General.Do(() =>
                 {
                     job.SetTarget(TargetIndex.C, job.targetQueueA[index]);
-                    job.count = 1;
+                    job.count = job.countQueue[index];
                 });
                 yield return Toils_Jump.JumpIf(collect,
                     () => pawn.inventory.innerContainer.Contains(job.GetTarget(TargetIndex.C).Thing));
@@ -367,7 +398,8 @@ namespace Helodrace.ModernWar
             yield return Toils_General.Do(() =>
             {
                 if (collected.Any(item => item == null || !pawn.inventory.innerContainer.Contains(item))
-                    || !Armor.CompleteCustomization(plan, baseline, collected))
+                    || !Armor.CompleteCustomizationWithCrafting(plan, baseline, collected,
+                        physicalCount, instantParts, Bench, pawn))
                 {
                     EndJobWith(JobCondition.Incompletable);
                     return;

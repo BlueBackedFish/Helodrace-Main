@@ -8,7 +8,7 @@
   <HD_ClothingBench_Required>의상 커스터마이징은 의류 작업대에서만 가능합니다.</HD_ClothingBench_Required>
   <HD_ClothingBench_Unreachable>착용자가 이 의류 작업대에 접근하거나 사용할 수 없습니다.</HD_ClothingBench_Unreachable>
   <HD_ClothingBench_Apply>작업 시작</HD_ClothingBench_Apply>
-  <HD_ClothingBench_DraftHint>파츠 구성을 마친 뒤 작업 시작을 누르면 한 번에 적용합니다.</HD_ClothingBench_DraftHint>
+  <HD_ClothingBench_DraftHint>일반 부속은 즉시 제작, 방탄판·야투경은 완성품 필요. 배치 후 작업을 시작하세요.</HD_ClothingBench_DraftHint>
   <HD_ClothingBench_Changed>의상의 구성이 변경되었습니다. 커스터마이징 창을 다시 열고 작업을 시작하세요.</HD_ClothingBench_Changed>
   <HD_ClothingBench_Complete>의상 커스터마이징 작업을 완료했습니다.</HD_ClothingBench_Complete>
 </LanguageData>

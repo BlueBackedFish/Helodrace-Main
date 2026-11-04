@@ -162,6 +162,7 @@ namespace Helodrace.ModernWar
         public List<string> conflictTags;
         public ThingDef plateThingDef;
         public ThingDef partThingDef;
+        public bool canInstantCraft = true;
         public int installWorkTicks = 240;
         public bool playerSelectable = true;
         public float guaranteedBlockPenetration;
@@ -203,6 +204,10 @@ namespace Helodrace.ModernWar
         }
 
         public ThingDef RequiredThingDef => plateThingDef ?? partThingDef;
+
+        public bool CanInstantCraft => playerSelectable && canInstantCraft
+            && partThingDef != null && plateThingDef == null
+            && partThingDef.GetCompProperties<CompProperties_ArmorPlateSet>() == null;
 
         public int PalsWidthFor(ModularArmorPalsPanelDef panel)
         {

@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-05",
+  "runtime": ".codex-staging\\ArmorInstant\\native-04",
+  "gameVersion": "1.7.4995 rev309",
+  "passes": 64,
+  "complete": true,
+  "processExitCode": null,
+  "mainAssemblySha256": "B6768B3F5875A3056817A6C69411291AEA5AD31529405C5827B857E6C460DAA9",
+  "instantAccessoryTypes": 12,
+  "independentItemTypes": 6,
+  "batchAccessoryInstances": 8,
+  "batchInputs": {
+    "HD_Nylon": 92,
+    "HD_Aramid": 12,
+    "HD_GeneralMachinePart": 1
+  },
+  "remainingEngineErrors": [
+    "2026-11-05 02:03:16.485 ERROR [Verse] Created WorkshopItem for 3781143823 but there is no folder for it."
+  ],
+  "limitations": [
+    "Current save/load was not exercised in this run.",
+    "Menus were constructed and their real options checked; live mouse interaction and pixel layout were not captured.",
+    "The collector attached after process exit, so its numeric exit code is unavailable."
+  ],
+  "mixedOrderVerified": true
+}

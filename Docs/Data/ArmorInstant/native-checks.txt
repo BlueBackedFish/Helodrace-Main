@@ -1,0 +1,94 @@
+Actual 1.7 Stage K life checks
+PASS: Real power grid powers HD_StirredTankReactor
+PASS: Real power grid powers HD_VIMFurnace
+PASS: Real power grid powers HD_SemiconductorFab
+PASS: Real power grid powers TableMachining
+PASS: Only plate sets and night vision require separate manufacture: HD_IOTVPart_FrontRear_SAPI
+PASS: Only plate sets and night vision require separate manufacture: HD_IOTVPart_FrontRear_ESAPI
+PASS: Only plate sets and night vision require separate manufacture: HD_IOTVPart_FrontRear_RAMPART4800
+PASS: Only plate sets and night vision require separate manufacture: HD_IOTVPart_Sides_SSAPI
+PASS: Only plate sets and night vision require separate manufacture: HD_IOTVPart_Sides_ESBI
+PASS: Only plate sets and night vision require separate manufacture: HD_IOTVPart_ShoulderGuards
+PASS: Only plate sets and night vision require separate manufacture: HD_IOTVPart_LowerBody
+PASS: Only plate sets and night vision require separate manufacture: HD_IOTVPart_BackProtector
+PASS: Only plate sets and night vision require separate manufacture: HD_IOTVPart_CamelBak
+PASS: Only plate sets and night vision require separate manufacture: HD_UCPPantsPart_KneePads
+PASS: Only plate sets and night vision require separate manufacture: HD_MOLLEPart_DropLeg
+PASS: Only plate sets and night vision require separate manufacture: HD_IOTVPart_IFAK
+PASS: Only plate sets and night vision require separate manufacture: HD_IOTVPart_RifleMagazinePouch
+PASS: Only plate sets and night vision require separate manufacture: HD_IOTVPart_WalkieTalkie
+PASS: Only plate sets and night vision require separate manufacture: HD_IOTVPart_MediL
+PASS: Only plate sets and night vision require separate manufacture: HD_IOTVPart_AdminPouch
+PASS: Only plate sets and night vision require separate manufacture: HD_FASTMTPart_GPNVG18
+PASS: Only plate sets and night vision require separate manufacture: HD_FASTMTPart_MultiHitVisor
+PASS: Editor can preview unmade protection and hydration modules
+PASS: Editor preview includes six separately placed magazine pouches
+PASS: Editing a draft creates no real installed accessories
+ARMORSTART ok=False job=GotoWander carry= queue=
+PASS: Missing research rejects an instant-craft plan without mutating the armor: Research is required to craft IBTV shoulder guard module.
+ARMORSTART ok=False job=GotoWander carry= queue=
+PASS: Aggregate batch cost rejects 91 nylon for a 92-nylon draft: Need 92 Nylon near the workbench.
+ARMORSTART ok=False job=GotoWander carry= queue=
+PASS: Making new ballistic protection still requires the real press: IBTV shoulder guard module requires: Powered hydraulic press.
+PASS: Real armor menu groups instant-craft accessories separately
+ARMORSTART ok=True job=HD_CustomizeModularArmor carry= queue=75,17,12,1
+PASS: Actual customization starts with raw materials and no premade accessories:
+ARMORTRACE t=0 toil=2 collected=0 pos=(101, 0, 125) carry=
+ARMORTRACE t=120 toil=2 collected=0 pos=(104, 0, 121) carry=
+ARMORTRACE t=240 toil=2 collected=0 pos=(110, 0, 115) carry=
+ARMORTRACE t=360 toil=20 collected=4 pos=(113, 0, 113) carry=
+ARMORTRACE t=480 toil=22 collected=4 pos=(113, 0, 114) carry=
+JOBEND HD_CustomizeModularArmor Incompletable toil=22
+PASS: Press loss cancels an in-progress customization before committing crafted parts
+PASS: Cancelled customization retains every gathered raw material
+PASS: Real material hauling reached the cancellable work phase
+ARMORSTART ok=True job=HD_CustomizeModularArmor carry= queue=75,17,12,1
+PASS: Cancelled draft can restart using gathered inventory materials:
+JOBEND HD_CustomizeModularArmor Succeeded toil=24
+PASS: Customization job finishes within its real work budget
+PASS: One successful customization manufactures and installs all eight real accessory records
+PASS: Successful batch consumes exactly 92 nylon, 12 aramid and one dedicated machine part
+PASS: Draft can remove an instantly crafted accessory
+ARMORSTART ok=True job=HD_CustomizeModularArmor carry= queue=
+PASS: Removal starts without manufacturing resources:
+JOBEND HD_CustomizeModularArmor Succeeded toil=4
+PASS: Customization job finishes within its real work budget
+PASS: Removal returns the exact physical accessory and its condition
+ARMORSTART ok=True job=HD_CustomizeModularArmor carry= queue=1
+PASS: Reusing an existing accessory needs no new crafting materials or fabrication press:
+JOBEND HD_CustomizeModularArmor Succeeded toil=9
+PASS: Customization job finishes within its real work budget
+PASS: Reinstallation preserves identity and condition without crafting a duplicate
+ARMORSTART ok=True job=HD_CustomizeModularArmor carry= queue=
+PASS: Pouch removal starts without fresh raw materials:
+JOBEND HD_CustomizeModularArmor Succeeded toil=4
+PASS: Customization job finishes within its real work budget
+PASS: Editor can move a retained pouch into a vacant position
+ARMORSTART ok=True job=HD_CustomizeModularArmor carry= queue=
+PASS: Repositioning uses the already installed pouch:
+JOBEND HD_CustomizeModularArmor Succeeded toil=4
+PASS: Customization job finishes within its real work budget
+PASS: Pouch movement preserves physical identity and remaining ammunition without charging nylon
+ARMORSTART ok=False job=GotoWander carry= queue=
+PASS: Plate raw materials cannot replace a separately manufactured plate set: No reachable SAPI plate set is available.
+PASS: Real plate menu labels separately crafted equipment and disables missing finished items
+ARMORSTART ok=True job=HD_CustomizeModularArmor carry= queue=1
+PASS: Separately manufactured SAPI can be installed:
+JOBEND HD_CustomizeModularArmor Succeeded toil=9
+PASS: Customization job finishes within its real work budget
+PASS: Plate installation preserves both independent durability values and does not charge raw crafting resources
+ARMORSTART ok=False job=Wait_Wander carry= queue=
+PASS: Night-vision raw materials cannot replace its separately manufactured module: No reachable GPNVG-18 helmet module is available.
+ARMORSTART ok=True job=HD_CustomizeModularArmor carry= queue=1
+PASS: Separately manufactured night vision starts installation:
+JOBEND HD_CustomizeModularArmor Succeeded toil=9
+PASS: Customization job finishes within its real work budget
+PASS: Night vision installs the supplied physical item
+PASS: A single draft can mix a supplied plate with an instant-craft protector
+ARMORSTART ok=True job=HD_CustomizeModularArmor carry= queue=1,14,10
+PASS: Mixed physical and raw-material acquisition starts:
+JOBEND HD_CustomizeModularArmor Succeeded toil=19
+PASS: Customization job finishes within its real work budget
+PASS: Mixed order installs the exact supplied plate and the newly manufactured protector
+PASS: Mixed order charges only the new protector and returns the replaced plate with its original durability
+COMPLETE

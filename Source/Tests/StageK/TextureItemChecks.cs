@@ -14,8 +14,8 @@ public sealed partial class Checks
     private static Checks itemChecks;
     private static void ItemJobEnd(JobDriver __instance,JobCondition condition)
     {
-        if(itemChecks!=null&&__instance.job?.def==JobDefOf.DoBill)
-            System.IO.File.AppendAllText(System.IO.Path.Combine(itemChecks.output,"checks.txt"),"JOBEND "+__instance.job.bill?.recipe?.defName+" "+condition+" toil="+__instance.CurToilIndex+"\n");
+        if(itemChecks!=null&&(__instance.job?.def==JobDefOf.DoBill||__instance.job?.def?.defName=="HD_CustomizeModularArmor"))
+            System.IO.File.AppendAllText(System.IO.Path.Combine(itemChecks.output,"checks.txt"),"JOBEND "+(__instance.job.bill?.recipe?.defName??__instance.job.def.defName)+" "+condition+" toil="+__instance.CurToilIndex+"\n");
     }
     private static void ItemLaunch(Projectile __instance,Thing launcher)
     {itemChecks?.itemShots.Add((launcher,__instance.def));}
@@ -107,6 +107,11 @@ public sealed partial class Checks
         foreach(var table in new[]{stirred,furnace,fab,machining})foreach(var cell in table.OccupiedRect())playMap.roofGrid.SetRoof(cell,RoofDefOf.RoofConstructed);
         playMap.powerNetManager.UpdatePowerNetsAndConnections_First();yield return 1200;
         foreach(var t in new[]{stirred,furnace,fab,machining})Check(t.GetComp<CompPowerTrader>().PowerOn,"Real power grid powers "+t.def.defName);
+        if(GenCommandLine.TryGetCommandLineArg("hdKArmorCraft",out _))
+        {
+            foreach(int ticks in ArmorCraftChecks(worker))yield return ticks;
+            itemChecks=null;h.UnpatchAll(h.Id);yield break;
+        }
         if(GenCommandLine.TryGetCommandLineArg("hdKWorktables",out _))
         {
             foreach(int ticks in WorktableChecks(worker))yield return ticks;

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ArmorCraft_InstantGroup>Instant-craft accessories</HD_ArmorCraft_InstantGroup>
+  <HD_ArmorCraft_IndependentGroup>Separately crafted equipment</HD_ArmorCraft_IndependentGroup>
+  <HD_ArmorCraft_Instant>Craft here</HD_ArmorCraft_Instant>
+  <HD_ArmorCraft_Independent>Finished item required</HD_ArmorCraft_Independent>
+  <HD_ArmorCraft_Unavailable>Unavailable</HD_ArmorCraft_Unavailable>
+  <HD_ArmorCraft_CannotCraft>{0} cannot be crafted at this workbench.</HD_ArmorCraft_CannotCraft>
+  <HD_ArmorCraft_ResearchRequired>Research is required to craft {0}.</HD_ArmorCraft_ResearchRequired>
+  <HD_ArmorCraft_FacilityRequired>{0} requires: {1}.</HD_ArmorCraft_FacilityRequired>
+  <HD_ArmorCraft_Cost>Crafting materials: {0}. Existing accessories are reused first. Materials are consumed only when the complete customization succeeds.</HD_ArmorCraft_Cost>
+  <HD_ArmorCraft_IndependentTip>Armor plates and night vision require separately crafted items. Their condition is preserved when moved or reinstalled.</HD_ArmorCraft_IndependentTip>
+</LanguageData>

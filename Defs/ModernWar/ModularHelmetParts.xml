@@ -38,6 +38,7 @@
 
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_FASTMTPart_GPNVG18</defName>
+    <canInstantCraft>false</canInstantCraft>
     <label>GPNVG-18</label>
     <slot>HD_MH_Slot_NightVision</slot>
     <installMode>Fixed</installMode>

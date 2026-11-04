@@ -1,0 +1,190 @@
+[
+  {
+    "part": "HD_IOTVPart_FrontRear_SAPI",
+    "file": "Defs/ModernWar/ModularArmorParts.xml",
+    "item": "HD_ArmorPlate_SAPI",
+    "mode": "independent",
+    "cost": {
+      "HD_Alumina": 18,
+      "HD_Aramid": 18,
+      "HD_Nylon": 6,
+      "HD_GeneralMachinePart": 1
+    }
+  },
+  {
+    "part": "HD_IOTVPart_FrontRear_ESAPI",
+    "file": "Defs/ModernWar/ModularArmorParts.xml",
+    "item": "HD_ArmorPlate_ESAPI",
+    "mode": "independent",
+    "cost": {
+      "HD_Alumina": 28,
+      "HD_Aramid": 16,
+      "HD_Nylon": 6,
+      "HD_GeneralMachinePart": 2
+    }
+  },
+  {
+    "part": "HD_IOTVPart_FrontRear_RAMPART4800",
+    "file": "Defs/ModernWar/ModularArmorParts.xml",
+    "item": "HD_ArmorPlate_RAMPART4800_Plate",
+    "mode": "independent",
+    "cost": {
+      "Uranium": 10,
+      "Plasteel": 48,
+      "HD_Nylon": 6,
+      "HD_GeneralMachinePart": 4
+    }
+  },
+  {
+    "part": "HD_IOTVPart_Sides_SSAPI",
+    "file": "Defs/ModernWar/ModularArmorParts.xml",
+    "item": "HD_ArmorPlate_SSAPI",
+    "mode": "independent",
+    "cost": {
+      "HD_Alumina": 40,
+      "HD_Aramid": 12,
+      "HD_Nylon": 4,
+      "HD_GeneralMachinePart": 3
+    }
+  },
+  {
+    "part": "HD_IOTVPart_Sides_ESBI",
+    "file": "Defs/ModernWar/ModularArmorParts.xml",
+    "item": "HD_ArmorPlate_ESBI",
+    "mode": "independent",
+    "cost": {
+      "HD_Alumina": 44,
+      "HD_Aramid": 10,
+      "HD_Nylon": 4,
+      "HD_GeneralMachinePart": 3
+    }
+  },
+  {
+    "part": "HD_IOTVPart_ShoulderGuards",
+    "file": "Defs/ModernWar/ModularArmorParts.xml",
+    "item": "HD_ModularPart_IBTVShoulderGuards",
+    "mode": "instant",
+    "cost": {
+      "HD_Nylon": 12,
+      "HD_Aramid": 12
+    }
+  },
+  {
+    "part": "HD_IOTVPart_LowerBody",
+    "file": "Defs/ModernWar/ModularArmorParts.xml",
+    "item": "HD_ModularPart_IBTVLowerBody",
+    "mode": "instant",
+    "cost": {
+      "HD_Nylon": 14,
+      "HD_Aramid": 10
+    }
+  },
+  {
+    "part": "HD_IOTVPart_BackProtector",
+    "file": "Defs/ModernWar/ModularArmorParts.xml",
+    "item": "HD_ModularPart_IBTVBackProtector",
+    "mode": "instant",
+    "cost": {
+      "HD_Nylon": 14,
+      "HD_Aramid": 9
+    }
+  },
+  {
+    "part": "HD_IOTVPart_CamelBak",
+    "file": "Defs/ModernWar/ModularArmorParts.xml",
+    "item": "HD_ModularPart_IBTVCamelBak",
+    "mode": "instant",
+    "cost": {
+      "HD_Nylon": 20,
+      "HD_GeneralMachinePart": 1
+    }
+  },
+  {
+    "part": "HD_UCPPantsPart_KneePads",
+    "file": "Defs/ModernWar/ModularArmorParts.xml",
+    "item": "HD_ModularPart_UCPKneePads",
+    "mode": "instant",
+    "cost": {
+      "HD_Nylon": 8,
+      "Steel": 6
+    }
+  },
+  {
+    "part": "HD_MOLLEPart_DropLeg",
+    "file": "Defs/ModernWar/ModularArmorParts.xml",
+    "item": "HD_ModularPart_MOLLEDropLeg",
+    "mode": "instant",
+    "cost": {
+      "HD_Nylon": 16,
+      "Steel": 6
+    }
+  },
+  {
+    "part": "HD_IOTVPart_IFAK",
+    "file": "Defs/ModernWar/ModularArmorParts.xml",
+    "item": "HD_ModularPart_IFAK",
+    "mode": "instant",
+    "cost": {
+      "HD_Nylon": 12,
+      "MedicineIndustrial": 1
+    }
+  },
+  {
+    "part": "HD_IOTVPart_RifleMagazinePouch",
+    "file": "Defs/ModernWar/ModularArmorParts.xml",
+    "item": "HD_ModularPart_RifleMagazinePouch",
+    "mode": "instant",
+    "cost": {
+      "HD_Nylon": 10
+    }
+  },
+  {
+    "part": "HD_IOTVPart_WalkieTalkie",
+    "file": "Defs/ModernWar/ModularArmorParts.xml",
+    "item": "HD_ModularPart_WalkieTalkie",
+    "mode": "instant",
+    "cost": {
+      "HD_Nylon": 10,
+      "HD_ElectronicComponent": 1
+    }
+  },
+  {
+    "part": "HD_IOTVPart_MediL",
+    "file": "Defs/ModernWar/ModularArmorParts.xml",
+    "item": "HD_ModularPart_MediL",
+    "mode": "instant",
+    "cost": {
+      "HD_Nylon": 18,
+      "MedicineIndustrial": 2
+    }
+  },
+  {
+    "part": "HD_IOTVPart_AdminPouch",
+    "file": "Defs/ModernWar/ModularArmorParts.xml",
+    "item": "HD_ModularPart_AdminPouch",
+    "mode": "instant",
+    "cost": {
+      "HD_Nylon": 12
+    }
+  },
+  {
+    "part": "HD_FASTMTPart_GPNVG18",
+    "file": "Defs/ModernWar/ModularHelmetParts.xml",
+    "item": "HD_ModularPart_GPNVG18_Part",
+    "mode": "independent",
+    "cost": {
+      "Plasteel": 18,
+      "HD_ElectronicComponent": 8
+    }
+  },
+  {
+    "part": "HD_FASTMTPart_MultiHitVisor",
+    "file": "Defs/ModernWar/ModularHelmetParts.xml",
+    "item": "HD_ModularPart_MultiHitVisor",
+    "mode": "instant",
+    "cost": {
+      "Plasteel": 24,
+      "HD_GeneralMachinePart": 2
+    }
+  }
+]

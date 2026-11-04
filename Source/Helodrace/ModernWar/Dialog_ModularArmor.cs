@@ -694,13 +694,13 @@ namespace Helodrace.ModernWar
                 rect.ToGame(), new Color(0.08f, 0.09f, 0.085f).ToGame(), new Color(0.32f, 0.36f, 0.33f).ToGame(),
                 1);
             Widgets.Label(new Rect(rect.x + 10f, rect.y + 7f, rect.width - 20f, 25f).ToGame(),
-                "HD_ModularArmor_PalsCatalog".Translate());
+                "HD_ModularArmor_PalsCatalog".Translate() + " · " + "HD_ArmorCraft_InstantGroup".Translate());
 
             List<ModularArmorPartDef> parts = DefDatabase<ModularArmorPartDef>
                 .AllDefsListForReading
                 .Where(part => part.installMode == ModularArmorInstallMode.Positionable
                     && comp.IsPartCompatible(part))
-                .OrderBy(part => part.label)
+                .OrderBy(part => part.CanInstantCraft ? 0 : 1).ThenBy(part => part.label)
                 .ToList();
             Rect outRect = new Rect(rect.x + 8f, rect.y + 36f,
                 rect.width - 16f, rect.height - 44f);
@@ -718,9 +718,7 @@ namespace Helodrace.ModernWar
                     (i / columns) * (tileHeight + gap), tileWidth, tileHeight);
                 bool selected = selectedPalsPart == part;
                 int available = EditorStock(part.RequiredThingDef);
-                bool hasItem = DebugSettings.godMode
-                    || part.RequiredThingDef == null
-                    || available > 0;
+                bool hasItem = EditorCanAcquire(part, null, out string acquisitionRejection);
                 Widgets.DrawBoxSolidWithOutline(
                     tile.ToGame(), (
                     selected ? new Color(0.22f, 0.28f, 0.23f)
@@ -737,9 +735,10 @@ namespace Helodrace.ModernWar
                 string footprint = part.palsWidth + " x " + part.palsHeight;
                 if (part.RequiredThingDef != null)
                 {
-                    footprint += "  " + "HD_ModularArmor_PartStock".Translate(available);
+                    footprint += "  " + EditorAcquisitionLabel(part, available, acquisitionRejection);
                 }
                 Widgets.Label(UiMath.Inset(tile, 5f).ToGame(), footprint);
+                TooltipHandler.TipRegion(tile.ToGame(), EditorPartTip(part) + (acquisitionRejection.NullOrEmpty() ? string.Empty : "\n" + acquisitionRejection));
                 Text.Anchor = TextAnchor.UpperLeft;
                 Text.Font = GameFont.Small;
                 if (Widgets.ButtonInvisible(tile.ToGame()))
@@ -752,8 +751,7 @@ namespace Helodrace.ModernWar
                     else
                     {
                         Messages.Message(
-                            "HD_ModularArmor_NoReachablePart".Translate(
-                                part.RequiredThingDef.LabelCap),
+                            acquisitionRejection,
                             MessageTypeDefOf.RejectInput);
                     }
                 }
@@ -868,12 +866,19 @@ namespace Helodrace.ModernWar
                 .Where(part => part.playerSelectable
                     && part.slot == slot
                     && comp.IsPartCompatible(part))
-                .OrderBy(part => part.label)
+                .OrderBy(part => part.CanInstantCraft ? 0 : 1).ThenBy(part => part.label)
                 .ToList();
+            string acquisitionGroup = null;
             for (int i = 0; i < parts.Count; i++)
             {
                 ModularArmorPartDef part = parts[i];
-                int needed = part.RequiredThingDef == null ? 0 : 1;
+                string group = part.CanInstantCraft ? "HD_ArmorCraft_InstantGroup" : "HD_ArmorCraft_IndependentGroup";
+                if (group != acquisitionGroup)
+                {
+                    options.Add(new FloatMenuOption("— " + group.Translate() + " —", null));
+                    acquisitionGroup = group;
+                }
+                bool canAcquire = EditorCanAcquire(part, slot, out string acquisitionRejection);
                 int available = EditorStock(part.RequiredThingDef, slot);
                 InstalledModularArmorPart conflict = comp.ConflictingInstalledPart(
                     part,
@@ -881,7 +886,8 @@ namespace Helodrace.ModernWar
                 string label = part.LabelCap;
                 if (part.RequiredThingDef != null)
                 {
-                    label += " " + "HD_ModularArmor_PartStock".Translate(available);
+                    label += " " + EditorAcquisitionLabel(part, available, acquisitionRejection);
+                    if (!canAcquire && !acquisitionRejection.NullOrEmpty()) label += ": " + acquisitionRejection;
                 }
 
                 if (conflict != null)
@@ -893,7 +899,7 @@ namespace Helodrace.ModernWar
                 }
                 else
                 {
-                    options.Add(DebugSettings.godMode || available >= needed
+                    options.Add(canAcquire
                     ? new FloatMenuOption(
                         label,
                         delegate
@@ -910,7 +916,7 @@ namespace Helodrace.ModernWar
                             }
                         })
                     : new FloatMenuOption(
-                        label + ": " + "HD_ModularArmor_PartRequired".Translate(),
+                        label,
                         null));
                 }
             }
