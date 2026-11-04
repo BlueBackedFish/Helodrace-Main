@@ -1,0 +1,119 @@
+[
+  {
+    "file": "Defs/ModernWar/Items/Apparel_ModernWar.xml",
+    "defName": "HD_Apparel_FASTMT",
+    "before": {
+      "Cloth": 15,
+      "Plasteel": 25,
+      "ComponentIndustrial": 2
+    },
+    "statBases": {
+      "MaxHitPoints": "160",
+      "WorkToMake": "6000",
+      "MarketValue": "420",
+      "Mass": "1.45",
+      "ArmorRating_Sharp": "0.85",
+      "ArmorRating_Blunt": "0.45",
+      "ArmorRating_Heat": "0.15",
+      "Flammability": "0.10",
+      "EquipDelay": "1.0",
+      "Insulation_Cold": "1",
+      "Insulation_Heat": "0.5"
+    },
+    "after": {
+      "HD_Nylon": 15,
+      "HD_Aramid": 25,
+      "ComponentIndustrial": 2
+    }
+  },
+  {
+    "file": "Defs/ModernWar/Items/Apparel_ModernWar.xml",
+    "defName": "HD_Apparel_ShieldDefenTechIIIA",
+    "before": {
+      "Steel": 55,
+      "Plasteel": 30,
+      "ComponentIndustrial": 2
+    },
+    "statBases": {
+      "MaxHitPoints": "260",
+      "WorkToMake": "9000",
+      "MarketValue": "680",
+      "Mass": "7.5",
+      "Flammability": "0.08",
+      "EquipDelay": "2.5"
+    },
+    "after": {
+      "Steel": 55,
+      "Plasteel": 30,
+      "ComponentIndustrial": 2
+    }
+  },
+  {
+    "file": "Defs/ModernWar/Items/Apparel_ModernWar.xml",
+    "defName": "HD_Apparel_ShieldIronHideIV",
+    "before": {
+      "Steel": 120,
+      "Plasteel": 40,
+      "HD_Alumina": 40,
+      "ComponentIndustrial": 4
+    },
+    "statBases": {
+      "MaxHitPoints": "480",
+      "WorkToMake": "18000",
+      "MarketValue": "1250",
+      "Mass": "24",
+      "Flammability": "0.05",
+      "EquipDelay": "4.5"
+    },
+    "after": {
+      "Steel": 120,
+      "Plasteel": 40,
+      "HD_Alumina": 40,
+      "ComponentIndustrial": 4
+    }
+  },
+  {
+    "file": "Defs/GreatWar/Items/Items_GreatWar.xml",
+    "defName": "HD_Apparel_GreatWarM1Helmet",
+    "before": {
+      "HD_UniformRolledSteelPlate": 5
+    },
+    "statBases": {
+      "MaxHitPoints": "70",
+      "WorkToMake": "120",
+      "Mass": "1.55",
+      "ArmorRating_Sharp": "0.5",
+      "ArmorRating_Blunt": "0.35",
+      "ArmorRating_Heat": "0.01",
+      "Flammability": "0.05",
+      "EquipDelay": "0.8",
+      "Insulation_Cold": "1",
+      "Insulation_Heat": "0.5"
+    },
+    "after": {
+      "HD_UniformRolledSteelPlate": 5
+    }
+  },
+  {
+    "file": "Defs/ColdWar/Items/RiotShield.xml",
+    "defName": "HD_Apparel_ShieldIronHideRiot",
+    "before": {
+      "HD_AluminiumAlloy": 20,
+      "Steel": 20,
+      "Chemfuel": 12
+    },
+    "statBases": {
+      "MaxHitPoints": "220",
+      "WorkToMake": "7000",
+      "MarketValue": "240",
+      "Mass": "5",
+      "Flammability": "0.05",
+      "EquipDelay": "2"
+    },
+    "after": {
+      "HD_AluminiumAlloy": 20,
+      "Steel": 20,
+      "Chemfuel": 12
+    }
+  }
+]

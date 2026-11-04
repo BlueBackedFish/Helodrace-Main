@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-04",
+  "runtime": ".codex-staging\\HelmetShields\\native-01",
+  "gameVersion": "1.7.4995 rev309",
+  "passes": 66,
+  "complete": true,
+  "processExitCode": 0,
+  "mainAssemblySha256": "8A5D952C31E7288F9216F7EE8900FD5A7BA460901CDF3DF44BAFC301D07F6487",
+  "equipmentRecipes": 5,
+  "actuallyCraftedEquipment": [
+    "HD_Apparel_FASTMT",
+    "HD_Apparel_ShieldDefenTechIIIA",
+    "HD_Apparel_ShieldIronHideIV",
+    "HD_Apparel_ShieldIronHideRiot",
+    "HD_Apparel_IBTVAssault"
+  ],
+  "manualModuleInstallAndReturn": 3,
+  "existingArmorMaterialDefinitions": 19,
+  "recipeDefinitions": 93,
+  "concreteThingDefinitions": 544,
+  "remainingEngineErrors": [
+    "2026-11-04 22:37:40.178 ERROR [Verse] Created WorkshopItem for 3781143823 but there is no folder for it."
+  ],
+  "limitations": [
+    "No save/load test in this run.",
+    "Existing English translation warnings and quicktest autosave references to despawned fixture pawns remain."
+  ]
+}

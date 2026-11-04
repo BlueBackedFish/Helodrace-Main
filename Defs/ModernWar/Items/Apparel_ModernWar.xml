@@ -189,11 +189,6 @@
           <li>HD_IOTV_PALS_Groin</li>
           <li>HD_IOTV_PALS_Back</li>
         </palsPanels>
-        <defaultParts>
-          <li><slot>HD_MA_Slot_ShoulderGuards</slot><part>HD_IOTVPart_ShoulderGuards</part></li>
-          <li><slot>HD_MA_Slot_LowerBody</slot><part>HD_IOTVPart_LowerBody</part></li>
-          <li><slot>HD_MA_Slot_BackProtector</slot><part>HD_IOTVPart_BackProtector</part></li>
-        </defaultParts>
         <baseErgonomics>7</baseErgonomics>
         <baseVentilation>7</baseVentilation>
         <baseLoadDistribution>5</baseLoadDistribution>
@@ -440,6 +435,7 @@
       </defaultOutfitTags>
     </apparel>
     <recipeMaker>
+      <defaultIngredientFilter><thingDefs><li>HD_Nylon</li><li>HD_Aramid</li><li>ComponentIndustrial</li></thingDefs></defaultIngredientFilter>
       <workSkill>Crafting</workSkill>
       <skillRequirements>
         <Crafting>8</Crafting>
@@ -450,8 +446,8 @@
       </recipeUsers>
     </recipeMaker>
     <costList>
-      <Cloth>15</Cloth>
-      <Plasteel>25</Plasteel>
+      <HD_Nylon>15</HD_Nylon>
+      <HD_Aramid>25</HD_Aramid>
       <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
     <comps>
@@ -552,6 +548,7 @@
       </defaultOutfitTags>
     </apparel>
     <recipeMaker>
+      <defaultIngredientFilter><thingDefs><li>Steel</li><li>Plasteel</li><li>ComponentIndustrial</li></thingDefs></defaultIngredientFilter>
       <workSkill>Crafting</workSkill>
       <skillRequirements>
         <Crafting>6</Crafting>

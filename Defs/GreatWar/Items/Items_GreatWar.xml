@@ -1266,6 +1266,7 @@
       </defaultOutfitTags>
     </apparel>
     <recipeMaker>
+      <defaultIngredientFilter><thingDefs><li>HD_UniformRolledSteelPlate</li></thingDefs></defaultIngredientFilter>
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
