@@ -115,6 +115,9 @@
       <HD_GeneralMachinePart>30</HD_GeneralMachinePart>
       <HD_PressComponent>16</HD_PressComponent>
       <HD_UniformRolledSteelPlate>8</HD_UniformRolledSteelPlate>
+      <HD_Shaft>6</HD_Shaft>
+      <HD_BasicElectricalComponents>16</HD_BasicElectricalComponents>
+      <HD_BasicElectronicComponents>8</HD_BasicElectronicComponents>
     </costList>
     <building>
       <turretGunDef>HD_Gun_M167VADS_TurretGun</turretGunDef>
