@@ -1,0 +1,68 @@
+[
+  {
+    "defName": "HD_Building_CrowsII",
+    "file": "Defs/ModernWar/Buildings/Crows.xml",
+    "beforeMass": 230.0,
+    "mass": 145.5
+  },
+  {
+    "defName": "HD_Building_Switchblade600Launcher",
+    "file": "Defs/ModernWar/Buildings/Defense_ModernWar.xml",
+    "beforeMass": 54.0,
+    "mass": 14.5
+  },
+  {
+    "defName": "HD_Building_M1917HMG",
+    "file": "Defs/GreatWar/Buildings/Defense_GreatWar.xml",
+    "beforeMass": 48.0,
+    "mass": 42.7
+  },
+  {
+    "defName": "HD_Building_M2HB",
+    "file": "Defs/GreatWar/Buildings/Defense_GreatWar.xml",
+    "beforeMass": 58.0,
+    "mass": 58.1
+  },
+  {
+    "defName": "HD_Building_M1916_37mmGun",
+    "file": "Defs/GreatWar/Buildings/Defense_GreatWar.xml",
+    "beforeMass": 46.0,
+    "mass": 78.9
+  },
+  {
+    "defName": "HD_Building_3InchHawkinsMortar",
+    "file": "Defs/GreatWar/Buildings/Defense_GreatWar.xml",
+    "beforeMass": 47.0,
+    "mass": 47.2
+  },
+  {
+    "defName": "HD_Building_M1_81mmMortar",
+    "file": "Defs/GreatWar/Buildings/Defense_GreatWar.xml",
+    "beforeMass": 62.0,
+    "mass": 61.7
+  },
+  {
+    "defName": "HD_Building_M2A2LightHowitzer",
+    "file": "Defs/GreatWar/Buildings/Defense_GreatWar.xml",
+    "beforeMass": 1020.0,
+    "mass": 2259
+  },
+  {
+    "defName": "HD_Building_M114Howitzer",
+    "file": "Defs/GreatWar/Buildings/Defense_GreatWar.xml",
+    "beforeMass": 5800.0,
+    "mass": 5760
+  },
+  {
+    "defName": "HD_Building_M220TOW",
+    "file": "Defs/ColdWar/Buildings/Defense_ColdWar.xml",
+    "beforeMass": 93.0,
+    "mass": 120.4
+  },
+  {
+    "defName": "HD_Building_M167VADS",
+    "file": "Defs/ColdWar/Buildings/Defense_ColdWar.xml",
+    "beforeMass": 1576.0,
+    "mass": 1588
+  }
+]

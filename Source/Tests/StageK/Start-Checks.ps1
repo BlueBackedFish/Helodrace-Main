@@ -1,4 +1,4 @@
-param([Parameter(Mandatory)][string]$RuntimeRoot,[switch]$Recreation,[switch]$State,[switch]$Pistols,[switch]$GeneAudit,[switch]$Xenotypes,[switch]$TextureItems,[switch]$Minerals,[switch]$Fibers,[switch]$ArmorMaterials,[switch]$HelmetShields,[switch]$EquipmentMaterials,[switch]$WorktableCatalog,[switch]$Worktables,[switch]$ArmorCraft,[switch]$TextContent,[switch]$SupportWeapons)
+param([Parameter(Mandatory)][string]$RuntimeRoot,[switch]$Recreation,[switch]$State,[switch]$Pistols,[switch]$GeneAudit,[switch]$Xenotypes,[switch]$TextureItems,[switch]$Minerals,[switch]$Fibers,[switch]$ArmorMaterials,[switch]$HelmetShields,[switch]$EquipmentMaterials,[switch]$WorktableCatalog,[switch]$Worktables,[switch]$ArmorCraft,[switch]$TextContent,[switch]$SupportWeapons,[switch]$FixedRelocation)
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot '../Game17Runtime.ps1')
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
@@ -16,6 +16,7 @@ if($Recreation){$arguments+='-hdKRecreation=true'}
 if($State){$arguments+='-hdKState=true'}
 if($Pistols){$arguments+='-hdKPistols=true'}
 if($GeneAudit){$arguments+='-hdKGeneAudit=true'}
+if($FixedRelocation){$arguments+='-hdKFixedRelocation=true';$arguments+=('-hdFixedWeaponData='+[IO.Path]::GetFullPath((Join-Path $repository 'Docs/Data/FixedWeaponRelocation/weights.json')))}
 if($SupportWeapons){$arguments+='-hdKSupportWeapons=true'}
 if($TextContent){$arguments+='-hdKTextContent=true'}
 if($ArmorCraft){$arguments+='-hdKArmorCraft=true'}

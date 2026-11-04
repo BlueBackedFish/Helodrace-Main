@@ -1,0 +1,64 @@
+{
+  "date": "2026-11-05",
+  "baselineCommit": "bb3c8b2e8a10356f38e286dac66f11e010fde8a7",
+  "engine": "1.7.4995 rev309",
+  "runtime": ".codex-staging/FixedWeaponRelocation/native-03",
+  "passCount": 252,
+  "complete": true,
+  "host": {
+    "processExitCode": null,
+    "processId": 44992,
+    "completedUtc": "2026-11-04T20:19:24.0212272Z"
+  },
+  "assemblySha256": "A27B7E132A383A584F6D93B02F41C9131FEEC3D5657DDC34C89DFC6C31F9754F",
+  "weaponBuildings": 11,
+  "actualRelocations": 14,
+  "crowsVariants": [
+    "M2HB",
+    "Mk19",
+    "M240B",
+    "M249"
+  ],
+  "preserved": [
+    "building identity",
+    "durability",
+    "turret gun identity",
+    "refuelable ammunition",
+    "loaded shell and count",
+    "installed CROWS weapon"
+  ],
+  "changed": [
+    "minifiedDef",
+    "security storage category",
+    "base mass",
+    "CROWS mounted-weapon mass offset"
+  ],
+  "staticChecks": [
+    "All XML parse",
+    "RecipePlacement: 95 explicit recipes, 544 concrete ThingDefs",
+    "EquipmentMaterials: documented masses only; all other base stats and costs preserved",
+    "Every turretGunDef building covered by the 11-entry manifest",
+    "All non-portability/non-mass source fields unchanged"
+  ],
+  "earlierRuns": [
+    {
+      "path": ".codex-staging/FixedWeaponRelocation/native-01",
+      "result": "Fixture durability assertion failed after installation while automatic repair was enabled."
+    },
+    {
+      "path": ".codex-staging/FixedWeaponRelocation/native-02",
+      "result": "Disabling Construction also prevented ongoing installation. Retained Construction and blocked only fixture automatic repair in native-03."
+    }
+  ],
+  "limits": [
+    "Same-map packing, hauling and rotated installation tested; no save/reload or cross-map caravan trip",
+    "Base weights exclude game ammunition; fuel/loaded-shell mass calculation not changed",
+    "Switchblade empty-tube mass is derived from manufacturer AUR minus munition mass",
+    "TOW basis includes complete equipment and carrying cases",
+    "CROWS ground mounting structure has no separately verified mass"
+  ],
+  "knownLogMessages": [
+    "2026-11-05 03:18:30.649 ERROR [Verse] Created WorkshopItem for 3781143823 but there is no folder for it.",
+    "2026-11-05 03:18:49.556  WARN [Verse] Translation data for language English has 37 errors. Generate translation report for more info."
+  ]
+}

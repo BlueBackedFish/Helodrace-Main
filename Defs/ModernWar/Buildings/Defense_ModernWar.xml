@@ -5,6 +5,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_Switchblade600Launcher</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <label>Switchblade 600 launcher</label>
     <description>A sealed launch canister for Switchblade 600 loitering munitions. It is not craftable or normally buildable yet, but can be spawned for testing or scenario placement.</description>
     <thingClass>Building_TurretGun</thingClass>
@@ -34,7 +36,7 @@
       <MaxHitPoints>90</MaxHitPoints>
       <WorkToBuild>2200</WorkToBuild>
       <Flammability>0.5</Flammability>
-      <Mass>54</Mass>
+      <Mass>14.5</Mass>
       <ShootingAccuracyTurret>0.92</ShootingAccuracyTurret>
     </statBases>
     <costList>

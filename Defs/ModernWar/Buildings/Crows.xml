@@ -54,6 +54,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_CrowsII</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <modExtensions>
       <li Class="Helodrace.ContentUsageExtension"><helpKey>HD_ContentUsage_HD_Building_CrowsII</helpKey></li>
       <li Class="Helodrace.HeavyMachineGunAccuracyExtension"><gunnerBaseAccuracy>0.5</gunnerBaseAccuracy></li>
@@ -86,7 +88,7 @@
       <MaxHitPoints>300</MaxHitPoints>
       <WorkToBuild>4700</WorkToBuild>
       <Flammability>0.25</Flammability>
-      <Mass>230</Mass>
+      <Mass>145.5</Mass>
       <ShootingAccuracyTurret>0.95</ShootingAccuracyTurret>
     </statBases>
     <costList>

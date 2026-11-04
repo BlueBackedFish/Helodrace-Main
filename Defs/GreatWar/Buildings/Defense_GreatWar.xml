@@ -5,6 +5,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_M1917HMG</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <modExtensions>
       <li Class="Helodrace.HeavyMachineGunAccuracyExtension"><gunnerBaseAccuracy>0.5</gunnerBaseAccuracy></li>
     </modExtensions>
@@ -42,7 +44,7 @@
       <MaxHitPoints>180</MaxHitPoints>
       <WorkToBuild>1800</WorkToBuild>
       <Flammability>0.4</Flammability>
-      <Mass>48</Mass>
+      <Mass>42.7</Mass>
       <ShootingAccuracyTurret>0.90</ShootingAccuracyTurret>
     </statBases>
     <costList>
@@ -88,6 +90,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_M2HB</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <modExtensions>
       <li Class="Helodrace.HeavyMachineGunAccuracyExtension"><gunnerBaseAccuracy>0.5</gunnerBaseAccuracy></li>
     </modExtensions>
@@ -125,7 +129,7 @@
       <MaxHitPoints>220</MaxHitPoints>
       <WorkToBuild>2200</WorkToBuild>
       <Flammability>0.35</Flammability>
-      <Mass>58</Mass>
+      <Mass>58.1</Mass>
       <ShootingAccuracyTurret>0.92</ShootingAccuracyTurret>
     </statBases>
     <costList>
@@ -178,6 +182,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_M1916_37mmGun</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <label>M1916 37mm gun</label>
     <description>A crew-served 37mm direct-fire infantry gun. Its low mount is treated as a transparent base, leaving the gun itself as the visible turret top.</description>
     <thingClass>Building_TurretGun</thingClass>
@@ -212,7 +218,7 @@
       <MaxHitPoints>150</MaxHitPoints>
       <WorkToBuild>1500</WorkToBuild>
       <Flammability>0.4</Flammability>
-      <Mass>46</Mass>
+      <Mass>78.9</Mass>
       <ShootingAccuracyTurret>0.82</ShootingAccuracyTurret>
     </statBases>
     <costList>
@@ -243,6 +249,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_3InchHawkinsMortar</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <label>3-inch Hawkins mortar</label>
     <description>A crew-served 3-inch trench mortar for lobbing high-explosive shells over cover. It must be directly operated by a pawn and reloaded with prepared HE shells.</description>
     <thingClass>Building_TurretGun</thingClass>
@@ -277,7 +285,7 @@
       <MaxHitPoints>140</MaxHitPoints>
       <WorkToBuild>1600</WorkToBuild>
       <Flammability>0.4</Flammability>
-      <Mass>47</Mass>
+      <Mass>47.2</Mass>
       <ShootingAccuracyTurret>0.75</ShootingAccuracyTurret>
     </statBases>
     <costList>
@@ -308,6 +316,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_M1_81mmMortar</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <label>M1 81mm mortar</label>
     <description>A crew-served 81mm infantry mortar for dropping M43 high-explosive shells over cover. It must be directly operated by a pawn and reloaded with prepared 81mm ammunition.</description>
     <thingClass>Building_TurretGun</thingClass>
@@ -342,7 +352,7 @@
       <MaxHitPoints>160</MaxHitPoints>
       <WorkToBuild>1900</WorkToBuild>
       <Flammability>0.4</Flammability>
-      <Mass>62</Mass>
+      <Mass>61.7</Mass>
       <ShootingAccuracyTurret>0.85</ShootingAccuracyTurret>
     </statBases>
     <costList>
@@ -374,6 +384,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_M2A2LightHowitzer</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <label>M2A2 105mm light howitzer</label>
     <description>A 105mm field howitzer on a split-trail carriage. Its chief of section, gunner, and assistant gunner occupy separate crew positions and each contributes to accuracy, loading speed, or aiming speed. All required roles must be staffed before it can fire. It accepts dedicated M1 105mm HE shells as well as standard mortar shells.</description>
     <thingClass>Building_TurretGun</thingClass>
@@ -408,7 +420,7 @@
       <MaxHitPoints>260</MaxHitPoints>
       <WorkToBuild>3600</WorkToBuild>
       <Flammability>0.3</Flammability>
-      <Mass>1020</Mass>
+      <Mass>2259</Mass>
       <ShootingAccuracyTurret>0.92</ShootingAccuracyTurret>
     </statBases>
     <costList>
@@ -555,6 +567,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_M114Howitzer</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <label>M114 155mm howitzer</label>
     <description>A medium 155mm field howitzer on a split-trail carriage. Its section chief, gunner, and assistant gunner must all be at their stations before it can fire, while additional crew improve aiming and loading. It uses dedicated 155mm high-explosive, BA and CN chemical, white-phosphorus, and W48 nuclear shells for long-range indirect fire.</description>
     <thingClass>Building_TurretGun</thingClass>
@@ -589,7 +603,7 @@
       <MaxHitPoints>420</MaxHitPoints>
       <WorkToBuild>7200</WorkToBuild>
       <Flammability>0.25</Flammability>
-      <Mass>5800</Mass>
+      <Mass>5760</Mass>
       <ShootingAccuracyTurret>0.9</ShootingAccuracyTurret>
     </statBases>
     <costList>

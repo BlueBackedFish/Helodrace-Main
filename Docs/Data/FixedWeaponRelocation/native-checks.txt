@@ -1,0 +1,254 @@
+Actual 1.7 Stage K life checks
+PASS: Real power grid powers HD_StirredTankReactor
+PASS: Real power grid powers HD_VIMFurnace
+PASS: Real power grid powers HD_SemiconductorFab
+PASS: Real power grid powers TableMachining
+PASS: All eleven authored fixed weapon buildings are covered
+PASS: Security storage and minification resolve: HD_Building_CrowsII
+PASS: Empty CROWS has no mounted weapon mass
+PASS: Request CROWS mount: HD_CrowsWeapon_M2HB
+PASS: Stage mounting input: HD_GeneralMachinePart
+PASS: Stage mounting input: HD_CarbonSteel
+PASS: Stage mounting input: HD_PressComponent
+PASS: Complete actual CROWS mounting: HD_CrowsWeapon_M2HB
+PASS: CROWS is connected before packing
+PASS: Resolved unloaded assembly mass: HD_Building_CrowsII = 183.6
+PASS: Uninstall command accepts HD_Building_CrowsII
+PASS: Native uninstall work starts: HD_Building_CrowsII
+PASS: Real work packs the existing building: HD_Building_CrowsII
+PASS: Packed caravan mass matches weapon and mount: HD_Building_CrowsII
+PASS: Packing preserves durability and actual turret gun: HD_Building_CrowsII
+PASS: Packing preserves stored ammunition fuel: HD_Building_CrowsII
+PASS: Packing preserves loaded shell: HD_Building_CrowsII
+PASS: Packing disconnects remote operation and preserves CROWS armament
+PASS: Native packed-item hauling and installation start: HD_Building_CrowsII
+PASS: Reinstallation relocates and rotates the same building: HD_Building_CrowsII
+PASS: Reinstallation preserves durability and actual turret gun: HD_Building_CrowsII hp=283 expected=283 gun=HD_Gun_CrowsII37808 expectedGun=HD_Gun_CrowsII37808
+PASS: Reinstallation preserves stored ammunition fuel: HD_Building_CrowsII
+PASS: Reinstallation preserves loaded shell: HD_Building_CrowsII
+PASS: Reinstalled mass remains correct: HD_Building_CrowsII
+PASS: Reinstallation leaves no duplicate packed weapon: HD_Building_CrowsII
+PASS: Security storage and minification resolve: HD_Building_Switchblade600Launcher
+PASS: Resolved unloaded assembly mass: HD_Building_Switchblade600Launcher = 14.5
+PASS: Uninstall command accepts HD_Building_Switchblade600Launcher
+PASS: Native uninstall work starts: HD_Building_Switchblade600Launcher
+PASS: Real work packs the existing building: HD_Building_Switchblade600Launcher
+PASS: Packed caravan mass matches weapon and mount: HD_Building_Switchblade600Launcher
+PASS: Packing preserves durability and actual turret gun: HD_Building_Switchblade600Launcher
+PASS: Packing preserves stored ammunition fuel: HD_Building_Switchblade600Launcher
+PASS: Packing preserves loaded shell: HD_Building_Switchblade600Launcher
+PASS: Native packed-item hauling and installation start: HD_Building_Switchblade600Launcher
+PASS: Reinstallation relocates and rotates the same building: HD_Building_Switchblade600Launcher
+PASS: Reinstallation preserves durability and actual turret gun: HD_Building_Switchblade600Launcher hp=73 expected=73 gun=HD_Gun_Switchblade600Launcher_TurretGun37812 expectedGun=HD_Gun_Switchblade600Launcher_TurretGun37812
+PASS: Reinstallation preserves stored ammunition fuel: HD_Building_Switchblade600Launcher
+PASS: Reinstallation preserves loaded shell: HD_Building_Switchblade600Launcher
+PASS: Reinstalled mass remains correct: HD_Building_Switchblade600Launcher
+PASS: Reinstallation leaves no duplicate packed weapon: HD_Building_Switchblade600Launcher
+PASS: Security storage and minification resolve: HD_Building_M1917HMG
+PASS: Resolved unloaded assembly mass: HD_Building_M1917HMG = 42.7
+PASS: Uninstall command accepts HD_Building_M1917HMG
+PASS: Native uninstall work starts: HD_Building_M1917HMG
+PASS: Real work packs the existing building: HD_Building_M1917HMG
+PASS: Packed caravan mass matches weapon and mount: HD_Building_M1917HMG
+PASS: Packing preserves durability and actual turret gun: HD_Building_M1917HMG
+PASS: Packing preserves stored ammunition fuel: HD_Building_M1917HMG
+PASS: Packing preserves loaded shell: HD_Building_M1917HMG
+PASS: Native packed-item hauling and installation start: HD_Building_M1917HMG
+PASS: Reinstallation relocates and rotates the same building: HD_Building_M1917HMG
+PASS: Reinstallation preserves durability and actual turret gun: HD_Building_M1917HMG hp=163 expected=163 gun=HD_Gun_M1917HMG_TurretGun37816 expectedGun=HD_Gun_M1917HMG_TurretGun37816
+PASS: Reinstallation preserves stored ammunition fuel: HD_Building_M1917HMG
+PASS: Reinstallation preserves loaded shell: HD_Building_M1917HMG
+PASS: Reinstalled mass remains correct: HD_Building_M1917HMG
+PASS: Reinstallation leaves no duplicate packed weapon: HD_Building_M1917HMG
+PASS: Security storage and minification resolve: HD_Building_M2HB
+PASS: Resolved unloaded assembly mass: HD_Building_M2HB = 58.1
+PASS: Uninstall command accepts HD_Building_M2HB
+PASS: Native uninstall work starts: HD_Building_M2HB
+PASS: Real work packs the existing building: HD_Building_M2HB
+PASS: Packed caravan mass matches weapon and mount: HD_Building_M2HB
+PASS: Packing preserves durability and actual turret gun: HD_Building_M2HB
+PASS: Packing preserves stored ammunition fuel: HD_Building_M2HB
+PASS: Packing preserves loaded shell: HD_Building_M2HB
+PASS: Native packed-item hauling and installation start: HD_Building_M2HB
+PASS: Reinstallation relocates and rotates the same building: HD_Building_M2HB
+PASS: Reinstallation preserves durability and actual turret gun: HD_Building_M2HB hp=203 expected=203 gun=HD_Gun_M2HB_TurretGun37821 expectedGun=HD_Gun_M2HB_TurretGun37821
+PASS: Reinstallation preserves stored ammunition fuel: HD_Building_M2HB
+PASS: Reinstallation preserves loaded shell: HD_Building_M2HB
+PASS: Reinstalled mass remains correct: HD_Building_M2HB
+PASS: Reinstallation leaves no duplicate packed weapon: HD_Building_M2HB
+PASS: Security storage and minification resolve: HD_Building_M1916_37mmGun
+PASS: Resolved unloaded assembly mass: HD_Building_M1916_37mmGun = 78.9
+PASS: Uninstall command accepts HD_Building_M1916_37mmGun
+PASS: Native uninstall work starts: HD_Building_M1916_37mmGun
+PASS: Real work packs the existing building: HD_Building_M1916_37mmGun
+PASS: Packed caravan mass matches weapon and mount: HD_Building_M1916_37mmGun
+PASS: Packing preserves durability and actual turret gun: HD_Building_M1916_37mmGun
+PASS: Packing preserves stored ammunition fuel: HD_Building_M1916_37mmGun
+PASS: Packing preserves loaded shell: HD_Building_M1916_37mmGun
+PASS: Native packed-item hauling and installation start: HD_Building_M1916_37mmGun
+PASS: Reinstallation relocates and rotates the same building: HD_Building_M1916_37mmGun
+PASS: Reinstallation preserves durability and actual turret gun: HD_Building_M1916_37mmGun hp=133 expected=133 gun=HD_Gun_M1916_37mm_TurretGun37825 expectedGun=HD_Gun_M1916_37mm_TurretGun37825
+PASS: Reinstallation preserves stored ammunition fuel: HD_Building_M1916_37mmGun
+PASS: Reinstallation preserves loaded shell: HD_Building_M1916_37mmGun
+PASS: Reinstalled mass remains correct: HD_Building_M1916_37mmGun
+PASS: Reinstallation leaves no duplicate packed weapon: HD_Building_M1916_37mmGun
+PASS: Security storage and minification resolve: HD_Building_3InchHawkinsMortar
+PASS: Resolved unloaded assembly mass: HD_Building_3InchHawkinsMortar = 47.2
+PASS: Uninstall command accepts HD_Building_3InchHawkinsMortar
+PASS: Native uninstall work starts: HD_Building_3InchHawkinsMortar
+PASS: Real work packs the existing building: HD_Building_3InchHawkinsMortar
+PASS: Packed caravan mass matches weapon and mount: HD_Building_3InchHawkinsMortar
+PASS: Packing preserves durability and actual turret gun: HD_Building_3InchHawkinsMortar
+PASS: Packing preserves stored ammunition fuel: HD_Building_3InchHawkinsMortar
+PASS: Packing preserves loaded shell: HD_Building_3InchHawkinsMortar
+PASS: Native packed-item hauling and installation start: HD_Building_3InchHawkinsMortar
+PASS: Reinstallation relocates and rotates the same building: HD_Building_3InchHawkinsMortar
+PASS: Reinstallation preserves durability and actual turret gun: HD_Building_3InchHawkinsMortar hp=123 expected=123 gun=HD_Gun_3InchHawkinsMortar_TurretGun37830 expectedGun=HD_Gun_3InchHawkinsMortar_TurretGun37830
+PASS: Reinstallation preserves stored ammunition fuel: HD_Building_3InchHawkinsMortar
+PASS: Reinstallation preserves loaded shell: HD_Building_3InchHawkinsMortar
+PASS: Reinstalled mass remains correct: HD_Building_3InchHawkinsMortar
+PASS: Reinstallation leaves no duplicate packed weapon: HD_Building_3InchHawkinsMortar
+PASS: Security storage and minification resolve: HD_Building_M1_81mmMortar
+PASS: Resolved unloaded assembly mass: HD_Building_M1_81mmMortar = 61.7
+PASS: Uninstall command accepts HD_Building_M1_81mmMortar
+PASS: Native uninstall work starts: HD_Building_M1_81mmMortar
+PASS: Real work packs the existing building: HD_Building_M1_81mmMortar
+PASS: Packed caravan mass matches weapon and mount: HD_Building_M1_81mmMortar
+PASS: Packing preserves durability and actual turret gun: HD_Building_M1_81mmMortar
+PASS: Packing preserves stored ammunition fuel: HD_Building_M1_81mmMortar
+PASS: Packing preserves loaded shell: HD_Building_M1_81mmMortar
+PASS: Native packed-item hauling and installation start: HD_Building_M1_81mmMortar
+PASS: Reinstallation relocates and rotates the same building: HD_Building_M1_81mmMortar
+PASS: Reinstallation preserves durability and actual turret gun: HD_Building_M1_81mmMortar hp=143 expected=143 gun=HD_Gun_M1_81mmMortar_TurretGun37834 expectedGun=HD_Gun_M1_81mmMortar_TurretGun37834
+PASS: Reinstallation preserves stored ammunition fuel: HD_Building_M1_81mmMortar
+PASS: Reinstallation preserves loaded shell: HD_Building_M1_81mmMortar
+PASS: Reinstalled mass remains correct: HD_Building_M1_81mmMortar
+PASS: Reinstallation leaves no duplicate packed weapon: HD_Building_M1_81mmMortar
+PASS: Security storage and minification resolve: HD_Building_M2A2LightHowitzer
+PASS: Resolved unloaded assembly mass: HD_Building_M2A2LightHowitzer = 2259
+PASS: Uninstall command accepts HD_Building_M2A2LightHowitzer
+PASS: Native uninstall work starts: HD_Building_M2A2LightHowitzer
+PASS: Real work packs the existing building: HD_Building_M2A2LightHowitzer
+PASS: Packed caravan mass matches weapon and mount: HD_Building_M2A2LightHowitzer
+PASS: Packing preserves durability and actual turret gun: HD_Building_M2A2LightHowitzer
+PASS: Packing preserves stored ammunition fuel: HD_Building_M2A2LightHowitzer
+PASS: Packing preserves loaded shell: HD_Building_M2A2LightHowitzer
+PASS: Native packed-item hauling and installation start: HD_Building_M2A2LightHowitzer
+PASS: Reinstallation relocates and rotates the same building: HD_Building_M2A2LightHowitzer
+PASS: Reinstallation preserves durability and actual turret gun: HD_Building_M2A2LightHowitzer hp=243 expected=243 gun=HD_Gun_M2A2LightHowitzer_TurretGun37838 expectedGun=HD_Gun_M2A2LightHowitzer_TurretGun37838
+PASS: Reinstallation preserves stored ammunition fuel: HD_Building_M2A2LightHowitzer
+PASS: Reinstallation preserves loaded shell: HD_Building_M2A2LightHowitzer
+PASS: Reinstalled mass remains correct: HD_Building_M2A2LightHowitzer
+PASS: Reinstallation leaves no duplicate packed weapon: HD_Building_M2A2LightHowitzer
+PASS: Security storage and minification resolve: HD_Building_M114Howitzer
+PASS: Resolved unloaded assembly mass: HD_Building_M114Howitzer = 5760
+PASS: Uninstall command accepts HD_Building_M114Howitzer
+PASS: Native uninstall work starts: HD_Building_M114Howitzer
+PASS: Real work packs the existing building: HD_Building_M114Howitzer
+PASS: Packed caravan mass matches weapon and mount: HD_Building_M114Howitzer
+PASS: Packing preserves durability and actual turret gun: HD_Building_M114Howitzer
+PASS: Packing preserves stored ammunition fuel: HD_Building_M114Howitzer
+PASS: Packing preserves loaded shell: HD_Building_M114Howitzer
+PASS: Native packed-item hauling and installation start: HD_Building_M114Howitzer
+PASS: Reinstallation relocates and rotates the same building: HD_Building_M114Howitzer
+PASS: Reinstallation preserves durability and actual turret gun: HD_Building_M114Howitzer hp=403 expected=403 gun=HD_Gun_M114Howitzer_TurretGun37844 expectedGun=HD_Gun_M114Howitzer_TurretGun37844
+PASS: Reinstallation preserves stored ammunition fuel: HD_Building_M114Howitzer
+PASS: Reinstallation preserves loaded shell: HD_Building_M114Howitzer
+PASS: Reinstalled mass remains correct: HD_Building_M114Howitzer
+PASS: Reinstallation leaves no duplicate packed weapon: HD_Building_M114Howitzer
+PASS: Security storage and minification resolve: HD_Building_M220TOW
+PASS: Resolved unloaded assembly mass: HD_Building_M220TOW = 120.4
+PASS: Uninstall command accepts HD_Building_M220TOW
+PASS: Native uninstall work starts: HD_Building_M220TOW
+PASS: Real work packs the existing building: HD_Building_M220TOW
+PASS: Packed caravan mass matches weapon and mount: HD_Building_M220TOW
+PASS: Packing preserves durability and actual turret gun: HD_Building_M220TOW
+PASS: Packing preserves stored ammunition fuel: HD_Building_M220TOW
+PASS: Packing preserves loaded shell: HD_Building_M220TOW
+PASS: Native packed-item hauling and installation start: HD_Building_M220TOW
+PASS: Reinstallation relocates and rotates the same building: HD_Building_M220TOW
+PASS: Reinstallation preserves durability and actual turret gun: HD_Building_M220TOW hp=163 expected=163 gun=HD_Gun_M220TOW_TurretGun37851 expectedGun=HD_Gun_M220TOW_TurretGun37851
+PASS: Reinstallation preserves stored ammunition fuel: HD_Building_M220TOW
+PASS: Reinstallation preserves loaded shell: HD_Building_M220TOW
+PASS: Reinstalled mass remains correct: HD_Building_M220TOW
+PASS: Reinstallation leaves no duplicate packed weapon: HD_Building_M220TOW
+PASS: Security storage and minification resolve: HD_Building_M167VADS
+PASS: Resolved unloaded assembly mass: HD_Building_M167VADS = 1588
+PASS: Uninstall command accepts HD_Building_M167VADS
+PASS: Native uninstall work starts: HD_Building_M167VADS
+PASS: Real work packs the existing building: HD_Building_M167VADS
+PASS: Packed caravan mass matches weapon and mount: HD_Building_M167VADS
+PASS: Packing preserves durability and actual turret gun: HD_Building_M167VADS
+PASS: Packing preserves stored ammunition fuel: HD_Building_M167VADS
+PASS: Packing preserves loaded shell: HD_Building_M167VADS
+PASS: Native packed-item hauling and installation start: HD_Building_M167VADS
+PASS: Reinstallation relocates and rotates the same building: HD_Building_M167VADS
+PASS: Reinstallation preserves durability and actual turret gun: HD_Building_M167VADS hp=403 expected=403 gun=HD_Gun_M167VADS_TurretGun37858 expectedGun=HD_Gun_M167VADS_TurretGun37858
+PASS: Reinstallation preserves stored ammunition fuel: HD_Building_M167VADS
+PASS: Reinstallation preserves loaded shell: HD_Building_M167VADS
+PASS: Reinstalled mass remains correct: HD_Building_M167VADS
+PASS: Reinstallation leaves no duplicate packed weapon: HD_Building_M167VADS
+PASS: Request CROWS mount: HD_CrowsWeapon_MK19
+PASS: Stage mounting input: HD_GeneralMachinePart
+PASS: Stage mounting input: HD_CarbonSteel
+PASS: Stage mounting input: HD_PressComponent
+PASS: Complete actual CROWS mounting: HD_CrowsWeapon_MK19
+PASS: Resolved unloaded assembly mass: HD_Building_CrowsII = 178.42
+PASS: Uninstall command accepts HD_Building_CrowsII
+PASS: Native uninstall work starts: HD_Building_CrowsII
+PASS: Real work packs the existing building: HD_Building_CrowsII
+PASS: Packed caravan mass matches weapon and mount: HD_Building_CrowsII
+PASS: Packing preserves durability and actual turret gun: HD_Building_CrowsII
+PASS: Packing preserves stored ammunition fuel: HD_Building_CrowsII
+PASS: Packing preserves loaded shell: HD_Building_CrowsII
+PASS: Packing disconnects remote operation and preserves CROWS armament
+PASS: Native packed-item hauling and installation start: HD_Building_CrowsII
+PASS: Reinstallation relocates and rotates the same building: HD_Building_CrowsII
+PASS: Reinstallation preserves durability and actual turret gun: HD_Building_CrowsII hp=283 expected=283 gun=HD_Gun_CrowsII_MK19Weapon37869 expectedGun=HD_Gun_CrowsII_MK19Weapon37869
+PASS: Reinstallation preserves stored ammunition fuel: HD_Building_CrowsII
+PASS: Reinstallation preserves loaded shell: HD_Building_CrowsII
+PASS: Reinstalled mass remains correct: HD_Building_CrowsII
+PASS: Reinstallation leaves no duplicate packed weapon: HD_Building_CrowsII
+PASS: Request CROWS mount: HD_CrowsWeapon_M240B
+PASS: Stage mounting input: HD_GeneralMachinePart
+PASS: Stage mounting input: HD_CarbonSteel
+PASS: Stage mounting input: HD_PressComponent
+PASS: Complete actual CROWS mounting: HD_CrowsWeapon_M240B
+PASS: Resolved unloaded assembly mass: HD_Building_CrowsII = 158.02
+PASS: Uninstall command accepts HD_Building_CrowsII
+PASS: Native uninstall work starts: HD_Building_CrowsII
+PASS: Real work packs the existing building: HD_Building_CrowsII
+PASS: Packed caravan mass matches weapon and mount: HD_Building_CrowsII
+PASS: Packing preserves durability and actual turret gun: HD_Building_CrowsII
+PASS: Packing preserves stored ammunition fuel: HD_Building_CrowsII
+PASS: Packing preserves loaded shell: HD_Building_CrowsII
+PASS: Packing disconnects remote operation and preserves CROWS armament
+PASS: Native packed-item hauling and installation start: HD_Building_CrowsII
+PASS: Reinstallation relocates and rotates the same building: HD_Building_CrowsII
+PASS: Reinstallation preserves durability and actual turret gun: HD_Building_CrowsII hp=283 expected=283 gun=HD_Gun_CrowsII_M240B37877 expectedGun=HD_Gun_CrowsII_M240B37877
+PASS: Reinstallation preserves stored ammunition fuel: HD_Building_CrowsII
+PASS: Reinstallation preserves loaded shell: HD_Building_CrowsII
+PASS: Reinstalled mass remains correct: HD_Building_CrowsII
+PASS: Reinstallation leaves no duplicate packed weapon: HD_Building_CrowsII
+PASS: Request CROWS mount: HD_CrowsWeapon_M249
+PASS: Stage mounting input: HD_GeneralMachinePart
+PASS: Stage mounting input: HD_CarbonSteel
+PASS: Stage mounting input: HD_PressComponent
+PASS: Complete actual CROWS mounting: HD_CrowsWeapon_M249
+PASS: Resolved unloaded assembly mass: HD_Building_CrowsII = 153.44
+PASS: Uninstall command accepts HD_Building_CrowsII
+PASS: Native uninstall work starts: HD_Building_CrowsII
+PASS: Real work packs the existing building: HD_Building_CrowsII
+PASS: Packed caravan mass matches weapon and mount: HD_Building_CrowsII
+PASS: Packing preserves durability and actual turret gun: HD_Building_CrowsII
+PASS: Packing preserves stored ammunition fuel: HD_Building_CrowsII
+PASS: Packing preserves loaded shell: HD_Building_CrowsII
+PASS: Packing disconnects remote operation and preserves CROWS armament
+PASS: Native packed-item hauling and installation start: HD_Building_CrowsII
+PASS: Reinstallation relocates and rotates the same building: HD_Building_CrowsII
+PASS: Reinstallation preserves durability and actual turret gun: HD_Building_CrowsII hp=283 expected=283 gun=HD_Gun_CrowsII_M249Weapon37889 expectedGun=HD_Gun_CrowsII_M249Weapon37889
+PASS: Reinstallation preserves stored ammunition fuel: HD_Building_CrowsII
+PASS: Reinstallation preserves loaded shell: HD_Building_CrowsII
+PASS: Reinstalled mass remains correct: HD_Building_CrowsII
+PASS: Reinstallation leaves no duplicate packed weapon: HD_Building_CrowsII
+COMPLETE

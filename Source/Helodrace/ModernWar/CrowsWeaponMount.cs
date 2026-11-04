@@ -12,6 +12,7 @@ namespace Helodrace
         public ThingDef gunDef;
         public List<ThingDefCountClass> costList = new List<ThingDefCountClass>();
         public float workToInstall = 1800f;
+        public float weaponMass;
         public int fuelCapacity = 100;
         public string frameTexPath, barrelTexPath, bodyTexPath, feedTexPath, iconTexPath;
         public bool barrelRecoil;
@@ -22,6 +23,7 @@ namespace Helodrace
             if (gunDef == null) yield return "CROWS weapon requires gunDef";
             if (costList.Count == 0 || costList.Any(c => c.thingDef == null || c.count <= 0)) yield return "CROWS weapon requires positive material costs";
             if (workToInstall <= 0 || fuelCapacity <= 0) yield return "CROWS weapon requires positive work and ammunition capacity";
+            if (weaponMass <= 0) yield return "CROWS weapon requires a positive unloaded weapon mass";
             if (new[] { frameTexPath, barrelTexPath, bodyTexPath, feedTexPath, iconTexPath }.Any(string.IsNullOrEmpty)) yield return "CROWS weapon requires all graphic layers";
         }
     }
@@ -146,6 +148,9 @@ namespace Helodrace
 
     public sealed class CompCrowsAmmo : CompRefuelable
     {
+        public override float GetStatOffset(StatDef stat) => base.GetStatOffset(stat)
+            + (stat == StatDefOf.Mass ? (parent as Building_Crows)?.InstalledWeapon?.weaponMass ?? 0f : 0f);
+
         public override void Initialize(CompProperties properties)
         {
             // Refuelable props normally belong to the shared ThingDef. Every

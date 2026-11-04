@@ -7,13 +7,16 @@ BANNED = {'ComponentIndustrial', 'ComponentSpacer'}
 rows = json.loads((ROOT / 'Docs/Data/EquipmentMaterials/recipe-materials.json').read_text(encoding='utf-8'))
 assert len(rows) == 70
 current = json.loads((ROOT / 'Docs/Data/ArmorInstant/current-costs.json').read_text(encoding='utf-8'))
+masses = {r['defName']: str(r['mass']) for r in json.loads((ROOT / 'Docs/Data/FixedWeaponRelocation/weights.json').read_text(encoding='utf-8'))}
 for row in rows:
     row = dict(row, after=current.get(row['defName'], row['after']))
     d = next(d for d in E.parse(ROOT / row['file']).getroot()
              if d.findtext('defName', d.get('Name', '')) == row['defName'])
     if row['kind'] == 'ThingDef':
         actual = {c.tag: int(c.text) for c in d.find('costList')}
-        assert {s.tag: s.text for s in d.findall('statBases/*')} == row['statBases'], row['defName']
+        expected_stats = dict(row['statBases'])
+        if row['defName'] in masses: expected_stats['Mass'] = masses[row['defName']]
+        assert {s.tag: s.text for s in d.findall('statBases/*')} == expected_stats, row['defName']
         assert (d.find('recipeMaker') is not None and d.find('recipeMaker').get('IsNull') == 'True') == row['recipeDisabled'], row['defName']
     else:
         actual = {i.findtext('filter/thingDefs/li'): int(i.findtext('count')) for i in d.findall('ingredients/li')}
@@ -32,4 +35,4 @@ for file in (ROOT / 'Defs').rglob('*.xml'):
             inputs = {i.text for i in d.findall('ingredients/li/filter/thingDefs/li')}
             if inputs & BANNED:
                 assert name.startswith('HD_ConvertIndustrialComponentToGeneralMachinePart') and d.find('products/HD_GeneralMachinePart') is not None, (file, name)
-print('PASS: 70 equipment definitions, merged conversion inputs, unchanged base stats/assembly policy, no vanilla components in any mod costList, and no shield plasteel.')
+print('PASS: 70 equipment definitions, merged conversion inputs, base stats preserved except documented weapon masses, unchanged assembly policy, no vanilla components in any mod costList, and no shield plasteel.')

@@ -5,6 +5,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_M220TOW</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <label>M220 TOW launcher</label>
     <description>A crew-served tube-launched, optically tracked, wire-guided anti-tank missile launcher. Its launch tube remains in place after firing and accepts several types of TOW missile.</description>
     <thingClass>Building_TurretGun</thingClass>
@@ -39,7 +41,7 @@
       <MaxHitPoints>180</MaxHitPoints>
       <WorkToBuild>5000</WorkToBuild>
       <Flammability>0.4</Flammability>
-      <Mass>93</Mass>
+      <Mass>120.4</Mass>
       <ShootingAccuracyTurret>0.93</ShootingAccuracyTurret>
     </statBases>
     <costList>
@@ -80,6 +82,8 @@
 
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_M167VADS</defName>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <label>M167 VADS</label>
     <description>A towed 20 mm Vulcan air defense system with a 500-round ammunition drum. Its six-barrel rotary cannon saturates exposed targets with an extremely dense burst of fire. It must be directly operated by a pawn.</description>
     <thingClass>Building_TurretGun</thingClass>
@@ -119,7 +123,7 @@
       <MaxHitPoints>420</MaxHitPoints>
       <WorkToBuild>7200</WorkToBuild>
       <Flammability>0.25</Flammability>
-      <Mass>1576</Mass>
+      <Mass>1588</Mass>
       <ShootingAccuracyTurret>0.94</ShootingAccuracyTurret>
     </statBases>
     <costList>

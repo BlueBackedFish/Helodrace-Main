@@ -107,6 +107,11 @@ public sealed partial class Checks
         foreach(var table in new[]{stirred,furnace,fab,machining})foreach(var cell in table.OccupiedRect())playMap.roofGrid.SetRoof(cell,RoofDefOf.RoofConstructed);
         playMap.powerNetManager.UpdatePowerNetsAndConnections_First();yield return 1200;
         foreach(var t in new[]{stirred,furnace,fab,machining})Check(t.GetComp<CompPowerTrader>().PowerOn,"Real power grid powers "+t.def.defName);
+        if(GenCommandLine.TryGetCommandLineArg("hdKFixedRelocation",out _))
+        {
+            foreach(int ticks in FixedRelocationChecks(worker))yield return ticks;
+            itemChecks=null;h.UnpatchAll(h.Id);yield break;
+        }
         if(GenCommandLine.TryGetCommandLineArg("hdKSupportWeapons",out _))
         {
             foreach(int ticks in SupportWeaponChecks(worker))yield return ticks;
