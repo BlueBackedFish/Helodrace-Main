@@ -1,0 +1,45 @@
+Actual 1.7 Stage K life checks
+PASS: Real power grid powers HD_StirredTankReactor
+PASS: Real power grid powers HD_VIMFurnace
+PASS: Real power grid powers HD_SemiconductorFab
+PASS: Real power grid powers TableMachining
+PASS: Support weapon has a real construction menu, blueprint and frame: HD_Building_M167VADS
+PASS: Researched support weapon appears in construction menu: HD_Building_M167VADS
+PASS: Native hauling and frame work construct exactly one HD_Building_M167VADS; jobs=34 ticks=4080
+PASS: Exact construction consumption: HD_Building_M167VADS/HD_CarbonSteel
+PASS: Exact construction consumption: HD_Building_M167VADS/HD_GeneralMachinePart
+PASS: Exact construction consumption: HD_Building_M167VADS/HD_PressComponent
+PASS: Exact construction consumption: HD_Building_M167VADS/HD_UniformRolledSteelPlate
+PASS: Exact construction consumption: HD_Building_M167VADS/HD_Shaft
+PASS: Exact construction consumption: HD_Building_M167VADS/HD_BasicElectricalComponents
+PASS: Exact construction consumption: HD_Building_M167VADS/HD_BasicElectronicComponents
+PASS: Support weapon has a real construction menu, blueprint and frame: HD_Building_M220TOW
+PASS: Researched support weapon appears in construction menu: HD_Building_M220TOW
+PASS: Native hauling and frame work construct exactly one HD_Building_M220TOW; jobs=19 ticks=2280
+PASS: Exact construction consumption: HD_Building_M220TOW/HD_CarbonSteel
+PASS: Exact construction consumption: HD_Building_M220TOW/HD_GeneralMachinePart
+PASS: Exact construction consumption: HD_Building_M220TOW/HD_PressComponent
+PASS: Exact construction consumption: HD_Building_M220TOW/HD_BasicElectricalComponents
+PASS: Exact construction consumption: HD_Building_M220TOW/HD_ElectronicComponent
+PASS: TOW mount is 1.3 tiles while upper launcher remains 2 tiles
+PASS: Actual lower mount draw uses 1.3 without distortion; loaded=False angle=0 calls=(1.3, 1.3)
+PASS: Upper launcher and missile layers retain scale and load/unload count; loaded=False angle=0 calls=(2, 2);(2, 2)
+PASS: Actual lower mount draw uses 1.3 without distortion; loaded=False angle=45 calls=(1.3, 1.3)
+PASS: Upper launcher and missile layers retain scale and load/unload count; loaded=False angle=45 calls=(2, 2);(2, 2)
+PASS: Actual lower mount draw uses 1.3 without distortion; loaded=False angle=90 calls=(1.3, 1.3)
+PASS: Upper launcher and missile layers retain scale and load/unload count; loaded=False angle=90 calls=(2, 2);(2, 2)
+PASS: Actual lower mount draw uses 1.3 without distortion; loaded=False angle=180 calls=(1.3, 1.3)
+PASS: Upper launcher and missile layers retain scale and load/unload count; loaded=False angle=180 calls=(2, 2);(2, 2)
+PASS: Actual lower mount draw uses 1.3 without distortion; loaded=False angle=270 calls=(1.3, 1.3)
+PASS: Upper launcher and missile layers retain scale and load/unload count; loaded=False angle=270 calls=(2, 2);(2, 2)
+PASS: Actual lower mount draw uses 1.3 without distortion; loaded=True angle=0 calls=(1.3, 1.3)
+PASS: Upper launcher and missile layers retain scale and load/unload count; loaded=True angle=0 calls=(2, 2);(2, 2);(2, 2);(2, 2)
+PASS: Actual lower mount draw uses 1.3 without distortion; loaded=True angle=45 calls=(1.3, 1.3)
+PASS: Upper launcher and missile layers retain scale and load/unload count; loaded=True angle=45 calls=(2, 2);(2, 2);(2, 2);(2, 2)
+PASS: Actual lower mount draw uses 1.3 without distortion; loaded=True angle=90 calls=(1.3, 1.3)
+PASS: Upper launcher and missile layers retain scale and load/unload count; loaded=True angle=90 calls=(2, 2);(2, 2);(2, 2);(2, 2)
+PASS: Actual lower mount draw uses 1.3 without distortion; loaded=True angle=180 calls=(1.3, 1.3)
+PASS: Upper launcher and missile layers retain scale and load/unload count; loaded=True angle=180 calls=(2, 2);(2, 2);(2, 2);(2, 2)
+PASS: Actual lower mount draw uses 1.3 without distortion; loaded=True angle=270 calls=(1.3, 1.3)
+PASS: Upper launcher and missile layers retain scale and load/unload count; loaded=True angle=270 calls=(2, 2);(2, 2);(2, 2);(2, 2)
+COMPLETE

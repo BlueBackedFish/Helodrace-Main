@@ -28,18 +28,31 @@
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(0,0,-1)</interactionCellOffset>
     <rotatable>true</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2562</uiOrder>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <researchPrerequisites>
       <li>HelodWireGuidedMissile</li>
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>180</MaxHitPoints>
+      <WorkToBuild>5000</WorkToBuild>
       <Flammability>0.4</Flammability>
       <Mass>93</Mass>
       <ShootingAccuracyTurret>0.93</ShootingAccuracyTurret>
     </statBases>
+    <costList>
+      <HD_CarbonSteel>80</HD_CarbonSteel>
+      <HD_GeneralMachinePart>8</HD_GeneralMachinePart>
+      <HD_PressComponent>4</HD_PressComponent>
+      <HD_BasicElectricalComponents>8</HD_BasicElectricalComponents>
+      <HD_ElectronicComponent>6</HD_ElectronicComponent>
+    </costList>
     <building>
       <turretGunDef>HD_Gun_M220TOW_TurretGun</turretGunDef>
+      <!-- Only the native lower mount; the separate launcher layers stay at 2. -->
+      <turretTopDrawSize>1.3</turretTopDrawSize>
       <turretBurstWarmupTime>3.5</turretBurstWarmupTime>
       <turretBurstCooldownTime>8</turretBurstCooldownTime>
     </building>

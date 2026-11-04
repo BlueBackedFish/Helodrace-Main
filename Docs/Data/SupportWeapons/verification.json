@@ -1,0 +1,50 @@
+{
+  "date": "2026-11-05",
+  "engine": "1.7.4995 rev309",
+  "runtime": ".codex-staging/SupportWeapons/native-02",
+  "passCount": 43,
+  "complete": true,
+  "host": {
+    "completedUtc": "2026-11-04T20:04:18.3971128Z",
+    "processId": 22124,
+    "processExitCode": 0
+  },
+  "assemblySha256": "6723F48727DB9FC9A21D21767353BA981497F3D7A7E4F5EE0269C39E4120AF08",
+  "mountDrawSizeBefore": 2.0,
+  "mountDrawSizeAfter": 1.3,
+  "upperDrawSize": 2.0,
+  "angles": [
+    0,
+    45,
+    90,
+    180,
+    270
+  ],
+  "loadedStates": [
+    false,
+    true
+  ],
+  "construction": [
+    "HD_Building_M167VADS",
+    "HD_Building_M220TOW"
+  ],
+  "staticChecks": [
+    "M167 additions only; existing cost and other fields preserved",
+    "TOW edits limited to construction metadata, work, costs and lower draw scale",
+    "RecipePlacement: 95 recipes, 544 concrete items",
+    "EquipmentMaterials"
+  ],
+  "firstRun": {
+    "path": ".codex-staging/SupportWeapons/native-01",
+    "result": "Construction passed; lower draw probe failed because it did not observe the already compiled draw call. Recompiled callers after installing the test probe; no product code change was needed."
+  },
+  "limits": [
+    "Diagram is an XML-scale composite, not an in-game screenshot",
+    "Native DrawMesh submissions verified; no live mouse or screenshot check",
+    "No missile firing or guidance behavior changed or retested"
+  ],
+  "knownLogMessages": [
+    "2026-11-05 03:03:32.503 ERROR [Verse] Created WorkshopItem for 3781143823 but there is no folder for it.",
+    "2026-11-05 03:03:52.584  WARN [Verse] Translation data for language English has 37 errors. Generate translation report for more info."
+  ]
+}
