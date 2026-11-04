@@ -63,7 +63,7 @@ DefenTech IIIA는 플라스틸 30을 아라미드 30으로, IronHide IV는 플�
 | `HD_Apparel_IZLIDUltra` | `Steel` 22 + `HD_ElectronicComponent` 6 |
 | `HD_Apparel_LA16uPEQ` | `Steel` 18 + `HD_ElectronicComponent` 5 |
 | `HD_ModularPart_GPNVG18_Part` | `Plasteel` 18 + `HD_ElectronicComponent` 8 |
-| `HD_ModularPart_MultiHitVisor` | `Plasteel` 24 + `HD_GeneralMachinePart` 2 |
+| `HD_ModularPart_MultiHitVisor` | `Chemfuel` 24 + `HD_GeneralMachinePart` 2 |
 | `HD_ModularPart_WalkieTalkie` | `HD_Nylon` 10 + `HD_ElectronicComponent` 1 |
 | `HD_ModularPart_IBTVCamelBak` | `HD_Nylon` 20 + `HD_GeneralMachinePart` 1 |
 | `HD_Gun_M14_Weapon` | `Steel` 55 + `HD_GeneralMachinePart` 5 |

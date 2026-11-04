@@ -73,13 +73,13 @@
     </graphicData>
     <statBases><MarketValue>520</MarketValue><Mass>1.10</Mass><WorkToMake>9000</WorkToMake></statBases>
     <costList>
-      <Plasteel>24</Plasteel>
+      <Chemfuel>24</Chemfuel>
       <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
     </costList>
     <recipeMaker>
       <defaultIngredientFilter>
         <thingDefs>
-          <li>Plasteel</li>
+          <li>Chemfuel</li>
           <li>HD_GeneralMachinePart</li>
         </thingDefs>
       </defaultIngredientFilter>

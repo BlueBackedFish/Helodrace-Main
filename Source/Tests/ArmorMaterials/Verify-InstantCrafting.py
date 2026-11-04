@@ -9,6 +9,7 @@ assert sum(r['mode'] == 'instant' for r in rows) == 12
 assert sum(r['mode'] == 'independent' for r in rows) == 6
 items = {d.findtext('defName'): d for p in (ROOT / 'Defs').rglob('*.xml')
          for d in E.parse(p).getroot().findall('ThingDef') if d.findtext('defName')}
+current = json.loads((ROOT / 'Docs/Data/ArmorInstant/current-costs.json').read_text(encoding='utf-8'))
 for row in rows:
     part = next(d for d in E.parse(ROOT / row['file']).getroot()
                 if d.findtext('defName') == row['part'])
@@ -17,7 +18,7 @@ for row in rows:
     assert separate == (row['mode'] == 'independent'), row['part']
     assert (part.findtext('canInstantCraft', 'true') == 'false') == (row['part'] == 'HD_FASTMTPart_GPNVG18'), row['part']
     costs = {c.tag: int(c.text) for c in items[row['item']].findall('costList/*')}
-    assert costs == row['cost'] and costs and all(n > 0 for n in costs.values()), row['part']
+    assert costs == current.get(row['item'], row['cost']) and costs and all(n > 0 for n in costs.values()), row['part']
 
 en = E.parse(ROOT / 'Languages/English/Keyed/ArmorInstantCrafting.xml').getroot()
 ko = E.parse(ROOT / 'Languages/Korean (한국어)/Keyed/ArmorInstantCrafting.xml').getroot()

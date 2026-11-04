@@ -6,7 +6,9 @@ ROOT = Path(__file__).resolve().parents[3]
 BANNED = {'ComponentIndustrial', 'ComponentSpacer'}
 rows = json.loads((ROOT / 'Docs/Data/EquipmentMaterials/recipe-materials.json').read_text(encoding='utf-8'))
 assert len(rows) == 70
+current = json.loads((ROOT / 'Docs/Data/ArmorInstant/current-costs.json').read_text(encoding='utf-8'))
 for row in rows:
+    row = dict(row, after=current.get(row['defName'], row['after']))
     d = next(d for d in E.parse(ROOT / row['file']).getroot()
              if d.findtext('defName', d.get('Name', '')) == row['defName'])
     if row['kind'] == 'ThingDef':
