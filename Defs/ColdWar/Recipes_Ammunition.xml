@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <RecipeDef>
+    <defName>HD_Make20x102mmMixedRounds</defName>
+    <label>make 20x102mm mixed ammunition x50</label>
+    <description>Assemble linked ammunition for the M167 mixed feed.</description>
+    <jobString>Assembling 20x102mm mixed ammunition.</jobString>
+    <workAmount>3000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodAntiAirMachineGun</researchPrerequisite>
+    <ingredients>
+      <li><filter><thingDefs><li>HD_CarbonSteel</li></thingDefs></filter><count>12</count></li>
+      <li><filter><thingDefs><li>Chemfuel</li></thingDefs></filter><count>8</count></li>
+      <li><filter><thingDefs><li>HD_TNT</li></thingDefs></filter><count>2</count></li>
+      <li><filter><thingDefs><li>HD_GeneralMachinePart</li></thingDefs></filter><count>1</count></li>
+    </ingredients>
+    <fixedIngredientFilter><thingDefs><li>HD_CarbonSteel</li><li>Chemfuel</li><li>HD_TNT</li><li>HD_GeneralMachinePart</li></thingDefs></fixedIngredientFilter>
+    <defaultIngredientFilter><thingDefs><li>HD_CarbonSteel</li><li>Chemfuel</li><li>HD_TNT</li><li>HD_GeneralMachinePart</li></thingDefs></defaultIngredientFilter>
+    <products><HD_20x102mmMixedRound>50</HD_20x102mmMixedRound></products>
+    <recipeUsers><li>HD_GunSmithTable</li></recipeUsers>
+    <skillRequirements><Crafting>6</Crafting></skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_MakeBGM71AMissile</defName>
+    <label>make BGM-71A missile</label>
+    <description>Assemble a guided missile for the M220 TOW launcher.</description>
+    <jobString>Assembling a BGM-71A missile.</jobString>
+    <workAmount>9000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodWireGuidedMissile</researchPrerequisite>
+    <ingredients>
+      <li><filter><thingDefs><li>HD_CarbonSteel</li></thingDefs></filter><count>10</count></li>
+      <li><filter><thingDefs><li>HD_AluminiumAlloy</li></thingDefs></filter><count>12</count></li>
+      <li><filter><thingDefs><li>HD_ElectronicComponent</li></thingDefs></filter><count>6</count></li>
+      <li><filter><thingDefs><li>HD_BasicElectricalComponents</li></thingDefs></filter><count>4</count></li>
+      <li><filter><thingDefs><li>HD_TNT</li></thingDefs></filter><count>12</count></li>
+      <li><filter><thingDefs><li>Chemfuel</li></thingDefs></filter><count>8</count></li>
+    </ingredients>
+    <fixedIngredientFilter><thingDefs><li>HD_CarbonSteel</li><li>HD_AluminiumAlloy</li><li>HD_ElectronicComponent</li><li>HD_BasicElectricalComponents</li><li>HD_TNT</li><li>Chemfuel</li></thingDefs></fixedIngredientFilter>
+    <defaultIngredientFilter><thingDefs><li>HD_CarbonSteel</li><li>HD_AluminiumAlloy</li><li>HD_ElectronicComponent</li><li>HD_BasicElectricalComponents</li><li>HD_TNT</li><li>Chemfuel</li></thingDefs></defaultIngredientFilter>
+    <products><HD_BGM71A_Round>1</HD_BGM71A_Round></products>
+    <recipeUsers><li>HD_GunSmithTable</li></recipeUsers>
+    <skillRequirements><Crafting>8</Crafting></skillRequirements>
+  </RecipeDef>
+</Defs>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Make20x102mmMixedRounds.label>20×102mm 혼합 탄약 50발 제작</HD_Make20x102mmMixedRounds.label>
+  <HD_Make20x102mmMixedRounds.description>M167의 혼합 급탄에 사용하는 링크 탄약을 조립합니다.</HD_Make20x102mmMixedRounds.description>
+  <HD_Make20x102mmMixedRounds.jobString>20×102mm 혼합 탄약 조립 중.</HD_Make20x102mmMixedRounds.jobString>
+  <HD_MakeBGM71AMissile.label>BGM-71A 미사일 제작</HD_MakeBGM71AMissile.label>
+  <HD_MakeBGM71AMissile.description>M220 TOW 발사기에 사용하는 유도 미사일을 조립합니다.</HD_MakeBGM71AMissile.description>
+  <HD_MakeBGM71AMissile.jobString>BGM-71A 미사일 조립 중.</HD_MakeBGM71AMissile.jobString>
+</LanguageData>

@@ -1,4 +1,4 @@
-param([Parameter(Mandatory)][string]$RuntimeRoot,[switch]$Recreation,[switch]$State,[switch]$Pistols,[switch]$GeneAudit,[switch]$Xenotypes,[switch]$TextureItems,[switch]$Minerals,[switch]$Fibers,[switch]$ArmorMaterials,[switch]$HelmetShields,[switch]$EquipmentMaterials,[switch]$WorktableCatalog,[switch]$Worktables,[switch]$ArmorCraft)
+param([Parameter(Mandatory)][string]$RuntimeRoot,[switch]$Recreation,[switch]$State,[switch]$Pistols,[switch]$GeneAudit,[switch]$Xenotypes,[switch]$TextureItems,[switch]$Minerals,[switch]$Fibers,[switch]$ArmorMaterials,[switch]$HelmetShields,[switch]$EquipmentMaterials,[switch]$WorktableCatalog,[switch]$Worktables,[switch]$ArmorCraft,[switch]$TextContent)
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot '../Game17Runtime.ps1')
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
@@ -16,6 +16,7 @@ if($Recreation){$arguments+='-hdKRecreation=true'}
 if($State){$arguments+='-hdKState=true'}
 if($Pistols){$arguments+='-hdKPistols=true'}
 if($GeneAudit){$arguments+='-hdKGeneAudit=true'}
+if($TextContent){$arguments+='-hdKTextContent=true'}
 if($ArmorCraft){$arguments+='-hdKArmorCraft=true'}
 if($WorktableCatalog){$arguments+='-hdKWorktableCatalog=true'}
 if($Worktables){$arguments+='-hdKWorktables=true';$arguments+=('-hdWorktableData='+[IO.Path]::GetFullPath((Join-Path $repository 'Docs/Data/Worktables')))}
