@@ -1,0 +1,2416 @@
+[
+  {
+    "recipe": "HD_ArcRefineCarbonSteelDirect",
+    "product": "HD_CarbonSteel",
+    "users": [
+      "HD_SAFurnace"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_ArcRefineCarbonSteelFromPigIron",
+    "product": "HD_CarbonSteel",
+    "users": [
+      "HD_SAFurnace"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_CastPigIronLarge",
+    "product": "HD_PigIron",
+    "users": [
+      "HD_BlastFurnace"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_CastPigIronMedium",
+    "product": "HD_PigIron",
+    "users": [
+      "HD_BlastFurnace"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_CastPigIronSmall",
+    "product": "HD_PigIron",
+    "users": [
+      "HD_BlastFurnace"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_CompoundC4",
+    "product": "HD_C4_Charge",
+    "users": [
+      "HD_StirredTankReactor"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_ConvertIndustrialComponentToGeneralMachinePart",
+    "product": "HD_GeneralMachinePart",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_ConvertIndustrialComponentToGeneralMachinePartBulk10",
+    "product": "HD_GeneralMachinePart",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_ConvertIndustrialComponentToGeneralMachinePartBulk5",
+    "product": "HD_GeneralMachinePart",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_ExtractAlumina",
+    "product": "HD_Alumina",
+    "users": [
+      "HD_StirredTankReactor"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_ExtractAluminaFromChunks",
+    "product": "HD_Alumina",
+    "users": [
+      "HD_StirredTankReactor"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_FabricateSolidStateComponents",
+    "product": "HD_ElectronicComponent",
+    "users": [
+      "HD_SemiconductorFab"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_ColtArmyModel1860_Weapon",
+    "product": "HD_Gun_ColtArmyModel1860_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_ColtSAA_Weapon",
+    "product": "HD_Gun_ColtSAA_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_Henry_Weapon",
+    "product": "HD_Gun_Henry_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_KragJorgensen_Weapon",
+    "product": "HD_Gun_KragJorgensen_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_M1897_Weapon",
+    "product": "HD_Gun_M1897_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_M1903A4_Weapon",
+    "product": "HD_Gun_M1903A4_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_M1903Pedersen_Weapon",
+    "product": "HD_Gun_M1903Pedersen_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_M1911_Weapon",
+    "product": "HD_Gun_M1911_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": true,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_M1918A2HAR_Weapon",
+    "product": "HD_Gun_M1918A2HAR_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_M1919A6LMG_Weapon",
+    "product": "HD_Gun_M1919A6LMG_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_M1A1Carbine_Weapon",
+    "product": "HD_Gun_M1A1Carbine_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_M1A1Harrington_Weapon",
+    "product": "HD_Gun_M1A1Harrington_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_M1D_Weapon",
+    "product": "HD_Gun_M1D_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_M1Garand_Weapon",
+    "product": "HD_Gun_M1Garand_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_M2Carbine_Weapon",
+    "product": "HD_Gun_M2Carbine_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_M3A1_Weapon",
+    "product": "HD_Gun_M3A1_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_M60E3_Weapon",
+    "product": "HD_Gun_M60E3_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_M9A1_Weapon",
+    "product": "HD_Gun_M9A1_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_SprMOne_Weapon",
+    "product": "HD_Gun_SprMOne_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_SprMThree_Weapon",
+    "product": "HD_Gun_SprMThree_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_SprMThreeHigh_Weapon",
+    "product": "HD_Gun_SprMThreeHigh_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_SWModelThree_Weapon",
+    "product": "HD_Gun_SWModelThree_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_WinM1887_Weapon",
+    "product": "HD_Gun_WinM1887_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make_Gun_WinMNinetyFive_Weapon",
+    "product": "HD_Gun_WinMNinetyFive_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make105mmShellM1HE",
+    "product": "HD_105mmShell_M1HE",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make155mmShellM107HE",
+    "product": "HD_155mmShell_M107HE",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make155mmShellM110BA",
+    "product": "HD_155mmShell_M110BA",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make155mmShellM110CN",
+    "product": "HD_155mmShell_M110CN",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make155mmShellM110WP",
+    "product": "HD_155mmShell_M110WP",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make37mmShellAP",
+    "product": "HD_37mmShell_AP",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make37mmShellHE",
+    "product": "HD_37mmShell_HE",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make3InchMortarShellCG",
+    "product": "HD_3InchMortarShell_CG",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make3InchMortarShellHE",
+    "product": "HD_3InchMortarShell_HE",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make81mmMortarShellBA",
+    "product": "HD_81mmMortarShell_BA",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make81mmMortarShellM43HE",
+    "product": "HD_81mmMortarShell_M43HE",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_Make81mmMortarShellM57WP",
+    "product": "HD_81mmMortarShell_M57WP",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakeBasicElectricalComponents",
+    "product": "HD_BasicElectricalComponents",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakeBasicElectricalComponentsBulk10",
+    "product": "HD_BasicElectricalComponents",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakeBasicElectricalComponentsBulk5",
+    "product": "HD_BasicElectricalComponents",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakeBasicElectronicComponents",
+    "product": "HD_BasicElectronicComponents",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakeBasicElectronicComponentsBulk10",
+    "product": "HD_BasicElectronicComponents",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakeBasicElectronicComponentsBulk5",
+    "product": "HD_BasicElectronicComponents",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakeCharcoal",
+    "product": "HD_Charcoal",
+    "users": [
+      "Campfire"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakeCharcoalBulk",
+    "product": "HD_Charcoal",
+    "users": [
+      "Campfire"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakeFLAM",
+    "product": "HD_FLAM",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Cooking"
+  },
+  {
+    "recipe": "HD_MakeHardtackBulk",
+    "product": "HD_Hardtack",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Cooking"
+  },
+  {
+    "recipe": "HD_MakeM10WPRocket",
+    "product": "HD_Rocket_M10WP",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakeM6A3HEATRocket",
+    "product": "HD_Rocket_M6A3HEAT",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakePlainDogChew",
+    "product": "HD_PlainDogChew",
+    "users": [
+      "ElectricStove",
+      "FueledStove"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Cooking"
+  },
+  {
+    "recipe": "HD_MakePressComponent",
+    "product": "HD_PressComponent",
+    "users": [
+      "HD_HydraulicPress1970Bench",
+      "HD_LineShaftHydraulicPress"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakePressComponentBulk10",
+    "product": "HD_PressComponent",
+    "users": [
+      "HD_HydraulicPress1970Bench",
+      "HD_LineShaftHydraulicPress"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakePressComponentBulk5",
+    "product": "HD_PressComponent",
+    "users": [
+      "HD_HydraulicPress1970Bench",
+      "HD_LineShaftHydraulicPress"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakePrimaryCell",
+    "product": "HD_PrimaryCell",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakeShaft",
+    "product": "HD_Shaft",
+    "users": [
+      "HD_CNCLathe",
+      "HD_LineShaftTurretLathe",
+      "HD_MultiTaskMachine2000Bench",
+      "HD_TreadleLathe"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakeShaftBulk10",
+    "product": "HD_Shaft",
+    "users": [
+      "HD_CNCLathe",
+      "HD_LineShaftTurretLathe",
+      "HD_MultiTaskMachine2000Bench",
+      "HD_TreadleLathe"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MakeShaftBulk5",
+    "product": "HD_Shaft",
+    "users": [
+      "HD_CNCLathe",
+      "HD_LineShaftTurretLathe",
+      "HD_MultiTaskMachine2000Bench",
+      "HD_TreadleLathe"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MillGeneralMachinePart",
+    "product": "HD_GeneralMachinePart",
+    "users": [
+      "HD_CNCLathe",
+      "HD_CNCMillingMachine",
+      "HD_LineShaftMillingMachine",
+      "HD_MachiningCenter1970Bench",
+      "HD_MultiTaskMachine2000Bench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MillGeneralMachinePartBulk10",
+    "product": "HD_GeneralMachinePart",
+    "users": [
+      "HD_CNCLathe",
+      "HD_CNCMillingMachine",
+      "HD_LineShaftMillingMachine",
+      "HD_MachiningCenter1970Bench",
+      "HD_MultiTaskMachine2000Bench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_MillGeneralMachinePartBulk5",
+    "product": "HD_GeneralMachinePart",
+    "users": [
+      "HD_CNCLathe",
+      "HD_CNCMillingMachine",
+      "HD_LineShaftMillingMachine",
+      "HD_MachiningCenter1970Bench",
+      "HD_MultiTaskMachine2000Bench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_RefineAluminiumAlloy",
+    "product": "HD_AluminiumAlloy",
+    "users": [
+      "HD_VIMFurnace"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_RefineCarbonSteelLarge",
+    "product": "HD_CarbonSteel",
+    "users": [
+      "HD_BlastFurnace"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_RefineCarbonSteelMedium",
+    "product": "HD_CarbonSteel",
+    "users": [
+      "HD_BlastFurnace"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_RefineCarbonSteelSmall",
+    "product": "HD_CarbonSteel",
+    "users": [
+      "HD_BlastFurnace"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_RefineCrudeOil_Diesel",
+    "product": "HD_Diesel",
+    "users": [
+      "HD_BatchStill"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_RefineCrudeOil_Kerosene",
+    "product": "HD_Kerosene",
+    "users": [
+      "HD_BatchStill"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_RefineCrudeOil_Naphtha",
+    "product": "HD_Naphtha",
+    "users": [
+      "HD_BatchStill"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_RollUniformSteelPlate",
+    "product": "HD_UniformRolledSteelPlate",
+    "users": [
+      "HD_LineShaftRollingMachine",
+      "HD_RollingMill1970Bench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_RollUniformSteelPlateBulk10",
+    "product": "HD_UniformRolledSteelPlate",
+    "users": [
+      "HD_LineShaftRollingMachine",
+      "HD_RollingMill1970Bench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_RollUniformSteelPlateBulk5",
+    "product": "HD_UniformRolledSteelPlate",
+    "users": [
+      "HD_LineShaftRollingMachine",
+      "HD_RollingMill1970Bench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_SmeltSilicon",
+    "product": "HD_Silicon",
+    "users": [
+      "HD_VIMFurnace"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_SmeltSiliconFromChunks",
+    "product": "HD_Silicon",
+    "users": [
+      "HD_VIMFurnace"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_SpinAramid",
+    "product": "HD_Aramid",
+    "users": [
+      "HD_FiberSpinningModule"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_SpinNylon",
+    "product": "HD_Nylon",
+    "users": [
+      "HD_FiberSpinningModule"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_SynthesizeAmmoniumNitrate",
+    "product": "HD_AmmoniumNitrate",
+    "users": [
+      "HD_HaberBoschHighPressureReactor"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_SynthesizeRDX",
+    "product": "HD_RDX",
+    "users": [
+      "HD_StirredTankReactor"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "HD_SynthesizeTNT",
+    "product": "HD_TNT",
+    "users": [
+      "HD_StirredTankReactor"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Crafting"
+  },
+  {
+    "recipe": "Make_HD_40mmM381HE_Round",
+    "product": "HD_40mmM381HE_Round",
+    "users": [
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_40mmM433HEDP_Round",
+    "product": "HD_40mmM433HEDP_Round",
+    "users": [
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_40mmM576MP_Round",
+    "product": "HD_40mmM576MP_Round",
+    "users": [
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_40mmM651CS_Round",
+    "product": "HD_40mmM651CS_Round",
+    "users": [
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_40mmSponge_Round",
+    "product": "HD_40mmSponge_Round",
+    "users": [
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_ACSUpper",
+    "product": "HD_Apparel_ACSUpper",
+    "users": [
+      "ElectricTailoringBench",
+      "HandTailoringBench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_ANPEQ1C",
+    "product": "HD_Apparel_ANPEQ1C",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_CarvalyHat",
+    "product": "HD_Apparel_CarvalyHat",
+    "users": [
+      "ElectricTailoringBench",
+      "HandTailoringBench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_CarvalyUniform",
+    "product": "HD_Apparel_CarvalyUniform",
+    "users": [
+      "ElectricTailoringBench",
+      "HandTailoringBench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_CowboyHat",
+    "product": "HD_Apparel_CowboyHat",
+    "users": [
+      "ElectricTailoringBench",
+      "HandTailoringBench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_FASTMT",
+    "product": "HD_Apparel_FASTMT",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_GreatWarCBRNPouch",
+    "product": "HD_Apparel_GreatWarCBRNPouch",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_GreatWarGasMaskPouch",
+    "product": "HD_Apparel_GreatWarGasMaskPouch",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_GreatWarM1Helmet",
+    "product": "HD_Apparel_GreatWarM1Helmet",
+    "users": [
+      "HD_ClothingBench",
+      "HD_HydraulicPress1970Bench",
+      "HD_LineShaftHydraulicPress"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_GreatWarMedibag",
+    "product": "HD_Apparel_GreatWarMedibag",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_GreatWarStormFrontChestRig",
+    "product": "HD_Apparel_GreatWarStormFrontChestRig",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_GreatWarStormFrontInner",
+    "product": "HD_Apparel_GreatWarStormFrontInner",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_GreatWarStormFrontOuter",
+    "product": "HD_Apparel_GreatWarStormFrontOuter",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_GreatWarTrenchArmyInner",
+    "product": "HD_Apparel_GreatWarTrenchArmyInner",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_GreatWarTrenchArmyOuter",
+    "product": "HD_Apparel_GreatWarTrenchArmyOuter",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_GW_Sledgehammer",
+    "product": "HD_Apparel_GW_Sledgehammer",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_IBTVAssault",
+    "product": "HD_Apparel_IBTVAssault",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_IZLIDUltra",
+    "product": "HD_Apparel_IZLIDUltra",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_LA16uPEQ",
+    "product": "HD_Apparel_LA16uPEQ",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_M1952AFlakJacket",
+    "product": "HD_Apparel_M1952AFlakJacket",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_M6RocketBag",
+    "product": "HD_Apparel_M6RocketBag",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_MOLLEBattleBelt",
+    "product": "HD_Apparel_MOLLEBattleBelt",
+    "users": [
+      "ElectricTailoringBench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_SCR300_Radio",
+    "product": "HD_Apparel_SCR300_Radio",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_ShieldDefenTechIIIA",
+    "product": "HD_Apparel_ShieldDefenTechIIIA",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_ShieldIronHideIV",
+    "product": "HD_Apparel_ShieldIronHideIV",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_ShieldIronHideRiot",
+    "product": "HD_Apparel_ShieldIronHideRiot",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": "Smithing"
+  },
+  {
+    "recipe": "Make_HD_Apparel_UCPBlouse",
+    "product": "HD_Apparel_UCPBlouse",
+    "users": [
+      "ElectricTailoringBench",
+      "HandTailoringBench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_UCPPants",
+    "product": "HD_Apparel_UCPPants",
+    "users": [
+      "ElectricTailoringBench",
+      "HandTailoringBench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_WildWestFemaleCasual",
+    "product": "HD_Apparel_WildWestFemaleCasual",
+    "users": [
+      "ElectricTailoringBench",
+      "HandTailoringBench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_WildWestFormalShirt",
+    "product": "HD_Apparel_WildWestFormalShirt",
+    "users": [
+      "ElectricTailoringBench",
+      "HandTailoringBench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_WildWestFrockCoat",
+    "product": "HD_Apparel_WildWestFrockCoat",
+    "users": [
+      "ElectricTailoringBench",
+      "HandTailoringBench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_WildWestMaleCasual",
+    "product": "HD_Apparel_WildWestMaleCasual",
+    "users": [
+      "ElectricTailoringBench",
+      "HandTailoringBench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_WildWestTopHat",
+    "product": "HD_Apparel_WildWestTopHat",
+    "users": [
+      "ElectricTailoringBench",
+      "HandTailoringBench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Apparel_ZaperX26_Device",
+    "product": "HD_Apparel_ZaperX26_Device",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ArmorPlate_ESAPI",
+    "product": "HD_ArmorPlate_ESAPI",
+    "users": [
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": true,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ArmorPlate_ESBI",
+    "product": "HD_ArmorPlate_ESBI",
+    "users": [
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": true,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ArmorPlate_RAMPART4800_Plate",
+    "product": "HD_ArmorPlate_RAMPART4800_Plate",
+    "users": [
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": true,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ArmorPlate_SAPI",
+    "product": "HD_ArmorPlate_SAPI",
+    "users": [
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": true,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ArmorPlate_SSAPI",
+    "product": "HD_ArmorPlate_SSAPI",
+    "users": [
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": true,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_BasicMedicalSupplies",
+    "product": "HD_BasicMedicalSupplies",
+    "users": [
+      "DrugLab"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Bugle",
+    "product": "HD_Bugle",
+    "users": [
+      "ElectricSmithy",
+      "FueledSmithy",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Cigarette",
+    "product": "HD_Cigarette",
+    "users": [
+      "CraftingSpot",
+      "DrugLab"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_CigaretteBulk",
+    "product": "HD_Cigarette",
+    "users": [
+      "CraftingSpot",
+      "DrugLab"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ExpandableBaton",
+    "product": "HD_ExpandableBaton",
+    "users": [
+      "ElectricSmithy",
+      "FueledSmithy",
+      "TableMachining"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Grenade_M111_Item",
+    "product": "HD_Grenade_M111_Item",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Grenade_M14_Item",
+    "product": "HD_Grenade_M14_Item",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Grenade_M15_Item",
+    "product": "HD_Grenade_M15_Item",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Grenade_M67_Item",
+    "product": "HD_Grenade_M67_Item",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Grenade_M7A2_Item",
+    "product": "HD_Grenade_M7A2_Item",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Grenade_M8_Item",
+    "product": "HD_Grenade_M8_Item",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Grenade_M84_Item",
+    "product": "HD_Grenade_M84_Item",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Grenade_MKII",
+    "product": "HD_Grenade_MKII",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Grenade_MKIII",
+    "product": "HD_Grenade_MKIII",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Gun_Glock19Gen5_Weapon",
+    "product": "HD_Gun_Glock19Gen5_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Gun_LANCE_LRA7_Weapon",
+    "product": "HD_Gun_LANCE_LRA7_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable",
+      "TableMachining"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Gun_M14_Weapon",
+    "product": "HD_Gun_M14_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": true,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Gun_M16A1_Weapon",
+    "product": "HD_Gun_M16A1_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": true,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Gun_M16A2_Weapon",
+    "product": "HD_Gun_M16A2_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": true,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Gun_M16A3_Weapon",
+    "product": "HD_Gun_M16A3_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": true,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Gun_M16A4_Weapon",
+    "product": "HD_Gun_M16A4_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": true,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Gun_M249_Weapon",
+    "product": "HD_Gun_M249_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": true,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Gun_M2FlameThrower_Weapon",
+    "product": "HD_Gun_M2FlameThrower_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable",
+      "TableMachining"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Gun_M47_Dragon",
+    "product": "HD_Gun_M47_Dragon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable",
+      "TableMachining"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Gun_M4A1_Weapon",
+    "product": "HD_Gun_M4A1_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": true,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Gun_M79_Weapon",
+    "product": "HD_Gun_M79_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable",
+      "TableMachining"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Gun_M8FlareGun_Weapon",
+    "product": "HD_Gun_M8FlareGun_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable",
+      "TableMachining"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Gun_MP5_Weapon",
+    "product": "HD_Gun_MP5_Weapon",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": true,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Gun_Nailgun_Weapon",
+    "product": "HD_Gun_Nailgun_Weapon",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_GunSmithTable"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_Gun_P320_Weapon",
+    "product": "HD_Gun_P320_Weapon",
+    "users": [
+      "TableMachining"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": true,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_M1902Saber",
+    "product": "HD_M1902Saber",
+    "users": [
+      "ElectricSmithy",
+      "FueledSmithy",
+      "HD_BasicWorkbench"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_M60Igniter",
+    "product": "HD_M60Igniter",
+    "users": [
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_M81Igniter",
+    "product": "HD_M81Igniter",
+    "users": [
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_MetalBaseballBat",
+    "product": "HD_MetalBaseballBat",
+    "users": [
+      "ElectricSmithy",
+      "FueledSmithy",
+      "HD_BasicWorkbench"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ModularPart_AdminPouch",
+    "product": "HD_ModularPart_AdminPouch",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ModularPart_GPNVG18_Part",
+    "product": "HD_ModularPart_GPNVG18_Part",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ModularPart_IBTVBackProtector",
+    "product": "HD_ModularPart_IBTVBackProtector",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ModularPart_IBTVCamelBak",
+    "product": "HD_ModularPart_IBTVCamelBak",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ModularPart_IBTVLowerBody",
+    "product": "HD_ModularPart_IBTVLowerBody",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ModularPart_IBTVNeckGuard",
+    "product": "HD_ModularPart_IBTVNeckGuard",
+    "users": [],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ModularPart_IBTVShoulderGuards",
+    "product": "HD_ModularPart_IBTVShoulderGuards",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ModularPart_IFAK",
+    "product": "HD_ModularPart_IFAK",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ModularPart_MediL",
+    "product": "HD_ModularPart_MediL",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ModularPart_MOLLEDropLeg",
+    "product": "HD_ModularPart_MOLLEDropLeg",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ModularPart_MultiHitVisor",
+    "product": "HD_ModularPart_MultiHitVisor",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ModularPart_RifleMagazinePouch",
+    "product": "HD_ModularPart_RifleMagazinePouch",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ModularPart_UCPKneePads",
+    "product": "HD_ModularPart_UCPKneePads",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ModularPart_WalkieTalkie",
+    "product": "HD_ModularPart_WalkieTalkie",
+    "users": [
+      "HD_ClothingBench",
+      "TableMachining"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_ModularWeaponPartsBox",
+    "product": "HD_ModularWeaponPartsBox",
+    "users": [
+      "HD_GunSmithTable"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_mSixZeroSaber",
+    "product": "HD_mSixZeroSaber",
+    "users": [
+      "ElectricSmithy",
+      "FueledSmithy"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_PowerCutter",
+    "product": "HD_PowerCutter",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_PowerforgeJackhammer",
+    "product": "HD_PowerforgeJackhammer",
+    "users": [
+      "HD_BasicWorkbench"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_TCCC_HemostaticAgent",
+    "product": "HD_TCCC_HemostaticAgent",
+    "users": [
+      "DrugLab"
+    ],
+    "weapon": false,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_USMCFightingKnife",
+    "product": "HD_USMCFightingKnife",
+    "users": [
+      "HD_BasicWorkbench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_WildWestLeatherVest",
+    "product": "HD_WildWestLeatherVest",
+    "users": [
+      "ElectricTailoringBench",
+      "HandTailoringBench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_WildWestMetalVest",
+    "product": "HD_WildWestMetalVest",
+    "users": [
+      "ElectricTailoringBench",
+      "HandTailoringBench",
+      "HD_ClothingBench"
+    ],
+    "weapon": false,
+    "apparel": true,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  },
+  {
+    "recipe": "Make_HD_WoodenBaseballBat",
+    "product": "HD_WoodenBaseballBat",
+    "users": [
+      "ElectricSmithy",
+      "FueledSmithy",
+      "HD_BasicWorkbench"
+    ],
+    "weapon": true,
+    "apparel": false,
+    "weaponPart": false,
+    "armorPlate": false,
+    "workType": null
+  }
+]

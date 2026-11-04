@@ -49,6 +49,7 @@
       <li>ITab_Bills</li>
     </inspectorTabs>
     <comps>
+      <li Class="CompProperties_Facility"><maxSimultaneous>1</maxSimultaneous><maxDistance>6</maxDistance></li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
         <basePowerConsumption>1800</basePowerConsumption>
@@ -72,5 +73,6 @@
       <li>HD_MakePressComponentBulk5</li>
       <li>HD_MakePressComponentBulk10</li>
     </recipes>
+    <modExtensions><li Class="Helodrace.MachineToolFacilityExtension"><pressTier>2</pressTier></li></modExtensions>
   </ThingDef>
 </Defs>

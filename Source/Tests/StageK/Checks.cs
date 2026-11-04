@@ -20,9 +20,10 @@ public sealed partial class Checks:GameComponent
         try
         {
             Find.TickManager.Pause();var map=Find.CurrentMap;
+            if(GenCommandLine.TryGetCommandLineArg("hdKWorktableCatalog",out _)){WorktableCatalog();Finish();return;}
             if(GenCommandLine.TryGetCommandLineArg("hdKGeneAudit",out _)){GeneAudit();Finish();return;}
             if(GenCommandLine.TryGetCommandLineArg("hdKState",out _)){playMap=map;ResumeState();return;}
-            if(GenCommandLine.TryGetCommandLineArg("hdKTextureItems",out _)||GenCommandLine.TryGetCommandLineArg("hdKMinerals",out _)||GenCommandLine.TryGetCommandLineArg("hdKFibers",out _)||GenCommandLine.TryGetCommandLineArg("hdKArmorMaterials",out _)||GenCommandLine.TryGetCommandLineArg("hdKHelmetShields",out _)||GenCommandLine.TryGetCommandLineArg("hdKEquipmentMaterials",out _)){steps=TextureItemChecks().GetEnumerator();return;}
+            if(GenCommandLine.TryGetCommandLineArg("hdKTextureItems",out _)||GenCommandLine.TryGetCommandLineArg("hdKMinerals",out _)||GenCommandLine.TryGetCommandLineArg("hdKFibers",out _)||GenCommandLine.TryGetCommandLineArg("hdKArmorMaterials",out _)||GenCommandLine.TryGetCommandLineArg("hdKHelmetShields",out _)||GenCommandLine.TryGetCommandLineArg("hdKEquipmentMaterials",out _)||GenCommandLine.TryGetCommandLineArg("hdKWorktables",out _)){steps=TextureItemChecks().GetEnumerator();return;}
             var incident=Def<IncidentDef>("StrangerInBlackJoin");
             Check(incident.pawnKind.defName=="HD_RescuerInBlack"&&incident.Worker.GetType()==typeof(IncidentWorker_WandererJoin),"Only crisis rescuer pawn kind changes; native worker remains");
             Check(Def<PawnKindDef>("StrangerInBlack").race==ThingDefOf.Human,"Original stranger pawn definition is preserved for other consumers");

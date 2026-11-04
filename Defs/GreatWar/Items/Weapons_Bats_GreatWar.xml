@@ -27,9 +27,7 @@
     </stuffCategories>
     <recipeMaker>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
-      <recipeUsers>
-        <li>HD_BasicWorkbench</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
       <displayPriority>310</displayPriority>
     </recipeMaker>
     <tools>
@@ -74,9 +72,7 @@
       <li>Metallic</li>
     </stuffCategories>
     <recipeMaker>
-      <recipeUsers>
-        <li>HD_BasicWorkbench</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <skillRequirements>
         <Crafting>3</Crafting>

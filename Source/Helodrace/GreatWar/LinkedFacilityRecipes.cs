@@ -19,6 +19,12 @@ namespace Helodrace
     {
         public int latheTier;
         public int millingTier;
+        public int pressTier;
+    }
+
+    public class ArmorProductionExtension : DefModExtension
+    {
+        public bool requiresHydraulicPress;
     }
 
     internal static class LinkedFacilityRecipes
@@ -28,7 +34,7 @@ namespace Helodrace
         public static bool RequiresFacility(RecipeDef recipe)
         {
             return recipe != null && (recipe.GetModExtension<RecipeExtension_RequiredFacility>() != null
-                || IsGunAssemblyRecipe(recipe));
+                || RequiresArmorPress(recipe) || IsGunAssemblyRecipe(recipe));
         }
 
         public static bool IsAvailable(RecipeDef recipe, Thing billGiver)
@@ -39,7 +45,41 @@ namespace Helodrace
                 return HasSpecificFacility(requirement, billGiver);
             }
 
+            if (RequiresArmorPress(recipe)) return OperationalArmorPress(billGiver) != null;
             return !IsGunAssemblyRecipe(recipe) || HasGunMachineTools(recipe, billGiver);
+        }
+
+        internal static bool RequiresArmorPress(RecipeDef recipe)
+            => recipe?.ProducedThingDef?.GetModExtension<ArmorProductionExtension>()?.requiresHydraulicPress == true;
+
+        internal static Building_WorkTable OperationalArmorPress(Thing billGiver)
+        {
+            var affected = billGiver?.TryGetComp<CompAffectedByFacilities>();
+            if (affected == null) return null;
+            foreach (Thing facility in affected.LinkedFacilitiesListForReading)
+            {
+                if (facility is not Building_WorkTable press
+                    || facility.def.GetModExtension<MachineToolFacilityExtension>()?.pressTier < 1
+                    || facility.def.GetModExtension<MachineToolFacilityExtension>() == null
+                    || !affected.IsFacilityActive(facility)
+                    || !FlickUtility.WantsToBeOn(facility) || facility.IsBrokenDown()) continue;
+                var mechanical = facility.TryGetComp<CompMechanicalUser>();
+                if (mechanical != null)
+                {
+                    if (mechanical.HasPower && mechanical.RealRPM >= mechanical.Props.minimalRPM) return press;
+                }
+                else if (facility.TryGetComp<CompPowerTrader>()?.PowerOn == true) return press;
+            }
+            return null;
+        }
+
+        internal static string RequiredFacilitiesText(RecipeDef recipe)
+        {
+            var specific = recipe.GetModExtension<RecipeExtension_RequiredFacility>();
+            if (specific != null) return specific.facility.LabelCap;
+            if (RequiresArmorPress(recipe)) return "HD_Production_ArmorPress".Translate().Resolve();
+            if (!IsGunAssemblyRecipe(recipe)) return "HD_Production_NoFacility".Translate().Resolve();
+            return (IsEarlyGunRecipe(recipe) ? "HD_Production_EarlyGunTools" : "HD_Production_LateGunTools").Translate().Resolve();
         }
 
         private static bool HasSpecificFacility(RecipeExtension_RequiredFacility requirement, Thing billGiver)
@@ -160,6 +200,20 @@ namespace Helodrace
             {
                 AddPrerequisites(prerequisite);
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(Toils_Recipe), nameof(Toils_Recipe.DoRecipeWork))]
+    internal static class Patch_ArmorRecipePressWork
+    {
+        private static void Postfix(Toil __result)
+        {
+            __result.AddPreTickAction(() =>
+            {
+                Job job = __result.actor.CurJob;
+                if (LinkedFacilityRecipes.RequiresArmorPress(job?.bill?.recipe))
+                    LinkedFacilityRecipes.OperationalArmorPress(job.targetA.Thing)?.UsedThisTick();
+            });
         }
     }
 

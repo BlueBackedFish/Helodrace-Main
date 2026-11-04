@@ -1325,9 +1325,7 @@
     <products>
       <HD_Gun_SprMOne_Weapon>1</HD_Gun_SprMOne_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
   </RecipeDef>
 
 
@@ -1381,9 +1379,7 @@
     <products>
       <HD_Gun_ColtArmyModel1860_Weapon>1</HD_Gun_ColtArmyModel1860_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>5</Crafting>
     </skillRequirements>
@@ -1431,9 +1427,7 @@
     <products>
       <HD_Gun_ColtSAA_Weapon>1</HD_Gun_ColtSAA_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>6</Crafting>
     </skillRequirements>
@@ -1481,9 +1475,7 @@
     <products>
       <HD_Gun_SWModelThree_Weapon>1</HD_Gun_SWModelThree_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>6</Crafting>
     </skillRequirements>
@@ -1540,9 +1532,7 @@
     <products>
       <HD_Gun_M1911_Weapon>1</HD_Gun_M1911_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>7</Crafting>
     </skillRequirements>
@@ -1637,9 +1627,7 @@
     <products>
       <HD_Gun_SprMThreeHigh_Weapon>1</HD_Gun_SprMThreeHigh_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
   </RecipeDef>
 
 
@@ -1694,9 +1682,7 @@
     <products>
       <HD_Gun_Henry_Weapon>1</HD_Gun_Henry_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>7</Crafting>
     </skillRequirements>
@@ -1754,9 +1740,7 @@
     <products>
       <HD_Gun_WinM1887_Weapon>1</HD_Gun_WinM1887_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>7</Crafting>
     </skillRequirements>
@@ -1814,9 +1798,7 @@
     <products>
       <HD_Gun_WinMNinetyFive_Weapon>1</HD_Gun_WinMNinetyFive_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>8</Crafting>
     </skillRequirements>
@@ -1919,9 +1901,7 @@
     <products>
       <HD_Gun_KragJorgensen_Weapon>1</HD_Gun_KragJorgensen_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>8</Crafting>
     </skillRequirements>
@@ -1979,9 +1959,7 @@
     <products>
       <HD_Gun_SprMThree_Weapon>1</HD_Gun_SprMThree_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>9</Crafting>
     </skillRequirements>
@@ -2047,9 +2025,7 @@
     <products>
       <HD_Gun_M1897_Weapon>1</HD_Gun_M1897_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>8</Crafting>
     </skillRequirements>
@@ -2106,9 +2082,7 @@
     <products>
       <HD_Gun_M1903A4_Weapon>1</HD_Gun_M1903A4_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>10</Crafting>
     </skillRequirements>
@@ -2181,9 +2155,7 @@
     <products>
       <HD_Gun_M1903Pedersen_Weapon>1</HD_Gun_M1903Pedersen_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>10</Crafting>
     </skillRequirements>
@@ -2250,9 +2222,7 @@
     <products>
       <HD_Gun_M1A1Harrington_Weapon>1</HD_Gun_M1A1Harrington_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>10</Crafting>
     </skillRequirements>
@@ -2310,9 +2280,7 @@
     <products>
       <HD_Gun_M3A1_Weapon>1</HD_Gun_M3A1_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>9</Crafting>
     </skillRequirements>
@@ -2370,9 +2338,7 @@
     <products>
       <HD_Gun_M9A1_Weapon>1</HD_Gun_M9A1_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>8</Crafting>
     </skillRequirements>
@@ -2439,9 +2405,7 @@
     <products>
       <HD_Gun_M1Garand_Weapon>1</HD_Gun_M1Garand_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>10</Crafting>
     </skillRequirements>
@@ -2508,9 +2472,7 @@
     <products>
       <HD_Gun_M1918A2HAR_Weapon>1</HD_Gun_M1918A2HAR_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>10</Crafting>
     </skillRequirements>
@@ -2565,9 +2527,7 @@
     <products>
       <HD_Gun_M1D_Weapon>1</HD_Gun_M1D_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>10</Crafting>
     </skillRequirements>
@@ -2641,9 +2601,7 @@
     <products>
       <HD_Gun_M1919A6LMG_Weapon>1</HD_Gun_M1919A6LMG_Weapon>
     </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements>
       <Crafting>10</Crafting>
     </skillRequirements>
@@ -2678,7 +2636,7 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products><HD_Gun_M1A1Carbine_Weapon>1</HD_Gun_M1A1Carbine_Weapon></products>
-    <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements><Crafting>9</Crafting></skillRequirements>
   </RecipeDef>
 
@@ -2711,7 +2669,7 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products><HD_Gun_M2Carbine_Weapon>1</HD_Gun_M2Carbine_Weapon></products>
-    <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements><Crafting>10</Crafting></skillRequirements>
   </RecipeDef>
 
@@ -2762,7 +2720,7 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products><HD_Gun_M60E3_Weapon>1</HD_Gun_M60E3_Weapon></products>
-    <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
+    <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     <skillRequirements><Crafting>11</Crafting></skillRequirements>
     <defaultIngredientFilter>
       <thingDefs>

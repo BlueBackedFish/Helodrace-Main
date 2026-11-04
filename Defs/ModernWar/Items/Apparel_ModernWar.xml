@@ -59,9 +59,7 @@
         <Crafting>4</Crafting>
       </skillRequirements>
       <researchPrerequisite>HelodLessLethalLowRanged</researchPrerequisite>
-      <recipeUsers>
-        <li>TableMachining</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_GunSmithTable</li></recipeUsers>
     </recipeMaker>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ZaperX26" />
@@ -171,9 +169,7 @@
       <skillRequirements>
         <Crafting>8</Crafting>
       </skillRequirements>
-      <recipeUsers>
-        <li>TableMachining</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
     <costList>
       <HD_Nylon>60</HD_Nylon>
@@ -233,6 +229,7 @@
         </statConversions>
       </li>
     </comps>
+    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="ApparelNoQualityBase">
@@ -395,7 +392,7 @@
       <researchPrerequisite>HelodPASGT</researchPrerequisite>
       <workSkill>Crafting</workSkill>
       <skillRequirements><Crafting>5</Crafting></skillRequirements>
-      <recipeUsers><li>ElectricTailoringBench</li></recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
     <costList>
       <HD_Nylon>30</HD_Nylon>
@@ -473,9 +470,7 @@
         <Crafting>8</Crafting>
       </skillRequirements>
       <researchPrerequisite>HelodPASGT</researchPrerequisite>
-      <recipeUsers>
-        <li>TableMachining</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
     <costList>
       <HD_Nylon>15</HD_Nylon>
@@ -523,6 +518,7 @@
         </statConversions>
       </li>
     </comps>
+    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="ApparelNoQualityBase">
@@ -592,9 +588,7 @@
         <Crafting>6</Crafting>
       </skillRequirements>
       <researchPrerequisite>HelodPASGT</researchPrerequisite>
-      <recipeUsers>
-        <li>TableMachining</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
     <costList>
       <Steel>55</Steel>
@@ -629,6 +623,7 @@
         </allowedWeaponDefs>
       </li>
     </comps>
+    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="ApparelNoQualityBase">
@@ -699,9 +694,7 @@
         <Crafting>8</Crafting>
       </skillRequirements>
       <researchPrerequisite>HelodPASGT</researchPrerequisite>
-      <recipeUsers>
-        <li>TableMachining</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
     <costList>
       <Steel>120</Steel>
@@ -726,6 +719,7 @@
         <stationaryAllyCoverBlockChance>0.75</stationaryAllyCoverBlockChance>
       </li>
     </comps>
+    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
   </ThingDef>
 
 </Defs>

@@ -14,6 +14,7 @@ public sealed partial class Checks
 
     private IEnumerable<int> EquipmentMaterialChecks(Pawn worker, Building_WorkTable machining)
     {
+        machining=ItemClothingBench(worker);yield return 1200;
         GenCommandLine.TryGetCommandLineArg("hdEquipmentMaterialsData",out string path);
         using var data=JsonDocument.Parse(File.ReadAllText(path));
         foreach(var row in data.RootElement.EnumerateArray())

@@ -109,7 +109,7 @@
         <Crafting>8</Crafting>
       </skillRequirements>
       <researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite>
-      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     </recipeMaker>
     <comps>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
@@ -199,9 +199,7 @@
           <li>HD_GeneralMachinePart</li>
         </thingDefs>
       </defaultIngredientFilter>
-      <recipeUsers Inherit="False">
-        <li>HD_BasicWorkbench</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
       <skillRequirements>
         <Crafting>6</Crafting>
       </skillRequirements>
@@ -285,7 +283,7 @@
         <Crafting>6</Crafting>
       </skillRequirements>
       <researchPrerequisite>HelodNumericalControl</researchPrerequisite>
-      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     </recipeMaker>
     <verbs>
       <li>

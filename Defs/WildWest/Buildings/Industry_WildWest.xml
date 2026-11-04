@@ -1180,6 +1180,7 @@
       <li>Helodrace.ITab_MechanicalNetwork</li>
     </inspectorTabs>
     <comps>
+      <li Class="CompProperties_Facility"><maxSimultaneous>1</maxSimultaneous><maxDistance>6</maxDistance></li>
       <li Class="CompProperties_Flickable"/>
       <li Class="Helodrace.CompProperties_MechanicalUser">
         <mechanicalPowerRequired>450</mechanicalPowerRequired>
@@ -1201,6 +1202,7 @@
     <building>
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
     </building>
+    <modExtensions><li Class="Helodrace.MachineToolFacilityExtension"><pressTier>1</pressTier></li></modExtensions>
   </ThingDef>
 
   <!-- Line Shaft Rolling Machine -->
@@ -1596,7 +1598,7 @@
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsProduction</li></thingCategories>
     <label>basic workbench</label>
-    <description>A hand-powered workbench for frontier crafting and firearm assembly. Firearms unlocked through breech-loading require a linked lathe; later firearms require a linked turret lathe and milling machine.</description>
+    <description>A hand-powered workbench for frontier crafting and firearm assembly. See each product’s Required facilities entry for its linked production equipment.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
       <texPath>Buildings/HD_BasicWorkbench</texPath>
@@ -1644,6 +1646,8 @@
     <comps>
       <li Class="CompProperties_AffectedByFacilities">
         <linkableFacilities>
+            <li>HD_LineShaftHydraulicPress</li>
+            <li>HD_HydraulicPress1970Bench</li>
           <li>HD_TreadleLathe</li>
           <li>HD_LineShaftTurretLathe</li>
           <li>HD_LineShaftMillingMachine</li>
@@ -1664,8 +1668,8 @@
     <defName>HD_GunSmithTable</defName>
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsProduction</li></thingCategories>
-    <label>gunsmith table</label>
-    <description>A dedicated workbench for assembling, repairing, and modifying firearms. Firearm assembly requires linked lathes and, for later designs, a milling machine. Insert a weapon-parts box to modify modular weapons.</description>
+    <label>weapons workbench</label>
+    <description>A dedicated workbench for assembling, repairing, and modifying firearms. See each product’s Required facilities entry for its linked production equipment. Insert a weapon-parts box to modify modular weapons.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
       <texPath>Buildings/HD_GunSmithTable</texPath>

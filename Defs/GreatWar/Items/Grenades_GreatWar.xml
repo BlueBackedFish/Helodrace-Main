@@ -71,6 +71,7 @@
         <radius>3.5</radius>
       </li>
     </modExtensions>
+    <recipeMaker><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers></recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_GreatWarGrenadeBase">
@@ -122,6 +123,7 @@
         <radius>3.0</radius>
       </li>
     </modExtensions>
+    <recipeMaker><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers></recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_GreatWarGrenadeBase">
@@ -160,6 +162,7 @@
         <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
       </li>
     </comps>
+    <recipeMaker><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers></recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_GreatWarGrenadeBase">
@@ -202,6 +205,7 @@
         <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
       </li>
     </comps>
+    <recipeMaker><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers></recipeMaker>
   </ThingDef>
 
   <ThingDef Name="HD_GreatWarGrenadeProjectileBase" ParentName="BaseGrenadeProjectile" Abstract="True">

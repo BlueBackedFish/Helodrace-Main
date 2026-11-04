@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-05",
+  "gameVersion": "1.7.4995 rev309",
+  "runtime": ".codex-staging\\Worktables\\native-03",
+  "passes": 589,
+  "complete": true,
+  "processExitCode": null,
+  "mainAssemblySha256": "639C1C734ED815550499E51061CB90C73EA8515D307B95B104FE79E4A0FA3581",
+  "routedRecipes": 89,
+  "weaponRecipes": 62,
+  "armorRecipes": 27,
+  "retainedBasicAmongRouted": 59,
+  "allPriorBasicRecipes": 95,
+  "pressRequiredItems": 17,
+  "actualCraftIterations": 10,
+  "actuallyCrafted": [
+    "HD_ArmorPlate_SAPI",
+    "HD_Apparel_IBTVAssault",
+    "HD_Apparel_FASTMT",
+    "HD_Apparel_GreatWarM1Helmet",
+    "HD_Apparel_ShieldIronHideRiot",
+    "HD_Apparel_M1952AFlakJacket",
+    "HD_ExpandableBaton",
+    "HD_Gun_P320_Weapon",
+    "HD_Gun_MP5_Weapon"
+  ],
+  "remainingEngineErrors": [
+    "2026-11-05 00:39:06.162 ERROR [Verse] Created WorkshopItem for 3781143823 but there is no folder for it."
+  ],
+  "limitations": [
+    "No save/load or live mouse interaction test in this run.",
+    "The collector attached after process exit; the numeric exit code is unavailable.",
+    "Existing English translation, fixture autosave and native shutdown allocation warnings remain."
+  ]
+}

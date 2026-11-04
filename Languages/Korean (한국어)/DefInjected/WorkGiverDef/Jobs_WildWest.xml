@@ -16,9 +16,9 @@
   <DoBillsHD_BasicWorkbench.verb>수공예 작업</DoBillsHD_BasicWorkbench.verb>
   <DoBillsHD_BasicWorkbench.gerund>수공예 작업하는 중</DoBillsHD_BasicWorkbench.gerund>
 
-  <DoBillsHD_GunSmithTable.label>총기 작업대 사용</DoBillsHD_GunSmithTable.label>
-  <DoBillsHD_GunSmithTable.verb>총기 제작</DoBillsHD_GunSmithTable.verb>
-  <DoBillsHD_GunSmithTable.gerund>총기를 제작하는 중</DoBillsHD_GunSmithTable.gerund>
+  <DoBillsHD_GunSmithTable.label>무기 제작대 사용</DoBillsHD_GunSmithTable.label>
+  <DoBillsHD_GunSmithTable.verb>무기 제작</DoBillsHD_GunSmithTable.verb>
+  <DoBillsHD_GunSmithTable.gerund>무기를 제작하는 중</DoBillsHD_GunSmithTable.gerund>
 
   <DoBillsHD_LineShaftRollingMachine.label>라인 샤프트 압연기 사용</DoBillsHD_LineShaftRollingMachine.label>
   <DoBillsHD_LineShaftRollingMachine.verb>제작</DoBillsHD_LineShaftRollingMachine.verb>

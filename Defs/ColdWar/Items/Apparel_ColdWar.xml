@@ -60,14 +60,13 @@
       <skillRequirements>
         <Crafting>6</Crafting>
       </skillRequirements>
-      <recipeUsers>
-        <li>HD_BasicWorkbench</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
     <costList><HD_Nylon>65</HD_Nylon><Steel>25</Steel></costList>
     <researchPrerequisites>
       <li>HelodFlakJacket</li>
     </researchPrerequisites>
+    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
   </ThingDef>
 
 </Defs>

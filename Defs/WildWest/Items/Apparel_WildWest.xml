@@ -683,10 +683,7 @@
     <recipeMaker>
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodFrontierSpirit</researchPrerequisite>
-      <recipeUsers>
-        <li>ElectricTailoringBench</li>
-        <li>HandTailoringBench</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
     <stuffCategories>
       <li>Metallic</li>
@@ -695,6 +692,7 @@
     <costList>
       <Cloth>20</Cloth>
     </costList>
+    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
   </ThingDef>
 
 

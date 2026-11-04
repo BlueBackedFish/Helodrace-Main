@@ -9,6 +9,7 @@ public sealed partial class Checks
 {
     private IEnumerable<int> HelmetShieldChecks(Pawn worker, Building_WorkTable machining)
     {
+        machining=ItemClothingBench(worker);yield return 1200;
         CheckArmorRecipe("HD_Apparel_FASTMT",new (string,int)[]{("HD_Nylon",15),("HD_Aramid",25),("HD_GeneralMachinePart",2)});
         CheckArmorRecipe("HD_Apparel_GreatWarM1Helmet",new (string,int)[]{("HD_UniformRolledSteelPlate",5)});
         CheckArmorRecipe("HD_Apparel_ShieldDefenTechIIIA",new (string,int)[]{("Steel",55),("HD_Aramid",30),("HD_GeneralMachinePart",2)});

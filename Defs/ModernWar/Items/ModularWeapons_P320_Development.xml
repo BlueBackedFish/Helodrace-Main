@@ -236,7 +236,8 @@
           <li>Steel</li>
           <li>HD_GeneralMachinePart</li>
         </thingDefs>
-      </defaultIngredientFilter><researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite></recipeMaker>
+      </defaultIngredientFilter><researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite>  <recipeUsers Inherit="False"><li>HD_GunSmithTable</li></recipeUsers>
+    </recipeMaker>
     <description>A modular P320 platform that can be configured as a pistol or fitted with a Flux Raider chassis.</description>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
       <isAssemblyRoot>true</isAssemblyRoot><spawnPreset>HD_WeaponPreset_ModularP320_Default</spawnPreset><partCategory>Required</partCategory><realisticRoundsPerMinute>500</realisticRoundsPerMinute><graphicLayer>-2</graphicLayer><assemblyScale>0.5</assemblyScale><animationSpeed>1.75</animationSpeed><outlinePriority>100</outlinePriority>

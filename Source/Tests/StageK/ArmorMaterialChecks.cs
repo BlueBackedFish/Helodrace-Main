@@ -49,8 +49,8 @@ public sealed partial class Checks
             Check(Def<ThingDef>(name).GetCompProperties<Helodrace.ModernWar.CompProperties_ArmorPlateSet>().material.ToString()=="Ceramic","Alumina plate retains its ceramic behavior: "+name);
         var rampart=Def<ThingDef>("HD_ArmorPlate_RAMPART4800_Plate");
         Check(rampart.GetCompProperties<Helodrace.ModernWar.CompProperties_ArmorPlateSet>().material.ToString()=="UHMWPE"&&!rampart.costList.Any(c=>c.thingDef.defName=="HD_Alumina"),"UHMWPE RAMPART keeps its material behavior and has no alumina");
-        var bench=(Building_WorkTable)ItemBuilding("HD_BasicWorkbench",20,-9);
-        foreach(int ticks in ItemBill(worker,bench,"Make_HD_Apparel_M1952AFlakJacket"))yield return ticks;
+        machining=ItemClothingBench(worker);yield return 1200;
+        foreach(int ticks in ItemBill(worker,machining,"Make_HD_Apparel_M1952AFlakJacket"))yield return ticks;
         foreach(string name in new[]{"Make_HD_Apparel_IBTVAssault","Make_HD_ModularPart_IBTVShoulderGuards","Make_HD_ModularPart_RifleMagazinePouch","Make_HD_ArmorPlate_SAPI","Make_HD_ArmorPlate_RAMPART4800_Plate"})
             foreach(int ticks in ItemBill(worker,machining,name))yield return ticks;
     }

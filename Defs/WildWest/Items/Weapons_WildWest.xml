@@ -795,10 +795,7 @@
     </tools>
     <recipeMaker>
       <researchPrerequisite>HelodLeverAction</researchPrerequisite>
-      <recipeUsers>
-        <li>ElectricSmithy</li>
-        <li>FueledSmithy</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_GunSmithTable</li></recipeUsers>
       <skillRequirements>
         <Crafting>4</Crafting>
       </skillRequirements>

@@ -56,7 +56,8 @@
           <li>Plasteel</li>
           <li>HD_ElectronicComponent</li>
         </thingDefs>
-      </defaultIngredientFilter><researchPrerequisites><li>HelodAdvancedWeaponOptics</li></researchPrerequisites></recipeMaker>
+      </defaultIngredientFilter><researchPrerequisites><li>HelodAdvancedWeaponOptics</li></researchPrerequisites>  <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
+    </recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -82,7 +83,9 @@
           <li>HD_GeneralMachinePart</li>
         </thingDefs>
       </defaultIngredientFilter>
+      <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
+    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -107,6 +110,8 @@
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Arm/HD_IOTVGen4Assault_Arm_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>260</MarketValue><Mass>0.85</Mass><WorkToMake>5000</WorkToMake></statBases>
     <costList><HD_Nylon>12</HD_Nylon><HD_Aramid>12</HD_Aramid></costList>
+    <recipeMaker><recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers></recipeMaker>
+    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -117,6 +122,8 @@
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IOTVGen4Assault_Groin_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>240</MarketValue><Mass>0.90</Mass><WorkToMake>5000</WorkToMake></statBases>
     <costList><HD_Nylon>14</HD_Nylon><HD_Aramid>10</HD_Aramid></costList>
+    <recipeMaker><recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers></recipeMaker>
+    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -127,6 +134,8 @@
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_BackProtector/HD_IOTVGen4Assault_BackProtector_Female_north</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>230</MarketValue><Mass>0.80</Mass><WorkToMake>4800</WorkToMake></statBases>
     <costList><HD_Nylon>14</HD_Nylon><HD_Aramid>9</HD_Aramid></costList>
+    <recipeMaker><recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers></recipeMaker>
+    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -137,6 +146,7 @@
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/MediM/FrontHigh/HD_IBTV_FrontHigh_MediM_1_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>75</MarketValue><Mass>0.30</Mass><WorkToMake>1200</WorkToMake></statBases>
     <costList><HD_Nylon>12</HD_Nylon><MedicineIndustrial>1</MedicineIndustrial></costList>
+    <recipeMaker><recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers></recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -149,6 +159,7 @@
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/Mag/FrontHigh/HD_IBTV_FrontHigh_Mag_1_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>45</MarketValue><Mass>0.18</Mass><WorkToMake>900</WorkToMake></statBases>
     <costList><HD_Nylon>10</HD_Nylon></costList>
+    <recipeMaker><recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers></recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -169,6 +180,7 @@
           <li>HD_ElectronicComponent</li>
         </thingDefs>
       </defaultIngredientFilter>
+      <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
   </ThingDef>
 
@@ -180,6 +192,7 @@
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/MediL/FrontHigh/HD_IBTV_FrontHigh_MediL_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>110</MarketValue><Mass>0.55</Mass><WorkToMake>1800</WorkToMake></statBases>
     <costList><HD_Nylon>18</HD_Nylon><MedicineIndustrial>2</MedicineIndustrial></costList>
+    <recipeMaker><recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers></recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -189,6 +202,7 @@
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/Admin/FrontHigh/HD_IBTV_FrontHigh_Admin_1_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>55</MarketValue><Mass>0.22</Mass><WorkToMake>1000</WorkToMake></statBases>
     <costList><HD_Nylon>12</HD_Nylon></costList>
+    <recipeMaker><recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers></recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -208,6 +222,7 @@
           <li>HD_GeneralMachinePart</li>
         </thingDefs>
       </defaultIngredientFilter>
+      <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
   </ThingDef>
 
@@ -219,6 +234,7 @@
     <graphicData><texPath>Helod/Apparel/HD_UCPPants/KneePads/HD_UCPPants_KneePads_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>65</MarketValue><Mass>0.35</Mass><WorkToMake>1200</WorkToMake></statBases>
     <costList><HD_Nylon>8</HD_Nylon><Steel>6</Steel></costList>
+    <recipeMaker><recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers></recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -228,5 +244,6 @@
     <graphicData><texPath>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_MOLLEBattleBelt_DropLeg_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>95</MarketValue><Mass>0.55</Mass><WorkToMake>1600</WorkToMake></statBases>
     <costList><HD_Nylon>16</HD_Nylon><Steel>6</Steel></costList>
+    <recipeMaker><recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers></recipeMaker>
   </ThingDef>
 </Defs>

@@ -107,6 +107,11 @@ public sealed partial class Checks
         foreach(var table in new[]{stirred,furnace,fab,machining})foreach(var cell in table.OccupiedRect())playMap.roofGrid.SetRoof(cell,RoofDefOf.RoofConstructed);
         playMap.powerNetManager.UpdatePowerNetsAndConnections_First();yield return 1200;
         foreach(var t in new[]{stirred,furnace,fab,machining})Check(t.GetComp<CompPowerTrader>().PowerOn,"Real power grid powers "+t.def.defName);
+        if(GenCommandLine.TryGetCommandLineArg("hdKWorktables",out _))
+        {
+            foreach(int ticks in WorktableChecks(worker))yield return ticks;
+            itemChecks=null;h.UnpatchAll(h.Id);yield break;
+        }
         if(GenCommandLine.TryGetCommandLineArg("hdKEquipmentMaterials",out _))
         {
             foreach(int ticks in EquipmentMaterialChecks(worker,machining))yield return ticks;
@@ -153,8 +158,9 @@ public sealed partial class Checks
         foreach(int amount in new[]{1,75})
         {var stack=ThingMaker.MakeThing(silicon);stack.stackCount=amount;Check(stack.Graphic.MatAt(Rot4.South,stack)!=BaseContent.BadMat,"Silicon graphic resolves at stack count "+amount);}
         if(GenCommandLine.TryGetCommandLineArg("hdKMinerals",out _)){itemChecks=null;h.UnpatchAll(h.Id);yield break;}
+        var armorTable=ItemClothingBench(worker);var weaponTable=(Building_WorkTable)ItemBuilding("HD_GunSmithTable",-20,-9);yield return 1200;
         foreach(string name in new[]{"Make_HD_ExpandableBaton","Make_HD_Apparel_ShieldIronHideRiot","Make_HD_Apparel_ShieldIronHideIV"})
-            foreach(int ticks in ItemBill(worker,machining,name))yield return ticks;
+            foreach(int ticks in ItemBill(worker,name=="Make_HD_ExpandableBaton"?weaponTable:armorTable,name))yield return ticks;
         var baton=playMap.listerThings.ThingsOfDef(Def<ThingDef>("HD_ExpandableBaton")).OfType<ThingWithComps>().Single();
         worker.equipment.AddEquipment(baton.SplitOff(1) as ThingWithComps);
         Check(worker.equipment.Primary.def.defName=="HD_ExpandableBaton"&&worker.equipment.Primary.GetStatValue(StatDefOf.MeleeWeapon_AverageDPS)>0,"Crafted baton equips with native melee attacks");

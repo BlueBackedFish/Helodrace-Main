@@ -36,7 +36,7 @@
         </thingDefs>
       </defaultIngredientFilter>
       <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
-      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
       <skillRequirements><Crafting>6</Crafting></skillRequirements>
     </recipeMaker>
     <weaponTags>
@@ -151,7 +151,7 @@
         </thingDefs>
       </defaultIngredientFilter>
       <researchPrerequisite>HelodLessLethalChemical</researchPrerequisite>
-      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
       <skillRequirements><Crafting>5</Crafting></skillRequirements>
     </recipeMaker>
     <weaponTags><li>HD_ColdWarGrenade</li></weaponTags>

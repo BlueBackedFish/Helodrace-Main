@@ -32,7 +32,7 @@
       <workSkill>Crafting</workSkill>
       <skillRequirements><Crafting>2</Crafting></skillRequirements>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
-      <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     </recipeMaker>
     <comps>
       <li Class="Helodrace.CompProperties_SledgehammerBreach">

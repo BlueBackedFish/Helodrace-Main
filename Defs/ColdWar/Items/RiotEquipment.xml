@@ -30,9 +30,7 @@
         <Crafting>5</Crafting>
       </skillRequirements>
       <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
-      <recipeUsers>
-        <li>TableMachining</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_GunSmithTable</li></recipeUsers>
     </recipeMaker>
     <tools>
       <li>

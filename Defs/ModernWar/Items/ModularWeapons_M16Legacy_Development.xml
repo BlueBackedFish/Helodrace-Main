@@ -154,7 +154,7 @@
     <equippedAngleOffset>0</equippedAngleOffset>
     <weaponTags Inherit="False"><li>HD_ColdWarWeapon</li><li>IndustrialGunAdvanced</li></weaponTags>
     <statBases><MarketValue>1025</MarketValue><RangedWeapon_Cooldown>0.1</RangedWeapon_Cooldown></statBases>
-    <recipeMaker><researchPrerequisite>HelodLowAutomaticRifle</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers></recipeMaker>
+    <recipeMaker><researchPrerequisite>HelodLowAutomaticRifle</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers></recipeMaker>
     <verbs Inherit="False">
       <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile><warmupTime>0.9</warmupTime><range>29.9</range><burstShotCount>6</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_AssaultRifle</soundCast><soundCastTail>GunTail_Medium</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li>
       <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>false</hasStandardCommand><defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile><warmupTime>0.3</warmupTime><range>21.9</range><burstShotCount>6</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_AssaultRifle</soundCast><soundCastTail>GunTail_Medium</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li>
@@ -199,7 +199,7 @@
     <equippedAngleOffset>0</equippedAngleOffset>
     <weaponTags Inherit="False"><li>HD_ColdWarWeapon</li><li>IndustrialGunAdvanced</li></weaponTags>
     <statBases><MarketValue>1125</MarketValue><RangedWeapon_Cooldown>0.09</RangedWeapon_Cooldown></statBases>
-    <recipeMaker><researchPrerequisite>HelodMidAutomaticRifle</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers></recipeMaker>
+    <recipeMaker><researchPrerequisite>HelodMidAutomaticRifle</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers></recipeMaker>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <isAssemblyRoot>true</isAssemblyRoot>
@@ -239,7 +239,7 @@
     <equippedAngleOffset>0</equippedAngleOffset>
     <weaponTags Inherit="False"><li>HD_ColdWarWeapon</li><li>IndustrialGunAdvanced</li></weaponTags>
     <statBases><MarketValue>1180</MarketValue><RangedWeapon_Cooldown>0.09</RangedWeapon_Cooldown></statBases>
-    <recipeMaker><researchPrerequisite>HelodMidAutomaticRifle</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers></recipeMaker>
+    <recipeMaker><researchPrerequisite>HelodMidAutomaticRifle</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers></recipeMaker>
     <verbs Inherit="False">
       <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile><warmupTime>0.9</warmupTime><range>30.9</range><burstShotCount>6</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_AssaultRifle</soundCast><soundCastTail>GunTail_Medium</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li>
       <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>false</hasStandardCommand><defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile><warmupTime>0.3</warmupTime><range>22.9</range><burstShotCount>6</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_AssaultRifle</soundCast><soundCastTail>GunTail_Medium</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li>

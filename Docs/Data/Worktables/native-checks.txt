@@ -1,0 +1,649 @@
+Actual 1.7 Stage K life checks
+PASS: Real power grid powers HD_StirredTankReactor
+PASS: Real power grid powers HD_VIMFurnace
+PASS: Real power grid powers HD_SemiconductorFab
+PASS: Real power grid powers TableMachining
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_ColtArmyModel1860_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_ColtArmyModel1860_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_ColtArmyModel1860_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_ColtArmyModel1860_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_ColtArmyModel1860_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_ColtSAA_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_ColtSAA_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_ColtSAA_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_ColtSAA_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_ColtSAA_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_Henry_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_Henry_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_Henry_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_Henry_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_Henry_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_KragJorgensen_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_KragJorgensen_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_KragJorgensen_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_KragJorgensen_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_KragJorgensen_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_M1897_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_M1897_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_M1897_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_M1897_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M1897_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_M1903A4_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_M1903A4_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_M1903A4_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_M1903A4_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M1903A4_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_M1903Pedersen_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_M1903Pedersen_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_M1903Pedersen_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_M1903Pedersen_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M1903Pedersen_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_M1911_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_M1911_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_M1911_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_M1911_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M1911_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_M1918A2HAR_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_M1918A2HAR_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_M1918A2HAR_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_M1918A2HAR_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M1918A2HAR_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_M1919A6LMG_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_M1919A6LMG_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_M1919A6LMG_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_M1919A6LMG_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M1919A6LMG_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_M1A1Carbine_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_M1A1Carbine_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_M1A1Carbine_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_M1A1Carbine_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M1A1Carbine_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_M1A1Harrington_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_M1A1Harrington_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_M1A1Harrington_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_M1A1Harrington_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M1A1Harrington_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_M1D_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_M1D_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_M1D_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_M1D_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M1D_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_M1Garand_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_M1Garand_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_M1Garand_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_M1Garand_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M1Garand_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_M2Carbine_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_M2Carbine_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_M2Carbine_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_M2Carbine_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M2Carbine_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_M3A1_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_M3A1_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_M3A1_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_M3A1_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M3A1_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_M60E3_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_M60E3_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_M60E3_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_M60E3_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M60E3_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_M9A1_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_M9A1_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_M9A1_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_M9A1_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M9A1_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_SprMOne_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_SprMOne_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_SprMOne_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_SprMOne_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_SprMOne_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_SprMThree_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_SprMThree_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_SprMThree_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_SprMThree_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_SprMThree_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_SprMThreeHigh_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_SprMThreeHigh_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_SprMThreeHigh_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_SprMThreeHigh_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_SprMThreeHigh_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_SWModelThree_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_SWModelThree_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_SWModelThree_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_SWModelThree_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_SWModelThree_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_WinM1887_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_WinM1887_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_WinM1887_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_WinM1887_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_WinM1887_Weapon
+PASS: Exact dedicated and retained basic worktables: HD_Make_Gun_WinMNinetyFive_Weapon
+PASS: No duplicate recipe users: HD_Make_Gun_WinMNinetyFive_Weapon
+PASS: Actual worktable catalog contains HD_Make_Gun_WinMNinetyFive_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains HD_Make_Gun_WinMNinetyFive_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_WinMNinetyFive_Weapon
+PASS: Exact dedicated and retained basic worktables: Make_HD_Apparel_ANPEQ1C
+PASS: No duplicate recipe users: Make_HD_Apparel_ANPEQ1C
+PASS: Actual worktable catalog contains Make_HD_Apparel_ANPEQ1C on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Apparel_ANPEQ1C on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Apparel_ANPEQ1C
+PASS: Exact dedicated and retained basic worktables: Make_HD_Apparel_FASTMT
+PASS: No duplicate recipe users: Make_HD_Apparel_FASTMT
+PASS: Actual worktable catalog contains Make_HD_Apparel_FASTMT on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_Apparel_FASTMT
+PASS: Exact dedicated and retained basic worktables: Make_HD_Apparel_GreatWarM1Helmet
+PASS: No duplicate recipe users: Make_HD_Apparel_GreatWarM1Helmet
+PASS: Actual worktable catalog contains Make_HD_Apparel_GreatWarM1Helmet on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_Apparel_GreatWarM1Helmet
+PASS: Exact dedicated and retained basic worktables: Make_HD_Apparel_GW_Sledgehammer
+PASS: No duplicate recipe users: Make_HD_Apparel_GW_Sledgehammer
+PASS: Actual worktable catalog contains Make_HD_Apparel_GW_Sledgehammer on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Apparel_GW_Sledgehammer on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Apparel_GW_Sledgehammer
+PASS: Exact dedicated and retained basic worktables: Make_HD_Apparel_IBTVAssault
+PASS: No duplicate recipe users: Make_HD_Apparel_IBTVAssault
+PASS: Actual worktable catalog contains Make_HD_Apparel_IBTVAssault on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_Apparel_IBTVAssault
+PASS: Exact dedicated and retained basic worktables: Make_HD_Apparel_IZLIDUltra
+PASS: No duplicate recipe users: Make_HD_Apparel_IZLIDUltra
+PASS: Actual worktable catalog contains Make_HD_Apparel_IZLIDUltra on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Apparel_IZLIDUltra on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Apparel_IZLIDUltra
+PASS: Exact dedicated and retained basic worktables: Make_HD_Apparel_LA16uPEQ
+PASS: No duplicate recipe users: Make_HD_Apparel_LA16uPEQ
+PASS: Actual worktable catalog contains Make_HD_Apparel_LA16uPEQ on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Apparel_LA16uPEQ on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Apparel_LA16uPEQ
+PASS: Exact dedicated and retained basic worktables: Make_HD_Apparel_M1952AFlakJacket
+PASS: No duplicate recipe users: Make_HD_Apparel_M1952AFlakJacket
+PASS: Actual worktable catalog contains Make_HD_Apparel_M1952AFlakJacket on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Apparel_M1952AFlakJacket on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_Apparel_M1952AFlakJacket
+PASS: Exact dedicated and retained basic worktables: Make_HD_Apparel_MOLLEBattleBelt
+PASS: No duplicate recipe users: Make_HD_Apparel_MOLLEBattleBelt
+PASS: Actual worktable catalog contains Make_HD_Apparel_MOLLEBattleBelt on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_Apparel_MOLLEBattleBelt
+PASS: Exact dedicated and retained basic worktables: Make_HD_Apparel_ShieldDefenTechIIIA
+PASS: No duplicate recipe users: Make_HD_Apparel_ShieldDefenTechIIIA
+PASS: Actual worktable catalog contains Make_HD_Apparel_ShieldDefenTechIIIA on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_Apparel_ShieldDefenTechIIIA
+PASS: Exact dedicated and retained basic worktables: Make_HD_Apparel_ShieldIronHideIV
+PASS: No duplicate recipe users: Make_HD_Apparel_ShieldIronHideIV
+PASS: Actual worktable catalog contains Make_HD_Apparel_ShieldIronHideIV on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_Apparel_ShieldIronHideIV
+PASS: Exact dedicated and retained basic worktables: Make_HD_Apparel_ShieldIronHideRiot
+PASS: No duplicate recipe users: Make_HD_Apparel_ShieldIronHideRiot
+PASS: Actual worktable catalog contains Make_HD_Apparel_ShieldIronHideRiot on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_Apparel_ShieldIronHideRiot
+PASS: Exact dedicated and retained basic worktables: Make_HD_Apparel_ZaperX26_Device
+PASS: No duplicate recipe users: Make_HD_Apparel_ZaperX26_Device
+PASS: Actual worktable catalog contains Make_HD_Apparel_ZaperX26_Device on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Apparel_ZaperX26_Device
+PASS: Exact dedicated and retained basic worktables: Make_HD_ArmorPlate_ESAPI
+PASS: No duplicate recipe users: Make_HD_ArmorPlate_ESAPI
+PASS: Actual worktable catalog contains Make_HD_ArmorPlate_ESAPI on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ArmorPlate_ESAPI
+PASS: Exact dedicated and retained basic worktables: Make_HD_ArmorPlate_ESBI
+PASS: No duplicate recipe users: Make_HD_ArmorPlate_ESBI
+PASS: Actual worktable catalog contains Make_HD_ArmorPlate_ESBI on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ArmorPlate_ESBI
+PASS: Exact dedicated and retained basic worktables: Make_HD_ArmorPlate_RAMPART4800_Plate
+PASS: No duplicate recipe users: Make_HD_ArmorPlate_RAMPART4800_Plate
+PASS: Actual worktable catalog contains Make_HD_ArmorPlate_RAMPART4800_Plate on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ArmorPlate_RAMPART4800_Plate
+PASS: Exact dedicated and retained basic worktables: Make_HD_ArmorPlate_SAPI
+PASS: No duplicate recipe users: Make_HD_ArmorPlate_SAPI
+PASS: Actual worktable catalog contains Make_HD_ArmorPlate_SAPI on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ArmorPlate_SAPI
+PASS: Exact dedicated and retained basic worktables: Make_HD_ArmorPlate_SSAPI
+PASS: No duplicate recipe users: Make_HD_ArmorPlate_SSAPI
+PASS: Actual worktable catalog contains Make_HD_ArmorPlate_SSAPI on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ArmorPlate_SSAPI
+PASS: Exact dedicated and retained basic worktables: Make_HD_ExpandableBaton
+PASS: No duplicate recipe users: Make_HD_ExpandableBaton
+PASS: Actual worktable catalog contains Make_HD_ExpandableBaton on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_ExpandableBaton
+PASS: Exact dedicated and retained basic worktables: Make_HD_Grenade_M111_Item
+PASS: No duplicate recipe users: Make_HD_Grenade_M111_Item
+PASS: Actual worktable catalog contains Make_HD_Grenade_M111_Item on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Grenade_M111_Item on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Grenade_M111_Item
+PASS: Exact dedicated and retained basic worktables: Make_HD_Grenade_M14_Item
+PASS: No duplicate recipe users: Make_HD_Grenade_M14_Item
+PASS: Actual worktable catalog contains Make_HD_Grenade_M14_Item on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Grenade_M14_Item on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Grenade_M14_Item
+PASS: Exact dedicated and retained basic worktables: Make_HD_Grenade_M15_Item
+PASS: No duplicate recipe users: Make_HD_Grenade_M15_Item
+PASS: Actual worktable catalog contains Make_HD_Grenade_M15_Item on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Grenade_M15_Item on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Grenade_M15_Item
+PASS: Exact dedicated and retained basic worktables: Make_HD_Grenade_M67_Item
+PASS: No duplicate recipe users: Make_HD_Grenade_M67_Item
+PASS: Actual worktable catalog contains Make_HD_Grenade_M67_Item on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Grenade_M67_Item on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Grenade_M67_Item
+PASS: Exact dedicated and retained basic worktables: Make_HD_Grenade_M7A2_Item
+PASS: No duplicate recipe users: Make_HD_Grenade_M7A2_Item
+PASS: Actual worktable catalog contains Make_HD_Grenade_M7A2_Item on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Grenade_M7A2_Item on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Grenade_M7A2_Item
+PASS: Exact dedicated and retained basic worktables: Make_HD_Grenade_M8_Item
+PASS: No duplicate recipe users: Make_HD_Grenade_M8_Item
+PASS: Actual worktable catalog contains Make_HD_Grenade_M8_Item on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Grenade_M8_Item on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Grenade_M8_Item
+PASS: Exact dedicated and retained basic worktables: Make_HD_Grenade_M84_Item
+PASS: No duplicate recipe users: Make_HD_Grenade_M84_Item
+PASS: Actual worktable catalog contains Make_HD_Grenade_M84_Item on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Grenade_M84_Item on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Grenade_M84_Item
+PASS: Exact dedicated and retained basic worktables: Make_HD_Grenade_MKII
+PASS: No duplicate recipe users: Make_HD_Grenade_MKII
+PASS: Actual worktable catalog contains Make_HD_Grenade_MKII on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Grenade_MKII on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Grenade_MKII
+PASS: Exact dedicated and retained basic worktables: Make_HD_Grenade_MKIII
+PASS: No duplicate recipe users: Make_HD_Grenade_MKIII
+PASS: Actual worktable catalog contains Make_HD_Grenade_MKIII on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Grenade_MKIII on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Grenade_MKIII
+PASS: Exact dedicated and retained basic worktables: Make_HD_Gun_Glock19Gen5_Weapon
+PASS: No duplicate recipe users: Make_HD_Gun_Glock19Gen5_Weapon
+PASS: Actual worktable catalog contains Make_HD_Gun_Glock19Gen5_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Gun_Glock19Gen5_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_Glock19Gen5_Weapon
+PASS: Exact dedicated and retained basic worktables: Make_HD_Gun_LANCE_LRA7_Weapon
+PASS: No duplicate recipe users: Make_HD_Gun_LANCE_LRA7_Weapon
+PASS: Actual worktable catalog contains Make_HD_Gun_LANCE_LRA7_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Gun_LANCE_LRA7_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_LANCE_LRA7_Weapon
+PASS: Exact dedicated and retained basic worktables: Make_HD_Gun_M14_Weapon
+PASS: No duplicate recipe users: Make_HD_Gun_M14_Weapon
+PASS: Actual worktable catalog contains Make_HD_Gun_M14_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Gun_M14_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M14_Weapon
+PASS: Exact dedicated and retained basic worktables: Make_HD_Gun_M16A1_Weapon
+PASS: No duplicate recipe users: Make_HD_Gun_M16A1_Weapon
+PASS: Actual worktable catalog contains Make_HD_Gun_M16A1_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Gun_M16A1_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M16A1_Weapon
+PASS: Exact dedicated and retained basic worktables: Make_HD_Gun_M16A2_Weapon
+PASS: No duplicate recipe users: Make_HD_Gun_M16A2_Weapon
+PASS: Actual worktable catalog contains Make_HD_Gun_M16A2_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Gun_M16A2_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M16A2_Weapon
+PASS: Exact dedicated and retained basic worktables: Make_HD_Gun_M16A3_Weapon
+PASS: No duplicate recipe users: Make_HD_Gun_M16A3_Weapon
+PASS: Actual worktable catalog contains Make_HD_Gun_M16A3_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Gun_M16A3_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M16A3_Weapon
+PASS: Exact dedicated and retained basic worktables: Make_HD_Gun_M16A4_Weapon
+PASS: No duplicate recipe users: Make_HD_Gun_M16A4_Weapon
+PASS: Actual worktable catalog contains Make_HD_Gun_M16A4_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Gun_M16A4_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M16A4_Weapon
+PASS: Exact dedicated and retained basic worktables: Make_HD_Gun_M249_Weapon
+PASS: No duplicate recipe users: Make_HD_Gun_M249_Weapon
+PASS: Actual worktable catalog contains Make_HD_Gun_M249_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Gun_M249_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M249_Weapon
+PASS: Exact dedicated and retained basic worktables: Make_HD_Gun_M2FlameThrower_Weapon
+PASS: No duplicate recipe users: Make_HD_Gun_M2FlameThrower_Weapon
+PASS: Actual worktable catalog contains Make_HD_Gun_M2FlameThrower_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Gun_M2FlameThrower_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M2FlameThrower_Weapon
+PASS: Exact dedicated and retained basic worktables: Make_HD_Gun_M47_Dragon
+PASS: No duplicate recipe users: Make_HD_Gun_M47_Dragon
+PASS: Actual worktable catalog contains Make_HD_Gun_M47_Dragon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Gun_M47_Dragon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M47_Dragon
+PASS: Exact dedicated and retained basic worktables: Make_HD_Gun_M4A1_Weapon
+PASS: No duplicate recipe users: Make_HD_Gun_M4A1_Weapon
+PASS: Actual worktable catalog contains Make_HD_Gun_M4A1_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Gun_M4A1_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M4A1_Weapon
+PASS: Exact dedicated and retained basic worktables: Make_HD_Gun_M79_Weapon
+PASS: No duplicate recipe users: Make_HD_Gun_M79_Weapon
+PASS: Actual worktable catalog contains Make_HD_Gun_M79_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Gun_M79_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M79_Weapon
+PASS: Exact dedicated and retained basic worktables: Make_HD_Gun_M8FlareGun_Weapon
+PASS: No duplicate recipe users: Make_HD_Gun_M8FlareGun_Weapon
+PASS: Actual worktable catalog contains Make_HD_Gun_M8FlareGun_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Gun_M8FlareGun_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_M8FlareGun_Weapon
+PASS: Exact dedicated and retained basic worktables: Make_HD_Gun_MP5_Weapon
+PASS: No duplicate recipe users: Make_HD_Gun_MP5_Weapon
+PASS: Actual worktable catalog contains Make_HD_Gun_MP5_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Gun_MP5_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_MP5_Weapon
+PASS: Exact dedicated and retained basic worktables: Make_HD_Gun_Nailgun_Weapon
+PASS: No duplicate recipe users: Make_HD_Gun_Nailgun_Weapon
+PASS: Actual worktable catalog contains Make_HD_Gun_Nailgun_Weapon on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_Gun_Nailgun_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_Nailgun_Weapon
+PASS: Exact dedicated and retained basic worktables: Make_HD_Gun_P320_Weapon
+PASS: No duplicate recipe users: Make_HD_Gun_P320_Weapon
+PASS: Actual worktable catalog contains Make_HD_Gun_P320_Weapon on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_Gun_P320_Weapon
+PASS: Exact dedicated and retained basic worktables: Make_HD_M1902Saber
+PASS: No duplicate recipe users: Make_HD_M1902Saber
+PASS: Actual worktable catalog contains Make_HD_M1902Saber on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_M1902Saber on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_M1902Saber
+PASS: Exact dedicated and retained basic worktables: Make_HD_MetalBaseballBat
+PASS: No duplicate recipe users: Make_HD_MetalBaseballBat
+PASS: Actual worktable catalog contains Make_HD_MetalBaseballBat on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_MetalBaseballBat on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_MetalBaseballBat
+PASS: Exact dedicated and retained basic worktables: Make_HD_ModularPart_AdminPouch
+PASS: No duplicate recipe users: Make_HD_ModularPart_AdminPouch
+PASS: Actual worktable catalog contains Make_HD_ModularPart_AdminPouch on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ModularPart_AdminPouch
+PASS: Exact dedicated and retained basic worktables: Make_HD_ModularPart_GPNVG18_Part
+PASS: No duplicate recipe users: Make_HD_ModularPart_GPNVG18_Part
+PASS: Actual worktable catalog contains Make_HD_ModularPart_GPNVG18_Part on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ModularPart_GPNVG18_Part
+PASS: Exact dedicated and retained basic worktables: Make_HD_ModularPart_IBTVBackProtector
+PASS: No duplicate recipe users: Make_HD_ModularPart_IBTVBackProtector
+PASS: Actual worktable catalog contains Make_HD_ModularPart_IBTVBackProtector on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ModularPart_IBTVBackProtector
+PASS: Exact dedicated and retained basic worktables: Make_HD_ModularPart_IBTVCamelBak
+PASS: No duplicate recipe users: Make_HD_ModularPart_IBTVCamelBak
+PASS: Actual worktable catalog contains Make_HD_ModularPart_IBTVCamelBak on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ModularPart_IBTVCamelBak
+PASS: Exact dedicated and retained basic worktables: Make_HD_ModularPart_IBTVLowerBody
+PASS: No duplicate recipe users: Make_HD_ModularPart_IBTVLowerBody
+PASS: Actual worktable catalog contains Make_HD_ModularPart_IBTVLowerBody on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ModularPart_IBTVLowerBody
+PASS: Exact dedicated and retained basic worktables: Make_HD_ModularPart_IBTVShoulderGuards
+PASS: No duplicate recipe users: Make_HD_ModularPart_IBTVShoulderGuards
+PASS: Actual worktable catalog contains Make_HD_ModularPart_IBTVShoulderGuards on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ModularPart_IBTVShoulderGuards
+PASS: Exact dedicated and retained basic worktables: Make_HD_ModularPart_IFAK
+PASS: No duplicate recipe users: Make_HD_ModularPart_IFAK
+PASS: Actual worktable catalog contains Make_HD_ModularPart_IFAK on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ModularPart_IFAK
+PASS: Exact dedicated and retained basic worktables: Make_HD_ModularPart_MediL
+PASS: No duplicate recipe users: Make_HD_ModularPart_MediL
+PASS: Actual worktable catalog contains Make_HD_ModularPart_MediL on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ModularPart_MediL
+PASS: Exact dedicated and retained basic worktables: Make_HD_ModularPart_MOLLEDropLeg
+PASS: No duplicate recipe users: Make_HD_ModularPart_MOLLEDropLeg
+PASS: Actual worktable catalog contains Make_HD_ModularPart_MOLLEDropLeg on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ModularPart_MOLLEDropLeg
+PASS: Exact dedicated and retained basic worktables: Make_HD_ModularPart_MultiHitVisor
+PASS: No duplicate recipe users: Make_HD_ModularPart_MultiHitVisor
+PASS: Actual worktable catalog contains Make_HD_ModularPart_MultiHitVisor on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ModularPart_MultiHitVisor
+PASS: Exact dedicated and retained basic worktables: Make_HD_ModularPart_RifleMagazinePouch
+PASS: No duplicate recipe users: Make_HD_ModularPart_RifleMagazinePouch
+PASS: Actual worktable catalog contains Make_HD_ModularPart_RifleMagazinePouch on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ModularPart_RifleMagazinePouch
+PASS: Exact dedicated and retained basic worktables: Make_HD_ModularPart_UCPKneePads
+PASS: No duplicate recipe users: Make_HD_ModularPart_UCPKneePads
+PASS: Actual worktable catalog contains Make_HD_ModularPart_UCPKneePads on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ModularPart_UCPKneePads
+PASS: Exact dedicated and retained basic worktables: Make_HD_ModularPart_WalkieTalkie
+PASS: No duplicate recipe users: Make_HD_ModularPart_WalkieTalkie
+PASS: Actual worktable catalog contains Make_HD_ModularPart_WalkieTalkie on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_ModularPart_WalkieTalkie
+PASS: Exact dedicated and retained basic worktables: Make_HD_mSixZeroSaber
+PASS: No duplicate recipe users: Make_HD_mSixZeroSaber
+PASS: Actual worktable catalog contains Make_HD_mSixZeroSaber on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_mSixZeroSaber
+PASS: Exact dedicated and retained basic worktables: Make_HD_PowerCutter
+PASS: No duplicate recipe users: Make_HD_PowerCutter
+PASS: Actual worktable catalog contains Make_HD_PowerCutter on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_PowerCutter on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_PowerCutter
+PASS: Exact dedicated and retained basic worktables: Make_HD_PowerforgeJackhammer
+PASS: No duplicate recipe users: Make_HD_PowerforgeJackhammer
+PASS: Actual worktable catalog contains Make_HD_PowerforgeJackhammer on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_PowerforgeJackhammer on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_PowerforgeJackhammer
+PASS: Exact dedicated and retained basic worktables: Make_HD_USMCFightingKnife
+PASS: No duplicate recipe users: Make_HD_USMCFightingKnife
+PASS: Actual worktable catalog contains Make_HD_USMCFightingKnife on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_USMCFightingKnife on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_USMCFightingKnife
+PASS: Exact dedicated and retained basic worktables: Make_HD_WildWestMetalVest
+PASS: No duplicate recipe users: Make_HD_WildWestMetalVest
+PASS: Actual worktable catalog contains Make_HD_WildWestMetalVest on HD_ClothingBench
+PASS: Separate information entry matches production requirements: HD_WildWestMetalVest
+PASS: Exact dedicated and retained basic worktables: Make_HD_WoodenBaseballBat
+PASS: No duplicate recipe users: Make_HD_WoodenBaseballBat
+PASS: Actual worktable catalog contains Make_HD_WoodenBaseballBat on HD_BasicWorkbench
+PASS: Actual worktable catalog contains Make_HD_WoodenBaseballBat on HD_GunSmithTable
+PASS: Separate information entry matches production requirements: HD_WoodenBaseballBat
+PASS: Every previous basic-workbench recipe remains: HD_ConvertIndustrialComponentToGeneralMachinePart
+PASS: Every previous basic-workbench recipe remains: HD_ConvertIndustrialComponentToGeneralMachinePartBulk10
+PASS: Every previous basic-workbench recipe remains: HD_ConvertIndustrialComponentToGeneralMachinePartBulk5
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_ColtArmyModel1860_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_ColtSAA_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_Henry_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_KragJorgensen_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_M1897_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_M1903A4_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_M1903Pedersen_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_M1911_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_M1918A2HAR_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_M1919A6LMG_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_M1A1Carbine_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_M1A1Harrington_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_M1D_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_M1Garand_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_M2Carbine_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_M3A1_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_M60E3_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_M9A1_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_SprMOne_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_SprMThree_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_SprMThreeHigh_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_SWModelThree_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_WinM1887_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make_Gun_WinMNinetyFive_Weapon
+PASS: Every previous basic-workbench recipe remains: HD_Make105mmShellM1HE
+PASS: Every previous basic-workbench recipe remains: HD_Make155mmShellM107HE
+PASS: Every previous basic-workbench recipe remains: HD_Make155mmShellM110BA
+PASS: Every previous basic-workbench recipe remains: HD_Make155mmShellM110CN
+PASS: Every previous basic-workbench recipe remains: HD_Make155mmShellM110WP
+PASS: Every previous basic-workbench recipe remains: HD_Make37mmShellAP
+PASS: Every previous basic-workbench recipe remains: HD_Make37mmShellHE
+PASS: Every previous basic-workbench recipe remains: HD_Make3InchMortarShellCG
+PASS: Every previous basic-workbench recipe remains: HD_Make3InchMortarShellHE
+PASS: Every previous basic-workbench recipe remains: HD_Make81mmMortarShellBA
+PASS: Every previous basic-workbench recipe remains: HD_Make81mmMortarShellM43HE
+PASS: Every previous basic-workbench recipe remains: HD_Make81mmMortarShellM57WP
+PASS: Every previous basic-workbench recipe remains: HD_MakeBasicElectricalComponents
+PASS: Every previous basic-workbench recipe remains: HD_MakeBasicElectricalComponentsBulk10
+PASS: Every previous basic-workbench recipe remains: HD_MakeBasicElectricalComponentsBulk5
+PASS: Every previous basic-workbench recipe remains: HD_MakeBasicElectronicComponents
+PASS: Every previous basic-workbench recipe remains: HD_MakeBasicElectronicComponentsBulk10
+PASS: Every previous basic-workbench recipe remains: HD_MakeBasicElectronicComponentsBulk5
+PASS: Every previous basic-workbench recipe remains: HD_MakeFLAM
+PASS: Every previous basic-workbench recipe remains: HD_MakeHardtackBulk
+PASS: Every previous basic-workbench recipe remains: HD_MakeM10WPRocket
+PASS: Every previous basic-workbench recipe remains: HD_MakeM6A3HEATRocket
+PASS: Every previous basic-workbench recipe remains: HD_MakePrimaryCell
+PASS: Every previous basic-workbench recipe remains: Make_HD_Apparel_ANPEQ1C
+PASS: Every previous basic-workbench recipe remains: Make_HD_Apparel_GreatWarCBRNPouch
+PASS: Every previous basic-workbench recipe remains: Make_HD_Apparel_GreatWarGasMaskPouch
+PASS: Every previous basic-workbench recipe remains: Make_HD_Apparel_GreatWarMedibag
+PASS: Every previous basic-workbench recipe remains: Make_HD_Apparel_GreatWarStormFrontChestRig
+PASS: Every previous basic-workbench recipe remains: Make_HD_Apparel_GreatWarStormFrontInner
+PASS: Every previous basic-workbench recipe remains: Make_HD_Apparel_GreatWarStormFrontOuter
+PASS: Every previous basic-workbench recipe remains: Make_HD_Apparel_GreatWarTrenchArmyInner
+PASS: Every previous basic-workbench recipe remains: Make_HD_Apparel_GreatWarTrenchArmyOuter
+PASS: Every previous basic-workbench recipe remains: Make_HD_Apparel_GW_Sledgehammer
+PASS: Every previous basic-workbench recipe remains: Make_HD_Apparel_IZLIDUltra
+PASS: Every previous basic-workbench recipe remains: Make_HD_Apparel_LA16uPEQ
+PASS: Every previous basic-workbench recipe remains: Make_HD_Apparel_M1952AFlakJacket
+PASS: Every previous basic-workbench recipe remains: Make_HD_Apparel_M6RocketBag
+PASS: Every previous basic-workbench recipe remains: Make_HD_Apparel_SCR300_Radio
+PASS: Every previous basic-workbench recipe remains: Make_HD_Grenade_M111_Item
+PASS: Every previous basic-workbench recipe remains: Make_HD_Grenade_M14_Item
+PASS: Every previous basic-workbench recipe remains: Make_HD_Grenade_M15_Item
+PASS: Every previous basic-workbench recipe remains: Make_HD_Grenade_M67_Item
+PASS: Every previous basic-workbench recipe remains: Make_HD_Grenade_M7A2_Item
+PASS: Every previous basic-workbench recipe remains: Make_HD_Grenade_M8_Item
+PASS: Every previous basic-workbench recipe remains: Make_HD_Grenade_M84_Item
+PASS: Every previous basic-workbench recipe remains: Make_HD_Grenade_MKII
+PASS: Every previous basic-workbench recipe remains: Make_HD_Grenade_MKIII
+PASS: Every previous basic-workbench recipe remains: Make_HD_Gun_Glock19Gen5_Weapon
+PASS: Every previous basic-workbench recipe remains: Make_HD_Gun_LANCE_LRA7_Weapon
+PASS: Every previous basic-workbench recipe remains: Make_HD_Gun_M14_Weapon
+PASS: Every previous basic-workbench recipe remains: Make_HD_Gun_M16A1_Weapon
+PASS: Every previous basic-workbench recipe remains: Make_HD_Gun_M16A2_Weapon
+PASS: Every previous basic-workbench recipe remains: Make_HD_Gun_M16A3_Weapon
+PASS: Every previous basic-workbench recipe remains: Make_HD_Gun_M16A4_Weapon
+PASS: Every previous basic-workbench recipe remains: Make_HD_Gun_M249_Weapon
+PASS: Every previous basic-workbench recipe remains: Make_HD_Gun_M2FlameThrower_Weapon
+PASS: Every previous basic-workbench recipe remains: Make_HD_Gun_M47_Dragon
+PASS: Every previous basic-workbench recipe remains: Make_HD_Gun_M4A1_Weapon
+PASS: Every previous basic-workbench recipe remains: Make_HD_Gun_M79_Weapon
+PASS: Every previous basic-workbench recipe remains: Make_HD_Gun_M8FlareGun_Weapon
+PASS: Every previous basic-workbench recipe remains: Make_HD_Gun_MP5_Weapon
+PASS: Every previous basic-workbench recipe remains: Make_HD_Gun_Nailgun_Weapon
+PASS: Every previous basic-workbench recipe remains: Make_HD_M1902Saber
+PASS: Every previous basic-workbench recipe remains: Make_HD_MetalBaseballBat
+PASS: Every previous basic-workbench recipe remains: Make_HD_PowerCutter
+PASS: Every previous basic-workbench recipe remains: Make_HD_PowerforgeJackhammer
+PASS: Every previous basic-workbench recipe remains: Make_HD_USMCFightingKnife
+PASS: Every previous basic-workbench recipe remains: Make_HD_WoodenBaseballBat
+PASS: Powered electric hydraulic press unlocks armor production
+PASS: Switching off the press blocks new armor jobs
+PASS: Ordinary tailoring needs no armor press
+PASS: Loss of press electricity blocks armor production
+PASS: Recipe appears on the actual worktable: Make_HD_ArmorPlate_SAPI
+BILL Make_HD_ArmorPlate_SAPI work= givers=DoBillsHD_ClothingBench:Tailoring filters=HD_Alumina:True:False,HD_Aramid:True:False,HD_Nylon:True:False,HD_GeneralMachinePart:True:False should=True available=True skill=True area= worker=(115, 0, 125) costs=HD_Alumina:18,HD_Aramid:18,HD_Nylon:6,HD_GeneralMachinePart:1
+INGREDIENTS Make_HD_ArmorPlate_SAPI found=True chosen=HD_Alumina:18,HD_Aramid:18,HD_Nylon:6,HD_GeneralMachinePart:1 missing=
+JOBEND Make_HD_ArmorPlate_SAPI InterruptForced toil=4
+PASS: Native work giver starts production: Make_HD_ArmorPlate_SAPI; job=DoBill; reason=no empty, accessible spot configured to store it
+PASS: Armor work drives the press at its real 1800W active load
+JOBEND Make_HD_ArmorPlate_SAPI Incompletable toil=14
+PASS: Press loss interrupts an actual armor job and stops its bill
+TRACE Make_HD_ArmorPlate_SAPI ticks=4800 job=DoBill driver=14 bound= carry= power= available=True materials=HD_Alumina:18,HD_Aramid:18,HD_Nylon:6,HD_GeneralMachinePart:1
+TRACE Make_HD_ArmorPlate_SAPI ticks=9600 job=DoBill driver=14 bound= carry= power= available=True materials=HD_Alumina:18,HD_Aramid:18,HD_Nylon:6,HD_GeneralMachinePart:1
+JOBEND Make_HD_ArmorPlate_SAPI Succeeded toil=16
+PASS: Native bill completes: Make_HD_ArmorPlate_SAPI; current=HaulToCell
+PASS: Exact material consumption: Make_HD_ArmorPlate_SAPI/HD_Alumina
+PASS: Exact material consumption: Make_HD_ArmorPlate_SAPI/HD_Aramid
+PASS: Exact material consumption: Make_HD_ArmorPlate_SAPI/HD_Nylon
+PASS: Exact material consumption: Make_HD_ArmorPlate_SAPI/HD_GeneralMachinePart
+PASS: Exact physical output: Make_HD_ArmorPlate_SAPI
+PASS: Actual armor production exercised press load, interruption and recovery
+PASS: Recipe appears on the actual worktable: Make_HD_Apparel_IBTVAssault
+BILL Make_HD_Apparel_IBTVAssault work= givers=DoBillsHD_ClothingBench:Tailoring filters=HD_Nylon:True:False,HD_Aramid:True:False,HD_GeneralMachinePart:True:False should=True available=True skill=True area=Filth_Trash worker=(147, 0, 111) costs=HD_Nylon:60,HD_Aramid:40,HD_GeneralMachinePart:3
+INGREDIENTS Make_HD_Apparel_IBTVAssault found=True chosen=HD_Nylon:60,HD_Aramid:40,HD_GeneralMachinePart:3 missing=
+JOBEND Make_HD_Apparel_IBTVAssault InterruptForced toil=4
+PASS: Native work giver starts production: Make_HD_Apparel_IBTVAssault; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE Make_HD_Apparel_IBTVAssault ticks=4800 job=DoBill driver=14 bound= carry= power= available=True materials=HD_Nylon:60,HD_Aramid:40,HD_GeneralMachinePart:3
+TRACE Make_HD_Apparel_IBTVAssault ticks=9600 job=DoBill driver=14 bound= carry= power= available=True materials=HD_Nylon:60,HD_Aramid:40,HD_GeneralMachinePart:3
+TRACE Make_HD_Apparel_IBTVAssault ticks=14400 job=DoBill driver=14 bound= carry= power= available=True materials=HD_Nylon:60,HD_Aramid:40,HD_GeneralMachinePart:3
+JOBEND Make_HD_Apparel_IBTVAssault Succeeded toil=16
+PASS: Native bill completes: Make_HD_Apparel_IBTVAssault; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Apparel_IBTVAssault/HD_Nylon
+PASS: Exact material consumption: Make_HD_Apparel_IBTVAssault/HD_Aramid
+PASS: Exact material consumption: Make_HD_Apparel_IBTVAssault/HD_GeneralMachinePart
+PASS: Exact physical output: Make_HD_Apparel_IBTVAssault
+PASS: Recipe appears on the actual worktable: Make_HD_Apparel_FASTMT
+BILL Make_HD_Apparel_FASTMT work= givers=DoBillsHD_ClothingBench:Tailoring filters=HD_Nylon:True:False,HD_Aramid:True:False,HD_GeneralMachinePart:True:False should=True available=True skill=True area=Filth_Trash worker=(148, 0, 111) costs=HD_Nylon:15,HD_Aramid:25,HD_GeneralMachinePart:2
+INGREDIENTS Make_HD_Apparel_FASTMT found=True chosen=HD_Nylon:15,HD_Aramid:25,HD_GeneralMachinePart:2 missing=
+PASS: Native work giver starts production: Make_HD_Apparel_FASTMT; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE Make_HD_Apparel_FASTMT ticks=4800 job=DoBill driver=14 bound= carry= power= available=True materials=HD_Nylon:15,HD_Aramid:25,HD_GeneralMachinePart:2
+JOBEND Make_HD_Apparel_FASTMT Succeeded toil=16
+PASS: Native bill completes: Make_HD_Apparel_FASTMT; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Apparel_FASTMT/HD_Nylon
+PASS: Exact material consumption: Make_HD_Apparel_FASTMT/HD_Aramid
+PASS: Exact material consumption: Make_HD_Apparel_FASTMT/HD_GeneralMachinePart
+PASS: Exact physical output: Make_HD_Apparel_FASTMT
+PASS: Recipe appears on the actual worktable: Make_HD_Apparel_GreatWarM1Helmet
+BILL Make_HD_Apparel_GreatWarM1Helmet work= givers=DoBillsHD_ClothingBench:Tailoring filters=HD_UniformRolledSteelPlate:True:False should=True available=True skill=True area=Filth_Trash worker=(149, 0, 111) costs=HD_UniformRolledSteelPlate:5
+INGREDIENTS Make_HD_Apparel_GreatWarM1Helmet found=True chosen=HD_UniformRolledSteelPlate:5 missing=
+PASS: Native work giver starts production: Make_HD_Apparel_GreatWarM1Helmet; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND Make_HD_Apparel_GreatWarM1Helmet Succeeded toil=16
+PASS: Native bill completes: Make_HD_Apparel_GreatWarM1Helmet; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Apparel_GreatWarM1Helmet/HD_UniformRolledSteelPlate
+PASS: Exact physical output: Make_HD_Apparel_GreatWarM1Helmet
+PASS: Recipe appears on the actual worktable: Make_HD_Apparel_ShieldIronHideRiot
+BILL Make_HD_Apparel_ShieldIronHideRiot work=Tailoring givers=DoBillsHD_ClothingBench:Tailoring filters=HD_AluminiumAlloy:True:False,Steel:True:False,Chemfuel:True:False should=True available=True skill=True area=Filth_Trash worker=(148, 0, 111) costs=HD_AluminiumAlloy:20,Steel:494,Chemfuel:12
+INGREDIENTS Make_HD_Apparel_ShieldIronHideRiot found=True chosen=HD_AluminiumAlloy:20,Steel:20,Chemfuel:12 missing=
+PASS: Native work giver starts production: Make_HD_Apparel_ShieldIronHideRiot; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE Make_HD_Apparel_ShieldIronHideRiot ticks=4800 job=DoBill driver=14 bound= carry= power= available=True materials=HD_AluminiumAlloy:20,Steel:494,Chemfuel:12
+TRACE Make_HD_Apparel_ShieldIronHideRiot ticks=9600 job=DoBill driver=14 bound= carry= power= available=True materials=HD_AluminiumAlloy:20,Steel:494,Chemfuel:12
+JOBEND Make_HD_Apparel_ShieldIronHideRiot Succeeded toil=16
+PASS: Native bill completes: Make_HD_Apparel_ShieldIronHideRiot; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideRiot/HD_AluminiumAlloy
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideRiot/Steel
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideRiot/Chemfuel
+PASS: Exact physical output: Make_HD_Apparel_ShieldIronHideRiot
+PASS: Recipe appears on the actual worktable: Make_HD_Apparel_M1952AFlakJacket
+BILL Make_HD_Apparel_M1952AFlakJacket work= givers=DoBillsHD_BasicWorkbench:Crafting filters=HD_Nylon:True:False,Steel:True:False should=True available=True skill=True area= worker=(150, 0, 111) costs=HD_Nylon:65,Steel:499
+INGREDIENTS Make_HD_Apparel_M1952AFlakJacket found=True chosen=HD_Nylon:65,Steel:25 missing=
+JOBEND Make_HD_Apparel_M1952AFlakJacket InterruptForced toil=4
+PASS: Native work giver starts production: Make_HD_Apparel_M1952AFlakJacket; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE Make_HD_Apparel_M1952AFlakJacket ticks=4800 job=DoBill driver=14 bound= carry= power= available=True materials=HD_Nylon:65,Steel:499
+TRACE Make_HD_Apparel_M1952AFlakJacket ticks=9600 job=DoBill driver=14 bound= carry= power= available=True materials=HD_Nylon:65,Steel:499
+JOBEND Make_HD_Apparel_M1952AFlakJacket Succeeded toil=16
+PASS: Native bill completes: Make_HD_Apparel_M1952AFlakJacket; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Apparel_M1952AFlakJacket/HD_Nylon
+PASS: Exact material consumption: Make_HD_Apparel_M1952AFlakJacket/Steel
+PASS: Exact physical output: Make_HD_Apparel_M1952AFlakJacket
+PASS: Removing a press revokes armor production access
+PASS: Real powered shaft network makes the early press a valid substitute
+PASS: Mechanical motor shutdown disables the early press
+PASS: Recipe appears on the actual worktable: Make_HD_Apparel_GreatWarM1Helmet
+BILL Make_HD_Apparel_GreatWarM1Helmet work= givers=DoBillsHD_ClothingBench:Tailoring filters=HD_UniformRolledSteelPlate:True:False should=True available=True skill=True area=Filth_Trash worker=(103, 0, 112) costs=HD_UniformRolledSteelPlate:5
+INGREDIENTS Make_HD_Apparel_GreatWarM1Helmet found=True chosen=HD_UniformRolledSteelPlate:5 missing=
+JOBEND Make_HD_Apparel_GreatWarM1Helmet InterruptForced toil=4
+PASS: Native work giver starts production: Make_HD_Apparel_GreatWarM1Helmet; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND Make_HD_Apparel_GreatWarM1Helmet Succeeded toil=16
+PASS: Native bill completes: Make_HD_Apparel_GreatWarM1Helmet; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Apparel_GreatWarM1Helmet/HD_UniformRolledSteelPlate
+PASS: Exact physical output: Make_HD_Apparel_GreatWarM1Helmet
+PASS: Armor work drives the early press at its real 450W shaft load
+PASS: Recipe appears on the actual worktable: Make_HD_ExpandableBaton
+BILL Make_HD_ExpandableBaton work= givers=DoBillsHD_GunSmithTable:Crafting filters=HD_CarbonSteel:True:False,HD_AluminiumAlloy:True:False,Chemfuel:True:False should=True available=True skill=True area= worker=(127, 0, 112) costs=HD_CarbonSteel:8,HD_AluminiumAlloy:4,Chemfuel:2
+INGREDIENTS Make_HD_ExpandableBaton found=True chosen=HD_CarbonSteel:8,HD_AluminiumAlloy:4,Chemfuel:2 missing=
+JOBEND Make_HD_ExpandableBaton InterruptForced toil=4
+PASS: Native work giver starts production: Make_HD_ExpandableBaton; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND Make_HD_ExpandableBaton InterruptOptional toil=14
+JOBEND Make_HD_ExpandableBaton Succeeded toil=16
+PASS: Native bill completes: Make_HD_ExpandableBaton; current=HaulToCell
+PASS: Exact material consumption: Make_HD_ExpandableBaton/HD_CarbonSteel
+PASS: Exact material consumption: Make_HD_ExpandableBaton/HD_AluminiumAlloy
+PASS: Exact material consumption: Make_HD_ExpandableBaton/Chemfuel
+PASS: Exact physical output: Make_HD_ExpandableBaton
+PASS: Recipe appears on the actual worktable: Make_HD_Gun_P320_Weapon
+BILL Make_HD_Gun_P320_Weapon work= givers=DoBillsHD_GunSmithTable:Crafting filters=Steel:True:False,HD_GeneralMachinePart:True:False should=True available=True skill=True area= worker=(151, 0, 111) costs=Steel:498,HD_GeneralMachinePart:3
+INGREDIENTS Make_HD_Gun_P320_Weapon found=True chosen=Steel:24,HD_GeneralMachinePart:3 missing=
+JOBEND Make_HD_Gun_P320_Weapon InterruptForced toil=4
+PASS: Native work giver starts production: Make_HD_Gun_P320_Weapon; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND Make_HD_Gun_P320_Weapon Succeeded toil=16
+PASS: Native bill completes: Make_HD_Gun_P320_Weapon; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Gun_P320_Weapon/Steel
+PASS: Exact material consumption: Make_HD_Gun_P320_Weapon/HD_GeneralMachinePart
+PASS: Exact physical output: Make_HD_Gun_P320_Weapon
+PASS: Recipe appears on the actual worktable: Make_HD_Gun_MP5_Weapon
+BILL Make_HD_Gun_MP5_Weapon work= givers=DoBillsHD_GunSmithTable:Crafting filters=Steel:True:False,HD_GeneralMachinePart:True:False should=True available=True skill=True area= worker=(152, 0, 111) costs=Steel:519,HD_GeneralMachinePart:6
+INGREDIENTS Make_HD_Gun_MP5_Weapon found=True chosen=Steel:45,HD_GeneralMachinePart:6 missing=
+JOBEND Make_HD_Gun_MP5_Weapon InterruptForced toil=4
+PASS: Native work giver starts production: Make_HD_Gun_MP5_Weapon; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND Make_HD_Gun_MP5_Weapon InterruptOptional toil=14
+TRACE Make_HD_Gun_MP5_Weapon ticks=4800 job=DoBill driver=14 bound=29692.77 carry= power= available=True materials=Steel:474,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=9600 job=DoBill driver=14 bound=25167.77 carry= power= available=True materials=Steel:474,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=14400 job=DoBill driver=14 bound=20764.02 carry= power= available=True materials=Steel:474,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=19200 job=DoBill driver=14 bound=16866.28 carry= power= available=True materials=Steel:474,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=24000 job=DoBill driver=14 bound=13245.97 carry= power= available=True materials=Steel:474,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=28800 job=DoBill driver=14 bound=9565.773 carry= power= available=True materials=Steel:474,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=33600 job=DoBill driver=14 bound=5620.109 carry= power= available=True materials=Steel:474,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=38400 job=DoBill driver=14 bound=1365.941 carry= power= available=True materials=Steel:474,HD_GeneralMachinePart:0
+JOBEND Make_HD_Gun_MP5_Weapon Succeeded toil=16
+PASS: Native bill completes: Make_HD_Gun_MP5_Weapon; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Gun_MP5_Weapon/Steel
+PASS: Exact material consumption: Make_HD_Gun_MP5_Weapon/HD_GeneralMachinePart
+PASS: Exact physical output: Make_HD_Gun_MP5_Weapon
+COMPLETE

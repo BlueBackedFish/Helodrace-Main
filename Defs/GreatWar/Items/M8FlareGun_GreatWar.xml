@@ -161,9 +161,7 @@
         </thingDefs>
       </defaultIngredientFilter>
       <workSkill>Crafting</workSkill>
-      <recipeUsers>
-        <li>HD_BasicWorkbench</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
       <skillRequirements>
         <Crafting>4</Crafting>
       </skillRequirements>

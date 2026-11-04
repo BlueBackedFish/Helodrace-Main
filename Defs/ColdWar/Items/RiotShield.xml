@@ -64,15 +64,13 @@
           <li>Chemfuel</li>
         </thingDefs>
       </defaultIngredientFilter>
-      <requiredGiverWorkType>Smithing</requiredGiverWorkType>
+      <requiredGiverWorkType>Tailoring</requiredGiverWorkType>
       <workSkill>Crafting</workSkill>
       <skillRequirements>
         <Crafting>6</Crafting>
       </skillRequirements>
       <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
-      <recipeUsers>
-        <li>TableMachining</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
     <costList>
       <HD_AluminiumAlloy>20</HD_AluminiumAlloy>
@@ -110,5 +108,6 @@
         </allowedWeaponDefs>
       </li>
     </comps>
+    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
   </ThingDef>
 </Defs>

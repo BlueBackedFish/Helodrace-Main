@@ -78,6 +78,7 @@
           <li>HD_ElectronicComponent</li>
         </thingDefs>
       </defaultIngredientFilter>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     </recipeMaker>
   </ThingDef>
 
@@ -122,6 +123,7 @@
           <li>HD_ElectronicComponent</li>
         </thingDefs>
       </defaultIngredientFilter>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     </recipeMaker>
   </ThingDef>
 
@@ -164,6 +166,7 @@
           <li>HD_ElectronicComponent</li>
         </thingDefs>
       </defaultIngredientFilter>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
     </recipeMaker>
   </ThingDef>
 

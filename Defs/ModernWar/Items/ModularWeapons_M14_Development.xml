@@ -292,7 +292,7 @@
           <li>Steel</li>
           <li>HD_GeneralMachinePart</li>
         </thingDefs>
-      </defaultIngredientFilter><skillRequirements><Crafting>8</Crafting></skillRequirements><researchPrerequisite>HelodLowAutomaticRifle</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers></recipeMaker>
+      </defaultIngredientFilter><skillRequirements><Crafting>8</Crafting></skillRequirements><researchPrerequisite>HelodLowAutomaticRifle</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers></recipeMaker>
     <verbs><li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_M60E3_Proj</defaultProjectile><warmupTime>1.1</warmupTime><range>36</range><burstShotCount>3</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_AssaultRifle</soundCast><soundCastTail>GunTail_Medium</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li></verbs>
     <tools><li><label>stock</label><capacities><li>Blunt</li></capacities><power>9</power><cooldownTime>1.8</cooldownTime></li></tools>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">

@@ -46,7 +46,8 @@
     <graphicData>
       <texPath>Weapons/ModernWar/HD_M67</texPath>
     </graphicData>
-    <recipeMaker><researchPrerequisite>HelodColdWarTech</researchPrerequisite></recipeMaker>
+    <recipeMaker><researchPrerequisite>HelodColdWarTech</researchPrerequisite>  <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
+    </recipeMaker>
     <verbs Inherit="False">
       <li>
         <label>throw M67 grenade</label>
@@ -88,7 +89,8 @@
           <li>Chemfuel</li>
           <li>HD_GeneralMachinePart</li>
         </thingDefs>
-      </defaultIngredientFilter><researchPrerequisite>HelodModernDiversionaryGrenades</researchPrerequisite></recipeMaker>
+      </defaultIngredientFilter><researchPrerequisite>HelodModernDiversionaryGrenades</researchPrerequisite>  <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
+    </recipeMaker>
     <statBases>
       <Mass>0.38</Mass>
       <MarketValue>360</MarketValue>
@@ -142,7 +144,8 @@
           <li>Chemfuel</li>
           <li>HD_GeneralMachinePart</li>
         </thingDefs>
-      </defaultIngredientFilter><researchPrerequisite>HelodModernOffensiveGrenades</researchPrerequisite></recipeMaker>
+      </defaultIngredientFilter><researchPrerequisite>HelodModernOffensiveGrenades</researchPrerequisite>  <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
+    </recipeMaker>
     <statBases>
       <Mass>0.42</Mass>
       <WorkToMake>18000</WorkToMake>

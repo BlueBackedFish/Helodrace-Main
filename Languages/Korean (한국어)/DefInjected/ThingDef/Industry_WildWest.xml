@@ -38,10 +38,10 @@
   <HD_TreadleLathe.description>외부 동력 없이 나무와 금속을 깎는 발판식 선반입니다. 기본 작업대와 연결하면 초기 총기를 제작할 수 있습니다.</HD_TreadleLathe.description>
 
   <HD_BasicWorkbench.label>기초 작업대</HD_BasicWorkbench.label>
-  <HD_BasicWorkbench.description>기본적인 수공예와 총기 조립에 쓰는 인력 작업대입니다. 후장식 총기 연구까지의 총기는 연결된 선반이 필요하고, 이후 총기는 연결된 터릿 선반과 밀링 머신이 함께 필요합니다.</HD_BasicWorkbench.description>
+  <HD_BasicWorkbench.description>기본적인 수공예와 총기 조립에 쓰는 인력 작업대입니다. 제작에 필요한 설비는 각 아이템 정보의 ‘필요 설비’ 항목에서 확인할 수 있습니다.</HD_BasicWorkbench.description>
 
-  <HD_GunSmithTable.label>총기 작업대</HD_GunSmithTable.label>
-  <HD_GunSmithTable.description>총기를 조립·수리하고 모듈형 총기를 개조하는 전용 작업대입니다. 총기 제작에는 연결된 선반이 필요하며, 후기 총기에는 밀링 머신도 필요합니다. 모듈형 총기 개조에는 총기 파츠 상자를 넣어야 합니다.</HD_GunSmithTable.description>
+  <HD_GunSmithTable.label>무기 제작대</HD_GunSmithTable.label>
+  <HD_GunSmithTable.description>총기를 조립·수리하고 모듈형 총기를 개조하는 전용 작업대입니다. 제작에 필요한 설비는 각 아이템 정보의 ‘필요 설비’ 항목에서 확인할 수 있습니다. 모듈형 총기 개조에는 총기 파츠 상자를 넣어야 합니다.</HD_GunSmithTable.description>
 
   <HD_TelegraphTable.label>전신기</HD_TelegraphTable.label>
   <HD_TelegraphTable.description>LOW 헤로드 회사·단체에 연락하는 유선 전신 설비입니다. 금융·산업·총포와 사냥용품·석유제품 상단을 요청하고, 파이오니어 해외용역회사와 전진기지를 계약하거나 해링턴 경비회사의 경비대를 고용할 수 있습니다. 상단 요청에는 금융 우호도가 필요합니다. 건설 후 방문한 LOW 헤로드 상단에 유료 회선 설치를 요청해야 하며, 2~3일 뒤 개통됩니다. 세력·회사 목록은 중계국 영업시간인 현지 시각 08:00~18:00에만 펼쳐볼 수 있습니다. 송신에는 일차 전지를 사용합니다.</HD_TelegraphTable.description>

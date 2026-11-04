@@ -146,7 +146,7 @@ foreach ($size in @('Small', 'Medium', 'Large')) {
 $m1 = $thingDefs['HD_Apparel_GreatWarM1Helmet']
 Assert ($null -ne $m1) 'Missing M1 helmet ThingDef.'
 $m1Users = @(Values $m1 'recipeMaker/recipeUsers/li')
-Assert (($m1Users -join '|') -ceq 'HD_LineShaftHydraulicPress|HD_HydraulicPress1970Bench') 'M1 helmet must be made at the authored hydraulic presses.'
+Assert (($m1Users -join '|') -ceq 'HD_ClothingBench') 'M1 helmet must be made at the clothing bench with a linked hydraulic press.'
 
 $mappedRecipeNames = @($expectedUsers.Keys)
 $chemicalJobs = [xml](Get-Content -LiteralPath (Join-Path $RepositoryRoot 'Defs/GreatWar/Jobs_GreatWar.xml') -Raw -Encoding UTF8)

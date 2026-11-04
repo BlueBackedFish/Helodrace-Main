@@ -333,9 +333,7 @@
           <li>HD_ElectronicComponent</li>
         </thingDefs>
       </defaultIngredientFilter>
-      <recipeUsers>
-        <li>HD_BasicWorkbench</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
       <skillRequirements>
         <Crafting>6</Crafting>
       </skillRequirements>
@@ -500,9 +498,7 @@
           <li>HD_GeneralMachinePart</li>
         </thingDefs>
       </defaultIngredientFilter>
-      <recipeUsers Inherit="False">
-        <li>HD_BasicWorkbench</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers>
       <skillRequirements>
         <Crafting>6</Crafting>
       </skillRequirements>

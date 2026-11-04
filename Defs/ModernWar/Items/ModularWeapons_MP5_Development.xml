@@ -277,6 +277,7 @@
         </sockets>
       </li>
     </comps>
+    <recipeMaker><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers></recipeMaker>
   </ThingDef>
 
 </Defs>

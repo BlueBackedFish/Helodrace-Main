@@ -1269,14 +1269,12 @@
       <defaultIngredientFilter><thingDefs><li>HD_UniformRolledSteelPlate</li></thingDefs></defaultIngredientFilter>
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
-      <recipeUsers>
-        <li>HD_LineShaftHydraulicPress</li>
-        <li>HD_HydraulicPress1970Bench</li>
-      </recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
     <costList>
       <HD_UniformRolledSteelPlate>5</HD_UniformRolledSteelPlate>
     </costList>
+    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
   </ThingDef>
 
 </Defs>
