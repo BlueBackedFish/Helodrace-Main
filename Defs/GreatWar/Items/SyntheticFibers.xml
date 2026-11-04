@@ -5,9 +5,14 @@
     <label>nylon</label>
     <description>Light synthetic fabric spun from a fuel-based polymer feed. A versatile material for ordinary clothing and equipment covers.</description>
     <graphicData>
-      <texPath>Items/HD_Nylon</texPath>
+      <texPath>Things/Item/Resource/Cloth</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
       <drawSize>(0.8,0.8)</drawSize>
+      <shaderType>CutoutComplex</shaderType>
+      <color>(215,220,215)</color>
+      <shaderParameters>
+        <_MaskTex>/Items/SyntheticFibers/ClothTintMask</_MaskTex>
+      </shaderParameters>
     </graphicData>
     <stackLimit>150</stackLimit>
     <healthAffectsPrice>false</healthAffectsPrice>
@@ -46,9 +51,14 @@
     <label>aramid</label>
     <description>Tough golden synthetic fabric spun from aromatic feedstock. Used as a heat-resistant textile and reinforcement material.</description>
     <graphicData>
-      <texPath>Items/HD_Aramid</texPath>
+      <texPath>Things/Item/Resource/Cloth</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
       <drawSize>(0.8,0.8)</drawSize>
+      <shaderType>CutoutComplex</shaderType>
+      <color>(203,174,76)</color>
+      <shaderParameters>
+        <_MaskTex>/Items/SyntheticFibers/ClothTintMask</_MaskTex>
+      </shaderParameters>
     </graphicData>
     <stackLimit>150</stackLimit>
     <healthAffectsPrice>false</healthAffectsPrice>

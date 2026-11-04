@@ -1,0 +1,143 @@
+Actual 1.7 Stage K life checks
+PASS: Real power grid powers HD_StirredTankReactor
+PASS: Real power grid powers HD_VIMFurnace
+PASS: Real power grid powers HD_SemiconductorFab
+PASS: Real power grid powers TableMachining
+PASS: Dedicated shared cloth color mask resolves
+PASS: Fiber references the vanilla cloth texture directory: HD_Nylon
+PASS: Live stack uses original vanilla cloth pixels: HD_Nylon/1
+PASS: Live stack material uses the explicit color mask: HD_Nylon/1
+PASS: Live cloth tint matches the fiber color: HD_Nylon/1
+PASS: Live stack uses original vanilla cloth pixels: HD_Nylon/75
+PASS: Live stack material uses the explicit color mask: HD_Nylon/75
+PASS: Live cloth tint matches the fiber color: HD_Nylon/75
+PASS: Live stack uses original vanilla cloth pixels: HD_Nylon/150
+PASS: Live stack material uses the explicit color mask: HD_Nylon/150
+PASS: Live cloth tint matches the fiber color: HD_Nylon/150
+PASS: Fiber references the vanilla cloth texture directory: HD_Aramid
+PASS: Live stack uses original vanilla cloth pixels: HD_Aramid/1
+PASS: Live stack material uses the explicit color mask: HD_Aramid/1
+PASS: Live cloth tint matches the fiber color: HD_Aramid/1
+PASS: Live stack uses original vanilla cloth pixels: HD_Aramid/75
+PASS: Live stack material uses the explicit color mask: HD_Aramid/75
+PASS: Live cloth tint matches the fiber color: HD_Aramid/75
+PASS: Live stack uses original vanilla cloth pixels: HD_Aramid/150
+PASS: Live stack material uses the explicit color mask: HD_Aramid/150
+PASS: Live cloth tint matches the fiber color: HD_Aramid/150
+PASS: Generated armor bill has the exact new material list: HD_Apparel_M1952AFlakJacket
+PASS: Every new ingredient is enabled in a default bill: HD_Apparel_M1952AFlakJacket
+PASS: Generated armor bill has the exact new material list: HD_Apparel_IBTVAssault
+PASS: Every new ingredient is enabled in a default bill: HD_Apparel_IBTVAssault
+PASS: Generated armor bill has the exact new material list: HD_Apparel_MOLLEBattleBelt
+PASS: Every new ingredient is enabled in a default bill: HD_Apparel_MOLLEBattleBelt
+PASS: Generated armor bill has the exact new material list: HD_ModularPart_IBTVShoulderGuards
+PASS: Every new ingredient is enabled in a default bill: HD_ModularPart_IBTVShoulderGuards
+PASS: Generated armor bill has the exact new material list: HD_ModularPart_IBTVLowerBody
+PASS: Every new ingredient is enabled in a default bill: HD_ModularPart_IBTVLowerBody
+PASS: Generated armor bill has the exact new material list: HD_ModularPart_IBTVBackProtector
+PASS: Every new ingredient is enabled in a default bill: HD_ModularPart_IBTVBackProtector
+PASS: Generated armor bill has the exact new material list: HD_ModularPart_IFAK
+PASS: Every new ingredient is enabled in a default bill: HD_ModularPart_IFAK
+PASS: Generated armor bill has the exact new material list: HD_ModularPart_RifleMagazinePouch
+PASS: Every new ingredient is enabled in a default bill: HD_ModularPart_RifleMagazinePouch
+PASS: Generated armor bill has the exact new material list: HD_ModularPart_WalkieTalkie
+PASS: Every new ingredient is enabled in a default bill: HD_ModularPart_WalkieTalkie
+PASS: Generated armor bill has the exact new material list: HD_ModularPart_MediL
+PASS: Every new ingredient is enabled in a default bill: HD_ModularPart_MediL
+PASS: Generated armor bill has the exact new material list: HD_ModularPart_AdminPouch
+PASS: Every new ingredient is enabled in a default bill: HD_ModularPart_AdminPouch
+PASS: Generated armor bill has the exact new material list: HD_ModularPart_IBTVCamelBak
+PASS: Every new ingredient is enabled in a default bill: HD_ModularPart_IBTVCamelBak
+PASS: Generated armor bill has the exact new material list: HD_ModularPart_UCPKneePads
+PASS: Every new ingredient is enabled in a default bill: HD_ModularPart_UCPKneePads
+PASS: Generated armor bill has the exact new material list: HD_ModularPart_MOLLEDropLeg
+PASS: Every new ingredient is enabled in a default bill: HD_ModularPart_MOLLEDropLeg
+PASS: Generated armor bill has the exact new material list: HD_ArmorPlate_SAPI
+PASS: Every new ingredient is enabled in a default bill: HD_ArmorPlate_SAPI
+PASS: Generated armor bill has the exact new material list: HD_ArmorPlate_ESAPI
+PASS: Every new ingredient is enabled in a default bill: HD_ArmorPlate_ESAPI
+PASS: Generated armor bill has the exact new material list: HD_ArmorPlate_SSAPI
+PASS: Every new ingredient is enabled in a default bill: HD_ArmorPlate_SSAPI
+PASS: Generated armor bill has the exact new material list: HD_ArmorPlate_ESBI
+PASS: Every new ingredient is enabled in a default bill: HD_ArmorPlate_ESBI
+PASS: Generated armor bill has the exact new material list: HD_ArmorPlate_RAMPART4800_Plate
+PASS: Every new ingredient is enabled in a default bill: HD_ArmorPlate_RAMPART4800_Plate
+PASS: Alumina plate retains its ceramic behavior: HD_ArmorPlate_SAPI
+PASS: Alumina plate retains its ceramic behavior: HD_ArmorPlate_ESAPI
+PASS: Alumina plate retains its ceramic behavior: HD_ArmorPlate_SSAPI
+PASS: Alumina plate retains its ceramic behavior: HD_ArmorPlate_ESBI
+PASS: UHMWPE RAMPART keeps its material behavior and has no alumina
+PASS: Recipe appears on the actual worktable: Make_HD_Apparel_M1952AFlakJacket
+BILL Make_HD_Apparel_M1952AFlakJacket work= givers=DoBillsHD_BasicWorkbench:Crafting filters=HD_Nylon:True:False,Steel:True:False should=True available=True skill=True area= worker=(129, 0, 124) costs=HD_Nylon:65,Steel:745
+INGREDIENTS Make_HD_Apparel_M1952AFlakJacket found=True chosen=HD_Nylon:65,Steel:25 missing=
+JOBEND Make_HD_Apparel_M1952AFlakJacket InterruptForced toil=4
+PASS: Native work giver starts production: Make_HD_Apparel_M1952AFlakJacket; job=DoBill; reason=
+TRACE Make_HD_Apparel_M1952AFlakJacket ticks=4800 job=DoBill driver=14 bound= carry= power= available=True materials=HD_Nylon:65,Steel:745
+TRACE Make_HD_Apparel_M1952AFlakJacket ticks=9600 job=DoBill driver=14 bound= carry= power= available=True materials=HD_Nylon:65,Steel:745
+JOBEND Make_HD_Apparel_M1952AFlakJacket Succeeded toil=16
+PASS: Native bill completes: Make_HD_Apparel_M1952AFlakJacket; current=Wear
+PASS: Exact material consumption: Make_HD_Apparel_M1952AFlakJacket/HD_Nylon
+PASS: Exact material consumption: Make_HD_Apparel_M1952AFlakJacket/Steel
+PASS: Exact physical output: Make_HD_Apparel_M1952AFlakJacket
+PASS: Recipe appears on the actual worktable: Make_HD_Apparel_IBTVAssault
+BILL Make_HD_Apparel_IBTVAssault work= givers=DoBillsMachiningTable:Smithing filters=HD_Nylon:True:False,HD_Aramid:True:False,ComponentIndustrial:True:False should=True available=True skill=True area= worker=(147, 0, 112) costs=HD_Nylon:60,HD_Aramid:40,ComponentIndustrial:3
+INGREDIENTS Make_HD_Apparel_IBTVAssault found=True chosen=HD_Nylon:60,HD_Aramid:40,ComponentIndustrial:3 missing=
+PASS: Native work giver starts production: Make_HD_Apparel_IBTVAssault; job=DoBill; reason=
+TRACE Make_HD_Apparel_IBTVAssault ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=HD_Nylon:60,HD_Aramid:40,ComponentIndustrial:3
+TRACE Make_HD_Apparel_IBTVAssault ticks=9600 job=DoBill driver=14 bound= carry= power=True available=True materials=HD_Nylon:60,HD_Aramid:40,ComponentIndustrial:3
+TRACE Make_HD_Apparel_IBTVAssault ticks=14400 job=DoBill driver=14 bound= carry= power=True available=True materials=HD_Nylon:60,HD_Aramid:40,ComponentIndustrial:3
+JOBEND Make_HD_Apparel_IBTVAssault Succeeded toil=16
+PASS: Native bill completes: Make_HD_Apparel_IBTVAssault; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Apparel_IBTVAssault/HD_Nylon
+PASS: Exact material consumption: Make_HD_Apparel_IBTVAssault/HD_Aramid
+PASS: Exact material consumption: Make_HD_Apparel_IBTVAssault/ComponentIndustrial
+PASS: Exact physical output: Make_HD_Apparel_IBTVAssault
+PASS: Recipe appears on the actual worktable: Make_HD_ModularPart_IBTVShoulderGuards
+BILL Make_HD_ModularPart_IBTVShoulderGuards work= givers=DoBillsMachiningTable:Smithing filters=HD_Nylon:True:False,HD_Aramid:True:False should=True available=True skill=True area= worker=(147, 0, 111) costs=HD_Nylon:12,HD_Aramid:12
+INGREDIENTS Make_HD_ModularPart_IBTVShoulderGuards found=True chosen=HD_Nylon:12,HD_Aramid:12 missing=
+PASS: Native work giver starts production: Make_HD_ModularPart_IBTVShoulderGuards; job=DoBill; reason=
+TRACE Make_HD_ModularPart_IBTVShoulderGuards ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=HD_Nylon:12,HD_Aramid:12
+JOBEND Make_HD_ModularPart_IBTVShoulderGuards Succeeded toil=16
+PASS: Native bill completes: Make_HD_ModularPart_IBTVShoulderGuards; current=HaulToCell
+PASS: Exact material consumption: Make_HD_ModularPart_IBTVShoulderGuards/HD_Nylon
+PASS: Exact material consumption: Make_HD_ModularPart_IBTVShoulderGuards/HD_Aramid
+PASS: Exact physical output: Make_HD_ModularPart_IBTVShoulderGuards
+PASS: Recipe appears on the actual worktable: Make_HD_ModularPart_RifleMagazinePouch
+BILL Make_HD_ModularPart_RifleMagazinePouch work= givers=DoBillsMachiningTable:Smithing filters=HD_Nylon:True:False should=True available=True skill=True area= worker=(147, 0, 111) costs=HD_Nylon:10
+INGREDIENTS Make_HD_ModularPart_RifleMagazinePouch found=True chosen=HD_Nylon:10 missing=
+PASS: Native work giver starts production: Make_HD_ModularPart_RifleMagazinePouch; job=DoBill; reason=
+JOBEND Make_HD_ModularPart_RifleMagazinePouch Succeeded toil=16
+PASS: Native bill completes: Make_HD_ModularPart_RifleMagazinePouch; current=HaulToCell
+PASS: Exact material consumption: Make_HD_ModularPart_RifleMagazinePouch/HD_Nylon
+PASS: Exact physical output: Make_HD_ModularPart_RifleMagazinePouch
+PASS: Recipe appears on the actual worktable: Make_HD_ArmorPlate_SAPI
+BILL Make_HD_ArmorPlate_SAPI work= givers=DoBillsMachiningTable:Smithing filters=HD_Alumina:True:False,HD_Aramid:True:False,HD_Nylon:True:False,ComponentIndustrial:True:False should=True available=True skill=True area= worker=(147, 0, 111) costs=HD_Alumina:18,HD_Aramid:18,HD_Nylon:6,ComponentIndustrial:1
+INGREDIENTS Make_HD_ArmorPlate_SAPI found=True chosen=HD_Alumina:18,HD_Aramid:18,HD_Nylon:6,ComponentIndustrial:1 missing=
+PASS: Native work giver starts production: Make_HD_ArmorPlate_SAPI; job=DoBill; reason=
+TRACE Make_HD_ArmorPlate_SAPI ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=HD_Alumina:18,HD_Aramid:18,HD_Nylon:6,ComponentIndustrial:1
+TRACE Make_HD_ArmorPlate_SAPI ticks=9600 job=DoBill driver=14 bound= carry= power=True available=True materials=HD_Alumina:18,HD_Aramid:18,HD_Nylon:6,ComponentIndustrial:1
+JOBEND Make_HD_ArmorPlate_SAPI Succeeded toil=16
+PASS: Native bill completes: Make_HD_ArmorPlate_SAPI; current=HaulToCell
+PASS: Exact material consumption: Make_HD_ArmorPlate_SAPI/HD_Alumina
+PASS: Exact material consumption: Make_HD_ArmorPlate_SAPI/HD_Aramid
+PASS: Exact material consumption: Make_HD_ArmorPlate_SAPI/HD_Nylon
+PASS: Exact material consumption: Make_HD_ArmorPlate_SAPI/ComponentIndustrial
+PASS: Exact physical output: Make_HD_ArmorPlate_SAPI
+PASS: Recipe appears on the actual worktable: Make_HD_ArmorPlate_RAMPART4800_Plate
+BILL Make_HD_ArmorPlate_RAMPART4800_Plate work= givers=DoBillsMachiningTable:Smithing filters=Uranium:True:False,Plasteel:True:False,HD_Nylon:True:False,ComponentIndustrial:True:False should=True available=True skill=True area= worker=(150, 0, 111) costs=Uranium:10,Plasteel:48,HD_Nylon:6,ComponentIndustrial:4
+INGREDIENTS Make_HD_ArmorPlate_RAMPART4800_Plate found=True chosen=Uranium:10,Plasteel:48,HD_Nylon:6,ComponentIndustrial:4 missing=
+PASS: Native work giver starts production: Make_HD_ArmorPlate_RAMPART4800_Plate; job=DoBill; reason=
+TRACE Make_HD_ArmorPlate_RAMPART4800_Plate ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=Uranium:10,Plasteel:48,HD_Nylon:6,ComponentIndustrial:4
+TRACE Make_HD_ArmorPlate_RAMPART4800_Plate ticks=9600 job=DoBill driver=14 bound= carry= power=True available=True materials=Uranium:10,Plasteel:48,HD_Nylon:6,ComponentIndustrial:4
+TRACE Make_HD_ArmorPlate_RAMPART4800_Plate ticks=14400 job=DoBill driver=14 bound= carry= power=True available=True materials=Uranium:10,Plasteel:48,HD_Nylon:6,ComponentIndustrial:4
+TRACE Make_HD_ArmorPlate_RAMPART4800_Plate ticks=19200 job=DoBill driver=14 bound= carry= power=True available=True materials=Uranium:10,Plasteel:48,HD_Nylon:6,ComponentIndustrial:4
+TRACE Make_HD_ArmorPlate_RAMPART4800_Plate ticks=24000 job=DoBill driver=14 bound= carry= power=True available=True materials=Uranium:10,Plasteel:48,HD_Nylon:6,ComponentIndustrial:4
+TRACE Make_HD_ArmorPlate_RAMPART4800_Plate ticks=28800 job=DoBill driver=14 bound= carry= power=True available=True materials=Uranium:10,Plasteel:48,HD_Nylon:6,ComponentIndustrial:4
+JOBEND Make_HD_ArmorPlate_RAMPART4800_Plate Succeeded toil=16
+PASS: Native bill completes: Make_HD_ArmorPlate_RAMPART4800_Plate; current=HaulToCell
+PASS: Exact material consumption: Make_HD_ArmorPlate_RAMPART4800_Plate/Uranium
+PASS: Exact material consumption: Make_HD_ArmorPlate_RAMPART4800_Plate/Plasteel
+PASS: Exact material consumption: Make_HD_ArmorPlate_RAMPART4800_Plate/HD_Nylon
+PASS: Exact material consumption: Make_HD_ArmorPlate_RAMPART4800_Plate/ComponentIndustrial
+PASS: Exact physical output: Make_HD_ArmorPlate_RAMPART4800_Plate
+COMPLETE

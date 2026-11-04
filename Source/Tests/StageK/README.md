@@ -58,3 +58,6 @@ The current recreation run also executes `RadioChatChecks.cs`: a native Social c
 
 
 `-Fibers` runs the common powered workshop fixture followed by `FiberChecks.cs`. It checks detached/adjacent facility states, both power and flick switches, active demand in both machines, an interrupted real nylon unfinished batch and resumption without double consumption, exact material/output counts for both recipes, native Fabric-stuff eligibility, graphics and reactor removal/reinstallation. Example: `Start-Checks.ps1 -RuntimeRoot .codex-staging/FiberSpinning/fresh -Fibers`.
+
+
+`-ArmorMaterials` uses `ArmorMaterialChecks.cs` to compare actual stack main textures with Core Cloth, inspect the explicitly applied mask and color, audit 19 generated equipment bills and their default ingredient allowances, preserve ceramic/UHMWPE identities, and craft representative nylon armor, soft armor, a soft protector, a pouch, ceramic plates and the UHMWPE set. It controls needs/weather and uses the existing native bill fixture.

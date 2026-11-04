@@ -1,9 +1,7 @@
-"""Original compact spinneret/drawing/take-up module and synthetic-fabric rolls."""
+"""Original compact spinneret/drawing/take-up module."""
 from pathlib import Path
-import sys,math,json
-import bpy
-from mathutils import Vector
-ROOT=Path(__file__).resolve().parent;REPO=ROOT.parent.parent
+import sys,json
+ROOT=Path(__file__).resolve().parent
 sys.path.insert(0,str(ROOT.parent/'IndustrialMachines'));import sprite_common as s
 s.period_start();s.scene['design_period']='mid-century compact synthetic fiber spinning attachment'
 # Distinctive, readable one-tile machinery: rear polymer feed, spinneret,
@@ -37,37 +35,4 @@ s.export(str(ROOT),'HD_FiberSpinningModule',[1,1],['one-tile open skid','polymer
 assert s.geometry_hash()==before
 meta=json.loads((ROOT/'validation.json').read_text());meta['geometry_palette_sha256']=before
 (ROOT/'validation.json').write_text(json.dumps(meta,indent=2)+'\n')
-# Fixed-color inventory rolls, with one-roll and three-roll stack variants.
-for stem,rgb in [('HD_Nylon',[(220,225,219),(191,199,194),(166,176,171)]),('HD_Aramid',[(219,187,89),(192,155,62),(165,128,40)])]:
- s.start();scene=s.scene;scene.render.engine='BLENDER_EEVEE';scene.render.film_transparent=True
- scene.render.resolution_x=scene.render.resolution_y=256;scene.render.resolution_percentage=100
- scene.render.image_settings.file_format='PNG';scene.render.image_settings.color_mode='RGBA'
- scene.view_settings.view_transform='Standard';scene.view_settings.look='None';scene.view_settings.exposure=0;scene.view_settings.gamma=1
- cloth=s.pal('Fabric_'+stem,rgb,False);core=s.pal('Cardboard_core_',[(100,87,66),(82,71,54),(64,56,43)],False)
- for index,(y,z) in enumerate([(-.15,.17),(.16,.17),(0,.46)]):
-  before_objects=set(scene.objects)
-  s.cyl('Cloth_roll_'+str(index),(0,y,z),.155,.61,cloth,'X',vertices=40)
-  for x in [-.315,.315]:
-   s.cyl('Core_ring_'+str(index),(x,y,z),.055,.018,core,'X',vertices=24)
-   s.cyl('Core_hole_'+str(index),(x*1.022,y,z),.034,.007,s.rubber,'X',vertices=24)
-  s.cube('Loose_fabric_tail_'+str(index),(.10,y-.13,z-.132),(.42,.26,.028),cloth)
-  for obj in set(scene.objects)-before_objects:obj['stack_index']=index
- cam_data=bpy.data.cameras.new('Item_camera');cam_data.type='ORTHO';cam_data.ortho_scale=1.35
- cam=bpy.data.objects.new('Item_camera',cam_data);scene.collection.objects.link(cam);target=Vector((0,0,.32));cam.location=target+Vector((5,-8,8));cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler();scene.camera=cam
- output=REPO/'Textures'/'Items'/stem;output.mkdir(parents=True,exist_ok=True)
- scratch=REPO/'.codex-staging'/'FiberSpinning';scratch.mkdir(parents=True,exist_ok=True)
- black=s.mat('Silhouette_mask',(0,0,0),False)
- for suffix,limit in [('a',1),('b',3)]:
-  meshes=[o for o in scene.objects if o.type=='MESH']
-  for obj in meshes:obj.hide_render=obj.get('stack_index',0)>=limit
-  color_path=str(output/(stem+'_'+suffix+'.png'));mask_path=str(scratch/(stem+'_'+suffix+'_mask.png'))
-  scene.render.filepath=color_path;bpy.ops.render.render(write_still=True)
-  originals={o.name:list(o.data.materials) for o in meshes}
-  for obj in meshes:
-   for i,_ in enumerate(obj.data.materials):obj.data.materials[i]=black
-  scene.render.filepath=mask_path;bpy.ops.render.render(write_still=True)
-  for obj in meshes:
-   for i,m in enumerate(originals[obj.name]):obj.data.materials[i]=m
-  s.outline_file(color_path,mask_path,8)
- bpy.context.preferences.filepaths.save_version=0;bpy.ops.wm.save_as_mainfile(filepath=str(ROOT/(stem+'.blend')))
-print('Fiber module and both fabric stacks exported.')
+print('Fiber module exported; fabric items reuse the vanilla Cloth textures.')

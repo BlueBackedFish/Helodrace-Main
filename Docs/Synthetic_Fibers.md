@@ -30,12 +30,12 @@
 
 이 값은 게임용 초기 설정이다. 방어는 해당 의류의 기본 수치와 재료 계수로 계산된다.
 
-[Blender 원본·재생성·아트 검수](../ArtSource/FiberSpinning/README.md). 모듈은 기존 건물 규격의 네 방향 256px 렌더·마스크와 12px 윤곽선이다. 나일론·아라미드는 새 롤 모델을 사용한 단일/복수 스택 이미지다. 모듈의 카메라 보정과 XML drawOffset을 맞췄다.
+[Blender 원본·재생성·아트 검수](../ArtSource/FiberSpinning/README.md). 모듈은 기존 건물 규격의 네 방향 256px 렌더·마스크와 12px 윤곽선이다. 나일론·아라미드는 바닐라 천 스택 원본에 전용 공유 색상 마스크를 적용한다. 나일론은 회백색, 아라미드는 황금색이며, 이전 3D 롤 그림과 재생성 코드는 제거했다. [방탄 장비 제작 연결](Armor_Material_Recipes.md). 모듈의 카메라 보정과 XML drawOffset을 맞췄다.
 
 ## 검증
 
-실제 RimWorld 1.7.4995 rev309 `.codex-staging/FiberSpinning/native-02`: **50 PASS, COMPLETE, FAIL 없음**. [검사 원문](Data/SyntheticFibers/native-checks.txt), [버전·동일 배포 DLL 해시](Data/SyntheticFibers/verification.json).
+최초 모듈·생산 통합 검증(당시 3D 롤 그림): 실제 RimWorld 1.7.4995 rev309 `.codex-staging/FiberSpinning/native-02`: **50 PASS, COMPLETE, FAIL 없음**. [검사 원문](Data/SyntheticFibers/native-checks.txt), [버전·동일 배포 DLL 해시](Data/SyntheticFibers/verification.json).
 
 기본 전력망·인접 시설 연결·작업 제공자·실제 제작 작업을 사용했다. 분리된 모듈 거부, 작업 목록 위치, 양쪽 스위치·반응기 전력 차단, 500W+1200W 작업 부하, 실제 나일론 작업 도중 차단·13개 원료 및 진행도 보존·같은 작업 재개와 정확한 20개 산출을 확인했다. 아라미드도 정확한 12+1 소비와 20개 산출을 확인했다. 두 재료의 기본 게임 Fabric 제작 허용·재료가 적용된 의류 생성, 두 스택 그림과 모듈 네 방향 그림, 반응기 철거/재설치 후 연결 복원을 검사했다. 욕구·기후·외부 방해를 제어한 기능 검사이며 장기 밸런스 실측이나 전체 저장/로드 검사는 아니다.
 
-정적 레시피 93개·구체 ThingDef 544개, 중간재 27종 가격과 아트 출력 12PNG·세 Blender 원본 검증도 통과했다. 첫 실행은 스위치 복구 직후 전력망 갱신을 기다리지 않은 검사 조건을 바로잡았고, 최종 로그의 ERROR는 기존 Workshop 항목 3781143823 폴더 부재 1건뿐이다. DLL/PDB는 통과한 호스트 파일과 동일하다. 새 제품 코드는 Verse/RimWorld의 기존 작업대·시설·가동 계약과 .NET 타입을 사용하며 Unity API 경계를 추가하지 않는다.
+정적 레시피 93개·구체 ThingDef 544개, 중간재 27종 가격과 아트 출력 12PNG·세 Blender 원본 검증도 통과했다. 첫 실행은 스위치 복구 직후 전력망 갱신을 기다리지 않은 검사 조건을 바로잡았고, 최종 로그의 ERROR는 기존 Workshop 항목 3781143823 폴더 부재 1건뿐이다. 당시 DLL/PDB는 해당 호스트 파일과 동일했다. 현재 천 마스크·방탄 장비 제작 연결은 [후속 검증](Armor_Material_Recipes.md)을 따른다. 새 제품 코드는 Verse/RimWorld의 기존 작업대·시설·가동 계약과 .NET 타입을 사용하며 Unity API 경계를 추가하지 않는다.

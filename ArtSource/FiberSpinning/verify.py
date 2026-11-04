@@ -19,10 +19,13 @@ for direction in ['north','east','south','west']:
         hashes.add(a.tobytes())
     assert abs(meta['cameras'][direction.title()]['downward_degrees']-64)<.001
 assert len(hashes)==4
-for stem in ['HD_Nylon','HD_Aramid']:
-    for suffix in ['a','b']:
-        with Image.open(REPO/'Textures/Items'/stem/(stem+'_'+suffix+'.png')) as im:
-            assert im.size==(256,256) and im.getchannel('A').getextrema()==(0,255)
-for file in ['HD_FiberSpinningModule.blend','HD_Nylon.blend','HD_Aramid.blend']:
-    assert (ROOT/file).stat().st_size>10000
-print('PASS: 12 game PNGs, four distinct 64-degree views, matching masks, compensated anchor, 1x1 density, 12px outline and three saved Blender sources.')
+fibers=E.parse(REPO/'Defs/GreatWar/Items/SyntheticFibers.xml').getroot()
+for d in fibers:
+    assert d.findtext('graphicData/texPath')=='Things/Item/Resource/Cloth'
+    assert d.findtext('graphicData/shaderType')=='CutoutComplex'
+    assert d.findtext('graphicData/shaderParameters/_MaskTex')=='/Items/SyntheticFibers/ClothTintMask'
+    assert d.findtext('graphicData/color')==d.findtext('stuffProps/color')
+with Image.open(REPO/'Textures/Items/SyntheticFibers/ClothTintMask.png') as mask:
+    assert mask.size==(2,2) and mask.convert('RGBA').tobytes()==bytes([255,0,0,255])*4
+assert (ROOT/'HD_FiberSpinningModule.blend').stat().st_size>10000
+print('PASS: 8 module PNGs, four distinct 64-degree views, matching masks, compensated 1x1 anchor, 12px outline, vanilla Cloth references and shared primary-color mask.')

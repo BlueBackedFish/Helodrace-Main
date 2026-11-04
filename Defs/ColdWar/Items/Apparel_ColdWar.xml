@@ -55,6 +55,7 @@
       </defaultOutfitTags>
     </apparel>
     <recipeMaker>
+      <defaultIngredientFilter><thingDefs><li>HD_Nylon</li><li>Steel</li></thingDefs></defaultIngredientFilter>
       <workSkill>Crafting</workSkill>
       <skillRequirements>
         <Crafting>6</Crafting>
@@ -63,10 +64,7 @@
         <li>HD_BasicWorkbench</li>
       </recipeUsers>
     </recipeMaker>
-    <costList>
-      <Cloth>65</Cloth>
-      <Steel>25</Steel>
-    </costList>
+    <costList><HD_Nylon>65</HD_Nylon><Steel>25</Steel></costList>
     <researchPrerequisites>
       <li>HelodFlakJacket</li>
     </researchPrerequisites>

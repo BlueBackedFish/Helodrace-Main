@@ -28,6 +28,7 @@
       <DeteriorationRate>1</DeteriorationRate>
     </statBases>
     <recipeMaker>
+      <defaultIngredientFilter><categories><li>Root</li></categories></defaultIngredientFilter>
       <workSkill>Crafting</workSkill>
       <skillRequirements><Crafting>6</Crafting></skillRequirements>
       <researchPrerequisite>HelodPASGT</researchPrerequisite>
@@ -85,7 +86,7 @@
     <description>A paired detachable shoulder armor module for the IBTV carrier.</description>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Arm/HD_IOTVGen4Assault_Arm_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>260</MarketValue><Mass>0.85</Mass><WorkToMake>5000</WorkToMake></statBases>
-    <costList><Cloth>12</Cloth><Plasteel>12</Plasteel></costList>
+    <costList><HD_Nylon>12</HD_Nylon><HD_Aramid>12</HD_Aramid></costList>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -95,7 +96,7 @@
     <description>A detachable front-facing groin protector for the IBTV carrier.</description>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IOTVGen4Assault_Groin_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>240</MarketValue><Mass>0.90</Mass><WorkToMake>5000</WorkToMake></statBases>
-    <costList><Cloth>14</Cloth><Plasteel>10</Plasteel></costList>
+    <costList><HD_Nylon>14</HD_Nylon><HD_Aramid>10</HD_Aramid></costList>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -105,7 +106,7 @@
     <description>A detachable rear lower protector with PALS webbing for the IBTV carrier.</description>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_BackProtector/HD_IOTVGen4Assault_BackProtector_Female_north</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>230</MarketValue><Mass>0.80</Mass><WorkToMake>4800</WorkToMake></statBases>
-    <costList><Cloth>14</Cloth><Plasteel>9</Plasteel></costList>
+    <costList><HD_Nylon>14</HD_Nylon><HD_Aramid>9</HD_Aramid></costList>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -115,7 +116,7 @@
     <comps><li Class="Helodrace.Tactical.CompProperties_MedicalPouch"><capacity>4</capacity></li></comps>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/MediM/FrontHigh/HD_IBTV_FrontHigh_MediM_1_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>75</MarketValue><Mass>0.30</Mass><WorkToMake>1200</WorkToMake></statBases>
-    <costList><Cloth>12</Cloth><MedicineIndustrial>1</MedicineIndustrial></costList>
+    <costList><HD_Nylon>12</HD_Nylon><MedicineIndustrial>1</MedicineIndustrial></costList>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -127,7 +128,7 @@
     </comps>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/Mag/FrontHigh/HD_IBTV_FrontHigh_Mag_1_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>45</MarketValue><Mass>0.18</Mass><WorkToMake>900</WorkToMake></statBases>
-    <costList><Cloth>10</Cloth></costList>
+    <costList><HD_Nylon>10</HD_Nylon></costList>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -137,7 +138,7 @@
     <comps><li Class="Helodrace.CompProperties_TacticalRadio"><network>ModernInfantry</network><range>300</range></li></comps>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/WalkieTalkie/Side/HD_IBTV_Side_WalkieTalkie_1_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>120</MarketValue><Mass>0.35</Mass><WorkToMake>1400</WorkToMake></statBases>
-    <costList><Cloth>10</Cloth><ComponentIndustrial>1</ComponentIndustrial></costList>
+    <costList><HD_Nylon>10</HD_Nylon><ComponentIndustrial>1</ComponentIndustrial></costList>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -147,7 +148,7 @@
     <comps><li Class="Helodrace.Tactical.CompProperties_MedicalPouch"><capacity>8</capacity><hemostaticCapacity>2</hemostaticCapacity></li></comps>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/MediL/FrontHigh/HD_IBTV_FrontHigh_MediL_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>110</MarketValue><Mass>0.55</Mass><WorkToMake>1800</WorkToMake></statBases>
-    <costList><Cloth>18</Cloth><MedicineIndustrial>2</MedicineIndustrial></costList>
+    <costList><HD_Nylon>18</HD_Nylon><MedicineIndustrial>2</MedicineIndustrial></costList>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -156,7 +157,7 @@
     <description>A four-cell flat administrative pouch for PALS webbing.</description>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/Admin/FrontHigh/HD_IBTV_FrontHigh_Admin_1_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>55</MarketValue><Mass>0.22</Mass><WorkToMake>1000</WorkToMake></statBases>
-    <costList><Cloth>12</Cloth></costList>
+    <costList><HD_Nylon>12</HD_Nylon></costList>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -165,7 +166,7 @@
     <description>A detachable hydration pack made for the rear mount of the IBTV carrier.</description>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/CamelBak/HD_IBTV_CamelBak_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>140</MarketValue><Mass>1.20</Mass><WorkToMake>2200</WorkToMake></statBases>
-    <costList><Cloth>20</Cloth><ComponentIndustrial>1</ComponentIndustrial></costList>
+    <costList><HD_Nylon>20</HD_Nylon><ComponentIndustrial>1</ComponentIndustrial></costList>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -175,7 +176,7 @@
     <description>A paired set of detachable knee pads for UCP combat pants.</description>
     <graphicData><texPath>Helod/Apparel/HD_UCPPants/KneePads/HD_UCPPants_KneePads_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>65</MarketValue><Mass>0.35</Mass><WorkToMake>1200</WorkToMake></statBases>
-    <costList><Cloth>8</Cloth><Steel>6</Steel></costList>
+    <costList><HD_Nylon>8</HD_Nylon><Steel>6</Steel></costList>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -184,6 +185,6 @@
     <description>A detachable PALS-compatible drop-leg platform for the MOLLE battle belt.</description>
     <graphicData><texPath>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_MOLLEBattleBelt_DropLeg_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>95</MarketValue><Mass>0.55</Mass><WorkToMake>1600</WorkToMake></statBases>
-    <costList><Cloth>16</Cloth><Steel>6</Steel></costList>
+    <costList><HD_Nylon>16</HD_Nylon><Steel>6</Steel></costList>
   </ThingDef>
 </Defs>

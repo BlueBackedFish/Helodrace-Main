@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-04",
+  "runtime": ".codex-staging\\ArmorMaterials\\native-03",
+  "gameVersion": "1.7.4995 rev309",
+  "passes": 108,
+  "complete": true,
+  "mainAssemblySha256": "C354DB6D0AC011C89175F142AABC0084372F7708958F200A39DFDA220066B231",
+  "equipmentRecipes": 19,
+  "actuallyCraftedEquipment": 6,
+  "recipeDefinitions": 93,
+  "concreteThingDefinitions": 544,
+  "ballisticArmorChecks": 128,
+  "intermediatePrices": 27,
+  "remainingEngineErrors": [
+    "2026-11-04 19:21:04.047 ERROR [Verse] Created WorkshopItem for 3781143823 but there is no folder for it."
+  ]
+}

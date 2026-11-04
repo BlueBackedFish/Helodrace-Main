@@ -153,6 +153,7 @@
       </defaultOutfitTags>
     </apparel>
     <recipeMaker>
+      <defaultIngredientFilter><thingDefs><li>HD_Nylon</li><li>HD_Aramid</li><li>ComponentIndustrial</li></thingDefs></defaultIngredientFilter>
       <researchPrerequisite>HelodPASGT</researchPrerequisite>
       <workSkill>Crafting</workSkill>
       <skillRequirements>
@@ -162,11 +163,7 @@
         <li>TableMachining</li>
       </recipeUsers>
     </recipeMaker>
-    <costList>
-      <Cloth>60</Cloth>
-      <Plasteel>40</Plasteel>
-      <ComponentIndustrial>3</ComponentIndustrial>
-    </costList>
+    <costList><HD_Nylon>60</HD_Nylon><HD_Aramid>40</HD_Aramid><ComponentIndustrial>3</ComponentIndustrial></costList>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularArmor">
         <armorTags><li>HD_IOTVGen4</li></armorTags>
@@ -377,12 +374,13 @@
       <defaultOutfitTags><li>Soldier</li></defaultOutfitTags>
     </apparel>
     <recipeMaker>
+      <defaultIngredientFilter><thingDefs><li>HD_Nylon</li><li>Steel</li><li>ComponentIndustrial</li></thingDefs></defaultIngredientFilter>
       <researchPrerequisite>HelodPASGT</researchPrerequisite>
       <workSkill>Crafting</workSkill>
       <skillRequirements><Crafting>5</Crafting></skillRequirements>
       <recipeUsers><li>ElectricTailoringBench</li></recipeUsers>
     </recipeMaker>
-    <costList><Cloth>30</Cloth><Steel>10</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
+    <costList><HD_Nylon>30</HD_Nylon><Steel>10</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularArmor">
         <armorTags><li>HD_MOLLEBattleBelt</li></armorTags>

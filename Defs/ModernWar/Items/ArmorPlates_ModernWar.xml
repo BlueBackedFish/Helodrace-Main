@@ -30,6 +30,7 @@
       </li>
     </comps>
     <recipeMaker>
+      <defaultIngredientFilter><categories><li>Root</li></categories></defaultIngredientFilter>
       <workSkill>Crafting</workSkill>
       <skillRequirements><Crafting>8</Crafting></skillRequirements>
       <researchPrerequisite>HelodPASGT</researchPrerequisite>
@@ -60,7 +61,7 @@
       <DeteriorationRate>1</DeteriorationRate>
       <WorkToMake>9000</WorkToMake>
     </statBases>
-    <costList><Steel>18</Steel><Plasteel>18</Plasteel><ComponentIndustrial>1</ComponentIndustrial></costList>
+    <costList><HD_Alumina>18</HD_Alumina><HD_Aramid>18</HD_Aramid><HD_Nylon>6</HD_Nylon><ComponentIndustrial>1</ComponentIndustrial></costList>
   </ThingDef>
 
   <ThingDef ParentName="HD_ArmorPlateBase">
@@ -86,7 +87,7 @@
       <DeteriorationRate>1</DeteriorationRate>
       <WorkToMake>13000</WorkToMake>
     </statBases>
-    <costList><Steel>16</Steel><Plasteel>28</Plasteel><ComponentIndustrial>2</ComponentIndustrial></costList>
+    <costList><HD_Alumina>28</HD_Alumina><HD_Aramid>16</HD_Aramid><HD_Nylon>6</HD_Nylon><ComponentIndustrial>2</ComponentIndustrial></costList>
   </ThingDef>
 
   <ThingDef ParentName="HD_ArmorPlateBase">
@@ -112,7 +113,7 @@
       <DeteriorationRate>1</DeteriorationRate>
       <WorkToMake>18000</WorkToMake>
     </statBases>
-    <costList><Steel>12</Steel><Plasteel>40</Plasteel><ComponentIndustrial>3</ComponentIndustrial></costList>
+    <costList><HD_Alumina>40</HD_Alumina><HD_Aramid>12</HD_Aramid><HD_Nylon>4</HD_Nylon><ComponentIndustrial>3</ComponentIndustrial></costList>
   </ThingDef>
 
   <ThingDef ParentName="HD_ArmorPlateBase">
@@ -138,7 +139,7 @@
       <DeteriorationRate>1</DeteriorationRate>
       <WorkToMake>20000</WorkToMake>
     </statBases>
-    <costList><Steel>10</Steel><Plasteel>44</Plasteel><ComponentIndustrial>3</ComponentIndustrial></costList>
+    <costList><HD_Alumina>44</HD_Alumina><HD_Aramid>10</HD_Aramid><HD_Nylon>4</HD_Nylon><ComponentIndustrial>3</ComponentIndustrial></costList>
   </ThingDef>
 
   <ThingDef ParentName="HD_ArmorPlateBase">
@@ -165,6 +166,6 @@
       <DeteriorationRate>1</DeteriorationRate>
       <WorkToMake>24000</WorkToMake>
     </statBases>
-    <costList><Uranium>10</Uranium><Plasteel>48</Plasteel><ComponentIndustrial>4</ComponentIndustrial></costList>
+    <costList><Uranium>10</Uranium><Plasteel>48</Plasteel><HD_Nylon>6</HD_Nylon><ComponentIndustrial>4</ComponentIndustrial></costList>
   </ThingDef>
 </Defs>
