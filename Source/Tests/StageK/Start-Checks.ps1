@@ -1,4 +1,4 @@
-param([Parameter(Mandatory)][string]$RuntimeRoot,[switch]$Recreation,[switch]$State,[switch]$Pistols,[switch]$GeneAudit,[switch]$Xenotypes,[switch]$TextureItems,[switch]$Minerals)
+param([Parameter(Mandatory)][string]$RuntimeRoot,[switch]$Recreation,[switch]$State,[switch]$Pistols,[switch]$GeneAudit,[switch]$Xenotypes,[switch]$TextureItems,[switch]$Minerals,[switch]$Fibers)
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot '../Game17Runtime.ps1')
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
@@ -16,6 +16,7 @@ if($Recreation){$arguments+='-hdKRecreation=true'}
 if($State){$arguments+='-hdKState=true'}
 if($Pistols){$arguments+='-hdKPistols=true'}
 if($GeneAudit){$arguments+='-hdKGeneAudit=true'}
+if($Fibers){$arguments+='-hdKFibers=true'}
 if($Minerals){$arguments+='-hdKMinerals=true'}
 if($TextureItems){$arguments+='-hdKTextureItems=true'}
 if($Xenotypes){$arguments+='-hdKXenotypes=true'}

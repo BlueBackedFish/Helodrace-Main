@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_FiberSpinner_Linked>Connected reactor: {0}</HD_FiberSpinner_Linked>
+  <HD_FiberSpinner_NeedsReactor>Requires an adjacent, powered stirred-tank reactor with its switch on.</HD_FiberSpinner_NeedsReactor>
+</LanguageData>

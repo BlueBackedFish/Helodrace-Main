@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <RecipeDef>
+    <defName>HD_SpinNylon</defName>
+    <label>spin nylon</label>
+    <description>Polymerize the feedstock and draw it through the spinning module to produce synthetic textile. Requires an adjacent, powered stirred-tank reactor.</description>
+    <jobString>Spinning synthetic fiber.</jobString>
+    <workAmount>4000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Tailor</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
+    <researchPrerequisite>HelodHaberBosch</researchPrerequisite>
+    <workerClass>Helodrace.RecipeWorker_RequiresLinkedFacility</workerClass>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_AmmoniumNitrate</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Chemfuel</li>
+        <li>HD_AmmoniumNitrate</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Nylon>20</HD_Nylon>
+    </products>
+    <recipeUsers>
+      <li>HD_FiberSpinningModule</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>6</Crafting>
+    </skillRequirements>
+    <modExtensions>
+      <li Class="Helodrace.RecipeExtension_RequiredFacility">
+        <workTable>HD_FiberSpinningModule</workTable>
+        <facility>HD_StirredTankReactor</facility>
+        <requireOperationalFacility>true</requireOperationalFacility>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>HD_SpinAramid</defName>
+    <label>spin aramid</label>
+    <description>Polymerize the feedstock and draw it through the spinning module to produce synthetic textile. Requires an adjacent, powered stirred-tank reactor.</description>
+    <jobString>Spinning synthetic fiber.</jobString>
+    <workAmount>6000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Tailor</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
+    <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
+    <workerClass>Helodrace.RecipeWorker_RequiresLinkedFacility</workerClass>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_AromaticBaseOil</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_AmmoniumNitrate</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_AromaticBaseOil</li>
+        <li>HD_AmmoniumNitrate</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Aramid>20</HD_Aramid>
+    </products>
+    <recipeUsers>
+      <li>HD_FiberSpinningModule</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>10</Crafting>
+    </skillRequirements>
+    <modExtensions>
+      <li Class="Helodrace.RecipeExtension_RequiredFacility">
+        <workTable>HD_FiberSpinningModule</workTable>
+        <facility>HD_StirredTankReactor</facility>
+        <requireOperationalFacility>true</requireOperationalFacility>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+</Defs>

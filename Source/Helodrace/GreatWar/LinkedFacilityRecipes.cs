@@ -10,6 +10,7 @@ namespace Helodrace
     {
         public ThingDef workTable;
         public ThingDef facility;
+        public bool requireOperationalFacility;
     }
 
     // Worktables can also act as facilities. Higher tiers satisfy lower-tier
@@ -56,7 +57,8 @@ namespace Helodrace
 
             foreach (Thing facility in affected.LinkedFacilitiesListForReading)
             {
-                if (facility.def == requirement.facility && affected.IsFacilityActive(facility))
+                if (facility.def == requirement.facility && affected.IsFacilityActive(facility)
+                    && (!requirement.requireOperationalFacility || IsOperationalFacility(facility)))
                 {
                     return true;
                 }
@@ -64,6 +66,10 @@ namespace Helodrace
 
             return false;
         }
+
+        internal static bool IsOperationalFacility(Thing facility)
+            => facility?.Spawned == true && facility.TryGetComp<CompPowerTrader>()?.PowerOn == true
+                && FlickUtility.WantsToBeOn(facility) && !facility.IsBrokenDown();
 
         private static bool IsGunAssemblyRecipe(RecipeDef recipe)
         {

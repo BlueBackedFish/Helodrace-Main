@@ -1,0 +1,85 @@
+{
+  "asset": "HD_FiberSpinningModule",
+  "footprint": [
+    1,
+    1
+  ],
+  "features": [
+    "one-tile open skid",
+    "polymer feed coupling and filter spinneret",
+    "three drawn fiber bands and quench trough",
+    "two drawing godets",
+    "take-up reel and analog control dial"
+  ],
+  "mesh_objects": 32,
+  "design_period": "mid-century compact synthetic fiber spinning attachment",
+  "texture_resolution": [
+    256,
+    256
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "orthographic_scale": 1.5,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    1.5,
+    1.5
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "camera_target": [
+    0.0,
+    0.0,
+    0.43292468786239624
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.18978169560432434
+  ],
+  "tabletop_anchor": null,
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 24,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 12,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 24,
+      "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 21,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false,
+  "building_theme_version": 1,
+  "building_theme_family": "industrial_steel",
+  "building_theme_roles": {
+    "metal_base": 3,
+    "fixed": 24,
+    "metal": 12,
+    "silver": 21,
+    "recess": 33,
+    "dial": 3
+  },
+  "theme_secondary_color": [
+    105,
+    105,
+    105
+  ],
+  "geometry_palette_sha256": "d62cff7719cb7e34065edb37b217bc4f51f427459838f724f79e31747f9199de"
+}

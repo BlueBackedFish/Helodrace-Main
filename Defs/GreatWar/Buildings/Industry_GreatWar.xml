@@ -124,6 +124,9 @@
       <li>ITab_Bills</li>
     </inspectorTabs>
     <comps>
+      <li Class="CompProperties_Facility">
+        <maxSimultaneous>1</maxSimultaneous><maxDistance>4</maxDistance><mustBePlacedAdjacent>true</mustBePlacedAdjacent>
+      </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
         <basePowerConsumption>1200</basePowerConsumption>

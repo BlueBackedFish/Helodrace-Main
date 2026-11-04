@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-04",
+  "runtime": ".codex-staging\\FiberSpinning\\native-02",
+  "gameVersion": "1.7.4995 rev309",
+  "passes": 50,
+  "complete": true,
+  "mainAssemblySha256": "EE104C12D32A71EF8453695EA3E88A53CE419BF50FF43D44E94CA7321D1ACC1A",
+  "recipeDefinitions": 93,
+  "concreteThingDefinitions": 544,
+  "intermediatePrices": 27,
+  "gamePngs": 12,
+  "remainingEngineErrors": [
+    "2026-11-04 18:51:20.778 ERROR [Verse] Created WorkshopItem for 3781143823 but there is no folder for it."
+  ]
+}

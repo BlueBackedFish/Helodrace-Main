@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_FiberSpinningModule</defName>
+    <label>fiber spinning module</label>
+    <description>A compact spinneret, drawing rollers and take-up reel for synthetic textiles. Place directly beside a stirred-tank reactor. Queue nylon or aramid production here; both the module and the reactor must be powered and switched on.</description>
+    <thingClass>Helodrace.Building_WorkTable_FiberSpinningModule</thingClass>
+    <graphicData>
+      <texPath>Buildings/HD_FiberSpinningModule</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1.5,1.5)</drawSize>
+      <shaderType>CutoutComplex</shaderType>
+      <color>(255,255,255)</color>
+      <colorTwo>(105,105,105)</colorTwo>
+      <drawOffset>(0.0,0.0,0.1897817)</drawOffset>
+    </graphicData>
+    <size>(1,1)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <rotatable>true</rotatable>
+    <tickerType>Normal</tickerType>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>30</pathCost>
+    <fillPercent>0.6</fillPercent>
+    <surfaceType>Item</surfaceType>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <WorkToBuild>2500</WorkToBuild>
+      <Mass>70</Mass>
+      <Flammability>0.2</Flammability>
+      <WorkTableWorkSpeedFactor>1</WorkTableWorkSpeedFactor>
+    </statBases>
+    <costList>
+      <Steel>40</Steel>
+      <HD_CarbonSteel>30</HD_CarbonSteel>
+      <HD_GeneralMachinePart>6</HD_GeneralMachinePart>
+      <HD_BasicElectricalComponents>4</HD_BasicElectricalComponents>
+    </costList>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2491</uiOrder>
+    <researchPrerequisites>
+      <li>HelodHaberBosch</li>
+    </researchPrerequisites>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>
+    <placeWorkers>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>500</basePowerConsumption>
+      </li>
+      <li Class="Helodrace.CompProperties_IndustrialWorktablePower" />
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_AffectedByFacilities">
+        <linkableFacilities>
+          <li>HD_StirredTankReactor</li>
+        </linkableFacilities>
+      </li>
+      <li Class="Helodrace.CompProperties_OperatingHeatPusher">
+        <heatPerSecond>2</heatPerSecond>
+        <heatPushMaxTemperature>60</heatPushMaxTemperature>
+      </li>
+    </comps>
+    <building>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
+  </ThingDef>
+  <WorkGiverDef>
+    <defName>DoBillsHD_FiberSpinningModule</defName>
+    <label>spin synthetic textiles</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HD_FiberSpinningModule</li>
+    </fixedBillGiverDefs>
+    <verb>spin</verb>
+    <gerund>spinning at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+</Defs>

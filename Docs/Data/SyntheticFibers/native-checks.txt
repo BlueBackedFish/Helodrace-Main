@@ -1,0 +1,64 @@
+Actual 1.7 Stage K life checks
+PASS: Real power grid powers HD_StirredTankReactor
+PASS: Real power grid powers HD_VIMFurnace
+PASS: Real power grid powers HD_SemiconductorFab
+PASS: Real power grid powers TableMachining
+PASS: Spinning module occupies exactly one tile
+PASS: A detached module cannot spin fiber
+PASS: Fiber bills belong to the module, not the reactor
+PASS: Fiber recipes retain real unfinished work and ingredients
+PASS: Real electrical network powers both machines
+PASS: Native adjacency links module to its stirred reactor
+PASS: Powered linked module accepts nylon production
+PASS: Module switch off blocks work
+PASS: Reactor switch off blocks acquisition and work
+PASS: Reactor power loss disables the linked facility
+PASS: Native grid restores module power after switch tests
+PASS: Recipe appears on the actual worktable: HD_SpinNylon
+BILL HD_SpinNylon work=Crafting givers=DoBillsHD_FiberSpinningModule:Crafting filters=Chemfuel:True:True,HD_AmmoniumNitrate:True:True should=True available=True skill=True area= worker=(131, 0, 121) costs=Chemfuel:12,HD_AmmoniumNitrate:1
+INGREDIENTS HD_SpinNylon found=True chosen=Chemfuel:12,HD_AmmoniumNitrate:1 missing=
+JOBEND HD_SpinNylon InterruptForced toil=4
+PASS: Native work giver starts production: HD_SpinNylon; job=DoBill; reason=
+PASS: Spinning drives active load in both module and reactor
+PASS: Working demand is 500W plus the existing 1200W reactor
+JOBEND HD_SpinNylon Incompletable toil=14
+PASS: Reactor loss interrupts an actual in-progress spinning job
+PASS: Interrupted work preserves exact progress and all 13 feedstock units
+PASS: Restoring reactor permits the same bill to resume
+TRACE HD_SpinNylon ticks=4800 job=DoBill driver=14 bound=892.0676 carry= power=True available=True materials=Chemfuel:0,HD_AmmoniumNitrate:0
+JOBEND HD_SpinNylon Succeeded toil=16
+PASS: Native bill completes: HD_SpinNylon; current=HaulToCell
+PASS: Exact material consumption: HD_SpinNylon/Chemfuel
+PASS: Exact material consumption: HD_SpinNylon/HD_AmmoniumNitrate
+PASS: Exact physical output: HD_SpinNylon
+PASS: Actual nylon bill exercised interruption and coupled power load
+PASS: Recipe appears on the actual worktable: HD_SpinAramid
+BILL HD_SpinAramid work=Crafting givers=DoBillsHD_FiberSpinningModule:Crafting filters=HD_AromaticBaseOil:True:True,HD_AmmoniumNitrate:True:True should=True available=True skill=True area= worker=(147, 0, 111) costs=HD_AromaticBaseOil:12,HD_AmmoniumNitrate:1
+INGREDIENTS HD_SpinAramid found=True chosen=HD_AromaticBaseOil:12,HD_AmmoniumNitrate:1 missing=
+JOBEND HD_SpinAramid InterruptForced toil=4
+PASS: Native work giver starts production: HD_SpinAramid; job=DoBill; reason=
+JOBEND HD_SpinAramid InterruptOptional toil=14
+TRACE HD_SpinAramid ticks=4800 job=DoBill driver=14 bound=2707.334 carry= power=True available=True materials=HD_AromaticBaseOil:0,HD_AmmoniumNitrate:0
+JOBEND HD_SpinAramid Succeeded toil=16
+PASS: Native bill completes: HD_SpinAramid; current=HaulToCell
+PASS: Exact material consumption: HD_SpinAramid/HD_AromaticBaseOil
+PASS: Exact material consumption: HD_SpinAramid/HD_AmmoniumNitrate
+PASS: Exact physical output: HD_SpinAramid
+PASS: Fiber remains below vanilla component value: HD_Nylon
+PASS: New fiber is accepted by native textile crafting: HD_Nylon
+PASS: Native garment can be made from HD_Nylon
+PASS: Fiber stack graphic loads: HD_Nylon/1
+PASS: Fiber stack graphic loads: HD_Nylon/75
+PASS: Fiber remains below vanilla component value: HD_Aramid
+PASS: New fiber is accepted by native textile crafting: HD_Aramid
+PASS: Native garment can be made from HD_Aramid
+PASS: Fiber stack graphic loads: HD_Aramid/1
+PASS: Fiber stack graphic loads: HD_Aramid/75
+PASS: Module directional graphic loads: 0
+PASS: Module directional graphic loads: 1
+PASS: Module directional graphic loads: 2
+PASS: Module directional graphic loads: 3
+PASS: One-tile module uses the calibrated 1.5-tile canvas
+PASS: Removing reactor removes production access
+PASS: Reinstalling reactor rebuilds its native link
+COMPLETE

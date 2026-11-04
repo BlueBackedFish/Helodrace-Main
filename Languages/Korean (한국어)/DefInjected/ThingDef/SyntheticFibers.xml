@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Nylon.label>나일론</HD_Nylon.label>
+  <HD_Nylon.description>화학연료 기반 원료를 방사해 만든 가벼운 합성 섬유입니다. 일반 의류와 장비 덮개 등에 사용합니다.</HD_Nylon.description>
+  <HD_Aramid.label>아라미드</HD_Aramid.label>
+  <HD_Aramid.description>방향족 기초유분을 방사해 만든 질긴 황금색 합성 섬유입니다. 내열 섬유와 보강재로 사용합니다.</HD_Aramid.description>
+  <HD_FiberSpinningModule.label>방사 모듈</HD_FiberSpinningModule.label>
+  <HD_FiberSpinningModule.description>방사구·연신 롤러·권취 릴을 갖춘 소형 합성섬유 생산 모듈입니다. 교반식 탱크 반응기에 바로 붙여 설치하고 이 모듈에서 나일론과 아라미드 작업을 등록합니다. 모듈과 반응기에 모두 전력이 공급되고 스위치가 켜져 있어야 합니다.</HD_FiberSpinningModule.description>
+</LanguageData>

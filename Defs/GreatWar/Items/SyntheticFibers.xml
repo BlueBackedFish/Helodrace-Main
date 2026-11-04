@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_Nylon</defName>
+    <label>nylon</label>
+    <description>Light synthetic fabric spun from a fuel-based polymer feed. A versatile material for ordinary clothing and equipment covers.</description>
+    <graphicData>
+      <texPath>Items/HD_Nylon</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>(0.8,0.8)</drawSize>
+    </graphicData>
+    <stackLimit>150</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <burnableByRecipe>true</burnableByRecipe>
+    <minRewardCount>20</minRewardCount>
+    <statBases>
+      <MarketValue>2.4</MarketValue>
+      <Mass>0.018</Mass>
+      <DeteriorationRate>2</DeteriorationRate>
+      <StuffPower_Armor_Sharp>0.45</StuffPower_Armor_Sharp>
+      <StuffPower_Armor_Blunt>0.1</StuffPower_Armor_Blunt>
+      <StuffPower_Armor_Heat>0.25</StuffPower_Armor_Heat>
+      <StuffPower_Insulation_Cold>20</StuffPower_Insulation_Cold>
+      <StuffPower_Insulation_Heat>18</StuffPower_Insulation_Heat>
+      <MaxHitPoints>110</MaxHitPoints>
+      <Flammability>1.1</Flammability>
+    </statBases>
+    <stuffProps>
+      <categories>
+        <li>Fabric</li>
+      </categories>
+      <color>(215,220,215)</color>
+      <commonality>.1</commonality>
+      <statFactors>
+        <MaxHitPoints>1.15</MaxHitPoints>
+        <Flammability>1.1</Flammability>
+        <Beauty>1.1</Beauty>
+      </statFactors>
+    </stuffProps>
+    <thingCategories>
+      <li>Textiles</li>
+    </thingCategories>
+  </ThingDef>
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_Aramid</defName>
+    <label>aramid</label>
+    <description>Tough golden synthetic fabric spun from aromatic feedstock. Used as a heat-resistant textile and reinforcement material.</description>
+    <graphicData>
+      <texPath>Items/HD_Aramid</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>(0.8,0.8)</drawSize>
+    </graphicData>
+    <stackLimit>150</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <burnableByRecipe>true</burnableByRecipe>
+    <minRewardCount>20</minRewardCount>
+    <statBases>
+      <MarketValue>8</MarketValue>
+      <Mass>0.026</Mass>
+      <DeteriorationRate>2</DeteriorationRate>
+      <StuffPower_Armor_Sharp>1.25</StuffPower_Armor_Sharp>
+      <StuffPower_Armor_Blunt>0.35</StuffPower_Armor_Blunt>
+      <StuffPower_Armor_Heat>0.8</StuffPower_Armor_Heat>
+      <StuffPower_Insulation_Cold>18</StuffPower_Insulation_Cold>
+      <StuffPower_Insulation_Heat>26</StuffPower_Insulation_Heat>
+      <MaxHitPoints>160</MaxHitPoints>
+      <Flammability>0.35</Flammability>
+    </statBases>
+    <stuffProps>
+      <categories>
+        <li>Fabric</li>
+      </categories>
+      <color>(203,174,76)</color>
+      <commonality>.1</commonality>
+      <statFactors>
+        <MaxHitPoints>1.5</MaxHitPoints>
+        <Flammability>0.35</Flammability>
+        <Beauty>1.2</Beauty>
+      </statFactors>
+    </stuffProps>
+    <thingCategories>
+      <li>Textiles</li>
+    </thingCategories>
+  </ThingDef>
+</Defs>

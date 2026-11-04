@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_SpinNylon.label>나일론 방사</HD_SpinNylon.label>
+  <HD_SpinNylon.description>연결된 교반식 탱크 반응기에서 원료를 반응시키고 방사 모듈에서 합성섬유로 뽑아냅니다. 두 설비 모두 전력이 필요합니다.</HD_SpinNylon.description>
+  <HD_SpinNylon.jobString>합성섬유 방사 중.</HD_SpinNylon.jobString>
+  <HD_SpinAramid.label>아라미드 방사</HD_SpinAramid.label>
+  <HD_SpinAramid.description>연결된 교반식 탱크 반응기에서 원료를 반응시키고 방사 모듈에서 합성섬유로 뽑아냅니다. 두 설비 모두 전력이 필요합니다.</HD_SpinAramid.description>
+  <HD_SpinAramid.jobString>합성섬유 방사 중.</HD_SpinAramid.jobString>
+</LanguageData>

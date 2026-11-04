@@ -55,3 +55,6 @@ The current recreation run also executes `RadioChatChecks.cs`: a native Social c
 
 
 `-Minerals` runs the material portion of `TextureItemChecks.cs`: both slate/sandstone block and chunk routes, VIM-only silicon/alloy recipes and matching research/work giver, exact alumina/plasteel alloy consumption, downstream semiconductor production, and the new silicon stack graphics. It exits before the equipment/combat checks, which are unaffected by this follow-up. The full `-TextureItems` mode also uses these updated recipes.
+
+
+`-Fibers` runs the common powered workshop fixture followed by `FiberChecks.cs`. It checks detached/adjacent facility states, both power and flick switches, active demand in both machines, an interrupted real nylon unfinished batch and resumption without double consumption, exact material/output counts for both recipes, native Fabric-stuff eligibility, graphics and reactor removal/reinstallation. Example: `Start-Checks.ps1 -RuntimeRoot .codex-staging/FiberSpinning/fresh -Fibers`.
