@@ -99,7 +99,7 @@
     </statBases>
     <costList>
       <Steel>18</Steel>
-      <ComponentIndustrial>1</ComponentIndustrial>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </costList>
     <comps>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
@@ -154,6 +154,12 @@
       </li>
     </tools>
     <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <workSkill>Crafting</workSkill>
       <recipeUsers>
         <li>HD_BasicWorkbench</li>

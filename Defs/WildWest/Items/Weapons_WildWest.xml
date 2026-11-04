@@ -153,7 +153,7 @@
     </statBases>
     <costList>
       <Steel>30</Steel>
-      <ComponentIndustrial>2</ComponentIndustrial>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -235,7 +235,7 @@
     </statBases>
     <costList>
       <Steel>28</Steel>
-      <ComponentIndustrial>1</ComponentIndustrial>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -318,7 +318,7 @@
     </statBases>
     <costList>
       <Steel>30</Steel>
-      <ComponentIndustrial>2</ComponentIndustrial>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -392,7 +392,7 @@
     </statBases>
     <costList>
       <Steel>60</Steel>
-      <ComponentIndustrial>3</ComponentIndustrial>
+      <HD_GeneralMachinePart>3</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -464,7 +464,7 @@
     </statBases>
     <costList>
       <Steel>65</Steel>
-      <ComponentIndustrial>3</ComponentIndustrial>
+      <HD_GeneralMachinePart>3</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -542,7 +542,7 @@
     </statBases>
     <costList>
       <Steel>70</Steel>
-      <ComponentIndustrial>4</ComponentIndustrial>
+      <HD_GeneralMachinePart>4</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -614,7 +614,7 @@
     <costList>
       <Steel>50</Steel>
       <WoodLog>20</WoodLog>
-      <ComponentIndustrial>1</ComponentIndustrial>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -695,7 +695,7 @@
     </statBases>
     <costList>
       <Steel>60</Steel>
-      <ComponentIndustrial>2</ComponentIndustrial>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 

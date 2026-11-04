@@ -45,9 +45,15 @@
     </apparel>
     <costList>
       <Steel>20</Steel>
-      <ComponentIndustrial>2</ComponentIndustrial>
+      <HD_ElectronicComponent>2</HD_ElectronicComponent>
     </costList>
     <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_ElectronicComponent</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <workSkill>Crafting</workSkill>
       <skillRequirements>
         <Crafting>4</Crafting>
@@ -153,7 +159,13 @@
       </defaultOutfitTags>
     </apparel>
     <recipeMaker>
-      <defaultIngredientFilter><thingDefs><li>HD_Nylon</li><li>HD_Aramid</li><li>ComponentIndustrial</li></thingDefs></defaultIngredientFilter>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>HD_Nylon</li>
+          <li>HD_Aramid</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <researchPrerequisite>HelodPASGT</researchPrerequisite>
       <workSkill>Crafting</workSkill>
       <skillRequirements>
@@ -163,7 +175,11 @@
         <li>TableMachining</li>
       </recipeUsers>
     </recipeMaker>
-    <costList><HD_Nylon>60</HD_Nylon><HD_Aramid>40</HD_Aramid><ComponentIndustrial>3</ComponentIndustrial></costList>
+    <costList>
+      <HD_Nylon>60</HD_Nylon>
+      <HD_Aramid>40</HD_Aramid>
+      <HD_GeneralMachinePart>3</HD_GeneralMachinePart>
+    </costList>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularArmor">
         <armorTags><li>HD_IOTVGen4</li></armorTags>
@@ -369,13 +385,23 @@
       <defaultOutfitTags><li>Soldier</li></defaultOutfitTags>
     </apparel>
     <recipeMaker>
-      <defaultIngredientFilter><thingDefs><li>HD_Nylon</li><li>Steel</li><li>ComponentIndustrial</li></thingDefs></defaultIngredientFilter>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>HD_Nylon</li>
+          <li>Steel</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <researchPrerequisite>HelodPASGT</researchPrerequisite>
       <workSkill>Crafting</workSkill>
       <skillRequirements><Crafting>5</Crafting></skillRequirements>
       <recipeUsers><li>ElectricTailoringBench</li></recipeUsers>
     </recipeMaker>
-    <costList><HD_Nylon>30</HD_Nylon><Steel>10</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
+    <costList>
+      <HD_Nylon>30</HD_Nylon>
+      <Steel>10</Steel>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
+    </costList>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularArmor">
         <armorTags><li>HD_MOLLEBattleBelt</li></armorTags>
@@ -435,7 +461,13 @@
       </defaultOutfitTags>
     </apparel>
     <recipeMaker>
-      <defaultIngredientFilter><thingDefs><li>HD_Nylon</li><li>HD_Aramid</li><li>ComponentIndustrial</li></thingDefs></defaultIngredientFilter>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>HD_Nylon</li>
+          <li>HD_Aramid</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <workSkill>Crafting</workSkill>
       <skillRequirements>
         <Crafting>8</Crafting>
@@ -448,7 +480,7 @@
     <costList>
       <HD_Nylon>15</HD_Nylon>
       <HD_Aramid>25</HD_Aramid>
-      <ComponentIndustrial>2</ComponentIndustrial>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
     </costList>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularArmor">
@@ -548,7 +580,13 @@
       </defaultOutfitTags>
     </apparel>
     <recipeMaker>
-      <defaultIngredientFilter><thingDefs><li>Steel</li><li>Plasteel</li><li>ComponentIndustrial</li></thingDefs></defaultIngredientFilter>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_Aramid</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <workSkill>Crafting</workSkill>
       <skillRequirements>
         <Crafting>6</Crafting>
@@ -560,8 +598,8 @@
     </recipeMaker>
     <costList>
       <Steel>55</Steel>
-      <Plasteel>30</Plasteel>
-      <ComponentIndustrial>2</ComponentIndustrial>
+      <HD_Aramid>30</HD_Aramid>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
     </costList>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_DirectionalBallisticShield">
@@ -648,7 +686,14 @@
       </defaultOutfitTags>
     </apparel>
     <recipeMaker>
-      <defaultIngredientFilter><thingDefs><li>Steel</li><li>Plasteel</li><li>HD_Alumina</li><li>ComponentIndustrial</li></thingDefs></defaultIngredientFilter>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_Aramid</li>
+          <li>HD_Alumina</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <workSkill>Crafting</workSkill>
       <skillRequirements>
         <Crafting>8</Crafting>
@@ -660,9 +705,9 @@
     </recipeMaker>
     <costList>
       <Steel>120</Steel>
-      <Plasteel>40</Plasteel>
+      <HD_Aramid>40</HD_Aramid>
       <HD_Alumina>40</HD_Alumina>
-      <ComponentIndustrial>4</ComponentIndustrial>
+      <HD_GeneralMachinePart>4</HD_GeneralMachinePart>
     </costList>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_DirectionalBallisticShield">

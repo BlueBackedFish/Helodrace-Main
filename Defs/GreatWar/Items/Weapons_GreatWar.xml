@@ -498,8 +498,7 @@
     </statBases>
     <costList>
       <Steel>70</Steel>
-      <ComponentIndustrial>5</ComponentIndustrial>
-      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
+      <HD_GeneralMachinePart>7</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -586,8 +585,7 @@
     </statBases>
     <costList>
       <Steel>52</Steel>
-      <ComponentIndustrial>4</ComponentIndustrial>
-      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
+      <HD_GeneralMachinePart>6</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -1255,7 +1253,7 @@
     </statBases>
     <costList>
       <Steel>75</Steel>
-      <ComponentIndustrial>4</ComponentIndustrial>
+      <HD_GeneralMachinePart>4</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -1329,8 +1327,7 @@
     </statBases>
     <costList>
       <Steel>70</Steel>
-      <ComponentIndustrial>4</ComponentIndustrial>
-      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
+      <HD_GeneralMachinePart>5</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -1421,8 +1418,7 @@
     </statBases>
     <costList>
       <Steel>58</Steel>
-      <ComponentIndustrial>5</ComponentIndustrial>
-      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
+      <HD_GeneralMachinePart>6</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
     <comps>
@@ -1499,8 +1495,7 @@
     </statBases>
     <costList>
       <Steel>62</Steel>
-      <ComponentIndustrial>5</ComponentIndustrial>
-      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
+      <HD_GeneralMachinePart>7</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
     <comps>
@@ -1577,8 +1572,7 @@
     </statBases>
     <costList>
       <Steel>90</Steel>
-      <ComponentIndustrial>6</ComponentIndustrial>
-      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
+      <HD_GeneralMachinePart>7</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -1653,8 +1647,7 @@
     </statBases>
     <costList>
       <Steel>95</Steel>
-      <ComponentIndustrial>7</ComponentIndustrial>
-      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
+      <HD_GeneralMachinePart>8</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -1729,8 +1722,7 @@
     </statBases>
     <costList>
       <Steel>85</Steel>
-      <ComponentIndustrial>6</ComponentIndustrial>
-      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
+      <HD_GeneralMachinePart>8</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -1816,7 +1808,7 @@
     </statBases>
     <costList>
       <Steel>110</Steel>
-      <ComponentIndustrial>8</ComponentIndustrial>
+      <HD_GeneralMachinePart>8</HD_GeneralMachinePart>
       <HD_UniformRolledSteelPlate>1</HD_UniformRolledSteelPlate>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
@@ -1904,7 +1896,7 @@
     </statBases>
     <costList>
       <Steel>80</Steel>
-      <ComponentIndustrial>5</ComponentIndustrial>
+      <HD_GeneralMachinePart>5</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -1976,7 +1968,7 @@
     </statBases>
     <costList>
       <Steel>85</Steel>
-      <ComponentIndustrial>6</ComponentIndustrial>
+      <HD_GeneralMachinePart>6</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -2053,7 +2045,7 @@
     </statBases>
     <costList>
       <Steel>85</Steel>
-      <ComponentIndustrial>6</ComponentIndustrial>
+      <HD_GeneralMachinePart>6</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 

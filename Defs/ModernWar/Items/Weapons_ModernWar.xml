@@ -96,10 +96,15 @@
     </statBases>
     <costList>
       <Steel>28</Steel>
-      <ComponentIndustrial>3</ComponentIndustrial>
-      <ComponentSpacer>1</ComponentSpacer>
+      <HD_GeneralMachinePart>5</HD_GeneralMachinePart>
     </costList>
     <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <skillRequirements>
         <Crafting>8</Crafting>
       </skillRequirements>
@@ -183,10 +188,17 @@
     </equippedStatOffsets>
     <costList>
       <Steel>60</Steel>
-      <ComponentIndustrial>4</ComponentIndustrial>
+      <HD_BasicElectricalComponents>4</HD_BasicElectricalComponents>
       <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
     </costList>
     <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_BasicElectricalComponents</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <recipeUsers Inherit="False">
         <li>HD_BasicWorkbench</li>
       </recipeUsers>
@@ -258,10 +270,17 @@
     </equippedStatOffsets>
     <costList>
       <Steel>35</Steel>
-      <ComponentIndustrial>3</ComponentIndustrial>
+      <HD_BasicElectricalComponents>3</HD_BasicElectricalComponents>
       <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </costList>
     <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_BasicElectricalComponents</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <skillRequirements>
         <Crafting>6</Crafting>
       </skillRequirements>

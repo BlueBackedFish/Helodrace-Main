@@ -95,9 +95,15 @@
     <!-- Temporary crafting recipe until the future-tech production chain is implemented. -->
     <costList>
       <Plasteel>80</Plasteel>
-      <ComponentSpacer>6</ComponentSpacer>
+      <HD_ElectronicComponent>12</HD_ElectronicComponent>
     </costList>
     <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Plasteel</li>
+          <li>HD_ElectronicComponent</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <recipeUsers>
         <li>HD_BasicWorkbench</li>
       </recipeUsers>

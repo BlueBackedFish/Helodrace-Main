@@ -1,4 +1,4 @@
-param([Parameter(Mandatory)][string]$RuntimeRoot,[switch]$Recreation,[switch]$State,[switch]$Pistols,[switch]$GeneAudit,[switch]$Xenotypes,[switch]$TextureItems,[switch]$Minerals,[switch]$Fibers,[switch]$ArmorMaterials,[switch]$HelmetShields)
+param([Parameter(Mandatory)][string]$RuntimeRoot,[switch]$Recreation,[switch]$State,[switch]$Pistols,[switch]$GeneAudit,[switch]$Xenotypes,[switch]$TextureItems,[switch]$Minerals,[switch]$Fibers,[switch]$ArmorMaterials,[switch]$HelmetShields,[switch]$EquipmentMaterials)
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot '../Game17Runtime.ps1')
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
@@ -16,6 +16,7 @@ if($Recreation){$arguments+='-hdKRecreation=true'}
 if($State){$arguments+='-hdKState=true'}
 if($Pistols){$arguments+='-hdKPistols=true'}
 if($GeneAudit){$arguments+='-hdKGeneAudit=true'}
+if($EquipmentMaterials){$arguments+='-hdKEquipmentMaterials=true';$arguments+=('-hdEquipmentMaterialsData='+[IO.Path]::GetFullPath((Join-Path $repository 'Docs/Data/EquipmentMaterials/recipe-materials.json')))}
 if($HelmetShields){$arguments+='-hdKHelmetShields=true'}
 if($ArmorMaterials){$arguments+='-hdKArmorMaterials=true'}
 if($Fibers){$arguments+='-hdKFibers=true'}

@@ -31,7 +31,7 @@ public sealed partial class Checks
     {
         while(count>0){var t=ThingMaker.MakeThing(def,GenStuff.DefaultStuffFor(def));t.stackCount=Math.Min(count,def.stackLimit);count-=t.stackCount;GenPlace.TryPlaceThing(t,cell,playMap,ThingPlaceMode.Near);}
     }
-    private IEnumerable<int> ItemBill(Pawn worker,Building_WorkTable table,string name)
+    private IEnumerable<int> ItemBill(Pawn worker,Building_WorkTable table,string name,int maxTicks=60000)
     {
         var recipe=Def<RecipeDef>(name);
         if(recipe.researchPrerequisite!=null)Find.ResearchManager.FinishProject(recipe.researchPrerequisite,doCompletionDialog:false);
@@ -54,7 +54,7 @@ public sealed partial class Checks
         System.IO.File.AppendAllText(System.IO.Path.Combine(output,"checks.txt"),"INGREDIENTS "+name+" found="+ingredientsFound+" chosen="+string.Join(",",chosen.Select(t=>t.Thing.def.defName+":"+t.Count))+" missing="+string.Join(",",missing.Select(i=>i.filter.Summary))+"\n");
         Job job=null;foreach(var g in givers){job=((WorkGiver_DoBill)g.Worker).JobOnThing(worker,table,true);if(job!=null)break;}
         Check(job?.def==JobDefOf.DoBill&&worker.jobs.TryTakeOrderedJob(job),"Native work giver starts production: "+name+"; job="+job?.def+"; reason="+JobFailReason.Reason);
-        int elapsed=0;while(bill.repeatCount>0&&elapsed<60000)
+        int elapsed=0;while(bill.repeatCount>0&&elapsed<maxTicks)
         {
             yield return 120;elapsed+=120;
             if(elapsed%4800==0)System.IO.File.AppendAllText(System.IO.Path.Combine(output,"checks.txt"),"TRACE "+name+" ticks="+elapsed+" job="+worker.CurJobDef+" driver="+worker.jobs.curDriver?.CurToilIndex+" bound="+(bill as Bill_ProductionWithUft)?.BoundUft?.workLeft+" carry="+worker.carryTracker.CarriedThing+" power="+table.GetComp<CompPowerTrader>()?.PowerOn+" available="+recipe.Worker.AvailableOnNow(table)+" materials="+string.Join(",",costs.Select(c=>c.def.defName+":"+ItemCount(c.def)))+"\n");
@@ -107,6 +107,11 @@ public sealed partial class Checks
         foreach(var table in new[]{stirred,furnace,fab,machining})foreach(var cell in table.OccupiedRect())playMap.roofGrid.SetRoof(cell,RoofDefOf.RoofConstructed);
         playMap.powerNetManager.UpdatePowerNetsAndConnections_First();yield return 1200;
         foreach(var t in new[]{stirred,furnace,fab,machining})Check(t.GetComp<CompPowerTrader>().PowerOn,"Real power grid powers "+t.def.defName);
+        if(GenCommandLine.TryGetCommandLineArg("hdKEquipmentMaterials",out _))
+        {
+            foreach(int ticks in EquipmentMaterialChecks(worker,machining))yield return ticks;
+            itemChecks=null;h.UnpatchAll(h.Id);yield break;
+        }
         if(GenCommandLine.TryGetCommandLineArg("hdKHelmetShields",out _))
         {
             foreach(int ticks in HelmetShieldChecks(worker,machining))yield return ticks;

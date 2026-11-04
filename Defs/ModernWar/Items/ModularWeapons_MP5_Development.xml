@@ -238,8 +238,17 @@
     <weaponClasses><li>RangedLight</li></weaponClasses>
     <weaponTags><li>HD_ModernWarWeapon</li><li>IndustrialGunAdvanced</li></weaponTags>
     <statBases><WorkToMake>34000</WorkToMake><Mass>2.9</Mass><MarketValue>1050</MarketValue><MaxHitPoints>100</MaxHitPoints><AccuracyTouch>0.78</AccuracyTouch><AccuracyShort>0.84</AccuracyShort><AccuracyMedium>0.65</AccuracyMedium><AccuracyLong>0.40</AccuracyLong><RangedWeapon_Cooldown>1.35</RangedWeapon_Cooldown></statBases>
-    <costList><Steel>45</Steel><ComponentIndustrial>4</ComponentIndustrial><ComponentSpacer>1</ComponentSpacer></costList>
-    <recipeMaker><skillRequirements><Crafting>8</Crafting></skillRequirements><researchPrerequisite>HelodSpecialOperationsWeapons</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers></recipeMaker>
+    <costList>
+      <Steel>45</Steel>
+      <HD_GeneralMachinePart>6</HD_GeneralMachinePart>
+    </costList>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter><skillRequirements><Crafting>8</Crafting></skillRequirements><researchPrerequisite>HelodSpecialOperationsWeapons</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers></recipeMaker>
     <verbs>
       <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_Glock19_Proj</defaultProjectile><warmupTime>0.55</warmupTime><range>23.9</range><burstShotCount>6</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_Autopistol</soundCast><soundCastTail>GunTail_Light</soundCastTail><muzzleFlashScale>5</muzzleFlashScale></li>
     </verbs>

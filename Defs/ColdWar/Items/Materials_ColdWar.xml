@@ -63,9 +63,15 @@
     </thingCategories>
     <costList>
       <Steel>8</Steel>
-      <ComponentIndustrial>1</ComponentIndustrial>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </costList>
     <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
       <workSkill>Crafting</workSkill>
       <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -108,9 +114,15 @@
     </thingCategories>
     <costList>
       <Steel>10</Steel>
-      <ComponentIndustrial>2</ComponentIndustrial>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
     </costList>
     <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
       <workSkill>Crafting</workSkill>
       <workSpeedStat>GeneralLaborSpeed</workSpeedStat>

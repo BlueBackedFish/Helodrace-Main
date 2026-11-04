@@ -81,7 +81,14 @@
     <graphicData>
       <texPath>Weapons/ModernWar/HD_M84</texPath>
     </graphicData>
-    <recipeMaker><researchPrerequisite>HelodModernDiversionaryGrenades</researchPrerequisite></recipeMaker>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>Chemfuel</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter><researchPrerequisite>HelodModernDiversionaryGrenades</researchPrerequisite></recipeMaker>
     <statBases>
       <Mass>0.38</Mass>
       <MarketValue>360</MarketValue>
@@ -89,7 +96,7 @@
     <costList>
       <Steel>14</Steel>
       <Chemfuel>35</Chemfuel>
-      <ComponentIndustrial>1</ComponentIndustrial>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </costList>
     <weaponTags Inherit="False">
       <li>HD_ModernWarWeapon</li>
@@ -128,7 +135,14 @@
     <graphicData>
       <texPath>Weapons/ModernWar/HD_M111</texPath>
     </graphicData>
-    <recipeMaker><researchPrerequisite>HelodModernOffensiveGrenades</researchPrerequisite></recipeMaker>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>Chemfuel</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter><researchPrerequisite>HelodModernOffensiveGrenades</researchPrerequisite></recipeMaker>
     <statBases>
       <Mass>0.42</Mass>
       <WorkToMake>18000</WorkToMake>
@@ -137,7 +151,7 @@
     <costList>
       <Steel>10</Steel>
       <Chemfuel>75</Chemfuel>
-      <ComponentIndustrial>1</ComponentIndustrial>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </costList>
     <verbs Inherit="False">
       <li>

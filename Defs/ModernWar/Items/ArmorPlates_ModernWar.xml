@@ -61,7 +61,22 @@
       <DeteriorationRate>1</DeteriorationRate>
       <WorkToMake>9000</WorkToMake>
     </statBases>
-    <costList><HD_Alumina>18</HD_Alumina><HD_Aramid>18</HD_Aramid><HD_Nylon>6</HD_Nylon><ComponentIndustrial>1</ComponentIndustrial></costList>
+    <costList>
+      <HD_Alumina>18</HD_Alumina>
+      <HD_Aramid>18</HD_Aramid>
+      <HD_Nylon>6</HD_Nylon>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
+    </costList>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>HD_Alumina</li>
+          <li>HD_Aramid</li>
+          <li>HD_Nylon</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
+    </recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_ArmorPlateBase">
@@ -87,7 +102,22 @@
       <DeteriorationRate>1</DeteriorationRate>
       <WorkToMake>13000</WorkToMake>
     </statBases>
-    <costList><HD_Alumina>28</HD_Alumina><HD_Aramid>16</HD_Aramid><HD_Nylon>6</HD_Nylon><ComponentIndustrial>2</ComponentIndustrial></costList>
+    <costList>
+      <HD_Alumina>28</HD_Alumina>
+      <HD_Aramid>16</HD_Aramid>
+      <HD_Nylon>6</HD_Nylon>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
+    </costList>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>HD_Alumina</li>
+          <li>HD_Aramid</li>
+          <li>HD_Nylon</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
+    </recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_ArmorPlateBase">
@@ -113,7 +143,22 @@
       <DeteriorationRate>1</DeteriorationRate>
       <WorkToMake>18000</WorkToMake>
     </statBases>
-    <costList><HD_Alumina>40</HD_Alumina><HD_Aramid>12</HD_Aramid><HD_Nylon>4</HD_Nylon><ComponentIndustrial>3</ComponentIndustrial></costList>
+    <costList>
+      <HD_Alumina>40</HD_Alumina>
+      <HD_Aramid>12</HD_Aramid>
+      <HD_Nylon>4</HD_Nylon>
+      <HD_GeneralMachinePart>3</HD_GeneralMachinePart>
+    </costList>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>HD_Alumina</li>
+          <li>HD_Aramid</li>
+          <li>HD_Nylon</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
+    </recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_ArmorPlateBase">
@@ -139,7 +184,22 @@
       <DeteriorationRate>1</DeteriorationRate>
       <WorkToMake>20000</WorkToMake>
     </statBases>
-    <costList><HD_Alumina>44</HD_Alumina><HD_Aramid>10</HD_Aramid><HD_Nylon>4</HD_Nylon><ComponentIndustrial>3</ComponentIndustrial></costList>
+    <costList>
+      <HD_Alumina>44</HD_Alumina>
+      <HD_Aramid>10</HD_Aramid>
+      <HD_Nylon>4</HD_Nylon>
+      <HD_GeneralMachinePart>3</HD_GeneralMachinePart>
+    </costList>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>HD_Alumina</li>
+          <li>HD_Aramid</li>
+          <li>HD_Nylon</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
+    </recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_ArmorPlateBase">
@@ -166,6 +226,21 @@
       <DeteriorationRate>1</DeteriorationRate>
       <WorkToMake>24000</WorkToMake>
     </statBases>
-    <costList><Uranium>10</Uranium><Plasteel>48</Plasteel><HD_Nylon>6</HD_Nylon><ComponentIndustrial>4</ComponentIndustrial></costList>
+    <costList>
+      <Uranium>10</Uranium>
+      <Plasteel>48</Plasteel>
+      <HD_Nylon>6</HD_Nylon>
+      <HD_GeneralMachinePart>4</HD_GeneralMachinePart>
+    </costList>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Uranium</li>
+          <li>Plasteel</li>
+          <li>HD_Nylon</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
+    </recipeMaker>
   </ThingDef>
 </Defs>

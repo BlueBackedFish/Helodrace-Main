@@ -64,6 +64,13 @@
       <li Class="Helodrace.CompProperties_SCR300" />
     </comps>
     <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_BasicElectronicComponents</li>
+          <li>Cloth</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodWireless</researchPrerequisite>
       <recipeUsers>
@@ -72,7 +79,7 @@
     </recipeMaker>
     <costList>
       <Steel>45</Steel>
-      <ComponentIndustrial>5</ComponentIndustrial>
+      <HD_BasicElectronicComponents>5</HD_BasicElectronicComponents>
       <Cloth>20</Cloth>
     </costList>
     <researchPrerequisites>

@@ -2093,15 +2093,7 @@
             <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>4</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>ComponentIndustrial</li>
-          </thingDefs>
-        </filter>
-        <count>2</count>
+        <count>6</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -2109,7 +2101,6 @@
         <li>HD_Gun_SprMThree_Weapon</li>
         <li>HD_CarbonSteel</li>
         <li>HD_GeneralMachinePart</li>
-        <li>ComponentIndustrial</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -2121,6 +2112,13 @@
     <skillRequirements>
       <Crafting>10</Crafting>
     </skillRequirements>
+    <defaultIngredientFilter>
+      <thingDefs>
+        <li>HD_Gun_SprMThree_Weapon</li>
+        <li>HD_CarbonSteel</li>
+        <li>HD_GeneralMachinePart</li>
+      </thingDefs>
+    </defaultIngredientFilter>
   </RecipeDef>
 
 
@@ -2554,15 +2552,7 @@
             <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>4</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>ComponentIndustrial</li>
-          </thingDefs>
-        </filter>
-        <count>2</count>
+        <count>6</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -2570,7 +2560,6 @@
         <li>HD_Gun_M1Garand_Weapon</li>
         <li>HD_CarbonSteel</li>
         <li>HD_GeneralMachinePart</li>
-        <li>ComponentIndustrial</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -2582,6 +2571,13 @@
     <skillRequirements>
       <Crafting>10</Crafting>
     </skillRequirements>
+    <defaultIngredientFilter>
+      <thingDefs>
+        <li>HD_Gun_M1Garand_Weapon</li>
+        <li>HD_CarbonSteel</li>
+        <li>HD_GeneralMachinePart</li>
+      </thingDefs>
+    </defaultIngredientFilter>
   </RecipeDef>
 
 
@@ -2733,23 +2729,48 @@
     <unfinishedThingDef>UnfinishedGun</unfinishedThingDef>
     <researchPrerequisite>HelodMidAutomaticRifle</researchPrerequisite>
     <ingredients>
-
-      <li><filter><thingDefs><li>HD_GeneralMachinePart</li></thingDefs></filter><count>10</count></li>
-      <li><filter><thingDefs><li>HD_CarbonSteel</li></thingDefs></filter><count>105</count></li>
-      <li><filter><thingDefs><li>HD_PressComponent</li></thingDefs></filter><count>6</count></li>
-      <li><filter><thingDefs><li>ComponentIndustrial</li></thingDefs></filter><count>2</count></li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_GeneralMachinePart</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CarbonSteel</li>
+          </thingDefs>
+        </filter>
+        <count>105</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_PressComponent</li>
+          </thingDefs>
+        </filter>
+        <count>6</count>
+      </li>
     </ingredients>
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_GeneralMachinePart</li>
         <li>HD_CarbonSteel</li>
         <li>HD_PressComponent</li>
-        <li>ComponentIndustrial</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products><HD_Gun_M60E3_Weapon>1</HD_Gun_M60E3_Weapon></products>
     <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
     <skillRequirements><Crafting>11</Crafting></skillRequirements>
+    <defaultIngredientFilter>
+      <thingDefs>
+        <li>HD_GeneralMachinePart</li>
+        <li>HD_CarbonSteel</li>
+        <li>HD_PressComponent</li>
+      </thingDefs>
+    </defaultIngredientFilter>
   </RecipeDef>
 
   <RecipeDef>

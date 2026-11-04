@@ -55,8 +55,7 @@
     </statBases>
     <costList>
       <Steel>60</Steel>
-      <ComponentIndustrial>6</ComponentIndustrial>
-      <ComponentSpacer>3</ComponentSpacer>
+      <HD_ElectronicComponent>12</HD_ElectronicComponent>
     </costList>
     <modExtensions>
       <li Class="Helodrace.HelodCasLaserDesignatorExtension">
@@ -72,6 +71,14 @@
         <fixedGuidanceGraphicPosition>true</fixedGuidanceGraphicPosition>
       </li>
     </modExtensions>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_ElectronicComponent</li>
+        </thingDefs>
+      </defaultIngredientFilter>
+    </recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_LaserDesignatorBase">
@@ -93,8 +100,7 @@
     </statBases>
     <costList>
       <Steel>22</Steel>
-      <ComponentIndustrial>4</ComponentIndustrial>
-      <ComponentSpacer>1</ComponentSpacer>
+      <HD_ElectronicComponent>6</HD_ElectronicComponent>
     </costList>
     <modExtensions>
       <li Class="Helodrace.HelodCasLaserDesignatorExtension">
@@ -109,6 +115,14 @@
         <guidanceGraphicLateralOffset>0</guidanceGraphicLateralOffset>
       </li>
     </modExtensions>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_ElectronicComponent</li>
+        </thingDefs>
+      </defaultIngredientFilter>
+    </recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_LaserDesignatorBase">
@@ -130,8 +144,7 @@
     </statBases>
     <costList>
       <Steel>18</Steel>
-      <ComponentIndustrial>3</ComponentIndustrial>
-      <ComponentSpacer>1</ComponentSpacer>
+      <HD_ElectronicComponent>5</HD_ElectronicComponent>
     </costList>
     <modExtensions>
       <li Class="Helodrace.HelodCasLaserDesignatorExtension">
@@ -144,6 +157,14 @@
         <guidanceGraphicRotationOffset>-90</guidanceGraphicRotationOffset>
       </li>
     </modExtensions>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_ElectronicComponent</li>
+        </thingDefs>
+      </defaultIngredientFilter>
+    </recipeMaker>
   </ThingDef>
 
 </Defs>

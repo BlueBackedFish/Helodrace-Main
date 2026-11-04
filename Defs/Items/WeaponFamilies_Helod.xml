@@ -48,10 +48,15 @@
     </statBases>
     <costList>
       <Steel>55</Steel>
-      <ComponentIndustrial>5</ComponentIndustrial>
-      <ComponentSpacer>1</ComponentSpacer>
+      <HD_GeneralMachinePart>7</HD_GeneralMachinePart>
     </costList>
     <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <skillRequirements>
         <Crafting>8</Crafting>
       </skillRequirements>

@@ -38,7 +38,7 @@
       <Steel>80</Steel>
       <WoodLog>60</WoodLog>
       <HD_BasicElectricalComponents>12</HD_BasicElectricalComponents>
-      <ComponentIndustrial>4</ComponentIndustrial>
+      <HD_ElectronicComponent>4</HD_ElectronicComponent>
     </costList>
     <comps>
       <li Class="CompProperties_Power">
@@ -93,7 +93,7 @@
       <HD_PressComponent>8</HD_PressComponent>
       <HD_UniformRolledSteelPlate>4</HD_UniformRolledSteelPlate>
       <HD_BasicElectricalComponents>16</HD_BasicElectricalComponents>
-      <ComponentIndustrial>6</ComponentIndustrial>
+      <HD_ElectronicComponent>6</HD_ElectronicComponent>
     </costList>
     <building>
       <turretGunDef>HD_Gun_CrowsII_Empty</turretGunDef>

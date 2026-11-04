@@ -1,0 +1,1718 @@
+[
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ColdWar/Items/Grenades_ColdWar.xml",
+    "defName": "HD_Grenade_M14_Item",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 24,
+      "Chemfuel": 80,
+      "ComponentIndustrial": 1
+    },
+    "after": {
+      "Steel": 24,
+      "Chemfuel": 80,
+      "HD_GeneralMachinePart": 1
+    },
+    "statBases": {
+      "Mass": "0.91",
+      "RangedWeapon_Cooldown": "2.8",
+      "WorkToMake": "18000",
+      "MarketValue": "440"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ColdWar/Items/Grenades_ColdWar.xml",
+    "defName": "HD_Grenade_M7A2_Item",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 14,
+      "Chemfuel": 35,
+      "ComponentIndustrial": 1
+    },
+    "after": {
+      "Steel": 14,
+      "Chemfuel": 35,
+      "HD_GeneralMachinePart": 1
+    },
+    "statBases": {
+      "Mass": "0.57",
+      "RangedWeapon_Cooldown": "2.5",
+      "WorkToMake": "12000",
+      "MarketValue": "330"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ColdWar/Items/M79_ColdWar.xml",
+    "defName": "HD_Gun_M79_Weapon",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 55,
+      "ComponentIndustrial": 5
+    },
+    "after": {
+      "Steel": 55,
+      "HD_GeneralMachinePart": 5
+    },
+    "statBases": {
+      "WorkToMake": "24000",
+      "Mass": "2.93",
+      "MarketValue": "780",
+      "MaxHitPoints": "110",
+      "AccuracyTouch": "0.34",
+      "AccuracyShort": "0.66",
+      "AccuracyMedium": "0.60",
+      "AccuracyLong": "0.40",
+      "RangedWeapon_Cooldown": "2.6"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ColdWar/Items/Materials_ColdWar.xml",
+    "defName": "HD_M60Igniter",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 8,
+      "ComponentIndustrial": 1
+    },
+    "after": {
+      "Steel": 8,
+      "HD_GeneralMachinePart": 1
+    },
+    "statBases": {
+      "MaxHitPoints": "70",
+      "WorkToMake": "1800",
+      "MarketValue": "20",
+      "Mass": "0.18",
+      "Flammability": "0.25",
+      "DeteriorationRate": "0.8"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ColdWar/Items/Materials_ColdWar.xml",
+    "defName": "HD_M81Igniter",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 10,
+      "ComponentIndustrial": 2
+    },
+    "after": {
+      "Steel": 10,
+      "HD_GeneralMachinePart": 2
+    },
+    "statBases": {
+      "MaxHitPoints": "80",
+      "WorkToMake": "2400",
+      "MarketValue": "28",
+      "Mass": "0.20",
+      "Flammability": "0.20",
+      "DeteriorationRate": "0.7"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ColdWar/Items/Weapons_ColdWar.xml",
+    "defName": "HD_Gun_M47_Dragon",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 60,
+      "ComponentIndustrial": 4
+    },
+    "after": {
+      "Steel": 60,
+      "HD_ElectronicComponent": 4
+    },
+    "statBases": {
+      "WorkToMake": "18000",
+      "Mass": "14.6",
+      "MarketValue": "1850",
+      "MaxHitPoints": "100",
+      "AccuracyTouch": "0.20",
+      "AccuracyShort": "0.55",
+      "AccuracyMedium": "0.78",
+      "AccuracyLong": "0.82",
+      "RangedWeapon_Cooldown": "3.0"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ColdWar/Items/Weapons_ColdWar.xml",
+    "defName": "HD_Gun_M60E3_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 95,
+      "ComponentIndustrial": 10
+    },
+    "after": {
+      "Steel": 95,
+      "HD_GeneralMachinePart": 10
+    },
+    "statBases": {
+      "WorkToMake": "68000",
+      "Mass": "8.8",
+      "MarketValue": "1825",
+      "MaxHitPoints": "120",
+      "AccuracyTouch": "0.32",
+      "AccuracyShort": "0.43",
+      "AccuracyMedium": "0.50",
+      "AccuracyLong": "0.34",
+      "RangedWeapon_Cooldown": "2.2"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ColdWar/Items/Weapons_ColdWar.xml",
+    "defName": "HD_PowerCutter",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 55,
+      "ComponentIndustrial": 4,
+      "HD_GeneralMachinePart": 2
+    },
+    "after": {
+      "Steel": 55,
+      "HD_BasicElectricalComponents": 4,
+      "HD_GeneralMachinePart": 2
+    },
+    "statBases": {
+      "WorkToMake": "32000",
+      "Mass": "5.2",
+      "MarketValue": "900",
+      "MaxHitPoints": "110"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/Future/Items/Weapons_Future.xml",
+    "defName": "HD_Gun_LANCE_LRA7_Weapon",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Plasteel": 80,
+      "ComponentSpacer": 6
+    },
+    "after": {
+      "Plasteel": 80,
+      "HD_ElectronicComponent": 12
+    },
+    "statBases": {
+      "WorkToMake": "50000",
+      "Mass": "6.8",
+      "MarketValue": "3200",
+      "MaxHitPoints": "180",
+      "Flammability": "0.2",
+      "AccuracyTouch": "0.55",
+      "AccuracyShort": "0.72",
+      "AccuracyMedium": "0.86",
+      "AccuracyLong": "0.92",
+      "RangedWeapon_Cooldown": "1.8"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/GreatWar/Flamethrower_GreatWar.xml",
+    "defName": "HD_Gun_M2FlameThrower_Weapon",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 90,
+      "ComponentIndustrial": 6,
+      "HD_GeneralMachinePart": 2,
+      "Chemfuel": 25
+    },
+    "after": {
+      "Steel": 90,
+      "HD_BasicElectricalComponents": 6,
+      "HD_GeneralMachinePart": 2,
+      "Chemfuel": 25
+    },
+    "statBases": {
+      "WorkToMake": "42000",
+      "Mass": "18.0",
+      "MarketValue": "1050",
+      "AccuracyTouch": "0.95",
+      "AccuracyShort": "0.95",
+      "AccuracyMedium": "0.95",
+      "AccuracyLong": "0.85",
+      "RangedWeapon_Cooldown": "2.0"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/GreatWar/Items/M8FlareGun_GreatWar.xml",
+    "defName": "HD_Gun_M8FlareGun_Weapon",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 18,
+      "ComponentIndustrial": 1
+    },
+    "after": {
+      "Steel": 18,
+      "HD_GeneralMachinePart": 1
+    },
+    "statBases": {
+      "WorkToMake": "6000",
+      "Mass": "1.15",
+      "MarketValue": "180",
+      "AccuracyTouch": "0.75",
+      "AccuracyShort": "0.55",
+      "AccuracyMedium": "0.32",
+      "AccuracyLong": "0.16",
+      "RangedWeapon_Cooldown": "2.4"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/GreatWar/Items/SCR300_GreatWar.xml",
+    "defName": "HD_Apparel_SCR300_Radio",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 45,
+      "ComponentIndustrial": 5,
+      "Cloth": 20
+    },
+    "after": {
+      "Steel": 45,
+      "HD_BasicElectronicComponents": 5,
+      "Cloth": 20
+    },
+    "statBases": {
+      "MaxHitPoints": "140",
+      "WorkToMake": "2800",
+      "Mass": "17.3",
+      "MarketValue": "520",
+      "Flammability": "0.35",
+      "EquipDelay": "2.5"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/GreatWar/Items/Weapons_GreatWar.xml",
+    "defName": "HD_Gun_M1A1Harrington_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 70,
+      "ComponentIndustrial": 5,
+      "HD_GeneralMachinePart": 2
+    },
+    "after": {
+      "Steel": 70,
+      "HD_GeneralMachinePart": 7
+    },
+    "statBases": {
+      "WorkToMake": "52000",
+      "Mass": "4.8",
+      "AccuracyTouch": "0.62",
+      "AccuracyShort": "0.58",
+      "AccuracyMedium": "0.34",
+      "AccuracyLong": "0.15",
+      "RangedWeapon_Cooldown": "1.7"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/GreatWar/Items/Weapons_GreatWar.xml",
+    "defName": "HD_Gun_M3A1_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 52,
+      "ComponentIndustrial": 4,
+      "HD_GeneralMachinePart": 2
+    },
+    "after": {
+      "Steel": 52,
+      "HD_GeneralMachinePart": 6
+    },
+    "statBases": {
+      "WorkToMake": "42000",
+      "Mass": "3.7",
+      "AccuracyTouch": "0.60",
+      "AccuracyShort": "0.54",
+      "AccuracyMedium": "0.30",
+      "AccuracyLong": "0.12",
+      "RangedWeapon_Cooldown": "1.8"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/GreatWar/Items/Weapons_GreatWar.xml",
+    "defName": "HD_Gun_KragJorgensen_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 75,
+      "ComponentIndustrial": 4
+    },
+    "after": {
+      "Steel": 75,
+      "HD_GeneralMachinePart": 4
+    },
+    "statBases": {
+      "WorkToMake": "35000",
+      "Mass": "4.22",
+      "AccuracyTouch": "0.55",
+      "AccuracyShort": "0.70",
+      "AccuracyMedium": "0.85",
+      "AccuracyLong": "0.80",
+      "RangedWeapon_Cooldown": "2.3"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/GreatWar/Items/Weapons_GreatWar.xml",
+    "defName": "HD_Gun_M1897_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 70,
+      "ComponentIndustrial": 4,
+      "HD_GeneralMachinePart": 1
+    },
+    "after": {
+      "Steel": 70,
+      "HD_GeneralMachinePart": 5
+    },
+    "statBases": {
+      "WorkToMake": "34000",
+      "Mass": "3.7",
+      "AccuracyTouch": "0.82",
+      "AccuracyShort": "0.66",
+      "AccuracyMedium": "0.34",
+      "AccuracyLong": "0.12",
+      "RangedWeapon_Cooldown": "2.1"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/GreatWar/Items/Weapons_GreatWar.xml",
+    "defName": "HD_Gun_M1A1Carbine_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 58,
+      "ComponentIndustrial": 5,
+      "HD_GeneralMachinePart": 1
+    },
+    "after": {
+      "Steel": 58,
+      "HD_GeneralMachinePart": 6
+    },
+    "statBases": {
+      "WorkToMake": "38000",
+      "Mass": "2.36",
+      "AccuracyTouch": "0.72",
+      "AccuracyShort": "0.80",
+      "AccuracyMedium": "0.70",
+      "AccuracyLong": "0.42",
+      "RangedWeapon_Cooldown": "1.1"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/GreatWar/Items/Weapons_GreatWar.xml",
+    "defName": "HD_Gun_M2Carbine_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 62,
+      "ComponentIndustrial": 5,
+      "HD_GeneralMachinePart": 2
+    },
+    "after": {
+      "Steel": 62,
+      "HD_GeneralMachinePart": 7
+    },
+    "statBases": {
+      "WorkToMake": "42000",
+      "Mass": "2.49",
+      "AccuracyTouch": "0.66",
+      "AccuracyShort": "0.72",
+      "AccuracyMedium": "0.56",
+      "AccuracyLong": "0.30",
+      "RangedWeapon_Cooldown": "1.55"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/GreatWar/Items/Weapons_GreatWar.xml",
+    "defName": "HD_Gun_M1Garand_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 90,
+      "ComponentIndustrial": 6,
+      "HD_GeneralMachinePart": 1
+    },
+    "after": {
+      "Steel": 90,
+      "HD_GeneralMachinePart": 7
+    },
+    "statBases": {
+      "WorkToMake": "46000",
+      "Mass": "4.31",
+      "AccuracyTouch": "0.55",
+      "AccuracyShort": "0.72",
+      "AccuracyMedium": "0.86",
+      "AccuracyLong": "0.78",
+      "RangedWeapon_Cooldown": "1.4"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/GreatWar/Items/Weapons_GreatWar.xml",
+    "defName": "HD_Gun_M1D_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 95,
+      "ComponentIndustrial": 7,
+      "HD_GeneralMachinePart": 1
+    },
+    "after": {
+      "Steel": 95,
+      "HD_GeneralMachinePart": 8
+    },
+    "statBases": {
+      "WorkToMake": "52000",
+      "Mass": "4.7",
+      "AccuracyTouch": "0.50",
+      "AccuracyShort": "0.70",
+      "AccuracyMedium": "0.88",
+      "AccuracyLong": "0.86",
+      "RangedWeapon_Cooldown": "1.5"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/GreatWar/Items/Weapons_GreatWar.xml",
+    "defName": "HD_Gun_M1918A2HAR_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 85,
+      "ComponentIndustrial": 6,
+      "HD_GeneralMachinePart": 2
+    },
+    "after": {
+      "Steel": 85,
+      "HD_GeneralMachinePart": 8
+    },
+    "statBases": {
+      "WorkToMake": "48000",
+      "Mass": "8.8",
+      "AccuracyTouch": "0.36",
+      "AccuracyShort": "0.45",
+      "AccuracyMedium": "0.55",
+      "AccuracyLong": "0.38",
+      "RangedWeapon_Cooldown": "2.1"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/GreatWar/Items/Weapons_GreatWar.xml",
+    "defName": "HD_Gun_M1919A6LMG_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 110,
+      "ComponentIndustrial": 8,
+      "HD_UniformRolledSteelPlate": 1
+    },
+    "after": {
+      "Steel": 110,
+      "HD_GeneralMachinePart": 8,
+      "HD_UniformRolledSteelPlate": 1
+    },
+    "statBases": {
+      "WorkToMake": "52000",
+      "Mass": "14.7",
+      "AccuracyTouch": "0.20",
+      "AccuracyShort": "0.25",
+      "AccuracyMedium": "0.30",
+      "AccuracyLong": "0.17",
+      "RangedWeapon_Cooldown": "2.4"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/GreatWar/Items/Weapons_GreatWar.xml",
+    "defName": "HD_Gun_SprMThree_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 80,
+      "ComponentIndustrial": 5
+    },
+    "after": {
+      "Steel": 80,
+      "HD_GeneralMachinePart": 5
+    },
+    "statBases": {
+      "WorkToMake": "40000",
+      "Mass": "3.9",
+      "AccuracyTouch": "0.50",
+      "AccuracyShort": "0.65",
+      "AccuracyMedium": "0.90",
+      "AccuracyLong": "0.90",
+      "RangedWeapon_Cooldown": "2.5"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/GreatWar/Items/Weapons_GreatWar.xml",
+    "defName": "HD_Gun_M1903A4_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 85,
+      "ComponentIndustrial": 6
+    },
+    "after": {
+      "Steel": 85,
+      "HD_GeneralMachinePart": 6
+    },
+    "statBases": {
+      "WorkToMake": "46000",
+      "Mass": "4.2",
+      "AccuracyTouch": "0.45",
+      "AccuracyShort": "0.64",
+      "AccuracyMedium": "0.91",
+      "AccuracyLong": "0.92",
+      "RangedWeapon_Cooldown": "2.6"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/GreatWar/Items/Weapons_GreatWar.xml",
+    "defName": "HD_Gun_M1903Pedersen_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 85,
+      "ComponentIndustrial": 6
+    },
+    "after": {
+      "Steel": 85,
+      "HD_GeneralMachinePart": 6
+    },
+    "statBases": {
+      "WorkToMake": "42000",
+      "Mass": "4.8",
+      "AccuracyTouch": "0.60",
+      "AccuracyShort": "0.75",
+      "AccuracyMedium": "0.78",
+      "AccuracyLong": "0.55",
+      "RangedWeapon_Cooldown": "1.0"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/Items/WeaponFamilies_Helod.xml",
+    "defName": "HD_M16FamilyBase",
+    "abstract": true,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 55,
+      "ComponentIndustrial": 5,
+      "ComponentSpacer": 1
+    },
+    "after": {
+      "Steel": 55,
+      "HD_GeneralMachinePart": 7
+    },
+    "statBases": {
+      "WorkToMake": "42000",
+      "Mass": "3.4",
+      "MarketValue": "1250",
+      "MaxHitPoints": "100",
+      "AccuracyTouch": "0.62",
+      "AccuracyShort": "0.78",
+      "AccuracyMedium": "0.72",
+      "AccuracyLong": "0.60",
+      "RangedWeapon_Cooldown": "1.7"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Buildings/Crows.xml",
+    "defName": "HD_CrowsComputer",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 80,
+      "WoodLog": 60,
+      "HD_BasicElectricalComponents": 12,
+      "ComponentIndustrial": 4
+    },
+    "after": {
+      "Steel": 80,
+      "WoodLog": 60,
+      "HD_BasicElectricalComponents": 12,
+      "HD_ElectronicComponent": 4
+    },
+    "statBases": {
+      "MaxHitPoints": "160",
+      "WorkToBuild": "4000",
+      "Mass": "55",
+      "Flammability": "0.7"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Buildings/Crows.xml",
+    "defName": "HD_Building_CrowsII",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "HD_GeneralMachinePart": 12,
+      "HD_CarbonSteel": 110,
+      "HD_PressComponent": 8,
+      "HD_UniformRolledSteelPlate": 4,
+      "HD_BasicElectricalComponents": 16,
+      "ComponentIndustrial": 6
+    },
+    "after": {
+      "HD_GeneralMachinePart": 12,
+      "HD_CarbonSteel": 110,
+      "HD_PressComponent": 8,
+      "HD_UniformRolledSteelPlate": 4,
+      "HD_BasicElectricalComponents": 16,
+      "HD_ElectronicComponent": 6
+    },
+    "statBases": {
+      "MaxHitPoints": "300",
+      "WorkToBuild": "4700",
+      "Flammability": "0.25",
+      "Mass": "230",
+      "ShootingAccuracyTurret": "0.95"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Buildings/Defense_ModernWar.xml",
+    "defName": "HD_Building_Switchblade600Launcher",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 80,
+      "ComponentIndustrial": 8,
+      "ComponentSpacer": 2
+    },
+    "after": {
+      "Steel": 80,
+      "HD_ElectronicComponent": 12
+    },
+    "statBases": {
+      "MaxHitPoints": "90",
+      "WorkToBuild": "2200",
+      "Flammability": "0.5",
+      "Mass": "54",
+      "ShootingAccuracyTurret": "0.92"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Buildings/WeaponWorkbench_ModernWar.xml",
+    "defName": "HD_ModularWeaponPartsBox",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 45,
+      "ComponentIndustrial": 2
+    },
+    "after": {
+      "Steel": 45,
+      "HD_GeneralMachinePart": 2
+    },
+    "statBases": {
+      "MaxHitPoints": "100",
+      "WorkToMake": "3500",
+      "MarketValue": "220",
+      "Flammability": "0.35",
+      "Mass": "12"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/Apparel_ModernWar.xml",
+    "defName": "HD_Apparel_ZaperX26_Device",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 20,
+      "ComponentIndustrial": 2
+    },
+    "after": {
+      "Steel": 20,
+      "HD_ElectronicComponent": 2
+    },
+    "statBases": {
+      "WorkToMake": "9000",
+      "Mass": "0.9",
+      "MarketValue": "420",
+      "MaxHitPoints": "100",
+      "EquipDelay": "0.8"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/Apparel_ModernWar.xml",
+    "defName": "HD_Apparel_IBTVAssault",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "HD_Nylon": 60,
+      "HD_Aramid": 40,
+      "ComponentIndustrial": 3
+    },
+    "after": {
+      "HD_Nylon": 60,
+      "HD_Aramid": 40,
+      "HD_GeneralMachinePart": 3
+    },
+    "statBases": {
+      "MaxHitPoints": "260",
+      "WorkToMake": "12000",
+      "MarketValue": "720",
+      "Mass": "9.5",
+      "ArmorRating_Sharp": "0.85",
+      "ArmorRating_Blunt": "0.20",
+      "ArmorRating_Heat": "0.10",
+      "Flammability": "0.15",
+      "EquipDelay": "2.5",
+      "Insulation_Cold": "2",
+      "Insulation_Heat": "0.5"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/Apparel_ModernWar.xml",
+    "defName": "HD_Apparel_MOLLEBattleBelt",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "HD_Nylon": 30,
+      "Steel": 10,
+      "ComponentIndustrial": 1
+    },
+    "after": {
+      "HD_Nylon": 30,
+      "Steel": 10,
+      "HD_GeneralMachinePart": 1
+    },
+    "statBases": {
+      "MaxHitPoints": "140",
+      "WorkToMake": "3200",
+      "MarketValue": "180",
+      "Mass": "1.10",
+      "Flammability": "0.35",
+      "EquipDelay": "1.5"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/Apparel_ModernWar.xml",
+    "defName": "HD_Apparel_FASTMT",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "HD_Nylon": 15,
+      "HD_Aramid": 25,
+      "ComponentIndustrial": 2
+    },
+    "after": {
+      "HD_Nylon": 15,
+      "HD_Aramid": 25,
+      "HD_GeneralMachinePart": 2
+    },
+    "statBases": {
+      "MaxHitPoints": "160",
+      "WorkToMake": "6000",
+      "MarketValue": "420",
+      "Mass": "1.45",
+      "ArmorRating_Sharp": "0.85",
+      "ArmorRating_Blunt": "0.45",
+      "ArmorRating_Heat": "0.15",
+      "Flammability": "0.10",
+      "EquipDelay": "1.0",
+      "Insulation_Cold": "1",
+      "Insulation_Heat": "0.5"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/Apparel_ModernWar.xml",
+    "defName": "HD_Apparel_ShieldDefenTechIIIA",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 55,
+      "Plasteel": 30,
+      "ComponentIndustrial": 2
+    },
+    "after": {
+      "Steel": 55,
+      "HD_Aramid": 30,
+      "HD_GeneralMachinePart": 2
+    },
+    "statBases": {
+      "MaxHitPoints": "260",
+      "WorkToMake": "9000",
+      "MarketValue": "680",
+      "Mass": "7.5",
+      "Flammability": "0.08",
+      "EquipDelay": "2.5"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/Apparel_ModernWar.xml",
+    "defName": "HD_Apparel_ShieldIronHideIV",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 120,
+      "Plasteel": 40,
+      "HD_Alumina": 40,
+      "ComponentIndustrial": 4
+    },
+    "after": {
+      "Steel": 120,
+      "HD_Aramid": 40,
+      "HD_Alumina": 40,
+      "HD_GeneralMachinePart": 4
+    },
+    "statBases": {
+      "MaxHitPoints": "480",
+      "WorkToMake": "18000",
+      "MarketValue": "1250",
+      "Mass": "24",
+      "Flammability": "0.05",
+      "EquipDelay": "4.5"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/ArmorPlates_ModernWar.xml",
+    "defName": "HD_ArmorPlate_SAPI",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "HD_Alumina": 18,
+      "HD_Aramid": 18,
+      "HD_Nylon": 6,
+      "ComponentIndustrial": 1
+    },
+    "after": {
+      "HD_Alumina": 18,
+      "HD_Aramid": 18,
+      "HD_Nylon": 6,
+      "HD_GeneralMachinePart": 1
+    },
+    "statBases": {
+      "MaxHitPoints": "32",
+      "MarketValue": "480",
+      "Mass": "2.0",
+      "Flammability": "0.05",
+      "DeteriorationRate": "1",
+      "WorkToMake": "9000"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/ArmorPlates_ModernWar.xml",
+    "defName": "HD_ArmorPlate_ESAPI",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "HD_Alumina": 28,
+      "HD_Aramid": 16,
+      "HD_Nylon": 6,
+      "ComponentIndustrial": 2
+    },
+    "after": {
+      "HD_Alumina": 28,
+      "HD_Aramid": 16,
+      "HD_Nylon": 6,
+      "HD_GeneralMachinePart": 2
+    },
+    "statBases": {
+      "MaxHitPoints": "40",
+      "MarketValue": "760",
+      "Mass": "2.25",
+      "Flammability": "0.05",
+      "DeteriorationRate": "1",
+      "WorkToMake": "13000"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/ArmorPlates_ModernWar.xml",
+    "defName": "HD_ArmorPlate_SSAPI",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "HD_Alumina": 40,
+      "HD_Aramid": 12,
+      "HD_Nylon": 4,
+      "ComponentIndustrial": 3
+    },
+    "after": {
+      "HD_Alumina": 40,
+      "HD_Aramid": 12,
+      "HD_Nylon": 4,
+      "HD_GeneralMachinePart": 3
+    },
+    "statBases": {
+      "MaxHitPoints": "24",
+      "MarketValue": "1080",
+      "Mass": "2.5",
+      "Flammability": "0.04",
+      "DeteriorationRate": "1",
+      "WorkToMake": "18000"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/ArmorPlates_ModernWar.xml",
+    "defName": "HD_ArmorPlate_ESBI",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "HD_Alumina": 44,
+      "HD_Aramid": 10,
+      "HD_Nylon": 4,
+      "ComponentIndustrial": 3
+    },
+    "after": {
+      "HD_Alumina": 44,
+      "HD_Aramid": 10,
+      "HD_Nylon": 4,
+      "HD_GeneralMachinePart": 3
+    },
+    "statBases": {
+      "MaxHitPoints": "30",
+      "MarketValue": "1220",
+      "Mass": "2.7",
+      "Flammability": "0.04",
+      "DeteriorationRate": "1",
+      "WorkToMake": "20000"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/ArmorPlates_ModernWar.xml",
+    "defName": "HD_ArmorPlate_RAMPART4800_Plate",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Uranium": 10,
+      "Plasteel": 48,
+      "HD_Nylon": 6,
+      "ComponentIndustrial": 4
+    },
+    "after": {
+      "Uranium": 10,
+      "Plasteel": 48,
+      "HD_Nylon": 6,
+      "HD_GeneralMachinePart": 4
+    },
+    "statBases": {
+      "MaxHitPoints": "56",
+      "MarketValue": "1420",
+      "Mass": "3.0",
+      "Flammability": "0.03",
+      "DeteriorationRate": "1",
+      "WorkToMake": "24000"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/Grenades_ModernWar.xml",
+    "defName": "HD_Grenade_M84_Item",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 14,
+      "Chemfuel": 35,
+      "ComponentIndustrial": 1
+    },
+    "after": {
+      "Steel": 14,
+      "Chemfuel": 35,
+      "HD_GeneralMachinePart": 1
+    },
+    "statBases": {
+      "Mass": "0.38",
+      "MarketValue": "360"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/Grenades_ModernWar.xml",
+    "defName": "HD_Grenade_M111_Item",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 10,
+      "Chemfuel": 75,
+      "ComponentIndustrial": 1
+    },
+    "after": {
+      "Steel": 10,
+      "Chemfuel": 75,
+      "HD_GeneralMachinePart": 1
+    },
+    "statBases": {
+      "Mass": "0.42",
+      "WorkToMake": "18000",
+      "MarketValue": "440"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/LaserDesignators_ModernWar.xml",
+    "defName": "HD_Apparel_ANPEQ1C",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 60,
+      "ComponentIndustrial": 6,
+      "ComponentSpacer": 3
+    },
+    "after": {
+      "Steel": 60,
+      "HD_ElectronicComponent": 12
+    },
+    "statBases": {
+      "WorkToMake": "30000",
+      "Mass": "5.2",
+      "MarketValue": "3200",
+      "MaxHitPoints": "120",
+      "Flammability": "0.25",
+      "EquipDelay": "1.8"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/LaserDesignators_ModernWar.xml",
+    "defName": "HD_Apparel_IZLIDUltra",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 22,
+      "ComponentIndustrial": 4,
+      "ComponentSpacer": 1
+    },
+    "after": {
+      "Steel": 22,
+      "HD_ElectronicComponent": 6
+    },
+    "statBases": {
+      "WorkToMake": "17000",
+      "Mass": "0.58",
+      "MarketValue": "1450",
+      "MaxHitPoints": "90",
+      "Flammability": "0.25",
+      "EquipDelay": "0.8"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/LaserDesignators_ModernWar.xml",
+    "defName": "HD_Apparel_LA16uPEQ",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 18,
+      "ComponentIndustrial": 3,
+      "ComponentSpacer": 1
+    },
+    "after": {
+      "Steel": 18,
+      "HD_ElectronicComponent": 5
+    },
+    "statBases": {
+      "WorkToMake": "13000",
+      "Mass": "0.75",
+      "MarketValue": "1100",
+      "MaxHitPoints": "85",
+      "Flammability": "0.25",
+      "EquipDelay": "0.65"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/ModularArmorPartItems.xml",
+    "defName": "HD_ModularPart_GPNVG18_Part",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Plasteel": 18,
+      "ComponentIndustrial": 6,
+      "ComponentSpacer": 1
+    },
+    "after": {
+      "Plasteel": 18,
+      "HD_ElectronicComponent": 8
+    },
+    "statBases": {
+      "MarketValue": "1800",
+      "Mass": "0.76",
+      "WorkToMake": "18000"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/ModularArmorPartItems.xml",
+    "defName": "HD_ModularPart_MultiHitVisor",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Plasteel": 24,
+      "ComponentIndustrial": 2
+    },
+    "after": {
+      "Plasteel": 24,
+      "HD_GeneralMachinePart": 2
+    },
+    "statBases": {
+      "MarketValue": "520",
+      "Mass": "1.10",
+      "WorkToMake": "9000"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/ModularArmorPartItems.xml",
+    "defName": "HD_ModularPart_WalkieTalkie",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "HD_Nylon": 10,
+      "ComponentIndustrial": 1
+    },
+    "after": {
+      "HD_Nylon": 10,
+      "HD_ElectronicComponent": 1
+    },
+    "statBases": {
+      "MarketValue": "120",
+      "Mass": "0.35",
+      "WorkToMake": "1400"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/ModularArmorPartItems.xml",
+    "defName": "HD_ModularPart_IBTVCamelBak",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "HD_Nylon": 20,
+      "ComponentIndustrial": 1
+    },
+    "after": {
+      "HD_Nylon": 20,
+      "HD_GeneralMachinePart": 1
+    },
+    "statBases": {
+      "MarketValue": "140",
+      "Mass": "1.20",
+      "WorkToMake": "2200"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/ModularWeapons_M14_Development.xml",
+    "defName": "HD_Gun_M14_Weapon",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 55,
+      "ComponentIndustrial": 5
+    },
+    "after": {
+      "Steel": 55,
+      "HD_GeneralMachinePart": 5
+    },
+    "statBases": {
+      "WorkToMake": "40000",
+      "Mass": "4.1",
+      "MarketValue": "1100",
+      "MaxHitPoints": "100",
+      "AccuracyTouch": "0.65",
+      "AccuracyShort": "0.80",
+      "AccuracyMedium": "0.82",
+      "AccuracyLong": "0.73",
+      "RangedWeapon_Cooldown": "1.6"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/ModularWeapons_M249.xml",
+    "defName": "HD_Gun_M249_Weapon",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 75,
+      "ComponentIndustrial": 7
+    },
+    "after": {
+      "Steel": 75,
+      "HD_GeneralMachinePart": 7
+    },
+    "statBases": {
+      "WorkToMake": "52000",
+      "Mass": "7.5",
+      "MarketValue": "1650",
+      "MaxHitPoints": "110",
+      "AccuracyTouch": "0.50",
+      "AccuracyShort": "0.65",
+      "AccuracyMedium": "0.64",
+      "AccuracyLong": "0.40",
+      "RangedWeapon_Cooldown": "1.7"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/ModularWeapons_MP5_Development.xml",
+    "defName": "HD_MP5FamilyBase",
+    "abstract": true,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 45,
+      "ComponentIndustrial": 4,
+      "ComponentSpacer": 1
+    },
+    "after": {
+      "Steel": 45,
+      "HD_GeneralMachinePart": 6
+    },
+    "statBases": {
+      "WorkToMake": "34000",
+      "Mass": "2.9",
+      "MarketValue": "1050",
+      "MaxHitPoints": "100",
+      "AccuracyTouch": "0.78",
+      "AccuracyShort": "0.84",
+      "AccuracyMedium": "0.65",
+      "AccuracyLong": "0.40",
+      "RangedWeapon_Cooldown": "1.35"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/ModularWeapons_P320_Development.xml",
+    "defName": "HD_Gun_P320_Weapon",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 24,
+      "ComponentIndustrial": 3
+    },
+    "after": {
+      "Steel": 24,
+      "HD_GeneralMachinePart": 3
+    },
+    "statBases": {}
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/Weapons_ModernWar.xml",
+    "defName": "HD_Gun_Glock19Gen5_Weapon",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 28,
+      "ComponentIndustrial": 3,
+      "ComponentSpacer": 1
+    },
+    "after": {
+      "Steel": 28,
+      "HD_GeneralMachinePart": 5
+    },
+    "statBases": {
+      "WorkToMake": "26000",
+      "Mass": "0.79",
+      "MarketValue": "825",
+      "MaxHitPoints": "80",
+      "AccuracyTouch": "0.78",
+      "AccuracyShort": "0.83",
+      "AccuracyMedium": "0.60",
+      "AccuracyLong": "0.34",
+      "RangedWeapon_Cooldown": "1.25"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/Weapons_ModernWar.xml",
+    "defName": "HD_PowerforgeJackhammer",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 60,
+      "ComponentIndustrial": 4,
+      "HD_GeneralMachinePart": 2
+    },
+    "after": {
+      "Steel": 60,
+      "HD_BasicElectricalComponents": 4,
+      "HD_GeneralMachinePart": 2
+    },
+    "statBases": {
+      "WorkToMake": "36000",
+      "Mass": "6.6",
+      "MarketValue": "1050",
+      "MaxHitPoints": "120"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Items/Weapons_ModernWar.xml",
+    "defName": "HD_Gun_Nailgun_Weapon",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 35,
+      "ComponentIndustrial": 3,
+      "HD_GeneralMachinePart": 1
+    },
+    "after": {
+      "Steel": 35,
+      "HD_BasicElectricalComponents": 3,
+      "HD_GeneralMachinePart": 1
+    },
+    "statBases": {
+      "WorkToMake": "24000",
+      "Mass": "2.2",
+      "MarketValue": "800",
+      "MaxHitPoints": "90",
+      "AccuracyTouch": "0.86",
+      "AccuracyShort": "0.78",
+      "AccuracyMedium": "0.48",
+      "AccuracyLong": "0.18",
+      "RangedWeapon_Cooldown": "0.4"
+    }
+  },
+  {
+    "kind": "RecipeDef",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "defName": "HD_Make_Gun_M1903A4_Weapon",
+    "abstract": false,
+    "before": {
+      "HD_Gun_SprMThree_Weapon": 1,
+      "HD_CarbonSteel": 18,
+      "HD_GeneralMachinePart": 4,
+      "ComponentIndustrial": 2
+    },
+    "after": {
+      "HD_Gun_SprMThree_Weapon": 1,
+      "HD_CarbonSteel": 18,
+      "HD_GeneralMachinePart": 6
+    }
+  },
+  {
+    "kind": "RecipeDef",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "defName": "HD_Make_Gun_M1D_Weapon",
+    "abstract": false,
+    "before": {
+      "HD_Gun_M1Garand_Weapon": 1,
+      "HD_CarbonSteel": 18,
+      "HD_GeneralMachinePart": 4,
+      "ComponentIndustrial": 2
+    },
+    "after": {
+      "HD_Gun_M1Garand_Weapon": 1,
+      "HD_CarbonSteel": 18,
+      "HD_GeneralMachinePart": 6
+    }
+  },
+  {
+    "kind": "RecipeDef",
+    "file": "Defs/Recipes/Recipes_Helod.xml",
+    "defName": "HD_Make_Gun_M60E3_Weapon",
+    "abstract": false,
+    "before": {
+      "HD_GeneralMachinePart": 10,
+      "HD_CarbonSteel": 105,
+      "HD_PressComponent": 6,
+      "ComponentIndustrial": 2
+    },
+    "after": {
+      "HD_GeneralMachinePart": 12,
+      "HD_CarbonSteel": 105,
+      "HD_PressComponent": 6
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/WildWest/Items/Weapons_WildWest.xml",
+    "defName": "HD_Gun_ColtSAA_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 30,
+      "ComponentIndustrial": 2
+    },
+    "after": {
+      "Steel": 30,
+      "HD_GeneralMachinePart": 2
+    },
+    "statBases": {
+      "WorkToMake": "15000",
+      "Mass": "1.05",
+      "AccuracyTouch": "0.80",
+      "AccuracyShort": "0.70",
+      "AccuracyMedium": "0.50",
+      "AccuracyLong": "0.35",
+      "RangedWeapon_Cooldown": "1.6"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/WildWest/Items/Weapons_WildWest.xml",
+    "defName": "HD_Gun_ColtArmyModel1860_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 28,
+      "ComponentIndustrial": 1
+    },
+    "after": {
+      "Steel": 28,
+      "HD_GeneralMachinePart": 1
+    },
+    "statBases": {
+      "WorkToMake": "13000",
+      "Mass": "1.22",
+      "AccuracyTouch": "0.75",
+      "AccuracyShort": "0.68",
+      "AccuracyMedium": "0.45",
+      "AccuracyLong": "0.28",
+      "RangedWeapon_Cooldown": "2.0"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/WildWest/Items/Weapons_WildWest.xml",
+    "defName": "HD_Gun_SWModelThree_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 30,
+      "ComponentIndustrial": 2
+    },
+    "after": {
+      "Steel": 30,
+      "HD_GeneralMachinePart": 2
+    },
+    "statBases": {
+      "WorkToMake": "14000",
+      "Mass": "1.3",
+      "AccuracyTouch": "0.85",
+      "AccuracyShort": "0.75",
+      "AccuracyMedium": "0.45",
+      "AccuracyLong": "0.30",
+      "RangedWeapon_Cooldown": "1.3"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/WildWest/Items/Weapons_WildWest.xml",
+    "defName": "HD_Gun_Henry_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 60,
+      "ComponentIndustrial": 3
+    },
+    "after": {
+      "Steel": 60,
+      "HD_GeneralMachinePart": 3
+    },
+    "statBases": {
+      "WorkToMake": "25000",
+      "Mass": "4.2",
+      "AccuracyTouch": "0.65",
+      "AccuracyShort": "0.80",
+      "AccuracyMedium": "0.70",
+      "AccuracyLong": "0.55",
+      "RangedWeapon_Cooldown": "1.8"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/WildWest/Items/Weapons_WildWest.xml",
+    "defName": "HD_Gun_WinM1887_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 65,
+      "ComponentIndustrial": 3
+    },
+    "after": {
+      "Steel": 65,
+      "HD_GeneralMachinePart": 3
+    },
+    "statBases": {
+      "WorkToMake": "28000",
+      "Mass": "3.6",
+      "AccuracyTouch": "0.80",
+      "AccuracyShort": "0.62",
+      "AccuracyMedium": "0.32",
+      "AccuracyLong": "0.12",
+      "RangedWeapon_Cooldown": "2.4"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/WildWest/Items/Weapons_WildWest.xml",
+    "defName": "HD_Gun_WinMNinetyFive_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 70,
+      "ComponentIndustrial": 4
+    },
+    "after": {
+      "Steel": 70,
+      "HD_GeneralMachinePart": 4
+    },
+    "statBases": {
+      "WorkToMake": "30000",
+      "Mass": "4.2",
+      "AccuracyTouch": "0.60",
+      "AccuracyShort": "0.75",
+      "AccuracyMedium": "0.75",
+      "AccuracyLong": "0.65",
+      "RangedWeapon_Cooldown": "2.2"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/WildWest/Items/Weapons_WildWest.xml",
+    "defName": "HD_Gun_SprMOne_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 50,
+      "WoodLog": 20,
+      "ComponentIndustrial": 1
+    },
+    "after": {
+      "Steel": 50,
+      "WoodLog": 20,
+      "HD_GeneralMachinePart": 1
+    },
+    "statBases": {
+      "WorkToMake": "12000",
+      "Mass": "4.1",
+      "AccuracyTouch": "0.50",
+      "AccuracyShort": "0.65",
+      "AccuracyMedium": "0.75",
+      "AccuracyLong": "0.70",
+      "RangedWeapon_Cooldown": "6.0"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/WildWest/Items/Weapons_WildWest.xml",
+    "defName": "HD_Gun_SprMThreeHigh_Weapon",
+    "abstract": false,
+    "recipeDisabled": true,
+    "before": {
+      "Steel": 60,
+      "ComponentIndustrial": 2
+    },
+    "after": {
+      "Steel": 60,
+      "HD_GeneralMachinePart": 2
+    },
+    "statBases": {
+      "WorkToMake": "20000",
+      "Mass": "4.2",
+      "AccuracyTouch": "0.50",
+      "AccuracyShort": "0.70",
+      "AccuracyMedium": "0.80",
+      "AccuracyLong": "0.75",
+      "RangedWeapon_Cooldown": "3.0"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ColdWar/Buildings/MachiningCenter1970.xml",
+    "defName": "HD_MachiningCenter1970Bench",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 190,
+      "HD_CarbonSteel": 90,
+      "HD_GeneralMachinePart": 10,
+      "HD_BasicElectricalComponents": 12,
+      "HD_ElectronicComponent": 10,
+      "ComponentIndustrial": 4
+    },
+    "after": {
+      "Steel": 190,
+      "HD_CarbonSteel": 90,
+      "HD_GeneralMachinePart": 14,
+      "HD_BasicElectricalComponents": 12,
+      "HD_ElectronicComponent": 10
+    },
+    "statBases": {
+      "MaxHitPoints": "420",
+      "WorkToBuild": "8000",
+      "Flammability": "0.2",
+      "Mass": "390",
+      "WorkTableWorkSpeedFactor": "3.5"
+    }
+  },
+  {
+    "kind": "ThingDef",
+    "file": "Defs/ModernWar/Buildings/MultiTaskMachine2000.xml",
+    "defName": "HD_MultiTaskMachine2000Bench",
+    "abstract": false,
+    "recipeDisabled": false,
+    "before": {
+      "Steel": 260,
+      "HD_CarbonSteel": 100,
+      "HD_GeneralMachinePart": 16,
+      "HD_UniformRolledSteelPlate": 24,
+      "HD_BasicElectricalComponents": 12,
+      "HD_ElectronicComponent": 12,
+      "ComponentIndustrial": 20
+    },
+    "after": {
+      "Steel": 260,
+      "HD_CarbonSteel": 100,
+      "HD_GeneralMachinePart": 16,
+      "HD_UniformRolledSteelPlate": 24,
+      "HD_BasicElectricalComponents": 12,
+      "HD_ElectronicComponent": 32
+    },
+    "statBases": {
+      "MaxHitPoints": "560",
+      "WorkToBuild": "12000",
+      "Flammability": "0.2",
+      "Mass": "650",
+      "WorkTableWorkSpeedFactor": "5"
+    }
+  }
+]

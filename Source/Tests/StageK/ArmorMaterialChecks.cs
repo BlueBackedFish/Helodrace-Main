@@ -27,24 +27,24 @@ public sealed partial class Checks
             }
         }
         CheckArmorRecipe("HD_Apparel_M1952AFlakJacket",new (string,int)[]{("HD_Nylon",65),("Steel",25)});
-        CheckArmorRecipe("HD_Apparel_IBTVAssault",new (string,int)[]{("HD_Nylon",60),("HD_Aramid",40),("ComponentIndustrial",3)});
-        CheckArmorRecipe("HD_Apparel_MOLLEBattleBelt",new (string,int)[]{("HD_Nylon",30),("Steel",10),("ComponentIndustrial",1)});
+        CheckArmorRecipe("HD_Apparel_IBTVAssault",new (string,int)[]{("HD_Nylon",60),("HD_Aramid",40),("HD_GeneralMachinePart",3)});
+        CheckArmorRecipe("HD_Apparel_MOLLEBattleBelt",new (string,int)[]{("HD_Nylon",30),("Steel",10),("HD_GeneralMachinePart",1)});
         CheckArmorRecipe("HD_ModularPart_IBTVShoulderGuards",new (string,int)[]{("HD_Nylon",12),("HD_Aramid",12)});
         CheckArmorRecipe("HD_ModularPart_IBTVLowerBody",new (string,int)[]{("HD_Nylon",14),("HD_Aramid",10)});
         CheckArmorRecipe("HD_ModularPart_IBTVBackProtector",new (string,int)[]{("HD_Nylon",14),("HD_Aramid",9)});
         CheckArmorRecipe("HD_ModularPart_IFAK",new (string,int)[]{("HD_Nylon",12),("MedicineIndustrial",1)});
         CheckArmorRecipe("HD_ModularPart_RifleMagazinePouch",new (string,int)[]{("HD_Nylon",10)});
-        CheckArmorRecipe("HD_ModularPart_WalkieTalkie",new (string,int)[]{("HD_Nylon",10),("ComponentIndustrial",1)});
+        CheckArmorRecipe("HD_ModularPart_WalkieTalkie",new (string,int)[]{("HD_Nylon",10),("HD_ElectronicComponent",1)});
         CheckArmorRecipe("HD_ModularPart_MediL",new (string,int)[]{("HD_Nylon",18),("MedicineIndustrial",2)});
         CheckArmorRecipe("HD_ModularPart_AdminPouch",new (string,int)[]{("HD_Nylon",12)});
-        CheckArmorRecipe("HD_ModularPart_IBTVCamelBak",new (string,int)[]{("HD_Nylon",20),("ComponentIndustrial",1)});
+        CheckArmorRecipe("HD_ModularPart_IBTVCamelBak",new (string,int)[]{("HD_Nylon",20),("HD_GeneralMachinePart",1)});
         CheckArmorRecipe("HD_ModularPart_UCPKneePads",new (string,int)[]{("HD_Nylon",8),("Steel",6)});
         CheckArmorRecipe("HD_ModularPart_MOLLEDropLeg",new (string,int)[]{("HD_Nylon",16),("Steel",6)});
-        CheckArmorRecipe("HD_ArmorPlate_SAPI",new (string,int)[]{("HD_Alumina",18),("HD_Aramid",18),("HD_Nylon",6),("ComponentIndustrial",1)});
-        CheckArmorRecipe("HD_ArmorPlate_ESAPI",new (string,int)[]{("HD_Alumina",28),("HD_Aramid",16),("HD_Nylon",6),("ComponentIndustrial",2)});
-        CheckArmorRecipe("HD_ArmorPlate_SSAPI",new (string,int)[]{("HD_Alumina",40),("HD_Aramid",12),("HD_Nylon",4),("ComponentIndustrial",3)});
-        CheckArmorRecipe("HD_ArmorPlate_ESBI",new (string,int)[]{("HD_Alumina",44),("HD_Aramid",10),("HD_Nylon",4),("ComponentIndustrial",3)});
-        CheckArmorRecipe("HD_ArmorPlate_RAMPART4800_Plate",new (string,int)[]{("Uranium",10),("Plasteel",48),("HD_Nylon",6),("ComponentIndustrial",4)});
+        CheckArmorRecipe("HD_ArmorPlate_SAPI",new (string,int)[]{("HD_Alumina",18),("HD_Aramid",18),("HD_Nylon",6),("HD_GeneralMachinePart",1)});
+        CheckArmorRecipe("HD_ArmorPlate_ESAPI",new (string,int)[]{("HD_Alumina",28),("HD_Aramid",16),("HD_Nylon",6),("HD_GeneralMachinePart",2)});
+        CheckArmorRecipe("HD_ArmorPlate_SSAPI",new (string,int)[]{("HD_Alumina",40),("HD_Aramid",12),("HD_Nylon",4),("HD_GeneralMachinePart",3)});
+        CheckArmorRecipe("HD_ArmorPlate_ESBI",new (string,int)[]{("HD_Alumina",44),("HD_Aramid",10),("HD_Nylon",4),("HD_GeneralMachinePart",3)});
+        CheckArmorRecipe("HD_ArmorPlate_RAMPART4800_Plate",new (string,int)[]{("Uranium",10),("Plasteel",48),("HD_Nylon",6),("HD_GeneralMachinePart",4)});
         foreach(string name in new[]{"HD_ArmorPlate_SAPI","HD_ArmorPlate_ESAPI","HD_ArmorPlate_SSAPI","HD_ArmorPlate_ESBI"})
             Check(Def<ThingDef>(name).GetCompProperties<Helodrace.ModernWar.CompProperties_ArmorPlateSet>().material.ToString()=="Ceramic","Alumina plate retains its ceramic behavior: "+name);
         var rampart=Def<ThingDef>("HD_ArmorPlate_RAMPART4800_Plate");

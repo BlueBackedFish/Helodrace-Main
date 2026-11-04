@@ -25,9 +25,16 @@
     <costList>
       <Steel>24</Steel>
       <Chemfuel>80</Chemfuel>
-      <ComponentIndustrial>1</ComponentIndustrial>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </costList>
     <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>Chemfuel</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
       <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
       <skillRequirements><Crafting>6</Crafting></skillRequirements>
@@ -133,9 +140,16 @@
     <costList>
       <Steel>14</Steel>
       <Chemfuel>35</Chemfuel>
-      <ComponentIndustrial>1</ComponentIndustrial>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </costList>
     <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>Chemfuel</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <researchPrerequisite>HelodLessLethalChemical</researchPrerequisite>
       <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
       <skillRequirements><Crafting>5</Crafting></skillRequirements>

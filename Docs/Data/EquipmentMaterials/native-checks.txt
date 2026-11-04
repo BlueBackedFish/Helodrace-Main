@@ -1,0 +1,424 @@
+Actual 1.7 Stage K life checks
+PASS: Real power grid powers HD_StirredTankReactor
+PASS: Real power grid powers HD_VIMFurnace
+PASS: Real power grid powers HD_SemiconductorFab
+PASS: Real power grid powers TableMachining
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Grenade_M14_Item
+PASS: Equipment has its generated production recipe: HD_Grenade_M14_Item
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Grenade_M14_Item
+PASS: Fresh bill permits every dedicated input: Make_HD_Grenade_M14_Item
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Grenade_M7A2_Item
+PASS: Equipment has its generated production recipe: HD_Grenade_M7A2_Item
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Grenade_M7A2_Item
+PASS: Fresh bill permits every dedicated input: Make_HD_Grenade_M7A2_Item
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M79_Weapon
+PASS: Equipment has its generated production recipe: HD_Gun_M79_Weapon
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Gun_M79_Weapon
+PASS: Fresh bill permits every dedicated input: Make_HD_Gun_M79_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_M60Igniter
+PASS: Equipment has its generated production recipe: HD_M60Igniter
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_M60Igniter
+PASS: Fresh bill permits every dedicated input: Make_HD_M60Igniter
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_M81Igniter
+PASS: Equipment has its generated production recipe: HD_M81Igniter
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_M81Igniter
+PASS: Fresh bill permits every dedicated input: Make_HD_M81Igniter
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M47_Dragon
+PASS: Equipment has its generated production recipe: HD_Gun_M47_Dragon
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Gun_M47_Dragon
+PASS: Fresh bill permits every dedicated input: Make_HD_Gun_M47_Dragon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M60E3_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_M60E3_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_PowerCutter
+PASS: Equipment has its generated production recipe: HD_PowerCutter
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_PowerCutter
+PASS: Fresh bill permits every dedicated input: Make_HD_PowerCutter
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_LANCE_LRA7_Weapon
+PASS: Equipment has its generated production recipe: HD_Gun_LANCE_LRA7_Weapon
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Gun_LANCE_LRA7_Weapon
+PASS: Fresh bill permits every dedicated input: Make_HD_Gun_LANCE_LRA7_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M2FlameThrower_Weapon
+PASS: Equipment has its generated production recipe: HD_Gun_M2FlameThrower_Weapon
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Gun_M2FlameThrower_Weapon
+PASS: Fresh bill permits every dedicated input: Make_HD_Gun_M2FlameThrower_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M8FlareGun_Weapon
+PASS: Equipment has its generated production recipe: HD_Gun_M8FlareGun_Weapon
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Gun_M8FlareGun_Weapon
+PASS: Fresh bill permits every dedicated input: Make_HD_Gun_M8FlareGun_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Apparel_SCR300_Radio
+PASS: Equipment has its generated production recipe: HD_Apparel_SCR300_Radio
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Apparel_SCR300_Radio
+PASS: Fresh bill permits every dedicated input: Make_HD_Apparel_SCR300_Radio
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M1A1Harrington_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_M1A1Harrington_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M3A1_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_M3A1_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_KragJorgensen_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_KragJorgensen_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M1897_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_M1897_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M1A1Carbine_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_M1A1Carbine_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M2Carbine_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_M2Carbine_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M1Garand_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_M1Garand_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M1D_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_M1D_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M1918A2HAR_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_M1918A2HAR_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M1919A6LMG_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_M1919A6LMG_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_SprMThree_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_SprMThree_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M1903A4_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_M1903A4_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M1903Pedersen_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_M1903Pedersen_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_CrowsComputer
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Building_CrowsII
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Building_Switchblade600Launcher
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_ModularWeaponPartsBox
+PASS: Equipment has its generated production recipe: HD_ModularWeaponPartsBox
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_ModularWeaponPartsBox
+PASS: Fresh bill permits every dedicated input: Make_HD_ModularWeaponPartsBox
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Apparel_ZaperX26_Device
+PASS: Equipment has its generated production recipe: HD_Apparel_ZaperX26_Device
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Apparel_ZaperX26_Device
+PASS: Fresh bill permits every dedicated input: Make_HD_Apparel_ZaperX26_Device
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Apparel_IBTVAssault
+PASS: Equipment has its generated production recipe: HD_Apparel_IBTVAssault
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Apparel_IBTVAssault
+PASS: Fresh bill permits every dedicated input: Make_HD_Apparel_IBTVAssault
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Apparel_MOLLEBattleBelt
+PASS: Equipment has its generated production recipe: HD_Apparel_MOLLEBattleBelt
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Apparel_MOLLEBattleBelt
+PASS: Fresh bill permits every dedicated input: Make_HD_Apparel_MOLLEBattleBelt
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Apparel_FASTMT
+PASS: Equipment has its generated production recipe: HD_Apparel_FASTMT
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Apparel_FASTMT
+PASS: Fresh bill permits every dedicated input: Make_HD_Apparel_FASTMT
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Apparel_ShieldDefenTechIIIA
+PASS: Equipment has its generated production recipe: HD_Apparel_ShieldDefenTechIIIA
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Apparel_ShieldDefenTechIIIA
+PASS: Fresh bill permits every dedicated input: Make_HD_Apparel_ShieldDefenTechIIIA
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Apparel_ShieldIronHideIV
+PASS: Equipment has its generated production recipe: HD_Apparel_ShieldIronHideIV
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Apparel_ShieldIronHideIV
+PASS: Fresh bill permits every dedicated input: Make_HD_Apparel_ShieldIronHideIV
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_ArmorPlate_SAPI
+PASS: Equipment has its generated production recipe: HD_ArmorPlate_SAPI
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_ArmorPlate_SAPI
+PASS: Fresh bill permits every dedicated input: Make_HD_ArmorPlate_SAPI
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_ArmorPlate_ESAPI
+PASS: Equipment has its generated production recipe: HD_ArmorPlate_ESAPI
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_ArmorPlate_ESAPI
+PASS: Fresh bill permits every dedicated input: Make_HD_ArmorPlate_ESAPI
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_ArmorPlate_SSAPI
+PASS: Equipment has its generated production recipe: HD_ArmorPlate_SSAPI
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_ArmorPlate_SSAPI
+PASS: Fresh bill permits every dedicated input: Make_HD_ArmorPlate_SSAPI
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_ArmorPlate_ESBI
+PASS: Equipment has its generated production recipe: HD_ArmorPlate_ESBI
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_ArmorPlate_ESBI
+PASS: Fresh bill permits every dedicated input: Make_HD_ArmorPlate_ESBI
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_ArmorPlate_RAMPART4800_Plate
+PASS: Equipment has its generated production recipe: HD_ArmorPlate_RAMPART4800_Plate
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_ArmorPlate_RAMPART4800_Plate
+PASS: Fresh bill permits every dedicated input: Make_HD_ArmorPlate_RAMPART4800_Plate
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Grenade_M84_Item
+PASS: Equipment has its generated production recipe: HD_Grenade_M84_Item
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Grenade_M84_Item
+PASS: Fresh bill permits every dedicated input: Make_HD_Grenade_M84_Item
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Grenade_M111_Item
+PASS: Equipment has its generated production recipe: HD_Grenade_M111_Item
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Grenade_M111_Item
+PASS: Fresh bill permits every dedicated input: Make_HD_Grenade_M111_Item
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Apparel_ANPEQ1C
+PASS: Equipment has its generated production recipe: HD_Apparel_ANPEQ1C
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Apparel_ANPEQ1C
+PASS: Fresh bill permits every dedicated input: Make_HD_Apparel_ANPEQ1C
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Apparel_IZLIDUltra
+PASS: Equipment has its generated production recipe: HD_Apparel_IZLIDUltra
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Apparel_IZLIDUltra
+PASS: Fresh bill permits every dedicated input: Make_HD_Apparel_IZLIDUltra
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Apparel_LA16uPEQ
+PASS: Equipment has its generated production recipe: HD_Apparel_LA16uPEQ
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Apparel_LA16uPEQ
+PASS: Fresh bill permits every dedicated input: Make_HD_Apparel_LA16uPEQ
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_ModularPart_GPNVG18_Part
+PASS: Equipment has its generated production recipe: HD_ModularPart_GPNVG18_Part
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_ModularPart_GPNVG18_Part
+PASS: Fresh bill permits every dedicated input: Make_HD_ModularPart_GPNVG18_Part
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_ModularPart_MultiHitVisor
+PASS: Equipment has its generated production recipe: HD_ModularPart_MultiHitVisor
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_ModularPart_MultiHitVisor
+PASS: Fresh bill permits every dedicated input: Make_HD_ModularPart_MultiHitVisor
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_ModularPart_WalkieTalkie
+PASS: Equipment has its generated production recipe: HD_ModularPart_WalkieTalkie
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_ModularPart_WalkieTalkie
+PASS: Fresh bill permits every dedicated input: Make_HD_ModularPart_WalkieTalkie
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_ModularPart_IBTVCamelBak
+PASS: Equipment has its generated production recipe: HD_ModularPart_IBTVCamelBak
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_ModularPart_IBTVCamelBak
+PASS: Fresh bill permits every dedicated input: Make_HD_ModularPart_IBTVCamelBak
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M14_Weapon
+PASS: Equipment has its generated production recipe: HD_Gun_M14_Weapon
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Gun_M14_Weapon
+PASS: Fresh bill permits every dedicated input: Make_HD_Gun_M14_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_M249_Weapon
+PASS: Equipment has its generated production recipe: HD_Gun_M249_Weapon
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Gun_M249_Weapon
+PASS: Fresh bill permits every dedicated input: Make_HD_Gun_M249_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_P320_Weapon
+PASS: Equipment has its generated production recipe: HD_Gun_P320_Weapon
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Gun_P320_Weapon
+PASS: Fresh bill permits every dedicated input: Make_HD_Gun_P320_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_Glock19Gen5_Weapon
+PASS: Equipment has its generated production recipe: HD_Gun_Glock19Gen5_Weapon
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Gun_Glock19Gen5_Weapon
+PASS: Fresh bill permits every dedicated input: Make_HD_Gun_Glock19Gen5_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_PowerforgeJackhammer
+PASS: Equipment has its generated production recipe: HD_PowerforgeJackhammer
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_PowerforgeJackhammer
+PASS: Fresh bill permits every dedicated input: Make_HD_PowerforgeJackhammer
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_Nailgun_Weapon
+PASS: Equipment has its generated production recipe: HD_Gun_Nailgun_Weapon
+PASS: Resolved production inputs match the dedicated material quantities: Make_HD_Gun_Nailgun_Weapon
+PASS: Fresh bill permits every dedicated input: Make_HD_Gun_Nailgun_Weapon
+PASS: Resolved production inputs match the dedicated material quantities: HD_Make_Gun_M1903A4_Weapon
+PASS: Fresh bill permits every dedicated input: HD_Make_Gun_M1903A4_Weapon
+PASS: Resolved production inputs match the dedicated material quantities: HD_Make_Gun_M1D_Weapon
+PASS: Fresh bill permits every dedicated input: HD_Make_Gun_M1D_Weapon
+PASS: Resolved production inputs match the dedicated material quantities: HD_Make_Gun_M60E3_Weapon
+PASS: Fresh bill permits every dedicated input: HD_Make_Gun_M60E3_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_ColtSAA_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_ColtSAA_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_ColtArmyModel1860_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_ColtArmyModel1860_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_SWModelThree_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_SWModelThree_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_Henry_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_Henry_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_WinM1887_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_WinM1887_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_WinMNinetyFive_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_WinMNinetyFive_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_SprMOne_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_SprMOne_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_Gun_SprMThreeHigh_Weapon
+PASS: Assembly-only weapon stays without an automatic direct recipe: HD_Gun_SprMThreeHigh_Weapon
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_MachiningCenter1970Bench
+PASS: Resolved equipment/construction cost uses the exact dedicated materials: HD_MultiTaskMachine2000Bench
+PASS: No resolved Helod equipment or building cost uses vanilla components:
+PASS: Shield has no plasteel: HD_Apparel_ShieldIronHideRiot
+PASS: Shield has no plasteel: HD_Apparel_ShieldDefenTechIIIA
+PASS: Shield has no plasteel: HD_Apparel_ShieldIronHideIV
+PASS: All authored and generated Helod production recipes avoid vanilla component inputs, including inherited gun families:
+PASS: Real powered multitask machine supplies the basic bench's lathe and milling requirements
+PASS: Recipe appears on the actual worktable: Make_HD_Apparel_ShieldDefenTechIIIA
+BILL Make_HD_Apparel_ShieldDefenTechIIIA work= givers=DoBillsMachiningTable:Smithing filters=Steel:True:False,HD_Aramid:True:False,HD_GeneralMachinePart:True:False should=True available=True skill=True area= worker=(136, 0, 124) costs=Steel:775,HD_Aramid:30,HD_GeneralMachinePart:2
+INGREDIENTS Make_HD_Apparel_ShieldDefenTechIIIA found=True chosen=Steel:55,HD_Aramid:30,HD_GeneralMachinePart:2 missing=
+JOBEND Make_HD_Apparel_ShieldDefenTechIIIA InterruptForced toil=4
+PASS: Native work giver starts production: Make_HD_Apparel_ShieldDefenTechIIIA; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE Make_HD_Apparel_ShieldDefenTechIIIA ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=Steel:775,HD_Aramid:30,HD_GeneralMachinePart:2
+TRACE Make_HD_Apparel_ShieldDefenTechIIIA ticks=9600 job=DoBill driver=14 bound= carry= power=True available=True materials=Steel:775,HD_Aramid:30,HD_GeneralMachinePart:2
+JOBEND Make_HD_Apparel_ShieldDefenTechIIIA Succeeded toil=16
+PASS: Native bill completes: Make_HD_Apparel_ShieldDefenTechIIIA; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Apparel_ShieldDefenTechIIIA/Steel
+PASS: Exact material consumption: Make_HD_Apparel_ShieldDefenTechIIIA/HD_Aramid
+PASS: Exact material consumption: Make_HD_Apparel_ShieldDefenTechIIIA/HD_GeneralMachinePart
+PASS: Exact physical output: Make_HD_Apparel_ShieldDefenTechIIIA
+PASS: Recipe appears on the actual worktable: Make_HD_Apparel_ShieldIronHideIV
+BILL Make_HD_Apparel_ShieldIronHideIV work= givers=DoBillsMachiningTable:Smithing filters=Steel:True:False,HD_Aramid:True:False,HD_Alumina:True:False,HD_GeneralMachinePart:True:False should=True available=True skill=True area= worker=(147, 0, 112) costs=Steel:840,HD_Aramid:40,HD_Alumina:40,HD_GeneralMachinePart:4
+INGREDIENTS Make_HD_Apparel_ShieldIronHideIV found=True chosen=Steel:75,Steel:45,HD_Aramid:40,HD_Alumina:40,HD_GeneralMachinePart:4 missing=
+PASS: Native work giver starts production: Make_HD_Apparel_ShieldIronHideIV; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE Make_HD_Apparel_ShieldIronHideIV ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=Steel:840,HD_Aramid:40,HD_Alumina:40,HD_GeneralMachinePart:4
+TRACE Make_HD_Apparel_ShieldIronHideIV ticks=9600 job=DoBill driver=14 bound= carry= power=True available=True materials=Steel:840,HD_Aramid:40,HD_Alumina:40,HD_GeneralMachinePart:4
+TRACE Make_HD_Apparel_ShieldIronHideIV ticks=14400 job=DoBill driver=14 bound= carry= power=True available=True materials=Steel:840,HD_Aramid:40,HD_Alumina:40,HD_GeneralMachinePart:4
+TRACE Make_HD_Apparel_ShieldIronHideIV ticks=19200 job=DoBill driver=14 bound= carry= power=True available=True materials=Steel:840,HD_Aramid:40,HD_Alumina:40,HD_GeneralMachinePart:4
+JOBEND Make_HD_Apparel_ShieldIronHideIV Succeeded toil=16
+PASS: Native bill completes: Make_HD_Apparel_ShieldIronHideIV; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideIV/Steel
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideIV/HD_Aramid
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideIV/HD_Alumina
+PASS: Exact material consumption: Make_HD_Apparel_ShieldIronHideIV/HD_GeneralMachinePart
+PASS: Exact physical output: Make_HD_Apparel_ShieldIronHideIV
+PASS: Recipe appears on the actual worktable: Make_HD_Apparel_IBTVAssault
+BILL Make_HD_Apparel_IBTVAssault work= givers=DoBillsMachiningTable:Smithing filters=HD_Nylon:True:False,HD_Aramid:True:False,HD_GeneralMachinePart:True:False should=True available=True skill=True area= worker=(147, 0, 111) costs=HD_Nylon:60,HD_Aramid:40,HD_GeneralMachinePart:3
+INGREDIENTS Make_HD_Apparel_IBTVAssault found=True chosen=HD_Nylon:60,HD_Aramid:40,HD_GeneralMachinePart:3 missing=
+PASS: Native work giver starts production: Make_HD_Apparel_IBTVAssault; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE Make_HD_Apparel_IBTVAssault ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=HD_Nylon:60,HD_Aramid:40,HD_GeneralMachinePart:3
+TRACE Make_HD_Apparel_IBTVAssault ticks=9600 job=DoBill driver=14 bound= carry= power=True available=True materials=HD_Nylon:60,HD_Aramid:40,HD_GeneralMachinePart:3
+TRACE Make_HD_Apparel_IBTVAssault ticks=14400 job=DoBill driver=14 bound= carry= power=True available=True materials=HD_Nylon:60,HD_Aramid:40,HD_GeneralMachinePart:3
+JOBEND Make_HD_Apparel_IBTVAssault Succeeded toil=16
+PASS: Native bill completes: Make_HD_Apparel_IBTVAssault; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Apparel_IBTVAssault/HD_Nylon
+PASS: Exact material consumption: Make_HD_Apparel_IBTVAssault/HD_Aramid
+PASS: Exact material consumption: Make_HD_Apparel_IBTVAssault/HD_GeneralMachinePart
+PASS: Exact physical output: Make_HD_Apparel_IBTVAssault
+PASS: Recipe appears on the actual worktable: Make_HD_ArmorPlate_SAPI
+BILL Make_HD_ArmorPlate_SAPI work= givers=DoBillsMachiningTable:Smithing filters=HD_Alumina:True:False,HD_Aramid:True:False,HD_Nylon:True:False,HD_GeneralMachinePart:True:False should=True available=True skill=True area= worker=(148, 0, 111) costs=HD_Alumina:18,HD_Aramid:18,HD_Nylon:6,HD_GeneralMachinePart:1
+INGREDIENTS Make_HD_ArmorPlate_SAPI found=True chosen=HD_Alumina:18,HD_Aramid:18,HD_Nylon:6,HD_GeneralMachinePart:1 missing=
+PASS: Native work giver starts production: Make_HD_ArmorPlate_SAPI; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE Make_HD_ArmorPlate_SAPI ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=HD_Alumina:18,HD_Aramid:18,HD_Nylon:6,HD_GeneralMachinePart:1
+TRACE Make_HD_ArmorPlate_SAPI ticks=9600 job=DoBill driver=14 bound= carry= power=True available=True materials=HD_Alumina:18,HD_Aramid:18,HD_Nylon:6,HD_GeneralMachinePart:1
+JOBEND Make_HD_ArmorPlate_SAPI Succeeded toil=16
+PASS: Native bill completes: Make_HD_ArmorPlate_SAPI; current=HaulToCell
+PASS: Exact material consumption: Make_HD_ArmorPlate_SAPI/HD_Alumina
+PASS: Exact material consumption: Make_HD_ArmorPlate_SAPI/HD_Aramid
+PASS: Exact material consumption: Make_HD_ArmorPlate_SAPI/HD_Nylon
+PASS: Exact material consumption: Make_HD_ArmorPlate_SAPI/HD_GeneralMachinePart
+PASS: Exact physical output: Make_HD_ArmorPlate_SAPI
+PASS: Recipe appears on the actual worktable: Make_HD_ModularPart_GPNVG18_Part
+BILL Make_HD_ModularPart_GPNVG18_Part work= givers=DoBillsMachiningTable:Smithing filters=Plasteel:True:False,HD_ElectronicComponent:True:False should=True available=False skill=True area= worker=(149, 0, 111) costs=Plasteel:18,HD_ElectronicComponent:8
+INGREDIENTS Make_HD_ModularPart_GPNVG18_Part found=True chosen=Plasteel:18,HD_ElectronicComponent:8 missing=
+PASS: Native work giver starts production: Make_HD_ModularPart_GPNVG18_Part; job=DoBill; reason=no empty, accessible spot configured to store it
+TRACE Make_HD_ModularPart_GPNVG18_Part ticks=4800 job=DoBill driver=14 bound= carry= power=True available=True materials=Plasteel:18,HD_ElectronicComponent:8
+TRACE Make_HD_ModularPart_GPNVG18_Part ticks=9600 job=DoBill driver=14 bound= carry= power=True available=True materials=Plasteel:18,HD_ElectronicComponent:8
+TRACE Make_HD_ModularPart_GPNVG18_Part ticks=14400 job=DoBill driver=14 bound= carry= power=True available=True materials=Plasteel:18,HD_ElectronicComponent:8
+TRACE Make_HD_ModularPart_GPNVG18_Part ticks=19200 job=DoBill driver=14 bound= carry= power=True available=True materials=Plasteel:18,HD_ElectronicComponent:8
+JOBEND Make_HD_ModularPart_GPNVG18_Part Succeeded toil=16
+PASS: Native bill completes: Make_HD_ModularPart_GPNVG18_Part; current=HaulToCell
+PASS: Exact material consumption: Make_HD_ModularPart_GPNVG18_Part/Plasteel
+PASS: Exact material consumption: Make_HD_ModularPart_GPNVG18_Part/HD_ElectronicComponent
+PASS: Exact physical output: Make_HD_ModularPart_GPNVG18_Part
+PASS: Recipe appears on the actual worktable: Make_HD_Apparel_SCR300_Radio
+BILL Make_HD_Apparel_SCR300_Radio work= givers=DoBillsHD_BasicWorkbench:Crafting filters=Steel:True:False,HD_BasicElectronicComponents:True:False,Cloth:True:False should=True available=True skill=True area= worker=(148, 0, 111) costs=Steel:765,HD_BasicElectronicComponents:5,Cloth:20
+INGREDIENTS Make_HD_Apparel_SCR300_Radio found=True chosen=Steel:45,HD_BasicElectronicComponents:5,Cloth:20 missing=
+PASS: Native work giver starts production: Make_HD_Apparel_SCR300_Radio; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND Make_HD_Apparel_SCR300_Radio Succeeded toil=16
+PASS: Native bill completes: Make_HD_Apparel_SCR300_Radio; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Apparel_SCR300_Radio/Steel
+PASS: Exact material consumption: Make_HD_Apparel_SCR300_Radio/HD_BasicElectronicComponents
+PASS: Exact material consumption: Make_HD_Apparel_SCR300_Radio/Cloth
+PASS: Exact physical output: Make_HD_Apparel_SCR300_Radio
+PASS: Recipe appears on the actual worktable: Make_HD_Gun_M4A1_Weapon
+BILL Make_HD_Gun_M4A1_Weapon work= givers=DoBillsHD_BasicWorkbench:Crafting filters=Steel:True:False,HD_GeneralMachinePart:True:False should=True available=True skill=True area= worker=(148, 0, 111) costs=Steel:775,HD_GeneralMachinePart:7
+INGREDIENTS Make_HD_Gun_M4A1_Weapon found=True chosen=Steel:55,HD_GeneralMachinePart:7 missing=
+PASS: Native work giver starts production: Make_HD_Gun_M4A1_Weapon; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND Make_HD_Gun_M4A1_Weapon InterruptOptional toil=14
+TRACE Make_HD_Gun_M4A1_Weapon ticks=4800 job=DoBill driver=14 bound=39936.44 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_M4A1_Weapon ticks=9600 job=DoBill driver=14 bound=37580.19 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_M4A1_Weapon ticks=14400 job=DoBill driver=14 bound=35223.94 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_M4A1_Weapon ticks=19200 job=DoBill driver=14 bound=32867.69 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_M4A1_Weapon ticks=24000 job=DoBill driver=14 bound=30442.51 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_M4A1_Weapon ticks=28800 job=DoBill driver=14 bound=27509.7 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_M4A1_Weapon ticks=33600 job=DoBill driver=14 bound=24559.7 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_M4A1_Weapon ticks=38400 job=DoBill driver=14 bound=21609.7 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_M4A1_Weapon ticks=43200 job=DoBill driver=14 bound=18659.7 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_M4A1_Weapon ticks=48000 job=DoBill driver=14 bound=15710.05 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_M4A1_Weapon ticks=52800 job=DoBill driver=14 bound=12761.62 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_M4A1_Weapon ticks=57600 job=DoBill driver=14 bound=9813.18 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_M4A1_Weapon ticks=62400 job=DoBill driver=14 bound=7243.021 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_M4A1_Weapon ticks=67200 job=DoBill driver=14 bound=4883.646 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_M4A1_Weapon ticks=72000 job=DoBill driver=14 bound=2524.271 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_M4A1_Weapon ticks=76800 job=DoBill driver=14 bound=164.9311 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+JOBEND Make_HD_Gun_M4A1_Weapon Succeeded toil=16
+PASS: Native bill completes: Make_HD_Gun_M4A1_Weapon; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Gun_M4A1_Weapon/Steel
+PASS: Exact material consumption: Make_HD_Gun_M4A1_Weapon/HD_GeneralMachinePart
+PASS: Exact physical output: Make_HD_Gun_M4A1_Weapon
+PASS: Recipe appears on the actual worktable: Make_HD_Gun_MP5_Weapon
+BILL Make_HD_Gun_MP5_Weapon work= givers=DoBillsHD_BasicWorkbench:Crafting filters=Steel:True:False,HD_GeneralMachinePart:True:False should=True available=True skill=True area= worker=(148, 0, 111) costs=Steel:765,HD_GeneralMachinePart:6
+INGREDIENTS Make_HD_Gun_MP5_Weapon found=True chosen=Steel:45,HD_GeneralMachinePart:6 missing=
+JOBEND Make_HD_Gun_MP5_Weapon InterruptForced toil=4
+PASS: Native work giver starts production: Make_HD_Gun_MP5_Weapon; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND Make_HD_Gun_MP5_Weapon InterruptOptional toil=14
+TRACE Make_HD_Gun_MP5_Weapon ticks=4800 job=DoBill driver=14 bound=31741.06 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=9600 job=DoBill driver=14 bound=28974.49 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=14400 job=DoBill driver=14 bound=26024.49 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=19200 job=DoBill driver=14 bound=23074.49 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=24000 job=DoBill driver=14 bound=20124.49 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=28800 job=DoBill driver=14 bound=17174.49 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=33600 job=DoBill driver=14 bound=14225.64 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=38400 job=DoBill driver=14 bound=11277.2 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=43200 job=DoBill driver=14 bound=8467.475 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=48000 job=DoBill driver=14 bound=6107.943 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=52800 job=DoBill driver=14 bound=3748.568 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+TRACE Make_HD_Gun_MP5_Weapon ticks=57600 job=DoBill driver=14 bound=1389.193 carry= power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+JOBEND Make_HD_Gun_MP5_Weapon Succeeded toil=16
+PASS: Native bill completes: Make_HD_Gun_MP5_Weapon; current=HaulToCell
+PASS: Exact material consumption: Make_HD_Gun_MP5_Weapon/Steel
+PASS: Exact material consumption: Make_HD_Gun_MP5_Weapon/HD_GeneralMachinePart
+PASS: Exact physical output: Make_HD_Gun_MP5_Weapon
+PASS: Recipe appears on the actual worktable: HD_Make_Gun_M1903A4_Weapon
+BILL HD_Make_Gun_M1903A4_Weapon work=Crafting givers=DoBillsHD_BasicWorkbench:Crafting filters=HD_Gun_SprMThree_Weapon:True:True,HD_CarbonSteel:True:True,HD_GeneralMachinePart:True:True should=True available=True skill=True area= worker=(151, 0, 111) costs=HD_Gun_SprMThree_Weapon:1,HD_CarbonSteel:18,HD_GeneralMachinePart:6
+INGREDIENTS HD_Make_Gun_M1903A4_Weapon found=True chosen=HD_Gun_SprMThree_Weapon:1,HD_CarbonSteel:18,HD_GeneralMachinePart:6 missing=
+JOBEND HD_Make_Gun_M1903A4_Weapon InterruptForced toil=4
+PASS: Native work giver starts production: HD_Make_Gun_M1903A4_Weapon; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND HD_Make_Gun_M1903A4_Weapon InterruptOptional toil=14
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=4800 job=DoBill driver=14 bound=47779.9 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=9600 job=DoBill driver=14 bound=44937.4 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=14400 job=DoBill driver=14 bound=41987.4 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=19200 job=DoBill driver=14 bound=39037.4 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=24000 job=DoBill driver=14 bound=36087.4 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=28800 job=DoBill driver=14 bound=33137.4 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=33600 job=DoBill driver=14 bound=30187.4 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=38400 job=DoBill driver=14 bound=27237.4 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=43200 job=DoBill driver=14 bound=24495.14 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=48000 job=DoBill driver=14 bound=22135.76 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=52800 job=DoBill driver=14 bound=19776.39 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=57600 job=DoBill driver=14 bound=17417.01 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=62400 job=DoBill driver=14 bound=15057.64 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=67200 job=DoBill driver=14 bound=12500.1 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=72000 job=DoBill driver=14 bound=9551.66 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=76800 job=DoBill driver=14 bound=6602.801 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=81600 job=DoBill driver=14 bound=3653.583 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+TRACE HD_Make_Gun_M1903A4_Weapon ticks=86400 job=DoBill driver=14 bound=704.4421 carry= power= available=True materials=HD_Gun_SprMThree_Weapon:0,HD_CarbonSteel:0,HD_GeneralMachinePart:0
+JOBEND HD_Make_Gun_M1903A4_Weapon Succeeded toil=16
+PASS: Native bill completes: HD_Make_Gun_M1903A4_Weapon; current=HaulToCell
+PASS: Exact material consumption: HD_Make_Gun_M1903A4_Weapon/HD_Gun_SprMThree_Weapon
+PASS: Exact material consumption: HD_Make_Gun_M1903A4_Weapon/HD_CarbonSteel
+PASS: Exact material consumption: HD_Make_Gun_M1903A4_Weapon/HD_GeneralMachinePart
+PASS: Exact physical output: HD_Make_Gun_M1903A4_Weapon
+PASS: Recipe appears on the actual worktable: HD_Make_Gun_M60E3_Weapon
+BILL HD_Make_Gun_M60E3_Weapon work=Crafting givers=DoBillsHD_BasicWorkbench:Crafting filters=HD_GeneralMachinePart:True:True,HD_CarbonSteel:True:True,HD_PressComponent:True:True should=True available=True skill=True area= worker=(152, 0, 111) costs=HD_GeneralMachinePart:12,HD_CarbonSteel:105,HD_PressComponent:6
+INGREDIENTS HD_Make_Gun_M60E3_Weapon found=True chosen=HD_GeneralMachinePart:12,HD_CarbonSteel:30,HD_CarbonSteel:75,HD_PressComponent:6 missing=
+JOBEND HD_Make_Gun_M60E3_Weapon InterruptForced toil=4
+PASS: Native work giver starts production: HD_Make_Gun_M60E3_Weapon; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND HD_Make_Gun_M60E3_Weapon InterruptOptional toil=14
+TRACE HD_Make_Gun_M60E3_Weapon ticks=4800 job=DoBill driver=14 bound=67398.91 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=9600 job=DoBill driver=14 bound=64448.91 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=14400 job=DoBill driver=14 bound=61577.97 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=19200 job=DoBill driver=14 bound=59210.16 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=24000 job=DoBill driver=14 bound=56853.91 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=28800 job=DoBill driver=14 bound=54497.66 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=33600 job=DoBill driver=14 bound=52141.41 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=38400 job=DoBill driver=14 bound=49700.16 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=43200 job=DoBill driver=14 bound=46759.84 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=48000 job=DoBill driver=14 bound=43809.84 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=52800 job=DoBill driver=14 bound=40859.84 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=57600 job=DoBill driver=14 bound=37909.84 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=62400 job=DoBill driver=14 bound=34959.84 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=67200 job=DoBill driver=14 bound=32009.84 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=72000 job=DoBill driver=14 bound=29059.84 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=76800 job=DoBill driver=14 bound=26464.3 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=81600 job=DoBill driver=14 bound=24104.92 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=86400 job=DoBill driver=14 bound=21745.55 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=91200 job=DoBill driver=14 bound=19386.17 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=96000 job=DoBill driver=14 bound=17026.8 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=100800 job=DoBill driver=14 bound=14288.63 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=105600 job=DoBill driver=14 bound=11340.2 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=110400 job=DoBill driver=14 bound=8391.758 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=115200 job=DoBill driver=14 bound=5442.592 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+TRACE HD_Make_Gun_M60E3_Weapon ticks=120000 job=DoBill driver=14 bound=2493.373 carry= power= available=True materials=HD_GeneralMachinePart:0,HD_CarbonSteel:0,HD_PressComponent:0
+JOBEND HD_Make_Gun_M60E3_Weapon Succeeded toil=16
+PASS: Native bill completes: HD_Make_Gun_M60E3_Weapon; current=HaulToCell
+PASS: Exact material consumption: HD_Make_Gun_M60E3_Weapon/HD_GeneralMachinePart
+PASS: Exact material consumption: HD_Make_Gun_M60E3_Weapon/HD_CarbonSteel
+PASS: Exact material consumption: HD_Make_Gun_M60E3_Weapon/HD_PressComponent
+PASS: Exact physical output: HD_Make_Gun_M60E3_Weapon
+PASS: Recipe appears on the actual worktable: Make_HD_ModularWeaponPartsBox
+BILL Make_HD_ModularWeaponPartsBox work= givers=DoBillsHD_GunSmithTable:Crafting filters=Steel:True:False,HD_GeneralMachinePart:True:False should=True available=True skill=True area= worker=(153, 0, 111) costs=Steel:765,HD_GeneralMachinePart:2
+INGREDIENTS Make_HD_ModularWeaponPartsBox found=True chosen=Steel:45,HD_GeneralMachinePart:2 missing=
+JOBEND Make_HD_ModularWeaponPartsBox InterruptForced toil=4
+PASS: Native work giver starts production: Make_HD_ModularWeaponPartsBox; job=DoBill; reason=no empty, accessible spot configured to store it
+JOBEND Make_HD_ModularWeaponPartsBox Succeeded toil=16
+TRACE Make_HD_ModularWeaponPartsBox ticks=4800 job=HaulToCell driver=9 bound= carry=HD_ModularWeaponPartsBox44019 power= available=True materials=Steel:720,HD_GeneralMachinePart:0
+PASS: Native bill completes: Make_HD_ModularWeaponPartsBox; current=HaulToCell
+PASS: Exact material consumption: Make_HD_ModularWeaponPartsBox/Steel
+PASS: Exact material consumption: Make_HD_ModularWeaponPartsBox/HD_GeneralMachinePart
+PASS: Exact physical output: Make_HD_ModularWeaponPartsBox
+PASS: IBTV crafted with dedicated components remains an empty carrier
+COMPLETE

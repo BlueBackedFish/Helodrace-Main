@@ -20,8 +20,17 @@
       <Mass>12</Mass>
     </statBases>
     <thingCategories><li>Manufactured</li></thingCategories>
-    <costList><Steel>45</Steel><ComponentIndustrial>2</ComponentIndustrial></costList>
+    <costList>
+      <Steel>45</Steel>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
+    </costList>
     <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <researchPrerequisite>HelodSamiAutomaticPistol</researchPrerequisite>
       <workSkill>Crafting</workSkill>
       <skillRequirements><Crafting>4</Crafting></skillRequirements>

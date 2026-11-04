@@ -226,8 +226,17 @@
   <ThingDef ParentName="HD_ModularP320Root">
     <defName>HD_Gun_P320_Weapon</defName><label>P320</label>
     <!-- Sum of the default configuration's physical-part craft costs; ammunition is loaded separately. -->
-    <costList><Steel>24</Steel><ComponentIndustrial>3</ComponentIndustrial></costList>
-    <recipeMaker><researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite></recipeMaker>
+    <costList>
+      <Steel>24</Steel>
+      <HD_GeneralMachinePart>3</HD_GeneralMachinePart>
+    </costList>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter><researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite></recipeMaker>
     <description>A modular P320 platform that can be configured as a pistol or fitted with a Flux Raider chassis.</description>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
       <isAssemblyRoot>true</isAssemblyRoot><spawnPreset>HD_WeaponPreset_ModularP320_Default</spawnPreset><partCategory>Required</partCategory><realisticRoundsPerMinute>500</realisticRoundsPerMinute><graphicLayer>-2</graphicLayer><assemblyScale>0.5</assemblyScale><animationSpeed>1.75</animationSpeed><outlinePriority>100</outlinePriority>

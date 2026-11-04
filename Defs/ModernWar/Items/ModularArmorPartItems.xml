@@ -46,8 +46,17 @@
       <drawSize>(0.75,0.75)</drawSize>
     </graphicData>
     <statBases><MarketValue>1800</MarketValue><Mass>0.76</Mass><WorkToMake>18000</WorkToMake></statBases>
-    <costList><Plasteel>18</Plasteel><ComponentIndustrial>6</ComponentIndustrial><ComponentSpacer>1</ComponentSpacer></costList>
-    <recipeMaker><researchPrerequisites><li>HelodAdvancedWeaponOptics</li></researchPrerequisites></recipeMaker>
+    <costList>
+      <Plasteel>18</Plasteel>
+      <HD_ElectronicComponent>8</HD_ElectronicComponent>
+    </costList>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Plasteel</li>
+          <li>HD_ElectronicComponent</li>
+        </thingDefs>
+      </defaultIngredientFilter><researchPrerequisites><li>HelodAdvancedWeaponOptics</li></researchPrerequisites></recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -62,7 +71,18 @@
       <shaderType>Transparent</shaderType>
     </graphicData>
     <statBases><MarketValue>520</MarketValue><Mass>1.10</Mass><WorkToMake>9000</WorkToMake></statBases>
-    <costList><Plasteel>24</Plasteel><ComponentIndustrial>2</ComponentIndustrial></costList>
+    <costList>
+      <Plasteel>24</Plasteel>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
+    </costList>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Plasteel</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
+    </recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -138,7 +158,18 @@
     <comps><li Class="Helodrace.CompProperties_TacticalRadio"><network>ModernInfantry</network><range>300</range></li></comps>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/WalkieTalkie/Side/HD_IBTV_Side_WalkieTalkie_1_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>120</MarketValue><Mass>0.35</Mass><WorkToMake>1400</WorkToMake></statBases>
-    <costList><HD_Nylon>10</HD_Nylon><ComponentIndustrial>1</ComponentIndustrial></costList>
+    <costList>
+      <HD_Nylon>10</HD_Nylon>
+      <HD_ElectronicComponent>1</HD_ElectronicComponent>
+    </costList>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>HD_Nylon</li>
+          <li>HD_ElectronicComponent</li>
+        </thingDefs>
+      </defaultIngredientFilter>
+    </recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -166,7 +197,18 @@
     <description>A detachable hydration pack made for the rear mount of the IBTV carrier.</description>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/CamelBak/HD_IBTV_CamelBak_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>140</MarketValue><Mass>1.20</Mass><WorkToMake>2200</WorkToMake></statBases>
-    <costList><HD_Nylon>20</HD_Nylon><ComponentIndustrial>1</ComponentIndustrial></costList>
+    <costList>
+      <HD_Nylon>20</HD_Nylon>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
+    </costList>
+    <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>HD_Nylon</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
+    </recipeMaker>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">

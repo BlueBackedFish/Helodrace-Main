@@ -97,11 +97,19 @@
     </statBases>
     <costList>
       <Steel>90</Steel>
-      <ComponentIndustrial>6</ComponentIndustrial>
+      <HD_BasicElectricalComponents>6</HD_BasicElectricalComponents>
       <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
       <Chemfuel>25</Chemfuel>
     </costList>
     <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_BasicElectricalComponents</li>
+          <li>HD_GeneralMachinePart</li>
+          <li>Chemfuel</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <recipeUsers>
         <li>HD_BasicWorkbench</li>
       </recipeUsers>

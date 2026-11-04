@@ -39,8 +39,7 @@
     </statBases>
     <costList>
       <Steel>80</Steel>
-      <ComponentIndustrial>8</ComponentIndustrial>
-      <ComponentSpacer>2</ComponentSpacer>
+      <HD_ElectronicComponent>12</HD_ElectronicComponent>
     </costList>
     <building>
       <turretGunDef>HD_Gun_Switchblade600Launcher_TurretGun</turretGunDef>

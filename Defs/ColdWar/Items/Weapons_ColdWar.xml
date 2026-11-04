@@ -324,9 +324,15 @@
     <!-- Temporary crafting recipe until the Cold War production chain is implemented. -->
     <costList>
       <Steel>60</Steel>
-      <ComponentIndustrial>4</ComponentIndustrial>
+      <HD_ElectronicComponent>4</HD_ElectronicComponent>
     </costList>
     <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_ElectronicComponent</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <recipeUsers>
         <li>HD_BasicWorkbench</li>
       </recipeUsers>
@@ -401,7 +407,7 @@
     </statBases>
     <costList>
       <Steel>95</Steel>
-      <ComponentIndustrial>10</ComponentIndustrial>
+      <HD_GeneralMachinePart>10</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
     <comps>
@@ -483,10 +489,17 @@
     </equippedStatOffsets>
     <costList>
       <Steel>55</Steel>
-      <ComponentIndustrial>4</ComponentIndustrial>
+      <HD_BasicElectricalComponents>4</HD_BasicElectricalComponents>
       <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
     </costList>
     <recipeMaker>
+      <defaultIngredientFilter>
+        <thingDefs>
+          <li>Steel</li>
+          <li>HD_BasicElectricalComponents</li>
+          <li>HD_GeneralMachinePart</li>
+        </thingDefs>
+      </defaultIngredientFilter>
       <recipeUsers Inherit="False">
         <li>HD_BasicWorkbench</li>
       </recipeUsers>

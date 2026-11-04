@@ -9,10 +9,10 @@ public sealed partial class Checks
 {
     private IEnumerable<int> HelmetShieldChecks(Pawn worker, Building_WorkTable machining)
     {
-        CheckArmorRecipe("HD_Apparel_FASTMT",new (string,int)[]{("HD_Nylon",15),("HD_Aramid",25),("ComponentIndustrial",2)});
+        CheckArmorRecipe("HD_Apparel_FASTMT",new (string,int)[]{("HD_Nylon",15),("HD_Aramid",25),("HD_GeneralMachinePart",2)});
         CheckArmorRecipe("HD_Apparel_GreatWarM1Helmet",new (string,int)[]{("HD_UniformRolledSteelPlate",5)});
-        CheckArmorRecipe("HD_Apparel_ShieldDefenTechIIIA",new (string,int)[]{("Steel",55),("Plasteel",30),("ComponentIndustrial",2)});
-        CheckArmorRecipe("HD_Apparel_ShieldIronHideIV",new (string,int)[]{("Steel",120),("Plasteel",40),("HD_Alumina",40),("ComponentIndustrial",4)});
+        CheckArmorRecipe("HD_Apparel_ShieldDefenTechIIIA",new (string,int)[]{("Steel",55),("HD_Aramid",30),("HD_GeneralMachinePart",2)});
+        CheckArmorRecipe("HD_Apparel_ShieldIronHideIV",new (string,int)[]{("Steel",120),("HD_Aramid",40),("HD_Alumina",40),("HD_GeneralMachinePart",4)});
         CheckArmorRecipe("HD_Apparel_ShieldIronHideRiot",new (string,int)[]{("HD_AluminiumAlloy",20),("Steel",20),("Chemfuel",12)});
 
         var ibtv=Def<ThingDef>("HD_Apparel_IBTVAssault");
