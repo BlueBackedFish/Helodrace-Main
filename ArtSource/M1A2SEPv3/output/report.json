@@ -1,0 +1,2994 @@
+{
+  "status": "draft",
+  "postprocess_passed": true,
+  "blockers": [
+    "blueprint not supplied; OBJ-only draft",
+    "rig: GUN_ELEVATION",
+    "rig: LOADER_HATCH",
+    "rig: COMMANDER_HATCH",
+    "rig: DRIVER_HATCH",
+    "review: blueprint",
+    "review: style_reference",
+    "review: native_size",
+    "review: geometry",
+    "review: game"
+  ],
+  "sources": {
+    "obj": {
+      "path": "C:\\Users\\human\\Downloads\\Dagor-Asset-Explorer-1.0.0\\Dagor-Asset-Explorer-1.0.0\\ext\\m1a2\\m1a2_sep3_0.obj",
+      "sha256": "2f026e5564f63af921bd8f2ccf81c707140f2cefce0f03b6ae14bd442021fe96"
+    }
+  },
+  "profile_sha256": "5429c605fd0aa9c8481ab7c6bd0fe9cf57f262b6f53dda166d5c49805ce5a421",
+  "style_sha256": "6224ebdb1634f6c940e247f9d70b37a3fba475bafd39a7d217fc5fd0e29699d9",
+  "source_faces": 425141,
+  "preserved_faces": 224390,
+  "explicitly_omitted_faces": 200751,
+  "degenerate_source_faces": [],
+  "source_coordinates_preserved": true,
+  "unlit_glb": true,
+  "glb_animation_count": 1,
+  "mesh_count": 161,
+  "paint": {
+    "g0000": {
+      "top": 216,
+      "luminances": {
+        "96": 9909,
+        "144": 13752,
+        "216": 5452,
+        "192": 3894,
+        "168": 2050
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 35057
+    },
+    "g0000_interior": {
+      "top": 48,
+      "luminances": {
+        "48": 1848
+      },
+      "upward_min_max": [
+        48,
+        48
+      ],
+      "wall_min_max": [
+        48,
+        48
+      ],
+      "source_faces": 1848
+    },
+    "g0000_grille_patch_00": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "upward_min_max": null,
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 2
+    },
+    "g0000_grille_patch_01": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": null,
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 1
+    },
+    "g0000_grille_patch_02": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": null,
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 1
+    },
+    "g0000_grille_patch_03": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "upward_min_max": null,
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 2
+    },
+    "g0000_grille_patch_04": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 1
+    },
+    "g0000_grille_patch_05": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 1
+    },
+    "g0000_grille_patch_06": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 1
+    },
+    "g0000_grille_patch_07": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 1
+    },
+    "g0000_grille_patch_08": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 1
+    },
+    "g0000_grille_patch_09": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 1
+    },
+    "g0000_grille_patch_10": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 1
+    },
+    "g0000_grille_patch_11": {
+      "top": 96,
+      "luminances": {
+        "96": 4
+      },
+      "upward_min_max": null,
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 4
+    },
+    "g0000_grille_patch_12": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 2
+    },
+    "g0000_grille_patch_13": {
+      "top": 96,
+      "luminances": {
+        "96": 5
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 5
+    },
+    "g0000_grille_patch_14": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "upward_min_max": null,
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 2
+    },
+    "g0000_grille_patch_15": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 1
+    },
+    "g0001": {
+      "top": 72,
+      "luminances": {
+        "72": 397
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 397
+    },
+    "g0002": {
+      "top": 40,
+      "luminances": {
+        "96": 524,
+        "40": 828
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 1352
+    },
+    "g0003": {
+      "top": 72,
+      "luminances": {
+        "72": 208
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 208
+    },
+    "g0004": {
+      "top": 40,
+      "luminances": {
+        "96": 524,
+        "40": 828
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 1352
+    },
+    "g0005": {
+      "top": 72,
+      "luminances": {
+        "72": 208
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 208
+    },
+    "g0006": {
+      "top": 40,
+      "luminances": {
+        "96": 524,
+        "40": 828
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 1352
+    },
+    "g0007": {
+      "top": 72,
+      "luminances": {
+        "72": 208
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 208
+    },
+    "g0008": {
+      "top": 40,
+      "luminances": {
+        "96": 524,
+        "40": 828
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 1352
+    },
+    "g0009": {
+      "top": 40,
+      "luminances": {
+        "96": 524,
+        "40": 828
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 1352
+    },
+    "g0010": {
+      "top": 72,
+      "luminances": {
+        "72": 208
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 208
+    },
+    "g0011": {
+      "top": 72,
+      "luminances": {
+        "72": 208
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 208
+    },
+    "g0012": {
+      "top": 40,
+      "luminances": {
+        "96": 524,
+        "40": 828
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 1352
+    },
+    "g0013": {
+      "top": 72,
+      "luminances": {
+        "72": 208
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 208
+    },
+    "g0014": {
+      "top": 40,
+      "luminances": {
+        "96": 524,
+        "40": 828
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 1352
+    },
+    "g0015": {
+      "top": 72,
+      "luminances": {
+        "72": 397
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 397
+    },
+    "g0016": {
+      "top": 40,
+      "luminances": {
+        "96": 524,
+        "40": 828
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 1352
+    },
+    "g0017": {
+      "top": 72,
+      "luminances": {
+        "72": 208
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 208
+    },
+    "g0018": {
+      "top": 40,
+      "luminances": {
+        "96": 524,
+        "40": 828
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 1352
+    },
+    "g0019": {
+      "top": 72,
+      "luminances": {
+        "72": 208
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 208
+    },
+    "g0020": {
+      "top": 40,
+      "luminances": {
+        "96": 524,
+        "40": 828
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 1352
+    },
+    "g0021": {
+      "top": 72,
+      "luminances": {
+        "72": 208
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 208
+    },
+    "g0022": {
+      "top": 40,
+      "luminances": {
+        "96": 524,
+        "40": 828
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 1352
+    },
+    "g0023": {
+      "top": 72,
+      "luminances": {
+        "72": 208
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 208
+    },
+    "g0024": {
+      "top": 40,
+      "luminances": {
+        "96": 524,
+        "40": 828
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 1352
+    },
+    "g0025": {
+      "top": 72,
+      "luminances": {
+        "72": 208
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 208
+    },
+    "g0026": {
+      "top": 40,
+      "luminances": {
+        "96": 524,
+        "40": 828
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 1352
+    },
+    "g0027": {
+      "top": 72,
+      "luminances": {
+        "72": 208
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 208
+    },
+    "g0028": {
+      "top": 40,
+      "luminances": {
+        "96": 524,
+        "40": 828
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 1352
+    },
+    "g0029": {
+      "top": 192,
+      "luminances": {
+        "120": 12988,
+        "192": 6000,
+        "72": 9399,
+        "168": 2958,
+        "144": 2872
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 34217
+    },
+    "g0029_interior": {
+      "top": 48,
+      "luminances": {
+        "48": 2391
+      },
+      "upward_min_max": [
+        48,
+        48
+      ],
+      "wall_min_max": [
+        48,
+        48
+      ],
+      "source_faces": 2391
+    },
+    "g0029_grille_patch_00": {
+      "top": 96,
+      "luminances": {
+        "96": 24
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 24
+    },
+    "g0029_glass": {
+      "top": 32,
+      "luminances": {
+        "32": 20
+      },
+      "upward_min_max": null,
+      "wall_min_max": [
+        32,
+        32
+      ],
+      "source_faces": 20
+    },
+    "g0030": {
+      "top": 216,
+      "luminances": {
+        "144": 424,
+        "216": 98
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        216
+      ],
+      "source_faces": 522
+    },
+    "g0031": {
+      "top": 216,
+      "luminances": {
+        "144": 1374,
+        "216": 331
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        216
+      ],
+      "source_faces": 1705
+    },
+    "g0031_gunmetal": {
+      "top": 72,
+      "luminances": {
+        "72": 6015
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 6015
+    },
+    "g0032": {
+      "top": 216,
+      "luminances": {
+        "216": 290,
+        "144": 940
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        216
+      ],
+      "source_faces": 1230
+    },
+    "g0033": {
+      "top": 216,
+      "luminances": {
+        "144": 836,
+        "216": 256
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        216
+      ],
+      "source_faces": 1092
+    },
+    "g0033_glass": {
+      "top": 32,
+      "luminances": {
+        "32": 8
+      },
+      "upward_min_max": null,
+      "wall_min_max": [
+        32,
+        32
+      ],
+      "source_faces": 8
+    },
+    "g0034": {
+      "top": 192,
+      "luminances": {
+        "168": 80,
+        "120": 1023,
+        "72": 461,
+        "192": 405,
+        "144": 98
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 2067
+    },
+    "g0035": {
+      "top": 168,
+      "luminances": {
+        "168": 1590,
+        "144": 836
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        144,
+        168
+      ],
+      "source_faces": 2426
+    },
+    "g0035_bore": {
+      "top": 40,
+      "luminances": {
+        "40": 70
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 70
+    },
+    "g0036": {
+      "top": 216,
+      "luminances": {
+        "144": 521,
+        "216": 289
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        216
+      ],
+      "source_faces": 810
+    },
+    "g0036_glass": {
+      "top": 32,
+      "luminances": {
+        "32": 2
+      },
+      "upward_min_max": null,
+      "wall_min_max": [
+        32,
+        32
+      ],
+      "source_faces": 2
+    },
+    "g0037": {
+      "top": 216,
+      "luminances": {
+        "216": 292,
+        "144": 988
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        216
+      ],
+      "source_faces": 1280
+    },
+    "g0037_glass": {
+      "top": 32,
+      "luminances": {
+        "32": 2
+      },
+      "upward_min_max": null,
+      "wall_min_max": [
+        32,
+        32
+      ],
+      "source_faces": 2
+    },
+    "g0038": {
+      "top": 168,
+      "luminances": {
+        "120": 7226,
+        "168": 1983
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 9209
+    },
+    "g0038_grille_patch_00": {
+      "top": 96,
+      "luminances": {
+        "96": 16
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 16
+    },
+    "g0039": {
+      "top": 168,
+      "luminances": {
+        "120": 1834,
+        "168": 348
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 2182
+    },
+    "g0040": {
+      "top": 192,
+      "luminances": {
+        "120": 362,
+        "192": 278,
+        "144": 47,
+        "168": 47,
+        "72": 102
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 836
+    },
+    "g0041": {
+      "top": 192,
+      "luminances": {
+        "120": 87,
+        "192": 35,
+        "72": 32,
+        "168": 8
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 162
+    },
+    "g0042": {
+      "top": 192,
+      "luminances": {
+        "120": 242,
+        "192": 50,
+        "72": 78,
+        "144": 9,
+        "168": 29
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 408
+    },
+    "g0043": {
+      "top": 192,
+      "luminances": {
+        "120": 101,
+        "192": 39,
+        "72": 38,
+        "168": 8
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 186
+    },
+    "g0044": {
+      "top": 192,
+      "luminances": {
+        "120": 242,
+        "192": 50,
+        "72": 78,
+        "144": 9,
+        "168": 29
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 408
+    },
+    "g0045": {
+      "top": 168,
+      "luminances": {
+        "120": 348,
+        "168": 60
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 408
+    },
+    "g0046": {
+      "top": 168,
+      "luminances": {
+        "120": 1060,
+        "168": 285
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 1345
+    },
+    "g0047": {
+      "top": 216,
+      "luminances": {
+        "144": 468,
+        "216": 96
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        216
+      ],
+      "source_faces": 564
+    },
+    "g0048": {
+      "top": 168,
+      "luminances": {
+        "120": 1785,
+        "168": 405
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 2190
+    },
+    "g0049": {
+      "top": 216,
+      "luminances": {
+        "216": 118,
+        "144": 326
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        216
+      ],
+      "source_faces": 444
+    },
+    "g0050": {
+      "top": 168,
+      "luminances": {
+        "168": 134,
+        "120": 404
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 538
+    },
+    "g0051": {
+      "top": 168,
+      "luminances": {
+        "120": 1058,
+        "168": 287
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 1345
+    },
+    "g0052": {
+      "top": 216,
+      "luminances": {
+        "144": 30,
+        "216": 2
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 32
+    },
+    "g0053": {
+      "top": 192,
+      "luminances": {
+        "72": 364,
+        "144": 152,
+        "120": 248,
+        "192": 136,
+        "168": 96
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 996
+    },
+    "g0054": {
+      "top": 192,
+      "luminances": {
+        "72": 364,
+        "144": 152,
+        "120": 248,
+        "192": 136,
+        "168": 96
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 996
+    },
+    "g0055": {
+      "top": 192,
+      "luminances": {
+        "120": 895,
+        "192": 270,
+        "72": 599,
+        "168": 172,
+        "144": 231
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 2167
+    },
+    "g0056": {
+      "top": 168,
+      "luminances": {
+        "120": 518,
+        "168": 206
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 724
+    },
+    "g0057": {
+      "top": 168,
+      "luminances": {
+        "120": 2123,
+        "168": 556
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 2679
+    },
+    "g0058": {
+      "top": 168,
+      "luminances": {
+        "168": 566,
+        "120": 1863
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 2429
+    },
+    "g0059": {
+      "top": 192,
+      "luminances": {
+        "120": 997,
+        "192": 311,
+        "72": 685,
+        "168": 213,
+        "144": 233
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 2439
+    },
+    "g0060": {
+      "top": 168,
+      "luminances": {
+        "120": 2125,
+        "168": 554
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 2679
+    },
+    "g0061": {
+      "top": 168,
+      "luminances": {
+        "120": 583,
+        "168": 165
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        120,
+        168
+      ],
+      "source_faces": 748
+    },
+    "g0062": {
+      "top": 216,
+      "luminances": {
+        "144": 5299,
+        "216": 1383
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        216
+      ],
+      "source_faces": 6682
+    },
+    "g0063": {
+      "top": 216,
+      "luminances": {
+        "216": 28,
+        "144": 104
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        216
+      ],
+      "source_faces": 132
+    },
+    "g0063_gunmetal": {
+      "top": 72,
+      "luminances": {
+        "72": 2681
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 2681
+    },
+    "g0064": {
+      "top": 216,
+      "luminances": {
+        "144": 3676,
+        "216": 1144
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        216
+      ],
+      "source_faces": 4820
+    },
+    "g0064_gunmetal": {
+      "top": 72,
+      "luminances": {
+        "72": 100
+      },
+      "upward_min_max": null,
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 100
+    },
+    "g0065": {
+      "top": 216,
+      "luminances": {
+        "144": 899,
+        "216": 273
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        216
+      ],
+      "source_faces": 1172
+    },
+    "g0066": {
+      "top": 216,
+      "luminances": {
+        "216": 1000,
+        "144": 3689
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        216
+      ],
+      "source_faces": 4689
+    },
+    "g0066_glass": {
+      "top": 32,
+      "luminances": {
+        "32": 138
+      },
+      "upward_min_max": null,
+      "wall_min_max": [
+        32,
+        32
+      ],
+      "source_faces": 138
+    },
+    "g0067": {
+      "top": 216,
+      "luminances": {
+        "216": 384,
+        "144": 1679
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        216
+      ],
+      "source_faces": 2063
+    },
+    "g0068": {
+      "top": 216,
+      "luminances": {
+        "216": 84,
+        "144": 226
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 310
+    },
+    "g0087": {
+      "top": 40,
+      "luminances": {
+        "96": 262,
+        "40": 272
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 534
+    },
+    "g0088": {
+      "top": 40,
+      "luminances": {
+        "96": 262,
+        "40": 272
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 534
+    },
+    "g0089": {
+      "top": 40,
+      "luminances": {
+        "96": 524,
+        "40": 828
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 1352
+    },
+    "g0090": {
+      "top": 40,
+      "luminances": {
+        "40": 1620,
+        "96": 1110
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 2730
+    },
+    "g0091": {
+      "top": 40,
+      "luminances": {
+        "96": 262,
+        "40": 272
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 534
+    },
+    "g0092": {
+      "top": 40,
+      "luminances": {
+        "96": 262,
+        "40": 272
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 534
+    },
+    "g0093": {
+      "top": 40,
+      "luminances": {
+        "96": 524,
+        "40": 828
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 1352
+    },
+    "g0094": {
+      "top": 40,
+      "luminances": {
+        "40": 1617,
+        "96": 1113
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        96
+      ],
+      "source_faces": 2730
+    },
+    "g0095": {
+      "top": 192,
+      "luminances": {
+        "144": 1302,
+        "192": 311
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 1613
+    },
+    "g0096": {
+      "top": 192,
+      "luminances": {
+        "144": 806,
+        "192": 206
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 1012
+    },
+    "g0097": {
+      "top": 192,
+      "luminances": {
+        "144": 533,
+        "192": 187
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 720
+    },
+    "g0098": {
+      "top": 192,
+      "luminances": {
+        "144": 491,
+        "192": 165
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 656
+    },
+    "g0099": {
+      "top": 192,
+      "luminances": {
+        "192": 248,
+        "144": 410
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 658
+    },
+    "g0099_grille_patch_00": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 2
+    },
+    "g0100": {
+      "top": 192,
+      "luminances": {
+        "192": 246,
+        "144": 706
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 952
+    },
+    "g0100_grille_patch_00": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 2
+    },
+    "g0101": {
+      "top": 192,
+      "luminances": {
+        "192": 240,
+        "144": 386
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 626
+    },
+    "g0101_grille_patch_00": {
+      "top": 96,
+      "luminances": {
+        "96": 3
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 3
+    },
+    "g0102": {
+      "top": 192,
+      "luminances": {
+        "144": 399,
+        "192": 243
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 642
+    },
+    "g0102_grille_patch_00": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 2
+    },
+    "g0103": {
+      "top": 192,
+      "luminances": {
+        "192": 115,
+        "144": 359
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 474
+    },
+    "g0104": {
+      "top": 192,
+      "luminances": {
+        "144": 258,
+        "192": 90
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 348
+    },
+    "g0105": {
+      "top": 192,
+      "luminances": {
+        "192": 90,
+        "144": 406
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 496
+    },
+    "g0106": {
+      "top": 192,
+      "luminances": {
+        "144": 1207,
+        "192": 575
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 1782
+    },
+    "g0107": {
+      "top": 192,
+      "luminances": {
+        "144": 526,
+        "192": 272
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 798
+    },
+    "g0107_headlamp_lens": {
+      "top": 192,
+      "luminances": {
+        "192": 178
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 178
+    },
+    "g0108": {
+      "top": 192,
+      "luminances": {
+        "144": 526,
+        "192": 272
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 798
+    },
+    "g0108_headlamp_lens": {
+      "top": 192,
+      "luminances": {
+        "192": 178
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 178
+    },
+    "g0109": {
+      "top": 192,
+      "luminances": {
+        "192": 294,
+        "144": 1374
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 1668
+    },
+    "g0110": {
+      "top": 192,
+      "luminances": {
+        "144": 574,
+        "192": 152
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 726
+    },
+    "g0173": {
+      "top": 192,
+      "luminances": {
+        "144": 314,
+        "192": 60
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 374
+    },
+    "g0174": {
+      "top": 192,
+      "luminances": {
+        "144": 1001,
+        "192": 269
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 1270
+    },
+    "g0175": {
+      "top": 192,
+      "luminances": {
+        "144": 314,
+        "192": 60
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 374
+    },
+    "g0176": {
+      "top": 192,
+      "luminances": {
+        "144": 675,
+        "192": 311
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 986
+    },
+    "g0177": {
+      "top": 192,
+      "luminances": {
+        "144": 314,
+        "192": 60
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 374
+    },
+    "g0178": {
+      "top": 192,
+      "luminances": {
+        "192": 261,
+        "144": 1349
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 1610
+    },
+    "g0179": {
+      "top": 192,
+      "luminances": {
+        "144": 314,
+        "192": 60
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 374
+    },
+    "g0180": {
+      "top": 192,
+      "luminances": {
+        "144": 658,
+        "192": 312
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 970
+    },
+    "g0181": {
+      "top": 192,
+      "luminances": {
+        "144": 304,
+        "192": 86
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 390
+    },
+    "g0182": {
+      "top": 216,
+      "luminances": {
+        "144": 240,
+        "216": 60,
+        "96": 80,
+        "168": 28
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        168
+      ],
+      "source_faces": 408
+    },
+    "g0203": {
+      "top": 216,
+      "luminances": {
+        "144": 288,
+        "96": 120,
+        "216": 93,
+        "168": 85
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        168
+      ],
+      "source_faces": 586
+    },
+    "g0204": {
+      "top": 216,
+      "luminances": {
+        "144": 199,
+        "96": 126,
+        "216": 51,
+        "168": 80
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        168
+      ],
+      "source_faces": 456
+    },
+    "g0205": {
+      "top": 216,
+      "luminances": {
+        "144": 140,
+        "96": 35,
+        "216": 41,
+        "168": 24
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        168
+      ],
+      "source_faces": 240
+    },
+    "g0206": {
+      "top": 216,
+      "luminances": {
+        "216": 88,
+        "144": 241,
+        "96": 121,
+        "168": 62
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        168
+      ],
+      "source_faces": 512
+    },
+    "g0207": {
+      "top": 216,
+      "luminances": {
+        "96": 96,
+        "144": 148,
+        "216": 43,
+        "168": 72
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        168
+      ],
+      "source_faces": 359
+    },
+    "g0208": {
+      "top": 216,
+      "luminances": {
+        "216": 97,
+        "144": 340,
+        "96": 163,
+        "168": 108
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        168
+      ],
+      "source_faces": 708
+    },
+    "g0209": {
+      "top": 216,
+      "luminances": {
+        "144": 241,
+        "216": 60,
+        "96": 80,
+        "168": 27
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        168
+      ],
+      "source_faces": 408
+    },
+    "g0230": {
+      "top": 216,
+      "luminances": {
+        "144": 302,
+        "96": 120,
+        "216": 102,
+        "168": 78
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        168
+      ],
+      "source_faces": 602
+    },
+    "g0231": {
+      "top": 216,
+      "luminances": {
+        "144": 204,
+        "96": 122,
+        "216": 63,
+        "168": 67
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        168
+      ],
+      "source_faces": 456
+    },
+    "g0232": {
+      "top": 216,
+      "luminances": {
+        "144": 84,
+        "96": 28,
+        "216": 26,
+        "168": 24
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        168
+      ],
+      "source_faces": 162
+    },
+    "g0233": {
+      "top": 216,
+      "luminances": {
+        "144": 191,
+        "216": 65,
+        "96": 133,
+        "168": 73
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        168
+      ],
+      "source_faces": 462
+    },
+    "g0234": {
+      "top": 216,
+      "luminances": {
+        "144": 155,
+        "96": 90,
+        "216": 47,
+        "168": 67
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        168
+      ],
+      "source_faces": 359
+    },
+    "g0235": {
+      "top": 216,
+      "luminances": {
+        "216": 95,
+        "144": 344,
+        "96": 162,
+        "168": 111
+      },
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        168
+      ],
+      "source_faces": 712
+    },
+    "g0242": {
+      "top": 40,
+      "luminances": {
+        "40": 5376
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 5376
+    },
+    "g0243": {
+      "top": 40,
+      "luminances": {
+        "40": 5376
+      },
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 5376
+    },
+    "g0244": {
+      "top": 192,
+      "luminances": {
+        "192": 96,
+        "144": 1044
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 1140
+    },
+    "g0245": {
+      "top": 192,
+      "luminances": {
+        "192": 160,
+        "144": 1464
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 1624
+    },
+    "g0248": {
+      "top": 72,
+      "luminances": {
+        "72": 282
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 282
+    },
+    "g0249": {
+      "top": 72,
+      "luminances": {
+        "72": 282
+      },
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 282
+    },
+    "g0000_front_glacis": {
+      "top": 192,
+      "luminances": {
+        "192": 289
+      },
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 289
+    },
+    "g0000_side_shoulders": {
+      "top": 168,
+      "luminances": {
+        "168": 130
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 130
+    },
+    "g0029_front_cheeks": {
+      "top": 144,
+      "luminances": {
+        "144": 17
+      },
+      "upward_min_max": [
+        144,
+        144
+      ],
+      "wall_min_max": null,
+      "source_faces": 17
+    },
+    "g0029_side_slopes": {
+      "top": 168,
+      "luminances": {
+        "168": 140
+      },
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 140
+    }
+  },
+  "contact_checks": [
+    {
+      "lower": "g0029",
+      "upper": "g0036",
+      "direction": "up",
+      "actual_upward_gap": 24
+    },
+    {
+      "lower": "g0029",
+      "upper": "g0037",
+      "direction": "up",
+      "actual_upward_gap": 24
+    },
+    {
+      "lower": "g0029",
+      "upper": "g0049",
+      "direction": "up",
+      "actual_upward_gap": 24
+    },
+    {
+      "lower": "g0029",
+      "upper": "g0067",
+      "direction": "up",
+      "actual_upward_gap": 24
+    },
+    {
+      "lower": "g0029",
+      "upper": "g0068",
+      "direction": "up",
+      "actual_upward_gap": 24
+    },
+    {
+      "lower": "g0000",
+      "upper": "g0095",
+      "direction": "down",
+      "actual_downward_gap": 24
+    },
+    {
+      "lower": "g0000",
+      "upper": "g0096",
+      "direction": "down",
+      "actual_downward_gap": 24
+    },
+    {
+      "lower": "g0000",
+      "upper": "g0097",
+      "direction": "down",
+      "actual_downward_gap": 24
+    },
+    {
+      "lower": "g0000",
+      "upper": "g0098",
+      "direction": "down",
+      "actual_downward_gap": 24
+    },
+    {
+      "lower": "g0000",
+      "upper": "g0099",
+      "direction": "down",
+      "actual_downward_gap": 24
+    },
+    {
+      "lower": "g0000",
+      "upper": "g0100",
+      "direction": "down",
+      "actual_downward_gap": 24
+    },
+    {
+      "lower": "g0000",
+      "upper": "g0101",
+      "direction": "down",
+      "actual_downward_gap": 24
+    },
+    {
+      "lower": "g0000",
+      "upper": "g0102",
+      "direction": "down",
+      "actual_downward_gap": 24
+    },
+    {
+      "lower": "g0000",
+      "upper": "g0103",
+      "direction": "down",
+      "actual_downward_gap": 24
+    },
+    {
+      "lower": "g0000",
+      "upper": "g0104",
+      "direction": "down",
+      "actual_downward_gap": 24
+    },
+    {
+      "lower": "g0000",
+      "upper": "g0105",
+      "direction": "down",
+      "actual_downward_gap": 24
+    },
+    {
+      "lower": "g0000",
+      "upper": "g0106",
+      "direction": "down",
+      "actual_downward_gap": 24
+    }
+  ],
+  "grids": {
+    "g0000_grille_patch_00": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_01": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_02": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_03": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_04": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_05": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_06": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_07": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_08": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_09": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_10": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_11": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_12": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_13": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_14": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0000_grille_patch_15": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0029_grille_patch_00": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0038_grille_patch_00": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0099_grille_patch_00": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0100_grille_patch_00": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0101_grille_patch_00": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    },
+    "g0102_grille_patch_00": {
+      "pitch_world": 0.27854327112436295,
+      "cell_pixels_at_smallest_output": 5,
+      "bar_fraction": 0.3,
+      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    }
+  },
+  "rigs": [
+    {
+      "id": "TURRET_YAW",
+      "usage": "turret_yaw",
+      "pivot": [
+        0.003346,
+        -0.032062,
+        1.518
+      ],
+      "axis": "z",
+      "parts": [
+        "g0029",
+        "g0029_interior",
+        "g0029_grille_patch_00",
+        "g0029_glass",
+        "g0030",
+        "g0031",
+        "g0031_gunmetal",
+        "g0032",
+        "g0033",
+        "g0033_glass",
+        "g0036",
+        "g0036_glass",
+        "g0038",
+        "g0038_grille_patch_00",
+        "g0039",
+        "g0040",
+        "g0041",
+        "g0042",
+        "g0043",
+        "g0044",
+        "g0045",
+        "g0046",
+        "g0047",
+        "g0048",
+        "g0049",
+        "g0050",
+        "g0051",
+        "g0052",
+        "g0053",
+        "g0054",
+        "g0055",
+        "g0056",
+        "g0057",
+        "g0058",
+        "g0059",
+        "g0060",
+        "g0061",
+        "g0062",
+        "g0063",
+        "g0063_gunmetal",
+        "g0064",
+        "g0064_gunmetal",
+        "g0065",
+        "g0066",
+        "g0066_glass",
+        "g0068",
+        "g0029_front_cheeks",
+        "g0029_side_slopes"
+      ],
+      "confirmed": true,
+      "animate": true,
+      "angle": 35,
+      "evidence": "Turret ring shell seed 59826; fitted radius 0.997375, residual 0.000087; anchor Z = median hull roof Z around the ring"
+    },
+    {
+      "id": "GUN_ELEVATION",
+      "parent": "TURRET_YAW",
+      "pivot": [
+        -0.02,
+        -1.0,
+        1.9
+      ],
+      "axis": "x",
+      "parts": [
+        "g0034",
+        "g0035",
+        "g0035_bore"
+      ],
+      "confirmed": false,
+      "animate": false,
+      "evidence": "Provisional trunnion near the mantlet/barrel axis; engineering motion not verified"
+    },
+    {
+      "id": "LOADER_HATCH",
+      "parent": "TURRET_YAW",
+      "pivot": [
+        0.418,
+        1.13,
+        2.363
+      ],
+      "axis": "x",
+      "parts": [
+        "g0037",
+        "g0037_glass"
+      ],
+      "confirmed": false,
+      "animate": false,
+      "evidence": "Provisional rear edge of the source hatch bounds"
+    },
+    {
+      "id": "COMMANDER_HATCH",
+      "parent": "TURRET_YAW",
+      "pivot": [
+        -0.508,
+        1.012,
+        2.578
+      ],
+      "axis": "x",
+      "parts": [
+        "g0067"
+      ],
+      "confirmed": false,
+      "animate": false,
+      "evidence": "Provisional rear edge of the source hatch bounds"
+    },
+    {
+      "id": "DRIVER_HATCH",
+      "pivot": [
+        -0.004,
+        -1.475,
+        1.027
+      ],
+      "axis": "z",
+      "parts": [
+        "g0106"
+      ],
+      "confirmed": false,
+      "animate": false,
+      "evidence": "Driver hatch needs a lift/swing mechanism; not a verified simple hinge"
+    }
+  ],
+  "rig_demo_angles_and_rest_return": true,
+  "game_verified": false,
+  "render": {
+    "master": 1024,
+    "sizes": [
+      256,
+      512
+    ],
+    "hull_elevation": 64,
+    "turret_elevation": 90,
+    "padding": 0.12,
+    "ortho_scale": 14.261415481567383,
+    "hull_target": [
+      -0.018700003623962402,
+      -0.5392999649047852,
+      1.543350100517273
+    ],
+    "turret_pivot": [
+      0.003346000099554658,
+      -0.03206200152635574,
+      1.5180000066757202
+    ],
+    "turret_anchor_pixels_top_origin": [
+      475.5791931152344,
+      511.375244140625
+    ],
+    "top_pivot_pixels": [
+      512.0,
+      512.0
+    ],
+    "note": "turret_full includes barrel; never composite barrel twice"
+  },
+  "lighting_max_difference_255": 0,
+  "alpha_bounds": {
+    "256/hull_east": [
+      37,
+      95,
+      188,
+      170
+    ],
+    "256/preview_east": [
+      37,
+      93,
+      219,
+      170
+    ],
+    "256/turret_east": [
+      58,
+      93,
+      168,
+      165
+    ],
+    "256/barrel_east": [
+      117,
+      115,
+      228,
+      140
+    ],
+    "256/turret_full_east": [
+      58,
+      93,
+      228,
+      165
+    ],
+    "512/hull_east": [
+      77,
+      193,
+      373,
+      338
+    ],
+    "512/preview_east": [
+      77,
+      189,
+      435,
+      338
+    ],
+    "512/turret_east": [
+      119,
+      189,
+      333,
+      327
+    ],
+    "512/barrel_east": [
+      236,
+      232,
+      453,
+      278
+    ],
+    "512/turret_full_east": [
+      119,
+      189,
+      453,
+      327
+    ]
+  },
+  "model_sha256": "52b2a9a1da8041775bd75eee1c5bc5547a862b64dbd74180cbfda75d7fc209ff"
+}

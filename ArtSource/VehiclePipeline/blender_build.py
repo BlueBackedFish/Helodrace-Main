@@ -180,6 +180,8 @@ def build(profile_path):
     scene.render.image_settings.file_format = "PNG"
     scene.render.image_settings.color_mode = "RGBA"
     scene.render.image_settings.color_depth = "8"
+    # Blender dithers 8-bit output by default; that leaves +-1 noise on every flat face.
+    scene.render.dither_intensity = 0
     scene.render.resolution_x = scene.render.resolution_y = style["render"]["master"]
     scene.render.resolution_percentage = 100
     scene.world = bpy.data.worlds.new("No lighting")
