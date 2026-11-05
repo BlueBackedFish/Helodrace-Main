@@ -2,7 +2,7 @@
 <Defs>
   <WorkGiverDef>
     <defName>DoBillsHD_HydraulicPress1970</defName>
-    <label>use 1970s hydraulic press</label>
+    <label>use electric hydraulic press</label>
     <giverClass>WorkGiver_DoBill</giverClass>
     <workType>Crafting</workType>
     <priorityInType>100</priorityInType>

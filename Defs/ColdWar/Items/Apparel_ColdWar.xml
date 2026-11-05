@@ -66,7 +66,7 @@
     <researchPrerequisites>
       <li>HelodFlakJacket</li>
     </researchPrerequisites>
-    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>1</HD_Pressing></requirements></li></modExtensions>
   </ThingDef>
 
 </Defs>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_Production_RequiredFacilities>Required facilities</HD_Production_RequiredFacilities>
-  <HD_Production_RequiredFacilitiesDesc>Facilities must be linked to the production workbench. Higher-tier lathes and mills can replace earlier models. Armor production accepts a line-shaft hydraulic press or a 1970s hydraulic press; the press must be powered, switched on, and in working order. Unpowered, disconnected or removed presses stop the production job.</HD_Production_RequiredFacilitiesDesc>
-  <HD_Production_ArmorPress>Powered hydraulic press</HD_Production_ArmorPress>
+  <HD_Production_RequiredFacilitiesDesc>Each requirement is a production field and a minimum level. Any facility linked to the production workbench that offers the field at that level or higher meets it, so higher-level machines and combined machines that cover several fields can replace earlier equipment. Pressing and chemical reaction facilities must also be powered, switched on and in working order. Losing power, unlinking or removing a required facility stops the production job.</HD_Production_RequiredFacilitiesDesc>
+  <HD_Production_FacilityLevel>{0} Lv.{1}</HD_Production_FacilityLevel>
   <HD_Production_NoFacility>None</HD_Production_NoFacility>
-  <HD_Production_EarlyGunTools>Lathe (or higher tier)</HD_Production_EarlyGunTools>
-  <HD_Production_LateGunTools>Turret lathe + milling machine (or higher tiers)</HD_Production_LateGunTools>
+  <HD_Production_FacilityFields>Facility fields</HD_Production_FacilityFields>
+  <HD_Production_FacilityFieldsDesc>Production fields and levels this facility provides to linked workbenches. A recipe is available when the linked facilities together meet every field and level it requires.</HD_Production_FacilityFieldsDesc>
 </LanguageData>

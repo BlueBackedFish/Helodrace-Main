@@ -127,6 +127,7 @@ $converter = $thingDefs['HD_Converter']
 Assert ($null -ne $blastFurnace -and $null -ne $converter) 'Blast furnace and converter must exist.'
 Assert ((Values $blastFurnace 'comps/li[@Class="CompProperties_AffectedByFacilities"]/linkableFacilities/li' -join '|') -ceq 'HD_Converter') 'Blast furnace must link to converters.'
 Assert ($null -ne $converter.SelectSingleNode('comps/li[@Class="CompProperties_Facility"]')) 'Converter must be a vanilla facility.'
+Assert ((Values $converter 'modExtensions/li[@Class="Helodrace.FacilityCapabilityExtension"]/capabilities/HD_SteelConverting' -join '|') -ceq '1') 'Converter must provide steel converting level 1.'
 foreach ($size in @('Small', 'Medium', 'Large')) {
     $pig = $recipes["HD_CastPigIron$size"]
     $steel = $recipes["HD_RefineCarbonSteel$size"]
@@ -138,9 +139,7 @@ foreach ($size in @('Small', 'Medium', 'Large')) {
         Assert ((Values $recipe.Node 'unfinishedThingDef' -join '|') -ceq 'HD_UnfinishedSmeltingBatch') "$($recipe.Name) must preserve smelting progress across interruptions."
     }
     Assert ($null -ne $steel.Node.SelectSingleNode('products/HD_CarbonSteel')) "Carbon steel $size has the wrong product."
-    Assert ((Values $steel.Node 'workerClass' -join '|') -ceq 'Helodrace.RecipeWorker_RequiresLinkedFacility') "Carbon steel $size must check the live facility connection."
-    Assert ((Values $steel.Node 'modExtensions/li/workTable' -join '|') -ceq 'HD_BlastFurnace') "Carbon steel $size has the wrong worktable requirement."
-    Assert ((Values $steel.Node 'modExtensions/li/facility' -join '|') -ceq 'HD_Converter') "Carbon steel $size has the wrong facility requirement."
+    Assert ((Values $steel.Node 'modExtensions/li[@Class="Helodrace.FacilityRequirementExtension"]/requirements/HD_SteelConverting' -join '|') -ceq '1') "Carbon steel $size must require steel converting level 1."
 }
 
 $m1 = $thingDefs['HD_Apparel_GreatWarM1Helmet']

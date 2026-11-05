@@ -6,20 +6,15 @@ namespace Helodrace;
 
 public sealed class Building_WorkTable_FiberSpinningModule : Building_WorkTable
 {
+    private static FacilityLevel reactionRequirement;
+
+    // Any linked, running facility with the chemical reaction field drives the spinner.
     public Building_WorkTable OperationalReactor
-    {
-        get
+        => LinkedFacilityRecipes.SatisfyingFacility(reactionRequirement ??= new FacilityLevel
         {
-            var affected = GetComp<CompAffectedByFacilities>();
-            if (affected == null) return null;
-            foreach (Thing facility in affected.LinkedFacilitiesListForReading)
-                if (facility is Building_WorkTable reactor && reactor.def.defName == "HD_StirredTankReactor"
-                    && reactor.Map == Map && reactor.Faction == Faction
-                    && affected.IsFacilityActive(reactor) && LinkedFacilityRecipes.IsOperationalFacility(reactor))
-                    return reactor;
-            return null;
-        }
-    }
+            field = DefDatabase<FacilityFieldDef>.GetNamed("HD_ChemicalReaction"),
+            level = 1
+        }, this) is Building_WorkTable reactor && reactor.Faction == Faction ? reactor : null;
 
     public override void UsedThisTick()
     {

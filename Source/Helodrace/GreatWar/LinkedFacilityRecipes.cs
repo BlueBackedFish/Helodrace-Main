@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Xml;
 using HarmonyLib;
 using RimWorld;
 using Verse;
@@ -6,176 +8,138 @@ using Verse.AI;
 
 namespace Helodrace
 {
-    public class RecipeExtension_RequiredFacility : DefModExtension
+    // A production field such as turning or milling. Facilities offer fields at a
+    // level, recipes require fields at a minimum level.
+    public class FacilityFieldDef : Def
     {
-        public ThingDef workTable;
-        public ThingDef facility;
-        public bool requireOperationalFacility;
+        public int order;
+        // The satisfying facility must be powered, switched on and not broken down.
+        public bool requiresOperational;
+        // The satisfying worktable facility takes the production job's work load.
+        public bool drivesFacilityWork;
     }
 
-    // Worktables can also act as facilities. Higher tiers satisfy lower-tier
-    // firearm requirements when their ThingDef is linkable to the workbench.
-    public class MachineToolFacilityExtension : DefModExtension
+    // XML form: <HD_Turning>2</HD_Turning>
+    public sealed class FacilityLevel
     {
-        public int latheTier;
-        public int millingTier;
-        public int pressTier;
+        public FacilityFieldDef field;
+        public int level = 1;
+
+        public void LoadDataFromXmlCustom(XmlNode xmlRoot)
+        {
+            DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, nameof(field), xmlRoot.Name);
+            level = ParseHelper.FromString<int>(xmlRoot.FirstChild.Value);
+        }
+
+        public string Label => "HD_Production_FacilityLevel".Translate(this.field.LabelCap, level).Resolve();
     }
 
-    public class ArmorProductionExtension : DefModExtension
+    // On a facility ThingDef: the fields it provides to linked workbenches.
+    public class FacilityCapabilityExtension : DefModExtension
     {
-        public bool requiresHydraulicPress;
+        public List<FacilityLevel> capabilities = new List<FacilityLevel>();
+
+        public int LevelOf(FacilityFieldDef field)
+        {
+            int best = 0;
+            foreach (FacilityLevel capability in capabilities)
+                if (capability.field == field && capability.level > best) best = capability.level;
+            return best;
+        }
+    }
+
+    // On a RecipeDef, or on the produced ThingDef for every recipe making it.
+    public class FacilityRequirementExtension : DefModExtension
+    {
+        public List<FacilityLevel> requirements = new List<FacilityLevel>();
     }
 
     internal static class LinkedFacilityRecipes
     {
+        private static readonly List<FacilityLevel> None = new List<FacilityLevel>();
+        private static readonly Dictionary<RecipeDef, List<FacilityLevel>> requirementCache = new();
         private static HashSet<ResearchProjectDef> earlyGunResearch;
 
-        public static bool RequiresFacility(RecipeDef recipe)
+        internal static List<FacilityLevel> Requirements(RecipeDef recipe)
         {
-            return recipe != null && (recipe.GetModExtension<RecipeExtension_RequiredFacility>() != null
-                || RequiresArmorPress(recipe) || IsGunAssemblyRecipe(recipe));
+            if (recipe == null) return None;
+            if (requirementCache.TryGetValue(recipe, out var cached)) return cached;
+            List<FacilityLevel> result = recipe.GetModExtension<FacilityRequirementExtension>()?.requirements
+                ?? recipe.ProducedThingDef?.GetModExtension<FacilityRequirementExtension>()?.requirements
+                ?? GunAssemblyRequirements(recipe)
+                ?? None;
+            result = result.OrderBy(r => r.field.order).ToList();
+            requirementCache.Add(recipe, result);
+            return result;
         }
+
+        public static bool RequiresFacility(RecipeDef recipe) => Requirements(recipe).Count > 0;
 
         public static bool IsAvailable(RecipeDef recipe, Thing billGiver)
         {
-            RecipeExtension_RequiredFacility requirement = recipe?.GetModExtension<RecipeExtension_RequiredFacility>();
-            if (requirement != null)
-            {
-                return HasSpecificFacility(requirement, billGiver);
-            }
-
-            if (RequiresArmorPress(recipe)) return OperationalArmorPress(billGiver) != null;
-            return !IsGunAssemblyRecipe(recipe) || HasGunMachineTools(recipe, billGiver);
+            foreach (FacilityLevel requirement in Requirements(recipe))
+                if (SatisfyingFacility(requirement, billGiver) == null) return false;
+            return true;
         }
 
-        internal static bool RequiresArmorPress(RecipeDef recipe)
-            => recipe?.ProducedThingDef?.GetModExtension<ArmorProductionExtension>()?.requiresHydraulicPress == true;
-
-        internal static Building_WorkTable OperationalArmorPress(Thing billGiver)
+        internal static Thing SatisfyingFacility(FacilityLevel requirement, Thing billGiver)
         {
-            var affected = billGiver?.TryGetComp<CompAffectedByFacilities>();
+            if (billGiver == null || !billGiver.Spawned) return null;
+            var affected = billGiver.TryGetComp<CompAffectedByFacilities>();
             if (affected == null) return null;
             foreach (Thing facility in affected.LinkedFacilitiesListForReading)
             {
-                if (facility is not Building_WorkTable press
-                    || facility.def.GetModExtension<MachineToolFacilityExtension>()?.pressTier < 1
-                    || facility.def.GetModExtension<MachineToolFacilityExtension>() == null
-                    || !affected.IsFacilityActive(facility)
-                    || !FlickUtility.WantsToBeOn(facility) || facility.IsBrokenDown()) continue;
-                var mechanical = facility.TryGetComp<CompMechanicalUser>();
-                if (mechanical != null)
-                {
-                    if (mechanical.HasPower && mechanical.RealRPM >= mechanical.Props.minimalRPM) return press;
-                }
-                else if (facility.TryGetComp<CompPowerTrader>()?.PowerOn == true) return press;
+                if (facility == null || !affected.IsFacilityActive(facility)) continue;
+                var capability = facility.def.GetModExtension<FacilityCapabilityExtension>();
+                if (capability == null || capability.LevelOf(requirement.field) < requirement.level) continue;
+                if (requirement.field.requiresOperational && !IsOperational(facility)) continue;
+                return facility;
             }
             return null;
         }
 
+        internal static bool IsOperational(Thing facility)
+        {
+            if (facility?.Spawned != true || !FlickUtility.WantsToBeOn(facility) || facility.IsBrokenDown()) return false;
+            var mechanical = facility.TryGetComp<CompMechanicalUser>();
+            if (mechanical != null) return mechanical.HasPower && mechanical.RealRPM >= mechanical.Props.minimalRPM;
+            var power = facility.TryGetComp<CompPowerTrader>();
+            return power == null || power.PowerOn;
+        }
+
+        internal static void DriveFacilities(RecipeDef recipe, Thing billGiver)
+        {
+            foreach (FacilityLevel requirement in Requirements(recipe))
+                if (requirement.field.drivesFacilityWork && SatisfyingFacility(requirement, billGiver) is Building_WorkTable table)
+                    table.UsedThisTick();
+        }
+
         internal static string RequiredFacilitiesText(RecipeDef recipe)
         {
-            var specific = recipe.GetModExtension<RecipeExtension_RequiredFacility>();
-            if (specific != null) return specific.facility.LabelCap;
-            if (RequiresArmorPress(recipe)) return "HD_Production_ArmorPress".Translate().Resolve();
-            if (!IsGunAssemblyRecipe(recipe)) return "HD_Production_NoFacility".Translate().Resolve();
-            return (IsEarlyGunRecipe(recipe) ? "HD_Production_EarlyGunTools" : "HD_Production_LateGunTools").Translate().Resolve();
+            var requirements = Requirements(recipe);
+            if (requirements.Count == 0) return "HD_Production_NoFacility".Translate().Resolve();
+            return string.Join(" + ", requirements.Select(r => r.Label));
         }
 
-        private static bool HasSpecificFacility(RecipeExtension_RequiredFacility requirement, Thing billGiver)
+        // Firearm assembly at a gun workbench: early guns need turning 1; later
+        // guns need turning 2 and milling 1.
+        private static List<FacilityLevel> GunAssemblyRequirements(RecipeDef recipe)
         {
-            if (billGiver == null || !billGiver.Spawned || billGiver.def != requirement.workTable)
+            if (recipe.ProducedThingDef?.defName?.StartsWith("HD_Gun_") != true
+                || recipe.recipeUsers == null || !recipe.recipeUsers.Any(IsGunWorkbench))
+                return null;
+            var turning = DefDatabase<FacilityFieldDef>.GetNamed("HD_Turning");
+            if (IsEarlyGunRecipe(recipe))
+                return new List<FacilityLevel> { new FacilityLevel { field = turning, level = 1 } };
+            return new List<FacilityLevel>
             {
-                return false;
-            }
-
-            CompAffectedByFacilities affected = billGiver.TryGetComp<CompAffectedByFacilities>();
-            if (affected == null)
-            {
-                return false;
-            }
-
-            foreach (Thing facility in affected.LinkedFacilitiesListForReading)
-            {
-                if (facility.def == requirement.facility && affected.IsFacilityActive(facility)
-                    && (!requirement.requireOperationalFacility || IsOperationalFacility(facility)))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        internal static bool IsOperationalFacility(Thing facility)
-            => facility?.Spawned == true && facility.TryGetComp<CompPowerTrader>()?.PowerOn == true
-                && FlickUtility.WantsToBeOn(facility) && !facility.IsBrokenDown();
-
-        private static bool IsGunAssemblyRecipe(RecipeDef recipe)
-        {
-            if (recipe?.ProducedThingDef?.defName == null
-                || !recipe.ProducedThingDef.defName.StartsWith("HD_Gun_")
-                || recipe.recipeUsers == null)
-            {
-                return false;
-            }
-
-            foreach (ThingDef worktable in recipe.recipeUsers)
-            {
-                if (IsGunWorkbench(worktable))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static bool HasGunMachineTools(RecipeDef recipe, Thing billGiver)
-        {
-            if (billGiver == null || !billGiver.Spawned || !IsGunWorkbench(billGiver.def))
-            {
-                return false;
-            }
-
-            CompAffectedByFacilities affected = billGiver.TryGetComp<CompAffectedByFacilities>();
-            if (affected == null)
-            {
-                return false;
-            }
-
-            int requiredLatheTier = IsEarlyGunRecipe(recipe) ? 1 : 2;
-            bool hasLathe = false;
-            bool hasMill = requiredLatheTier == 1;
-            foreach (Thing facility in affected.LinkedFacilitiesListForReading)
-            {
-                if (facility == null || !affected.IsFacilityActive(facility))
-                {
-                    continue;
-                }
-
-                MachineToolFacilityExtension machine = facility.def.GetModExtension<MachineToolFacilityExtension>();
-                if (machine == null)
-                {
-                    continue;
-                }
-
-                hasLathe |= machine.latheTier >= requiredLatheTier;
-                hasMill |= machine.millingTier >= 1;
-                if (hasLathe && hasMill)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+                new FacilityLevel { field = turning, level = 2 },
+                new FacilityLevel { field = DefDatabase<FacilityFieldDef>.GetNamed("HD_Milling"), level = 1 }
+            };
         }
 
         private static bool IsGunWorkbench(ThingDef worktable)
-        {
-            return worktable?.defName == "HD_BasicWorkbench"
-                || worktable?.defName == "HD_GunSmithTable";
-        }
+            => worktable?.defName == "HD_BasicWorkbench" || worktable?.defName == "HD_GunSmithTable";
 
         private static bool IsEarlyGunRecipe(RecipeDef recipe)
         {
@@ -185,55 +149,36 @@ namespace Helodrace
                 AddPrerequisites(DefDatabase<ResearchProjectDef>.GetNamed("HelodBreechLoadingGun", false));
             }
 
-            return recipe.researchPrerequisite != null
-                && earlyGunResearch.Contains(recipe.researchPrerequisite);
+            return recipe.researchPrerequisite != null && earlyGunResearch.Contains(recipe.researchPrerequisite);
         }
 
         private static void AddPrerequisites(ResearchProjectDef research)
         {
-            if (research == null || !earlyGunResearch.Add(research) || research.prerequisites == null)
-            {
-                return;
-            }
-
-            foreach (ResearchProjectDef prerequisite in research.prerequisites)
-            {
-                AddPrerequisites(prerequisite);
-            }
+            if (research == null || !earlyGunResearch.Add(research) || research.prerequisites == null) return;
+            foreach (ResearchProjectDef prerequisite in research.prerequisites) AddPrerequisites(prerequisite);
         }
     }
 
     [HarmonyPatch(typeof(Toils_Recipe), nameof(Toils_Recipe.DoRecipeWork))]
-    internal static class Patch_ArmorRecipePressWork
+    internal static class Patch_RecipeFacilityWork
     {
         private static void Postfix(Toil __result)
         {
             __result.AddPreTickAction(() =>
             {
                 Job job = __result.actor.CurJob;
-                if (LinkedFacilityRecipes.RequiresArmorPress(job?.bill?.recipe))
-                    LinkedFacilityRecipes.OperationalArmorPress(job.targetA.Thing)?.UsedThisTick();
+                if (job?.bill?.recipe != null) LinkedFacilityRecipes.DriveFacilities(job.bill.recipe, job.targetA.Thing);
             });
         }
     }
 
-    public class RecipeWorker_RequiresLinkedFacility : RecipeWorker
-    {
-        public override bool AvailableOnNow(Thing thing, BodyPartRecord part = null)
-        {
-            return base.AvailableOnNow(thing, part) && LinkedFacilityRecipes.IsAvailable(recipe, thing);
-        }
-    }
-
     [HarmonyPatch(typeof(RecipeWorker), nameof(RecipeWorker.AvailableOnNow))]
-    internal static class Patch_GunRecipeFacilityAvailability
+    internal static class Patch_RecipeFacilityAvailability
     {
         private static void Postfix(RecipeDef ___recipe, Thing thing, ref bool __result)
         {
             if (__result && LinkedFacilityRecipes.RequiresFacility(___recipe))
-            {
                 __result = LinkedFacilityRecipes.IsAvailable(___recipe, thing);
-            }
         }
     }
 
@@ -243,9 +188,7 @@ namespace Helodrace
         private static void Postfix(Bill_Production __instance, ref bool __result)
         {
             if (__result && LinkedFacilityRecipes.RequiresFacility(__instance.recipe))
-            {
                 __result = LinkedFacilityRecipes.IsAvailable(__instance.recipe, __instance.billStack?.billGiver as Thing);
-            }
         }
     }
 

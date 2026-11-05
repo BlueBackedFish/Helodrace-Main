@@ -4,7 +4,7 @@
     <defName>HD_MultiTaskMachine2000Bench</defName>
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsProduction</li></thingCategories>
-    <label>2000s multi-tasking machine</label>
+    <label>multi-tasking machine</label>
     <description>An enclosed mill-turn center with opposed work spindles and an angled B-axis milling head. Performs turning and milling jobs in one worktable and serves as both facilities for firearm assembly. Requires electricity and an operator.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
@@ -69,10 +69,7 @@
       <li>PlaceWorker_ShowFacilitiesConnections</li>
     </placeWorkers>
     <modExtensions>
-      <li Class="Helodrace.MachineToolFacilityExtension">
-        <latheTier>4</latheTier>
-        <millingTier>4</millingTier>
-      </li>
+      <li Class="Helodrace.FacilityCapabilityExtension"><capabilities><HD_Turning>4</HD_Turning><HD_Milling>4</HD_Milling></capabilities></li>
     </modExtensions>
     <building>
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>

@@ -4,7 +4,7 @@
     <defName>HD_RollingMill1970Bench</defName>
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsProduction</li></thingCategories>
-    <label>1970s hydraulic rolling mill</label>
+    <label>hydraulic rolling mill</label>
     <description>An electrically driven four-high plate mill with hydraulic roll-gap adjustment and entry and exit roller tables. Rolls uniform steel plate faster than a line-shaft mill. Requires electricity and an operator.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>

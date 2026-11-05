@@ -16,6 +16,12 @@ namespace Helodrace
         {
             foreach (var entry in __result) yield return entry;
             if (!__instance.defName.StartsWith("HD_")) yield break;
+            var capability = __instance.GetModExtension<FacilityCapabilityExtension>();
+            if (capability != null && capability.capabilities.Count > 0)
+                yield return new StatDrawEntry(StatCategoryDefOf.Basics,
+                    "HD_Production_FacilityFields".Translate().Resolve(),
+                    string.Join(", ", capability.capabilities.OrderBy(c => c.field.order).Select(c => c.Label)),
+                    "HD_Production_FacilityFieldsDesc".Translate().Resolve(), 998);
             if (!recipes.TryGetValue(__instance, out var production))
             {
                 production = DefDatabase<RecipeDef>.AllDefsListForReading

@@ -134,6 +134,7 @@
       <li Class="Helodrace.CompProperties_IndustrialWorktablePower"/>
       <li Class="CompProperties_Flickable"/>
     </comps>
+    <modExtensions><li Class="Helodrace.FacilityCapabilityExtension"><capabilities><HD_ChemicalReaction>1</HD_ChemicalReaction></capabilities></li></modExtensions>
     <building>
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
       <heatPerTickWhileWorking>0.18</heatPerTickWhileWorking>

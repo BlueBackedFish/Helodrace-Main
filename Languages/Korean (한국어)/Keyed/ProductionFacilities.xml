@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_Production_RequiredFacilities>필요 설비</HD_Production_RequiredFacilities>
-  <HD_Production_RequiredFacilitiesDesc>제작 작업대에 연결해야 하는 설비입니다. 상위 선반·밀링 설비로 하위 설비를 대체할 수 있습니다. 방어구에는 샤프트식 유압프레스 또는 1970년대 유압프레스를 연결합니다. 프레스의 동력·전원·스위치와 정상 작동 상태가 필요하며, 동력 상실·연결 해제·철거 시 제작이 중단됩니다.</HD_Production_RequiredFacilitiesDesc>
-  <HD_Production_ArmorPress>가동 중인 유압프레스</HD_Production_ArmorPress>
+  <HD_Production_RequiredFacilitiesDesc>요구 조건은 설비 분야와 최소 레벨입니다. 제작 작업대에 연결된 설비가 해당 분야를 같은 레벨 이상으로 제공하면 조건을 충족하므로, 상위 설비나 여러 분야를 함께 갖춘 복합 설비로 하위 설비를 대체할 수 있습니다. 프레스 성형·화학 반응 설비는 동력·전원·스위치와 정상 작동 상태도 필요합니다. 필요 설비의 동력 상실·연결 해제·철거 시 제작이 중단됩니다.</HD_Production_RequiredFacilitiesDesc>
+  <HD_Production_FacilityLevel>{0} Lv.{1}</HD_Production_FacilityLevel>
   <HD_Production_NoFacility>없음</HD_Production_NoFacility>
-  <HD_Production_EarlyGunTools>선반 또는 상위 설비</HD_Production_EarlyGunTools>
-  <HD_Production_LateGunTools>터릿 선반 + 밀링 머신 또는 상위 설비</HD_Production_LateGunTools>
+  <HD_Production_FacilityFields>설비 분야</HD_Production_FacilityFields>
+  <HD_Production_FacilityFieldsDesc>이 설비가 연결된 작업대에 제공하는 설비 분야와 레벨입니다. 연결된 설비들이 제작법의 모든 분야·레벨 조건을 함께 충족하면 제작할 수 있습니다.</HD_Production_FacilityFieldsDesc>
 </LanguageData>

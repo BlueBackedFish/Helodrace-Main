@@ -114,11 +114,9 @@
     <label>refine small carbon steel batch</label>
     <description>Refine steel into carbon steel at a blast furnace linked to a converter.</description>
     <jobString>Refining carbon steel.</jobString>
-    <workerClass>Helodrace.RecipeWorker_RequiresLinkedFacility</workerClass>
     <modExtensions>
-      <li Class="Helodrace.RecipeExtension_RequiredFacility">
-        <workTable>HD_BlastFurnace</workTable>
-        <facility>HD_Converter</facility>
+      <li Class="Helodrace.FacilityRequirementExtension">
+        <requirements><HD_SteelConverting>1</HD_SteelConverting></requirements>
       </li>
     </modExtensions>
     <workAmount>4000</workAmount>
@@ -193,11 +191,9 @@
     <label>refine medium carbon steel batch</label>
     <description>Refine steel into carbon steel at a blast furnace linked to a converter.</description>
     <jobString>Refining carbon steel.</jobString>
-    <workerClass>Helodrace.RecipeWorker_RequiresLinkedFacility</workerClass>
     <modExtensions>
-      <li Class="Helodrace.RecipeExtension_RequiredFacility">
-        <workTable>HD_BlastFurnace</workTable>
-        <facility>HD_Converter</facility>
+      <li Class="Helodrace.FacilityRequirementExtension">
+        <requirements><HD_SteelConverting>1</HD_SteelConverting></requirements>
       </li>
     </modExtensions>
     <workAmount>6600</workAmount>
@@ -272,11 +268,9 @@
     <label>refine large carbon steel batch</label>
     <description>Refine steel into carbon steel at a blast furnace linked to a converter.</description>
     <jobString>Refining carbon steel.</jobString>
-    <workerClass>Helodrace.RecipeWorker_RequiresLinkedFacility</workerClass>
     <modExtensions>
-      <li Class="Helodrace.RecipeExtension_RequiredFacility">
-        <workTable>HD_BlastFurnace</workTable>
-        <facility>HD_Converter</facility>
+      <li Class="Helodrace.FacilityRequirementExtension">
+        <requirements><HD_SteelConverting>1</HD_SteelConverting></requirements>
       </li>
     </modExtensions>
     <workAmount>11200</workAmount>

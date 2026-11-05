@@ -229,7 +229,7 @@
         </statConversions>
       </li>
     </comps>
-    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>1</HD_Pressing></requirements></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="ApparelNoQualityBase">
@@ -518,7 +518,7 @@
         </statConversions>
       </li>
     </comps>
-    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>1</HD_Pressing></requirements></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="ApparelNoQualityBase">
@@ -623,7 +623,7 @@
         </allowedWeaponDefs>
       </li>
     </comps>
-    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>1</HD_Pressing></requirements></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="ApparelNoQualityBase">
@@ -719,7 +719,7 @@
         <stationaryAllyCoverBlockChance>0.75</stationaryAllyCoverBlockChance>
       </li>
     </comps>
-    <modExtensions><li Class="Helodrace.ArmorProductionExtension"><requiresHydraulicPress>true</requiresHydraulicPress></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>1</HD_Pressing></requirements></li></modExtensions>
   </ThingDef>
 
 </Defs>

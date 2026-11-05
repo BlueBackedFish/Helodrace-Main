@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Production fields offered by linked facilities. A recipe that needs
+       field level N accepts any active linked facility with that field at N or
+       higher, including combined machines that offer several fields. -->
+  <Helodrace.FacilityFieldDef>
+    <defName>HD_Turning</defName>
+    <label>turning</label>
+    <order>10</order>
+  </Helodrace.FacilityFieldDef>
+  <Helodrace.FacilityFieldDef>
+    <defName>HD_Milling</defName>
+    <label>milling</label>
+    <order>20</order>
+  </Helodrace.FacilityFieldDef>
+  <Helodrace.FacilityFieldDef>
+    <defName>HD_Pressing</defName>
+    <label>pressing</label>
+    <order>30</order>
+    <requiresOperational>true</requiresOperational>
+    <drivesFacilityWork>true</drivesFacilityWork>
+  </Helodrace.FacilityFieldDef>
+  <Helodrace.FacilityFieldDef>
+    <defName>HD_SteelConverting</defName>
+    <label>steel converting</label>
+    <order>40</order>
+  </Helodrace.FacilityFieldDef>
+  <Helodrace.FacilityFieldDef>
+    <defName>HD_ChemicalReaction</defName>
+    <label>chemical reaction</label>
+    <order>50</order>
+    <requiresOperational>true</requiresOperational>
+  </Helodrace.FacilityFieldDef>
+</Defs>

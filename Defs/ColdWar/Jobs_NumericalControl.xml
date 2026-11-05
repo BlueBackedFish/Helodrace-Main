@@ -2,7 +2,7 @@
 <Defs>
   <WorkGiverDef>
     <defName>DoBillsHD_CNCLathe</defName>
-    <label>use early CNC lathe</label>
+    <label>use NC lathe</label>
     <giverClass>WorkGiver_DoBill</giverClass>
     <workType>Crafting</workType>
     <priorityInType>100</priorityInType>
@@ -12,7 +12,7 @@
   </WorkGiverDef>
   <WorkGiverDef>
     <defName>DoBillsHD_CNCMillingMachine</defName>
-    <label>use early CNC milling machine</label>
+    <label>use NC milling machine</label>
     <giverClass>WorkGiver_DoBill</giverClass>
     <workType>Crafting</workType>
     <priorityInType>100</priorityInType>

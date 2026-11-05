@@ -13,7 +13,6 @@
     <soundWorking>Recipe_Machining</soundWorking>
     <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
     <researchPrerequisite>HelodHaberBosch</researchPrerequisite>
-    <workerClass>Helodrace.RecipeWorker_RequiresLinkedFacility</workerClass>
     <ingredients>
       <li>
         <filter>
@@ -48,10 +47,8 @@
       <Crafting>6</Crafting>
     </skillRequirements>
     <modExtensions>
-      <li Class="Helodrace.RecipeExtension_RequiredFacility">
-        <workTable>HD_FiberSpinningModule</workTable>
-        <facility>HD_StirredTankReactor</facility>
-        <requireOperationalFacility>true</requireOperationalFacility>
+      <li Class="Helodrace.FacilityRequirementExtension">
+        <requirements><HD_ChemicalReaction>1</HD_ChemicalReaction></requirements>
       </li>
     </modExtensions>
   </RecipeDef>
@@ -68,7 +65,6 @@
     <soundWorking>Recipe_Machining</soundWorking>
     <unfinishedThingDef>HD_UnfinishedIndustrialBatch</unfinishedThingDef>
     <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
-    <workerClass>Helodrace.RecipeWorker_RequiresLinkedFacility</workerClass>
     <ingredients>
       <li>
         <filter>
@@ -103,10 +99,8 @@
       <Crafting>10</Crafting>
     </skillRequirements>
     <modExtensions>
-      <li Class="Helodrace.RecipeExtension_RequiredFacility">
-        <workTable>HD_FiberSpinningModule</workTable>
-        <facility>HD_StirredTankReactor</facility>
-        <requireOperationalFacility>true</requireOperationalFacility>
+      <li Class="Helodrace.FacilityRequirementExtension">
+        <requirements><HD_ChemicalReaction>1</HD_ChemicalReaction></requirements>
       </li>
     </modExtensions>
   </RecipeDef>

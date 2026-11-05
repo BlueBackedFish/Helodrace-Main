@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Turning.label>선삭</HD_Turning.label>
+  <HD_Milling.label>밀링</HD_Milling.label>
+  <HD_Pressing.label>프레스 성형</HD_Pressing.label>
+  <HD_SteelConverting.label>전로 정련</HD_SteelConverting.label>
+  <HD_ChemicalReaction.label>화학 반응</HD_ChemicalReaction.label>
+</LanguageData>

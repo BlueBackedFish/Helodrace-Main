@@ -2,7 +2,7 @@
 <Defs>
   <WorkGiverDef>
     <defName>DoBillsHD_MultiTaskMachine2000</defName>
-    <label>use 2000s multi-tasking machine</label>
+    <label>use multi-tasking machine</label>
     <giverClass>WorkGiver_DoBill</giverClass>
     <workType>Crafting</workType>
     <priorityInType>100</priorityInType>

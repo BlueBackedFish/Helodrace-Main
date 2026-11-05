@@ -52,7 +52,7 @@ public sealed partial class Checks
             var product=recipe.ProducedThingDef;
             var entry=product.SpecialDisplayStats(StatRequest.For(product,null)).Single(e=>e.LabelCap=="HD_Production_RequiredFacilities".Translate().Resolve());
             bool press=row.GetProperty("requiresPress").GetBoolean();
-            Check(!string.IsNullOrEmpty(entry.ValueString)&&(!press||entry.ValueString.Contains("HD_Production_ArmorPress".Translate().Resolve())),"Separate information entry matches production requirements: "+product.defName);
+            Check(!string.IsNullOrEmpty(entry.ValueString)&&(!press||entry.ValueString.Contains(Def<Helodrace.FacilityFieldDef>("HD_Pressing").LabelCap)),"Separate information entry matches production requirements: "+product.defName);
         }
         using var before=JsonDocument.Parse(File.ReadAllText(Path.Combine(folder,"before.json")));
         foreach(var row in before.RootElement.EnumerateArray().Where(r=>r.GetProperty("users").EnumerateArray().Any(x=>x.GetString()=="HD_BasicWorkbench")))

@@ -927,9 +927,7 @@
       </li>
     </comps>
     <modExtensions>
-      <li Class="Helodrace.MachineToolFacilityExtension">
-        <latheTier>1</latheTier>
-      </li>
+      <li Class="Helodrace.FacilityCapabilityExtension"><capabilities><HD_Turning>1</HD_Turning></capabilities></li>
     </modExtensions>
     <building>
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
@@ -1020,9 +1018,7 @@
       <li>PlaceWorker_ShowFacilitiesConnections</li>
     </placeWorkers>
     <modExtensions>
-      <li Class="Helodrace.MachineToolFacilityExtension">
-        <latheTier>2</latheTier>
-      </li>
+      <li Class="Helodrace.FacilityCapabilityExtension"><capabilities><HD_Turning>2</HD_Turning></capabilities></li>
     </modExtensions>
     <building>
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
@@ -1113,9 +1109,7 @@
       <li>PlaceWorker_ShowFacilitiesConnections</li>
     </placeWorkers>
     <modExtensions>
-      <li Class="Helodrace.MachineToolFacilityExtension">
-        <millingTier>1</millingTier>
-      </li>
+      <li Class="Helodrace.FacilityCapabilityExtension"><capabilities><HD_Milling>1</HD_Milling></capabilities></li>
     </modExtensions>
     <building>
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
@@ -1202,7 +1196,7 @@
     <building>
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
     </building>
-    <modExtensions><li Class="Helodrace.MachineToolFacilityExtension"><pressTier>1</pressTier></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityCapabilityExtension"><capabilities><HD_Pressing>1</HD_Pressing></capabilities></li></modExtensions>
   </ThingDef>
 
   <!-- Line Shaft Rolling Machine -->
@@ -1441,6 +1435,7 @@
         <glowColor>(255,125,45,0)</glowColor>
       </li>
     </comps>
+    <modExtensions><li Class="Helodrace.FacilityCapabilityExtension"><capabilities><HD_SteelConverting>1</HD_SteelConverting></capabilities></li></modExtensions>
     <building />
   </ThingDef>
 

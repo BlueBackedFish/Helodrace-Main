@@ -4,7 +4,7 @@
     <defName>HD_HydraulicPress1970Bench</defName>
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsProduction</li></thingCategories>
-    <label>1970s hydraulic press</label>
+    <label>electric hydraulic press</label>
     <description>A straight-side production press with its own electric hydraulic unit, a large overhead cylinder and analog pressure controls. Forms steel components and pressed helmets faster than a line-shaft press. Requires electricity and an operator.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
@@ -73,6 +73,6 @@
       <li>HD_MakePressComponentBulk5</li>
       <li>HD_MakePressComponentBulk10</li>
     </recipes>
-    <modExtensions><li Class="Helodrace.MachineToolFacilityExtension"><pressTier>2</pressTier></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityCapabilityExtension"><capabilities><HD_Pressing>2</HD_Pressing></capabilities></li></modExtensions>
   </ThingDef>
 </Defs>

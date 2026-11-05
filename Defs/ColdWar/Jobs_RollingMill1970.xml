@@ -2,7 +2,7 @@
 <Defs>
   <WorkGiverDef>
     <defName>DoBillsHD_RollingMill1970</defName>
-    <label>use 1970s hydraulic rolling mill</label>
+    <label>use hydraulic rolling mill</label>
     <giverClass>WorkGiver_DoBill</giverClass>
     <workType>Crafting</workType>
     <priorityInType>100</priorityInType>

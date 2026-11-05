@@ -17,7 +17,7 @@ for row in rows:
     assert [u.text for u in users] == row['after'], row['recipe']
     assert ('HD_BasicWorkbench' in row['after']) == ('HD_BasicWorkbench' in row['users']), row['recipe']
     if row['requiresPress']:
-        assert d.findtext('modExtensions/li[@Class="Helodrace.ArmorProductionExtension"]/requiresHydraulicPress') == 'true', row['product']
+        assert d.findtext('modExtensions/li[@Class="Helodrace.FacilityRequirementExtension"]/requirements/HD_Pressing') == '1', row['product']
 
 for name in ['HD_ClothingBench', 'HD_BasicWorkbench']:
     links = {x.text for x in source['ThingDef', name].findall('comps/li[@Class="CompProperties_AffectedByFacilities"]/linkableFacilities/li')}
@@ -25,10 +25,10 @@ for name in ['HD_ClothingBench', 'HD_BasicWorkbench']:
 for name, tier in [('HD_LineShaftHydraulicPress', 1), ('HD_HydraulicPress1970Bench', 2)]:
     d = source['ThingDef', name]
     assert d.find('comps/li[@Class="CompProperties_Facility"]') is not None
-    assert d.findtext('modExtensions/li[@Class="Helodrace.MachineToolFacilityExtension"]/pressTier') == str(tier)
+    assert d.findtext('modExtensions/li[@Class="Helodrace.FacilityCapabilityExtension"]/capabilities/HD_Pressing') == str(tier)
 
 en = E.parse(ROOT / 'Languages/English/Keyed/ProductionFacilities.xml').getroot()
 ko = E.parse(ROOT / 'Languages/Korean (한국어)/Keyed/ProductionFacilities.xml').getroot()
 assert {x.tag for x in en} == {x.tag for x in ko}
 assert all(x.text for x in en) and all(x.text for x in ko)
-print('PASS: 89 authored routes, 59 retained basic recipes, 17 press requirements, both linkable press tiers and matching English/Korean information keys.')
+print('PASS: 89 authored routes, 59 retained basic recipes, 17 press requirements, both linkable pressing levels and matching English/Korean information keys.')

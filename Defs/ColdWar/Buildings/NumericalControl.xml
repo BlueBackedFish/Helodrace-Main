@@ -4,8 +4,8 @@
     <defName>HD_CNCLathe</defName>
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsProduction</li></thingCategories>
-    <label>early CNC lathe</label>
-    <description>An open-bed electric lathe with servo feeds and a separate punched-tape numerical controller. This early CNC predecessor uses analog instruments and relay electronics. Performs the turret lathe's turning jobs faster and serves as a powered lathe facility for firearm assembly. Still requires an operator.</description>
+    <label>NC lathe</label>
+    <description>An open-bed electric lathe with servo feeds and a separate punched-tape numerical controller. This first-generation numerical-control machine uses analog instruments and relay electronics. Performs the turret lathe's turning jobs faster and serves as a powered lathe facility for firearm assembly. Still requires an operator.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
       <texPath>Buildings/HD_CNCLathe</texPath>
@@ -66,7 +66,7 @@
       <li Class="Helodrace.CompProperties_OperatingHeatPusher"><heatPerSecond>3</heatPerSecond><heatPushMaxTemperature>55</heatPushMaxTemperature></li>
     </comps>
     <placeWorkers><li>PlaceWorker_ShowFacilitiesConnections</li></placeWorkers>
-    <modExtensions><li Class="Helodrace.MachineToolFacilityExtension"><latheTier>3</latheTier></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityCapabilityExtension"><capabilities><HD_Turning>3</HD_Turning></capabilities></li></modExtensions>
     <building><spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity></building>
   </ThingDef>
 
@@ -74,7 +74,7 @@
     <defName>HD_CNCMillingMachine</defName>
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsProduction</li></thingCategories>
-    <label>early CNC milling machine</label>
+    <label>NC milling machine</label>
     <description>A heavy electric knee mill with servo-driven axes and a punched-tape numerical controller. Its exposed table, vertical spindle and separate control cabinet belong to the first generation of numerical machine tools. Performs the line-shaft mill's jobs faster and serves as a powered milling facility for firearm assembly. Still requires an operator.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
@@ -133,7 +133,7 @@
       <li Class="Helodrace.CompProperties_OperatingHeatPusher"><heatPerSecond>4</heatPerSecond><heatPushMaxTemperature>60</heatPushMaxTemperature></li>
     </comps>
     <placeWorkers><li>PlaceWorker_ShowFacilitiesConnections</li></placeWorkers>
-    <modExtensions><li Class="Helodrace.MachineToolFacilityExtension"><millingTier>2</millingTier></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityCapabilityExtension"><capabilities><HD_Milling>2</HD_Milling></capabilities></li></modExtensions>
     <building><spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity></building>
   </ThingDef>
 </Defs>
