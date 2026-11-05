@@ -1,11 +1,12 @@
 {
-  "source_report_sha256": "08767495c3e542befec27c544dc395903e6b412a6d6c8dfb45b06ec33a19075c",
+  "source_report_sha256": "452d56a00d45c8e2275e92c1357af47454043e600ee2a37df9b93fe91f277353",
   "source_layer_sha256": {
-    "hull_east": "14feffd5a5dad30112778baabdda98994978c60e4baf07857c1361cbc69591bc",
-    "turret_east": "00dd075e191aa7badc3ee09441153af0d720678467bdbf872dc7f9f67d35cbb7",
+    "hull_east": "8c9e3b9457252e1c1366ba1b901c76a7885df3272b4b7da9196e0ddb8b80501e",
+    "turret_east": "b558bb4e30c76d6e88bb41dd7893804c5be26c3a9cafd65918ffd8304faa19d2",
     "barrel_east": "0496b18d05e963fcdd7eeeacb3259c277f7cc131a41d1066d6f8c0731a0ddd51",
-    "turret_full_east": "e75506a4ea69e1e237fd13db9cef999e8a3de43b2116de6b07cef9f649b8430f",
-    "loader_mg_east": "f0a86738a397af92755af5e38a4d783abfbf5a442ed45688a3cd87a6a278d338"
+    "turret_full_east": "109c0d345b6b0b2d34b2b7b0b362de5f937e3d9948115b088ae78127523179f2",
+    "loader_mg_east": "f643ff25edc8f84b88e895638129d7fda61984b74e3c167983769633652cef42",
+    "crows_east": "75b49063296709bdca87901b3cac18ebd2c556130c42a0fa9f6d6239b094871a"
   },
   "outline_width_at_256": 2,
   "color": [
@@ -20,9 +21,9 @@
   "alpha_bounds": {
     "1024/hull_east": [
       150,
-      381,
-      749,
-      680
+      385,
+      750,
+      684
     ],
     "1024/turret_east": [
       234,
@@ -43,22 +44,28 @@
       653
     ],
     "1024/loader_mg_east": [
-      477,
-      487,
-      578,
-      530
+      498,
+      450,
+      599,
+      523
+    ],
+    "1024/crows_east": [
+      470,
+      467,
+      579,
+      552
     ],
     "1024/preview_east": [
       150,
-      379,
+      383,
       874,
-      680
+      684
     ],
     "256/hull_east": [
       35,
-      93,
+      94,
       190,
-      172
+      173
     ],
     "256/turret_east": [
       56,
@@ -79,22 +86,28 @@
       166
     ],
     "256/loader_mg_east": [
-      118,
-      119,
+      124,
+      110,
+      152,
+      133
+    ],
+    "256/crows_east": [
+      115,
+      114,
       147,
-      135
+      140
     ],
     "256/preview_east": [
       35,
-      93,
+      94,
       221,
-      172
+      173
     ],
     "512/hull_east": [
       73,
-      188,
+      190,
       377,
-      342
+      344
     ],
     "512/turret_east": [
       115,
@@ -115,16 +128,22 @@
       329
     ],
     "512/loader_mg_east": [
-      236,
-      241,
-      291,
-      267
+      249,
+      223,
+      302,
+      264
+    ],
+    "512/crows_east": [
+      233,
+      231,
+      290,
+      278
     ],
     "512/preview_east": [
       73,
-      188,
+      190,
       439,
-      342
+      344
     ]
   },
   "outline_is_review_postprocess": true

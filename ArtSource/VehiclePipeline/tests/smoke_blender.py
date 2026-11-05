@@ -170,6 +170,15 @@ def main():
     colours = {turret.getpixel((x, y))[:3] for x in range(256) for y in range(256)
                if lines.getpixel((x, y)) >= 115 and turret.getpixel((x, y))[3] > 0}
     assert len(colours) == 1, colours
+    # An existing separately built model placed into a weapon layer with one uniform scale/yaw/move.
+    profile["imported_models"] = [{"id": "rws", "blend": str(project/"output/vehicle.blend"), "layer": "lid_mg",
+                                   "scale": .1, "rotation_z_degrees": 180, "location": [-.2, .15, 2.0],
+                                   "reason": "test import"}]
+    write_json(simplified/"vehicle.json", profile)
+    subprocess.run([sys.executable, str(ROOT/"pipeline.py"), "build", str(simplified/"vehicle.json")], check=True)
+    report = read_json(simplified/"output/report.json")
+    assert report["imported_models"]["objects"] and report["source_faces"] == 37
+    profile.pop("imported_models")
     profile["parts"][3]["accent"]["value"] = 200
     write_json(simplified/"vehicle.json", profile)
     rejected = subprocess.run([sys.executable, str(ROOT/"pipeline.py"), "build", str(simplified/"vehicle.json")],

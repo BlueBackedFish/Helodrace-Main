@@ -14,7 +14,7 @@
     "confirmed": true
   },
   "style": "style.json",
-  "variant_notes": "M1A2 SEPv3 source OBJ (War Thunder extract). Base vehicle: camouflage nets, TUSK ERA tiles and their rails/frames and whip antennas omitted. CROWS removed from the turret texture (existing CROWSII asset at the recorded mount); loader M240 is a separate weapon sprite. Loader shield and CITV kept in the turret. RimThunder reference is its base M1A2 (SEP generation not stated); SEPv3 detail differences are recorded in ART_BRIEF.md. No blueprint.",
+  "variant_notes": "M1A2 SEPv3 source OBJ (War Thunder extract). Base vehicle: camouflage nets, TUSK ERA tiles and their rails/frames and whip antennas omitted. Source CROWS replaced by the existing CROWSII model scaled to the source M2 and rendered as its own sprite; the loader M240 rotating assembly (pintle, gun, shield, ammo can) is a separate sprite. CITV stays. RimThunder reference is its base M1A2 (SEP generation not stated); SEPv3 detail differences are recorded in ART_BRIEF.md. No blueprint.",
   "blueprint_views": {},
   "parts": [
     {
@@ -12170,7 +12170,7 @@
       "label": "ex_armor_04",
       "role": "equipment",
       "mode": "two_tone",
-      "layer": "turret",
+      "layer": "loader_mg",
       "top": 216,
       "confirmed": true,
       "side": 144
@@ -12181,7 +12181,7 @@
       "label": "ex_armor_turret_03",
       "role": "equipment",
       "mode": "two_tone",
-      "layer": "turret",
+      "layer": "loader_mg",
       "top": 216,
       "confirmed": true,
       "side": 144
@@ -12192,7 +12192,7 @@
       "label": "glass",
       "role": "optics",
       "mode": "flat",
-      "layer": "turret",
+      "layer": "loader_mg",
       "top": 32,
       "confirmed": true,
       "faces": [
@@ -27885,7 +27885,7 @@
       "label": "ex_armor_turret_01",
       "role": "equipment",
       "mode": "two_tone",
-      "layer": "turret",
+      "layer": "loader_mg",
       "top": 216,
       "confirmed": true,
       "side": 144
@@ -38023,9 +38023,6 @@
         "g0029_accent_66261",
         "g0029_accent_68194",
         "g0029_accent_69119",
-        "g0032",
-        "g0033",
-        "g0033_glass",
         "g0036",
         "g0036_glass",
         "g0038",
@@ -38048,7 +38045,6 @@
         "g0050",
         "g0051",
         "g0051_stowage_132503",
-        "g0052",
         "g0053",
         "g0054",
         "g0055",
@@ -38143,19 +38139,23 @@
       "id": "LOADER_MG",
       "parent": "TURRET_YAW",
       "pivot": [
-        0.801,
-        0.554,
+        0.418,
+        0.746,
         2.421
       ],
       "axis": "z",
       "parts": [
         "g0030",
         "g0031",
-        "g0031_gunmetal"
+        "g0031_gunmetal",
+        "g0032",
+        "g0033",
+        "g0033_glass",
+        "g0052"
       ],
       "confirmed": false,
       "animate": false,
-      "evidence": "Provisional: centre of the loader pintle (bone_mg_aa_h) bounds, base height"
+      "evidence": "Provisional: loader-hatch (hatch_03) bounds centre as skate-ring axis, pintle base height"
     },
     {
       "id": "DRIVER_HATCH",
@@ -38283,25 +38283,39 @@
     {
       "id": "loader_mg",
       "pivot": [
-        0.801,
-        0.554,
+        0.418,
+        0.746,
         2.421
       ],
-      "render_yaw_degrees": -15.95,
-      "evidence": "Provisional: centre of the loader pintle (bone_mg_aa_h) bounds, base height"
-    }
-  ],
-  "mounts": [
+      "render_yaw_degrees": -15.88,
+      "evidence": "Provisional: loader-hatch (hatch_03) bounds centre as skate-ring axis, pintle base height"
+    },
     {
       "id": "crows",
       "pivot": [
-        -0.742,
-        -0.651,
-        2.65
+        -0.818,
+        -0.4127,
+        2.3619
       ],
-      "asset": "ArtSource/CROWSII",
-      "reason": "CROWSII top layers rotate about their base centre (0,0,0); place that origin here",
-      "evidence": "Provisional: centre of the removed CROWS groups' bounds, base height"
+      "render_yaw_degrees": 0,
+      "evidence": "CROWSII yaw origin placed so its M2 overlays the source CROWS M2"
+    }
+  ],
+  "mounts": [],
+  "imported_models": [
+    {
+      "id": "crows",
+      "blend": "../CROWSII/output/crows_ii_m2.blend",
+      "sha256": "8b30e0877dcc5057f74df4d629ebedf07ed47067308fc291e1a6444c8dfbe793",
+      "layer": "crows",
+      "scale": 0.7749,
+      "rotation_z_degrees": 180,
+      "location": [
+        -0.818,
+        -0.4127,
+        2.3619
+      ],
+      "reason": "Existing CROWSII asset, uniform scale 0.7749 = source CROWS M2 length 1.660 m / asset M2 length 2.142"
     }
   ]
 }

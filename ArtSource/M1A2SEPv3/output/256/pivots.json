@@ -9,40 +9,38 @@
   ],
   "hull_turret_anchor": [
     119.0,
-    127.75
+    128.75
   ],
   "raw_hull_turret_anchor": [
     118.8947982788086,
-    127.81265258789062
+    128.70767211914062
   ],
   "hull_elevation": 64,
   "turret_elevation": 90,
   "placements_in_turret": {
     "loader_mg": {
       "pivot": [
-        0.801,
-        0.554,
+        0.418,
+        0.746,
         2.421
       ],
       "kind": "weapon_layer",
       "pixels_in_turret_top_origin": [
-        117.47987365722656,
-        113.68168640136719
+        114.03337097167969,
+        120.55674743652344
       ]
     },
     "crows": {
       "pivot": [
-        -0.742,
-        -0.651,
-        2.65
+        -0.818,
+        -0.4127,
+        2.3619
       ],
-      "kind": "mount",
+      "kind": "weapon_layer",
       "pixels_in_turret_top_origin": [
-        139.11026000976562,
-        141.37935638427734
-      ],
-      "asset": "ArtSource/CROWSII",
-      "reason": "CROWSII top layers rotate about their base centre (0,0,0); place that origin here"
+        134.83265686035156,
+        142.74359893798828
+      ]
     }
   },
   "filter": "linear-light premultiplied-alpha Lanczos",

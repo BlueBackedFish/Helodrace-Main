@@ -37,7 +37,13 @@ HANDLE_GROUPS = {"hatch_01", "hatch_03", "hatch_04"}
 CROWS = {"bone_mg_aa_h_01", "bone_mg_aa_v_01", "mg_aa_mount_v_01", "bone_turret_02", "optic_gun"}
 CROWS_REASON = ("CROWS remote weapon station is drawn by the existing ArtSource/CROWSII asset (separate "
                 "Base/Frame/M2Body/M2Barrel layers); removed from the turret texture, mount point recorded")
-LOADER_MG = {"bone_mg_aa_h", "bone_mg_aa_v"}  # loader M240 and its pintle -> separate weapon sprite
+# Loader M240 rotating assembly (pintle, gun, armoured gun shield + its mount, ammo can) on the
+# loader-hatch skate ring -> one separate weapon sprite. The long side rail ex_armor_turret_02 is fixed.
+LOADER_MG = {"bone_mg_aa_h", "bone_mg_aa_v", "ex_armor_turret_01", "ex_armor_turret_03", "ex_armor_04"}
+CROWS_BLEND = ROOT.parent/"CROWSII/output/crows_ii_m2.blend"
+# CROWSII model frame (output/crows_ii_m2.blend): yaw origin (0,0,0), gun along +Y; M2 body rear
+# -0.763 to barrel muzzle 1.379, x centre -0.002, bore height ~0.82 (body 0.693-0.948, barrel 0.775-0.865).
+CROWS_M2 = {"rear": -.763, "muzzle": 1.379, "x": -.002, "z": .82}
 THIN_REASON = ("Sub-pixel rod/rail/wire (middle dimension < 3 cm, length > 12 cm): thinner than 1px at "
                "256px, removed to reduce model noise (style section 3)")
 STRAP_REASON = "Loose strap/latch left from simplified stowage (< 12 cm): style section 2"
@@ -138,8 +144,7 @@ def configure():
             # Turret-top hatches, blow-out panels and CITV: back to the top step (up), dark walls.
             part.update(role="hatch" if name.startswith("hatch") else "equipment", mode="two_tone", side=144)
             contacts.append({"lower": groups["bone_turret"]["id"], "upper": group["id"], "direction": "up"})
-        elif name in {"bone_mg_aa_h", "bone_mg_aa_v", "ex_armor_turret_01", "ex_armor_turret_02",
-                      "ex_armor_turret_03", "ex_armor_04"}:
+        elif name in LOADER_MG | {"ex_armor_turret_02"}:
             part.update(role="equipment", mode="two_tone", top=HULL_TOP, side=144)  # loader MG and shield
         elif layer == "turret" and (name.startswith("ex_decor") or name in {"ex_armor_07", "ex_armor_08"}):
             part.update(mode="two_tone", top=168, side=120)  # bustle rack and stowage boxes
@@ -338,25 +343,42 @@ def configure():
         co = vertices[[v for n in names for f in groups[n]["faces"] for v in model["faces"][f]["vertices"]]]
         return co.min(axis=0), co.max(axis=0)
 
-    low, high = bounds_of(["bone_mg_aa_h"])
-    loader_pivot = [round(float((low[0]+high[0])/2), 3), round(float((low[1]+high[1])/2), 3), round(float(low[2]), 3)]
-    low, high = bounds_of(sorted(CROWS))
-    crows_pivot = [round(float((low[0]+high[0])/2), 3), round(float((low[1]+high[1])/2), 3), round(float(low[2]), 3)]
-    # Barrel direction of the loader M240 (longest gun-metal component) -> render yaw to face forward.
+    # Loader skate ring: the rotating assembly turns about the loader-hatch ring centre.
+    low, high = bounds_of(["hatch_03"])
+    _, pintle_high = bounds_of(["bone_mg_aa_h"])
+    pintle_low, _ = bounds_of(["bone_mg_aa_h"])
+    loader_pivot = [round(float((low[0]+high[0])/2), 3), round(float((low[1]+high[1])/2), 3), round(float(pintle_low[2]), 3)]
+    # Barrel axis of the M240, oriented from the gun centroid toward the muzzle -> render yaw.
     gun_faces = [f for f in groups["bone_mg_aa_v"]["faces"] if model["faces"][f]["material"].startswith("mg_")]
     barrel = max(common.components(model, gun_faces, 1e-6),
                  key=lambda comp: np.ptp(vertices[[v for f in comp for v in model["faces"][f]["vertices"]]], axis=0).max())
-    co = vertices[[v for f in barrel for v in model["faces"][f]["vertices"]]]
-    axis = np.linalg.svd(co[:, :2]-co[:, :2].mean(axis=0), full_matrices=False)[2][0]
-    tip = co[np.argmax((co[:, :2]-loader_pivot[:2]) @ axis*np.sign(((co[:, :2]-loader_pivot[:2]) @ axis).sum() or 1))]
-    direction = tip[:2]-np.array(loader_pivot[:2])
-    render_yaw = float(np.degrees(np.arctan2(-1, 0)-np.arctan2(direction[1], direction[0])))
+    co = vertices[[v for f in barrel for v in model["faces"][f]["vertices"]]][:, :2]
+    axis = np.linalg.svd(co-co.mean(axis=0), full_matrices=False)[2][0]
+    gun_centre = vertices[[v for f in gun_faces for v in model["faces"][f]["vertices"]]][:, :2].mean(axis=0)
+    axis *= np.sign(np.mean((co-gun_centre) @ axis)) or 1
+    render_yaw = float(np.degrees(np.arctan2(-1, 0)-np.arctan2(axis[1], axis[0])))
     render_yaw = round((render_yaw+180) % 360-180, 2)
-    weapon_layers = [{"id": "loader_mg", "pivot": loader_pivot, "render_yaw_degrees": render_yaw,
-                      "evidence": "Provisional: centre of the loader pintle (bone_mg_aa_h) bounds, base height"}]
-    mounts = [{"id": "crows", "pivot": crows_pivot, "asset": "ArtSource/CROWSII",
-               "reason": "CROWSII top layers rotate about their base centre (0,0,0); place that origin here",
-               "evidence": "Provisional: centre of the removed CROWS groups' bounds, base height"}]
+    # CROWS: place the existing CROWSII model so its M2 lies on the source CROWS M2 (1.66 m long).
+    m2_faces = [f for f in groups["bone_mg_aa_v_01"]["faces"] if model["faces"][f]["material"] == "mg_browning_m2hb"]
+    m2 = vertices[[v for f in m2_faces for v in model["faces"][f]["vertices"]]]
+    m2_low, m2_high = m2.min(axis=0), m2.max(axis=0)
+    source_length = float(np.max(m2_high-m2_low))
+    scale = round(source_length/(CROWS_M2["muzzle"]-CROWS_M2["rear"]), 4)
+    source_mid = (m2_low+m2_high)/2
+    asset_mid = np.array([CROWS_M2["x"], (CROWS_M2["rear"]+CROWS_M2["muzzle"])/2, CROWS_M2["z"]])
+    # 180 degree yaw: the asset gun points +Y, the vehicle front is -Y.
+    placed_mid = np.array([-asset_mid[0], -asset_mid[1], asset_mid[2]])*scale
+    crows_origin = [round(float(v), 4) for v in source_mid-placed_mid]
+    weapon_layers = [
+        {"id": "loader_mg", "pivot": loader_pivot, "render_yaw_degrees": render_yaw,
+         "evidence": "Provisional: loader-hatch (hatch_03) bounds centre as skate-ring axis, pintle base height"},
+        {"id": "crows", "pivot": crows_origin, "render_yaw_degrees": 0,
+         "evidence": "CROWSII yaw origin placed so its M2 overlays the source CROWS M2"}]
+    imported_models = [{"id": "crows", "blend": "../CROWSII/output/crows_ii_m2.blend", "sha256": common.sha256(CROWS_BLEND),
+                        "layer": "crows", "scale": scale, "rotation_z_degrees": 180, "location": crows_origin,
+                        "reason": (f"Existing CROWSII asset, uniform scale {scale} = source CROWS M2 length "
+                                   f"{source_length:.3f} m / asset M2 length {CROWS_M2['muzzle']-CROWS_M2['rear']:.3f}")}]
+    mounts = []
 
     kept = [p for p in parts if p.get("action") != "omit"]
     hatches = {name: [p["id"] for p in kept if p["source_group"] == groups[name]["id"]]
@@ -383,10 +405,11 @@ def configure():
          "confirmed": False, "animate": False,
          "evidence": "Driver hatch needs a lift/swing mechanism; not a verified simple hinge"}]
     profile.update(axes=axes, parts=parts, rigs=rigs, contacts=contacts, weapon_layers=weapon_layers, mounts=mounts,
+                   imported_models=imported_models,
                    variant_notes=("M1A2 SEPv3 source OBJ (War Thunder extract). Base vehicle: camouflage nets, "
-                                  "TUSK ERA tiles and their rails/frames and whip antennas omitted. CROWS removed from the "
-                                  "turret texture (existing CROWSII asset at the recorded mount); loader M240 is a "
-                                  "separate weapon sprite. Loader shield and CITV kept in the turret. RimThunder reference is its base M1A2 (SEP generation not "
+                                  "TUSK ERA tiles and their rails/frames and whip antennas omitted. Source CROWS replaced by the "
+                                  "existing CROWSII model scaled to the source M2 and rendered as its own sprite; the loader "
+                                  "M240 rotating assembly (pintle, gun, shield, ammo can) is a separate sprite. CITV stays. RimThunder reference is its base M1A2 (SEP generation not "
                                   "stated); SEPv3 detail differences are recorded in ART_BRIEF.md. No blueprint."))
     profile["review"] = {"blueprint": False, "style_reference": False, "native_size": False,
                          "geometry": False, "game": False}

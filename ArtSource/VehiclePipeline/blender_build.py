@@ -422,6 +422,34 @@ def build(profile_path):
         if any(abs(a-b) > 1e-5 for row_a, row_b in zip(obj.matrix_world, rest_matrices[key]) for a, b in zip(row_a, row_b)):
             raise AssertionError("Rig did not return to the source rest pose")
     scene.frame_set(1)
+    # Existing separately built assets (e.g. a remote weapon station) placed into this vehicle:
+    # appended unchanged (geometry, UVs, fixed-emission paint), one uniform scale + yaw + move.
+    from mathutils import Matrix
+    imported = []
+    for spec in profile.get("imported_models", []):
+        if spec["layer"] not in weapon_layers and spec["layer"] not in {"hull", "turret", "barrel"}:
+            raise ValueError(f"Imported model layer must be a main or weapon layer: {spec['id']}")
+        blend = (root/spec["blend"]).resolve() if not Path(spec["blend"]).is_absolute() else Path(spec["blend"])
+        if "sha256" in spec and sha256(blend) != spec["sha256"]:
+            raise ValueError(f"Imported model changed; re-check its scale and placement: {blend}")
+        with bpy.data.libraries.load(str(blend), link=False) as (source_data, target_data):
+            target_data.objects = list(source_data.objects)
+        place = (Matrix.Translation(Vector(spec["location"])) @ Matrix.Rotation(math.radians(spec.get("rotation_z_degrees", 0)), 4, "Z")
+                 @ Matrix.Scale(spec["scale"], 4))
+        for obj in target_data.objects:
+            if obj is None or obj.type != "MESH":
+                continue
+            world = obj.matrix_world.copy()
+            obj.parent = None
+            scene.collection.objects.link(obj)
+            obj.matrix_world = place @ world
+            obj.animation_data_clear()
+            key = f"import:{spec['id']}:{obj.name}"
+            obj.data.name = key
+            obj["part_id"], obj["layer"] = key, spec["layer"]
+            objects[key] = obj
+            imported.append({"model": spec["id"], "object": obj.name, "faces": len(obj.data.polygons)})
+    bpy.context.view_layer.update()
     all_points = [obj.matrix_world @ v.co for obj in objects.values() for v in obj.data.vertices]
     center = (Vector([min(p[i] for p in all_points) for i in range(3)]) +
               Vector([max(p[i] for p in all_points) for i in range(3)]))/2
@@ -582,7 +610,7 @@ def build(profile_path):
     seen, degenerate = set(), []
     boxed_parts = {b["part"] for b in boxes}
     for key, obj in objects.items():
-        if key in boxed_parts:
+        if key in boxed_parts or key.startswith("import:"):
             continue
         mesh = obj.data
         for poly, face_id in zip(mesh.polygons, selection[key]):
@@ -624,6 +652,7 @@ def build(profile_path):
     if not all("KHR_materials_unlit" in m.get("extensions", {}) for m in gltf["materials"]):
         raise AssertionError("GLB contains a lit material")
     smooth_meshes = {p["id"] for p in profile["parts"] if "smooth" in p and p["id"] in objects}
+    smooth_meshes |= {key for key in objects if key.startswith("import:")}  # keep the asset's own paint
     if any("COLOR_0" in p["attributes"] for m in gltf["meshes"] if m.get("name") not in smooth_meshes
            for p in m["primitives"]):
         raise AssertionError("Unexpected vertex colors modulate the GLB palette")
@@ -652,6 +681,7 @@ def build(profile_path):
               "style_sha256": sha256(style_path), "source_faces": len(source["faces"]),
               "preserved_faces": len(seen), "explicitly_omitted_faces": len(omitted),
               "box_replaced_faces": len(replaced), "boxes": boxes,
+              "imported_models": {"specs": profile.get("imported_models", []), "objects": imported},
               "accents": accents, "accent_area_fraction": accent_fraction,
               "degenerate_source_faces": degenerate, "source_coordinates_preserved": True,
               "unlit_glb": True, "glb_animation_count": animation_count,

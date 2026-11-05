@@ -20,7 +20,7 @@
       "sha256": "2f026e5564f63af921bd8f2ccf81c707140f2cefce0f03b6ae14bd442021fe96"
     }
   },
-  "profile_sha256": "3d8950c805be3d8f44b797f326dea67a4e46fabd8b982e60e691caacfa2640c2",
+  "profile_sha256": "469fb9bdc960e62174ed2af806fd87f7745e056d1a1fbca404e8df298071df50",
   "style_sha256": "d7589d5206d1fd714e8a00c37de262c8ba02d2ea3c6a322fb8543b4917197f0a",
   "source_faces": 425141,
   "preserved_faces": 186906,
@@ -181,6 +181,161 @@
       "reason": "Rounded rigid container (jerrycan, water can, cooler) replaced by one clean block: style section 2"
     }
   ],
+  "imported_models": {
+    "specs": [
+      {
+        "id": "crows",
+        "blend": "../CROWSII/output/crows_ii_m2.blend",
+        "sha256": "8b30e0877dcc5057f74df4d629ebedf07ed47067308fc291e1a6444c8dfbe793",
+        "layer": "crows",
+        "scale": 0.7749,
+        "rotation_z_degrees": 180,
+        "location": [
+          -0.818,
+          -0.4127,
+          2.3619
+        ],
+        "reason": "Existing CROWSII asset, uniform scale 0.7749 = source CROWS M2 length 1.660 m / asset M2 length 2.142"
+      }
+    ],
+    "objects": [
+      {
+        "model": "crows",
+        "object": "Thermal window rim",
+        "faces": 1
+      },
+      {
+        "model": "crows",
+        "object": "Thermal window",
+        "faces": 1
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / Trigger / gun",
+        "faces": 213
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / Tenon / gun",
+        "faces": 155
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / Sutter / gun",
+        "faces": 635
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / Single / gun",
+        "faces": 195
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / sight_min / gun",
+        "faces": 178
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / sight_dioptr / gun",
+        "faces": 263
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / Reloading_handle / gun",
+        "faces": 1509
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / QCB latch tab",
+        "faces": 54
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / QCB latch body",
+        "faces": 54
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / QCB handle pivot pin",
+        "faces": 26
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / QCB grip rear ferrule",
+        "faces": 26
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / QCB grip front ferrule",
+        "faces": 26
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / QCB folded handle arm",
+        "faces": 22
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / QCB carry grip",
+        "faces": 34
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / QCB barrel coupling",
+        "faces": 42
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / Handle_cover / gun",
+        "faces": 179
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / Cover_010_Low.001 / gun",
+        "faces": 281
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / Cover.007 / gun",
+        "faces": 2207
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / Body_M2 / gun",
+        "faces": 17056
+      },
+      {
+        "model": "crows",
+        "object": "M2QCB / Barrel / gun",
+        "faces": 600
+      },
+      {
+        "model": "crows",
+        "object": "Day lens rim",
+        "faces": 42
+      },
+      {
+        "model": "crows",
+        "object": "Day lens glass",
+        "faces": 42
+      },
+      {
+        "model": "crows",
+        "object": "Day lens fixed coating mark",
+        "faces": 1
+      },
+      {
+        "model": "crows",
+        "object": "Cylinder.003 / frame",
+        "faces": 14014
+      },
+      {
+        "model": "crows",
+        "object": "Cylinder.003 / base",
+        "faces": 178
+      }
+    ]
+  },
   "accents": [
     {
       "part": "g0000_accent_913",
@@ -524,7 +679,7 @@
   "source_coordinates_preserved": true,
   "unlit_glb": true,
   "glb_animation_count": 1,
-  "mesh_count": 182,
+  "mesh_count": 209,
   "paint": {
     "g0000": {
       "top": 216,
@@ -7072,9 +7227,6 @@
         "g0029_accent_66261",
         "g0029_accent_68194",
         "g0029_accent_69119",
-        "g0032",
-        "g0033",
-        "g0033_glass",
         "g0036",
         "g0036_glass",
         "g0038",
@@ -7097,7 +7249,6 @@
         "g0050",
         "g0051",
         "g0051_stowage_132503",
-        "g0052",
         "g0053",
         "g0054",
         "g0055",
@@ -7192,19 +7343,23 @@
       "id": "LOADER_MG",
       "parent": "TURRET_YAW",
       "pivot": [
-        0.801,
-        0.554,
+        0.418,
+        0.746,
         2.421
       ],
       "axis": "z",
       "parts": [
         "g0030",
         "g0031",
-        "g0031_gunmetal"
+        "g0031_gunmetal",
+        "g0032",
+        "g0033",
+        "g0033_glass",
+        "g0052"
       ],
       "confirmed": false,
       "animate": false,
-      "evidence": "Provisional: centre of the loader pintle (bone_mg_aa_h) bounds, base height"
+      "evidence": "Provisional: loader-hatch (hatch_03) bounds centre as skate-ring axis, pintle base height"
     },
     {
       "id": "DRIVER_HATCH",
@@ -7245,7 +7400,7 @@
     "hull_target": [
       0.0,
       -0.5392999649047852,
-      1.5010499954223633
+      1.6147927045822144
     ],
     "turret_pivot": [
       0.003346000099554658,
@@ -7254,34 +7409,32 @@
     ],
     "turret_anchor_pixels_top_origin": [
       475.5791931152344,
-      511.2506103515625
+      514.8306884765625
     ],
     "placements": {
       "loader_mg": {
         "pivot": [
-          0.801,
-          0.554,
+          0.418,
+          0.746,
           2.421
         ],
         "kind": "weapon_layer",
         "pixels_in_turret_top_origin": [
-          469.91949462890625,
-          454.72674560546875
+          456.13348388671875,
+          482.22698974609375
         ]
       },
       "crows": {
         "pivot": [
-          -0.742,
-          -0.651,
-          2.65
+          -0.818,
+          -0.4127,
+          2.3619
         ],
-        "kind": "mount",
+        "kind": "weapon_layer",
         "pixels_in_turret_top_origin": [
-          556.4410400390625,
-          565.5174255371094
-        ],
-        "asset": "ArtSource/CROWSII",
-        "reason": "CROWSII top layers rotate about their base centre (0,0,0); place that origin here"
+          539.3306274414062,
+          570.9743957519531
+        ]
       }
     },
     "top_pivot_pixels": [
@@ -7472,7 +7625,34 @@
         "179": "g0000_front_glacis",
         "180": "g0000_side_shoulders",
         "181": "g0029_front_cheeks",
-        "182": "g0029_side_slopes"
+        "182": "g0029_side_slopes",
+        "183": "import:crows:Thermal window rim",
+        "184": "import:crows:Thermal window",
+        "185": "import:crows:M2QCB / Trigger / gun",
+        "186": "import:crows:M2QCB / Tenon / gun",
+        "187": "import:crows:M2QCB / Sutter / gun",
+        "188": "import:crows:M2QCB / Single / gun",
+        "189": "import:crows:M2QCB / sight_min / gun",
+        "190": "import:crows:M2QCB / sight_dioptr / gun",
+        "191": "import:crows:M2QCB / Reloading_handle / gun",
+        "192": "import:crows:M2QCB / QCB latch tab",
+        "193": "import:crows:M2QCB / QCB latch body",
+        "194": "import:crows:M2QCB / QCB handle pivot pin",
+        "195": "import:crows:M2QCB / QCB grip rear ferrule",
+        "196": "import:crows:M2QCB / QCB grip front ferrule",
+        "197": "import:crows:M2QCB / QCB folded handle arm",
+        "198": "import:crows:M2QCB / QCB carry grip",
+        "199": "import:crows:M2QCB / QCB barrel coupling",
+        "200": "import:crows:M2QCB / Handle_cover / gun",
+        "201": "import:crows:M2QCB / Cover_010_Low.001 / gun",
+        "202": "import:crows:M2QCB / Cover.007 / gun",
+        "203": "import:crows:M2QCB / Body_M2 / gun",
+        "204": "import:crows:M2QCB / Barrel / gun",
+        "205": "import:crows:Day lens rim",
+        "206": "import:crows:Day lens glass",
+        "207": "import:crows:Day lens fixed coating mark",
+        "208": "import:crows:Cylinder.003 / frame",
+        "209": "import:crows:Cylinder.003 / base"
       },
       "depth_range": 114.09132385253906,
       "encoding": "16-bit RGB: R,G = id low/high byte, B = view depth / depth_range"
@@ -7481,14 +7661,14 @@
   "lighting_max_difference_255": 0,
   "boundary_lines": {
     "hull_east": {
-      "pixels": 7830,
+      "pixels": 7928,
       "width_256": 1,
       "depth_step": 0.06,
       "value": 56,
       "solid": true
     },
     "turret_east": {
-      "pixels": 18152,
+      "pixels": 17336,
       "width_256": 1,
       "depth_step": 0.02,
       "value": 56,
@@ -7502,14 +7682,21 @@
       "solid": true
     },
     "turret_full_east": {
-      "pixels": 18207,
+      "pixels": 17391,
       "width_256": 1,
       "depth_step": 0.02,
       "value": 56,
       "solid": true
     },
     "loader_mg_east": {
-      "pixels": 267,
+      "pixels": 593,
+      "width_256": 1,
+      "depth_step": 0.02,
+      "value": 56,
+      "solid": true
+    },
+    "crows_east": {
+      "pixels": 36,
       "width_256": 1,
       "depth_step": 0.02,
       "value": 56,
@@ -7519,9 +7706,9 @@
   "alpha_bounds": {
     "256/hull_east": [
       37,
-      95,
+      96,
       188,
-      170
+      171
     ],
     "256/turret_east": [
       58,
@@ -7542,22 +7729,28 @@
       164
     ],
     "256/loader_mg_east": [
-      120,
-      121,
+      126,
+      112,
+      150,
+      131
+    ],
+    "256/crows_east": [
+      117,
+      116,
       145,
-      133
+      138
     ],
     "256/preview_east": [
       37,
-      95,
+      96,
       219,
-      170
+      171
     ],
     "512/hull_east": [
       77,
-      192,
+      194,
       373,
-      338
+      340
     ],
     "512/turret_east": [
       119,
@@ -7578,17 +7771,23 @@
       325
     ],
     "512/loader_mg_east": [
-      240,
-      245,
-      287,
-      263
+      253,
+      227,
+      298,
+      260
+    ],
+    "512/crows_east": [
+      237,
+      235,
+      286,
+      274
     ],
     "512/preview_east": [
       77,
-      192,
+      194,
       435,
-      338
+      340
     ]
   },
-  "model_sha256": "755d3426f553d70dd75a0288e2bfc452473b7972e5a64e5aaf4552ac88319f1e"
+  "model_sha256": "3c5068c4ba4ecd05581862b0edafd0e4dae84562fdea2567eb63428101573e77"
 }
