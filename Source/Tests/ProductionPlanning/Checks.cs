@@ -21,6 +21,7 @@ public sealed class Checks : GameComponent
     private Bill_ProductionWithUft savedBill;
     private IEnumerator<int> steps;
     private MapComponent_ProductionPlanning Plan => map.GetComponent<MapComponent_ProductionPlanning>();
+    private static readonly string[] Six = { "HD_GeneralMachinePart", "HD_PressComponent", "HD_Shaft", "HD_UniformRolledSteelPlate", "HD_BasicElectricalComponents", "HD_BasicElectronicComponents" };
     public Checks(Game game) { }
     private static T Def<T>(string name) where T : Verse.Def => DefDatabase<T>.GetNamed(name);
     private void Write(string t) => File.AppendAllText(Path.Combine(output, "checks.txt"), t + "\n");
@@ -33,7 +34,14 @@ public sealed class Checks : GameComponent
     private static void Body(Pawn p) { if (p.story != null && p.story.bodyType == null) p.story.bodyType = p.gender == Gender.Female ? BodyTypeDefOf.Female : BodyTypeDefOf.Male; }
     public override void GameComponentTick()
     {
-        if (started || complete || Find.CurrentMap == null || !GenCommandLine.TryGetCommandLineArg("hdProductionPlanning", out output)) return;
+        if (started || complete || Find.CurrentMap == null) return;
+        if (GenCommandLine.TryGetCommandLineArg("hdProductionPlanningPerf", out output))
+        {
+            started = true; map = Find.CurrentMap; Find.TickManager.Pause();
+            Directory.CreateDirectory(output); File.WriteAllText(Path.Combine(output, "checks.txt"), "Actual RimWorld 1.7 production planning performance\n");
+            steps = Perf().GetEnumerator(); return;
+        }
+        if (!GenCommandLine.TryGetCommandLineArg("hdProductionPlanning", out output)) return;
         started = true;
         try
         {
@@ -106,7 +114,7 @@ public sealed class Checks : GameComponent
         var lathe = (Building_WorkTable)Spawn("HD_LineShaftTurretLathe", 10, 12); Spawn("HD_BasicWorkbench", -5, -5);
         for (int x = -18; x <= 12; x++) if ((map.Center + new IntVec3(x, 0, 11)).GetEdifice(map)?.TryGetComp<CompMechanicalNode>() == null) Spawn("HD_LineShaft", x, 11);
         engine.GetComp<CompRefuelable>().Refuel(120); yield return 240;
-        Plan.Goals.Single(g => g.Product.defName == "HD_BasicElectricalComponents").Target = 1;
+        Plan.GoalFor(Def<ThingDef>("HD_BasicElectricalComponents")).Target = 1;
         Plan.Refresh(); Check(Plan.Tickets.Count == 0, "No desk means no automatic orders");
         var desk = Spawn("HD_ProductionPlanningDesk", -13, -5); Spawn("HD_ProductionPlanningDesk", -10, -5);
         var stockpile = new Zone_Stockpile(StorageSettingsPreset.DefaultStockpile, map.zoneManager);
@@ -121,7 +129,7 @@ public sealed class Checks : GameComponent
         Plan.Refresh(); Plan.Enabled = false;
         foreach (RecipeDef recipe in DefDatabase<RecipeDef>.AllDefsListForReading)
             if (recipe.researchPrerequisite != null) Find.ResearchManager.FinishProject(recipe.researchPrerequisite, doCompletionDialog: false);
-        foreach (var g in Plan.Goals) g.Target = g.Product.defName == "HD_GeneralMachinePart" ? 10 : g.Product.defName is "HD_Shaft" or "HD_UniformRolledSteelPlate" ? 1 : 5;
+        foreach (string name in Six) Plan.GoalFor(Def<ThingDef>(name)).Target = name == "HD_GeneralMachinePart" ? 10 : name is "HD_Shaft" or "HD_UniformRolledSteelPlate" ? 1 : 5;
         var manual = (Bill_Production)Def<RecipeDef>("HD_MakeShaft").MakeNewBill(); manual.repeatMode = BillRepeatModeDefOf.TargetCount; manual.targetCount = 1; lathe.BillStack.AddBill(manual);
         manual.SetStoreMode(BillStoreModeDefOf.BestStockpile, null);
         Plan.Enabled = false; Plan.Refresh(); Check(Plan.Tickets.Count == 0, "Disabled plan does not queue");
@@ -140,6 +148,87 @@ public sealed class Checks : GameComponent
         worker.drafter.Drafted = true; worker.jobs.EndCurrentJob(JobCondition.InterruptForced);
         savedBillId = savedBill.GetUniqueLoadID(); savedWork = savedBill.BoundUft.workLeft; savedTickets = Plan.Tickets.Count;
         stage = 1; GameDataSaveLoader.SaveGame("ProductionPlanning"); load = true; yield return 1;
+    }
+    public static readonly List<double> DrawTimes = new();
+    public static void BeforeDraw(out long __state) => __state = System.Diagnostics.Stopwatch.GetTimestamp();
+    public static void AfterDraw(long __state) => DrawTimes.Add(System.Diagnostics.Stopwatch.GetElapsedTime(__state).TotalMilliseconds);
+    private static string Stats(List<double> times)
+    {
+        if (times.Count == 0) return "n=0";
+        var sorted = times.OrderBy(t => t).ToList();
+        return $"n={times.Count} first={times[0]:F2}ms avg={times.Average():F2}ms p95={sorted[(int)(sorted.Count * 0.95)]:F2}ms max={sorted[^1]:F2}ms";
+    }
+    // A mid-game sized colony: many item stacks, several machines with queued bills. Measures window draw and planner refresh cost.
+    private IEnumerable<int> Perf()
+    {
+        bool shots = GenCommandLine.TryGetCommandLineArg("hdProductionPlanningShots", out _);
+        new HarmonyLib.Harmony("Helodrace.ProductionPlanningPerf").Patch(HarmonyLib.AccessTools.Method(typeof(Dialog_ProductionPlanning), nameof(Dialog_ProductionPlanning.DoWindowContents)),
+            prefix: new HarmonyLib.HarmonyMethod(typeof(Checks), nameof(BeforeDraw)), postfix: new HarmonyLib.HarmonyMethod(typeof(Checks), nameof(AfterDraw)));
+        foreach (RecipeDef recipe in DefDatabase<RecipeDef>.AllDefsListForReading)
+            if (recipe.researchPrerequisite != null && !recipe.researchPrerequisite.IsFinished) Find.ResearchManager.FinishProject(recipe.researchPrerequisite, doCompletionDialog: false);
+        var rand = new Random(17);
+        var itemDefs = DefDatabase<ThingDef>.AllDefsListForReading.Where(d => d.category == ThingCategory.Item && d.stackLimit > 1 && !d.MadeFromStuff && d.EverHaulable && (d.thingClass == typeof(Thing) || d.thingClass == typeof(ThingWithComps))).OrderBy(d => d.defName).ToList();
+        var cells = map.AllCells.Where(c => c.Standable(map) && c.GetFirstItem(map) == null).OrderBy(_ => rand.Next()).Take(3000).ToList();
+        foreach (IntVec3 cell in cells)
+        {
+            Thing t = ThingMaker.MakeThing(itemDefs[rand.Next(itemDefs.Count)]); t.stackCount = Math.Max(1, rand.Next(t.def.stackLimit));
+            GenSpawn.Spawn(t, cell, map);
+        }
+        int x = -20;
+        foreach (string name in new[] { "HD_BasicWorkbench", "HD_LineShaftMillingMachine", "HD_LineShaftHydraulicPress", "HD_LineShaftRollingMachine", "HD_LineShaftTurretLathe", "HD_BasicWorkbench", "HD_BasicWorkbench" })
+        {
+            var table = (Building_WorkTable)Spawn(name, x, -14); x += 6;
+            foreach (RecipeDef recipe in table.def.AllRecipes.Take(10))
+            { var bill = recipe.MakeNewBill(); if (bill is Bill_Production p) { p.repeatMode = BillRepeatModeDefOf.RepeatCount; p.repeatCount = 3; } table.BillStack.AddBill(bill); }
+        }
+        Spawn("HD_ProductionPlanningDesk", -20, -18);
+        foreach (var goal in Plan.Goals) goal.Target = 0;
+        Write($"FIXTURE things={map.listerThings.AllThings.Count} items={map.listerThings.AllThings.Count(t => t.def.category == ThingCategory.Item)} tables={map.listerBuildings.allBuildingsColonist.OfType<Building_WorkTable>().Count()} goals={Plan.Goals.Count}");
+        var refresh = new List<double>();
+        for (int i = 0; i < 20; i++) { long s = System.Diagnostics.Stopwatch.GetTimestamp(); Plan.Refresh(); refresh.Add(System.Diagnostics.Stopwatch.GetElapsedTime(s).TotalMilliseconds); }
+        Write("PERF refresh " + Stats(refresh));
+        long opened = System.Diagnostics.Stopwatch.GetTimestamp();
+        var dialog = new Dialog_ProductionPlanning(Plan); Find.WindowStack.Add(dialog);
+        Write($"PERF construct+add {System.Diagnostics.Stopwatch.GetElapsedTime(opened).TotalMilliseconds:F2}ms");
+        int waited = 0;
+        while (DrawTimes.Count < 240 && waited++ < 20000) yield return 0;
+        Write("PERF draw " + Stats(DrawTimes));
+        Check(DrawTimes.Count >= 240, "Planning window drew 240 real frames");
+        // Coverage: every Helod item is listed; every item a recipe makes has that recipe in its tree.
+        var helod = DefDatabase<ThingDef>.AllDefsListForReading.Where(ProductionCatalog.IsHelodItem).ToList();
+        var listed = ProductionCatalog.HelodItems.Select(i => i.Def).ToHashSet();
+        var made = DefDatabase<RecipeDef>.AllDefsListForReading.Where(r => r.AllRecipeUsers.Any()).SelectMany(r => r.products ?? new()).Select(p => p.thingDef).ToHashSet();
+        var plannable = ProductionCatalog.HelodItems.Where(i => i.Plannable.Count > 0).ToList();
+        Write($"CATALOG helodItems={helod.Count} listed={listed.Count} withRecipe={ProductionCatalog.HelodItems.Count(i => !i.Raw)} plannable={plannable.Count} raw={ProductionCatalog.HelodItems.Count(i => i.Raw)} manualOnly={ProductionCatalog.HelodItems.Count(i => !i.Raw && i.Plannable.Count == 0)}");
+        Write("MANUAL-ONLY " + string.Join(", ", ProductionCatalog.HelodItems.Where(i => !i.Raw && i.Plannable.Count == 0).Select(i => i.Def.defName)));
+        Write("EXCLUDED " + string.Join(", ", DefDatabase<ThingDef>.AllDefsListForReading.Where(d => d.defName.StartsWith("HD_") && d.category == ThingCategory.Item && !ProductionCatalog.IsHelodItem(d)).Select(d => d.defName)));
+        Write("RAW " + string.Join(", ", ProductionCatalog.HelodItems.Where(i => i.Raw).Select(i => i.Def.defName)));
+        Check(helod.All(listed.Contains), "Planner lists every Helod item");
+        Check(helod.Where(made.Contains).All(d => !ProductionCatalog.For(d).Raw) && helod.Where(d => !made.Contains(d)).All(d => ProductionCatalog.For(d).Raw), "Every recipe-made Helod item shows its recipes; the rest are marked raw");
+        Check(Six.All(n => ProductionCatalog.For(Def<ThingDef>(n)).Plannable.Count > 0) && ProductionCatalog.For(Def<ThingDef>("HD_GeneralMachinePart")).Plannable.All(r => !r.Recipe.defName.Contains("Convert")), "Six basic components stay plannable without emergency conversions");
+        foreach (var item in plannable) Plan.GoalFor(item.Def).Target = 5;
+        var refreshAll = new List<double>();
+        for (int i = 0; i < 20; i++) { long s = System.Diagnostics.Stopwatch.GetTimestamp(); Plan.Refresh(); refreshAll.Add(System.Diagnostics.Stopwatch.GetElapsedTime(s).TotalMilliseconds); }
+        Write($"PERF refresh-all-goals goals={Plan.Goals.Count(g => g.Target > 0)} tickets={Plan.Tickets.Count} " + Stats(refreshAll));
+        Check(Plan.Tickets.Select(t => t.Bill.recipe.ProducedThingDef).Distinct().Count() == Plan.Tickets.Count && Plan.Tickets.Count > 6, "All-item plan queues beyond the six components without duplicates");
+        // Deepest tree among plannable items, fully expanded.
+        ThingDef deep = null; int deepest = 0;
+        foreach (var item in plannable) { dialog.Select(item.Def); dialog.ExpandAll(); if (dialog.VisibleTreeRows > deepest) { deepest = dialog.VisibleTreeRows; deep = item.Def; } }
+        dialog.Select(deep); long built = System.Diagnostics.Stopwatch.GetTimestamp(); dialog.ExpandAll();
+        Write($"TREE {deep.defName} expandedRows={dialog.VisibleTreeRows} build={System.Diagnostics.Stopwatch.GetElapsedTime(built).TotalMilliseconds:F2}ms");
+        Check(dialog.VisibleTreeRows > 10, "Expand all builds a multi-level tree");
+        DrawTimes.Clear(); waited = 0;
+        while (DrawTimes.Count < 240 && waited++ < 20000) yield return 0;
+        Write("PERF draw-expanded " + Stats(DrawTimes));
+        if (shots) { UnityEngine.ScreenCapture.CaptureScreenshot(Path.Combine(output, "tree-expanded.png")); for (int i = 0; i < 30; i++) yield return 0; }
+        dialog.Select(Def<ThingDef>("HD_BasicElectronicComponents"));
+        int initial = dialog.VisibleTreeRows; dialog.ExpandAll(); int expandedRows = dialog.VisibleTreeRows;
+        for (int i = 0; i < 10; i++) yield return 0;
+        if (shots) { UnityEngine.ScreenCapture.CaptureScreenshot(Path.Combine(output, "tree-electronic.png")); for (int i = 0; i < 30; i++) yield return 0; }
+        dialog.CollapseAll(); for (int i = 0; i < 3; i++) yield return 0;
+        Write($"TREE HD_BasicElectronicComponents initial={initial} expanded={expandedRows} collapsed={dialog.VisibleTreeRows}");
+        Check(expandedRows > initial && dialog.VisibleTreeRows == 1 + ProductionCatalog.For(Def<ThingDef>("HD_BasicElectronicComponents")).Recipes.Count, "Expand and collapse change the electronic-component tree");
+        dialog.Close(); yield return 1;
     }
     private IEnumerable<int> Resume()
     {

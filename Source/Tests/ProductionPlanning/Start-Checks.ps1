@@ -1,4 +1,4 @@
-param([Parameter(Mandatory)][string]$RuntimeRoot)
+param([Parameter(Mandatory)][string]$RuntimeRoot,[switch]$Perf,[switch]$Visible)
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot '../Game17Runtime.ps1')
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
@@ -11,6 +11,7 @@ dotnet build (Join-Path $repository 'Source/Helodrace/Helodrace.csproj') -p:Inte
 if($LASTEXITCODE -ne 0){throw 'Main build failed.'}
 dotnet build (Join-Path $PSScriptRoot 'ProductionPlanning.csproj') ("-p:OutputPath="+(Join-Path $checks 'Assemblies/')) ("-p:HelodAssembly="+(Join-Path $mainOutput 'Helodrace.dll')) -v:minimal
 if($LASTEXITCODE -ne 0){throw 'Production planning checks build failed.'}
-$arguments=@('-hdProductionPlanning='+$runtime.Evidence)
-$process=Start-Game17Runtime -Runtime $runtime -Arguments $arguments -ResultFile (Join-Path $runtime.Evidence 'checks.txt') -CompletionPattern '(?m)^COMPLETE\r?$'
+$arguments=@($(if($Perf){'-hdProductionPlanningPerf='}else{'-hdProductionPlanning='})+$runtime.Evidence)
+if($Perf){$arguments+=@('-hdProductionPlanningShots=1','-screen-fullscreen','0','-screen-width','1600','-screen-height','900')}
+$process=Start-Game17Runtime -Runtime $runtime -Arguments $arguments -Visible:$Visible -ResultFile (Join-Path $runtime.Evidence 'checks.txt') -CompletionPattern '(?m)^COMPLETE\r?$'
 Write-Output ('Observe with Source/Tests/Wait-Game17Host.ps1 -RuntimeRoot "'+$runtime.Root+'" -TimeoutSeconds 45')

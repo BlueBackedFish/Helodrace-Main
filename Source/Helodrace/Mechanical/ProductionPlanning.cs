@@ -25,42 +25,59 @@ public sealed class ProductionTicket : IExposable
 
 public sealed class MapComponent_ProductionPlanning : MapComponent
 {
-    private static readonly string[] Families = { "HD_MillGeneralMachinePart", "HD_MakePressComponent", "HD_MakeShaft", "HD_RollUniformSteelPlate", "HD_MakeBasicElectricalComponents", "HD_MakeBasicElectronicComponents" };
+    public const int MaxTarget = 10000;
     private List<ProductionGoal> goals = new();
+    private readonly Dictionary<ThingDef, ProductionGoal> goalIndex = new();
     private List<ProductionTicket> tickets = new();
     public bool Enabled = true;
+    // Map counts are rebuilt in one pass and reused by every goal, window row and refresh.
+    private readonly Dictionary<ThingDef, int> stock = new(), pending = new();
+    private int countedTick = -1;
+    private double countedRealtime;
     public MapComponent_ProductionPlanning(Map map) : base(map) { }
-    public bool HasDesk => map.listerBuildings.allBuildingsColonist.Any(b => b is Building_ProductionPlanningDesk && b.Spawned);
-    public IReadOnlyList<ProductionGoal> Goals { get { EnsureGoals(); return goals; } }
+    private static ThingDef deskDef;
+    public bool HasDesk => map.listerBuildings.ColonistsHaveBuilding(deskDef ??= DefDatabase<ThingDef>.GetNamed("HD_ProductionPlanningDesk"));
+    public IReadOnlyList<ProductionGoal> Goals => goals;
     public IReadOnlyList<ProductionTicket> Tickets => tickets;
-    private void EnsureGoals()
+    public ProductionGoal GoalFor(ThingDef product)
     {
-        foreach (string name in Families)
-        {
-            ThingDef product = DefDatabase<RecipeDef>.GetNamed(name).ProducedThingDef;
-            if (!goals.Any(g => g.Product == product)) goals.Add(new ProductionGoal { Product = product });
-        }
+        if (goalIndex.TryGetValue(product, out var goal)) return goal;
+        goal = new ProductionGoal { Product = product }; goals.Add(goal); goalIndex[product] = goal; return goal;
     }
+    public bool TryGetGoal(ThingDef product, out ProductionGoal goal) => goalIndex.TryGetValue(product, out goal);
     public override void ExposeData()
     {
-        if (Scribe.mode == LoadSaveMode.Saving) { EnsureGoals(); Prune(); }
+        if (Scribe.mode == LoadSaveMode.Saving) { Prune(); goals.RemoveAll(g => g.Target <= 0 && g.Completed <= 0); RebuildIndex(); }
         Scribe_Values.Look(ref Enabled, "productionPlanningEnabled", true);
         Scribe_Collections.Look(ref goals, "productionGoals", LookMode.Deep);
         Scribe_Collections.Look(ref tickets, "productionTickets", LookMode.Deep);
-        if (Scribe.mode == LoadSaveMode.PostLoadInit) { goals ??= new(); tickets ??= new(); }
+        if (Scribe.mode == LoadSaveMode.PostLoadInit) { goals ??= new(); tickets ??= new(); goals.RemoveAll(g => g.Product == null); RebuildIndex(); }
     }
-    private IEnumerable<Building_WorkTable> Tables => map.listerBuildings.allBuildingsColonist.OfType<Building_WorkTable>();
-    private IEnumerable<Thing> StockItems()
+    private void RebuildIndex() { goalIndex.Clear(); foreach (var goal in goals) goalIndex[goal.Product] = goal; }
+
+    public void InvalidateCounts() => countedTick = -1;
+    private void EnsureCounts()
     {
-        foreach (Thing t in map.listerThings.AllThings)
-            if (t.def.category == ThingCategory.Item && !t.IsForbidden(Faction.OfPlayer)) yield return t;
-        foreach (Pawn p in map.mapPawns.AllPawnsSpawned.Where(p => p.Faction == Faction.OfPlayer))
+        int tick = Find.TickManager.TicksGame; double now = Waylith.Time.RealtimeSinceStartupAsDouble;
+        if (countedTick >= 0 && (tick == countedTick ? now - countedRealtime < 2 : tick - countedTick < 60 && now - countedRealtime < 0.5)) return;
+        countedTick = tick; countedRealtime = now; stock.Clear(); pending.Clear();
+        foreach (Thing t in map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver))
+            if (t.def.category == ThingCategory.Item && !t.IsForbidden(Faction.OfPlayer)) Add(stock, t.def, t.stackCount);
+        foreach (Pawn p in map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer))
         {
-            if (p.inventory != null) foreach (Thing t in p.inventory.innerContainer) yield return t;
-            if (p.carryTracker?.CarriedThing != null) yield return p.carryTracker.CarriedThing;
+            if (p.inventory != null) foreach (Thing t in p.inventory.innerContainer) Add(stock, t.def, t.stackCount);
+            if (p.carryTracker?.CarriedThing is Thing carried) Add(stock, carried.def, carried.stackCount);
         }
+        foreach (Building building in map.listerBuildings.allBuildingsColonist)
+            if (building is Building_WorkTable table)
+                foreach (Bill bill in table.BillStack.Bills)
+                    if (bill is Bill_Production production && production.recipe.products.Count == 1)
+                        Add(pending, production.recipe.products[0].thingDef, Iterations(production) * production.recipe.products[0].count);
     }
-    public int Stock(ThingDef product) => StockItems().Where(t => t.def == product).Sum(t => t.stackCount);
+    private static void Add(Dictionary<ThingDef, int> counts, ThingDef def, int n) { counts.TryGetValue(def, out int old); counts[def] = old + n; }
+    public int Stock(ThingDef product) { EnsureCounts(); return stock.TryGetValue(product, out int n) ? n : 0; }
+    public int Pending(ThingDef product) { EnsureCounts(); return pending.TryGetValue(product, out int n) ? n : 0; }
+
     private static int Iterations(Bill_Production bill)
     {
         if (bill.suspended || bill.DeletedOrDereferenced) return 0;
@@ -69,76 +86,103 @@ public sealed class MapComponent_ProductionPlanning : MapComponent
             return (int)Math.Ceiling(Math.Max(0, bill.targetCount - bill.recipe.WorkerCounter.CountProducts(bill)) / (double)bill.recipe.products[0].count);
         return Math.Max(0, bill.repeatCount);
     }
-    public int Pending(ThingDef product)
-    {
-        return Tables.SelectMany(t => t.BillStack.Bills).OfType<Bill_Production>()
-            .Where(b => b.recipe.ProducedThingDef == product && b.recipe.products.Count == 1)
-            .Sum(b => Iterations(b) * b.recipe.products[0].count);
-    }
     private static bool Valid(ProductionTicket ticket) => ticket.Bill != null && !ticket.Bill.DeletedOrDereferenced;
     private void Prune() => tickets.RemoveAll(t => !Valid(t));
     private bool Started(Bill_Production bill) => (bill is Bill_ProductionWithUft u && u.BoundUft != null)
         || map.mapPawns.AllPawnsSpawned.Any(p => p.CurJob?.bill == bill);
-    private static Dictionary<ThingDef, int> Inputs(RecipeDef recipe, Bill bill = null)
+
+    // Deducts `times` batches of the bill's materials from `available`. A fixed ingredient uses its thing;
+    // a filtered ingredient uses the single allowed thing with the most stock. With `partial`, reserves what exists.
+    private static bool Reserve(Bill bill, Dictionary<ThingDef, int> available, int times, bool partial)
     {
-        var result = new Dictionary<ThingDef, int>();
-        foreach (IngredientCount ingredient in recipe.ingredients)
+        if (times <= 0) return true;
+        var taken = new Dictionary<ThingDef, int>();
+        int Free(ThingDef d) => (available.TryGetValue(d, out int n) ? n : 0) - (taken.TryGetValue(d, out int t) ? t : 0);
+        foreach (IngredientCount ingredient in bill.recipe.ingredients)
         {
-            if (!ingredient.IsFixedIngredient) return null;
-            var def = ingredient.FixedIngredient;
-            result.TryGetValue(def, out int n); result[def] = n + ingredient.CountRequiredOfFor(def, recipe, bill);
+            ThingDef best = null; int need = 0;
+            if (ingredient.IsFixedIngredient) { best = ingredient.FixedIngredient; need = ingredient.CountRequiredOfFor(best, bill.recipe, bill) * times; }
+            else
+                foreach (ThingDef def in available.Keys)
+                {
+                    if (!ingredient.filter.Allows(def) || !bill.ingredientFilter.Allows(def)) continue;
+                    int n = ingredient.CountRequiredOfFor(def, bill.recipe, bill) * times;
+                    if (best == null || Free(def) - n > Free(best) - need) { best = def; need = n; }
+                }
+            if (best == null) { if (partial) continue; return false; }
+            if (Free(best) < need && !partial) return false;
+            taken[best] = (taken.TryGetValue(best, out int already) ? already : 0) + Math.Min(need, Math.Max(0, Free(best)));
         }
-        return result;
+        foreach (var t in taken) available[t.Key] = Math.Max(0, (available.TryGetValue(t.Key, out int n) ? n : 0) - t.Value);
+        return true;
     }
-    public override void MapComponentTick() { if (Find.TickManager.TicksGame % 250 == 0) Refresh(); }
+
+    private static Building_WorkTable FindTable(ProductionRecipe recipe, List<Building_WorkTable> tables) =>
+        tables.Where(t => recipe.Users.Contains(t.def) && recipe.Recipe.AvailableOnNow(t) && t.CurrentlyUsableForBills() && t.BillStack.Count < 15)
+            .OrderBy(t => t.BillStack.Bills.Count(b => b.ShouldDoNow()))
+            .ThenByDescending(t => t.GetStatValue(StatDefOf.WorkTableWorkSpeedFactor)).FirstOrDefault();
+    private static bool Queueable(ProductionRecipe recipe, List<Building_WorkTable> tables) => recipe.Recipe.AvailableNow && FindTable(recipe, tables) != null;
+
+    public override void MapComponentTick()
+    {
+        if (Find.TickManager.TicksGame % 250 != 0 || tickets.Count == 0 && !goals.Any(g => g.Target > 0)) return;
+        Refresh();
+    }
     public void Refresh()
     {
-        EnsureGoals(); Prune();
+        Prune(); InvalidateCounts(); EnsureCounts();
         bool running = Enabled && HasDesk;
+        var tables = map.listerBuildings.allBuildingsColonist.OfType<Building_WorkTable>().OrderBy(t => t.thingIDNumber).ToList();
         foreach (var ticket in tickets.ToList())
         {
-            var bill = ticket.Bill;
+            var bill = ticket.Bill; ThingDef product = bill.recipe.products[0].thingDef; int contribution = bill.repeatCount * bill.recipe.products[0].count;
             if (bill.repeatCount <= 0) { bill.billStack.Delete(bill); tickets.Remove(ticket); continue; }
-            if (!running && !bill.suspended) { bill.suspended = true; ticket.PausedByPlanner = true; }
-            else if (running && ticket.PausedByPlanner) { bill.suspended = false; ticket.PausedByPlanner = false; }
-            var goal = goals.Single(g => g.Product == bill.recipe.ProducedThingDef);
-            int pending = Pending(goal.Product) + (bill.suspended ? bill.repeatCount * bill.recipe.products[0].count : 0);
-            // A batch that a pawn already started keeps its native unfinished item.
-            if (!Started(bill) && goal.Target < Stock(goal.Product) + pending)
-            { bill.billStack.Delete(bill); tickets.Remove(ticket); continue; }
+            if (!running && !bill.suspended) { bill.suspended = true; ticket.PausedByPlanner = true; Add(pending, product, -contribution); }
+            else if (running && ticket.PausedByPlanner) { bill.suspended = false; ticket.PausedByPlanner = false; Add(pending, product, contribution); }
+            var goal = GoalFor(product);
+            int surplus = Stock(product) + Pending(product) + (bill.suspended ? contribution : 0) - goal.Target;
+            // A batch that a pawn already started keeps its native unfinished item. An unstarted batch is replaced
+            // when it is no longer needed, or when a smaller queueable batch would overshoot less.
+            if (Started(bill) || surplus <= 0) continue;
+            if (surplus < contribution && !ProductionCatalog.For(product).Plannable.Any(r => r.Output < bill.recipe.products[0].count && Queueable(r, tables))) continue;
+            if (!bill.suspended) Add(pending, product, -contribution);
+            bill.billStack.Delete(bill); tickets.Remove(ticket);
         }
         if (!running) return;
-        var tables = Tables.OrderBy(t => t.thingIDNumber).ToList();
-        var available = StockItems().GroupBy(t => t.def).ToDictionary(g => g.Key, g => g.Sum(t => t.stackCount));
+        var available = new Dictionary<ThingDef, int>(stock);
         // Budget existing orders first. Native pawn reservations remain authoritative.
-        foreach (var bill in tables.SelectMany(t => t.BillStack.Bills).OfType<Bill_Production>())
-        {
-            int iterations = Iterations(bill);
-            if (bill.repeatMode == BillRepeatModeDefOf.Forever) iterations = Math.Min(1, iterations);
-            if (bill is Bill_ProductionWithUft u && u.BoundUft != null) iterations = Math.Max(0, iterations - 1);
-            var inputs = Inputs(bill.recipe, bill); if (inputs == null) continue;
-            foreach (var input in inputs) { available.TryGetValue(input.Key, out int n); available[input.Key] = Math.Max(0, n - input.Value * Math.Min(iterations, 100000)); }
-        }
-        for (int i = 0; i < goals.Count; i++)
-        {
-            var goal = goals[i]; goal.Target = Math.Clamp(goal.Target, 0, 10000);
-            int shortage = goal.Target - Stock(goal.Product) - Pending(goal.Product);
-            if (shortage <= 0 || tickets.Any(t => t.Bill.recipe.ProducedThingDef == goal.Product)) continue;
-            foreach (int batch in new[] { 10, 5, 1 })
+        foreach (var table in tables)
+            foreach (Bill b in table.BillStack.Bills)
             {
-                if (batch > shortage) continue;
-                RecipeDef recipe = DefDatabase<RecipeDef>.GetNamed(Families[i] + (batch == 1 ? "" : "Bulk" + batch));
-                var inputs = Inputs(recipe);
-                if (!recipe.AvailableNow || inputs == null || inputs.Any(x => !available.TryGetValue(x.Key, out int n) || n < x.Value)) continue;
-                var table = tables.Where(t => t.def.AllRecipes.Contains(recipe) && recipe.AvailableOnNow(t) && t.CurrentlyUsableForBills() && t.BillStack.Count < 15)
-                    .OrderBy(t => t.BillStack.Bills.Count(b => b.ShouldDoNow()))
-                    .ThenByDescending(t => t.GetStatValue(StatDefOf.WorkTableWorkSpeedFactor)).FirstOrDefault();
+                if (b is not Bill_Production bill) continue;
+                int iterations = Iterations(bill);
+                if (bill.repeatMode == BillRepeatModeDefOf.Forever) iterations = Math.Min(1, iterations);
+                if (bill is Bill_ProductionWithUft u && u.BoundUft != null) iterations = Math.Max(0, iterations - 1);
+                Reserve(bill, available, Math.Min(iterations, 100000), partial: true);
+            }
+        var owned = tickets.Select(t => t.Bill.recipe.products[0].thingDef).ToHashSet();
+        foreach (var goal in goals)
+        {
+            goal.Target = Math.Clamp(goal.Target, 0, MaxTarget);
+            if (goal.Target <= 0 || owned.Contains(goal.Product)) continue;
+            int shortage = goal.Target - Stock(goal.Product) - Pending(goal.Product);
+            if (shortage <= 0) continue;
+            var candidates = ProductionCatalog.For(goal.Product).Plannable;
+            // Largest batch that fits the deficit; only when every batch is larger, the smallest one.
+            var order = candidates.Where(r => r.Output <= shortage).ToList();
+            if (order.Count == 0) order = candidates.OrderBy(r => r.Output).ToList();
+            foreach (var recipe in order)
+            {
+                if (!recipe.Recipe.AvailableNow) continue;
+                var table = FindTable(recipe, tables);
                 if (table == null) continue;
-                var bill = (Bill_Production)recipe.MakeNewBill(); bill.repeatMode = BillRepeatModeDefOf.RepeatCount; bill.repeatCount = 1;
-                bill.RenamableLabel = "HD_ProductionPlanning_Bill".Translate(recipe.LabelCap);
+                var bill = (Bill_Production)recipe.Recipe.MakeNewBill();
+                if (!Reserve(bill, available, 1, partial: false)) continue;
+                bill.repeatMode = BillRepeatModeDefOf.RepeatCount; bill.repeatCount = 1;
+                bill.RenamableLabel = "HD_ProductionPlanning_Bill".Translate(recipe.Recipe.LabelCap);
                 bill.SetStoreMode(BillStoreModeDefOf.BestStockpile, null);
-                table.BillStack.AddBill(bill); tickets.Add(new ProductionTicket { Bill = bill });
-                foreach (var input in inputs) available[input.Key] -= input.Value;
+                table.BillStack.AddBill(bill); tickets.Add(new ProductionTicket { Bill = bill }); owned.Add(goal.Product);
+                Add(pending, goal.Product, recipe.Output);
                 break;
             }
         }
@@ -146,8 +190,8 @@ public sealed class MapComponent_ProductionPlanning : MapComponent
     public void RecordCompletion(Bill_Production bill)
     {
         if (!tickets.Any(t => t.Bill == bill)) return;
-        var goal = goals.FirstOrDefault(g => g.Product == bill.recipe.ProducedThingDef);
-        if (goal != null) goal.Completed += bill.recipe.products[0].count;
+        GoalFor(bill.recipe.products[0].thingDef).Completed += bill.recipe.products[0].count;
+        InvalidateCounts();
     }
 }
 

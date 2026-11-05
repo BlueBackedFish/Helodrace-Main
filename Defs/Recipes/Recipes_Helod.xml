@@ -820,6 +820,9 @@
     <recipeUsers>
       <li>HD_BasicWorkbench</li>
     </recipeUsers>
+    <modExtensions>
+      <li Class="Helodrace.ProductionPlanningExcluded" />
+    </modExtensions>
   </RecipeDef>
 
   <RecipeDef>
@@ -855,6 +858,9 @@
     <recipeUsers>
       <li>HD_BasicWorkbench</li>
     </recipeUsers>
+    <modExtensions>
+      <li Class="Helodrace.ProductionPlanningExcluded" />
+    </modExtensions>
   </RecipeDef>
 
   <RecipeDef>
@@ -890,6 +896,9 @@
     <recipeUsers>
       <li>HD_BasicWorkbench</li>
     </recipeUsers>
+    <modExtensions>
+      <li Class="Helodrace.ProductionPlanningExcluded" />
+    </modExtensions>
   </RecipeDef>
 
   <RecipeDef>
@@ -1841,6 +1850,9 @@
     <recipeUsers>
       <li>HD_BasicWorkbench</li>
     </recipeUsers>
+    <modExtensions>
+      <li Class="Helodrace.ProductionPlanningExcluded" />
+    </modExtensions>
   </RecipeDef>
 
 

@@ -2,10 +2,35 @@
 <LanguageData>
   <HD_ProductionPlanning_Bill>{0} (자동 계획)</HD_ProductionPlanning_Bill>
   <HD_ProductionPlanning_Open>생산 계획</HD_ProductionPlanning_Open>
-  <HD_ProductionPlanning_Title>기초 부품 생산 계획</HD_ProductionPlanning_Title>
-  <HD_ProductionPlanning_Description>기초 부품 여섯 종류의 목표 재고를 설정합니다. 같은 맵의 계획대는 하나의 계획을 공유합니다. 부족하면 기존의 적합한 작업대에 1·5·10개 제작 작업을 등록합니다. 재료·연구·동력과 작업 인력은 그대로 필요합니다. 수동 작업과 미완성품도 생산 예정 수량에 포함합니다. 목표 0은 해당 품목의 자동 생산을 끕니다.</HD_ProductionPlanning_Description>
+  <HD_ProductionPlanning_Title>헤로드 생산 계획</HD_ProductionPlanning_Title>
+  <HD_ProductionPlanning_Description>제작법으로 만드는 모든 헤로드 물품의 목표 재고를 설정합니다. 같은 맵의 계획대는 하나의 계획을 공유합니다. 부족하면 부족량에 맞는 가장 큰 배치를 기존의 적합한 작업대에 등록합니다. 재료·연구·설비·동력과 작업 인력은 그대로 필요합니다. 수동 작업과 미완성품도 예정 수량에 포함합니다. 목표 0은 해당 품목을 끕니다. 품목을 선택하면 무엇으로 만드는지 볼 수 있습니다.</HD_ProductionPlanning_Description>
   <HD_ProductionPlanning_Enabled>자동 생산 계획 사용</HD_ProductionPlanning_Enabled>
-  <HD_ProductionPlanning_Target>목표 재고</HD_ProductionPlanning_Target>
-  <HD_ProductionPlanning_Columns>현재 / 예정 / 누적 생산</HD_ProductionPlanning_Columns>
+  <HD_ProductionPlanning_OnlyPlanned>계획한 품목만 표시</HD_ProductionPlanning_OnlyPlanned>
+  <HD_ProductionPlanning_Search>검색</HD_ProductionPlanning_Search>
+  <HD_ProductionPlanning_Item>품목</HD_ProductionPlanning_Item>
+  <HD_ProductionPlanning_Stock>현재</HD_ProductionPlanning_Stock>
+  <HD_ProductionPlanning_Pending>예정</HD_ProductionPlanning_Pending>
+  <HD_ProductionPlanning_Made>누적</HD_ProductionPlanning_Made>
+  <HD_ProductionPlanning_Target>목표</HD_ProductionPlanning_Target>
+  <HD_ProductionPlanning_Uncategorized>기타</HD_ProductionPlanning_Uncategorized>
+  <HD_ProductionPlanning_Summary>현재 {0} · 예정 {1} · 목표 {2} · 제작법 {3}</HD_ProductionPlanning_Summary>
+  <HD_ProductionPlanning_PerUnit>수량은 선택한 품목 1개 기준입니다. 행을 누르면 펼치거나 접습니다.</HD_ProductionPlanning_PerUnit>
+  <HD_ProductionPlanning_TreeLimit>처음 {0}행만 표시합니다. 가지를 접거나 재료를 따로 열어 보십시오.</HD_ProductionPlanning_TreeLimit>
+  <HD_ProductionPlanning_ExpandAll>모두 펼치기</HD_ProductionPlanning_ExpandAll>
+  <HD_ProductionPlanning_CollapseAll>모두 접기</HD_ProductionPlanning_CollapseAll>
+  <HD_ProductionPlanning_Focus>열기</HD_ProductionPlanning_Focus>
+  <HD_ProductionPlanning_SelectItem>왼쪽에서 품목을 선택하면 무엇으로 만드는지 표시합니다.</HD_ProductionPlanning_SelectItem>
+  <HD_ProductionPlanning_StockShort>재고 {0}</HD_ProductionPlanning_StockShort>
+  <HD_ProductionPlanning_Raw>제작법 없음</HD_ProductionPlanning_Raw>
+  <HD_ProductionPlanning_RawTip>이 물품을 만드는 제작법이 없습니다. 채굴·수확·거래 등 다른 방법으로 얻습니다.</HD_ProductionPlanning_RawTip>
+  <HD_ProductionPlanning_Cycle>순환</HD_ProductionPlanning_Cycle>
+  <HD_ProductionPlanning_CycleTip>이 가지의 위쪽에 이미 있는 품목이므로 다시 펼치지 않습니다.</HD_ProductionPlanning_CycleTip>
+  <HD_ProductionPlanning_NotPlannable>제작법이 여러 산출물을 내거나 비상 조합법이므로 자동 계획하지 않습니다. 직접 작업을 등록하십시오.</HD_ProductionPlanning_NotPlannable>
+  <HD_ProductionPlanning_RecipeLine>{0} — 배치당 {1}개, {2}배치</HD_ProductionPlanning_RecipeLine>
+  <HD_ProductionPlanning_RecipeDetail>작업대: {0} · 설비: {1}</HD_ProductionPlanning_RecipeDetail>
+  <HD_ProductionPlanning_ManualOnly>수동 전용</HD_ProductionPlanning_ManualOnly>
+  <HD_ProductionPlanning_ManualOnlyTip>계획대는 이 제작법을 자동으로 등록하지 않습니다.</HD_ProductionPlanning_ManualOnlyTip>
+  <HD_ProductionPlanning_AnyOf>다음 중 하나: {0}  ×{1}</HD_ProductionPlanning_AnyOf>
+  <HD_ProductionPlanning_More>… 외 {0}종</HD_ProductionPlanning_More>
   <HD_ProductionPlanning_Status>재고가 들어오거나 목표를 낮추면 시작 전의 불필요한 자동 작업은 삭제합니다. 이미 시작한 배치는 마칩니다. 마지막 계획대를 철거하거나 자동 생산을 끄면 자동 작업을 일시 중지하고 미완성품을 보존합니다.</HD_ProductionPlanning_Status>
 </LanguageData>
