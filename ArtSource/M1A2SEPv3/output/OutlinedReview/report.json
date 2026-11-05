@@ -1,12 +1,12 @@
 {
-  "source_report_sha256": "baf87e667fa3b1821c2f02ccd13de1b03730d0f996e9028cdbf1708b9acb168a",
+  "source_report_sha256": "15f433b9dc32e49ec38e87ac987257b0cbee6927ec3c90e305b8defc2b367357",
   "source_layer_sha256": {
-    "hull_east": "c01e64e21c75b188c856b8a1c756b6dc06d55158679c5aa1563d35792cc5ad56",
-    "turret_east": "1e7cbe2f1148e9335194807320e90792fd8a1221459759f84803e63c94e1fdec",
-    "barrel_east": "a1b507a1ce8b96e259fb1be7a12b057be6886658c0e7754c6cff64285d6be193",
-    "turret_full_east": "d29f17c3e1f59698a1d92091490fe8d0ce146a4ab437a04e2f0905375d3e2270"
+    "hull_east": "c4522f7a7b401f565311663fa4b62611f03a106c4b54258b4f10952492f8a033",
+    "turret_east": "6ca0fb446bf703be76ef4e6c222043bae9f1572ac4333ba888de75ed85d84edf",
+    "barrel_east": "3efe7e7136046dddb69d56426fd1fffbc3010a1b830fb1c4ae7ba56da31c9320",
+    "turret_full_east": "8f3d118f04baf89c5cad14be8f26ae552bde20be3a0f0146aab39b32fd0de435"
   },
-  "outline_width_at_256": 1,
+  "outline_width_at_256": 2,
   "color": [
     0,
     0,
@@ -18,94 +18,94 @@
   "source_files_unchanged": true,
   "alpha_bounds": {
     "1024/hull_east": [
-      154,
-      387,
-      745,
-      678
+      150,
+      383,
+      749,
+      682
     ],
     "1024/turret_east": [
-      238,
-      384,
-      665,
-      649
+      234,
+      380,
+      669,
+      653
     ],
     "1024/barrel_east": [
-      473,
-      465,
-      906,
-      555
+      469,
+      461,
+      910,
+      559
     ],
     "1024/turret_full_east": [
-      238,
-      384,
-      906,
-      649
+      234,
+      380,
+      910,
+      653
     ],
     "1024/preview_east": [
-      154,
-      385,
-      870,
-      678
+      150,
+      381,
+      874,
+      682
     ],
     "256/hull_east": [
-      36,
-      94,
-      189,
-      172
+      35,
+      93,
+      190,
+      173
     ],
     "256/turret_east": [
-      57,
-      94,
-      169,
-      165
+      56,
+      93,
+      170,
+      166
     ],
     "256/barrel_east": [
-      116,
-      114,
-      229,
-      141
+      115,
+      113,
+      230,
+      142
     ],
     "256/turret_full_east": [
-      57,
-      94,
-      229,
-      165
+      56,
+      93,
+      230,
+      166
     ],
     "256/preview_east": [
-      36,
-      94,
-      220,
-      172
+      35,
+      93,
+      221,
+      173
     ],
     "512/hull_east": [
-      75,
-      191,
-      375,
-      341
+      73,
+      189,
+      377,
+      343
     ],
     "512/turret_east": [
-      117,
-      190,
-      335,
-      327
+      115,
+      188,
+      337,
+      329
     ],
     "512/barrel_east": [
-      234,
-      230,
-      455,
-      280
+      232,
+      228,
+      457,
+      282
     ],
     "512/turret_full_east": [
-      117,
-      190,
-      455,
-      327
+      115,
+      188,
+      457,
+      329
     ],
     "512/preview_east": [
-      75,
-      190,
-      437,
-      341
+      73,
+      188,
+      439,
+      343
     ]
   },
   "outline_is_review_postprocess": true

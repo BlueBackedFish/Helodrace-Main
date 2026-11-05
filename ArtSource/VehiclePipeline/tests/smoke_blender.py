@@ -87,6 +87,9 @@ def main():
     assert report["lighting_max_difference_255"] == 0
     assert report["glb_animation_count"] == 3 and report["rig_demo_angles_and_rest_return"]
     assert [edge["actual_upward_gap"] for edge in report["contact_checks"]] == [24, 24]
+    # Mounted cupola/lid/grip get part-boundary lines on the turret roof below them.
+    assert report["boundary_lines"]["turret_east"]["pixels"] > 0
+    assert (project/"output/turret_east_flat.png").exists() and (project/"output/turret_east_ids.npz").exists()
     assert report["status"] == "draft" and not report["game_verified"]
     # Regression: authored top levels can be correct while an explicit surface override
     # reverses the actual roof relationship. This must fail before publishing a report.

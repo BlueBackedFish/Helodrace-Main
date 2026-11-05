@@ -98,6 +98,46 @@ def sheet(cells, target, columns=3, cell_size=(380, 320)):
     board.save(target)
 
 
+def boundary_lines(root, name, style, render):
+    """Darken base pixels next to a nearer, different part (RimThunder-style part outlines).
+
+    Uses the 16-bit part-ID + depth pass. Only real overlaps (depth step) get a line, so
+    coplanar neighbouring parts and flush grilles do not. The flat render is kept as *_flat.png.
+    """
+    ids_path = root/(name+"_ids.npz")
+    if not ids_path.exists():
+        return None
+    settings = style.get("boundary_lines", {})
+    if settings.get("enabled", True) is False:
+        return None
+    data = np.load(ids_path)
+    ident, depth = data["ident"].astype(np.int64), data["depth"].astype(np.float64)
+    width = settings.get("width_256", 1)*render["master"]/256
+    step = settings.get("depth_step", .02)
+    radius = int(np.ceil(width))
+    line = np.zeros(ident.shape, dtype=bool)
+    height, cols = ident.shape
+    for dy in range(-radius, radius+1):
+        for dx in range(-radius, radius+1):
+            if (dx, dy) == (0, 0) or dx*dx+dy*dy > width*width:
+                continue
+            ys, yd = slice(max(dy, 0), height+min(dy, 0)), slice(max(-dy, 0), height+min(-dy, 0))
+            xs, xd = slice(max(dx, 0), cols+min(dx, 0)), slice(max(-dx, 0), cols+min(-dx, 0))
+            other, near = ident[ys, xs], depth[ys, xs]
+            here, far = ident[yd, xd], depth[yd, xd]
+            line[yd, xd] |= (here > 0) & (other > 0) & (other != here) & (near < far-step)
+    flat = Image.open(root/(name+".png")).convert("RGBA")
+    flat.save(root/(name+"_flat.png"))
+    rgba = np.asarray(flat).astype(np.float64)
+    y = .2126*rgba[..., 0]+.7152*rgba[..., 1]+.0722*rgba[..., 2]
+    darken = settings.get("darken", 48)
+    factor = np.clip((y-darken)/np.maximum(y, 1e-6), settings.get("min_factor", .35), 1)
+    rgba[line, :3] *= factor[line, None]
+    Image.fromarray(np.round(rgba).astype(np.uint8)).save(root/(name+".png"))
+    return {"pixels": int(line.sum()), "width_256": settings.get("width_256", 1),
+            "depth_step": step, "darken": darken}
+
+
 def finish(profile_path):
     profile_path = Path(profile_path)
     profile = read_json(profile_path)
@@ -110,6 +150,11 @@ def finish(profile_path):
     if difference.max() > 1:
         raise ValueError(f"Emission lighting invariance failed: {difference.max()}/255")
     report["lighting_max_difference_255"] = int(difference.max())
+    style = read_json(profile_path.parent/profile["style"])
+    report["boundary_lines"] = {}
+    for name in ("hull_east", "turret_east", "barrel_east", "turret_full_east"):
+        if (root/(name+".png")).exists():
+            report["boundary_lines"][name] = boundary_lines(root, name, style, render)
     hull = Image.open(root/"hull_east.png").convert("RGBA")
     turret_path = root/"turret_full_east.png"
     active_layers = {p["layer"] for p in profile["parts"] if p.get("action", "keep") != "omit"}

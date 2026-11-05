@@ -36,7 +36,7 @@ def black_outline(source, radius):
     return result
 
 
-def build_review(profile_path, width_256=1):
+def build_review(profile_path, width_256=2):
     if not math.isfinite(width_256) or width_256 <= 0:
         raise ValueError("Outline width must be finite and positive")
     profile_path = Path(profile_path).resolve()
@@ -102,6 +102,6 @@ def build_review(profile_path, width_256=1):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("profile")
-    parser.add_argument("--width-256", type=float, default=1)
+    parser.add_argument("--width-256", type=float, default=2)
     args = parser.parse_args()
     build_review(args.profile, args.width_256)

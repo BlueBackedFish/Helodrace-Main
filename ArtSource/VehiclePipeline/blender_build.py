@@ -231,8 +231,15 @@ def build(profile_path):
             for loop_id, uv_id in zip(poly.loop_indices, face["uv"]):
                 original_uv.data[loop_id].uv = source["uv"][uv_id] if uv_id is not None else (0, 0)
         slots, distribution, upward, walls = {}, Counter(), [], []
+        min_wall = style.get("min_wall_height", .03)
         for poly in mesh.polygons:
             value = value_for(poly.normal, part, levels[part["id"]], style)
+            # Sub-pixel strips (plate edges, bevels) take the part's top colour instead of
+            # drawing hairline seams across flat armour (style section 4).
+            if -.25 <= poly.normal.z < .78 and "accent" not in part and part["mode"] in {"armor", "two_tone"}:
+                zs = [(obj.matrix_world @ mesh.vertices[v].co).z for v in poly.vertices]
+                if max(zs)-min(zs) < min_wall:
+                    value = levels[part["id"]] if part["mode"] == "two_tone" else value_for(Vector((0, 0, 1)), part, levels[part["id"]], style)
             if not style["minimum"] <= value <= style["maximum"]:
                 raise ValueError(f"Paint outside range: {part['id']} = {value}; fix its planes")
             rgb = paint_rgb(value, part["role"], style)
@@ -396,12 +403,64 @@ def build(profile_path):
             colors = [paint_rgb(y, "paint", style) for y in part["grille"].get("values", [64, 112, 144])]
             grids[part["id"]] = bind(obj, list(range(len(obj.data.polygons))), part["grille"], colors, part["id"])
 
-    def render(name, elevation, azimuth=180, layers=None, target=None):
+    # Part-ID + camera-depth pass for the boundary-line postprocess (style section 4).
+    id_names = {}
+    for index, (key, obj) in enumerate(objects.items(), start=1):
+        obj.color = ((index % 256)/255, (index//256)/255, 1, 1)
+        id_names[index] = key
+    depth_range = 8*camera_data.ortho_scale
+    id_material = bpy.data.materials.new("Part ID + depth pass")
+    id_material.use_nodes = True
+    nodes = id_material.node_tree.nodes
+    nodes.clear()
+    info, camera_node = nodes.new("ShaderNodeObjectInfo"), nodes.new("ShaderNodeCameraData")
+    split, combine = nodes.new("ShaderNodeSeparateColor"), nodes.new("ShaderNodeCombineColor")
+    scale = nodes.new("ShaderNodeMath")
+    scale.operation = "DIVIDE"
+    scale.inputs[1].default_value = depth_range
+    emit, out = nodes.new("ShaderNodeEmission"), nodes.new("ShaderNodeOutputMaterial")
+    links = id_material.node_tree.links
+    links.new(info.outputs["Color"], split.inputs["Color"])
+    links.new(split.outputs["Red"], combine.inputs["Red"])
+    links.new(split.outputs["Green"], combine.inputs["Green"])
+    links.new(camera_node.outputs["View Z Depth"], scale.inputs[0])
+    links.new(scale.outputs[0], combine.inputs["Blue"])
+    links.new(combine.outputs["Color"], emit.inputs["Color"])
+    links.new(emit.outputs[0], out.inputs["Surface"])
+
+    def render_ids(name):
+        settings = (scene.cycles.samples, scene.cycles.pixel_filter_type, scene.cycles.filter_width,
+                    scene.view_settings.view_transform, scene.render.image_settings.color_depth)
+        scene.cycles.samples, scene.cycles.pixel_filter_type, scene.cycles.filter_width = 1, "BOX", .01
+        scene.view_settings.view_transform = "Raw"
+        scene.render.image_settings.color_depth = "16"
+        bpy.context.view_layer.material_override = id_material
+        png = output_dir/(name+"_ids.png")
+        scene.render.filepath = str(png)
+        bpy.ops.render.render(write_still=True)
+        bpy.context.view_layer.material_override = None
+        # External Pillow reads 16-bit RGBA as 8-bit; decode here and store exact arrays.
+        import numpy as np
+        image = bpy.data.images.load(str(png))
+        image.colorspace_settings.name = "Non-Color"
+        pixels = np.array(image.pixels[:], dtype=np.float64).reshape(image.size[1], image.size[0], 4)[::-1]
+        bpy.data.images.remove(image)
+        png.unlink()
+        ident = np.round(pixels[..., 0]*255).astype(np.int32)+256*np.round(pixels[..., 1]*255).astype(np.int32)
+        ident[pixels[..., 3] < .5] = 0
+        np.savez_compressed(output_dir/(name+"_ids.npz"), ident=ident.astype(np.uint16),
+                            depth=(pixels[..., 2]*depth_range).astype(np.float32))
+        (scene.cycles.samples, scene.cycles.pixel_filter_type, scene.cycles.filter_width,
+         scene.view_settings.view_transform, scene.render.image_settings.color_depth) = settings
+
+    def render(name, elevation, azimuth=180, layers=None, target=None, ids=False):
         for obj in objects.values():
             obj.hide_render = layers is not None and obj["layer"] not in layers
         aim(center if target is None else target, elevation, azimuth)
         scene.render.filepath = str(output_dir/(name+".png"))
         bpy.ops.render.render(write_still=True)
+        if ids:
+            render_ids(name)
 
     for name, elevation, azimuth in [("source_top", 90, 180), ("source_side", 0, 180),
                                       ("source_front", 0, 270), ("iso_front", 30, 225),
@@ -414,13 +473,13 @@ def build(profile_path):
     scene.collection.objects.link(light)
     render("lighting_check", style["render"]["hull_elevation"])
     bpy.data.objects.remove(light, do_unlink=True)
-    render("hull_east", style["render"]["hull_elevation"], layers={"hull"})
+    render("hull_east", style["render"]["hull_elevation"], layers={"hull"}, ids=True)
     anchor = world_to_camera_view(scene, camera, pivot)
     anchor_pixel = [anchor.x*scene.render.resolution_x, (1-anchor.y)*scene.render.resolution_y]
     if any(o["layer"] in {"turret", "barrel"} for o in objects.values()):
-        render("turret_full_east", 90, layers={"turret", "barrel"}, target=pivot)
-        render("turret_east", 90, layers={"turret"}, target=pivot)
-        render("barrel_east", 90, layers={"barrel"}, target=pivot)
+        render("turret_full_east", 90, layers={"turret", "barrel"}, target=pivot, ids=True)
+        render("turret_east", 90, layers={"turret"}, target=pivot, ids=True)
+        render("barrel_east", 90, layers={"barrel"}, target=pivot, ids=True)
     for obj in objects.values():
         obj.hide_render = False
     aim(center, style["render"]["hull_elevation"])
@@ -506,7 +565,9 @@ def build(profile_path):
                          "hull_target": list(center), "turret_pivot": list(pivot),
                          "turret_anchor_pixels_top_origin": anchor_pixel,
                          "top_pivot_pixels": [scene.render.resolution_x/2]*2,
-                         "note": "turret_full includes barrel; never composite barrel twice"}}
+                         "note": "turret_full includes barrel; never composite barrel twice",
+                         "id_pass": {"ids": {str(k): v for k, v in id_names.items()},
+                                     "depth_range": depth_range, "encoding": "16-bit RGB: R,G = id low/high byte, B = view depth / depth_range"}}}
     write_json(root/"inventory.json", catalog)
     write_json(output_dir/"report.json", report)
     print("Vehicle build passed source preservation and unlit GLB checks")

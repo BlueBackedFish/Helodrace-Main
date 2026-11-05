@@ -34,6 +34,11 @@ ACCENTS = {  # whole source groups -> (base group, reason)
     **{n: ("bone_turret", "Smoke grenade discharger highlight") for n in ["ex_armor_l_01", "ex_armor_r_01"]}}
 # Small components inside a group (user request 2026-11-06): hatch handles/hinges, lifting/tie-down eyes.
 HANDLE_GROUPS = {"hatch_01", "hatch_03", "hatch_04"}
+THIN_REASON = ("Sub-pixel rod/rail/wire (middle dimension < 3 cm, length > 12 cm): thinner than 1px at "
+               "256px, removed to reduce model noise (style section 3)")
+STRAP_REASON = "Loose strap/latch left from simplified stowage (< 12 cm): style section 2"
+MG_BOX_REASON = "Machine-gun barrel replaced by one clean bar so it reads as a simple shape (style section 3)"
+NO_THIN_CLEANUP = ("wheel_", "track_", "suspension_", "gun_barrel", "bone_gun")
 EYE_GROUPS = {"root", "bone_turret"}
 
 # Ladder values (style.json planes: roof 216 / slope 192,168 / wall 144).
@@ -159,16 +164,27 @@ def configure():
                     longest = float(np.max(np.ptp(co, axis=0)))
                     if layer == "turret":
                         # Bustle-rack floor mesh: about one diamond per 0.25 m.
-                        grille = dict(pattern="diamond", rows=2, columns=max(2, round(longest/.25)),
-                                      values=[48, 120, 144])
+                        grille = dict(pattern="slots", rows=2, columns=max(2, round(longest/.3)),
+                                      bar_fraction=.35, values=[72, 120, 144])
                     else:
                         # Engine-deck louvers: 4-8 slats, ~2px each at 256px (style section 3).
-                        grille = dict(pattern="louvers", rows=int(np.clip(round(longest/.15), 4, 8)),
-                                      columns=1, values=[60, 144, 168])
+                        # RimThunder deck: light panel with a few thin dark gaps, not dark holes.
+                        grille = dict(pattern="louvers", rows=int(np.clip(round(longest/.2), 3, 6)),
+                                      columns=1, bar_fraction=.7, values=[120, 192, 168])
                     extract(group, f"grille_{i:02d}", panel, role="paint", mode="flat", top=96, grille=grille)
                 continue
             role, value = {"interior": ("recess", 48), "headlamp_lens": ("optics", 192),
-                           "glass": ("optics", 32), "gunmetal": ("metal", 72), "bore": ("recess", 40)}[key]
+                           "glass": ("optics", 32), "gunmetal": ("metal", 96), "bore": ("recess", 40)}[key]
+            if key == "gunmetal":
+                bars = []
+                for comp in common.components(model, faces, 1e-6):
+                    d = np.sort(np.ptp(vertices[[v for f in comp for v in model["faces"][f]["vertices"]]], axis=0))
+                    if d[2] > .4 and d[2] > 8*d[1]:
+                        bar = extract(group, f"mg_barrel_{min(comp)}", comp, role="metal", top=96, mode="flat")
+                        next(p for p in parts if p["id"] == bar).update(action="box", reason=MG_BOX_REASON)
+                        omissions["box: "+MG_BOX_REASON] += len(comp)
+                        bars += comp
+                faces = [f for f in faces if f not in set(bars)]
             extract(group, key, faces, role=role, top=value, mode="flat")
 
         if name in HANDLE_GROUPS | EYE_GROUPS:
@@ -216,6 +232,22 @@ def configure():
                 else:
                     record.update(action="box", reason=BOX_REASON)
                     omissions["box: "+BOX_REASON] += len(comp)
+
+        if layer != "barrel" and part["role"] == "paint" and "accent" not in part and not name.startswith(NO_THIN_CLEANUP):
+            taken_here = {f for p in parts if p["source_group"] == group["id"] and p["id"] != group["id"]
+                          for f in p.get("faces", [])}
+            rest = [f for f in group["faces"] if f not in taken_here]
+            for comp in common.components(model, rest, 1e-6):
+                d = np.sort(np.ptp(vertices[[v for f in comp for v in model["faces"][f]["vertices"]]], axis=0))
+                if d[1] < .03 and d[2] > .12:
+                    reason = THIN_REASON
+                elif name in STOWAGE and d[2] < .12:
+                    reason = STRAP_REASON
+                else:
+                    continue
+                item = extract(group, f"cleanup_{min(comp)}", comp)
+                next(p for p in parts if p["id"] == item).update(action="omit", reason=reason)
+                omissions[reason] += len(comp)
 
     # The Abrams glacis is very shallow; a generic upward-normal threshold calls it roof.
     # Select the actual exterior shell (largest connected component of the hull group).

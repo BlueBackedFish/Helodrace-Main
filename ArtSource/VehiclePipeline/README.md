@@ -89,6 +89,9 @@ Blender는 PATH와 `C:/Program Files/Blender Foundation/Blender */blender.exe`�
 - `rigs`: canonical 좌표계의 피벗·축·직접 소유 부품·선택적 parent. `usage: "turret_yaw"`인 rig는 상면 포탑 렌더 중심과 차체 합성 앵커로 사용한다. 포신 rig는 포탑 rig의 자식이다. 한 부품을 두 rig에 직접 넣지 않는다. `animate: true`이면 1프레임 닫힘→40 열림→80 닫힘의 검수 동작을 만든다. 피벗 미확인 상태의 애니메이션 생성은 거절한다.
 - `action: "box"`: 명시한 부품의 원본 면을 그 범위의 축 정렬 상자 하나로 바꾼다(적재물 단순화, `VEHICLE_ART_STYLE.md` §2). `confirmed: true`와 `reason`이 필요하다. 보고서의 `box_replaced_faces`, `boxes`에 원본 면 수·범위·이유가 남고, 원본 좌표 보존 검사에서는 이 면들만 제외한다.
 - `accent`: `{"value": 240, "side": 192, "over": "바탕 부품 ID", "reason": "..."}`. 색상 규칙의 하이라이트 예외(§4)다. 윗면은 `value`, 측벽은 `side`(생략 시 `value`)로 칠한다. 접촉 그래프에 넣으면 오류다. 빌드가 실제 면색으로 `over` 부품의 윗면보다 `contact_step` 이상 밝은지, 하이라이트 면적 합이 `accent_max_area_fraction`(style, 기본 0.03) 이하인지 검사하고 `accents`, `accent_area_fraction`에 기록한다.
+- 부품 경계선: 빌드가 `hull_east`·`turret_east`·`barrel_east`·`turret_full_east`마다 부품 번호+깊이 보조 렌더(`*_ids.npz`)를 만든다. 후처리에서 다른 부품이 `depth_step` 이상 더 가까이 붙은 바탕 픽셀을 `darken`만큼 어둡게 칠한다. 선 넣기 전 레이어는 `*_flat.png`다. style의 `"boundary_lines": {"enabled": true, "width_256": 1, "depth_step": 0.02, "darken": 48, "min_factor": 0.35}`로 조절하고, 결과 픽셀 수는 보고서 `boundary_lines`에 남는다.
+- `min_wall_height`(style, 기본 0.03 m): 이보다 낮은 옆면·모따기 띠는 `armor`/`two_tone` 부품의 윗면 색으로 칠한다.
+- 8비트 출력의 디더링은 끈다(평면 ±1 잡음 방지).
 - `action: "omit"`: 명시한 부품만 제외한다. `confirmed: true`와 `reason`이 필요하며 제외 면 수를 보고한다. 이름이나 크기로 자동 삭제하지 않는다. ERA 등 옵션은 실제로 확인한 항목만 명시해 기본형에서 뺀다.
 - `confirmed`: 자동 제안이 아닌 검수한 매핑이라는 뜻이다. `review`의 blueprint/style_reference/native_size/geometry/game는 별도 실제 검수 기록이다. 성공적으로 저장됐다는 이유로 채우지 않는다.
 
@@ -135,7 +138,7 @@ python ArtSource/VehiclePipeline/pipeline.py components ArtSource/NewVehicle/veh
 
 `turret_full_east`에는 포신도 포함한다. 이것을 합성할 때 포신 레이어를 다시 올리지 않는다. 모든 레이어는 공통 스케일을 쓰며 임의로 trim하지 않는다. 포탑 피벗이 없으면 임시 중심으로 초안을 만들고 blocker로 보고한다. 추가 장비 전용 독립 스프라이트와 게임 XML 연결은 이 공통 빌더에 아직 포함하지 않는다.
 
-검수할 때는 `python ArtSource/VehiclePipeline/outline_review.py ArtSource/NewVehicle/vehicle.json`을 실행한다. 차체/포탑의 검은 윤곽선을 **각 레이어에 먼저 적용하고 원래 피벗으로 합성**해 `output/OutlinedReview/`에 저장한다. 256px에서 1px, 512px에서 2px가 기본이며 `--width-256`으로 조절한다. 원본 불투명 픽셀의 색·원본 레이어 파일 불변과 여백을 검사한다. 검수용 PNG 후처리이므로 GLB/BLEND에는 윤곽선이 들어가지 않는다.
+검수할 때는 `python ArtSource/VehiclePipeline/outline_review.py ArtSource/NewVehicle/vehicle.json`을 실행한다. 차체/포탑의 검은 윤곽선을 **각 레이어에 먼저 적용하고 원래 피벗으로 합성**해 `output/OutlinedReview/`에 저장한다. 256px에서 2px, 512px에서 4px가 기본이며(RimThunder와 게임 런타임 두께) `--width-256`으로 조절한다. 원본 불투명 픽셀의 색·원본 레이어 파일 불변과 여백을 검사한다. 검수용 PNG 후처리이므로 GLB/BLEND에는 윤곽선이 들어가지 않는다.
 
 `report.status == reviewed`도 사용자의 아트 승인 인증은 아니다. 작성자가 실제 검수한 플래그가 모두 채워진 상태다. `postprocess_passed`도 함께 확인한다. 게임 미검수는 draft와 blocker로 남긴다. 자동 검사는 원본 좌표·면 보존과 조명 불변 등을 검사하며, 원본에 이미 있던 모든 self-intersection·뒤집힌 면·개구부를 자동 진단하거나 수리하지 않는다. 원본의 퇴화 면은 위치와 함께 보고한다. OBJ의 선/점/곡면 객체는 조용히 버리지 않고 mesh 변환을 요구한다.
 
