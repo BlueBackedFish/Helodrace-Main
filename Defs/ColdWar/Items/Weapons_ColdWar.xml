@@ -376,7 +376,7 @@
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_M60E3_Weapon</defName>
     <label>M60E3 general-purpose machine gun</label>
-    <description>A stripped-down lightweight modernization of the belt-fed M60, fitted with a forward pistol grip and improved barrel assembly but no bipod. A Helod sharpshooter can trade effective range and a little accuracy for much faster point-fire target acquisition.</description>
+    <description>A lightened M60 with a forward grip and an improved barrel in place of the bipod, modernized for fast point fire.</description>
     <weaponTags>
       <li>HD_ColdWarMachineGun</li>
       <li>HD_ModernWarWeapon</li>
@@ -465,7 +465,7 @@
   <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
     <defName>HD_PowerCutter</defName>
     <label>power cutter</label>
-    <description>A heavy cordless cut-off saw designed to slice through masonry, metal framing, and other construction materials. Its exposed blade makes it a vicious close-combat weapon in an emergency. While equipped, it increases construction speed by 25%.</description>
+    <description>A heavy cordless cut-off saw for slicing through masonry, metal framing, and other construction materials. Its exposed blade makes it a vicious close-combat weapon in an emergency.</description>
     <graphicData>
       <texPath>Weapons/ColdWar/HD_PowerCutter</texPath>
       <graphicClass>Graphic_Single</graphicClass>

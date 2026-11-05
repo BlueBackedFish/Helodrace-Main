@@ -591,7 +591,7 @@
   <ThingDef ParentName="ResourceBase">
     <defName>HD_PrimaryCell</defName>
     <label>primary cell</label>
-    <description>battary</description>
+    <description>A simple disposable cell that produces electricity through a chemical reaction.</description>
     <graphicData>
       <texPath>Items/HD_PrimaryCell</texPath>
       <graphicClass>Graphic_Single</graphicClass>

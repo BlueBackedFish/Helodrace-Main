@@ -716,7 +716,7 @@
   <RecipeDef>
     <defName>HD_MakeShaftBulk5</defName>
     <label>make shaft (x5)</label>
-    <description>Turn carbon steel into a straight mechanical shaft on a lathe.</description>
+    <description>Turn carbon steel into a straight mechanical shaft on a lathe. Produces 5 in one batch, using the same materials as 5 single crafts with 10% less work per item. An interrupted batch keeps its materials and progress.</description>
     <jobString>Turning shaft.</jobString>
     <workAmount>5400</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -756,7 +756,7 @@
   <RecipeDef>
     <defName>HD_MakeShaftBulk10</defName>
     <label>make shaft (x10)</label>
-    <description>Turn carbon steel into a straight mechanical shaft on a lathe.</description>
+    <description>Turn carbon steel into a straight mechanical shaft on a lathe. Produces 10 in one batch, using the same materials as 10 single crafts with 20% less work per item. An interrupted batch keeps its materials and progress.</description>
     <jobString>Turning shaft.</jobString>
     <workAmount>9600</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -831,7 +831,7 @@
   <RecipeDef>
     <defName>HD_ConvertIndustrialComponentToGeneralMachinePartBulk5</defName>
     <label>convert component into general machine part (x5)</label>
-    <description>Rework a standard industrial component into a general-purpose machine part at a basic workbench.</description>
+    <description>Rework a standard industrial component into a general-purpose machine part at a basic workbench. Produces 5 in one batch, using the same materials as 5 single crafts with 10% less work per item. An interrupted batch keeps its materials and progress.</description>
     <jobString>Converting component into general machine part.</jobString>
     <workAmount>2700</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -866,7 +866,7 @@
   <RecipeDef>
     <defName>HD_ConvertIndustrialComponentToGeneralMachinePartBulk10</defName>
     <label>convert component into general machine part (x10)</label>
-    <description>Rework a standard industrial component into a general-purpose machine part at a basic workbench.</description>
+    <description>Rework a standard industrial component into a general-purpose machine part at a basic workbench. Produces 10 in one batch, using the same materials as 10 single crafts with 20% less work per item. An interrupted batch keeps its materials and progress.</description>
     <jobString>Converting component into general machine part.</jobString>
     <workAmount>4800</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -940,7 +940,7 @@
   <RecipeDef>
     <defName>HD_MakePressComponentBulk5</defName>
     <label>press component (x5)</label>
-    <description>Stamp carbon steel into rough press components with the hydraulic press.</description>
+    <description>Stamp carbon steel into rough press components with the hydraulic press. Produces 5 in one batch, using the same materials as 5 single crafts with 10% less work per item. An interrupted batch keeps its materials and progress.</description>
     <jobString>Pressing component.</jobString>
     <workAmount>2700</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -979,7 +979,7 @@
   <RecipeDef>
     <defName>HD_MakePressComponentBulk10</defName>
     <label>press component (x10)</label>
-    <description>Stamp carbon steel into rough press components with the hydraulic press.</description>
+    <description>Stamp carbon steel into rough press components with the hydraulic press. Produces 10 in one batch, using the same materials as 10 single crafts with 20% less work per item. An interrupted batch keeps its materials and progress.</description>
     <jobString>Pressing component.</jobString>
     <workAmount>4800</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -1061,7 +1061,7 @@
   <RecipeDef>
     <defName>HD_MillGeneralMachinePartBulk5</defName>
     <label>mill general machine part (x5)</label>
-    <description>Mill carbon steel into a general-purpose machine part.</description>
+    <description>Mill carbon steel into a general-purpose machine part. Produces 5 in one batch, using the same materials as 5 single crafts with 10% less work per item. An interrupted batch keeps its materials and progress.</description>
     <jobString>Milling general machine part.</jobString>
     <workAmount>4050</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -1100,7 +1100,7 @@
   <RecipeDef>
     <defName>HD_MillGeneralMachinePartBulk10</defName>
     <label>mill general machine part (x10)</label>
-    <description>Mill carbon steel into a general-purpose machine part.</description>
+    <description>Mill carbon steel into a general-purpose machine part. Produces 10 in one batch, using the same materials as 10 single crafts with 20% less work per item. An interrupted batch keeps its materials and progress.</description>
     <jobString>Milling general machine part.</jobString>
     <workAmount>7200</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -1188,7 +1188,7 @@
   <RecipeDef>
     <defName>HD_RollUniformSteelPlateBulk5</defName>
     <label>roll uniform steel plate (x5)</label>
-    <description>Roll carbon steel into an even, uniform steel plate.</description>
+    <description>Roll carbon steel into an even, uniform steel plate. Produces 5 in one batch, using the same materials as 5 single crafts with 10% less work per item. An interrupted batch keeps its materials and progress.</description>
     <jobString>Rolling uniform steel plate.</jobString>
     <workAmount>5400</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -1227,7 +1227,7 @@
   <RecipeDef>
     <defName>HD_RollUniformSteelPlateBulk10</defName>
     <label>roll uniform steel plate (x10)</label>
-    <description>Roll carbon steel into an even, uniform steel plate.</description>
+    <description>Roll carbon steel into an even, uniform steel plate. Produces 10 in one batch, using the same materials as 10 single crafts with 20% less work per item. An interrupted batch keeps its materials and progress.</description>
     <jobString>Rolling uniform steel plate.</jobString>
     <workAmount>9600</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2768,7 +2768,7 @@
   <RecipeDef>
     <defName>HD_MakeBasicElectricalComponentsBulk5</defName>
     <label>make basic electrical components (x5)</label>
-    <description>Fabricate insulated wiring, terminals, switches, and simple resistive elements for early electrical machinery.</description>
+    <description>Fabricate insulated wiring, terminals, switches, and simple resistive elements for early electrical machinery. Produces 5 in one batch, using the same materials as 5 single crafts with 10% less work per item. An interrupted batch keeps its materials and progress.</description>
     <jobString>Making basic electrical components.</jobString>
     <workAmount>8100</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2802,7 +2802,7 @@
   <RecipeDef>
     <defName>HD_MakeBasicElectricalComponentsBulk10</defName>
     <label>make basic electrical components (x10)</label>
-    <description>Fabricate insulated wiring, terminals, switches, and simple resistive elements for early electrical machinery.</description>
+    <description>Fabricate insulated wiring, terminals, switches, and simple resistive elements for early electrical machinery. Produces 10 in one batch, using the same materials as 10 single crafts with 20% less work per item. An interrupted batch keeps its materials and progress.</description>
     <jobString>Making basic electrical components.</jobString>
     <workAmount>14400</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2875,7 +2875,7 @@
   <RecipeDef>
     <defName>HD_MakeBasicElectronicComponentsBulk5</defName>
     <label>make basic electronic components (x5)</label>
-    <description>Assemble vacuum tubes, sockets, control elements, and precision contacts for early electronic equipment.</description>
+    <description>Assemble vacuum tubes, sockets, control elements, and precision contacts for early electronic equipment. Produces 5 in one batch, using the same materials as 5 single crafts with 10% less work per item. An interrupted batch keeps its materials and progress.</description>
     <jobString>Making basic electronic components.</jobString>
     <workAmount>11700</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2914,7 +2914,7 @@
   <RecipeDef>
     <defName>HD_MakeBasicElectronicComponentsBulk10</defName>
     <label>make basic electronic components (x10)</label>
-    <description>Assemble vacuum tubes, sockets, control elements, and precision contacts for early electronic equipment.</description>
+    <description>Assemble vacuum tubes, sockets, control elements, and precision contacts for early electronic equipment. Produces 10 in one batch, using the same materials as 10 single crafts with 20% less work per item. An interrupted batch keeps its materials and progress.</description>
     <jobString>Making basic electronic components.</jobString>
     <workAmount>20800</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>

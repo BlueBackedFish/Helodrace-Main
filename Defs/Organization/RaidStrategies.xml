@@ -2,7 +2,7 @@
 <Defs>
   <RaidStrategyDef>
     <defName>HD_SweepAssault</defName>
-    <label>소탕 습격</label>
+    <label>sweep assault</label>
     <workerClass>Helodrace.Squads.RaidStrategyWorker_HelodSweep</workerClass>
     <selectionWeightPerPointsCurve><points><li>(0, 1)</li><li>(10000, 1)</li></points></selectionWeightPerPointsCurve>
     <arriveModes><li>EdgeWalkIn</li><li>EdgeWalkInGroups</li></arriveModes>
@@ -11,7 +11,7 @@
     <pawnsCanBringFood>true</pawnsCanBringFood>
   </RaidStrategyDef>
   <RaidStrategyDef>
-    <defName>HD_MortarAssault</defName><label>박격포 습격</label>
+    <defName>HD_MortarAssault</defName><label>mortar assault</label>
     <workerClass>Helodrace.Squads.RaidStrategyWorker_HelodMortar</workerClass>
     <minPawns>6</minPawns><raidLootValueFactor>0</raidLootValueFactor>
     <selectionWeightPerPointsCurve><points><li>(0, 0.3)</li><li>(10000, 0.3)</li></points></selectionWeightPerPointsCurve>
@@ -21,7 +21,7 @@
     <pawnsCanBringFood>true</pawnsCanBringFood>
   </RaidStrategyDef>
   <RaidStrategyDef>
-    <defName>HD_ChemicalMortarAssault</defName><label>화학탄 습격</label>
+    <defName>HD_ChemicalMortarAssault</defName><label>chemical shell assault</label>
     <workerClass>Helodrace.Squads.RaidStrategyWorker_HelodMortar</workerClass>
     <modExtensions><li Class="Helodrace.Squads.MortarRaidExtension"><chemical>true</chemical></li></modExtensions>
     <minPawns>6</minPawns><raidLootValueFactor>0</raidLootValueFactor>

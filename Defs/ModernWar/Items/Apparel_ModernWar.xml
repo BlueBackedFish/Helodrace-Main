@@ -10,7 +10,7 @@
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_ZaperX26_Device</defName>
     <label>ZAPER X26</label>
-    <description>A compact electroshock sidearm carried as auxiliary equipment. Its dedicated controls fire a paired set of wired probes or deliver a direct contact-electrode strike without replacing the wearer's primary weapon.</description>
+    <description>An auxiliary electroshock device that fires wired probes or delivers current through contact electrodes.</description>
     <graphicData>
       <texPath>Weapons/ModernWar/HD_TASERX26</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -525,7 +525,7 @@
     <defName>HD_Apparel_ShieldDefenTechIIIA</defName>
     <!-- 방탄 참고: NIJ 0101.07 위협등급 hg2; 소재: PE(폴리에틸렌); 실제품: PROTECH Intruder G2. 제조사 공개 본체 재질은 PE; UHMWPE 세부 등급은 미공개. 투명 창 재질은 별도 확인; 방패 시험은 0101.07 인증과 별개. -->
     <label>DefenTech IIIA light shield</label>
-    <description>A lightweight class IIIA handheld ballistic shield inspired by the compact Intruder G2 profile. Its broad transparent viewport and reduced mass make it far more mobile than a full-size class IV shield, though its frontal protection, durability, and ability to shelter another pawn are correspondingly lower. It is intended to be paired with compact one-handed firearms. Attacks from the sides or rear bypass the shield entirely.</description>
+    <description>A lightweight class IIIA handheld ballistic shield made by DefenTech, with a broad transparent viewport. Its light construction allows quick handling.</description>
     <graphicData>
       <texPath>Helod/Apparel/Shield/DefenTechIIIA/HD_ShieldDefenTechIIIA_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -630,7 +630,7 @@
     <defName>HD_Apparel_ShieldIronHideIV</defName>
     <!-- 방탄 참고: NIJ 0101.07 위협등급 rf3; 소재: 세라믹(본체); 실제품: Point Blank SOB SS-4 Level IV Shield and Carry System. 본체는 세라믹; 백킹/투명 창의 세부 소재는 미공개. -->
     <label>Ironhide IV medium shield</label>
-    <description>A wheeled, full-height class IV ballistic shield fitted with a transparent viewport and a side-mounted rifle rest. It provides formidable protection against projectiles arriving through the wearer's forward arc. The rifle rest still permits ranged weapons to be fired, but the awkward firing position reduces accuracy. Attacks from the sides or rear bypass the shield entirely.</description>
+    <description>A wheeled, full-height ballistic shield with a transparent viewport and a side-mounted rifle rest. Its heavy class IV armor covers the gunner while advancing slowly.</description>
     <graphicData>
       <texPath>Helod/Apparel/Shield/IronHideIV/HD_ShieldIronHideIV_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>

@@ -49,6 +49,9 @@
         <fuelCapacity>40</fuelCapacity>
         <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
         <fuelFilter><thingDefs><li>HD_Diesel</li></thingDefs></fuelFilter>
+        <fuelLabel>Diesel</fuelLabel>
+        <fuelGizmoLabel>Diesel fuel</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot function: Out of diesel</outOfFuelMessage>
       </li>
       <li Class="Helodrace.CompProperties_OperatingHeatPusher">
         <heatPerSecond>6</heatPerSecond>

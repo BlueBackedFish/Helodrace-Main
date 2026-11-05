@@ -35,7 +35,7 @@
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_Gene_Sharpshooter</defName>
     <label>sharpshooter</label>
-    <description>It's high noon</description>
+    <description>A knack for handling firearms, enough to use their special techniques.</description>
     <iconPath>Icons/HD_Sharpshooter</iconPath>
     <displayCategory>Miscellaneous</displayCategory>
     <biostatCpx>0</biostatCpx>

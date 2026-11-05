@@ -43,4 +43,10 @@
   <HD_Gun_M16A3_Weapon.comps.1.sockets.2.label>버퍼 튜브 결합부</HD_Gun_M16A3_Weapon.comps.1.sockets.2.label>
   <HD_Gun_M16A3_Weapon.comps.1.sockets.3.label>STANAG 탄창 삽입구</HD_Gun_M16A3_Weapon.comps.1.sockets.3.label>
   <HD_Gun_M16A3_Weapon.comps.1.sockets.4.label>방아쇠 뭉치</HD_Gun_M16A3_Weapon.comps.1.sockets.4.label>
+  <HD_Gun_M16A1_Weapon.tools.0.label>개머리판</HD_Gun_M16A1_Weapon.tools.0.label>
+  <HD_Gun_M16A1_Weapon.tools.1.label>총열</HD_Gun_M16A1_Weapon.tools.1.label>
+  <HD_Gun_M16A2_Weapon.tools.0.label>개머리판</HD_Gun_M16A2_Weapon.tools.0.label>
+  <HD_Gun_M16A2_Weapon.tools.1.label>총열</HD_Gun_M16A2_Weapon.tools.1.label>
+  <HD_Gun_M16A3_Weapon.tools.0.label>개머리판</HD_Gun_M16A3_Weapon.tools.0.label>
+  <HD_Gun_M16A3_Weapon.tools.1.label>총열</HD_Gun_M16A3_Weapon.tools.1.label>
 </LanguageData>

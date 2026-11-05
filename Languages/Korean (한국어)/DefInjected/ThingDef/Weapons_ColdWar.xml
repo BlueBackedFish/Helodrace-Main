@@ -22,9 +22,9 @@
   <HD_PowerCutter.tools.0.label>손잡이</HD_PowerCutter.tools.0.label>
   <HD_PowerCutter.tools.1.label>절단날</HD_PowerCutter.tools.1.label>
   <HD_Gun_M16A1_Weapon.label>M16A1</HD_Gun_M16A1_Weapon.label>
-  <HD_Gun_M16A1_Weapon.description>완전자동 사격이 가능한 초기형 경량 5.56mm 제식소총입니다. 헤로드 명사수는 유효 사거리 8칸을 대가로 표적 획득 속도를 크게 높일 수 있습니다.</HD_Gun_M16A1_Weapon.description>
+  <HD_Gun_M16A1_Weapon.description>완전자동 사격이 가능한 초기형 경량 5.56mm 제식소총입니다.</HD_Gun_M16A1_Weapon.description>
   <HD_Gun_M16A2_Weapon.label>M16A2</HD_Gun_M16A2_Weapon.label>
-  <HD_Gun_M16A2_Weapon.description>개선된 조준기와 더 무거운 부품, 제어된 3점사를 갖춘 개량형 5.56mm 제식소총입니다. 헤로드 명사수는 유효 사거리 8칸을 대가로 표적 획득 속도를 크게 높일 수 있습니다.</HD_Gun_M16A2_Weapon.description>
+  <HD_Gun_M16A2_Weapon.description>개선된 조준기와 더 무거운 부품, 제어된 3점사를 갖춘 개량형 5.56mm 제식소총입니다.</HD_Gun_M16A2_Weapon.description>
   <HD_Gun_M16A3_Weapon.label>M16A3</HD_Gun_M16A3_Weapon.label>
-  <HD_Gun_M16A3_Weapon.description>근거리에서 중거리까지 지속 사격하도록 만든 M16A2의 완전자동 파생형입니다. 헤로드 명사수는 유효 사거리 8칸을 대가로 표적 획득 속도를 크게 높일 수 있습니다.</HD_Gun_M16A3_Weapon.description>
+  <HD_Gun_M16A3_Weapon.description>근거리에서 중거리까지 지속 사격하도록 만든 M16A2의 완전자동 파생형입니다.</HD_Gun_M16A3_Weapon.description>
 </LanguageData>

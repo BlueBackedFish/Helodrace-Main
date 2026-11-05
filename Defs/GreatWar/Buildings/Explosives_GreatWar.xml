@@ -6,7 +6,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_ANFOBlastingCharge</defName>
     <label>ANFO blasting charge</label>
-    <description>A prepared ammonium nitrate and diesel blasting charge. It can be fired remotely by a friendly blasting detonator within 50 cells, penetrates three layers into solid rock without leaving diagonal gaps, and recovers destroyed resource veins at the yield of a level 12 miner. Direct rain exposure prevents accidental cook-off and permanently disables the charge after an average of one hour. When dry, it may cook off if badly damaged.</description>
+    <description>An ammonium nitrate and diesel blasting charge. Wired to a detonator, it can blast rock remotely, but long exposure to moisture ruins it.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_MiningCharge_north</texPath>
@@ -71,7 +71,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_ANFODetonator</defName>
     <label>blasting detonator</label>
-    <description>A hand-operated blasting machine wired to every friendly ANFO charge within 50 cells. Select it and use the detonation command to fire all connected charges at once.</description>
+    <description>A hand-operated blasting machine that fires connected ANFO charges all at once.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_DynamiteDetonator</texPath>

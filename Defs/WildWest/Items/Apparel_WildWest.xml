@@ -7,8 +7,8 @@
 
   <ThingDef ParentName="ApparelBase">
     <defName>HD_Apparel_CarvalyUniform</defName>
-    <label>Carvaly uniform</label>
-    <description>A standard uniform for Carvaly officers. Designed specifically for the Helod body type. Gives bonuses to movement speed and melee combat.</description>
+    <label>cavalry uniform</label>
+    <description>A standard uniform for cavalry troopers.</description>
     <graphicData>
       <texPath>Helod/Apparel/HD_Cavalry/HD_Cavalry_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -70,8 +70,8 @@
 
   <ThingDef ParentName="ApparelBase">
     <defName>HD_Apparel_CarvalyHat</defName>
-    <label>Carvaly hat</label>
-    <description>A matching hat for the Carvaly uniform. Gives bonuses to movement speed and melee dodging.</description>
+    <label>cavalry hat</label>
+    <description>A matching hat for the cavalry uniform.</description>
     <graphicData>
       <texPath>Helod/Apparel/HD_CavalryHat/HD_CavalryHat_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -265,7 +265,7 @@
   <ThingDef ParentName="ApparelBase">
     <defName>HD_Bugle</defName>
     <label>bugle</label>
-    <description>A compact brass signal horn carried as utility gear. It can be worn in the utility slot like a psychic shock lance.</description>
+    <description>A small horn carried for sending signals.</description>
     <graphicData>
       <texPath>Weapons/WildWest/HD_bugle</texPath>
       <graphicClass>Graphic_Single</graphicClass>

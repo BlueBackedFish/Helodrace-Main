@@ -30,7 +30,7 @@
   <ThingDef ParentName="ResourceBase">
     <defName>HD_GovernmentBond</defName>
     <label>government bond</label>
-    <description>A high-value bond issued by the United States of Vesennica. It stores substantial wealth in little space, but the paper certificate is vulnerable to fire and damage.</description>
+    <description>A high-value bond issued by the United States of Vesenica. It stores substantial wealth in little space, but the paper certificate is vulnerable to fire and damage.</description>
     <graphicData>
       <texPath>Items/HD_GovernmentBond</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
@@ -55,7 +55,7 @@
   <ThingDef ParentName="ResourceBase">
     <defName>HD_ContinentalPetroleumBond</defName>
     <label>Continental Petroleum bond</label>
-    <description>An official corporate debt certificate issued by the Continental Petroleum Company, representing a face value of 100 Sthaler. Unlike sovereign government bonds, this corporate security is tied directly to the performance of the oil industry. It serves as highly liquid industrial wealth storage.</description>
+    <description>A corporate bond issued by the Continental Petroleum Company with a face value of 100 Sthaler. Its value rises and falls with the oil industry.</description>
     <graphicData>
       <texPath>Items/HD_CorporateBond</texPath> <!-- Re-use the beautifully engraved bond certificate graphic -->
       <graphicClass>Graphic_StackCount</graphicClass>

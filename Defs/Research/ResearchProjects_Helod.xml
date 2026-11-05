@@ -717,7 +717,7 @@ Develops the M1902 saber and service dress.</description>
     <ResearchProjectDef>
         <defName>HelodLessLethalLowRanged</defName>
         <label>Measured Response</label>
-        <description>beanbag</description>
+        <description>Develops less-lethal ranged suppression equipment.</description>
         <baseCost>650</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>

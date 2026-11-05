@@ -29,8 +29,8 @@
   <HD_ModularPart_MagazineExt_StanagGrip.description>STANAG 탄창 당김 손잡이는 탄약을 보관하고 약실 쪽으로 공급하는 탈착식 탄창입니다.</HD_ModularPart_MagazineExt_StanagGrip.description>
   <HD_ModularPart_MagazineWrap_StanagTapeBlue.label>파란색 STANAG 탄창 식별 테이프</HD_ModularPart_MagazineWrap_StanagTapeBlue.label>
   <HD_ModularPart_MagazineWrap_StanagTapeBlue.description>파란색 STANAG 탄창 식별 테이프는 탄약을 보관하고 약실 쪽으로 공급하는 탈착식 탄창입니다.</HD_ModularPart_MagazineWrap_StanagTapeBlue.description>
-  <HD_ModularPart_BufferTube_ColtA2_Part.label>Colt A2 소총 버퍼 튜브</HD_ModularPart_BufferTube_ColtA2_Part.label>
-  <HD_ModularPart_BufferTube_ColtA2_Part.description>Colt A2 소총 버퍼 튜브는 개머리판과 완충 장치를 연결하는 버퍼 튜브입니다.</HD_ModularPart_BufferTube_ColtA2_Part.description>
+  <HD_ModularPart_BufferTube_ColtA2_Part.label>아이언팽 A2 소총 버퍼 튜브</HD_ModularPart_BufferTube_ColtA2_Part.label>
+  <HD_ModularPart_BufferTube_ColtA2_Part.description>개머리판과 완충 장치를 연결하는 아이언팽 A2 소총 버퍼 튜브입니다.</HD_ModularPart_BufferTube_ColtA2_Part.description>
   <HD_ModularPart_BufferTube_ColtA2_Part.comps.0.sockets.0.label>고정형 개머리판 배치 레일</HD_ModularPart_BufferTube_ColtA2_Part.comps.0.sockets.0.label>
   <HD_ModularPart_Stock_IronFangA2_Part.label>IronFang A2 개머리판</HD_ModularPart_Stock_IronFangA2_Part.label>
   <HD_ModularPart_Stock_IronFangA2_Part.description>IronFang A2 개머리판은 어깨 지지와 반동 제어를 돕는 개머리판입니다.</HD_ModularPart_Stock_IronFangA2_Part.description>
@@ -50,4 +50,6 @@
   <HD_Gun_M16A4_Weapon.comps.1.sockets.2.label>버퍼 튜브 결합부</HD_Gun_M16A4_Weapon.comps.1.sockets.2.label>
   <HD_Gun_M16A4_Weapon.comps.1.sockets.3.label>STANAG 탄창 삽입구</HD_Gun_M16A4_Weapon.comps.1.sockets.3.label>
   <HD_Gun_M16A4_Weapon.comps.1.sockets.4.label>방아쇠 뭉치</HD_Gun_M16A4_Weapon.comps.1.sockets.4.label>
+  <HD_Gun_M16A4_Weapon.tools.0.label>개머리판</HD_Gun_M16A4_Weapon.tools.0.label>
+  <HD_Gun_M16A4_Weapon.tools.1.label>총열</HD_Gun_M16A4_Weapon.tools.1.label>
 </LanguageData>

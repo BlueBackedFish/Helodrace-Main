@@ -74,9 +74,9 @@
   <HD_BatchStill.comps.1.fuelLabel>목재</HD_BatchStill.comps.1.fuelLabel>
   <HD_BatchStill.comps.1.fuelGizmoLabel>목재 연료</HD_BatchStill.comps.1.fuelGizmoLabel>
   <HD_BatchStill.comps.1.outOfFuelMessage>작동 불가: 목재 부족</HD_BatchStill.comps.1.outOfFuelMessage>
-  <HD_DistillationTower.comps.2.fuelLabel>디젤</HD_DistillationTower.comps.2.fuelLabel>
-  <HD_DistillationTower.comps.2.fuelGizmoLabel>디젤 연료</HD_DistillationTower.comps.2.fuelGizmoLabel>
-  <HD_DistillationTower.comps.2.outOfFuelMessage>작동 불가: 디젤 부족</HD_DistillationTower.comps.2.outOfFuelMessage>
+  <HD_DistillationTower.comps.3.fuelLabel>디젤</HD_DistillationTower.comps.3.fuelLabel>
+  <HD_DistillationTower.comps.3.fuelGizmoLabel>디젤 연료</HD_DistillationTower.comps.3.fuelGizmoLabel>
+  <HD_DistillationTower.comps.3.outOfFuelMessage>작동 불가: 디젤 부족</HD_DistillationTower.comps.3.outOfFuelMessage>
   <HD_KeroseneLamp.comps.0.fuelLabel>등유</HD_KeroseneLamp.comps.0.fuelLabel>
   <HD_KeroseneLamp.comps.0.fuelGizmoLabel>등유 연료</HD_KeroseneLamp.comps.0.fuelGizmoLabel>
   <HD_BlastFurnace.comps.2.fuelLabel>숯</HD_BlastFurnace.comps.2.fuelLabel>

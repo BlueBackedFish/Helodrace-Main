@@ -38,7 +38,7 @@
   <HD_Company_Name_ContinentalPetroleum>콘티넨탈 석유회사</HD_Company_Name_ContinentalPetroleum>
   <HD_Company_Service_Arms>총포·사냥용품 상단</HD_Company_Service_Arms>
   <HD_Company_Service_Petroleum>석유제품 상단</HD_Company_Service_Petroleum>
-  <HD_Company_ArmsDesc>휘트모어 총포·사냥용품 회사는 M1911 연구 이전 단계의 무기와 사냥용품을 판매합니다. 산업 상단과 같은 편성입니다. 금융 우호도 50 이상(적대 80 이상·20점 차감), 전지 1개가 필요하며 1~2일 뒤 도착합니다. 대기시간은 4일입니다.</HD_Company_ArmsDesc>
-  <HD_Company_PetroleumDesc>콘티넨탈 석유회사는 원유·정제 연료·방향족 기초유를 판매하고 고급 상단 경비만 호위합니다. 금융 우호도 50 이상(적대 80 이상·20점 차감), 전지 1개가 필요하며 1~2일 뒤 도착합니다. 대기시간은 4일입니다.</HD_Company_PetroleumDesc>
+  <HD_Company_ArmsDesc>휘트모어 총포·사냥용품 회사는 M1911 연구 이전 단계의 무기와 사냥용품을 판매합니다. 산업 상단과 같은 편성입니다. 금융 우호도 50 이상(적대 80 이상·20점 차감), {0} 조건을 충족해야 하며 1~2일 뒤 도착합니다. 대기시간은 4일입니다.</HD_Company_ArmsDesc>
+  <HD_Company_PetroleumDesc>콘티넨탈 석유회사는 원유·정제 연료·방향족 기초유를 판매하고 고급 상단 경비만 호위합니다. 금융 우호도 50 이상(적대 80 이상·20점 차감), {0} 조건을 충족해야 하며 1~2일 뒤 도착합니다. 대기시간은 4일입니다.</HD_Company_PetroleumDesc>
   <HD_Company_TransmissionCost>일차 전지 1개</HD_Company_TransmissionCost>
 </LanguageData>

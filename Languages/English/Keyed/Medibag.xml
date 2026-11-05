@@ -15,4 +15,5 @@
   <HD_Medibag_Plasma_AlreadyActive>{0} has already received a plasma transfusion recently.</HD_Medibag_Plasma_AlreadyActive>
   <HD_Medibag_Plasma_Applied>{0} gave {1} an emergency plasma transfusion.</HD_Medibag_Plasma_Applied>
   <HD_Medibag_Cooldown>Treatment cooldown: {0}</HD_Medibag_Cooldown>
+  <HD_Medibag_Load_NoReachableSupplies>No reachable {0} on the map.</HD_Medibag_Load_NoReachableSupplies>
 </LanguageData>

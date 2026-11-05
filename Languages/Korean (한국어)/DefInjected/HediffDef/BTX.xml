@@ -6,8 +6,6 @@
   <HD_BTXHigh.description>BTX 성분이 혈류를 따라 순환하며 BTX 의존성 생화학 경로를 일시적으로 안정화하고 있습니다.</HD_BTXHigh.description>
   <HD_BTXAddiction.label>BTX 의존증</HD_BTXAddiction.label>
   <HD_BTXAddiction.description>BTX 의존 유전자가 일으키는 벤젠, 톨루엔, 자일렌 화합물에 대한 영구적인 생화학적 중독입니다. 이 중독 헤디프가 BTX 욕구를 생성하고 관리합니다.</HD_BTXAddiction.description>
-  <BTXAddiction.label>BTX 의존증</BTXAddiction.label>
-  <BTXAddiction.description>BTX 계열 화합물 의존증 참조를 안전하게 처리하기 위한 호환용 상태입니다.</BTXAddiction.description>
   <HD_BTXToxicity.label>BTX 중독</HD_BTXToxicity.label>
   <HD_BTXToxicity.description>BTX 화합물이 이 몸을 자극하고 중독시키고 있습니다. 헤로드 생화학은 이런 화합물을 대사할 수 있지만, 다른 종족은 석유와 비슷한 독성 효과를 겪습니다.</HD_BTXToxicity.description>
   <HD_BTXToxicity.labelNoun>BTX 중독</HD_BTXToxicity.labelNoun>

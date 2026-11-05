@@ -2,9 +2,9 @@
 <LanguageData>
   <HD_RotaryDrill.label>로터리 시추기</HD_RotaryDrill.label>
   <HD_RotaryDrill.description>회전 테이블과 시추 이수 순환 장치를 갖춘 디젤식 철제 시추탑입니다. 회전하는 시추관으로 지층을 뚫어 유정을 개발합니다.</HD_RotaryDrill.description>
-  <HD_RotaryDrill.comps.1.fuelLabel>경유</HD_RotaryDrill.comps.1.fuelLabel>
-  <HD_RotaryDrill.comps.1.fuelGizmoLabel>경유</HD_RotaryDrill.comps.1.fuelGizmoLabel>
-  <HD_RotaryDrill.comps.1.outOfFuelMessage>경유 없음</HD_RotaryDrill.comps.1.outOfFuelMessage>
+  <HD_RotaryDrill.comps.1.fuelLabel>디젤</HD_RotaryDrill.comps.1.fuelLabel>
+  <HD_RotaryDrill.comps.1.fuelGizmoLabel>디젤 연료</HD_RotaryDrill.comps.1.fuelGizmoLabel>
+  <HD_RotaryDrill.comps.1.outOfFuelMessage>작동 불가: 디젤 부족</HD_RotaryDrill.comps.1.outOfFuelMessage>
   <HD_MetalPumpJack.label>철제 펌프잭</HD_MetalPumpJack.label>
   <HD_MetalPumpJack.description>전동기로 워킹 빔을 구동하는 대형 철제 원유 펌프입니다. 개발된 유전에서 원유를 추출하며, 품질·압력 100%에서 기준 생산량은 원유 75개/일입니다. 실제 생산 속도는 유전 품질과 압력에 따라 달라집니다. 전력이 필요하며 개발된 유전 위에 설치해야 합니다.</HD_MetalPumpJack.description>
 </LanguageData>

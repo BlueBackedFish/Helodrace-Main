@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_NewTacticalCasualtyMove.reportString>엄호하며 부상자 후송 및 후퇴 중</HD_NewTacticalCasualtyMove.reportString>
+  <HD_NewTacticalActor.reportString>전술 명령에 따라 이동·경계·교전하는 중</HD_NewTacticalActor.reportString>
+  <HD_NewTacticalRecoverMedibag.reportString>떨어진 의료 가방을 회수하는 중</HD_NewTacticalRecoverMedibag.reportString>
+  <HD_NewTacticalEvadeExplosion.reportString>폭발물을 피해 달아나는 중</HD_NewTacticalEvadeExplosion.reportString>
+  <HD_NewTacticalClearFurniture.reportString>가구를 부수어 전술 공간을 확보하는 중</HD_NewTacticalClearFurniture.reportString>
+  <HD_NewTacticalFocusFire.reportString>접근하는 근접 위협에 집중 사격하는 중</HD_NewTacticalFocusFire.reportString>
+  <HD_NewTacticalContactGuard.reportString>목격한 위협 방향을 경계하는 중.</HD_NewTacticalContactGuard.reportString>
+  <HD_NewTacticalPost.reportString>집결하여 경계하는 중.</HD_NewTacticalPost.reportString>
+  <HD_NewTacticalIngress.reportString>확보한 개구부로 진입하는 중.</HD_NewTacticalIngress.reportString>
+  <HD_NewTacticalBreach.reportString>슬레지 해머로 돌파하는 중.</HD_NewTacticalBreach.reportString>
+  <HD_NewTacticalObserve.reportString>개구부 옆에서 내부를 관측하는 중.</HD_NewTacticalObserve.reportString>
+  <HD_NewTacticalThrow.reportString>수류탄을 준비하고 투척 후 복귀하는 중.</HD_NewTacticalThrow.reportString>
+  <HD_NewTacticalRecoverTool.reportString>쓰러진 공병의 돌파 장비를 회수하는 중.</HD_NewTacticalRecoverTool.reportString>
+  <HD_NewTacticalCut.reportString>절단기로 돌파하는 중.</HD_NewTacticalCut.reportString>
+  <HD_NewTacticalInstallCharge.reportString>C4 돌파 폭약을 설치하는 중.</HD_NewTacticalInstallCharge.reportString>
+  <HD_NewTacticalTriggerCharge.reportString>안전 거리에서 돌파 폭약을 기폭하는 중.</HD_NewTacticalTriggerCharge.reportString>
+</LanguageData>

@@ -85,7 +85,7 @@
   <ThingDef ParentName="HD_LaserDesignatorBase">
     <defName>HD_Apparel_IZLIDUltra</defName>
     <label>IZLID Ultra</label>
-    <description>A compact long-range infrared laser marker. It gives an SCR-300 operator access to laser-guided CAS while remaining light enough for a mobile observer.</description>
+    <description>A compact long-range infrared laser marker carried by mobile observers. Its light body lets it mark distant targets discreetly.</description>
     <graphicData>
       <texPath>Weapons/ModernWar/HD_IZLIDUltra</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -130,7 +130,7 @@
   <ThingDef ParentName="HD_LaserDesignatorBase">
     <defName>HD_Apparel_LA16uPEQ</defName>
     <label>LA-16u/PEQ</label>
-    <description>A pistol-form laser target marker designed for rapid field use. It enables laser-guided CAS with less bulk, but its designation is more vulnerable to severe weather.</description>
+    <description>A pistol-form laser target marker for rapid field use. It is light and easy to handle, but its beam holds less steady in severe weather.</description>
     <graphicData>
       <texPath>Weapons/ModernWar/HD_LA16uPEQ</texPath>
       <graphicClass>Graphic_Single</graphicClass>

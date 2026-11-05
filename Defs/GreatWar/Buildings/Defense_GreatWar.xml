@@ -11,7 +11,7 @@
       <li Class="Helodrace.HeavyMachineGunAccuracyExtension"><gunnerBaseAccuracy>0.5</gunnerBaseAccuracy></li>
     </modExtensions>
     <label>M1917 heavy machine gun</label>
-    <description>A tripod-mounted, water-cooled heavy machine gun with a 250-round belt. It must be directly operated by a pawn.</description>
+    <description>A tripod-mounted, water-cooled heavy machine gun fed by its crew from a 250-round belt.</description>
     <thingClass>Building_TurretGun</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <drawHighlight>true</drawHighlight>
@@ -96,7 +96,7 @@
       <li Class="Helodrace.HeavyMachineGunAccuracyExtension"><gunnerBaseAccuracy>0.5</gunnerBaseAccuracy></li>
     </modExtensions>
     <label>M2HB heavy machine gun</label>
-    <description>A pedestal-mounted .50 caliber heavy machine gun fed from a 100-round belt. Its powerful rounds are effective against personnel, light cover, and lightly armored targets. It must be directly operated by a pawn.</description>
+    <description>A pedestal-mounted .50 caliber heavy machine gun fed from a 100-round belt. Its powerful rounds threaten personnel and lightly armored targets.</description>
     <thingClass>Building_TurretGun</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <drawHighlight>true</drawHighlight>
@@ -185,7 +185,7 @@
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <label>M1916 37mm gun</label>
-    <description>A crew-served 37mm direct-fire infantry gun. Its low mount is treated as a transparent base, leaving the gun itself as the visible turret top.</description>
+    <description>A crew-served 37mm direct-fire infantry gun on a low mount.</description>
     <thingClass>Building_TurretGun</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <drawHighlight>true</drawHighlight>
@@ -252,7 +252,7 @@
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <label>3-inch Hawkins mortar</label>
-    <description>A crew-served 3-inch trench mortar for lobbing high-explosive shells over cover. It must be directly operated by a pawn and reloaded with prepared HE shells.</description>
+    <description>A crew-served 3-inch trench mortar for lobbing high-explosive shells over cover.</description>
     <thingClass>Building_TurretGun</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <drawHighlight>true</drawHighlight>
@@ -319,7 +319,7 @@
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <label>M1 81mm mortar</label>
-    <description>A crew-served 81mm infantry mortar for dropping M43 high-explosive shells over cover. It must be directly operated by a pawn and reloaded with prepared 81mm ammunition.</description>
+    <description>A crew-served 81mm infantry mortar that lobs M43 high-explosive shells in a high arc to strike behind cover.</description>
     <thingClass>Building_TurretGun</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <drawHighlight>true</drawHighlight>
@@ -387,7 +387,7 @@
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <label>M2A2 105mm light howitzer</label>
-    <description>A 105mm field howitzer on a split-trail carriage. Its chief of section, gunner, and assistant gunner occupy separate crew positions and each contributes to accuracy, loading speed, or aiming speed. All required roles must be staffed before it can fire. It accepts dedicated M1 105mm HE shells as well as standard mortar shells.</description>
+    <description>A 105mm field howitzer on a split-trail carriage, served by a section of chief, gunner, and assistant gunner firing dedicated M1 high-explosive shells.</description>
     <thingClass>Building_TurretGun</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <drawHighlight>true</drawHighlight>
@@ -570,7 +570,7 @@
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <label>M114 155mm howitzer</label>
-    <description>A medium 155mm field howitzer on a split-trail carriage. Its section chief, gunner, and assistant gunner must all be at their stations before it can fire, while additional crew improve aiming and loading. It uses dedicated 155mm high-explosive, BA and CN chemical, white-phosphorus, and W48 nuclear shells for long-range indirect fire.</description>
+    <description>A medium 155mm field howitzer on a split-trail carriage. Its section fires a range of dedicated shells, from high explosive to chemical, white phosphorus, and the W48 nuclear shell.</description>
     <thingClass>Building_TurretGun</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <drawHighlight>true</drawHighlight>

@@ -8,7 +8,7 @@
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <label>Switchblade 600 launcher</label>
-    <description>A sealed launch canister for Switchblade 600 loitering munitions. It is not craftable or normally buildable yet, but can be spawned for testing or scenario placement.</description>
+    <description>A sealed launch canister for Switchblade 600 loitering munitions.</description>
     <thingClass>Building_TurretGun</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <drawHighlight>true</drawHighlight>

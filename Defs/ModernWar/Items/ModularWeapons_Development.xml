@@ -480,7 +480,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_BufferTube_Colt</defName>
-    <label>Colt buffer tube</label>
+    <label>Ironfang buffer tube</label>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_BufferTube_Colt</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>3</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>

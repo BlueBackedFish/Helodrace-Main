@@ -147,7 +147,7 @@
   <ThingDef ParentName="HD_M16FamilyBase">
     <defName>HD_Gun_M16A1_Weapon</defName>
     <label>M16A1</label>
-    <description>An early lightweight 5.56 mm service rifle with full-automatic fire. A Helod sharpshooter can trade eight tiles of effective range for much faster target acquisition.</description>
+    <description>An early lightweight 5.56 mm service rifle with full-automatic fire.</description>
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
     <uiIconPath>Weapons/ColdWar/HD_M16A1</uiIconPath>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_LowerReceiver_M16A1</texPath><graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass><drawSize>(1,1)</drawSize></graphicData>
@@ -192,7 +192,7 @@
   <ThingDef ParentName="HD_M16FamilyBase">
     <defName>HD_Gun_M16A2_Weapon</defName>
     <label>M16A2</label>
-    <description>A refined 5.56 mm service rifle with improved sights, heavier furniture, and a controlled three-round burst. A Helod sharpshooter can trade eight tiles of effective range for much faster target acquisition.</description>
+    <description>A refined 5.56 mm service rifle with improved sights, heavier furniture, and a controlled three-round burst.</description>
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
     <uiIconPath>Weapons/ColdWar/HD_M16A2,3</uiIconPath>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_LowerReceiver_M16A2,3</texPath><graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass><drawSize>(1,1)</drawSize></graphicData>
@@ -232,7 +232,7 @@
   <ThingDef ParentName="HD_M16FamilyBase">
     <defName>HD_Gun_M16A3_Weapon</defName>
     <label>M16A3</label>
-    <description>A full-automatic derivative of the M16A2 intended for sustained close-to-medium-range fire. A Helod sharpshooter can trade eight tiles of effective range for much faster target acquisition.</description>
+    <description>A full-automatic derivative of the M16A2 intended for sustained close-to-medium-range fire.</description>
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
     <uiIconPath>Weapons/ColdWar/HD_M16A2,3</uiIconPath>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_LowerReceiver_M16A2,3</texPath><graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass><drawSize>(1,1)</drawSize></graphicData>

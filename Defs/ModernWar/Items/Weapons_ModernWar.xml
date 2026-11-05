@@ -165,7 +165,7 @@
   <ThingDef ParentName="BaseMeleeWeapon_Blunt_Quality">
     <defName>HD_PowerforgeJackhammer</defName>
     <label>Powerforge jackhammer</label>
-    <description>A heavy battery-powered demolition tool built around a hardened reciprocating bit. In combat it delivers brutal impacts; in practiced hands it also makes mining and construction substantially faster. While equipped, it increases mining speed by 35% and construction speed by 15%.</description>
+    <description>A heavy battery-powered demolition tool built around a hardened reciprocating bit. It breaks up rock and structures, and in an emergency it delivers brutal impacts.</description>
     <graphicData>
       <texPath>Weapons/ModernWar/HD_JackHammer</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -235,7 +235,7 @@
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>HD_Gun_Nailgun_Weapon</defName>
     <label>nailgun</label>
-    <description>A rugged cordless nailgun intended for rapid assembly work. It can launch construction nails as short-ranged projectiles in an emergency. While equipped, it increases general labor speed used by most crafting recipes and construction speed by 20%.</description>
+    <description>A rugged cordless nailgun for rapid assembly work. In an emergency it can launch construction nails as short-ranged projectiles.</description>
     <graphicData>
       <texPath>Weapons/ModernWar/HD_Nailgun</texPath>
       <graphicClass>Graphic_Single</graphicClass>

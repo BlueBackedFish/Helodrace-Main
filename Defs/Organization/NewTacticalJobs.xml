@@ -3,7 +3,7 @@
   <JobDef>
     <defName>HD_NewTacticalCasualtyMove</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalCasualtyMove</driverClass>
-    <reportString>엄호하며 부상자 후송 및 후퇴 중</reportString>
+    <reportString>evacuating a casualty under cover and falling back.</reportString>
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
     <alwaysShowWeapon>true</alwaysShowWeapon>
@@ -11,7 +11,7 @@
   <JobDef>
     <defName>HD_NewTacticalActor</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalActor</driverClass>
-    <reportString>전술 명령에 따라 이동·경계·교전하는 중</reportString>
+    <reportString>moving, watching, and engaging on tactical orders.</reportString>
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
     <alwaysShowWeapon>true</alwaysShowWeapon>
@@ -19,14 +19,14 @@
   <JobDef>
     <defName>HD_NewTacticalRecoverMedibag</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalRecoverMedibag</driverClass>
-    <reportString>떨어진 의료 가방을 회수하는 중</reportString>
+    <reportString>recovering a dropped medical bag.</reportString>
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>
   <JobDef>
     <defName>HD_NewTacticalEvadeExplosion</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalEvadeExplosion</driverClass>
-    <reportString>폭발물을 피해 달아나는 중</reportString>
+    <reportString>running from an explosive.</reportString>
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
     <alwaysShowWeapon>true</alwaysShowWeapon>
@@ -34,14 +34,14 @@
   <JobDef>
     <defName>HD_NewTacticalClearFurniture</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalClearFurniture</driverClass>
-    <reportString>가구를 부수어 전술 공간을 확보하는 중</reportString>
+    <reportString>smashing furniture to clear tactical space.</reportString>
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>
   <JobDef>
     <defName>HD_NewTacticalFocusFire</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalFocusFire</driverClass>
-    <reportString>접근하는 근접 위협에 집중 사격하는 중</reportString>
+    <reportString>concentrating fire on an approaching melee threat.</reportString>
     <checkOverrideOnDamage>Always</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
     <alwaysShowWeapon>true</alwaysShowWeapon>
@@ -49,7 +49,7 @@
   <JobDef>
     <defName>HD_NewTacticalContactGuard</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalContactGuard</driverClass>
-    <reportString>목격한 위협 방향을 경계하는 중.</reportString>
+    <reportString>watching the direction of a sighted threat.</reportString>
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
     <alwaysShowWeapon>true</alwaysShowWeapon>
@@ -57,7 +57,7 @@
   <JobDef>
     <defName>HD_NewTacticalPost</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalPost</driverClass>
-    <reportString>집결하여 경계하는 중.</reportString>
+    <reportString>assembled and standing guard.</reportString>
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
     <alwaysShowWeapon>true</alwaysShowWeapon>
@@ -65,7 +65,7 @@
   <JobDef>
     <defName>HD_NewTacticalIngress</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalIngress</driverClass>
-    <reportString>확보한 개구부로 진입하는 중.</reportString>
+    <reportString>entering through a secured opening.</reportString>
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
     <alwaysShowWeapon>true</alwaysShowWeapon>
@@ -73,49 +73,49 @@
   <JobDef>
     <defName>HD_NewTacticalBreach</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalBreach</driverClass>
-    <reportString>슬레지 해머로 돌파하는 중.</reportString>
+    <reportString>breaching with a sledgehammer.</reportString>
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>
   <JobDef>
     <defName>HD_NewTacticalObserve</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalObserve</driverClass>
-    <reportString>개구부 옆에서 내부를 관측하는 중.</reportString>
+    <reportString>observing the interior from beside an opening.</reportString>
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>
   <JobDef>
     <defName>HD_NewTacticalThrow</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalThrow</driverClass>
-    <reportString>수류탄을 준비하고 투척 후 복귀하는 중.</reportString>
+    <reportString>readying and throwing a grenade, then returning.</reportString>
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>
   <JobDef>
     <defName>HD_NewTacticalRecoverTool</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalRecoverTool</driverClass>
-    <reportString>쓰러진 공병의 돌파 장비를 회수하는 중.</reportString>
+    <reportString>recovering a fallen engineer's breaching tool.</reportString>
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>
   <JobDef>
     <defName>HD_NewTacticalCut</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalCut</driverClass>
-    <reportString>절단기로 돌파하는 중.</reportString>
+    <reportString>breaching with a cutter.</reportString>
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>
   <JobDef>
     <defName>HD_NewTacticalInstallCharge</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalInstallCharge</driverClass>
-    <reportString>C4 돌파 폭약을 설치하는 중.</reportString>
+    <reportString>placing a C4 breaching charge.</reportString>
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>
   <JobDef>
     <defName>HD_NewTacticalTriggerCharge</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalTriggerCharge</driverClass>
-    <reportString>안전 거리에서 돌파 폭약을 기폭하는 중.</reportString>
+    <reportString>detonating a breaching charge from a safe distance.</reportString>
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>

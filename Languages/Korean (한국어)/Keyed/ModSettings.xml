@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Settings_LimitToOnePlatoon>습격 인원을 최대 1소대로 제한</HD_Settings_LimitToOnePlatoon>
+  <HD_Settings_LimitToOnePlatoon_Desc>LOW 최대 40명, HIGH 최대 43명. 초과 예산은 지원 포인트로 전환합니다.</HD_Settings_LimitToOnePlatoon_Desc>
+</LanguageData>

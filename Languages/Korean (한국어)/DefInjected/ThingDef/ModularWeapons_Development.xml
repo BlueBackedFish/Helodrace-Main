@@ -49,7 +49,7 @@
   <HD_ModularPart_PistolGrip_IronFangA2_Part.label>IronFang A2 권총손잡이</HD_ModularPart_PistolGrip_IronFangA2_Part.label>
   <HD_ModularPart_RailPanel_HACURXShortLow.label>HAC URX 단축 레일 패널</HD_ModularPart_RailPanel_HACURXShortLow.label>
   <HD_ModularPart_RailPanel_HACURXShortLow.description>HAC URX 단축 레일 패널은 레일의 노출된 면을 덮어 손잡이와 장비를 보호하는 패널입니다.</HD_ModularPart_RailPanel_HACURXShortLow.description>
-  <HD_ModularPart_BufferTube_Colt.label>Colt 버퍼 튜브</HD_ModularPart_BufferTube_Colt.label>
+  <HD_ModularPart_BufferTube_Colt.label>아이언팽 버퍼 튜브</HD_ModularPart_BufferTube_Colt.label>
   <HD_ModularPart_BufferTube_Colt.comps.0.sockets.0.label>조절식 카빈 개머리판 레일</HD_ModularPart_BufferTube_Colt.comps.0.sockets.0.label>
   <HD_ModularPart_Stock_FieldFormMOEFDE.label>FieldForm MOE FDE 개머리판</HD_ModularPart_Stock_FieldFormMOEFDE.label>
   <HD_ModularPart_Stock_M4_Part.label>M4 신축식 개머리판</HD_ModularPart_Stock_M4_Part.label>
@@ -59,4 +59,6 @@
   <HD_Gun_M4A1_Weapon.comps.1.sockets.2.label>버퍼 튜브 결합부</HD_Gun_M4A1_Weapon.comps.1.sockets.2.label>
   <HD_Gun_M4A1_Weapon.comps.1.sockets.3.label>STANAG 탄창 삽입구</HD_Gun_M4A1_Weapon.comps.1.sockets.3.label>
   <HD_Gun_M4A1_Weapon.comps.1.sockets.4.label>방아쇠 뭉치</HD_Gun_M4A1_Weapon.comps.1.sockets.4.label>
+  <HD_Gun_M4A1_Weapon.tools.0.label>개머리판</HD_Gun_M4A1_Weapon.tools.0.label>
+  <HD_Gun_M4A1_Weapon.tools.1.label>총열</HD_Gun_M4A1_Weapon.tools.1.label>
 </LanguageData>

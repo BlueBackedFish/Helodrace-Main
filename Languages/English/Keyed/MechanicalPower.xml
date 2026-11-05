@@ -64,4 +64,15 @@
   <HD_ITab_MechanicalNetwork_PowerNeeded>Required mechanical power: {0} W</HD_ITab_MechanicalNetwork_PowerNeeded>
   <HD_ITab_MechanicalNetwork_PowerSurplus>Mechanical margin: {0} W</HD_ITab_MechanicalNetwork_PowerSurplus>
   <HD_IndustrialWorktable_Power>Work input: {0} W / waiting input: {1} W</HD_IndustrialWorktable_Power>
+  <HD_MechanicalEmitter_Off>Power source: {0}\nStatus: off\nOutput: 0 W</HD_MechanicalEmitter_Off>
+  <HD_ITab_MechanicalNetwork_Title>Mechanical network</HD_ITab_MechanicalNetwork_Title>
+  <HD_ITab_MechanicalNetwork_NotConnected>Not connected to a mechanical network.</HD_ITab_MechanicalNetwork_NotConnected>
+  <HD_ITab_MechanicalNetwork_Summary>Network summary</HD_ITab_MechanicalNetwork_Summary>
+  <HD_ITab_MechanicalNetwork_Nodes>Connected nodes: {0}</HD_ITab_MechanicalNetwork_Nodes>
+  <HD_ITab_MechanicalNetwork_Status>Status</HD_ITab_MechanicalNetwork_Status>
+  <HD_ITab_MechanicalNetwork_StatusStable>Stable</HD_ITab_MechanicalNetwork_StatusStable>
+  <HD_ITab_MechanicalNetwork_Components>Components</HD_ITab_MechanicalNetwork_Components>
+  <HD_ITab_MechanicalNetwork_Emitters>- Power sources: {0}</HD_ITab_MechanicalNetwork_Emitters>
+  <HD_ITab_MechanicalNetwork_Users>- Power users: {0}</HD_ITab_MechanicalNetwork_Users>
+  <HD_ITab_MechanicalNetwork_Transmitters>- Power transmitters: {0}</HD_ITab_MechanicalNetwork_Transmitters>
 </LanguageData>

@@ -2,8 +2,8 @@
 <Defs>
   <HediffDef>
     <defName>HD_TemporaryRestraint</defName>
-    <label>임시 포박</label>
-    <description>회복하더라도 스스로 이동하거나 공격할 수 없도록 묶여 있습니다. 다른 사람이 포박을 풀어줄 수 있습니다.</description>
+    <label>temporary restraint</label>
+    <description>Bound so that, even after recovering, this person cannot move or attack on their own. Someone else can untie the restraint.</description>
     <hediffClass>Hediff</hediffClass>
     <isBad>true</isBad>
     <tendable>false</tendable>
@@ -19,7 +19,7 @@
   <JobDef>
     <defName>HD_TemporaryRestrain</defName>
     <driverClass>Helodrace.Tactical.JobDriver_TemporaryRestrain</driverClass>
-    <reportString>TargetA의 포박을 처리하는 중.</reportString>
+    <reportString>handling TargetA's restraint.</reportString>
     <checkOverrideOnDamage>Always</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>

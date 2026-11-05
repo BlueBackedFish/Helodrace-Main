@@ -85,7 +85,7 @@
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsSecurity</li></thingCategories>
     <label>M167 VADS</label>
-    <description>A towed 20 mm Vulcan air defense system with a 500-round ammunition drum. Its six-barrel rotary cannon saturates exposed targets with an extremely dense burst of fire. It must be directly operated by a pawn.</description>
+    <description>A towed 20 mm Vulcan air defense system with a 500-round ammunition drum. Its six-barrel rotary cannon saturates exposed targets with an extremely dense burst of fire.</description>
     <thingClass>Building_TurretGun</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <drawHighlight>true</drawHighlight>

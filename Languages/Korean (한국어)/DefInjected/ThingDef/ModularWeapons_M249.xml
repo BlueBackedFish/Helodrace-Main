@@ -16,4 +16,18 @@
   <HD_ModularPart_Magazine_M249200_Part.label>M249 200발 탄통</HD_ModularPart_Magazine_M249200_Part.label>
   <HD_ModularPart_Ammunition_M249_M855A1_Part.label>M249 M855A1 탄띠 (EPR)</HD_ModularPart_Ammunition_M249_M855A1_Part.label>
   <HD_ModularPart_Ammunition_M249_M855A1_Part.comps.0.ammunitionType>5.56 M855A1 (EPR)</HD_ModularPart_Ammunition_M249_M855A1_Part.comps.0.ammunitionType>
+  <HD_ModularPart_Barrel_M249E2_Part.comps.0.sockets.0.label>M249 총구</HD_ModularPart_Barrel_M249E2_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_Barrel_M249E3_Part.comps.0.sockets.0.label>M249 총구</HD_ModularPart_Barrel_M249E3_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_Handguard_M249E3_Part.comps.0.sockets.0.label>M249 하단 레일</HD_ModularPart_Handguard_M249E3_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_TopCover_M249E3_Part.comps.0.sockets.0.label>M249 급탄 덮개 레일</HD_ModularPart_TopCover_M249E3_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_Magazine_M249200_Part.comps.0.sockets.0.label>5.56mm 탄띠</HD_ModularPart_Magazine_M249200_Part.comps.0.sockets.0.label>
+  <HD_Gun_M249_Weapon.tools.0.label>개머리판</HD_Gun_M249_Weapon.tools.0.label>
+  <HD_Gun_M249_Weapon.comps.0.sockets.0.label>M249 총열 트러니언</HD_Gun_M249_Weapon.comps.0.sockets.0.label>
+  <HD_Gun_M249_Weapon.comps.0.sockets.1.label>M249 총열덮개</HD_Gun_M249_Weapon.comps.0.sockets.1.label>
+  <HD_Gun_M249_Weapon.comps.0.sockets.2.label>M249 개머리판</HD_Gun_M249_Weapon.comps.0.sockets.2.label>
+  <HD_Gun_M249_Weapon.comps.0.sockets.3.label>M249 급탄 덮개</HD_Gun_M249_Weapon.comps.0.sockets.3.label>
+  <HD_Gun_M249_Weapon.comps.0.sockets.4.label>M249 장전 손잡이</HD_Gun_M249_Weapon.comps.0.sockets.4.label>
+  <HD_Gun_M249_Weapon.comps.0.sockets.5.label>M249 권총손잡이</HD_Gun_M249_Weapon.comps.0.sockets.5.label>
+  <HD_Gun_M249_Weapon.comps.0.sockets.6.label>M249 방아쇠</HD_Gun_M249_Weapon.comps.0.sockets.6.label>
+  <HD_Gun_M249_Weapon.comps.0.sockets.7.label>M249 탄통</HD_Gun_M249_Weapon.comps.0.sockets.7.label>
 </LanguageData>

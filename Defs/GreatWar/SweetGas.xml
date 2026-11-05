@@ -4,7 +4,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_SweetGasCan</defName>
     <label>sweet gas can</label>
-    <description>A temporary chemical canister using the photochlorogen can body. When activated, it burns open and releases sweet gas, a delayed blister agent. Gas masks and tox-gas exposure immunity do not block the gas; if Odyssey is installed, vacuum resistance reduces exposure.</description>
+    <description>A chemical canister that burns open when ignited and releases sweet gas, a delayed blister agent. Ordinary gas protection does little to stop it.</description>
     <thingClass>Building</thingClass>
     <category>Building</category>
     <graphicData>

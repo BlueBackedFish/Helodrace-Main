@@ -251,7 +251,7 @@
         <doctrine>HD_Doctrine_Modern</doctrine>
       </li>
     </modExtensions>
-    <label>베세니카 주</label>
+    <label>Vesenica State</label>
     <fixedName>Providence State</fixedName>
     <description>A centralized Helod state whose authority extends beyond the frontier.</description>
     <humanlikeFaction>true</humanlikeFaction>
