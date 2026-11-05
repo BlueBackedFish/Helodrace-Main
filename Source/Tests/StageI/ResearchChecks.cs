@@ -12,14 +12,16 @@ public sealed partial class Checks
     private void ResearchChecks()
     {
         var policy=JsonDocument.Parse(File.ReadAllText(Path.Combine(output,"research-policy.json"))).RootElement;
-        foreach(var row in policy.GetProperty("changes").EnumerateArray())
-        {
-            var project=Def<ResearchProjectDef>(row.GetProperty("name").GetString());
-            Check(project.baseCost==row.GetProperty("base_after").GetSingle(), "Loaded research base budget: "+project.defName);
-        }
+        var changes=policy.GetProperty("changes").EnumerateArray().Select(row=>(project:Def<ResearchProjectDef>(row.GetProperty("name").GetString()),
+            vanilla:row.GetProperty("source").GetString()=="ludeon.rimworld", before:row.GetProperty("base_before").GetSingle(), after:row.GetProperty("base_after").GetSingle())).ToList();
+        Check(!ScenPart_ResearchTechBaseline.In(Find.Scenario), "Research checks start outside a Helod scenario");
+        foreach(var row in changes)
+            Check(row.project.baseCost==(row.vanilla?row.before:row.after), "Non-Helod scenario keeps base-game budget and Helod tree budget: "+row.project.defName);
         var electricity=Def<ResearchProjectDef>("Electricity");
         Check(electricity.CostFactor(TechLevel.Industrial)==1, "Non-Helod scenario retains native industrial cost factor");
         Current.Game.Scenario=Def<ScenarioDef>("HD_Scenario_WWTech").scenario;
+        foreach(var row in changes)
+            Check(row.project.baseCost==row.after, "Helod scenario research base budget: "+row.project.defName);
         Check(Def<FactionDef>("HD_HelodPlayerColony").techLevel==TechLevel.Industrial, "Research penalty preserves actual faction industrial identity");
         foreach(var project in DefDatabase<ResearchProjectDef>.AllDefsListForReading.Where(p=>p.baseCost>0))
             Check(project.CostFactor(Faction.OfPlayer.def.techLevel)==project.CostFactor(TechLevel.Neolithic), "Native tribal tech penalty: "+project.defName);

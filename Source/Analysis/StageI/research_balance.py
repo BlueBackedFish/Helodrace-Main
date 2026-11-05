@@ -97,9 +97,9 @@ if args.check:
    if d.findtext('defName') in values:current[d.findtext('defName')]=float(d.findtext('baseCost'))
  assert current==values
  patched={}
- for d in E.parse('Patches/ResearchCosts_Helod.xml').getroot().findall('Operation/operations/li'):
-  name=d.findtext('xpath').split('defName="')[1].split('"')[0]
-  patched[name]=float(d.findtext('value/baseCost'))
+ # Base-game budgets apply only in Helod scenarios through this Def, not through a global patch.
+ for d in E.parse('Defs/Scenarios/ResearchBudgets_Helod.xml').getroot().find('Helodrace.HelodScenarioResearchBudgetDef/baseCosts'):
+  patched[d.tag]=float(d.text)
  assert patched=={n:new[n] for n in old if old[n]['source']=='ludeon.rimworld' and new[n]!=old[n]['baseCost']}
  loaded={x['name']:x for x in json.loads(Path('Docs/Data/StageI/research_after.json').read_text(encoding='utf-8'))}
  for row in review:

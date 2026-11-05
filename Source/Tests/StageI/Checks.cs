@@ -47,8 +47,9 @@ public sealed partial class Checks : GameComponent
                 Check(notes.Spawned && notes.stackCount == 600 && notes.MarketValue == 5, "Native save/load preserves cash quantity and purchasing value");
                 Check(Math.Abs(Wealth() - baseline - 750) < .1, "Cash wealth discount remains correct after save/load");
                 Check(Find.Scenario.AllParts.OfType<ScenPart_ResearchTechBaseline>().Count() == 1
+                    && Def<ResearchProjectDef>("Electricity").baseCost == 11100
                     && Def<ResearchProjectDef>("Electricity").CostApparent == 22200,
-                    "Tribal research baseline survives native scenario save/load exactly once");
+                    "Tribal research baseline and Helod base-game budgets survive native scenario save/load exactly once");
                 Finish(); return;
             }
             File.WriteAllText(Path.Combine(output, "checks.txt"), "Actual RimWorld 1.7 I economy and research audit\n");
@@ -69,7 +70,9 @@ public sealed partial class Checks : GameComponent
         if (!load || complete) return;
         Find.TickManager.Pause();
         if (!uiShown) { uiShown = true; Find.MainTabsRoot.SetCurrentTab(MainButtonDefOf.Research); return; }
-        Find.MainTabsRoot.SetCurrentTab(null); load = false; GameDataSaveLoader.LoadGame("StageI");
+        // Start the reload from base-game costs, so only the saved Helod scenario can restore its budgets.
+        Find.MainTabsRoot.SetCurrentTab(null); load = false; HelodScenarioResearchBudgets.Apply(null);
+        GameDataSaveLoader.LoadGame("StageI");
     }
     private float Wealth() { map.wealthWatcher.ForceRecount(); return map.wealthWatcher.WealthItems; }
     private void ExportResearch()
