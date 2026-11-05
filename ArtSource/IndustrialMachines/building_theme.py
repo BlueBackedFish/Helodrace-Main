@@ -9,7 +9,7 @@ STEEL=(105,105,105)
 ADVANCED={'HD_VIMFurnace','HD_SemiconductorFab','HD_MultiTaskMachine'}
 COMPUTER={'HD_NCLathe','HD_NCMillingMachine','HD_MachiningCenter',
           'HD_MultiTaskMachine','HD_SemiconductorFab','HD_HydraulicRollingMill'}
-EXCLUDED={'HD_Radio','HD_ClothingBench','HD_GunSmithTable'}
+EXCLUDED={'HD_Radio','HD_ClothingBench','HD_GunSmithTable','HD_ProductionPlanningDesk'}
 CYAN=[(57,102,110),(48,89,97),(42,79,87)]
 
 def srgb(material):

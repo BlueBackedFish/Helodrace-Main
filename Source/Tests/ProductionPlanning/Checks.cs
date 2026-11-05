@@ -265,6 +265,28 @@ public sealed class Checks : GameComponent
         Write($"TREE HD_BasicElectronicComponents initial={initial} expanded={expandedRows} collapsed={dialog.VisibleNodes}");
         Check(expandedRows > initial && dialog.VisibleNodes == 1 + ProductionCatalog.For(Def<ThingDef>("HD_BasicElectronicComponents")).Recipes.Count, "Expand and collapse change the electronic-component flowchart");
         dialog.Close(); yield return 1;
+        // The desk's own four-direction art, placed on a cleared floor for an in-game capture.
+        IntVec3 origin = map.Center + new IntVec3(0, 0, -30);
+        foreach (IntVec3 c in CellRect.CenteredOn(origin, 7))
+        {
+            foreach (Thing t in c.GetThingList(map).ToList()) if (t is not Pawn && t.def.destroyable) t.Destroy();
+            map.terrainGrid.SetTerrain(c, TerrainDefOf.Concrete); map.roofGrid.SetRoof(c, null); map.fogGrid.Unfog(c);
+        }
+        var deskDef = Def<ThingDef>("HD_ProductionPlanningDesk");
+        Check(deskDef.graphicData.texPath == "Buildings/HD_ProductionPlanningDesk" && deskDef.graphicData.drawSize.x == 3, "Planning desk uses its own 512px four-direction texture at tile density");
+        var placed = new List<Building>();
+        foreach (var (rot, dx, dz) in new[] { (Rot4.North, -4, 2), (Rot4.East, 0, 2), (Rot4.South, 4, 2), (Rot4.West, -2, -3) })
+        {
+            var desk = (Building)ThingMaker.MakeThing(deskDef, GenStuff.DefaultStuffFor(deskDef)); desk.SetFaction(Faction.OfPlayer);
+            placed.Add((Building)GenSpawn.Spawn(desk, origin + new IntVec3(dx, 0, dz), map, rot));
+        }
+        Check(placed.All(d => d.Spawned && d.Graphic != null && !d.Graphic.MatSingle.mainTexture.name.Contains("BadTex")), "Four rotated desks spawn with a loaded texture");
+        if (shots)
+        {
+            Find.CameraDriver.SetRootPosAndSize(origin.ToVector3Shifted(), 14f);
+            for (int i = 0; i < 40; i++) yield return 0;
+            UnityEngine.ScreenCapture.CaptureScreenshot(Path.Combine(output, "desk-rotations.png")); for (int i = 0; i < 30; i++) yield return 0;
+        }
     }
     private IEnumerable<int> Resume()
     {

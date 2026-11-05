@@ -16,10 +16,11 @@ ASSETS += [('HD_LineShaftPress','LargeIndustrialPress','large_industrial_press.b
  ('HD_RollingMC','IndustrialRollingMill','industrial_rolling_mill.blend',True),
  ('HD_ClothingBench','ClothingBench','clothing_bench.blend',True),
  ('HD_GunSmithTable','GunBench','gun_bench.blend',True),
- ('HD_Radio','CollinsRadioDesk','collins_radio_desk.blend',True)]
+ ('HD_Radio','CollinsRadioDesk','collins_radio_desk.blend',True),
+ ('HD_ProductionPlanningDesk','ProductionPlanningDesk','production_planning_desk.blend',True)]
 ALIASES={'HD_LineShaftPress':'HD_LineShaftHydraulicPress','HD_RollingMC':'HD_LineShaftRollingMachine'}
-FIXED={'HD_Radio','HD_ClothingBench','HD_GunSmithTable'}
-TABLETOP_MESHES={'HD_Radio':'Desk_top','HD_ClothingBench':'01_Worktable','HD_GunSmithTable':'01_Worktop'}
+FIXED={'HD_Radio','HD_ClothingBench','HD_GunSmithTable','HD_ProductionPlanningDesk'}
+TABLETOP_MESHES={'HD_Radio':'Desk_top','HD_ClothingBench':'01_Worktable','HD_GunSmithTable':'01_Worktop','HD_ProductionPlanningDesk':'01_Desktop'}
 
 def normalize(entry):
     stem,folder,blend,active=entry;path=os.path.join(ROOT,'ArtSource',folder)
@@ -42,7 +43,7 @@ def normalize(entry):
     themed=s.apply_building_theme(stem);before=s.geometry_hash()
     assert mesh_shape_hash(bpy.context.scene)==source_shape
     oldnorth=bpy.data.objects.get('Camera_North');north=90 if oldnorth and oldnorth.location.y>0 else -90
-    if stem in ['HD_ClothingBench','HD_GunSmithTable','HD_LineShaftPress']:north=-90
+    if stem in ['HD_ClothingBench','HD_GunSmithTable','HD_LineShaftPress','HD_ProductionPlanningDesk']:north=-90
     for cam in [o for o in bpy.context.scene.objects if o.type=='CAMERA']:bpy.data.objects.remove(cam,do_unlink=True)
     for data in list(bpy.data.cameras):
         if not data.users:bpy.data.cameras.remove(data)

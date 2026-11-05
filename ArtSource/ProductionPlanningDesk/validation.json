@@ -1,0 +1,82 @@
+{
+  "footprint": [
+    2,
+    1
+  ],
+  "asset": "HD_ProductionPlanningDesk",
+  "features": [
+    "existing authored building; geometry and colors retained"
+  ],
+  "mesh_objects": 23,
+  "design_period": "frontier planning office",
+  "texture_resolution": [
+    512,
+    512
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "orthographic_scale": 3.0,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    3.0,
+    3.0
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "camera_target": [
+    0.0,
+    0.0,
+    0.3848079741001129
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    -0.18200817704200745
+  ],
+  "tabletop_anchor": [
+    0.0,
+    0.0,
+    0.7999999523162842
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 82,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 12,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 82,
+      "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 12,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false,
+  "building_theme_version": 0,
+  "building_theme_family": "authored",
+  "building_theme_roles": {},
+  "theme_secondary_color": [
+    255,
+    255,
+    255
+  ],
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "c3c8945569d8a9a6952745b72f0095f00d3d3d57baecfec22b7994d792ca7b23",
+  "rotation_export_geometry_palette_sha256": "c3c8945569d8a9a6952745b72f0095f00d3d3d57baecfec22b7994d792ca7b23",
+  "definition": "Defs/WildWest/Buildings/ProductionPlanningDesk.xml",
+  "gameplay_fields_preserved_sha256": "27eebed5f6bd961fb16d8bae5fb4ab122f78e7fa0e1e4dab79191f3d424414e3"
+}
