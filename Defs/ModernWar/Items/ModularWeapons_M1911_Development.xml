@@ -128,5 +128,6 @@
         <li><id>magazine</id><expectedPart>HD_ModularPart_Magazine_1911GI7_Part</expectedPart><label>magazine</label><tags><li>m1911_magazine</li></tags><transform><position>(-0.164,0,0.156)</position></transform></li>
       </sockets>
     </li></comps>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Turning>2</HD_Turning><HD_Milling>1</HD_Milling></requirements></li></modExtensions>
   </ThingDef>
 </Defs>

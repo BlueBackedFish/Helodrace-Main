@@ -113,5 +113,6 @@
         <li><id>magazine</id><expectedPart>HD_ModularPart_Magazine_M249200_Part</expectedPart><label>M249 belt box</label><tags><li>m249_magazine</li></tags><transform><position>(-0.035,0,-0.025)</position></transform></li>
       </sockets>
     </li></comps>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Turning>3</HD_Turning><HD_Milling>2</HD_Milling></requirements></li></modExtensions>
   </ThingDef>
 </Defs>

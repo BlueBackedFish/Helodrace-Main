@@ -85,7 +85,7 @@
       </defaultIngredientFilter>
       <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
-    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>1</HD_Pressing></requirements></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -111,7 +111,7 @@
     <statBases><MarketValue>260</MarketValue><Mass>0.85</Mass><WorkToMake>5000</WorkToMake></statBases>
     <costList><HD_Nylon>12</HD_Nylon><HD_Aramid>12</HD_Aramid></costList>
     <recipeMaker><recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers></recipeMaker>
-    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>1</HD_Pressing></requirements></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -123,7 +123,7 @@
     <statBases><MarketValue>240</MarketValue><Mass>0.90</Mass><WorkToMake>5000</WorkToMake></statBases>
     <costList><HD_Nylon>14</HD_Nylon><HD_Aramid>10</HD_Aramid></costList>
     <recipeMaker><recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers></recipeMaker>
-    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>1</HD_Pressing></requirements></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
@@ -135,7 +135,7 @@
     <statBases><MarketValue>230</MarketValue><Mass>0.80</Mass><WorkToMake>4800</WorkToMake></statBases>
     <costList><HD_Nylon>14</HD_Nylon><HD_Aramid>9</HD_Aramid></costList>
     <recipeMaker><recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers></recipeMaker>
-    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>1</HD_Pressing></requirements></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">

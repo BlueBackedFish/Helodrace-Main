@@ -17,7 +17,7 @@ for row in rows:
     assert [u.text for u in users] == row['after'], row['recipe']
     assert ('HD_BasicWorkbench' in row['after']) == ('HD_BasicWorkbench' in row['users']), row['recipe']
     if row['requiresPress']:
-        assert d.findtext('modExtensions/li[@Class="Helodrace.FacilityRequirementExtension"]/requirements/HD_Pressing') == '1', row['product']
+        assert d.findtext('modExtensions/li[@Class="Helodrace.FacilityRequirementExtension"]/requirements/HD_Pressing') in ('1', '2'), row['product']
 
 for name in ['HD_ClothingBench', 'HD_BasicWorkbench']:
     links = {x.text for x in source['ThingDef', name].findall('comps/li[@Class="CompProperties_AffectedByFacilities"]/linkableFacilities/li')}
@@ -26,6 +26,13 @@ for name, tier in [('HD_LineShaftHydraulicPress', 1), ('HD_ElectricHydraulicPres
     d = source['ThingDef', name]
     assert d.find('comps/li[@Class="CompProperties_Facility"]') is not None
     assert d.findtext('modExtensions/li[@Class="Helodrace.FacilityCapabilityExtension"]/capabilities/HD_Pressing') == str(tier)
+
+# Every craftable Helod firearm states its machine-tool fields explicitly.
+for (tag, name), d in source.items():
+    if tag != 'ThingDef' or not name.startswith('HD_Gun_') or d.get('Abstract') == 'True' or 'TurretGun' in name or name.startswith('HD_Gun_CrowsII'):
+        continue
+    req = d.find('modExtensions/li[@Class="Helodrace.FacilityRequirementExtension"]/requirements')
+    assert req is not None and req.find('HD_Turning') is not None, name
 
 en = E.parse(ROOT / 'Languages/English/Keyed/ProductionFacilities.xml').getroot()
 ko = E.parse(ROOT / 'Languages/Korean (한국어)/Keyed/ProductionFacilities.xml').getroot()

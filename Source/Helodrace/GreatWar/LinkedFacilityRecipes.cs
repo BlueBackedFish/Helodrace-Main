@@ -58,7 +58,6 @@ namespace Helodrace
     {
         private static readonly List<FacilityLevel> None = new List<FacilityLevel>();
         private static readonly Dictionary<RecipeDef, List<FacilityLevel>> requirementCache = new();
-        private static HashSet<ResearchProjectDef> earlyGunResearch;
 
         internal static List<FacilityLevel> Requirements(RecipeDef recipe)
         {
@@ -66,7 +65,6 @@ namespace Helodrace
             if (requirementCache.TryGetValue(recipe, out var cached)) return cached;
             List<FacilityLevel> result = recipe.GetModExtension<FacilityRequirementExtension>()?.requirements
                 ?? recipe.ProducedThingDef?.GetModExtension<FacilityRequirementExtension>()?.requirements
-                ?? GunAssemblyRequirements(recipe)
                 ?? None;
             result = result.OrderBy(r => r.field.order).ToList();
             requirementCache.Add(recipe, result);
@@ -119,43 +117,6 @@ namespace Helodrace
             var requirements = Requirements(recipe);
             if (requirements.Count == 0) return "HD_Production_NoFacility".Translate().Resolve();
             return string.Join(" + ", requirements.Select(r => r.Label));
-        }
-
-        // Firearm assembly at a gun workbench: early guns need turning 1; later
-        // guns need turning 2 and milling 1.
-        private static List<FacilityLevel> GunAssemblyRequirements(RecipeDef recipe)
-        {
-            if (recipe.ProducedThingDef?.defName?.StartsWith("HD_Gun_") != true
-                || recipe.recipeUsers == null || !recipe.recipeUsers.Any(IsGunWorkbench))
-                return null;
-            var turning = DefDatabase<FacilityFieldDef>.GetNamed("HD_Turning");
-            if (IsEarlyGunRecipe(recipe))
-                return new List<FacilityLevel> { new FacilityLevel { field = turning, level = 1 } };
-            return new List<FacilityLevel>
-            {
-                new FacilityLevel { field = turning, level = 2 },
-                new FacilityLevel { field = DefDatabase<FacilityFieldDef>.GetNamed("HD_Milling"), level = 1 }
-            };
-        }
-
-        private static bool IsGunWorkbench(ThingDef worktable)
-            => worktable?.defName == "HD_BasicWorkbench" || worktable?.defName == "HD_GunSmithTable";
-
-        private static bool IsEarlyGunRecipe(RecipeDef recipe)
-        {
-            if (earlyGunResearch == null)
-            {
-                earlyGunResearch = new HashSet<ResearchProjectDef>();
-                AddPrerequisites(DefDatabase<ResearchProjectDef>.GetNamed("HelodBreechLoadingGun", false));
-            }
-
-            return recipe.researchPrerequisite != null && earlyGunResearch.Contains(recipe.researchPrerequisite);
-        }
-
-        private static void AddPrerequisites(ResearchProjectDef research)
-        {
-            if (research == null || !earlyGunResearch.Add(research) || research.prerequisites == null) return;
-            foreach (ResearchProjectDef prerequisite in research.prerequisites) AddPrerequisites(prerequisite);
         }
     }
 

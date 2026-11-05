@@ -250,6 +250,7 @@
         <li><id>magazine</id><expectedPart>HD_ModularPart_Magazine_P32017_Part</expectedPart><label>P320 magazine well</label><tags><li>p320_magazine</li></tags><transform><position>(-0.13,0,-0.04)</position></transform></li>
       </sockets>
     </li></comps>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Turning>3</HD_Turning><HD_Milling>3</HD_Milling></requirements></li></modExtensions>
   </ThingDef>
 
 

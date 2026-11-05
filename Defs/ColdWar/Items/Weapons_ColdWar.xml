@@ -371,6 +371,7 @@
         <cooldownTime>2.5</cooldownTime>
       </li>
     </tools>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Turning>3</HD_Turning><HD_Milling>2</HD_Milling></requirements></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseMakeableGun">
@@ -460,6 +461,7 @@
         <cooldownTime>2</cooldownTime>
       </li>
     </tools>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Turning>3</HD_Turning><HD_Milling>2</HD_Milling></requirements></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">

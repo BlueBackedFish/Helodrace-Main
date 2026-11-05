@@ -100,9 +100,11 @@ public sealed partial class Checks
         for(int z=-2;z>=-6;z--)ItemBuilding("PowerConduit",-18,z);
         playMap.powerNetManager.UpdatePowerNetsAndConnections_First();yield return 1200;
         var user=mechanicalPress.GetComp<Helodrace.CompMechanicalUser>();
-        Check(user.HasPower&&user.RealRPM>=user.Props.minimalRPM&&sapi.Worker.AvailableOnNow(clothing),"Real powered shaft network makes the early press a valid substitute");
+        var helmet=Def<RecipeDef>("Make_HD_Apparel_GreatWarM1Helmet");
+        Check(user.HasPower&&user.RealRPM>=user.Props.minimalRPM&&helmet.Worker.AvailableOnNow(clothing),"Real powered shaft network makes the early press meet pressing Lv.1");
+        Check(!sapi.Worker.AvailableOnNow(clothing),"Pressing Lv.1 press does not meet pressing Lv.2 modern armor");
         motor.GetComp<CompFlickable>().SwitchIsOn=false;yield return 600;
-        Check(!sapi.Worker.AvailableOnNow(clothing),"Mechanical motor shutdown disables the early press");
+        Check(!helmet.Worker.AvailableOnNow(clothing),"Mechanical motor shutdown disables the early press");
         motor.GetComp<CompFlickable>().SwitchIsOn=true;yield return 1200;
         bool mechanicalLoad=false;
         foreach(int ticks in ItemBill(worker,clothing,"Make_HD_Apparel_GreatWarM1Helmet"))
@@ -110,6 +112,14 @@ public sealed partial class Checks
         Check(mechanicalLoad,"Armor work drives the early press at its real 450W shaft load");
 
         var gunBench=(Building_WorkTable)ItemBuilding("HD_GunSmithTable",20,-9);
+        var treadle=ItemBuilding("HD_TreadleLathe",23,-12);yield return 60;
+        string Links()=>string.Join(",",gunBench.GetComp<CompAffectedByFacilities>().LinkedFacilitiesListForReading.Select(t=>t.def.defName));
+        Check(Def<RecipeDef>("HD_Make_Gun_ColtSAA_Weapon").Worker.AvailableOnNow(gunBench),"Turning Lv.1 lathe meets breech-loading revolver requirements; linked="+Links());
+        Check(!Def<RecipeDef>("HD_Make_Gun_Henry_Weapon").Worker.AvailableOnNow(gunBench),"Turning Lv.1 alone does not meet turning Lv.2 + milling Lv.1");
+        var turret=ItemBuilding("HD_LineShaftTurretLathe",16,-12);var mill=ItemBuilding("HD_LineShaftMillingMachine",19,-12);yield return 60;
+        Check(Def<RecipeDef>("HD_Make_Gun_Henry_Weapon").Worker.AvailableOnNow(gunBench),"Separate turret lathe and mill together meet turning Lv.2 + milling Lv.1; linked="+Links());
+        Check(!Def<RecipeDef>("Make_HD_Gun_M16A1_Weapon").Worker.AvailableOnNow(gunBench),"Line-shaft machines do not meet NC-level rifle requirements");
+        treadle.Destroy(DestroyMode.Vanish);turret.Destroy(DestroyMode.Vanish);mill.Destroy(DestroyMode.Vanish);
         var tools=ItemBuilding("HD_MultiTaskMachine",18,-5);
         for(int z=-2;z>=-5;z--)ItemBuilding("PowerConduit",18,z);
         playMap.powerNetManager.UpdatePowerNetsAndConnections_First();yield return 1200;

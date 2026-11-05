@@ -209,6 +209,7 @@
         <cooldownTime>2</cooldownTime>
       </li>
     </tools>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Turning>1</HD_Turning></requirements></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseMakeableGun">
@@ -292,6 +293,7 @@
         <cooldownTime>2</cooldownTime>
       </li>
     </tools>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Turning>1</HD_Turning></requirements></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseMakeableGun">
@@ -365,6 +367,7 @@
         <cooldownTime>2</cooldownTime>
       </li>
     </tools>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Turning>1</HD_Turning></requirements></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseMakeableGun">
@@ -437,6 +440,7 @@
         <cooldownTime>2</cooldownTime>
       </li>
     </tools>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Turning>2</HD_Turning><HD_Milling>1</HD_Milling></requirements></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseMakeableGun">
@@ -515,6 +519,7 @@
         <cooldownTime>2</cooldownTime>
       </li>
     </tools>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Turning>2</HD_Turning><HD_Milling>1</HD_Milling></requirements></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseMakeableGun">
@@ -586,6 +591,7 @@
         <cooldownTime>2</cooldownTime>
       </li>
     </tools>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Turning>2</HD_Turning><HD_Milling>1</HD_Milling></requirements></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseMakeableGun">
@@ -668,6 +674,7 @@
         <cooldownTime>2</cooldownTime>
       </li>
     </tools>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Turning>1</HD_Turning></requirements></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseMakeableGun">
@@ -741,6 +748,7 @@
         <cooldownTime>2</cooldownTime>
       </li>
     </tools>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Turning>1</HD_Turning></requirements></li></modExtensions>
   </ThingDef>
 
   <!-- ==================== Melee Weapons ==================== -->

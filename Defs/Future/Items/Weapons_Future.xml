@@ -154,6 +154,7 @@
         <cooldownTime>2.2</cooldownTime>
       </li>
     </tools>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Turning>4</HD_Turning><HD_Milling>4</HD_Milling></requirements></li></modExtensions>
   </ThingDef>
 
 </Defs>
