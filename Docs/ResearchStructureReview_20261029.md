@@ -117,7 +117,7 @@ R1~R8의 재배치는 연구 수를 늘리지 않는다. S4의 의료 노드와 
 - `Defs/ModernWar/Buildings/MultiTaskMachine2000.xml`: 선반·밀링 Tier 4와 두 가공 레시피군. `Defs/ColdWar/Buildings/MachiningCenter1970.xml`: 밀링 Tier 3.
 - `Defs/ModernWar/Items/Grenades_ModernWar.xml`, `Defs/GreatWar/Items/Grenades_GreatWar.xml`: M111과 MK III의 폭압 계열 구현·수치 차이.
 - `Patches/BlancasDrugs_HelodResearchTree.xml`: 선택 모드의 추출 약물 2개, 합성 약물 6개 연결. 실제 활성 모드 조합은 이번 검토에서 실행 검증하지 않았다.
-- [텍스트·연구 검수 규칙](ResearchContentReviewRules.md), [직전 내용 검수](ResearchContentAudit_20261029.md): 사용자 의도와 기존 오류 목록. 과거의 유지는 당시의 결정으로 기록하고, 이번 요청에 따라 구조 대안으로 다시 검토했다.
+- [텍스트 검사 규칙](TextReviewRules.md), [연구 배치·구성 검수 규칙](ResearchContentReviewRules.md), [직전 내용 검수](ResearchContentAudit_20261029.md): 사용자 의도와 기존 오류 목록. 과거의 유지는 당시의 결정으로 기록하고, 이번 요청에 따라 구조 대안으로 다시 검토했다.
 
 기술의 정확한 채택 연대를 새로 확정하는 검토가 아니다. 실제 XML·코드의 기능과 진행 구조를 근거로 한 기획 판단이다. 역사 근거가 필요한 M249·CROWS·탄약 배치의 출처는 직전 검수에 기록되어 있다.
 
