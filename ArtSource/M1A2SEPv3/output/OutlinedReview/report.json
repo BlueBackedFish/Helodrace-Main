@@ -1,10 +1,10 @@
 {
-  "source_report_sha256": "8d5c8da5ef94d2f739d67c3280d4d1a3705e673647375b4a9d5a298058cbb15b",
+  "source_report_sha256": "ade5c200d0a93ab352886a0b5fc722e831e4f6e11e249d2860174bd01366c223",
   "source_layer_sha256": {
-    "hull_east": "2434974d64658dad31f32fc35da52fe66ec698291b11c4c7f3834d27b8bfc5dc",
-    "turret_east": "eafc2979a234f6cb6292d25a3577011553cd7e56b30f36d68e9de2f76bb1866a",
-    "barrel_east": "8a01ed6f116cd63cf48e7a98adab4d427dacf772a82485e74316b4d802abbba7",
-    "turret_full_east": "a5fe10cb23f27aa4c63be8f57ff3422f8fa4d0e51e44db77cf1365fe56303e51"
+    "hull_east": "d52be9c0c4b37c6cd2972fc8f0c442daa463a2b8415913e6e085df21ef46d52c",
+    "turret_east": "b72bb3e61ff0cada640ca1529ec85240338640cb8e8d8f2769fe4a20e1164618",
+    "barrel_east": "548f240a53bbcfb47138c856db438a0d667f432c40a6258990671d4dec5cc97b",
+    "turret_full_east": "2d59095d3cd8ef9605b49dae6fdb7a6e9ddf638f122fe35d5b71ad7192f21d50"
   },
   "outline_width_at_256": 1,
   "color": [
@@ -19,15 +19,15 @@
   "alpha_bounds": {
     "1024/hull_east": [
       154,
-      385,
+      387,
       745,
-      676
+      678
     ],
     "1024/turret_east": [
       238,
-      379,
+      384,
       665,
-      653
+      649
     ],
     "1024/barrel_east": [
       473,
@@ -37,27 +37,27 @@
     ],
     "1024/turret_full_east": [
       238,
-      379,
+      384,
       906,
-      653
+      649
     ],
     "1024/preview_east": [
       154,
-      378,
+      385,
       870,
-      676
+      678
     ],
     "256/hull_east": [
       36,
       94,
       189,
-      171
+      172
     ],
     "256/turret_east": [
       57,
-      92,
+      94,
       169,
-      166
+      165
     ],
     "256/barrel_east": [
       116,
@@ -67,27 +67,27 @@
     ],
     "256/turret_full_east": [
       57,
-      92,
+      94,
       229,
-      166
+      165
     ],
     "256/preview_east": [
       36,
-      92,
+      94,
       220,
-      171
+      172
     ],
     "512/hull_east": [
       75,
       191,
       375,
-      340
+      341
     ],
     "512/turret_east": [
       117,
-      187,
+      190,
       335,
-      329
+      327
     ],
     "512/barrel_east": [
       234,
@@ -97,15 +97,15 @@
     ],
     "512/turret_full_east": [
       117,
-      187,
+      190,
       455,
-      329
+      327
     ],
     "512/preview_east": [
       75,
-      187,
+      190,
       437,
-      340
+      341
     ]
   },
   "outline_is_review_postprocess": true

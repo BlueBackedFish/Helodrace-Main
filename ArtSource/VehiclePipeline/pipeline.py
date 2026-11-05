@@ -317,10 +317,14 @@ def partition(model, profile):
     if len(owners) != len(model["faces"]):
         raise ValueError("Source face coverage is incomplete")
     for part in profile["parts"]:
-        if part.get("action", "keep") not in {"keep", "omit"}:
-            raise ValueError("Actions: keep / omit; replacement geometry needs a separate recorded edit")
-        if part.get("action") == "omit" and (not part.get("reason") or not part.get("confirmed")):
-            raise ValueError(f"Omission needs confirmation and reason: {part['id']}")
+        if part.get("action", "keep") not in {"keep", "omit", "box"}:
+            raise ValueError("Actions: keep / omit / box; other replacement geometry needs a separate recorded edit")
+        if part.get("action") in {"omit", "box"} and (not part.get("reason") or not part.get("confirmed")):
+            raise ValueError(f"Omission/box replacement needs confirmation and reason: {part['id']}")
+        if "accent" in part:
+            accent = part["accent"]
+            if not accent.get("reason") or "value" not in accent or not accent.get("over"):
+                raise ValueError(f"Accent needs value, reason and the base part it is mounted over: {part['id']}")
     return assigned
 
 
@@ -347,6 +351,8 @@ def paint_levels(profile, style):
         if edge["upper"] not in parts or edge["lower"] not in parts:
             raise ValueError("Contact references an unknown part")
         parents[edge["upper"]].append((edge["lower"], contact_direction(edge)))
+        if "accent" in parts[edge["upper"]] or "accent" in parts[edge["lower"]]:
+            raise ValueError(f"Accent parts are colour-rule exceptions; keep them out of contacts: {edge}")
     result, visiting = {}, set()
 
     def solve(key):
@@ -356,6 +362,13 @@ def paint_levels(profile, style):
             return result[key]
         visiting.add(key)
         p = parts[key]
+        if "accent" in p:
+            value = p["accent"]["value"]
+            if not style["minimum"] <= value <= style["maximum"]:
+                raise ValueError(f"Accent outside palette range: {key} = {value}")
+            result[key] = value
+            visiting.remove(key)
+            return value
         special = style["roles"][p["role"]]
         value = p.get("top", special if special is not None else style["planes"]["roof"])
         floor, ceiling, equal = -math.inf, math.inf, set()

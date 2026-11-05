@@ -123,6 +123,20 @@ f 1//1 3//1 2//1
         with self.assertRaises(ValueError):
             paint_levels(profile, style)
 
+    def test_accent_is_an_exception_outside_contacts(self):
+        style = read_json(ROOT/"presets/rimthunder_tan.json")
+        parts = [{"id": "roof", "role": "paint"},
+                 {"id": "eye", "role": "paint", "accent": {"value": 240, "over": "roof", "reason": "lift eye"}}]
+        profile = {"parts": parts, "contacts": []}
+        self.assertEqual(paint_levels(profile, style), {"roof": 168, "eye": 240})
+        profile["contacts"].append({"lower": "roof", "upper": "eye"})
+        with self.assertRaises(ValueError):
+            paint_levels(profile, style)
+        profile["contacts"].pop()
+        parts[1]["accent"]["value"] = 250
+        with self.assertRaises(ValueError):
+            paint_levels(profile, style)
+
     def test_position_component_selection_across_uv_seams_preserves_original_data(self):
         model = {"vertices": [(0, 0, 0), (1, 0, 0), (0, 1, 0),
                                (0, 0, 0), (0, 1, 0), (-1, 0, 0), (8, 8, 8)],

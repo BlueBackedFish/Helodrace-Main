@@ -20,6 +20,14 @@ NET_REASON = ("Camouflage net (Barracuda) removed on user request; the extracted
 ERA_REASON = "TUSK reactive armour tile; optional kit kept out of the base vehicle (style section 6)"
 RAIL_REASON = "TUSK ERA mounting rail/frame on the skirts or turret sides; only needed with the ERA tiles"
 WHIP_REASON = "2.5 m thin whip antenna is subpixel at 256px; separate whip group only"
+SOFT_REASON = ("Soft/irregular stowage (bag, rolled bedding, tarp bundle) removed: style section 2, "
+               "user request to simplify stowage")
+BOX_REASON = "Rounded rigid container (jerrycan, water can, cooler) replaced by one clean block: style section 2"
+STOWAGE = {"ex_decor_02", "ex_decor_03", "ex_decor_04", "ex_decor_r_03", "ex_decor_l_03",
+           "ex_decor_r_04", "ex_decor_l_04", "ex_decor_r_05", "ex_decor_l_05"}
+# Highlight exceptions (style section 4): small tow/recovery hardware on the hull.
+ACCENTS = {"ex_decor_r_02", "ex_decor_l_02", "ex_decor_r_08", "ex_decor_l_08", "ex_decor_05"}
+ACCENT_REASON = "Tow shackle / towing pintle: small mounted hardware highlighted like RimThunder tow hooks"
 
 # Ladder values (style.json planes: roof 216 / slope 192,168 / wall 144).
 HULL_TOP, TURRET_TOP, STEP = 216, 192, 24
@@ -111,6 +119,9 @@ def configure():
             part.update(role="equipment", mode="two_tone", top=HULL_TOP, side=144)  # loader MG and shield
         elif layer == "turret" and (name.startswith("ex_decor") or name in {"ex_armor_07", "ex_armor_08"}):
             part.update(mode="two_tone", top=168, side=120)  # bustle rack and stowage boxes
+        elif name in ACCENTS:
+            part.update(mode="flat", accent={"value": 240, "side": 192, "over": groups["root"]["id"],
+                                             "reason": ACCENT_REASON})
         elif name.startswith("ex_lantern") or (layer == "hull" and name.startswith("ex_decor")):
             part.update(mode="two_tone", top=192, side=144)
         parts.append(part)
@@ -134,18 +145,44 @@ def configure():
                 subsets["bore"].append(face_id)
         for key, faces in subsets.items():
             if key == "grille":
-                clusters = []
-                for face_id in faces:
-                    normal, _ = surface(face_id)
-                    match = next((c for c in clusters if np.dot(c[0], normal) > .9999), None)
-                    (clusters.append((normal, [face_id])) if match is None else match[1].append(face_id))
-                for i, (_, cluster) in enumerate(clusters):
-                    extract(group, f"grille_patch_{i:02d}", cluster, role="paint", mode="flat", top=96,
-                            grid={"cell_pixels": 5, "bar_fraction": .3, "values": [72, 120]})
+                # One corner-fitted pattern per connected source panel (style section 3).
+                for i, panel in enumerate(common.components(model, faces, 1e-6)):
+                    co = vertices[[v for f in panel for v in model["faces"][f]["vertices"]]]
+                    longest = float(np.max(np.ptp(co, axis=0)))
+                    if layer == "turret":
+                        # Bustle-rack floor mesh: about one diamond per 0.25 m.
+                        grille = dict(pattern="diamond", rows=2, columns=max(2, round(longest/.25)),
+                                      values=[48, 120, 144])
+                    else:
+                        # Engine-deck louvers: 4-8 slats, ~2px each at 256px (style section 3).
+                        grille = dict(pattern="louvers", rows=int(np.clip(round(longest/.15), 4, 8)),
+                                      columns=1, values=[60, 144, 168])
+                    extract(group, f"grille_{i:02d}", panel, role="paint", mode="flat", top=96, grille=grille)
                 continue
             role, value = {"interior": ("recess", 48), "headlamp_lens": ("optics", 192),
                            "glass": ("optics", 32), "gunmetal": ("metal", 72), "bore": ("recess", 40)}[key]
             extract(group, key, faces, role=role, top=value, mode="flat")
+
+        if name in STOWAGE:
+            taken_here = {f for p in parts if p["source_group"] == group["id"] and p["id"] != group["id"]
+                          for f in p.get("faces", [])}
+            rest = [f for f in group["faces"] if f not in taken_here]
+            for comp in common.components(model, rest, 1e-6):
+                if len(comp) < 100:
+                    continue  # straps, latches, rack bars stay as source geometry
+                co = vertices[[v for f in comp for v in model["faces"][f]["vertices"]]]
+                size = float(np.max(np.ptp(co, axis=0)))
+                aligned = np.mean([np.max(np.abs(surface(f)[0])) > .97 for f in comp])
+                if aligned >= .45 or size < .25:
+                    continue  # already a clean box / rack panel
+                item = extract(group, f"stowage_{min(comp)}", comp)
+                record = next(p for p in parts if p["id"] == item)
+                if size >= .6:
+                    record.update(action="omit", reason=SOFT_REASON)
+                    omissions[SOFT_REASON] += len(comp)
+                else:
+                    record.update(action="box", reason=BOX_REASON)
+                    omissions["box: "+BOX_REASON] += len(comp)
 
     # The Abrams glacis is very shallow; a generic upward-normal threshold calls it roof.
     # Select the actual exterior shell (largest connected component of the hull group).

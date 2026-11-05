@@ -87,6 +87,8 @@ Blender는 PATH와 `C:/Program Files/Blender Foundation/Blender */blender.exe`�
   - 한 부품에 걸린 조건이 서로 맞지 않거나, 상한·하한을 넘거나, 그래프가 순환하면 조용히 clamp하지 않고 오류로 알린다. 빌드 후 실제 면색으로 `actual_upward_gap`/`actual_downward_gap`/`actual_wall_gap`를 다시 검사해, 간격을 뒤집는 plane/cap/side 덮어쓰기를 거절한다. 그릴 패턴은 이 그래프에서 제외하고 단색 받침을 지정한다. 방향별 하부 면 전체의 대비나 최종 픽셀 가독성까지 자동 합격시킨다는 뜻은 아니다.
 - `layer`: `hull`, `turret`, `barrel`. TOW·문 등의 기계적 분리는 별도 rig로 표현한다. 문은 hull 레이어에 남으면서 독립 피벗을 가질 수 있다.
 - `rigs`: canonical 좌표계의 피벗·축·직접 소유 부품·선택적 parent. `usage: "turret_yaw"`인 rig는 상면 포탑 렌더 중심과 차체 합성 앵커로 사용한다. 포신 rig는 포탑 rig의 자식이다. 한 부품을 두 rig에 직접 넣지 않는다. `animate: true`이면 1프레임 닫힘→40 열림→80 닫힘의 검수 동작을 만든다. 피벗 미확인 상태의 애니메이션 생성은 거절한다.
+- `action: "box"`: 명시한 부품의 원본 면을 그 범위의 축 정렬 상자 하나로 바꾼다(적재물 단순화, `VEHICLE_ART_STYLE.md` §2). `confirmed: true`와 `reason`이 필요하다. 보고서의 `box_replaced_faces`, `boxes`에 원본 면 수·범위·이유가 남고, 원본 좌표 보존 검사에서는 이 면들만 제외한다.
+- `accent`: `{"value": 240, "side": 192, "over": "바탕 부품 ID", "reason": "..."}`. 색상 규칙의 하이라이트 예외(§4)다. 윗면은 `value`, 측벽은 `side`(생략 시 `value`)로 칠한다. 접촉 그래프에 넣으면 오류다. 빌드가 실제 면색으로 `over` 부품의 윗면보다 `contact_step` 이상 밝은지, 하이라이트 면적 합이 `accent_max_area_fraction`(style, 기본 0.03) 이하인지 검사하고 `accents`, `accent_area_fraction`에 기록한다.
 - `action: "omit"`: 명시한 부품만 제외한다. `confirmed: true`와 `reason`이 필요하며 제외 면 수를 보고한다. 이름이나 크기로 자동 삭제하지 않는다. ERA 등 옵션은 실제로 확인한 항목만 명시해 기본형에서 뺀다.
 - `confirmed`: 자동 제안이 아닌 검수한 매핑이라는 뜻이다. `review`의 blueprint/style_reference/native_size/geometry/game는 별도 실제 검수 기록이다. 성공적으로 저장됐다는 이유로 채우지 않는다.
 

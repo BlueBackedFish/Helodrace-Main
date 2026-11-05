@@ -42,6 +42,10 @@ def validate_rigs(profile):
 
 
 def value_for(normal, part, top, style):
+    if "accent" in part:
+        # Highlight exception: one bright value, optional darker side for its walls.
+        accent = part["accent"]
+        return accent["value"] if normal.z >= .5 else accent.get("side", accent["value"])
     special = style["roles"][part["role"]]
     mode = part["mode"]
     if mode == "cylinder":
@@ -188,7 +192,7 @@ def build(profile_path):
     scene.world.use_nodes = True
     scene.world.node_tree.nodes["Background"].inputs["Strength"].default_value = 0
     objects, cache, paint_report = {}, {}, {}
-    omitted = []
+    omitted, replaced, boxes = [], [], []
     for part in profile["parts"]:
         face_ids = selection[part["id"]]
         if part.get("action") == "omit":
@@ -199,17 +203,30 @@ def build(profile_path):
         source_indices = sorted({v for i in face_ids for v in source["faces"][i]["vertices"]})
         mapping = {v: i for i, v in enumerate(source_indices)}
         mesh = bpy.data.meshes.new(part["id"])
-        mesh.from_pydata([source_points[i] for i in source_indices], [],
-                         [[mapping[v] for v in source["faces"][i]["vertices"]] for i in face_ids])
+        boxed = part.get("action") == "box"
+        if boxed:
+            # Recorded simplification: one clean axis-aligned block over the source faces.
+            co = [source_points[i] for i in source_indices]
+            lo = [min(c[k] for c in co) for k in range(3)]
+            hi = [max(c[k] for c in co) for k in range(3)]
+            corners = [(x, y, z) for z in (lo[2], hi[2]) for y in (lo[1], hi[1]) for x in (lo[0], hi[0])]
+            mesh.from_pydata(corners, [], [[0, 2, 3, 1], [4, 5, 7, 6], [0, 1, 5, 4],
+                                           [1, 3, 7, 5], [3, 2, 6, 7], [2, 0, 4, 6]])
+            replaced += face_ids
+            boxes.append({"part": part["id"], "source_faces": len(face_ids), "bounds": [lo, hi],
+                          "reason": part["reason"]})
+        else:
+            mesh.from_pydata([source_points[i] for i in source_indices], [],
+                             [[mapping[v] for v in source["faces"][i]["vertices"]] for i in face_ids])
         mesh.update()
         obj = bpy.data.objects.new(part["id"]+" "+part["label"], mesh)
         scene.collection.objects.link(obj)
         obj["part_id"] = part["id"]
         obj["layer"] = part["layer"]
         source_id = mesh.attributes.new(name="source_face_id", type="INT", domain="FACE")
-        source_id.data.foreach_set("value", face_ids)
+        source_id.data.foreach_set("value", [-1]*len(mesh.polygons) if boxed else face_ids)
         original_uv = mesh.uv_layers.new(name="Source UV")
-        for poly, face_id in zip(mesh.polygons, face_ids):
+        for poly, face_id in zip(mesh.polygons, [] if boxed else face_ids):
             face = source["faces"][face_id]
             for loop_id, uv_id in zip(poly.loop_indices, face["uv"]):
                 original_uv.data[loop_id].uv = source["uv"][uv_id] if uv_id is not None else (0, 0)
@@ -231,6 +248,7 @@ def build(profile_path):
                 walls.append(value)
         objects[part["id"]] = obj
         paint_report[part["id"]] = {"top": levels[part["id"]], "luminances": dict(distribution),
+                                   "area": sum(poly.area for poly in mesh.polygons),
                                    "upward_min_max": [min(upward), max(upward)] if upward else None,
                                    "wall_min_max": [min(walls), max(walls)] if walls else None,
                                    "source_faces": len(face_ids)}
@@ -264,6 +282,23 @@ def build(profile_path):
                 raise ValueError(f"'same' contact wall is not a step darker than its base {edge}: "
                                  f"{check['actual_wall_gap']}; darken the mounted part's walls")
         contact_checks.append(check)
+    accents = []
+    total_area = sum(r["area"] for r in paint_report.values())
+    for part in profile["parts"]:
+        if "accent" not in part or part["id"] not in paint_report:
+            continue
+        base = paint_report.get(part["accent"]["over"], {}).get("upward_min_max")
+        top = paint_report[part["id"]]["upward_min_max"] or [part["accent"]["value"]]*2
+        if not base:
+            raise ValueError(f"Accent base needs visible upward faces: {part['accent']}")
+        gap = top[0]-base[1]
+        if gap < style["contact_step"]-.001:
+            raise ValueError(f"Accent {part['id']} is not a full step above its base: {gap}")
+        accents.append({"part": part["id"], "over": part["accent"]["over"], "value": part["accent"]["value"],
+                        "gap_over_base": gap, "area": paint_report[part["id"]]["area"], "reason": part["accent"]["reason"]})
+    accent_fraction = sum(a["area"] for a in accents)/max(total_area, 1e-12)
+    if accent_fraction > style.get("accent_max_area_fraction", .03):
+        raise ValueError(f"Accents cover {accent_fraction:.3f} of the surface; highlights must stay small")
     if not objects:
         raise ValueError("Every source part was omitted")
     empties = {}
@@ -391,7 +426,10 @@ def build(profile_path):
     aim(center, style["render"]["hull_elevation"])
     # Validate preserved coordinates / polygons against the source with per-face provenance.
     seen, degenerate = set(), []
+    boxed_parts = {b["part"] for b in boxes}
     for key, obj in objects.items():
+        if key in boxed_parts:
+            continue
         mesh = obj.data
         for poly, face_id in zip(mesh.polygons, selection[key]):
             if face_id in seen:
@@ -402,7 +440,7 @@ def build(profile_path):
                     raise AssertionError(f"Source geometry moved: {key} / {face_id}")
             if poly.area < 1e-12*camera_data.ortho_scale**2:
                 degenerate.append(face_id)
-    if seen | set(omitted) != set(range(len(source["faces"]))) or seen & set(omitted):
+    if seen | set(omitted) | set(replaced) != set(range(len(source["faces"]))) or seen & set(omitted) or (seen | set(omitted)) & set(replaced):
         raise AssertionError("Source provenance coverage failed")
     if any(o.type == "LIGHT" for o in scene.objects):
         raise AssertionError("Unexpected scene light")
@@ -457,6 +495,8 @@ def build(profile_path):
               "sources": profile["sources"], "profile_sha256": sha256(profile_path),
               "style_sha256": sha256(style_path), "source_faces": len(source["faces"]),
               "preserved_faces": len(seen), "explicitly_omitted_faces": len(omitted),
+              "box_replaced_faces": len(replaced), "boxes": boxes,
+              "accents": accents, "accent_area_fraction": accent_fraction,
               "degenerate_source_faces": degenerate, "source_coordinates_preserved": True,
               "unlit_glb": True, "glb_animation_count": animation_count,
               "mesh_count": len(objects), "paint": paint_report, "contact_checks": contact_checks,

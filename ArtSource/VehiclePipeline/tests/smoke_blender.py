@@ -126,6 +126,26 @@ def main():
     assert rejected.returncode != 0 and "'same' contact wall is not a step darker" in rejected.stdout
     assert not (weak/"output/report.json").exists()
     print("Built down/same contacts and rejected an equal-top part without a darker wall")
+    # Recorded simplification + highlight exception.
+    profile["parts"][3].pop("planes")
+    profile["contacts"] = [{"lower": "g0001", "upper": "g0002", "direction": "down"}]
+    profile["parts"][3]["accent"] = {"value": 240, "over": "g0002", "reason": "small grip highlight"}
+    profile["parts"][5].update(action="box", reason="test clean block", confirmed=True)
+    simplified = directory/"BoxAccent"
+    simplified.mkdir()
+    shutil.copyfile(project/"style.json", simplified/"style.json")
+    write_json(simplified/"vehicle.json", profile)
+    subprocess.run([sys.executable, str(ROOT/"pipeline.py"), "build", str(simplified/"vehicle.json")], check=True)
+    report = read_json(simplified/"output/report.json")
+    assert report["box_replaced_faces"] == 6 and report["boxes"][0]["part"] == "g0005"
+    assert report["preserved_faces"]+report["box_replaced_faces"]+report["explicitly_omitted_faces"] == 37
+    assert report["accents"][0]["gap_over_base"] == 48 and report["paint"]["g0003"]["top"] == 240
+    profile["parts"][3]["accent"]["value"] = 200
+    write_json(simplified/"vehicle.json", profile)
+    rejected = subprocess.run([sys.executable, str(ROOT/"pipeline.py"), "build", str(simplified/"vehicle.json")],
+                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace")
+    assert rejected.returncode != 0 and "is not a full step above its base" in rejected.stdout
+    print("Built a box replacement and an accent; rejected an accent without a full step")
     print("SMOKE_OUTPUT="+str(project))
 
 

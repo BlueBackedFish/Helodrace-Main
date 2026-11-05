@@ -19,16 +19,215 @@
       "sha256": "2f026e5564f63af921bd8f2ccf81c707140f2cefce0f03b6ae14bd442021fe96"
     }
   },
-  "profile_sha256": "5429c605fd0aa9c8481ab7c6bd0fe9cf57f262b6f53dda166d5c49805ce5a421",
+  "profile_sha256": "3d90e7051eb83644881d01fc7895f8227a351d38847c89584b454b7fdd67b41a",
   "style_sha256": "6224ebdb1634f6c940e247f9d70b37a3fba475bafd39a7d217fc5fd0e29699d9",
   "source_faces": 425141,
-  "preserved_faces": 224390,
-  "explicitly_omitted_faces": 200751,
+  "preserved_faces": 213610,
+  "explicitly_omitted_faces": 207687,
+  "box_replaced_faces": 3844,
+  "boxes": [
+    {
+      "part": "g0038_stowage_114629",
+      "source_faces": 478,
+      "bounds": [
+        [
+          0.6079,
+          3.2885,
+          1.961
+        ],
+        [
+          0.9458,
+          3.6264,
+          2.4412
+        ]
+      ],
+      "reason": "Rounded rigid container (jerrycan, water can, cooler) replaced by one clean block: style section 2"
+    },
+    {
+      "part": "g0046_stowage_128044",
+      "source_faces": 536,
+      "bounds": [
+        [
+          0.9882,
+          3.3363,
+          1.9329
+        ],
+        [
+          1.1407,
+          3.6785,
+          2.4153
+        ]
+      ],
+      "reason": "Rounded rigid container (jerrycan, water can, cooler) replaced by one clean block: style section 2"
+    },
+    {
+      "part": "g0051_stowage_132503",
+      "source_faces": 536,
+      "bounds": [
+        [
+          -1.2803,
+          3.3297,
+          1.9329
+        ],
+        [
+          -1.1278,
+          3.6718,
+          2.4153
+        ]
+      ],
+      "reason": "Rounded rigid container (jerrycan, water can, cooler) replaced by one clean block: style section 2"
+    },
+    {
+      "part": "g0056_stowage_138115",
+      "source_faces": 478,
+      "bounds": [
+        [
+          -1.1423,
+          2.7294,
+          1.9643
+        ],
+        [
+          -0.8045,
+          3.0671,
+          2.4445
+        ]
+      ],
+      "reason": "Rounded rigid container (jerrycan, water can, cooler) replaced by one clean block: style section 2"
+    },
+    {
+      "part": "g0057_stowage_139825",
+      "source_faces": 536,
+      "bounds": [
+        [
+          -1.4597,
+          2.6569,
+          1.923
+        ],
+        [
+          -1.1175,
+          2.8095,
+          2.4055
+        ]
+      ],
+      "reason": "Rounded rigid container (jerrycan, water can, cooler) replaced by one clean block: style section 2"
+    },
+    {
+      "part": "g0057_stowage_138849",
+      "source_faces": 288,
+      "bounds": [
+        [
+          -1.4799,
+          2.8309,
+          1.9648
+        ],
+        [
+          -1.1801,
+          3.1307,
+          2.3821
+        ]
+      ],
+      "reason": "Rounded rigid container (jerrycan, water can, cooler) replaced by one clean block: style section 2"
+    },
+    {
+      "part": "g0060_stowage_147264",
+      "source_faces": 536,
+      "bounds": [
+        [
+          0.9795,
+          2.6569,
+          1.923
+        ],
+        [
+          1.3217,
+          2.8095,
+          2.4055
+        ]
+      ],
+      "reason": "Rounded rigid container (jerrycan, water can, cooler) replaced by one clean block: style section 2"
+    },
+    {
+      "part": "g0060_stowage_146524",
+      "source_faces": 288,
+      "bounds": [
+        [
+          1.0524,
+          2.8309,
+          1.9648
+        ],
+        [
+          1.3522,
+          3.1307,
+          2.3821
+        ]
+      ],
+      "reason": "Rounded rigid container (jerrycan, water can, cooler) replaced by one clean block: style section 2"
+    },
+    {
+      "part": "g0061_stowage_149025",
+      "source_faces": 168,
+      "bounds": [
+        [
+          -0.3667,
+          2.6292,
+          2.0796
+        ],
+        [
+          -0.0079,
+          3.165,
+          2.4158
+        ]
+      ],
+      "reason": "Rounded rigid container (jerrycan, water can, cooler) replaced by one clean block: style section 2"
+    }
+  ],
+  "accents": [
+    {
+      "part": "g0173",
+      "over": "g0000",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.21343435515882447,
+      "reason": "Tow shackle / towing pintle: small mounted hardware highlighted like RimThunder tow hooks"
+    },
+    {
+      "part": "g0175",
+      "over": "g0000",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.21344844771374483,
+      "reason": "Tow shackle / towing pintle: small mounted hardware highlighted like RimThunder tow hooks"
+    },
+    {
+      "part": "g0177",
+      "over": "g0000",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.21344745118403807,
+      "reason": "Tow shackle / towing pintle: small mounted hardware highlighted like RimThunder tow hooks"
+    },
+    {
+      "part": "g0179",
+      "over": "g0000",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.21346894570160657,
+      "reason": "Tow shackle / towing pintle: small mounted hardware highlighted like RimThunder tow hooks"
+    },
+    {
+      "part": "g0181",
+      "over": "g0000",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.06783835644000646,
+      "reason": "Tow shackle / towing pintle: small mounted hardware highlighted like RimThunder tow hooks"
+    }
+  ],
+  "accent_area_fraction": 0.0014394487810931572,
   "degenerate_source_faces": [],
   "source_coordinates_preserved": true,
   "unlit_glb": true,
   "glb_animation_count": 1,
-  "mesh_count": 161,
+  "mesh_count": 159,
   "paint": {
     "g0000": {
       "top": 216,
@@ -39,6 +238,7 @@
         "192": 3894,
         "168": 2050
       },
+      "area": 76.01400021351105,
       "upward_min_max": [
         216,
         216
@@ -54,6 +254,7 @@
       "luminances": {
         "48": 1848
       },
+      "area": 94.25233844656032,
       "upward_min_max": [
         48,
         48
@@ -64,203 +265,54 @@
       ],
       "source_faces": 1848
     },
-    "g0000_grille_patch_00": {
+    "g0000_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 2
+        "96": 16
       },
-      "upward_min_max": null,
+      "area": 0.34354696175432764,
+      "upward_min_max": [
+        96,
+        96
+      ],
       "wall_min_max": [
         96,
         96
       ],
-      "source_faces": 2
+      "source_faces": 16
     },
-    "g0000_grille_patch_01": {
+    "g0000_grille_01": {
       "top": 96,
       "luminances": {
-        "96": 1
+        "96": 7
       },
-      "upward_min_max": null,
-      "wall_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0000_grille_patch_02": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": null,
-      "wall_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 1
-    },
-    "g0000_grille_patch_03": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "wall_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2
-    },
-    "g0000_grille_patch_04": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
+      "area": 0.2532775980653241,
       "upward_min_max": [
         96,
         96
       ],
       "wall_min_max": null,
-      "source_faces": 1
+      "source_faces": 7
     },
-    "g0000_grille_patch_05": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "wall_min_max": null,
-      "source_faces": 1
-    },
-    "g0000_grille_patch_06": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "wall_min_max": null,
-      "source_faces": 1
-    },
-    "g0000_grille_patch_07": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "wall_min_max": null,
-      "source_faces": 1
-    },
-    "g0000_grille_patch_08": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "wall_min_max": null,
-      "source_faces": 1
-    },
-    "g0000_grille_patch_09": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "wall_min_max": null,
-      "source_faces": 1
-    },
-    "g0000_grille_patch_10": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "wall_min_max": null,
-      "source_faces": 1
-    },
-    "g0000_grille_patch_11": {
+    "g0000_grille_02": {
       "top": 96,
       "luminances": {
         "96": 4
       },
-      "upward_min_max": null,
-      "wall_min_max": [
+      "area": 0.09855972044169903,
+      "upward_min_max": [
         96,
         96
       ],
+      "wall_min_max": null,
       "source_faces": 4
-    },
-    "g0000_grille_patch_12": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "wall_min_max": null,
-      "source_faces": 2
-    },
-    "g0000_grille_patch_13": {
-      "top": 96,
-      "luminances": {
-        "96": 5
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "wall_min_max": null,
-      "source_faces": 5
-    },
-    "g0000_grille_patch_14": {
-      "top": 96,
-      "luminances": {
-        "96": 2
-      },
-      "upward_min_max": null,
-      "wall_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2
-    },
-    "g0000_grille_patch_15": {
-      "top": 96,
-      "luminances": {
-        "96": 1
-      },
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "wall_min_max": null,
-      "source_faces": 1
     },
     "g0001": {
       "top": 72,
       "luminances": {
         "72": 397
       },
+      "area": 0.5334123093789458,
       "upward_min_max": [
         72,
         72
@@ -277,6 +329,7 @@
         "96": 524,
         "40": 828
       },
+      "area": 2.667513464271906,
       "upward_min_max": [
         40,
         40
@@ -292,6 +345,7 @@
       "luminances": {
         "72": 208
       },
+      "area": 0.4839790770674881,
       "upward_min_max": [
         72,
         72
@@ -308,6 +362,7 @@
         "96": 524,
         "40": 828
       },
+      "area": 2.6675198071388877,
       "upward_min_max": [
         40,
         40
@@ -323,6 +378,7 @@
       "luminances": {
         "72": 208
       },
+      "area": 0.48409220707253553,
       "upward_min_max": [
         72,
         72
@@ -339,6 +395,7 @@
         "96": 524,
         "40": 828
       },
+      "area": 2.6675499113480328,
       "upward_min_max": [
         40,
         40
@@ -354,6 +411,7 @@
       "luminances": {
         "72": 208
       },
+      "area": 0.48404225597914774,
       "upward_min_max": [
         72,
         72
@@ -370,6 +428,7 @@
         "96": 524,
         "40": 828
       },
+      "area": 2.6675857875015936,
       "upward_min_max": [
         40,
         40
@@ -386,6 +445,7 @@
         "96": 524,
         "40": 828
       },
+      "area": 2.667467367136851,
       "upward_min_max": [
         40,
         40
@@ -401,6 +461,7 @@
       "luminances": {
         "72": 208
       },
+      "area": 0.4840484214328171,
       "upward_min_max": [
         72,
         72
@@ -416,6 +477,7 @@
       "luminances": {
         "72": 208
       },
+      "area": 0.4840604285309382,
       "upward_min_max": [
         72,
         72
@@ -432,6 +494,7 @@
         "96": 524,
         "40": 828
       },
+      "area": 2.667612493998604,
       "upward_min_max": [
         40,
         40
@@ -447,6 +510,7 @@
       "luminances": {
         "72": 208
       },
+      "area": 0.4839804681869282,
       "upward_min_max": [
         72,
         72
@@ -463,6 +527,7 @@
         "96": 524,
         "40": 828
       },
+      "area": 2.667311761098972,
       "upward_min_max": [
         40,
         40
@@ -478,6 +543,7 @@
       "luminances": {
         "72": 397
       },
+      "area": 0.5333873264187332,
       "upward_min_max": [
         72,
         72
@@ -494,6 +560,7 @@
         "96": 524,
         "40": 828
       },
+      "area": 2.6675931045101606,
       "upward_min_max": [
         40,
         40
@@ -509,6 +576,7 @@
       "luminances": {
         "72": 208
       },
+      "area": 0.484003331297572,
       "upward_min_max": [
         72,
         72
@@ -525,6 +593,7 @@
         "96": 524,
         "40": 828
       },
+      "area": 2.667707483000413,
       "upward_min_max": [
         40,
         40
@@ -540,6 +609,7 @@
       "luminances": {
         "72": 208
       },
+      "area": 0.4840323395874293,
       "upward_min_max": [
         72,
         72
@@ -556,6 +626,7 @@
         "96": 524,
         "40": 828
       },
+      "area": 2.667738839991216,
       "upward_min_max": [
         40,
         40
@@ -571,6 +642,7 @@
       "luminances": {
         "72": 208
       },
+      "area": 0.48403932805376826,
       "upward_min_max": [
         72,
         72
@@ -587,6 +659,7 @@
         "96": 524,
         "40": 828
       },
+      "area": 2.667244217140251,
       "upward_min_max": [
         40,
         40
@@ -602,6 +675,7 @@
       "luminances": {
         "72": 208
       },
+      "area": 0.4840463421132881,
       "upward_min_max": [
         72,
         72
@@ -618,6 +692,7 @@
         "96": 524,
         "40": 828
       },
+      "area": 2.667653033968236,
       "upward_min_max": [
         40,
         40
@@ -633,6 +708,7 @@
       "luminances": {
         "72": 208
       },
+      "area": 0.48407227232382866,
       "upward_min_max": [
         72,
         72
@@ -649,6 +725,7 @@
         "96": 524,
         "40": 828
       },
+      "area": 2.6676613778690808,
       "upward_min_max": [
         40,
         40
@@ -664,6 +741,7 @@
       "luminances": {
         "72": 208
       },
+      "area": 0.4839675297262147,
       "upward_min_max": [
         72,
         72
@@ -680,6 +758,7 @@
         "96": 524,
         "40": 828
       },
+      "area": 2.6674974612906226,
       "upward_min_max": [
         40,
         40
@@ -699,6 +778,7 @@
         "168": 2958,
         "144": 2872
       },
+      "area": 46.50220627150793,
       "upward_min_max": [
         192,
         192
@@ -714,6 +794,7 @@
       "luminances": {
         "48": 2391
       },
+      "area": 41.83347685223998,
       "upward_min_max": [
         48,
         48
@@ -724,11 +805,12 @@
       ],
       "source_faces": 2391
     },
-    "g0029_grille_patch_00": {
+    "g0029_grille_00": {
       "top": 96,
       "luminances": {
         "96": 24
       },
+      "area": 1.1887345886789262,
       "upward_min_max": [
         96,
         96
@@ -741,6 +823,7 @@
       "luminances": {
         "32": 20
       },
+      "area": 0.4115024283528328,
       "upward_min_max": null,
       "wall_min_max": [
         32,
@@ -754,6 +837,7 @@
         "144": 424,
         "216": 98
       },
+      "area": 0.26671355340113223,
       "upward_min_max": [
         216,
         216
@@ -770,6 +854,7 @@
         "144": 1374,
         "216": 331
       },
+      "area": 0.6070590128946662,
       "upward_min_max": [
         216,
         216
@@ -785,6 +870,7 @@
       "luminances": {
         "72": 6015
       },
+      "area": 0.40342134274857244,
       "upward_min_max": [
         72,
         72
@@ -801,6 +887,7 @@
         "216": 290,
         "144": 940
       },
+      "area": 0.2824461821502382,
       "upward_min_max": [
         216,
         216
@@ -817,6 +904,7 @@
         "144": 836,
         "216": 256
       },
+      "area": 0.7450885403750362,
       "upward_min_max": [
         216,
         216
@@ -832,6 +920,7 @@
       "luminances": {
         "32": 8
       },
+      "area": 0.16034664027392864,
       "upward_min_max": null,
       "wall_min_max": [
         32,
@@ -848,6 +937,7 @@
         "192": 405,
         "144": 98
       },
+      "area": 11.01545694509332,
       "upward_min_max": [
         192,
         192
@@ -864,6 +954,7 @@
         "168": 1590,
         "144": 836
       },
+      "area": 3.019010928701846,
       "upward_min_max": [
         168,
         168
@@ -879,6 +970,7 @@
       "luminances": {
         "40": 70
       },
+      "area": 0.3784033451229334,
       "upward_min_max": [
         40,
         40
@@ -895,6 +987,7 @@
         "144": 521,
         "216": 289
       },
+      "area": 0.8286604518798413,
       "upward_min_max": [
         216,
         216
@@ -910,6 +1003,7 @@
       "luminances": {
         "32": 2
       },
+      "area": 0.022095926105976105,
       "upward_min_max": null,
       "wall_min_max": [
         32,
@@ -923,6 +1017,7 @@
         "216": 292,
         "144": 988
       },
+      "area": 1.2908231687579246,
       "upward_min_max": [
         216,
         216
@@ -938,6 +1033,7 @@
       "luminances": {
         "32": 2
       },
+      "area": 0.024724126793444157,
       "upward_min_max": null,
       "wall_min_max": [
         32,
@@ -948,9 +1044,10 @@
     "g0038": {
       "top": 168,
       "luminances": {
-        "120": 7226,
-        "168": 1983
+        "120": 3891,
+        "168": 1028
       },
+      "area": 4.0817509286926,
       "upward_min_max": [
         168,
         168
@@ -959,26 +1056,71 @@
         120,
         168
       ],
-      "source_faces": 9209
+      "source_faces": 4919
     },
-    "g0038_grille_patch_00": {
+    "g0038_grille_00": {
       "top": 96,
       "luminances": {
-        "96": 16
+        "96": 6
       },
+      "area": 0.07598629605490714,
       "upward_min_max": [
         96,
         96
       ],
       "wall_min_max": null,
-      "source_faces": 16
+      "source_faces": 6
+    },
+    "g0038_grille_01": {
+      "top": 96,
+      "luminances": {
+        "96": 6
+      },
+      "area": 0.07595338753890246,
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 6
+    },
+    "g0038_grille_02": {
+      "top": 96,
+      "luminances": {
+        "96": 4
+      },
+      "area": 1.0376665890216827,
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 4
+    },
+    "g0038_stowage_114629": {
+      "top": 168,
+      "luminances": {
+        "144": 5,
+        "168": 1
+      },
+      "area": 0.8773910999298096,
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 478
     },
     "g0039": {
       "top": 168,
       "luminances": {
-        "120": 1834,
-        "168": 348
+        "120": 721,
+        "168": 135
       },
+      "area": 0.1519390688722524,
       "upward_min_max": [
         168,
         168
@@ -987,7 +1129,7 @@
         120,
         168
       ],
-      "source_faces": 2182
+      "source_faces": 856
     },
     "g0040": {
       "top": 192,
@@ -998,6 +1140,7 @@
         "168": 47,
         "72": 102
       },
+      "area": 1.1837665776110953,
       "upward_min_max": [
         192,
         192
@@ -1016,6 +1159,7 @@
         "72": 32,
         "168": 8
       },
+      "area": 0.14494344092236133,
       "upward_min_max": [
         192,
         192
@@ -1035,6 +1179,7 @@
         "144": 9,
         "168": 29
       },
+      "area": 1.9537045264385142,
       "upward_min_max": [
         192,
         192
@@ -1053,6 +1198,7 @@
         "72": 38,
         "168": 8
       },
+      "area": 0.13039748074606905,
       "upward_min_max": [
         192,
         192
@@ -1072,6 +1218,7 @@
         "144": 9,
         "168": 29
       },
+      "area": 1.9531979860269075,
       "upward_min_max": [
         192,
         192
@@ -1088,6 +1235,7 @@
         "120": 348,
         "168": 60
       },
+      "area": 1.9536100139641803,
       "upward_min_max": [
         168,
         168
@@ -1101,9 +1249,10 @@
     "g0046": {
       "top": 168,
       "luminances": {
-        "120": 1060,
-        "168": 285
+        "120": 626,
+        "168": 183
       },
+      "area": 0.13751477391690514,
       "upward_min_max": [
         168,
         168
@@ -1112,7 +1261,24 @@
         120,
         168
       ],
-      "source_faces": 1345
+      "source_faces": 809
+    },
+    "g0046_stowage_128044": {
+      "top": 168,
+      "luminances": {
+        "144": 5,
+        "168": 1
+      },
+      "area": 0.5816574096679688,
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 536
     },
     "g0047": {
       "top": 216,
@@ -1120,6 +1286,7 @@
         "144": 468,
         "216": 96
       },
+      "area": 0.5797091963804633,
       "upward_min_max": [
         216,
         216
@@ -1133,9 +1300,10 @@
     "g0048": {
       "top": 168,
       "luminances": {
-        "120": 1785,
-        "168": 405
+        "120": 686,
+        "168": 138
       },
+      "area": 0.14863379215944406,
       "upward_min_max": [
         168,
         168
@@ -1144,7 +1312,7 @@
         120,
         168
       ],
-      "source_faces": 2190
+      "source_faces": 824
     },
     "g0049": {
       "top": 216,
@@ -1152,6 +1320,7 @@
         "216": 118,
         "144": 326
       },
+      "area": 1.9946011907004504,
       "upward_min_max": [
         216,
         216
@@ -1168,6 +1337,7 @@
         "168": 134,
         "120": 404
       },
+      "area": 0.3305058711066522,
       "upward_min_max": [
         168,
         168
@@ -1181,9 +1351,10 @@
     "g0051": {
       "top": 168,
       "luminances": {
-        "120": 1058,
-        "168": 287
+        "120": 623,
+        "168": 186
       },
+      "area": 0.1374538062289048,
       "upward_min_max": [
         168,
         168
@@ -1192,7 +1363,24 @@
         120,
         168
       ],
-      "source_faces": 1345
+      "source_faces": 809
+    },
+    "g0051_stowage_132503": {
+      "top": 168,
+      "luminances": {
+        "144": 5,
+        "168": 1
+      },
+      "area": 0.5815305709838867,
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 536
     },
     "g0052": {
       "top": 216,
@@ -1200,6 +1388,7 @@
         "144": 30,
         "216": 2
       },
+      "area": 0.16761215888527659,
       "upward_min_max": [
         216,
         216
@@ -1219,6 +1408,7 @@
         "192": 136,
         "168": 96
       },
+      "area": 0.4759697636583269,
       "upward_min_max": [
         192,
         192
@@ -1238,6 +1428,7 @@
         "192": 136,
         "168": 96
       },
+      "area": 0.47600935950526946,
       "upward_min_max": [
         192,
         192
@@ -1257,6 +1448,7 @@
         "168": 172,
         "144": 231
       },
+      "area": 4.829626956216771,
       "upward_min_max": [
         192,
         192
@@ -1270,9 +1462,10 @@
     "g0056": {
       "top": 168,
       "luminances": {
-        "120": 518,
-        "168": 206
+        "120": 158,
+        "168": 88
       },
+      "area": 0.6589338525877793,
       "upward_min_max": [
         168,
         168
@@ -1281,14 +1474,32 @@
         120,
         168
       ],
-      "source_faces": 724
+      "source_faces": 246
+    },
+    "g0056_stowage_138115": {
+      "top": 168,
+      "luminances": {
+        "144": 5,
+        "168": 1
+      },
+      "area": 0.8769005537033081,
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 478
     },
     "g0057": {
       "top": 168,
       "luminances": {
-        "120": 2123,
-        "168": 556
+        "120": 1427,
+        "168": 428
       },
+      "area": 0.3978712938909439,
       "upward_min_max": [
         168,
         168
@@ -1297,7 +1508,41 @@
         120,
         168
       ],
-      "source_faces": 2679
+      "source_faces": 1855
+    },
+    "g0057_stowage_139825": {
+      "top": 168,
+      "luminances": {
+        "144": 5,
+        "168": 1
+      },
+      "area": 0.5819215178489685,
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 536
+    },
+    "g0057_stowage_138849": {
+      "top": 168,
+      "luminances": {
+        "144": 5,
+        "168": 1
+      },
+      "area": 0.6801866292953491,
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 288
     },
     "g0058": {
       "top": 168,
@@ -1305,6 +1550,7 @@
         "168": 566,
         "120": 1863
       },
+      "area": 2.778726810109788,
       "upward_min_max": [
         168,
         168
@@ -1324,6 +1570,7 @@
         "168": 213,
         "144": 233
       },
+      "area": 4.893349532430989,
       "upward_min_max": [
         192,
         192
@@ -1337,9 +1584,10 @@
     "g0060": {
       "top": 168,
       "luminances": {
-        "120": 2125,
-        "168": 554
+        "120": 1427,
+        "168": 428
       },
+      "area": 0.3979160461029778,
       "upward_min_max": [
         168,
         168
@@ -1348,23 +1596,75 @@
         120,
         168
       ],
-      "source_faces": 2679
+      "source_faces": 1855
+    },
+    "g0060_stowage_147264": {
+      "top": 168,
+      "luminances": {
+        "144": 5,
+        "168": 1
+      },
+      "area": 0.5819213390350342,
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 536
+    },
+    "g0060_stowage_146524": {
+      "top": 168,
+      "luminances": {
+        "144": 5,
+        "168": 1
+      },
+      "area": 0.6801866888999939,
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 288
     },
     "g0061": {
       "top": 168,
       "luminances": {
-        "120": 583,
-        "168": 165
+        "120": 116,
+        "168": 32
       },
+      "area": 1.2165856393494323,
       "upward_min_max": [
         168,
         168
       ],
       "wall_min_max": [
         120,
+        120
+      ],
+      "source_faces": 148
+    },
+    "g0061_stowage_149025": {
+      "top": 168,
+      "luminances": {
+        "144": 5,
+        "168": 1
+      },
+      "area": 0.986019179224968,
+      "upward_min_max": [
+        168,
         168
       ],
-      "source_faces": 748
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 168
     },
     "g0062": {
       "top": 216,
@@ -1372,6 +1672,7 @@
         "144": 5299,
         "216": 1383
       },
+      "area": 1.4835749205574302,
       "upward_min_max": [
         216,
         216
@@ -1388,6 +1689,7 @@
         "216": 28,
         "144": 104
       },
+      "area": 0.13748052467963134,
       "upward_min_max": [
         216,
         216
@@ -1403,6 +1705,7 @@
       "luminances": {
         "72": 2681
       },
+      "area": 0.9796687258963175,
       "upward_min_max": [
         72,
         72
@@ -1419,6 +1722,7 @@
         "144": 3676,
         "216": 1144
       },
+      "area": 1.628763813100477,
       "upward_min_max": [
         216,
         216
@@ -1434,6 +1738,7 @@
       "luminances": {
         "72": 100
       },
+      "area": 0.007152682832384016,
       "upward_min_max": null,
       "wall_min_max": [
         72,
@@ -1447,6 +1752,7 @@
         "144": 899,
         "216": 273
       },
+      "area": 0.5597205225030848,
       "upward_min_max": [
         216,
         216
@@ -1463,6 +1769,7 @@
         "216": 1000,
         "144": 3689
       },
+      "area": 0.9911204599201255,
       "upward_min_max": [
         216,
         216
@@ -1478,6 +1785,7 @@
       "luminances": {
         "32": 138
       },
+      "area": 0.024949921700681443,
       "upward_min_max": null,
       "wall_min_max": [
         32,
@@ -1491,6 +1799,7 @@
         "216": 384,
         "144": 1679
       },
+      "area": 1.3551633192632835,
       "upward_min_max": [
         216,
         216
@@ -1507,6 +1816,7 @@
         "216": 84,
         "144": 226
       },
+      "area": 1.9492663805322081,
       "upward_min_max": [
         216,
         216
@@ -1523,6 +1833,7 @@
         "96": 262,
         "40": 272
       },
+      "area": 0.26537983440175594,
       "upward_min_max": [
         40,
         40
@@ -1539,6 +1850,7 @@
         "96": 262,
         "40": 272
       },
+      "area": 0.2653751205543813,
       "upward_min_max": [
         40,
         40
@@ -1555,6 +1867,7 @@
         "96": 524,
         "40": 828
       },
+      "area": 2.667288333410397,
       "upward_min_max": [
         40,
         40
@@ -1571,6 +1884,7 @@
         "40": 1620,
         "96": 1110
       },
+      "area": 2.4797124497272307,
       "upward_min_max": [
         40,
         40
@@ -1587,6 +1901,7 @@
         "96": 262,
         "40": 272
       },
+      "area": 0.2653731680238707,
       "upward_min_max": [
         40,
         40
@@ -1603,6 +1918,7 @@
         "96": 262,
         "40": 272
       },
+      "area": 0.2653702500902,
       "upward_min_max": [
         40,
         40
@@ -1619,6 +1935,7 @@
         "96": 524,
         "40": 828
       },
+      "area": 2.6676702088152524,
       "upward_min_max": [
         40,
         40
@@ -1635,6 +1952,7 @@
         "40": 1617,
         "96": 1113
       },
+      "area": 2.479605480297323,
       "upward_min_max": [
         40,
         40
@@ -1651,6 +1969,7 @@
         "144": 1302,
         "192": 311
       },
+      "area": 8.020315142828622,
       "upward_min_max": [
         192,
         192
@@ -1667,6 +1986,7 @@
         "144": 806,
         "192": 206
       },
+      "area": 5.4913112304884635,
       "upward_min_max": [
         192,
         192
@@ -1683,6 +2003,7 @@
         "144": 533,
         "192": 187
       },
+      "area": 0.8868599412489857,
       "upward_min_max": [
         192,
         192
@@ -1699,6 +2020,7 @@
         "144": 491,
         "192": 165
       },
+      "area": 0.7154056538538498,
       "upward_min_max": [
         192,
         192
@@ -1715,6 +2037,7 @@
         "192": 248,
         "144": 410
       },
+      "area": 1.0564247771671944,
       "upward_min_max": [
         192,
         192
@@ -1725,11 +2048,12 @@
       ],
       "source_faces": 658
     },
-    "g0099_grille_patch_00": {
+    "g0099_grille_00": {
       "top": 96,
       "luminances": {
         "96": 2
       },
+      "area": 0.14457635581493378,
       "upward_min_max": [
         96,
         96
@@ -1743,6 +2067,7 @@
         "192": 246,
         "144": 706
       },
+      "area": 1.33670018230805,
       "upward_min_max": [
         192,
         192
@@ -1753,11 +2078,12 @@
       ],
       "source_faces": 952
     },
-    "g0100_grille_patch_00": {
+    "g0100_grille_00": {
       "top": 96,
       "luminances": {
         "96": 2
       },
+      "area": 0.18053947389125824,
       "upward_min_max": [
         96,
         96
@@ -1771,6 +2097,7 @@
         "192": 240,
         "144": 386
       },
+      "area": 1.082395450981494,
       "upward_min_max": [
         192,
         192
@@ -1781,11 +2108,12 @@
       ],
       "source_faces": 626
     },
-    "g0101_grille_patch_00": {
+    "g0101_grille_00": {
       "top": 96,
       "luminances": {
         "96": 3
       },
+      "area": 0.15330129954963923,
       "upward_min_max": [
         96,
         96
@@ -1799,6 +2127,7 @@
         "144": 399,
         "192": 243
       },
+      "area": 1.113000331013609,
       "upward_min_max": [
         192,
         192
@@ -1809,11 +2138,12 @@
       ],
       "source_faces": 642
     },
-    "g0102_grille_patch_00": {
+    "g0102_grille_00": {
       "top": 96,
       "luminances": {
         "96": 2
       },
+      "area": 0.15425695478916168,
       "upward_min_max": [
         96,
         96
@@ -1827,6 +2157,7 @@
         "192": 115,
         "144": 359
       },
+      "area": 1.09636726698227,
       "upward_min_max": [
         192,
         192
@@ -1843,6 +2174,7 @@
         "144": 258,
         "192": 90
       },
+      "area": 1.015623822231646,
       "upward_min_max": [
         192,
         192
@@ -1859,6 +2191,7 @@
         "192": 90,
         "144": 406
       },
+      "area": 0.8806542938646089,
       "upward_min_max": [
         192,
         192
@@ -1875,6 +2208,7 @@
         "144": 1207,
         "192": 575
       },
+      "area": 2.2746185932683147,
       "upward_min_max": [
         192,
         192
@@ -1891,6 +2225,7 @@
         "144": 526,
         "192": 272
       },
+      "area": 0.13894465406610834,
       "upward_min_max": [
         192,
         192
@@ -1906,6 +2241,7 @@
       "luminances": {
         "192": 178
       },
+      "area": 0.028822881966334535,
       "upward_min_max": [
         192,
         192
@@ -1922,6 +2258,7 @@
         "144": 526,
         "192": 272
       },
+      "area": 0.13658611711616686,
       "upward_min_max": [
         192,
         192
@@ -1937,6 +2274,7 @@
       "luminances": {
         "192": 178
       },
+      "area": 0.02882868468623201,
       "upward_min_max": [
         192,
         192
@@ -1953,6 +2291,7 @@
         "192": 294,
         "144": 1374
       },
+      "area": 0.748236346109934,
       "upward_min_max": [
         192,
         192
@@ -1969,6 +2308,7 @@
         "144": 574,
         "192": 152
       },
+      "area": 0.41444291194420657,
       "upward_min_max": [
         192,
         192
@@ -1980,18 +2320,19 @@
       "source_faces": 726
     },
     "g0173": {
-      "top": 192,
+      "top": 240,
       "luminances": {
-        "144": 314,
-        "192": 60
+        "192": 314,
+        "240": 60
       },
+      "area": 0.21343435515882447,
       "upward_min_max": [
-        192,
-        192
+        240,
+        240
       ],
       "wall_min_max": [
-        144,
-        192
+        192,
+        240
       ],
       "source_faces": 374
     },
@@ -2001,6 +2342,7 @@
         "144": 1001,
         "192": 269
       },
+      "area": 0.6668088362156368,
       "upward_min_max": [
         192,
         192
@@ -2012,18 +2354,19 @@
       "source_faces": 1270
     },
     "g0175": {
-      "top": 192,
+      "top": 240,
       "luminances": {
-        "144": 314,
-        "192": 60
+        "192": 314,
+        "240": 60
       },
+      "area": 0.21344844771374483,
       "upward_min_max": [
-        192,
-        192
+        240,
+        240
       ],
       "wall_min_max": [
-        144,
-        192
+        192,
+        240
       ],
       "source_faces": 374
     },
@@ -2033,6 +2376,7 @@
         "144": 675,
         "192": 311
       },
+      "area": 2.1321560653032066,
       "upward_min_max": [
         192,
         192
@@ -2044,18 +2388,19 @@
       "source_faces": 986
     },
     "g0177": {
-      "top": 192,
+      "top": 240,
       "luminances": {
-        "144": 314,
-        "192": 60
+        "192": 314,
+        "240": 60
       },
+      "area": 0.21344745118403807,
       "upward_min_max": [
-        192,
-        192
+        240,
+        240
       ],
       "wall_min_max": [
-        144,
-        192
+        192,
+        240
       ],
       "source_faces": 374
     },
@@ -2065,6 +2410,7 @@
         "192": 261,
         "144": 1349
       },
+      "area": 0.6590280872612766,
       "upward_min_max": [
         192,
         192
@@ -2076,18 +2422,19 @@
       "source_faces": 1610
     },
     "g0179": {
-      "top": 192,
+      "top": 240,
       "luminances": {
-        "144": 314,
-        "192": 60
+        "192": 314,
+        "240": 60
       },
+      "area": 0.21346894570160657,
       "upward_min_max": [
-        192,
-        192
+        240,
+        240
       ],
       "wall_min_max": [
-        144,
-        192
+        192,
+        240
       ],
       "source_faces": 374
     },
@@ -2097,6 +2444,7 @@
         "144": 658,
         "192": 312
       },
+      "area": 2.126333762300419,
       "upward_min_max": [
         192,
         192
@@ -2108,18 +2456,19 @@
       "source_faces": 970
     },
     "g0181": {
-      "top": 192,
+      "top": 240,
       "luminances": {
-        "144": 304,
-        "192": 86
+        "192": 304,
+        "240": 86
       },
+      "area": 0.06783835644000646,
       "upward_min_max": [
-        192,
-        192
+        240,
+        240
       ],
       "wall_min_max": [
-        144,
-        192
+        192,
+        240
       ],
       "source_faces": 390
     },
@@ -2131,6 +2480,7 @@
         "96": 80,
         "168": 28
       },
+      "area": 0.8882155791160358,
       "upward_min_max": [
         216,
         216
@@ -2149,6 +2499,7 @@
         "216": 93,
         "168": 85
       },
+      "area": 1.9469457128143404,
       "upward_min_max": [
         216,
         216
@@ -2167,6 +2518,7 @@
         "216": 51,
         "168": 80
       },
+      "area": 1.0169045503489542,
       "upward_min_max": [
         216,
         216
@@ -2185,6 +2537,7 @@
         "216": 41,
         "168": 24
       },
+      "area": 1.4392148765000456,
       "upward_min_max": [
         216,
         216
@@ -2203,6 +2556,7 @@
         "96": 121,
         "168": 62
       },
+      "area": 1.1754985755414964,
       "upward_min_max": [
         216,
         216
@@ -2221,6 +2575,7 @@
         "216": 43,
         "168": 72
       },
+      "area": 1.3457931768512026,
       "upward_min_max": [
         216,
         216
@@ -2239,6 +2594,7 @@
         "96": 163,
         "168": 108
       },
+      "area": 3.1998664523239313,
       "upward_min_max": [
         216,
         216
@@ -2257,6 +2613,7 @@
         "96": 80,
         "168": 27
       },
+      "area": 0.888292736303697,
       "upward_min_max": [
         216,
         216
@@ -2275,6 +2632,7 @@
         "216": 102,
         "168": 78
       },
+      "area": 2.2719907292339485,
       "upward_min_max": [
         216,
         216
@@ -2293,6 +2651,7 @@
         "216": 63,
         "168": 67
       },
+      "area": 1.2804168964048586,
       "upward_min_max": [
         216,
         216
@@ -2311,6 +2670,7 @@
         "216": 26,
         "168": 24
       },
+      "area": 1.073651910170156,
       "upward_min_max": [
         216,
         216
@@ -2329,6 +2689,7 @@
         "96": 133,
         "168": 73
       },
+      "area": 0.9039940054244653,
       "upward_min_max": [
         216,
         216
@@ -2347,6 +2708,7 @@
         "216": 47,
         "168": 67
       },
+      "area": 1.6468102290345996,
       "upward_min_max": [
         216,
         216
@@ -2365,6 +2727,7 @@
         "96": 162,
         "168": 111
       },
+      "area": 2.829234909711431,
       "upward_min_max": [
         216,
         216
@@ -2380,6 +2743,7 @@
       "luminances": {
         "40": 5376
       },
+      "area": 91.51861630077474,
       "upward_min_max": [
         40,
         40
@@ -2395,6 +2759,7 @@
       "luminances": {
         "40": 5376
       },
+      "area": 91.3853982653236,
       "upward_min_max": [
         40,
         40
@@ -2411,6 +2776,7 @@
         "192": 96,
         "144": 1044
       },
+      "area": 1.6828576515281384,
       "upward_min_max": [
         192,
         192
@@ -2427,6 +2793,7 @@
         "192": 160,
         "144": 1464
       },
+      "area": 1.7545552972414953,
       "upward_min_max": [
         192,
         192
@@ -2442,6 +2809,7 @@
       "luminances": {
         "72": 282
       },
+      "area": 0.2184724899379944,
       "upward_min_max": [
         72,
         72
@@ -2457,6 +2825,7 @@
       "luminances": {
         "72": 282
       },
+      "area": 0.21838161755840702,
       "upward_min_max": [
         72,
         72
@@ -2472,6 +2841,7 @@
       "luminances": {
         "192": 289
       },
+      "area": 5.5486582350567915,
       "upward_min_max": [
         192,
         192
@@ -2487,6 +2857,7 @@
       "luminances": {
         "168": 130
       },
+      "area": 0.30960749619771377,
       "upward_min_max": [
         168,
         168
@@ -2502,6 +2873,7 @@
       "luminances": {
         "144": 17
       },
+      "area": 2.612355767400004,
       "upward_min_max": [
         144,
         144
@@ -2514,6 +2886,7 @@
       "luminances": {
         "168": 140
       },
+      "area": 6.084260104587884,
       "upward_min_max": [
         168,
         168
@@ -2630,137 +3003,804 @@
     }
   ],
   "grids": {
-    "g0000_grille_patch_00": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    "g0000_grille_00": {
+      "material_name": "g0000_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0000_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 8,
+        "columns": 1,
+        "values": [
+          60,
+          144,
+          168
+        ]
+      },
+      "frame": {
+        "center": [
+          1.6110000212987263,
+          1.8260000149408977,
+          1.5927666624387105
+        ],
+        "u": [
+          0.9999995858175266,
+          0.00016220163241300592,
+          -0.0008955754606618226
+        ],
+        "v": [
+          -2.710505431213761e-20,
+          0.9839915605417884,
+          0.17821506328741124
+        ],
+        "low": [
+          -0.20390285891311202,
+          -0.45442086504633117
+        ],
+        "extent": [
+          0.32601343005944206,
+          1.263983136363108
+        ],
+        "outline": [
+          [
+            0.0,
+            0.999728533649136
+          ],
+          [
+            0.37666376065260115,
+            0.0
+          ],
+          [
+            0.9999510210990397,
+            0.0
+          ],
+          [
+            1.0,
+            0.07796864080658177
+          ],
+          [
+            0.9999721889645757,
+            1.0
+          ],
+          [
+            1.3508333559152408e-05,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.011705502594130258
+      },
+      "face_count": 16,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
-    "g0000_grille_patch_01": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    "g0000_grille_01": {
+      "material_name": "g0000_grille_01 fixed grille",
+      "uv_name": "Fitted grille g0000_grille_01",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 8,
+        "columns": 1,
+        "values": [
+          60,
+          144,
+          168
+        ]
+      },
+      "frame": {
+        "center": [
+          1.3173333273993597,
+          2.010133319430881,
+          1.6459333499272664
+        ],
+        "u": [
+          0.981003202348819,
+          -0.03920449913602149,
+          0.18998874763747398
+        ],
+        "v": [
+          0.0,
+          0.9793661578118054,
+          0.2020938616904086
+        ],
+        "low": [
+          -0.09536253669116901,
+          -0.6470944457349365
+        ],
+        "extent": [
+          0.28158410849043336,
+          1.2739428308494225
+        ],
+        "outline": [
+          [
+            0.0,
+            0.998984727974948
+          ],
+          [
+            0.005367526162198622,
+            0.07071683333149903
+          ],
+          [
+            0.0467339716446312,
+            0.011204428485026468
+          ],
+          [
+            1.0,
+            0.0
+          ],
+          [
+            0.5829895138907643,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.0643098888715531
+      },
+      "face_count": 7,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
-    "g0000_grille_patch_02": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    "g0000_grille_02": {
+      "material_name": "g0000_grille_02 fixed grille",
+      "uv_name": "Fitted grille g0000_grille_02",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 4,
+        "columns": 1,
+        "values": [
+          60,
+          144,
+          168
+        ]
+      },
+      "frame": {
+        "center": [
+          0.6728166590134302,
+          1.3999499877293904,
+          1.53329998254776
+        ],
+        "u": [
+          0.9999979947719635,
+          2.071110881310174e-05,
+          -0.0020025042077687835
+        ],
+        "v": [
+          -3.3881317890172014e-21,
+          0.9999465195577439,
+          0.010342051264360714
+        ],
+        "low": [
+          -0.22012455363568906,
+          -0.18445253679494047
+        ],
+        "extent": [
+          0.5294094612302462,
+          0.3046519680078759
+        ],
+        "outline": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            1.707125480802777e-05,
+            0.3692573229755536
+          ],
+          [
+            0.9204707793171034,
+            0.0
+          ],
+          [
+            1.0,
+            0.6013131629318951
+          ],
+          [
+            0.5742443654834569,
+            0.7785653749085365
+          ]
+        ],
+        "plane_deviation": 0.0037162991792286243
+      },
+      "face_count": 4,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
-    "g0000_grille_patch_03": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    "g0029_grille_00": {
+      "material_name": "g0029_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0029_grille_00",
+      "pattern": {
+        "pattern": "diamond",
+        "rows": 2,
+        "columns": 12,
+        "values": [
+          48,
+          120,
+          144
+        ]
+      },
+      "frame": {
+        "center": [
+          -0.0703115314245224,
+          2.994146154477046,
+          1.9648923232005193
+        ],
+        "u": [
+          1.0,
+          2.916327432180957e-14,
+          -5.809151637656855e-10
+        ],
+        "v": [
+          0.0,
+          0.9999999987398648,
+          5.020229476540747e-05
+        ],
+        "low": [
+          -1.462788477540025,
+          -0.32574610447073155
+        ],
+        "extent": [
+          2.925600051879883,
+          0.4656999105307088
+        ],
+        "outline": [
+          [
+            0.0,
+            0.38028768941788893
+          ],
+          [
+            0.15231064564688712,
+            0.0
+          ],
+          [
+            0.8477235410471753,
+            0.0
+          ],
+          [
+            1.0,
+            0.3805021996255542
+          ],
+          [
+            0.9968211671622595,
+            0.6568604613658925
+          ],
+          [
+            0.9954880898284537,
+            0.7264334427045283
+          ],
+          [
+            0.9921383642673359,
+            0.7908525475262981
+          ],
+          [
+            0.9863617501501138,
+            0.8494737332506692
+          ],
+          [
+            0.9795597389456799,
+            0.901009426674114
+          ],
+          [
+            0.9711853842959313,
+            0.9422373670638263
+          ],
+          [
+            0.9618881518942145,
+            0.9742326652458139
+          ],
+          [
+            0.9520098271872831,
+            0.9922699531610051
+          ],
+          [
+            0.941926423062909,
+            1.0
+          ],
+          [
+            0.05810772288420917,
+            1.0
+          ],
+          [
+            0.04795598611865671,
+            0.9918404207881382
+          ],
+          [
+            0.03807766141172502,
+            0.9742326652458139
+          ],
+          [
+            0.028848802398140163,
+            0.9420228568561609
+          ],
+          [
+            0.020406074360258958,
+            0.901009426674114
+          ],
+          [
+            0.013604063155824419,
+            0.8494737332506692
+          ],
+          [
+            0.00782744903860205,
+            0.7908525475262981
+          ],
+          [
+            0.0045119101715496044,
+            0.7264334427045283
+          ],
+          [
+            0.0031788328377430094,
+            0.6566459511582272
+          ]
+        ],
+        "plane_deviation": 8.48511802879411e-05
+      },
+      "face_count": 24,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
-    "g0000_grille_patch_04": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    "g0038_grille_00": {
+      "material_name": "g0038_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0038_grille_00",
+      "pattern": {
+        "pattern": "diamond",
+        "rows": 2,
+        "columns": 2,
+        "values": [
+          48,
+          120,
+          144
+        ]
+      },
+      "frame": {
+        "center": [
+          1.0617750212550163,
+          3.535724937915802,
+          1.9325000047683716
+        ],
+        "u": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "low": [
+          -0.09937500208616257,
+          -0.22762495279312134
+        ],
+        "extent": [
+          0.20160001516342163,
+          0.38159990310668945
+        ],
+        "outline": [
+          [
+            0.0,
+            0.8202307212663679
+          ],
+          [
+            0.005456367245003159,
+            0.0
+          ],
+          [
+            0.9042659596894054,
+            0.0
+          ],
+          [
+            0.9995038859801075,
+            0.048217920634583446
+          ],
+          [
+            1.0,
+            0.9517820793654166
+          ],
+          [
+            0.8928571111795066,
+            1.0
+          ],
+          [
+            0.11855144167245417,
+            1.0
+          ],
+          [
+            0.022817401361859595,
+            0.9517820793654166
+          ]
+        ],
+        "plane_deviation": 0.0
+      },
+      "face_count": 6,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
-    "g0000_grille_patch_05": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    "g0038_grille_01": {
+      "material_name": "g0038_grille_01 fixed grille",
+      "uv_name": "Fitted grille g0038_grille_01",
+      "pattern": {
+        "pattern": "diamond",
+        "rows": 2,
+        "columns": 2,
+        "values": [
+          48,
+          120,
+          144
+        ]
+      },
+      "frame": {
+        "center": [
+          -1.2008124887943268,
+          3.535724937915802,
+          1.9325000047683716
+        ],
+        "u": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "low": [
+          -0.10218748450279236,
+          -0.22762495279312134
+        ],
+        "extent": [
+          0.20149993896484375,
+          0.38159990310668945
+        ],
+        "outline": [
+          [
+            0.0,
+            0.9517820793654166
+          ],
+          [
+            0.0004963604180076483,
+            0.048217920634583446
+          ],
+          [
+            0.09528522679943963,
+            0.0
+          ],
+          [
+            0.9945412186210291,
+            0.0
+          ],
+          [
+            1.0,
+            0.8202307212663679
+          ],
+          [
+            0.9776679224565522,
+            0.9517820793654166
+          ],
+          [
+            0.8818857436295483,
+            1.0
+          ],
+          [
+            0.10719610200295332,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.0
+      },
+      "face_count": 6,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
-    "g0000_grille_patch_06": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    "g0038_grille_02": {
+      "material_name": "g0038_grille_02 fixed grille",
+      "uv_name": "Fitted grille g0038_grille_02",
+      "pattern": {
+        "pattern": "diamond",
+        "rows": 2,
+        "columns": 8,
+        "values": [
+          48,
+          120,
+          144
+        ]
+      },
+      "frame": {
+        "center": [
+          -0.06951668858528137,
+          3.410633365313212,
+          1.9315999746322632
+        ],
+        "u": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "low": [
+          -1.031383365392685,
+          -0.25173334280649806
+        ],
+        "extent": [
+          2.0628000497817993,
+          0.5034000873565674
+        ],
+        "outline": [
+          [
+            0.0,
+            0.000595809536078446
+          ],
+          [
+            0.5000000144475091,
+            0.0
+          ],
+          [
+            1.0,
+            0.000595809536078446
+          ],
+          [
+            0.999951514159628,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.0
+      },
+      "face_count": 4,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
-    "g0000_grille_patch_07": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    "g0099_grille_00": {
+      "material_name": "g0099_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0099_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 4,
+        "columns": 1,
+        "values": [
+          60,
+          144,
+          168
+        ]
+      },
+      "frame": {
+        "center": [
+          -0.8318500220775604,
+          2.835700035095215,
+          1.7454999685287476
+        ],
+        "u": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "low": [
+          -0.16985002160072327,
+          -0.2128000259399414
+        ],
+        "extent": [
+          0.33970004320144653,
+          0.4256000518798828
+        ],
+        "outline": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.0
+      },
+      "face_count": 2,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
-    "g0000_grille_patch_08": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    "g0100_grille_00": {
+      "material_name": "g0100_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0100_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 4,
+        "columns": 1,
+        "values": [
+          60,
+          144,
+          168
+        ]
+      },
+      "frame": {
+        "center": [
+          -0.8318000137805939,
+          2.3366000652313232,
+          1.691349983215332
+        ],
+        "u": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "v": [
+          -0.0,
+          0.9832282924384137,
+          0.1823790693819917
+        ],
+        "low": [
+          -0.16990002989768982,
+          -0.2656554466349795
+        ],
+        "extent": [
+          0.33980005979537964,
+          0.531310893269959
+        ],
+        "outline": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "plane_deviation": 6.938893903907228e-18
+      },
+      "face_count": 2,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
-    "g0000_grille_patch_09": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    "g0101_grille_00": {
+      "material_name": "g0101_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0101_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 4,
+        "columns": 1,
+        "values": [
+          60,
+          144,
+          168
+        ]
+      },
+      "frame": {
+        "center": [
+          0.475519996881485,
+          2.852939987182617,
+          1.7454999685287476
+        ],
+        "u": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "low": [
+          -0.13812000751495362,
+          -0.2573400974273681
+        ],
+        "extent": [
+          0.3393000066280365,
+          0.45310020446777344
+        ],
+        "outline": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.035367002900917426,
+            1.0
+          ],
+          [
+            0.0,
+            0.8397702637283997
+          ]
+        ],
+        "plane_deviation": 0.0
+      },
+      "face_count": 3,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     },
-    "g0000_grille_patch_10": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0000_grille_patch_11": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0000_grille_patch_12": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0000_grille_patch_13": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0000_grille_patch_14": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0000_grille_patch_15": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0029_grille_patch_00": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0038_grille_patch_00": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0099_grille_patch_00": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0100_grille_patch_00": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0101_grille_patch_00": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
-    },
-    "g0102_grille_patch_00": {
-      "pitch_world": 0.27854327112436295,
-      "cell_pixels_at_smallest_output": 5,
-      "bar_fraction": 0.3,
-      "projection_note": "Planar pitch; foreshortening still needs native-size review"
+    "g0102_grille_00": {
+      "material_name": "g0102_grille_00 fixed grille",
+      "uv_name": "Fitted grille g0102_grille_00",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 4,
+        "columns": 1,
+        "values": [
+          60,
+          144,
+          168
+        ]
+      },
+      "frame": {
+        "center": [
+          0.870324969291687,
+          2.82135009765625,
+          1.7454999685287476
+        ],
+        "u": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "low": [
+          -0.16962498426437378,
+          -0.22734999656677246
+        ],
+        "extent": [
+          0.3392999768257141,
+          0.4546999931335449
+        ],
+        "outline": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.9997052266408363,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.0
+      },
+      "face_count": 2,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
     }
   },
   "rigs": [
@@ -2776,7 +3816,7 @@
       "parts": [
         "g0029",
         "g0029_interior",
-        "g0029_grille_patch_00",
+        "g0029_grille_00",
         "g0029_glass",
         "g0030",
         "g0031",
@@ -2787,7 +3827,10 @@
         "g0036",
         "g0036_glass",
         "g0038",
-        "g0038_grille_patch_00",
+        "g0038_grille_00",
+        "g0038_grille_01",
+        "g0038_grille_02",
+        "g0038_stowage_114629",
         "g0039",
         "g0040",
         "g0041",
@@ -2796,21 +3839,29 @@
         "g0044",
         "g0045",
         "g0046",
+        "g0046_stowage_128044",
         "g0047",
         "g0048",
         "g0049",
         "g0050",
         "g0051",
+        "g0051_stowage_132503",
         "g0052",
         "g0053",
         "g0054",
         "g0055",
         "g0056",
+        "g0056_stowage_138115",
         "g0057",
+        "g0057_stowage_139825",
+        "g0057_stowage_138849",
         "g0058",
         "g0059",
         "g0060",
+        "g0060_stowage_147264",
+        "g0060_stowage_146524",
         "g0061",
+        "g0061_stowage_149025",
         "g0062",
         "g0063",
         "g0063_gunmetal",
@@ -2908,7 +3959,7 @@
     "padding": 0.12,
     "ortho_scale": 14.261415481567383,
     "hull_target": [
-      -0.018700003623962402,
+      0.0,
       -0.5392999649047852,
       1.543350100517273
     ],
@@ -2919,7 +3970,7 @@
     ],
     "turret_anchor_pixels_top_origin": [
       475.5791931152344,
-      511.375244140625
+      512.5820617675781
     ],
     "top_pivot_pixels": [
       512.0,
@@ -2933,19 +3984,19 @@
       37,
       95,
       188,
-      170
+      171
     ],
     "256/preview_east": [
       37,
-      93,
+      95,
       219,
-      170
+      171
     ],
     "256/turret_east": [
       58,
-      93,
+      95,
       168,
-      165
+      164
     ],
     "256/barrel_east": [
       117,
@@ -2955,27 +4006,27 @@
     ],
     "256/turret_full_east": [
       58,
-      93,
+      95,
       228,
-      165
+      164
     ],
     "512/hull_east": [
       77,
       193,
       373,
-      338
+      339
     ],
     "512/preview_east": [
       77,
-      189,
+      192,
       435,
-      338
+      339
     ],
     "512/turret_east": [
       119,
-      189,
+      192,
       333,
-      327
+      325
     ],
     "512/barrel_east": [
       236,
@@ -2985,10 +4036,10 @@
     ],
     "512/turret_full_east": [
       119,
-      189,
+      192,
       453,
-      327
+      325
     ]
   },
-  "model_sha256": "52b2a9a1da8041775bd75eee1c5bc5547a862b64dbd74180cbfda75d7fc209ff"
+  "model_sha256": "a4f30a51cb4d8d4ea0809457eaaf3531b840da2fe122ae964abdc85ff4c4ed3c"
 }
