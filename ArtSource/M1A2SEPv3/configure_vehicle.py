@@ -74,7 +74,7 @@ def configure():
             return None
         owner = next(p for p in parts if p["id"] == group["id"])
         part = {**owner, "id": group["id"]+"_"+label, "label": label, "faces": sorted(faces), **settings}
-        for key in ("planes", "side", "cylinder_axis", "cap", "accent"):
+        for key in ("planes", "side", "cylinder_axis", "cap", "accent", "smooth"):
             if key not in settings:
                 part.pop(key, None)
         parts.append(part)
@@ -113,7 +113,9 @@ def configure():
         elif name.startswith("track_"):
             part.update(role="track", mode="flat", top=40)
         elif name == "gun_barrel":
-            part.update(mode="cylinder", cylinder_axis=[0, 1, 0], top=168, side=168, cap=144)
+            # Large curved surface: RimThunder barrel has a bright top band (style section 4).
+            part.update(mode="cylinder", cylinder_axis=[0, 1, 0], top=168, side=168, cap=144,
+                        smooth={"low": 120, "high": 216})
         elif name == "bone_gun":
             part.update(top=TURRET_TOP)
         elif name.startswith("hatch_") and layer == "hull":
@@ -131,6 +133,9 @@ def configure():
             part.update(role="equipment", mode="two_tone", top=HULL_TOP, side=144)  # loader MG and shield
         elif layer == "turret" and (name.startswith("ex_decor") or name in {"ex_armor_07", "ex_armor_08"}):
             part.update(mode="two_tone", top=168, side=120)  # bustle rack and stowage boxes
+        elif name in {"ex_decor_r_01", "ex_decor_l_01"}:
+            # Rounded front fenders: RimThunder shades them as large curved forms.
+            part.update(mode="flat", top=192, smooth={"low": 144, "high": 216})
         elif name in ACCENTS:
             base, reason = ACCENTS[name]
             part.update(mode="flat", accent={"value": 240, "side": 192, "over": groups[base]["id"],

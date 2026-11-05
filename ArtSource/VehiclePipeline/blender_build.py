@@ -91,6 +91,58 @@ def material(rgb, cache):
     return mat
 
 
+def apply_smooth(obj, part, style):
+    """Fixed per-corner gradient for large curved surfaces (style section 4).
+
+    Normals are merged across coincident positions (hard edges above `crease` stay hard);
+    value = low..high by how much the smoothed normal faces up. World-fixed, never view-dependent.
+    Returns the per-face mean display value for reports and contact checks.
+    """
+    import math
+    from collections import defaultdict
+    spec = part["smooth"]
+    low, high = spec["low"], spec["high"]
+    if not (style["minimum"] <= low < high <= style["maximum"]):
+        raise ValueError(f"Smooth range must be inside the palette and low < high: {part['id']}")
+    crease = math.cos(math.radians(spec.get("crease", 60)))
+    mesh = obj.data
+    key = lambda co: tuple(round(c, 5) for c in co)
+    by_position = defaultdict(list)
+    for poly in mesh.polygons:
+        for v in poly.vertices:
+            by_position[key(mesh.vertices[v].co)].append(poly)
+    attribute = mesh.color_attributes.new("Smooth paint", "FLOAT_COLOR", "CORNER")
+    face_values = []
+    for poly in mesh.polygons:
+        values = []
+        for loop in poly.loop_indices:
+            co = mesh.vertices[mesh.loops[loop].vertex_index].co
+            normal = Vector((0, 0, 0))
+            for other in by_position[key(co)]:
+                if other.normal.dot(poly.normal) >= crease:
+                    normal += other.normal*other.area
+            normal = normal.normalized() if normal.length else poly.normal
+            value = low+(high-low)*max(0.0, normal.z)
+            values.append(value)
+            rgb = paint_rgb(value, part["role"], style)
+            attribute.data[loop].color = (*[linear(c) for c in rgb], 1)
+        face_values.append(sum(values)/len(values))
+    mat = bpy.data.materials.new(part["id"]+" smooth fixed gradient")
+    mat.use_nodes = True
+    nodes = mat.node_tree.nodes
+    nodes.clear()
+    output, emission = nodes.new("ShaderNodeOutputMaterial"), nodes.new("ShaderNodeEmission")
+    color = nodes.new("ShaderNodeVertexColor")
+    color.layer_name = "Smooth paint"
+    mat.node_tree.links.new(color.outputs["Color"], emission.inputs["Color"])
+    mat.node_tree.links.new(emission.outputs[0], output.inputs["Surface"])
+    mesh.materials.clear()
+    mesh.materials.append(mat)
+    for poly in mesh.polygons:
+        poly.material_index = 0
+    return face_values
+
+
 def add_grid(obj, part, style, ortho_scale):
     """Packed, fixed emission square tile; cell size is expressed in final 256px pixels."""
     settings = part["grid"]
@@ -253,8 +305,19 @@ def build(profile_path):
                 upward.append(value)
             elif poly.normal.z >= -.25:
                 walls.append(value)
+        if "smooth" in part:
+            if "accent" in part or "grille" in part or "grid" in part:
+                raise ValueError(f"Smooth gradient cannot combine with accent/grille: {part['id']}")
+            face_values = apply_smooth(obj, part, style)
+            distribution, upward, walls = Counter(round(v) for v in face_values), [], []
+            for poly, value in zip(mesh.polygons, face_values):
+                if poly.normal.z >= .78:
+                    upward.append(value)
+                elif poly.normal.z >= -.25:
+                    walls.append(value)
         objects[part["id"]] = obj
         paint_report[part["id"]] = {"top": levels[part["id"]], "luminances": dict(distribution),
+                                   "smooth": part.get("smooth"),
                                    "area": sum(poly.area for poly in mesh.polygons),
                                    "upward_min_max": [min(upward), max(upward)] if upward else None,
                                    "wall_min_max": [min(walls), max(walls)] if walls else None,
@@ -528,7 +591,9 @@ def build(profile_path):
     gltf = json.loads(glb[20:20+chunk_length])
     if not all("KHR_materials_unlit" in m.get("extensions", {}) for m in gltf["materials"]):
         raise AssertionError("GLB contains a lit material")
-    if any("COLOR_0" in p["attributes"] for m in gltf["meshes"] for p in m["primitives"]):
+    smooth_meshes = {p["id"] for p in profile["parts"] if "smooth" in p and p["id"] in objects}
+    if any("COLOR_0" in p["attributes"] for m in gltf["meshes"] if m.get("name") not in smooth_meshes
+           for p in m["primitives"]):
         raise AssertionError("Unexpected vertex colors modulate the GLB palette")
     for key in grids:
         mat = next(m for m in gltf["materials"] if m["name"] == grids[key].get("material_name", key+" fixed grid"))

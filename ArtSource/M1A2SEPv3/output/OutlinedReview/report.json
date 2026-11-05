@@ -1,10 +1,10 @@
 {
-  "source_report_sha256": "15f433b9dc32e49ec38e87ac987257b0cbee6927ec3c90e305b8defc2b367357",
+  "source_report_sha256": "239cec2388d5b3fa1dee27a9b46335a2548fe71d7b26f1547f24332e743cda68",
   "source_layer_sha256": {
-    "hull_east": "c4522f7a7b401f565311663fa4b62611f03a106c4b54258b4f10952492f8a033",
+    "hull_east": "28e373e535ccb776e07dfc5be9b75e1587861d08f8cae662e8cf719226169d6b",
     "turret_east": "6ca0fb446bf703be76ef4e6c222043bae9f1572ac4333ba888de75ed85d84edf",
-    "barrel_east": "3efe7e7136046dddb69d56426fd1fffbc3010a1b830fb1c4ae7ba56da31c9320",
-    "turret_full_east": "8f3d118f04baf89c5cad14be8f26ae552bde20be3a0f0146aab39b32fd0de435"
+    "barrel_east": "fdb16ad2d01971dcf00ea783fad418742edf67edb244292c44c297232a661951",
+    "turret_full_east": "8abc1e87916fea3ccf19d42d158d10f1146ac0238f0887c8f18654a44099d439"
   },
   "outline_width_at_256": 2,
   "color": [

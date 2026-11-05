@@ -143,6 +143,14 @@ def main():
     assert report["box_replaced_faces"] == 6 and report["boxes"][0]["part"] == "g0005"
     assert report["preserved_faces"]+report["box_replaced_faces"]+report["explicitly_omitted_faces"] == 37
     assert report["accents"][0]["gap_over_base"] == 48 and report["paint"]["g0003"]["top"] == 240
+    # Large curved surface: fixed corner gradient, brighter where the smoothed normal faces up.
+    profile["parts"][4].update(mode="flat", smooth={"low": 96, "high": 192})
+    profile["parts"][4].pop("cylinder_axis", None)
+    write_json(simplified/"vehicle.json", profile)
+    subprocess.run([sys.executable, str(ROOT/"pipeline.py"), "build", str(simplified/"vehicle.json")], check=True)
+    report = read_json(simplified/"output/report.json")
+    shades = report["paint"]["g0004"]["luminances"]
+    assert min(map(float, shades)) >= 96 and max(map(float, shades)) <= 192 and len(shades) > 1
     profile["parts"][3]["accent"]["value"] = 200
     write_json(simplified/"vehicle.json", profile)
     rejected = subprocess.run([sys.executable, str(ROOT/"pipeline.py"), "build", str(simplified/"vehicle.json")],

@@ -12161,7 +12161,11 @@
         0
       ],
       "side": 168,
-      "cap": 144
+      "cap": 144,
+      "smooth": {
+        "low": 120,
+        "high": 216
+      }
     },
     {
       "id": "g0035_bore",
@@ -38626,18 +38630,21 @@
       "source_group": "g0176",
       "label": "ex_decor_r_01",
       "role": "paint",
-      "mode": "two_tone",
+      "mode": "flat",
       "layer": "hull",
       "top": 192,
       "confirmed": true,
-      "side": 144
+      "smooth": {
+        "low": 144,
+        "high": 216
+      }
     },
     {
       "id": "g0176_cleanup_229275",
       "source_group": "g0176",
       "label": "cleanup_229275",
       "role": "paint",
-      "mode": "two_tone",
+      "mode": "flat",
       "layer": "hull",
       "top": 192,
       "confirmed": true,
@@ -38820,18 +38827,21 @@
       "source_group": "g0180",
       "label": "ex_decor_l_01",
       "role": "paint",
-      "mode": "two_tone",
+      "mode": "flat",
       "layer": "hull",
       "top": 192,
       "confirmed": true,
-      "side": 144
+      "smooth": {
+        "low": 144,
+        "high": 216
+      }
     },
     {
       "id": "g0180_cleanup_233050",
       "source_group": "g0180",
       "label": "cleanup_233050",
       "role": "paint",
-      "mode": "two_tone",
+      "mode": "flat",
       "layer": "hull",
       "top": 192,
       "confirmed": true,
