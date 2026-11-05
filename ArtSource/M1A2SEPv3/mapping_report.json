@@ -17,7 +17,7 @@
     "2.5 m thin whip antenna is subpixel at 256px; separate whip group only": 648
   },
   "source_faces": 425141,
-  "parts": 294,
+  "parts": 325,
   "contacts": [
     {
       "lower": "g0029",

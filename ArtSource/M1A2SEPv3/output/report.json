@@ -19,7 +19,7 @@
       "sha256": "2f026e5564f63af921bd8f2ccf81c707140f2cefce0f03b6ae14bd442021fe96"
     }
   },
-  "profile_sha256": "3d90e7051eb83644881d01fc7895f8227a351d38847c89584b454b7fdd67b41a",
+  "profile_sha256": "b7d3ac2ae0fa06b269b98a88311dbb08c8ac5b2cb5dfa887cb00948ad9acbc4b",
   "style_sha256": "6224ebdb1634f6c940e247f9d70b37a3fba475bafd39a7d217fc5fd0e29699d9",
   "source_faces": 425141,
   "preserved_faces": 213610,
@@ -182,12 +182,308 @@
   ],
   "accents": [
     {
+      "part": "g0000_accent_913",
+      "over": "g0000",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.008532038549674326,
+      "reason": "Lifting / tie-down eye highlight"
+    },
+    {
+      "part": "g0000_accent_3564",
+      "over": "g0000",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.00792853595703491,
+      "reason": "Lifting / tie-down eye highlight"
+    },
+    {
+      "part": "g0000_accent_5259",
+      "over": "g0000",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.036880037499940954,
+      "reason": "Lifting / tie-down eye highlight"
+    },
+    {
+      "part": "g0029_accent_77212",
+      "over": "g0029",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.006929474859134643,
+      "reason": "Lifting / tie-down eye highlight"
+    },
+    {
+      "part": "g0029_accent_77368",
+      "over": "g0029",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.0078458909811161,
+      "reason": "Lifting / tie-down eye highlight"
+    },
+    {
+      "part": "g0029_accent_66261",
+      "over": "g0029",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.0017064183211914496,
+      "reason": "Lifting / tie-down eye highlight"
+    },
+    {
+      "part": "g0029_accent_68194",
+      "over": "g0029",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.003966530657635303,
+      "reason": "Lifting / tie-down eye highlight"
+    },
+    {
+      "part": "g0029_accent_69119",
+      "over": "g0029",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.003951967948523816,
+      "reason": "Lifting / tie-down eye highlight"
+    },
+    {
+      "part": "g0037_accent_113325",
+      "over": "g0037",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.00885072639084683,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0037_accent_112327",
+      "over": "g0037",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.017941967485967325,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0037_accent_113144",
+      "over": "g0037",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.010606183888739906,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0037_accent_113243",
+      "over": "g0037",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.010563985582848545,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0037_accent_113249",
+      "over": "g0037",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.010622657267958857,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0037_accent_113255",
+      "over": "g0037",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.01076412436668761,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0037_accent_112449",
+      "over": "g0037",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.008203495428460883,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0037_accent_112645",
+      "over": "g0037",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.03542279604153009,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0037_accent_112621",
+      "over": "g0037",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.02504576009232551,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0037_accent_112383",
+      "over": "g0037",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.004927677975501865,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0053",
+      "over": "g0029",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.4759697636583269,
+      "reason": "Smoke grenade discharger highlight"
+    },
+    {
+      "part": "g0054",
+      "over": "g0029",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.47600935950526946,
+      "reason": "Smoke grenade discharger highlight"
+    },
+    {
+      "part": "g0067_accent_170602",
+      "over": "g0067",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.009819177497774945,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0067_accent_170642",
+      "over": "g0067",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.009790218731723144,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0067_accent_170366",
+      "over": "g0067",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.02870925432216609,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0067_accent_170450",
+      "over": "g0067",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.028689232327451464,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0067_accent_170195",
+      "over": "g0067",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.005153500627784524,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0106_accent_213917",
+      "over": "g0106",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.04087448533755378,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0106_accent_214620",
+      "over": "g0106",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.003052800400837441,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0106_accent_213572",
+      "over": "g0106",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.002565753587987274,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0106_accent_213456",
+      "over": "g0106",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.04525365132303705,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0106_accent_213556",
+      "over": "g0106",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.045265133344400965,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0106_accent_213540",
+      "over": "g0106",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.00249868908940698,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0106_accent_213538",
+      "over": "g0106",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.009970525185053702,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0106_accent_213438",
+      "over": "g0106",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.03498418514209334,
+      "reason": "Hatch handle / hinge highlight"
+    },
+    {
+      "part": "g0107",
+      "over": "g0000",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.13894465406610834,
+      "reason": "Head/tail light housing highlight; lens stays a separate optics colour"
+    },
+    {
+      "part": "g0108",
+      "over": "g0000",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.13658611711616686,
+      "reason": "Head/tail light housing highlight; lens stays a separate optics colour"
+    },
+    {
+      "part": "g0109",
+      "over": "g0000",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.748236346109934,
+      "reason": "Head/tail light housing highlight; lens stays a separate optics colour"
+    },
+    {
+      "part": "g0110",
+      "over": "g0000",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.41444291194420657,
+      "reason": "Head/tail light housing highlight; lens stays a separate optics colour"
+    },
+    {
       "part": "g0173",
       "over": "g0000",
       "value": 240,
       "gap_over_base": 24,
       "area": 0.21343435515882447,
-      "reason": "Tow shackle / towing pintle: small mounted hardware highlighted like RimThunder tow hooks"
+      "reason": "Tow shackle / towing pintle highlight"
     },
     {
       "part": "g0175",
@@ -195,7 +491,7 @@
       "value": 240,
       "gap_over_base": 24,
       "area": 0.21344844771374483,
-      "reason": "Tow shackle / towing pintle: small mounted hardware highlighted like RimThunder tow hooks"
+      "reason": "Tow shackle / towing pintle highlight"
     },
     {
       "part": "g0177",
@@ -203,7 +499,7 @@
       "value": 240,
       "gap_over_base": 24,
       "area": 0.21344745118403807,
-      "reason": "Tow shackle / towing pintle: small mounted hardware highlighted like RimThunder tow hooks"
+      "reason": "Tow shackle / towing pintle highlight"
     },
     {
       "part": "g0179",
@@ -211,7 +507,7 @@
       "value": 240,
       "gap_over_base": 24,
       "area": 0.21346894570160657,
-      "reason": "Tow shackle / towing pintle: small mounted hardware highlighted like RimThunder tow hooks"
+      "reason": "Tow shackle / towing pintle highlight"
     },
     {
       "part": "g0181",
@@ -219,26 +515,26 @@
       "value": 240,
       "gap_over_base": 24,
       "area": 0.06783835644000646,
-      "reason": "Tow shackle / towing pintle: small mounted hardware highlighted like RimThunder tow hooks"
+      "reason": "Tow shackle / towing pintle highlight"
     }
   ],
-  "accent_area_fraction": 0.0014394487810931572,
+  "accent_area_fraction": 0.005933647739911944,
   "degenerate_source_faces": [],
   "source_coordinates_preserved": true,
   "unlit_glb": true,
   "glb_animation_count": 1,
-  "mesh_count": 159,
+  "mesh_count": 190,
   "paint": {
     "g0000": {
       "top": 216,
       "luminances": {
-        "96": 9909,
-        "144": 13752,
-        "216": 5452,
-        "192": 3894,
-        "168": 2050
+        "96": 9825,
+        "144": 13640,
+        "216": 5416,
+        "192": 3850,
+        "168": 2022
       },
-      "area": 76.01400021351105,
+      "area": 75.9606596015044,
       "upward_min_max": [
         216,
         216
@@ -247,7 +543,7 @@
         144,
         192
       ],
-      "source_faces": 35057
+      "source_faces": 34753
     },
     "g0000_interior": {
       "top": 48,
@@ -306,6 +602,57 @@
       ],
       "wall_min_max": null,
       "source_faces": 4
+    },
+    "g0000_accent_913": {
+      "top": 240,
+      "luminances": {
+        "240": 44,
+        "192": 88
+      },
+      "area": 0.008532038549674326,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 132
+    },
+    "g0000_accent_3564": {
+      "top": 240,
+      "luminances": {
+        "192": 62,
+        "240": 26
+      },
+      "area": 0.00792853595703491,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 88
+    },
+    "g0000_accent_5259": {
+      "top": 240,
+      "luminances": {
+        "192": 64,
+        "240": 20
+      },
+      "area": 0.036880037499940954,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 84
     },
     "g0001": {
       "top": 72,
@@ -772,13 +1119,13 @@
     "g0029": {
       "top": 192,
       "luminances": {
-        "120": 12988,
-        "192": 6000,
-        "72": 9399,
-        "168": 2958,
-        "144": 2872
+        "120": 12846,
+        "192": 5964,
+        "72": 9255,
+        "168": 2919,
+        "144": 2799
       },
-      "area": 46.50220627150793,
+      "area": 46.47780598874033,
       "upward_min_max": [
         192,
         192
@@ -787,7 +1134,7 @@
         120,
         168
       ],
-      "source_faces": 34217
+      "source_faces": 33783
     },
     "g0029_interior": {
       "top": 48,
@@ -830,6 +1177,88 @@
         32
       ],
       "source_faces": 20
+    },
+    "g0029_accent_77212": {
+      "top": 240,
+      "luminances": {
+        "192": 106,
+        "240": 26
+      },
+      "area": 0.006929474859134643,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 132
+    },
+    "g0029_accent_77368": {
+      "top": 240,
+      "luminances": {
+        "192": 104,
+        "240": 28
+      },
+      "area": 0.0078458909811161,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 132
+    },
+    "g0029_accent_66261": {
+      "top": 240,
+      "luminances": {
+        "192": 74,
+        "240": 16
+      },
+      "area": 0.0017064183211914496,
+      "upward_min_max": null,
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 90
+    },
+    "g0029_accent_68194": {
+      "top": 240,
+      "luminances": {
+        "192": 30,
+        "240": 10
+      },
+      "area": 0.003966530657635303,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 40
+    },
+    "g0029_accent_69119": {
+      "top": 240,
+      "luminances": {
+        "192": 30,
+        "240": 10
+      },
+      "area": 0.003951967948523816,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 40
     },
     "g0030": {
       "top": 216,
@@ -1014,10 +1443,10 @@
     "g0037": {
       "top": 216,
       "luminances": {
-        "216": 292,
-        "144": 988
+        "216": 180,
+        "144": 602
       },
-      "area": 1.2908231687579246,
+      "area": 1.1478737942370572,
       "upward_min_max": [
         216,
         216
@@ -1026,7 +1455,7 @@
         144,
         216
       ],
-      "source_faces": 1280
+      "source_faces": 782
     },
     "g0037_glass": {
       "top": 32,
@@ -1040,6 +1469,172 @@
         32
       ],
       "source_faces": 2
+    },
+    "g0037_accent_113325": {
+      "top": 240,
+      "luminances": {
+        "192": 120,
+        "240": 36
+      },
+      "area": 0.00885072639084683,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 156
+    },
+    "g0037_accent_112327": {
+      "top": 240,
+      "luminances": {
+        "192": 34,
+        "240": 14
+      },
+      "area": 0.017941967485967325,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 48
+    },
+    "g0037_accent_113144": {
+      "top": 240,
+      "luminances": {
+        "240": 10,
+        "192": 34
+      },
+      "area": 0.010606183888739906,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 44
+    },
+    "g0037_accent_113243": {
+      "top": 240,
+      "luminances": {
+        "240": 10,
+        "192": 34
+      },
+      "area": 0.010563985582848545,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 44
+    },
+    "g0037_accent_113249": {
+      "top": 240,
+      "luminances": {
+        "240": 10,
+        "192": 34
+      },
+      "area": 0.010622657267958857,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 44
+    },
+    "g0037_accent_113255": {
+      "top": 240,
+      "luminances": {
+        "240": 9,
+        "192": 35
+      },
+      "area": 0.01076412436668761,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 44
+    },
+    "g0037_accent_112449": {
+      "top": 240,
+      "luminances": {
+        "240": 7,
+        "192": 31
+      },
+      "area": 0.008203495428460883,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 38
+    },
+    "g0037_accent_112645": {
+      "top": 240,
+      "luminances": {
+        "192": 26,
+        "240": 8
+      },
+      "area": 0.03542279604153009,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 34
+    },
+    "g0037_accent_112621": {
+      "top": 240,
+      "luminances": {
+        "192": 16,
+        "240": 8
+      },
+      "area": 0.02504576009232551,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 24
+    },
+    "g0037_accent_112383": {
+      "top": 240,
+      "luminances": {
+        "192": 22
+      },
+      "area": 0.004927677975501865,
+      "upward_min_max": null,
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 22
     },
     "g0038": {
       "top": 168,
@@ -1400,42 +1995,36 @@
       "source_faces": 32
     },
     "g0053": {
-      "top": 192,
+      "top": 240,
       "luminances": {
-        "72": 364,
-        "144": 152,
-        "120": 248,
-        "192": 136,
-        "168": 96
+        "192": 702,
+        "240": 294
       },
       "area": 0.4759697636583269,
       "upward_min_max": [
-        192,
-        192
+        240,
+        240
       ],
       "wall_min_max": [
-        120,
-        168
+        192,
+        240
       ],
       "source_faces": 996
     },
     "g0054": {
-      "top": 192,
+      "top": 240,
       "luminances": {
-        "72": 364,
-        "144": 152,
-        "120": 248,
-        "192": 136,
-        "168": 96
+        "192": 704,
+        "240": 292
       },
       "area": 0.47600935950526946,
       "upward_min_max": [
-        192,
-        192
+        240,
+        240
       ],
       "wall_min_max": [
-        120,
-        168
+        192,
+        240
       ],
       "source_faces": 996
     },
@@ -1796,10 +2385,10 @@
     "g0067": {
       "top": 216,
       "luminances": {
-        "216": 384,
-        "144": 1679
+        "216": 340,
+        "144": 1469
       },
-      "area": 1.3551633192632835,
+      "area": 1.2730019357563833,
       "upward_min_max": [
         216,
         216
@@ -1808,7 +2397,92 @@
         144,
         216
       ],
-      "source_faces": 2063
+      "source_faces": 1809
+    },
+    "g0067_accent_170602": {
+      "top": 240,
+      "luminances": {
+        "192": 56,
+        "240": 12
+      },
+      "area": 0.009819177497774945,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 68
+    },
+    "g0067_accent_170642": {
+      "top": 240,
+      "luminances": {
+        "192": 56,
+        "240": 12
+      },
+      "area": 0.009790218731723144,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 68
+    },
+    "g0067_accent_170366": {
+      "top": 240,
+      "luminances": {
+        "192": 36,
+        "240": 8
+      },
+      "area": 0.02870925432216609,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 44
+    },
+    "g0067_accent_170450": {
+      "top": 240,
+      "luminances": {
+        "192": 36,
+        "240": 8
+      },
+      "area": 0.028689232327451464,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 44
+    },
+    "g0067_accent_170195": {
+      "top": 240,
+      "luminances": {
+        "192": 26,
+        "240": 4
+      },
+      "area": 0.005153500627784524,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 30
     },
     "g0068": {
       "top": 216,
@@ -2205,10 +2879,10 @@
     "g0106": {
       "top": 192,
       "luminances": {
-        "144": 1207,
-        "192": 575
+        "144": 966,
+        "192": 416
       },
-      "area": 2.2746185932683147,
+      "area": 2.090153369857944,
       "upward_min_max": [
         192,
         192
@@ -2217,22 +2891,158 @@
         144,
         192
       ],
-      "source_faces": 1782
+      "source_faces": 1382
+    },
+    "g0106_accent_213917": {
+      "top": 240,
+      "luminances": {
+        "192": 44,
+        "240": 98
+      },
+      "area": 0.04087448533755378,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 142
+    },
+    "g0106_accent_214620": {
+      "top": 240,
+      "luminances": {
+        "192": 52,
+        "240": 12
+      },
+      "area": 0.003052800400837441,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 64
+    },
+    "g0106_accent_213572": {
+      "top": 240,
+      "luminances": {
+        "192": 25,
+        "240": 11
+      },
+      "area": 0.002565753587987274,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 36
+    },
+    "g0106_accent_213456": {
+      "top": 240,
+      "luminances": {
+        "240": 6,
+        "192": 29
+      },
+      "area": 0.04525365132303705,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 35
+    },
+    "g0106_accent_213556": {
+      "top": 240,
+      "luminances": {
+        "240": 6,
+        "192": 29
+      },
+      "area": 0.045265133344400965,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 35
+    },
+    "g0106_accent_213540": {
+      "top": 240,
+      "luminances": {
+        "192": 24,
+        "240": 10
+      },
+      "area": 0.00249868908940698,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 34
+    },
+    "g0106_accent_213538": {
+      "top": 240,
+      "luminances": {
+        "192": 22,
+        "240": 8
+      },
+      "area": 0.009970525185053702,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 30
+    },
+    "g0106_accent_213438": {
+      "top": 240,
+      "luminances": {
+        "192": 16,
+        "240": 8
+      },
+      "area": 0.03498418514209334,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 24
     },
     "g0107": {
-      "top": 192,
+      "top": 240,
       "luminances": {
-        "144": 526,
-        "192": 272
+        "192": 526,
+        "240": 272
       },
       "area": 0.13894465406610834,
       "upward_min_max": [
-        192,
-        192
+        240,
+        240
       ],
       "wall_min_max": [
-        144,
-        192
+        192,
+        240
       ],
       "source_faces": 798
     },
@@ -2253,19 +3063,19 @@
       "source_faces": 178
     },
     "g0108": {
-      "top": 192,
+      "top": 240,
       "luminances": {
-        "144": 526,
-        "192": 272
+        "192": 526,
+        "240": 272
       },
       "area": 0.13658611711616686,
       "upward_min_max": [
-        192,
-        192
+        240,
+        240
       ],
       "wall_min_max": [
-        144,
-        192
+        192,
+        240
       ],
       "source_faces": 798
     },
@@ -2286,36 +3096,36 @@
       "source_faces": 178
     },
     "g0109": {
-      "top": 192,
+      "top": 240,
       "luminances": {
-        "192": 294,
-        "144": 1374
+        "240": 294,
+        "192": 1374
       },
       "area": 0.748236346109934,
       "upward_min_max": [
-        192,
-        192
+        240,
+        240
       ],
       "wall_min_max": [
-        144,
-        192
+        192,
+        240
       ],
       "source_faces": 1668
     },
     "g0110": {
-      "top": 192,
+      "top": 240,
       "luminances": {
-        "144": 574,
-        "192": 152
+        "192": 574,
+        "240": 152
       },
       "area": 0.41444291194420657,
       "upward_min_max": [
-        192,
-        192
+        240,
+        240
       ],
       "wall_min_max": [
-        144,
-        192
+        192,
+        240
       ],
       "source_faces": 726
     },
@@ -3818,6 +4628,11 @@
         "g0029_interior",
         "g0029_grille_00",
         "g0029_glass",
+        "g0029_accent_77212",
+        "g0029_accent_77368",
+        "g0029_accent_66261",
+        "g0029_accent_68194",
+        "g0029_accent_69119",
         "g0030",
         "g0031",
         "g0031_gunmetal",
@@ -3908,7 +4723,17 @@
       "axis": "x",
       "parts": [
         "g0037",
-        "g0037_glass"
+        "g0037_glass",
+        "g0037_accent_113325",
+        "g0037_accent_112327",
+        "g0037_accent_113144",
+        "g0037_accent_113243",
+        "g0037_accent_113249",
+        "g0037_accent_113255",
+        "g0037_accent_112449",
+        "g0037_accent_112645",
+        "g0037_accent_112621",
+        "g0037_accent_112383"
       ],
       "confirmed": false,
       "animate": false,
@@ -3924,7 +4749,12 @@
       ],
       "axis": "x",
       "parts": [
-        "g0067"
+        "g0067",
+        "g0067_accent_170602",
+        "g0067_accent_170642",
+        "g0067_accent_170366",
+        "g0067_accent_170450",
+        "g0067_accent_170195"
       ],
       "confirmed": false,
       "animate": false,
@@ -3939,7 +4769,15 @@
       ],
       "axis": "z",
       "parts": [
-        "g0106"
+        "g0106",
+        "g0106_accent_213917",
+        "g0106_accent_214620",
+        "g0106_accent_213572",
+        "g0106_accent_213456",
+        "g0106_accent_213556",
+        "g0106_accent_213540",
+        "g0106_accent_213538",
+        "g0106_accent_213438"
       ],
       "confirmed": false,
       "animate": false,
@@ -4041,5 +4879,5 @@
       325
     ]
   },
-  "model_sha256": "a4f30a51cb4d8d4ea0809457eaaf3531b840da2fe122ae964abdc85ff4c4ed3c"
+  "model_sha256": "79fcec4dc39d396bea56c329e6b6ec9c17d024aab8c1e56d3787a2a4102c78ca"
 }

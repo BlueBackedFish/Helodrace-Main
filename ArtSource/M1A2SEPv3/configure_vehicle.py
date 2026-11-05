@@ -26,8 +26,15 @@ BOX_REASON = "Rounded rigid container (jerrycan, water can, cooler) replaced by 
 STOWAGE = {"ex_decor_02", "ex_decor_03", "ex_decor_04", "ex_decor_r_03", "ex_decor_l_03",
            "ex_decor_r_04", "ex_decor_l_04", "ex_decor_r_05", "ex_decor_l_05"}
 # Highlight exceptions (style section 4): small tow/recovery hardware on the hull.
-ACCENTS = {"ex_decor_r_02", "ex_decor_l_02", "ex_decor_r_08", "ex_decor_l_08", "ex_decor_05"}
-ACCENT_REASON = "Tow shackle / towing pintle: small mounted hardware highlighted like RimThunder tow hooks"
+ACCENTS = {  # whole source groups -> (base group, reason)
+    **{n: ("root", "Tow shackle / towing pintle highlight") for n in
+       ["ex_decor_r_02", "ex_decor_l_02", "ex_decor_r_08", "ex_decor_l_08", "ex_decor_05"]},
+    **{n: ("root", "Head/tail light housing highlight; lens stays a separate optics colour") for n in
+       ["ex_lantern_l", "ex_lantern_r", "ex_lantern_b_01", "ex_lantern_b_02"]},
+    **{n: ("bone_turret", "Smoke grenade discharger highlight") for n in ["ex_armor_l_01", "ex_armor_r_01"]}}
+# Small components inside a group (user request 2026-11-06): hatch handles/hinges, lifting/tie-down eyes.
+HANDLE_GROUPS = {"hatch_01", "hatch_03", "hatch_04"}
+EYE_GROUPS = {"root", "bone_turret"}
 
 # Ladder values (style.json planes: roof 216 / slope 192,168 / wall 144).
 HULL_TOP, TURRET_TOP, STEP = 216, 192, 24
@@ -62,7 +69,7 @@ def configure():
             return None
         owner = next(p for p in parts if p["id"] == group["id"])
         part = {**owner, "id": group["id"]+"_"+label, "label": label, "faces": sorted(faces), **settings}
-        for key in ("planes", "side", "cylinder_axis", "cap"):
+        for key in ("planes", "side", "cylinder_axis", "cap", "accent"):
             if key not in settings:
                 part.pop(key, None)
         parts.append(part)
@@ -120,8 +127,9 @@ def configure():
         elif layer == "turret" and (name.startswith("ex_decor") or name in {"ex_armor_07", "ex_armor_08"}):
             part.update(mode="two_tone", top=168, side=120)  # bustle rack and stowage boxes
         elif name in ACCENTS:
-            part.update(mode="flat", accent={"value": 240, "side": 192, "over": groups["root"]["id"],
-                                             "reason": ACCENT_REASON})
+            base, reason = ACCENTS[name]
+            part.update(mode="flat", accent={"value": 240, "side": 192, "over": groups[base]["id"],
+                                             "reason": reason})
         elif name.startswith("ex_lantern") or (layer == "hull" and name.startswith("ex_decor")):
             part.update(mode="two_tone", top=192, side=144)
         parts.append(part)
@@ -162,6 +170,31 @@ def configure():
             role, value = {"interior": ("recess", 48), "headlamp_lens": ("optics", 192),
                            "glass": ("optics", 32), "gunmetal": ("metal", 72), "bore": ("recess", 40)}[key]
             extract(group, key, faces, role=role, top=value, mode="flat")
+
+        if name in HANDLE_GROUPS | EYE_GROUPS:
+            cupola_co = vertices[[v for f in groups["hatch_04"]["faces"] for v in model["faces"][f]["vertices"]]]
+            cupola = (cupola_co.min(axis=0)[:2]+cupola_co.max(axis=0)[:2])/2
+            taken_here = {f for p in parts if p["source_group"] == group["id"] and p["id"] != group["id"]
+                          for f in p.get("faces", [])}
+            rest = [f for f in group["faces"] if f not in taken_here]
+            for comp in common.components(model, rest, 1e-6):
+                co = vertices[[v for f in comp for v in model["faces"][f]["vertices"]]]
+                size = np.ptp(co, axis=0)
+                aligned = np.mean([np.max(np.abs(surface(f)[0])) > .97 for f in comp])
+                if name in HANDLE_GROUPS:
+                    # Handles and hinge knuckles: small, raised above the plate, not the plate itself.
+                    keep = len(comp) >= 20 and .04 <= size.max() <= .2 and size[2] >= .02
+                    reason = "Hatch handle / hinge highlight"
+                else:
+                    # Lifting / tie-down eyes: small curved loops standing on the outer skin.
+                    # Not the commander-cupola vision-block guards, not flat sensor discs.
+                    keep = (len(comp) >= 40 and .08 <= size.max() <= .2 and size[2] >= .35*size.max()
+                            and aligned < .35 and co[:, 2].max() > (1.45 if name == "root" else 2.2)
+                            and np.linalg.norm(co.mean(axis=0)[:2]-cupola) > .45)
+                    reason = "Lifting / tie-down eye highlight"
+                if keep:
+                    extract(group, f"accent_{min(comp)}", comp, mode="flat",
+                            accent={"value": 240, "side": 192, "over": group["id"], "reason": reason})
 
         if name in STOWAGE:
             taken_here = {f for p in parts if p["source_group"] == group["id"] and p["id"] != group["id"]
