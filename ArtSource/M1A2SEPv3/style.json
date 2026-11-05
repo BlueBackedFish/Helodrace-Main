@@ -1,11 +1,50 @@
 {
   "name": "m1a2_sep3_rimthunder_ladder_v1",
   "description": "M1A2 SEPv3 snapshot. 24-step ladder after RimThunder M1A2 (hull roof at the top, turret roof one step below, turret-top hatches/panels back at the top). Not an approved standard.",
-  "tint": [225, 213, 183],
+  "tint": [
+    225,
+    213,
+    183
+  ],
   "minimum": 25,
   "maximum": 240,
   "contact_step": 24,
-  "planes": {"roof": 216, "front_slope": 192, "side_slope": 168, "front_wall": 144, "side_wall": 144, "underside": 96},
-  "roles": {"paint": null, "hatch": null, "equipment": null, "rubber": 40, "track": 40, "metal": 72, "optics": 32, "recess": 48},
-  "render": {"master": 1024, "sizes": [256, 512], "hull_elevation": 64, "turret_elevation": 90, "padding": 0.12}
+  "planes": {
+    "roof": 216,
+    "front_slope": 192,
+    "side_slope": 168,
+    "front_wall": 144,
+    "side_wall": 144,
+    "underside": 96
+  },
+  "roles": {
+    "paint": null,
+    "hatch": null,
+    "equipment": null,
+    "rubber": 40,
+    "track": 40,
+    "metal": 72,
+    "optics": 32,
+    "recess": 48
+  },
+  "render": {
+    "master": 1024,
+    "sizes": [
+      256,
+      512
+    ],
+    "hull_elevation": 64,
+    "turret_elevation": 90,
+    "padding": 0.12
+  },
+  "boundary_lines": {
+    "width_256": 1,
+    "depth_step": 0.02,
+    "value": 56,
+    "layers": {
+      "hull_east": {
+        "depth_step": 0.06
+      }
+    }
+  }
 }

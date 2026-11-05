@@ -220,8 +220,11 @@ def build(profile_path):
     selection = partition(source, profile)
     levels = paint_levels(profile, style)
     rigs, owners = validate_rigs(profile)
-    if any(p["layer"] not in {"hull", "turret", "barrel"} for p in profile["parts"]):
-        raise ValueError("Main layers are hull / turret / barrel; movable subparts use rigs")
+    weapon_layers = {w["id"]: w for w in profile.get("weapon_layers", [])}
+    if weapon_layers.keys() & {"hull", "turret", "barrel"}:
+        raise ValueError("Weapon layer ids must differ from hull / turret / barrel")
+    if any(p["layer"] not in {"hull", "turret", "barrel", *weapon_layers} for p in profile["parts"]):
+        raise ValueError("Main layers are hull / turret / barrel (+ declared weapon_layers); movable subparts use rigs")
     output_dir = root/"output"
     output_dir.mkdir(exist_ok=True)
     bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -522,6 +525,8 @@ def build(profile_path):
             obj.hide_render = layers is not None and obj["layer"] not in layers
         aim(center if target is None else target, elevation, azimuth)
         scene.render.filepath = str(output_dir/(name+".png"))
+        for stale in (name+"_flat.png", name+"_lines.png", name+"_ids.npz"):
+            (output_dir/stale).unlink(missing_ok=True)
         bpy.ops.render.render(write_still=True)
         if ids:
             render_ids(name)
@@ -544,6 +549,32 @@ def build(profile_path):
         render("turret_full_east", 90, layers={"turret", "barrel"}, target=pivot, ids=True)
         render("turret_east", 90, layers={"turret"}, target=pivot, ids=True)
         render("barrel_east", 90, layers={"barrel"}, target=pivot, ids=True)
+    # Separate weapon sprites (RimThunder MG_turret style) and external-asset mount points:
+    # pixel positions are measured in the turret image (camera still aimed at the turret pivot).
+    placements = {}
+    for key, spec in [*weapon_layers.items(), *[(m["id"], m) for m in profile.get("mounts", [])]]:
+        point = world_to_camera_view(scene, camera, Vector(spec["pivot"]))
+        placements[key] = {"pivot": spec["pivot"], "kind": "weapon_layer" if key in weapon_layers else "mount",
+                           "pixels_in_turret_top_origin": [point.x*scene.render.resolution_x,
+                                                           (1-point.y)*scene.render.resolution_y],
+                           **({"asset": spec["asset"]} if "asset" in spec else {}),
+                           **({"reason": spec["reason"]} if "reason" in spec else {})}
+    for key, spec in weapon_layers.items():
+        if not any(o["layer"] == key for o in objects.values()):
+            raise ValueError(f"Weapon layer {key} has no retained parts")
+        # Render the weapon aimed straight forward (-Y) so the game can rotate the sprite.
+        from mathutils import Matrix
+        yaw = math.radians(spec.get("render_yaw_degrees", 0))
+        turn = (Matrix.Translation(Vector(spec["pivot"])) @ Matrix.Rotation(yaw, 4, "Z")
+                @ Matrix.Translation(-Vector(spec["pivot"])))
+        moved = {o: o.matrix_world.copy() for o in objects.values() if o["layer"] == key}
+        for o, world in moved.items():
+            o.matrix_world = turn @ world
+        bpy.context.view_layer.update()
+        render(key+"_east", 90, layers={key}, target=Vector(spec["pivot"]), ids=True)
+        for o, world in moved.items():
+            o.matrix_world = world
+        bpy.context.view_layer.update()
     for obj in objects.values():
         obj.hide_render = False
     aim(center, style["render"]["hull_elevation"])
@@ -630,6 +661,7 @@ def build(profile_path):
               "render": {**style["render"], "ortho_scale": camera_data.ortho_scale,
                          "hull_target": list(center), "turret_pivot": list(pivot),
                          "turret_anchor_pixels_top_origin": anchor_pixel,
+                         "placements": placements,
                          "top_pivot_pixels": [scene.render.resolution_x/2]*2,
                          "note": "turret_full includes barrel; never composite barrel twice",
                          "id_pass": {"ids": {str(k): v for k, v in id_names.items()},

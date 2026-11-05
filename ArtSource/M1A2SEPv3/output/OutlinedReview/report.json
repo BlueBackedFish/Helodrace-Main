@@ -1,10 +1,11 @@
 {
-  "source_report_sha256": "56dfbc04b01d179069d8c09d02712bf1319e4f71d8766e5d06f1ed734167bc9f",
+  "source_report_sha256": "08767495c3e542befec27c544dc395903e6b412a6d6c8dfb45b06ec33a19075c",
   "source_layer_sha256": {
-    "hull_east": "5096eeeb22c97239ca25c929b914958946415777b4f27adf16518cd4ca44cb3f",
-    "turret_east": "6ca0fb446bf703be76ef4e6c222043bae9f1572ac4333ba888de75ed85d84edf",
-    "barrel_east": "fdb16ad2d01971dcf00ea783fad418742edf67edb244292c44c297232a661951",
-    "turret_full_east": "8abc1e87916fea3ccf19d42d158d10f1146ac0238f0887c8f18654a44099d439"
+    "hull_east": "14feffd5a5dad30112778baabdda98994978c60e4baf07857c1361cbc69591bc",
+    "turret_east": "00dd075e191aa7badc3ee09441153af0d720678467bdbf872dc7f9f67d35cbb7",
+    "barrel_east": "0496b18d05e963fcdd7eeeacb3259c277f7cc131a41d1066d6f8c0731a0ddd51",
+    "turret_full_east": "e75506a4ea69e1e237fd13db9cef999e8a3de43b2116de6b07cef9f649b8430f",
+    "loader_mg_east": "f0a86738a397af92755af5e38a4d783abfbf5a442ed45688a3cd87a6a278d338"
   },
   "outline_width_at_256": 2,
   "color": [
@@ -13,15 +14,15 @@
     0
   ],
   "method": "circular alpha dilation; black beneath each original layer",
-  "composition": "outline hull and full turret separately, then composite at original pivot",
+  "composition": "outline hull and full turret separately at each output size, then composite at the scaled pivot",
   "source_pixels_opaque_unchanged": true,
   "source_files_unchanged": true,
   "alpha_bounds": {
     "1024/hull_east": [
       150,
-      383,
+      381,
       749,
-      682
+      680
     ],
     "1024/turret_east": [
       234,
@@ -41,17 +42,23 @@
       910,
       653
     ],
+    "1024/loader_mg_east": [
+      477,
+      487,
+      578,
+      530
+    ],
     "1024/preview_east": [
       150,
-      381,
+      379,
       874,
-      682
+      680
     ],
     "256/hull_east": [
       35,
       93,
       190,
-      173
+      172
     ],
     "256/turret_east": [
       56,
@@ -71,17 +78,23 @@
       230,
       166
     ],
+    "256/loader_mg_east": [
+      118,
+      119,
+      147,
+      135
+    ],
     "256/preview_east": [
       35,
       93,
       221,
-      173
+      172
     ],
     "512/hull_east": [
       73,
-      189,
+      188,
       377,
-      343
+      342
     ],
     "512/turret_east": [
       115,
@@ -101,11 +114,17 @@
       457,
       329
     ],
+    "512/loader_mg_east": [
+      236,
+      241,
+      291,
+      267
+    ],
     "512/preview_east": [
       73,
       188,
       439,
-      343
+      342
     ]
   },
   "outline_is_review_postprocess": true

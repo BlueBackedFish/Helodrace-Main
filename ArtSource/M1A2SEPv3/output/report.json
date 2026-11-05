@@ -6,6 +6,7 @@
     "rig: GUN_ELEVATION",
     "rig: LOADER_HATCH",
     "rig: COMMANDER_HATCH",
+    "rig: LOADER_MG",
     "rig: DRIVER_HATCH",
     "review: blueprint",
     "review: style_reference",
@@ -19,12 +20,12 @@
       "sha256": "2f026e5564f63af921bd8f2ccf81c707140f2cefce0f03b6ae14bd442021fe96"
     }
   },
-  "profile_sha256": "080175f8112248265eac02f0afc090546e7b75ccf0ae56450f4d6261320286d6",
-  "style_sha256": "6224ebdb1634f6c940e247f9d70b37a3fba475bafd39a7d217fc5fd0e29699d9",
+  "profile_sha256": "3d8950c805be3d8f44b797f326dea67a4e46fabd8b982e60e691caacfa2640c2",
+  "style_sha256": "d7589d5206d1fd714e8a00c37de262c8ba02d2ea3c6a322fb8543b4917197f0a",
   "source_faces": 425141,
-  "preserved_faces": 207272,
-  "explicitly_omitted_faces": 213977,
-  "box_replaced_faces": 3892,
+  "preserved_faces": 186906,
+  "explicitly_omitted_faces": 234391,
+  "box_replaced_faces": 3844,
   "boxes": [
     {
       "part": "g0038_stowage_114629",
@@ -178,23 +179,6 @@
         ]
       ],
       "reason": "Rounded rigid container (jerrycan, water can, cooler) replaced by one clean block: style section 2"
-    },
-    {
-      "part": "g0063_mg_barrel_157356",
-      "source_faces": 48,
-      "bounds": [
-        [
-          -0.8039,
-          -1.4082,
-          2.9674
-        ],
-        [
-          -0.752,
-          -0.4962,
-          3.0193
-        ]
-      ],
-      "reason": "Machine-gun barrel replaced by one clean bar so it reads as a simple shape (style section 3)"
     }
   ],
   "accents": [
@@ -535,12 +519,12 @@
       "reason": "Tow shackle / towing pintle highlight"
     }
   ],
-  "accent_area_fraction": 0.005952634708607938,
+  "accent_area_fraction": 0.006008024842138674,
   "degenerate_source_faces": [],
   "source_coordinates_preserved": true,
   "unlit_glb": true,
   "glb_animation_count": 1,
-  "mesh_count": 191,
+  "mesh_count": 182,
   "paint": {
     "g0000": {
       "top": 216,
@@ -3847,158 +3831,6 @@
       ],
       "source_faces": 168
     },
-    "g0062": {
-      "top": 216,
-      "luminances": {
-        "216": 4527,
-        "144": 2155
-      },
-      "smooth": null,
-      "area": 1.4835749205574302,
-      "upward_min_max": [
-        216,
-        216
-      ],
-      "wall_min_max": [
-        144,
-        216
-      ],
-      "source_faces": 6682
-    },
-    "g0063": {
-      "top": 216,
-      "luminances": {
-        "216": 56,
-        "144": 76
-      },
-      "smooth": null,
-      "area": 0.13748052467963134,
-      "upward_min_max": [
-        216,
-        216
-      ],
-      "wall_min_max": [
-        144,
-        216
-      ],
-      "source_faces": 132
-    },
-    "g0063_mg_barrel_157356": {
-      "top": 96,
-      "luminances": {
-        "96": 6
-      },
-      "smooth": null,
-      "area": 0.1947183981537819,
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "wall_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 48
-    },
-    "g0063_gunmetal": {
-      "top": 96,
-      "luminances": {
-        "96": 2633
-      },
-      "smooth": null,
-      "area": 0.8565797736023342,
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "wall_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 2633
-    },
-    "g0064": {
-      "top": 216,
-      "luminances": {
-        "216": 3126,
-        "144": 1694
-      },
-      "smooth": null,
-      "area": 1.628763813100477,
-      "upward_min_max": [
-        216,
-        216
-      ],
-      "wall_min_max": [
-        144,
-        216
-      ],
-      "source_faces": 4820
-    },
-    "g0064_gunmetal": {
-      "top": 96,
-      "luminances": {
-        "96": 100
-      },
-      "smooth": null,
-      "area": 0.007152682832384016,
-      "upward_min_max": null,
-      "wall_min_max": [
-        96,
-        96
-      ],
-      "source_faces": 100
-    },
-    "g0065": {
-      "top": 216,
-      "luminances": {
-        "144": 441,
-        "216": 731
-      },
-      "smooth": null,
-      "area": 0.5597205225030848,
-      "upward_min_max": [
-        216,
-        216
-      ],
-      "wall_min_max": [
-        144,
-        216
-      ],
-      "source_faces": 1172
-    },
-    "g0066": {
-      "top": 216,
-      "luminances": {
-        "216": 3162,
-        "144": 1527
-      },
-      "smooth": null,
-      "area": 0.9911204599201255,
-      "upward_min_max": [
-        216,
-        216
-      ],
-      "wall_min_max": [
-        144,
-        216
-      ],
-      "source_faces": 4689
-    },
-    "g0066_glass": {
-      "top": 32,
-      "luminances": {
-        "32": 138
-      },
-      "smooth": null,
-      "area": 0.024949921700681443,
-      "upward_min_max": null,
-      "wall_min_max": [
-        32,
-        32
-      ],
-      "source_faces": 138
-    },
     "g0067": {
       "top": 216,
       "luminances": {
@@ -7240,9 +7072,6 @@
         "g0029_accent_66261",
         "g0029_accent_68194",
         "g0029_accent_69119",
-        "g0030",
-        "g0031",
-        "g0031_gunmetal",
         "g0032",
         "g0033",
         "g0033_glass",
@@ -7284,15 +7113,6 @@
         "g0060_stowage_146524",
         "g0061",
         "g0061_stowage_149025",
-        "g0062",
-        "g0063",
-        "g0063_mg_barrel_157356",
-        "g0063_gunmetal",
-        "g0064",
-        "g0064_gunmetal",
-        "g0065",
-        "g0066",
-        "g0066_glass",
         "g0068",
         "g0029_front_cheeks",
         "g0029_side_slopes"
@@ -7369,6 +7189,24 @@
       "evidence": "Provisional rear edge of the source hatch bounds"
     },
     {
+      "id": "LOADER_MG",
+      "parent": "TURRET_YAW",
+      "pivot": [
+        0.801,
+        0.554,
+        2.421
+      ],
+      "axis": "z",
+      "parts": [
+        "g0030",
+        "g0031",
+        "g0031_gunmetal"
+      ],
+      "confirmed": false,
+      "animate": false,
+      "evidence": "Provisional: centre of the loader pintle (bone_mg_aa_h) bounds, base height"
+    },
+    {
       "id": "DRIVER_HATCH",
       "pivot": [
         -0.004,
@@ -7407,7 +7245,7 @@
     "hull_target": [
       0.0,
       -0.5392999649047852,
-      1.543350100517273
+      1.5010499954223633
     ],
     "turret_pivot": [
       0.003346000099554658,
@@ -7416,8 +7254,36 @@
     ],
     "turret_anchor_pixels_top_origin": [
       475.5791931152344,
-      512.5820617675781
+      511.2506103515625
     ],
+    "placements": {
+      "loader_mg": {
+        "pivot": [
+          0.801,
+          0.554,
+          2.421
+        ],
+        "kind": "weapon_layer",
+        "pixels_in_turret_top_origin": [
+          469.91949462890625,
+          454.72674560546875
+        ]
+      },
+      "crows": {
+        "pivot": [
+          -0.742,
+          -0.651,
+          2.65
+        ],
+        "kind": "mount",
+        "pixels_in_turret_top_origin": [
+          556.4410400390625,
+          565.5174255371094
+        ],
+        "asset": "ArtSource/CROWSII",
+        "reason": "CROWSII top layers rotate about their base centre (0,0,0); place that origin here"
+      }
+    },
     "top_pivot_pixels": [
       512.0,
       512.0
@@ -7529,93 +7395,84 @@
         "102": "g0060_stowage_146524",
         "103": "g0061",
         "104": "g0061_stowage_149025",
-        "105": "g0062",
-        "106": "g0063",
-        "107": "g0063_mg_barrel_157356",
-        "108": "g0063_gunmetal",
-        "109": "g0064",
-        "110": "g0064_gunmetal",
-        "111": "g0065",
-        "112": "g0066",
-        "113": "g0066_glass",
-        "114": "g0067",
-        "115": "g0067_accent_170602",
-        "116": "g0067_accent_170642",
-        "117": "g0067_accent_170366",
-        "118": "g0067_accent_170450",
-        "119": "g0067_accent_170195",
-        "120": "g0068",
-        "121": "g0087",
-        "122": "g0088",
-        "123": "g0089",
-        "124": "g0090",
-        "125": "g0091",
-        "126": "g0092",
-        "127": "g0093",
-        "128": "g0094",
-        "129": "g0095",
-        "130": "g0096",
-        "131": "g0097",
-        "132": "g0098",
-        "133": "g0099",
-        "134": "g0099_grille_00",
-        "135": "g0100",
-        "136": "g0100_grille_00",
-        "137": "g0101",
-        "138": "g0101_grille_00",
-        "139": "g0102",
-        "140": "g0102_grille_00",
-        "141": "g0103",
-        "142": "g0104",
-        "143": "g0105",
-        "144": "g0106",
-        "145": "g0106_accent_213917",
-        "146": "g0106_accent_214620",
-        "147": "g0106_accent_213572",
-        "148": "g0106_accent_213456",
-        "149": "g0106_accent_213556",
-        "150": "g0106_accent_213540",
-        "151": "g0106_accent_213538",
-        "152": "g0106_accent_213438",
-        "153": "g0107",
-        "154": "g0107_headlamp_lens",
-        "155": "g0108",
-        "156": "g0108_headlamp_lens",
-        "157": "g0109",
-        "158": "g0110",
-        "159": "g0173",
-        "160": "g0174",
-        "161": "g0175",
-        "162": "g0176",
-        "163": "g0177",
-        "164": "g0178",
-        "165": "g0179",
-        "166": "g0180",
-        "167": "g0181",
-        "168": "g0182",
-        "169": "g0203",
-        "170": "g0204",
-        "171": "g0205",
-        "172": "g0206",
-        "173": "g0207",
-        "174": "g0208",
-        "175": "g0209",
-        "176": "g0230",
-        "177": "g0231",
-        "178": "g0232",
-        "179": "g0233",
-        "180": "g0234",
-        "181": "g0235",
-        "182": "g0242",
-        "183": "g0243",
-        "184": "g0244",
-        "185": "g0245",
-        "186": "g0248",
-        "187": "g0249",
-        "188": "g0000_front_glacis",
-        "189": "g0000_side_shoulders",
-        "190": "g0029_front_cheeks",
-        "191": "g0029_side_slopes"
+        "105": "g0067",
+        "106": "g0067_accent_170602",
+        "107": "g0067_accent_170642",
+        "108": "g0067_accent_170366",
+        "109": "g0067_accent_170450",
+        "110": "g0067_accent_170195",
+        "111": "g0068",
+        "112": "g0087",
+        "113": "g0088",
+        "114": "g0089",
+        "115": "g0090",
+        "116": "g0091",
+        "117": "g0092",
+        "118": "g0093",
+        "119": "g0094",
+        "120": "g0095",
+        "121": "g0096",
+        "122": "g0097",
+        "123": "g0098",
+        "124": "g0099",
+        "125": "g0099_grille_00",
+        "126": "g0100",
+        "127": "g0100_grille_00",
+        "128": "g0101",
+        "129": "g0101_grille_00",
+        "130": "g0102",
+        "131": "g0102_grille_00",
+        "132": "g0103",
+        "133": "g0104",
+        "134": "g0105",
+        "135": "g0106",
+        "136": "g0106_accent_213917",
+        "137": "g0106_accent_214620",
+        "138": "g0106_accent_213572",
+        "139": "g0106_accent_213456",
+        "140": "g0106_accent_213556",
+        "141": "g0106_accent_213540",
+        "142": "g0106_accent_213538",
+        "143": "g0106_accent_213438",
+        "144": "g0107",
+        "145": "g0107_headlamp_lens",
+        "146": "g0108",
+        "147": "g0108_headlamp_lens",
+        "148": "g0109",
+        "149": "g0110",
+        "150": "g0173",
+        "151": "g0174",
+        "152": "g0175",
+        "153": "g0176",
+        "154": "g0177",
+        "155": "g0178",
+        "156": "g0179",
+        "157": "g0180",
+        "158": "g0181",
+        "159": "g0182",
+        "160": "g0203",
+        "161": "g0204",
+        "162": "g0205",
+        "163": "g0206",
+        "164": "g0207",
+        "165": "g0208",
+        "166": "g0209",
+        "167": "g0230",
+        "168": "g0231",
+        "169": "g0232",
+        "170": "g0233",
+        "171": "g0234",
+        "172": "g0235",
+        "173": "g0242",
+        "174": "g0243",
+        "175": "g0244",
+        "176": "g0245",
+        "177": "g0248",
+        "178": "g0249",
+        "179": "g0000_front_glacis",
+        "180": "g0000_side_shoulders",
+        "181": "g0029_front_cheeks",
+        "182": "g0029_side_slopes"
       },
       "depth_range": 114.09132385253906,
       "encoding": "16-bit RGB: R,G = id low/high byte, B = view depth / depth_range"
@@ -7624,28 +7481,39 @@
   "lighting_max_difference_255": 0,
   "boundary_lines": {
     "hull_east": {
-      "pixels": 21221,
+      "pixels": 7830,
       "width_256": 1,
-      "depth_step": 0.02,
-      "darken": 48
+      "depth_step": 0.06,
+      "value": 56,
+      "solid": true
     },
     "turret_east": {
-      "pixels": 20697,
+      "pixels": 18152,
       "width_256": 1,
       "depth_step": 0.02,
-      "darken": 48
+      "value": 56,
+      "solid": true
     },
     "barrel_east": {
       "pixels": 151,
       "width_256": 1,
       "depth_step": 0.02,
-      "darken": 48
+      "value": 56,
+      "solid": true
     },
     "turret_full_east": {
-      "pixels": 20752,
+      "pixels": 18207,
       "width_256": 1,
       "depth_step": 0.02,
-      "darken": 48
+      "value": 56,
+      "solid": true
+    },
+    "loader_mg_east": {
+      "pixels": 267,
+      "width_256": 1,
+      "depth_step": 0.02,
+      "value": 56,
+      "solid": true
     }
   },
   "alpha_bounds": {
@@ -7653,13 +7521,7 @@
       37,
       95,
       188,
-      171
-    ],
-    "256/preview_east": [
-      37,
-      95,
-      219,
-      171
+      170
     ],
     "256/turret_east": [
       58,
@@ -7679,17 +7541,23 @@
       228,
       164
     ],
+    "256/loader_mg_east": [
+      120,
+      121,
+      145,
+      133
+    ],
+    "256/preview_east": [
+      37,
+      95,
+      219,
+      170
+    ],
     "512/hull_east": [
       77,
-      193,
-      373,
-      339
-    ],
-    "512/preview_east": [
-      77,
       192,
-      435,
-      339
+      373,
+      338
     ],
     "512/turret_east": [
       119,
@@ -7708,7 +7576,19 @@
       192,
       453,
       325
+    ],
+    "512/loader_mg_east": [
+      240,
+      245,
+      287,
+      263
+    ],
+    "512/preview_east": [
+      77,
+      192,
+      435,
+      338
     ]
   },
-  "model_sha256": "40ff8acd4db8ac5bacee6b9e460bf7e0dbe5e1651f0a7b59fc8ef47392a35ed4"
+  "model_sha256": "755d3426f553d70dd75a0288e2bfc452473b7972e5a64e5aaf4552ac88319f1e"
 }

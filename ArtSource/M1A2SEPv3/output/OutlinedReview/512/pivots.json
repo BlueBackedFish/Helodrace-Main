@@ -9,7 +9,7 @@
   ],
   "hull_turret_anchor": [
     238.0,
-    256.5
+    255.5
   ],
   "outline_pixels": 4.0,
   "stroke": "black, each layer before compositing",

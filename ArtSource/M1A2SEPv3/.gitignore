@@ -2,3 +2,4 @@
 *.blend2
 output/lighting_check.png
 output/*_ids.npz
+output/*_lines.png

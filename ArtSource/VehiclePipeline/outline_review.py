@@ -52,27 +52,35 @@ def build_review(profile_path, width_256=2):
     names = ["hull_east"]
     if any(p["layer"] in {"turret", "barrel"} and p["id"] in report["paint"] for p in profile["parts"]):
         names += ["turret_east", "barrel_east", "turret_full_east"]
+    weapon_names = [w["id"]+"_east" for w in profile.get("weapon_layers", [])]
+    names += weapon_names
     hashes = {name: sha256(root/(name+".png")) for name in names}
-    outlined = {name: black_outline(Image.open(root/(name+".png")), width_256*master/256)
-                for name in names}
-    hull = outlined["hull_east"]
     anchor = [round(v) for v in render["turret_anchor_pixels_top_origin"]]
     offset = [v-master//2 for v in anchor]
-    if "turret_full_east" in outlined:
-        turret = outlined["turret_full_east"]
-        box = turret.getchannel("A").getbbox()
-        assert box and box[0]+offset[0] >= 2 and box[1]+offset[1] >= 2
-        assert box[2]+offset[0] <= master-2 and box[3]+offset[1] <= master-2
-        preview = composite_linear(hull, turret, tuple(offset))
-    else:
-        preview = hull.copy()
-    outlined["preview_east"] = preview
     bounds = {}
     for size in [master, *render["sizes"]]:
+        # Outline each layer at its own output size so solid part lines stay crisp.
+        layer_dir = root if size == master else root/str(size)
+        outlined = {name: black_outline(Image.open(layer_dir/(name+".png")), width_256*size/256)
+                    for name in names}
+        hull = outlined["hull_east"]
+        if "turret_full_east" in outlined:
+            turret = outlined["turret_full_east"]
+            shift = tuple(round(v*size/master) for v in offset)
+            box = turret.getchannel("A").getbbox()
+            assert box and box[0]+shift[0] >= 0 and box[1]+shift[1] >= 0
+            assert box[2]+shift[0] <= size and box[3]+shift[1] <= size
+            preview = composite_linear(hull, turret, shift)
+            for name in weapon_names:
+                spot = render["placements"][name[:-5]]["pixels_in_turret_top_origin"]
+                preview = composite_linear(preview, outlined[name], (round((offset[0]+spot[0]-master/2)*size/master),
+                                                                     round((offset[1]+spot[1]-master/2)*size/master)))
+            outlined["preview_east"] = preview
+        else:
+            outlined["preview_east"] = hull.copy()
         directory = target/str(size)
         directory.mkdir(exist_ok=True)
-        for name, source in outlined.items():
-            image = source if size == master else resize_linear(source, size)
+        for name, image in outlined.items():
             bounds[f"{size}/{name}"] = check_margin(image, name)
             image.save(directory/(name+".png"))
         write_json(directory/"pivots.json", {"size": [size, size], "turret_top_pivot": [size/2]*2,
@@ -92,7 +100,7 @@ def build_review(profile_path, width_256=2):
     write_json(target/"report.json", {"source_report_sha256": sha256(root/"report.json"),
                "source_layer_sha256": hashes, "outline_width_at_256": width_256,
                "color": [0, 0, 0], "method": "circular alpha dilation; black beneath each original layer",
-               "composition": "outline hull and full turret separately, then composite at original pivot",
+               "composition": "outline hull and full turret separately at each output size, then composite at the scaled pivot",
                "source_pixels_opaque_unchanged": True, "source_files_unchanged": True,
                "alpha_bounds": bounds, "outline_is_review_postprocess": True})
     print(f"Outlined review saved: {target}")

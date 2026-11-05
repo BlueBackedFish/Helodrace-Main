@@ -13,14 +13,14 @@
     "Soft/irregular stowage (bag, rolled bedding, tarp bundle) removed: style section 2, user request to simplify stowage": 6936,
     "box: Rounded rigid container (jerrycan, water can, cooler) replaced by one clean block: style section 2": 3844,
     "Loose strap/latch left from simplified stowage (< 12 cm): style section 2": 5144,
-    "box: Machine-gun barrel replaced by one clean bar so it reads as a simple shape (style section 3)": 48,
+    "CROWS remote weapon station is drawn by the existing ArtSource/CROWSII asset (separate Base/Frame/M2Body/M2Barrel layers); removed from the turret texture, mount point recorded": 20414,
     "TUSK reactive armour tile; optional kit kept out of the base vehicle (style section 6)": 64414,
     "TUSK ERA mounting rail/frame on the skirts or turret sides; only needed with the ERA tiles": 74164,
     "Camouflage net (Barracuda) removed on user request; the extracted net meshes also lost their skinning transform and float away from the vehicle": 61525,
     "2.5 m thin whip antenna is subpixel at 256px; separate whip group only": 648
   },
   "source_faces": 425141,
-  "parts": 556,
+  "parts": 552,
   "contacts": [
     {
       "lower": "g0029",
@@ -131,6 +131,7 @@
     "GUN_ELEVATION",
     "LOADER_HATCH",
     "COMMANDER_HATCH",
+    "LOADER_MG",
     "DRIVER_HATCH"
   ]
 }

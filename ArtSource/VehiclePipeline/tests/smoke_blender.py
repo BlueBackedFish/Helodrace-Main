@@ -151,6 +151,25 @@ def main():
     report = read_json(simplified/"output/report.json")
     shades = report["paint"]["g0004"]["luminances"]
     assert min(map(float, shades)) >= 96 and max(map(float, shades)) <= 192 and len(shades) > 1
+    # signed range reaches below the mid value on down-facing faces.
+    profile["parts"][4]["smooth"]["signed"] = True
+    # Separate weapon sprite + external-asset mount point; boundary lines stay one solid colour.
+    profile["parts"][2]["layer"] = "lid_mg"
+    profile["weapon_layers"] = [{"id": "lid_mg", "pivot": [-.2, .15, 1.95]}]
+    profile["mounts"] = [{"id": "roof_rws", "pivot": [.5, .5, 1.9], "asset": "ArtSource/Example", "reason": "test"}]
+    write_json(simplified/"vehicle.json", profile)
+    subprocess.run([sys.executable, str(ROOT/"pipeline.py"), "build", str(simplified/"vehicle.json")], check=True)
+    report = read_json(simplified/"output/report.json")
+    assert min(map(float, report["paint"]["g0004"]["luminances"])) < 144
+    placements = report["render"]["placements"]
+    assert placements["lid_mg"]["kind"] == "weapon_layer" and placements["roof_rws"]["kind"] == "mount"
+    for size in (256, 512):
+        assert (simplified/f"output/{size}/lid_mg_east.png").exists()
+    lines = Image.open(simplified/"output/turret_east_lines.png").convert("L").resize((256, 256), Image.Resampling.BOX)
+    turret = Image.open(simplified/"output/256/turret_east.png").convert("RGBA")
+    colours = {turret.getpixel((x, y))[:3] for x in range(256) for y in range(256)
+               if lines.getpixel((x, y)) >= 115 and turret.getpixel((x, y))[3] > 0}
+    assert len(colours) == 1, colours
     profile["parts"][3]["accent"]["value"] = 200
     write_json(simplified/"vehicle.json", profile)
     rejected = subprocess.run([sys.executable, str(ROOT/"pipeline.py"), "build", str(simplified/"vehicle.json")],

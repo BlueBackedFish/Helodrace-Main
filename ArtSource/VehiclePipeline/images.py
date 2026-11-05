@@ -98,16 +98,29 @@ def sheet(cells, target, columns=3, cell_size=(380, 320)):
     board.save(target)
 
 
-def boundary_lines(root, name, style, render):
-    """Darken base pixels next to a nearer, different part (RimThunder-style part outlines).
+def line_settings(style, name):
+    settings = dict(style.get("boundary_lines", {}))
+    settings.update(settings.pop("layers", {}).get(name, {}))
+    return settings
 
-    Uses the 16-bit part-ID + depth pass. Only real overlaps (depth step) get a line, so
-    coplanar neighbouring parts and flush grilles do not. The flat render is kept as *_flat.png.
+
+def line_rgb(style, settings):
+    from pipeline import paint_rgb
+    return np.array(paint_rgb(settings.get("value", 56), "paint", style))
+
+
+def boundary_lines(root, name, style, render):
+    """Solid single-colour part outlines on the base next to a nearer, different part.
+
+    Uses the part-ID + depth pass. Only real overlaps (depth step) get a line, so coplanar
+    neighbours and flush grilles do not. The line mask is kept as *_lines.png and the flat
+    render as *_flat.png; every output size repaints the mask in one solid colour after
+    resizing, so lines never blend into translucent mid-tones.
     """
     ids_path = root/(name+"_ids.npz")
     if not ids_path.exists():
         return None
-    settings = style.get("boundary_lines", {})
+    settings = line_settings(style, name)
     if settings.get("enabled", True) is False:
         return None
     data = np.load(ids_path)
@@ -126,16 +139,32 @@ def boundary_lines(root, name, style, render):
             other, near = ident[ys, xs], depth[ys, xs]
             here, far = ident[yd, xd], depth[yd, xd]
             line[yd, xd] |= (here > 0) & (other > 0) & (other != here) & (near < far-step)
-    flat = Image.open(root/(name+".png")).convert("RGBA")
-    flat.save(root/(name+"_flat.png"))
-    rgba = np.asarray(flat).astype(np.float64)
-    y = .2126*rgba[..., 0]+.7152*rgba[..., 1]+.0722*rgba[..., 2]
-    darken = settings.get("darken", 48)
-    factor = np.clip((y-darken)/np.maximum(y, 1e-6), settings.get("min_factor", .35), 1)
-    rgba[line, :3] *= factor[line, None]
-    Image.fromarray(np.round(rgba).astype(np.uint8)).save(root/(name+".png"))
+    flat_path = root/(name+"_flat.png")
+    if not flat_path.exists():  # fresh render; re-running the postprocess keeps the original
+        Image.open(root/(name+".png")).convert("RGBA").save(flat_path)
+    flat = Image.open(flat_path).convert("RGBA")
+    Image.fromarray((line*255).astype(np.uint8)).save(root/(name+"_lines.png"))
+    rgba = np.asarray(flat).copy()
+    rgba[line & (rgba[..., 3] > 0), :3] = np.round(line_rgb(style, settings)).astype(np.uint8)
+    Image.fromarray(rgba).save(root/(name+".png"))
     return {"pixels": int(line.sum()), "width_256": settings.get("width_256", 1),
-            "depth_step": step, "darken": darken}
+            "depth_step": step, "value": settings.get("value", 56), "solid": True}
+
+
+def layer_at(root, name, size, master, style):
+    """Layer at an output size; boundary lines repainted solid after the resize."""
+    if size == master:
+        return Image.open(root/(name+".png")).convert("RGBA")
+    flat_path = root/(name+"_flat.png")
+    image = resize_linear(Image.open(flat_path if flat_path.exists() else root/(name+".png")), size)
+    mask_path = root/(name+"_lines.png")
+    if mask_path.exists():
+        coverage = np.asarray(Image.open(mask_path).convert("F").resize((size, size), Image.Resampling.BOX))/255
+        rgba = np.asarray(image).copy()
+        paint = (coverage >= line_settings(style, name).get("coverage", .45)) & (rgba[..., 3] > 0)
+        rgba[paint, :3] = np.round(line_rgb(style, line_settings(style, name))).astype(np.uint8)
+        image = Image.fromarray(rgba)
+    return image
 
 
 def finish(profile_path):
@@ -152,7 +181,8 @@ def finish(profile_path):
     report["lighting_max_difference_255"] = int(difference.max())
     style = read_json(profile_path.parent/profile["style"])
     report["boundary_lines"] = {}
-    for name in ("hull_east", "turret_east", "barrel_east", "turret_full_east"):
+    weapon_names = [w["id"]+"_east" for w in profile.get("weapon_layers", [])]
+    for name in ("hull_east", "turret_east", "barrel_east", "turret_full_east", *weapon_names):
         if (root/(name+".png")).exists():
             report["boundary_lines"][name] = boundary_lines(root, name, style, render)
     hull = Image.open(root/"hull_east.png").convert("RGBA")
@@ -168,25 +198,43 @@ def finish(profile_path):
                     box[2]+offset[0] > hull.width or box[3]+offset[1] > hull.height):
             raise ValueError("Turret composition clips; increase padding or set an explicit pivot")
         preview = composite_linear(hull, turret, offset)
+        for name in weapon_names:
+            # Weapon sprites sit at their mount point inside the turret image (review composite only).
+            spot = render["placements"][name[:-5]]["pixels_in_turret_top_origin"]
+            weapon_offset = (offset[0]+round(spot[0])-render["master"]//2, offset[1]+round(spot[1])-render["master"]//2)
+            preview = composite_linear(preview, Image.open(root/(name+".png")).convert("RGBA"), weapon_offset)
     else:
+        offset = (0, 0)
         preview = hull.copy()
     preview.save(root/"preview_east.png")
     names = ["hull_east", "preview_east"]
     if active_layers & {"turret", "barrel"}:
         names += ["turret_east", "barrel_east", "turret_full_east"]
+    names += weapon_names
     report["alpha_bounds"] = {}
     for size in render["sizes"]:
         directory = root/str(size)
         directory.mkdir(exist_ok=True)
         factor = size/render["master"]
-        for name in names:
-            image = resize_linear(Image.open(root/(name+".png")), size)
+        layers = {name: layer_at(root, name, size, render["master"], style) for name in names if name != "preview_east"}
+        if "turret_full_east" in layers:
+            layers["preview_east"] = composite_linear(layers["hull_east"], layers["turret_full_east"],
+                                                      tuple(round(v*factor) for v in offset))
+            for name in weapon_names:
+                spot = render["placements"][name[:-5]]["pixels_in_turret_top_origin"]
+                shift = (round((offset[0]+spot[0]-render["master"]/2)*factor), round((offset[1]+spot[1]-render["master"]/2)*factor))
+                layers["preview_east"] = composite_linear(layers["preview_east"], layers[name], shift)
+        else:
+            layers["preview_east"] = layers["hull_east"].copy()
+        for name, image in layers.items():
             report["alpha_bounds"][f"{size}/{name}"] = check_margin(image, name)
             image.save(directory/(name+".png"))
         write_json(directory/"pivots.json", {"size": [size, size], "turret_top_pivot": [size/2]*2,
                    "hull_turret_anchor": [v*factor for v in anchor],
                    "raw_hull_turret_anchor": [v*factor for v in render["turret_anchor_pixels_top_origin"]],
                    "hull_elevation": render["hull_elevation"], "turret_elevation": 90,
+                   "placements_in_turret": {k: {**v, "pixels_in_turret_top_origin": [c*factor for c in v["pixels_in_turret_top_origin"]]}
+                                            for k, v in render.get("placements", {}).items()},
                    "filter": "linear-light premultiplied-alpha Lanczos",
                    "turret_full_includes_barrel": True})
     blueprint = (Image.open(profile["sources"]["blueprint"]["path"]).convert("RGBA")
