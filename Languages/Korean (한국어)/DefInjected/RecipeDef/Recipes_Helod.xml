@@ -81,7 +81,7 @@
   <HD_Convert_SprMOne_To_SprMThreeHigh_Weapon.jobString>그레이록 M1873으로 개조 중.</HD_Convert_SprMOne_To_SprMThreeHigh_Weapon.jobString>
 
   <HD_MakePrimaryCell.label>1차 전지 제작</HD_MakePrimaryCell.label>
-  <HD_MakePrimaryCell.description>강철과 화학 반응 부품을 결합하여 고출력 전기를 보관할 수 있는 기초적인 화학 전지(1차 전지)를 조립합니다.</HD_MakePrimaryCell.description>
+  <HD_MakePrimaryCell.description>강철과 범용 기계 부품으로 기초적인 화학 전지(1차 전지)를 조립합니다.</HD_MakePrimaryCell.description>
   <HD_MakePrimaryCell.jobString>1차 전지 조립하는 중.</HD_MakePrimaryCell.jobString>
   <HD_Make_Gun_M1919A6LMG_Weapon.label>M1919A6 경기관총 제작</HD_Make_Gun_M1919A6LMG_Weapon.label>
 
