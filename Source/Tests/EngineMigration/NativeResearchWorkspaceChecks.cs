@@ -69,8 +69,20 @@ namespace Helodrace.Tests
             GV before = __1; Scroll(__0, ref __1, __2);
             researchScrollBits.Add((BitConverter.SingleToInt32Bits(before.x), BitConverter.SingleToInt32Bits(before.y), BitConverter.SingleToInt32Bits(__1.x), BitConverter.SingleToInt32Bits(__1.y))); return false;
         }
+        // The native view routes on a worker thread; the frozen view routed inline inside Build.
+        private static void BuildSettled(object view)
+        {
+            Call(view, "Build");
+            ((System.Threading.Tasks.Task)Get(view, "routing"))?.Wait();
+            Call(view, "AdoptRoutes");
+        }
         private static void RouteBuild(object __instance)
-        { if (active && researchActive) { string key = __instance.GetType().FullName; routeBuilds[key] = routeBuilds.GetValueOrDefault(key) + 1; } }
+        {
+            // Native routing runs on a worker thread, where the [ThreadStatic] active flag is unset.
+            if (!researchActive) return;
+            string key = __instance.GetType().FullName;
+            lock (routeBuilds) routeBuilds[key] = routeBuilds.GetValueOrDefault(key) + 1;
+        }
         private static GV Vector(object value) => value is NV n ? new GV(n.X, n.Y) : (GV)value;
         private static GR Rectangle(object value) => value is NR n ? new GR(n.x, n.y, n.width, n.height) : (GR)value;
         private static void ResearchState(object a, object e, bool layout = false)
@@ -196,14 +208,14 @@ namespace Helodrace.Tests
             var a = new ResearchWorkspaceView(); var e = new FrozenResearch.ResearchWorkspaceView(); var ah = new ResearchHost(); var eh = new ResearchHost(); var window = new MainTabWindow_Research();
             try
             {
-                ResearchFrame(() => Call(a, "Build"), () => Call(e, "Build")); ResearchState(a, e, true);
+                ResearchFrame(() => BuildSettled(a), () => Call(e, "Build")); ResearchState(a, e, true);
                 ResearchZoomCases(a, e); ResearchViews(a, e, ah, eh, window); ResearchPointerCases(a, e, ah, eh, window);
                 foreach (string id in ((IList)Get(a, "sections")).Cast<object>().Take(3).Select(s => (string)Get(s, "Id")).ToArray())
                 {
                     foreach (bool collapse in new[] { true, false })
                     {
                         foreach (object v in new object[] { a, e }) { var set = (HashSet<string>)Get(v, "collapsed"); if (collapse) set.Add(id); else set.Remove(id); }
-                        ResearchFrame(() => Call(a, "Build"), () => Call(e, "Build")); ResearchState(a, e, true);
+                        ResearchFrame(() => BuildSettled(a), () => Call(e, "Build")); ResearchState(a, e, true);
                     }
                 }
                 check(researchDraws == 288 && canvasLabels > 0, "native research canvas nodes, sections, minimap, queue, parts and linked-project pages match frozen submissions at narrow/wide layouts and four zoom levels");

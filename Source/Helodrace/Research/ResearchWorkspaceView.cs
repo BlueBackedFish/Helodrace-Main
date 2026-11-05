@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
@@ -42,6 +43,9 @@ namespace Helodrace.ResearchUI
         private readonly List<Section> sections = new List<Section>();
         private List<Stroke> strokes = new List<Stroke>();
         private readonly List<Edge> routes = new List<Edge>();
+        // Routing a full layout takes seconds on the game runtime, so it runs off the UI thread.
+        // The canvas draws without connections until the worker for routeLayoutKey finishes.
+        private Task<List<Edge>> routing;
         private readonly Dictionary<GameFont, GUIStyle> canvasStyles = new Dictionary<GameFont, GUIStyle>();
         private List<ResearchProjectDef> preview = new List<ResearchProjectDef>();
         private Vector2 scroll, detailScroll;
@@ -65,6 +69,7 @@ namespace Helodrace.ResearchUI
                 ResearchProjectDef selected = host.Selected(window);
                 string currentLanguage = LanguageDatabase.activeLanguage?.folderName;
                 if (dirty || language != currentLanguage) Build();
+                AdoptRoutes();
                 if (lastSelected != selected || revision != ResearchWorkspaceRevision.Value)
                 {
                     lastSelected = selected; revision = ResearchWorkspaceRevision.Value;
@@ -141,16 +146,35 @@ namespace Helodrace.ResearchUI
                 + "#" + string.Join("|", sections.Select(s => s.Id + ":" + s.Bounds.x + "," + s.Bounds.y + "," + s.Bounds.width));
             if (routeLayoutKey != layoutKey)
             {
-                BuildRoutes(layoutFrames);
+                // Snapshot everything the worker reads; defs and section state stay on the UI thread.
+                var headers = sections.Select(s => new ResearchBox(s.Bounds.x, s.Bounds.y, s.Bounds.xMax, s.Bounds.y + 38)).ToList();
+                var parents = layoutFrames.Keys.ToDictionary(p => p, p => ResearchQueue.Prerequisites(p).Distinct().ToList());
+                var frames = new Dictionary<ResearchProjectDef, Rect>(layoutFrames);
+                routes.Clear(); strokes = new List<Stroke>();
+                // A newer layout replaces the pending worker; the superseded result is never adopted.
                 routeLayoutKey = layoutKey;
+                routing = Task.Run(() => BuildRoutes(frames, headers, parents));
             }
-            if (routes.Count > 0)
-            {
-                width = Mathf.Max(width, routes.SelectMany(e => e.Lines).Max(l => Mathf.Max(l.A.X, l.B.X)) + 24);
-                height = Mathf.Max(height, routes.SelectMany(e => e.Lines).Max(l => Mathf.Max(l.A.Y, l.B.Y)) + 24);
-            }
+            ExtendToRoutes();
             dirty = false; language = LanguageDatabase.activeLanguage?.folderName; edgeKey = null;
             Text.Font = GameFont.Small;
+        }
+
+        private void AdoptRoutes()
+        {
+            if (routing == null || !routing.IsCompleted) return;
+            Task<List<Edge>> finished = routing; routing = null;
+            routes.Clear(); edgeKey = null;
+            if (finished.IsFaulted) Log.Error("[Helodrace] Research workspace routing failed: " + finished.Exception);
+            else routes.AddRange(finished.Result);
+            ExtendToRoutes();
+        }
+
+        private void ExtendToRoutes()
+        {
+            if (routes.Count == 0) return;
+            width = MathF.Max(width, routes.SelectMany(e => e.Lines).Max(l => MathF.Max(l.A.X, l.B.X)) + 24);
+            height = MathF.Max(height, routes.SelectMany(e => e.Lines).Max(l => MathF.Max(l.A.Y, l.B.Y)) + 24);
         }
 
         private void DrawToolbar(Rect rect, IResearchWorkspaceHost host, Window window)
@@ -355,17 +379,19 @@ namespace Helodrace.ResearchUI
             Text.Font = GameFont.Small;
         }
 
-        private void BuildRoutes(Dictionary<ResearchProjectDef, Rect> layoutFrames)
+        // Runs on a worker thread: reads only the snapshots passed in, never this view's fields or live def state.
+        private List<Edge> BuildRoutes(Dictionary<ResearchProjectDef, Rect> layoutFrames, List<ResearchBox> headers,
+            Dictionary<ResearchProjectDef, List<ResearchProjectDef>> parents)
         {
-            routes.Clear();
+            var routes = new List<Edge>();
             var boxes = layoutFrames.Values.Select(n => new ResearchBox(n.xMin - 8, n.yMin - 8, n.xMax + 8, n.yMax + 8))
-                .Concat(sections.Select(s => new ResearchBox(s.Bounds.x, s.Bounds.y, s.Bounds.xMax, s.Bounds.y + 38))).ToList();
+                .Concat(headers).ToList();
             var ports = layoutFrames.Values.SelectMany(n => new[] { new ResearchPoint(n.xMax + 8, n.center.Y),
                 new ResearchPoint(n.xMin - 8, n.center.Y) }).ToList();
             var router = new ResearchOrthogonalRouter(boxes, ports);
-            var pending = layoutFrames.SelectMany(pair => ResearchQueue.Prerequisites(pair.Key).Distinct().Where(layoutFrames.ContainsKey)
+            var pending = layoutFrames.SelectMany(pair => parents[pair.Key].Where(layoutFrames.ContainsKey)
                 .Select(parent => new Edge { From = parent, To = pair.Key, Key = parent.defName + ">" + pair.Key.defName }))
-                .OrderBy(e => Mathf.Abs(layoutFrames[e.To].center.X - layoutFrames[e.From].center.X))
+                .OrderBy(e => MathF.Abs(layoutFrames[e.To].center.X - layoutFrames[e.From].center.X))
                 .ThenBy(e => e.Key, StringComparer.Ordinal).ToList();
             foreach (var edge in pending)
             {
@@ -382,6 +408,7 @@ namespace Helodrace.ResearchUI
                 router.Reserve(lines, edge.From, edge.To);
                 edge.Lines = lines; routes.Add(edge);
             }
+            return routes;
         }
 
         private void DrawEdges(ResearchProjectDef selected, IList<ResearchProjectDef> plan)

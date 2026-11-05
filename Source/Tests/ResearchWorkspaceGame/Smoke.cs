@@ -146,6 +146,9 @@ namespace Helodrace.ResearchWorkspaceSmoke
                 File.AppendAllText(Path.Combine(output, "checks.txt"), "PASS: native left-drag, overview click, plain-wheel zoom to 30% and vanilla OR card navigation\n");
             }
             if (wait < 12) return;
+            // Routes are built off the UI thread; validate only after the canvas has adopted them.
+            if (stage == Screens.Length - 1 && AccessTools.Field(typeof(ResearchWorkspaceView), "routing")
+                .GetValue(ResearchWorkspaceView.For(window)) != null) return;
             stage++; wait = 0;
             if (stage < Screens.Length) Configure();
             else
