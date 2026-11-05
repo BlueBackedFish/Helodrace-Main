@@ -3,7 +3,7 @@
   <HD_ProductionPlanning_Bill>{0} (automatic plan)</HD_ProductionPlanning_Bill>
   <HD_ProductionPlanning_Open>Production plan</HD_ProductionPlanning_Open>
   <HD_ProductionPlanning_Title>Helod production plan</HD_ProductionPlanning_Title>
-  <HD_ProductionPlanning_Description>Set target stocks for Helod resources and intermediate parts. All planning desks share this map's plan. Deficits add the largest fitting batch to an existing suitable workbench; workers need the usual materials, research, facilities and power. Manual bills and unfinished batches count as pending. A target of 0 turns that item off. Select an item to see its production flowchart.</HD_ProductionPlanning_Description>
+  <HD_ProductionPlanning_Description>Set target stocks or make-quantity orders for Helod resources and intermediate parts. All planning desks share this map's plan. The planner adds the largest fitting batch to an existing suitable workbench; workers need the usual materials, research, facilities and power. Manual bills and unfinished batches count as pending for target stock. Select an item to see its production flowchart.</HD_ProductionPlanning_Description>
   <HD_ProductionPlanning_Enabled>Automatic planning</HD_ProductionPlanning_Enabled>
   <HD_ProductionPlanning_OnlyPlanned>Show planned items only</HD_ProductionPlanning_OnlyPlanned>
   <HD_ProductionPlanning_Search>Search</HD_ProductionPlanning_Search>
@@ -13,7 +13,7 @@
   <HD_ProductionPlanning_Made>Made</HD_ProductionPlanning_Made>
   <HD_ProductionPlanning_Target>Target</HD_ProductionPlanning_Target>
   <HD_ProductionPlanning_Uncategorized>Other</HD_ProductionPlanning_Uncategorized>
-  <HD_ProductionPlanning_Summary>Stock {0} · pending {1} · target {2} · recipes {3}</HD_ProductionPlanning_Summary>
+  <HD_ProductionPlanning_Summary>Stock {0} · pending {1} · target {2} · make {4} · recipes {3}</HD_ProductionPlanning_Summary>
   <HD_ProductionPlanning_PerUnit>Quantities are for one unit of the selected item. Materials flow left to right. Click a box to fold or unfold its inputs; drag to pan.</HD_ProductionPlanning_PerUnit>
   <HD_ProductionPlanning_TreeLimit>Only the first {0} boxes are shown. Fold branches or open an input on its own.</HD_ProductionPlanning_TreeLimit>
   <HD_ProductionPlanning_ExpandAll>Expand all</HD_ProductionPlanning_ExpandAll>
@@ -34,4 +34,9 @@
   <HD_ProductionPlanning_Workbench>Workbench: {0}</HD_ProductionPlanning_Workbench>
   <HD_ProductionPlanning_Facilities>Facilities: {0}</HD_ProductionPlanning_Facilities>
   <HD_ProductionPlanning_FocusTip>Show the flowchart for {0}.</HD_ProductionPlanning_FocusTip>
+  <HD_ProductionPlanning_Make>Make</HD_ProductionPlanning_Make>
+  <HD_ProductionPlanning_TargetTip>Target stock: keep at least this many. Manual and automatic pending output counts toward it. 0 turns it off.</HD_ProductionPlanning_TargetTip>
+  <HD_ProductionPlanning_MakeTip>Make quantity: make this many more regardless of stock. It counts down as planner batches finish. 0 cancels unstarted batches.</HD_ProductionPlanning_MakeTip>
+  <HD_ProductionPlanning_EndlessTip>A bill set to repeat forever makes this item, so pending output is unlimited.</HD_ProductionPlanning_EndlessTip>
+  <HD_ProductionPlanning_QuantityBill>{0} (planned quantity)</HD_ProductionPlanning_QuantityBill>
 </LanguageData>

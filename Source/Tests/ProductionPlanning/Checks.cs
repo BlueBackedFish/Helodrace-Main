@@ -218,6 +218,31 @@ public sealed class Checks : GameComponent
         for (int i = 0; i < 20; i++) { long s = System.Diagnostics.Stopwatch.GetTimestamp(); Plan.Refresh(); refreshAll.Add(System.Diagnostics.Stopwatch.GetElapsedTime(s).TotalMilliseconds); }
         Write($"PERF refresh-all-goals goals={Plan.Goals.Count(g => g.Target > 0)} tickets={Plan.Tickets.Count} " + Stats(refreshAll));
         Check(Plan.Tickets.Select(t => t.Product).Distinct().Count() == Plan.Tickets.Count && Plan.Tickets.All(t => listedMaterial(t.Product)), "Material plan refresh never duplicates or queues a non-plan item");
+        // Make-quantity orders are separate from target stock; repeat-forever bills show endless pending.
+        foreach (var goal in Plan.Goals) { goal.Target = 0; goal.Quantity = 0; }
+        // The fixture bills reserve all bench materials; clear them so the order budget is known.
+        foreach (var table in map.listerBuildings.allBuildingsColonist.OfType<Building_WorkTable>()) foreach (Bill bill in table.BillStack.Bills.ToList()) table.BillStack.Delete(bill);
+        Plan.Refresh();
+        var electrical = Def<ThingDef>("HD_BasicElectricalComponents");
+        foreach (var ingredient in ProductionCatalog.For(electrical).Plannable.SelectMany(r => r.Ingredients).Where(i => i.Def != null))
+            Items(ingredient.Def.defName, (int)Math.Ceiling(ingredient.Count) * 12);
+        Plan.GoalFor(electrical).Quantity = 3; Plan.Refresh();
+        var quantityTicket = Plan.Tickets.SingleOrDefault(t => t.Product == electrical && t.Quantity);;
+        Check(quantityTicket != null && Plan.Tickets.Count(t => t.Product == electrical) == 1, "Make quantity queues its own batch with no target stock");
+        Plan.GoalFor(electrical).Target = Plan.Stock(electrical) + 1; Plan.Refresh();
+        Check(Plan.Tickets.Count(t => t.Product == electrical && !t.Quantity) == 1 && Plan.Tickets.Contains(quantityTicket), "Target stock ignores make-quantity output and queues its own batch");
+        int before = Plan.GoalFor(electrical).Quantity; Plan.RecordCompletion(quantityTicket.Bill);
+        Check(Plan.GoalFor(electrical).Quantity == before - quantityTicket.Output, "Finished make-quantity batch counts the order down");
+        Plan.GoalFor(electrical).Quantity = 0; Plan.Refresh();
+        Check(!Plan.Tickets.Any(t => t.Product == electrical && t.Quantity), "Make quantity 0 cancels the unstarted batch");
+        Plan.GoalFor(electrical).Target = 0; Plan.Refresh();
+        var lathe = map.listerBuildings.allBuildingsColonist.OfType<Building_WorkTable>().First(t => t.def.defName == "HD_LineShaftTurretLathe");
+        var forever = (Bill_Production)Def<RecipeDef>("HD_MakeShaft").MakeNewBill(); forever.repeatMode = BillRepeatModeDefOf.Forever; lathe.BillStack.AddBill(forever);
+        Plan.InvalidateCounts();
+        Check(Plan.PendingIsEndless(Def<ThingDef>("HD_Shaft")) && !Plan.PendingIsEndless(electrical), "Repeat-forever bill marks pending as endless");
+        forever.suspended = true; Plan.InvalidateCounts();
+        Check(!Plan.PendingIsEndless(Def<ThingDef>("HD_Shaft")), "Suspended repeat-forever bill is not endless");
+        lathe.BillStack.Delete(forever);
         // Deepest tree among plannable items, fully expanded.
         ThingDef deep = null; int deepest = 0;
         foreach (var item in plannable) { dialog.Select(item.Def); dialog.ExpandAll(); if (dialog.VisibleNodes > deepest) { deepest = dialog.VisibleNodes; deep = item.Def; } }

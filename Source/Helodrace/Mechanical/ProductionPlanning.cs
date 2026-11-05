@@ -10,10 +10,13 @@ namespace Helodrace;
 public sealed class ProductionGoal : IExposable
 {
     public ThingDef Product;
-    public int Target, Completed;
+    // Target keeps stock at a level. Quantity is a separate order to make that many more, counted down by
+    // finished planner batches regardless of stock.
+    public int Target, Quantity, Completed;
     public void ExposeData()
     {
-        Scribe_Defs.Look(ref Product, "product"); Scribe_Values.Look(ref Target, "target"); Scribe_Values.Look(ref Completed, "completed");
+        Scribe_Defs.Look(ref Product, "product"); Scribe_Values.Look(ref Target, "target"); Scribe_Values.Look(ref Quantity, "quantity");
+        Scribe_Values.Look(ref Completed, "completed");
     }
 }
 public sealed class ProductionTicket : IExposable
@@ -21,6 +24,8 @@ public sealed class ProductionTicket : IExposable
     public Bill_Production Bill;
     // The goal this bill serves; a recipe may make other products as well.
     public ThingDef Product;
+    // True for a make-quantity batch, false for a target-stock batch. Each product has at most one of each.
+    public bool Quantity;
     public bool PausedByPlanner;
     public int Output => OutputOf(Bill.recipe, Product);
     public static int OutputOf(RecipeDef recipe, ThingDef product)
@@ -30,7 +35,8 @@ public sealed class ProductionTicket : IExposable
     }
     public void ExposeData()
     {
-        Scribe_References.Look(ref Bill, "bill"); Scribe_Defs.Look(ref Product, "product"); Scribe_Values.Look(ref PausedByPlanner, "pausedByPlanner");
+        Scribe_References.Look(ref Bill, "bill"); Scribe_Defs.Look(ref Product, "product"); Scribe_Values.Look(ref Quantity, "quantity");
+        Scribe_Values.Look(ref PausedByPlanner, "pausedByPlanner");
     }
 }
 
@@ -43,6 +49,8 @@ public sealed class MapComponent_ProductionPlanning : MapComponent
     public bool Enabled = true;
     // Map counts are rebuilt in one pass and reused by every goal, window row and refresh.
     private readonly Dictionary<ThingDef, int> stock = new(), pending = new();
+    // Products of an active repeat-forever bill. Their pending count is shown as infinite.
+    private readonly HashSet<ThingDef> endless = new();
     private int countedTick = -1;
     private double countedRealtime;
     public MapComponent_ProductionPlanning(Map map) : base(map) { }
@@ -58,7 +66,7 @@ public sealed class MapComponent_ProductionPlanning : MapComponent
     public bool TryGetGoal(ThingDef product, out ProductionGoal goal) => goalIndex.TryGetValue(product, out goal);
     public override void ExposeData()
     {
-        if (Scribe.mode == LoadSaveMode.Saving) { Prune(); goals.RemoveAll(g => g.Target <= 0 && g.Completed <= 0); RebuildIndex(); }
+        if (Scribe.mode == LoadSaveMode.Saving) { Prune(); goals.RemoveAll(g => g.Target <= 0 && g.Quantity <= 0 && g.Completed <= 0); RebuildIndex(); }
         Scribe_Values.Look(ref Enabled, "productionPlanningEnabled", true);
         Scribe_Collections.Look(ref goals, "productionGoals", LookMode.Deep);
         Scribe_Collections.Look(ref tickets, "productionTickets", LookMode.Deep);
@@ -71,7 +79,7 @@ public sealed class MapComponent_ProductionPlanning : MapComponent
     {
         int tick = Find.TickManager.TicksGame; double now = Waylith.Time.RealtimeSinceStartupAsDouble;
         if (countedTick >= 0 && (tick == countedTick ? now - countedRealtime < 2 : tick - countedTick < 60 && now - countedRealtime < 0.5)) return;
-        countedTick = tick; countedRealtime = now; stock.Clear(); pending.Clear();
+        countedTick = tick; countedRealtime = now; stock.Clear(); pending.Clear(); endless.Clear();
         foreach (Thing t in map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver))
             if (t.def.category == ThingCategory.Item && !t.IsForbidden(Faction.OfPlayer)) Add(stock, t.def, t.stackCount);
         foreach (Pawn p in map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer))
@@ -85,13 +93,27 @@ public sealed class MapComponent_ProductionPlanning : MapComponent
                     if (bill is Bill_Production production)
                     {
                         int iterations = Iterations(production);
-                        foreach (ThingDefCountClass product in production.recipe.products) Add(pending, product.thingDef, iterations * product.count);
+                        bool forever = production.repeatMode == BillRepeatModeDefOf.Forever && iterations > 0;
+                        foreach (ThingDefCountClass product in production.recipe.products)
+                        {
+                            Add(pending, product.thingDef, iterations * product.count);
+                            if (forever) endless.Add(product.thingDef);
+                        }
                     }
     }
     private static void Add(Dictionary<ThingDef, int> counts, ThingDef def, int n) { counts.TryGetValue(def, out int old); counts[def] = old + n; }
     private void AddBill(Bill_Production bill, int iterations) { foreach (ThingDefCountClass p in bill.recipe.products) Add(pending, p.thingDef, iterations * p.count); }
     public int Stock(ThingDef product) { EnsureCounts(); return stock.TryGetValue(product, out int n) ? n : 0; }
     public int Pending(ThingDef product) { EnsureCounts(); return pending.TryGetValue(product, out int n) ? n : 0; }
+    public bool PendingIsEndless(ThingDef product) { EnsureCounts(); return endless.Contains(product); }
+    // Outstanding output of active make-quantity batches; target stock does not count it as pending.
+    private int QuantityOutstanding(ThingDef product)
+    {
+        int n = 0;
+        foreach (var t in tickets) if (t.Quantity && t.Product == product && !t.Bill.suspended) n += t.Bill.repeatCount * t.Output;
+        return n;
+    }
+    private int StockPending(ThingDef product) => Pending(product) - QuantityOutstanding(product);
 
     private static int Iterations(Bill_Production bill)
     {
@@ -140,7 +162,7 @@ public sealed class MapComponent_ProductionPlanning : MapComponent
 
     public override void MapComponentTick()
     {
-        if (Find.TickManager.TicksGame % 250 != 0 || tickets.Count == 0 && !goals.Any(g => g.Target > 0)) return;
+        if (Find.TickManager.TicksGame % 250 != 0 || tickets.Count == 0 && !goals.Any(g => g.Target > 0 || g.Quantity > 0)) return;
         Refresh();
     }
     public void Refresh()
@@ -155,10 +177,12 @@ public sealed class MapComponent_ProductionPlanning : MapComponent
             if (!running && !bill.suspended) { bill.suspended = true; ticket.PausedByPlanner = true; AddBill(bill, -bill.repeatCount); }
             else if (running && ticket.PausedByPlanner) { bill.suspended = false; ticket.PausedByPlanner = false; AddBill(bill, bill.repeatCount); }
             var goal = GoalFor(product);
-            int surplus = Stock(product) + Pending(product) + (bill.suspended ? contribution : 0) - goal.Target;
             // A batch that a pawn already started keeps its native unfinished item. An unstarted batch is replaced
             // when it is no longer needed, or when a smaller queueable batch would overshoot less.
-            if (Started(bill) || surplus <= 0) continue;
+            if (Started(bill)) continue;
+            int surplus = ticket.Quantity ? contribution - goal.Quantity
+                : Stock(product) + StockPending(product) + (bill.suspended ? contribution : 0) - goal.Target;
+            if (surplus <= 0) continue;
             if (surplus < contribution && !ProductionCatalog.For(product).Plannable.Any(r => r.Output < ticket.Output && Queueable(r, tables))) continue;
             if (!bill.suspended) AddBill(bill, -bill.repeatCount);
             bill.billStack.Delete(bill); tickets.Remove(ticket);
@@ -175,38 +199,47 @@ public sealed class MapComponent_ProductionPlanning : MapComponent
                 if (bill is Bill_ProductionWithUft u && u.BoundUft != null) iterations = Math.Max(0, iterations - 1);
                 Reserve(bill, available, Math.Min(iterations, 100000), partial: true);
             }
-        var owned = tickets.Select(t => t.Product).ToHashSet();
+        var ownedStock = tickets.Where(t => !t.Quantity).Select(t => t.Product).ToHashSet();
+        var ownedQuantity = tickets.Where(t => t.Quantity).Select(t => t.Product).ToHashSet();
         foreach (var goal in goals)
         {
-            goal.Target = Math.Clamp(goal.Target, 0, MaxTarget);
-            if (goal.Target <= 0 || owned.Contains(goal.Product)) continue;
-            int shortage = goal.Target - Stock(goal.Product) - Pending(goal.Product);
-            if (shortage <= 0) continue;
-            var candidates = ProductionCatalog.For(goal.Product).Plannable;
-            // Largest batch that fits the deficit; only when every batch is larger, the smallest one.
-            var order = candidates.Where(r => r.Output <= shortage).ToList();
-            if (order.Count == 0) order = candidates.OrderBy(r => r.Output).ToList();
-            foreach (var recipe in order)
-            {
-                if (!recipe.Recipe.AvailableNow) continue;
-                var table = FindTable(recipe, tables);
-                if (table == null) continue;
-                var bill = (Bill_Production)recipe.Recipe.MakeNewBill();
-                if (!Reserve(bill, available, 1, partial: false)) continue;
-                bill.repeatMode = BillRepeatModeDefOf.RepeatCount; bill.repeatCount = 1;
-                bill.RenamableLabel = "HD_ProductionPlanning_Bill".Translate(recipe.Recipe.LabelCap);
-                bill.SetStoreMode(BillStoreModeDefOf.BestStockpile, null);
-                table.BillStack.AddBill(bill); tickets.Add(new ProductionTicket { Bill = bill, Product = goal.Product }); owned.Add(goal.Product);
-                AddBill(bill, 1);
-                break;
-            }
+            goal.Target = Math.Clamp(goal.Target, 0, MaxTarget); goal.Quantity = Math.Clamp(goal.Quantity, 0, MaxTarget);
+            if (goal.Quantity > 0 && !ownedQuantity.Contains(goal.Product) && Queue(goal, goal.Quantity, true, tables, available)) ownedQuantity.Add(goal.Product);
+            if (goal.Target <= 0 || ownedStock.Contains(goal.Product)) continue;
+            int shortage = goal.Target - Stock(goal.Product) - StockPending(goal.Product);
+            if (shortage > 0 && Queue(goal, shortage, false, tables, available)) ownedStock.Add(goal.Product);
         }
+    }
+
+    // Largest batch that fits `amount`; only when every batch is larger, the smallest one.
+    private bool Queue(ProductionGoal goal, int amount, bool quantity, List<Building_WorkTable> tables, Dictionary<ThingDef, int> available)
+    {
+        var candidates = ProductionCatalog.For(goal.Product).Plannable;
+        var order = candidates.Where(r => r.Output <= amount).ToList();
+        if (order.Count == 0) order = candidates.OrderBy(r => r.Output).ToList();
+        foreach (var recipe in order)
+        {
+            if (!recipe.Recipe.AvailableNow) continue;
+            var table = FindTable(recipe, tables);
+            if (table == null) continue;
+            var bill = (Bill_Production)recipe.Recipe.MakeNewBill();
+            if (!Reserve(bill, available, 1, partial: false)) continue;
+            bill.repeatMode = BillRepeatModeDefOf.RepeatCount; bill.repeatCount = 1;
+            bill.RenamableLabel = (quantity ? "HD_ProductionPlanning_QuantityBill" : "HD_ProductionPlanning_Bill").Translate(recipe.Recipe.LabelCap);
+            bill.SetStoreMode(BillStoreModeDefOf.BestStockpile, null);
+            table.BillStack.AddBill(bill); tickets.Add(new ProductionTicket { Bill = bill, Product = goal.Product, Quantity = quantity });
+            AddBill(bill, 1);
+            return true;
+        }
+        return false;
     }
     public void RecordCompletion(Bill_Production bill)
     {
         var ticket = tickets.FirstOrDefault(t => t.Bill == bill);
         if (ticket == null) return;
-        GoalFor(ticket.Product).Completed += ticket.Output;
+        var goal = GoalFor(ticket.Product);
+        goal.Completed += ticket.Output;
+        if (ticket.Quantity) goal.Quantity = Math.Max(0, goal.Quantity - ticket.Output);
         InvalidateCounts();
     }
 }

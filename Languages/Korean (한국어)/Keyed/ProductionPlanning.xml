@@ -3,7 +3,7 @@
   <HD_ProductionPlanning_Bill>{0} (자동 계획)</HD_ProductionPlanning_Bill>
   <HD_ProductionPlanning_Open>생산 계획</HD_ProductionPlanning_Open>
   <HD_ProductionPlanning_Title>헤로드 생산 계획</HD_ProductionPlanning_Title>
-  <HD_ProductionPlanning_Description>헤로드 자원과 중간 부품의 목표 재고를 설정합니다. 같은 맵의 계획대는 하나의 계획을 공유합니다. 부족하면 부족량에 맞는 가장 큰 배치를 기존의 적합한 작업대에 등록합니다. 재료·연구·설비·동력과 작업 인력은 그대로 필요합니다. 수동 작업과 미완성품도 예정 수량에 포함합니다. 목표 0은 해당 품목을 끕니다. 품목을 선택하면 생산 순서도를 표시합니다.</HD_ProductionPlanning_Description>
+  <HD_ProductionPlanning_Description>헤로드 자원과 중간 부품의 목표 재고나 제작 수량을 설정합니다. 같은 맵의 계획대는 하나의 계획을 공유합니다. 부족량에 맞는 가장 큰 배치를 기존의 적합한 작업대에 등록합니다. 재료·연구·설비·동력과 작업 인력은 그대로 필요합니다. 목표 재고에는 수동 작업과 미완성품도 예정 수량으로 포함합니다. 품목을 선택하면 생산 순서도를 표시합니다.</HD_ProductionPlanning_Description>
   <HD_ProductionPlanning_Enabled>자동 생산 계획 사용</HD_ProductionPlanning_Enabled>
   <HD_ProductionPlanning_OnlyPlanned>계획한 품목만 표시</HD_ProductionPlanning_OnlyPlanned>
   <HD_ProductionPlanning_Search>검색</HD_ProductionPlanning_Search>
@@ -13,7 +13,7 @@
   <HD_ProductionPlanning_Made>누적</HD_ProductionPlanning_Made>
   <HD_ProductionPlanning_Target>목표</HD_ProductionPlanning_Target>
   <HD_ProductionPlanning_Uncategorized>기타</HD_ProductionPlanning_Uncategorized>
-  <HD_ProductionPlanning_Summary>현재 {0} · 예정 {1} · 목표 {2} · 제작법 {3}</HD_ProductionPlanning_Summary>
+  <HD_ProductionPlanning_Summary>현재 {0} · 예정 {1} · 목표 {2} · 제작 {4} · 제작법 {3}</HD_ProductionPlanning_Summary>
   <HD_ProductionPlanning_PerUnit>수량은 선택한 품목 1개 기준입니다. 재료는 왼쪽에서 오른쪽으로 흐릅니다. 상자를 누르면 투입 재료를 접거나 펼치고, 끌어서 화면을 옮깁니다.</HD_ProductionPlanning_PerUnit>
   <HD_ProductionPlanning_TreeLimit>처음 {0}개 상자만 표시합니다. 가지를 접거나 투입 재료를 따로 열어 보십시오.</HD_ProductionPlanning_TreeLimit>
   <HD_ProductionPlanning_ExpandAll>모두 펼치기</HD_ProductionPlanning_ExpandAll>
@@ -34,4 +34,9 @@
   <HD_ProductionPlanning_Workbench>작업대: {0}</HD_ProductionPlanning_Workbench>
   <HD_ProductionPlanning_Facilities>설비: {0}</HD_ProductionPlanning_Facilities>
   <HD_ProductionPlanning_FocusTip>{0}의 순서도를 표시합니다.</HD_ProductionPlanning_FocusTip>
+  <HD_ProductionPlanning_Make>제작</HD_ProductionPlanning_Make>
+  <HD_ProductionPlanning_TargetTip>목표 재고: 이 수량 이상을 유지합니다. 수동·자동 예정 생산도 포함합니다. 0이면 끕니다.</HD_ProductionPlanning_TargetTip>
+  <HD_ProductionPlanning_MakeTip>제작 수량: 재고와 관계없이 이만큼 더 만듭니다. 계획대 배치가 끝날 때마다 줄어듭니다. 0이면 시작 전 배치를 취소합니다.</HD_ProductionPlanning_MakeTip>
+  <HD_ProductionPlanning_EndlessTip>계속 반복으로 설정한 작업이 이 품목을 만들고 있어 예정 수량이 무한합니다.</HD_ProductionPlanning_EndlessTip>
+  <HD_ProductionPlanning_QuantityBill>{0} (계획 수량)</HD_ProductionPlanning_QuantityBill>
 </LanguageData>

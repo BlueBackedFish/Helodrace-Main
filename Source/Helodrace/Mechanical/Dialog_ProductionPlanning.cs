@@ -15,7 +15,7 @@ namespace Helodrace;
 // ProductionCatalog; the chart is laid out only when it changes and only visible boxes and lines are drawn.
 public sealed class Dialog_ProductionPlanning : Window
 {
-    private const float RowHeight = 28, ListWidth = 470;
+    private const float RowHeight = 28, ListWidth = 520;
     private const float BoxWidth = 220, BoxHeight = 60, Lane = 72, Gap = 56, Pad = 16, Badge = 16, OpenWidth = 40, OpenHeight = 16;
     private const int MaxDepth = 24, MaxNodes = 1500;
     private static readonly Color Muted = new(0.65f, 0.65f, 0.65f, 1), RawColor = new(0.55f, 0.8f, 0.55f, 1),
@@ -37,7 +37,7 @@ public sealed class Dialog_ProductionPlanning : Window
 
     private readonly MapComponent_ProductionPlanning plan;
     // Edit text per item with the target it was typed for; a target changed elsewhere resets the text.
-    private readonly Dictionary<ThingDef, (int Value, string Text)> buffers = new();
+    private readonly Dictionary<(ThingDef, bool), (int Value, string Text)> buffers = new();
     private readonly HashSet<string> collapsedCategories = new(), expanded = new();
     private readonly List<Row> listRows = new();
     private readonly List<Node> nodes = new();
@@ -127,12 +127,17 @@ public sealed class Dialog_ProductionPlanning : Window
         BuildList();
         Text.Font = GameFont.Tiny; GUI(Muted); Text.Anchor = UnityEngine.TextAnchor.MiddleLeft;
         float x = area.x;
-        Widgets.Label(new Rect(x + 30, area.y, 200, 22).ToGame(), "HD_ProductionPlanning_Item".Translate());
+        Widgets.Label(new Rect(x + 30, area.y, 170, 22).ToGame(), "HD_ProductionPlanning_Item".Translate());
         Text.Anchor = UnityEngine.TextAnchor.MiddleRight;
-        Widgets.Label(new Rect(x + 206, area.y, 60, 22).ToGame(), "HD_ProductionPlanning_Stock".Translate());
-        Widgets.Label(new Rect(x + 268, area.y, 60, 22).ToGame(), "HD_ProductionPlanning_Pending".Translate());
-        Widgets.Label(new Rect(x + 330, area.y, 50, 22).ToGame(), "HD_ProductionPlanning_Made".Translate());
-        Widgets.Label(new Rect(x + 382, area.y, 66, 22).ToGame(), "HD_ProductionPlanning_Target".Translate());
+        Widgets.Label(new Rect(x + 190, area.y, 56, 22).ToGame(), "HD_ProductionPlanning_Stock".Translate());
+        Widgets.Label(new Rect(x + 248, area.y, 56, 22).ToGame(), "HD_ProductionPlanning_Pending".Translate());
+        Widgets.Label(new Rect(x + 306, area.y, 46, 22).ToGame(), "HD_ProductionPlanning_Made".Translate());
+        Text.Anchor = UnityEngine.TextAnchor.MiddleCenter;
+        Rect targetHead = new(x + 356, area.y, 64, 22), makeHead = new(x + 424, area.y, 64, 22);
+        Widgets.Label(targetHead.ToGame(), "HD_ProductionPlanning_Target".Translate());
+        Widgets.Label(makeHead.ToGame(), "HD_ProductionPlanning_Make".Translate());
+        TooltipHandler.TipRegion(targetHead.ToGame(), "HD_ProductionPlanning_TargetTip".Translate());
+        TooltipHandler.TipRegion(makeHead.ToGame(), "HD_ProductionPlanning_MakeTip".Translate());
         GUI(Color.white); Text.Font = GameFont.Small;
         Rect outRect = new(area.x, area.y + 24, area.width, area.height - 24);
         Rect view = new(0, 0, outRect.width - 16, Math.Max(listHeight, outRect.height));
@@ -161,27 +166,40 @@ public sealed class Dialog_ProductionPlanning : Window
         ThingDef def = row.Item.Def;
         if (def == Selected) Widgets.DrawHighlightSelected(rect.ToGame()); else Widgets.DrawHighlightIfMouseover(rect.ToGame());
         Widgets.ThingIcon(new Rect(4, row.Y + 2, 24, 24).ToGame(), def);
-        Widgets.Label(new Rect(32, row.Y, 172, RowHeight).ToGame(), def.LabelCap.Resolve().Truncate(172));
+        Widgets.Label(new Rect(32, row.Y, 156, RowHeight).ToGame(), def.LabelCap.Resolve().Truncate(156));
         plan.TryGetGoal(def, out var goal);
         Text.Anchor = UnityEngine.TextAnchor.MiddleRight;
-        Widgets.Label(new Rect(206, row.Y, 60, RowHeight).ToGame(), plan.Stock(def).ToString());
-        Widgets.Label(new Rect(268, row.Y, 60, RowHeight).ToGame(), plan.Pending(def).ToString());
-        Widgets.Label(new Rect(330, row.Y, 50, RowHeight).ToGame(), (goal?.Completed ?? 0).ToString());
-        if (Widgets.ButtonInvisible(new Rect(0, row.Y, 384, RowHeight).ToGame())) Select(def);
-        Rect target = new(388, row.Y + 2, 62, RowHeight - 4);
+        Widgets.Label(new Rect(190, row.Y, 56, RowHeight).ToGame(), plan.Stock(def).ToString());
+        Rect pendingRect = new(248, row.Y, 56, RowHeight);
+        Widgets.Label(pendingRect.ToGame(), PendingText(def));
+        if (plan.PendingIsEndless(def)) TooltipHandler.TipRegion(pendingRect.ToGame(), "HD_ProductionPlanning_EndlessTip".Translate());
+        Widgets.Label(new Rect(306, row.Y, 46, RowHeight).ToGame(), (goal?.Completed ?? 0).ToString());
+        if (Widgets.ButtonInvisible(new Rect(0, row.Y, 354, RowHeight).ToGame())) Select(def);
+        Rect target = new(358, row.Y + 2, 60, RowHeight - 4), make = new(426, row.Y + 2, 60, RowHeight - 4);
         if (row.Item.Plannable.Count == 0)
         {
             GUI(row.Item.Raw ? RawColor : Muted); Text.Anchor = UnityEngine.TextAnchor.MiddleCenter;
-            Widgets.Label(target.ToGame(), "—");
-            TooltipHandler.TipRegion(target.ToGame(), (row.Item.Raw ? "HD_ProductionPlanning_RawTip" : "HD_ProductionPlanning_NotPlannable").Translate());
+            Rect both = new(358, row.Y, 128, RowHeight);
+            Widgets.Label(both.ToGame(), "—");
+            TooltipHandler.TipRegion(both.ToGame(), (row.Item.Raw ? "HD_ProductionPlanning_RawTip" : "HD_ProductionPlanning_NotPlannable").Translate());
             GUI(Color.white); return;
         }
-        int value = goal?.Target ?? 0, before = value;
-        string buffer = buffers.TryGetValue(def, out var edit) && edit.Value == value ? edit.Text : null;
-        Widgets.TextFieldNumeric(target.ToGame(), ref value, ref buffer, 0, MapComponent_ProductionPlanning.MaxTarget);
-        buffers[def] = (value, buffer);
-        if (value != before) plan.GoalFor(def).Target = value;
+        int targetValue = NumberField(def, false, target, goal?.Target ?? 0);
+        if (targetValue != (goal?.Target ?? 0)) plan.GoalFor(def).Target = targetValue;
+        int makeValue = NumberField(def, true, make, goal?.Quantity ?? 0);
+        if (makeValue != (goal?.Quantity ?? 0)) plan.GoalFor(def).Quantity = makeValue;
     }
+
+    private int NumberField(ThingDef def, bool quantity, Rect rect, int value)
+    {
+        string buffer = buffers.TryGetValue((def, quantity), out var edit) && edit.Value == value ? edit.Text : null;
+        Widgets.TextFieldNumeric(rect.ToGame(), ref value, ref buffer, 0, MapComponent_ProductionPlanning.MaxTarget);
+        buffers[(def, quantity)] = (value, buffer);
+        TooltipHandler.TipRegion(rect.ToGame(), (quantity ? "HD_ProductionPlanning_MakeTip" : "HD_ProductionPlanning_TargetTip").Translate());
+        return value;
+    }
+
+    private string PendingText(ThingDef def) => plan.PendingIsEndless(def) ? "∞" : plan.Pending(def).ToString();
 
     // ---------------- Flowchart ----------------
 
@@ -272,7 +290,7 @@ public sealed class Dialog_ProductionPlanning : Window
         Widgets.Label(new Rect(area.x + 52, area.y - 2, area.width - 300, 32).ToGame(), Selected.LabelCap.Resolve().Truncate(area.width - 300));
         Text.Font = GameFont.Tiny; GUI(Muted);
         plan.TryGetGoal(Selected, out var goal);
-        Widgets.Label(new Rect(area.x + 52, area.y + 28, area.width - 300, 18).ToGame(), "HD_ProductionPlanning_Summary".Translate(plan.Stock(Selected), plan.Pending(Selected), goal?.Target ?? 0, item.Recipes.Count));
+        Widgets.Label(new Rect(area.x + 52, area.y + 28, area.width - 300, 18).ToGame(), "HD_ProductionPlanning_Summary".Translate(plan.Stock(Selected), PendingText(Selected), goal?.Target ?? 0, item.Recipes.Count, goal?.Quantity ?? 0));
         GUI(Color.white); Text.Font = GameFont.Small;
         if (Widgets.ButtonText(new Rect(area.xMax - 240, area.y + 4, 116, 30).ToGame(), "HD_ProductionPlanning_ExpandAll".Translate())) ExpandAll();
         if (Widgets.ButtonText(new Rect(area.xMax - 118, area.y + 4, 116, 30).ToGame(), "HD_ProductionPlanning_CollapseAll".Translate())) CollapseAll();
