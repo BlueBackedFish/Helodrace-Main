@@ -163,9 +163,7 @@ public sealed class Checks : GameComponent
         worker.drafter.Drafted = false; worker.jobs.EndCurrentJob(JobCondition.InterruptForced);
         foreach (int n in Finish(fabrication)) yield return n;
         Check(Count(Electronics) == before + 6 && raw.All(i => Count(i.Key) == beforeRaw[i.Key] - i.Value), "Six fabricated electronic sets consume exact real feedstocks");
-        before = Count(ThingDefOf.ComponentIndustrial); int electronicBefore = Count(Electronics); var conversion = Bill("HD_AssembleIndustrialComponent", 1);
-        foreach (int n in Finish(conversion)) yield return n;
-        Check(Count(ThingDefOf.ComponentIndustrial) == before + 1 && Count(Electronics) == electronicBefore - 1, "One-to-one industrial assembly consumes real electronics without duplication");
+        Check(fab.def.AllRecipes.All(r => r.products.All(p => p.thingDef != ThingDefOf.ComponentIndustrial)), "Semiconductor fab cannot make vanilla industrial components");
         worker.drafter.Drafted = true; worker.jobs.EndCurrentJob(JobCondition.InterruptForced);
         var press = Def<ThingDef>("HD_ElectricHydraulicPress"); var frame = (Frame)ThingMaker.MakeThing(press.frameDef); frame.SetFaction(Faction.OfPlayer); GenSpawn.Spawn(frame, map.Center + new IntVec3(10, 0, 4), map);
         int needed = press.costList.Single(c => c.thingDef == Electronics).count; int stockBefore = Count(Electronics);
@@ -185,7 +183,7 @@ public sealed class Checks : GameComponent
     }
     private IEnumerable<int> Resume()
     {
-        Check(savedElectronics != null && savedElectronics.Spawned && Count(Electronics) == 3 && savedElectronics.MarketValue == 32, "Actual new electronic inventory and value persist after native save/load");
+        Check(savedElectronics != null && savedElectronics.Spawned && Count(Electronics) == 4 && savedElectronics.MarketValue == 32, "Actual new electronic inventory and value persist after native save/load");
         Check(fab.Spawned && map.listerThings.ThingsOfDef(Def<ThingDef>("HD_ElectricHydraulicPress")).Count == 1, "Fab and electronic consumer remain usable world objects after load");
         yield return 1;
     }

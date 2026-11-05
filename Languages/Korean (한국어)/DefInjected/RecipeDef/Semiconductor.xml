@@ -3,7 +3,4 @@
   <HD_FabricateSolidStateComponents.label>반도체 전자 부품 제작</HD_FabricateSolidStateComponents.label>
   <HD_FabricateSolidStateComponents.description>트랜지스터 시대의 제어 장치에 쓰이는 반도체 전자 부품을 제조합니다. 진공관식 기초 전자 부품보다 상위 재료이며 산업용 부품과 기준가격이 같습니다.</HD_FabricateSolidStateComponents.description>
   <HD_FabricateSolidStateComponents.jobString>반도체 전자 부품 제작 중.</HD_FabricateSolidStateComponents.jobString>
-  <HD_AssembleIndustrialComponent.label>산업용 부품 조립</HD_AssembleIndustrialComponent.label>
-  <HD_AssembleIndustrialComponent.description>전자 부품 한 묶음을 같은 기준가격의 산업용 부품 하나로 조립합니다. 추가 작업이 필요합니다.</HD_AssembleIndustrialComponent.description>
-  <HD_AssembleIndustrialComponent.jobString>산업용 부품 조립 중.</HD_AssembleIndustrialComponent.jobString>
 </LanguageData>
