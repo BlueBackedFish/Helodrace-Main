@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <LanguageData>
-  <DoBillsHD_HydraulicPress1970.label>유압 프레스 사용</DoBillsHD_HydraulicPress1970.label>
-  <DoBillsHD_HydraulicPress1970.verb>성형</DoBillsHD_HydraulicPress1970.verb>
-  <DoBillsHD_HydraulicPress1970.gerund>성형 중</DoBillsHD_HydraulicPress1970.gerund>
-  <DoBillsHD_RollingMill1970.label>유압 압연기 사용</DoBillsHD_RollingMill1970.label>
-  <DoBillsHD_RollingMill1970.verb>압연</DoBillsHD_RollingMill1970.verb>
-  <DoBillsHD_RollingMill1970.gerund>압연 중</DoBillsHD_RollingMill1970.gerund>
+  <DoBillsHD_ElectricHydraulicPress.label>유압 프레스 사용</DoBillsHD_ElectricHydraulicPress.label>
+  <DoBillsHD_ElectricHydraulicPress.verb>성형</DoBillsHD_ElectricHydraulicPress.verb>
+  <DoBillsHD_ElectricHydraulicPress.gerund>성형 중</DoBillsHD_ElectricHydraulicPress.gerund>
+  <DoBillsHD_HydraulicRollingMill.label>유압 압연기 사용</DoBillsHD_HydraulicRollingMill.label>
+  <DoBillsHD_HydraulicRollingMill.verb>압연</DoBillsHD_HydraulicRollingMill.verb>
+  <DoBillsHD_HydraulicRollingMill.gerund>압연 중</DoBillsHD_HydraulicRollingMill.gerund>
 </LanguageData>

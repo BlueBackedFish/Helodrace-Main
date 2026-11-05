@@ -57,7 +57,7 @@ public sealed partial class Checks
 
         var bench=(Building_WorkTable)ItemBuilding("HD_BasicWorkbench",20,-9);
         var gunsmith=(Building_WorkTable)ItemBuilding("HD_GunSmithTable",12,-16);
-        var machine=ItemBuilding("HD_MultiTaskMachine2000Bench",18,-6);
+        var machine=ItemBuilding("HD_MultiTaskMachine",18,-6);
         for(int z=-2;z>=-16;z--)ItemBuilding("PowerConduit",12,z);
         for(int z=-2;z>=-6;z--)ItemBuilding("PowerConduit",18,z);
         foreach(var cell in machine.OccupiedRect())playMap.roofGrid.SetRoof(cell,RoofDefOf.RoofConstructed);

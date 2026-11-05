@@ -28,7 +28,7 @@ function Has-Transistor([string]$Name,[Collections.Generic.HashSet[string]]$Seen
     foreach($prerequisite in $research[$Name].SelectNodes('prerequisites/li')){if(Has-Transistor $prerequisite.InnerText $Seen){return $true}}
     return $false
 }
-foreach($file in @('ColdWar/Buildings/HydraulicPress1970.xml','ColdWar/Buildings/MachiningCenter1970.xml','ColdWar/Buildings/RollingMill1970.xml','ModernWar/Buildings/MultiTaskMachine2000.xml')) {
+foreach($file in @('ColdWar/Buildings/ElectricHydraulicPress.xml','ColdWar/Buildings/MachiningCenter.xml','ColdWar/Buildings/HydraulicRollingMill.xml','ModernWar/Buildings/MultiTaskMachine.xml')) {
     [xml]$xml=Get-Content -LiteralPath (Join-Path $repository ('Defs/'+$file)) -Raw
     foreach($def in $xml.SelectNodes('/Defs/ThingDef[costList/HD_ElectronicComponent]')) {
         $available=$false

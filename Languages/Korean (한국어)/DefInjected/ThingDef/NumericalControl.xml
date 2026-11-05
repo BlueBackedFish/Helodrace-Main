@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_CNCLathe.label>NC 선반</HD_CNCLathe.label>
-  <HD_CNCLathe.description>서보 이송 장치와 별도의 천공 테이프 제어반을 갖춘 전동 선반입니다. 아날로그 계기와 전자 제어 회로를 사용하는 초기 수치제어 방식으로 작동합니다. 기존 터릿 선반의 가공 작업을 더 빠르게 수행하며, 총기 조립용 선반 설비로도 연결할 수 있습니다. 전력과 작업자가 필요합니다.</HD_CNCLathe.description>
-  <HD_CNCMillingMachine.label>NC 밀링기</HD_CNCMillingMachine.label>
-  <HD_CNCMillingMachine.description>서보 이송 축과 천공 테이프 제어반을 갖춘 대형 전동 밀링기입니다. 개방된 작업 테이블과 수직 주축, 별도의 제어반을 사용하는 초기 수치제어 공작기계입니다. 기존 라인 샤프트 밀링기의 가공 작업을 더 빠르게 수행하며, 총기 조립용 밀링 설비로도 연결할 수 있습니다. 전력과 작업자가 필요합니다.</HD_CNCMillingMachine.description>
+  <HD_NCLathe.label>NC 선반</HD_NCLathe.label>
+  <HD_NCLathe.description>서보 이송 장치와 별도의 천공 테이프 제어반을 갖춘 전동 선반입니다. 아날로그 계기와 전자 제어 회로를 사용하는 초기 수치제어 방식으로 작동합니다. 기존 터릿 선반의 가공 작업을 더 빠르게 수행하며, 총기 조립용 선반 설비로도 연결할 수 있습니다. 전력과 작업자가 필요합니다.</HD_NCLathe.description>
+  <HD_NCMillingMachine.label>NC 밀링기</HD_NCMillingMachine.label>
+  <HD_NCMillingMachine.description>서보 이송 축과 천공 테이프 제어반을 갖춘 대형 전동 밀링기입니다. 개방된 작업 테이블과 수직 주축, 별도의 제어반을 사용하는 초기 수치제어 공작기계입니다. 기존 라인 샤프트 밀링기의 가공 작업을 더 빠르게 수행하며, 총기 조립용 밀링 설비로도 연결할 수 있습니다. 전력과 작업자가 필요합니다.</HD_NCMillingMachine.description>
 </LanguageData>

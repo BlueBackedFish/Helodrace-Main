@@ -7,7 +7,7 @@ from PIL import Image,ImageDraw,ImageFont
 ROOT=Path(__file__).resolve().parents[2];OUT=Path(__file__).resolve().parent
 font=ImageFont.truetype('C:/Windows/Fonts/malgun.ttf',21)
 small=ImageFont.truetype('C:/Windows/Fonts/segoeui.ttf',17)
-assets=[('초기 CNC 선반','HD_CNCLathe','3x2 / 1800W'),('초기 CNC 밀링기','HD_CNCMillingMachine','3x2 / 2200W'),
+assets=[('초기 CNC 선반','HD_NCLathe','3x2 / 1800W'),('초기 CNC 밀링기','HD_NCMillingMachine','3x2 / 2200W'),
         ('초기 반도체 팹','HD_SemiconductorFab','3x3 / 4000W')]
 def preview(stem,direction,unit_pixels):
     im=game_image(ROOT/'Textures/Buildings'/f'{stem}_{direction}.png')

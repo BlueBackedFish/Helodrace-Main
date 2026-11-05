@@ -619,7 +619,7 @@
       }
     }
   },
-  "HD_CNCLathe": {
+  "HD_NCLathe": {
     "family": "industrial_steel",
     "unchanged_shape": true,
     "original_palette_provenance_verified": true,
@@ -656,7 +656,7 @@
       }
     }
   },
-  "HD_CNCMillingMachine": {
+  "HD_NCMillingMachine": {
     "family": "industrial_steel",
     "unchanged_shape": true,
     "original_palette_provenance_verified": true,
@@ -731,7 +731,7 @@
       }
     }
   },
-  "HD_MachiningCenter1970": {
+  "HD_MachiningCenter": {
     "family": "industrial_steel",
     "unchanged_shape": true,
     "original_palette_provenance_verified": true,
@@ -768,7 +768,7 @@
       }
     }
   },
-  "HD_MultiTaskMachine2000": {
+  "HD_MultiTaskMachine": {
     "family": "advanced_white",
     "unchanged_shape": true,
     "original_palette_provenance_verified": true,
@@ -806,7 +806,7 @@
       }
     }
   },
-  "HD_HydraulicPress1970": {
+  "HD_ElectricHydraulicPress": {
     "family": "industrial_steel",
     "unchanged_shape": true,
     "original_palette_provenance_verified": true,
@@ -842,7 +842,7 @@
       }
     }
   },
-  "HD_RollingMill1970": {
+  "HD_HydraulicRollingMill": {
     "family": "industrial_steel",
     "unchanged_shape": true,
     "original_palette_provenance_verified": true,
@@ -1064,16 +1064,16 @@
     "secondary_source": "installed vanilla Steel",
     "fixed": "wood, stone, cyan accents, working silver and small fittings",
     "advanced": [
-      "HD_MultiTaskMachine2000",
+      "HD_MultiTaskMachine",
       "HD_SemiconductorFab",
       "HD_VIMFurnace"
     ],
     "computer_accents": [
-      "HD_CNCLathe",
-      "HD_CNCMillingMachine",
-      "HD_MachiningCenter1970",
-      "HD_MultiTaskMachine2000",
-      "HD_RollingMill1970",
+      "HD_NCLathe",
+      "HD_NCMillingMachine",
+      "HD_MachiningCenter",
+      "HD_MultiTaskMachine",
+      "HD_HydraulicRollingMill",
       "HD_SemiconductorFab"
     ],
     "in_game_tested": false

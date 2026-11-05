@@ -639,7 +639,7 @@
     "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
-  "HD_CNCLathe": {
+  "HD_NCLathe": {
     "active_definition": true,
     "four_actual_camera_views_verified": {
       "North": {
@@ -677,7 +677,7 @@
     "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
-  "HD_CNCMillingMachine": {
+  "HD_NCMillingMachine": {
     "active_definition": true,
     "four_actual_camera_views_verified": {
       "North": {
@@ -753,7 +753,7 @@
     "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
-  "HD_MachiningCenter1970": {
+  "HD_MachiningCenter": {
     "active_definition": true,
     "four_actual_camera_views_verified": {
       "North": {
@@ -791,7 +791,7 @@
     "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
-  "HD_MultiTaskMachine2000": {
+  "HD_MultiTaskMachine": {
     "active_definition": true,
     "four_actual_camera_views_verified": {
       "North": {
@@ -829,7 +829,7 @@
     "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
-  "HD_HydraulicPress1970": {
+  "HD_ElectricHydraulicPress": {
     "active_definition": true,
     "four_actual_camera_views_verified": {
       "North": {
@@ -867,7 +867,7 @@
     "theme_geometry_preserved": true,
     "interaction_offset_outside_all_rotated_footprints": true
   },
-  "HD_RollingMill1970": {
+  "HD_HydraulicRollingMill": {
     "active_definition": true,
     "four_actual_camera_views_verified": {
       "North": {

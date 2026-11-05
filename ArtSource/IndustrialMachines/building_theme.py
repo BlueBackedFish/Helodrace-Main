@@ -6,9 +6,9 @@ This keeps metal independent of woody/stony construction costs without new C#.
 import hashlib,json,math
 VERSION=1
 STEEL=(105,105,105)
-ADVANCED={'HD_VIMFurnace','HD_SemiconductorFab','HD_MultiTaskMachine2000'}
-COMPUTER={'HD_CNCLathe','HD_CNCMillingMachine','HD_MachiningCenter1970',
-          'HD_MultiTaskMachine2000','HD_SemiconductorFab','HD_RollingMill1970'}
+ADVANCED={'HD_VIMFurnace','HD_SemiconductorFab','HD_MultiTaskMachine'}
+COMPUTER={'HD_NCLathe','HD_NCMillingMachine','HD_MachiningCenter',
+          'HD_MultiTaskMachine','HD_SemiconductorFab','HD_HydraulicRollingMill'}
 EXCLUDED={'HD_Radio','HD_ClothingBench','HD_GunSmithTable'}
 CYAN=[(57,102,110),(48,89,97),(42,79,87)]
 
@@ -27,10 +27,10 @@ def shade_index(name):
 
 def accent(stem,obj):
     if stem not in COMPUTER:return False
-    if stem in {'HD_CNCLathe','HD_CNCMillingMachine'}:
+    if stem in {'HD_NCLathe','HD_NCMillingMachine'}:
         return obj.startswith(('NC03_','NC10_'))
-    if stem=='HD_MachiningCenter1970':return obj.startswith(('24_1970s_control_cabinet','21_Low_guard_frame','26_Left_access_panel'))
-    if stem=='HD_MultiTaskMachine2000':return obj.startswith('24_2000s_operator_panel_cabinet')
+    if stem=='HD_MachiningCenter':return obj.startswith(('24_1970s_control_cabinet','21_Low_guard_frame','26_Left_access_panel'))
+    if stem=='HD_MultiTaskMachine':return obj.startswith('24_2000s_operator_panel_cabinet')
     if stem=='HD_SemiconductorFab':return obj.startswith(('14_Furnace_temperature_controller','26_Wet_bench_extract_canopy','41_Mask_frame','42_Mask_frame'))
     return obj.startswith('23_Roll_gap_control_cabinet')
 
@@ -51,7 +51,7 @@ def role(stem,obj,source,rgb):
         if name.startswith('neutral_cast_iron') or 'furnace_ceramic' in name:return 'white'
         if stem=='HD_VIMFurnace' and obj.startswith(('06_Clamped_top_lid','08_Charging_cap','10_Access_door')):return 'white'
         if stem=='HD_SemiconductorFab' and any(k in o for k in ['worktop','fixture_table']):return 'white'
-        if stem=='HD_MultiTaskMachine2000' and 'end_roof_cap' in o:return 'white'
+        if stem=='HD_MultiTaskMachine' and 'end_roof_cap' in o:return 'white'
     if any(k in name for k in ['machined_iron','polished_rod','ram_steel','roll_crown','roll_flank','roll_bottom','roll_end']):return 'silver'
     if any(k in name for k in ['cast_bed','base_gray','base_top','base_front','base_side']):return 'metal_base'
     if any(k in name for k in ['neutral_cast_iron','cast_gray','cast_top','cast_front','cast_side','untinted_iron','agitator_motor']):return 'metal'

@@ -36,7 +36,7 @@ public sealed partial class Checks
         foreach(var p in separate)
             Check(p.CanInstantCraft==(p.plateThingDef==null&&p.RequiredThingDef.GetCompProperties<CompProperties_ArmorPlateSet>()==null&&p.defName!="HD_FASTMTPart_GPNVG18"),"Only plate sets and night vision require separate manufacture: "+p.defName);
         var table=ItemClothingBench(worker);yield return 1200;
-        var press=playMap.listerThings.ThingsOfDef(Def<ThingDef>("HD_HydraulicPress1970Bench")).Single();
+        var press=playMap.listerThings.ThingsOfDef(Def<ThingDef>("HD_ElectricHydraulicPress")).Single();
         var vest=(Apparel)ThingMaker.MakeThing(Def<ThingDef>("HD_Apparel_IBTVAssault"));worker.apparel.Wear(vest);
         var armor=vest.GetComp<CompModularArmor>();var draft=ArmorDraft(armor);
         var shoulder=Def<ModularArmorPartDef>("HD_IOTVPart_ShoulderGuards");

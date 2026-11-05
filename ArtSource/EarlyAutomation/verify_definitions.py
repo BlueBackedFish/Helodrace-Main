@@ -8,7 +8,7 @@ own=[node for file in (ROOT/'Defs').rglob('*.xml') for node in ET.parse(file).ge
 core=[node for file in CORE.rglob('*.xml') for node in ET.parse(file).getroot()]
 def index(kind):return {n.findtext('defName'):n for n in core+own if n.tag==kind and n.findtext('defName')}
 things=index('ThingDef');recipes=index('RecipeDef');research=index('ResearchProjectDef')
-cnc=[('HD_CNCLathe','CNCLathe','HD_LineShaftTurretLathe'),('HD_CNCMillingMachine','CNCMillingMachine','HD_LineShaftMillingMachine')]
+cnc=[('HD_NCLathe','NCLathe','HD_LineShaftTurretLathe'),('HD_NCMillingMachine','NCMillingMachine','HD_LineShaftMillingMachine')]
 mode=sys.argv[1] if len(sys.argv)>1 else 'all'
 selected=[] if mode=='fab' else cnc.copy()
 if mode!='cnc':selected.append(('HD_SemiconductorFab','SemiconductorFab',None))

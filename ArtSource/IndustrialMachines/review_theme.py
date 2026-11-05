@@ -8,8 +8,8 @@ font=ImageFont.truetype('C:/Windows/Fonts/malgun.ttf',22)
 small=ImageFont.truetype('C:/Windows/Fonts/segoeui.ttf',16)
 BG=(182,183,179);INK=(29,32,31)
 groups=[('첨단 설비 · 흰색 외장',[
- ('HD_VIMFurnace','진공 전기유도로'),('HD_SemiconductorFab','반도체 팹'),('HD_MultiTaskMachine2000','복합 가공기')]),
- ('컴퓨터 제어 · 강철색 + 어두운 시안',[('HD_CNCLathe','CNC 선반'),('HD_CNCMillingMachine','CNC 밀링기'),('HD_MachiningCenter1970','머시닝 센터')]),
+ ('HD_VIMFurnace','진공 전기유도로'),('HD_SemiconductorFab','반도체 팹'),('HD_MultiTaskMachine','복합 가공기')]),
+ ('컴퓨터 제어 · 강철색 + 어두운 시안',[('HD_NCLathe','CNC 선반'),('HD_NCMillingMachine','CNC 밀링기'),('HD_MachiningCenter','머시닝 센터')]),
  ('일반 산업 설비 · 바닐라 강철색',[('HD_LargeSteamEngine','대형 증기기관'),('HD_HaberBoschHighPressureReactor','고압 반응기'),('HD_BlastFurnace','고로')])]
 
 def sprite(stem,direction='north',before=False):

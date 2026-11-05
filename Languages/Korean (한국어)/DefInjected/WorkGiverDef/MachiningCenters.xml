@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <LanguageData>
-  <DoBillsHD_MachiningCenter1970.label>머시닝 센터 사용</DoBillsHD_MachiningCenter1970.label>
-  <DoBillsHD_MachiningCenter1970.verb>가공</DoBillsHD_MachiningCenter1970.verb>
-  <DoBillsHD_MachiningCenter1970.gerund>가공 중</DoBillsHD_MachiningCenter1970.gerund>
-  <DoBillsHD_MultiTaskMachine2000.label>복합 가공기 사용</DoBillsHD_MultiTaskMachine2000.label>
-  <DoBillsHD_MultiTaskMachine2000.verb>가공</DoBillsHD_MultiTaskMachine2000.verb>
-  <DoBillsHD_MultiTaskMachine2000.gerund>가공 중</DoBillsHD_MultiTaskMachine2000.gerund>
+  <DoBillsHD_MachiningCenter.label>머시닝 센터 사용</DoBillsHD_MachiningCenter.label>
+  <DoBillsHD_MachiningCenter.verb>가공</DoBillsHD_MachiningCenter.verb>
+  <DoBillsHD_MachiningCenter.gerund>가공 중</DoBillsHD_MachiningCenter.gerund>
+  <DoBillsHD_MultiTaskMachine.label>복합 가공기 사용</DoBillsHD_MultiTaskMachine.label>
+  <DoBillsHD_MultiTaskMachine.verb>가공</DoBillsHD_MultiTaskMachine.verb>
+  <DoBillsHD_MultiTaskMachine.gerund>가공 중</DoBillsHD_MultiTaskMachine.gerund>
 </LanguageData>

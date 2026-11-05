@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Defs>
+  <WorkGiverDef>
+    <defName>DoBillsHD_MachiningCenter</defName>
+    <label>use machining center</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <verb>machine</verb>
+    <gerund>machining at</gerund>
+    <fixedBillGiverDefs>
+      <li>HD_MachiningCenter</li>
+    </fixedBillGiverDefs>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+</Defs>

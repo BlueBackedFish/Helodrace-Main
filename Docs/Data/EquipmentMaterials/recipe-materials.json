@@ -1657,8 +1657,8 @@
   },
   {
     "kind": "ThingDef",
-    "file": "Defs/ColdWar/Buildings/MachiningCenter1970.xml",
-    "defName": "HD_MachiningCenter1970Bench",
+    "file": "Defs/ColdWar/Buildings/MachiningCenter.xml",
+    "defName": "HD_MachiningCenter",
     "abstract": false,
     "recipeDisabled": false,
     "before": {
@@ -1686,8 +1686,8 @@
   },
   {
     "kind": "ThingDef",
-    "file": "Defs/ModernWar/Buildings/MultiTaskMachine2000.xml",
-    "defName": "HD_MultiTaskMachine2000Bench",
+    "file": "Defs/ModernWar/Buildings/MultiTaskMachine.xml",
+    "defName": "HD_MultiTaskMachine",
     "abstract": false,
     "recipeDisabled": false,
     "before": {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <DoBillsHD_CNCLathe.label>NC 선반 사용</DoBillsHD_CNCLathe.label>
-  <DoBillsHD_CNCLathe.verb>가공</DoBillsHD_CNCLathe.verb>
-  <DoBillsHD_CNCLathe.gerund>가공 중</DoBillsHD_CNCLathe.gerund>
-  <DoBillsHD_CNCMillingMachine.label>NC 밀링기 사용</DoBillsHD_CNCMillingMachine.label>
-  <DoBillsHD_CNCMillingMachine.verb>가공</DoBillsHD_CNCMillingMachine.verb>
-  <DoBillsHD_CNCMillingMachine.gerund>가공 중</DoBillsHD_CNCMillingMachine.gerund>
+  <DoBillsHD_NCLathe.label>NC 선반 사용</DoBillsHD_NCLathe.label>
+  <DoBillsHD_NCLathe.verb>가공</DoBillsHD_NCLathe.verb>
+  <DoBillsHD_NCLathe.gerund>가공 중</DoBillsHD_NCLathe.gerund>
+  <DoBillsHD_NCMillingMachine.label>NC 밀링기 사용</DoBillsHD_NCMillingMachine.label>
+  <DoBillsHD_NCMillingMachine.verb>가공</DoBillsHD_NCMillingMachine.verb>
+  <DoBillsHD_NCMillingMachine.gerund>가공 중</DoBillsHD_NCMillingMachine.gerund>
 </LanguageData>

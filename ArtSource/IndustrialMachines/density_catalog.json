@@ -72,8 +72,8 @@
     "outline_width_in_game_units": 0.0703125
   },
   {
-    "asset": "HD_CNCLathe",
-    "source_folder": "ArtSource/CNCLathe",
+    "asset": "HD_NCLathe",
+    "source_folder": "ArtSource/NCLathe",
     "footprint": [
       3,
       2
@@ -96,8 +96,8 @@
     "outline_width_in_game_units": 0.0703125
   },
   {
-    "asset": "HD_CNCMillingMachine",
-    "source_folder": "ArtSource/CNCMillingMachine",
+    "asset": "HD_NCMillingMachine",
+    "source_folder": "ArtSource/NCMillingMachine",
     "footprint": [
       3,
       2
@@ -312,8 +312,8 @@
     "outline_width_in_game_units": 0.0703125
   },
   {
-    "asset": "HD_HydraulicPress1970",
-    "source_folder": "ArtSource/HydraulicPress1970",
+    "asset": "HD_ElectricHydraulicPress",
+    "source_folder": "ArtSource/ElectricHydraulicPress",
     "footprint": [
       3,
       3
@@ -456,8 +456,8 @@
     "outline_width_in_game_units": 0.0703125
   },
   {
-    "asset": "HD_MachiningCenter1970",
-    "source_folder": "ArtSource/MachiningCenter1970",
+    "asset": "HD_MachiningCenter",
+    "source_folder": "ArtSource/MachiningCenter",
     "footprint": [
       3,
       3
@@ -504,8 +504,8 @@
     "outline_width_in_game_units": 0.0703125
   },
   {
-    "asset": "HD_MultiTaskMachine2000",
-    "source_folder": "ArtSource/MultiTaskMachine2000",
+    "asset": "HD_MultiTaskMachine",
+    "source_folder": "ArtSource/MultiTaskMachine",
     "footprint": [
       4,
       3
@@ -576,8 +576,8 @@
     "outline_width_in_game_units": 0.0703125
   },
   {
-    "asset": "HD_RollingMill1970",
-    "source_folder": "ArtSource/RollingMill1970",
+    "asset": "HD_HydraulicRollingMill",
+    "source_folder": "ArtSource/HydraulicRollingMill",
     "footprint": [
       4,
       3

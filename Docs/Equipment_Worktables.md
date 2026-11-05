@@ -8,7 +8,7 @@
 
 ## 방어구 설비
 
-방탄복·방탄판·방탄모·방패와 금속 조끼, 보호대/바이저 17종에는 가동 중인 프레스 성형 Lv.1 설비가 필요하다. 샤프트식(`HD_LineShaftHydraulicPress`, Lv.1)과 전동식(`HD_HydraulicPress1970Bench`, Lv.2) 중 하나를 작업대에서 6칸 이내에 연결한다. 두 설비는 1개 작업대에 연결할 수 있는 기존 facility 규칙을 사용한다. 기초 작업대와 의류 작업대 모두 연결을 지원한다. 일반 옷·벨트·파우치·전자 부속은 추가 방어구 프레스 조건을 요구하지 않는다.
+방탄복·방탄판·방탄모·방패와 금속 조끼, 보호대/바이저 17종에는 가동 중인 프레스 성형 Lv.1 설비가 필요하다. 샤프트식(`HD_LineShaftHydraulicPress`, Lv.1)과 전동식(`HD_ElectricHydraulicPress`, Lv.2) 중 하나를 작업대에서 6칸 이내에 연결한다. 두 설비는 1개 작업대에 연결할 수 있는 기존 facility 규칙을 사용한다. 기초 작업대와 의류 작업대 모두 연결을 지원한다. 일반 옷·벨트·파우치·전자 부속은 추가 방어구 프레스 조건을 요구하지 않는다.
 
 샤프트식은 기계 동력과 최소 RPM, 전동식은 전력, 공통으로 스위치·고장·연결 상태를 확인한다. 작업 시작 여부, Bill 활성화, 진행 중 작업 실패 조건에서 같은 판정을 사용한다. 실제 제작 틱에는 연결된 프레스의 `UsedThisTick`을 호출해 샤프트 부하 450W 또는 전동식 1800W의 기존 작업 부하와 발열 처리를 사용한다. 동력을 잃거나 설비를 제거하면 진행 작업이 중단되고, 복구하면 재료를 다시 사용해 작업을 재개할 수 있다. 제품에 미완성 아이템이 없는 경우의 작업량 보존을 새로 보장하는 기능은 아니다.
 
@@ -20,13 +20,13 @@
 |---|---|
 | 발판식 선반 `HD_TreadleLathe` | 선삭 Lv.1 |
 | 라인 샤프트 터릿 선반 `HD_LineShaftTurretLathe` | 선삭 Lv.2 |
-| NC 선반 `HD_CNCLathe` | 선삭 Lv.3 |
-| 복합 가공기 `HD_MultiTaskMachine2000Bench` | 선삭 Lv.4, 밀링 Lv.4 |
+| NC 선반 `HD_NCLathe` | 선삭 Lv.3 |
+| 복합 가공기 `HD_MultiTaskMachine` | 선삭 Lv.4, 밀링 Lv.4 |
 | 라인 샤프트 밀링 머신 `HD_LineShaftMillingMachine` | 밀링 Lv.1 |
-| NC 밀링기 `HD_CNCMillingMachine` | 밀링 Lv.2 |
-| 머시닝 센터 `HD_MachiningCenter1970Bench` | 밀링 Lv.3 |
+| NC 밀링기 `HD_NCMillingMachine` | 밀링 Lv.2 |
+| 머시닝 센터 `HD_MachiningCenter` | 밀링 Lv.3 |
 | 라인 샤프트 유압 프레스 `HD_LineShaftHydraulicPress` | 프레스 성형 Lv.1 (가동 필요, 작업 부하) |
-| 전동 유압 프레스 `HD_HydraulicPress1970Bench` | 프레스 성형 Lv.2 (가동 필요, 작업 부하) |
+| 전동 유압 프레스 `HD_ElectricHydraulicPress` | 프레스 성형 Lv.2 (가동 필요, 작업 부하) |
 | 전로 `HD_Converter` | 전로 정련 Lv.1 |
 | 교반식 탱크 반응기 `HD_StirredTankReactor` | 화학 반응 Lv.1 (가동 필요) |
 
@@ -38,9 +38,9 @@
 | 탄소강 정련 3종 | 전로 정련 Lv.1 |
 | 나일론·아라미드 방사 | 화학 반응 Lv.1 |
 
-총기 조건은 기존과 같이 연구 선행 관계로 자동 판정하며, 제작법이나 제품에 `FacilityRequirementExtension`을 두면 그 값이 우선한다. 같은 작업에서 공작기계 표시명의 연대 표기를 빼고 CNC를 NC로 바꿨다(초기 CNC 선반→NC 선반, 초기 CNC 밀링기→NC 밀링기, 1970년대 머시닝 센터→머시닝 센터, 1970년대 유압 프레스→전동 유압 프레스, 1970년대 유압 압연기→유압 압연기, 2000년대 복합 가공기→복합 가공기). DefName은 유지했다.
+총기 조건은 기존과 같이 연구 선행 관계로 자동 판정하며, 제작법이나 제품에 `FacilityRequirementExtension`을 두면 그 값이 우선한다. 같은 작업에서 공작기계 표시명의 연대 표기를 빼고 CNC를 NC로 바꿨다(초기 CNC 선반→NC 선반, 초기 CNC 밀링기→NC 밀링기, 1970년대 머시닝 센터→머시닝 센터, 1970년대 유압 프레스→전동 유압 프레스, 1970년대 유압 압연기→유압 압연기, 2000년대 복합 가공기→복합 가공기). DefName·텍스처·Def 파일·ArtSource 폴더도 같이 바꿨다: `HD_CNCLathe`→`HD_NCLathe`, `HD_CNCMillingMachine`→`HD_NCMillingMachine`, `HD_MachiningCenter1970Bench`→`HD_MachiningCenter`, `HD_HydraulicPress1970Bench`→`HD_ElectricHydraulicPress`, `HD_RollingMill1970Bench`→`HD_HydraulicRollingMill`, `HD_MultiTaskMachine2000Bench`→`HD_MultiTaskMachine`(작업 WorkGiver `DoBillsHD_*`도 같은 이름). 과거 실행 증거(`native-checks.txt`, `1.7 2차 G` CSV, 2026-10-29 연구 구조 검토)는 당시 이름 그대로 둔다.
 
-실제 RimWorld 1.7 `.codex-staging/FacilityFields/run-01` (`-Worktables -Fibers`): **589 PASS, COMPLETE**, 엔진 ERROR는 기존 Workshop 폴더 부재 1건.
+실제 RimWorld 1.7 `.codex-staging/FacilityFields/run-01` (`-Worktables -Fibers`): **589 PASS, COMPLETE**. DefName 변경 후 `run-03`: **589 PASS, COMPLETE**, 엔진 ERROR는 기존 Workshop 폴더 부재 1건.
 
 ## 아이템 정보
 

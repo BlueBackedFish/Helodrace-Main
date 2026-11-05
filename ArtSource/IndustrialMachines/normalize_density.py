@@ -8,9 +8,9 @@ from integrate_asset import integrate
 ASSETS=INDUSTRIAL_ASSETS+[(stem,folder,stem+'.blend',True) for stem,folder in [
  ('HD_SAFurnace','ElectricArcFurnace'),('HD_VIMFurnace','VacuumInductionFurnace'),('HD_CableToolRig','CableToolRig'),
  ('HD_Converter','Converter'),('HD_BlastFurnace','BlastFurnace'),('HD_BatchStill','BatchStill'),
- ('HD_CNCLathe','CNCLathe'),('HD_CNCMillingMachine','CNCMillingMachine'),('HD_SemiconductorFab','SemiconductorFab'),
- ('HD_MachiningCenter1970','MachiningCenter1970'),('HD_MultiTaskMachine2000','MultiTaskMachine2000'),
- ('HD_HydraulicPress1970','HydraulicPress1970'),('HD_RollingMill1970','RollingMill1970')]]
+ ('HD_NCLathe','NCLathe'),('HD_NCMillingMachine','NCMillingMachine'),('HD_SemiconductorFab','SemiconductorFab'),
+ ('HD_MachiningCenter','MachiningCenter'),('HD_MultiTaskMachine','MultiTaskMachine'),
+ ('HD_ElectricHydraulicPress','ElectricHydraulicPress'),('HD_HydraulicRollingMill','HydraulicRollingMill')]]
 ASSETS += [('HD_'+n,'Reconstructed/'+n,'HD_'+n+'.blend',True) for n in ['TreadleLathe','LineShaftTurretLathe','LineShaftMillingMachine']]
 ASSETS += [('HD_LineShaftPress','LargeIndustrialPress','large_industrial_press.blend',True),
  ('HD_RollingMC','IndustrialRollingMill','industrial_rolling_mill.blend',True),

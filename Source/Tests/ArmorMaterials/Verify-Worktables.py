@@ -21,8 +21,8 @@ for row in rows:
 
 for name in ['HD_ClothingBench', 'HD_BasicWorkbench']:
     links = {x.text for x in source['ThingDef', name].findall('comps/li[@Class="CompProperties_AffectedByFacilities"]/linkableFacilities/li')}
-    assert {'HD_LineShaftHydraulicPress', 'HD_HydraulicPress1970Bench'} <= links
-for name, tier in [('HD_LineShaftHydraulicPress', 1), ('HD_HydraulicPress1970Bench', 2)]:
+    assert {'HD_LineShaftHydraulicPress', 'HD_ElectricHydraulicPress'} <= links
+for name, tier in [('HD_LineShaftHydraulicPress', 1), ('HD_ElectricHydraulicPress', 2)]:
     d = source['ThingDef', name]
     assert d.find('comps/li[@Class="CompProperties_Facility"]') is not None
     assert d.findtext('modExtensions/li[@Class="Helodrace.FacilityCapabilityExtension"]/capabilities/HD_Pressing') == str(tier)

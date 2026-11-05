@@ -14,10 +14,10 @@ def available(name):
     declared={('recipe',key) for key,r in recipes.items() if name in [x.text for x in r.findall('recipeUsers/li')]}
     implied={('maker',key) for key,n in things.items() if name in [x.text for x in n.findall('recipeMaker/recipeUsers/li')]}
     return explicit|declared|implied
-assets=[('HD_MachiningCenter1970','MachiningCenter1970',['HD_CNCMillingMachine'],[3,3]),
- ('HD_MultiTaskMachine2000','MultiTaskMachine2000',['HD_CNCLathe','HD_CNCMillingMachine'],[4,3]),
- ('HD_HydraulicPress1970','HydraulicPress1970',['HD_LineShaftHydraulicPress'],[3,3]),
- ('HD_RollingMill1970','RollingMill1970',['HD_LineShaftRollingMachine'],[4,3])]
+assets=[('HD_MachiningCenter','MachiningCenter',['HD_NCMillingMachine'],[3,3]),
+ ('HD_MultiTaskMachine','MultiTaskMachine',['HD_NCLathe','HD_NCMillingMachine'],[4,3]),
+ ('HD_ElectricHydraulicPress','ElectricHydraulicPress',['HD_LineShaftHydraulicPress'],[3,3]),
+ ('HD_HydraulicRollingMill','HydraulicRollingMill',['HD_LineShaftRollingMachine'],[4,3])]
 for name,folder,sources,size in assets:
     n=things[name];assert sum(x.findtext('defName')==name for x in own)==1
     assert n.findtext('thingClass')=='Building_WorkTable' and n.findtext('tickerType')=='Rare'
@@ -36,7 +36,7 @@ for name,folder,sources,size in assets:
     workers=[w for w in own if w.tag=='WorkGiverDef' and name in [x.text for x in w.findall('fixedBillGiverDefs/li')]]
     assert len(workers)==1 and workers[0].findtext('giverClass')=='WorkGiver_DoBill'
     assert workers[0].findtext('workType')=='Crafting' and locale('WorkGiverDef',workers[0].findtext('defName')+'.label')
-    if name in ['HD_MachiningCenter1970','HD_MultiTaskMachine2000']:
+    if name in ['HD_MachiningCenter','HD_MultiTaskMachine']:
         assert 'CompProperties_Facility' in comps
         for bench in ['HD_BasicWorkbench','HD_GunSmithTable']:
             links=things[bench].find('comps/li[@Class="CompProperties_AffectedByFacilities"]/linkableFacilities')
@@ -52,7 +52,7 @@ for name in ['HelodIndustrialAutomation','HelodMultiTaskMachining']:
         assert key in research and key not in trail,(key,trail)
         for child in research[key].findall('prerequisites/li'):ancestors(child.text,trail+(key,))
     ancestors(name)
-assert ('maker','HD_Apparel_GreatWarM1Helmet') in available('HD_HydraulicPress1970')
-extension=things['HD_MultiTaskMachine2000'].find('modExtensions/li')
+assert ('maker','HD_Apparel_GreatWarM1Helmet') in available('HD_ElectricHydraulicPress')
+extension=things['HD_MultiTaskMachine'].find('modExtensions/li')
 assert extension.findtext('latheTier')=='4' and extension.findtext('millingTier')=='4'
 print('PASS: four electric machine tiers, direct/generated recipe parity, bill workers, facility links, research/resources/localization and presentation metadata.')

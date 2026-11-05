@@ -115,7 +115,7 @@ public sealed partial class Checks
             var roller = (Building_WorkTable)Spawn("HD_LineShaftRollingMachine", 12, 4);
             var machines = new List<Building_WorkTable> { lathe, mill, press, roller };
             var consumers = new List<CompPowerTrader>();
-            if (population == 8) { var cnc = (Building_WorkTable)Spawn("HD_CNCLathe", 18, 4); machines.Add(cnc); consumers.Add(cnc.GetComp<CompPowerTrader>()); }
+            if (population == 8) { var cnc = (Building_WorkTable)Spawn("HD_NCLathe", 18, 4); machines.Add(cnc); consumers.Add(cnc.GetComp<CompPowerTrader>()); }
             var pumps = new List<Building> { ColdRoom(-18, 18) };
             if (population == 8) pumps.Add(ColdRoom(5, 18));
             Shafts(-21, 15, 2, 6);

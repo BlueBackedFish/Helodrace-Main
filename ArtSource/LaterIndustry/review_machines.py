@@ -8,10 +8,10 @@ from PIL import Image,ImageDraw,ImageFont
 ROOT=Path(__file__).resolve().parents[2];OUT=Path(__file__).resolve().parent
 font=ImageFont.truetype('C:/Windows/Fonts/malgun.ttf',22)
 small=ImageFont.truetype('C:/Windows/Fonts/segoeui.ttf',17)
-assets=[('1970년대 머시닝 센터','HD_MachiningCenter1970','MachiningCenter1970'),
- ('2000년대 복합 가공기','HD_MultiTaskMachine2000','MultiTaskMachine2000'),
- ('1970년대 유압 압연기','HD_RollingMill1970','RollingMill1970'),
- ('1970년대 유압 프레스','HD_HydraulicPress1970','HydraulicPress1970')]
+assets=[('1970년대 머시닝 센터','HD_MachiningCenter','MachiningCenter'),
+ ('2000년대 복합 가공기','HD_MultiTaskMachine','MultiTaskMachine'),
+ ('1970년대 유압 압연기','HD_HydraulicRollingMill','HydraulicRollingMill'),
+ ('1970년대 유압 프레스','HD_ElectricHydraulicPress','ElectricHydraulicPress')]
 def preview(stem,folder,direction,unit_pixels):
     meta=json.loads((ROOT/'ArtSource'/folder/'validation.json').read_text(encoding='utf8'))
     im=game_image(ROOT/'Textures/Buildings'/f'{stem}_{direction}.png')

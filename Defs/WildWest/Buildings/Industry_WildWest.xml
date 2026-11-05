@@ -1642,14 +1642,14 @@
       <li Class="CompProperties_AffectedByFacilities">
         <linkableFacilities>
             <li>HD_LineShaftHydraulicPress</li>
-            <li>HD_HydraulicPress1970Bench</li>
+            <li>HD_ElectricHydraulicPress</li>
           <li>HD_TreadleLathe</li>
           <li>HD_LineShaftTurretLathe</li>
           <li>HD_LineShaftMillingMachine</li>
-          <li>HD_CNCLathe</li>
-          <li>HD_CNCMillingMachine</li>
-          <li>HD_MachiningCenter1970Bench</li>
-          <li>HD_MultiTaskMachine2000Bench</li>
+          <li>HD_NCLathe</li>
+          <li>HD_NCMillingMachine</li>
+          <li>HD_MachiningCenter</li>
+          <li>HD_MultiTaskMachine</li>
         </linkableFacilities>
       </li>
     </comps>
@@ -1720,10 +1720,10 @@
           <li>HD_TreadleLathe</li>
           <li>HD_LineShaftTurretLathe</li>
           <li>HD_LineShaftMillingMachine</li>
-          <li>HD_CNCLathe</li>
-          <li>HD_CNCMillingMachine</li>
-          <li>HD_MachiningCenter1970Bench</li>
-          <li>HD_MultiTaskMachine2000Bench</li>
+          <li>HD_NCLathe</li>
+          <li>HD_NCMillingMachine</li>
+          <li>HD_MachiningCenter</li>
+          <li>HD_MultiTaskMachine</li>
         </linkableFacilities>
       </li>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponWorkbench" />

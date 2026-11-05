@@ -497,7 +497,7 @@
     "product": "HD_Apparel_GreatWarM1Helmet",
     "users": [
       "HD_ClothingBench",
-      "HD_HydraulicPress1970Bench",
+      "HD_ElectricHydraulicPress",
       "HD_LineShaftHydraulicPress"
     ],
     "weapon": false,

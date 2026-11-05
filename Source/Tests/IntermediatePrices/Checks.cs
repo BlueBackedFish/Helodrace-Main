@@ -102,7 +102,7 @@ public sealed class Checks : GameComponent
             File.AppendAllText(Path.Combine(output, "prices.csv"), $"{name},{before},{expected},{actual}\n");
         }
         Check(rows.GetArrayLength() == 22 && ThingMaker.MakeThing(Electronics).MarketValue == vanilla && Def<ThingDef>("HD_BasicElectronicComponents").GetStatValueAbstract(StatDefOf.MarketValue) < vanilla, "All 22 intermediates below vanilla; distinct new electronics exactly equal vanilla");
-        foreach (string name in new[] { "HD_LargeSteamEngine", "HD_Radio", "HD_SemiconductorFab", "HD_HydraulicPress1970Bench" })
+        foreach (string name in new[] { "HD_LargeSteamEngine", "HD_Radio", "HD_SemiconductorFab", "HD_ElectricHydraulicPress" })
         {
             var def = Def<ThingDef>(name); float beforeInputs = def.costList.Sum(x => x.count * (old.TryGetValue(x.thingDef, out float p) ? p : x.thingDef.GetStatValueAbstract(StatDefOf.MarketValue)));
             float nowInputs = def.costList.Sum(x => x.count * x.thingDef.GetStatValueAbstract(StatDefOf.MarketValue));
@@ -114,7 +114,7 @@ public sealed class Checks : GameComponent
         sample.stackCount = 50; string fifty = sample.Graphic.MatSingleFor(sample).mainTexture.name;
         Check(!string.IsNullOrEmpty(one) && !string.IsNullOrEmpty(fifty) && one != fifty, "Both new electronic stack textures load through native game graphics"); Write("GRAPHICS " + one + " / " + fifty);
         var fabDef = Def<ThingDef>("HD_SemiconductorFab"); Check(fabDef.costList.All(c => c.thingDef != Electronics), "Fab bootstrap needs only lower-tier electronics");
-        foreach (string name in new[] { "HD_HydraulicPress1970Bench", "HD_MachiningCenter1970Bench", "HD_RollingMill1970Bench", "HD_MultiTaskMachine2000Bench" })
+        foreach (string name in new[] { "HD_ElectricHydraulicPress", "HD_MachiningCenter", "HD_HydraulicRollingMill", "HD_MultiTaskMachine" })
             Check(Def<ThingDef>(name).costList.Any(c => c.thingDef == Electronics), "Real post-transistor consumer: " + name);
     }
     private void Trade()
@@ -167,7 +167,7 @@ public sealed class Checks : GameComponent
         foreach (int n in Finish(conversion)) yield return n;
         Check(Count(ThingDefOf.ComponentIndustrial) == before + 1 && Count(Electronics) == electronicBefore - 1, "One-to-one industrial assembly consumes real electronics without duplication");
         worker.drafter.Drafted = true; worker.jobs.EndCurrentJob(JobCondition.InterruptForced);
-        var press = Def<ThingDef>("HD_HydraulicPress1970Bench"); var frame = (Frame)ThingMaker.MakeThing(press.frameDef); frame.SetFaction(Faction.OfPlayer); GenSpawn.Spawn(frame, map.Center + new IntVec3(10, 0, 4), map);
+        var press = Def<ThingDef>("HD_ElectricHydraulicPress"); var frame = (Frame)ThingMaker.MakeThing(press.frameDef); frame.SetFaction(Faction.OfPlayer); GenSpawn.Spawn(frame, map.Center + new IntVec3(10, 0, 4), map);
         int needed = press.costList.Single(c => c.thingDef == Electronics).count; int stockBefore = Count(Electronics);
         foreach (var cost in press.costList)
         {
@@ -186,7 +186,7 @@ public sealed class Checks : GameComponent
     private IEnumerable<int> Resume()
     {
         Check(savedElectronics != null && savedElectronics.Spawned && Count(Electronics) == 3 && savedElectronics.MarketValue == 32, "Actual new electronic inventory and value persist after native save/load");
-        Check(fab.Spawned && map.listerThings.ThingsOfDef(Def<ThingDef>("HD_HydraulicPress1970Bench")).Count == 1, "Fab and electronic consumer remain usable world objects after load");
+        Check(fab.Spawned && map.listerThings.ThingsOfDef(Def<ThingDef>("HD_ElectricHydraulicPress")).Count == 1, "Fab and electronic consumer remain usable world objects after load");
         yield return 1;
     }
 }

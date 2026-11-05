@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <ThingDef ParentName="BuildingBase">
-    <defName>HD_CNCLathe</defName>
+    <defName>HD_NCLathe</defName>
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsProduction</li></thingCategories>
     <label>NC lathe</label>
     <description>An open-bed electric lathe with servo feeds and a separate punched-tape numerical controller. This first-generation numerical-control machine uses analog instruments and relay electronics. Performs the turret lathe's turning jobs faster and serves as a powered lathe facility for firearm assembly. Still requires an operator.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
-      <texPath>Buildings/HD_CNCLathe</texPath>
+      <texPath>Buildings/HD_NCLathe</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>CutoutComplex</shaderType>
       <colorTwo>(105,105,105)</colorTwo>
@@ -71,14 +71,14 @@
   </ThingDef>
 
   <ThingDef ParentName="BuildingBase">
-    <defName>HD_CNCMillingMachine</defName>
+    <defName>HD_NCMillingMachine</defName>
     <minifiedDef>MinifiedThing</minifiedDef>
     <thingCategories><li>BuildingsProduction</li></thingCategories>
     <label>NC milling machine</label>
     <description>A heavy electric knee mill with servo-driven axes and a punched-tape numerical controller. Its exposed table, vertical spindle and separate control cabinet belong to the first generation of numerical machine tools. Performs the line-shaft mill's jobs faster and serves as a powered milling facility for firearm assembly. Still requires an operator.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
-      <texPath>Buildings/HD_CNCMillingMachine</texPath>
+      <texPath>Buildings/HD_NCMillingMachine</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>CutoutComplex</shaderType>
       <colorTwo>(105,105,105)</colorTwo>

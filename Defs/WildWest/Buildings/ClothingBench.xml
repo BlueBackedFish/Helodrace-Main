@@ -40,7 +40,7 @@
     <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
     <researchPrerequisites><li>HelodFrontierSpirit</li></researchPrerequisites>
     <inspectorTabs><li>ITab_Bills</li></inspectorTabs>
-    <comps><li Class="CompProperties_AffectedByFacilities"><linkableFacilities><li>HD_LineShaftHydraulicPress</li><li>HD_HydraulicPress1970Bench</li></linkableFacilities></li><li Class="Helodrace.ModernWar.CompProperties_ClothingWorkbench" /></comps>
+    <comps><li Class="CompProperties_AffectedByFacilities"><linkableFacilities><li>HD_LineShaftHydraulicPress</li><li>HD_ElectricHydraulicPress</li></linkableFacilities></li><li Class="Helodrace.ModernWar.CompProperties_ClothingWorkbench" /></comps>
     <placeWorkers><li>PlaceWorker_ShowFacilitiesConnections</li></placeWorkers>
     <building><spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity></building>
   </ThingDef>

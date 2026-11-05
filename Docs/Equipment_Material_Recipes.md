@@ -84,8 +84,8 @@ DefenTech IIIA는 플라스틸 30을 아라미드 30으로, IronHide IV는 플�
 | `HD_Gun_WinMNinetyFive_Weapon` | `Steel` 70 + `HD_GeneralMachinePart` 4 |
 | `HD_Gun_SprMOne_Weapon` | `Steel` 50 + `WoodLog` 20 + `HD_GeneralMachinePart` 1 |
 | `HD_Gun_SprMThreeHigh_Weapon` | `Steel` 60 + `HD_GeneralMachinePart` 2 |
-| `HD_MachiningCenter1970Bench` | `Steel` 190 + `HD_CarbonSteel` 90 + `HD_GeneralMachinePart` 14 + `HD_BasicElectricalComponents` 12 + `HD_ElectronicComponent` 10 |
-| `HD_MultiTaskMachine2000Bench` | `Steel` 260 + `HD_CarbonSteel` 100 + `HD_GeneralMachinePart` 16 + `HD_UniformRolledSteelPlate` 24 + `HD_BasicElectricalComponents` 12 + `HD_ElectronicComponent` 32 |
+| `HD_MachiningCenter` | `Steel` 190 + `HD_CarbonSteel` 90 + `HD_GeneralMachinePart` 14 + `HD_BasicElectricalComponents` 12 + `HD_ElectronicComponent` 10 |
+| `HD_MultiTaskMachine` | `Steel` 260 + `HD_CarbonSteel` 100 + `HD_GeneralMachinePart` 16 + `HD_UniformRolledSteelPlate` 24 + `HD_BasicElectricalComponents` 12 + `HD_ElectronicComponent` 32 |
 
 ## 검증
 

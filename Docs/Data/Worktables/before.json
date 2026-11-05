@@ -760,7 +760,7 @@
     "recipe": "HD_MakePressComponent",
     "product": "HD_PressComponent",
     "users": [
-      "HD_HydraulicPress1970Bench",
+      "HD_ElectricHydraulicPress",
       "HD_LineShaftHydraulicPress"
     ],
     "weapon": false,
@@ -773,7 +773,7 @@
     "recipe": "HD_MakePressComponentBulk10",
     "product": "HD_PressComponent",
     "users": [
-      "HD_HydraulicPress1970Bench",
+      "HD_ElectricHydraulicPress",
       "HD_LineShaftHydraulicPress"
     ],
     "weapon": false,
@@ -786,7 +786,7 @@
     "recipe": "HD_MakePressComponentBulk5",
     "product": "HD_PressComponent",
     "users": [
-      "HD_HydraulicPress1970Bench",
+      "HD_ElectricHydraulicPress",
       "HD_LineShaftHydraulicPress"
     ],
     "weapon": false,
@@ -811,9 +811,9 @@
     "recipe": "HD_MakeShaft",
     "product": "HD_Shaft",
     "users": [
-      "HD_CNCLathe",
+      "HD_NCLathe",
       "HD_LineShaftTurretLathe",
-      "HD_MultiTaskMachine2000Bench",
+      "HD_MultiTaskMachine",
       "HD_TreadleLathe"
     ],
     "weapon": false,
@@ -826,9 +826,9 @@
     "recipe": "HD_MakeShaftBulk10",
     "product": "HD_Shaft",
     "users": [
-      "HD_CNCLathe",
+      "HD_NCLathe",
       "HD_LineShaftTurretLathe",
-      "HD_MultiTaskMachine2000Bench",
+      "HD_MultiTaskMachine",
       "HD_TreadleLathe"
     ],
     "weapon": false,
@@ -841,9 +841,9 @@
     "recipe": "HD_MakeShaftBulk5",
     "product": "HD_Shaft",
     "users": [
-      "HD_CNCLathe",
+      "HD_NCLathe",
       "HD_LineShaftTurretLathe",
-      "HD_MultiTaskMachine2000Bench",
+      "HD_MultiTaskMachine",
       "HD_TreadleLathe"
     ],
     "weapon": false,
@@ -856,11 +856,11 @@
     "recipe": "HD_MillGeneralMachinePart",
     "product": "HD_GeneralMachinePart",
     "users": [
-      "HD_CNCLathe",
-      "HD_CNCMillingMachine",
+      "HD_NCLathe",
+      "HD_NCMillingMachine",
       "HD_LineShaftMillingMachine",
-      "HD_MachiningCenter1970Bench",
-      "HD_MultiTaskMachine2000Bench"
+      "HD_MachiningCenter",
+      "HD_MultiTaskMachine"
     ],
     "weapon": false,
     "apparel": false,
@@ -872,11 +872,11 @@
     "recipe": "HD_MillGeneralMachinePartBulk10",
     "product": "HD_GeneralMachinePart",
     "users": [
-      "HD_CNCLathe",
-      "HD_CNCMillingMachine",
+      "HD_NCLathe",
+      "HD_NCMillingMachine",
       "HD_LineShaftMillingMachine",
-      "HD_MachiningCenter1970Bench",
-      "HD_MultiTaskMachine2000Bench"
+      "HD_MachiningCenter",
+      "HD_MultiTaskMachine"
     ],
     "weapon": false,
     "apparel": false,
@@ -888,11 +888,11 @@
     "recipe": "HD_MillGeneralMachinePartBulk5",
     "product": "HD_GeneralMachinePart",
     "users": [
-      "HD_CNCLathe",
-      "HD_CNCMillingMachine",
+      "HD_NCLathe",
+      "HD_NCMillingMachine",
       "HD_LineShaftMillingMachine",
-      "HD_MachiningCenter1970Bench",
-      "HD_MultiTaskMachine2000Bench"
+      "HD_MachiningCenter",
+      "HD_MultiTaskMachine"
     ],
     "weapon": false,
     "apparel": false,
@@ -989,7 +989,7 @@
     "product": "HD_UniformRolledSteelPlate",
     "users": [
       "HD_LineShaftRollingMachine",
-      "HD_RollingMill1970Bench"
+      "HD_HydraulicRollingMill"
     ],
     "weapon": false,
     "apparel": false,
@@ -1002,7 +1002,7 @@
     "product": "HD_UniformRolledSteelPlate",
     "users": [
       "HD_LineShaftRollingMachine",
-      "HD_RollingMill1970Bench"
+      "HD_HydraulicRollingMill"
     ],
     "weapon": false,
     "apparel": false,
@@ -1015,7 +1015,7 @@
     "product": "HD_UniformRolledSteelPlate",
     "users": [
       "HD_LineShaftRollingMachine",
-      "HD_RollingMill1970Bench"
+      "HD_HydraulicRollingMill"
     ],
     "weapon": false,
     "apparel": false,
@@ -1280,7 +1280,7 @@
     "product": "HD_Apparel_GreatWarM1Helmet",
     "users": [
       "HD_ClothingBench",
-      "HD_HydraulicPress1970Bench",
+      "HD_ElectricHydraulicPress",
       "HD_LineShaftHydraulicPress"
     ],
     "weapon": false,

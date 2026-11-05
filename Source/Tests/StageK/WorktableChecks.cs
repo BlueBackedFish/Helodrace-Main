@@ -31,7 +31,7 @@ public sealed partial class Checks
     {
         worker.workSettings.SetPriority(Def<WorkTypeDef>("Tailoring"),1);
         var bench=(Building_WorkTable)ItemBuilding("HD_ClothingBench",-12,-10);
-        var press=ItemBuilding("HD_HydraulicPress1970Bench",-12,-6);
+        var press=ItemBuilding("HD_ElectricHydraulicPress",-12,-6);
         for(int z=-2;z>=-6;z--)ItemBuilding("PowerConduit",-12,z);
         foreach(var cell in press.OccupiedRect())playMap.roofGrid.SetRoof(cell,RoofDefOf.RoofConstructed);
         playMap.powerNetManager.UpdatePowerNetsAndConnections_First();
@@ -59,7 +59,7 @@ public sealed partial class Checks
             Check(Def<RecipeDef>(row.GetProperty("recipe").GetString()).AllRecipeUsers.Any(t=>t.defName=="HD_BasicWorkbench"),"Every previous basic-workbench recipe remains: "+row.GetProperty("recipe").GetString());
 
         var clothing=ItemClothingBench(worker);yield return 1200;
-        var pressThing=(Building_WorkTable)playMap.listerThings.ThingsOfDef(Def<ThingDef>("HD_HydraulicPress1970Bench")).Single();
+        var pressThing=(Building_WorkTable)playMap.listerThings.ThingsOfDef(Def<ThingDef>("HD_ElectricHydraulicPress")).Single();
         var sapi=Def<RecipeDef>("Make_HD_ArmorPlate_SAPI");
         Check(sapi.Worker.AvailableOnNow(clothing),"Powered electric hydraulic press unlocks armor production");
         pressThing.GetComp<CompFlickable>().SwitchIsOn=false;
@@ -110,7 +110,7 @@ public sealed partial class Checks
         Check(mechanicalLoad,"Armor work drives the early press at its real 450W shaft load");
 
         var gunBench=(Building_WorkTable)ItemBuilding("HD_GunSmithTable",20,-9);
-        var tools=ItemBuilding("HD_MultiTaskMachine2000Bench",18,-5);
+        var tools=ItemBuilding("HD_MultiTaskMachine",18,-5);
         for(int z=-2;z>=-5;z--)ItemBuilding("PowerConduit",18,z);
         playMap.powerNetManager.UpdatePowerNetsAndConnections_First();yield return 1200;
         foreach(string name in new[]{"Make_HD_ExpandableBaton","Make_HD_Gun_P320_Weapon","Make_HD_Gun_MP5_Weapon"})

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <LanguageData>
-  <HD_HydraulicPress1970Bench.label>전동 유압 프레스</HD_HydraulicPress1970Bench.label>
-  <HD_HydraulicPress1970Bench.description>별도의 전동 유압 유닛과 대형 상부 실린더, 압력 제어반을 갖춘 생산용 프레스입니다. 라인 샤프트 프레스보다 빠르게 강철 부품과 압착식 철모를 성형합니다. 전력과 작업자가 필요합니다.</HD_HydraulicPress1970Bench.description>
-  <HD_RollingMill1970Bench.label>유압 압연기</HD_RollingMill1970Bench.label>
-  <HD_RollingMill1970Bench.description>유압식 롤 간격 조절 장치와 전후 이송 롤러를 갖춘 전동 4단 압연기입니다. 라인 샤프트 압연기보다 빠르게 균일 압연 강판을 생산합니다. 전력과 작업자가 필요합니다.</HD_RollingMill1970Bench.description>
+  <HD_ElectricHydraulicPress.label>전동 유압 프레스</HD_ElectricHydraulicPress.label>
+  <HD_ElectricHydraulicPress.description>별도의 전동 유압 유닛과 대형 상부 실린더, 압력 제어반을 갖춘 생산용 프레스입니다. 라인 샤프트 프레스보다 빠르게 강철 부품과 압착식 철모를 성형합니다. 전력과 작업자가 필요합니다.</HD_ElectricHydraulicPress.description>
+  <HD_HydraulicRollingMill.label>유압 압연기</HD_HydraulicRollingMill.label>
+  <HD_HydraulicRollingMill.description>유압식 롤 간격 조절 장치와 전후 이송 롤러를 갖춘 전동 4단 압연기입니다. 라인 샤프트 압연기보다 빠르게 균일 압연 강판을 생산합니다. 전력과 작업자가 필요합니다.</HD_HydraulicRollingMill.description>
 </LanguageData>

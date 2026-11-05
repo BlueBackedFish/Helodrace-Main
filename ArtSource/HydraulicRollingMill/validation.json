@@ -1,0 +1,93 @@
+{
+  "asset": "HD_HydraulicRollingMill",
+  "footprint": [
+    4,
+    3
+  ],
+  "features": [
+    "1970s four-high plate rolling mill",
+    "two work rolls and two large backup rolls",
+    "hydraulic roll-gap actuators and coarse crossover main",
+    "four prominent entry and exit feed rollers with plate stock",
+    "separate electric drive, hydraulic unit and gap-control console"
+  ],
+  "mesh_objects": 50,
+  "design_period": "circa 1972-1979 hydraulic four-high plate mill",
+  "texture_resolution": [
+    1024,
+    1024
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "orthographic_scale": 6.0,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    6.0,
+    6.0
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "camera_target": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 187,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 106,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 187,
+      "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 136,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false,
+  "density_export_preserves_geometry_and_palette": true,
+  "density_export_geometry_palette_sha256": "9968d3189422feef5b09640313460dde095d8217ccac31ec1e717ca07c3b4b17",
+  "rotation_export_geometry_palette_sha256": "9968d3189422feef5b09640313460dde095d8217ccac31ec1e717ca07c3b4b17",
+  "definition": "Defs/ColdWar/Buildings/HydraulicRollingMill.xml",
+  "gameplay_fields_preserved_sha256": "c58078883f8089305b5bfe03804e86357369e9a5957daca10f88a52f546ef4fe",
+  "building_theme_version": 1,
+  "building_theme_family": "industrial_steel",
+  "building_theme_roles": {
+    "metal_base": 57,
+    "metal": 15,
+    "silver": 33,
+    "fixed": 3,
+    "recess": 36,
+    "cyan": 3,
+    "screen": 3
+  },
+  "theme_secondary_color": [
+    105,
+    105,
+    105
+  ],
+  "theme_geometry_preserved": true,
+  "theme_mesh_sha256": "fb98a65cc96c40e976177970c7638eccc7f01a6b21d99e94e3e3ecf17107c2e2",
+  "theme_original_palette_sha256": "3bf40a67a2e16f5e9a58aa76093ae436d80826581b50d82fc0d6fcec6d6ab708",
+  "theme_palette_intentionally_revised": true
+}
