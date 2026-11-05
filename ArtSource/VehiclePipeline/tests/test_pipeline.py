@@ -95,6 +95,34 @@ f 1//1 3//1 2//1
         with self.assertRaises(ValueError):
             paint_levels(profile, style)
 
+    def test_contact_directions_follow_rimthunder_rule(self):
+        style = read_json(ROOT/"presets/rimthunder_tan.json")
+        parts = [{"id": k, "role": "paint"} for k in ["roof", "hatch", "sight", "panel"]]
+        parts[0]["top"] = 216
+        profile = {"parts": parts, "contacts": [
+            {"lower": "roof", "upper": "hatch", "direction": "down"},
+            {"lower": "hatch", "upper": "sight", "direction": "same"},
+            {"lower": "hatch", "upper": "panel"}]}
+        # Base at the top of the ladder: mounted hatch one step darker, sight equal,
+        # default edges keep the previous upward behaviour.
+        self.assertEqual(paint_levels(profile, style),
+                         {"roof": 216, "hatch": 192, "sight": 192, "panel": 216})
+        profile["parts"][2]["top"] = 200
+        with self.assertRaises(ValueError):
+            paint_levels(profile, style)
+        profile["parts"][2].pop("top")
+        profile["contacts"].append({"lower": "roof", "upper": "panel", "direction": "down"})
+        with self.assertRaises(ValueError):
+            paint_levels(profile, style)
+        profile["contacts"].pop()
+        profile["contacts"][0]["direction"] = "darker"
+        with self.assertRaises(ValueError):
+            paint_levels(profile, style)
+        profile["contacts"][0]["direction"] = "down"
+        profile["parts"][0]["top"] = 40
+        with self.assertRaises(ValueError):
+            paint_levels(profile, style)
+
     def test_position_component_selection_across_uv_seams_preserves_original_data(self):
         model = {"vertices": [(0, 0, 0), (1, 0, 0), (0, 1, 0),
                                (0, 0, 0), (0, 1, 0), (-1, 0, 0), (8, 8, 8)],

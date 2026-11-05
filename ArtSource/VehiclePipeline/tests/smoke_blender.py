@@ -100,6 +100,32 @@ def main():
     assert rejected.returncode != 0 and "Actual upward paint reverses/weakens contact" in rejected.stdout
     assert not (bad/"output/report.json").exists()
     print("Rejected an actual roof-color inversion despite valid authored top levels")
+    # RimThunder-style contacts: base at the top of the ladder, darker mounted lid,
+    # equal-top grip separated only by its darker walls.
+    profile["parts"][2].pop("planes")
+    profile["parts"][1]["top"] = 216
+    profile["contacts"] = [{"lower": "g0001", "upper": "g0002", "direction": "down"},
+                           {"lower": "g0002", "upper": "g0003", "direction": "same"}]
+    directional = directory/"DirectionalContact"
+    directional.mkdir()
+    shutil.copyfile(project/"style.json", directional/"style.json")
+    write_json(directional/"vehicle.json", profile)
+    subprocess.run([sys.executable, str(ROOT/"pipeline.py"), "build", str(directional/"vehicle.json")], check=True)
+    report = read_json(directional/"output/report.json")
+    assert [report["paint"][k]["top"] for k in ["g0001", "g0002", "g0003"]] == [216, 192, 192]
+    checks = report["contact_checks"]
+    assert checks[0]["direction"] == "down" and checks[0]["actual_downward_gap"] == 24
+    assert checks[1]["direction"] == "same" and checks[1]["actual_wall_gap"] >= 24
+    weak = directory/"WeakSameWall"
+    weak.mkdir()
+    shutil.copyfile(project/"style.json", weak/"style.json")
+    profile["parts"][3]["planes"] = {"front_wall": 180, "side_wall": 180}
+    write_json(weak/"vehicle.json", profile)
+    rejected = subprocess.run([sys.executable, str(ROOT/"pipeline.py"), "build", str(weak/"vehicle.json")],
+                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace")
+    assert rejected.returncode != 0 and "'same' contact wall is not a step darker" in rejected.stdout
+    assert not (weak/"output/report.json").exists()
+    print("Built down/same contacts and rejected an equal-top part without a darker wall")
     print("SMOKE_OUTPUT="+str(project))
 
 

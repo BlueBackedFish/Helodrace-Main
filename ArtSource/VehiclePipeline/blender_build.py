@@ -13,7 +13,7 @@ from bpy_extras.object_utils import world_to_camera_view
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 from pipeline import (read_json, write_json, sha256, read_obj, inventory, partition,
-                      transform, paint_levels, paint_rgb, linear)
+                      transform, paint_levels, paint_rgb, linear, contact_direction)
 
 
 def validate_rigs(profile):
@@ -211,7 +211,7 @@ def build(profile_path):
             face = source["faces"][face_id]
             for loop_id, uv_id in zip(poly.loop_indices, face["uv"]):
                 original_uv.data[loop_id].uv = source["uv"][uv_id] if uv_id is not None else (0, 0)
-        slots, distribution, upward = {}, Counter(), []
+        slots, distribution, upward, walls = {}, Counter(), [], []
         for poly in mesh.polygons:
             value = value_for(poly.normal, part, levels[part["id"]], style)
             if not style["minimum"] <= value <= style["maximum"]:
@@ -225,9 +225,12 @@ def build(profile_path):
             distribution[value] += 1
             if poly.normal.z >= .78:
                 upward.append(value)
+            elif poly.normal.z >= -.25:
+                walls.append(value)
         objects[part["id"]] = obj
         paint_report[part["id"]] = {"top": levels[part["id"]], "luminances": dict(distribution),
                                    "upward_min_max": [min(upward), max(upward)] if upward else None,
+                                   "wall_min_max": [min(walls), max(walls)] if walls else None,
                                    "source_faces": len(face_ids)}
     contact_checks = []
     for edge in profile["contacts"]:
@@ -237,10 +240,28 @@ def build(profile_path):
         upper = paint_report.get(edge["upper"], {}).get("upward_min_max")
         if not lower or not upper:
             raise ValueError("Contact needs visible upward faces on both retained parts; inspect its face selection")
-        difference = upper[0]-lower[1]
-        if difference < style["contact_step"]-.001:
-            raise ValueError(f"Actual upward paint reverses/weakens contact {edge}: {difference}; fix overrides")
-        contact_checks.append({**edge, "actual_upward_gap": difference})
+        step = style["contact_step"]-.001
+        direction = contact_direction(edge)
+        check = {**edge, "direction": direction}
+        if direction == "up":
+            check["actual_upward_gap"] = upper[0]-lower[1]
+        elif direction == "down":
+            check["actual_downward_gap"] = lower[0]-upper[1]
+        if direction != "same":
+            gap = check.get("actual_upward_gap", check.get("actual_downward_gap"))
+            if gap < step:
+                raise ValueError(f"Actual upward paint reverses/weakens contact {edge}: {gap}; fix overrides")
+        else:
+            # Equal tops: the mounted part's whole visible wall/rim must sit a full step
+            # below the base top, otherwise the boundary disappears.
+            wall = paint_report[edge["upper"]]["wall_min_max"]
+            if not wall:
+                raise ValueError(f"'same' contact needs visible wall/rim faces on {edge['upper']}")
+            check["actual_wall_gap"] = lower[0]-wall[1]
+            if check["actual_wall_gap"] < step:
+                raise ValueError(f"'same' contact wall is not a step darker than its base {edge}: "
+                                 f"{check['actual_wall_gap']}; darken the mounted part's walls")
+        contact_checks.append(check)
     if not objects:
         raise ValueError("Every source part was omitted")
     empties = {}

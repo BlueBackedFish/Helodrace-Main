@@ -324,6 +324,21 @@ def partition(model, profile):
     return assigned
 
 
+CONTACT_DIRECTIONS = {"up", "down", "same"}
+
+
+def contact_direction(edge):
+    """Brightness of the mounted part's top relative to its base (RimThunder-style).
+
+    up: one palette step brighter; down: one step darker; same: equal top value,
+    separated only by a darker wall/rim (checked on the built mesh).
+    """
+    direction = edge.get("direction", "up")
+    if direction not in CONTACT_DIRECTIONS:
+        raise ValueError(f"Contact direction must be up / down / same: {edge}")
+    return direction
+
+
 def paint_levels(profile, style):
     """Apply contact constraints only to authored top colors, never world Z."""
     parts = {p["id"]: p for p in profile["parts"]}
@@ -331,7 +346,7 @@ def paint_levels(profile, style):
     for edge in profile["contacts"]:
         if edge["upper"] not in parts or edge["lower"] not in parts:
             raise ValueError("Contact references an unknown part")
-        parents[edge["upper"]].append(edge["lower"])
+        parents[edge["upper"]].append((edge["lower"], contact_direction(edge)))
     result, visiting = {}, set()
 
     def solve(key):
@@ -343,10 +358,30 @@ def paint_levels(profile, style):
         p = parts[key]
         special = style["roles"][p["role"]]
         value = p.get("top", special if special is not None else style["planes"]["roof"])
-        for lower in parents[key]:
+        floor, ceiling, equal = -math.inf, math.inf, set()
+        for lower, direction in parents[key]:
             if special is not None or style["roles"][parts[lower]["role"]] is not None:
                 raise ValueError("Dark material exceptions do not belong in TAN contact constraints")
-            value = max(value, solve(lower) + style["contact_step"])
+            base, step = solve(lower), style["contact_step"]
+            if direction == "up":
+                floor = max(floor, base+step)
+            elif direction == "down":
+                ceiling = min(ceiling, base-step)
+            else:
+                equal.add(base)
+        if len(equal) > 1:
+            raise ValueError(f"Conflicting 'same' contacts for {key}: {sorted(equal)}")
+        if equal:
+            target = equal.pop()
+            if "top" in p and p["top"] != target:
+                raise ValueError(f"'same' contact needs {key} top = base {target}, authored {p['top']}")
+            value = target
+        elif "top" not in p and ceiling < math.inf and floor == -math.inf:
+            # Unauthored part under a 'down' contact sits exactly one step below its base.
+            value = ceiling
+        value = min(max(value, floor), ceiling)
+        if not floor <= value <= ceiling:
+            raise ValueError(f"Contact directions conflict for {key}: needs >= {floor} and <= {ceiling}")
         if not style["minimum"] <= value <= style["maximum"]:
             raise ValueError(f"Contact palette exceeds headroom: {key} = {value}; revise authored bases")
         result[key] = value
