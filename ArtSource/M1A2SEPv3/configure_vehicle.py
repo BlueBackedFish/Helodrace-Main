@@ -104,12 +104,16 @@ def configure():
         elif body:
             # Base side skirts: RimThunder M1A2 skirt face is 0.58 of the roof (147/255); use the
             # 144 ladder step (0.67). Their top edge keeps the roof value as a thin highlight line.
-            part.update(planes={"side_wall": 144, "front_wall": 144, "side_slope": 168, "front_slope": 168})
+            # Lowered one more step (0.56 of the roof) after the same-scale lower-band check.
+            part.update(planes={"side_wall": 120, "front_wall": 120, "side_slope": 144, "front_slope": 144})
         elif name.startswith("suspension_"):
             part.update(role="metal", mode="flat", top=72)
         elif name.startswith("wheel_"):
             # Dark tyre tread, lighter outer disc so the road wheels read below the skirt.
-            part.update(role="rubber", mode="cylinder", cylinder_axis=[1, 0, 0], top=40, side=40, cap=96)
+            # RimThunder road wheels read as rounded bumps below the skirt: light where the tyre
+            # faces sideways/up, dark underneath (large curved surface, signed smooth gradient).
+            part.update(role="rubber", mode="cylinder", cylinder_axis=[1, 0, 0], top=40, side=40, cap=96,
+                        smooth={"low": 80, "high": 176, "signed": True})
         elif name.startswith("track_"):
             part.update(role="track", mode="flat", top=40)
         elif name == "gun_barrel":

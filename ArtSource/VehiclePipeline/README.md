@@ -95,7 +95,7 @@ Blender는 PATH와 `C:/Program Files/Blender Foundation/Blender */blender.exe`�
 - `action: "omit"`: 명시한 부품만 제외한다. `confirmed: true`와 `reason`이 필요하며 제외 면 수를 보고한다. 이름이나 크기로 자동 삭제하지 않는다. ERA 등 옵션은 실제로 확인한 항목만 명시해 기본형에서 뺀다.
 - `confirmed`: 자동 제안이 아닌 검수한 매핑이라는 뜻이다. `review`의 blueprint/style_reference/native_size/geometry/game는 별도 실제 검수 기록이다. 성공적으로 저장됐다는 이유로 채우지 않는다.
 
-넓은 볼록 해치와 큰 곡면의 매끈한 채색은 `smooth`로 지정한다: `"smooth": {"low": 120, "high": 216, "crease": 60}`. 같은 위치 꼭짓점의 법선을 합쳐(`crease`도 이상 꺾인 모서리는 유지) 위를 향하는 정도로 `low`~`high` 사이 표시 명도를 꼭짓점 색(`Smooth paint`)으로 굽고 Emission에 연결한다. 시점·조명에 따라 변하지 않으며 GLB에는 해당 메시만 COLOR_0를 가진다. 보고서의 윗면·벽 명도는 면 평균값으로 계산해 접촉 검사에도 쓴다. 하이라이트 예외·그릴과 함께 쓸 수 없다. 작은 원통 측면에는 쓰지 않는다(`VEHICLE_ART_STYLE.md` §4).
+넓은 볼록 해치와 큰 곡면의 매끈한 채색은 `smooth`로 지정한다: `"smooth": {"low": 120, "high": 216, "crease": 60}`. 같은 위치 꼭짓점의 법선을 합쳐(`crease`도 이상 꺾인 모서리는 유지) 위를 향하는 정도로 `low`~`high` 사이 표시 명도를 꼭짓점 색(`Smooth paint`)으로 굽고 Emission에 연결한다. 시점·조명에 따라 변하지 않으며 GLB에는 해당 메시만 COLOR_0를 가진다. 보고서의 윗면·벽 명도는 면 평균값으로 계산해 접촉 검사에도 쓴다. `"signed": true`이면 아래를 향하는 면까지 -1~1 전체 범위로 보간한다(스커트 아래로 보이는 바퀴·타이어). 하이라이트 예외·그릴과 함께 쓸 수 없다. 작은 원통 측면에는 쓰지 않는다(`VEHICLE_ART_STYLE.md` §4).
 
 ## 한 메시 안의 부품을 적은 작업으로 추출
 

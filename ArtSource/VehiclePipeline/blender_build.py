@@ -122,7 +122,8 @@ def apply_smooth(obj, part, style):
                 if other.normal.dot(poly.normal) >= crease:
                     normal += other.normal*other.area
             normal = normal.normalized() if normal.length else poly.normal
-            value = low+(high-low)*max(0.0, normal.z)
+            # signed: whole -1..1 range (wheels/tyres seen below a skirt); default: up-facing only.
+            value = low+(high-low)*((normal.z+1)/2 if spec.get("signed") else max(0.0, normal.z))
             values.append(value)
             rgb = paint_rgb(value, part["role"], style)
             attribute.data[loop].color = (*[linear(c) for c in rgb], 1)
