@@ -202,7 +202,10 @@ public sealed class Checks : GameComponent
         Write($"CATALOG listed={listed.Count} withRecipe={ProductionCatalog.PlanItems.Count(i => !i.Raw)} plannable={plannable.Count} raw={ProductionCatalog.PlanItems.Count(i => i.Raw)} manualOnly={ProductionCatalog.PlanItems.Count(i => !i.Raw && i.Plannable.Count == 0)}");
         Write("LISTED " + string.Join(", ", ProductionCatalog.PlanItems.Select(i => i.Def.defName + (i.Raw ? "(raw)" : i.Plannable.Count == 0 ? "(manual)" : ""))));
         Check(materials.Count == listed.Count && materials.All(listed.Contains), "Planner lists exactly the Helod resources and intermediates");
-        Check(new[] { "HD_Alumina", "HD_PigIron", "Steel", "HD_Charcoal", "HD_AromaticBaseOil", "HD_GeneralMachinePart", "HD_PressComponent" }.All(n => listed.Contains(Def<ThingDef>(n))), "Named resources and intermediates are listed");
+        Check(new[] { "HD_Alumina", "HD_PigIron", "HD_Charcoal", "HD_AromaticBaseOil", "HD_GeneralMachinePart", "HD_PressComponent" }.All(n => listed.Contains(Def<ThingDef>(n))), "Named resources and intermediates are listed");
+        Check(new[] { "WoodLog", "Silver", "Steel", "Plasteel", "HD_CrudeOil_Low", "HD_M60Igniter", "HD_M81Igniter", "HD_ModularP320FluxPartsBox", "HD_TCCC_HemostaticAgent" }.All(n => !listed.Contains(Def<ThingDef>(n))), "Nine requested materials are off the plan list");
+        Check(ProductionCatalog.For(Def<ThingDef>("HD_GeneralMachinePart")).Recipes.All(r => r.Recipe.defName != "HD_Convert_SprMOne_To_SprMThreeHigh_Weapon")
+            && ProductionCatalog.For(ThingDefOf.ComponentIndustrial).Recipes.All(r => !r.Users.Any(u => u.defName == "HD_SemiconductorFab")), "Rifle conversion is hidden and the fab makes no vanilla components");
         Check(listed.All(d => !d.IsApparel && !d.IsRangedWeapon && d.thingCategories.All(c => c.defName is "ResourcesRaw" or "Manufactured" or "Textiles" or "HD_BlastFurnaceFuel"))
             && new[] { "HD_Ammunition_556M855_Ammo", "HD_Money", "HD_Hardtack", "HD_Grenade_M67_Item", "HD_155mmShell_M107HE", "HD_ArmorPlate_SAPI", "HD_Apparel_GreatWarM1Helmet" }.All(n => !listed.Contains(Def<ThingDef>(n))),
             "No weapon, apparel, food, ammunition or money in the plan");

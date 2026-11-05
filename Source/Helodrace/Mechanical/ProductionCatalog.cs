@@ -5,9 +5,9 @@ using Verse;
 
 namespace Helodrace;
 
-// On a RecipeDef: the production planner never queues this recipe automatically (for example
-// emergency conversions that consume finished vanilla parts, or a rifle conversion whose byproduct is a part).
-public sealed class ProductionPlanningExcluded : DefModExtension { }
+// On a RecipeDef: the production planner never queues this recipe automatically (for example emergency
+// conversions that consume finished vanilla parts). With `hidden`, the planner window does not show it either.
+public sealed class ProductionPlanningExcluded : DefModExtension { public bool hidden; }
 
 public sealed class ProductionIngredient
 {
@@ -52,6 +52,9 @@ public static class ProductionCatalog
     // (ammunition, shells, grenades, armor plates, modular parts) or outside Resources entirely.
     private static readonly string[] MaterialCategories = { "ResourcesRaw", "Manufactured", "Textiles", "HD_BlastFurnaceFuel" };
     private static HashSet<ThingCategoryDef> materialCategories;
+    // Chain materials kept off the plan list on request. They still appear as inputs in flowcharts.
+    private static readonly HashSet<string> NotPlanned = new() { "WoodLog", "Silver", "Steel", "Plasteel", "HD_CrudeOil_Low", "HD_M60Igniter",
+        "HD_M81Igniter", "HD_ModularP320FluxPartsBox", "HD_TCCC_HemostaticAgent" };
 
     // Resources and intermediates of the Helod production chain: storable items directly in a material
     // category that are Helod items or appear as a fixed ingredient or product of a Helod recipe (steel,
@@ -59,7 +62,7 @@ public static class ProductionCatalog
     public static bool IsPlanMaterial(ThingDef def)
     {
         if (def.category != ThingCategory.Item || def.IsCorpse || def.isUnfinishedThing || def.destroyOnDrop || def.thingCategories.NullOrEmpty()
-            || typeof(MinifiedThing).IsAssignableFrom(def.thingClass)) return false;
+            || typeof(MinifiedThing).IsAssignableFrom(def.thingClass) || NotPlanned.Contains(def.defName)) return false;
         materialCategories ??= MaterialCategories.Select(n => DefDatabase<ThingCategoryDef>.GetNamedSilentFail(n)).Where(c => c != null).ToHashSet();
         if (!def.thingCategories.Any(materialCategories.Contains)) return false;
         if (def.defName.StartsWith("HD_")) return true;
@@ -96,7 +99,7 @@ public static class ProductionCatalog
             producers = new();
             foreach (RecipeDef recipe in DefDatabase<RecipeDef>.AllDefsListForReading)
             {
-                if (recipe.products.NullOrEmpty() || !recipe.AllRecipeUsers.Any()) continue;
+                if (recipe.products.NullOrEmpty() || !recipe.AllRecipeUsers.Any() || recipe.GetModExtension<ProductionPlanningExcluded>()?.hidden == true) continue;
                 foreach (ThingDefCountClass product in recipe.products)
                 {
                     if (!producers.TryGetValue(product.thingDef, out var list)) producers[product.thingDef] = list = new();

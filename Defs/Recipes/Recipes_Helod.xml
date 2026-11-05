@@ -1851,7 +1851,7 @@
       <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <modExtensions>
-      <li Class="Helodrace.ProductionPlanningExcluded" />
+      <li Class="Helodrace.ProductionPlanningExcluded"><hidden>true</hidden></li>
     </modExtensions>
   </RecipeDef>
 
