@@ -195,39 +195,47 @@ public sealed class Checks : GameComponent
         Write("PERF draw " + Stats(DrawTimes));
         Check(DrawTimes.Count >= 240, "Planning window drew 240 real frames");
         // Coverage: every Helod item is listed; every item a recipe makes has that recipe in its tree.
-        var helod = DefDatabase<ThingDef>.AllDefsListForReading.Where(ProductionCatalog.IsHelodItem).ToList();
-        var listed = ProductionCatalog.HelodItems.Select(i => i.Def).ToHashSet();
+        var materials = DefDatabase<ThingDef>.AllDefsListForReading.Where(ProductionCatalog.IsPlanMaterial).ToList();
+        var listed = ProductionCatalog.PlanItems.Select(i => i.Def).ToHashSet();
         var made = DefDatabase<RecipeDef>.AllDefsListForReading.Where(r => r.AllRecipeUsers.Any()).SelectMany(r => r.products ?? new()).Select(p => p.thingDef).ToHashSet();
-        var plannable = ProductionCatalog.HelodItems.Where(i => i.Plannable.Count > 0).ToList();
-        Write($"CATALOG helodItems={helod.Count} listed={listed.Count} withRecipe={ProductionCatalog.HelodItems.Count(i => !i.Raw)} plannable={plannable.Count} raw={ProductionCatalog.HelodItems.Count(i => i.Raw)} manualOnly={ProductionCatalog.HelodItems.Count(i => !i.Raw && i.Plannable.Count == 0)}");
-        Write("MANUAL-ONLY " + string.Join(", ", ProductionCatalog.HelodItems.Where(i => !i.Raw && i.Plannable.Count == 0).Select(i => i.Def.defName)));
-        Write("EXCLUDED " + string.Join(", ", DefDatabase<ThingDef>.AllDefsListForReading.Where(d => d.defName.StartsWith("HD_") && d.category == ThingCategory.Item && !ProductionCatalog.IsHelodItem(d)).Select(d => d.defName)));
-        Write("RAW " + string.Join(", ", ProductionCatalog.HelodItems.Where(i => i.Raw).Select(i => i.Def.defName)));
-        Check(helod.All(listed.Contains), "Planner lists every Helod item");
-        Check(helod.Where(made.Contains).All(d => !ProductionCatalog.For(d).Raw) && helod.Where(d => !made.Contains(d)).All(d => ProductionCatalog.For(d).Raw), "Every recipe-made Helod item shows its recipes; the rest are marked raw");
+        var plannable = ProductionCatalog.PlanItems.Where(i => i.Plannable.Count > 0).ToList();
+        Write($"CATALOG listed={listed.Count} withRecipe={ProductionCatalog.PlanItems.Count(i => !i.Raw)} plannable={plannable.Count} raw={ProductionCatalog.PlanItems.Count(i => i.Raw)} manualOnly={ProductionCatalog.PlanItems.Count(i => !i.Raw && i.Plannable.Count == 0)}");
+        Write("LISTED " + string.Join(", ", ProductionCatalog.PlanItems.Select(i => i.Def.defName + (i.Raw ? "(raw)" : i.Plannable.Count == 0 ? "(manual)" : ""))));
+        Check(materials.Count == listed.Count && materials.All(listed.Contains), "Planner lists exactly the Helod resources and intermediates");
+        Check(new[] { "HD_Alumina", "HD_PigIron", "Steel", "HD_Charcoal", "HD_AromaticBaseOil", "HD_GeneralMachinePart", "HD_PressComponent" }.All(n => listed.Contains(Def<ThingDef>(n))), "Named resources and intermediates are listed");
+        Check(listed.All(d => !d.IsApparel && !d.IsRangedWeapon && d.thingCategories.All(c => c.defName is "ResourcesRaw" or "Manufactured" or "Textiles" or "HD_BlastFurnaceFuel"))
+            && new[] { "HD_Ammunition_556M855_Ammo", "HD_Money", "HD_Hardtack", "HD_Grenade_M67_Item", "HD_155mmShell_M107HE", "HD_ArmorPlate_SAPI", "HD_Apparel_GreatWarM1Helmet" }.All(n => !listed.Contains(Def<ThingDef>(n))),
+            "No weapon, apparel, food, ammunition or money in the plan");
+        Check(ProductionCatalog.For(Def<ThingDef>("HD_AromaticBaseOil")).Plannable.Count > 0, "Two-product aromatic base oil recipe is plannable");
+        Check(listed.Where(made.Contains).All(d => !ProductionCatalog.For(d).Raw) && listed.Where(d => !made.Contains(d)).All(d => ProductionCatalog.For(d).Raw), "Every recipe-made plan item shows its recipes; the rest are marked raw");
         Check(Six.All(n => ProductionCatalog.For(Def<ThingDef>(n)).Plannable.Count > 0) && ProductionCatalog.For(Def<ThingDef>("HD_GeneralMachinePart")).Plannable.All(r => !r.Recipe.defName.Contains("Convert")), "Six basic components stay plannable without emergency conversions");
-        foreach (var item in plannable) Plan.GoalFor(item.Def).Target = 5;
+        bool listedMaterial(ThingDef d) => listed.Contains(d);
+        foreach (var item in plannable) Plan.GoalFor(item.Def).Target = Math.Min(MapComponent_ProductionPlanning.MaxTarget, Plan.Stock(item.Def) + 5);
         var refreshAll = new List<double>();
         for (int i = 0; i < 20; i++) { long s = System.Diagnostics.Stopwatch.GetTimestamp(); Plan.Refresh(); refreshAll.Add(System.Diagnostics.Stopwatch.GetElapsedTime(s).TotalMilliseconds); }
         Write($"PERF refresh-all-goals goals={Plan.Goals.Count(g => g.Target > 0)} tickets={Plan.Tickets.Count} " + Stats(refreshAll));
-        Check(Plan.Tickets.Select(t => t.Bill.recipe.ProducedThingDef).Distinct().Count() == Plan.Tickets.Count && Plan.Tickets.Count > 6, "All-item plan queues beyond the six components without duplicates");
+        Check(Plan.Tickets.Select(t => t.Product).Distinct().Count() == Plan.Tickets.Count && Plan.Tickets.All(t => listedMaterial(t.Product)), "Material plan refresh never duplicates or queues a non-plan item");
         // Deepest tree among plannable items, fully expanded.
         ThingDef deep = null; int deepest = 0;
-        foreach (var item in plannable) { dialog.Select(item.Def); dialog.ExpandAll(); if (dialog.VisibleTreeRows > deepest) { deepest = dialog.VisibleTreeRows; deep = item.Def; } }
+        foreach (var item in plannable) { dialog.Select(item.Def); dialog.ExpandAll(); if (dialog.VisibleNodes > deepest) { deepest = dialog.VisibleNodes; deep = item.Def; } }
         dialog.Select(deep); long built = System.Diagnostics.Stopwatch.GetTimestamp(); dialog.ExpandAll();
-        Write($"TREE {deep.defName} expandedRows={dialog.VisibleTreeRows} build={System.Diagnostics.Stopwatch.GetElapsedTime(built).TotalMilliseconds:F2}ms");
-        Check(dialog.VisibleTreeRows > 10, "Expand all builds a multi-level tree");
+        Write($"TREE {deep.defName} expandedNodes={dialog.VisibleNodes} build={System.Diagnostics.Stopwatch.GetElapsedTime(built).TotalMilliseconds:F2}ms");
+        Check(dialog.VisibleNodes > 10, "Expand all builds a multi-level flowchart");
         DrawTimes.Clear(); waited = 0;
         while (DrawTimes.Count < 240 && waited++ < 20000) yield return 0;
         Write("PERF draw-expanded " + Stats(DrawTimes));
-        if (shots) { UnityEngine.ScreenCapture.CaptureScreenshot(Path.Combine(output, "tree-expanded.png")); for (int i = 0; i < 30; i++) yield return 0; }
+        if (shots) { UnityEngine.ScreenCapture.CaptureScreenshot(Path.Combine(output, "flowchart-expanded.png")); for (int i = 0; i < 30; i++) yield return 0; }
         dialog.Select(Def<ThingDef>("HD_BasicElectronicComponents"));
-        int initial = dialog.VisibleTreeRows; dialog.ExpandAll(); int expandedRows = dialog.VisibleTreeRows;
+        int initial = dialog.VisibleNodes;
         for (int i = 0; i < 10; i++) yield return 0;
-        if (shots) { UnityEngine.ScreenCapture.CaptureScreenshot(Path.Combine(output, "tree-electronic.png")); for (int i = 0; i < 30; i++) yield return 0; }
+        if (shots) { UnityEngine.ScreenCapture.CaptureScreenshot(Path.Combine(output, "flowchart-electronic.png")); for (int i = 0; i < 30; i++) yield return 0; }
+        dialog.ExpandAll(); int expandedRows = dialog.VisibleNodes;
         dialog.CollapseAll(); for (int i = 0; i < 3; i++) yield return 0;
-        Write($"TREE HD_BasicElectronicComponents initial={initial} expanded={expandedRows} collapsed={dialog.VisibleTreeRows}");
-        Check(expandedRows > initial && dialog.VisibleTreeRows == 1 + ProductionCatalog.For(Def<ThingDef>("HD_BasicElectronicComponents")).Recipes.Count, "Expand and collapse change the electronic-component tree");
+        int folded = dialog.VisibleNodes; dialog.Toggle("HD_BasicElectronicComponents|HD_MakeBasicElectronicComponents");
+        Check(dialog.VisibleNodes > folded, "Unfolding one recipe box shows its inputs");
+        dialog.Toggle("HD_BasicElectronicComponents|HD_MakeBasicElectronicComponents");
+        Write($"TREE HD_BasicElectronicComponents initial={initial} expanded={expandedRows} collapsed={dialog.VisibleNodes}");
+        Check(expandedRows > initial && dialog.VisibleNodes == 1 + ProductionCatalog.For(Def<ThingDef>("HD_BasicElectronicComponents")).Recipes.Count, "Expand and collapse change the electronic-component flowchart");
         dialog.Close(); yield return 1;
     }
     private IEnumerable<int> Resume()

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_ProductionPlanningDesk.label>생산 계획대</HD_ProductionPlanningDesk.label>
-  <HD_ProductionPlanningDesk.description>헤로드 물품의 공용 목표 재고를 정하고 각 부품과 제품이 무엇으로 만들어지는지 추적하는 계획대입니다. 부족한 수량을 기존의 적합한 작업대에 생산 작업으로 등록합니다. 계획대 자체는 전기와 전담 작업자가 필요하지 않으며, 제작과 운반은 기존 작업자가 수행합니다.</HD_ProductionPlanningDesk.description>
+  <HD_ProductionPlanningDesk.description>헤로드 자원과 중간 부품의 공용 목표 재고를 정하고 각각이 만들어지는 과정을 순서도로 보여 주는 계획대입니다. 부족한 수량을 기존의 적합한 작업대에 생산 작업으로 등록합니다. 계획대 자체는 전기와 전담 작업자가 필요하지 않으며, 제작과 운반은 기존 작업자가 수행합니다.</HD_ProductionPlanningDesk.description>
 </LanguageData>

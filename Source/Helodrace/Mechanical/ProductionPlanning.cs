@@ -19,8 +19,19 @@ public sealed class ProductionGoal : IExposable
 public sealed class ProductionTicket : IExposable
 {
     public Bill_Production Bill;
+    // The goal this bill serves; a recipe may make other products as well.
+    public ThingDef Product;
     public bool PausedByPlanner;
-    public void ExposeData() { Scribe_References.Look(ref Bill, "bill"); Scribe_Values.Look(ref PausedByPlanner, "pausedByPlanner"); }
+    public int Output => OutputOf(Bill.recipe, Product);
+    public static int OutputOf(RecipeDef recipe, ThingDef product)
+    {
+        foreach (ThingDefCountClass p in recipe.products) if (p.thingDef == product) return p.count;
+        return 0;
+    }
+    public void ExposeData()
+    {
+        Scribe_References.Look(ref Bill, "bill"); Scribe_Defs.Look(ref Product, "product"); Scribe_Values.Look(ref PausedByPlanner, "pausedByPlanner");
+    }
 }
 
 public sealed class MapComponent_ProductionPlanning : MapComponent
@@ -71,10 +82,14 @@ public sealed class MapComponent_ProductionPlanning : MapComponent
         foreach (Building building in map.listerBuildings.allBuildingsColonist)
             if (building is Building_WorkTable table)
                 foreach (Bill bill in table.BillStack.Bills)
-                    if (bill is Bill_Production production && production.recipe.products.Count == 1)
-                        Add(pending, production.recipe.products[0].thingDef, Iterations(production) * production.recipe.products[0].count);
+                    if (bill is Bill_Production production)
+                    {
+                        int iterations = Iterations(production);
+                        foreach (ThingDefCountClass product in production.recipe.products) Add(pending, product.thingDef, iterations * product.count);
+                    }
     }
     private static void Add(Dictionary<ThingDef, int> counts, ThingDef def, int n) { counts.TryGetValue(def, out int old); counts[def] = old + n; }
+    private void AddBill(Bill_Production bill, int iterations) { foreach (ThingDefCountClass p in bill.recipe.products) Add(pending, p.thingDef, iterations * p.count); }
     public int Stock(ThingDef product) { EnsureCounts(); return stock.TryGetValue(product, out int n) ? n : 0; }
     public int Pending(ThingDef product) { EnsureCounts(); return pending.TryGetValue(product, out int n) ? n : 0; }
 
@@ -83,10 +98,10 @@ public sealed class MapComponent_ProductionPlanning : MapComponent
         if (bill.suspended || bill.DeletedOrDereferenced) return 0;
         if (bill.repeatMode == BillRepeatModeDefOf.Forever) return 100000;
         if (bill.repeatMode == BillRepeatModeDefOf.TargetCount)
-            return (int)Math.Ceiling(Math.Max(0, bill.targetCount - bill.recipe.WorkerCounter.CountProducts(bill)) / (double)bill.recipe.products[0].count);
+            return (int)Math.Ceiling(Math.Max(0, bill.targetCount - bill.recipe.WorkerCounter.CountProducts(bill)) / (double)Math.Max(1, bill.recipe.products.Count > 0 ? bill.recipe.products[0].count : 1));
         return Math.Max(0, bill.repeatCount);
     }
-    private static bool Valid(ProductionTicket ticket) => ticket.Bill != null && !ticket.Bill.DeletedOrDereferenced;
+    private static bool Valid(ProductionTicket ticket) => ticket.Bill != null && !ticket.Bill.DeletedOrDereferenced && ticket.Product != null;
     private void Prune() => tickets.RemoveAll(t => !Valid(t));
     private bool Started(Bill_Production bill) => (bill is Bill_ProductionWithUft u && u.BoundUft != null)
         || map.mapPawns.AllPawnsSpawned.Any(p => p.CurJob?.bill == bill);
@@ -135,17 +150,17 @@ public sealed class MapComponent_ProductionPlanning : MapComponent
         var tables = map.listerBuildings.allBuildingsColonist.OfType<Building_WorkTable>().OrderBy(t => t.thingIDNumber).ToList();
         foreach (var ticket in tickets.ToList())
         {
-            var bill = ticket.Bill; ThingDef product = bill.recipe.products[0].thingDef; int contribution = bill.repeatCount * bill.recipe.products[0].count;
+            var bill = ticket.Bill; ThingDef product = ticket.Product; int contribution = bill.repeatCount * ticket.Output;
             if (bill.repeatCount <= 0) { bill.billStack.Delete(bill); tickets.Remove(ticket); continue; }
-            if (!running && !bill.suspended) { bill.suspended = true; ticket.PausedByPlanner = true; Add(pending, product, -contribution); }
-            else if (running && ticket.PausedByPlanner) { bill.suspended = false; ticket.PausedByPlanner = false; Add(pending, product, contribution); }
+            if (!running && !bill.suspended) { bill.suspended = true; ticket.PausedByPlanner = true; AddBill(bill, -bill.repeatCount); }
+            else if (running && ticket.PausedByPlanner) { bill.suspended = false; ticket.PausedByPlanner = false; AddBill(bill, bill.repeatCount); }
             var goal = GoalFor(product);
             int surplus = Stock(product) + Pending(product) + (bill.suspended ? contribution : 0) - goal.Target;
             // A batch that a pawn already started keeps its native unfinished item. An unstarted batch is replaced
             // when it is no longer needed, or when a smaller queueable batch would overshoot less.
             if (Started(bill) || surplus <= 0) continue;
-            if (surplus < contribution && !ProductionCatalog.For(product).Plannable.Any(r => r.Output < bill.recipe.products[0].count && Queueable(r, tables))) continue;
-            if (!bill.suspended) Add(pending, product, -contribution);
+            if (surplus < contribution && !ProductionCatalog.For(product).Plannable.Any(r => r.Output < ticket.Output && Queueable(r, tables))) continue;
+            if (!bill.suspended) AddBill(bill, -bill.repeatCount);
             bill.billStack.Delete(bill); tickets.Remove(ticket);
         }
         if (!running) return;
@@ -160,7 +175,7 @@ public sealed class MapComponent_ProductionPlanning : MapComponent
                 if (bill is Bill_ProductionWithUft u && u.BoundUft != null) iterations = Math.Max(0, iterations - 1);
                 Reserve(bill, available, Math.Min(iterations, 100000), partial: true);
             }
-        var owned = tickets.Select(t => t.Bill.recipe.products[0].thingDef).ToHashSet();
+        var owned = tickets.Select(t => t.Product).ToHashSet();
         foreach (var goal in goals)
         {
             goal.Target = Math.Clamp(goal.Target, 0, MaxTarget);
@@ -181,16 +196,17 @@ public sealed class MapComponent_ProductionPlanning : MapComponent
                 bill.repeatMode = BillRepeatModeDefOf.RepeatCount; bill.repeatCount = 1;
                 bill.RenamableLabel = "HD_ProductionPlanning_Bill".Translate(recipe.Recipe.LabelCap);
                 bill.SetStoreMode(BillStoreModeDefOf.BestStockpile, null);
-                table.BillStack.AddBill(bill); tickets.Add(new ProductionTicket { Bill = bill }); owned.Add(goal.Product);
-                Add(pending, goal.Product, recipe.Output);
+                table.BillStack.AddBill(bill); tickets.Add(new ProductionTicket { Bill = bill, Product = goal.Product }); owned.Add(goal.Product);
+                AddBill(bill, 1);
                 break;
             }
         }
     }
     public void RecordCompletion(Bill_Production bill)
     {
-        if (!tickets.Any(t => t.Bill == bill)) return;
-        GoalFor(bill.recipe.products[0].thingDef).Completed += bill.recipe.products[0].count;
+        var ticket = tickets.FirstOrDefault(t => t.Bill == bill);
+        if (ticket == null) return;
+        GoalFor(ticket.Product).Completed += ticket.Output;
         InvalidateCounts();
     }
 }
