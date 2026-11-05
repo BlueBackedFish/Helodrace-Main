@@ -2,11 +2,11 @@
   "sources": {
     "Standard": {
       "path": "../SurfaceDetails/output/Standard/vehicle.blend",
-      "sha256": "6b280f8bef602817106202d92056df56b87e9aefee30aebea4881989a1c248dd"
+      "sha256": "975b523ed2183628e49d49c4828873c2a9b2d436b3335790b0fb17d13caebff0"
     },
     "BUSK": {
       "path": "../SurfaceDetails/output/BUSK/vehicle.blend",
-      "sha256": "267e1bb30c9952714ce9698f29d0393b6604647cde977e1f2e9445b7696eb52d"
+      "sha256": "fad1546b98853bbec06c1ad11ab44929fa90d8be7f0f205c2930b7e1a2a6a6af"
     }
   },
   "master": 1024,

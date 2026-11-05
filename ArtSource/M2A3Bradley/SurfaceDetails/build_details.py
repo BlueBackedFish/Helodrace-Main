@@ -48,6 +48,23 @@ for item in cfg["grilles"]:
     grilles.append(rec)
     allowed.setdefault(obj.name, set()).update(item["faces"])
 
+flat_recolors = []
+for item in cfg.get("flat_recolors", []):
+    # Reassign listed faces to an existing fixed-Emission palette material.
+    target = bpy.data.materials[item["to"]]
+    for name, faces in item["faces"].items():
+        obj = bpy.data.objects[name]
+        if target.name not in obj.data.materials:
+            obj.data.materials.append(target)
+        slot = list(obj.data.materials).index(target)
+        for i in faces:
+            polygon = obj.data.polygons[i]
+            assert obj.data.materials[polygon.material_index].name == item["from"], (name, i)
+            polygon.material_index = slot
+        allowed.setdefault(name, set()).update(faces)
+    flat_recolors.append(dict(name=item["name"], role=item["role"], to=item["to"],
+                              faces=sum(len(f) for f in item["faces"].values())))
+
 rope = cfg["ramp_rope"]
 obj = bpy.data.objects[rope["object"]]
 faces = next(fs for fs in regions(obj.data) if rope["component_seed"] in fs)
@@ -121,7 +138,7 @@ bpy.ops.export_scene.gltf(filepath=str(out / "vehicle.glb"), export_format="GLB"
                           export_lights=False, export_animations=True)
 report = dict(variant=variant, source=str(source), source_sha256=spec["sha256"],
     model_sha256=hashlib.sha256(model.read_bytes()).hexdigest(), source_geometry_original_uv_and_other_paint_unchanged=True,
-    grilles=grilles, rope=dict(object=rope["object"], faces=faces, uniform_emission_rgb=list(rgb)),
+    grilles=grilles, flat_recolors=flat_recolors, rope=dict(object=rope["object"], faces=faces, uniform_emission_rgb=list(rgb)),
     headlights=cfg["headlights"], lamp_brackets_remain_fixed=True,
     independent_armor_cases=sum(bool(o.get("removable_tile")) for o in meshes))
 (out / "validation.json").write_text(json.dumps(report, indent=2), encoding="utf-8")

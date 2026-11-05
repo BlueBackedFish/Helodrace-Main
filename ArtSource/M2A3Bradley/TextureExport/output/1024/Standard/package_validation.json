@@ -5,56 +5,56 @@
     "east": {
       "composition": {
         "era_hull_roof_closed_ramp_closed": {
-          "stable_pixels": 43568,
+          "stable_pixels": 44657,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 1,
           "all_pixels_max_rgb_error_255": 174,
           "alpha_max_error_255": 0
         },
         "moving_hull_roof_closed_ramp_closed": {
-          "stable_pixels": 44063,
+          "stable_pixels": 45152,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 174,
           "alpha_max_error_255": 64
         },
         "era_hull_roof_closed_ramp_open": {
-          "stable_pixels": 47699,
+          "stable_pixels": 48788,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 1,
           "all_pixels_max_rgb_error_255": 174,
           "alpha_max_error_255": 0
         },
         "moving_hull_roof_closed_ramp_open": {
-          "stable_pixels": 48256,
+          "stable_pixels": 49345,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 1,
           "all_pixels_max_rgb_error_255": 174,
           "alpha_max_error_255": 64
         },
         "era_hull_roof_open_ramp_closed": {
-          "stable_pixels": 42691,
+          "stable_pixels": 43780,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 1,
           "all_pixels_max_rgb_error_255": 174,
           "alpha_max_error_255": 0
         },
         "moving_hull_roof_open_ramp_closed": {
-          "stable_pixels": 43233,
+          "stable_pixels": 44322,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 174,
           "alpha_max_error_255": 64
         },
         "era_hull_roof_open_ramp_open": {
-          "stable_pixels": 46821,
+          "stable_pixels": 47910,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 1,
           "all_pixels_max_rgb_error_255": 227,
           "alpha_max_error_255": 0
         },
         "moving_hull_roof_open_ramp_open": {
-          "stable_pixels": 47425,
+          "stable_pixels": 48514,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 1,
           "all_pixels_max_rgb_error_255": 227,
@@ -81,56 +81,56 @@
     "west": {
       "composition": {
         "era_hull_roof_closed_ramp_closed": {
-          "stable_pixels": 45398,
+          "stable_pixels": 46363,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 1,
           "all_pixels_max_rgb_error_255": 174,
           "alpha_max_error_255": 52
         },
         "moving_hull_roof_closed_ramp_closed": {
-          "stable_pixels": 45967,
+          "stable_pixels": 46932,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 174,
           "alpha_max_error_255": 64
         },
         "era_hull_roof_closed_ramp_open": {
-          "stable_pixels": 49125,
+          "stable_pixels": 50090,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 1,
           "all_pixels_max_rgb_error_255": 175,
           "alpha_max_error_255": 52
         },
         "moving_hull_roof_closed_ramp_open": {
-          "stable_pixels": 49701,
+          "stable_pixels": 50666,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 1,
           "all_pixels_max_rgb_error_255": 175,
           "alpha_max_error_255": 64
         },
         "era_hull_roof_open_ramp_closed": {
-          "stable_pixels": 44391,
+          "stable_pixels": 45356,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 1,
           "all_pixels_max_rgb_error_255": 174,
           "alpha_max_error_255": 52
         },
         "moving_hull_roof_open_ramp_closed": {
-          "stable_pixels": 45009,
+          "stable_pixels": 45974,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 0,
           "all_pixels_max_rgb_error_255": 174,
           "alpha_max_error_255": 64
         },
         "era_hull_roof_open_ramp_open": {
-          "stable_pixels": 48118,
+          "stable_pixels": 49083,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 1,
           "all_pixels_max_rgb_error_255": 228,
           "alpha_max_error_255": 52
         },
         "moving_hull_roof_open_ramp_open": {
-          "stable_pixels": 48743,
+          "stable_pixels": 49708,
           "stable_pixels_error_over_2": 0,
           "stable_max_rgb_error_255": 1,
           "all_pixels_max_rgb_error_255": 228,

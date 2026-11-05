@@ -7,6 +7,12 @@
     {"name": "engine_deck_intake", "object": "WT_@root", "faces": [7097], "pattern": "slots", "rows": 6, "columns": 2, "values": [72, 120, 144]},
     {"name": "sloped_engine_exhaust", "object": "WT_@root", "faces": [1379,4393,4394,4396,4398,4399,4401,7207], "pattern": "louvers", "rows": 9, "columns": 1, "values": [60, 108, 132]}
   ],
-  "ramp_rope": {"object": "WT_rear_ramp", "component_seed": 9, "expected_faces": 625, "luminance": 132},
+  "flat_recolors": [
+    {"name": "side_skirt_outer", "role": "side_skirt", "from": "Fixed Emission tan Y84", "to": "Fixed Emission tan Y108",
+     "reason": "Skirt plates mount over the 84 hull wall and touch the 74-75 track; outward faces were 84 (=wall, ~10 above track). 108 gives +24 over the wall and +33 over the track. Top rim 168, edges and inward faces unchanged.",
+     "faces": {"WT_ex_armor_l_01": [10, 23], "WT_ex_armor_l_02": [0, 7], "WT_ex_armor_l_03": [2, 5], "WT_ex_armor_l_04": [2, 5], "WT_ex_armor_l_05": [7, 9], "WT_ex_armor_l_06": [3, 7], "WT_ex_armor_l_07": [4, 11],
+               "WT_ex_armor_r_01": [6, 9, 19], "WT_ex_armor_r_02": [7, 8], "WT_ex_armor_r_03": [1, 8], "WT_ex_armor_r_04": [1, 8], "WT_ex_armor_r_05": [3, 4], "WT_ex_armor_r_06": [1, 9], "WT_ex_armor_r_07": [4, 7]}}
+  ],
+  "ramp_rope":{"object": "WT_rear_ramp", "component_seed": 9, "expected_faces": 625, "luminance": 132},
   "headlights": {"leftHeadlight": "WT_ex_lantern_l_01", "rightHeadlight": "WT_ex_lantern_r_01"}
 }

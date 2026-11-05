@@ -2,7 +2,7 @@
   "variant": "BUSK",
   "source": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\M2A3Bradley\\BUSKIII\\output\\bradley_busk_iii.blend",
   "source_sha256": "878ca87dd1786801ff0d00a9f18765674864dcb30f515db8cc413bf0142202f7",
-  "model_sha256": "267e1bb30c9952714ce9698f29d0393b6604647cde977e1f2e9445b7696eb52d",
+  "model_sha256": "fad1546b98853bbec06c1ad11ab44929fa90d8be7f0f205c2930b7e1a2a6a6af",
   "source_geometry_original_uv_and_other_paint_unchanged": true,
   "grilles": [
     {
@@ -166,6 +166,14 @@
         4401,
         7207
       ]
+    }
+  ],
+  "flat_recolors": [
+    {
+      "name": "side_skirt_outer",
+      "role": "side_skirt",
+      "to": "Fixed Emission tan Y108",
+      "faces": 29
     }
   ],
   "rope": {

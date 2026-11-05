@@ -2,7 +2,7 @@
   "variant": "Standard",
   "source": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\M2A3Bradley\\EmissionTrial\\TOWDeploy\\bradley_tow_deploy.blend",
   "source_sha256": "9626560c347450ddc43a292efcf3580aefeff4e916c7dd7330f8e8186eee9e44",
-  "model_sha256": "6b280f8bef602817106202d92056df56b87e9aefee30aebea4881989a1c248dd",
+  "model_sha256": "975b523ed2183628e49d49c4828873c2a9b2d436b3335790b0fb17d13caebff0",
   "source_geometry_original_uv_and_other_paint_unchanged": true,
   "grilles": [
     {
@@ -166,6 +166,14 @@
         4401,
         7207
       ]
+    }
+  ],
+  "flat_recolors": [
+    {
+      "name": "side_skirt_outer",
+      "role": "side_skirt",
+      "to": "Fixed Emission tan Y108",
+      "faces": 29
     }
   ],
   "rope": {
