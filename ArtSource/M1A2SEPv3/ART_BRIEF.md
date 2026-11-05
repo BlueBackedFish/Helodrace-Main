@@ -9,7 +9,7 @@
 - 청사진: 미제공. 청사진 비율 검수 미실시.
 - 축: 앞 X, 위 Y → canonical `(-Z,-X,Y)`, 스케일 1 (이전 M1A2·Bradley 추출본과 같은 내보내기 규칙, 렌더로 확인).
 - RimThunder 레퍼런스: Desert Sabre `3724793908/Textures/Vehicles/M1A2` (기본형), `M1A2/TUSK`. RimThunder 쪽 형식(SEP 세대)은 표기가 없다. SEPv3의 CROWS·추가 장비는 원본을 따른다.
-- 기본 색: TAN 고정 Emission. 선택 장비: 기본형에서 TUSK 제외.
+- 기본 색: TAN 고정 Emission. 선택 장비: 기본형에서 TUSK 제외 (2026-11-06 사용자 확인: 기본형 유지).
 - 출력: 마스터 1024, 256/512 축소. 게임 drawSize 미확인.
 
 ## 부품 계획
