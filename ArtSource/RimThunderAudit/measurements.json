@@ -1,0 +1,357 @@
+{
+ "M2A3_hull": {
+  "paint_percentiles_10_50_90": [
+   147,
+   209,
+   255
+  ],
+  "flat_region_values": {
+   "128": 1,
+   "140": 1,
+   "141": 1,
+   "143": 1,
+   "147": 3,
+   "154": 1,
+   "163": 1,
+   "164": 2,
+   "175": 1,
+   "176": 1,
+   "177": 1,
+   "178": 1,
+   "179": 11,
+   "180": 1,
+   "181": 1,
+   "182": 1,
+   "187": 1,
+   "188": 1,
+   "196": 5,
+   "198": 1,
+   "200": 1,
+   "201": 1,
+   "203": 1,
+   "206": 1,
+   "207": 2,
+   "208": 2,
+   "209": 2,
+   "210": 3,
+   "211": 4,
+   "212": 8,
+   "214": 1,
+   "215": 2,
+   "217": 1,
+   "219": 2,
+   "221": 1,
+   "222": 1,
+   "223": 1,
+   "224": 1,
+   "225": 1,
+   "226": 1,
+   "227": 1,
+   "228": 1,
+   "229": 1,
+   "230": 2,
+   "231": 1,
+   "232": 1,
+   "233": 11,
+   "239": 1,
+   "255": 10
+  },
+  "neighbour_identical_pct": 77.7,
+  "neighbour_off_by_one_pct": 7.2,
+  "outline_fraction": 0.051,
+  "unpainted_median": 42,
+  "unpainted_fraction": 0.064
+ },
+ "M2A3_turret": {
+  "paint_percentiles_10_50_90": [
+   132,
+   207,
+   255
+  ],
+  "flat_region_values": {
+   "179": 2,
+   "208": 1,
+   "211": 4,
+   "233": 5,
+   "255": 10
+  },
+  "neighbour_identical_pct": 65.6,
+  "neighbour_off_by_one_pct": 10.3,
+  "outline_fraction": 0.117
+ },
+ "M2A3_BUSK_hull": {
+  "paint_percentiles_10_50_90": [
+   154,
+   212,
+   255
+  ],
+  "flat_region_values": {
+   "128": 1,
+   "134": 1,
+   "141": 2,
+   "147": 5,
+   "154": 1,
+   "163": 1,
+   "174": 1,
+   "179": 23,
+   "186": 2,
+   "187": 2,
+   "188": 1,
+   "189": 2,
+   "190": 1,
+   "191": 1,
+   "192": 1,
+   "194": 1,
+   "195": 1,
+   "196": 4,
+   "197": 2,
+   "199": 1,
+   "200": 1,
+   "202": 2,
+   "204": 2,
+   "205": 1,
+   "206": 2,
+   "207": 2,
+   "208": 2,
+   "209": 4,
+   "210": 3,
+   "211": 6,
+   "212": 8,
+   "213": 1,
+   "214": 2,
+   "215": 3,
+   "216": 1,
+   "218": 1,
+   "219": 1,
+   "220": 1,
+   "221": 1,
+   "223": 1,
+   "225": 1,
+   "226": 1,
+   "227": 1,
+   "228": 1,
+   "229": 1,
+   "230": 1,
+   "231": 1,
+   "232": 1,
+   "233": 26,
+   "234": 2,
+   "235": 2,
+   "236": 2,
+   "237": 1,
+   "238": 1,
+   "242": 1,
+   "245": 1,
+   "249": 1,
+   "255": 26
+  },
+  "neighbour_identical_pct": 75.3,
+  "neighbour_off_by_one_pct": 9.4,
+  "outline_fraction": 0.05,
+  "unpainted_median": 43,
+  "unpainted_fraction": 0.058
+ },
+ "M2A3_BUSK_turret": {
+  "paint_percentiles_10_50_90": [
+   135,
+   210,
+   255
+  ],
+  "flat_region_values": {
+   "179": 2,
+   "208": 1,
+   "211": 4,
+   "233": 6,
+   "255": 10
+  },
+  "neighbour_identical_pct": 64.3,
+  "neighbour_off_by_one_pct": 10.8,
+  "outline_fraction": 0.119
+ },
+ "M1A2_hull": {
+  "paint_percentiles_10_50_90": [
+   26,
+   212,
+   255
+  ],
+  "flat_region_values": {
+   "26": 1,
+   "128": 1,
+   "147": 8,
+   "173": 1,
+   "179": 4,
+   "195": 4,
+   "212": 11,
+   "225": 1,
+   "233": 4,
+   "234": 1,
+   "255": 11
+  },
+  "neighbour_identical_pct": 86.5,
+  "neighbour_off_by_one_pct": 4.1,
+  "outline_fraction": 0.048,
+  "unpainted_median": 44,
+  "unpainted_fraction": 0.058
+ },
+ "M1A2_turret": {
+  "paint_percentiles_10_50_90": [
+   124,
+   221,
+   255
+  ],
+  "flat_region_values": {
+   "124": 8,
+   "150": 2,
+   "165": 1,
+   "175": 2,
+   "188": 6,
+   "192": 1,
+   "212": 1,
+   "233": 4,
+   "255": 11
+  },
+  "neighbour_identical_pct": 73.4,
+  "neighbour_off_by_one_pct": 3.9,
+  "outline_fraction": 0.079
+ },
+ "M10_hull": {
+  "paint_percentiles_10_50_90": [
+   26,
+   233,
+   255
+  ],
+  "flat_region_values": {
+   "26": 1,
+   "128": 2,
+   "147": 4,
+   "179": 12,
+   "180": 2,
+   "192": 1,
+   "196": 5,
+   "198": 1,
+   "212": 2,
+   "225": 1,
+   "233": 14,
+   "255": 12
+  },
+  "neighbour_identical_pct": 83.2,
+  "neighbour_off_by_one_pct": 3.1,
+  "outline_fraction": 0.034,
+  "unpainted_median": 44,
+  "unpainted_fraction": 0.051
+ },
+ "M10_turret": {
+  "paint_percentiles_10_50_90": [
+   139,
+   212,
+   255
+  ],
+  "flat_region_values": {
+   "108": 2,
+   "124": 1,
+   "139": 1,
+   "150": 2,
+   "162": 1,
+   "169": 1,
+   "174": 1,
+   "175": 1,
+   "176": 1,
+   "188": 2,
+   "212": 5,
+   "233": 5,
+   "255": 6
+  },
+  "neighbour_identical_pct": 68.1,
+  "neighbour_off_by_one_pct": 5.8,
+  "outline_fraction": 0.064
+ },
+ "M18_hull": {
+  "paint_percentiles_10_50_90": [
+   139,
+   204,
+   242
+  ],
+  "flat_region_values": {
+   "86": 7,
+   "142": 3,
+   "158": 2,
+   "175": 1,
+   "183": 2,
+   "198": 2,
+   "199": 1,
+   "204": 2,
+   "216": 1,
+   "219": 1,
+   "230": 1,
+   "242": 6
+  },
+  "neighbour_identical_pct": 87.7,
+  "neighbour_off_by_one_pct": 4.1,
+  "outline_fraction": 0.217,
+  "unpainted_median": 39,
+  "unpainted_fraction": 0.129
+ },
+ "M18_turret": {
+  "paint_percentiles_10_50_90": [
+   133,
+   200,
+   255
+  ],
+  "flat_region_values": {
+   "120": 1,
+   "140": 2,
+   "167": 1,
+   "198": 5,
+   "225": 2,
+   "255": 6
+  },
+  "neighbour_identical_pct": 74.2,
+  "neighbour_off_by_one_pct": 6.3,
+  "outline_fraction": 0.35,
+  "unpainted_median": 62,
+  "unpainted_fraction": 0.083
+ },
+ "ours:hull_roof_closed_ramp_closed_east.png": {
+  "paint_percentiles_10_50_90": [
+   84,
+   142,
+   168
+  ],
+  "flat_region_values": {
+   "60": 2,
+   "72": 1,
+   "75": 2,
+   "84": 6,
+   "108": 7,
+   "120": 1,
+   "132": 15,
+   "144": 6,
+   "156": 3,
+   "168": 18,
+   "192": 3,
+   "216": 1
+  },
+  "neighbour_identical_pct": 38.2,
+  "neighbour_off_by_one_pct": 50.0,
+  "outline_fraction": 0.0
+ },
+ "ours:turret_stowed_east.png": {
+  "paint_percentiles_10_50_90": [
+   144,
+   182,
+   229
+  ],
+  "flat_region_values": {
+   "72": 1,
+   "144": 2,
+   "168": 8,
+   "180": 3,
+   "192": 3,
+   "216": 5,
+   "240": 1
+  },
+  "neighbour_identical_pct": 34.7,
+  "neighbour_off_by_one_pct": 51.6,
+  "outline_fraction": 0.0
+ }
+}
