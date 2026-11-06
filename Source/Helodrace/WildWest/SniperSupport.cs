@@ -21,7 +21,7 @@ namespace Helodrace
         public const int AimTicks = 120;
         public const int HiddenCancelTicks = 30 * 60;
         public const int TrailDurationTicks = 36;
-        private const string SniperProjectileDefName = "HD_Bullet_SprMThree_Proj";
+        private const string SniperProjectileDefName = "HD_Bullet_3006M2Ball_Proj";
         private const string SniperWeaponDefName = "HD_Gun_M1903A4_Weapon";
         private const string HitSoundDefName = "HD_Snipe";
         private const string DistantFireSoundDefName = "HD_DistantFired";

@@ -105,11 +105,11 @@ internal static class Program
         };
         var rifleThreats = new[]
         {
-            ("Defs/GreatWar/Items/Weapons_GreatWar.xml", "HD_Bullet_M1Garand_Proj", true, true),
-            ("Defs/Items/WeaponFamilies_Helod.xml", "HD_Bullet_M16A4_Proj", false, true),
+            ("Defs/GreatWar/Items/Weapons_GreatWar.xml", "HD_Bullet_3006M2Ball_Proj", true, true),
+            ("Defs/Items/WeaponFamilies_Helod.xml", "HD_Bullet_556M855A1_Proj", false, true),
             ("Defs/ModernWar/Items/RifleAmmunition_Development.xml", "HD_Bullet_76251M80A1_Proj", false, true),
-            ("Defs/GreatWar/Items/Weapons_GreatWar.xml", "HD_Bullet_M2HB_Proj", false, false),
-            ("Defs/ColdWar/Items/Weapons_ColdWar.xml", "HD_Projectile_M167_20mmAPI", false, false)
+            ("Defs/GreatWar/Items/Weapons_GreatWar.xml", "HD_Bullet_12799M8_Proj", false, false),
+            ("Defs/ColdWar/Items/Weapons_ColdWar.xml", "HD_Projectile_20mmAPI", false, false)
         }.Select(threat =>
         {
             var projectile = XDocument.Load(System.IO.Path.Combine(root, threat.Item1))

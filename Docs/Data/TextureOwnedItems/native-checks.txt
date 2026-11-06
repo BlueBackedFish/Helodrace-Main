@@ -113,10 +113,10 @@ PASS: Rifle penetration bypasses light riot protection
 PASS: Environmental blunt damage cannot be blocked as a melee attack
 PASS: Existing ballistic shield remains ranged-only
 PASS: Native firing starts: HD_Building_M2HB
-PASS: Native launched projectile sequence: HD_Building_M2HB; actual=HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_M20_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_M20_Proj
+PASS: Native launched projectile sequence: HD_Building_M2HB; actual=HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M20_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M20_Proj
 PASS: Exactly one replenishment unit is consumed per shot: HD_Building_M2HB
 PASS: Native firing starts: HD_Building_M2HB
-PASS: Native launched projectile sequence: HD_Building_M2HB; actual=HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_M20_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_M20_Proj
+PASS: Native launched projectile sequence: HD_Building_M2HB; actual=HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M20_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M20_Proj
 PASS: Exactly one replenishment unit is consumed per shot: HD_Building_M2HB
 PASS: M2HB retains Steel replenishment
 PASS: Empty CROWS selects M2HB mount
@@ -128,7 +128,7 @@ PASS: Powered but unmanned CROWS cannot fire
 PASS: Actual remote-control operation job starts
 PASS: Actual operator at powered console enables CROWS
 PASS: Native firing starts: HD_Building_CrowsII
-PASS: Native launched projectile sequence: HD_Building_CrowsII; actual=HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_M20_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_Proj,HD_Bullet_M2HB_M20_Proj
+PASS: Native launched projectile sequence: HD_Building_CrowsII; actual=HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M20_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M8_Proj,HD_Bullet_12799M20_Proj
 PASS: Exactly one replenishment unit is consumed per shot: HD_Building_CrowsII
 PASS: Disconnect blocks an actual attempted CROWS shot
 PASS: Failed remote shot changes neither feed position nor Steel
@@ -137,9 +137,9 @@ PASS: Other CROWS calibers retain native single-projectile feeds: HD_Gun_CrowsII
 PASS: Other CROWS calibers retain native single-projectile feeds: HD_Gun_CrowsII_MK19Weapon
 PASS: Existing M167 sequence remains unchanged
 PASS: M167 still resolves its shared incendiary impact class
-PASS: Mixed round is a projectile, not a craftable ammunition item: HD_Bullet_M2HB_Proj
-PASS: Mixed projectile texture loads: HD_Bullet_M2HB_Proj
-PASS: Mixed round is a projectile, not a craftable ammunition item: HD_Bullet_M2HB_M20_Proj
-PASS: Mixed projectile texture loads: HD_Bullet_M2HB_M20_Proj
+PASS: Mixed round is a projectile, not a craftable ammunition item: HD_Bullet_12799M8_Proj
+PASS: Mixed projectile texture loads: HD_Bullet_12799M8_Proj
+PASS: Mixed round is a projectile, not a craftable ammunition item: HD_Bullet_12799M20_Proj
+PASS: Mixed projectile texture loads: HD_Bullet_12799M20_Proj
 PASS: Aircraft support bullet is unchanged
 COMPLETE

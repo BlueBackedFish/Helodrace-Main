@@ -573,7 +573,7 @@ internal static partial class Program
             count++;
         }
         var props=new CompProperties_ModularWeaponNode {isAssemblyRoot=true,internalStats=new ModularWeaponInternalStats {massKg=1,barrelLengthInches=10.3f}};
-        var receiver=Node(props);var nodes2=new List<ModularRenderNode>{receiver};var ammo=Projectile("HD_Bullet_M16A4_Proj");
+        var receiver=Node(props);var nodes2=new List<ModularRenderNode>{receiver};var ammo=Projectile("HD_Bullet_556M855A1_Proj");
         var shortBarrel=Ballistics(ammo,Convert(nodes2));props.internalStats.barrelLengthInches=20;
         var longBarrel=Ballistics(ammo,Convert(nodes2));
         foreach(float distance in new[]{0f,10f,25f,50f})
@@ -639,7 +639,7 @@ internal static partial class Program
         barrel.Props.internalStats=Properties(Resolve(definitions["HD_ModularPart_Barrel_AR1520_Part"])).internalStats;
         var longBuild=Convert(nodes);
         Check(longBuild.RangeFactor>shortBuild.RangeFactor,"Authored long barrel provides more range than the short barrel");
-        var ammo=Projectile("HD_Bullet_M16A4_Proj");
+        var ammo=Projectile("HD_Bullet_556M855A1_Proj");
         Near(Ballistics(ammo,longBuild).DamageAt(),Ballistics(ammo,shortBuild).DamageAt(),"Longer range does not increase primary damage");
         Near(Ballistics(ammo,longBuild).PenetrationAt(),Ballistics(ammo,shortBuild).PenetrationAt(),"Longer range does not increase primary penetration");
         var optic=TestSight(ModularSightKind.Scope,-.1f,.2f);optic.Props.internalStats.rangeAdjustmentPercent=100;

@@ -3,8 +3,8 @@
 
   <!-- Shared M16 implementation used by Cold War and modern variants. -->
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_Bullet_M16A4_Proj</defName>
-    <label>5.56x45mm M16 bullet</label>
+    <defName>HD_Bullet_556M855A1_Proj</defName>
+    <label>5.56x45mm M855A1 bullet</label>
     <thingClass>Helodrace.Projectile_FragmentingBullet</thingClass>
     <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>4</projectileMassGrams><referenceVelocityMetersPerSecond>900</referenceVelocityMetersPerSecond><referenceBarrelInches>16</referenceBarrelInches><velocityHalfDistance>55</velocityHalfDistance></li><li Class="Helodrace.BulletFragmentationExtension"><chance>0.75</chance><damageFraction>0.55</damageFraction><minFragments>1</minFragments><maxFragments>1</maxFragments></li></modExtensions>
     <graphicData>
@@ -72,7 +72,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_556M855A1_Proj</defaultProjectile>
         <warmupTime>1.0</warmupTime>
         <range>30.9</range>
         <burstShotCount>3</burstShotCount>
@@ -84,7 +84,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_556M855A1_Proj</defaultProjectile>
         <warmupTime>0.3</warmupTime>
         <range>22.9</range>
         <burstShotCount>3</burstShotCount>

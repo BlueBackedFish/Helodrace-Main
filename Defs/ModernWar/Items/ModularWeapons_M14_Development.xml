@@ -264,7 +264,7 @@
     <description>7.62x51mm M80 ammunition is an ammunition component for a compatible modular magazine.</description>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M80</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
-      <graphicLayer>0</graphicLayer><storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached><ammunitionType>7.62 M80 (FMJ)</ammunitionType><ammunitionCaliber>762x51</ammunitionCaliber><ceAmmoDefName>Ammo_762x51mmNATO_FMJ</ceAmmoDefName><projectileDiameterMm>7.82</projectileDiameterMm><projectileOverride>HD_Bullet_M60E3_Proj</projectileOverride><overridePriority>20</overridePriority>
+      <graphicLayer>0</graphicLayer><storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached><ammunitionType>7.62 M80 (FMJ)</ammunitionType><ammunitionCaliber>762x51</ammunitionCaliber><ceAmmoDefName>Ammo_762x51mmNATO_FMJ</ceAmmoDefName><projectileDiameterMm>7.82</projectileDiameterMm><projectileOverride>HD_Bullet_76251M80_Proj</projectileOverride><overridePriority>20</overridePriority>
       <casingMoteDef>HD_Mote_Shell76251_Mote</casingMoteDef>
       <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_76251M80</feedingRoundTexPath>
       <mounts><li><id>m14_ammunition_mount</id><socketTags><li>m14_ammunition</li></socketTags><transform><position>(-0.035,0,-0.088)</position></transform></li></mounts>
@@ -293,7 +293,7 @@
           <li>HD_GeneralMachinePart</li>
         </thingDefs>
       </defaultIngredientFilter><skillRequirements><Crafting>8</Crafting></skillRequirements><researchPrerequisite>HelodLowAutomaticRifle</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li><li>HD_GunSmithTable</li></recipeUsers></recipeMaker>
-    <verbs><li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_M60E3_Proj</defaultProjectile><warmupTime>1.1</warmupTime><range>36</range><burstShotCount>3</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_AssaultRifle</soundCast><soundCastTail>GunTail_Medium</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li></verbs>
+    <verbs><li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_76251M80_Proj</defaultProjectile><warmupTime>1.1</warmupTime><range>36</range><burstShotCount>3</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_AssaultRifle</soundCast><soundCastTail>GunTail_Medium</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li></verbs>
     <tools><li><label>stock</label><capacities><li>Blunt</li></capacities><power>9</power><cooldownTime>1.8</cooldownTime></li></tools>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
       <isAssemblyRoot>true</isAssemblyRoot><spawnPreset>HD_WeaponPreset_ModularM14_Default</spawnPreset><partCategory>Required</partCategory><realisticRoundsPerMinute>750</realisticRoundsPerMinute><baseFireDelayFactor>1.2</baseFireDelayFactor><outlinePriority>100</outlinePriority>

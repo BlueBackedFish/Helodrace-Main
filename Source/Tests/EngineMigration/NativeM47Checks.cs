@@ -111,7 +111,7 @@ namespace Helodrace.Tests
             Thing launcher = ThingMaker.MakeThing(ThingDefOf.WoodLog); GenSpawn.Spawn(launcher, start, map);
             var equipment = (ThingWithComps)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("HD_Gun_M47_Dragon")); GenSpawn.Spawn(equipment, start + new IntVec3(0, 0, 1), map);
             Thing target = ThingMaker.MakeThing(ThingDefOf.WoodLog); GenSpawn.Spawn(target, start + new IntVec3(75, 0, 0), map);
-            ThingDef source = DefDatabase<ThingDef>.GetNamed("HD_M47_M222_Proj");
+            ThingDef source = DefDatabase<ThingDef>.GetNamed("HD_M222_Proj");
             try
             {
                 PurePulses(source, target);

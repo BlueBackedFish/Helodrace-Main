@@ -91,7 +91,7 @@
     <defName>HD_ModularPart_Ammunition_45ACPM1911_Part</defName><label>.45 ACP M1911 ammunition (FMJ)</label>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_45ACPM1911</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
-      <hideWhenAttached>true</hideWhenAttached><storageMode>Internal</storageMode><ammunitionCaliber>45ACP</ammunitionCaliber><ammunitionType>.45 ACP (FMJ)</ammunitionType><projectileDiameterMm>11.5</projectileDiameterMm><projectileOverride>HD_Bullet_M1911_Proj</projectileOverride><casingMoteDef>HD_Mote_Shell45ACP</casingMoteDef><overridePriority>20</overridePriority><feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_45ACPM1911</feedingRoundTexPath>
+      <hideWhenAttached>true</hideWhenAttached><storageMode>Internal</storageMode><ammunitionCaliber>45ACP</ammunitionCaliber><ammunitionType>.45 ACP (FMJ)</ammunitionType><projectileDiameterMm>11.5</projectileDiameterMm><projectileOverride>HD_Bullet_45ACP_Proj</projectileOverride><casingMoteDef>HD_Mote_Shell45ACP</casingMoteDef><overridePriority>20</overridePriority><feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_45ACPM1911</feedingRoundTexPath>
       <mounts><li><id>ammunition_mount</id><socketTags><li>m1911_ammunition</li></socketTags></li></mounts>
     </li></comps>
   </ThingDef>
@@ -108,8 +108,8 @@
     <statBases><Mass>1.1</Mass><MarketValue>400</MarketValue><MaxHitPoints>100</MaxHitPoints><AccuracyTouch>0.8</AccuracyTouch><AccuracyShort>0.75</AccuracyShort><AccuracyMedium>0.5</AccuracyMedium><AccuracyLong>0.25</AccuracyLong><RangedWeapon_Cooldown>0.3</RangedWeapon_Cooldown></statBases>
     <recipeMaker Inherit="False" IsNull="True" />
     <verbs>
-      <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_M1911_Proj</defaultProjectile><warmupTime>0.25</warmupTime><range>20.9</range><burstShotCount>1</burstShotCount><ticksBetweenBurstShots>8</ticksBetweenBurstShots><soundCast>Shot_Autopistol</soundCast><soundCastTail>GunTail_Light</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li>
-      <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>false</hasStandardCommand><defaultProjectile>HD_Bullet_M1911_Proj</defaultProjectile><warmupTime>0.1</warmupTime><range>10.9</range><burstShotCount>2</burstShotCount><ticksBetweenBurstShots>6</ticksBetweenBurstShots><soundCast>Shot_Autopistol</soundCast><soundCastTail>GunTail_Light</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li>
+      <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_45ACP_Proj</defaultProjectile><warmupTime>0.25</warmupTime><range>20.9</range><burstShotCount>1</burstShotCount><ticksBetweenBurstShots>8</ticksBetweenBurstShots><soundCast>Shot_Autopistol</soundCast><soundCastTail>GunTail_Light</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li>
+      <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>false</hasStandardCommand><defaultProjectile>HD_Bullet_45ACP_Proj</defaultProjectile><warmupTime>0.1</warmupTime><range>10.9</range><burstShotCount>2</burstShotCount><ticksBetweenBurstShots>6</ticksBetweenBurstShots><soundCast>Shot_Autopistol</soundCast><soundCastTail>GunTail_Light</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li>
     </verbs>
     <tools><li><label>grip</label><capacities><li>Blunt</li></capacities><power>9</power><cooldownTime>2</cooldownTime></li></tools>
     <comps>

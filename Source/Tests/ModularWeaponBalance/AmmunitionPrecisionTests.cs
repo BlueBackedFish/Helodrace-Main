@@ -95,7 +95,7 @@ internal static partial class Program
         Near(baseline.PenetrationEfficiencyFactor,match.PenetrationEfficiencyFactor,"Precision alone cannot change AP");
         Near(baseline.MuzzleVelocityOffsetMetersPerSecond,match.MuzzleVelocityOffsetMetersPerSecond,"Precision cannot change fragmentation velocity");
         Near(baseline.RangeFactor,match.RangeFactor,"Precision is not a second range bonus");
-        var bullet=Projectile("HD_Bullet_M16A4_Proj");
+        var bullet=Projectile("HD_Bullet_556M855A1_Proj");
         var baseBallistics=Ballistics(bullet,baseline);var matchBallistics=Ballistics(bullet,match);
         foreach(float distance in new[]{0f,12f,25f,40f})
         {

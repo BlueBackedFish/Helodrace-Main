@@ -87,15 +87,15 @@ English Keyed의 모든 키에 대응하는 한국어 키가 존재합니다.
 
 | 번호 | Def 유형 | 번역 키 | 영문 원문 | 임시 한국어 번역 |
 |---:|---|---|---|---|
-| 33 | ThingDef | `HD_Projectile_M167_20mmHEI.label` | 20 mm high-explosive incendiary projectile | 20 mm 고폭소이탄 |
-| 34 | ThingDef | `HD_Projectile_M167_20mmAPI.label` | 20 mm armor-piercing incendiary projectile | 20 mm 철갑소이탄 |
-| 35 | ThingDef | `HD_Projectile_M167_20mmHEIT.label` | 20 mm high-explosive incendiary tracer projectile | 20 mm 고폭소이예광탄 |
+| 33 | ThingDef | `HD_Projectile_20mmHEI.label` | 20 mm high-explosive incendiary projectile | 20 mm 고폭소이탄 |
+| 34 | ThingDef | `HD_Projectile_20mmAPI.label` | 20 mm armor-piercing incendiary projectile | 20 mm 철갑소이탄 |
+| 35 | ThingDef | `HD_Projectile_20mmHEIT.label` | 20 mm high-explosive incendiary tracer projectile | 20 mm 고폭소이예광탄 |
 | 36 | ThingDef | `HD_Projectile_20mmHEIFragment.label` | 20 mm HEI fragment | 20 mm HEI 파편 |
 | 37 | ThingDef | `HD_Gun_M167VADS_TurretGun.label` | M167 VADS 20 mm rotary cannon | M167 VADS 20 mm 회전식 기관포 |
 | 38 | ThingDef | `HD_BGM71A_Proj.label` | BGM-71A missile | BGM-71A 미사일 |
 | 39 | ThingDef | `HD_Gun_M220TOW_TurretGun.label` | M220 TOW launcher | M220 TOW 발사기 |
-| 40 | ThingDef | `HD_M47_M222_Proj.label` | M222 missile | M222 미사일 |
-| 41 | ThingDef | `HD_M47_M222_Proj.description` | A 140 mm shaped-charge missile guided through a command wire by an M47 Dragon launcher. | M47 드래곤 발사기의 지령선을 통해 유도되는 140mm 성형작약 미사일입니다. |
+| 40 | ThingDef | `HD_M222_Proj.label` | M222 missile | M222 미사일 |
+| 41 | ThingDef | `HD_M222_Proj.description` | A 140 mm shaped-charge missile guided through a command wire by an M47 Dragon launcher. | M47 드래곤 발사기의 지령선을 통해 유도되는 140mm 성형작약 미사일입니다. |
 | 42 | ThingDef | `HD_Gun_M47_Dragon.label` | M47 Dragon | M47 드래곤 |
 | 43 | ThingDef | `HD_Gun_M47_Dragon.description` | A disposable man-portable anti-tank guided missile system. The operator must keep the target in sight while commands travel through a wire to the missile. Pulsed steering charges correct its course in visible steps, and the operator may transfer guidance to another target while the missile is in flight. | 일회용 휴대식 대전차유도미사일 체계입니다. 조작자는 유도 명령이 전선을 통해 미사일에 전달되는 동안 표적을 시야에 유지해야 합니다. 펄스식 조향 장약이 단계적으로 비행 경로를 수정하며, 비행 중 다른 표적으로 유도를 전환할 수도 있습니다. |
 | 44 | ThingDef | `HD_Gun_M47_Dragon.tools.0.label` | launch tube | 발사관 |

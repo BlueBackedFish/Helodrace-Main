@@ -167,7 +167,7 @@ namespace Helodrace.Tests
             Map map = Find.CurrentMap; Thing launcher = ThingMaker.MakeThing(ThingDefOf.WoodLog); GenSpawn.Spawn(launcher, map.Center, map);
             Type launchType = Product.GetType("Helodrace.ShotgunLaunch", true), context = Product.GetType("Helodrace.ShotgunSpreadContext", true);
             FieldInfo launching = context.GetField("Launching", All); object previous = launching.GetValue(null);
-            ThingDef def = DefDatabase<ThingDef>.GetNamed("HD_Bullet_M1897_Proj");
+            ThingDef def = DefDatabase<ThingDef>.GetNamed("HD_Bullet_12Gauge00Buck_Proj");
             var saved = new List<SavedShell>();
             try
             {

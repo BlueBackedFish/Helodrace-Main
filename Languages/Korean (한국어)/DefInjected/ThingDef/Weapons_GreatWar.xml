@@ -3,22 +3,21 @@
   <!-- Krag-Jorgensen -->
   <HD_Gun_KragJorgensen_Weapon.label>그레이록 M1892</HD_Gun_KragJorgensen_Weapon.label>
   <HD_Gun_KragJorgensen_Weapon.description>그레이록 조병창에서 베르그-라센 소총을 가져와 생산하는 독특한 측면 장전 탄창을 가진 볼트액션 소총입니다. 부드러운 작동 방식으로 유명합니다.</HD_Gun_KragJorgensen_Weapon.description>
-  <HD_Bullet_KragJorgensen_Proj.label>그레이록 M1892 탄환</HD_Bullet_KragJorgensen_Proj.label>
   <!-- Springfield M1903 -->
   <HD_Gun_SprMThree_Weapon.label>그레이록 M1903</HD_Gun_SprMThree_Weapon.label>
   <HD_Gun_SprMThree_Weapon.description>수십 년간 사용된 신뢰성 높고 정확한 볼트액션 소총입니다. 정밀도가 높아 호평을 받습니다.</HD_Gun_SprMThree_Weapon.description>
-  <HD_Bullet_SprMThree_Proj.label>그레이록 M1903 탄환</HD_Bullet_SprMThree_Proj.label>
+  <HD_Bullet_3006M2Ball_Proj.label>.30-06 M2 보통탄</HD_Bullet_3006M2Ball_Proj.label>
   <!-- Springfield M1903A4 -->
   <HD_Gun_M1903A4_Weapon.label>그레이록 M1903A4</HD_Gun_M1903A4_Weapon.label>
   <HD_Gun_M1903A4_Weapon.description>정밀한 장거리 사격을 위해 조준경을 장착한 M1903 변형입니다. 익숙한 군용 소총의 작동 방식을 유지하면서 유효 사거리를 늘렸습니다.</HD_Gun_M1903A4_Weapon.description>
   <!-- Springfield M1903 Pedersen device -->
   <HD_Gun_M1903Pedersen_Weapon.label>그레이록 M1903 휘트모어 장비</HD_Gun_M1903Pedersen_Weapon.label>
   <HD_Gun_M1903Pedersen_Weapon.description>휘트모어 변환 장비를 장착한 M1903 소총입니다. 강력한 소총탄 대신 가벼운 탄약을 사용하여 빠른 반자동 사격이 가능합니다.</HD_Gun_M1903Pedersen_Weapon.description>
-  <HD_Bullet_M1903Pedersen_Proj.label>그레이록 M1903 휘트모어 탄환</HD_Bullet_M1903Pedersen_Proj.label>
+  <HD_Bullet_3018Auto_Proj.label>.30-18 오토 탄환</HD_Bullet_3018Auto_Proj.label>
   <!-- M1911 pistol -->
   <HD_Gun_M1911_Weapon.label>아이언팽 M1911</HD_Gun_M1911_Weapon.label>
   <HD_Gun_M1911_Weapon.description>하트먼이 설계한 튼튼한 반자동 군용 권총입니다. 묵직한 권총탄과 빠른 후속 사격으로 여러 세대에 걸쳐 쓰였으며, 베세니카를 상징하는 무기로 자리 잡았습니다.</HD_Gun_M1911_Weapon.description>
-  <HD_Bullet_M1911_Proj.label>아이언팽 M1911 탄환</HD_Bullet_M1911_Proj.label>
+  <HD_Bullet_45ACP_Proj.label>.45 ACP 보통탄</HD_Bullet_45ACP_Proj.label>
   <!-- Submachine guns -->
   <HD_Gun_M1A1Harrington_Weapon.label>M1A1 헤링턴</HD_Gun_M1A1Harrington_Weapon.label>
   <HD_Gun_M1A1Harrington_Weapon.description>묵직한 노리쇠와 빠른 발사속도를 가진 튼튼한 기관단총입니다. 강한 권총탄을 통제된 점사로 퍼붓습니다.</HD_Gun_M1A1Harrington_Weapon.description>
@@ -30,9 +29,8 @@
   <!-- M1 Garand -->
   <HD_Gun_M1Garand_Weapon.label>M1 하츠웰</HD_Gun_M1Garand_Weapon.label>
   <HD_Gun_M1Garand_Weapon.description>엔블록 클립으로 급탄하는 반자동 전투소총으로, 강력한 후속 사격에 적합합니다. 훗날 어둠의 하츠웰단은 이 소총의 명성을 지키려 소구경 고속탄 도입을 늦췄습니다.</HD_Gun_M1Garand_Weapon.description>
-  <HD_Bullet_M1Garand_Proj.label>M1 하츠웰 탄환</HD_Bullet_M1Garand_Proj.label>
   <!-- M1/M2 carbines -->
-  <HD_Bullet_M1Carbine_Proj.label>.30 카빈탄</HD_Bullet_M1Carbine_Proj.label>
+  <HD_Bullet_30Carbine_Proj.label>.30 카빈탄</HD_Bullet_30Carbine_Proj.label>
   <HD_Gun_M1A1Carbine_Weapon.label>M1A1 카빈</HD_Gun_M1A1Carbine_Weapon.label>
   <HD_Gun_M1A1Carbine_Weapon.description>접이식 철제 개머리판을 장착한 작고 가벼운 반자동 카빈입니다. 어깨에 빠르게 견착하고 휴대하기 편한 대신, 제식 소총의 위력과 사거리를 희생했습니다.</HD_Gun_M1A1Carbine_Weapon.description>
   <HD_Gun_M2Carbine_Weapon.label>M2 카빈</HD_Gun_M2Carbine_Weapon.label>
@@ -43,9 +41,8 @@
   <!-- M1919A6 light machine gun -->
   <HD_Gun_M1919A6LMG_Weapon.label>M1919A6 경기관총</HD_Gun_M1919A6LMG_Weapon.label>
   <HD_Gun_M1919A6LMG_Weapon.description>하트먼 M1919를 휴대 화기로 개조한 벨트 급탄식 경기관총입니다. 보병 화기로는 무겁지만 지속적인 제압 사격을 퍼부을 수 있습니다.</HD_Gun_M1919A6LMG_Weapon.description>
-  <HD_Bullet_M1919A6LMG_Proj.label>M1919A6 경기관총탄</HD_Bullet_M1919A6LMG_Proj.label>
   <HD_Hardtack_Proj.label>하드택</HD_Hardtack_Proj.label>
-  <HD_Bullet_M1917HMG_Proj.label>M1917 중기관총 탄환</HD_Bullet_M1917HMG_Proj.label>
+  <HD_Bullet_3006M1Ball_Proj.label>.30-06 M1 보통탄</HD_Bullet_3006M1Ball_Proj.label>
   <HD_Gun_M1917HMG_TurretGun.label>M1917 중기관총</HD_Gun_M1917HMG_TurretGun.label>
   <HD_Gun_M1917HMG_TurretGun.description>긴 탄띠로 급탄되는 수랭식 중기관총입니다. 휴대 무기로 쓰기에는 너무 무거우며 고정 방어 거치대용으로 설계되었습니다.</HD_Gun_M1917HMG_TurretGun.description>
   <HD_37mmShell_HE_Proj.label>37mm 고폭탄</HD_37mmShell_HE_Proj.label>
@@ -58,7 +55,6 @@
   <HD_Gun_M9A1_Weapon.description>장갑, 거점, 밀집된 단단한 목표를 공격하기 위한 어깨 견착식 무반동 로켓 발사기입니다. 발사 전에 장전해야 하며, 단독 운용 또는 2인 1조 운용으로 M6A3 HEAT 로켓을 낮고 뚜렷한 탄도로 발사합니다.</HD_Gun_M9A1_Weapon.description>
   <HD_Gun_M1897_Weapon.label>프론티어 암즈 M1897</HD_Gun_M1897_Weapon.label>
   <HD_Gun_M1897_Weapon.description>관형 탄창과 펌프액션 장전을 사용하는 산탄총입니다. 짧은 거리에서 빠르게 후속탄을 발사할 수 있습니다.</HD_Gun_M1897_Weapon.description>
-  <HD_Bullet_M1897_Proj.label>프론티어 암즈 M1897 산탄</HD_Bullet_M1897_Proj.label>
   <HD_M1902Saber.label>M1902 장교 세이버</HD_M1902Saber.label>
   <HD_M1902Saber.description>장교가 정복과 함께 패용하는 가벼운 군도입니다. 추모식과 군장, 전몰자를 기리는 열병식에서 뽑아 들며, 정복을 갖춘 장교는 이 칼을 차고 의장대의 일원으로 섭니다. 얇은 칼날과 가벼운 장식은 전투가 아닌 의례를 위해 만들어졌기에, 실전에서는 기병도를 대신하기에 부족합니다.</HD_M1902Saber.description>
   <HD_USMCFightingKnife.label>KA-BUG 미 해병대 전투 나이프</HD_USMCFightingKnife.label>
@@ -76,8 +72,7 @@
   <HD_Projectile_155mmHEFragment.label>155mm 고폭탄 파편</HD_Projectile_155mmHEFragment.label>
   <HD_Gun_M1_81mmMortar_TurretGun.label>M1 81mm 박격포</HD_Gun_M1_81mmMortar_TurretGun.label>
   <HD_Gun_M1_81mmMortar_TurretGun.description>무거운 81mm 포탄을 높은 탄도로 발사하는 보병 박격포입니다. 운용 인원과 준비된 M43 고폭탄이 필요합니다.</HD_Gun_M1_81mmMortar_TurretGun.description>
-  <HD_Bullet_M2HB_Proj.label>12.7mm 중기관총탄</HD_Bullet_M2HB_Proj.label>
-  <HD_Bullet_M2HB_CAS_Proj.label>12.7mm 항공기 기총탄</HD_Bullet_M2HB_CAS_Proj.label>
+  <HD_Bullet_12799M2Ball_Proj.label>12.7×99mm M2 보통탄</HD_Bullet_12799M2Ball_Proj.label>
   <HD_Gun_M2HB_TurretGun.label>M2HB 중기관총</HD_Gun_M2HB_TurretGun.label>
   <HD_Gun_M2HB_TurretGun.description>고정 방어 거치대용으로 설계된 탄띠 급탄식 12.7mm 중기관총입니다.</HD_Gun_M2HB_TurretGun.description>
   <HD_3InchMortarShell_HE_Proj.label>3인치 박격포 고폭탄</HD_3InchMortarShell_HE_Proj.label>

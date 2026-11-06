@@ -4,8 +4,8 @@
   <!-- ==================== Bullets ==================== -->
 
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_Bullet_ColtSAA_Proj</defName>
-    <label>Ironfang SAA bullet</label>
+    <defName>HD_Bullet_45Long_Proj</defName>
+    <label>.45 Long bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -19,8 +19,8 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_Bullet_SWModelThree_Proj</defName>
-    <label>W&amp;M Model 3 bullet</label>
+    <defName>HD_Bullet_44American_Proj</defName>
+    <label>.44 American bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -34,8 +34,8 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_Bullet_ColtArmyModel1860_Proj</defName>
-    <label>Ironfang M1860 Army bullet</label>
+    <defName>HD_Bullet_44Percussion_Proj</defName>
+    <label>.44 percussion ball</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -49,8 +49,8 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_Bullet_Henry_Proj</defName>
-    <label>Henry rifle bullet</label>
+    <defName>HD_Bullet_44Rimfire_Proj</defName>
+    <label>.44 rimfire bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -64,10 +64,10 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_Bullet_WinM1887_Proj</defName>
+    <defName>HD_Bullet_12Gauge00Buck_Proj</defName>
     <thingClass>Helodrace.Projectile_ShotgunPellet</thingClass>
     <modExtensions><li Class="Helodrace.ShotgunProjectileExtension"><spreadMultiplier>1</spreadMultiplier><energyHalfDistance>40</energyHalfDistance><internalPenetrationChance>0.35</internalPenetrationChance></li></modExtensions>
-    <label>Frontier Arms M1887 buckshot</label>
+    <label>12-gauge 00 buckshot</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -82,8 +82,8 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_Bullet_WinMNinetyFive_Proj</defName>
-    <label>Frontier Arms M1895 bullet</label>
+    <defName>HD_Bullet_30Army_Proj</defName>
+    <label>.30 Army bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Big</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -97,8 +97,8 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_Bullet_SprMOne_Proj</defName>
-    <label>Graylock M1861 bullet</label>
+    <defName>HD_Bullet_58Minie_Proj</defName>
+    <label>.58 Minié ball</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Big</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -112,8 +112,8 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_Bullet_SprMThreeHigh_Proj</defName>
-    <label>Graylock M1873 bullet</label>
+    <defName>HD_Bullet_4570_Proj</defName>
+    <label>.45-70 bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Big</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -169,7 +169,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_ColtSAA_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_45Long_Proj</defaultProjectile>
         <warmupTime>0.3</warmupTime>
         <range>25.9</range>
         <burstShotCount>1</burstShotCount>
@@ -180,7 +180,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_ColtSAA_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_45Long_Proj</defaultProjectile>
         <warmupTime>0.1</warmupTime>
         <range>6.9</range>
         <burstShotCount>6</burstShotCount>
@@ -253,7 +253,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_ColtArmyModel1860_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_44Percussion_Proj</defaultProjectile>
         <warmupTime>0.4</warmupTime>
         <range>22.9</range>
         <burstShotCount>1</burstShotCount>
@@ -264,7 +264,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_ColtArmyModel1860_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_44Percussion_Proj</defaultProjectile>
         <warmupTime>0.15</warmupTime>
         <range>6.9</range>
         <burstShotCount>6</burstShotCount>
@@ -336,7 +336,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_SWModelThree_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_44American_Proj</defaultProjectile>
         <warmupTime>0.3</warmupTime>
         <range>23.9</range>
         <burstShotCount>1</burstShotCount>
@@ -347,7 +347,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_SWModelThree_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_44American_Proj</defaultProjectile>
         <warmupTime>0.03</warmupTime>
         <range>6.9</range>
         <burstShotCount>6</burstShotCount>
@@ -409,7 +409,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_Henry_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_44Rimfire_Proj</defaultProjectile>
         <warmupTime>1.0</warmupTime>
         <range>30.9</range>
         <burstShotCount>1</burstShotCount>
@@ -420,7 +420,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_Henry_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_44Rimfire_Proj</defaultProjectile>
         <warmupTime>0.3</warmupTime>
         <range>13.9</range>
         <burstShotCount>1</burstShotCount>
@@ -483,7 +483,7 @@
       <li Class="Helodrace.VerbProperties_Shotgun">
         <verbClass>Helodrace.Verb_ShootShotgun</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_WinM1887_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_12Gauge00Buck_Proj</defaultProjectile>
         <warmupTime>1.0</warmupTime>
         <range>15.9</range>
         <burstShotCount>1</burstShotCount>
@@ -497,7 +497,7 @@
       <li Class="Helodrace.VerbProperties_Shotgun">
         <verbClass>Helodrace.Verb_ShootShotgun</verbClass>
         <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_WinM1887_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_12Gauge00Buck_Proj</defaultProjectile>
         <warmupTime>0.3</warmupTime>
         <range>6.9</range>
         <burstShotCount>1</burstShotCount>
@@ -561,7 +561,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_WinMNinetyFive_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_30Army_Proj</defaultProjectile>
         <warmupTime>1.2</warmupTime>
         <range>32.9</range>
         <burstShotCount>1</burstShotCount>
@@ -572,7 +572,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_WinMNinetyFive_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_30Army_Proj</defaultProjectile>
         <warmupTime>0.3</warmupTime>
         <range>13.9</range>
         <burstShotCount>1</burstShotCount>
@@ -636,7 +636,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_SprMOne_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_58Minie_Proj</defaultProjectile>
         <warmupTime>2.5</warmupTime>
         <range>29.9</range>
         <burstShotCount>1</burstShotCount>
@@ -647,7 +647,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_SprMOne_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_58Minie_Proj</defaultProjectile>
         <warmupTime>5.0</warmupTime>
         <range>35.9</range>
         <burstShotCount>1</burstShotCount>
@@ -718,7 +718,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_SprMThreeHigh_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_4570_Proj</defaultProjectile>
         <warmupTime>1.5</warmupTime>
         <range>34.9</range>
         <burstShotCount>1</burstShotCount>
@@ -729,7 +729,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_SprMThreeHigh_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_4570_Proj</defaultProjectile>
         <warmupTime>3.0</warmupTime>
         <range>42.9</range>
         <burstShotCount>1</burstShotCount>

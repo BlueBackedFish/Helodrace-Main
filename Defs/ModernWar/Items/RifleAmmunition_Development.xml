@@ -63,7 +63,7 @@
         <ceAmmoDefName>Ammo_HDM855A1</ceAmmoDefName>
         <ammunitionCaliber>556x45</ammunitionCaliber>
         <projectileDiameterMm>5.7</projectileDiameterMm>
-        <projectileOverride>HD_Bullet_M16A4_Proj</projectileOverride>
+        <projectileOverride>HD_Bullet_556M855A1_Proj</projectileOverride>
         <casingMoteDef>HD_Mote_Shell55645_Mote</casingMoteDef>
         <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_556M855A1</feedingRoundTexPath>
         <overridePriority>20</overridePriority>
@@ -109,7 +109,7 @@
         <ceAmmoDefName>Ammo_9x19mmPara_FMJ</ceAmmoDefName>
         <ammunitionCaliber>9x19</ammunitionCaliber>
         <projectileDiameterMm>9.03</projectileDiameterMm>
-        <projectileOverride>HD_Bullet_Glock19_Proj</projectileOverride>
+        <projectileOverride>HD_Bullet_919M882_Proj</projectileOverride>
         <casingMoteDef>HD_Mote_Shell919_Mote</casingMoteDef>
         <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_919M882</feedingRoundTexPath>
         <overridePriority>20</overridePriority>

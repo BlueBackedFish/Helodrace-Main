@@ -2,10 +2,10 @@
 <Defs>
 
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_Bullet_Glock19_Proj</defName>
+    <defName>HD_Bullet_919M882_Proj</defName>
     <thingClass>Helodrace.Projectile_BallisticBullet</thingClass>
     <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>8</projectileMassGrams><referenceVelocityMetersPerSecond>350</referenceVelocityMetersPerSecond><referenceBarrelInches>4.7</referenceBarrelInches><velocityHalfDistance>45</velocityHalfDistance></li></modExtensions>
-    <label>9x19mm bullet</label>
+    <label>9x19mm M882 bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -121,7 +121,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_Glock19_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_919M882_Proj</defaultProjectile>
         <warmupTime>0.45</warmupTime>
         <range>23.9</range>
         <burstShotCount>1</burstShotCount>
@@ -132,7 +132,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_Glock19_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_919M882_Proj</defaultProjectile>
         <warmupTime>0.15</warmupTime>
         <range>15.9</range>
         <burstShotCount>1</burstShotCount>

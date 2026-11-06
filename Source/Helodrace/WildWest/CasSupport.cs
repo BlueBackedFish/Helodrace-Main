@@ -182,7 +182,7 @@ namespace Helodrace
         public const float A10CRoundsPerTick = A10CRoundsPerMinute / (60f * 60f);
         public const int A10CStrafeRoundCount = 90;
         public const float A10CMuzzleForwardOffset = 3.5f;
-        public const string StrafeProjectileDefName = "HD_Bullet_M2HB_CAS_Proj";
+        public const string StrafeProjectileDefName = "HD_Bullet_12799M2Ball_Proj";
         public const string StrafeSoundDefName = "HD_M2Fire";
         public const int FollowupEntryIntervalTicks = 12 * 60;
         public const int CancellationLockBeforeReleaseTicks = 60;
@@ -1798,8 +1798,8 @@ namespace Helodrace
                 int a10CShotIndex = -1;
                 string projectileDefName = isA10C
                     ? (strike.NextA10CStrafeRoundIsHighExplosive(out a10CShotIndex)
-                        ? "HD_Projectile_A10C_PGU13Round"
-                        : "HD_Projectile_A10C_PGU14Round")
+                        ? "HD_Projectile_PGU13Round"
+                        : "HD_Projectile_PGU14Round")
                     : HelodCasSupportUtility.StrafeProjectileDefName;
                 ThingDef projectileDef = DefDatabase<ThingDef>.GetNamedSilentFail(
                     projectileDefName);

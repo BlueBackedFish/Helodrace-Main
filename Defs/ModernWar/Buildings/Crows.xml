@@ -148,7 +148,7 @@
     <verbs>
       <li>
         <verbClass>Helodrace.Verb_Crows</verbClass>
-        <defaultProjectile>HD_Bullet_M2HB_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_12799M8_Proj</defaultProjectile>
         <warmupTime>0</warmupTime>
         <range>42.9</range>
         <burstShotCount>10</burstShotCount>
@@ -161,7 +161,7 @@
       </li>
     </verbs>
     <modExtensions><li Class="Helodrace.MixedMagazineExtension"><projectileSequence>
-      <li>HD_Bullet_M2HB_Proj</li><li>HD_Bullet_M2HB_Proj</li><li>HD_Bullet_M2HB_Proj</li><li>HD_Bullet_M2HB_Proj</li><li>HD_Bullet_M2HB_M20_Proj</li>
+      <li>HD_Bullet_12799M8_Proj</li><li>HD_Bullet_12799M8_Proj</li><li>HD_Bullet_12799M8_Proj</li><li>HD_Bullet_12799M8_Proj</li><li>HD_Bullet_12799M20_Proj</li>
     </projectileSequence></li></modExtensions>
   </ThingDef>
 </Defs>

@@ -2,10 +2,10 @@
 <Defs>
 
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_Bullet_M60E3_Proj</defName>
+    <defName>HD_Bullet_76251M80_Proj</defName>
     <thingClass>Helodrace.Projectile_BallisticBullet</thingClass>
     <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>9.5</projectileMassGrams><referenceVelocityMetersPerSecond>830</referenceVelocityMetersPerSecond><referenceBarrelInches>22</referenceBarrelInches><velocityHalfDistance>80</velocityHalfDistance></li></modExtensions>
-    <label>7.62x51mm NATO bullet</label>
+    <label>7.62x51mm M80 bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -20,7 +20,7 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_Projectile_M167_20mmHEI</defName>
+    <defName>HD_Projectile_20mmHEI</defName>
     <label>20 mm high-explosive incendiary projectile</label>
     <thingClass>Helodrace.Projectile_20mmHighExplosiveIncendiary</thingClass>
     <graphicData>
@@ -52,7 +52,7 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_Projectile_M167_20mmAPI</defName>
+    <defName>HD_Projectile_20mmAPI</defName>
     <label>20 mm armor-piercing incendiary projectile</label>
     <thingClass>Helodrace.Projectile_ArmorPiercingIncendiary</thingClass>
     <graphicData>
@@ -77,7 +77,7 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_Projectile_M167_20mmHEIT</defName>
+    <defName>HD_Projectile_20mmHEIT</defName>
     <label>20 mm high-explosive incendiary tracer projectile</label>
     <thingClass>Helodrace.Projectile_20mmHighExplosiveIncendiary</thingClass>
     <graphicData>
@@ -135,7 +135,7 @@
     <verbs>
       <li>
         <verbClass>Helodrace.Verb_ShootMixedMagazine</verbClass>
-        <defaultProjectile>HD_Projectile_M167_20mmHEI</defaultProjectile>
+        <defaultProjectile>HD_Projectile_20mmHEI</defaultProjectile>
         <warmupTime>1.2</warmupTime>
         <range>49.9</range>
         <minRange>3.9</minRange>
@@ -151,11 +151,11 @@
     <modExtensions>
       <li Class="Helodrace.MixedMagazineExtension">
         <projectileSequence>
-          <li>HD_Projectile_M167_20mmHEI</li>
-          <li>HD_Projectile_M167_20mmHEI</li>
-          <li>HD_Projectile_M167_20mmHEI</li>
-          <li>HD_Projectile_M167_20mmHEIT</li>
-          <li>HD_Projectile_M167_20mmAPI</li>
+          <li>HD_Projectile_20mmHEI</li>
+          <li>HD_Projectile_20mmHEI</li>
+          <li>HD_Projectile_20mmHEI</li>
+          <li>HD_Projectile_20mmHEIT</li>
+          <li>HD_Projectile_20mmAPI</li>
         </projectileSequence>
       </li>
     </modExtensions>
@@ -257,7 +257,7 @@
     guidance behavior are implemented by the M47 Dragon weapon/projectile comps.
   -->
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_M47_M222_Proj</defName>
+    <defName>HD_M222_Proj</defName>
     <label>M222 missile</label>
     <description>A 140 mm shaped-charge missile guided through a command wire by an M47 Dragon launcher.</description>
     <thingClass>Helodrace.Projectile_M47Dragon</thingClass>
@@ -346,7 +346,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_M47_M222_Proj</defaultProjectile>
+        <defaultProjectile>HD_M222_Proj</defaultProjectile>
         <warmupTime>3.5</warmupTime>
         <range>79.9</range>
         <minRange>6.9</minRange>
@@ -420,7 +420,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_M60E3_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_76251M80_Proj</defaultProjectile>
         <warmupTime>1.25</warmupTime>
         <range>33.9</range>
         <burstShotCount>7</burstShotCount>
@@ -432,7 +432,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_M60E3_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_76251M80_Proj</defaultProjectile>
         <warmupTime>0.45</warmupTime>
         <range>25.9</range>
         <burstShotCount>7</burstShotCount>

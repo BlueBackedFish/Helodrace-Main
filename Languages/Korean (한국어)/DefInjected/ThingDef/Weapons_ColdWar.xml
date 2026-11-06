@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_Bullet_M60E3_Proj.label>7.62×51mm NATO 탄환</HD_Bullet_M60E3_Proj.label>
+  <HD_Bullet_76251M80_Proj.label>7.62×51mm M80 탄자</HD_Bullet_76251M80_Proj.label>
   <HD_Gun_M60E3_Weapon.label>M60E3 다목적기관총</HD_Gun_M60E3_Weapon.label>
   <HD_Gun_M60E3_Weapon.description>양각대 대신 전방 손잡이와 개량 총열을 단 경량형 M60입니다. 빠른 지향사격에 적합하도록 현대화되었습니다.</HD_Gun_M60E3_Weapon.description>
   <HD_PowerCutter.label>동력 절단기</HD_PowerCutter.label>
   <HD_PowerCutter.description>석재와 금속 골조를 절단하는 중량급 무선 공구입니다. 노출된 절단날은 위급할 때 위험한 근접 무기가 됩니다.</HD_PowerCutter.description>
-  <HD_Projectile_M167_20mmHEI.label>20 mm 고폭소이탄</HD_Projectile_M167_20mmHEI.label>
-  <HD_Projectile_M167_20mmAPI.label>20 mm 철갑소이탄</HD_Projectile_M167_20mmAPI.label>
-  <HD_Projectile_M167_20mmHEIT.label>20 mm 고폭소이예광탄</HD_Projectile_M167_20mmHEIT.label>
+  <HD_Projectile_20mmHEI.label>20 mm 고폭소이탄</HD_Projectile_20mmHEI.label>
+  <HD_Projectile_20mmAPI.label>20 mm 철갑소이탄</HD_Projectile_20mmAPI.label>
+  <HD_Projectile_20mmHEIT.label>20 mm 고폭소이예광탄</HD_Projectile_20mmHEIT.label>
   <HD_Projectile_20mmHEIFragment.label>20 mm HEI 파편</HD_Projectile_20mmHEIFragment.label>
   <HD_Gun_M167VADS_TurretGun.label>M167 VADS 20 mm 회전식 기관포</HD_Gun_M167VADS_TurretGun.label>
   <HD_BGM71A_Proj.label>BGM-71A 미사일</HD_BGM71A_Proj.label>
   <HD_Gun_M220TOW_TurretGun.label>M220 TOW 발사기</HD_Gun_M220TOW_TurretGun.label>
-  <HD_M47_M222_Proj.label>M222 미사일</HD_M47_M222_Proj.label>
-  <HD_M47_M222_Proj.description>M47 드래곤 발사기의 지령선을 통해 유도되는 140mm 성형작약 미사일입니다.</HD_M47_M222_Proj.description>
+  <HD_M222_Proj.label>M222 미사일</HD_M222_Proj.label>
+  <HD_M222_Proj.description>M47 드래곤 발사기의 지령선을 통해 유도되는 140mm 성형작약 미사일입니다.</HD_M222_Proj.description>
   <HD_Gun_M47_Dragon.label>M47 드래곤</HD_Gun_M47_Dragon.label>
   <HD_Gun_M47_Dragon.description>일회용 휴대식 대전차유도미사일 체계입니다. 조작자는 유도 명령이 전선을 통해 미사일에 전달되는 동안 표적을 시야에 유지해야 합니다. 펄스식 조향 장약이 단계적으로 비행 경로를 수정하며, 비행 중 다른 표적으로 유도를 전환할 수도 있습니다.</HD_Gun_M47_Dragon.description>
   <HD_Gun_M47_Dragon.tools.0.label>발사관</HD_Gun_M47_Dragon.tools.0.label>

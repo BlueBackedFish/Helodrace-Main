@@ -198,7 +198,7 @@ public sealed partial class Checks
         worker.apparel.Remove(riot);var iv=(Apparel)ThingMaker.MakeThing(Def<ThingDef>("HD_Apparel_ShieldIronHideIV"));worker.apparel.Wear(iv);
         blow=new DamageInfo(DamageDefOf.Blunt,8,.05f,180,worker);iv.GetComp<CompDirectionalBallisticShield>().PostPreApplyDamage(ref blow,out blocked);Check(!blocked,"Existing ballistic shield remains ranged-only");worker.apparel.Remove(iv);
         var turret=(Building_TurretGun)ItemBuilding("HD_Building_M2HB",-15,15);turret.GetComp<CompRefuelable>().Refuel(100);
-        var belt=Enumerable.Range(0,10).Select(i=>i%5==4?"HD_Bullet_M2HB_M20_Proj":"HD_Bullet_M2HB_Proj").ToArray();
+        var belt=Enumerable.Range(0,10).Select(i=>i%5==4?"HD_Bullet_12799M20_Proj":"HD_Bullet_12799M8_Proj").ToArray();
         ItemBurst(turret,belt);ItemBurst(turret,belt);
         Check(turret.GetComp<CompRefuelable>().Props.fuelFilter.Allows(ThingDefOf.Steel),"M2HB retains Steel replenishment");
         var crows=(Building_Crows)ItemBuilding("HD_Building_CrowsII",0,15);var console=(Building_CrowsComputer)ItemBuilding("HD_CrowsComputer",8,15);
@@ -216,11 +216,11 @@ public sealed partial class Checks
         Check(((Verb_Crows)crows.AttackVerb).Projectile==next&&crows.GetComp<CompRefuelable>().Fuel==fuel,"Failed remote shot changes neither feed position nor Steel");
         foreach(string n in new[]{"HD_Gun_CrowsII_M240B","HD_Gun_CrowsII_M249Weapon","HD_Gun_CrowsII_MK19Weapon"})
         {var d=Def<ThingDef>(n);Check(d.GetModExtension<MixedMagazineExtension>()==null&&!d.Verbs[0].defaultProjectile.defName.StartsWith("HD_Bullet_M2HB"),"Other CROWS calibers retain native single-projectile feeds: "+n);}
-        var m167=Def<ThingDef>("HD_Gun_M167VADS_TurretGun");Check(m167.GetModExtension<MixedMagazineExtension>().projectileSequence.Select(p=>p.defName).SequenceEqual(new[]{"HD_Projectile_M167_20mmHEI","HD_Projectile_M167_20mmHEI","HD_Projectile_M167_20mmHEI","HD_Projectile_M167_20mmHEIT","HD_Projectile_M167_20mmAPI"}),"Existing M167 sequence remains unchanged");
-        Check(Def<ThingDef>("HD_Projectile_M167_20mmAPI").thingClass==typeof(Projectile_ArmorPiercingIncendiary),"M167 still resolves its shared incendiary impact class");
-        foreach(string n in new[]{"HD_Bullet_M2HB_Proj","HD_Bullet_M2HB_M20_Proj"})
+        var m167=Def<ThingDef>("HD_Gun_M167VADS_TurretGun");Check(m167.GetModExtension<MixedMagazineExtension>().projectileSequence.Select(p=>p.defName).SequenceEqual(new[]{"HD_Projectile_20mmHEI","HD_Projectile_20mmHEI","HD_Projectile_20mmHEI","HD_Projectile_20mmHEIT","HD_Projectile_20mmAPI"}),"Existing M167 sequence remains unchanged");
+        Check(Def<ThingDef>("HD_Projectile_20mmAPI").thingClass==typeof(Projectile_ArmorPiercingIncendiary),"M167 still resolves its shared incendiary impact class");
+        foreach(string n in new[]{"HD_Bullet_12799M8_Proj","HD_Bullet_12799M20_Proj"})
         {var d=Def<ThingDef>(n);Check(d.category==ThingCategory.Projectile&&d.thingClass==typeof(Projectile_ArmorPiercingIncendiary)&&!d.IsWeapon&&d.recipeMaker==null,"Mixed round is a projectile, not a craftable ammunition item: "+n);Check(ThingMaker.MakeThing(d).Graphic.MatSingle!=BaseContent.BadMat,"Mixed projectile texture loads: "+n);}
-        Check(Def<ThingDef>("HD_Bullet_M2HB_CAS_Proj").projectile.speed==240&&Def<ThingDef>("HD_Bullet_M2HB_CAS_Proj").projectile.flyOverhead,"Aircraft support bullet is unchanged");
+        Check(Def<ThingDef>("HD_Bullet_12799M2Ball_Proj").projectile.speed==240&&Def<ThingDef>("HD_Bullet_12799M2Ball_Proj").projectile.flyOverhead,"Aircraft support bullet is unchanged");
         itemChecks=null;h.UnpatchAll(h.Id);
     }
 }

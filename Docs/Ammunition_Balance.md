@@ -15,7 +15,8 @@
 | 5.56mm MK262 | 16 | 18% | STANAG·M249 선택 탄종; 경장갑 대상 피해·저지력 중점 |
 | 5.56mm MK318 | 15 | 23% | STANAG·M249 선택 탄종; 피해·관통 균형형 |
 | 7.62×51mm M80A1 | 18 | 34% | M14·M14 EBR 계열 |
-| .30-06 M2 Ball | 19 | 27% | M1903, M1 Garand, BAR, M1917, M1919A6 |
+| .30-06 M2 Ball | 19 | 27% | M1903, M1 Garand, BAR |
+| .30-06 M1 Ball | 19 | 27% | M1917, M1919A6 기관총 |
 | 12.7mm M1 Ball | 32 | 42% | M2HB, 항공지원 .50구경 |
 | M6A3 HEAT | 45 | 90% | 바주카 성형작약 로켓 |
 | BGM-71A TOW | 100 | 180% | TOW 유도 미사일 |
@@ -29,7 +30,7 @@
 - 9mm는 .45 ACP보다 피해가 낮고 관통력이 조금 높다. 권총·기관단총 차이는 발사 속도, 조준시간, 정확도와 탄창으로 조정한다.
 - .30 Carbine과 5.56mm는 피해 13으로 같고, 5.56mm의 관통력을 높여 방어구 대응 능력을 구분한다. .300 BLK는 5.56mm보다 피해·저지력이 높고 관통력·탄속이 낮다.
 - 신규 5.56mm 수치는 게임 밸런스용이다. M193·M855는 기존 탄약보다 관통력이 낮고, M995는 피해·저지력을 낮추는 대신 ESAPI 확정 방어 컷 34%를 넘는다. MK262는 피해·저지력이 높고 관통력이 낮으며, MK318은 MK262와 M855A1 사이의 역할이다. 확정 방어 컷을 넘더라도 확정 관통은 아니다.
-- M80A1은 .30-06보다 피해가 1 낮고 관통력이 7%p 높다. 같은 .30-06을 쓰는 소총과 기관총은 한 발 피해를 통일하고 연사·명중률로 구분한다.
+- M80A1은 .30-06보다 피해가 1 낮고 관통력이 7%p 높다. 같은 .30-06을 쓰는 소총(M2 Ball)과 기관총(M1 Ball)은 한 발 피해를 통일하고 연사·명중률로 구분한다. 기관총탄의 저지력은 1.2로 소총탄 1.5보다 낮다.
 - 12게이지의 감쇠 전 피해 합계는 `5 × 9 = 45`, M576은 `2 × 20 = 40`이다. 전탄 명중을 가정한 합계이며, 탄별 관통력을 합산하지 않는다. 거리별 에너지 감쇠·산포·장갑 판정 때문에 실제 피해는 달라진다.
 - M53은 철갑, M56A3는 폭발·파편·발화 역할이다. M56A3의 30은 폭발 기본 피해이며 별도로 생성되는 파편과 화상 피해를 포함하지 않는다.
 - M6A3와 TOW의 수치는 폭발 기본 피해·관통력이다. 폭발 반경은 각각 2.0칸·1.2칸이며, 표의 피해량이 단일 표적에 보장되는 값은 아니다.
@@ -54,7 +55,7 @@
 
 ## 탄자 파편화
 
-M193·M855·M855A1·MK262·MK318·M80A1에만 적용한다. M995, .300 BLK TAC-TX, 권총탄, 산탄 등에는 적용하지 않는다. M855A1 설정은 공용 `HD_Bullet_M16A4_Proj`에 있으므로 이를 사용하는 구형 M16·M4·MK18·M249에도 적용된다. 수류탄의 비산 파편과 별개로, 몸을 관통한 탄자가 체내에서 부서지는 기능이다. 아래 값은 실제 탄도 자료가 아닌 게임 밸런스 계수다.
+M193·M855·M855A1·MK262·MK318·M80A1에만 적용한다. M995, .300 BLK TAC-TX, 권총탄, 산탄 등에는 적용하지 않는다. M855A1 설정은 공용 `HD_Bullet_556M855A1_Proj`에 있으므로 이를 사용하는 구형 M16·M4·MK18·M249에도 적용된다. 수류탄의 비산 파편과 별개로, 몸을 관통한 탄자가 체내에서 부서지는 기능이다. 아래 값은 실제 탄도 자료가 아닌 게임 밸런스 계수다.
 
 | 탄종 | 기준 최대 확률 | 기준 총열(인치) | 속도 반감 거리(칸) | 추가 피해 비율 | 파편 수 |
 |---|---:|---:|---:|---:|---:|
@@ -83,13 +84,13 @@ M193·M855·M855A1·MK262·MK318·M80A1에만 적용한다. M995, .300 BLK TAC-T
 
 | 파일 | 투사체 DefName |
 |---|---|
-| `Defs/ModernWar/Items/Weapons_ModernWar.xml` | `HD_Bullet_Glock19_Proj` |
+| `Defs/ModernWar/Items/Weapons_ModernWar.xml` | `HD_Bullet_919M882_Proj` |
 | `Defs/ModernWar/Items/RifleAmmunition_Development.xml` | `HD_Bullet_300BLKTACTX_Proj`, `HD_Bullet_76251M80A1_Proj` |
 | `Defs/ModernWar/Items/RifleAmmunition_556.xml` | `HD_Bullet_556M193_Proj`, `HD_Bullet_556M855_Proj`, `HD_Bullet_556M995_Proj`, `HD_Bullet_556MK262_Proj`, `HD_Bullet_556MK318_Proj` |
-| `Defs/Items/WeaponFamilies_Helod.xml` | `HD_Bullet_M16A4_Proj` |
-| `Defs/GreatWar/Items/Weapons_GreatWar.xml` | `HD_Bullet_M1911_Proj`, `HD_Bullet_M1Carbine_Proj`, `HD_Bullet_SprMThree_Proj`, `HD_Bullet_M1Garand_Proj`, `HD_Bullet_M1917HMG_Proj`, `HD_Bullet_M1919A6LMG_Proj`, `HD_Bullet_M2HB_Proj`, `HD_Bullet_M2HB_CAS_Proj`, `HD_Rocket_M6A3HEAT_Proj`, `HD_Bullet_M1897_Proj` |
-| `Defs/ColdWar/Items/Weapons_ColdWar.xml` | `HD_BGM71A_Proj`, `HD_Projectile_M167_20mmAPI`, `HD_Projectile_M167_20mmHEI`, `HD_Projectile_M167_20mmHEIT` |
-| `Defs/WildWest/Items/Weapons_WildWest.xml` | `HD_Bullet_WinM1887_Proj` |
+| `Defs/Items/WeaponFamilies_Helod.xml` | `HD_Bullet_556M855A1_Proj` |
+| `Defs/GreatWar/Items/Weapons_GreatWar.xml` | `HD_Bullet_45ACP_Proj`, `HD_Bullet_30Carbine_Proj`, `HD_Bullet_3006M2Ball_Proj`, `HD_Bullet_3006M1Ball_Proj`, `HD_Bullet_12799M8_Proj`, `HD_Bullet_12799M2Ball_Proj`, `HD_Rocket_M6A3HEAT_Proj` |
+| `Defs/ColdWar/Items/Weapons_ColdWar.xml` | `HD_BGM71A_Proj`, `HD_Projectile_20mmAPI`, `HD_Projectile_20mmHEI`, `HD_Projectile_20mmHEIT` |
+| `Defs/WildWest/Items/Weapons_WildWest.xml` | `HD_Bullet_12Gauge00Buck_Proj` |
 | `Defs/ColdWar/Items/M79_ColdWar.xml` | `HD_40mmM576Pellet_Proj` |
 
-구형 M16과 비예광 20mm 고폭소이탄은 현재 공용 투사체 구조를 따라 각각 5.56mm·20mm 기준을 공유한다. M60E3의 기존 7.62mm NATO 투사체는 M80A1 선택 탄종과 분리되어 있으므로 이 표의 M80A1 조정 대상에서 제외한다. Combat Extended의 외부 탄약 Def 및 별도 관통 단위는 이 표의 적용 대상이 아니다.
+구형 M16과 비예광 20mm 고폭소이탄은 현재 공용 투사체 구조를 따라 각각 5.56mm·20mm 기준을 공유한다. 투사체 DefName과 이름은 사용 총기가 아닌 탄종을 따른다. 같은 탄종을 쓰는 총기는 하나의 투사체를 공유한다. M60E3·M14의 `HD_Bullet_76251M80_Proj`(M80)는 M80A1 선택 탄종과 분리되어 있으므로 이 표의 M80A1 조정 대상에서 제외한다. Combat Extended의 외부 탄약 Def 및 별도 관통 단위는 이 표의 적용 대상이 아니다.

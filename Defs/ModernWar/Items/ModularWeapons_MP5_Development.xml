@@ -250,7 +250,7 @@
         </thingDefs>
       </defaultIngredientFilter><skillRequirements><Crafting>8</Crafting></skillRequirements><researchPrerequisite>HelodSpecialOperationsWeapons</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers></recipeMaker>
     <verbs>
-      <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_Glock19_Proj</defaultProjectile><warmupTime>0.55</warmupTime><range>23.9</range><burstShotCount>6</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_Autopistol</soundCast><soundCastTail>GunTail_Light</soundCastTail><muzzleFlashScale>5</muzzleFlashScale></li>
+      <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_919M882_Proj</defaultProjectile><warmupTime>0.55</warmupTime><range>23.9</range><burstShotCount>6</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_Autopistol</soundCast><soundCastTail>GunTail_Light</soundCastTail><muzzleFlashScale>5</muzzleFlashScale></li>
     </verbs>
     <tools><li><label>stock</label><capacities><li>Blunt</li></capacities><power>7</power><cooldownTime>1.7</cooldownTime></li></tools>
   </ThingDef>

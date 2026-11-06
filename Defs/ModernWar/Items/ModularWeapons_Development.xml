@@ -545,7 +545,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_556M855A1_Proj</defaultProjectile>
         <warmupTime>0.8</warmupTime>
         <range>27.9</range>
         <burstShotCount>6</burstShotCount>
@@ -557,7 +557,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_556M855A1_Proj</defaultProjectile>
         <warmupTime>0.25</warmupTime>
         <range>19.9</range>
         <burstShotCount>6</burstShotCount>

@@ -59,7 +59,7 @@
               <li>
                 <verbClass>Verb_Shoot</verbClass>
                 <hasStandardCommand>true</hasStandardCommand>
-                <defaultProjectile>HD_Bullet_Glock19_Proj</defaultProjectile>
+                <defaultProjectile>HD_Bullet_919M882_Proj</defaultProjectile>
                 <warmupTime>0.25</warmupTime>
                 <range>22</range>
                 <burstShotCount>1</burstShotCount>
@@ -72,7 +72,7 @@
               <li>
                 <verbClass>Verb_Shoot</verbClass>
                 <hasStandardCommand>false</hasStandardCommand>
-                <defaultProjectile>HD_Bullet_Glock19_Proj</defaultProjectile>
+                <defaultProjectile>HD_Bullet_919M882_Proj</defaultProjectile>
                 <warmupTime>0.25</warmupTime>
                 <range>25.0</range>
                 <burstShotCount>1</burstShotCount>
@@ -92,7 +92,7 @@
               <li>
                 <verbClass>Verb_Shoot</verbClass>
                 <hasStandardCommand>true</hasStandardCommand>
-                <defaultProjectile>HD_Bullet_Glock19_Proj</defaultProjectile>
+                <defaultProjectile>HD_Bullet_919M882_Proj</defaultProjectile>
                 <warmupTime>0.25</warmupTime>
                 <range>22</range>
                 <burstShotCount>1</burstShotCount>
@@ -105,7 +105,7 @@
               <li>
                 <verbClass>Verb_Shoot</verbClass>
                 <hasStandardCommand>false</hasStandardCommand>
-                <defaultProjectile>HD_Bullet_Glock19_Proj</defaultProjectile>
+                <defaultProjectile>HD_Bullet_919M882_Proj</defaultProjectile>
                 <warmupTime>0.25</warmupTime>
                 <range>25.0</range>
                 <burstShotCount>1</burstShotCount>
