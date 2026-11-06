@@ -81,4 +81,5 @@ The Helods are a standalone frontier race (no Humanoid Alien Races needed) from 
 [list]
 [*]RimWorld 1.7 only.
 [*]Load after Harmony, Biotech and Helod race - Blanca's Drugs.
+[*][b]AI use:[/b] AI tools were used to write parts of the code and to make some placeholder textures. The placeholder textures will be replaced in later updates.
 [/list]

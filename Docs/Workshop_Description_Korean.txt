@@ -81,4 +81,5 @@
 [list]
 [*]RimWorld 1.7 전용입니다.
 [*]Harmony, Biotech, Helod race - Blanca's Drugs 뒤에 불러오세요.
+[*][b]AI 사용:[/b] 코드 일부와 일부 임시 텍스처 제작에 AI 도구를 사용했습니다. 임시 텍스처는 이후 업데이트에서 교체될 예정입니다.
 [/list]
