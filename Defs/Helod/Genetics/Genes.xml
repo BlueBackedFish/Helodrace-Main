@@ -37,10 +37,10 @@
     <label>sharpshooter</label>
     <description>A knack for handling firearms, enough to use their special techniques.</description>
     <iconPath>Icons/HD_Sharpshooter</iconPath>
-    <displayCategory>Miscellaneous</displayCategory>
+    <displayCategory>Archite</displayCategory>
     <biostatCpx>0</biostatCpx>
     <biostatMet>0</biostatMet>
-    <biostatArc>0</biostatArc>
+    <biostatArc>1</biostatArc>
     <statOffsets>
       <ShootingAccuracyPawn>1.5</ShootingAccuracyPawn>
     </statOffsets>
@@ -63,9 +63,33 @@
     </statOffsets>
   </GeneDef>
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>HD_Gene_SturdyBuild</defName>
+    <label>sturdy build</label>
+    <description>Carriers are tall and heavily built. Their dense frames shrug off blows that would injure others, and their large stomachs take in big meals at a sitting.</description>
+    <geneClass>Helodrace.Gene_HelodBodyScale</geneClass>
+    <iconPath>Icons/HD_Helod</iconPath>
+    <displayCategory>Miscellaneous</displayCategory>
+    <biostatCpx>2</biostatCpx>
+    <biostatMet>-1</biostatMet>
+    <customEffectDescriptions>
+      <li>Body size x120%</li>
+      <li>Stomach capacity x150%</li>
+    </customEffectDescriptions>
+    <statFactors>
+      <IncomingDamageFactor>0.85</IncomingDamageFactor>
+    </statFactors>
+    <modExtensions>
+      <li Class="Helodrace.HelodBodyScaleExtension">
+        <bodySizeFactor>1.2</bodySizeFactor>
+        <drawScaleFactor>1.1</drawScaleFactor>
+        <foodCapacityFactor>1.25</foodCapacityFactor>
+      </li>
+    </modExtensions>
+  </GeneDef>
+  <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_Gene_PolarPrecision</defName>
     <label>cold-weather marksman</label>
-    <description>In an unroofed position at 10 C or colder, aiming time is 85% of normal. General work speed is reduced by 5%.</description>
+    <description>In an unroofed position at 10 C or colder, aiming time is 85% of normal and shooting accuracy improves by 3. General work speed is reduced by 5%.</description>
     <iconPath>Icons/HD_Sharpshooter</iconPath>
     <displayCategory>Miscellaneous</displayCategory>
     <biostatCpx>2</biostatCpx>
@@ -75,6 +99,9 @@
         <statFactors>
           <AimingDelayFactor>0.85</AimingDelayFactor>
         </statFactors>
+        <statOffsets>
+          <ShootingAccuracyPawn>3</ShootingAccuracyPawn>
+        </statOffsets>
       </li>
     </conditionalStatAffecters>
     <statOffsets>

@@ -8,8 +8,14 @@
   <HD_Gene_Sharpshooter.description>총을 잘 다루는 정도의 능력 (총기의 특수 조작을 사용할 수 있습니다)</HD_Gene_Sharpshooter.description>
   <HD_Gene_ArrogantLeader.label>자존심</HD_Gene_ArrogantLeader.label>
   <HD_Gene_ArrogantLeader.description>사회적 영향력이 15% 증가합니다. 자존심 때문에 정신 붕괴 임계치가 4%p 높아지고 학습 속도는 10%p 낮아집니다.</HD_Gene_ArrogantLeader.description>
+  <HD_Gene_SturdyBuild.label>건장한 체격</HD_Gene_SturdyBuild.label>
+  <HD_Gene_SturdyBuild.description>키가 크고 몸이 단단합니다. 남들이 다칠 만한 타격도 버텨 내며, 위가 커서 한 번에 많이 먹습니다.</HD_Gene_SturdyBuild.description>
+  <HD_Gene_SturdyBuild.customEffectDescriptions>
+    <li>몸 크기 x120%</li>
+    <li>위 용량 x150%</li>
+  </HD_Gene_SturdyBuild.customEffectDescriptions>
   <HD_Gene_PolarPrecision.label>설원 사수</HD_Gene_PolarPrecision.label>
-  <HD_Gene_PolarPrecision.description>지붕 없는 야외에서 기온이 10도 이하이면 조준 준비 시간이 기존의 85%가 됩니다. 일반 작업 속도는 5%p 낮아집니다.</HD_Gene_PolarPrecision.description>
+  <HD_Gene_PolarPrecision.description>지붕 없는 야외에서 기온이 10도 이하이면 조준 준비 시간이 기존의 85%가 되고 사격 정확도가 3 오릅니다. 일반 작업 속도는 5%p 낮아집니다.</HD_Gene_PolarPrecision.description>
   <HD_Gene_CityBred.label>도시 태생</HD_Gene_CityBred.label>
   <HD_Gene_CityBred.description>연구·일반 노동 속도가 각각 5% 빨라집니다. 거래 가격 개선이 8%p, 협상 능력이 10%p 높아집니다.</HD_Gene_CityBred.description>
   <HD_Gene_MercenaryCohesion.label>무리 본능</HD_Gene_MercenaryCohesion.label>

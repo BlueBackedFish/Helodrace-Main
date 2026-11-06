@@ -222,7 +222,7 @@ namespace Helodrace
             float width = kind == HelodAppendage.Tail
                 ? HumanlikeMeshPoolUtility.HumanlikeBodyWidthForPawn(parms.pawn)
                 : HumanlikeMeshPoolUtility.HumanlikeHeadWidthForPawn(parms.pawn);
-            float scale = width * HelodRace.DrawScale;
+            float scale = width * HelodRace.DrawScale * HelodBodyScale.DrawScaleFactor(parms.pawn);
             return new Vector3(scale, 1f, scale);
         }
     }
@@ -240,8 +240,9 @@ namespace Helodrace
         public static void Prefix(Pawn pawn, ref float wFactor, ref float hFactor)
         {
             if (!HelodRace.IsHelod(pawn)) return;
-            wFactor *= HelodRace.DrawScale;
-            hFactor *= HelodRace.DrawScale;
+            float scale = HelodRace.DrawScale * HelodBodyScale.DrawScaleFactor(pawn);
+            wFactor *= scale;
+            hFactor *= scale;
         }
     }
 
@@ -254,13 +255,20 @@ namespace Helodrace
             if (!HelodRace.IsHelod(___pawn)) return;
             float age = ___pawn.ageTracker.AgeBiologicalYearsFloat;
             HelodHeadOffset entry = OffsetForAge(age);
-            if (entry == null) return;
-            float value = ___pawn.gender == Gender.Female ? entry.female : entry.male;
+            float frame = HelodBodyScale.DrawScaleFactor(___pawn);
+            if (entry == null && frame == 1f) return;
             NativeVector3 result = __result.ToNative();
-            if (entry.absolute)
-                result.Z = value;
-            else
-                result.Z += value * Mathf.Sqrt(___pawn.ageTracker.CurLifeStage.bodySizeFactor);
+            if (entry != null)
+            {
+                float value = ___pawn.gender == Gender.Female ? entry.female : entry.male;
+                if (entry.absolute)
+                    result.Z = value;
+                else
+                    result.Z += value * Mathf.Sqrt(___pawn.ageTracker.CurLifeStage.bodySizeFactor);
+            }
+            // A larger frame scales the meshes, so the head sits proportionally further from the body origin.
+            result.X *= frame;
+            result.Z *= frame;
             __result = result.ToGame();
         }
 

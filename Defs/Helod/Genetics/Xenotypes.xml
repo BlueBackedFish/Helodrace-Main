@@ -3,8 +3,8 @@
   <XenotypeDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_MackenzieValleyHelod</defName>
     <label>Mackenzie Valley helod</label>
-    <description>Composed commanders and field medics. Strong social and medical aptitudes and reduced pain help them protect a group, at the cost of slow movement, demanding nutrition, pride and weaker research aptitude.</description>
-    <descriptionShort>Commanders and field medics; slow, proud and hungry.</descriptionShort>
+    <description>Composed commanders and field medics. A large, sturdy frame, strong social and medical aptitudes and reduced pain help them protect a group, at the cost of slow movement, big appetites, pride and weaker research aptitude.</description>
+    <descriptionShort>Large-framed commanders and field medics; slow, proud and hungry.</descriptionShort>
     <iconPath>Icons/HD_HelodRace</iconPath>
     <inheritable>true</inheritable>
     <nameMaker>HD_NamerPersonHelod</nameMaker>
@@ -18,6 +18,7 @@
       <li MayRequire="Ludeon.RimWorld.Biotech">Beauty_Pretty</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">Pain_Reduced</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">HD_Gene_ArrogantLeader</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">HD_Gene_SturdyBuild</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Medicine</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Intellectual</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Shooting</li>
@@ -51,7 +52,7 @@
   <XenotypeDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_ArcticHelod</defName>
     <label>arctic helod</label>
-    <description>Cold-country scouts with exceptional shooting aptitude. Unroofed positions at 10 C or colder shorten aiming time by 15%. Heat, disease, farming, social work and general work speed are weaknesses.</description>
+    <description>Cold-country scouts with exceptional shooting aptitude. Unroofed positions at 10 C or colder shorten aiming time by 15% and improve accuracy. Heat, disease, farming, social work and general work speed are weaknesses.</description>
     <descriptionShort>Polar scouts and marksmen; cold-field focus, weak immunity and heat sensitivity.</descriptionShort>
     <iconPath>Icons/HD_HelodRace</iconPath>
     <inheritable>true</inheritable>
@@ -114,7 +115,7 @@
       <li MayRequire="Ludeon.RimWorld.Biotech">KindInstinct</li>
       <li MayRequire="BlueBackedFish.Helod.BlancasDrugs">HD_Gene_AmphetamineDependency</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">HD_Gene_MercenaryCohesion</li>
-      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Plants</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeTerrible_Plants</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Shooting</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Melee</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Social</li>
