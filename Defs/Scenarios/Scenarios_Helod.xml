@@ -127,10 +127,10 @@
   <ScenarioDef ParentName="ScenarioBase">
     <defName>HD_Scenario_GWTech</defName>
     <label>Helod Great War Veterans</label>
-    <description>The war is over. Five Helod veterans, still in their storm-front uniforms, have come out to the frontier to start again. They know how to refine oil, cast steel and make smokeless powder. Most of them also came home needing benzedrine.</description>
+    <description>The war is over. Five Helod veterans, still in uniform, have come out to the frontier to start again. They know how to refine oil, cast steel and make smokeless powder. Most of them also came home needing benzedrine.</description>
     <scenario>
       <name>Helod Great War Veterans</name>
-      <description>The war is over. Five Helod veterans, still in their storm-front uniforms, have come out to the frontier to start again. They know how to refine oil, cast steel and make smokeless powder. Most of them also came home needing benzedrine.</description>
+      <description>The war is over. Five Helod veterans, still in uniform, have come out to the frontier to start again. They know how to refine oil, cast steel and make smokeless powder. Most of them also came home needing benzedrine.</description>
       <summary>Five Helod veterans starting with frontier-era research complete, Sthaler money, FLAM and hardtack, benzedrine, an M1897 shotgun, an M1A1 Harrington and three M1 Hartwell rifles.</summary>
       <playerFaction>
         <def>PlayerFaction</def>
