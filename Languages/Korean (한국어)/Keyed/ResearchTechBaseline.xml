@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_ResearchTechBaseline_Summary>연구에 부족민 시작 기술 보정을 적용합니다. 중세 연구는 1.5배, 산업 이후 연구는 2배의 작업이 필요합니다. 기본 게임 연구에는 더 큰 헤로드 산업 연구량을 적용합니다.</HD_ResearchTechBaseline_Summary>
+  <HD_ResearchTechBaseline_Summary>연구에 중세 기술 보정을 적용합니다. 산업 이후 연구는 1.5배의 작업이 필요합니다. 헤로드 연구와 연결된 기본 게임 연구는 연결로 얻는 헤로드 지식만큼의 연구량이 필요합니다.</HD_ResearchTechBaseline_Summary>
 </LanguageData>

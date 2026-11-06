@@ -6,8 +6,8 @@ using Verse;
 
 namespace Helodrace;
 
-// Marks a Helod scenario. Its research rules (the tribal tech penalty and the
-// raised base-game budgets) apply only while the current scenario has this part.
+// Marks a Helod scenario. Its research rules (the medieval tech penalty and the
+// linked base-game budgets) apply only while the current scenario has this part.
 public sealed class ScenPart_ResearchTechBaseline : ScenPart
 {
     public override string Summary(Scenario scen) => "HD_ResearchTechBaseline_Summary".Translate();
@@ -22,7 +22,7 @@ public sealed class ScenPart_ResearchTechBaseline : ScenPart
 }
 
 // Preserve the actual faction's industrial identity. Only research uses the
-// native penalty for a Neolithic starting colony (Medieval 1.5, Industrial+ 2).
+// native penalty for a Medieval colony (Industrial and later 1.5; the engine caps the gap at Industrial).
 // Native progress, apparent-cost UI and explicit completion stay in agreement.
 [HarmonyPatch(typeof(ResearchProjectDef), nameof(ResearchProjectDef.CostFactor))]
 public static class Patch_ResearchTechBaseline
@@ -30,11 +30,11 @@ public static class Patch_ResearchTechBaseline
     [HarmonyPostfix]
     public static void Postfix(ResearchProjectDef __instance, TechLevel researcherTechLevel, ref float __result)
     {
-        // Also prevents recursion when asking the engine for its tribal factor.
-        if (researcherTechLevel == TechLevel.Neolithic || Current.Game == null) return;
+        // Also prevents recursion when asking the engine for its medieval factor.
+        if (researcherTechLevel <= TechLevel.Medieval || Current.Game == null) return;
         TechLevel playerTech = Faction.OfPlayerSilentFail?.def.techLevel ?? TechLevel.Industrial;
         if (researcherTechLevel != playerTech || !ScenPart_ResearchTechBaseline.In(Find.Scenario)) return;
-        __result = System.MathF.Max(__result, __instance.CostFactor(TechLevel.Neolithic));
+        __result = System.MathF.Max(__result, __instance.CostFactor(TechLevel.Medieval));
     }
 }
 

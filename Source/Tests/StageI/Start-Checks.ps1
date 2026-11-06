@@ -11,7 +11,7 @@ dotnet build (Join-Path $repository 'Source/Helodrace/Helodrace.csproj') -p:Inte
 if($LASTEXITCODE -ne 0){throw 'Main build failed.'}
 dotnet build (Join-Path $PSScriptRoot 'StageI.csproj') ("-p:OutputPath="+(Join-Path $checks 'Assemblies/')) ("-p:HelodAssembly="+(Join-Path $mainOutput 'Helodrace.dll')) -v:minimal
 if($LASTEXITCODE -ne 0){throw 'Stage I economy checks build failed.'}
-Copy-Item -LiteralPath (Join-Path $repository 'Docs/Data/StageI/research_policy.json') -Destination (Join-Path $runtime.Evidence 'research-policy.json')
+Copy-Item -LiteralPath (Join-Path $repository 'Docs/Data/ResearchMedieval/research_policy.json') -Destination (Join-Path $runtime.Evidence 'research-policy.json')
 $arguments=@('-hdStageI='+$runtime.Evidence)
 $process=Start-Game17Runtime -Runtime $runtime -Arguments $arguments -ResultFile (Join-Path $runtime.Evidence 'checks.txt') -CompletionPattern '(?m)^COMPLETE\r?$'
 Write-Output ('Observe with Source/Tests/Wait-Game17Host.ps1 -RuntimeRoot "'+$runtime.Root+'" -TimeoutSeconds 45')

@@ -24,14 +24,19 @@ public sealed partial class Checks
             Check(row.project.baseCost==row.after, "Helod scenario research base budget: "+row.project.defName);
         Check(Def<FactionDef>("HD_HelodPlayerColony").techLevel==TechLevel.Industrial, "Research penalty preserves actual faction industrial identity");
         foreach(var project in DefDatabase<ResearchProjectDef>.AllDefsListForReading.Where(p=>p.baseCost>0))
-            Check(project.CostFactor(Faction.OfPlayer.def.techLevel)==project.CostFactor(TechLevel.Neolithic), "Native tribal tech penalty: "+project.defName);
-        Check(electricity.Cost==11100 && electricity.CostApparent==22200, "UI apparent cost includes tech penalty exactly once");
-        Check(Def<ResearchProjectDef>("HelodHighElectronics").Cost==1500 && Def<ResearchProjectDef>("HelodHighElectronics").CostApparent==3000, "Helod milestone has its own budget and the same tribal factor");
+            Check(project.CostFactor(Faction.OfPlayer.def.techLevel)==project.CostFactor(TechLevel.Medieval), "Native medieval tech penalty: "+project.defName);
+        Check(DefDatabase<ResearchProjectDef>.AllDefsListForReading.Where(p=>p.techLevel>=TechLevel.Industrial).All(p=>p.CostFactor(Faction.OfPlayer.def.techLevel)==1.5f),
+            "Industrial and later research takes 1.5 times the work");
+        foreach(var row in policy.GetProperty("restored_vanilla").EnumerateArray())
+            Check(Def<ResearchProjectDef>(row.GetProperty("name").GetString()).baseCost==row.GetProperty("base").GetSingle(),
+                "Unlinked base-game research keeps its base-game cost: "+row.GetProperty("name").GetString());
+        Check(electricity.Cost==8200 && electricity.CostApparent==12300, "UI apparent cost includes tech penalty exactly once");
+        Check(Def<ResearchProjectDef>("HelodHighElectronics").Cost==1500 && Def<ResearchProjectDef>("HelodHighElectronics").CostApparent==2250, "Helod milestone has its own budget and the same medieval factor");
         var manager=Find.ResearchManager;
         manager.ResetAllProgress(); DebugSettings.fastResearch=false; Find.Storyteller.difficulty.researchSpeedFactor=1;
         manager.SetCurrentProject(electricity); manager.ResearchPerformed(200,worker);
-        Check(Math.Abs(manager.GetProgress(electricity)-.825f)<.001 && !electricity.IsFinished, "Normal research earns half industrial progress under native tribal cost factor");
-        manager.ResearchPerformed((electricity.Cost-manager.GetProgress(electricity)+.1f)*2/.00825f,worker);
+        Check(Math.Abs(manager.GetProgress(electricity)-1.1f)<.001 && !electricity.IsFinished, "Normal research earns two thirds of industrial progress under native medieval cost factor");
+        manager.ResearchPerformed((electricity.Cost-manager.GetProgress(electricity)+.1f)*1.5f/.00825f,worker);
         Check(electricity.IsFinished && manager.GetProgress(electricity)==electricity.baseCost && electricity.ProgressApparent==electricity.CostApparent, "Normal completion and full UI bar agree without overfilling raw progress");
         Check(Def<ResearchProjectDef>("HelodHighElectronics").IsFinished && !Def<ResearchProjectDef>("HelodTransistor").IsFinished, "Normal linked electricity completes its counterpart without skipping transistors");
         manager.ResetAllProgress();

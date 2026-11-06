@@ -4,7 +4,7 @@
     <defName>HelodIndustrialAutomation</defName>
     <label>The Tireless Factory</label>
     <description>Develop automatic tool-changing machining centers and electrically controlled hydraulic forming equipment for faster, repeatable metalworking.</description>
-    <baseCost>2200</baseCost>
+    <baseCost>2500</baseCost>
     <techLevel>Industrial</techLevel>
     <prerequisites><li>HelodNumericalControl</li><li>HelodTransistor</li><li>HelodMetalFormingMachine</li></prerequisites>
     <tab>HelodTechTab</tab>

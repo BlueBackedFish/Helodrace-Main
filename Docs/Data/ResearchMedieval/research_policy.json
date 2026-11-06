@@ -1,0 +1,737 @@
+{
+  "factor": 1.5,
+  "changes": [
+    {
+      "name": "AirConditioning",
+      "source": "ludeon.rimworld",
+      "base_before": 500,
+      "base_after": 700
+    },
+    {
+      "name": "BlowbackOperation",
+      "source": "ludeon.rimworld",
+      "base_before": 500,
+      "base_after": 1700
+    },
+    {
+      "name": "Electricity",
+      "source": "ludeon.rimworld",
+      "base_before": 1600,
+      "base_after": 8200
+    },
+    {
+      "name": "FlakArmor",
+      "source": "ludeon.rimworld",
+      "base_before": 1200,
+      "base_after": 7900
+    },
+    {
+      "name": "GasOperation",
+      "source": "ludeon.rimworld",
+      "base_before": 1000,
+      "base_after": 2100
+    },
+    {
+      "name": "Gunsmithing",
+      "source": "ludeon.rimworld",
+      "base_before": 500,
+      "base_after": 3200
+    },
+    {
+      "name": "Machining",
+      "source": "ludeon.rimworld",
+      "base_before": 1000,
+      "base_after": 1800
+    },
+    {
+      "name": "MedicineProduction",
+      "source": "ludeon.rimworld",
+      "base_before": 1500,
+      "base_after": 4000
+    },
+    {
+      "name": "MicroelectronicsBasics",
+      "source": "ludeon.rimworld",
+      "base_before": 3000,
+      "base_after": 3200
+    },
+    {
+      "name": "Mortars",
+      "source": "ludeon.rimworld",
+      "base_before": 2000,
+      "base_after": 7700
+    },
+    {
+      "name": "MultibarrelWeapons",
+      "source": "ludeon.rimworld",
+      "base_before": 2600,
+      "base_after": 17000
+    },
+    {
+      "name": "PrecisionRifling",
+      "source": "ludeon.rimworld",
+      "base_before": 1400,
+      "base_after": 9700
+    },
+    {
+      "name": "SterileMaterials",
+      "source": "ludeon.rimworld",
+      "base_before": 600,
+      "base_after": 5100
+    },
+    {
+      "name": "HelodAdvancedAmmunition",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 2000.0,
+      "base_after": 2000
+    },
+    {
+      "name": "HelodAdvancedWeaponOptics",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 2000.0,
+      "base_after": 2000
+    },
+    {
+      "name": "HelodAntiAirMachineGun",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1600.0,
+      "base_after": 1600
+    },
+    {
+      "name": "HelodBasicElectronics",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 800.0,
+      "base_after": 800
+    },
+    {
+      "name": "HelodBasicEngine",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1100.0,
+      "base_after": 1100
+    },
+    {
+      "name": "HelodBasicMachineGun",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 900.0,
+      "base_after": 900
+    },
+    {
+      "name": "HelodBasicMachineTool",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500.0,
+      "base_after": 500
+    },
+    {
+      "name": "HelodBasicModernRifle",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1100.0,
+      "base_after": 1100
+    },
+    {
+      "name": "HelodBasicMotor",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1000.0,
+      "base_after": 1000
+    },
+    {
+      "name": "HelodBasicOilDevelopment",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 700.0,
+      "base_after": 700
+    },
+    {
+      "name": "HelodBasicPetrochemistry",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1100.0,
+      "base_after": 1100
+    },
+    {
+      "name": "HelodBlisterAgent",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 900.0,
+      "base_after": 900
+    },
+    {
+      "name": "HelodBoltAction",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 700.0,
+      "base_after": 700
+    },
+    {
+      "name": "HelodBreechLoadingGun",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500.0,
+      "base_after": 500
+    },
+    {
+      "name": "HelodChokingAgent",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 700.0,
+      "base_after": 700
+    },
+    {
+      "name": "HelodColdWarTech",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1800.0,
+      "base_after": 1800
+    },
+    {
+      "name": "HelodExperimentalAnalysis",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500.0,
+      "base_after": 500
+    },
+    {
+      "name": "HelodFirstAid",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 600.0,
+      "base_after": 600
+    },
+    {
+      "name": "HelodFlakJacket",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1200.0,
+      "base_after": 1200
+    },
+    {
+      "name": "HelodFrontierSpirit",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 100.0,
+      "base_after": 100
+    },
+    {
+      "name": "HelodGreatWarTech",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1300.0,
+      "base_after": 1300
+    },
+    {
+      "name": "HelodHaberBosch",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1500.0,
+      "base_after": 1500
+    },
+    {
+      "name": "HelodHeatPump",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 700.0,
+      "base_after": 700
+    },
+    {
+      "name": "HelodHighAutomaticRifle",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1800.0,
+      "base_after": 1800
+    },
+    {
+      "name": "HelodHighElectronics",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1500.0,
+      "base_after": 1500
+    },
+    {
+      "name": "HelodHighExplosive",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1100.0,
+      "base_after": 1100
+    },
+    {
+      "name": "HelodHighMachineGun",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1000.0,
+      "base_after": 1000
+    },
+    {
+      "name": "HelodHighOilDevelopment",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1000.0,
+      "base_after": 1000
+    },
+    {
+      "name": "HelodIndustrialAutomation",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 2500.0,
+      "base_after": 2500
+    },
+    {
+      "name": "HelodIngredientExtraction",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500.0,
+      "base_after": 500
+    },
+    {
+      "name": "HelodIronMaking",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 600.0,
+      "base_after": 600
+    },
+    {
+      "name": "HelodLargeSteamEngine",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 900.0,
+      "base_after": 900
+    },
+    {
+      "name": "HelodLaserTargetDesignators",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 2400.0,
+      "base_after": 2400
+    },
+    {
+      "name": "HelodLessLethalChemical",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1100.0,
+      "base_after": 1100
+    },
+    {
+      "name": "HelodLessLethalClose",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 900.0,
+      "base_after": 900
+    },
+    {
+      "name": "HelodLessLethalLowRanged",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1000.0,
+      "base_after": 1000
+    },
+    {
+      "name": "HelodLeverAction",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 600.0,
+      "base_after": 600
+    },
+    {
+      "name": "HelodLineShaft",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 600.0,
+      "base_after": 600
+    },
+    {
+      "name": "HelodLowAutomaticRifle",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1400.0,
+      "base_after": 1400
+    },
+    {
+      "name": "HelodLowGranade",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 800.0,
+      "base_after": 800
+    },
+    {
+      "name": "HelodLowHeadSet",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1000.0,
+      "base_after": 1000
+    },
+    {
+      "name": "HelodLowHeavyArtillery",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1400.0,
+      "base_after": 1400
+    },
+    {
+      "name": "HelodLowLightArtillery",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1100.0,
+      "base_after": 1100
+    },
+    {
+      "name": "HelodLowVelocityGrenades",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1100.0,
+      "base_after": 1100
+    },
+    {
+      "name": "HelodMechanicalEngineering",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500.0,
+      "base_after": 500
+    },
+    {
+      "name": "HelodMetalCuttingMachine",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 800.0,
+      "base_after": 800
+    },
+    {
+      "name": "HelodMetalFormingMachine",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 800.0,
+      "base_after": 800
+    },
+    {
+      "name": "HelodMidAutomaticRifle",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1500.0,
+      "base_after": 1500
+    },
+    {
+      "name": "HelodModernDiversionaryGrenades",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1400.0,
+      "base_after": 1400
+    },
+    {
+      "name": "HelodModernOffensiveGrenades",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1500.0,
+      "base_after": 1500
+    },
+    {
+      "name": "HelodMultiTaskMachining",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 3200.0,
+      "base_after": 3200
+    },
+    {
+      "name": "HelodNumericalControl",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1800.0,
+      "base_after": 1800
+    },
+    {
+      "name": "HelodPASGT",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1800.0,
+      "base_after": 1800
+    },
+    {
+      "name": "HelodPrimaryCell",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 400.0,
+      "base_after": 400
+    },
+    {
+      "name": "HelodRemoteWeaponControl",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 2400.0,
+      "base_after": 2400
+    },
+    {
+      "name": "HelodRespectForPatrioticMartyrs",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 800.0,
+      "base_after": 800
+    },
+    {
+      "name": "HelodSamiAutomaticPistol",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 800.0,
+      "base_after": 800
+    },
+    {
+      "name": "HelodSmokeLessGunpowder",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 900.0,
+      "base_after": 900
+    },
+    {
+      "name": "HelodSniperRifle",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 900.0,
+      "base_after": 900
+    },
+    {
+      "name": "HelodSpecialOperationsWeapons",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1500.0,
+      "base_after": 1500
+    },
+    {
+      "name": "HelodSteamEngine",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 700.0,
+      "base_after": 700
+    },
+    {
+      "name": "HelodTelegraph",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 500.0,
+      "base_after": 500
+    },
+    {
+      "name": "HelodTotalSynthesisMedicine",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1100.0,
+      "base_after": 1100
+    },
+    {
+      "name": "HelodTransistor",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 2200.0,
+      "base_after": 2200
+    },
+    {
+      "name": "HelodWireGuidedMissile",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 2000.0,
+      "base_after": 2000
+    },
+    {
+      "name": "HelodWireless",
+      "source": "bluebackedfish.helodrace.main",
+      "base_before": 1000.0,
+      "base_after": 1000
+    }
+  ],
+  "restored_vanilla": [
+    {
+      "name": "AdvancedFabrication",
+      "base": 4000
+    },
+    {
+      "name": "Autodoors",
+      "base": 600
+    },
+    {
+      "name": "Batteries",
+      "base": 400
+    },
+    {
+      "name": "BiofuelRefining",
+      "base": 700
+    },
+    {
+      "name": "Bionics",
+      "base": 2000
+    },
+    {
+      "name": "Brewing",
+      "base": 400
+    },
+    {
+      "name": "CarpetMaking",
+      "base": 800
+    },
+    {
+      "name": "ChargedShot",
+      "base": 3000
+    },
+    {
+      "name": "Cocoa",
+      "base": 1000
+    },
+    {
+      "name": "ColoredLights",
+      "base": 300
+    },
+    {
+      "name": "ComplexClothing",
+      "base": 600
+    },
+    {
+      "name": "ComplexFurniture",
+      "base": 300
+    },
+    {
+      "name": "Cryptosleep",
+      "base": 2000
+    },
+    {
+      "name": "DeepDrilling",
+      "base": 1000
+    },
+    {
+      "name": "Devilstrand",
+      "base": 800
+    },
+    {
+      "name": "DrugProduction",
+      "base": 500
+    },
+    {
+      "name": "Fabrication",
+      "base": 4000
+    },
+    {
+      "name": "Firefoam",
+      "base": 600
+    },
+    {
+      "name": "FlatscreenTelevision",
+      "base": 2000
+    },
+    {
+      "name": "FoamTurret",
+      "base": 800
+    },
+    {
+      "name": "GeothermalPower",
+      "base": 3200
+    },
+    {
+      "name": "GoJuiceProduction",
+      "base": 1000
+    },
+    {
+      "name": "Greatbow",
+      "base": 600
+    },
+    {
+      "name": "GroundPenetratingScanner",
+      "base": 1000
+    },
+    {
+      "name": "GunTurrets",
+      "base": 500
+    },
+    {
+      "name": "HeavyTurrets",
+      "base": 1600
+    },
+    {
+      "name": "HospitalBed",
+      "base": 1200
+    },
+    {
+      "name": "Hydroponics",
+      "base": 700
+    },
+    {
+      "name": "IEDs",
+      "base": 500
+    },
+    {
+      "name": "LongBlades",
+      "base": 400
+    },
+    {
+      "name": "LongRangeMineralScanner",
+      "base": 2000
+    },
+    {
+      "name": "MoisturePump",
+      "base": 1200
+    },
+    {
+      "name": "MultiAnalyzer",
+      "base": 4000
+    },
+    {
+      "name": "NutrientPaste",
+      "base": 400
+    },
+    {
+      "name": "PackagedSurvivalMeal",
+      "base": 500
+    },
+    {
+      "name": "PassiveCooler",
+      "base": 400
+    },
+    {
+      "name": "Pemmican",
+      "base": 500
+    },
+    {
+      "name": "PenoxycylineProduction",
+      "base": 500
+    },
+    {
+      "name": "PlateArmor",
+      "base": 600
+    },
+    {
+      "name": "PoweredArmor",
+      "base": 6000
+    },
+    {
+      "name": "Prosthetics",
+      "base": 600
+    },
+    {
+      "name": "PsychiteRefining",
+      "base": 400
+    },
+    {
+      "name": "PsychoidBrewing",
+      "base": 500
+    },
+    {
+      "name": "ReconArmor",
+      "base": 6000
+    },
+    {
+      "name": "RecurveBow",
+      "base": 400
+    },
+    {
+      "name": "RocketswarmLauncher",
+      "base": 3000
+    },
+    {
+      "name": "ShieldBelt",
+      "base": 1000
+    },
+    {
+      "name": "ShipBasics",
+      "base": 4000
+    },
+    {
+      "name": "ShipComputerCore",
+      "base": 3000
+    },
+    {
+      "name": "ShipCryptosleep",
+      "base": 2800
+    },
+    {
+      "name": "ShipEngine",
+      "base": 6000
+    },
+    {
+      "name": "ShipReactor",
+      "base": 6000
+    },
+    {
+      "name": "ShipSensorCluster",
+      "base": 4000
+    },
+    {
+      "name": "Smithing",
+      "base": 700
+    },
+    {
+      "name": "SmokepopBelt",
+      "base": 300
+    },
+    {
+      "name": "SniperTurret",
+      "base": 3000
+    },
+    {
+      "name": "SolarPanels",
+      "base": 600
+    },
+    {
+      "name": "Stonecutting",
+      "base": 300
+    },
+    {
+      "name": "TransportPod",
+      "base": 1000
+    },
+    {
+      "name": "TreeSowing",
+      "base": 1000
+    },
+    {
+      "name": "TubeTelevision",
+      "base": 1000
+    },
+    {
+      "name": "VitalsMonitor",
+      "base": 2500
+    },
+    {
+      "name": "WakeUpProduction",
+      "base": 600
+    },
+    {
+      "name": "WatermillGenerator",
+      "base": 700
+    }
+  ]
+}

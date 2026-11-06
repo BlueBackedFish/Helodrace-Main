@@ -4,7 +4,7 @@
     <defName>HelodMultiTaskMachining</defName>
     <label>One Setup</label>
     <description>Combine opposed work spindles and an articulated milling head in an enclosed computer-controlled machine for turning and milling operations in one setup.</description>
-    <baseCost>2800</baseCost>
+    <baseCost>3200</baseCost>
     <techLevel>Industrial</techLevel>
     <prerequisites><li>HelodIndustrialAutomation</li></prerequisites>
     <tab>HelodTechTab</tab>

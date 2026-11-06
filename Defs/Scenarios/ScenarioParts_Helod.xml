@@ -3,7 +3,7 @@
 
   <ScenPartDef>
     <defName>HD_ResearchTechBaseline</defName>
-    <label>tribal research baseline</label>
+    <label>medieval research baseline</label>
     <category>Rule</category>
     <scenPartClass>Helodrace.ScenPart_ResearchTechBaseline</scenPartClass>
     <summaryPriority>20</summaryPriority>

@@ -20,7 +20,7 @@
           <method>Standing</method>
         </li>
 
-        <!-- Research uses the same tech-level penalty as a tribal starting colony. -->
+        <!-- Research uses the same tech-level penalty as a medieval colony. -->
         <li Class="Helodrace.ScenPart_ResearchTechBaseline">
           <def>HD_ResearchTechBaseline</def>
         </li>
