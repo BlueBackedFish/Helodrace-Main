@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_ResearchTechBaseline.label>중세 기준 연구 기술 보정</HD_ResearchTechBaseline.label>
-  <HD_StarterSupplyCaravan.label>개척 보급 상단</HD_StarterSupplyCaravan.label>
+  <HD_ResearchTechBaseline.label>중세 연구 기준</HD_ResearchTechBaseline.label>
+  <HD_StarterSupplyCaravan.label>개척자 보급 상단</HD_StarterSupplyCaravan.label>
+  <HD_HelodStartingRelations.label>헤로드 초기 관계</HD_HelodStartingRelations.label>
 </LanguageData>
-

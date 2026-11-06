@@ -4,15 +4,16 @@
   <ScenarioDef ParentName="ScenarioBase">
     <defName>HD_Scenario_WWTech</defName>
     <label>Helod Gilded Pioneers</label>
-    <description>Four Helod pioneers venture deep into the harsh, untamed frontier to establish an industrial outpost. Equipped with high starting funds of Sthaler banknotes, raw pemmican rations, three Graylock M1861 rifled muskets, and a steel knife (iron dagger), they are ready to seize control of local petroleum and build their financial empire.</description>
+    <description>Four Helod pioneers venture deep into the harsh, untamed frontier to establish an industrial outpost. Equipped with high starting funds of Sthaler banknotes, raw pemmican rations, three W&amp;M Model 3 revolvers, and a steel knife (iron dagger), they are ready to seize control of local petroleum and build their financial empire.</description>
     <scenario>
-      <summary>Four Helod settlers starting with Sthaler money, pemmican, three M1861 rifles, and a steel knife.</summary>
+      <summary>Four Helod settlers starting with Sthaler money, pemmican, three Model 3 revolvers, and a steel knife.</summary>
       <playerFaction>
         <def>PlayerFaction</def>
         <factionDef>HD_HelodPlayerColony</factionDef>
       </playerFaction>
       <parts Inherit="False">
         <li Class="Helodrace.Economy.ScenPart_StarterSupplyCaravan"><def>HD_StarterSupplyCaravan</def><visible>false</visible></li>
+        <li Class="Helodrace.Economy.ScenPart_HelodStartingRelations"><def>HD_HelodStartingRelations</def></li>
         <!-- Arrival Method (Standard Vanilla DropPods arrival) -->
         <li Class="ScenPart_PlayerPawnsArriveMethod">
           <def>PlayerPawnsArriveMethod</def>
@@ -80,8 +81,8 @@
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
-          <thingDef>HD_Gun_SprMOne_Weapon</thingDef>
-          <count>3</count> <!-- 3 Graylock M1861 Rifled Muskets -->
+          <thingDef>HD_Gun_SWModelThree_Weapon</thingDef>
+          <count>3</count> <!-- 3 W&amp;M Model 3 revolvers -->
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
@@ -110,6 +111,134 @@
           <def>ScatterThingsNearPlayerStart</def>
           <thingDef>Steel</thingDef>
           <count>450</count>
+        </li>
+        <li Class="ScenPart_ScatterThingsNearPlayerStart">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>MedicineIndustrial</thingDef>
+          <count>30</count>
+        </li>
+      </parts>
+    </scenario>
+  </ScenarioDef>
+
+
+  <ScenarioDef ParentName="ScenarioBase">
+    <defName>HD_Scenario_GWTech</defName>
+    <label>Helod Great War Veterans</label>
+    <description>Four Helod veterans of the Great War leave the trenches behind and head for the frontier with their service rifles. They bring the knowledge of a generation that learned to refine oil, cast steel and turn out smokeless powder on an industrial scale, and they mean to build an outpost that can stand on its own.</description>
+    <scenario>
+      <summary>Four Helod settlers starting with frontier-era research complete, Sthaler money, pemmican, three M1903 rifles, and a steel knife.</summary>
+      <playerFaction>
+        <def>PlayerFaction</def>
+        <factionDef>HD_HelodPlayerColony</factionDef>
+      </playerFaction>
+      <parts Inherit="False">
+        <li Class="Helodrace.Economy.ScenPart_HelodStartingRelations"><def>HD_HelodStartingRelations</def></li>
+        <!-- Arrival Method (Standard Vanilla DropPods arrival) -->
+        <li Class="ScenPart_PlayerPawnsArriveMethod">
+          <def>PlayerPawnsArriveMethod</def>
+          <visible>false</visible>
+          <method>Standing</method>
+        </li>
+
+        <!-- Research uses the same tech-level penalty as a medieval colony. -->
+        <li Class="Helodrace.ScenPart_ResearchTechBaseline">
+          <def>HD_ResearchTechBaseline</def>
+        </li>
+
+        <!-- Frontier-era research is complete and the Great War tree is open. FinishProject
+             also completes prerequisites and linked base-game research. -->
+        <li Class="ScenPart_StartingResearch"><def>StartingResearch</def><visible>false</visible><project>HelodGreatWarTech</project></li>
+        <li Class="ScenPart_StartingResearch"><def>StartingResearch</def><visible>false</visible><project>HelodBasicElectronics</project></li>
+        <li Class="ScenPart_StartingResearch"><def>StartingResearch</def><visible>false</visible><project>HelodHighOilDevelopment</project></li>
+        <li Class="ScenPart_StartingResearch"><def>StartingResearch</def><visible>false</visible><project>HelodLargeSteamEngine</project></li>
+        <li Class="ScenPart_StartingResearch"><def>StartingResearch</def><visible>false</visible><project>HelodHeatPump</project></li>
+
+        <!-- Config page (Advanced Biotech Xenotypes configuration) -->
+        <li Class="ScenPart_ConfigPage_ConfigureStartingPawns_Xenotypes">
+          <def>ConfigurePawnsXenotypes</def>
+          <pawnChoiceCount>4</pawnChoiceCount>
+          <customSummary>Start with a Mackenzie commander-medic, Texas farmer-tracker, arctic scout and eastern researcher-crafter.</customSummary>
+          <overrideKinds>
+            <li>
+              <xenotype>HD_MackenzieValleyHelod</xenotype>
+              <pawnKind>HD_WW_HelodColonist</pawnKind>
+            </li>
+            <li>
+              <xenotype>HD_TexasHelod</xenotype>
+              <pawnKind>HD_WW_HelodColonist</pawnKind>
+            </li>
+            <li>
+              <xenotype>HD_ArcticHelod</xenotype>
+              <pawnKind>HD_WW_HelodColonist</pawnKind>
+            </li>
+            <li>
+              <xenotype>HD_EasternHelod</xenotype>
+              <pawnKind>HD_WW_HelodColonist</pawnKind>
+            </li>
+          </overrideKinds>
+          <xenotypeCounts>
+            <li>
+              <xenotype>HD_MackenzieValleyHelod</xenotype>
+              <count>1</count>
+              <requiredAtStart>true</requiredAtStart>
+            </li>
+            <li>
+              <xenotype>HD_TexasHelod</xenotype>
+              <count>1</count>
+              <requiredAtStart>true</requiredAtStart>
+            </li>
+            <li>
+              <xenotype>HD_ArcticHelod</xenotype>
+              <count>1</count>
+              <requiredAtStart>true</requiredAtStart>
+            </li>
+            <li>
+              <xenotype>HD_EasternHelod</xenotype>
+              <count>1</count>
+              <requiredAtStart>true</requiredAtStart>
+            </li>
+          </xenotypeCounts>
+        </li>
+
+        <!-- Starting Items -->
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>HD_Money</thingDef>
+          <count>300</count> <!-- 300 Sthaler Banknotes -->
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>HD_Gun_SprMThree_Weapon</thingDef>
+          <count>3</count> <!-- 3 Graylock M1903 rifles -->
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>MeleeWeapon_Knife</thingDef>
+          <stuff>Steel</stuff>
+          <count>1</count> <!-- 1 Steel Dagger/Knife -->
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Pemmican</thingDef>
+          <count>800</count> <!-- Pemmican Survival Rations -->
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>HD_Naphtha</thingDef>
+          <count>40</count> <!-- Initial naphtha supply for Helod BTX dependency -->
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>WoodLog</thingDef>
+          <count>300</count> <!-- Starting Wood -->
+        </li>
+
+        <!-- Scatter on Map (Standard starter scattering) -->
+        <li Class="ScenPart_ScatterThingsNearPlayerStart">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>Steel</thingDef>
+          <count>600</count>
         </li>
         <li Class="ScenPart_ScatterThingsNearPlayerStart">
           <def>ScatterThingsNearPlayerStart</def>

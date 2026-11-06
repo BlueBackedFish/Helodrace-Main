@@ -20,4 +20,14 @@
     <canBeRandomlyAdded>false</canBeRandomlyAdded>
     <canBePlayerAddedRemoved>false</canBePlayerAddedRemoved>
   </ScenPartDef>
+
+  <ScenPartDef>
+    <defName>HD_HelodStartingRelations</defName>
+    <label>Helod starting relations</label>
+    <category>Rule</category>
+    <scenPartClass>Helodrace.Economy.ScenPart_HelodStartingRelations</scenPartClass>
+    <summaryPriority>22</summaryPriority>
+    <canBeRandomlyAdded>false</canBeRandomlyAdded>
+    <canBePlayerAddedRemoved>false</canBePlayerAddedRemoved>
+  </ScenPartDef>
 </Defs>
