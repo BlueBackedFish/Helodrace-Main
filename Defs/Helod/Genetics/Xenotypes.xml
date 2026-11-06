@@ -5,7 +5,7 @@
     <label>Mackenzie Valley helod</label>
     <description>Composed commanders and field medics. Strong social and medical aptitudes and reduced pain help them protect a group, at the cost of slow movement, demanding nutrition, pride and weaker research aptitude.</description>
     <descriptionShort>Commanders and field medics; slow, proud and hungry.</descriptionShort>
-    <iconPath>Icons/HD_Helod</iconPath>
+    <iconPath>Icons/HD_HelodRace</iconPath>
     <inheritable>true</inheritable>
     <nameMaker>HD_NamerPersonHelod</nameMaker>
     <nameMakerFemale>HD_NamerPersonHelod</nameMakerFemale>
@@ -29,7 +29,7 @@
     <label>Texas helod</label>
     <description>Hot-country trackers who support a frontier camp through farming, animal handling and hunting. Quick movement and heat tolerance come with fragile bodies, poor social aptitude and vulnerability to cold.</description>
     <descriptionShort>Farmers, handlers and hunters; quick but fragile and cold-sensitive.</descriptionShort>
-    <iconPath>Icons/HD_Helod</iconPath>
+    <iconPath>Icons/HD_HelodRace</iconPath>
     <inheritable>true</inheritable>
     <nameMaker>HD_NamerPersonHelod</nameMaker>
     <nameMakerFemale>HD_NamerPersonHelod</nameMakerFemale>
@@ -53,7 +53,7 @@
     <label>arctic helod</label>
     <description>Cold-country scouts with exceptional shooting aptitude. Unroofed positions at 10 C or colder shorten aiming time by 15%. Heat, disease, farming, social work and general work speed are weaknesses.</description>
     <descriptionShort>Polar scouts and marksmen; cold-field focus, weak immunity and heat sensitivity.</descriptionShort>
-    <iconPath>Icons/HD_Helod</iconPath>
+    <iconPath>Icons/HD_HelodRace</iconPath>
     <inheritable>true</inheritable>
     <nameMaker>HD_NamerPersonHelod</nameMaker>
     <nameMakerFemale>HD_NamerPersonHelod</nameMakerFemale>
@@ -77,7 +77,7 @@
     <label>eastern helod</label>
     <description>Urban researchers and precision crafters with useful trading skills. Research and crafting each receive a small speed bonus, while fragile bodies and slow wound healing make front-line combat costly.</description>
     <descriptionShort>Researchers and precision crafters; useful traders, fragile and slow to heal.</descriptionShort>
-    <iconPath>Icons/HD_Helod</iconPath>
+    <iconPath>Icons/HD_HelodRace</iconPath>
     <inheritable>true</inheritable>
     <nameMaker>HD_NamerPersonHelod</nameMaker>
     <nameMakerFemale>HD_NamerPersonHelod</nameMakerFemale>
@@ -99,7 +99,7 @@
     <label>Mexican helod</label>
     <description>Mobile mercenaries with strong shooting and melee aptitudes, toughness and fast healing. A healthy allied Helod within eight cells improves composure and evasion. Maintaining BTX and amphetamine supplies is essential.</description>
     <descriptionShort>Mobile mercenaries; resilient with comrades, dependent on two supply chains.</descriptionShort>
-    <iconPath>Icons/HD_Helod</iconPath>
+    <iconPath>Icons/HD_HelodRace</iconPath>
     <inheritable>true</inheritable>
     <nameMaker>HD_NamerPersonHelod</nameMaker>
     <nameMakerFemale>HD_NamerPersonHelod</nameMakerFemale>
