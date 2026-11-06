@@ -1,0 +1,83 @@
+[img]IMAGE_PREVIEW[/img]
+
+[h1]Helodrace[/h1]
+The Helods are a standalone frontier race (no Humanoid Alien Races needed) from an industrial world. Their history runs from the Wild West through the Great War and the Cold War to the modern era. Start with a few pioneers and Sthaler banknotes. Drill for oil, smelt steel and drive your workshops from steam-powered line shafts. Cable the distant companies for supplies, credit and armed support.
+
+[b]Requires:[/b] Harmony, Biotech, Helod race - Blanca's Drugs
+[b]Version:[/b] RimWorld 1.7
+
+[hr][/hr]
+[h2]The Helods[/h2]
+[img]IMAGE_RACE[/img]
+[list]
+[*][b]Five lineages[/b], each with its own strengths:
+[list]
+[*]Mackenzie Valley: commanders and medics
+[*]Texas: farmers and trackers
+[*]Arctic: scouts and marksmen at home in the cold
+[*]Eastern: researchers, crafters and traders
+[*]Mexican: mercenaries who fight best beside their comrades
+[/list]
+[*]Helod genes, including sharpshooting, an arrogant leader and dependencies on BTX and amphetamine. They have tails, and they dislike having their ears covered.
+[*]Helod backstories, and a "confrontation" social interaction for settling disputes.
+[*][b]Gilded Pioneers[/b] scenario: four settlers, one from each of four lineages, with banknotes, pemmican, rifled muskets and a steel knife.
+[/list]
+
+[h2]Industry[/h2]
+[img]IMAGE_INDUSTRY[/img]
+[list]
+[*][b]Mechanical power:[/b] steam engines, diesel engines and electric motors turn line shafts that drive your machines. Keep speed and torque balanced: overloaded shafts cause accidents. Generators turn shaft power into electricity.
+[*][b]Linked machine tools:[/b] workbenches draw on nearby lathes, mills, presses and reactors. Upgrade from treadle lathes to numerically controlled and multi-tasking machines.
+[*][b]Steel:[/b] blast furnaces, converters and electric arc furnaces.
+[*][b]Oil:[/b] drill wells with cable-tool or rotary rigs, pump them with pump jacks, and refine crude into diesel, kerosene, chemfuel and naphtha.
+[*][b]Chemistry and electronics:[/b] ammonia and fertilizer, explosives, nylon and aramid fibers, and semiconductors.
+[*][b]Production planning desk:[/b] set stock targets and it queues bills on the right machines.
+[/list]
+
+[h2]Money, Telegraph and Contracts[/h2]
+[img]IMAGE_ECONOMY[/img]
+[list]
+[*][b]Sthaler banknotes[/b] serve as currency. They count toward colony wealth at a discount.
+[*][b]Telegraph and radio:[/b] lay a line or set up a radio set to contact Helod companies during business hours.
+[*][b]Caravans on request:[/b] finance, industrial goods, firearms, hunting gear and petroleum.
+[*][b]Financial goodwill[/b] is tracked apart from faction relations. It unlocks loans, government bonds and safe-conduct caravans, even with a hostile faction.
+[*][b]Forward-base contracts:[/b] fund outposts that provide mortar, sniper and infantry support, supply drops, close air support, artillery, helicopter quick-reaction and medical evacuation, and even a nuclear artillery shell.
+[/list]
+
+[h2]Weapons and Gear[/h2]
+[img]IMAGE_WEAPONS[/img]
+[list]
+[*][b]Era firearms[/b] from frontier revolvers and rifled muskets to Great War bolt-actions, Cold War battle rifles and modern carbines.
+[*][b]Modular weapons:[/b] fit optics, grips, underbarrel launchers and more in a weapon editor, or pick a preset.
+[*][b]Heavy weapons:[/b] mortars, howitzers, recoilless rifles, wire-guided missiles, anti-aircraft guns, flamethrowers and a remote weapon station.
+[*][b]Ballistics:[/b] shotgun spread, bullet fragmentation, and magazine pouches that speed up reloading.
+[*][b]Modular body armor:[/b] carriers, plates, pouches and helmets, with a live preview. Plus era uniforms from Western wear to modern camouflage.
+[*][b]Breaching:[/b] sledgehammers, power cutters and explosive charges.
+[*][b]Chemical and smoke weapons:[/b] tear gas, choking agents, smoke and white phosphorus, with gas masks to match.
+[/list]
+
+[h2]Raids and Field Medicine[/h2]
+[img]IMAGE_RAIDS[/img]
+[list]
+[*][b]Organized raids:[/b] Helod raiders arrive as squads with a chain of command. Leaders are replaced when they fall.
+[*][b]New raid types:[/b] sweep assaults and mortar barrages, including chemical shells.
+[*]Raider engineers break down doors and walls with sledgehammers, and grenadiers use underbarrel grenade launchers.
+[*][b]Training:[/b] combat and field-medicine courses teach skills such as moving fire, takedowns, tourniquets and casualty dragging.
+[*][b]Squad tactical AI (experimental, off by default):[/b] room clearing, hand grenades, smoke and coordinated fire. Turn it on in the mod settings; it needs a restart.
+[/list]
+
+[h2]Research[/h2]
+[img]IMAGE_RESEARCH[/img]
+[list]
+[*]A separate Helod research window with projects across five eras.
+[*]Linked projects complete matching vanilla research, and vice versa.
+[*]Short "About" letters explain new systems as you unlock them.
+[/list]
+
+[hr][/hr]
+[h2]Notes[/h2]
+[list]
+[*]RimWorld 1.7 only.
+[*]Load after Harmony, Biotech and Helod race - Blanca's Drugs.
+[*]Still in development. Saves from earlier versions may not carry over.
+[/list]

@@ -6,7 +6,9 @@
   <supportedVersions>
     <li>1.7</li>
   </supportedVersions>
-  <description>A RimWorld 1.7 mod with a standalone Helod race, industry, and modular equipment. Requires Harmony 3, Biotech, and Helod race - Blanca's Drugs.</description>
+  <description>Helodrace adds the Helods, a standalone industrial-age frontier race. Build line-shaft factories, oil fields and steelworks, deal in Sthaler banknotes, and use the telegraph and radio to call caravans, loans and forward-base support.
+Era weapons and modular gear span the Wild West to the modern day.
+Requires Harmony, Biotech and Helod race - Blanca's Drugs.</description>
   <modDependencies>
     <li>
       <packageId>brrainz.harmony</packageId>
