@@ -64,7 +64,7 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>11</damageAmountBase>
+      <damageAmountBase>9</damageAmountBase>
       <armorPenetrationBase>0.12</armorPenetrationBase>
       <stoppingPower>0.9</stoppingPower>
       <speed>65</speed>
@@ -458,7 +458,7 @@
         <defaultProjectile>HD_Bullet_45ACP_Proj</defaultProjectile>
         <warmupTime>0.8</warmupTime>
         <range>22.9</range>
-        <burstShotCount>4</burstShotCount>
+        <burstShotCount>5</burstShotCount>
         <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
         <soundCast>Shot_Autopistol</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
@@ -546,7 +546,7 @@
         <defaultProjectile>HD_Bullet_45ACP_Proj</defaultProjectile>
         <warmupTime>0.9</warmupTime>
         <range>20.9</range>
-        <burstShotCount>4</burstShotCount>
+        <burstShotCount>5</burstShotCount>
         <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
         <soundCast>Shot_Autopistol</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
