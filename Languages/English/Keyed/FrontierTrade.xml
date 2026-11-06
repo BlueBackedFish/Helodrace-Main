@@ -3,5 +3,5 @@
   <HD_StarterSupply_Summary>A supply caravan is scheduled one day after the pioneers settle. Blocked arrivals are retried.</HD_StarterSupply_Summary>
   <HD_StarterSupply_Arrived>The pioneer supply caravan has arrived with steel and basic industrial materials.</HD_StarterSupply_Arrived>
   <HD_StarterSupply_Delayed>The supply caravan is delayed by access, weather or diplomatic conditions. It will keep trying to reach a friendly player settlement.</HD_StarterSupply_Delayed>
-  <HD_StartingRelations_Summary>The Helod Mercantile Association begins as an ally at {0} goodwill. The Association and the Vesenica State are neutral toward each other.</HD_StartingRelations_Summary>
+  <HD_StartingRelations_Summary>The Helod Mercantile Association begins as an ally at {0} goodwill.</HD_StartingRelations_Summary>
 </LanguageData>

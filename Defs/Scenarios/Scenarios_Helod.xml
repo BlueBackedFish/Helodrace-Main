@@ -6,6 +6,8 @@
     <label>Helod Gilded Pioneers</label>
     <description>Four Helod pioneers venture deep into the harsh, untamed frontier to establish an industrial outpost. Equipped with high starting funds of Sthaler banknotes, raw pemmican rations, three W&amp;M Model 3 revolvers, and a steel knife (iron dagger), they are ready to seize control of local petroleum and build their financial empire.</description>
     <scenario>
+      <name>Helod Gilded Pioneers</name>
+      <description>Four Helod pioneers venture deep into the harsh, untamed frontier to establish an industrial outpost. Equipped with high starting funds of Sthaler banknotes, raw pemmican rations, three W&amp;M Model 3 revolvers, and a steel knife (iron dagger), they are ready to seize control of local petroleum and build their financial empire.</description>
       <summary>Four Helod settlers starting with Sthaler money, pemmican, three Model 3 revolvers, and a steel knife.</summary>
       <playerFaction>
         <def>PlayerFaction</def>
@@ -125,15 +127,25 @@
   <ScenarioDef ParentName="ScenarioBase">
     <defName>HD_Scenario_GWTech</defName>
     <label>Helod Great War Veterans</label>
-    <description>Four Helod veterans of the Great War leave the trenches behind and head for the frontier with their service rifles. They bring the knowledge of a generation that learned to refine oil, cast steel and turn out smokeless powder on an industrial scale, and they mean to build an outpost that can stand on its own.</description>
+    <description>Five Helod veterans of the Great War leave the trenches behind and head for the frontier in their storm-front uniforms. They bring the knowledge of a generation that learned to refine oil, cast steel and turn out smokeless powder on an industrial scale, along with the habits the war left them, and they mean to build an outpost that can stand on its own.</description>
     <scenario>
-      <summary>Four Helod settlers starting with frontier-era research complete, Sthaler money, pemmican, three M1903 rifles, and a steel knife.</summary>
+      <name>Helod Great War Veterans</name>
+      <description>Five Helod veterans of the Great War leave the trenches behind and head for the frontier in their storm-front uniforms. They bring the knowledge of a generation that learned to refine oil, cast steel and turn out smokeless powder on an industrial scale, along with the habits the war left them, and they mean to build an outpost that can stand on its own.</description>
+      <summary>Five Helod veterans starting with frontier-era research complete, Sthaler money, FLAM and hardtack, benzedrine, an M1897 shotgun, an M1A1 Harrington and three M1 Hartwell rifles.</summary>
       <playerFaction>
         <def>PlayerFaction</def>
         <factionDef>HD_HelodPlayerColony</factionDef>
       </playerFaction>
       <parts Inherit="False">
         <li Class="Helodrace.Economy.ScenPart_HelodStartingRelations"><def>HD_HelodStartingRelations</def></li>
+        <!-- Wartime stimulant use left many veterans addicted to amphetamines. -->
+        <li Class="ScenPart_ForcedHediff">
+          <def>ForcedHediff</def>
+          <context>PlayerStarter</context>
+          <chance>0.6</chance>
+          <hediff>BD_AmphetaminesAddiction</hediff>
+          <severityRange>0.6~1</severityRange>
+        </li>
         <!-- Arrival Method (Standard Vanilla DropPods arrival) -->
         <li Class="ScenPart_PlayerPawnsArriveMethod">
           <def>PlayerPawnsArriveMethod</def>
@@ -157,24 +169,24 @@
         <!-- Config page (Advanced Biotech Xenotypes configuration) -->
         <li Class="ScenPart_ConfigPage_ConfigureStartingPawns_Xenotypes">
           <def>ConfigurePawnsXenotypes</def>
-          <pawnChoiceCount>4</pawnChoiceCount>
-          <customSummary>Start with a Mackenzie commander-medic, Texas farmer-tracker, arctic scout and eastern researcher-crafter.</customSummary>
+          <pawnChoiceCount>5</pawnChoiceCount>
+          <customSummary>Start with a Mackenzie commander-medic, arctic scout, eastern researcher-crafter and two Mexican mercenaries.</customSummary>
           <overrideKinds>
             <li>
               <xenotype>HD_MackenzieValleyHelod</xenotype>
-              <pawnKind>HD_WW_HelodColonist</pawnKind>
+              <pawnKind>HD_GW_HelodColonist</pawnKind>
             </li>
             <li>
-              <xenotype>HD_TexasHelod</xenotype>
-              <pawnKind>HD_WW_HelodColonist</pawnKind>
+              <xenotype>HD_MexicanHelod</xenotype>
+              <pawnKind>HD_GW_HelodColonist</pawnKind>
             </li>
             <li>
               <xenotype>HD_ArcticHelod</xenotype>
-              <pawnKind>HD_WW_HelodColonist</pawnKind>
+              <pawnKind>HD_GW_HelodColonist</pawnKind>
             </li>
             <li>
               <xenotype>HD_EasternHelod</xenotype>
-              <pawnKind>HD_WW_HelodColonist</pawnKind>
+              <pawnKind>HD_GW_HelodColonist</pawnKind>
             </li>
           </overrideKinds>
           <xenotypeCounts>
@@ -184,8 +196,8 @@
               <requiredAtStart>true</requiredAtStart>
             </li>
             <li>
-              <xenotype>HD_TexasHelod</xenotype>
-              <count>1</count>
+              <xenotype>HD_MexicanHelod</xenotype>
+              <count>2</count>
               <requiredAtStart>true</requiredAtStart>
             </li>
             <li>
@@ -209,24 +221,38 @@
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
-          <thingDef>HD_Gun_SprMThree_Weapon</thingDef>
-          <count>3</count> <!-- 3 Graylock M1903 rifles -->
+          <thingDef>HD_Gun_M1897_Weapon</thingDef>
+          <count>1</count> <!-- Frontier Arms M1897 shotgun -->
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
-          <thingDef>MeleeWeapon_Knife</thingDef>
-          <stuff>Steel</stuff>
-          <count>1</count> <!-- 1 Steel Dagger/Knife -->
+          <thingDef>HD_Gun_M1A1Harrington_Weapon</thingDef>
+          <count>1</count> <!-- M1A1 Harrington submachine gun -->
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
-          <thingDef>Pemmican</thingDef>
-          <count>800</count> <!-- Pemmican Survival Rations -->
+          <thingDef>HD_Gun_M1Garand_Weapon</thingDef>
+          <count>3</count> <!-- M1 Hartwell rifles -->
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
-          <thingDef>HD_Naphtha</thingDef>
-          <count>40</count> <!-- Initial naphtha supply for Helod BTX dependency -->
+          <thingDef>HD_FLAM</thingDef>
+          <count>25</count> <!-- FLAM ration blocks -->
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>HD_Hardtack</thingDef>
+          <count>120</count> <!-- Hardtack -->
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>HD_PlainDogChew</thingDef>
+          <count>20</count> <!-- BTX dog chews for the Helod BTX dependency -->
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>BD_Benzedrine</thingDef>
+          <count>30</count> <!-- Benzedrine for amphetamine dependency and addiction -->
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>

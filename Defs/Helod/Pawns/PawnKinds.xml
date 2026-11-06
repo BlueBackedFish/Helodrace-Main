@@ -82,6 +82,44 @@
 		<initialResistanceRange>10~15</initialResistanceRange>
 	</PawnKindDef>
 
+	<!-- Helod Great War veteran colonist (Great War start scenario) -->
+	<PawnKindDef ParentName="HD_HelodBasePawnKind">
+		<defName>HD_GW_HelodColonist</defName>
+		<label>Helod veteran</label>
+		<defaultFactionType>PlayerColony</defaultFactionType>
+		<backstoryFiltersOverride>
+			<li>
+				<categories>
+					<li>HD_Helod</li>
+				</categories>
+			</li>
+		</backstoryFiltersOverride>
+		<chemicalAddictionChance>0.02</chemicalAddictionChance>
+		<apparelTags>
+			<li>HD_Apparel_GW_Uniform</li>
+		</apparelTags>
+		<apparelRequired>
+			<li>HD_Apparel_GreatWarStormFrontInner</li>
+			<li>HD_Apparel_GreatWarStormFrontOuter</li>
+		</apparelRequired>
+		<apparelAllowHeadgearChance>0</apparelAllowHeadgearChance>
+		<apparelMoney>
+			<min>700</min>
+			<max>1400</max>
+		</apparelMoney>
+		<techHediffsChance>0.03</techHediffsChance>
+		<techHediffsMoney>
+			<min>50</min>
+			<max>800</max>
+		</techHediffsMoney>
+		<techHediffsTags>
+			<li>Simple</li>
+		</techHediffsTags>
+		<backstoryCryptosleepCommonality>1</backstoryCryptosleepCommonality>
+		<initialWillRange>0~0</initialWillRange>
+		<initialResistanceRange>10~15</initialResistanceRange>
+	</PawnKindDef>
+
 	<!-- Helod NPC settler -->
 	<PawnKindDef Name="HD_WW_HelodSettlerBase" ParentName="HD_HelodBasePawnKind">
 		<defName>HD_WW_HelodSettler</defName>

@@ -4,9 +4,13 @@
   <HD_Scenario_WWTech.description>헤로드 개척자 네 명이 거칠고 길들지 않은 변방 깊숙이 들어가 산업 전초기지를 세우려 합니다. 넉넉한 스탈레르 지폐, 생 페미컨, W&amp;M 모델 3 리볼버 세 정과 강철 칼을 갖추고 현지 석유를 장악해 금융 제국을 건설할 준비를 마쳤습니다.</HD_Scenario_WWTech.description>
   <HD_Scenario_WWTech.scenario.summary>스탈레르 화폐, 페미컨, 모델 3 리볼버 세 정과 강철 칼을 가진 헤로드 정착민 네 명으로 시작합니다.</HD_Scenario_WWTech.scenario.summary>
   <HD_Scenario_WWTech.scenario.parts.ConfigurePawnsXenotypes.customSummary>매켄지 지휘·의료, 텍사스 식량·사냥, 북극 정찰·사격, 동부 연구·제작 담당 한 명씩으로 시작합니다.</HD_Scenario_WWTech.scenario.parts.ConfigurePawnsXenotypes.customSummary>
+  <HD_Scenario_WWTech.scenario.name>헤로드 도금시대 개척자들</HD_Scenario_WWTech.scenario.name>
+  <HD_Scenario_WWTech.scenario.description>헤로드 개척자 네 명이 거칠고 길들지 않은 변방 깊숙이 들어가 산업 전초기지를 세우려 합니다. 넉넉한 스탈레르 지폐, 생 페미컨, W&amp;M 모델 3 리볼버 세 정과 강철 칼을 갖추고 현지 석유를 장악해 금융 제국을 건설할 준비를 마쳤습니다.</HD_Scenario_WWTech.scenario.description>
 
   <HD_Scenario_GWTech.label>헤로드 대전 참전용사들</HD_Scenario_GWTech.label>
-  <HD_Scenario_GWTech.description>대전을 치른 헤로드 참전용사 네 명이 참호를 뒤로하고 제식 소총을 든 채 변방으로 향합니다. 석유를 정제하고 강철을 주조하며 무연화약을 산업 규모로 생산하는 법을 익힌 세대의 지식을 지니고, 스스로 버틸 수 있는 전초기지를 세우려 합니다.</HD_Scenario_GWTech.description>
-  <HD_Scenario_GWTech.scenario.summary>개척기 연구를 마친 상태에서 스탈레르 화폐, 페미컨, M1903 소총 세 정과 강철 칼을 가진 헤로드 정착민 네 명으로 시작합니다.</HD_Scenario_GWTech.scenario.summary>
-  <HD_Scenario_GWTech.scenario.parts.ConfigurePawnsXenotypes.customSummary>매켄지 지휘·의료, 텍사스 식량·사냥, 북극 정찰·사격, 동부 연구·제작 담당 한 명씩으로 시작합니다.</HD_Scenario_GWTech.scenario.parts.ConfigurePawnsXenotypes.customSummary>
+  <HD_Scenario_GWTech.description>대전을 치른 헤로드 참전용사 다섯 명이 폭풍전선 군복 차림으로 참호를 뒤로하고 변방으로 향합니다. 석유를 정제하고 강철을 주조하며 무연화약을 산업 규모로 생산하는 법을 익힌 세대의 지식과 함께 전쟁이 남긴 버릇도 지닌 채, 스스로 버틸 수 있는 전초기지를 세우려 합니다.</HD_Scenario_GWTech.description>
+  <HD_Scenario_GWTech.scenario.name>헤로드 대전 참전용사들</HD_Scenario_GWTech.scenario.name>
+  <HD_Scenario_GWTech.scenario.description>대전을 치른 헤로드 참전용사 다섯 명이 폭풍전선 군복 차림으로 참호를 뒤로하고 변방으로 향합니다. 석유를 정제하고 강철을 주조하며 무연화약을 산업 규모로 생산하는 법을 익힌 세대의 지식과 함께 전쟁이 남긴 버릇도 지닌 채, 스스로 버틸 수 있는 전초기지를 세우려 합니다.</HD_Scenario_GWTech.scenario.description>
+  <HD_Scenario_GWTech.scenario.summary>개척기 연구를 마친 상태에서 스탈레르 화폐, FLAM과 건빵, 벤제드린, M1897 산탄총 한 정, M1A1 헤링턴 한 정, M1 하츠웰 소총 세 정을 가진 헤로드 참전용사 다섯 명으로 시작합니다.</HD_Scenario_GWTech.scenario.summary>
+  <HD_Scenario_GWTech.scenario.parts.ConfigurePawnsXenotypes.customSummary>매켄지 지휘·의료, 북극 정찰·사격, 동부 연구·제작 담당 한 명씩과 멕시코 용병 두 명으로 시작합니다.</HD_Scenario_GWTech.scenario.parts.ConfigurePawnsXenotypes.customSummary>
 </LanguageData>
