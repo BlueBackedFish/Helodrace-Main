@@ -1,6 +1,8 @@
 [img]IMAGE_PREVIEW[/img]
 
 [h1]Helodrace[/h1]
+[b]Early access:[/b] Helodrace is released in an early-access state. Content may be removed or changed, its overall direction may shift, and compatibility with saves from earlier versions may be dropped in future updates.
+
 The Helods are a standalone frontier race (no Humanoid Alien Races needed) from an industrial world. Their history runs from the Wild West through the Great War and the Cold War to the modern era. Start with a few pioneers and Sthaler banknotes. Drill for oil, smelt steel and drive your workshops from steam-powered line shafts. Cable the distant companies for supplies, credit and armed support.
 
 [b]Requires:[/b] Harmony, Biotech, Helod race - Blanca's Drugs
@@ -79,5 +81,4 @@ The Helods are a standalone frontier race (no Humanoid Alien Races needed) from 
 [list]
 [*]RimWorld 1.7 only.
 [*]Load after Harmony, Biotech and Helod race - Blanca's Drugs.
-[*]Still in development. Saves from earlier versions may not carry over.
 [/list]
