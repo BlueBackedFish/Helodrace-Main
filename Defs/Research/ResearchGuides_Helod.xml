@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <LetterDef ParentName="CustomChoiceLetterBase">
+    <defName>HD_ResearchGuideLetter</defName>
+    <letterClass>Helodrace.Research.ChoiceLetter_ResearchGuide</letterClass>
+    <color>(120, 176, 216)</color>
+    <flashColor>(106, 179, 231)</flashColor>
+    <flashInterval>90</flashInterval>
+    <arriveSound>LetterArrive_Good</arriveSound>
+  </LetterDef>
+
+  <Helodrace.Research.ResearchGuideDef>
+    <defName>HD_Guide_MechanicalPower</defName>
+    <label>mechanical power</label>
+    <research>HelodSteamEngine</research>
+    <guideText>Machines marked as power consumers do not run on electricity. They need rotary power from a mechanical network.
+
+Building a network
+- Place the small steam engine so it touches the machine, including diagonally. Every touching power source, consumer and line shaft joins the same network.
+- Select any connected building and open the mechanical network tab to see total output, demand and overload.
+
+Fuel
+- The small steam engine burns wood while it is switched on. A full load of 25 wood lasts about half a day, and colonists refuel it automatically below 75%.
+- Keep a wood stockpile nearby and let haulers and builders reach it. An empty engine stops every machine on its network, including coolers and freezers.
+
+Load
+- The small steam engine supplies 1,500 W normally and up to 1,800 W at most. Each machine lists its rated mechanical input; idle worktables draw only part of it.
+- When demand exceeds maximum output, shaft speed falls. Machines below their minimum speed stop, overloaded machines can cause accidents, and a badly overloaded steam engine can be damaged or explode.
+- Switch off machines you are not using, or add another power source to the network.
+
+Production buildings that need power cannot take bills while their network is down, and work in progress pauses until power returns.</guideText>
+  </Helodrace.Research.ResearchGuideDef>
+
+  <Helodrace.Research.ResearchGuideDef>
+    <defName>HD_Guide_LineShaft</defName>
+    <label>line shafts</label>
+    <research>HelodLineShaft</research>
+    <guideText>Line shafts carry rotary power between buildings that do not touch.
+
+- Lay line shafts like conduits from a power source to each machine. Each segment links to the buildings and shafts touching it.
+- Everything joined by shafts becomes one network. All power sources on it add their output, and all machines share it.
+- Separate shaft lines form separate networks. Keep critical equipment, such as coolers and freezers, on a network whose demand stays below its power sources' normal output.
+- Check the mechanical network tab after expanding. If several worktables run at once, demand can pass the maximum output and slow every machine on the line.</guideText>
+  </Helodrace.Research.ResearchGuideDef>
+
+  <Helodrace.Research.ResearchGuideDef>
+    <defName>HD_Guide_Telegraph</defName>
+    <label>the telegraph</label>
+    <research>HelodTelegraph</research>
+    <guideText>The telegraph connects the colony to LOW Helod companies and organizations.
+
+Opening a line
+1. Build the telegraph. It needs an interaction spot and a constructor with Construction 5.
+2. Wait for a LOW Helod caravan to visit the colony and request line installation from it. Installation costs 250 STL.
+3. The line opens 2–3 days later, and a letter announces it.
+
+Using the line
+- A colonist operates the telegraph to contact companies. The relay is open from 08:00 to 18:00 local time; faction and company rows can be expanded only during those hours.
+- Available services include financial, industrial, arms and hunting, and petroleum caravans, Pioneer Overseas Service Company forward-base contracts, and Harrington Protective Services guards.
+- Caravan requests require financial reputation.
+- Each transmission uses primary cells. Keep primary cells stocked so the telegraph can be refueled.
+
+The radio, unlocked later, offers the same services with electricity instead of a wired line and primary cells.</guideText>
+  </Helodrace.Research.ResearchGuideDef>
+
+  <Helodrace.Research.ResearchGuideDef>
+    <defName>HD_Guide_OilDevelopment</defName>
+    <label>oil development</label>
+    <research>HelodBasicOilDevelopment</research>
+    <guideText>Crude oil comes from wells that the colony drills itself.
+
+Drilling
+1. Build a cable-tool rig on heavy ground and connect it to a mechanical network.
+2. The rig drills while it has power. It regularly stops for maintenance; a colonist must service it before drilling continues.
+3. After about seven days of drilling, sometimes earlier, the ground becomes an oil field. Cable-tool wells have 75–80% quality.
+
+Pumping
+- Deconstruct the rig and build a basic pump jack on the developed oil field. The pump jack also needs mechanical power.
+- Field quality and declining well pressure determine extraction speed. The pump jack's inspect panel shows both.
+
+Refining
+- The batch still distills heavy crude oil into one selected product per bill: diesel, kerosene, chemfuel or naphtha.
+- To seal an exhausted well, remove the rig and pump first, then use Remove floor on the oil field.</guideText>
+  </Helodrace.Research.ResearchGuideDef>
+
+  <Helodrace.Research.ResearchGuideDef>
+    <defName>HD_Guide_Generator</defName>
+    <label>electric generation</label>
+    <research>HelodBasicMotor</research>
+    <guideText>Motors and generators link the mechanical network with the electrical grid.
+
+Early industrial generator
+- Connect the generator to a mechanical network and to electrical conduits. It turns shaft power into electricity.
+- Set its target electrical output. The target decides how much shaft power it draws, so a high target can overload the mechanical network.
+- Efficiency rises from 60% at low load to 80% at its 10 kW rated input.
+
+Large industrial motor
+- The motor works in the other direction: it draws electricity and supplies rotary power to a mechanical network.
+- If an electric motor is overloaded, it can short-circuit or violently discharge a battery on its grid.</guideText>
+  </Helodrace.Research.ResearchGuideDef>
+
+  <Helodrace.Research.ResearchGuideDef>
+    <defName>HD_Guide_Radio</defName>
+    <label>the radio</label>
+    <research>HelodWireless</research>
+    <guideText>The radio replaces the telegraph's wired line.
+
+- Build the radio and connect it to electricity. It consumes 80 W while switched on.
+- It needs no line installation and no primary cells, and company frequencies are available around the clock.
+- It offers every telegraph service: caravan requests, loans, forward-base contracts and security.
+- Colonists also use it for recreation, chatting on LOW and HIGH HAM frequencies or listening to broadcasts from nearby seats.</guideText>
+  </Helodrace.Research.ResearchGuideDef>
+
+</Defs>
