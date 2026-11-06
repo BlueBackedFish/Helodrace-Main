@@ -16,9 +16,64 @@ namespace Helodrace.Tests
         internal const string FixtureSave = "BlancasDrugFixture16", RoundtripSave = "BlancasDrugRoundtrip17";
         private const string Prefix = "BlancasDose_";
         private static readonly FieldInfo Transitioned = typeof(HediffComp_SleepLogic).GetField("hasTransitioned", BindingFlags.Instance | BindingFlags.NonPublic);
+        internal sealed class Phase { internal string Effect; internal float Threshold; internal string CrashStrength, EffectStrength; }
+        private static Dictionary<string, Phase> phases;
+        // Blancas 1.7 split each stimulant's effect stages into an effect hediff and a crash hediff
+        // sharing one severity scale. Releases up to 1.6 have no such comp, so this map is empty there.
+        internal static Dictionary<string, Phase> Phases()
+        {
+            if (phases != null) return phases;
+            phases = new Dictionary<string, Phase>();
+            foreach (HediffDef def in DefDatabase<HediffDef>.AllDefsListForReading)
+                foreach (HediffCompProperties props in def.comps ?? new List<HediffCompProperties>())
+                {
+                    if (props.GetType().FullName != "HelodBlancasDrug.HediffCompProperties_EndsInCrash") continue;
+                    var crash = (HediffDef)props.GetType().GetField("crashHediff").GetValue(props);
+                    string Strength(HediffDef d) => d.CompProps<HediffCompProperties_ExclusiveGroup>()?.stageStrengths?[0].ToString("R", CultureInfo.InvariantCulture);
+                    var phase = new Phase { Effect = def.defName, Threshold = (float)props.GetType().GetField("crashBelowSeverity").GetValue(props),
+                        CrashStrength = Strength(crash), EffectStrength = Strength(def) };
+                    phases[def.defName] = phase; phases[crash.defName] = phase;
+                }
+            return phases;
+        }
+        // Expresses a state in the release form: crash hediff at severity s == effect hediff at s with the
+        // crash stage (0); effect at or above the threshold == high stage (1). Idempotent on release states.
+        internal static XElement ReleaseForm(XElement state)
+        {
+            var copy = new XElement(state);
+            if (Phases().Count == 0) return copy;
+            foreach (XElement pawn in copy.DescendantsAndSelf("pawn"))
+            {
+                var hediffs = pawn.Elements("hediff").ToList();
+                foreach (XElement h in hediffs)
+                {
+                    if (!Phases().TryGetValue((string)h.Attribute("def"), out Phase phase)) continue;
+                    bool crash = float.Parse((string)h.Attribute("severity"), CultureInfo.InvariantCulture) < phase.Threshold;
+                    h.SetAttributeValue("def", phase.Effect);
+                    h.SetAttributeValue("stage", crash ? 0 : 1);
+                    if (h.Attribute("strength") != null) h.SetAttributeValue("strength", crash ? phase.CrashStrength : phase.EffectStrength);
+                }
+                foreach (XElement h in hediffs) h.Remove();
+                // State() orders by def; a stable re-sort keeps its part/severity order within a def.
+                foreach (XElement h in hediffs.OrderBy(h => (string)h.Attribute("def"), StringComparer.Ordinal))
+                {
+                    XElement firstNeed = pawn.Element("need");
+                    if (firstNeed != null) firstNeed.AddBeforeSelf(h); else pawn.Add(h);
+                }
+            }
+            return copy;
+        }
+        // Live effects must never stay below their crash threshold after load or a health interval.
+        internal static IEnumerable<string> UnconvertedEffects(Pawn pawn)
+        {
+            if (pawn.Dead) yield break;
+            foreach (Hediff h in pawn.health.hediffSet.hediffs)
+                if (Phases().TryGetValue(h.def.defName, out Phase phase) && phase.Effect == h.def.defName && h.Severity > 0f && h.Severity < phase.Threshold)
+                    yield return h.def.defName + "@" + h.Severity.ToString("R", CultureInfo.InvariantCulture);
+        }
         internal static bool Equivalent(XElement actual, XElement expected)
         {
-            var a = new XElement(actual); var e = new XElement(expected);
+            var a = ReleaseForm(actual); var e = ReleaseForm(expected);
             string[] floatFields = { "rest", "food", "severity", "severityPerDay", "strength", "level" };
             foreach (var tree in new[] { a, e })
                 foreach (var field in tree.DescendantsAndSelf().Attributes().Where(v => floatFields.Contains(v.Name.LocalName)))

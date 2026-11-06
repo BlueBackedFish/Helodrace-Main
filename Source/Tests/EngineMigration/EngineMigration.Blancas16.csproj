@@ -14,6 +14,7 @@
     <Compile Include="BlancasMkultraChecks.cs" />
     <Compile Include="BlancasDrugChecks.cs" />
     <Compile Include="BlancasChronicChecks.cs" />
+    <Compile Include="BlancasPhaseChecks.cs" />
     <Reference Include="Assembly-CSharp"><HintPath>$(LegacyGameRoot)/RimWorldWin64_Data/Managed/Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="UnityEngine"><HintPath>$(LegacyGameRoot)/RimWorldWin64_Data/Managed/UnityEngine.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="UnityEngine.CoreModule"><HintPath>$(LegacyGameRoot)/RimWorldWin64_Data/Managed/UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
