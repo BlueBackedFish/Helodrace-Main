@@ -2111,7 +2111,7 @@
   <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
     <defName>HD_M1902Saber</defName>
     <label>M1902 officer saber</label>
-    <description>A light ceremonial service saber carried by officers. It looks proper on parade, but its narrow blade and light fittings make it a poor battlefield weapon.</description>
+    <description>A light service saber carried by officers with the dress uniform. It is drawn at memorial services, military funerals and parades for the fallen, where an officer in full service dress stands as part of the honor guard. Its narrow blade and light fittings were made for ceremony rather than combat, and in a real fight it is a poor substitute for a cavalry saber.</description>
     <graphicData>
       <texPath>Weapons/GreatWar/HD_M1902Saber</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -2127,11 +2127,10 @@
     <stuffCategories>
       <li>Metallic</li>
     </stuffCategories>
-    <weaponTags>
-      <li>HD_WildWestCavalrySaber</li>
-    </weaponTags>
     <comps Inherit="False">
+      <li Class="CompProperties_Forbiddable" />
       <li><compClass>CompEquippable</compClass></li>
+      <li><compClass>CompQuality</compClass></li>
       <li Class="CompProperties_Styleable" />
     </comps>
     <tools>
