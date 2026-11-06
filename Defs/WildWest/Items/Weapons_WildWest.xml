@@ -389,7 +389,6 @@
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(1.25,1.25)</drawSize>
     </graphicData>
-    <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
     <statBases>
       <WorkToMake>25000</WorkToMake>
@@ -462,7 +461,6 @@
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(1,1)</drawSize>
     </graphicData>
-    <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
     <statBases>
       <WorkToMake>28000</WorkToMake>
@@ -539,9 +537,8 @@
     <graphicData>
       <texPath>Weapons/WildWest/WinM1895</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.9, 0.9)</drawSize>
+      <drawSize>(1.25,1.25)</drawSize>
     </graphicData>
-    <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
     <statBases>
       <WorkToMake>30000</WorkToMake>
@@ -611,9 +608,8 @@
     <graphicData>
       <texPath>Weapons/WildWest/SprM1861</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.9, 0.9)</drawSize>
+      <drawSize>(1.5,1.5)</drawSize>
     </graphicData>
-    <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
     <statBases>
       <WorkToMake>12000</WorkToMake>
@@ -694,9 +690,8 @@
     <graphicData>
       <texPath>Weapons/WildWest/SprM1873</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.9, 0.9)</drawSize>
+      <drawSize>(1.5,1.5)</drawSize>
     </graphicData>
-    <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
     <statBases>
       <WorkToMake>20000</WorkToMake>
