@@ -13,7 +13,7 @@ public sealed partial class Checks
     {
         var policy=JsonDocument.Parse(File.ReadAllText(Path.Combine(output,"research-policy.json"))).RootElement;
         var changes=policy.GetProperty("changes").EnumerateArray().Select(row=>(project:Def<ResearchProjectDef>(row.GetProperty("name").GetString()),
-            vanilla:row.GetProperty("source").GetString()=="ludeon.rimworld", before:row.GetProperty("base_before").GetSingle(), after:row.GetProperty("base_after").GetSingle())).ToList();
+            vanilla:row.GetProperty("source").GetString().StartsWith("ludeon.rimworld"), before:row.GetProperty("base_before").GetSingle(), after:row.GetProperty("base_after").GetSingle())).ToList();
         Check(!ScenPart_ResearchTechBaseline.In(Find.Scenario), "Research checks start outside a Helod scenario");
         foreach(var row in changes)
             Check(row.project.baseCost==(row.vanilla?row.before:row.after), "Non-Helod scenario keeps base-game budget and Helod tree budget: "+row.project.defName);

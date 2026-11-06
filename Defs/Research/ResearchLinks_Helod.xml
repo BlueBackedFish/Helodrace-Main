@@ -50,6 +50,22 @@
     <rightProjects><li>HelodTransistor</li></rightProjects>
   </Helodrace.ResearchLinkDef>
 
+  <Helodrace.ResearchLinkDef>
+    <defName>HD_Link_TubeTelevision</defName>
+    <leftProjects><li>TubeTelevision</li></leftProjects>
+    <rightProjects><li>HelodWireless</li></rightProjects>
+  </Helodrace.ResearchLinkDef>
+
+  <!-- Deep drilling follows microelectronics, so the transistor milestone stays on the Helod side. -->
+  <Helodrace.ResearchLinkDef>
+    <defName>HD_Link_DeepDrilling</defName>
+    <leftProjects><li>DeepDrilling</li></leftProjects>
+    <rightProjects>
+      <li>HelodHighOilDevelopment</li>
+      <li>HelodTransistor</li>
+    </rightProjects>
+  </Helodrace.ResearchLinkDef>
+
   <!-- Chemistry and medicine. -->
   <Helodrace.ResearchLinkDef>
     <defName>HD_Link_DrugProduction</defName>
@@ -72,6 +88,16 @@
     <rightProjects>
       <li>HelodFirstAid</li>
       <li>HelodHighElectronics</li>
+    </rightProjects>
+  </Helodrace.ResearchLinkDef>
+
+  <!-- Biotech only. The whole link is skipped without Biotech, so neither side is left empty. -->
+  <Helodrace.ResearchLinkDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>HD_Link_ToxGas</defName>
+    <leftProjects><li>ToxGas</li></leftProjects>
+    <rightProjects>
+      <li>HelodChokingAgent</li>
+      <li>HelodNumericalControl</li>
     </rightProjects>
   </Helodrace.ResearchLinkDef>
 

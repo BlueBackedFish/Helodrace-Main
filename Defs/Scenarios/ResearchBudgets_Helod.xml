@@ -10,6 +10,7 @@
     <baseCosts>
       <AirConditioning>700</AirConditioning>
       <BlowbackOperation>1700</BlowbackOperation>
+      <DeepDrilling>1700</DeepDrilling>
       <Electricity>8200</Electricity>
       <FlakArmor>7900</FlakArmor>
       <GasOperation>2100</GasOperation>
@@ -21,6 +22,7 @@
       <MultibarrelWeapons>17000</MultibarrelWeapons>
       <PrecisionRifling>9700</PrecisionRifling>
       <SterileMaterials>5100</SterileMaterials>
+      <ToxGas MayRequire="Ludeon.RimWorld.Biotech">5200</ToxGas>
     </baseCosts>
   </Helodrace.HelodScenarioResearchBudgetDef>
 </Defs>

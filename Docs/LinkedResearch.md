@@ -2,7 +2,7 @@
 
 정의: [ResearchLinks_Helod.xml](../Defs/Research/ResearchLinks_Helod.xml)
 
-`Helodrace.ResearchLinkDef`로 15개 관계를 연결한다. 바닐라 경로 또는 헤로드
+`Helodrace.ResearchLinkDef`로 18개 관계를 연결한다. 바닐라 경로 또는 헤로드
 경로 중 하나를 완료하면 반대쪽 연구도 완료된다. 표의 **+는 같은 경로 안에서
 모두 완료해야 하는 AND 조건**이고, 두 경로 사이는 OR 조건이다. 이 연결은
 모든 정착지에 적용되며, 헤로드 연구 탭의 노드 좌표는 바꾸지 않는다.
@@ -14,8 +14,11 @@
 | `HD_Link_Machining` | 기계 가공 `Machining` | 수치제어 `HelodNumericalControl` |
 | `HD_Link_AirConditioning` | 냉방 장치 `AirConditioning` | 열을 훔치는 장치 `HelodHeatPump` + 진공관의 시대 `HelodHighElectronics` |
 | `HD_Link_Microelectronics` | 미소전자공학 `MicroelectronicsBasics` | 실리콘 혁명 `HelodTransistor` |
+| `HD_Link_TubeTelevision` | 음극선관 TV `TubeTelevision` | 전선의 속박을 끊고 `HelodWireless` |
+| `HD_Link_DeepDrilling` | 심층 굴착 `DeepDrilling` | 깊은 곳 까지 `HelodHighOilDevelopment` + 실리콘 혁명 `HelodTransistor` |
 | `HD_Link_DrugProduction` | 약물 제조 `DrugProduction` | 자연의 정수 `HelodIngredientExtraction` |
 | `HD_Link_MedicineProduction` | 약품 생산 `MedicineProduction` | 분자 조립 라인 `HelodTotalSynthesisMedicine` + 실리콘 혁명 `HelodTransistor` |
+| `HD_Link_ToxGas` (Biotech) | 독소 가스 `ToxGas` | 독가스의 바람 `HelodChokingAgent` + 수치제어 `HelodNumericalControl` |
 | `HD_Link_SterileMaterials` | 항균 자재 `SterileMaterials` | 죽음을 미루는 기술 `HelodFirstAid` + 진공관의 시대 `HelodHighElectronics` |
 | `HD_Link_Gunsmithing` | 총기 제작 `Gunsmithing` | 완성된 소총 `HelodBoltAction` + 수치제어 `HelodNumericalControl` |
 | `HD_Link_BlowbackOperation` | 노리쇠 장치 `BlowbackOperation` | 한 번 당기면 한 발 `HelodSamiAutomaticPistol` + 수치제어 `HelodNumericalControl` |

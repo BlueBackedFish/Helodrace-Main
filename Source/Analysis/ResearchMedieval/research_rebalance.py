@@ -54,6 +54,11 @@ values = {
 
 snapshot = {x['name']: x for x in json.loads(Path('Docs/Data/StageI/research_before.json').read_text(encoding='utf-8'))}
 vanilla = {n: x for n, x in snapshot.items() if x['source'] == 'ludeon.rimworld'}
+# Core and DLC projects; DLC links (Defs with MayRequire) need their DLC's projects too.
+native = {n: x for n, x in snapshot.items() if x['source'].startswith('ludeon.rimworld')}
+PACKAGE = {'ludeon.rimworld.biotech': 'Ludeon.RimWorld.Biotech', 'ludeon.rimworld.ideology': 'Ludeon.RimWorld.Ideology',
+           'ludeon.rimworld.royalty': 'Ludeon.RimWorld.Royalty', 'ludeon.rimworld.anomaly': 'Ludeon.RimWorld.Anomaly',
+           'ludeon.rimworld.odyssey': 'Ludeon.RimWorld.Odyssey'}
 
 helod_files = sorted(Path('Defs/Research').glob('*.xml'))
 helod = {}
@@ -67,7 +72,7 @@ for path in helod_files:
 assert set(values) == set(helod), set(values) ^ set(helod)
 assert all(h['tech'] == 'Industrial' for h in helod.values())
 
-prereqs = {n: x['prerequisites'] for n, x in vanilla.items()}
+prereqs = {n: x['prerequisites'] for n, x in native.items()}
 prereqs.update({n: h['prereqs'] for n, h in helod.items()})
 links = [([i.text for i in x.findall('leftProjects/li')], [i.text for i in x.findall('rightProjects/li')])
          for x in E.parse('Defs/Research/ResearchLinks_Helod.xml').getroot()]
@@ -110,20 +115,20 @@ def spend(targets, cost, known=None):
 
 
 # Linked vanilla packages buy the Helod knowledge they grant beyond their own prerequisites.
-base = {n: x['baseCost'] for n, x in vanilla.items()}
+base = {n: x['baseCost'] for n, x in native.items()}
 base.update(values)
 budgets = {}
 for left, right in links:
     if len(left) != 1: continue
     n = left[0]
     extra, _ = spend(right, base, free | ancestors(prereqs[n]))
-    cost = max(vanilla[n]['baseCost'], math.ceil(extra / 50) * 50)
-    if cost != vanilla[n]['baseCost']: budgets[n] = cost
+    cost = max(native[n]['baseCost'], math.ceil(extra / 50) * 50)
+    if cost != native[n]['baseCost']: budgets[n] = cost
 base.update(budgets)
 
 old_budget = {d.tag: float(d.text) for d in E.parse('Defs/Scenarios/ResearchBudgets_Helod.xml').getroot()
               .find('Helodrace.HelodScenarioResearchBudgetDef/baseCosts')}
-old_base = {n: x['baseCost'] for n, x in vanilla.items()}
+old_base = {n: x['baseCost'] for n, x in native.items()}
 old_base.update(old_budget)
 old_base.update({n: h['cost'] for n, h in helod.items()})
 
@@ -145,9 +150,9 @@ def report():
     print(f'  {"whole Helod tree":34} {a*OLD_FACTOR:8.0f} -> {b*FACTOR:8.0f}   {a*OLD_FACTOR/DAY:6.1f} -> {b*FACTOR/DAY:6.1f} days')
     print('\nVanilla base budgets in Helod scenarios (apparent work = base x factor)')
     for n in sorted(set(old_budget) | set(budgets)):
-        o = old_budget.get(n, vanilla[n]['baseCost']); c = budgets.get(n, vanilla[n]['baseCost'])
+        o = old_budget.get(n, native[n]['baseCost']); c = budgets.get(n, native[n]['baseCost'])
         tag = 'linked' if n in budgets else 'vanilla'
-        print(f'  {n:26} vanilla {vanilla[n]["baseCost"]:5}  budget {o:7.0f} -> {c:6}  work {o*OLD_FACTOR:7.0f} -> {c*FACTOR:7.0f}  {tag}')
+        print(f'  {n:26} vanilla {native[n]["baseCost"]:5}  budget {o:7.0f} -> {c:6}  work {o*OLD_FACTOR:7.0f} -> {c*FACTOR:7.0f}  {tag}')
 
 
 def write():
@@ -162,11 +167,14 @@ def write():
         if new != text: path.write_bytes(new.encode('utf-8'))
     p = Path('Defs/Scenarios/ResearchBudgets_Helod.xml')
     text = p.read_text(encoding='utf-8')
-    body = ''.join(f'      <{n}>{c}</{n}>\n' for n, c in sorted(budgets.items()))
+    def entry(n, c):
+        dlc = PACKAGE.get(native[n]['source'])
+        return f'      <{n} MayRequire="{dlc}">{c}</{n}>\n' if dlc else f'      <{n}>{c}</{n}>\n'
+    body = ''.join(entry(n, c) for n, c in sorted(budgets.items()))
     text = re.sub(r'(<baseCosts>\n).*?(\s*</baseCosts>)', lambda m: m.group(1) + body.rstrip('\n') + m.group(2), text, flags=re.S)
     p.write_bytes(text.encode('utf-8'))
     # Policy read by the actual-game checks (Source/Tests/StageI/ResearchChecks.cs).
-    changes = [dict(name=n, source='ludeon.rimworld', base_before=vanilla[n]['baseCost'], base_after=c)
+    changes = [dict(name=n, source=native[n]['source'], base_before=native[n]['baseCost'], base_after=c)
                for n, c in sorted(budgets.items())]
     changes += [dict(name=n, source='bluebackedfish.helodrace.main', base_before=helod[n]['cost'], base_after=c)
                 for n, c in sorted(values.items())]

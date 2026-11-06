@@ -24,7 +24,9 @@ internal static class Program
     {
         string game = args.Length > 0 ? args[0] : Environment.GetEnvironmentVariable("RIMWORLD_PATH")
             ?? @"C:\Program Files (x86)\Steam\steamapps\common\RimWorld";
+        // Biotech is loaded for the toxic gas link.
         definitions = Directory.GetFiles(Path.Combine(game, "Data/Core/Defs/ResearchProjectDefs"), "*.xml")
+            .Concat(Directory.GetFiles(Path.Combine(game, "Data/Biotech/Defs"), "*.xml", SearchOption.AllDirectories))
             .Concat(Directory.GetFiles("Defs/Research", "*.xml"))
             .SelectMany(file => XDocument.Load(file).Root.Elements("ResearchProjectDef"))
             .Where(def => def.Element("defName") != null)
@@ -62,7 +64,7 @@ internal static class Program
     private static void Definitions()
     {
         var links = Reset();
-        Check(links.Count == 15, "The curated catalog contains 15 links");
+        Check(links.Count == 18, "The curated catalog contains 18 links");
         Check(links.Select(link => link.defName).Distinct().Count() == links.Count, "Link names are unique");
         string documentation = File.ReadAllText("Docs/LinkedResearch.md");
         foreach (var link in links)
