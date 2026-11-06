@@ -72,7 +72,7 @@
     <graphicData>
       <texPath>Weapons/ModernWar/HD_Glock19</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.72,0.72)</drawSize>
+      <drawSize>(0.25,0.25)</drawSize>
     </graphicData>
     <equippedAngleOffset>0</equippedAngleOffset>
     <soundInteract>Interact_Autopistol</soundInteract>
@@ -240,7 +240,7 @@
     <graphicData>
       <texPath>Weapons/ModernWar/HD_Nailgun</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.82,0.82)</drawSize>
+      <drawSize>(0.375,0.375)</drawSize>
     </graphicData>
     <uiIconScale>1.1</uiIconScale>
     <equippedAngleOffset>0</equippedAngleOffset>

@@ -306,7 +306,7 @@
     <graphicData>
       <texPath>Weapons/ColdWar/HD_M47</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.35,1.35)</drawSize>
+      <drawSize>(1.25,1.25)</drawSize>
     </graphicData>
     <equippedAngleOffset>0</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>

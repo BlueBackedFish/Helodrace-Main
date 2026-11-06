@@ -424,7 +424,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_Thompsonm1a1</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.0, 1.0)</drawSize>
+      <drawSize>(1,1)</drawSize>
     </graphicData>
     <soundInteract>Interact_Rifle</soundInteract>
     <statBases>
@@ -512,7 +512,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_m3a1</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.0, 1.0)</drawSize>
+      <drawSize>(0.75,0.75)</drawSize>
     </graphicData>
     <soundInteract>Interact_Rifle</soundInteract>
     <statBases>
@@ -598,7 +598,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_m9a1</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.25, 1.25)</drawSize>
+      <drawSize>(1.5,1.5)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -1181,7 +1181,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/KragJorgensen</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.9, 0.9)</drawSize>
+      <drawSize>(1.25,1.25)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -1256,7 +1256,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_M1897</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.1, 1.1)</drawSize>
+      <drawSize>(1,1)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -1348,7 +1348,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_M1A1Carbine</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.95, 0.95)</drawSize>
+      <drawSize>(1,1)</drawSize>
     </graphicData>
     <equippedAngleOffset>0</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -1426,7 +1426,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_M2Carbine</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.95, 0.95)</drawSize>
+      <drawSize>(1,1)</drawSize>
     </graphicData>
     <equippedAngleOffset>0</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -1504,7 +1504,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_m1garand</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.9, 0.9)</drawSize>
+      <drawSize>(1.25,1.25)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -1580,7 +1580,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_m1d</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.9, 0.9)</drawSize>
+      <drawSize>(1.25,1.25)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -1656,7 +1656,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_m1918a2Bar</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.15, 1.15)</drawSize>
+      <drawSize>(1.25,1.25)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -1743,7 +1743,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_m1919a6LMG</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.25, 1.25)</drawSize>
+      <drawSize>(1.5,1.5)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -1905,7 +1905,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_m1903a4</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.9, 0.9)</drawSize>
+      <drawSize>(1.25,1.25)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -1983,7 +1983,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_M1903Pedersen</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.9, 0.9)</drawSize>
+      <drawSize>(1.25,1.25)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>

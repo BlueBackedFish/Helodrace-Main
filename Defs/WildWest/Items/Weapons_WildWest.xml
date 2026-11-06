@@ -146,7 +146,7 @@
     <graphicData>
       <texPath>Weapons/WildWest/ColtSAA</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.7,0.7)</drawSize>
+      <drawSize>(0.375,0.375)</drawSize>
     </graphicData>
     <soundInteract>Interact_Revolver</soundInteract>
     <statBases>
@@ -229,7 +229,7 @@
     <graphicData>
       <texPath>Weapons/WildWest/HD_ColtArmyModel1860</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.7,0.7)</drawSize>
+      <drawSize>(0.375,0.375)</drawSize>
     </graphicData>
     <soundInteract>Interact_Revolver</soundInteract>
     <statBases>
@@ -313,7 +313,7 @@
     <graphicData>
       <texPath>Weapons/WildWest/SWModel3</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.7,0.7)</drawSize>
+      <drawSize>(0.375,0.375)</drawSize>
     </graphicData>
     <soundInteract>Interact_Revolver</soundInteract>
     <statBases>
@@ -387,7 +387,7 @@
     <graphicData>
       <texPath>Weapons/WildWest/Henry</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.9, 0.9)</drawSize>
+      <drawSize>(1.25,1.25)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -460,7 +460,7 @@
     <graphicData>
       <texPath>Weapons/WildWest/HD_WinM1887</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.1, 1.1)</drawSize>
+      <drawSize>(1,1)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>

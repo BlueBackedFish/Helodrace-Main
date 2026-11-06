@@ -84,7 +84,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_M8FlareGun</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.72,0.72)</drawSize>
+      <drawSize>(0.375,0.375)</drawSize>
     </graphicData>
     <soundInteract>Interact_Revolver</soundInteract>
     <statBases>
