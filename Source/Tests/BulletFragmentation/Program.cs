@@ -185,8 +185,8 @@ internal static class Program
                 string root = args.Length > 0 ? args[0] : ".";
                 foreach (var epr in new[]
                 {
-                    new { File = "Defs/Items/WeaponFamilies_Helod.xml", Name = "HD_Bullet_556M855A1_Proj", Damage = 13f },
-                    new { File = "Defs/ModernWar/Items/RifleAmmunition_Development.xml", Name = "HD_Bullet_76251M80A1_Proj", Damage = 18f }
+                    new { File = "Defs/Items/WeaponFamilies_Helod.xml", Name = "HD_Bullet_556M855A1_Proj", Damage = 11f },
+                    new { File = "Defs/ModernWar/Items/RifleAmmunition_Development.xml", Name = "HD_Bullet_76251M80A1_Proj", Damage = 17f }
                 })
                 {
                     var extension = XDocument.Load(Path.Combine(root, epr.File)).Root.Elements("ThingDef")

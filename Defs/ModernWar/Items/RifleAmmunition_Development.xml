@@ -15,7 +15,7 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>15</damageAmountBase>
+      <damageAmountBase>13</damageAmountBase>
       <armorPenetrationBase>0.19</armorPenetrationBase>
       <stoppingPower>1.0</stoppingPower>
       <speed>75</speed>
@@ -28,7 +28,7 @@
     <thingClass>Helodrace.Projectile_FragmentingBullet</thingClass>
     <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>8.4</projectileMassGrams><referenceVelocityMetersPerSecond>850</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>65</velocityHalfDistance></li><li Class="Helodrace.BulletFragmentationExtension"><chance>0.75</chance><damageFraction>0.55</damageFraction><minFragments>1</minFragments><maxFragments>1</maxFragments></li></modExtensions>
     <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
-    <projectile><damageDef>Bullet</damageDef><damageAmountBase>18</damageAmountBase><armorPenetrationBase>0.34</armorPenetrationBase><stoppingPower>1.05</stoppingPower><speed>90</speed></projectile>
+    <projectile><damageDef>Bullet</damageDef><damageAmountBase>17</damageAmountBase><armorPenetrationBase>0.34</armorPenetrationBase><stoppingPower>1.05</stoppingPower><speed>90</speed></projectile>
   </ThingDef>
 
   <!-- Physical ammunition selectors installed inside compatible magazine nodes. They

@@ -29,7 +29,7 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>19</damageAmountBase>
+      <damageAmountBase>18</damageAmountBase>
       <armorPenetrationBase>0.27</armorPenetrationBase>
       <stoppingPower>1.5</stoppingPower>
       <speed>80</speed>
@@ -45,7 +45,7 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>10</damageAmountBase>
+      <damageAmountBase>9</damageAmountBase>
       <armorPenetrationBase>0.12</armorPenetrationBase>
       <stoppingPower>0.70</stoppingPower>
       <speed>70</speed>
@@ -64,7 +64,7 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>12</damageAmountBase>
+      <damageAmountBase>11</damageAmountBase>
       <armorPenetrationBase>0.12</armorPenetrationBase>
       <stoppingPower>0.9</stoppingPower>
       <speed>65</speed>
@@ -81,7 +81,7 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>13</damageAmountBase>
+      <damageAmountBase>11</damageAmountBase>
       <armorPenetrationBase>0.15</armorPenetrationBase>
       <stoppingPower>1.0</stoppingPower>
       <speed>76</speed>
@@ -97,7 +97,7 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>19</damageAmountBase>
+      <damageAmountBase>18</damageAmountBase>
       <armorPenetrationBase>0.27</armorPenetrationBase>
       <stoppingPower>1.2</stoppingPower>
       <speed>80</speed>
@@ -115,7 +115,7 @@
     <modExtensions><li Class="Helodrace.IncendiaryProjectileExtension"><ignitionChance>0.15</ignitionChance><fireSize>0.15</fireSize></li></modExtensions>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>32</damageAmountBase>
+      <damageAmountBase>28</damageAmountBase>
       <armorPenetrationBase>0.42</armorPenetrationBase>
       <stoppingPower>2.2</stoppingPower>
       <speed>90</speed>
@@ -134,7 +134,7 @@
     <modExtensions><li Class="Helodrace.IncendiaryProjectileExtension"><ignitionChance>0.15</ignitionChance><fireSize>0.15</fireSize></li></modExtensions>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>32</damageAmountBase>
+      <damageAmountBase>28</damageAmountBase>
       <armorPenetrationBase>0.42</armorPenetrationBase>
       <stoppingPower>2.2</stoppingPower>
       <speed>90</speed>
@@ -150,7 +150,7 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>30</damageAmountBase>
+      <damageAmountBase>26</damageAmountBase>
       <armorPenetrationBase>0.34</armorPenetrationBase>
       <stoppingPower>2.2</stoppingPower>
       <speed>240</speed>
@@ -458,7 +458,7 @@
         <defaultProjectile>HD_Bullet_45ACP_Proj</defaultProjectile>
         <warmupTime>0.8</warmupTime>
         <range>22.9</range>
-        <burstShotCount>6</burstShotCount>
+        <burstShotCount>4</burstShotCount>
         <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
         <soundCast>Shot_Autopistol</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
@@ -546,7 +546,7 @@
         <defaultProjectile>HD_Bullet_45ACP_Proj</defaultProjectile>
         <warmupTime>0.9</warmupTime>
         <range>20.9</range>
-        <burstShotCount>6</burstShotCount>
+        <burstShotCount>4</burstShotCount>
         <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
         <soundCast>Shot_Autopistol</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
@@ -1460,7 +1460,7 @@
         <defaultProjectile>HD_Bullet_30Carbine_Proj</defaultProjectile>
         <warmupTime>0.75</warmupTime>
         <range>26.9</range>
-        <burstShotCount>5</burstShotCount>
+        <burstShotCount>4</burstShotCount>
         <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
         <soundCast>Shot_AssaultRifle</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
@@ -1691,7 +1691,7 @@
         <defaultProjectile>HD_Bullet_3006M2Ball_Proj</defaultProjectile>
         <warmupTime>1.2</warmupTime>
         <range>31.9</range>
-        <burstShotCount>4</burstShotCount>
+        <burstShotCount>3</burstShotCount>
         <ticksBetweenBurstShots>10</ticksBetweenBurstShots>
         <soundCast>Shot_Minigun</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
@@ -1779,7 +1779,7 @@
         <defaultProjectile>HD_Bullet_3006M1Ball_Proj</defaultProjectile>
         <warmupTime>1.6</warmupTime>
         <range>30.9</range>
-        <burstShotCount>6</burstShotCount>
+        <burstShotCount>5</burstShotCount>
         <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
         <soundCast>HD_M1917Fire</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>

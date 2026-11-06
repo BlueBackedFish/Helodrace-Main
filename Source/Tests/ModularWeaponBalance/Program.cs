@@ -316,14 +316,14 @@ internal static partial class Program
     private static void Rifle762Tests()
     {
         var selectors=new Dictionary<string,(int damage,float ap,int count)>{
-            {"HD_ModularPart_Ammunition_762M80_Part",(17,.28f,1)},
-            {"HD_Ammunition_76251M80A1_Ammo",(18,.34f,1)},
-            {"HD_Ammunition_76251M198_Ammo",(9,.14f,2)},
-            {"HD_Ammunition_76251M948_Ammo",(10,.58f,1)},
-            {"HD_Ammunition_76251M993_Ammo",(13,.48f,1)},
-            {"HD_Ammunition_76251M1158_Ammo",(15,.56f,1)},
-            {"HD_Ammunition_76251MK316_Ammo",(17,.26f,1)},
-            {"HD_Ammunition_76251MK319_Ammo",(19,.29f,1)}};
+            {"HD_ModularPart_Ammunition_762M80_Part",(16,.28f,1)},
+            {"HD_Ammunition_76251M80A1_Ammo",(17,.34f,1)},
+            {"HD_Ammunition_76251M198_Ammo",(8,.14f,2)},
+            {"HD_Ammunition_76251M948_Ammo",(9,.58f,1)},
+            {"HD_Ammunition_76251M993_Ammo",(12,.48f,1)},
+            {"HD_Ammunition_76251M1158_Ammo",(14,.56f,1)},
+            {"HD_Ammunition_76251MK316_Ammo",(16,.26f,1)},
+            {"HD_Ammunition_76251MK319_Ammo",(18,.29f,1)}};
         var projectiles=new HashSet<string>();var profiles=new Dictionary<string,ModularWeaponBallisticProfile>();
         var builds=new Dictionary<string,ModularWeaponConvertedStats>();
         foreach(var pair in selectors)

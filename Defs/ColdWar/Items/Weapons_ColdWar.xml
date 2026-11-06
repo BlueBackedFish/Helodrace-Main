@@ -12,7 +12,7 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>17</damageAmountBase>
+      <damageAmountBase>16</damageAmountBase>
       <armorPenetrationBase>0.28</armorPenetrationBase>
       <stoppingPower>1.1</stoppingPower>
       <speed>88</speed>
@@ -423,7 +423,7 @@
         <defaultProjectile>HD_Bullet_76251M80_Proj</defaultProjectile>
         <warmupTime>1.25</warmupTime>
         <range>33.9</range>
-        <burstShotCount>7</burstShotCount>
+        <burstShotCount>6</burstShotCount>
         <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
         <soundCast>HD_M1917Fire</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
