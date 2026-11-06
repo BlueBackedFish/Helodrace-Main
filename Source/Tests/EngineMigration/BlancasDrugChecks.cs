@@ -50,6 +50,8 @@ namespace Helodrace.Tests
                     if (!Phases().TryGetValue((string)h.Attribute("def"), out Phase phase)) continue;
                     bool crash = float.Parse((string)h.Attribute("severity"), CultureInfo.InvariantCulture) < phase.Threshold;
                     h.SetAttributeValue("def", phase.Effect);
+                    // The crash class is a Hediff_High subclass that only adds optional race variants.
+                    if ((string)h.Attribute("type") == "HelodBlancasDrug.Hediff_DrugCrash") h.SetAttributeValue("type", "RimWorld.Hediff_High");
                     h.SetAttributeValue("stage", crash ? 0 : 1);
                     if (h.Attribute("strength") != null) h.SetAttributeValue("strength", crash ? phase.CrashStrength : phase.EffectStrength);
                 }

@@ -493,7 +493,7 @@ namespace Helodrace.Tests
                     }
                     Check(lra7VerifiedOnLoad, "LRA-7 reloaded state verified before the first simulation tick");
                 }
-                else if (mode == "blancas-integration") BlancasIntegrationChecks.Run(Check);
+                else if (mode == "blancas-integration") { BlancasIntegrationChecks.Run(Check); BlancasHelodCrashChecks.Run(Check); }
                 else if (mode == "native-runtime") NativeRuntimeChecks.Run(output, Check);
                 else if (mode == "native-math") NativeMathChecks.Run(output, Check);
                 else if (mode == "native-geometry") NativeGeometryChecks.Run(output, Check);
