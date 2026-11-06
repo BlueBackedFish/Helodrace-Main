@@ -112,4 +112,72 @@ Large industrial motor
 - Colonists also use it for recreation, chatting on LOW and HIGH HAM frequencies or listening to broadcasts from nearby seats.</guideText>
   </Helodrace.Research.ResearchGuideDef>
 
+  <Helodrace.Research.ResearchGuideDef>
+    <defName>HD_Guide_MachiningFacilities</defName>
+    <label>machining facilities</label>
+    <research>HelodBasicMachineTool</research>
+    <guideText>Many firearms need machine tools linked to the workbench that assembles them. Without the required facilities, their recipes are unavailable on that workbench.
+
+Linking a facility
+- Build the machine tool within 6 cells of the workbench. A link line appears while placing it. Each machine tool links to only one workbench.
+- Basic workbenches and gunsmith tables accept lathes and milling machines.
+- An item's info card lists its required facilities as a field and minimum level. A facility's info card lists the fields and levels it provides.
+
+Levels
+- Any linked facility at the required level or higher meets the requirement, so later machines replace earlier ones.
+- Turning: treadle lathe Lv.1, line shaft turret lathe Lv.2, NC lathe Lv.3, multi-tasking machine Lv.4.
+- Milling: line shaft milling machine Lv.1, NC milling machine Lv.2, machining center Lv.3, multi-tasking machine Lv.4.
+
+Typical requirements
+- Turning Lv.1: early revolvers and single-shot rifles, such as the Ironfang SAA and Graylock M1861.
+- Turning Lv.2 + Milling Lv.1: lever-action and bolt-action rifles, the M1 Hartwell and the Ironfang M1911.
+- Turning Lv.3 + Milling Lv.2: the M14, M16A1 and M249.
+- Turning Lv.3 + Milling Lv.3: the M4A1 and MP5.
+- Turning Lv.4 + Milling Lv.4: the LANCE LRA-7.
+
+Turning and milling facilities only need to be linked; they do not need to run while the workbench works. Unlinking or removing a required facility stops the production job.</guideText>
+  </Helodrace.Research.ResearchGuideDef>
+
+  <Helodrace.Research.ResearchGuideDef>
+    <defName>HD_Guide_PressingFacilities</defName>
+    <label>pressing facilities</label>
+    <research>HelodMetalFormingMachine</research>
+    <guideText>Pressed armor needs a hydraulic press linked to the workbench that makes it.
+
+Linking a press
+- Build the press within 6 cells of a basic workbench or clothing workbench. Each press links to only one workbench.
+- Line shaft hydraulic press: Pressing Lv.1. Electric hydraulic press: Pressing Lv.2, which also meets Lv.1 requirements.
+
+Running the press
+- Unlike lathes and milling machines, the press must be powered, switched on and in working order. The line shaft press needs mechanical power; the electric press needs electricity.
+- While the workbench makes a pressed item, the press runs under the work load.
+- If the press loses power or is unlinked, the job stops.
+
+Typical requirements
+- Pressing Lv.1: metal vest, M1 helmet and M1952A flak jacket.
+- Pressing Lv.2: SAPI plate sets, IBTV assault body armor and FAST MT helmet.</guideText>
+  </Helodrace.Research.ResearchGuideDef>
+
+  <Helodrace.Research.ResearchGuideDef>
+    <defName>HD_Guide_SteelConverting</defName>
+    <label>the converter</label>
+    <research>HelodIronMaking</research>
+    <guideText>Carbon steel is refined at the blast furnace only when a converter is linked to it.
+
+- Build the converter within 6 cells of the blast furnace. Each converter links to only one blast furnace.
+- The converter provides Steel converting Lv.1. Small, medium and large carbon steel batches all require it.
+- The converter does not need its own power. Unlinking or removing it stops refining in progress.</guideText>
+  </Helodrace.Research.ResearchGuideDef>
+
+  <Helodrace.Research.ResearchGuideDef>
+    <defName>HD_Guide_ChemicalReaction</defName>
+    <label>the stirred-tank reactor</label>
+    <research>HelodTotalSynthesisMedicine</research>
+    <guideText>Synthetic fibers are spun on a fiber spinning module linked to a stirred-tank reactor.
+
+- Build the stirred-tank reactor directly next to the fiber spinning module. It links to only one module.
+- The reactor provides Chemical reaction Lv.1, which nylon and aramid spinning require.
+- The reactor must be powered, switched on and in working order. If it loses power or is unlinked, spinning stops.</guideText>
+  </Helodrace.Research.ResearchGuideDef>
+
 </Defs>

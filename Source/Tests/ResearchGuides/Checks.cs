@@ -30,6 +30,10 @@ public sealed class Checks : GameComponent
         File.WriteAllText(Path.Combine(output, "checks.txt"), "Actual RimWorld 1.7 research guide checks\n");
         Find.TickManager.Pause();
         DebugSettings.enableStoryteller = false;
+        // Quicktest maps can spawn corpses without a body type, which breaks map drawing.
+        foreach (Pawn p in Find.CurrentMap.mapPawns.AllPawnsSpawned.Concat(Find.CurrentMap.listerThings
+            .ThingsInGroup(ThingRequestGroup.Corpse).OfType<Corpse>().Select(c => c.InnerPawn)))
+            if (p.story != null && p.story.bodyType == null) p.story.bodyType = p.gender == Gender.Female ? BodyTypeDefOf.Female : BodyTypeDefOf.Male;
         steps = Run().GetEnumerator();
     }
 
@@ -56,8 +60,9 @@ public sealed class Checks : GameComponent
     private IEnumerable<int> Run()
     {
         var guides = DefDatabase<ResearchGuideDef>.AllDefsListForReading;
-        string[] expected = { "HD_Guide_MechanicalPower", "HD_Guide_LineShaft", "HD_Guide_Telegraph", "HD_Guide_OilDevelopment", "HD_Guide_Generator", "HD_Guide_Radio" };
-        Check(expected.All(n => guides.Any(g => g.defName == n)), "all six guides load");
+        string[] expected = { "HD_Guide_MechanicalPower", "HD_Guide_LineShaft", "HD_Guide_Telegraph", "HD_Guide_OilDevelopment", "HD_Guide_Generator", "HD_Guide_Radio",
+            "HD_Guide_MachiningFacilities", "HD_Guide_PressingFacilities", "HD_Guide_SteelConverting", "HD_Guide_ChemicalReaction" };
+        Check(expected.All(n => guides.Any(g => g.defName == n)), "all guides load");
         Check(guides.All(g => g.research != null && !g.guideText.NullOrEmpty() && !g.label.NullOrEmpty()), "every guide has research, title and text");
         Check(DefDatabase<LetterDef>.GetNamed("HD_ResearchGuideLetter").letterClass == typeof(ChoiceLetter_ResearchGuide), "guide letter def uses the guide letter class");
 
