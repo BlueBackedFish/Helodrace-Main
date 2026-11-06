@@ -6,12 +6,12 @@
   <HD_Gene_AmphetamineDependency.description>이 유전자의 보유자는 생존을 위해 암페타민을 주기적으로 섭취해야 합니다. 암페타민을 섭취하지 않고 5일이 지나면 결핍이 시작되고, 30일 뒤에는 혼수상태에 빠지며, 60일 뒤에는 사망합니다.</HD_Gene_AmphetamineDependency.description>
   <HD_Gene_Sharpshooter.label>명사수</HD_Gene_Sharpshooter.label>
   <HD_Gene_Sharpshooter.description>총을 잘 다루는 정도의 능력 (총기의 특수 조작을 사용할 수 있습니다)</HD_Gene_Sharpshooter.description>
-  <HD_Gene_ArrogantLeader.label>오만한 지도자</HD_Gene_ArrogantLeader.label>
+  <HD_Gene_ArrogantLeader.label>자존심</HD_Gene_ArrogantLeader.label>
   <HD_Gene_ArrogantLeader.description>사회적 영향력이 15% 증가합니다. 자존심 때문에 정신 붕괴 임계치가 4%p 높아지고 학습 속도는 10%p 낮아집니다.</HD_Gene_ArrogantLeader.description>
-  <HD_Gene_PolarPrecision.label>극지의 정밀함</HD_Gene_PolarPrecision.label>
+  <HD_Gene_PolarPrecision.label>설원 사수</HD_Gene_PolarPrecision.label>
   <HD_Gene_PolarPrecision.description>지붕 없는 야외에서 기온이 10도 이하이면 조준 준비 시간이 기존의 85%가 됩니다. 일반 작업 속도는 5%p 낮아집니다.</HD_Gene_PolarPrecision.description>
-  <HD_Gene_Monopolist.label>도시의 정밀함</HD_Gene_Monopolist.label>
-  <HD_Gene_Monopolist.description>연구·일반 노동 속도가 각각 5% 빨라집니다. 거래 가격 개선이 8%p, 협상 능력이 10%p 높아집니다.</HD_Gene_Monopolist.description>
-  <HD_Gene_MercenaryCohesion.label>용병대 결속</HD_Gene_MercenaryCohesion.label>
+  <HD_Gene_CityBred.label>도시 태생</HD_Gene_CityBred.label>
+  <HD_Gene_CityBred.description>연구·일반 노동 속도가 각각 5% 빨라집니다. 거래 가격 개선이 8%p, 협상 능력이 10%p 높아집니다.</HD_Gene_CityBred.description>
+  <HD_Gene_MercenaryCohesion.label>무리 본능</HD_Gene_MercenaryCohesion.label>
   <HD_Gene_MercenaryCohesion.description>8칸 이내에 쓰러지지 않은 같은 세력의 헤로드 전우가 있으면 통증 쇼크 임계치가 10%p 높아지고 근접 공격을 더 잘 피합니다. 혼자 있거나 쓰러진 전우·적과 함께 있을 때는 적용되지 않습니다.</HD_Gene_MercenaryCohesion.description>
 </LanguageData>

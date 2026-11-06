@@ -2,7 +2,7 @@
   "inherited": [
     "AptitudeStrong_Animals",
     "AptitudeStrong_Social",
-    "HD_Gene_Monopolist",
+    "HD_Gene_CityBred",
     "WoundHealing_Slow",
     "AptitudeStrong_Intellectual",
     "AptitudeStrong_Shooting",
@@ -17,7 +17,7 @@
   "actual": [
     "AptitudeStrong_Animals",
     "AptitudeStrong_Social",
-    "HD_Gene_Monopolist",
+    "HD_Gene_CityBred",
     "WoundHealing_Slow",
     "AptitudeStrong_Intellectual",
     "AptitudeStrong_Shooting",

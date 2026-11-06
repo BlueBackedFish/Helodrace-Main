@@ -50,7 +50,7 @@
   </GeneDef>
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_Gene_ArrogantLeader</defName>
-    <label>arrogant leader</label>
+    <label>proud</label>
     <description>A commanding presence improves social impact by 15%, but pride raises mental break threshold by 4% and lowers learning speed by 10%.</description>
     <iconPath>Icons/HD_Helod</iconPath>
     <displayCategory>Miscellaneous</displayCategory>
@@ -64,7 +64,7 @@
   </GeneDef>
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_Gene_PolarPrecision</defName>
-    <label>polar precision</label>
+    <label>cold-weather marksman</label>
     <description>In an unroofed position at 10 C or colder, aiming time is 85% of normal. General work speed is reduced by 5%.</description>
     <iconPath>Icons/HD_Sharpshooter</iconPath>
     <displayCategory>Miscellaneous</displayCategory>
@@ -82,8 +82,8 @@
     </statOffsets>
   </GeneDef>
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
-    <defName>HD_Gene_Monopolist</defName>
-    <label>urban precision</label>
+    <defName>HD_Gene_CityBred</defName>
+    <label>city-bred</label>
     <description>Urban experience improves research speed and general labor speed by 5%, trade price improvement by 8%, and negotiation ability by 10%.</description>
     <iconPath>Icons/HD_Helod</iconPath>
     <displayCategory>Miscellaneous</displayCategory>
@@ -100,7 +100,7 @@
   </GeneDef>
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_Gene_MercenaryCohesion</defName>
-    <label>mercenary cohesion</label>
+    <label>pack instinct</label>
     <description>With a healthy allied Helod within eight cells, pain shock threshold increases by 10% and melee dodging improves. The effect requires an allied Helod who is not downed.</description>
     <iconPath>Icons/HD_Sharpshooter</iconPath>
     <displayCategory>Miscellaneous</displayCategory>

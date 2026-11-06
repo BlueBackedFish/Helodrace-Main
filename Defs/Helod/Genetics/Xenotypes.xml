@@ -88,7 +88,7 @@
       <li MayRequire="Ludeon.RimWorld.Biotech">Hair_Gray</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">Delicate</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">WoundHealing_Slow</li>
-      <li MayRequire="Ludeon.RimWorld.Biotech">HD_Gene_Monopolist</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">HD_Gene_CityBred</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Intellectual</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Crafting</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Social</li>
