@@ -56,6 +56,8 @@
         <tab>HelodTechTab</tab>
         <researchViewX>3</researchViewX>
         <researchViewY>0</researchViewY>
+        <discoveredLetterTitle>About: Mechanical power</discoveredLetterTitle>
+        <discoveredLetterText>Your colony can now drive machines with rotary power instead of muscle.\n\nThe small steam engine burns wood and powers any machine touching it, including diagonally. Machines that need mechanical power stop when the engine runs out of fuel, so keep wood nearby.\n\nThe mechanical network tab shows output and demand. If demand exceeds the engine's maximum output, machines slow down or stop, and an overloaded steam engine can be damaged or explode.</discoveredLetterText>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -70,6 +72,8 @@
         <tab>HelodTechTab</tab>
         <researchViewX>3</researchViewX>
         <researchViewY>2.4</researchViewY>
+        <discoveredLetterTitle>About: Machining facilities</discoveredLetterTitle>
+        <discoveredLetterText>Many firearms need machine tools linked to the workbench that assembles them. Build a lathe or milling machine within 6 cells of a basic workbench or gunsmith table; each machine links to one workbench.\n\nAn item's info card lists the required fields and levels, such as Turning Lv.2 + Milling Lv.1. Later machines provide higher levels and replace earlier ones.</discoveredLetterText>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -112,6 +116,8 @@
         <tab>HelodTechTab</tab>
         <researchViewX>5</researchViewX>
         <researchViewY>0</researchViewY>
+        <discoveredLetterTitle>About: Oil wells</discoveredLetterTitle>
+        <discoveredLetterText>Crude oil comes from wells your colony drills itself.\n\nBuild a cable-tool rig on heavy ground and give it mechanical power. It stops regularly for maintenance and turns the ground into an oil field after about seven days. Then deconstruct the rig and build a pump jack on the field. The batch still distills crude oil into one selected fuel per bill.</discoveredLetterText>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -127,6 +133,8 @@
         <tab>HelodTechTab</tab>
         <researchViewX>4</researchViewX>
         <researchViewY>2.4</researchViewY>
+        <discoveredLetterTitle>About: Line shafts</discoveredLetterTitle>
+        <discoveredLetterText>Line shafts carry rotary power between machines that do not touch the engine. Lay them like conduits; everything they connect forms one mechanical network that shares the output of all its power sources.\n\nSeparate shaft lines are separate networks. Keep important machines, such as coolers, on a network that is not overloaded.</discoveredLetterText>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -141,6 +149,8 @@
         <tab>HelodTechTab</tab>
         <researchViewX>3</researchViewX>
         <researchViewY>7.2</researchViewY>
+        <discoveredLetterTitle>About: The telegraph</discoveredLetterTitle>
+        <discoveredLetterText>The telegraph connects your colony to LOW Helod companies for caravans, forward-base contracts and guards.\n\nAfter building it, ask a visiting LOW Helod caravan to install the line for 250 STL. The line opens 2–3 days later. Companies can be reached from 08:00 to 18:00, and each transmission uses primary cells.</discoveredLetterText>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -169,6 +179,8 @@
         <tab>HelodTechTab</tab>
         <researchViewX>5</researchViewX>
         <researchViewY>2.4</researchViewY>
+        <discoveredLetterTitle>About: Presses</discoveredLetterTitle>
+        <discoveredLetterText>Pressed armor, such as the metal vest and M1 helmet, needs a hydraulic press linked to a basic workbench or clothing workbench within 6 cells.\n\nUnlike lathes, the press must be powered and switched on while the item is made.</discoveredLetterText>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -197,6 +209,8 @@
         <tab>HelodTechTab</tab>
         <researchViewX>2</researchViewX>
         <researchViewY>0.8</researchViewY>
+        <discoveredLetterTitle>About: Carbon steel</discoveredLetterTitle>
+        <discoveredLetterText>The blast furnace refines carbon steel only while a converter is linked to it. Build the converter within 6 cells of the blast furnace.</discoveredLetterText>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -287,6 +301,8 @@
         <tab>HelodTechTab</tab>
         <researchViewX>8</researchViewX>
         <researchViewY>8.8</researchViewY>
+        <discoveredLetterTitle>About: Stirred-tank reactor</discoveredLetterTitle>
+        <discoveredLetterText>Nylon and aramid are spun on a fiber spinning module with a powered stirred-tank reactor placed directly next to it.</discoveredLetterText>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -317,6 +333,8 @@
         <tab>HelodTechTab</tab>
         <researchViewX>8</researchViewX>
         <researchViewY>5.6</researchViewY>
+        <discoveredLetterTitle>About: Generators and motors</discoveredLetterTitle>
+        <discoveredLetterText>The early industrial generator turns shaft power into electricity. Its target output decides how much shaft power it draws, so a high target can overload the mechanical network.\n\nThe large industrial motor works the other way, driving a mechanical network from the electrical grid.</discoveredLetterText>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -331,6 +349,8 @@
         <tab>HelodTechTab</tab>
         <researchViewX>10</researchViewX>
         <researchViewY>7.2</researchViewY>
+        <discoveredLetterTitle>About: The radio</discoveredLetterTitle>
+        <discoveredLetterText>The radio offers every telegraph service without line installation or primary cells. It only needs electricity, and company frequencies are open around the clock.</discoveredLetterText>
     </ResearchProjectDef>
 
     <ResearchProjectDef>

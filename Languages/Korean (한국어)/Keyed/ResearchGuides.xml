@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LanguageData>
-  <HD_ResearchGuide_LetterLabel>안내: {0}</HD_ResearchGuide_LetterLabel>
-  <HD_ResearchGuide_LetterText>{0} 연구를 완료해 {1} 기능이 해금되었습니다. 이 알림을 열어 사용 방법을 확인하십시오.</HD_ResearchGuide_LetterText>
-  <HD_ResearchGuide_Open>안내 보기</HD_ResearchGuide_Open>
-  <HD_ResearchGuide_UnlockedBy>해금 연구: {0}</HD_ResearchGuide_UnlockedBy>
-</LanguageData>

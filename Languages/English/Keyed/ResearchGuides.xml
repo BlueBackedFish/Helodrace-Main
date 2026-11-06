@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LanguageData>
-  <HD_ResearchGuide_LetterLabel>Guide: {0}</HD_ResearchGuide_LetterLabel>
-  <HD_ResearchGuide_LetterText>Completing {0} unlocked {1}. Open this letter to read how it works.</HD_ResearchGuide_LetterText>
-  <HD_ResearchGuide_Open>Read guide</HD_ResearchGuide_Open>
-  <HD_ResearchGuide_UnlockedBy>Unlocked by research: {0}</HD_ResearchGuide_UnlockedBy>
-</LanguageData>
