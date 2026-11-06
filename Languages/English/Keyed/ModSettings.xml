@@ -2,4 +2,6 @@
 <LanguageData>
   <HD_Settings_LimitToOnePlatoon>Limit raids to one platoon</HD_Settings_LimitToOnePlatoon>
   <HD_Settings_LimitToOnePlatoon_Desc>LOW raids field at most 40 people and HIGH raids at most 43. Excess raid budget is converted into support points.</HD_Settings_LimitToOnePlatoon_Desc>
+  <HD_Settings_TacticalAI>Squad tactical AI (experimental)</HD_Settings_TacticalAI>
+  <HD_Settings_TacticalAI_Desc>Raiders use the squad tactical engine: stack-up room clearing, hand grenades, smoke, breaching charges and coordinated fire. It is unstable. When off, raiders use vanilla AI; engineers still breach doors and walls with sledgehammers and grenadiers still fire underbarrel grenade launchers, and raiders carry no hand grenades. Requires a restart.</HD_Settings_TacticalAI_Desc>
 </LanguageData>

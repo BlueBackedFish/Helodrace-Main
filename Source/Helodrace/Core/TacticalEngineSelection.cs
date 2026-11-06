@@ -14,8 +14,10 @@ namespace Helodrace
     public static class TacticalEngineSelection
     {
         private static TacticalEngineKind? selected;
-        public static TacticalEngineKind Kind => selected ?? (selected = Parse(
-            GenCommandLine.TryGetCommandLineArg("hdTacticalEngine", out string value) ? value : null)).Value;
+        // The command-line switch (test harnesses) overrides the mod setting.
+        public static TacticalEngineKind Kind => selected ?? (selected =
+            GenCommandLine.TryGetCommandLineArg("hdTacticalEngine", out string value) ? Parse(value)
+            : RaidSettings.TacticalAI ? TacticalEngineKind.New : TacticalEngineKind.Vanilla).Value;
         public static bool NewImplemented => true;
         public static string EffectiveEngine => Kind.ToString().ToLowerInvariant();
 

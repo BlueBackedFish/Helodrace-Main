@@ -67,6 +67,8 @@ namespace Helodrace
             var listing = new Listing_Standard(); listing.Begin(rect);
             listing.CheckboxLabeled("HD_Settings_LimitToOnePlatoon".Translate(), ref RaidOptions.limitToOnePlatoon,
                 "HD_Settings_LimitToOnePlatoon_Desc".Translate());
+            listing.CheckboxLabeled("HD_Settings_TacticalAI".Translate(), ref RaidOptions.tacticalAI,
+                "HD_Settings_TacticalAI_Desc".Translate());
             listing.End();
         }
     }
