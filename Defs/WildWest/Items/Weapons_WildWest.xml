@@ -20,8 +20,8 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_Bullet_44American_Proj</defName>
-    <label>.44 American bullet</label>
+    <defName>HD_Bullet_44Vesenican_Proj</defName>
+    <label>.44 Vesenican bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -343,7 +343,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_44American_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_44Vesenican_Proj</defaultProjectile>
         <warmupTime>0.3</warmupTime>
         <range>23.9</range>
         <burstShotCount>1</burstShotCount>
@@ -354,7 +354,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_44American_Proj</defaultProjectile>
+        <defaultProjectile>HD_Bullet_44Vesenican_Proj</defaultProjectile>
         <warmupTime>0.03</warmupTime>
         <range>6.9</range>
         <burstShotCount>6</burstShotCount>

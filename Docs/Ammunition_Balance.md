@@ -27,7 +27,7 @@
 | 20mm M56A3 | 30 | 42% | M167 고폭소이예광탄; 비예광 고폭소이탄도 같은 기준 |
 | 12게이지 00 Buckshot | 4 | 8% | M1887·M1897, 9알 발사 |
 | .44 뇌관식 구형탄 | 10 | 7% | M1860 아미 |
-| .44 American | 11 | 9% | 모델 3 |
+| .44 Vesenican | 11 | 9% | 모델 3 |
 | .45 Long | 13 | 10% | SAA |
 | .44 림파이어 | 12 | 8% | 헨리 소총 (저지력 1.1) |
 | .58 미니에탄 | 25 | 10% | M1861 (저지력 2.0) |
@@ -106,7 +106,7 @@ M193·M855·M855A1·MK262·MK318·M80A1에만 적용한다. M995, .300 BLK TAC-T
 | `Defs/Items/WeaponFamilies_Helod.xml` | `HD_Bullet_556M855A1_Proj` |
 | `Defs/GreatWar/Items/Weapons_GreatWar.xml` | `HD_Bullet_45ACP_Proj`, `HD_Bullet_30Carbine_Proj`, `HD_Bullet_3018Auto_Proj`, `HD_Bullet_3006M2Ball_Proj`, `HD_Bullet_3006M1Ball_Proj`, `HD_Bullet_12799M8_Proj`, `HD_Bullet_12799M2Ball_Proj`, `HD_Rocket_M6A3HEAT_Proj` |
 | `Defs/ColdWar/Items/Weapons_ColdWar.xml` | `HD_Bullet_76251M80_Proj`, `HD_BGM71A_Proj`, `HD_Projectile_20mmAPI`, `HD_Projectile_20mmHEI`, `HD_Projectile_20mmHEIT` |
-| `Defs/WildWest/Items/Weapons_WildWest.xml` | `HD_Bullet_12Gauge00Buck_Proj`, `HD_Bullet_44Percussion_Proj`, `HD_Bullet_44American_Proj`, `HD_Bullet_45Long_Proj`, `HD_Bullet_44Rimfire_Proj`, `HD_Bullet_58Minie_Proj`, `HD_Bullet_4570_Proj`, `HD_Bullet_30Army_Proj` |
+| `Defs/WildWest/Items/Weapons_WildWest.xml` | `HD_Bullet_12Gauge00Buck_Proj`, `HD_Bullet_44Percussion_Proj`, `HD_Bullet_44Vesenican_Proj`, `HD_Bullet_45Long_Proj`, `HD_Bullet_44Rimfire_Proj`, `HD_Bullet_58Minie_Proj`, `HD_Bullet_4570_Proj`, `HD_Bullet_30Army_Proj` |
 | `Defs/ColdWar/Items/M79_ColdWar.xml` | `HD_40mmM576Pellet_Proj` |
 
 구형 M16과 비예광 20mm 고폭소이탄은 현재 공용 투사체 구조를 따라 각각 5.56mm·20mm 기준을 공유한다. 투사체 DefName과 이름은 사용 총기가 아닌 탄종을 따른다. 같은 탄종을 쓰는 총기는 하나의 투사체를 공유한다. M60E3·M14의 `HD_Bullet_76251M80_Proj`(M80)는 M80A1 선택 탄종과 별도 투사체이며 M80A1 파편화를 적용하지 않는다. Combat Extended의 외부 탄약 Def 및 별도 관통 단위는 이 표의 적용 대상이 아니다.
