@@ -1,12 +1,13 @@
 # 탄약 피해량·관통력 차트
 
-2026-10-17 기준. 기존 사용자 지정 수치를 탄종별 공통 기준으로 유지하고, 신규 5.56mm 탄종은 M855A1을 기준으로 역할을 구분한다. 피해량은 투사체 한 발 기준이며, 산탄은 **한 알 기준**이다. 관통력은 XML의 `armorPenetrationBase`를 백분율로 표시한다. 28%는 `0.28`, 180%는 `1.80`이다. 관통력은 명중률이나 고정 방어 무시 확률을 뜻하지 않는다.
+2026-10-17 기준, 2026-11-07 서부개척기 탄종·M80·12.7mm 보통탄 조정 반영. 기존 사용자 지정 수치를 탄종별 공통 기준으로 유지하고, 신규 5.56mm 탄종은 M855A1을 기준으로 역할을 구분한다. 피해량은 투사체 한 발 기준이며, 산탄은 **한 알 기준**이다. 관통력은 XML의 `armorPenetrationBase`를 백분율로 표시한다. 28%는 `0.28`, 180%는 `1.80`이다. 관통력은 명중률이나 고정 방어 무시 확률을 뜻하지 않는다.
 
 | 탄종 | 피해량 | 관통력 | 적용 무기·용도 |
 |---|---:|---:|---|
 | 9×19mm M882 | 10 | 14% | Glock 19, P320, MP5 계열 |
 | .45 ACP M1911 Ball | 12 | 12% | M1911, Thompson, M3 계열 |
 | .30 Carbine M1 Ball | 13 | 15% | M1A1·M2 Carbine |
+| .30-18 Auto | 10 | 12% | M1903 휘트모어 장치 |
 | .300 BLK TAC-TX | 15 | 19% | .300 BLK 탄종을 선택한 모듈식 소총 |
 | 5.56mm M855A1 | 13 | 28% | M16·M4·MK18·M249 계열의 공용 5.56 투사체 |
 | 5.56mm M193 | 13 | 20% | STANAG·M249 선택 탄종; 높은 탄속의 초기형 |
@@ -14,18 +15,31 @@
 | 5.56mm M995 | 11 | 38% | STANAG·M249 선택 탄종; 피해량을 낮춘 고관통형 |
 | 5.56mm MK262 | 16 | 18% | STANAG·M249 선택 탄종; 경장갑 대상 피해·저지력 중점 |
 | 5.56mm MK318 | 15 | 23% | STANAG·M249 선택 탄종; 피해·관통 균형형 |
+| 7.62×51mm M80 | 17 | 28% | M14, M60E3 (저지력 1.1) |
 | 7.62×51mm M80A1 | 18 | 34% | M14·M14 EBR 계열 |
 | .30-06 M2 Ball | 19 | 27% | M1903, M1 Garand, BAR |
 | .30-06 M1 Ball | 19 | 27% | M1917, M1919A6 기관총 |
-| 12.7mm M1 Ball | 32 | 42% | M2HB, 항공지원 .50구경 |
+| 12.7×99mm M8 API | 32 | 42% | M2HB, CROWS (M20 예광탄 동일) |
+| 12.7×99mm M2 Ball | 30 | 34% | 항공지원 기총소사 |
 | M6A3 HEAT | 45 | 90% | 바주카 성형작약 로켓 |
 | BGM-71A TOW | 100 | 180% | TOW 유도 미사일 |
 | 20mm M53 | 36 | 58% | M167 철갑소이탄 |
 | 20mm M56A3 | 30 | 42% | M167 고폭소이예광탄; 비예광 고폭소이탄도 같은 기준 |
 | 12게이지 00 Buckshot | 5 | 8% | M1887·M1897, 9알 발사 |
+| .44 뇌관식 구형탄 | 10 | 7% | M1860 아미 |
+| .44 American | 11 | 9% | 모델 3 |
+| .45 Long | 13 | 10% | SAA |
+| .44 림파이어 | 12 | 8% | 헨리 소총 (저지력 1.1) |
+| .58 미니에탄 | 25 | 10% | M1861 (저지력 2.0) |
+| .45-70 | 20 | 15% | M1873 (저지력 1.8) |
+| .30 Army | 17 | 22% | M1892, M1895 (저지력 1.5) |
 | 40mm M576 MP | 2 | 3% | M79·M203A2, 20알 발사 |
 
 ## 밸런스 해석
+
+- `armorPenetrationBase`를 생략하면 엔진이 피해량의 1.5%를 관통력으로 사용한다. 모든 투사체에 관통력을 명시한다. 생략 시 미니에탄(피해 25)이 37.5%가 되어 SAPI·ESAPI 확정 방어 컷을 넘는 문제가 있었다.
+- 서부개척기 납탄은 피해·저지력으로 위력을 내고 관통력은 7~15%로 둔다. .30 Army는 초기 무연 피갑탄으로 .30-06보다 한 단계 낮다. SAPI 27% 컷에 닿는 탄은 .30-06 이후의 소총탄부터다.
+- M80은 .30-06과 같은 급의 소총탄으로 피해 17·관통 28%다. M80A1은 개량탄으로 피해 18·관통 34%를 유지한다. 12.7mm 보통탄은 M8 철갑소이탄보다 관통이 낮다.
 
 - 9mm는 .45 ACP보다 피해가 낮고 관통력이 조금 높다. 권총·기관단총 차이는 발사 속도, 조준시간, 정확도와 탄창으로 조정한다.
 - .30 Carbine과 5.56mm는 피해 13으로 같고, 5.56mm의 관통력을 높여 방어구 대응 능력을 구분한다. .300 BLK는 5.56mm보다 피해·저지력이 높고 관통력·탄속이 낮다.
@@ -88,9 +102,9 @@ M193·M855·M855A1·MK262·MK318·M80A1에만 적용한다. M995, .300 BLK TAC-T
 | `Defs/ModernWar/Items/RifleAmmunition_Development.xml` | `HD_Bullet_300BLKTACTX_Proj`, `HD_Bullet_76251M80A1_Proj` |
 | `Defs/ModernWar/Items/RifleAmmunition_556.xml` | `HD_Bullet_556M193_Proj`, `HD_Bullet_556M855_Proj`, `HD_Bullet_556M995_Proj`, `HD_Bullet_556MK262_Proj`, `HD_Bullet_556MK318_Proj` |
 | `Defs/Items/WeaponFamilies_Helod.xml` | `HD_Bullet_556M855A1_Proj` |
-| `Defs/GreatWar/Items/Weapons_GreatWar.xml` | `HD_Bullet_45ACP_Proj`, `HD_Bullet_30Carbine_Proj`, `HD_Bullet_3006M2Ball_Proj`, `HD_Bullet_3006M1Ball_Proj`, `HD_Bullet_12799M8_Proj`, `HD_Bullet_12799M2Ball_Proj`, `HD_Rocket_M6A3HEAT_Proj` |
-| `Defs/ColdWar/Items/Weapons_ColdWar.xml` | `HD_BGM71A_Proj`, `HD_Projectile_20mmAPI`, `HD_Projectile_20mmHEI`, `HD_Projectile_20mmHEIT` |
-| `Defs/WildWest/Items/Weapons_WildWest.xml` | `HD_Bullet_12Gauge00Buck_Proj` |
+| `Defs/GreatWar/Items/Weapons_GreatWar.xml` | `HD_Bullet_45ACP_Proj`, `HD_Bullet_30Carbine_Proj`, `HD_Bullet_3018Auto_Proj`, `HD_Bullet_3006M2Ball_Proj`, `HD_Bullet_3006M1Ball_Proj`, `HD_Bullet_12799M8_Proj`, `HD_Bullet_12799M2Ball_Proj`, `HD_Rocket_M6A3HEAT_Proj` |
+| `Defs/ColdWar/Items/Weapons_ColdWar.xml` | `HD_Bullet_76251M80_Proj`, `HD_BGM71A_Proj`, `HD_Projectile_20mmAPI`, `HD_Projectile_20mmHEI`, `HD_Projectile_20mmHEIT` |
+| `Defs/WildWest/Items/Weapons_WildWest.xml` | `HD_Bullet_12Gauge00Buck_Proj`, `HD_Bullet_44Percussion_Proj`, `HD_Bullet_44American_Proj`, `HD_Bullet_45Long_Proj`, `HD_Bullet_44Rimfire_Proj`, `HD_Bullet_58Minie_Proj`, `HD_Bullet_4570_Proj`, `HD_Bullet_30Army_Proj` |
 | `Defs/ColdWar/Items/M79_ColdWar.xml` | `HD_40mmM576Pellet_Proj` |
 
-구형 M16과 비예광 20mm 고폭소이탄은 현재 공용 투사체 구조를 따라 각각 5.56mm·20mm 기준을 공유한다. 투사체 DefName과 이름은 사용 총기가 아닌 탄종을 따른다. 같은 탄종을 쓰는 총기는 하나의 투사체를 공유한다. M60E3·M14의 `HD_Bullet_76251M80_Proj`(M80)는 M80A1 선택 탄종과 분리되어 있으므로 이 표의 M80A1 조정 대상에서 제외한다. Combat Extended의 외부 탄약 Def 및 별도 관통 단위는 이 표의 적용 대상이 아니다.
+구형 M16과 비예광 20mm 고폭소이탄은 현재 공용 투사체 구조를 따라 각각 5.56mm·20mm 기준을 공유한다. 투사체 DefName과 이름은 사용 총기가 아닌 탄종을 따른다. 같은 탄종을 쓰는 총기는 하나의 투사체를 공유한다. M60E3·M14의 `HD_Bullet_76251M80_Proj`(M80)는 M80A1 선택 탄종과 별도 투사체이며 M80A1 파편화를 적용하지 않는다. Combat Extended의 외부 탄약 Def 및 별도 관통 단위는 이 표의 적용 대상이 아니다.

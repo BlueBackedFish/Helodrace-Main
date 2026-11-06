@@ -45,8 +45,9 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>11</damageAmountBase>
-      <stoppingPower>0.7</stoppingPower>
+      <damageAmountBase>10</damageAmountBase>
+      <armorPenetrationBase>0.12</armorPenetrationBase>
+      <stoppingPower>0.70</stoppingPower>
       <speed>70</speed>
     </projectile>
   </ThingDef>
@@ -149,8 +150,8 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>32</damageAmountBase>
-      <armorPenetrationBase>0.42</armorPenetrationBase>
+      <damageAmountBase>30</damageAmountBase>
+      <armorPenetrationBase>0.34</armorPenetrationBase>
       <stoppingPower>2.2</stoppingPower>
       <speed>240</speed>
       <flyOverhead>true</flyOverhead>
