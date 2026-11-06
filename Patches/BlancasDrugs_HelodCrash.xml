@@ -51,8 +51,8 @@
           <xpath>/Defs/ThoughtDef[defName="BD_DesoxynCrashThought"]/stages</xpath>
           <value>
             <li>
-              <label>BTX burn after Desoxyn</label>
-              <description>The Desoxyn is wearing off, but my body is burning through BTX instead of crashing. I need a refill soon.</description>
+              <label>coming down from Desoxyn</label>
+              <description>The Desoxyn is fading and my throat feels dry and tight. I'm a little shaky, and all I can think about is the smell of BTX.</description>
               <baseMoodEffect>-6</baseMoodEffect>
             </li>
           </value>
@@ -98,8 +98,8 @@
           <xpath>/Defs/ThoughtDef[defName="BD_BenzedrineCrashThought"]/stages</xpath>
           <value>
             <li>
-              <label>BTX burn after Benzedrine</label>
-              <description>The Benzedrine is wearing off, but my body is burning through BTX instead of crashing. I need a refill soon.</description>
+              <label>coming down from Benzedrine</label>
+              <description>The Benzedrine has worn off. I'm not tired, just restless, and I keep craving a whiff of BTX.</description>
               <baseMoodEffect>-3</baseMoodEffect>
             </li>
           </value>
@@ -182,8 +182,8 @@
           <xpath>/Defs/ThoughtDef[defName="BD_CocaineColaCrashThought"]/stages</xpath>
           <value>
             <li>
-              <label>BTX burn after cocaine cola</label>
-              <description>The cocaine cola is wearing off, but my body is burning through BTX instead of crashing. I need a refill soon.</description>
+              <label>after cocaine cola</label>
+              <description>That fizzy rush is gone and my mouth tastes flat. A sip of BTX would sort me out.</description>
               <baseMoodEffect>-1</baseMoodEffect>
             </li>
           </value>
