@@ -52,7 +52,7 @@
           <value>
             <li>
               <label>coming down from Desoxyn</label>
-              <description>The Desoxyn is fading and my throat feels dry and tight. I'm a little shaky, and all I can think about is the smell of BTX.</description>
+              <description>The Desoxyn is fading and my throat feels dry and tight. I'm a little shaky, and I can't stop thinking about a dog chew.</description>
               <baseMoodEffect>-6</baseMoodEffect>
             </li>
           </value>
@@ -99,7 +99,7 @@
           <value>
             <li>
               <label>coming down from Benzedrine</label>
-              <description>The Benzedrine has worn off. I'm not tired, just restless, and I keep craving a whiff of BTX.</description>
+              <description>The Benzedrine has worn off. I'm not tired, just restless, and I keep reaching for a dog chew.</description>
               <baseMoodEffect>-3</baseMoodEffect>
             </li>
           </value>
@@ -183,7 +183,7 @@
           <value>
             <li>
               <label>after cocaine cola</label>
-              <description>That fizzy rush is gone and my mouth tastes flat. A sip of BTX would sort me out.</description>
+              <description>That fizzy rush is gone and my mouth tastes flat. A swig of aromatic oil would sort me out.</description>
               <baseMoodEffect>-1</baseMoodEffect>
             </li>
           </value>
