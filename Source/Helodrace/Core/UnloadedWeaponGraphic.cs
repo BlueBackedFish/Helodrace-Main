@@ -39,16 +39,28 @@ namespace Helodrace
 
             if (!graphics.TryGetValue(thing.def, out graphic))
             {
-                Vector2 drawSize = thing.def.graphicData?.drawSize ?? Vector2.one;
-                graphic = GraphicDatabase.Get<Graphic_Single>(
-                    extension.texPath,
-                    ShaderDatabase.Cutout,
-                    drawSize,
-                    Color.white.ToGame());
+                graphic = BuildGraphic(thing.def, extension.texPath);
                 graphics[thing.def] = graphic;
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Copies the def's graphic data so the unloaded texture keeps the same shader, size and
+        /// on-ground random rotation as the loaded one.
+        /// </summary>
+        private static Graphic BuildGraphic(ThingDef def, string texPath)
+        {
+            if (def.graphicData == null)
+            {
+                return GraphicDatabase.Get<Graphic_Single>(texPath, ShaderDatabase.Cutout, Vector2.one, Color.white.ToGame());
+            }
+
+            GraphicData data = new GraphicData();
+            data.CopyFrom(def.graphicData);
+            data.texPath = texPath;
+            return data.Graphic;
         }
 
         private static bool IsLoaded(ThingWithComps thing)
