@@ -9,6 +9,13 @@
   </ThingCategoryDef>
 
   <ThingCategoryDef>
+    <defName>HD_DragonMunitions</defName>
+    <label>Dragon missiles</label>
+    <parent>Manufactured</parent>
+    <modExtensions><li Class="Helodrace.AmmoCaliberExtension"><caliber>140mm</caliber></li></modExtensions>
+  </ThingCategoryDef>
+
+  <ThingCategoryDef>
     <defName>HD_20x102mmAmmunition</defName>
     <label>20x102mm ammunition</label>
     <parent>Manufactured</parent>
@@ -64,6 +71,29 @@
         <loadedTexPath>Weapons/ColdWar/Ammo/BGM-71A/HD_BGM71A_Loaded</loadedTexPath>
       </li>
     </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_FGM77A_Round</defName>
+    <label>FGM-77A missile</label>
+    <description>A sealed launch tube holding a wire-guided anti-tank missile for the M47 Dragon. The tracker is clamped onto the tube before firing. Once the missile leaves, the empty tube is discarded and the tracker is kept for the next round.</description>
+    <projectileWhenLoaded>HD_M222_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapons/ColdWar/Ammo/FGM-77A/HD_FGM77A</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.25,1.25)</drawSize>
+    </graphicData>
+    <stackLimit>4</stackLimit>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>650</MarketValue>
+      <Mass>11.5</Mass>
+      <Flammability>0.55</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_DragonMunitions</li>
+    </thingCategories>
   </ThingDef>
 
 </Defs>

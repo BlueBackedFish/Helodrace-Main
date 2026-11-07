@@ -6,4 +6,7 @@
   <HD_MakeBGM71AMissile.label>BGM-71A 미사일 제작</HD_MakeBGM71AMissile.label>
   <HD_MakeBGM71AMissile.description>M220 TOW 발사기에 사용하는 유도 미사일을 조립합니다.</HD_MakeBGM71AMissile.description>
   <HD_MakeBGM71AMissile.jobString>BGM-71A 미사일 조립 중.</HD_MakeBGM71AMissile.jobString>
+  <HD_MakeFGM77AMissile.label>FGM-77A 미사일 제작</HD_MakeFGM77AMissile.label>
+  <HD_MakeFGM77AMissile.description>M47 드래곤에 사용하는 밀봉 발사관과 미사일을 조립합니다.</HD_MakeFGM77AMissile.description>
+  <HD_MakeFGM77AMissile.jobString>FGM-77A 미사일 조립 중.</HD_MakeFGM77AMissile.jobString>
 </LanguageData>

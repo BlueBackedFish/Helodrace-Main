@@ -99,15 +99,32 @@ namespace Helodrace
             return loaded ? "HD_RecoillessWeapon_Loaded".Translate().ToString() : "HD_RecoillessWeapon_Unloaded".Translate().ToString();
         }
 
+        public bool ShowsLoadedGraphic => loaded || UnloadedWeaponGraphicUtility.IsFiring(parent);
+
         public void Load()
         {
             loaded = true;
+            RefreshGraphic();
         }
 
         public void ConsumeLoadedRound()
         {
             loaded = false;
+            RefreshGraphic();
         }
+
+        private void RefreshGraphic()
+        {
+            if (parent.Spawned)
+            {
+                parent.DirtyMapMesh(parent.Map);
+            }
+        }
+
+        private Texture2D AmmoIcon =>
+            SelectedAmmoDef?.uiIcon
+            ?? ContentFinder<Texture2D>.Get("Weapons/GreatWar/Ammo/HD_m6a3HEAT", false)
+            ?? BaseContent.BadTex;
 
         public bool TryStartReloadJob(Pawn pawn)
         {
@@ -399,7 +416,7 @@ namespace Helodrace
             {
                 defaultLabel = loaded ? "HD_RecoillessWeapon_Loaded".Translate().ToString() : "HD_RecoillessWeapon_Reload_Label".Translate().ToString(),
                 defaultDesc = loaded ? "HD_RecoillessWeapon_AlreadyLoaded".Translate().ToString() : "HD_RecoillessWeapon_Reload_Desc_Inventory".Translate().ToString(),
-                icon = ContentFinder<Texture2D>.Get("Weapons/GreatWar/Ammo/HD_m6a3HEAT", false) ?? BaseContent.BadTex,
+                icon = AmmoIcon,
                 Disabled = loaded,
                 disabledReason = "HD_RecoillessWeapon_AlreadyLoaded".Translate().ToString(),
                 action = () => TryStartReloadJob(wielder)
@@ -445,7 +462,7 @@ namespace Helodrace
                 {
                     defaultLabel = "HD_RecoillessWeapon_AmmoLabel".Translate(SelectedAmmoDef?.label ?? "None".Translate()).ToString(),
                     defaultDesc = "HD_RecoillessWeapon_AmmoDesc".Translate().ToString(),
-                    icon = ContentFinder<Texture2D>.Get("Weapons/GreatWar/Ammo/HD_m6a3HEAT", false) ?? BaseContent.BadTex,
+                    icon = AmmoIcon,
                     action = ShowAmmoFloatMenu
                 };
             }

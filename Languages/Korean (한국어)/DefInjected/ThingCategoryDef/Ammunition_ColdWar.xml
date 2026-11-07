@@ -4,4 +4,6 @@
   <HD_TOWMunitions.modExtensions.0.caliber>152mm</HD_TOWMunitions.modExtensions.0.caliber>
   <HD_20x102mmAmmunition.label>20×102mm 탄약</HD_20x102mmAmmunition.label>
   <HD_20x102mmAmmunition.modExtensions.0.caliber>20×102mm</HD_20x102mmAmmunition.modExtensions.0.caliber>
+  <HD_DragonMunitions.label>드래곤 미사일</HD_DragonMunitions.label>
+  <HD_DragonMunitions.modExtensions.0.caliber>140mm</HD_DragonMunitions.modExtensions.0.caliber>
 </LanguageData>

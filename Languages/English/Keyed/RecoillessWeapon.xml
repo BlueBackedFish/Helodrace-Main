@@ -11,14 +11,14 @@
   <HD_RecoillessWeapon_LoaderNotAdjacent>{0} is not standing by next to the gunner.</HD_RecoillessWeapon_LoaderNotAdjacent>
   <HD_RecoillessWeapon_ModeSelf>Loading: self</HD_RecoillessWeapon_ModeSelf>
   <HD_RecoillessWeapon_ModeCrew>Loading: two-person crew</HD_RecoillessWeapon_ModeCrew>
-  <HD_RecoillessWeapon_ModeDesc>Switch how this recoilless rifle is loaded.</HD_RecoillessWeapon_ModeDesc>
+  <HD_RecoillessWeapon_ModeDesc>Switch how this weapon is loaded.</HD_RecoillessWeapon_ModeDesc>
   <HD_RecoillessWeapon_AssignLoader>Assign loader</HD_RecoillessWeapon_AssignLoader>
   <HD_RecoillessWeapon_AssignedLoader>Loader: {0}</HD_RecoillessWeapon_AssignedLoader>
   <HD_RecoillessWeapon_AssignLoaderDesc>Assign a pawn wearing an M6 bag as the loader.</HD_RecoillessWeapon_AssignLoaderDesc>
   <HD_RecoillessWeapon_LoaderStandby>Loader stand by</HD_RecoillessWeapon_LoaderStandby>
   <HD_RecoillessWeapon_LoaderStandbyDesc>Move the assigned loader to a tile next to the gunner and have them stand by.</HD_RecoillessWeapon_LoaderStandbyDesc>
   <HD_RecoillessWeapon_AmmoLabel>Round: {0}</HD_RecoillessWeapon_AmmoLabel>
-  <HD_RecoillessWeapon_AmmoDesc>Choose the round this recoilless rifle uses for its next reload.</HD_RecoillessWeapon_AmmoDesc>
+  <HD_RecoillessWeapon_AmmoDesc>Choose the round this weapon uses for its next reload.</HD_RecoillessWeapon_AmmoDesc>
   <HD_RecoillessWeapon_SelectAmmo>Select {0}</HD_RecoillessWeapon_SelectAmmo>
   <HD_RecoillessWeapon_AmmoSelected>{0} selected</HD_RecoillessWeapon_AmmoSelected>
   <HD_M6RocketBag_Contents>Ammo bag: {0} ({1}/{2})</HD_M6RocketBag_Contents>

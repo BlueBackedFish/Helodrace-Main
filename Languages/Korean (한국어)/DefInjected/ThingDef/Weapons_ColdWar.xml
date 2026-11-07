@@ -15,7 +15,7 @@
   <HD_M222_Proj.label>M222 미사일</HD_M222_Proj.label>
   <HD_M222_Proj.description>M47 드래곤 발사기의 지령선을 통해 유도되는 140mm 성형작약 미사일입니다.</HD_M222_Proj.description>
   <HD_Gun_M47_Dragon.label>M47 드래곤</HD_Gun_M47_Dragon.label>
-  <HD_Gun_M47_Dragon.description>일회용 휴대식 대전차유도미사일 체계입니다. 조작자는 유도 명령이 전선을 통해 미사일에 전달되는 동안 표적을 시야에 유지해야 합니다. 펄스식 조향 장약이 단계적으로 비행 경로를 수정하며, 비행 중 다른 표적으로 유도를 전환할 수도 있습니다.</HD_Gun_M47_Dragon.description>
+  <HD_Gun_M47_Dragon.description>휴대식 대전차유도미사일 체계입니다. 재사용하는 조준기를 밀봉된 FGM-77A 발사관에 결합하며, 발사관은 발사 후 버립니다. 조작자는 유도 명령이 전선을 통해 미사일에 전달되는 동안 표적을 시야에 유지해야 합니다. 펄스식 조향 장약이 단계적으로 비행 경로를 수정하며, 비행 중 다른 표적으로 유도를 전환할 수도 있습니다.</HD_Gun_M47_Dragon.description>
   <HD_Gun_M47_Dragon.tools.0.label>발사관</HD_Gun_M47_Dragon.tools.0.label>
   <HD_Gun_M60E3_Weapon.tools.0.label>개머리판</HD_Gun_M60E3_Weapon.tools.0.label>
   <HD_Gun_M60E3_Weapon.tools.1.label>총열</HD_Gun_M60E3_Weapon.tools.1.label>

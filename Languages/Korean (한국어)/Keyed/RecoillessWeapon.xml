@@ -11,14 +11,14 @@
   <HD_RecoillessWeapon_LoaderNotAdjacent>{0}이(가) 사수 옆에 대기하고 있지 않습니다.</HD_RecoillessWeapon_LoaderNotAdjacent>
   <HD_RecoillessWeapon_ModeSelf>장전 방식: 스스로</HD_RecoillessWeapon_ModeSelf>
   <HD_RecoillessWeapon_ModeCrew>장전 방식: 2인 1조</HD_RecoillessWeapon_ModeCrew>
-  <HD_RecoillessWeapon_ModeDesc>무반동포의 장전 방식을 전환합니다.</HD_RecoillessWeapon_ModeDesc>
+  <HD_RecoillessWeapon_ModeDesc>이 무기의 장전 방식을 전환합니다.</HD_RecoillessWeapon_ModeDesc>
   <HD_RecoillessWeapon_AssignLoader>장전수 지정</HD_RecoillessWeapon_AssignLoader>
   <HD_RecoillessWeapon_AssignedLoader>장전수: {0}</HD_RecoillessWeapon_AssignedLoader>
   <HD_RecoillessWeapon_AssignLoaderDesc>M6 가방을 착용한 폰을 장전수로 지정합니다.</HD_RecoillessWeapon_AssignLoaderDesc>
   <HD_RecoillessWeapon_LoaderStandby>장전수 대기</HD_RecoillessWeapon_LoaderStandby>
   <HD_RecoillessWeapon_LoaderStandbyDesc>지정된 장전수를 사수 인접 타일로 이동시켜 대기하게 합니다.</HD_RecoillessWeapon_LoaderStandbyDesc>
   <HD_RecoillessWeapon_AmmoLabel>탄종: {0}</HD_RecoillessWeapon_AmmoLabel>
-  <HD_RecoillessWeapon_AmmoDesc>이 무반동포가 다음 장전에 사용할 탄종을 선택합니다.</HD_RecoillessWeapon_AmmoDesc>
+  <HD_RecoillessWeapon_AmmoDesc>이 무기가 다음 장전에 사용할 탄종을 선택합니다.</HD_RecoillessWeapon_AmmoDesc>
   <HD_RecoillessWeapon_SelectAmmo>{0} 선택</HD_RecoillessWeapon_SelectAmmo>
   <HD_RecoillessWeapon_AmmoSelected>{0} 선택됨</HD_RecoillessWeapon_AmmoSelected>
   <HD_M6RocketBag_Contents>탄약 가방: {0} ({1}/{2})</HD_M6RocketBag_Contents>

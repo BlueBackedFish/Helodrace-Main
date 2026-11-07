@@ -298,7 +298,7 @@
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_M47_Dragon</defName>
     <label>M47 Dragon</label>
-    <description>A disposable man-portable anti-tank guided missile system. The operator must keep the target in sight while commands travel through a wire to the missile. Pulsed steering charges correct its course in visible steps, and the operator may transfer guidance to another target while the missile is in flight.</description>
+    <description>A man-portable anti-tank guided missile system. Its reusable tracker is clamped onto a sealed FGM-77A launch tube, which is discarded after firing. The operator must keep the target in sight while commands travel through a wire to the missile. Pulsed steering charges correct its course in visible steps, and the operator may transfer guidance to another target while the missile is in flight.</description>
     <weaponTags>
       <li>HD_ColdWarLauncher</li>
       <li>HD_ColdWarGuidedWeapon</li>
@@ -312,8 +312,8 @@
     <soundInteract>Interact_Rifle</soundInteract>
     <statBases>
       <WorkToMake>18000</WorkToMake>
-      <Mass>14.6</Mass>
-      <MarketValue>1850</MarketValue>
+      <Mass>3.1</Mass>
+      <MarketValue>1200</MarketValue>
       <MaxHitPoints>100</MaxHitPoints>
       <AccuracyTouch>0.20</AccuracyTouch>
       <AccuracyShort>0.55</AccuracyShort>
@@ -341,7 +341,17 @@
     </recipeMaker>
     <comps>
       <li Class="Helodrace.CompProperties_M47DragonLauncher" />
+      <li Class="Helodrace.CompProperties_RecoillessWeapon">
+        <ammoDef>HD_FGM77A_Round</ammoDef>
+        <reloadTicks>600</reloadTicks>
+        <crewReloadTicks>360</crewReloadTicks>
+      </li>
     </comps>
+    <modExtensions>
+      <li Class="Helodrace.UnloadedWeaponGraphicExtension">
+        <texPath>Weapons/ColdWar/HD_M47_Tracker</texPath>
+      </li>
+    </modExtensions>
     <verbs>
       <li>
         <verbClass>Verb_Shoot</verbClass>

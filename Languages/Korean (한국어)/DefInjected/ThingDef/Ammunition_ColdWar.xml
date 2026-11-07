@@ -4,4 +4,6 @@
   <HD_20x102mmMixedRound.description>M167 VADS용 20×102mm 링크 탄약입니다. 표준 혼합 급탄 구성에 따라 고폭소이탄, 고폭소이예광탄, 철갑소이탄이 섞여 있습니다.</HD_20x102mmMixedRound.description>
   <HD_BGM71A_Round.label>BGM-71A 미사일</HD_BGM71A_Round.label>
   <HD_BGM71A_Round.description>M220 TOW 발사기용 초기형 유선유도 대전차미사일입니다.</HD_BGM71A_Round.description>
+  <HD_FGM77A_Round.label>FGM-77A 미사일</HD_FGM77A_Round.label>
+  <HD_FGM77A_Round.description>M47 드래곤용 유선유도 대전차미사일이 든 밀봉 발사관입니다. 발사 전에 발사관에 조준기를 결합합니다. 미사일이 발사되면 빈 발사관은 버리고 조준기는 다음 탄에 다시 씁니다.</HD_FGM77A_Round.description>
 </LanguageData>
