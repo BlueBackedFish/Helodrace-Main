@@ -114,8 +114,8 @@ def boundary_lines(root, name, style, render):
 
     Uses the part-ID + depth pass. Only real overlaps (depth step) get a line, so coplanar
     neighbours and flush grilles do not. The line mask is kept as *_lines.png and the flat
-    render as *_flat.png; every output size repaints the mask in one solid colour after
-    resizing, so lines never blend into translucent mid-tones.
+    render as *_flat.png; every output size mixes the one line colour by the mask's exact
+    area coverage after resizing (anti-aliased, never multiplied with the base colour).
     """
     ids_path = root/(name+"_ids.npz")
     if not ids_path.exists():
@@ -159,11 +159,16 @@ def layer_at(root, name, size, master, style):
     image = resize_linear(Image.open(flat_path if flat_path.exists() else root/(name+".png")), size)
     mask_path = root/(name+"_lines.png")
     if mask_path.exists():
-        coverage = np.asarray(Image.open(mask_path).convert("F").resize((size, size), Image.Resampling.BOX))/255
-        rgba = np.asarray(image).copy()
-        paint = (coverage >= line_settings(style, name).get("coverage", .45)) & (rgba[..., 3] > 0)
-        rgba[paint, :3] = np.round(line_rgb(style, line_settings(style, name))).astype(np.uint8)
-        image = Image.fromarray(rgba)
+        # Anti-aliased solid line: one colour, mixed in linear light by its exact area coverage.
+        coverage = np.clip(np.asarray(Image.open(mask_path).convert("F").resize((size, size), Image.Resampling.BOX))/255, 0, 1)
+        rgba = np.asarray(image).astype(np.float64)
+        to_linear = lambda c: np.where(c <= .04045, c/12.92, ((c+.055)/1.055)**2.4)
+        to_display = lambda c: np.where(c <= .0031308, c*12.92, 1.055*np.clip(c, 0, None)**(1/2.4)-.055)
+        base = to_linear(rgba[..., :3]/255)
+        line = to_linear(line_rgb(style, line_settings(style, name))/255)
+        mix = coverage[..., None]*(rgba[..., 3:4] > 0)
+        rgba[..., :3] = np.round(to_display(base*(1-mix)+line*mix)*255)
+        image = Image.fromarray(np.clip(rgba, 0, 255).astype(np.uint8))
     return image
 
 
