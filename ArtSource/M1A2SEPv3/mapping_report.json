@@ -20,7 +20,7 @@
     "2.5 m thin whip antenna is subpixel at 256px; separate whip group only": 648
   },
   "source_faces": 425141,
-  "parts": 552,
+  "parts": 554,
   "contacts": [
     {
       "lower": "g0029",
@@ -128,6 +128,26 @@
     "g0106": 192
   },
   "damage_layers": [
+    {
+      "id": "commanderViewer",
+      "layer": "turret",
+      "parts": [
+        "g0036",
+        "g0036_glass"
+      ],
+      "label": "Commander's independent thermal viewer (CITV)"
+    },
+    {
+      "id": "gunnerSight",
+      "layer": "turret",
+      "parts": [
+        "g0029_gps_head",
+        "g0029_gps_glass",
+        "g0041",
+        "g0043"
+      ],
+      "label": "Gunner's primary sight head with its armoured doors"
+    },
     {
       "id": "ammoBlowoutLeft",
       "layer": "turret",

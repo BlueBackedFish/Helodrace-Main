@@ -41,7 +41,12 @@ CROWS_REASON = ("CROWS remote weapon station is drawn by the existing ArtSource/
 # loader-hatch skate ring -> one separate weapon sprite. The long side rail ex_armor_turret_02 is fixed.
 # Destructible overlays (runtime: remove, or swap to the charred variant). Ammunition lids only where the
 # store is isolated from the crew: the turret-bustle blow-out panels vent an ammunition cook-off outward.
+# Optics: CITV group, and the gunner's primary sight (GPS) housing carved out of the turret mesh
+# (keys "@gps_*" are parts extracted below) plus its two armoured doors.
 DAMAGE = [
+    ("commanderViewer", "turret", ["optic_commander"], "Commander's independent thermal viewer (CITV)"),
+    ("gunnerSight", "turret", ["@gps_head", "@gps_glass", "ex_armor_02", "ex_armor_03"],
+     "Gunner's primary sight head with its armoured doors"),
     ("ammoBlowoutLeft", "turret", ["ex_armor_05"], "Left turret-bustle ammunition blow-out panel"),
     ("ammoBlowoutRight", "turret", ["ex_armor_06"], "Right turret-bustle ammunition blow-out panel"),
 ]
@@ -297,6 +302,22 @@ def configure():
     # front armour cheeks. RimThunder M1A2 paints the cheek tops ~2-3 ladder steps below the
     # roof (150 vs 233); select them by position (ahead of the hatches, outside the mantlet).
     turret_group = groups["bone_turret"]
+    # Gunner's primary sight: the armoured box on the right front of the roof whose front window
+    # is the turret's forward-facing glass pair (x -1.01..-0.64, y -0.5). The CROWS-LP adapter
+    # plates bolted on its top (z 2.59-2.66, CROWS material) go with it: as separate parts they
+    # drew boundary-line clutter inside the box, and the CROWS itself is its own sprite.
+    gps_box = lambda c: -1.25 < c[0] < -.44 and -.7 < c[1] < .01 and 2.25 < c[2] < 2.7
+    in_gps = lambda f: gps_box(vertices[model["faces"][f]["vertices"]].mean(axis=0))
+    glass_part = next(p for p in parts if p["id"] == turret_group["id"]+"_glass")
+    gps_glass = [f for f in glass_part["faces"] if in_gps(f)]
+    glass_part["faces"] = [f for f in glass_part["faces"] if f not in set(gps_glass)]
+    owned = {f for p in parts if p["source_group"] == turret_group["id"] for f in p.get("faces", [])} | set(gps_glass)
+    gps_head = [f for comp in common.components(model, [f for f in turret_group["faces"] if f not in owned], 1e-4)
+                if all(in_gps(f) for f in comp) for f in comp]
+    assert len(gps_glass) == 4 and len(gps_head) > 500, (len(gps_glass), len(gps_head))
+    extracted_ids = {"gps_glass": extract(turret_group, "gps_glass", gps_glass,
+                                          **{k: glass_part[k] for k in glass_part if k not in ("id", "label", "faces")}),
+                     "gps_head": extract(turret_group, "gps_head", gps_head)}
     turret_shell = max(common.components(model, turret_group["faces"], 1e-6), key=len)
     taken = {f for p in parts if p["source_group"] == turret_group["id"] for f in p.get("faces", [])}
     cheeks, turret_sides = [], []
@@ -414,7 +435,9 @@ def configure():
          "evidence": "Driver hatch needs a lift/swing mechanism; not a verified simple hinge"}]
     damage_layers = []
     for key, layer, names, label in DAMAGE:
-        ids = [p["id"] for p in kept if p["source_group"] in {groups[n]["id"] for n in names}]
+        ids = [extracted_ids[n[1:]] for n in names if n.startswith("@")]
+        ids += [p["id"] for p in kept if p["source_group"] in {groups[n]["id"] for n in names if not n.startswith("@")}
+                and p["id"] not in extracted_ids.values()]
         assert ids, key
         damage_layers.append({"id": key, "layer": layer, "parts": ids, "label": label})
     profile.update(axes=axes, parts=parts, rigs=rigs, contacts=contacts, weapon_layers=weapon_layers, mounts=mounts,
@@ -422,7 +445,7 @@ def configure():
                    variant_notes=("M1A2 SEPv3 source OBJ (War Thunder extract). Base vehicle: camouflage nets, "
                                   "TUSK ERA tiles and their rails/frames and whip antennas omitted. Source CROWS replaced by the "
                                   "existing CROWSII model scaled to the source M2 and rendered as its own sprite; the loader "
-                                  "M240 rotating assembly (pintle, gun, shield, ammo can) is a separate sprite. CITV stays. Turret-bustle ammunition blow-out panels are destructible overlays. RimThunder reference is its base M1A2 (SEP generation not "
+                                  "M240 rotating assembly (pintle, gun, shield, ammo can) is a separate sprite. CITV stays. CITV, gunner's primary sight and the turret-bustle ammunition blow-out panels are destructible overlays. RimThunder reference is its base M1A2 (SEP generation not "
                                   "stated); SEPv3 detail differences are recorded in ART_BRIEF.md. No blueprint."))
     profile["review"] = {"blueprint": False, "style_reference": False, "native_size": False,
                          "geometry": False, "game": False}

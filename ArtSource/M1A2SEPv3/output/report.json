@@ -20,7 +20,7 @@
       "sha256": "2f026e5564f63af921bd8f2ccf81c707140f2cefce0f03b6ae14bd442021fe96"
     }
   },
-  "profile_sha256": "e42f4c313d0c095ac5bf7182eeb88f5f9f33715634ca894453ceb8c894cc2631",
+  "profile_sha256": "ac38a7e04fd5b85d2204203a308003d35df0626ff693ad34e0490f3c907e72e9",
   "style_sha256": "c68cf1a736da016d37eb120f716f5f0971b46b7edd7b66e4c7472fd6af0914ac",
   "source_faces": 425141,
   "preserved_faces": 186906,
@@ -928,7 +928,7 @@
   "source_coordinates_preserved": true,
   "unlit_glb": true,
   "glb_animation_count": 1,
-  "mesh_count": 209,
+  "mesh_count": 211,
   "paint": {
     "g0000": {
       "top": 216,
@@ -2942,14 +2942,14 @@
     "g0029": {
       "top": 192,
       "luminances": {
-        "192": 19929,
-        "120": 3678,
-        "72": 9232,
-        "144": 415,
-        "168": 425
+        "192": 18172,
+        "120": 3199,
+        "72": 8716,
+        "168": 409,
+        "144": 411
       },
       "smooth": null,
-      "area": 46.45552213213159,
+      "area": 42.76685312294285,
       "upward_min_max": [
         192,
         192
@@ -2958,7 +2958,7 @@
         120,
         192
       ],
-      "source_faces": 33679
+      "source_faces": 30907
     },
     "g0029_interior": {
       "top": 48,
@@ -2994,16 +2994,16 @@
     "g0029_glass": {
       "top": 32,
       "luminances": {
-        "32": 20
+        "32": 16
       },
       "smooth": null,
-      "area": 0.4115024283528328,
+      "area": 0.3431733250617981,
       "upward_min_max": null,
       "wall_min_max": [
         32,
         32
       ],
-      "source_faces": 20
+      "source_faces": 16
     },
     "g0029_accent_77212": {
       "top": 240,
@@ -6508,6 +6508,41 @@
       ],
       "source_faces": 130
     },
+    "g0029_gps_glass": {
+      "top": 32,
+      "luminances": {
+        "32": 4
+      },
+      "smooth": null,
+      "area": 0.0683291032910347,
+      "upward_min_max": null,
+      "wall_min_max": [
+        32,
+        32
+      ],
+      "source_faces": 4
+    },
+    "g0029_gps_head": {
+      "top": 192,
+      "luminances": {
+        "120": 479,
+        "192": 1757,
+        "144": 4,
+        "72": 516,
+        "168": 16
+      },
+      "smooth": null,
+      "area": 3.688669009188743,
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        120,
+        192
+      ],
+      "source_faces": 2772
+    },
     "g0029_front_cheeks": {
       "top": 144,
       "luminances": {
@@ -7514,6 +7549,8 @@
         "g0061",
         "g0061_stowage_149025",
         "g0068",
+        "g0029_gps_glass",
+        "g0029_gps_head",
         "g0029_front_cheeks",
         "g0029_side_slopes"
       ],
@@ -7735,6 +7772,26 @@
     "damage_layers": {
       "specs": [
         {
+          "id": "commanderViewer",
+          "layer": "turret",
+          "parts": [
+            "g0036",
+            "g0036_glass"
+          ],
+          "label": "Commander's independent thermal viewer (CITV)"
+        },
+        {
+          "id": "gunnerSight",
+          "layer": "turret",
+          "parts": [
+            "g0029_gps_head",
+            "g0029_gps_glass",
+            "g0041",
+            "g0043"
+          ],
+          "label": "Gunner's primary sight head with its armoured doors"
+        },
+        {
           "id": "ammoBlowoutLeft",
           "layer": "turret",
           "parts": [
@@ -7758,11 +7815,15 @@
         "hull_west": [],
         "turret_full_east": [
           "ammoBlowoutLeft",
-          "ammoBlowoutRight"
+          "ammoBlowoutRight",
+          "commanderViewer",
+          "gunnerSight"
         ],
         "turret_east": [
           "ammoBlowoutLeft",
-          "ammoBlowoutRight"
+          "ammoBlowoutRight",
+          "commanderViewer",
+          "gunnerSight"
         ],
         "barrel_east": [],
         "loader_mg_east": [],
@@ -7961,35 +8022,37 @@
         "178": "g0249",
         "179": "g0000_front_glacis",
         "180": "g0000_side_shoulders",
-        "181": "g0029_front_cheeks",
-        "182": "g0029_side_slopes",
-        "183": "import:crows:Thermal window rim",
-        "184": "import:crows:Thermal window",
-        "185": "import:crows:M2QCB / Trigger / gun",
-        "186": "import:crows:M2QCB / Tenon / gun",
-        "187": "import:crows:M2QCB / Sutter / gun",
-        "188": "import:crows:M2QCB / Single / gun",
-        "189": "import:crows:M2QCB / sight_min / gun",
-        "190": "import:crows:M2QCB / sight_dioptr / gun",
-        "191": "import:crows:M2QCB / Reloading_handle / gun",
-        "192": "import:crows:M2QCB / QCB latch tab",
-        "193": "import:crows:M2QCB / QCB latch body",
-        "194": "import:crows:M2QCB / QCB handle pivot pin",
-        "195": "import:crows:M2QCB / QCB grip rear ferrule",
-        "196": "import:crows:M2QCB / QCB grip front ferrule",
-        "197": "import:crows:M2QCB / QCB folded handle arm",
-        "198": "import:crows:M2QCB / QCB carry grip",
-        "199": "import:crows:M2QCB / QCB barrel coupling",
-        "200": "import:crows:M2QCB / Handle_cover / gun",
-        "201": "import:crows:M2QCB / Cover_010_Low.001 / gun",
-        "202": "import:crows:M2QCB / Cover.007 / gun",
-        "203": "import:crows:M2QCB / Body_M2 / gun",
-        "204": "import:crows:M2QCB / Barrel / gun",
-        "205": "import:crows:Day lens rim",
-        "206": "import:crows:Day lens glass",
-        "207": "import:crows:Day lens fixed coating mark",
-        "208": "import:crows:Cylinder.003 / frame",
-        "209": "import:crows:Cylinder.003 / base"
+        "181": "g0029_gps_glass",
+        "182": "g0029_gps_head",
+        "183": "g0029_front_cheeks",
+        "184": "g0029_side_slopes",
+        "185": "import:crows:Thermal window rim",
+        "186": "import:crows:Thermal window",
+        "187": "import:crows:M2QCB / Trigger / gun",
+        "188": "import:crows:M2QCB / Tenon / gun",
+        "189": "import:crows:M2QCB / Sutter / gun",
+        "190": "import:crows:M2QCB / Single / gun",
+        "191": "import:crows:M2QCB / sight_min / gun",
+        "192": "import:crows:M2QCB / sight_dioptr / gun",
+        "193": "import:crows:M2QCB / Reloading_handle / gun",
+        "194": "import:crows:M2QCB / QCB latch tab",
+        "195": "import:crows:M2QCB / QCB latch body",
+        "196": "import:crows:M2QCB / QCB handle pivot pin",
+        "197": "import:crows:M2QCB / QCB grip rear ferrule",
+        "198": "import:crows:M2QCB / QCB grip front ferrule",
+        "199": "import:crows:M2QCB / QCB folded handle arm",
+        "200": "import:crows:M2QCB / QCB carry grip",
+        "201": "import:crows:M2QCB / QCB barrel coupling",
+        "202": "import:crows:M2QCB / Handle_cover / gun",
+        "203": "import:crows:M2QCB / Cover_010_Low.001 / gun",
+        "204": "import:crows:M2QCB / Cover.007 / gun",
+        "205": "import:crows:M2QCB / Body_M2 / gun",
+        "206": "import:crows:M2QCB / Barrel / gun",
+        "207": "import:crows:Day lens rim",
+        "208": "import:crows:Day lens glass",
+        "209": "import:crows:Day lens fixed coating mark",
+        "210": "import:crows:Cylinder.003 / frame",
+        "211": "import:crows:Cylinder.003 / base"
       },
       "depth_range": 114.09132385253906,
       "encoding": "16-bit RGB: R,G = id low/high byte, B = view depth / depth_range"
@@ -8030,7 +8093,7 @@
       "anti_aliased": true
     },
     "turret_east": {
-      "pixels_at_mask": 264293,
+      "pixels_at_mask": 242464,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
@@ -8046,7 +8109,7 @@
       "anti_aliased": true
     },
     "turret_full_east": {
-      "pixels_at_mask": 263958,
+      "pixels_at_mask": 242129,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
@@ -8137,6 +8200,18 @@
       108,
       148
     ],
+    "256/turret_east__commanderViewer": [
+      121,
+      107,
+      138,
+      124
+    ],
+    "256/turret_east__gunnerSight": [
+      124,
+      132,
+      147,
+      154
+    ],
     "256/turret_east__ammoBlowoutLeft_destroyed": [
       80,
       111,
@@ -8148,6 +8223,18 @@
       127,
       108,
       148
+    ],
+    "256/turret_east__commanderViewer_destroyed": [
+      121,
+      107,
+      138,
+      124
+    ],
+    "256/turret_east__gunnerSight_destroyed": [
+      124,
+      132,
+      147,
+      154
     ],
     "256/turret_full_east__ammoBlowoutLeft": [
       80,
@@ -8161,6 +8248,18 @@
       108,
       148
     ],
+    "256/turret_full_east__commanderViewer": [
+      121,
+      107,
+      138,
+      124
+    ],
+    "256/turret_full_east__gunnerSight": [
+      124,
+      132,
+      147,
+      154
+    ],
     "256/turret_full_east__ammoBlowoutLeft_destroyed": [
       80,
       111,
@@ -8172,6 +8271,18 @@
       127,
       108,
       148
+    ],
+    "256/turret_full_east__commanderViewer_destroyed": [
+      121,
+      107,
+      138,
+      124
+    ],
+    "256/turret_full_east__gunnerSight_destroyed": [
+      124,
+      132,
+      147,
+      154
     ],
     "256/preview_east": [
       37,
@@ -8245,6 +8356,18 @@
       213,
       294
     ],
+    "512/turret_east__commanderViewer": [
+      244,
+      216,
+      273,
+      246
+    ],
+    "512/turret_east__gunnerSight": [
+      250,
+      267,
+      291,
+      306
+    ],
     "512/turret_east__ammoBlowoutLeft_destroyed": [
       163,
       224,
@@ -8256,6 +8379,18 @@
       257,
       213,
       294
+    ],
+    "512/turret_east__commanderViewer_destroyed": [
+      244,
+      216,
+      273,
+      246
+    ],
+    "512/turret_east__gunnerSight_destroyed": [
+      250,
+      267,
+      291,
+      306
     ],
     "512/turret_full_east__ammoBlowoutLeft": [
       163,
@@ -8269,6 +8404,18 @@
       213,
       294
     ],
+    "512/turret_full_east__commanderViewer": [
+      244,
+      216,
+      273,
+      246
+    ],
+    "512/turret_full_east__gunnerSight": [
+      250,
+      267,
+      291,
+      306
+    ],
     "512/turret_full_east__ammoBlowoutLeft_destroyed": [
       163,
       224,
@@ -8281,6 +8428,18 @@
       213,
       294
     ],
+    "512/turret_full_east__commanderViewer_destroyed": [
+      244,
+      216,
+      273,
+      246
+    ],
+    "512/turret_full_east__gunnerSight_destroyed": [
+      250,
+      267,
+      291,
+      306
+    ],
     "512/preview_east": [
       77,
       194,
@@ -8288,5 +8447,5 @@
       340
     ]
   },
-  "model_sha256": "a01a58cebe8718e93c6ff563f67f2b9835ee0f6a710d233cb0d2150be24b115d"
+  "model_sha256": "abdeaf6b3b5b68166f132aad6da061cba61996cd8a4066246b5fb046ab94569d"
 }
