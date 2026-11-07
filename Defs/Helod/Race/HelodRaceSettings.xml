@@ -388,5 +388,9 @@
       <li>Apparel_WarMask</li>
       <li>Apparel_WarVeil</li>
     </earCoveringApparel>
+    <!-- Hides Helod ears without folding them: no covered-ears hediff or mood. -->
+    <earHidingApparel>
+      <li>HD_Apparel_FASTMT</li>
+    </earHidingApparel>
   </Helodrace.HelodRaceSettingsDef>
 </Defs>

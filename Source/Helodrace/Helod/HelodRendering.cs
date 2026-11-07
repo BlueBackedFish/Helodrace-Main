@@ -119,7 +119,7 @@ namespace Helodrace
                 return HasPart(parms.pawn, HelodRace.TailParts);
             }
             if (parms.flags.FlagSet(PawnRenderFlags.HeadStump)
-                || HelodCoveredEarsUtility.IsWearingEarCoveringApparel(parms.pawn)) return false;
+                || HelodCoveredEarsUtility.HidesEars(parms.pawn)) return false;
             return HasPart(parms.pawn, kind == HelodAppendage.LeftEar
                 ? HelodRace.LeftEarParts : HelodRace.RightEarParts);
         }

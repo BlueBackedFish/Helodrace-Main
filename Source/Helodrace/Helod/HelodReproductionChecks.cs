@@ -139,6 +139,25 @@ namespace Helodrace
                 Check(!implantHelod.Accepted, "human embryo cannot be implanted into a Helod (" + implantHelod.Reason + ")");
                 Check(implantHuman.Accepted, "human embryo can be implanted into a human (" + implantHuman.Reason + ")");
 
+                // Ear apparel: FAST MT hides the ears without the covered-ears debuff.
+                HediffDef covered = DefDatabase<HediffDef>.GetNamed("HD_HelodCoveredEars");
+                Pawn wearer = helodM;
+                foreach (Apparel worn in wearer.apparel.WornApparel.ToList()) wearer.apparel.Remove(worn);
+                var fast = (Apparel)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("HD_Apparel_FASTMT"),
+                    GenStuff.DefaultStuffFor(DefDatabase<ThingDef>.GetNamed("HD_Apparel_FASTMT")));
+                wearer.apparel.Wear(fast);
+                Check(wearer.apparel.WornApparel.Contains(fast), "Helod can wear the FAST MT helmet");
+                Check(HelodCoveredEarsUtility.HidesEars(wearer) && !HelodCoveredEarsUtility.IsWearingEarCoveringApparel(wearer)
+                    && !wearer.health.hediffSet.HasHediff(covered), "FAST MT hides ears without the covered-ears hediff");
+                wearer.apparel.Remove(fast);
+                var hat = (Apparel)ThingMaker.MakeThing(ThingDef.Named("Apparel_CowboyHat"), ThingDefOf.Cloth);
+                wearer.apparel.Wear(hat);
+                Check(HelodCoveredEarsUtility.HidesEars(wearer) && wearer.health.hediffSet.HasHediff(covered),
+                    "folding headgear still hides ears and applies the covered-ears hediff");
+                wearer.apparel.Remove(hat);
+                Check(!HelodCoveredEarsUtility.HidesEars(wearer) && !wearer.health.hediffSet.HasHediff(covered),
+                    "removing headgear shows ears and clears the hediff");
+
                 File.AppendAllText(Results, "COMPLETE\n");
             }
             catch (Exception ex)

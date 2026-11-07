@@ -45,6 +45,13 @@ namespace Helodrace
         }
 
         public static bool IsWearingEarCoveringApparel(Pawn pawn)
+            => IsWearingAny(pawn, HelodRace.EarCoveringApparel);
+
+        // Folding apparel and hide-only apparel both remove the ears from rendering.
+        public static bool HidesEars(Pawn pawn)
+            => IsWearingAny(pawn, HelodRace.EarHidingApparel);
+
+        private static bool IsWearingAny(Pawn pawn, HashSet<ThingDef> defs)
         {
             List<Apparel> wornApparel = pawn?.apparel?.WornApparel;
             if (wornApparel == null)
@@ -55,7 +62,7 @@ namespace Helodrace
             for (int i = 0; i < wornApparel.Count; i++)
             {
                 ThingDef def = wornApparel[i]?.def;
-                if (def != null && HelodRace.EarCoveringApparel.Contains(def))
+                if (def != null && defs.Contains(def))
                 {
                     return true;
                 }

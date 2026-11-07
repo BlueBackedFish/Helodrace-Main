@@ -24,6 +24,8 @@ namespace Helodrace
         public List<ThingDef> apparelList = new List<ThingDef>();
         public List<ThingDef> whiteApparelList = new List<ThingDef>();
         public List<ThingDef> earCoveringApparel = new List<ThingDef>();
+        // Hides the ear render nodes without the covered-ears hediff.
+        public List<ThingDef> earHidingApparel = new List<ThingDef>();
         public List<GeneDef> blackGeneList = new List<GeneDef>();
         public List<EndogeneCategory> blackEndoCategories = new List<EndogeneCategory>();
         public List<XenotypeDef> xenotypeList = new List<XenotypeDef>();
@@ -75,6 +77,7 @@ namespace Helodrace
         internal static readonly HashSet<HeadTypeDef> HeadTypes = new HashSet<HeadTypeDef>();
         internal static readonly HashSet<HeadTypeDef> NonHumanHeads = new HashSet<HeadTypeDef>();
         internal static readonly HashSet<ThingDef> EarCoveringApparel = new HashSet<ThingDef>();
+        internal static readonly HashSet<ThingDef> EarHidingApparel = new HashSet<ThingDef>();
         internal static readonly HashSet<GeneDef> ForbiddenGenes = new HashSet<GeneDef>();
         internal static readonly HashSet<EndogeneCategory> ForbiddenCategories = new HashSet<EndogeneCategory>();
         internal static readonly HashSet<XenotypeDef> XenotypeSet = new HashSet<XenotypeDef>();
@@ -102,6 +105,7 @@ namespace Helodrace
             HeadTypes.Clear();
             NonHumanHeads.Clear();
             EarCoveringApparel.Clear();
+            EarHidingApparel.Clear();
             ForbiddenGenes.Clear();
             ForbiddenCategories.Clear();
             XenotypeSet.Clear();
@@ -123,6 +127,8 @@ namespace Helodrace
             foreach (HeadTypeDef head in DefDatabase<HeadTypeDef>.AllDefsListForReading)
                 if (head.defName.StartsWith("HD_HelodHead", StringComparison.Ordinal)) NonHumanHeads.Add(head);
             EarCoveringApparel.UnionWith(settings.earCoveringApparel);
+            EarHidingApparel.UnionWith(settings.earCoveringApparel);
+            EarHidingApparel.UnionWith(settings.earHidingApparel);
             ForbiddenGenes.UnionWith(settings.blackGeneList);
             ForbiddenCategories.UnionWith(settings.blackEndoCategories);
             XenotypeSet.UnionWith(settings.xenotypeList);
