@@ -5,7 +5,7 @@ namespace HelodraceFacial
 {
     public sealed class Normal0PairCompProperties : CompProperties
     {
-        public float chance = 0.05f;
+        public float chance = 0.005f;
 
         public Normal0PairCompProperties()
         {

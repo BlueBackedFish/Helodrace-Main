@@ -126,8 +126,8 @@
           <xpath>/Defs/ThingDef[defName="Helod"]/comps</xpath>
           <value>
             <li Class="HelodraceFacial.Normal0PairCompProperties">
-              <!-- 0.05 = 5% chance for the paired Lid Normal0 + Mouth Normal0 variant. -->
-              <chance>0.05</chance>
+              <!-- 0.005 = 0.5% chance for the paired Lid Normal0 + Mouth Normal0 variant. -->
+              <chance>0.005</chance>
             </li>
           </value>
         </nomatch>
