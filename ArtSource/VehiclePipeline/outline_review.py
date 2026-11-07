@@ -17,8 +17,13 @@ def black_outline(source, radius):
     image = source.convert("RGBA")
     rgba = np.asarray(image)
     alpha = rgba[:, :, 3]
+    # Outline from a lightly opened silhouette: 1-2px spikes (antenna stubs, wire ends) no longer
+    # spread the stroke into blobs. The layer's own pixels stay unchanged on top.
+    from scipy import ndimage
+    spike = 2*max(1, round(image.width/1024))+1
+    source_alpha = ndimage.grey_opening(alpha, size=(spike, spike))
     padding = math.ceil(radius+.5)
-    padded = np.pad(alpha, padding)
+    padded = np.pad(source_alpha, padding)
     grown = np.zeros_like(alpha)
     # Soft-edged disc: offsets on the rim contribute by their fractional distance, so the stroke
     # keeps an anti-aliased edge at the master size instead of a stepped integer disc.

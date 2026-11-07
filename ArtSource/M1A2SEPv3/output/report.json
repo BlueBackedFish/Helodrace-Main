@@ -7961,7 +7961,7 @@
   "lighting_max_difference_255": 0,
   "boundary_lines": {
     "hull_east": {
-      "pixels_at_mask": 135397,
+      "pixels_at_mask": 135444,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.06,
@@ -7969,7 +7969,7 @@
       "anti_aliased": true
     },
     "hull_north": {
-      "pixels_at_mask": 335121,
+      "pixels_at_mask": 346077,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
@@ -7977,7 +7977,7 @@
       "anti_aliased": true
     },
     "hull_south": {
-      "pixels_at_mask": 302710,
+      "pixels_at_mask": 312792,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
@@ -7985,7 +7985,7 @@
       "anti_aliased": true
     },
     "hull_west": {
-      "pixels_at_mask": 394612,
+      "pixels_at_mask": 403930,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
@@ -7993,7 +7993,7 @@
       "anti_aliased": true
     },
     "turret_east": {
-      "pixels_at_mask": 286116,
+      "pixels_at_mask": 289218,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
@@ -8001,7 +8001,7 @@
       "anti_aliased": true
     },
     "barrel_east": {
-      "pixels_at_mask": 2331,
+      "pixels_at_mask": 2305,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
@@ -8009,7 +8009,7 @@
       "anti_aliased": true
     },
     "turret_full_east": {
-      "pixels_at_mask": 285662,
+      "pixels_at_mask": 288883,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
@@ -8017,7 +8017,7 @@
       "anti_aliased": true
     },
     "loader_mg_east": {
-      "pixels_at_mask": 9729,
+      "pixels_at_mask": 9758,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
@@ -8025,7 +8025,7 @@
       "anti_aliased": true
     },
     "crows_east": {
-      "pixels_at_mask": 565,
+      "pixels_at_mask": 413,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,

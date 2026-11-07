@@ -2,7 +2,7 @@
 from pathlib import Path
 import json
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from pipeline import read_json, write_json
 
@@ -116,8 +116,21 @@ def _shift(array, dy, dx, fill):
     return out
 
 
+def surface_line_colour(image, settings):
+    """Line colour that follows the surrounding paint: a regional average of the flat layer
+    (box blur over a few pixels, both sides of the edge), darkened by one shared ratio."""
+    rgba = np.asarray(image).astype(np.float64)
+    alpha = rgba[..., 3:4]/255
+    radius = max(1, round(settings.get("colour_radius_1024", 3)*image.width/1024))
+    size = 2*radius+1
+    weighted = Image.fromarray(np.clip(rgba[..., :3]*alpha, 0, 255).astype(np.uint8)).filter(ImageFilter.BoxBlur(radius))
+    weight = Image.fromarray(np.clip(alpha[..., 0]*255, 0, 255).astype(np.uint8)).filter(ImageFilter.BoxBlur(radius))
+    base = np.asarray(weighted).astype(np.float64)/np.maximum(np.asarray(weight).astype(np.float64)[..., None]/255, 1e-3)
+    return np.clip(base*settings.get("darken_ratio", .55), 0, 255)
+
+
 def _mix_lines(image, coverage, colour):
-    """Mix one solid line colour by area coverage in linear light (anti-aliased, never multiplied)."""
+    """Mix the line colour (one RGB or a per-pixel array) by area coverage in linear light."""
     rgba = np.asarray(image).astype(np.float64)
     to_linear = lambda c: np.where(c <= .04045, c/12.92, ((c+.055)/1.055)**2.4)
     to_display = lambda c: np.where(c <= .0031308, c*12.92, 1.055*np.clip(c, 0, None)**(1/2.4)-.055)
@@ -172,6 +185,7 @@ def boundary_lines(root, name, style, render):
             hit |= (other > 0) & (other != here) & (near < far-step)
     line = np.zeros(ident.shape, dtype=bool)
     line[ys[hit], xs[hit]] = True
+    line = clean_line_mask(line, factor, settings)
     flat_path = root/(name+"_flat.png")
     if not flat_path.exists():  # fresh render; re-running the postprocess keeps the original
         Image.open(root/(name+".png")).convert("RGBA").save(flat_path)
@@ -182,6 +196,24 @@ def boundary_lines(root, name, style, render):
             "depth_step": step, "value": settings.get("value", 56), "anti_aliased": True}
 
 
+def clean_line_mask(line, factor, settings):
+    """Close tiny gaps, fill pin-holes and drop speck fragments (areas in 1024px pixels)."""
+    from scipy import ndimage
+    close = max(1, round(settings.get("close_radius_1024", .5)*factor))
+    disc = np.add.outer(np.arange(-close, close+1)**2, np.arange(-close, close+1)**2) <= close*close
+    line = ndimage.binary_closing(line, structure=disc)
+    holes = ndimage.binary_fill_holes(line) & ~line
+    labels, count = ndimage.label(holes)
+    if count:
+        sizes = ndimage.sum(holes, labels, range(1, count+1))
+        line |= np.isin(labels, 1+np.nonzero(sizes <= settings.get("max_hole_1024", 1.5)*factor*factor)[0])
+    labels, count = ndimage.label(line, structure=np.ones((3, 3)))
+    if count:
+        sizes = ndimage.sum(line, labels, range(1, count+1))
+        line &= np.isin(labels, 1+np.nonzero(sizes >= settings.get("min_area_1024", 12)*factor*factor)[0])
+    return line
+
+
 def layer_at(root, name, size, master, style):
     """Layer at an output size; boundary lines mixed in by exact coverage after the resize."""
     flat_path = root/(name+"_flat.png")
@@ -190,7 +222,10 @@ def layer_at(root, name, size, master, style):
     mask_path = root/(name+"_lines.png")
     if mask_path.exists():
         coverage = np.asarray(Image.open(mask_path).convert("F").resize((size, size), Image.Resampling.BOX))/255
-        image = _mix_lines(image, coverage, line_rgb(style, line_settings(style, name)))
+        settings = line_settings(style, name)
+        colour = (surface_line_colour(image, settings) if settings.get("colour", "surface") == "surface"
+                  else line_rgb(style, settings))
+        image = _mix_lines(image, coverage, colour)
     return image
 
 

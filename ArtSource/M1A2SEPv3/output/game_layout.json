@@ -1,7 +1,7 @@
 {
   "draw_size": 10.613990258929269,
   "metres_per_tile": 1.3436431665809785,
-  "source_report_sha256": "de08c0d8b65751e93548e4c1b8665246eb64ff89d84ed760f62f30d4f50a1940",
+  "source_report_sha256": "d1fd8fb6209dc1260455dbead2304ae8af06cd3916c421821ca911eb61b31753",
   "outline_px_at_1024": 8.0,
   "directions": {
     "north": {
@@ -46,14 +46,14 @@
     }
   },
   "textures": {
-    "vehicle_north": "abbe5f1f747866a03c62d4ecbdcce6f03bf14687cf7646bfd727d99816ad8032",
-    "vehicle_east": "6197bda4021312369e74b6aa424bd67fcc5080598109f93c46fc7e04a7a40823",
-    "vehicle_south": "0925dfec18a59a6dd5bf6734e9b7e77048c87760bb89db69ae0705d5ca72a9aa",
-    "vehicle_west": "4915cd5ef563f2d5f3c22c3ff1809226349067c69efa95b40f3a6ca4414a2178",
-    "turret_north": "6c30e639e8adc7e818e34e2ac63d31dfc366a6489d8c447cae427e1738e54ca4",
-    "loader_mg_north": "77cf854ca2cfdeaaf7af44e24b934b5a01c744287db696cc6d1d22925b2fe5e8",
-    "crows_north": "979aa3c262771b19e6a10f0e139aa612f8940318fb819d47804ede91eb8c122d",
-    "UI": "5548fa5becef4be3f1cf150655da5c16c28067520347fcdc6aab8ef6f448d4a8"
+    "vehicle_north": "026538b63a8d578533016d87ebd39adfb0444b912b6462c8c0d8802f5c1d30d4",
+    "vehicle_east": "097fd8ec1b92d3dcf5a9b43c267dcab60eb1526087540270284ebfe63f8df154",
+    "vehicle_south": "48352abddfcda1d4eca8b867b5c0a3dfdfc39efc256c154ceb744a2eb7770cfe",
+    "vehicle_west": "c4559f7f177c3d4d1253a1f3b1f29fafde372bdb3a3611b37b147a3e27a8b75c",
+    "turret_north": "77ce5f364ad02dc4006363c95ca7c1f79a60fd9d2d56dcd0f705c9d7d053265c",
+    "loader_mg_north": "2c73522fcaa59052411b235a01e8041d1cbee5054e5239ffcbc82eeabd7555f6",
+    "crows_north": "d7475b276d219d88150aed68e907cb81b3a7704d96cdd71818b7823ea80adc7f",
+    "UI": "a8590b38c1e4432fea40f41c45b0ceed81618910a978a19e7e4cfe097883d1df"
   },
   "children_north_frame": {
     "loader_mg": [

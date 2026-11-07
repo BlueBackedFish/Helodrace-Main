@@ -167,11 +167,15 @@ def main():
         assert (simplified/f"output/{size}/lid_mg_east.png").exists()
     lines = Image.open(simplified/"output/turret_east_lines.png").convert("F").resize((256, 256), Image.Resampling.BOX)
     turret = Image.open(simplified/"output/256/turret_east.png").convert("RGBA")
-    full = {turret.getpixel((x, y))[:3] for x in range(256) for y in range(256)
-            if lines.getpixel((x, y)) >= 254.5 and turret.getpixel((x, y))[3] > 0}
+    flat = Image.open(simplified/"output/turret_east_flat.png").convert("RGBA").resize((256, 256), Image.Resampling.LANCZOS)
+    lum = lambda c: .2126*c[0]+.7152*c[1]+.0722*c[2]
+    covered = [(x, y) for x in range(256) for y in range(256)
+               if lines.getpixel((x, y)) >= 200 and turret.getpixel((x, y))[3] > 200]
     partial = [(x, y) for x in range(256) for y in range(256) if 10 < lines.getpixel((x, y)) < 245]
-    # Fully covered pixels are exactly the one line colour; edges are anti-aliased, not stepped.
-    assert len(full) <= 1, full
+    # Lines take a darkened tone of the surrounding paint (several colours), never a single flat ink,
+    # and their edges are anti-aliased.
+    assert covered and all(lum(turret.getpixel(p)) < lum(flat.getpixel(p)) for p in covered)
+    assert len({turret.getpixel(p)[:3] for p in covered}) > 1
     assert partial and len({turret.getpixel(p)[:3] for p in partial}) > 1
     # An existing separately built model placed into a weapon layer with one uniform scale/yaw/move.
     profile["imported_models"] = [{"id": "rws", "blend": str(project/"output/vehicle.blend"), "layer": "lid_mg",
