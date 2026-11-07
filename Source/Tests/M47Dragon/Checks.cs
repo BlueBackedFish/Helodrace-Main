@@ -49,7 +49,7 @@ public sealed class Checks : GameComponent
         foreach (IntVec3 c in CellRect.CenteredOn(map.Center, 30))
         {
             if (!c.InBounds(map)) continue;
-            foreach (Thing t in c.GetThingList(map).ToList()) if (t is not Pawn && t.Spawned && t.def.destroyable) t.Destroy();
+            foreach (Thing t in c.GetThingList(map).ToList()) if (t is not Pawn && t.Spawned && t.def.destroyable) t.Destroy(DestroyMode.Vanish);
             map.terrainGrid.SetTerrain(c, TerrainDefOf.Concrete); map.roofGrid.SetRoof(c, null);
             map.fogGrid.Unfog(c);
         }
@@ -66,6 +66,7 @@ public sealed class Checks : GameComponent
         weapon = (ThingWithComps)ThingMaker.MakeThing(m47);
         comp = weapon.TryGetComp<CompRecoillessWeapon>();
         Check(comp != null && !comp.Loaded && comp.SelectedAmmoDef == roundDef, "New M47 is unloaded and takes the FGM-77A");
+        Check(weapon.TryGetComp<CompQuality>() == null && !m47.HasComp(typeof(CompQuality)), "M47 has no quality");
         GenSpawn.Spawn(weapon, map.Center + new IntVec3(3, 0, 3), map);
         Check(Tex == TrackerTex, "Empty M47 on the ground shows the tracker graphic (" + Tex + ")");
         Check(weapon.Graphic.GetType() == weapon.def.graphic.GetType(), "Tracker uses the same on-ground graphic wrapper as the full launcher (" + weapon.Graphic.GetType().Name + ")");

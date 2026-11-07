@@ -46,7 +46,7 @@ namespace Helodrace
         {
             return def?.defName != null
                 && def.defName.StartsWith("HD_Gun_")
-                && def.defName.EndsWith("_Weapon");
+                && def.IsRangedWeapon;
         }
     }
 
