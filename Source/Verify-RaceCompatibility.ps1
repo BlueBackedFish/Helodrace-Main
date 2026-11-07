@@ -54,7 +54,7 @@ foreach ($file in Get-ChildItem "$repo/Defs" -Recurse -Filter *.xml) {
     }
 }
 [xml]$ceXml = Get-Content "$ModuleRoot/Helodrace-CombatExtended/Patches/CombatExtended_HelodRaceAndArmor.xml" -Raw -Encoding UTF8
-[xml]$facialXml = Get-Content "$ModuleRoot/Helodrace-Facial/Patches/Helodrace/FacialAnimationComps_Helod.xml" -Raw -Encoding UTF8
+[xml]$facialXml = Get-Content "$repo/Compat/FacialAnimation/Patches/Helodrace/FacialAnimationComps_Helod.xml" -Raw -Encoding UTF8
 $baselinePath = Join-Path $PSScriptRoot 'Tests/CompatibilityPatchBaseline.json'
 $baseline = Get-Content $baselinePath -Raw -Encoding UTF8 | ConvertFrom-Json
 function Canonical-Xml([xml]$document) {
@@ -111,12 +111,14 @@ foreach ($order in @(@('CE'), @('Facial'), @('CE','Facial'), @('Facial','CE'))) 
     }
     Write-Output "PASS: $order ordered/repeated application matches baseline plus reviewed baby-controller change; components unique."
 }
-foreach ($module in 'Helodrace-CombatExtended','Helodrace-Facial','Helodrace-blancasdrugs','Helodrace-LobosArsenal') {
-    $root = Join-Path $ModuleRoot $module
+$companionRoots = @('Helodrace-CombatExtended','Helodrace-blancasdrugs','Helodrace-LobosArsenal' | ForEach-Object { Join-Path $ModuleRoot $_ })
+$companionRoots += (Join-Path $repo 'Compat/FacialAnimation'), (Join-Path $repo 'Source/HelodraceFacial')
+foreach ($root in $companionRoots) {
+    $module = Split-Path $root -Leaf
     if (!(Test-Path -LiteralPath $root)) { continue }
     $files = Get-ChildItem -LiteralPath $root -Recurse -File | Where-Object {
         $_.Extension -in '.xml','.cs','.csproj' -and $_.FullName -notmatch '\\(obj|Archive)\\'
     }
     Assert (!(Select-String -LiteralPath $files.FullName -Pattern 'AlienRace|humanoidalienraces')) "Legacy dependency in $module"
 }
-Write-Output 'PASS: four companion modules have no active HAR references. In-game gizmo checks still required.'
+Write-Output 'PASS: three companion modules and embedded Facial Animation compat have no active HAR references. In-game gizmo checks still required.'

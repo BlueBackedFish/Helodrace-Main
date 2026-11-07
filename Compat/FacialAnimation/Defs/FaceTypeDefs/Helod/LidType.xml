@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <FacialAnimation.LidTypeDef>
+    <defName>HD_FA_LidNormal</defName>
+    <texPath>Things/Pawn/Helod/Lids/Normal1</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.LidTypeDef>
+
+  <FacialAnimation.LidTypeDef>
+    <defName>HD_FA_LidNormal2</defName>
+    <texPath>Things/Pawn/Helod/Lids/Normal2</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.LidTypeDef>
+
+  <FacialAnimation.LidTypeDef>
+    <defName>HD_FA_LidNormal3</defName>
+    <texPath>Things/Pawn/Helod/Lids/Normal3</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.LidTypeDef>
+
+  <FacialAnimation.LidTypeDef>
+    <defName>HD_FA_LidNormal4</defName>
+    <texPath>Things/Pawn/Helod/Lids/Normal4</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.LidTypeDef>
+
+  <FacialAnimation.LidTypeDef>
+    <defName>HD_FA_LidNormal5</defName>
+    <texPath>Things/Pawn/Helod/Lids/Normal5</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.LidTypeDef>
+
+  <FacialAnimation.LidTypeDef>
+    <defName>HD_FA_LidNormal6</defName>
+    <texPath>Things/Pawn/Helod/Lids/Normal6</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.LidTypeDef>
+
+  <FacialAnimation.LidTypeDef>
+    <defName>HD_FA_LidNormal7</defName>
+    <texPath>Things/Pawn/Helod/Lids/Normal7</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.LidTypeDef>
+
+  <FacialAnimation.LidTypeDef>
+    <defName>HD_FA_LidNormal8</defName>
+    <texPath>Things/Pawn/Helod/Lids/Normal8</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.LidTypeDef>
+
+  <FacialAnimation.LidTypeDef>
+    <defName>HD_FA_LidNormal9</defName>
+    <texPath>Things/Pawn/Helod/Lids/Normal9</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.LidTypeDef>
+
+  <FacialAnimation.LidTypeDef>
+    <defName>HD_FA_LidNormal10</defName>
+    <texPath>Things/Pawn/Helod/Lids/Normal10</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.LidTypeDef>
+
+  <FacialAnimation.LidTypeDef>
+    <defName>HD_FA_LidNormal11</defName>
+    <texPath>Things/Pawn/Helod/Lids/Normal11</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.LidTypeDef>
+
+  <FacialAnimation.LidTypeDef>
+    <defName>HD_FA_LidNormal12</defName>
+    <texPath>Things/Pawn/Helod/Lids/Normal12</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.LidTypeDef>
+
+  <FacialAnimation.LidTypeDef>
+    <defName>HD_FA_LidNormal13</defName>
+    <texPath>Things/Pawn/Helod/Lids/Normal13</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.LidTypeDef>
+
+  <!-- Selected only by Normal0PairComp, never by Facial Animation's ordinary roll. -->
+  <FacialAnimation.LidTypeDef>
+    <defName>HD_FA_LidNormal0</defName>
+    <texPath>Things/Pawn/Helod/Lids/Normal0</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+    <probability>0</probability>
+  </FacialAnimation.LidTypeDef>
+</Defs>

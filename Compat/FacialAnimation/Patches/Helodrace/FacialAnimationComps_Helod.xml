@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationSequence">
+    <success>Normal</success>
+    <operations>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Helod"]/comps</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Helod"]</xpath>
+          <value>
+            <comps></comps>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Helod"]/comps/li[compClass="FacialAnimation.DrawFaceGraphicsComp"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Helod"]/comps</xpath>
+          <value>
+            <li>
+              <compClass>FacialAnimation.DrawFaceGraphicsComp</compClass>
+            </li>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Helod"]/comps/li[compClass="FacialAnimation.HeadControllerComp"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Helod"]/comps</xpath>
+          <value>
+            <li>
+              <compClass>FacialAnimation.HeadControllerComp</compClass>
+            </li>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Helod"]/comps/li[compClass="FacialAnimation.EyeballControllerComp"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Helod"]/comps</xpath>
+          <value>
+            <li>
+              <compClass>FacialAnimation.EyeballControllerComp</compClass>
+            </li>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Helod"]/comps/li[compClass="FacialAnimation.LidControllerComp"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Helod"]/comps</xpath>
+          <value>
+            <li>
+              <compClass>FacialAnimation.LidControllerComp</compClass>
+            </li>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Helod"]/comps/li[compClass="FacialAnimation.BrowControllerComp"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Helod"]/comps</xpath>
+          <value>
+            <li>
+              <compClass>FacialAnimation.BrowControllerComp</compClass>
+            </li>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Helod"]/comps/li[compClass="FacialAnimation.MouthControllerComp"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Helod"]/comps</xpath>
+          <value>
+            <li>
+              <compClass>FacialAnimation.MouthControllerComp</compClass>
+            </li>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Helod"]/comps/li[compClass="FacialAnimation.LidOptionControllerComp"]/compClass</xpath>
+        <match Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="Helod"]/comps/li[compClass="FacialAnimation.LidOptionControllerComp"]/compClass</xpath>
+          <value>
+            <compClass>HelodraceFacial.HelodBabyLidOptionControllerComp</compClass>
+          </value>
+        </match>
+        <nomatch Class="PatchOperationConditional">
+          <xpath>/Defs/ThingDef[defName="Helod"]/comps/li[compClass="HelodraceFacial.HelodBabyLidOptionControllerComp"]</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>/Defs/ThingDef[defName="Helod"]/comps</xpath>
+            <value>
+              <li>
+                <compClass>HelodraceFacial.HelodBabyLidOptionControllerComp</compClass>
+              </li>
+            </value>
+          </nomatch>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Helod"]/comps/li[compClass="FacialAnimation.EmotionControllerComp"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Helod"]/comps</xpath>
+          <value>
+            <li>
+              <compClass>FacialAnimation.EmotionControllerComp</compClass>
+            </li>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Helod"]/comps/li[compClass="FacialAnimation.FacialAnimationControllerComp"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Helod"]/comps</xpath>
+          <value>
+            <li>
+              <compClass>FacialAnimation.FacialAnimationControllerComp</compClass>
+            </li>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Helod"]/comps/li[@Class="HelodraceFacial.Normal0PairCompProperties"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Helod"]/comps</xpath>
+          <value>
+            <li Class="HelodraceFacial.Normal0PairCompProperties">
+              <!-- 0.05 = 5% chance for the paired Lid Normal0 + Mouth Normal0 variant. -->
+              <chance>0.05</chance>
+            </li>
+          </value>
+        </nomatch>
+      </li>
+    </operations>
+  </Operation>
+</Patch>

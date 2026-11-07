@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <FacialAnimation.HeadTypeDef>
+    <defName>HD_FA_HelodHead</defName>
+    <texPath>Things/Pawn/Helod/Heads_Blank/Helod</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/CutoutSkin</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+    <shaderColorOverride>Map/CutoutSkinOverlay</shaderColorOverride>
+  </FacialAnimation.HeadTypeDef>
+</Defs>

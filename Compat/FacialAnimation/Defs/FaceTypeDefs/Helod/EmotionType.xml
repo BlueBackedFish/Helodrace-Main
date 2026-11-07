@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <FacialAnimation.EmotionTypeDef>
+    <defName>HD_FA_EmotionNormal</defName>
+    <texPath>Things/Pawn/Helod/Emotions/Normal</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.EmotionTypeDef>
+</Defs>

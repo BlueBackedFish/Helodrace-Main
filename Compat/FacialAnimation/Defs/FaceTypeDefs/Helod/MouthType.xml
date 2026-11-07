@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <FacialAnimation.MouthTypeDef>
+    <defName>HD_FA_MouthNormal</defName>
+    <texPath>Things/Pawn/Helod/Mouth/Normal1</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.MouthTypeDef>
+
+  <FacialAnimation.MouthTypeDef>
+    <defName>HD_FA_MouthNormal2</defName>
+    <texPath>Things/Pawn/Helod/Mouth/Normal2</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.MouthTypeDef>
+
+  <FacialAnimation.MouthTypeDef>
+    <defName>HD_FA_MouthNormal3</defName>
+    <texPath>Things/Pawn/Helod/Mouth/Normal3</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.MouthTypeDef>
+
+  <FacialAnimation.MouthTypeDef>
+    <defName>HD_FA_MouthNormal4</defName>
+    <texPath>Things/Pawn/Helod/Mouth/Normal4</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.MouthTypeDef>
+
+  <FacialAnimation.MouthTypeDef>
+    <defName>HD_FA_MouthNormal5</defName>
+    <texPath>Things/Pawn/Helod/Mouth/Normal5</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.MouthTypeDef>
+
+  <FacialAnimation.MouthTypeDef>
+    <defName>HD_FA_MouthNormal6</defName>
+    <texPath>Things/Pawn/Helod/Mouth/Normal6</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.MouthTypeDef>
+
+  <FacialAnimation.MouthTypeDef>
+    <defName>HD_FA_MouthNormal7</defName>
+    <texPath>Things/Pawn/Helod/Mouth/Normal7</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.MouthTypeDef>
+
+  <!-- Selected only by Normal0PairComp, never by Facial Animation's ordinary roll. -->
+  <FacialAnimation.MouthTypeDef>
+    <defName>HD_FA_MouthNormal0</defName>
+    <texPath>Things/Pawn/Helod/Mouth/Normal0</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+    <probability>0</probability>
+  </FacialAnimation.MouthTypeDef>
+</Defs>

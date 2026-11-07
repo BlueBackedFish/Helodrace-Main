@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <FacialAnimation.BrowTypeDef>
+    <defName>HD_FA_BrowNormal</defName>
+    <texPath>Things/Pawn/Helod/Brows/Normal</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+  </FacialAnimation.BrowTypeDef>
+</Defs>

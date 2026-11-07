@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <FacialAnimation.EyeballTypeDef>
+    <defName>HD_FA_EyeNormal</defName>
+    <texPath>Things/Pawn/Helod/Eyes/Normal1</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/CutoutComplex</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+    <minColor>RGB(0.25,0.25,0.25)</minColor>
+    <maxColor>RGB(0.85,0.85,0.85)</maxColor>
+  </FacialAnimation.EyeballTypeDef>
+
+  <FacialAnimation.EyeballTypeDef>
+    <defName>HD_FA_EyeNormal2</defName>
+    <texPath>Things/Pawn/Helod/Eyes/Normal2</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/CutoutComplex</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+    <minColor>RGB(0.25,0.25,0.25)</minColor>
+    <maxColor>RGB(0.85,0.85,0.85)</maxColor>
+  </FacialAnimation.EyeballTypeDef>
+</Defs>

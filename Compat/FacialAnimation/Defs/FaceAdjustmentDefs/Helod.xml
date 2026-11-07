@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <FacialAnimation.FaceAdjustmentDef>
+    <defName>HD_FA_HelodSizeAndPosition</defName>
+    <RaceName>Helod</RaceName>
+    <Size>(1.2,1.2)</Size>
+    <RightEyeLabel>right eye</RightEyeLabel>
+    <LeftEyeLabel>left eye</LeftEyeLabel>
+    <OffsetSouth>(0,0)</OffsetSouth>
+  </FacialAnimation.FaceAdjustmentDef>
+</Defs>

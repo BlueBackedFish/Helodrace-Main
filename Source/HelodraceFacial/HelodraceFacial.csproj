@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>HelodraceFacial</AssemblyName>
+    <RootNamespace>HelodraceFacial</RootNamespace>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>..\..\Compat\FacialAnimation\Assemblies</OutputPath>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <DebugType>none</DebugType>
+    <HelodUsesGame>true</HelodUsesGame>
+    <HelodUsesHarmony>true</HelodUsesHarmony>
+    <HelodUsesNativeMath>false</HelodUsesNativeMath>
+    <FacialAnimationAssemblyPath Condition="'$(FacialAnimationAssemblyPath)' == ''">$(RimWorldPath)\..\..\workshop\content\294100\1635901197\1.6\Assemblies\FacialAnimation.dll</FacialAnimationAssemblyPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="FacialAnimation">
+      <HintPath>$(FacialAnimationAssemblyPath)</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Compile Remove="obj/**/*.cs" />
+  </ItemGroup>
+
+  <Target Name="RequireFacialAnimationReference" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(FacialAnimationAssemblyPath)')" Text="Install Facial Animation or set FacialAnimationAssemblyPath to FacialAnimation.dll." />
+  </Target>
+</Project>

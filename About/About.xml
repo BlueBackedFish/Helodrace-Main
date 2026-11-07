@@ -32,5 +32,9 @@ Requires Harmony, Biotech and Helod race - Blanca's Drugs.</description>
     <li>BlueBackedFish.Helod.BlancasDrugs</li>
     <li>ponpeco.PPHair</li>
     <li>MengDe.FFXVhair</li>
+    <li>Nals.FacialAnimation</li>
   </loadAfter>
+  <incompatibleWith>
+    <li>BlueBackedFish.Helodrace.Facial</li>
+  </incompatibleWith>
 </ModMetaData>

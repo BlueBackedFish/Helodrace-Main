@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+  <Operation Class="PatchOperationSequence">
+    <success>Normal</success>
+    <operations>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.HeadShapeDef[defName="hot"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.HeadShapeDef>
+              <defName>hot</defName>
+              <altShapeDef>blush</altShapeDef>
+            </FacialAnimation.HeadShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.HeadShapeDef[defName="cold"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.HeadShapeDef>
+              <defName>cold</defName>
+              <altShapeDef>normal</altShapeDef>
+            </FacialAnimation.HeadShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.BrowShapeDef[defName="down"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.BrowShapeDef>
+              <defName>down</defName>
+              <altShapeDef>normal</altShapeDef>
+            </FacialAnimation.BrowShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.EyeballShapeDef[defName="heart"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.EyeballShapeDef>
+              <defName>heart</defName>
+              <label>heart</label>
+            </FacialAnimation.EyeballShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.EyeballShapeDef[defName="surprise"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.EyeballShapeDef>
+              <defName>surprise</defName>
+              <label>surprise</label>
+            </FacialAnimation.EyeballShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.LidShapeDef[defName="half"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.LidShapeDef>
+              <defName>half</defName>
+              <altShapeDef>normal</altShapeDef>
+            </FacialAnimation.LidShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.LidShapeDef[defName="cry"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.LidShapeDef>
+              <defName>cry</defName>
+              <altShapeDef>normal</altShapeDef>
+              <disableEyeball>true</disableEyeball>
+            </FacialAnimation.LidShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.LidShapeDef[defName="cry"]/disableEyeball</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/FacialAnimation.LidShapeDef[defName="cry"]</xpath>
+          <value>
+            <disableEyeball>true</disableEyeball>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.LidShapeDef[defName="dead"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.LidShapeDef>
+              <defName>dead</defName>
+              <altShapeDef>close</altShapeDef>
+              <disableEyeball>true</disableEyeball>
+            </FacialAnimation.LidShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.LidShapeDef[defName="dead"]/disableEyeball</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/FacialAnimation.LidShapeDef[defName="dead"]</xpath>
+          <value>
+            <disableEyeball>true</disableEyeball>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.LidShapeDef[defName="down"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.LidShapeDef>
+              <defName>down</defName>
+              <altShapeDef>normal</altShapeDef>
+            </FacialAnimation.LidShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.MouthShapeDef[defName="smile"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.MouthShapeDef>
+              <defName>smile</defName>
+              <altShapeDef>normal</altShapeDef>
+            </FacialAnimation.MouthShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.MouthShapeDef[defName="sad"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.MouthShapeDef>
+              <defName>sad</defName>
+              <altShapeDef>normal</altShapeDef>
+            </FacialAnimation.MouthShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.MouthShapeDef[defName="down"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.MouthShapeDef>
+              <defName>down</defName>
+              <altShapeDef>normal</altShapeDef>
+            </FacialAnimation.MouthShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.MouthShapeDef[defName="down"]/altShapeDef</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/FacialAnimation.MouthShapeDef[defName="down"]</xpath>
+          <value>
+            <altShapeDef>normal</altShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.MouthShapeDef[defName="puzzle"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.MouthShapeDef>
+              <defName>puzzle</defName>
+              <altShapeDef>normal</altShapeDef>
+            </FacialAnimation.MouthShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.MouthShapeDef[defName="surprise"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.MouthShapeDef>
+              <defName>surprise</defName>
+              <altShapeDef>open</altShapeDef>
+            </FacialAnimation.MouthShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.MouthShapeDef[defName="tight"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.MouthShapeDef>
+              <defName>tight</defName>
+              <altShapeDef>normal</altShapeDef>
+            </FacialAnimation.MouthShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.EmotionShapeDef[defName="gloomy"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.EmotionShapeDef>
+              <defName>gloomy</defName>
+              <altShapeDef>normal</altShapeDef>
+            </FacialAnimation.EmotionShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.EmotionShapeDef[defName="cheerful"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.EmotionShapeDef>
+              <defName>cheerful</defName>
+              <altShapeDef>normal</altShapeDef>
+            </FacialAnimation.EmotionShapeDef>
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/FacialAnimation.LidOptionShapeDef[defName="tear"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <FacialAnimation.LidOptionShapeDef>
+              <defName>tear</defName>
+              <altShapeDef>normal</altShapeDef>
+            </FacialAnimation.LidOptionShapeDef>
+          </value>
+        </nomatch>
+      </li>
+    </operations>
+  </Operation>
+</Patch>

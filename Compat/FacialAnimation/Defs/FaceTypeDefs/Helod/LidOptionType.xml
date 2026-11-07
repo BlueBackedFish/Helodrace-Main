@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <FacialAnimation.LidOptionTypeDef>
+    <defName>HD_FA_LidOptionNormal</defName>
+    <texPath>Things/Pawn/Helod/LidOptions/Normal</texPath>
+    <raceName>Helod</raceName>
+    <shader>Map/Transparent</shader>
+    <enableUnisexTexPath>True</enableUnisexTexPath>
+    <minColor>(1,1,1,1)</minColor>
+    <maxColor>(1,1,1,1)</maxColor>
+  </FacialAnimation.LidOptionTypeDef>
+</Defs>
