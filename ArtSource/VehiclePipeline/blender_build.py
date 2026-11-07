@@ -91,6 +91,43 @@ def material(rgb, cache):
     return mat
 
 
+def display_value(linear_rgb):
+    rgb = [255*(c*12.92 if c <= .0031308 else 1.055*c**(1/2.4)-.055) for c in linear_rgb[:3]]
+    return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2]
+
+
+def repaint_imported(spec, objs, style, record):
+    """Move an imported asset's paint materials onto this vehicle's palette tint.
+
+    Only materials whose names start with one of `materials_prefix` are touched (the asset's
+    own paint roles); metal, glass and other fixed-colour materials keep their colour. Each paint
+    value keeps its ratio to the reference material, scaled so the reference becomes `to`.
+    """
+    settings = spec["repaint"]
+    prefixes = tuple(settings["materials_prefix"])
+    reference = bpy.data.materials[settings["reference"]]
+    base = display_value(next(n for n in reference.node_tree.nodes if n.type == "EMISSION").inputs["Color"].default_value)
+    factor = settings["to"]/base
+    cache = {}
+    for obj in objs:
+        for slot in obj.material_slots:
+            mat = slot.material
+            if mat is None or not mat.name.startswith(prefixes):
+                continue
+            if mat.name not in cache:
+                emission = next(n for n in mat.node_tree.nodes if n.type == "EMISSION")
+                old = display_value(emission.inputs["Color"].default_value)
+                value = min(style["maximum"], max(style["minimum"], old*factor))
+                new = mat.copy()
+                new.name = f"{spec['id']} repaint {mat.name}"
+                rgb = paint_rgb(value, "paint", style)
+                next(n for n in new.node_tree.nodes if n.type == "EMISSION").inputs["Color"].default_value = (*[linear(c) for c in rgb], 1)
+                new.diffuse_color = (*[linear(c) for c in rgb], 1)
+                cache[mat.name] = new
+                record[mat.name] = {"from": round(old, 1), "to": round(value, 1)}
+            slot.material = cache[mat.name]
+
+
 def apply_smooth(obj, part, style):
     """Fixed per-corner gradient for large curved surfaces (style section 4).
 
@@ -425,7 +462,7 @@ def build(profile_path):
     # Existing separately built assets (e.g. a remote weapon station) placed into this vehicle:
     # appended unchanged (geometry, UVs, fixed-emission paint), one uniform scale + yaw + move.
     from mathutils import Matrix
-    imported = []
+    imported, repainted = [], {}
     for spec in profile.get("imported_models", []):
         if spec["layer"] not in weapon_layers and spec["layer"] not in {"hull", "turret", "barrel"}:
             raise ValueError(f"Imported model layer must be a main or weapon layer: {spec['id']}")
@@ -449,6 +486,8 @@ def build(profile_path):
             obj["part_id"], obj["layer"] = key, spec["layer"]
             objects[key] = obj
             imported.append({"model": spec["id"], "object": obj.name, "faces": len(obj.data.polygons)})
+        if "repaint" in spec:
+            repaint_imported(spec, [o for k, o in objects.items() if k.startswith(f"import:{spec['id']}:")], style, repainted)
     bpy.context.view_layer.update()
     all_points = [obj.matrix_world @ v.co for obj in objects.values() for v in obj.data.vertices]
     center = (Vector([min(p[i] for p in all_points) for i in range(3)]) +
@@ -681,7 +720,8 @@ def build(profile_path):
               "style_sha256": sha256(style_path), "source_faces": len(source["faces"]),
               "preserved_faces": len(seen), "explicitly_omitted_faces": len(omitted),
               "box_replaced_faces": len(replaced), "boxes": boxes,
-              "imported_models": {"specs": profile.get("imported_models", []), "objects": imported},
+              "imported_models": {"specs": profile.get("imported_models", []), "objects": imported,
+                                  "repainted_materials": repainted},
               "accents": accents, "accent_area_fraction": accent_fraction,
               "degenerate_source_faces": degenerate, "source_coordinates_preserved": True,
               "unlit_glb": True, "glb_animation_count": animation_count,

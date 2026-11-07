@@ -20,7 +20,7 @@
       "sha256": "2f026e5564f63af921bd8f2ccf81c707140f2cefce0f03b6ae14bd442021fe96"
     }
   },
-  "profile_sha256": "469fb9bdc960e62174ed2af806fd87f7745e056d1a1fbca404e8df298071df50",
+  "profile_sha256": "e77912dd3645e1266a5a1f3d540e8afa4867d8752980ba3383d1d51c39ae5015",
   "style_sha256": "d7589d5206d1fd714e8a00c37de262c8ba02d2ea3c6a322fb8543b4917197f0a",
   "source_faces": 425141,
   "preserved_faces": 186906,
@@ -195,6 +195,13 @@
           -0.4127,
           2.3619
         ],
+        "repaint": {
+          "materials_prefix": [
+            "paint_"
+          ],
+          "reference": "paint_equipment_top",
+          "to": 216
+        },
         "reason": "Existing CROWSII asset, uniform scale 0.7749 = source CROWS M2 length 1.660 m / asset M2 length 2.142"
       }
     ],
@@ -334,7 +341,249 @@
         "object": "Cylinder.003 / base",
         "faces": 178
       }
-    ]
+    ],
+    "repainted_materials": {
+      "paint_support_top.001": {
+        "from": 73.3,
+        "to": 126.7
+      },
+      "paint_support_front.001": {
+        "from": 45.1,
+        "to": 77.9
+      },
+      "paint_support_rear.001": {
+        "from": 40.1,
+        "to": 69.3
+      },
+      "paint_support_side.001": {
+        "from": 40.1,
+        "to": 69.3
+      },
+      "paint_support_bottom.001": {
+        "from": 40.1,
+        "to": 69.3
+      },
+      "paint_support_cap_top.001": {
+        "from": 97.0,
+        "to": 167.5
+      },
+      "paint_support_cap_front.001": {
+        "from": 69.3,
+        "to": 119.8
+      },
+      "paint_support_cap_rear.001": {
+        "from": 57.2,
+        "to": 98.8
+      },
+      "paint_support_cap_side.001": {
+        "from": 41.1,
+        "to": 71.1
+      },
+      "paint_support_cap_bottom.001": {
+        "from": 40.1,
+        "to": 69.3
+      },
+      "paint_equipment_top.001": {
+        "from": 125.0,
+        "to": 216.0
+      },
+      "paint_equipment_front.001": {
+        "from": 97.0,
+        "to": 167.5
+      },
+      "paint_equipment_rear.001": {
+        "from": 84.7,
+        "to": 146.3
+      },
+      "paint_equipment_side.001": {
+        "from": 69.3,
+        "to": 119.8
+      },
+      "paint_equipment_bottom.001": {
+        "from": 49.3,
+        "to": 85.1
+      },
+      "paint_mount_top.001": {
+        "from": 100.0,
+        "to": 172.8
+      },
+      "paint_mount_front.001": {
+        "from": 72.3,
+        "to": 125.0
+      },
+      "paint_mount_rear.001": {
+        "from": 60.2,
+        "to": 104.0
+      },
+      "paint_mount_side.001": {
+        "from": 44.1,
+        "to": 76.3
+      },
+      "paint_mount_bottom.001": {
+        "from": 40.1,
+        "to": 69.3
+      },
+      "paint_lid_top.001": {
+        "from": 149.2,
+        "to": 240
+      },
+      "paint_lid_front.001": {
+        "from": 121.0,
+        "to": 209.1
+      },
+      "paint_lid_rear.001": {
+        "from": 109.4,
+        "to": 189.0
+      },
+      "paint_lid_side.001": {
+        "from": 92.9,
+        "to": 160.5
+      },
+      "paint_lid_bottom.001": {
+        "from": 73.3,
+        "to": 126.7
+      },
+      "paint_metal.001": {
+        "from": 84.4,
+        "to": 145.8
+      },
+      "paint_metal_cover.001": {
+        "from": 108.9,
+        "to": 188.2
+      },
+      "paint_metal_front.001": {
+        "from": 72.4,
+        "to": 125.0
+      },
+      "paint_metal_side.001": {
+        "from": 60.4,
+        "to": 104.3
+      },
+      "paint_metal_bottom.001": {
+        "from": 42.4,
+        "to": 73.2
+      },
+      "paint_support_top": {
+        "from": 73.3,
+        "to": 126.7
+      },
+      "paint_support_front": {
+        "from": 45.1,
+        "to": 77.9
+      },
+      "paint_support_rear": {
+        "from": 40.1,
+        "to": 69.3
+      },
+      "paint_support_side": {
+        "from": 40.1,
+        "to": 69.3
+      },
+      "paint_support_bottom": {
+        "from": 40.1,
+        "to": 69.3
+      },
+      "paint_support_cap_top": {
+        "from": 97.0,
+        "to": 167.5
+      },
+      "paint_support_cap_front": {
+        "from": 69.3,
+        "to": 119.8
+      },
+      "paint_support_cap_rear": {
+        "from": 57.2,
+        "to": 98.8
+      },
+      "paint_support_cap_side": {
+        "from": 41.1,
+        "to": 71.1
+      },
+      "paint_support_cap_bottom": {
+        "from": 40.1,
+        "to": 69.3
+      },
+      "paint_equipment_top": {
+        "from": 125.0,
+        "to": 216.0
+      },
+      "paint_equipment_front": {
+        "from": 97.0,
+        "to": 167.5
+      },
+      "paint_equipment_rear": {
+        "from": 84.7,
+        "to": 146.3
+      },
+      "paint_equipment_side": {
+        "from": 69.3,
+        "to": 119.8
+      },
+      "paint_equipment_bottom": {
+        "from": 49.3,
+        "to": 85.1
+      },
+      "paint_mount_top": {
+        "from": 100.0,
+        "to": 172.8
+      },
+      "paint_mount_front": {
+        "from": 72.3,
+        "to": 125.0
+      },
+      "paint_mount_rear": {
+        "from": 60.2,
+        "to": 104.0
+      },
+      "paint_mount_side": {
+        "from": 44.1,
+        "to": 76.3
+      },
+      "paint_mount_bottom": {
+        "from": 40.1,
+        "to": 69.3
+      },
+      "paint_lid_top": {
+        "from": 149.2,
+        "to": 240
+      },
+      "paint_lid_front": {
+        "from": 121.0,
+        "to": 209.1
+      },
+      "paint_lid_rear": {
+        "from": 109.4,
+        "to": 189.0
+      },
+      "paint_lid_side": {
+        "from": 92.9,
+        "to": 160.5
+      },
+      "paint_lid_bottom": {
+        "from": 73.3,
+        "to": 126.7
+      },
+      "paint_metal": {
+        "from": 84.4,
+        "to": 145.8
+      },
+      "paint_metal_cover": {
+        "from": 108.9,
+        "to": 188.2
+      },
+      "paint_metal_front": {
+        "from": 72.4,
+        "to": 125.0
+      },
+      "paint_metal_side": {
+        "from": 60.4,
+        "to": 104.3
+      },
+      "paint_metal_bottom": {
+        "from": 42.4,
+        "to": 73.2
+      }
+    }
   },
   "accents": [
     {
@@ -7789,5 +8038,5 @@
       340
     ]
   },
-  "model_sha256": "3c5068c4ba4ecd05581862b0edafd0e4dae84562fdea2567eb63428101573e77"
+  "model_sha256": "1e229875a8ef001d7d94d9255c9dee699b5a4cef1bc6d49d1a58ca307b47ac7e"
 }

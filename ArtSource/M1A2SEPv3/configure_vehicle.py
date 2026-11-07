@@ -376,6 +376,8 @@ def configure():
          "evidence": "CROWSII yaw origin placed so its M2 overlays the source CROWS M2"}]
     imported_models = [{"id": "crows", "blend": "../CROWSII/output/crows_ii_m2.blend", "sha256": common.sha256(CROWS_BLEND),
                         "layer": "crows", "scale": scale, "rotation_z_degrees": 180, "location": crows_origin,
+                        # User decision 2026-11-07: CROWS paint follows the vehicle TAN, not the asset FDE.
+                        "repaint": {"materials_prefix": ["paint_"], "reference": "paint_equipment_top", "to": HULL_TOP},
                         "reason": (f"Existing CROWSII asset, uniform scale {scale} = source CROWS M2 length "
                                    f"{source_length:.3f} m / asset M2 length {CROWS_M2['muzzle']-CROWS_M2['rear']:.3f}")}]
     mounts = []

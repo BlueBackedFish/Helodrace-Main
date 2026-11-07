@@ -38315,6 +38315,13 @@
         -0.4127,
         2.3619
       ],
+      "repaint": {
+        "materials_prefix": [
+          "paint_"
+        ],
+        "reference": "paint_equipment_top",
+        "to": 216
+      },
       "reason": "Existing CROWSII asset, uniform scale 0.7749 = source CROWS M2 length 1.660 m / asset M2 length 2.142"
     }
   ]

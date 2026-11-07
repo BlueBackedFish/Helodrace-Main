@@ -64,6 +64,7 @@
 | 9 | RimThunder 하부 띠: 스커트 0.57, 바퀴가 둥근 혹으로 보임 | 스커트 144 → 120, 바퀴 smooth signed 80–176 | 같은 배율에서 스커트 톤과 바퀴 혹이 RimThunder와 비슷해짐 |
 | 10 | 사용자 요청: 차체 경계선 줄이기, 경계선 단색, 기관총 분리, CROWS는 기존 자산 사용 | 경계선을 단색 56으로 바꾸고 출력 크기마다 다시 칠함, 차체 depth_step 0.06, 장전수 M240(`bone_mg_aa_h/v`)을 별도 `loader_mg` 스프라이트로(정면 향하도록 -15.95° 회전 렌더), CROWS 5그룹을 포탑에서 빼고 `ArtSource/CROWSII` 장착점 기록 | 차체 뚜렷한 경계 0.176 → 0.134 (RimThunder 0.125). 경계선이 모든 크기에서 한 색. 장착점(포탑 1024px 이미지 기준): loader_mg (469.9, 454.7), crows (556.4, 565.5). 두 회전축 모두 원본 경계 상자 기준 임시값 |
 | 11 | 사용자 지적: M240 방패가 분리됨, 회전부 통째로 분리, CROWS는 기존 모델 사용 | `loader_mg`에 포가·M240·앞 방패(`ex_armor_turret_03`)·방패 받침(`_01`)·탄약통(`ex_armor_04`) 포함, 회전 중심은 장전수 해치 링 중심(0.418, 0.746), 렌더 회전 -15.88°. 포탑 옆 고정 레일 `ex_armor_turret_02`는 포탑에 남김. CROWS는 `ArtSource/CROWSII/output/crows_ii_m2.blend`를 배율 0.7749(원본 M2 1.660 m / 자산 M2 2.142), 180° 회전, M2가 원본 M2에 겹치도록 (-0.818, -0.413, 2.362)에 놓고 `crows` 스프라이트로 렌더 | 포탑 1024px 이미지 기준 장착 위치: loader_mg (456, 482), crows (539, 571). CROWSII는 FDE 도색이라 TAN 차체와 색이 다름. 두 회전 중심은 경계 상자 기준 임시값 |
+| 12 | 사용자 결정: CROWS 도색을 TAN으로 | CROWSII `paint_*` 재질만 `paint_equipment_top` 125 → 216 비율(×1.728)로 차량 TAN에 다시 칠함(상한 240). 금속 총·프레임 금속·광학창·급탄 슈트 고유색 유지 | CROWS가 차체·포탑과 같은 TAN으로 읽힘. 원래·새 명도는 `output/report.json`의 `imported_models.repainted_materials` |
 
 ## 검수 기록
 
