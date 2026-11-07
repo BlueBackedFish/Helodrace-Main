@@ -76,6 +76,16 @@ namespace Helodrace
 
                 Check(generatedMale.def == HelodRace.Def && generatedMale.gender == Gender.Male,
                     "male Helod colonist kind generates a male Helod");
+                int males = 0;
+                const int samples = 300;
+                for (int i = 0; i < samples; i++)
+                {
+                    Pawn sample = PawnGenerator.GeneratePawn(helodKind, Faction.OfPlayer);
+                    if (sample.gender == Gender.Male) males++;
+                    sample.Destroy();
+                }
+                // 0.3 male chance: 3.5 sigma bounds over 300 samples.
+                Check(males >= 63 && males <= 117, "ordinary Helod generation yields males at ~30% (" + males + "/" + samples + ")");
                 Check(helodM.story.bodyType == BodyTypeDefOf.Female && HelodRace.HeadTypes.Contains(helodM.story.headType),
                     "male Helod uses the female body and Helod head textures");
                 Check(helodM.Drawer.renderer.BaseHeadOffsetAt(Rot4.South) == helodF.Drawer.renderer.BaseHeadOffsetAt(Rot4.South),

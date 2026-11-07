@@ -34,7 +34,7 @@ foreach ($property in $baseline.policy.PSObject.Properties) {
     })
     Assert (($property.Value -join "`n") -ceq ($actual -join "`n")) "Pre-1.7 policy values/order/DLC conditions changed: $($property.Name)"
 }
-foreach ($pair in @(@('drawScale','0.8'), @('maleProbability','0.0000001'), @('socialFightDamageLimit','6'))) {
+foreach ($pair in @(@('drawScale','0.8'), @('maleProbability','0.3'), @('socialFightDamageLimit','6'))) {
     Assert ($settings.SelectSingleNode($pair[0]).InnerText -eq $pair[1]) "Policy value changed: $($pair[0])"
 }
 foreach ($removed in @('refugeeChance','slaveChance','wandererChance')) {

@@ -63,7 +63,7 @@
         <babyWest>(0.055, 0, -0.07)</babyWest>
       </li>
     </appendageOffsets>
-    <maleProbability>0.0000001</maleProbability>
+    <maleProbability>0.3</maleProbability>
     <socialFightDamageLimit>6</socialFightDamageLimit>
     <confrontation>
       <mediatorRadius>6</mediatorRadius>

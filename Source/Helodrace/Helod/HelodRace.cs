@@ -28,7 +28,7 @@ namespace Helodrace
         public List<EndogeneCategory> blackEndoCategories = new List<EndogeneCategory>();
         public List<XenotypeDef> xenotypeList = new List<XenotypeDef>();
         public float drawScale = 0.8f;
-        public float maleProbability = 0.0000001f;
+        public float maleProbability = 0.3f;
         public float socialFightDamageLimit = 6f;
         public HelodConfrontationSettings confrontation = new HelodConfrontationSettings();
     }
