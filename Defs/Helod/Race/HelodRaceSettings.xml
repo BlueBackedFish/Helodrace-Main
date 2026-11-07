@@ -7,10 +7,12 @@
          bodySizeFactor unless absolute is true. Teenagers and adults share
          the same final Z position, regardless of life-stage body size.
          Greatest minAge <= biological age wins. Missing entries keep vanilla Z.
-         Restart the game after editing. -->
+         Restart the game after editing.
+         Male Helods temporarily share the female textures, so male offsets
+         match female offsets until dedicated male art exists. -->
     <headOffsets>
-      <li><minAge>0</minAge><female>-0.5</female><male>-0.07</male></li>
-      <li><minAge>3</minAge><female>-0.125</female><male>-1.2</male></li>
+      <li><minAge>0</minAge><female>-0.5</female><male>-0.5</male></li>
+      <li><minAge>3</minAge><female>-0.125</female><male>-0.125</male></li>
       <li><minAge>13</minAge><female>0.265</female><male>0.265</male><absolute>true</absolute></li>
     </headOffsets>
     <!-- Additive appendage offsets by facing. Missing entries mean no extra offset. -->

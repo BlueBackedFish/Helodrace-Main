@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_Race_ApparelRestricted>This apparel is not compatible with this pawn's race.</HD_Race_ApparelRestricted>
+  <HD_Race_CrossRaceReproduction>{PAWN1_labelShort} and {PAWN2_labelShort} cannot have children together. Helods only conceive with Helods.</HD_Race_CrossRaceReproduction>
 </LanguageData>

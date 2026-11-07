@@ -49,7 +49,7 @@
 	</PawnKindDef>
 
 	<!-- Helod Player Colonist -->
-	<PawnKindDef ParentName="HD_HelodBasePawnKind">
+	<PawnKindDef Name="HD_WW_HelodColonistBase" ParentName="HD_HelodBasePawnKind">
 		<defName>HD_WW_HelodColonist</defName>
 		<label>Helod colonist</label>
 		<defaultFactionType>PlayerColony</defaultFactionType>
@@ -80,6 +80,14 @@
 		<backstoryCryptosleepCommonality>1</backstoryCryptosleepCommonality>
 		<initialWillRange>0~0</initialWillRange>
 		<initialResistanceRange>10~15</initialResistanceRange>
+	</PawnKindDef>
+
+	<!-- Temporary male Helod colonist. Male Helods have no dedicated art yet,
+	     so they reuse the female body, head and apparel textures. -->
+	<PawnKindDef ParentName="HD_WW_HelodColonistBase">
+		<defName>HD_WW_HelodMaleColonist</defName>
+		<label>male Helod colonist</label>
+		<fixedGender>Male</fixedGender>
 	</PawnKindDef>
 
 	<!-- Helod Great War veteran colonist (Great War start scenario) -->

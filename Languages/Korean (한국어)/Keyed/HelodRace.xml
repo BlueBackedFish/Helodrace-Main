@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_Race_ApparelRestricted>이 종족은 이 의류를 착용할 수 없습니다.</HD_Race_ApparelRestricted>
+  <HD_Race_CrossRaceReproduction>{PAWN1_labelShort}와(과) {PAWN2_labelShort}은(는) 함께 아이를 가질 수 없습니다. 헤로드는 헤로드끼리만 아이를 가집니다.</HD_Race_CrossRaceReproduction>
 </LanguageData>
