@@ -375,6 +375,7 @@
     <earCoveringApparel>
       <li>HD_Apparel_CarvalyHat</li>
       <li>Apparel_AdvancedHelmet</li>
+      <li MayRequire="Ludeon.RimWorld.Royalty">Apparel_Beret</li>
       <li>Apparel_BowlerHat</li>
       <li>Apparel_CowboyHat</li>
       <li>Apparel_HatHood</li>

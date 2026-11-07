@@ -139,6 +139,7 @@
     "earCoveringApparel": [
       "HD_Apparel_CarvalyHat|",
       "Apparel_AdvancedHelmet|",
+      "Apparel_Beret|MayRequire=Ludeon.RimWorld.Royalty",
       "Apparel_BowlerHat|",
       "Apparel_CowboyHat|",
       "Apparel_HatHood|",

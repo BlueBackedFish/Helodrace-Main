@@ -158,6 +158,48 @@ namespace Helodrace
                 Check(!HelodCoveredEarsUtility.HidesEars(wearer) && !wearer.health.hediffSet.HasHediff(covered),
                     "removing headgear shows ears and clears the hediff");
 
+                var beret = DefDatabase<ThingDef>.GetNamedSilentFail("Apparel_Beret");
+                if (beret != null)
+                {
+                    var worn = (Apparel)ThingMaker.MakeThing(beret, GenStuff.DefaultStuffFor(beret));
+                    wearer.apparel.Wear(worn);
+                    Check(HelodCoveredEarsUtility.HidesEars(wearer) && wearer.health.hediffSet.HasHediff(covered),
+                        "beret folds ears and applies the covered-ears hediff");
+                    wearer.apparel.Remove(worn);
+                }
+
+                // Lost appendages: the cached draw requests must drop the ear/tail graphic.
+                Pawn amputee = helodF;
+                foreach (Apparel worn in amputee.apparel.WornApparel.ToList()) amputee.apparel.Remove(worn);
+                string Drawn()
+                {
+                    PawnDrawParms parms = PawnDrawParms.Default;
+                    parms.pawn = amputee;
+                    parms.facing = Rot4.South;
+                    parms.rotDrawMode = RotDrawMode.Fresh;
+                    parms.posture = PawnPosture.Standing;
+                    parms.flags = PawnRenderFlags.Headgear | PawnRenderFlags.Clothes;
+                    PawnRenderTree tree = amputee.Drawer.renderer.renderTree;
+                    tree.EnsureInitialized(parms.flags);
+                    tree.ParallelPreDraw(parms);
+                    var requests = Traverse.Create(tree).Field("drawRequests").GetValue<System.Collections.IList>();
+                    return string.Join(",", requests.Cast<object>()
+                        .Select(r => Traverse.Create(r).Field("node").GetValue<PawnRenderNode>()?.Props)
+                        .OfType<PawnRenderNodeProperties_HelodAppendage>().Select(p => p.appendage.ToString()).OrderBy(s => s));
+                }
+                string before = Drawn();
+                Check(before == "LeftEar,RightEar,Tail", "intact Helod draws both ears and the tail (" + before + ")");
+                amputee.health.AddHediff(HediffDefOf.MissingBodyPart, HelodRace.LeftEarParts[0]);
+                string noEar = Drawn();
+                Check(noEar == "RightEar,Tail", "a lost left ear disappears from the cached render tree (" + noEar + ")");
+                amputee.health.AddHediff(HediffDefOf.MissingBodyPart, HelodRace.TailParts[0]);
+                string noTail = Drawn();
+                Check(noTail == "RightEar", "a lost tail disappears from the cached render tree (" + noTail + ")");
+                foreach (Hediff missing in amputee.health.hediffSet.hediffs.OfType<Hediff_MissingPart>().ToList())
+                    amputee.health.RemoveHediff(missing);
+                string restored = Drawn();
+                Check(restored == "LeftEar,RightEar,Tail", "restored ear and tail are drawn again (" + restored + ")");
+
                 File.AppendAllText(Results, "COMPLETE\n");
             }
             catch (Exception ex)
