@@ -109,13 +109,31 @@ def line_rgb(style, settings):
     return np.array(paint_rgb(settings.get("value", 56), "paint", style))
 
 
-def boundary_lines(root, name, style, render):
-    """Solid single-colour part outlines on the base next to a nearer, different part.
+def _shift(array, dy, dx, fill):
+    out = np.full_like(array, fill)
+    h, w = array.shape
+    out[max(dy, 0):h+min(dy, 0), max(dx, 0):w+min(dx, 0)] = array[max(-dy, 0):h+min(-dy, 0), max(-dx, 0):w+min(-dx, 0)]
+    return out
 
-    Uses the part-ID + depth pass. Only real overlaps (depth step) get a line, so coplanar
-    neighbours and flush grilles do not. The line mask is kept as *_lines.png and the flat
-    render as *_flat.png; every output size mixes the one line colour by the mask's exact
-    area coverage after resizing (anti-aliased, never multiplied with the base colour).
+
+def _mix_lines(image, coverage, colour):
+    """Mix one solid line colour by area coverage in linear light (anti-aliased, never multiplied)."""
+    rgba = np.asarray(image).astype(np.float64)
+    to_linear = lambda c: np.where(c <= .04045, c/12.92, ((c+.055)/1.055)**2.4)
+    to_display = lambda c: np.where(c <= .0031308, c*12.92, 1.055*np.clip(c, 0, None)**(1/2.4)-.055)
+    mix = np.clip(coverage, 0, 1)[..., None]*(rgba[..., 3:4] > 0)
+    rgb = to_linear(rgba[..., :3]/255)*(1-mix)+to_linear(colour/255)*mix
+    rgba[..., :3] = np.round(to_display(rgb)*255)
+    return Image.fromarray(np.clip(rgba, 0, 255).astype(np.uint8))
+
+
+def boundary_lines(root, name, style, render):
+    """One-colour part outlines on the base next to a nearer, different part.
+
+    The part-ID + depth pass is supersampled (style boundary_lines.supersample, default 4), so the
+    line mask (*_lines.png) is computed at e.g. 4096px and every size - the 1024px master included -
+    mixes the line colour by the mask's exact area coverage. Only real overlaps (depth step) get a
+    line; coplanar neighbours and flush grilles do not. The flat render is kept as *_flat.png.
     """
     ids_path = root/(name+"_ids.npz")
     if not ids_path.exists():
@@ -125,50 +143,54 @@ def boundary_lines(root, name, style, render):
         return None
     data = np.load(ids_path)
     ident, depth = data["ident"].astype(np.int64), data["depth"].astype(np.float64)
-    width = settings.get("width_256", 1)*render["master"]/256
+    factor = ident.shape[0]/render["master"]
+    width = settings.get("width_256", 1)*render["master"]/256*factor
     step = settings.get("depth_step", .02)
     radius = int(np.ceil(width))
-    line = np.zeros(ident.shape, dtype=bool)
+    # Only pixels within `radius` of an ID change can be line pixels: evaluate that band only.
+    change = np.zeros(ident.shape, dtype=bool)
+    for dy, dx in ((0, 1), (1, 0)):
+        other = _shift(ident, -dy, -dx, 0)
+        diff = (ident != other) & (ident > 0) & (other > 0)
+        change |= diff | _shift(diff, dy, dx, False)
+    band = change.copy()
+    for _ in range(radius):
+        band = band | _shift(band, 1, 0, False) | _shift(band, -1, 0, False) | _shift(band, 0, 1, False) | _shift(band, 0, -1, False)
+    ys, xs = np.nonzero(band & (ident > 0))
+    here, far = ident[ys, xs], depth[ys, xs]
+    hit = np.zeros(len(ys), dtype=bool)
     height, cols = ident.shape
     for dy in range(-radius, radius+1):
         for dx in range(-radius, radius+1):
             if (dx, dy) == (0, 0) or dx*dx+dy*dy > width*width:
                 continue
-            ys, yd = slice(max(dy, 0), height+min(dy, 0)), slice(max(-dy, 0), height+min(-dy, 0))
-            xs, xd = slice(max(dx, 0), cols+min(dx, 0)), slice(max(-dx, 0), cols+min(-dx, 0))
-            other, near = ident[ys, xs], depth[ys, xs]
-            here, far = ident[yd, xd], depth[yd, xd]
-            line[yd, xd] |= (here > 0) & (other > 0) & (other != here) & (near < far-step)
+            yy, xx = ys+dy, xs+dx
+            ok = (yy >= 0) & (yy < height) & (xx >= 0) & (xx < cols)
+            other = np.zeros(len(ys), dtype=np.int64)
+            near = np.full(len(ys), np.inf)
+            other[ok], near[ok] = ident[yy[ok], xx[ok]], depth[yy[ok], xx[ok]]
+            hit |= (other > 0) & (other != here) & (near < far-step)
+    line = np.zeros(ident.shape, dtype=bool)
+    line[ys[hit], xs[hit]] = True
     flat_path = root/(name+"_flat.png")
     if not flat_path.exists():  # fresh render; re-running the postprocess keeps the original
         Image.open(root/(name+".png")).convert("RGBA").save(flat_path)
-    flat = Image.open(flat_path).convert("RGBA")
     Image.fromarray((line*255).astype(np.uint8)).save(root/(name+"_lines.png"))
-    rgba = np.asarray(flat).copy()
-    rgba[line & (rgba[..., 3] > 0), :3] = np.round(line_rgb(style, settings)).astype(np.uint8)
-    Image.fromarray(rgba).save(root/(name+".png"))
-    return {"pixels": int(line.sum()), "width_256": settings.get("width_256", 1),
-            "depth_step": step, "value": settings.get("value", 56), "solid": True}
+    master = layer_at(root, name, render["master"], render["master"], style)
+    master.save(root/(name+".png"))
+    return {"pixels_at_mask": int(line.sum()), "mask_supersample": factor, "width_256": settings.get("width_256", 1),
+            "depth_step": step, "value": settings.get("value", 56), "anti_aliased": True}
 
 
 def layer_at(root, name, size, master, style):
-    """Layer at an output size; boundary lines repainted solid after the resize."""
-    if size == master:
-        return Image.open(root/(name+".png")).convert("RGBA")
+    """Layer at an output size; boundary lines mixed in by exact coverage after the resize."""
     flat_path = root/(name+"_flat.png")
-    image = resize_linear(Image.open(flat_path if flat_path.exists() else root/(name+".png")), size)
+    source = Image.open(flat_path if flat_path.exists() else root/(name+".png")).convert("RGBA")
+    image = source if size == source.width else resize_linear(source, size)
     mask_path = root/(name+"_lines.png")
     if mask_path.exists():
-        # Anti-aliased solid line: one colour, mixed in linear light by its exact area coverage.
-        coverage = np.clip(np.asarray(Image.open(mask_path).convert("F").resize((size, size), Image.Resampling.BOX))/255, 0, 1)
-        rgba = np.asarray(image).astype(np.float64)
-        to_linear = lambda c: np.where(c <= .04045, c/12.92, ((c+.055)/1.055)**2.4)
-        to_display = lambda c: np.where(c <= .0031308, c*12.92, 1.055*np.clip(c, 0, None)**(1/2.4)-.055)
-        base = to_linear(rgba[..., :3]/255)
-        line = to_linear(line_rgb(style, line_settings(style, name))/255)
-        mix = coverage[..., None]*(rgba[..., 3:4] > 0)
-        rgba[..., :3] = np.round(to_display(base*(1-mix)+line*mix)*255)
-        image = Image.fromarray(np.clip(rgba, 0, 255).astype(np.uint8))
+        coverage = np.asarray(Image.open(mask_path).convert("F").resize((size, size), Image.Resampling.BOX))/255
+        image = _mix_lines(image, coverage, line_rgb(style, line_settings(style, name)))
     return image
 
 

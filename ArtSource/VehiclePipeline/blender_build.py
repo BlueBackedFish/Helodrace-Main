@@ -564,8 +564,11 @@ def build(profile_path):
 
     def render_ids(name):
         settings = (scene.cycles.samples, scene.cycles.pixel_filter_type, scene.cycles.filter_width,
-                    scene.view_settings.view_transform, scene.render.image_settings.color_depth)
+                    scene.view_settings.view_transform, scene.render.image_settings.color_depth,
+                    scene.render.resolution_percentage)
         scene.cycles.samples, scene.cycles.pixel_filter_type, scene.cycles.filter_width = 1, "BOX", .01
+        # Supersampled so boundary lines are anti-aliased even at the 1024px master.
+        scene.render.resolution_percentage = 100*style.get("boundary_lines", {}).get("supersample", 4)
         scene.view_settings.view_transform = "Raw"
         scene.render.image_settings.color_depth = "16"
         bpy.context.view_layer.material_override = id_material
@@ -585,7 +588,8 @@ def build(profile_path):
         np.savez_compressed(output_dir/(name+"_ids.npz"), ident=ident.astype(np.uint16),
                             depth=(pixels[..., 2]*depth_range).astype(np.float32))
         (scene.cycles.samples, scene.cycles.pixel_filter_type, scene.cycles.filter_width,
-         scene.view_settings.view_transform, scene.render.image_settings.color_depth) = settings
+         scene.view_settings.view_transform, scene.render.image_settings.color_depth,
+         scene.render.resolution_percentage) = settings
 
     def render(name, elevation, azimuth=180, layers=None, target=None, ids=False):
         for obj in objects.values():

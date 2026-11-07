@@ -17,14 +17,20 @@ def black_outline(source, radius):
     image = source.convert("RGBA")
     rgba = np.asarray(image)
     alpha = rgba[:, :, 3]
-    padding = math.ceil(radius)
+    padding = math.ceil(radius+.5)
     padded = np.pad(alpha, padding)
     grown = np.zeros_like(alpha)
-    for dy in range(-padding, padding+1):
-        for dx in range(-padding, padding+1):
-            if dx*dx+dy*dy <= radius*radius:
-                np.maximum(grown, padded[padding+dy:padding+dy+image.height,
-                                         padding+dx:padding+dx+image.width], out=grown)
+    # Soft-edged disc: offsets on the rim contribute by their fractional distance, so the stroke
+    # keeps an anti-aliased edge at the master size instead of a stepped integer disc.
+    grown = grown.astype(np.float32)
+    for dy in range(-padding-1, padding+2):
+        for dx in range(-padding-1, padding+2):
+            weight = min(1.0, max(0.0, radius+.5-math.hypot(dx, dy)))
+            if weight <= 0 or abs(dy) > padding or abs(dx) > padding:
+                continue
+            np.maximum(grown, weight*padded[padding+dy:padding+dy+image.height,
+                                            padding+dx:padding+dx+image.width], out=grown)
+    grown = np.round(grown).astype(alpha.dtype)
     backdrop = np.zeros_like(rgba)
     backdrop[:, :, 3] = grown
     result = composite_linear(Image.fromarray(backdrop), image, (0, 0))

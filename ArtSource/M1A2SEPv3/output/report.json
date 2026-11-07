@@ -7910,46 +7910,52 @@
   "lighting_max_difference_255": 0,
   "boundary_lines": {
     "hull_east": {
-      "pixels": 7928,
+      "pixels_at_mask": 135397,
+      "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.06,
       "value": 56,
-      "solid": true
+      "anti_aliased": true
     },
     "turret_east": {
-      "pixels": 17336,
+      "pixels_at_mask": 286116,
+      "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
       "value": 56,
-      "solid": true
+      "anti_aliased": true
     },
     "barrel_east": {
-      "pixels": 151,
+      "pixels_at_mask": 2331,
+      "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
       "value": 56,
-      "solid": true
+      "anti_aliased": true
     },
     "turret_full_east": {
-      "pixels": 17391,
+      "pixels_at_mask": 285662,
+      "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
       "value": 56,
-      "solid": true
+      "anti_aliased": true
     },
     "loader_mg_east": {
-      "pixels": 593,
+      "pixels_at_mask": 9729,
+      "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
       "value": 56,
-      "solid": true
+      "anti_aliased": true
     },
     "crows_east": {
-      "pixels": 36,
+      "pixels_at_mask": 565,
+      "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
       "value": 56,
-      "solid": true
+      "anti_aliased": true
     }
   },
   "alpha_bounds": {
@@ -8038,5 +8044,5 @@
       340
     ]
   },
-  "model_sha256": "322cedc005bb46f549678e2c5162a4582592d236d5aebf9bdca66603ed754c0c"
+  "model_sha256": "5ac31ae231eca9a08b8b939fdf13ab4c63a72293624aa71a2bc8b14d6d5d61eb"
 }
