@@ -18,7 +18,7 @@
       "sha256": "8cf128f1c44037f3caff8db7104a83ff6c6e70b05d06a1e89dbe5b5ab420b813"
     }
   },
-  "profile_sha256": "1a1b93c4e8d62c6c30fdc566dec2dc88c4ce85baba0c437ca4ff8e74953d65b6",
+  "profile_sha256": "81a9726cf57ddde29696cc4ee2f02d5fc99bf17f9e434fe0ee5241e19a64c53c",
   "style_sha256": "f2fc2b0912da4af92de02b124fc50f9cf19d22948f34a6a3b7aa404dca675d5b",
   "source_faces": 223389,
   "preserved_faces": 222566,
@@ -6306,45 +6306,22 @@
             "g0041_headlamp_lens"
           ],
           "label": "Right headlight"
-        },
-        {
-          "id": "cargoHatch",
-          "layer": "hull",
-          "parts": [
-            "g0002",
-            "g0002_accent_83220",
-            "g0002_accent_83248",
-            "g0002_accent_83276",
-            "g0002_accent_83296",
-            "g0002_accent_83316",
-            "g0002_accent_82656",
-            "g0002_accent_82696",
-            "g0002_accent_82750",
-            "g0002_accent_82790",
-            "g0002_accent_82844",
-            "g0002_accent_82884"
-          ],
-          "label": "Upper rear cargo hatch over the TOW / 25 mm stowage (ammunition lid)"
         }
       ],
       "views": {
         "hull_east": [
-          "cargoHatch",
           "leftHeadlight",
           "rightHeadlight"
         ],
         "hull_north": [
-          "cargoHatch",
           "leftHeadlight",
           "rightHeadlight"
         ],
         "hull_south": [
-          "cargoHatch",
           "leftHeadlight",
           "rightHeadlight"
         ],
         "hull_west": [
-          "cargoHatch",
           "leftHeadlight",
           "rightHeadlight"
         ],
@@ -6553,7 +6530,7 @@
   "lighting_max_difference_255": 0,
   "boundary_lines": {
     "hull_east": {
-      "pixels_at_mask": 186972,
+      "pixels_at_mask": 198810,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.06,
@@ -6561,7 +6538,7 @@
       "anti_aliased": true
     },
     "hull_north": {
-      "pixels_at_mask": 249902,
+      "pixels_at_mask": 284077,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
@@ -6569,7 +6546,7 @@
       "anti_aliased": true
     },
     "hull_south": {
-      "pixels_at_mask": 228645,
+      "pixels_at_mask": 259237,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
@@ -6577,7 +6554,7 @@
       "anti_aliased": true
     },
     "hull_west": {
-      "pixels_at_mask": 273512,
+      "pixels_at_mask": 306506,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
@@ -6652,12 +6629,6 @@
       219,
       188
     ],
-    "256/hull_east__cargoHatch": [
-      50,
-      104,
-      83,
-      145
-    ],
     "256/hull_east__leftHeadlight": [
       194,
       90,
@@ -6669,12 +6640,6 @@
       154,
       210,
       171
-    ],
-    "256/hull_east__cargoHatch_destroyed": [
-      50,
-      104,
-      83,
-      145
     ],
     "256/hull_east__leftHeadlight_destroyed": [
       194,
@@ -6736,12 +6701,6 @@
       147,
       139
     ],
-    "256/hull_north__cargoHatch": [
-      106,
-      164,
-      152,
-      194
-    ],
     "256/hull_north__leftHeadlight": [
       85,
       57,
@@ -6753,12 +6712,6 @@
       57,
       173,
       72
-    ],
-    "256/hull_north__cargoHatch_destroyed": [
-      106,
-      164,
-      152,
-      194
     ],
     "256/hull_north__leftHeadlight_destroyed": [
       85,
@@ -6772,12 +6725,6 @@
       173,
       72
     ],
-    "256/hull_south__cargoHatch": [
-      104,
-      53,
-      150,
-      84
-    ],
     "256/hull_south__leftHeadlight": [
       154,
       188,
@@ -6789,12 +6736,6 @@
       188,
       100,
       207
-    ],
-    "256/hull_south__cargoHatch_destroyed": [
-      104,
-      53,
-      150,
-      84
     ],
     "256/hull_south__leftHeadlight_destroyed": [
       154,
@@ -6808,12 +6749,6 @@
       100,
       207
     ],
-    "256/hull_west__cargoHatch": [
-      173,
-      102,
-      206,
-      144
-    ],
     "256/hull_west__leftHeadlight": [
       46,
       152,
@@ -6825,12 +6760,6 @@
       89,
       62,
       108
-    ],
-    "256/hull_west__cargoHatch_destroyed": [
-      173,
-      102,
-      206,
-      144
     ],
     "256/hull_west__leftHeadlight_destroyed": [
       46,
@@ -6892,12 +6821,6 @@
       435,
       373
     ],
-    "512/hull_east__cargoHatch": [
-      103,
-      211,
-      164,
-      288
-    ],
     "512/hull_east__leftHeadlight": [
       392,
       183,
@@ -6909,12 +6832,6 @@
       310,
       417,
       340
-    ],
-    "512/hull_east__cargoHatch_destroyed": [
-      103,
-      211,
-      164,
-      288
     ],
     "512/hull_east__leftHeadlight_destroyed": [
       392,
@@ -6976,12 +6893,6 @@
       291,
       275
     ],
-    "512/hull_north__cargoHatch": [
-      214,
-      330,
-      301,
-      385
-    ],
     "512/hull_north__leftHeadlight": [
       173,
       117,
@@ -6993,12 +6904,6 @@
       116,
       343,
       141
-    ],
-    "512/hull_north__cargoHatch_destroyed": [
-      214,
-      330,
-      301,
-      385
     ],
     "512/hull_north__leftHeadlight_destroyed": [
       173,
@@ -7012,12 +6917,6 @@
       343,
       141
     ],
-    "512/hull_south__cargoHatch": [
-      211,
-      109,
-      298,
-      166
-    ],
     "512/hull_south__leftHeadlight": [
       310,
       379,
@@ -7029,12 +6928,6 @@
       379,
       197,
       412
-    ],
-    "512/hull_south__cargoHatch_destroyed": [
-      211,
-      109,
-      298,
-      166
     ],
     "512/hull_south__leftHeadlight_destroyed": [
       310,
@@ -7048,12 +6941,6 @@
       197,
       412
     ],
-    "512/hull_west__cargoHatch": [
-      348,
-      208,
-      409,
-      286
-    ],
     "512/hull_west__leftHeadlight": [
       94,
       306,
@@ -7065,12 +6952,6 @@
       179,
       121,
       214
-    ],
-    "512/hull_west__cargoHatch_destroyed": [
-      348,
-      208,
-      409,
-      286
     ],
     "512/hull_west__leftHeadlight_destroyed": [
       94,
@@ -7091,5 +6972,5 @@
       373
     ]
   },
-  "model_sha256": "a308d43e25d08b34ca13bcca2aa5a77f3d97a318efba3b149b99134311cc57a8"
+  "model_sha256": "071666206b343362b3d631993c978c4c6b9e9c2c8cdd27de339b88fcc20dcde4"
 }

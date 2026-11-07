@@ -14,7 +14,7 @@
     "confirmed": true
   },
   "style": "style.json",
-  "variant_notes": "M3A3 Bradley source OBJ (War Thunder extract), base vehicle. BUSK III kit deferred to a later task. Optics and the cargo (ammunition) hatch are destructible overlays. Rear ramp, TOW deploy and gun elevation rigs are not yet set.",
+  "variant_notes": "M3A3 Bradley source OBJ (War Thunder extract), base vehicle. BUSK III kit deferred to a later task. Optics and headlights are destructible overlays (no isolated ammunition store, so no ammunition lid). Rear ramp, TOW deploy and gun elevation rigs are not yet set.",
   "blueprint_views": {},
   "parts": [
     {
@@ -8789,25 +8789,6 @@
         "g0041_headlamp_lens"
       ],
       "label": "Right headlight"
-    },
-    {
-      "id": "cargoHatch",
-      "layer": "hull",
-      "parts": [
-        "g0002",
-        "g0002_accent_83220",
-        "g0002_accent_83248",
-        "g0002_accent_83276",
-        "g0002_accent_83296",
-        "g0002_accent_83316",
-        "g0002_accent_82656",
-        "g0002_accent_82696",
-        "g0002_accent_82750",
-        "g0002_accent_82790",
-        "g0002_accent_82844",
-        "g0002_accent_82884"
-      ],
-      "label": "Upper rear cargo hatch over the TOW / 25 mm stowage (ammunition lid)"
     }
   ],
   "style_references": {

@@ -84,25 +84,6 @@
         "g0041_headlamp_lens"
       ],
       "label": "Right headlight"
-    },
-    {
-      "id": "cargoHatch",
-      "layer": "hull",
-      "parts": [
-        "g0002",
-        "g0002_accent_83220",
-        "g0002_accent_83248",
-        "g0002_accent_83276",
-        "g0002_accent_83296",
-        "g0002_accent_83316",
-        "g0002_accent_82656",
-        "g0002_accent_82696",
-        "g0002_accent_82750",
-        "g0002_accent_82790",
-        "g0002_accent_82844",
-        "g0002_accent_82884"
-      ],
-      "label": "Upper rear cargo hatch over the TOW / 25 mm stowage (ammunition lid)"
     }
   ],
   "provisional_rigs": [

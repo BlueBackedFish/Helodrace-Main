@@ -29,13 +29,12 @@ ACCENTS = {  # whole groups -> (base group, reason)
     **{n: ("bone_turret", "Smoke grenade discharger highlight") for n in ["ex_decor_02", "ex_decor_03"]}}
 HANDLE_GROUPS = {"hatch_01", "hatch_02", "hatch_03", "hatch_05"}
 EYE_GROUPS = {"@root", "bone_turret"}
-# Destructible overlays (runtime: remove, or swap to the charred variant). Optics + ammunition lid.
+# Destructible overlays (runtime: remove, or swap to the charred variant). Optics and lights only: no isolated ammunition store.
 DAMAGE = [
     ("commanderViewer", "turret", ["bone_commander_sight_v"], "Commander's independent viewer (CIV)"),
     ("gunnerSight", "turret", ["roll_02"], "Gunner's ISU sight head"),
     ("leftHeadlight", "hull", ["ex_lantern_l_01"], "Left headlight"),
     ("rightHeadlight", "hull", ["ex_lantern_r_01"], "Right headlight"),
-    ("cargoHatch", "hull", ["hatch_05"], "Upper rear cargo hatch over the TOW / 25 mm stowage (ammunition lid)"),
 ]
 
 
@@ -232,7 +231,7 @@ def configure():
         damage_layers.append({"id": key, "layer": layer, "parts": ids, "label": label})
     profile.update(axes=axes, parts=parts, rigs=rigs, contacts=contacts, damage_layers=damage_layers,
                    variant_notes=("M3A3 Bradley source OBJ (War Thunder extract), base vehicle. BUSK III kit deferred to a "
-                                  "later task. Optics and the cargo (ammunition) hatch are destructible overlays. "
+                                  "later task. Optics and headlights are destructible overlays (no isolated ammunition store, so no ammunition lid). "
                                   "Rear ramp, TOW deploy and gun elevation rigs are not yet set."))
     profile["review"] = {"blueprint": False, "style_reference": False, "native_size": False, "geometry": False, "game": False}
     profile["style_references"] = {"rimthunder": "C:/Program Files (x86)/Steam/steamapps/workshop/content/294100/3724793908/Textures/Vehicles/M2A3"}

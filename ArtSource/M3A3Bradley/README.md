@@ -1,6 +1,6 @@
 # M3A3 Bradley — 공통 도구 재작업
 
-M1A2 SEPv3와 같은 공통 `VehiclePipeline`과 `VEHICLE_ART_STYLE.md` 규칙으로 다시 만든 기본형 브래들리다. BUSK III는 나중 작업이다. 관측장비·전조등·적재 해치(탄약고 뚜껑)는 파괴 상태 레이어로 분리했다. 근거와 수치는 `ART_BRIEF.md`.
+M1A2 SEPv3와 같은 공통 `VehiclePipeline`과 `VEHICLE_ART_STYLE.md` 규칙으로 다시 만든 기본형 브래들리다. BUSK III는 나중 작업이다. 관측장비·전조등은 파괴 상태 레이어로 분리했다. 승무원과 격리된 분리 탄약고가 없어 탄약고 뚜껑은 분리하지 않는다. 근거와 수치는 `ART_BRIEF.md`.
 
 - `output/OutlinedReview/1024/preview_east.png`: 정상 상태 합성.
 - `output/hull_<방향>.png`, `turret_full_east.png`: 파괴 부품을 뺀 기본 레이어.
