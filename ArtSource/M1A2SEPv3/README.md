@@ -18,4 +18,13 @@ python ArtSource/VehiclePipeline/pipeline.py build ArtSource/M1A2SEPv3/vehicle.j
 python ArtSource/VehiclePipeline/outline_review.py ArtSource/M1A2SEPv3/vehicle.json
 ```
 
+게임 시험 차량(아스널, 일반 Vehicle Framework 정의)으로 넣으려면 이어서 실행한다.
+
+```powershell
+python ArtSource/M1A2SEPv3/package_game.py --mod-root ../Helodrace-LobosArsenal
+powershell -File ../Helodrace-LobosArsenal/Tools/Run-M1A2Check.ps1 -Name m1a2-01 -MainRoot (Resolve-Path .)
+```
+
+`package_game.py`는 1024px 레이어에 검은 윤곽선(8px)을 굽고, M8과 같은 1.3437 m/타일 배율로 drawSize·방향별 위치·포탑과 자식 포탑 위치를 계산해 `Textures/Vehicles/M1A2SEPv3/`와 `Defs/Vehicles/M1A2SEPv3.xml`을 만든다. 계산값은 `output/game_layout.json`에 남는다.
+
 `configure_vehicle.py`는 `prepare`가 만든 `vehicle.json`의 원본 해시를 확인하고 부품·생략·접촉·리그를 다시 쓴다. 원본이 바뀌면 `prepare`부터 다시 한다.

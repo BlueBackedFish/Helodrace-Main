@@ -1,0 +1,68 @@
+{
+  "draw_size": 10.613990258929269,
+  "metres_per_tile": 1.3436431665809785,
+  "source_report_sha256": "de08c0d8b65751e93548e4c1b8665246eb64ff89d84ed760f62f30d4f50a1940",
+  "outline_px_at_1024": 8.0,
+  "directions": {
+    "north": {
+      "draw_offset": [
+        -6.326431190329354e-07,
+        0.8142961520517787
+      ],
+      "turret": [
+        -0.0024900833165136336,
+        0.44341165409119654
+      ]
+    },
+    "east": {
+      "draw_offset": [
+        0.6433632566849485,
+        0.2360432598914619
+      ],
+      "turret": [
+        0.2658534036602938,
+        0.20670253731695243
+      ]
+    },
+    "south": {
+      "draw_offset": [
+        0.0,
+        -0.3422099485904145
+      ],
+      "turret": [
+        0.0024900833165136336,
+        -0.03448284584600918
+      ]
+    },
+    "west": {
+      "draw_offset": [
+        -0.6433632566849485,
+        0.2360432598914619
+      ],
+      "turret": [
+        -0.2658530873387343,
+        0.2022262709282349
+      ]
+    }
+  },
+  "textures": {
+    "vehicle_north": "abbe5f1f747866a03c62d4ecbdcce6f03bf14687cf7646bfd727d99816ad8032",
+    "vehicle_east": "6197bda4021312369e74b6aa424bd67fcc5080598109f93c46fc7e04a7a40823",
+    "vehicle_south": "0925dfec18a59a6dd5bf6734e9b7e77048c87760bb89db69ae0705d5ca72a9aa",
+    "vehicle_west": "4915cd5ef563f2d5f3c22c3ff1809226349067c69efa95b40f3a6ca4414a2178",
+    "turret_north": "6c30e639e8adc7e818e34e2ac63d31dfc366a6489d8c447cae427e1738e54ca4",
+    "loader_mg_north": "77cf854ca2cfdeaaf7af44e24b934b5a01c744287db696cc6d1d22925b2fe5e8",
+    "crows_north": "979aa3c262771b19e6a10f0e139aa612f8940318fb819d47804ede91eb8c122d",
+    "UI": "5548fa5becef4be3f1cf150655da5c16c28067520347fcdc6aab8ef6f448d4a8"
+  },
+  "children_north_frame": {
+    "loader_mg": [
+      -0.30860394610738495,
+      -0.5790690017838693
+    ],
+    "crows": [
+      0.6112828730834668,
+      0.283288099056163
+    ]
+  }
+}

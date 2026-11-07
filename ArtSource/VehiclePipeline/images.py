@@ -209,7 +209,8 @@ def finish(profile_path):
     style = read_json(profile_path.parent/profile["style"])
     report["boundary_lines"] = {}
     weapon_names = [w["id"]+"_east" for w in profile.get("weapon_layers", [])]
-    for name in ("hull_east", "turret_east", "barrel_east", "turret_full_east", *weapon_names):
+    hull_names = ["hull_"+d for d in render.get("hull_directions", {}) if d != "east"]
+    for name in ("hull_east", *hull_names, "turret_east", "barrel_east", "turret_full_east", *weapon_names):
         if (root/(name+".png")).exists():
             report["boundary_lines"][name] = boundary_lines(root, name, style, render)
     hull = Image.open(root/"hull_east.png").convert("RGBA")
@@ -237,7 +238,7 @@ def finish(profile_path):
     names = ["hull_east", "preview_east"]
     if active_layers & {"turret", "barrel"}:
         names += ["turret_east", "barrel_east", "turret_full_east"]
-    names += weapon_names
+    names += weapon_names+hull_names
     report["alpha_bounds"] = {}
     for size in render["sizes"]:
         directory = root/str(size)

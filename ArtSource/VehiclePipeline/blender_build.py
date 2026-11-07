@@ -613,7 +613,23 @@ def build(profile_path):
     scene.collection.objects.link(light)
     render("lighting_check", style["render"]["hull_elevation"])
     bpy.data.objects.remove(light, do_unlink=True)
-    render("hull_east", style["render"]["hull_elevation"], layers={"hull"}, ids=True)
+    # Game cardinal hulls (Vehicle Framework draws north/east/south/west). East stays the
+    # reference; azimuths follow the M8 cardinal renders (east 180, north 90, west 0, south 270).
+    hull_points = [obj.matrix_world @ v.co for obj in objects.values() if obj["layer"] == "hull" for v in obj.data.vertices]
+    hull_center = (Vector([min(p[i] for p in hull_points) for i in range(3)]) +
+                   Vector([max(p[i] for p in hull_points) for i in range(3)]))/2
+    azimuths = {"east": 180, "north": 90, "west": 0, "south": 270}
+    hull_directions = {}
+
+    def pixel(point):
+        view = world_to_camera_view(scene, camera, point)
+        return [view.x*scene.render.resolution_x, (1-view.y)*scene.render.resolution_y]
+
+    for direction in ["east", *[d for d in style["render"].get("hull_directions", []) if d != "east"]]:
+        render("hull_"+direction, style["render"]["hull_elevation"], azimuths[direction], layers={"hull"}, ids=True)
+        hull_directions[direction] = {"azimuth": azimuths[direction], "hull_center_pixels": pixel(hull_center),
+                                      "turret_anchor_pixels": pixel(pivot)}
+    aim(center, style["render"]["hull_elevation"])
     anchor = world_to_camera_view(scene, camera, pivot)
     anchor_pixel = [anchor.x*scene.render.resolution_x, (1-anchor.y)*scene.render.resolution_y]
     if any(o["layer"] in {"turret", "barrel"} for o in objects.values()):
@@ -736,6 +752,7 @@ def build(profile_path):
                          "hull_target": list(center), "turret_pivot": list(pivot),
                          "turret_anchor_pixels_top_origin": anchor_pixel,
                          "placements": placements,
+                         "hull_directions": hull_directions, "hull_center": list(hull_center),
                          "top_pivot_pixels": [scene.render.resolution_x/2]*2,
                          "note": "turret_full includes barrel; never composite barrel twice",
                          "id_pass": {"ids": {str(k): v for k, v in id_names.items()},

@@ -35,7 +35,12 @@
     ],
     "hull_elevation": 64,
     "turret_elevation": 90,
-    "padding": 0.12
+    "padding": 0.12,
+    "hull_directions": [
+      "north",
+      "south",
+      "west"
+    ]
   },
   "boundary_lines": {
     "width_256": 1,

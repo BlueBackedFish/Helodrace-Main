@@ -21,7 +21,7 @@
     }
   },
   "profile_sha256": "e77912dd3645e1266a5a1f3d540e8afa4867d8752980ba3383d1d51c39ae5015",
-  "style_sha256": "d7589d5206d1fd714e8a00c37de262c8ba02d2ea3c6a322fb8543b4917197f0a",
+  "style_sha256": "c68cf1a736da016d37eb120f716f5f0971b46b7edd7b66e4c7472fd6af0914ac",
   "source_faces": 425141,
   "preserved_faces": 186906,
   "explicitly_omitted_faces": 234391,
@@ -7645,6 +7645,52 @@
     "hull_elevation": 64,
     "turret_elevation": 90,
     "padding": 0.12,
+    "hull_directions": {
+      "east": {
+        "azimuth": 180,
+        "hull_center_pixels": [
+          449.93060302734375,
+          534.7726135253906
+        ],
+        "turret_anchor_pixels": [
+          475.5791931152344,
+          514.8306884765625
+        ]
+      },
+      "north": {
+        "azimuth": 90,
+        "hull_center_pixels": [
+          512.0000610351562,
+          590.5603942871094
+        ],
+        "turret_anchor_pixels": [
+          511.75982666015625,
+          547.7816162109375
+        ]
+      },
+      "south": {
+        "azimuth": 270,
+        "hull_center_pixels": [
+          512.0,
+          478.98480224609375
+        ],
+        "turret_anchor_pixels": [
+          512.240234375,
+          482.31158447265625
+        ]
+      },
+      "west": {
+        "azimuth": 0,
+        "hull_center_pixels": [
+          574.0693969726562,
+          534.7726135253906
+        ],
+        "turret_anchor_pixels": [
+          548.4208374023438,
+          515.2625427246094
+        ]
+      }
+    },
     "ortho_scale": 14.261415481567383,
     "hull_target": [
       0.0,
@@ -7686,6 +7732,11 @@
         ]
       }
     },
+    "hull_center": [
+      0.0,
+      0.32514989376068115,
+      0.8912999629974365
+    ],
     "top_pivot_pixels": [
       512.0,
       512.0
@@ -7917,6 +7968,30 @@
       "value": 56,
       "anti_aliased": true
     },
+    "hull_north": {
+      "pixels_at_mask": 335121,
+      "mask_supersample": 4.0,
+      "width_256": 1,
+      "depth_step": 0.02,
+      "value": 56,
+      "anti_aliased": true
+    },
+    "hull_south": {
+      "pixels_at_mask": 302710,
+      "mask_supersample": 4.0,
+      "width_256": 1,
+      "depth_step": 0.02,
+      "value": 56,
+      "anti_aliased": true
+    },
+    "hull_west": {
+      "pixels_at_mask": 394612,
+      "mask_supersample": 4.0,
+      "width_256": 1,
+      "depth_step": 0.02,
+      "value": 56,
+      "anti_aliased": true
+    },
     "turret_east": {
       "pixels_at_mask": 286116,
       "mask_supersample": 4.0,
@@ -7995,6 +8070,24 @@
       145,
       138
     ],
+    "256/hull_north": [
+      92,
+      78,
+      164,
+      215
+    ],
+    "256/hull_south": [
+      92,
+      46,
+      164,
+      186
+    ],
+    "256/hull_west": [
+      68,
+      96,
+      219,
+      171
+    ],
     "256/preview_east": [
       37,
       96,
@@ -8037,6 +8130,24 @@
       286,
       274
     ],
+    "512/hull_north": [
+      187,
+      158,
+      325,
+      427
+    ],
+    "512/hull_south": [
+      187,
+      95,
+      325,
+      369
+    ],
+    "512/hull_west": [
+      139,
+      194,
+      435,
+      340
+    ],
     "512/preview_east": [
       77,
       194,
@@ -8044,5 +8155,5 @@
       340
     ]
   },
-  "model_sha256": "5ac31ae231eca9a08b8b939fdf13ab4c63a72293624aa71a2bc8b14d6d5d61eb"
+  "model_sha256": "74a430374d28d63b27a73a3bec2f48f217a0c49e4df92962a95742e871b01a89"
 }
