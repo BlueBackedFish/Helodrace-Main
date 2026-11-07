@@ -26,6 +26,7 @@ namespace Helodrace
         public float directHitRadius = 0.42f;
         public float alignedCoastAngleDegrees = 2f;
         public float maximumLaunchDeviationDegrees = 55f;
+        public float maximumFlightDistance = 90f;
     }
 
     /// <summary>
@@ -64,6 +65,7 @@ namespace Helodrace
         private Vector3 trackedTargetVelocity;
         private int lastTargetVectorSampleTick;
         private bool targetVectorInitialized;
+        private float flightDistance;
 
         private static Material wireMaterial;
 
@@ -88,6 +90,7 @@ namespace Helodrace
             NativeVectorScribe.Look(ref trackedTargetVelocity, "trackedTargetVelocity");
             Scribe_Values.Look(ref lastTargetVectorSampleTick, "lastTargetVectorSampleTick");
             Scribe_Values.Look(ref targetVectorInitialized, "targetVectorInitialized");
+            Scribe_Values.Look(ref flightDistance, "flightDistance");
         }
 
         protected override void Tick()
@@ -120,6 +123,7 @@ namespace Helodrace
             EmitSteeringEffects();
 
             wireAgeTicks++;
+            flightDistance += Vector3.Distance(positionBeforeTick, ExactPosition.ToNative());
             UpdateWirePath();
             if (guidanceActive && (Launcher == null || Launcher.Destroyed || Launcher.Map != Map))
             {
@@ -328,6 +332,7 @@ namespace Helodrace
                 steeringPulseCount++;
                 steeringFlameTicksLeft = 0;
                 steeringTextureSuffix = null;
+                RetargetRemainingFlight(missilePosition, targetPosition);
                 return;
             }
 
@@ -346,19 +351,7 @@ namespace Helodrace
             flightDirection.Y = 0f;
             flightDirection = ClampToLaunchCone(flightDirection);
 
-            // Rotate only the remaining flight vector. Keeping ticksToImpact
-            // and rebuilding the remaining distance from the projectile def's
-            // speed prevents every steering pulse from adding acceleration.
-            origin = missilePosition.ToGame();
-            float speedPerTick = Mathf.Max(0.0001f, def.projectile.SpeedTilesPerTick);
-            float remainingTravelDistance = speedPerTick * Mathf.Max(1, ticksToImpact);
-            float distanceToMapEdge = DistanceToMapEdge(missilePosition, flightDirection);
-            if (remainingTravelDistance > distanceToMapEdge)
-            {
-                remainingTravelDistance = distanceToMapEdge;
-                ticksToImpact = Mathf.Max(1, Mathf.CeilToInt(remainingTravelDistance / speedPerTick));
-            }
-            destination = (missilePosition + flightDirection * remainingTravelDistance).ToGame();
+            RetargetRemainingFlight(missilePosition, targetPosition);
 
             // signedError is calculated after the regular oscillation has been
             // applied, so the frame reflects the final requested steering
@@ -370,6 +363,45 @@ namespace Helodrace
             {
                 SoundDef.Named("Shot_Revolver").PlayOneShot(new TargetInfo(missilePosition.ToGame().ToIntVec3(), Map));
             }
+        }
+
+        /// <summary>
+        /// Rebuilds the remaining flight along the current heading so it ends at the guided aim
+        /// point. The launch-time flight time must not be kept: a moving target or a weaving
+        /// path would otherwise make the missile detonate short of the target while it is still
+        /// steering. The speed stays the def's speed, so pulses never add acceleration.
+        /// </summary>
+        private void RetargetRemainingFlight(Vector3 missilePosition, Vector3 aimPoint)
+        {
+            float speedPerTick = Mathf.Max(0.0001f, def.projectile.SpeedTilesPerTick);
+            Vector3 toAim = aimPoint - missilePosition;
+            toAim.Y = 0f;
+            float remainingTravelDistance;
+            if (Vector3.Dot(toAim, flightDirection) > 0f)
+            {
+                M47DragonProjectileExtension extension = def.GetModExtension<M47DragonProjectileExtension>();
+                float budget = Mathf.Max(1f, extension?.maximumFlightDistance ?? 90f) - flightDistance;
+                remainingTravelDistance = Mathf.Clamp(toAim.Length(), speedPerTick, Mathf.Max(speedPerTick, budget));
+            }
+            else
+            {
+                // The aim point is behind the missile: it has missed, so let the flight that is
+                // already planned run out instead of extending it.
+                remainingTravelDistance = speedPerTick * Mathf.Max(1, ticksToImpact);
+            }
+
+            // Whole ticks at the def's speed keep the interpolated speed constant.
+            ticksToImpact = Mathf.Max(1, Mathf.CeilToInt(remainingTravelDistance / speedPerTick));
+            remainingTravelDistance = speedPerTick * ticksToImpact;
+            float distanceToMapEdge = DistanceToMapEdge(missilePosition, flightDirection);
+            if (remainingTravelDistance > distanceToMapEdge)
+            {
+                remainingTravelDistance = distanceToMapEdge;
+                ticksToImpact = Mathf.Max(1, Mathf.CeilToInt(remainingTravelDistance / speedPerTick));
+            }
+
+            origin = missilePosition.ToGame();
+            destination = (missilePosition + flightDirection * remainingTravelDistance).ToGame();
         }
 
         private Vector3 ClampToLaunchCone(Vector3 direction)

@@ -1,4 +1,4 @@
-param([Parameter(Mandatory)][string]$RuntimeRoot)
+param([Parameter(Mandatory)][string]$RuntimeRoot,[ValidateSet('Checks','Trace')][string]$Mode='Checks')
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot '../Game17Runtime.ps1')
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
@@ -11,6 +11,6 @@ dotnet build (Join-Path $repository 'Source/Helodrace/Helodrace.csproj') -p:Inte
 if($LASTEXITCODE -ne 0){throw 'Main build failed.'}
 dotnet build (Join-Path $PSScriptRoot 'M47Dragon.csproj') ("-p:OutputPath="+(Join-Path $checks 'Assemblies/')) ("-p:HelodAssembly="+(Join-Path $mainOutput 'Helodrace.dll')) -v:minimal
 if($LASTEXITCODE -ne 0){throw 'M47 Dragon checks build failed.'}
-$arguments=@('-hdM47Dragon='+$runtime.Evidence)
-$process=Start-Game17Runtime -Runtime $runtime -Arguments $arguments -ResultFile (Join-Path $runtime.Evidence 'checks.txt') -CompletionPattern '(?m)^COMPLETE\r?$'
+$arguments=@('-hd'+$(if($Mode -eq 'Trace'){'M47Trace'}else{'M47Dragon'})+'='+$runtime.Evidence)
+$process=Start-Game17Runtime -Runtime $runtime -Arguments $arguments -ResultFile (Join-Path $runtime.Evidence $(if($Mode -eq 'Trace'){'trace.txt'}else{'checks.txt'})) -CompletionPattern '(?m)^COMPLETE\r?$'
 Write-Output ('Observe with Source/Tests/Wait-Game17Host.ps1 -RuntimeRoot "'+$runtime.Root+'" -TimeoutSeconds 45')

@@ -291,6 +291,8 @@
         <directHitRadius>0.42</directHitRadius>
         <alignedCoastAngleDegrees>2</alignedCoastAngleDegrees>
         <maximumLaunchDeviationDegrees>55</maximumLaunchDeviationDegrees>
+        <!-- Guided flight keeps extending toward the target until this total distance is flown. -->
+        <maximumFlightDistance>90</maximumFlightDistance>
       </li>
     </modExtensions>
   </ThingDef>
