@@ -69,7 +69,9 @@ def build_review(profile_path, width_256=2):
     anchor = [round(v) for v in render["turret_anchor_pixels_top_origin"]]
     offset = [v-master//2 for v in anchor]
     # Outline at the master resolution, then linear-light downscale: smooth anti-aliased strokes.
-    outlined = {name: black_outline(Image.open(root/(name+".png")), width_256*master/256) for name in names}
+    from images import complete
+    # Review shows the undamaged vehicle: base layers with their intact damage overlays.
+    outlined = {name: black_outline(complete(root, name, render), width_256*master/256) for name in names}
     hull = outlined["hull_east"]
     if "turret_full_east" in outlined:
         turret = outlined["turret_full_east"]

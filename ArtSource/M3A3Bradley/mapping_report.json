@@ -1,0 +1,112 @@
+{
+  "source_sha256": "8cf128f1c44037f3caff8db7104a83ff6c6e70b05d06a1e89dbe5b5ab420b813",
+  "ring_seed": 200069,
+  "ring_radius": 0.6673679626494856,
+  "ring_residual": 0.013526809414106777,
+  "yaw_pivot": [
+    -0.188333,
+    0.226863,
+    2.01
+  ],
+  "omitted_faces_by_reason": {
+    "Sub-pixel rod/rail/wire (middle dimension < 3 cm, length > 12 cm): thinner than 1px at 256px, removed to reduce model noise (style section 3)": 571,
+    "1.8 m thin whip antenna is subpixel at 256px; separate whip group only": 252
+  },
+  "source_faces": 223389,
+  "parts": 226,
+  "contacts": [
+    {
+      "lower": "g0000",
+      "upper": "g0002",
+      "direction": "down"
+    },
+    {
+      "lower": "g0000",
+      "upper": "g0018",
+      "direction": "down"
+    },
+    {
+      "lower": "g0000",
+      "upper": "g0040",
+      "direction": "down"
+    },
+    {
+      "lower": "g0085",
+      "upper": "g0099",
+      "direction": "up"
+    },
+    {
+      "lower": "g0085",
+      "upper": "g0101",
+      "direction": "up"
+    }
+  ],
+  "contact_levels": {
+    "g0002": 192,
+    "g0018": 192,
+    "g0040": 192,
+    "g0099": 216,
+    "g0101": 216
+  },
+  "damage_layers": [
+    {
+      "id": "commanderViewer",
+      "layer": "turret",
+      "parts": [
+        "g0102",
+        "g0102_glass"
+      ],
+      "label": "Commander's independent viewer (CIV)"
+    },
+    {
+      "id": "gunnerSight",
+      "layer": "turret",
+      "parts": [
+        "g0095",
+        "g0095_glass"
+      ],
+      "label": "Gunner's ISU sight head"
+    },
+    {
+      "id": "leftHeadlight",
+      "layer": "hull",
+      "parts": [
+        "g0037",
+        "g0037_headlamp_lens"
+      ],
+      "label": "Left headlight"
+    },
+    {
+      "id": "rightHeadlight",
+      "layer": "hull",
+      "parts": [
+        "g0041",
+        "g0041_headlamp_lens"
+      ],
+      "label": "Right headlight"
+    },
+    {
+      "id": "cargoHatch",
+      "layer": "hull",
+      "parts": [
+        "g0002",
+        "g0002_accent_83220",
+        "g0002_accent_83248",
+        "g0002_accent_83276",
+        "g0002_accent_83296",
+        "g0002_accent_83316",
+        "g0002_accent_82656",
+        "g0002_accent_82696",
+        "g0002_accent_82750",
+        "g0002_accent_82790",
+        "g0002_accent_82844",
+        "g0002_accent_82884"
+      ],
+      "label": "Upper rear cargo hatch over the TOW / 25 mm stowage (ammunition lid)"
+    }
+  ],
+  "provisional_rigs": [
+    "GUN_ELEVATION",
+    "TURRET_HATCHES"
+  ]
+}

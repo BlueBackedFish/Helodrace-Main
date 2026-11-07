@@ -172,6 +172,7 @@ def boundary_lines(root, name, style, render):
     ys, xs = np.nonzero(band & (ident > 0))
     here, far = ident[ys, xs], depth[ys, xs]
     hit = np.zeros(len(ys), dtype=bool)
+    trigger = np.zeros(len(ys), dtype=np.int64)  # the nearer part that caused each line pixel
     height, cols = ident.shape
     for dy in range(-radius, radius+1):
         for dx in range(-radius, radius+1):
@@ -182,18 +183,74 @@ def boundary_lines(root, name, style, render):
             other = np.zeros(len(ys), dtype=np.int64)
             near = np.full(len(ys), np.inf)
             other[ok], near[ok] = ident[yy[ok], xx[ok]], depth[yy[ok], xx[ok]]
-            hit |= (other > 0) & (other != here) & (near < far-step)
+            cond = (other > 0) & (other != here) & (near < far-step)
+            trigger = np.where(cond & (trigger == 0), other, trigger)
+            hit |= cond
     line = np.zeros(ident.shape, dtype=bool)
     line[ys[hit], xs[hit]] = True
     line = clean_line_mask(line, factor, settings)
+    # Destructible overlays own the lines on themselves and the ring they cast on the base.
+    owners = render.get("damage_layers", {})
+    overlay_keys = owners.get("views", {}).get(name, [])
+    if overlay_keys:
+        part_of = {int(k): v for k, v in render["id_pass"]["ids"].items()}
+        damage_of = {p: d["id"] for d in owners["specs"] for p in d["parts"]}
+        owner_ids = {key: {i for i, part in part_of.items() if damage_of.get(part) == key} for key in overlay_keys}
+        trig = np.zeros(ident.shape, dtype=np.int64)
+        trig[ys, xs] = trigger
+        # Cleaned-in pixels (closed gaps) inherit the nearest trigger along the band.
+        for key, ids in owner_ids.items():
+            own = line & (np.isin(ident, list(ids)) | np.isin(trig, list(ids)))
+            from scipy import ndimage
+            own |= line & ndimage.binary_dilation(own, iterations=max(1, round(factor)))
+            Image.fromarray((own*255).astype(np.uint8)).save(root/f"{name}__{key}_lines.png")
+            line &= ~own
     flat_path = root/(name+"_flat.png")
     if not flat_path.exists():  # fresh render; re-running the postprocess keeps the original
         Image.open(root/(name+".png")).convert("RGBA").save(flat_path)
     Image.fromarray((line*255).astype(np.uint8)).save(root/(name+"_lines.png"))
     master = layer_at(root, name, render["master"], render["master"], style)
     master.save(root/(name+".png"))
+    for key in overlay_keys:
+        intact, destroyed = damage_overlay(root, name, key, style, render)
+        intact.save(root/f"{name}__{key}.png")
+        destroyed.save(root/f"{name}__{key}_destroyed.png")
     return {"pixels_at_mask": int(line.sum()), "mask_supersample": factor, "width_256": settings.get("width_256", 1),
             "depth_step": step, "value": settings.get("value", 56), "anti_aliased": True}
+
+
+def damage_overlay(root, name, key, style, render):
+    """Intact / destroyed overlay at the master size: the part render (holdout-cut) plus the
+    boundary-line ring it owns on the base. Destroyed = the same shape charred (dark, desaturated)."""
+    master = render["master"]
+    flat_path = root/f"{name}__{key}_flat.png"
+    if not flat_path.exists():
+        Image.open(root/f"{name}__{key}.png").convert("RGBA").save(flat_path)
+    part = np.asarray(Image.open(flat_path).convert("RGBA")).astype(np.float64)
+    base = Image.open(root/(name+"_flat.png")).convert("RGBA")
+    coverage = np.asarray(Image.open(root/f"{name}__{key}_lines.png").convert("F").resize((master, master), Image.Resampling.BOX))/255
+    settings = line_settings(style, name)
+    # Line colour from the union of base and part, so the ring follows the paint underneath.
+    union = Image.alpha_composite(base, Image.fromarray(part.astype(np.uint8)))
+    colour = surface_line_colour(union, settings)
+    alpha = part[..., 3:4]/255
+    on_part = alpha[..., 0] > 0
+    rgb = part[..., :3].copy()
+    mix = coverage[..., None]
+    to_linear = lambda c: np.where(c <= .04045, c/12.92, ((c+.055)/1.055)**2.4)
+    to_display = lambda c: np.where(c <= .0031308, c*12.92, 1.055*np.clip(c, 0, None)**(1/2.4)-.055)
+    mixed = to_display(to_linear(rgb/255)*(1-mix)+to_linear(colour/255)*mix)*255
+    rgb = np.where(on_part[..., None], mixed, colour)
+    out_alpha = np.maximum(alpha[..., 0], coverage*(np.asarray(base)[..., 3] > 0))
+    intact = np.dstack([rgb, out_alpha*255])
+    spec = next(d for d in render["damage_layers"]["specs"] if d["id"] == key)
+    burnt = spec.get("destroyed", {})
+    y = .2126*rgb[..., 0]+.7152*rgb[..., 1]+.0722*rgb[..., 2]
+    char = np.array(burnt.get("rgb", [46, 43, 40]), dtype=np.float64)
+    shade = np.clip(y/np.maximum(y.max(), 1), .35, 1)[..., None]
+    destroyed = np.dstack([char*shade*(.6+.4*shade), out_alpha*255])
+    as_image = lambda a: Image.fromarray(np.clip(np.round(a), 0, 255).astype(np.uint8), "RGBA")
+    return as_image(intact), as_image(destroyed)
 
 
 def clean_line_mask(line, factor, settings):
@@ -229,6 +286,22 @@ def layer_at(root, name, size, master, style):
     return image
 
 
+def overlay_names(root, name, render):
+    keys = render.get("damage_layers", {}).get("views", {}).get(name, [])
+    return [f"{name}__{k}" for k in keys], [f"{name}__{k}_destroyed" for k in keys]
+
+
+def complete(root, name, render, size=None, layer=None):
+    """Base layer with its intact damage overlays on top (what the undamaged vehicle shows)."""
+    image = layer if layer is not None else Image.open(root/(name+".png")).convert("RGBA")
+    for overlay in overlay_names(root, name, render)[0]:
+        top = Image.open(root/(overlay+".png")).convert("RGBA")
+        if size and size != top.width:
+            top = resize_linear(top, size)
+        image = composite_linear(image, top, (0, 0))
+    return image
+
+
 def finish(profile_path):
     profile_path = Path(profile_path)
     profile = read_json(profile_path)
@@ -248,12 +321,12 @@ def finish(profile_path):
     for name in ("hull_east", *hull_names, "turret_east", "barrel_east", "turret_full_east", *weapon_names):
         if (root/(name+".png")).exists():
             report["boundary_lines"][name] = boundary_lines(root, name, style, render)
-    hull = Image.open(root/"hull_east.png").convert("RGBA")
+    hull = complete(root, "hull_east", render)
     turret_path = root/"turret_full_east.png"
     active_layers = {p["layer"] for p in profile["parts"] if p.get("action", "keep") != "omit"}
     anchor = [round(v) for v in render["turret_anchor_pixels_top_origin"]]
     if active_layers & {"turret", "barrel"}:
-        turret = Image.open(turret_path).convert("RGBA")
+        turret = complete(root, "turret_full_east", render)
         offset = (anchor[0]-turret.width//2, anchor[1]-turret.height//2)
         # Verify the shifted sprite still fits the canvas before cropping could conceal it.
         box = turret.getchannel("A").getbbox()
@@ -274,14 +347,18 @@ def finish(profile_path):
     if active_layers & {"turret", "barrel"}:
         names += ["turret_east", "barrel_east", "turret_full_east"]
     names += weapon_names+hull_names
+    overlays = [o for n in names for group in overlay_names(root, n, render) for o in group]
     report["alpha_bounds"] = {}
     for size in render["sizes"]:
         directory = root/str(size)
         directory.mkdir(exist_ok=True)
         factor = size/render["master"]
         layers = {name: layer_at(root, name, size, render["master"], style) for name in names if name != "preview_east"}
+        for overlay in overlays:
+            layers[overlay] = resize_linear(Image.open(root/(overlay+".png")), size)
         if "turret_full_east" in layers:
-            layers["preview_east"] = composite_linear(layers["hull_east"], layers["turret_full_east"],
+            layers["preview_east"] = composite_linear(complete(root, "hull_east", render, size, layers["hull_east"]),
+                                                      complete(root, "turret_full_east", render, size, layers["turret_full_east"]),
                                                       tuple(round(v*factor) for v in offset))
             for name in weapon_names:
                 spot = render["placements"][name[:-5]]["pixels_in_turret_top_origin"]

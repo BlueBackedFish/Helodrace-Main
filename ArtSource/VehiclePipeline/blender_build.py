@@ -591,16 +591,49 @@ def build(profile_path):
          scene.view_settings.view_transform, scene.render.image_settings.color_depth,
          scene.render.resolution_percentage) = settings
 
+    # Destructible overlays: parts that can be removed or recoloured at runtime (optics, lids...).
+    damage_specs = {d["id"]: d for d in profile.get("damage_layers", [])}
+    damage_owner = {}
+    for key, spec in damage_specs.items():
+        for part_id in spec["parts"]:
+            if part_id not in objects:
+                raise ValueError(f"Damage layer {key} names a missing/omitted part: {part_id}")
+            if objects[part_id]["layer"] != spec["layer"]:
+                raise ValueError(f"Damage layer {key}: {part_id} is not on layer {spec['layer']}")
+            if part_id in damage_owner:
+                raise ValueError(f"Part {part_id} belongs to two damage layers")
+            damage_owner[part_id] = key
+    damage_views = {}
+
     def render(name, elevation, azimuth=180, layers=None, target=None, ids=False):
+        visible = [o for o in objects.values() if layers is None or o["layer"] in layers]
+        overlays = sorted({damage_owner[o["part_id"]] for o in visible if o["part_id"] in damage_owner}) if ids else []
         for obj in objects.values():
-            obj.hide_render = layers is not None and obj["layer"] not in layers
+            obj.hide_render = obj not in visible or (ids and obj["part_id"] in damage_owner)
         aim(center if target is None else target, elevation, azimuth)
         scene.render.filepath = str(output_dir/(name+".png"))
-        for stale in (name+"_flat.png", name+"_lines.png", name+"_ids.npz"):
-            (output_dir/stale).unlink(missing_ok=True)
+        for stale in output_dir.glob(name+"_*"):
+            if stale.name.startswith((name+"_flat", name+"_lines", name+"_ids", name+"__")):
+                stale.unlink()
         bpy.ops.render.render(write_still=True)
         if ids:
+            # ID/depth pass sees the damage parts too, so lines ring them on the base.
+            for obj in visible:
+                obj.hide_render = False
             render_ids(name)
+            for key in overlays:
+                # Overlay alone, cut by everything in front of it (holdout), same camera.
+                for obj in visible:
+                    owner = damage_owner.get(obj["part_id"])
+                    obj.hide_render = owner is not None and owner != key
+                    obj.is_holdout = owner != key
+                scene.render.filepath = str(output_dir/f"{name}__{key}.png")
+                bpy.ops.render.render(write_still=True)
+                for obj in visible:
+                    obj.is_holdout = False
+            damage_views[name] = overlays
+            for obj in visible:
+                obj.hide_render = obj["part_id"] in damage_owner
 
     for name, elevation, azimuth in [("source_top", 90, 180), ("source_side", 0, 180),
                                       ("source_front", 0, 270), ("iso_front", 30, 225),
@@ -752,6 +785,7 @@ def build(profile_path):
                          "hull_target": list(center), "turret_pivot": list(pivot),
                          "turret_anchor_pixels_top_origin": anchor_pixel,
                          "placements": placements,
+                         "damage_layers": {"specs": profile.get("damage_layers", []), "views": damage_views},
                          "hull_directions": hull_directions, "hull_center": list(hull_center),
                          "top_pivot_pixels": [scene.render.resolution_x/2]*2,
                          "note": "turret_full includes barrel; never composite barrel twice",

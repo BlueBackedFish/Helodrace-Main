@@ -1,0 +1,23 @@
+{
+  "size": [
+    256,
+    256
+  ],
+  "turret_top_pivot": [
+    128.0,
+    128.0
+  ],
+  "hull_turret_anchor": [
+    118.75,
+    129.0
+  ],
+  "raw_hull_turret_anchor": [
+    118.7705307006836,
+    128.9722900390625
+  ],
+  "hull_elevation": 64,
+  "turret_elevation": 90,
+  "placements_in_turret": {},
+  "filter": "linear-light premultiplied-alpha Lanczos",
+  "turret_full_includes_barrel": true
+}

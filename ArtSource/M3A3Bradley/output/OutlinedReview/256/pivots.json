@@ -1,0 +1,17 @@
+{
+  "size": [
+    256,
+    256
+  ],
+  "turret_top_pivot": [
+    128.0,
+    128.0
+  ],
+  "hull_turret_anchor": [
+    118.75,
+    129.0
+  ],
+  "outline_pixels": 2.0,
+  "stroke": "black, each layer before compositing",
+  "turret_full_includes_barrel": true
+}

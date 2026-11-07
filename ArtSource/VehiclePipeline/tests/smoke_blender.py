@@ -186,6 +186,24 @@ def main():
     report = read_json(simplified/"output/report.json")
     assert report["imported_models"]["objects"] and report["source_faces"] == 37
     profile.pop("imported_models")
+    # Destructible overlay: the cupola leaves the base layer and gets intact/destroyed overlays.
+    profile["damage_layers"] = [{"id": "cupola", "layer": "turret", "parts": ["g0001"]}]
+    write_json(simplified/"vehicle.json", profile)
+    subprocess.run([sys.executable, str(ROOT/"pipeline.py"), "build", str(simplified/"vehicle.json")], check=True)
+    out = simplified/"output"
+    report = read_json(out/"report.json")
+    assert "cupola" in report["render"]["damage_layers"]["views"]["turret_east"]
+    base = Image.open(out/"turret_east_flat.png").convert("RGBA")
+    intact = Image.open(out/"turret_east__cupola.png").convert("RGBA")
+    destroyed = Image.open(out/"turret_east__cupola_destroyed.png").convert("RGBA")
+    assert intact.getchannel("A").getbbox() and intact.getchannel("A").getbbox() == destroyed.getchannel("A").getbbox()
+    lum = lambda c: .2126*c[0]+.7152*c[1]+.0722*c[2]
+    box = intact.getchannel("A").getbbox()
+    mid = ((box[0]+box[2])//2, (box[1]+box[3])//2)
+    assert lum(destroyed.getpixel(mid)) < lum(intact.getpixel(mid))
+    for size in (256, 512):
+        assert (out/f"{size}/turret_east__cupola.png").exists() and (out/f"{size}/turret_east__cupola_destroyed.png").exists()
+    profile.pop("damage_layers")
     profile["parts"][3]["accent"]["value"] = 200
     write_json(simplified/"vehicle.json", profile)
     rejected = subprocess.run([sys.executable, str(ROOT/"pipeline.py"), "build", str(simplified/"vehicle.json")],
