@@ -1,6 +1,7 @@
 """Package the M1A2 SEPv3 test vehicle for the Lobos Arsenal mod (plain Vehicle Framework).
 
-Reads the built pipeline output (1024px master layers with boundary lines), bakes the black
+Reads the built pipeline output (1024px master layers with boundary lines, intact damage overlays
+composited back on: the plain test vehicle has no damage states yet), bakes the black
 silhouette outline per layer, turns the top-down layers to face north (lossless 90 degree turn),
 derives draw size / offsets from the M8 world scale and writes textures + generated defs.
 
@@ -16,6 +17,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT.parent/"VehiclePipeline"))
 from outline_review import black_outline  # noqa: E402
+from images import complete  # noqa: E402
 
 # World scale shared with the M8 AGS runtime art: 16.2064 m camera width = 12.0615 tiles.
 METRES_PER_TILE = 16.206403732299805/12.061538461538463
@@ -63,7 +65,7 @@ def main():
 
     for direction in DIRECTIONS:
         info = render["hull_directions"][direction]
-        hull = black_outline(Image.open(out/f"hull_{direction}.png"), radius)
+        hull = black_outline(complete(out, f"hull_{direction}", render), radius)
         save(hull, f"vehicle_{direction}")
         hx, hy = info["hull_center_pixels"]
         ax, ay = info["turret_anchor_pixels"]
@@ -75,7 +77,7 @@ def main():
     # Top-down layers: east image (front to the right) turned 90 degrees CCW -> front up.
     for name, target in [("turret_full_east", "turret_north"), ("loader_mg_east", "loader_mg_north"),
                          ("crows_east", "crows_north")]:
-        save(black_outline(Image.open(out/(name+".png")), radius).transpose(Image.Transpose.ROTATE_90), target)
+        save(black_outline(complete(out, name, render), radius).transpose(Image.Transpose.ROTATE_90), target)
     preview = Image.open(out/"OutlinedReview"/str(master)/"preview_east.png").convert("RGBA")
     save(preview, "UI")
     # Child turrets: mount pixel in the east turret image -> north frame (x starboard, z forward).

@@ -20,7 +20,7 @@
       "sha256": "2f026e5564f63af921bd8f2ccf81c707140f2cefce0f03b6ae14bd442021fe96"
     }
   },
-  "profile_sha256": "e77912dd3645e1266a5a1f3d540e8afa4867d8752980ba3383d1d51c39ae5015",
+  "profile_sha256": "e42f4c313d0c095ac5bf7182eeb88f5f9f33715634ca894453ceb8c894cc2631",
   "style_sha256": "c68cf1a736da016d37eb120f716f5f0971b46b7edd7b66e4c7472fd6af0914ac",
   "source_faces": 425141,
   "preserved_faces": 186906,
@@ -7732,6 +7732,43 @@
         ]
       }
     },
+    "damage_layers": {
+      "specs": [
+        {
+          "id": "ammoBlowoutLeft",
+          "layer": "turret",
+          "parts": [
+            "g0049"
+          ],
+          "label": "Left turret-bustle ammunition blow-out panel"
+        },
+        {
+          "id": "ammoBlowoutRight",
+          "layer": "turret",
+          "parts": [
+            "g0068"
+          ],
+          "label": "Right turret-bustle ammunition blow-out panel"
+        }
+      ],
+      "views": {
+        "hull_east": [],
+        "hull_north": [],
+        "hull_south": [],
+        "hull_west": [],
+        "turret_full_east": [
+          "ammoBlowoutLeft",
+          "ammoBlowoutRight"
+        ],
+        "turret_east": [
+          "ammoBlowoutLeft",
+          "ammoBlowoutRight"
+        ],
+        "barrel_east": [],
+        "loader_mg_east": [],
+        "crows_east": []
+      }
+    },
     "hull_center": [
       0.0,
       0.32514989376068115,
@@ -7993,7 +8030,7 @@
       "anti_aliased": true
     },
     "turret_east": {
-      "pixels_at_mask": 289218,
+      "pixels_at_mask": 264293,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
@@ -8009,7 +8046,7 @@
       "anti_aliased": true
     },
     "turret_full_east": {
-      "pixels_at_mask": 288883,
+      "pixels_at_mask": 263958,
       "mask_supersample": 4.0,
       "width_256": 1,
       "depth_step": 0.02,
@@ -8088,6 +8125,54 @@
       219,
       171
     ],
+    "256/turret_east__ammoBlowoutLeft": [
+      80,
+      111,
+      109,
+      131
+    ],
+    "256/turret_east__ammoBlowoutRight": [
+      80,
+      127,
+      108,
+      148
+    ],
+    "256/turret_east__ammoBlowoutLeft_destroyed": [
+      80,
+      111,
+      109,
+      131
+    ],
+    "256/turret_east__ammoBlowoutRight_destroyed": [
+      80,
+      127,
+      108,
+      148
+    ],
+    "256/turret_full_east__ammoBlowoutLeft": [
+      80,
+      111,
+      109,
+      131
+    ],
+    "256/turret_full_east__ammoBlowoutRight": [
+      80,
+      127,
+      108,
+      148
+    ],
+    "256/turret_full_east__ammoBlowoutLeft_destroyed": [
+      80,
+      111,
+      109,
+      131
+    ],
+    "256/turret_full_east__ammoBlowoutRight_destroyed": [
+      80,
+      127,
+      108,
+      148
+    ],
     "256/preview_east": [
       37,
       96,
@@ -8148,6 +8233,54 @@
       435,
       340
     ],
+    "512/turret_east__ammoBlowoutLeft": [
+      163,
+      224,
+      215,
+      263
+    ],
+    "512/turret_east__ammoBlowoutRight": [
+      163,
+      257,
+      213,
+      294
+    ],
+    "512/turret_east__ammoBlowoutLeft_destroyed": [
+      163,
+      224,
+      215,
+      263
+    ],
+    "512/turret_east__ammoBlowoutRight_destroyed": [
+      163,
+      257,
+      213,
+      294
+    ],
+    "512/turret_full_east__ammoBlowoutLeft": [
+      163,
+      224,
+      215,
+      263
+    ],
+    "512/turret_full_east__ammoBlowoutRight": [
+      163,
+      257,
+      213,
+      294
+    ],
+    "512/turret_full_east__ammoBlowoutLeft_destroyed": [
+      163,
+      224,
+      215,
+      263
+    ],
+    "512/turret_full_east__ammoBlowoutRight_destroyed": [
+      163,
+      257,
+      213,
+      294
+    ],
     "512/preview_east": [
       77,
       194,
@@ -8155,5 +8288,5 @@
       340
     ]
   },
-  "model_sha256": "74a430374d28d63b27a73a3bec2f48f217a0c49e4df92962a95742e871b01a89"
+  "model_sha256": "a01a58cebe8718e93c6ff563f67f2b9835ee0f6a710d233cb0d2150be24b115d"
 }

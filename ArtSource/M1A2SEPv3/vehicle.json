@@ -14,7 +14,7 @@
     "confirmed": true
   },
   "style": "style.json",
-  "variant_notes": "M1A2 SEPv3 source OBJ (War Thunder extract). Base vehicle: camouflage nets, TUSK ERA tiles and their rails/frames and whip antennas omitted. Source CROWS replaced by the existing CROWSII model scaled to the source M2 and rendered as its own sprite; the loader M240 rotating assembly (pintle, gun, shield, ammo can) is a separate sprite. CITV stays. RimThunder reference is its base M1A2 (SEP generation not stated); SEPv3 detail differences are recorded in ART_BRIEF.md. No blueprint.",
+  "variant_notes": "M1A2 SEPv3 source OBJ (War Thunder extract). Base vehicle: camouflage nets, TUSK ERA tiles and their rails/frames and whip antennas omitted. Source CROWS replaced by the existing CROWSII model scaled to the source M2 and rendered as its own sprite; the loader M240 rotating assembly (pintle, gun, shield, ammo can) is a separate sprite. CITV stays. Turret-bustle ammunition blow-out panels are destructible overlays. RimThunder reference is its base M1A2 (SEP generation not stated); SEPv3 detail differences are recorded in ART_BRIEF.md. No blueprint.",
   "blueprint_views": {},
   "parts": [
     {
@@ -38323,6 +38323,24 @@
         "to": 216
       },
       "reason": "Existing CROWSII asset, uniform scale 0.7749 = source CROWS M2 length 1.660 m / asset M2 length 2.142"
+    }
+  ],
+  "damage_layers": [
+    {
+      "id": "ammoBlowoutLeft",
+      "layer": "turret",
+      "parts": [
+        "g0049"
+      ],
+      "label": "Left turret-bustle ammunition blow-out panel"
+    },
+    {
+      "id": "ammoBlowoutRight",
+      "layer": "turret",
+      "parts": [
+        "g0068"
+      ],
+      "label": "Right turret-bustle ammunition blow-out panel"
     }
   ]
 }

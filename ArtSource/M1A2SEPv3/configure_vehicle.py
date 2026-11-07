@@ -39,6 +39,12 @@ CROWS_REASON = ("CROWS remote weapon station is drawn by the existing ArtSource/
                 "Base/Frame/M2Body/M2Barrel layers); removed from the turret texture, mount point recorded")
 # Loader M240 rotating assembly (pintle, gun, armoured gun shield + its mount, ammo can) on the
 # loader-hatch skate ring -> one separate weapon sprite. The long side rail ex_armor_turret_02 is fixed.
+# Destructible overlays (runtime: remove, or swap to the charred variant). Ammunition lids only where the
+# store is isolated from the crew: the turret-bustle blow-out panels vent an ammunition cook-off outward.
+DAMAGE = [
+    ("ammoBlowoutLeft", "turret", ["ex_armor_05"], "Left turret-bustle ammunition blow-out panel"),
+    ("ammoBlowoutRight", "turret", ["ex_armor_06"], "Right turret-bustle ammunition blow-out panel"),
+]
 LOADER_MG = {"bone_mg_aa_h", "bone_mg_aa_v", "ex_armor_turret_01", "ex_armor_turret_03", "ex_armor_04"}
 CROWS_BLEND = ROOT.parent/"CROWSII/output/crows_ii_m2.blend"
 # CROWSII model frame (output/crows_ii_m2.blend): yaw origin (0,0,0), gun along +Y; M2 body rear
@@ -406,12 +412,17 @@ def configure():
         {"id": "DRIVER_HATCH", "pivot": hinge("hatch_01"), "axis": "z", "parts": hatches["hatch_01"],
          "confirmed": False, "animate": False,
          "evidence": "Driver hatch needs a lift/swing mechanism; not a verified simple hinge"}]
+    damage_layers = []
+    for key, layer, names, label in DAMAGE:
+        ids = [p["id"] for p in kept if p["source_group"] in {groups[n]["id"] for n in names}]
+        assert ids, key
+        damage_layers.append({"id": key, "layer": layer, "parts": ids, "label": label})
     profile.update(axes=axes, parts=parts, rigs=rigs, contacts=contacts, weapon_layers=weapon_layers, mounts=mounts,
-                   imported_models=imported_models,
+                   imported_models=imported_models, damage_layers=damage_layers,
                    variant_notes=("M1A2 SEPv3 source OBJ (War Thunder extract). Base vehicle: camouflage nets, "
                                   "TUSK ERA tiles and their rails/frames and whip antennas omitted. Source CROWS replaced by the "
                                   "existing CROWSII model scaled to the source M2 and rendered as its own sprite; the loader "
-                                  "M240 rotating assembly (pintle, gun, shield, ammo can) is a separate sprite. CITV stays. RimThunder reference is its base M1A2 (SEP generation not "
+                                  "M240 rotating assembly (pintle, gun, shield, ammo can) is a separate sprite. CITV stays. Turret-bustle ammunition blow-out panels are destructible overlays. RimThunder reference is its base M1A2 (SEP generation not "
                                   "stated); SEPv3 detail differences are recorded in ART_BRIEF.md. No blueprint."))
     profile["review"] = {"blueprint": False, "style_reference": False, "native_size": False,
                          "geometry": False, "game": False}
@@ -426,7 +437,7 @@ def configure():
         "ring_residual": residual, "yaw_pivot": pivot, "omitted_faces_by_reason": dict(omissions),
         "source_faces": len(model["faces"]), "parts": len(parts), "contacts": contacts,
         "contact_levels": {c["upper"]: levels[c["upper"]] for c in contacts},
-        "provisional_rigs": [r["id"] for r in rigs if not r["confirmed"]]})
+        "damage_layers": damage_layers, "provisional_rigs": [r["id"] for r in rigs if not r["confirmed"]]})
     print(f"Configured {len(parts)} parts; omitted {dict(omissions)}; ring residual {residual:.6f}")
 
 

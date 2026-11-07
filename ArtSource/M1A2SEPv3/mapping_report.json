@@ -127,6 +127,24 @@
     "g0105": 192,
     "g0106": 192
   },
+  "damage_layers": [
+    {
+      "id": "ammoBlowoutLeft",
+      "layer": "turret",
+      "parts": [
+        "g0049"
+      ],
+      "label": "Left turret-bustle ammunition blow-out panel"
+    },
+    {
+      "id": "ammoBlowoutRight",
+      "layer": "turret",
+      "parts": [
+        "g0068"
+      ],
+      "label": "Right turret-bustle ammunition blow-out panel"
+    }
+  ],
   "provisional_rigs": [
     "GUN_ELEVATION",
     "LOADER_HATCH",
