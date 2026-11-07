@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Red additive trail for Helod tracer rounds. The generated trail texture always uses
+       the Mote shader, so this trail reads Gunplay's own texture through graphicData with
+       MoteGlow to make it glow. -->
+  <Gunplay.ProjectileTrailDef ParentName="GunplayProjectileTrailDefault">
+    <defName>HD_TracerTrail</defName>
+    <label>Helod tracer trail</label>
+    <description>A bright red trail left by a burning tracer compound.</description>
+    <graphicData>
+      <shaderType>MoteGlow</shaderType>
+      <texPath>Gunplay/Effects/Guntrail</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <material>
+      <useGeneratedTexture>false</useGeneratedTexture>
+      <trailColor>(1, 0.12, 0.06, 1)</trailColor>
+      <trailWidth>0.15</trailWidth>
+    </material>
+  </Gunplay.ProjectileTrailDef>
+
+  <!-- Only the tracer projectiles in mixed feeds get the red trail; the other rounds in the
+       same belt keep the default trail. -->
+  <Gunplay.ProjectilePropDef>
+    <defName>HD_Tracer</defName>
+    <defTargets>
+      <li>HD_Projectile_20mmHEIT</li>
+      <li>HD_Bullet_12799M20_Proj</li>
+    </defTargets>
+    <trail>HD_TracerTrail</trail>
+  </Gunplay.ProjectilePropDef>
+
+</Defs>

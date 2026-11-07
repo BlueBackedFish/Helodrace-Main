@@ -3,5 +3,6 @@
   <v1.7>
     <li>/</li>
     <li IfModActive="Nals.FacialAnimation">Compat/FacialAnimation</li>
+    <li IfModActive="assssssqwww.gunplay">Compat/Gunplay</li>
   </v1.7>
 </loadFolders>
