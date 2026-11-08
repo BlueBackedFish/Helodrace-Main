@@ -37,7 +37,12 @@ namespace Helodrace
         {
             foreach (Type type in assembly.GetTypes())
                 if (type.IsDefined(typeof(HarmonyPatch), false) && Install(type, Kind))
-                    harmony.CreateClassProcessor(type).Patch();
+                {
+                    // One conflicting patch must not abort the rest of startup
+                    // (race caches, rendering and apparel patches come after it).
+                    try { harmony.CreateClassProcessor(type).Patch(); }
+                    catch (Exception e) { Log.Error("[Helodrace] Failed to apply " + type.FullName + ": " + e); }
+                }
             Log.Message("Helodrace tactical engine: " + Kind + " (effective=" + EffectiveEngine + ").");
         }
         internal static void Filter(Map map)

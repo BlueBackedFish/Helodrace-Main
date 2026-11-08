@@ -43,8 +43,9 @@ namespace Helodrace
         {
             FieldInfo def = AccessTools.Field(typeof(Thing), nameof(Thing.def));
             MethodInfo replacement = AccessTools.Method(typeof(HelodReproduction), nameof(HelodReproduction.RomanceRace));
+            List<CodeInstruction> codes = instructions.ToList();
             int count = 0;
-            foreach (CodeInstruction instruction in instructions)
+            foreach (CodeInstruction instruction in codes)
             {
                 if (instruction.LoadsField(def))
                 {
@@ -52,10 +53,22 @@ namespace Helodrace
                     instruction.operand = replacement;
                     count++;
                 }
-                yield return instruction;
             }
-            if (count != 2)
+            // HAR, when its transpiler runs first, rewrites the same def comparison
+            // into RaceProps.Humanlike, which already admits Helod/human pairs.
+            if (count != 2 && !(count == 0 && ComparesHumanlike(codes)))
                 throw new InvalidOperationException("Race comparison in " + __originalMethod.Name + " no longer matches.");
+            return codes;
+        }
+
+        private static bool ComparesHumanlike(List<CodeInstruction> codes)
+        {
+            MethodInfo raceProps = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.RaceProps));
+            MethodInfo humanlike = AccessTools.PropertyGetter(typeof(RaceProperties), nameof(RaceProperties.Humanlike));
+            int pairs = 0;
+            for (int i = 0; i + 1 < codes.Count; i++)
+                if (codes[i].Calls(raceProps) && codes[i + 1].Calls(humanlike)) pairs++;
+            return pairs >= 2;
         }
     }
 
