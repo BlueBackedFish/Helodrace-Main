@@ -537,7 +537,7 @@ AmmoStorageState (저장 위치별)
 
 ## 10. 결정론과 추적
 
-- 시드: `hash(투사체 thingIDNumber, 발사 틱, 대상 thingIDNumber, 사건 깊이, 단계 번호)`. 각 단계는 `Rand.PushState(seed)`로 감싼 전용 `IRng`만 쓰고 전역 `Rand` 상태를 진전시키지 않는다. 같은 저장에서 같은 조건이면 같은 결과가 나온다.
+- 시드: `BallisticSeed.ForImpact(투사체 thingIDNumber, 발사 틱, 대상 thingIDNumber)`, 2차 사건은 `ForChild(부모 시드, 자식 번호, 대상)`. 각 단계는 `BallisticSeed.Stream(사건 시드, 단계 id)`로 만든 자체 SplitMix64 스트림(`BallisticRng`)만 쓴다. `Verse.Rand`를 쓰지 않으므로 전역 난수 상태를 진전시키지 않고, 단계를 추가·생략해도 다른 단계의 난수가 바뀌지 않는다. 문자열 해시는 프로세스마다 달라지는 `GetHashCode` 대신 FNV-1a를 쓴다. 같은 저장에서 같은 조건이면 같은 결과가 나온다.
 - 순서 독립: 묶음 광선·승무원 처리 순서는 id 순으로 고정한다. `HashSet` 열거 순서에 의존하지 않는다.
 - `ImpactTrace`: 단계별 입력·출력 요약(착탄점, 법선, 착탄각, LOS, 층별 결과, 잔여 상태, 생성된 2차 사건, 승무원별 피해 원인). 기본은 링 버퍼(최근 64건, 저장 안 함). 개발 모드에서:
   - 차량 선택 시 마지막 착탄의 판·광선·스폴 원뿔 오버레이(기존 `PersistentTargetingOverlay` 계열).
@@ -571,6 +571,22 @@ AmmoStorageState (저장 위치별)
 | **9. 폭발** | HE 폭압(Kingery–Bulmash), Gurney/Mott 파편, HESH 스캡, 내부 구획 압력 | 개방/밀폐 차이, 해치 열림 영향 |
 | **10. 유폭** | 탄약 저장 상태, 점화·연소·폭굉 단계, 블로아웃 패널, 화재 연쇄 | 격리/노출 탄약고 결과 차이, 손상 없는 탄약고는 반응 없음 |
 | **11. 고급 모델** | 정규화·요 성장, 세라믹 다중 피격 격자, 슬랫, 투명 방탄재, 편집 도구 | 자료가 확보된 항목부터 |
+
+### 1단계 구현 (2026-11-08)
+
+`Source/Helodrace/Ballistics/Core/`에 게임 의존성 없는 코어를 추가했다. 아직 어떤 Harmony 패치도 이 코어를 호출하지 않으므로 게임 동작은 바뀌지 않는다.
+
+| 파일 | 내용 |
+|---|---|
+| `BallisticGeometry.cs` | 좌표 규약, `BallisticFrame`(차체→포탑 합성), 착탄각·LOS·판 법선·반사, 광선-평면/볼록 다각형, 타원체 균일 빔 착탄 표본 |
+| `BallisticRandom.cs` | `BallisticRng`(SplitMix64, 이항 표본), `BallisticSeed`(사건·자식·단계 스트림 시드, FNV-1a) |
+| `ImpactModel.cs` | 근거 등급, 메커니즘·관통체 종류·상태·결과 열거형, `PenetratorState`, `ImpactEvent`, `ImpactGeometry`, `ArmorLayer`/`ArmorStack`, `SecondaryEvent`, `LayerDamage`, `ImpactOutcome` |
+| `ImpactPipeline.cs` | 표준 14단계 id, `IImpactStage`, `ImpactContext`(풀링, 단계별 난수, 조기 종료, 자식 사건 깊이 제한), `ImpactPipeline`, id 기준 삽입·교체 `ImpactPipelineBuilder`, `ImpactContextPool` |
+| `ImpactTrace.cs` | 단계별 상태·값(근거 등급 포함)·메모·경고, 텍스트/JSON 출력, 최근 64건 링 버퍼 |
+
+`ImpactTrace`는 풀링된 컨텍스트가 소유한다. 2단계 어댑터에서 링 버퍼에 넣을 때는 컨텍스트를 반환하기 전에 복사해야 한다.
+
+검증: `Source/Tests/BallisticsCore` (`dotnet run -c Release`) 254,200개 검사 통과. 프레임 왕복·포탑 합성·차량 회전 시 내부 점 회전, 60° 경사 LOS 2배, 탑어택이 같은 기하에서 지붕판에 맞는지, 구면 착탄각 분포(평균 π/4, CDF sin²θ, 20만 표본 ±0.005), 타원체 표면·법선, 시드 재현·단계 독립 난수, 단계 순서·생략·조기 종료·실패 추적·깊이 제한·풀 초기화, JSON 이스케이프를 검사한다. 모드 빌드 경고·오류 0. 게임 내 검증은 이 단계에 해당 사항 없음.
 
 1~3단계까지는 본체만 수정하고, 5단계부터 Lobos를 수정한다. 2단계 완료 시점에 기존 `guaranteedBlockPenetration`·`BallisticArmorRules.PlateWear`·90° 구역 판정을 삭제한다.
 
