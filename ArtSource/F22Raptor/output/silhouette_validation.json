@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "baseline": "2378e8ac",
+  "neutral_projected_alpha_area_ratio": 1.0028529663674586,
+  "checks": "Neutral silhouette retained after physical control pocket cutting; this is not an exact-alpha preservation claim"
+}

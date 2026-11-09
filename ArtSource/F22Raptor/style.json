@@ -5,13 +5,7 @@
   "master_resolution": 2048,
   "delivery_resolution": 1024,
   "outline_pixels": 12,
-  "panel_line_pixels": 2,
   "transparent_margin_pixels": 16,
-  "panel_rgb": [
-    102,
-    113,
-    122
-  ],
   "palette": {
     "vent": [
       65,
@@ -76,22 +70,11 @@
     "body",
     "edge"
   ],
-  "control_objects": [
-    "Fuselage.001",
-    "Fuselage.008",
-    "Fuselage.005",
-    "Fuselage.007",
-    "Fuselage.009",
-    "Fuselage.018",
-    "Fuselage.012",
-    "Fuselage.019",
-    "Fuselage.013",
-    "Fuselage.015"
-  ],
   "projection": "Orthographic directly above +Z; rotate native +X nose to +Y; image nose up",
   "surface_style": "Source UV camouflage reduced to four fixed colors; no lights, shadows, normal maps, AO or reflections",
-  "outline_style": "One black outline around the complete aircraft; muted gray internal control seams",
+  "outline_style": "One black outside silhouette; internal control joints are modeled bevels and capped rudder gaps, not a painted mask",
   "draw_size_tiles": null,
   "source_sha256": "499abc020205f73ad57fe5ba9d1dcb5ba73b26764abb55c212d3e6bd58b7c746",
-  "source_albedo_sha256": "c34c15dd580baecdc8b5424f453fc8e7cff44789e39fd25c644aeb775fd304d1"
+  "source_albedo_sha256": "c34c15dd580baecdc8b5424f453fc8e7cff44789e39fd25c644aeb775fd304d1",
+  "articulation_profile": "articulation.json"
 }

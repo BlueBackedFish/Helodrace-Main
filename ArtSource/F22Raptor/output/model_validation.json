@@ -6,9 +6,536 @@
   "source_meshes": 265,
   "source_faces": 39040,
   "omitted_meshes": 0,
-  "original_mesh_coordinates_topology_and_uv_preserved": true,
-  "original_animation_and_rig_preserved": true,
-  "pose_note": "Source animation frame 650; closed canopy, retracted landing gear and closed weapon bays reviewed from the side",
+  "final_meshes": 267,
+  "final_faces": 39350,
+  "untouched_source_meshes_preserved": 246,
+  "source_rig_retained_and_actions_archived": true,
+  "articulation": {
+    "controllers": [
+      {
+        "id": "leading_edge_left",
+        "object": "CTRL_leading_edge_left",
+        "frame": "HINGE_leading_edge_left",
+        "axis_local": "Y",
+        "pivot_native": [
+          -0.0656973123550415,
+          0.5203170776367188,
+          0.4356788098812103
+        ],
+        "hinge_axis_native": [
+          -0.6677574515342712,
+          0.7438715100288391,
+          -0.02748117223381996
+        ],
+        "meshes": [
+          "Fuselage.008"
+        ],
+        "demo_sign": 1
+      },
+      {
+        "id": "leading_edge_right",
+        "object": "CTRL_leading_edge_right",
+        "frame": "HINGE_leading_edge_right",
+        "axis_local": "Y",
+        "pivot_native": [
+          -0.06569492816925049,
+          -0.5203166604042053,
+          0.43567898869514465
+        ],
+        "hinge_axis_native": [
+          -0.6677581071853638,
+          -0.7438709139823914,
+          -0.02748093008995056
+        ],
+        "meshes": [
+          "Fuselage.001"
+        ],
+        "demo_sign": -1
+      },
+      {
+        "id": "flap_left",
+        "object": "CTRL_flap_left",
+        "frame": "HINGE_flap_left",
+        "axis_local": "Y",
+        "pivot_native": [
+          -1.2848800420761108,
+          0.408050000667572,
+          0.4436478018760681
+        ],
+        "hinge_axis_native": [
+          0.2604701519012451,
+          0.965481698513031,
+          -0.000621795654296875
+        ],
+        "meshes": [
+          "Fuselage.018"
+        ],
+        "demo_sign": 1
+      },
+      {
+        "id": "flap_right",
+        "object": "CTRL_flap_right",
+        "frame": "HINGE_flap_right",
+        "axis_local": "Y",
+        "pivot_native": [
+          -1.2848800420761108,
+          -0.4080498516559601,
+          0.44364792108535767
+        ],
+        "hinge_axis_native": [
+          0.260469526052475,
+          -0.9654818773269653,
+          -0.0006215869798325002
+        ],
+        "meshes": [
+          "Fuselage.009"
+        ],
+        "demo_sign": -1
+      },
+      {
+        "id": "aileron_left",
+        "object": "CTRL_aileron_left",
+        "frame": "HINGE_aileron_left",
+        "axis_local": "Y",
+        "pivot_native": [
+          -1.2081199884414673,
+          1.0013799667358398,
+          0.4383697211742401
+        ],
+        "hinge_axis_native": [
+          0.26854702830314636,
+          0.9623453617095947,
+          -0.04211893305182457
+        ],
+        "meshes": [
+          "Fuselage.012"
+        ],
+        "demo_sign": 1
+      },
+      {
+        "id": "aileron_right",
+        "object": "CTRL_aileron_right",
+        "frame": "HINGE_aileron_right",
+        "axis_local": "Y",
+        "pivot_native": [
+          -1.2081196308135986,
+          -1.001380205154419,
+          0.438370019197464
+        ],
+        "hinge_axis_native": [
+          0.26854708790779114,
+          -0.9623453617095947,
+          -0.04211786761879921
+        ],
+        "meshes": [
+          "Fuselage.019"
+        ],
+        "demo_sign": 1
+      },
+      {
+        "id": "stabilator_left",
+        "object": "CTRL_stabilator_left",
+        "frame": "HINGE_stabilator_left",
+        "axis_local": "Y",
+        "pivot_native": [
+          -1.6926900148391724,
+          0.4076769948005676,
+          0.4332508444786072
+        ],
+        "hinge_axis_native": [
+          0.0,
+          1.0,
+          -1.788139627478813e-07
+        ],
+        "meshes": [
+          "Fuselage.013"
+        ],
+        "demo_sign": 1
+      },
+      {
+        "id": "stabilator_right",
+        "object": "CTRL_stabilator_right",
+        "frame": "HINGE_stabilator_right",
+        "axis_local": "Y",
+        "pivot_native": [
+          -1.6926900148391724,
+          -0.4076769948005676,
+          0.43325096368789673
+        ],
+        "hinge_axis_native": [
+          0.0,
+          -1.0,
+          1.788139627478813e-07
+        ],
+        "meshes": [
+          "Fuselage.015"
+        ],
+        "demo_sign": -1
+      },
+      {
+        "id": "rudder_left",
+        "object": "CTRL_rudder_left",
+        "frame": "HINGE_rudder_left",
+        "axis_local": "Y",
+        "pivot_native": [
+          -1.6689828634262085,
+          0.34496626257896423,
+          0.5311340689659119
+        ],
+        "hinge_axis_native": [
+          0.3530980050563812,
+          0.46779313683509827,
+          0.8102415204048157
+        ],
+        "meshes": [
+          "SURFACE_rudder_left"
+        ],
+        "demo_sign": 1
+      },
+      {
+        "id": "rudder_right",
+        "object": "CTRL_rudder_right",
+        "frame": "HINGE_rudder_right",
+        "axis_local": "Y",
+        "pivot_native": [
+          -1.6689826250076294,
+          -0.34496641159057617,
+          0.5311347246170044
+        ],
+        "hinge_axis_native": [
+          0.3530978858470917,
+          -0.4677932858467102,
+          0.8102415800094604
+        ],
+        "meshes": [
+          "SURFACE_rudder_right"
+        ],
+        "demo_sign": 1
+      },
+      {
+        "id": "tvc_left",
+        "object": "CTRL_tvc_left",
+        "frame": "HINGE_tvc_left",
+        "axis_local": "Y",
+        "pivot_native": [
+          -1.5487799644470215,
+          0.14808902144432068,
+          0.41547396779060364
+        ],
+        "hinge_axis_native": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "meshes": [
+          "Nozzle",
+          "Nozzle.003",
+          "Nozzle.005",
+          "Nozzle.007"
+        ],
+        "demo_sign": 1
+      },
+      {
+        "id": "tvc_right",
+        "object": "CTRL_tvc_right",
+        "frame": "HINGE_tvc_right",
+        "axis_local": "Y",
+        "pivot_native": [
+          -1.5487799644470215,
+          -0.1480889916419983,
+          0.4154740273952484
+        ],
+        "hinge_axis_native": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "meshes": [
+          "Nozzle.002",
+          "Nozzle.004",
+          "Nozzle.006",
+          "Nozzle.008"
+        ],
+        "demo_sign": 1
+      }
+    ],
+    "edited_source_objects": [
+      {
+        "object": "Fuselage.008",
+        "operation": "inset upper skin and sloping joint rim",
+        "rim_faces": 12,
+        "before_faces": 46,
+        "after_faces": 58
+      },
+      {
+        "object": "Fuselage.001",
+        "operation": "inset upper skin and sloping joint rim",
+        "rim_faces": 12,
+        "before_faces": 46,
+        "after_faces": 58
+      },
+      {
+        "object": "Fuselage.018",
+        "operation": "inset upper skin and sloping joint rim",
+        "rim_faces": 8,
+        "before_faces": 52,
+        "after_faces": 60
+      },
+      {
+        "object": "Fuselage.009",
+        "operation": "inset upper skin and sloping joint rim",
+        "rim_faces": 8,
+        "before_faces": 52,
+        "after_faces": 60
+      },
+      {
+        "object": "Fuselage.012",
+        "operation": "inset upper skin and sloping joint rim",
+        "rim_faces": 6,
+        "before_faces": 38,
+        "after_faces": 44
+      },
+      {
+        "object": "Fuselage.019",
+        "operation": "inset upper skin and sloping joint rim",
+        "rim_faces": 6,
+        "before_faces": 38,
+        "after_faces": 44
+      },
+      {
+        "object": "Fuselage.013",
+        "operation": "inset upper skin and sloping joint rim",
+        "rim_faces": 12,
+        "before_faces": 56,
+        "after_faces": 68
+      },
+      {
+        "object": "Fuselage.015",
+        "operation": "inset upper skin and sloping joint rim",
+        "rim_faces": 12,
+        "before_faces": 56,
+        "after_faces": 68
+      },
+      {
+        "object": "Fuselage",
+        "operation": "six physical wing-control pockets",
+        "before_faces": 1605,
+        "after_faces": 1605
+      },
+      {
+        "object": "Fuselage.005",
+        "operation": "fixed fin / separate capped rudder with physical gap",
+        "before_faces": 41,
+        "after_faces": 50
+      },
+      {
+        "object": "Fuselage.007",
+        "operation": "fixed fin / separate capped rudder with physical gap",
+        "before_faces": 41,
+        "after_faces": 50
+      },
+      {
+        "object": "Nozzle",
+        "operation": "TVC flap hinge/lip bevel",
+        "before_faces": 82,
+        "after_faces": 126
+      },
+      {
+        "object": "Nozzle.003",
+        "operation": "TVC flap hinge/lip bevel",
+        "before_faces": 20,
+        "after_faces": 30
+      },
+      {
+        "object": "Nozzle.005",
+        "operation": "TVC flap hinge/lip bevel",
+        "before_faces": 82,
+        "after_faces": 126
+      },
+      {
+        "object": "Nozzle.007",
+        "operation": "TVC flap hinge/lip bevel",
+        "before_faces": 20,
+        "after_faces": 30
+      },
+      {
+        "object": "Nozzle.002",
+        "operation": "TVC flap hinge/lip bevel",
+        "before_faces": 82,
+        "after_faces": 126
+      },
+      {
+        "object": "Nozzle.004",
+        "operation": "TVC flap hinge/lip bevel",
+        "before_faces": 20,
+        "after_faces": 30
+      },
+      {
+        "object": "Nozzle.006",
+        "operation": "TVC flap hinge/lip bevel",
+        "before_faces": 82,
+        "after_faces": 126
+      },
+      {
+        "object": "Nozzle.008",
+        "operation": "TVC flap hinge/lip bevel",
+        "before_faces": 20,
+        "after_faces": 30
+      }
+    ],
+    "rudder_splits": [
+      {
+        "fixed": "Fuselage.005",
+        "rudder": "SURFACE_rudder_left",
+        "capped_cut_faces": 0,
+        "gap_native": 0.005766459092620976
+      },
+      {
+        "fixed": "Fuselage.007",
+        "rudder": "SURFACE_rudder_right",
+        "capped_cut_faces": 0,
+        "gap_native": 0.005766459092620976
+      }
+    ],
+    "geometric_edge_width_native": 0.008871475527109193,
+    "joint_geometry": "beveled control edges and capped physical rudder separation",
+    "fin_linear_gain": 1.12,
+    "archived_source_actions": [
+      {
+        "object": "Cockpit  ",
+        "action": "Cockpit  |Scene"
+      },
+      {
+        "object": "Armature.002",
+        "action": "Armature.002|Scene"
+      },
+      {
+        "object": "Armature.003",
+        "action": "Armature.003|Scene"
+      },
+      {
+        "object": "Armature",
+        "action": "Armature|Scene"
+      },
+      {
+        "object": "Armature.005",
+        "action": "Armature.005|Scene"
+      },
+      {
+        "object": "Armature.007",
+        "action": "Armature.007|Scene"
+      },
+      {
+        "object": "Armature.004",
+        "action": "Armature.004|Scene"
+      },
+      {
+        "object": "Armature.006",
+        "action": "Armature.006|Scene"
+      },
+      {
+        "object": "Armature.001",
+        "action": "Armature.001|Scene"
+      }
+    ],
+    "source_subsystems_frozen_at_frame": 650,
+    "source_controls_reset_to_neutral": true,
+    "demo_frames": [
+      1,
+      20,
+      40,
+      60
+    ],
+    "demo_degrees": 12,
+    "movement_validation": [
+      {
+        "control": "leading_edge_left",
+        "test_degrees": 12,
+        "maximum_vertex_travel": 0.022988643537133993,
+        "fixed_fins_unchanged": true,
+        "other_controls_unchanged": true
+      },
+      {
+        "control": "leading_edge_right",
+        "test_degrees": 12,
+        "maximum_vertex_travel": 0.022988554549137126,
+        "fixed_fins_unchanged": true,
+        "other_controls_unchanged": true
+      },
+      {
+        "control": "flap_left",
+        "test_degrees": 12,
+        "maximum_vertex_travel": 0.05599583964246381,
+        "fixed_fins_unchanged": true,
+        "other_controls_unchanged": true
+      },
+      {
+        "control": "flap_right",
+        "test_degrees": 12,
+        "maximum_vertex_travel": 0.05599647423518854,
+        "fixed_fins_unchanged": true,
+        "other_controls_unchanged": true
+      },
+      {
+        "control": "aileron_left",
+        "test_degrees": 12,
+        "maximum_vertex_travel": 0.03675583806643892,
+        "fixed_fins_unchanged": true,
+        "other_controls_unchanged": true
+      },
+      {
+        "control": "aileron_right",
+        "test_degrees": 12,
+        "maximum_vertex_travel": 0.03675597097515996,
+        "fixed_fins_unchanged": true,
+        "other_controls_unchanged": true
+      },
+      {
+        "control": "stabilator_left",
+        "test_degrees": 12,
+        "maximum_vertex_travel": 0.11558500592026594,
+        "fixed_fins_unchanged": true,
+        "other_controls_unchanged": true
+      },
+      {
+        "control": "stabilator_right",
+        "test_degrees": 12,
+        "maximum_vertex_travel": 0.1155850093195259,
+        "fixed_fins_unchanged": true,
+        "other_controls_unchanged": true
+      },
+      {
+        "control": "rudder_left",
+        "test_degrees": 12,
+        "maximum_vertex_travel": 0.020722947191497264,
+        "fixed_fins_unchanged": true,
+        "other_controls_unchanged": true
+      },
+      {
+        "control": "rudder_right",
+        "test_degrees": 12,
+        "maximum_vertex_travel": 0.020722914955523693,
+        "fixed_fins_unchanged": true,
+        "other_controls_unchanged": true
+      },
+      {
+        "control": "tvc_left",
+        "test_degrees": 12,
+        "maximum_vertex_travel": 0.04750777722635058,
+        "fixed_fins_unchanged": true,
+        "other_controls_unchanged": true
+      },
+      {
+        "control": "tvc_right",
+        "test_degrees": 12,
+        "maximum_vertex_travel": 0.04750774782096948,
+        "fixed_fins_unchanged": true,
+        "other_controls_unchanged": true
+      }
+    ],
+    "runtime_flight_controller_added": false
+  },
+  "pose_note": "Gear/canopy/bays frozen from source frame 650; controls neutralized; named hinge demo at frames 1..60",
   "source_forward": "+X",
   "source_up": "+Z",
   "source_pose_bounds": [
@@ -68,10 +595,14 @@
     "F22 mechanism": 243,
     "F22 glass_frame": 1,
     "F22 glass": 1,
-    "F22 fixed UV camouflage": 30,
+    "F22 fixed UV camouflage": 28,
+    "F22 physical joint": 25,
     "F22 nozzle_inside": 1,
-    "F22 body": 6,
-    "F22 edge": 6,
+    "F22 body vertical fin +12% linear": 4,
+    "F22 fixed UV camouflage vertical fin +12% linear": 4,
+    "F22 edge vertical fin +12% linear": 4,
+    "F22 body": 4,
+    "F22 edge": 4,
     "F22 nozzle": 4,
     "F22 nozzle_lip": 4
   },

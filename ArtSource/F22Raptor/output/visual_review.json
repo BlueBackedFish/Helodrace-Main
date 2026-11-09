@@ -4,7 +4,9 @@
     "output/HD_F22.png",
     "output/preview.png",
     "output/scale_review.png",
-    "analysis/pose_selection.png"
+    "analysis/pose_selection.png",
+    "output/articulation_preview.gif",
+    "output/tvc_review.png"
   ],
   "exact_top_and_nose_up": true,
   "canopy_and_gear_closed_in_source_pose": true,
@@ -12,9 +14,18 @@
   "control_surfaces_and_nozzles_readable": true,
   "readable_at_256_and_512": true,
   "light_gray_dark_alpha_edges_reviewed": true,
-  "geometry_not_simplified": true,
   "draw_size_tiles": null,
   "blueprint_validation_performed": false,
   "in_game_tested": false,
-  "remaining_limits": "Physical map size and aircraft gameplay are not assigned; small source insignia becomes indistinct at 256px."
+  "remaining_limits": "Model and texture preparation only; game flight/control animation and aerodynamic limits are not assigned.",
+  "model_controls_reviewed": 12,
+  "physical_control_pockets_and_rudder_gaps": true,
+  "no_raster_control_seams": true,
+  "vertical_fins_slightly_brightened": true,
+  "independent_tvc_and_neutral_return_reviewed": true,
+  "source_geometry_edits": 19,
+  "untouched_source_meshes": 246,
+  "source_pose_frame": 650,
+  "model_neutral_frame": 1,
+  "runtime_flight_animation_added": false
 }

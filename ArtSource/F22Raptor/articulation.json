@@ -1,0 +1,28 @@
+{
+  "source_control_armature": "Armature.001",
+  "bevel_width_delivery_pixels": 2.0,
+  "rudder_gap_delivery_pixels": 1.3,
+  "joint_rgb": [102, 113, 122],
+  "fin_linear_gain": 1.12,
+  "demo_degrees": 12,
+  "demo_frames": [1, 20, 40, 60],
+  "surfaces": [
+    {"id": "leading_edge_left", "object": "Fuselage.008", "bone": "Bone.011", "demo_sign": 1},
+    {"id": "leading_edge_right", "object": "Fuselage.001", "bone": "Bone.010", "demo_sign": -1},
+    {"id": "flap_left", "object": "Fuselage.018", "bone": "Bone.009", "demo_sign": 1},
+    {"id": "flap_right", "object": "Fuselage.009", "bone": "Bone.008", "demo_sign": -1},
+    {"id": "aileron_left", "object": "Fuselage.012", "bone": "Bone.013", "demo_sign": 1},
+    {"id": "aileron_right", "object": "Fuselage.019", "bone": "Bone.012", "demo_sign": 1},
+    {"id": "stabilator_left", "object": "Fuselage.013", "bone": "Bone.005", "demo_sign": 1},
+    {"id": "stabilator_right", "object": "Fuselage.015", "bone": "Bone.004", "demo_sign": -1}
+  ],
+  "fins": [
+    {"id": "rudder_left", "object": "Fuselage.005", "bone": "Bone.007"},
+    {"id": "rudder_right", "object": "Fuselage.007", "bone": "Bone.006"}
+  ],
+  "nozzles": [
+    {"id": "tvc_left", "objects": ["Nozzle", "Nozzle.003", "Nozzle.005", "Nozzle.007"], "upper_bone": "Bone.016", "lower_bone": "Bone.020"},
+    {"id": "tvc_right", "objects": ["Nozzle.002", "Nozzle.004", "Nozzle.006", "Nozzle.008"], "upper_bone": "Bone.014", "lower_bone": "Bone.018"}
+  ],
+  "notes": "Image-left/right with the aircraft nose up. Dedicated controls use local Y rotation in their hinge frame. Demo angles verify model movement, not aerodynamic limits. TVC denotes the requested CVT/thrust-vectoring nozzle."
+}

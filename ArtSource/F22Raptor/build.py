@@ -1,4 +1,4 @@
-"""Preserve the supplied F-22 rig and UVs, then render an unlit top sprite."""
+"""Build the supplied F-22 with real control joints and render an unlit top sprite."""
 from pathlib import Path
 from collections import Counter
 import bpy,sys,json,math,hashlib
@@ -66,28 +66,30 @@ for obj in objects:
     inventory.append(dict(name=obj.name,vertices=len(obj.data.vertices),faces=len(obj.data.polygons),
         original_materials=original,materials=[mat.name for mat in obj.data.materials],geometry_uv_sha256=before[obj.name]))
 assert before=={o.name:geometry_signature(o) for o in objects}
-image.pack()
-bpy.data.orphans_purge(do_recursive=True)
+source_faces=sum(len(o.data.polygons) for o in objects)
 span=max(hi.x-lo.x,hi.y-lo.y);size=STYLE['delivery_resolution'];padding=STYLE['outline_pixels']+STYLE['transparent_margin_pixels']
 scale=span/(1-2*padding/size)
+sys.path.insert(0,str(ROOT))
+from articulation import prepare
+joint=m.material('F22 physical joint',json.loads((ROOT/'articulation.json').read_text())['joint_rgb'])
+articulation=prepare(scene,origin,scale,joint)
+edited={item['object'] for item in articulation['edited_source_objects']}
+assert all(geometry_signature(scene.objects[name])==signature for name,signature in before.items() if name not in edited)
+objects=[o for o in scene.objects if o.type=='MESH']
+image.pack()
+bpy.data.orphans_purge(do_recursive=True)
 data=bpy.data.cameras.new('F22 exact top');data.type='ORTHO';data.ortho_scale=scale
 camera=bpy.data.objects.new('F22 exact top',data);scene.collection.objects.link(camera)
 camera.location=(0,0,hi.z-lo.z+10);camera.rotation_euler=(0,0,0);scene.camera=camera
 m.save(OUT/'f22_raptor.blend');m.render(OUT/'top_plain_2048.png',camera,STYLE['master_resolution'])
-white=m.material('Control mask white',(255,255,255));black=m.material('Control mask occluder',(0,0,0))
-backup={o:list(o.data.materials) for o in objects};selected=set(STYLE['control_objects'])
-assert selected.issubset({o.name for o in objects})
-for obj in objects:
-    for i in range(len(obj.data.materials)):obj.data.materials[i]=white if obj.name in selected else black
-m.render(OUT/'control_mask_2048.png',camera,STYLE['master_resolution'])
-for obj,materials in backup.items():
-    for i,mat in enumerate(materials):obj.data.materials[i]=mat
 assert not any(o.type=='LIGHT' for o in scene.objects)
 assert hashlib.sha256(SOURCE.read_bytes()).hexdigest()==source_hash
 report=dict(passed=True,source=str(SOURCE),source_sha256=source_hash,pose_frame=STYLE['pose_frame'],
-    source_meshes=len(objects),source_faces=sum(len(o.data.polygons) for o in objects),omitted_meshes=0,
-    original_mesh_coordinates_topology_and_uv_preserved=True,original_animation_and_rig_preserved=True,
-    pose_note='Source animation frame 650; closed canopy, retracted landing gear and closed weapon bays reviewed from the side',
+    source_meshes=len(before),source_faces=source_faces,omitted_meshes=0,
+    final_meshes=len(objects),final_faces=sum(len(o.data.polygons) for o in objects),
+    untouched_source_meshes_preserved=len(before)-len(edited),
+    source_rig_retained_and_actions_archived=True,articulation=articulation,
+    pose_note='Gear/canopy/bays frozen from source frame 650; controls neutralized; named hinge demo at frames 1..60',
     source_forward='+X',source_up='+Z',source_pose_bounds=[list(lo),list(hi)],root_transform=[list(r) for r in transform],
     orthographic_camera_rotation=[0,0,0],ortho_scale=scale,pivot_normalized=[.5,.5],
     master_resolution=STYLE['master_resolution'],delivery_resolution=size,draw_size_tiles=None,
@@ -96,4 +98,5 @@ report=dict(passed=True,source=str(SOURCE),source_sha256=source_hash,pose_frame=
     material_roles=dict(Counter(mat.name for o in objects for mat in o.data.materials)),objects=inventory,
     game_definition_added=False,in_game_tested=False,blueprint_validation_performed=False)
 (OUT/'model_validation.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
-print('F22_TOP_MODEL_PASS:',len(objects),'source meshes and',report['source_faces'],'faces preserved; frame',STYLE['pose_frame'],'exact top projection')
+(OUT/'articulation.json').write_text(json.dumps(articulation,indent=2)+'\n',encoding='utf-8')
+print('F22_TOP_MODEL_PASS:',len(objects),'meshes;',len(articulation['controllers']),'working controls; model joints, brighter fins and exact top projection')

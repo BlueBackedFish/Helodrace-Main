@@ -1,20 +1,16 @@
-"""Use the established aircraft silhouette and muted internal-line treatment."""
+"""Outline the aircraft; internal joints come exclusively from the 3D model."""
 from pathlib import Path
 import json,sys,hashlib
 import numpy as np
-from PIL import Image,ImageChops,ImageFilter,ImageDraw
+from PIL import Image,ImageDraw
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'output';REPO=ROOT.parents[1]
 sys.path.insert(0,str(ROOT.parent/'VehiclePipeline'))
-from images import resize_linear,composite_linear,sheet,font
+from images import resize_linear,sheet,font
 sys.path.insert(0,str(ROOT.parent/'PropAssets'));from image_export import outline as black_outline
 style=json.loads((ROOT/'style.json').read_text());report=json.loads((OUT/'model_validation.json').read_text())
 size=style['delivery_resolution'];master=Image.open(OUT/'top_plain_2048.png').convert('RGBA');factor=master.width/size
-mask=Image.open(OUT/'control_mask_2048.png').getchannel('R')
-radius=round(style['panel_line_pixels']*factor)
-edge=ImageChops.subtract(mask,mask.filter(ImageFilter.MinFilter(2*radius+1)))
-edge=ImageChops.multiply(edge,master.getchannel('A'))
-lines=Image.new('RGBA',master.size,tuple(style['panel_rgb'])+(0,));lines.putalpha(edge)
-plain=composite_linear(master,lines,(0,0));plain.putalpha(master.getchannel('A'))
+assert len(report['articulation']['controllers'])==12
+plain=master
 outlined=black_outline(plain,style['outline_pixels']*factor)
 target=REPO/'Textures/Effects/Aircraft/F22';target.mkdir(parents=True,exist_ok=True)
 validation={};images={}
@@ -37,9 +33,19 @@ for n,x,y in [(256,20,150),(512,300,52)]:
     small=resize_linear(images['Outlined'],n);review.paste(small,(x,y),small)
     draw.text((x,y-32),str(n)+'px canvas / actual pixels',font=font(16),fill='white')
 review.save(OUT/'scale_review.png')
+motion=OUT/'articulation_review'
+if (motion/'controls_neutral.png').exists():
+    frames=[]
+    for label in ['neutral','negative','positive','return']:
+        image=Image.open(motion/('controls_'+label+'.png')).convert('RGBA')
+        bg=Image.new('RGBA',image.size,(91,97,104,255));bg.alpha_composite(image);frames.append(bg.convert('RGB'))
+    frames[0].save(OUT/'articulation_preview.gif',save_all=True,append_images=frames[1:],duration=[800,650,650,800],loop=0)
+    sheet([(label.upper(),Image.open(motion/('tvc_'+label+'.png'))) for label in ['negative','neutral','positive']],
+        OUT/'tvc_review.png',columns=3,cell_size=(400,440))
 (OUT/'texture_validation.json').write_text(json.dumps(dict(passed=True,images=validation,resolution=[size,size],
-    outline_pixels=style['outline_pixels'],panel_line_pixels=style['panel_line_pixels'],
+    outline_pixels=style['outline_pixels'],internal_lines_from_model_geometry=True,
     one_outline_for_complete_aircraft=True,pivot_normalized=[.5,.5],nose_up=True,draw_size_tiles=None,
-    color_treatment='Source UV layout, four-color flat camouflage and muted control seams; opaque gold canopy',
+    moving_controls=12,source_subsystem_pose=650,model_neutral_frame=1,
+    color_treatment='Flat camouflage, mildly brighter upright fins, physical control joints; opaque gold canopy',
     texture='Textures/Effects/Aircraft/F22/HD_F22.png',game_definition_added=False,in_game_tested=False),indent=2)+'\n')
-print('F22_TEXTURE_PASS: 1024px RGBA; exact top; 12px outside outline; 2px muted control seams; plain/editable model retained')
+print('F22_TEXTURE_PASS: 1024px RGBA; exact top; 12px outside outline; physical model joints without 2D seam painting')
