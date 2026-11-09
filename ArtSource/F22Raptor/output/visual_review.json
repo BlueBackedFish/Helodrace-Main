@@ -7,7 +7,11 @@
     "analysis/pose_selection.png",
     "output/articulation_preview.gif",
     "output/tvc_review.png",
-    "output/canopy_review.png"
+    "output/canopy_review.png",
+    "output/paint_review.png",
+    "output/airframe_review.png",
+    "analysis/references/usaf_8397555.jpg",
+    "analysis/references/usaf_8075211.jpg"
   ],
   "exact_top_and_nose_up": true,
   "canopy_and_gear_closed_in_source_pose": true,
@@ -30,5 +34,15 @@
   "model_neutral_frame": 1,
   "runtime_flight_animation_added": false,
   "canopy_curved_dome_reviewed": true,
-  "canopy_mounting_loop_preserved": true
+  "canopy_mounting_loop_preserved": true,
+  "photo_referenced_camouflage": true,
+  "main_wing_and_tail_ram_patterns_separate": true,
+  "paint_stored_on_neutral_mesh": true,
+  "modeled_airframe_recesses": 16,
+  "all_recesses_verified_to_cut_existing_skin": true,
+  "cannon_shutter_default_closed": true,
+  "cannon_open_recess_reviewed": true,
+  "radome_curved_with_original_pointed_tip": true,
+  "radome_mounting_loop_and_overall_length_preserved": true,
+  "camouflage_limits": "Photo-informed flat-art interpretation; not an exact stencil for a particular serial or measured FS colors"
 }

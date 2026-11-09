@@ -1,6 +1,13 @@
 {
   "passed": true,
-  "baseline": "2378e8ac",
-  "neutral_projected_alpha_area_ratio": 1.0028529663674586,
-  "checks": "Neutral silhouette retained after physical control pocket cutting; this is not an exact-alpha preservation claim"
+  "baseline": "9ebb9fa4",
+  "neutral_projected_alpha_area_ratio": 0.9981917179603097,
+  "alpha_change_bounds": [
+    462,
+    14,
+    562,
+    138
+  ],
+  "alpha_unchanged_below_row": 160,
+  "checks": "Only the refined nose changes the outer silhouette; wing, tail and lower airframe alpha unchanged"
 }

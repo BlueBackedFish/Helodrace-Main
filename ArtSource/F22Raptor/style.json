@@ -1,5 +1,5 @@
 {
-  "source": "C:/Users/human/Documents/GitHub/.texture/ref/lockheed-martin-f-22-raptor/source/Lockheed Martin F-22 «Raptor».fbx",
+  "source": "C:/Users/human/Documents/GitHub/.texture/ref/lockheed-martin-f-22-raptor/source/Lockheed Martin F-22 \u00abRaptor\u00bb.fbx",
   "texture_directory": "../textures",
   "pose_frame": 650,
   "master_resolution": 2048,
@@ -9,24 +9,24 @@
   "transparent_margin_pixels": 16,
   "palette": {
     "vent": [
-      65,
       76,
-      84
+      87,
+      94
     ],
     "camo_dark": [
-      131,
-      142,
-      150
+      123,
+      134,
+      141
     ],
     "body": [
-      155,
-      165,
-      173
+      151,
+      159,
+      164
     ],
     "edge": [
-      179,
-      187,
-      193
+      174,
+      181,
+      185
     ],
     "glass": [
       147,
@@ -57,25 +57,19 @@
       55,
       65,
       72
+    ],
+    "radome": [
+      160,
+      164,
+      162
     ]
   },
-  "camo_source_thresholds_srgb": [
-    0,
-    42,
-    85,
-    108
-  ],
-  "camo_roles": [
-    "vent",
-    "camo_dark",
-    "body",
-    "edge"
-  ],
   "projection": "Orthographic directly above +Z; rotate native +X nose to +Y; image nose up",
-  "surface_style": "Source UV camouflage reduced to four fixed colors; no lights, shadows, normal maps, AO or reflections",
+  "surface_style": "Photo-referenced broad two-tone gray camouflage with narrow light RAM edge bands; fixed emission colors",
   "outline_style": "One black outside silhouette; internal control joints are modeled bevels and capped rudder gaps, not a painted mask",
   "draw_size_tiles": null,
   "source_sha256": "499abc020205f73ad57fe5ba9d1dcb5ba73b26764abb55c212d3e6bd58b7c746",
   "source_albedo_sha256": "c34c15dd580baecdc8b5424f453fc8e7cff44789e39fd25c644aeb775fd304d1",
-  "articulation_profile": "articulation.json"
+  "articulation_profile": "articulation.json",
+  "paint_profile": "paint.json"
 }

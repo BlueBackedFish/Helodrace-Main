@@ -1,58 +1,44 @@
 # Aircraft art brief — F-22 Raptor
 
-## References and target
+## Target and evidence
 
-- Request: create a texture from the supplied F-22, looking directly down from above.
-- Source: `C:/Users/human/Documents/GitHub/.texture/ref/lockheed-martin-f-22-raptor/source/Lockheed Martin F-22 «Raptor».fbx`.
-- Hash and per-mesh preservation signatures: `output/model_validation.json`.
-- Blueprint: not supplied; no independent dimensional/blueprint approval is claimed.
-- Source axes: nose +X, up +Z, left/right span along Y. Source physical units are unverified.
-- Pose: freeze source frame 650 for canopy/gear/bays, archive original actions, neutralize the flight controls, and save the new control rig at its neutral frame 1.
-- Projection: orthographic, exact 90-degree top. Root rotation +90 degrees about Z makes the nose point up in the PNG; no nonuniform scale.
-- Style references: Main `Textures/Effects/CAS/HD_P47_CAS.png`, Main `Textures/Effects/CAS/A10/HD_A10C.png`, and the Main/Arsenal comparison in `ArtSource/C17Globemaster/analysis/aircraft_references.png`.
-- Ground-vehicle style exception: follow the established aircraft flat paint and a single aircraft silhouette, rather than ground-vehicle roof/wall shading or per-equipment black outlines.
-- Delivery: 1024×1024 RGBA from a 2048px master, matching the existing fighter/support-aircraft texture canvas. Gameplay draw size is unassigned.
+Create a directly overhead F-22 from the supplied FBX, with photo-informed operational gray camouflage and modeled external details. Preserve the established aircraft flat-emission style, 1024px delivery, transparent background, centered pivot, and one 12px black outside outline.
 
-## Parts and paint plan
+- Source path and pinned source/albedo hashes: `style.json`.
+- Native axes: nose +X, up +Z, port +Y. Original physical units are unverified.
+- Pose: source frame 650 closes canopy, gear and bays; new control rig is neutral at frame 1.
+- Photos: USAF 8397555 / 8075211, and Mark Kubes' F-22 walkaround, especially 05, 08, 10–12, 40 and 43. Full links and usage notes: `analysis/photo_references.json`.
+- Style: Main P-47/A-10 and Main/Arsenal aircraft comparison, recorded in `output/references.json`.
+- No independent blueprint or surveyed dimensions were supplied. The camouflage is a photo-informed interpretation; palette RGBs are not measured paint-chip values.
 
-| Source part/material | Treatment | Preservation |
-| --- | --- | --- |
-| Main fuselage and fixed wing | Original UV camouflage/RAM layout; six true control pockets cut from the underlying fixed skin | Fixed skin outside the control footprint retained |
-| Eight existing moving wing/tail panels | Connected upper skin inset with sloping joint rims; independent named hinges | Source panel shape/UV paint basis, revised rim topology |
-| Upright fins and rudders | Split on the source fin hinge vertices; capped physical gaps; same camouflage with mild 1.12 linear gain | Fixed front fin and separate movable rudder |
-| `Cockpit.001` glass and frame | Opaque muted gold glass, separate neutral frame | Source closed pose and mounting footprint; three-level subdivided dome |
-| Eight nozzle flap/lip meshes | Small modeled edge bevel; independent left/right TVC hinge | Fixed metal paint, source inner throat retained |
-| Gear, internal cockpit and weapon-bay assemblies | Fixed mechanism material; normal 3D occlusion in the chosen pose | Kept in model, no automatic deletion |
-| Control boundaries | Modeled upper-skin rims and rudder separation; nominal 2px rim at 1024px | No raster seam mask or painted contour |
+## Parts and treatment
 
-The source starts with 265 meshes / 39,040 faces. This revision explicitly edits 20 source meshes for the requested mechanical joints and adds two rudder meshes. The remaining 245 source meshes retain their coordinate/topology/UV hashes. Control paint uses the source UVs with interpolated UVs on new boundary vertices; cut caps and rim faces have the fixed joint material. The source rig and original action data are retained, but original actions are archived and the source subsystems are frozen. The input FBX is not overwritten. `output/model_validation.json` lists the operations and before/after face counts instead of claiming that edited topology is unchanged.
-
-## Paint and outline
-
-Aircraft surfaces use fixed RGB/UV image to Emission. No lamps, normal shading, AO, material gloss or view-dependent color changes are present. Camouflage cleanup works in the source UV map and removes fine source wear, not aircraft geometry. The broad camouflage and RAM-edge shapes remain source-derived. Palette and reviewed control-object names are in `style.json`.
-
-There is one 12px black aircraft silhouette, generated at double resolution and reduced with linear-light, premultiplied-alpha filtering. Internal control boundaries are real inset/bevel/cut surfaces colored with muted aircraft gray; no 2D seam image is composited. Canopy and exhaust are color/material boundaries, without separate thick black outlines. Upright fins and rudders are slightly brighter through a fixed material gain, not lighting or a global height multiplier.
-
-## Review
-
-| Item | Status / evidence |
+| Part | Treatment |
 | --- | --- |
-| Limited geometry edits / untouched mesh preservation | 20 listed source edits, two added rudders; 245 untouched source meshes retain their geometry/UV signatures |
-| Exactly top-down camera and nose-up orientation | Camera rotation `(0,0,0)`, orthographic, reviewed rendered silhouette |
-| Pose selection | Source side-view samples in `analysis/pose_selection.png`; frame 650 selected |
-| Flat camouflage and clear canopy/nozzles | Review final output and record in `output/visual_review.json` |
-| 256px / 512px readability | `output/scale_review.png` |
-| Transparent edges on light/gray/dark | `output/preview.png`, automatic transparent-RGB and margin checks |
-| Independent motion and neutral return | Each of twelve controls moved by 12 degrees and returned; fixed fins and all other controls verified unchanged |
-| TVC geometry motion | `output/tvc_review.png`; independent engine hinge ownership in `output/articulation.json` |
-| Neutral airframe silhouette | `output/silhouette_validation.json`, compared with the initial source-derived texture |
-| Independent blueprint dimensions | Not performed; blueprint not provided |
-| In-game display / flight | Not performed; texture-only delivery |
+| Fixed airframe / wings | Broad two-tone gray lobes and thin light edge bands, stored in native point paint coordinates |
+| Stabilators | Separate paint map to prevent main-wing bands crossing onto the tail |
+| Fins / rudders | Gray pattern without main-wing edge bands; retained mild 1.12 linear brightness gain |
+| Radome | Four-level local subdivision, fixed attachment loop and pointed tip, separate muted gray material |
+| Canopy | Retained three-level curved gold dome and fixed mounting footprint |
+| Cannon muzzle | Real starboard recess, floor, sloping walls and separate closed shutter |
+| Canopy / shoulder screens | Four cut recesses with modeled grille strips below the skin |
+| Engine bypass doors | Eight cut recesses with separate sawtooth-edged covers |
+| APU intake / exhaust | Separate cut recesses and grille geometry |
+| Refueling receptacle | Cut panel recess with separate closed cover |
+| Moving controls | Existing eight wing/tail controls, two split rudders and two independent TVC hinges |
 
-## Iteration notes
+The sixteen new recesses are Boolean cuts through the fixed upper skin; each cut is verified with a ray probe before adding its well. Covers and grilles are modeled parts. No flat black detail decals or post-render boundary masks substitute for those cuts. Photo-informed dimensions and exact model-space footprints are recorded in the model report.
 
-The first four-color shader pass exposed isolated baked weathering as spots. The paint input was median-cleaned in UV space before four-color assignment, retaining the broad camouflage instead of adding light or shadow. Source geometry, camera, closed flight pose and the 12px outside-outline target were fixed during that initial paint iteration.
+## Preservation and validation
 
-The follow-up request authorizes control-joint geometry changes. Raster boundary lines were removed. Source control panels receive real inset upper-skin rims; closed footprint prisms cut away the underlying fixed wing skin, preventing duplicate surfaces during movement. The fins were split into fixed and moving pieces along the existing rudder hinge vertices. Source nozzle flaps/lips now have independent left/right TVC controls. Camera, camouflage, opaque canopy and outside-outline thickness remain the same; control poses now start from a symmetric neutral state.
+Twenty original meshes have authorized geometry changes. The other 245 source meshes retain coordinate/topology/UV signatures, with native paint point attributes added as needed. There are 330 meshes overall. The original 265-mesh / 39,040-face FBX is unchanged. Original rig data and actions are retained; source actions are archived. No parts are omitted merely for being small.
 
-The canopy follow-up refines only `Cockpit.001` from 84 to 4,897 vertices. Mostly quad glass topology precedes three applied Catmull-Clark subdivision levels. Eighteen outside mounting-loop vertices are creased and verified unchanged, while the gold dome ends and upper profile curve smoothly. Original parent/closed pose, UV layers and fixed emission palette are retained. Top before/after and oblique views are in `output/canopy_review.png`.
+- `output/model_validation.json`: source hash, per-source signatures, radome fitting/tip errors, canopy mounting anchors, sixteen successful cut probes, independent twelve-control motion/return checks.
+- `output/texture_validation.json`: 1024px RGBA, twelve-pixel outline, transparent RGB cleanup, margins and exact runtime/output file equality.
+- `output/silhouette_validation.json`: comparison with the pre-radome revision; changed contour limited to the nose.
+- `output/paint_review.png`: previous and current full aircraft at equal scale.
+- `output/airframe_review.png`: shutter closed/hidden, curved radome and dorsal details.
+- `output/scale_review.png` and `output/preview.png`: actual 256/512px display and light/gray/dark alpha edges.
+- `output/articulation_preview.gif` / `output/tvc_review.png`: model articulation inspection.
+
+The default texture has the cannon shutter closed. Hiding its separate cover reveals the actual opening. No gameplay opening behavior or flight controller is added. Game draw size, aerodynamic limits, independent blueprint dimensions and in-game verification remain unassigned.

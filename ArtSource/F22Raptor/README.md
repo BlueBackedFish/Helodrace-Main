@@ -1,35 +1,39 @@
-# F-22 Raptor — flat top-view texture
+# F-22 Raptor — flat top-view artwork
 
-Created from the FBX supplied in `.texture/ref/lockheed-martin-f-22-raptor`. The aircraft points up in a true 90-degree orthographic view. It now has physical control joints, separate rudders and independent left/right thrust-vectoring nozzle controls. Internal boundaries come from the model, with one black outline around the complete aircraft.
+The supplied FBX is the geometry reference. The aircraft points up in a true 90-degree orthographic view, with fixed emission paint and one outside silhouette. The current revision uses photo-referenced two-tone gray camouflage, a refined radome, and real recessed airframe details.
 
-- Game texture: `Textures/Effects/Aircraft/F22/HD_F22.png` in the repository root. **1024×1024 transparent RGBA, 12px outside outline**. No 2D control-seam mask is painted over the render.
-- Matching output: `output/HD_F22.png`.
-- Editable model: `output/f22_raptor.blend`, with its four-color UV paint image packed inside.
-- Plain/outlined exports: `output/HD_F22_plain.png`, `output/HD_F22_outlined.png`.
-- UV paint map: `output/fuselage_flat_uv.png`.
-- 2048px model render: `output/top_plain_2048.png`.
-- Preview: `output/preview.png`; small-size review: `output/scale_review.png`.
-- Source, pose, preservation and texture checks: `output/model_validation.json`, `output/texture_validation.json`.
-- Reviewed source pose: `analysis/pose_selection.png`; style-reference hashes: `output/references.json`; visual review: `output/visual_review.json`.
-- Hinge positions, axes, mesh ownership and independent-movement checks: `output/articulation.json`.
-- Canopy before/after and oblique review: `output/canopy_review.png`.
-- Model motion preview: `output/articulation_preview.gif`; nozzle close-ups: `output/tvc_review.png`.
+- Runtime texture: `Textures/Effects/Aircraft/F22/HD_F22.png` in the repository root; **1024×1024 transparent RGBA, 12px outside outline**.
+- Editable model: `output/f22_raptor.blend`; all three native-space paint maps are packed inside.
+- Paint plan: `paint.json`; maps: `output/fuselage_main_paint.png`, `output/fuselage_tail_paint.png`, `output/fuselage_fin_paint.png`.
+- Plain and outlined exports: `output/HD_F22_plain.png`, `output/HD_F22_outlined.png`; 2048px master: `output/top_plain_2048.png`.
+- Whole-aircraft comparison: `output/paint_review.png`; close-ups: `output/airframe_review.png`; actual-size review: `output/scale_review.png`.
+- Model, texture, silhouette and visual checks: `output/model_validation.json`, `output/texture_validation.json`, `output/silhouette_validation.json`, `output/visual_review.json`.
 
-The source's broad gray camouflage and light RAM-edge layout are retained through the source UV paint. Fine baked scuffs are removed before assigning four fixed paint colors. The upright fins and rudders retain that pattern with a mild 1.12 linear color gain (roughly 7–9 extra sRGB levels). The canopy is opaque muted gold; exhaust nozzles use separate fixed metal colors. No light, normal-map shading, AO, reflections or cast shadows are used. Main P-47/A-10 and Arsenal P-47/DH-4 assets were inspected for the flat silhouette treatment; their pixels are not copied into the new texture.
+## Paint and references
 
-Source frame **650** supplies the closed canopy, retracted gear and closed bays. Those subsystems are frozen in that pose; the source rig remains and its original actions are archived as fake-user actions. Small source flight-control deflections are neutralized. The current model saves at **frame 1**, the neutral frame of the new control demonstration.
+The broad gray lobes and narrow light edge bands were redrawn from USAF aerial photographs, checked against Mark Kubes' exterior walkaround. This replaces the initial thresholded source-albedo pattern. Main wings and stabilators use separate paint maps so a wing edge stripe cannot cross onto a tail surface. Named point attributes store the paint in the neutral native model coordinates; it stays attached when controls move. The original UV layers remain available.
 
-The canopy now uses three applied Catmull-Clark subdivision levels after rejoining the source glass triangles into mostly quads: **84 to 4,897 vertices**, 150 to 4,832 faces. Its eighteen outside mounting vertices stay exactly in place; source parenting, closed pose, UV layers and fixed gold/frame materials remain. Only the dome is rounded; the mounting footprint retains its original fitting. `canopy.py` reproduces this refinement.
+The pattern is an artwork interpretation of operational F-22 camouflage, not a surveyed stencil for one serial number. RGB values are chosen for the established flat aircraft style, not claimed as measured Federal Standard paint values. Metallic reflections and weathering in the photographs are not reproduced as shading. The opaque gold canopy and the mild 1.12 linear gain on upright fins/rudders remain. No lights, AO, normal maps, reflections or cast shadows are used.
 
-The user-requested geometry revision edits 20 source meshes: eight control surfaces, the two fins split into fixed/moving portions, eight nozzle flap/lip meshes, the fixed fuselage, and the refined canopy. Wing controls have real inset/beveled rims. Six watertight pocket cutters remove the fixed wing skin beneath the leading-edge flaps, flaps and ailerons so a stationary duplicate is not exposed when they move. Rudder hinge gaps are capped model cuts. The remaining **245 source meshes** retain their coordinates, topology and UVs; two new rudder meshes make **267 meshes** overall. The input FBX remains unchanged. A parent transform still rotates the native +X nose to +Y and centers the aircraft without nonuniform scale. The image pivot remains `(0.5,0.5)`.
+Reference links, photographers, uses and cached USAF-photo hashes are in `analysis/photo_references.json`. The local Main P-47/A-10 and Arsenal P-47/DH-4 style-reference records remain in `output/references.json`.
+
+## Geometry
+
+`airframe.py` separates the existing nose at its rear cross-section and refines it with four subdivision levels. The original rear fitting and pointed nose tip are fixed; the radome now has 9,921 vertices and 9,728 faces. Its original overall length is retained. The exact measured seam error and tip error are recorded in the model report.
+
+Sixteen additional details are cut into the fixed upper skin: a starboard cannon muzzle recess, paired canopy purge screens and intake-shoulder vents, eight engine bypass-door recesses, APU intake/exhaust, and a refueling-receptacle panel. Each has actual sidewalls and an inset floor. Grilles have separate geometry below the skin. Closed panels have separate covers. Every cut is checked by ray-casting the fixed airframe to verify that the original surface was removed. Locations and depths are photo-informed native model units, not engineering measurements.
+
+The cannon shutter is **closed by default**. Hide `DETAIL cannon muzzle cover` to inspect the modeled opening. `output/airframe_review.png` shows both states. This is model preparation; no game firing/shutter controller is implemented.
+
+The canopy retains its previous three-level refinement, from 84 to 4,897 vertices. Its eighteen outside mounting vertices remain fixed. The source's closed-canopy, retracted-gear and closed-bay pose comes from frame 650. Those subsystems are frozen; the source rig and original actions are retained, with the actions archived. The new controls save in neutral at frame 1.
+
+Twenty source meshes have deliberate coordinate/topology revisions; the other **245 source meshes** retain their geometry/UV signatures. The source starts with 265 meshes / 39,040 faces. The current model has **330 meshes**, including separate rudders, radome, wells, covers and grille strips. Extra native paint attributes are added without overwriting source UV layers. The input FBX is not changed. A uniform parent transform rotates native +X to +Y and centers the aircraft; the image pivot remains `(0.5,0.5)`.
 
 ## Model controls
 
-There are twelve named `CTRL_*` objects: left/right leading-edge flap, flap, aileron, stabilator, rudder and TVC nozzle. Each has a separate `HINGE_*` frame storing the real hinge position and axis. **Rotate `CTRL_*.rotation_euler[1]` in radians**; zero is neutral. Do not rotate around the texture center. `output/articulation.json` records the native pivots/axes and owned meshes; `output/model_validation.json` records the native-to-centered-model transform.
+There are twelve named `CTRL_*` objects: left/right leading-edge flap, flap, aileron, stabilator, rudder and TVC nozzle. Each has a separate `HINGE_*` frame storing its real hinge position and axis. Rotate `CTRL_*.rotation_euler[1]` in radians; zero is neutral. `output/articulation.json` records pivots, axes and mesh ownership. Do not rotate around the texture center.
 
-The upright fin's front portion stays fixed while its separated rudder turns on the swept/canted hinge. Each TVC control carries the corresponding upper/lower nozzle flaps and lips, with independent engine controls. The fixed interior throat remains on the airframe. Demonstration actions `DEMO_F22_*` use frames 1/20/40/60 for neutral/negative/positive/neutral. Their 12-degree excursions are inspection poses, not specified aerodynamic limits. They are model preparation for future gameplay animation.
-
-The texture resolution matches the existing 1024px aircraft assets. A gameplay draw size has **not** been assigned. There is no new aircraft definition or flight/combat implementation in this artwork change.
+Wing controls have inset upper-skin rims and true pockets in the fixed skin underneath. The fixed front fin stays still while its separate rudder turns. Each TVC control carries its upper/lower nozzle flaps and lips; the inner throat stays fixed. Demonstration actions use frames 1/20/40/60 for neutral/negative/positive/neutral. The twelve-degree excursions are inspection poses, not aerodynamic limits. See `output/articulation_preview.gif` and `output/tvc_review.png`.
 
 ## Regenerate
 
@@ -42,4 +46,6 @@ python ArtSource/F22Raptor/prepare_paint.py
 python ArtSource/F22Raptor/package.py
 ```
 
-The aircraft-specific FBX import retains the source rig. `articulation.py` builds the physical joints and named controls from `articulation.json`. Shared `VehiclePipeline/images.py` handles premultiplied-alpha resizing, and `PropAssets/image_export.py` supplies the round outside outline. The obsolete control-mask render was removed. No ground-vehicle camera or TAN paint preset is applied. The supplied reference files are read-only inputs.
+`articulation.py` builds physical joints and named controls from `articulation.json`; `canopy.py` refines the dome; `airframe.py` refines the radome and cuts the details. Shared `VehiclePipeline/images.py` handles premultiplied-alpha resizing, and `PropAssets/image_export.py` supplies the round outside outline. There is no painted control-seam mask. Ground-vehicle camera/TAN presets are not applied.
+
+Gameplay draw size remains unassigned. No aircraft definition, flight implementation or in-game test is part of this art revision. Independent blueprints were not supplied.

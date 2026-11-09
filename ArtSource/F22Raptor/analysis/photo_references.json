@@ -1,0 +1,34 @@
+{
+  "review_date": "2026-11-10",
+  "references": [
+    {
+      "label": "USAF aerial refueling, Sentry Savannah 2024",
+      "url": "https://www.dvidshub.net/image/8397555/f-22-aerial-refueling-during-sentry-savannah-2024",
+      "photographer": "Master Sgt. Morgan R. Whitehouse",
+      "file": "usaf_8397555.jpg",
+      "use": "Upper-wing camouflage lobes, edge bands and dorsal layout; public-domain USAF photograph",
+      "sha256": "4ae57e66644862dbbccae7559da5903c7e2af83e8c22a35f1e47cd34913ccefa"
+    },
+    {
+      "label": "USAF tankers support F-22 operations",
+      "url": "https://www.dvidshub.net/image/8075211/tankers-provide-aerial-support-f-22-ops",
+      "photographer": "Staff Sgt. Emily Farnsworth",
+      "file": "usaf_8075211.jpg",
+      "use": "Forebody/radome and broad gray camouflage; public-domain USAF photograph",
+      "sha256": "c74d63bfe4e488d55b2921f950bb23dda5d38bb7f63c3838365ac451037aa01f"
+    },
+    {
+      "label": "F-22 exterior walkaround",
+      "url": "https://arcair.com/awa01/701-800/awa710-F-22-Kubes/00.shtm",
+      "photographer": "Mark Kubes",
+      "use": "Photos 05, 08, 10, 11, 12, 40 and 43: radome fitting, stepped screens, engine bypass doors and APU details; linked reference only, photographs not redistributed"
+    },
+    {
+      "label": "USAF gun-door flight test 021105-O-9999G-084",
+      "url": "https://commons.wikimedia.org/wiki/File:F-22_Raptor,_gun_door_testing_-_021105-O-9999G-084.jpg",
+      "photographer": "Judson Brohmer / U.S. Air Force",
+      "use": "Starboard upper-wing cannon location and separate shutter; source caption, image download unavailable"
+    }
+  ],
+  "limits": "Photo-informed artwork; no surveyed dimensions, exact serial stencil or measured FS color claim"
+}

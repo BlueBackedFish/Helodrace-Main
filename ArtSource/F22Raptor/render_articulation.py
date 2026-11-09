@@ -19,4 +19,14 @@ target=sum(points,Vector())/len(points)
 for label,azimuth,elevation in [('top',0,90),('oblique',-30,30)]:
     camera=m.camera('Canopy '+label,azimuth,elevation,1.0,target)
     m.render(REVIEW/('canopy_'+label+'.png'),camera,700)
+radome=m.camera('Radome inspection',-30,23,.95,T@Vector((1.77,0,.43)))
+m.render(REVIEW/'radome_oblique.png',radome,700)
+details=m.camera('Dorsal details inspection',-85,65,1.65,T@Vector((.10,0,.48)))
+m.render(REVIEW/'dorsal_details.png',details,800)
+gun=m.camera('Cannon recess inspection',-38,55,.55,T@Vector((.73,-.30,.50)))
+shutter=scene.objects[meta['airframe']['cannon_shutter_object']]
+m.render(REVIEW/'cannon_closed.png',gun,700)
+shutter.hide_render=True
+m.render(REVIEW/'cannon_open.png',gun,700)
+shutter.hide_render=False
 print('F22_ARTICULATION_REVIEW_PASS: neutral / negative / positive / return; independent controls and TVC close-ups')

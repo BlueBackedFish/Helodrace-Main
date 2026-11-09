@@ -1,13 +1,5 @@
 {
   "passed": true,
-  "baseline": "241f7064",
-  "aircraft_alpha_unchanged": true,
-  "changed_pixel_bounds": [
-    485,
-    163,
-    816,
-    733
-  ],
   "canopy": {
     "object": "Cockpit.001",
     "method": "Rejoin glass quads; applied Catmull-Clark dome subdivision",

@@ -6,8 +6,8 @@
   "source_meshes": 265,
   "source_faces": 39040,
   "omitted_meshes": 0,
-  "final_meshes": 267,
-  "final_faces": 44032,
+  "final_meshes": 330,
+  "final_faces": 54045,
   "untouched_source_meshes_preserved": 245,
   "source_rig_retained_and_actions_archived": true,
   "articulation": {
@@ -551,6 +551,623 @@
     "uv_layers_preserved": true,
     "fixed_emission_palette_preserved": true
   },
+  "airframe": {
+    "radome": {
+      "object": "AIRFRAME smooth radome",
+      "original_nose_vertices": 49,
+      "original_nose_faces": 60,
+      "final_vertices": 9921,
+      "final_faces": 9728,
+      "subdivision_levels": 4,
+      "seam_x_native": 1.57189,
+      "mounting_loop_error": 2.457562461863555e-07,
+      "original_tip_x": 2.048219919204712,
+      "maximum_tip_error": 0.0
+    },
+    "details": [
+      {
+        "name": "cannon muzzle",
+        "footprint_native_xy": [
+          [
+            0.68,
+            -0.245
+          ],
+          [
+            0.61,
+            -0.31
+          ],
+          [
+            0.73,
+            -0.34
+          ],
+          [
+            0.82,
+            -0.27
+          ]
+        ],
+        "depth_native": 0.028,
+        "original_skin_cut_verified": true,
+        "well_mesh": "DETAIL cannon muzzle recessed well",
+        "cover_mesh": "DETAIL cannon muzzle cover",
+        "grille_bars": 0
+      },
+      {
+        "name": "port canopy purge screen",
+        "footprint_native_xy": [
+          [
+            0.72,
+            0.165
+          ],
+          [
+            0.69,
+            0.205
+          ],
+          [
+            0.64,
+            0.195
+          ],
+          [
+            0.61,
+            0.22
+          ],
+          [
+            0.54,
+            0.21
+          ],
+          [
+            0.56,
+            0.16
+          ],
+          [
+            0.61,
+            0.17
+          ],
+          [
+            0.64,
+            0.145
+          ]
+        ],
+        "depth_native": 0.012,
+        "original_skin_cut_verified": true,
+        "well_mesh": "DETAIL port canopy purge screen recessed well",
+        "cover_mesh": null,
+        "grille_bars": 6
+      },
+      {
+        "name": "port intake shoulder vent",
+        "footprint_native_xy": [
+          [
+            0.48,
+            0.3
+          ],
+          [
+            0.4,
+            0.37
+          ],
+          [
+            0.34,
+            0.33
+          ],
+          [
+            0.42,
+            0.265
+          ]
+        ],
+        "depth_native": 0.01,
+        "original_skin_cut_verified": true,
+        "well_mesh": "DETAIL port intake shoulder vent recessed well",
+        "cover_mesh": null,
+        "grille_bars": 6
+      },
+      {
+        "name": "port engine bypass door 1",
+        "footprint_native_xy": [
+          [
+            -0.08500000000000002,
+            0.18
+          ],
+          [
+            -0.08500000000000002,
+            0.285
+          ],
+          [
+            -0.15500000000000003,
+            0.285
+          ],
+          [
+            -0.17500000000000002,
+            0.265
+          ],
+          [
+            -0.195,
+            0.285
+          ],
+          [
+            -0.195,
+            0.18
+          ],
+          [
+            -0.17500000000000002,
+            0.16
+          ],
+          [
+            -0.15500000000000003,
+            0.18
+          ]
+        ],
+        "depth_native": 0.005,
+        "original_skin_cut_verified": true,
+        "well_mesh": "DETAIL port engine bypass door 1 recessed well",
+        "cover_mesh": "DETAIL port engine bypass door 1 cover",
+        "grille_bars": 0
+      },
+      {
+        "name": "port engine bypass door 2",
+        "footprint_native_xy": [
+          [
+            -0.245,
+            0.18
+          ],
+          [
+            -0.245,
+            0.285
+          ],
+          [
+            -0.315,
+            0.285
+          ],
+          [
+            -0.33499999999999996,
+            0.265
+          ],
+          [
+            -0.355,
+            0.285
+          ],
+          [
+            -0.355,
+            0.18
+          ],
+          [
+            -0.33499999999999996,
+            0.16
+          ],
+          [
+            -0.315,
+            0.18
+          ]
+        ],
+        "depth_native": 0.005,
+        "original_skin_cut_verified": true,
+        "well_mesh": "DETAIL port engine bypass door 2 recessed well",
+        "cover_mesh": "DETAIL port engine bypass door 2 cover",
+        "grille_bars": 0
+      },
+      {
+        "name": "port engine bypass door 3",
+        "footprint_native_xy": [
+          [
+            -0.405,
+            0.18
+          ],
+          [
+            -0.405,
+            0.285
+          ],
+          [
+            -0.47500000000000003,
+            0.285
+          ],
+          [
+            -0.495,
+            0.265
+          ],
+          [
+            -0.515,
+            0.285
+          ],
+          [
+            -0.515,
+            0.18
+          ],
+          [
+            -0.495,
+            0.16
+          ],
+          [
+            -0.47500000000000003,
+            0.18
+          ]
+        ],
+        "depth_native": 0.005,
+        "original_skin_cut_verified": true,
+        "well_mesh": "DETAIL port engine bypass door 3 recessed well",
+        "cover_mesh": "DETAIL port engine bypass door 3 cover",
+        "grille_bars": 0
+      },
+      {
+        "name": "port engine bypass door 4",
+        "footprint_native_xy": [
+          [
+            -0.565,
+            0.18
+          ],
+          [
+            -0.565,
+            0.285
+          ],
+          [
+            -0.635,
+            0.285
+          ],
+          [
+            -0.655,
+            0.265
+          ],
+          [
+            -0.675,
+            0.285
+          ],
+          [
+            -0.675,
+            0.18
+          ],
+          [
+            -0.655,
+            0.16
+          ],
+          [
+            -0.635,
+            0.18
+          ]
+        ],
+        "depth_native": 0.005,
+        "original_skin_cut_verified": true,
+        "well_mesh": "DETAIL port engine bypass door 4 recessed well",
+        "cover_mesh": "DETAIL port engine bypass door 4 cover",
+        "grille_bars": 0
+      },
+      {
+        "name": "starboard canopy purge screen",
+        "footprint_native_xy": [
+          [
+            0.64,
+            -0.145
+          ],
+          [
+            0.61,
+            -0.17
+          ],
+          [
+            0.56,
+            -0.16
+          ],
+          [
+            0.54,
+            -0.21
+          ],
+          [
+            0.61,
+            -0.22
+          ],
+          [
+            0.64,
+            -0.195
+          ],
+          [
+            0.69,
+            -0.205
+          ],
+          [
+            0.72,
+            -0.165
+          ]
+        ],
+        "depth_native": 0.012,
+        "original_skin_cut_verified": true,
+        "well_mesh": "DETAIL starboard canopy purge screen recessed well",
+        "cover_mesh": null,
+        "grille_bars": 6
+      },
+      {
+        "name": "starboard intake shoulder vent",
+        "footprint_native_xy": [
+          [
+            0.42,
+            -0.265
+          ],
+          [
+            0.34,
+            -0.33
+          ],
+          [
+            0.4,
+            -0.37
+          ],
+          [
+            0.48,
+            -0.3
+          ]
+        ],
+        "depth_native": 0.01,
+        "original_skin_cut_verified": true,
+        "well_mesh": "DETAIL starboard intake shoulder vent recessed well",
+        "cover_mesh": null,
+        "grille_bars": 6
+      },
+      {
+        "name": "starboard engine bypass door 1",
+        "footprint_native_xy": [
+          [
+            -0.15500000000000003,
+            -0.18
+          ],
+          [
+            -0.17500000000000002,
+            -0.16
+          ],
+          [
+            -0.195,
+            -0.18
+          ],
+          [
+            -0.195,
+            -0.285
+          ],
+          [
+            -0.17500000000000002,
+            -0.265
+          ],
+          [
+            -0.15500000000000003,
+            -0.285
+          ],
+          [
+            -0.08500000000000002,
+            -0.285
+          ],
+          [
+            -0.08500000000000002,
+            -0.18
+          ]
+        ],
+        "depth_native": 0.005,
+        "original_skin_cut_verified": true,
+        "well_mesh": "DETAIL starboard engine bypass door 1 recessed well",
+        "cover_mesh": "DETAIL starboard engine bypass door 1 cover",
+        "grille_bars": 0
+      },
+      {
+        "name": "starboard engine bypass door 2",
+        "footprint_native_xy": [
+          [
+            -0.315,
+            -0.18
+          ],
+          [
+            -0.33499999999999996,
+            -0.16
+          ],
+          [
+            -0.355,
+            -0.18
+          ],
+          [
+            -0.355,
+            -0.285
+          ],
+          [
+            -0.33499999999999996,
+            -0.265
+          ],
+          [
+            -0.315,
+            -0.285
+          ],
+          [
+            -0.245,
+            -0.285
+          ],
+          [
+            -0.245,
+            -0.18
+          ]
+        ],
+        "depth_native": 0.005,
+        "original_skin_cut_verified": true,
+        "well_mesh": "DETAIL starboard engine bypass door 2 recessed well",
+        "cover_mesh": "DETAIL starboard engine bypass door 2 cover",
+        "grille_bars": 0
+      },
+      {
+        "name": "starboard engine bypass door 3",
+        "footprint_native_xy": [
+          [
+            -0.47500000000000003,
+            -0.18
+          ],
+          [
+            -0.495,
+            -0.16
+          ],
+          [
+            -0.515,
+            -0.18
+          ],
+          [
+            -0.515,
+            -0.285
+          ],
+          [
+            -0.495,
+            -0.265
+          ],
+          [
+            -0.47500000000000003,
+            -0.285
+          ],
+          [
+            -0.405,
+            -0.285
+          ],
+          [
+            -0.405,
+            -0.18
+          ]
+        ],
+        "depth_native": 0.005,
+        "original_skin_cut_verified": true,
+        "well_mesh": "DETAIL starboard engine bypass door 3 recessed well",
+        "cover_mesh": "DETAIL starboard engine bypass door 3 cover",
+        "grille_bars": 0
+      },
+      {
+        "name": "starboard engine bypass door 4",
+        "footprint_native_xy": [
+          [
+            -0.635,
+            -0.18
+          ],
+          [
+            -0.655,
+            -0.16
+          ],
+          [
+            -0.675,
+            -0.18
+          ],
+          [
+            -0.675,
+            -0.285
+          ],
+          [
+            -0.655,
+            -0.265
+          ],
+          [
+            -0.635,
+            -0.285
+          ],
+          [
+            -0.565,
+            -0.285
+          ],
+          [
+            -0.565,
+            -0.18
+          ]
+        ],
+        "depth_native": 0.005,
+        "original_skin_cut_verified": true,
+        "well_mesh": "DETAIL starboard engine bypass door 4 recessed well",
+        "cover_mesh": "DETAIL starboard engine bypass door 4 cover",
+        "grille_bars": 0
+      },
+      {
+        "name": "APU intake",
+        "footprint_native_xy": [
+          [
+            -0.4,
+            0.145
+          ],
+          [
+            -0.51,
+            0.2
+          ],
+          [
+            -0.61,
+            0.145
+          ],
+          [
+            -0.57,
+            0.07
+          ],
+          [
+            -0.42,
+            0.07
+          ]
+        ],
+        "depth_native": 0.014,
+        "original_skin_cut_verified": true,
+        "well_mesh": "DETAIL APU intake recessed well",
+        "cover_mesh": null,
+        "grille_bars": 6
+      },
+      {
+        "name": "APU exhaust",
+        "footprint_native_xy": [
+          [
+            -0.67,
+            0.345
+          ],
+          [
+            -0.74,
+            0.39
+          ],
+          [
+            -0.84,
+            0.345
+          ],
+          [
+            -0.79,
+            0.29
+          ]
+        ],
+        "depth_native": 0.018,
+        "original_skin_cut_verified": true,
+        "well_mesh": "DETAIL APU exhaust recessed well",
+        "cover_mesh": null,
+        "grille_bars": 6
+      },
+      {
+        "name": "refueling receptacle",
+        "footprint_native_xy": [
+          [
+            0.23,
+            0
+          ],
+          [
+            0.19,
+            0.058
+          ],
+          [
+            0.045,
+            0.058
+          ],
+          [
+            0.015,
+            0
+          ],
+          [
+            0.045,
+            -0.058
+          ],
+          [
+            0.19,
+            -0.058
+          ]
+        ],
+        "depth_native": 0.008,
+        "original_skin_cut_verified": true,
+        "well_mesh": "DETAIL refueling receptacle recessed well",
+        "cover_mesh": "DETAIL refueling receptacle cover",
+        "grille_bars": 0
+      }
+    ],
+    "edited_source_objects": [
+      "Fuselage"
+    ],
+    "body_faces_before": 1605,
+    "body_faces_after": 1721,
+    "default_cannon_shutter": "closed",
+    "cannon_shutter_object": "DETAIL cannon muzzle cover",
+    "coordinates": "Native model units; photo-informed positions, not engineering measurements",
+    "references": [
+      "Kubes walkaround 05 / 08 / 10 / 11 / 12 / 40 / 43",
+      "USAF Judson Brohmer 021105-O-9999G-084 gun-door flight test",
+      "USAF 8397555 and 8075211 aerial refueling photos"
+    ]
+  },
   "pose_note": "Gear/canopy/bays frozen from source frame 650; controls neutralized; named hinge demo at frames 1..60",
   "source_forward": "+X",
   "source_up": "+Z",
@@ -606,21 +1223,27 @@
   "delivery_resolution": 1024,
   "draw_size_tiles": null,
   "source_albedo_sha256": "c34c15dd580baecdc8b5424f453fc8e7cff44789e39fd25c644aeb775fd304d1",
-  "lighting": "Emission only; four fixed UV camouflage colors, no lights/AO/normal/reflection",
+  "paint_profile": "paint.json",
+  "paint_coordinates": "Native XY captured in neutral frame 1; source UV layers retained",
+  "source_albedo_pattern_replaced": true,
+  "lighting": "Emission only; photo-referenced two-tone gray camouflage and RAM edge bands, no lights/AO/normal/reflection",
   "material_roles": {
-    "F22 mechanism": 243,
+    "F22 mechanism": 279,
     "F22 glass_frame": 1,
     "F22 glass": 1,
-    "F22 fixed UV camouflage": 28,
-    "F22 physical joint": 25,
+    "F22 photo-referenced native camouflage": 36,
+    "F22 physical joint": 41,
+    "F22 vent": 17,
     "F22 nozzle_inside": 1,
+    "F22 tail photo-referenced camouflage": 2,
     "F22 body vertical fin +12% linear": 4,
-    "F22 fixed UV camouflage vertical fin +12% linear": 4,
+    "F22 fin photo-referenced camouflage vertical fin +12% linear": 4,
     "F22 edge vertical fin +12% linear": 4,
     "F22 body": 4,
     "F22 edge": 4,
     "F22 nozzle": 4,
-    "F22 nozzle_lip": 4
+    "F22 nozzle_lip": 4,
+    "F22 radome": 1
   },
   "objects": [
     {
@@ -1353,7 +1976,7 @@
         "F22 Main Fuselage"
       ],
       "materials": [
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "3a64c004fb6fa03c415301f699b1941d2e39c6b7dd773a994d712ec3e1e1fd7a"
     },
@@ -1689,7 +2312,7 @@
         "F22 Main Fuselage"
       ],
       "materials": [
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "52264d3263ab7a71fd005ada51b3be2ae95a0ca82c3c8904a76e6d883416ac65"
     },
@@ -1835,7 +2458,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "07faedb3063f9812cf8af8cd0e08deda40d057a0f322ded9cf3d72c4a87c4b7e"
     },
@@ -2017,7 +2640,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "c02c54fa6bc40f5eedff3ac75911ae74df8a03509a8d1dcad85b1573df5c5dbc"
     },
@@ -2199,7 +2822,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "07faedb3063f9812cf8af8cd0e08deda40d057a0f322ded9cf3d72c4a87c4b7e"
     },
@@ -2381,7 +3004,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "c02c54fa6bc40f5eedff3ac75911ae74df8a03509a8d1dcad85b1573df5c5dbc"
     },
@@ -2611,7 +3234,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "e27d95730f1402b07465205903907f4be50695a188a81ed71b7cb8714a0cbfb9"
     },
@@ -2625,7 +3248,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "f7ea9709b59ee36fe9456f30bedec14857665cebfb1b8319ba6479b4d246f2be"
     },
@@ -2867,7 +3490,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "9b962f3cadd87a58c57b76761a099fca136292295b5e71f3e90802e6da787b37"
     },
@@ -2905,7 +3528,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "612a6f8c4df9b8be0b09e957821f4a6092cd66402fd49193bf4eeb2743eedbca"
     },
@@ -2943,7 +3566,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "3743e78099378a34bb4237b514d6b8a02da6703b43a19b3878badc27e6128f74"
     },
@@ -2993,7 +3616,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "8f868ea3b957d220040c915acfba027f3d3067eaaaacc06bc663b2c47582bdee"
     },
@@ -3031,7 +3654,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "867cc9c7f538160545220c9727a38127fa5a2e9479fad9c0346d9db438bbed1b"
     },
@@ -3057,7 +3680,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "f22f8a489602081017184ce1946240df0ac00c7f8a5187c2b9a117ad2b5a21eb"
     },
@@ -3119,7 +3742,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "ffa0112b970188124e0df77dfec503f8a6169df9a994bcf01a06d4fc0be1cc61"
     },
@@ -3157,7 +3780,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "349c2ea92c3646312e60ef1abb433e04ab5e827dd142680a956167f6157b08e6"
     },
@@ -3195,7 +3818,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "a867bbaedf50b80b115a2c42c555b479ab75e575b0ca8371d286aa90136d4e42"
     },
@@ -3245,7 +3868,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "facdeb82c54dbf71ad512f9fdf7b36b3f8cab4e9256ea999419388f0bbf1ccac"
     },
@@ -3283,7 +3906,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "b2cc13fd9dc8b2d6a3bd7d176de7d9496ed2b6f5ef18100636a1968f2df3c995"
     },
@@ -3297,7 +3920,7 @@
       ],
       "materials": [
         "F22 mechanism",
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "4266cd820aa8e68668c7e50f00ad12a2d437a27b528d509225844836177b8814"
     },
@@ -3585,7 +4208,7 @@
         "F22 Main Fuselage"
       ],
       "materials": [
-        "F22 fixed UV camouflage"
+        "F22 tail photo-referenced camouflage"
       ],
       "geometry_uv_sha256": "8ffe1fc84b7e5aa3baad69817047f4e8f28404296a404c40582c27305a55aafc"
     },
@@ -3597,7 +4220,7 @@
         "F22 Main Fuselage"
       ],
       "materials": [
-        "F22 fixed UV camouflage"
+        "F22 tail photo-referenced camouflage"
       ],
       "geometry_uv_sha256": "15781f8d8acf740e085912ab7a49e27479dcd1b8784feea05dfbc3ff5e1a1188"
     },
@@ -3612,7 +4235,7 @@
       ],
       "materials": [
         "F22 body",
-        "F22 fixed UV camouflage",
+        "F22 fin photo-referenced camouflage",
         "F22 edge"
       ],
       "geometry_uv_sha256": "2e66b5f9262829bf53b31b37422856842d02a6c5edf8a9818e89ad643f908b66"
@@ -3628,7 +4251,7 @@
       ],
       "materials": [
         "F22 body",
-        "F22 fixed UV camouflage",
+        "F22 fin photo-referenced camouflage",
         "F22 edge"
       ],
       "geometry_uv_sha256": "0d7b705b341b98816cca0fee0a77c9dbb79482f4687fb03ab054b15d288fa861"
@@ -3644,7 +4267,7 @@
       ],
       "materials": [
         "F22 body",
-        "F22 fixed UV camouflage",
+        "F22 photo-referenced native camouflage",
         "F22 edge"
       ],
       "geometry_uv_sha256": "4a36d0e0a098ea1a805c2631129a20df93fe4aeb005e470283d73fca0282b25f"
@@ -3660,7 +4283,7 @@
       ],
       "materials": [
         "F22 body",
-        "F22 fixed UV camouflage",
+        "F22 photo-referenced native camouflage",
         "F22 edge"
       ],
       "geometry_uv_sha256": "11fddcf709834b39e85452f1c33b3de29acfda083c30b8f4ed2f4ed1210a5867"
@@ -3673,7 +4296,7 @@
         "F22 Main Fuselage"
       ],
       "materials": [
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "81dd6e0d0f6e7861536acfdc2ae244aec7dae4ab19a140de5d786f1cdb97b646"
     },
@@ -3685,7 +4308,7 @@
         "F22 Main Fuselage"
       ],
       "materials": [
-        "F22 fixed UV camouflage"
+        "F22 photo-referenced native camouflage"
       ],
       "geometry_uv_sha256": "190a6387eb8d11c49855daf78579915871562c4dec83983cf414e7c2a9229333"
     },
@@ -3700,7 +4323,7 @@
       ],
       "materials": [
         "F22 body",
-        "F22 fixed UV camouflage",
+        "F22 photo-referenced native camouflage",
         "F22 edge"
       ],
       "geometry_uv_sha256": "3a973a9699da571610be0d946d2d6338b85df8f5d0aff13897c22e5539ba1cf6"
@@ -3716,7 +4339,7 @@
       ],
       "materials": [
         "F22 body",
-        "F22 fixed UV camouflage",
+        "F22 photo-referenced native camouflage",
         "F22 edge"
       ],
       "geometry_uv_sha256": "40078007164d1f8f7834359f07a134ff323c5dbc53660d9eea0bed0b1c90562a"
