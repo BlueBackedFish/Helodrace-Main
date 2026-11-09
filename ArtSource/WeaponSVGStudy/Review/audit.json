@@ -62,6 +62,7 @@
       "paintlayer": 1
     },
     "vector_layer_count": 5,
+    "empty_vector_entries": [],
     "svg_element_counts": {
       "svg": 5,
       "defs": 5,
@@ -163,6 +164,7 @@
       "paintlayer": 2
     },
     "vector_layer_count": 5,
+    "empty_vector_entries": [],
     "svg_element_counts": {
       "svg": 5,
       "defs": 5,
@@ -293,6 +295,7 @@
       "paintlayer": 2
     },
     "vector_layer_count": 6,
+    "empty_vector_entries": [],
     "svg_element_counts": {
       "svg": 6,
       "defs": 6,
@@ -434,6 +437,7 @@
       "shapelayer": 12
     },
     "vector_layer_count": 12,
+    "empty_vector_entries": [],
     "svg_element_counts": {
       "svg": 12,
       "defs": 12,
@@ -574,6 +578,7 @@
       "shapelayer": 4
     },
     "vector_layer_count": 4,
+    "empty_vector_entries": [],
     "svg_element_counts": {
       "svg": 4,
       "defs": 4,
@@ -689,6 +694,7 @@
       "paintlayer": 2
     },
     "vector_layer_count": 5,
+    "empty_vector_entries": [],
     "svg_element_counts": {
       "svg": 5,
       "defs": 5,
@@ -783,6 +789,7 @@
       "paintlayer": 2
     },
     "vector_layer_count": 10,
+    "empty_vector_entries": [],
     "svg_element_counts": {
       "svg": 10,
       "defs": 10,
@@ -877,6 +884,7 @@
       "shapelayer": 6
     },
     "vector_layer_count": 6,
+    "empty_vector_entries": [],
     "svg_element_counts": {
       "svg": 6,
       "defs": 6,
@@ -951,6 +959,7 @@
       "paintlayer": 1
     },
     "vector_layer_count": 2,
+    "empty_vector_entries": [],
     "svg_element_counts": {
       "svg": 2,
       "defs": 2,

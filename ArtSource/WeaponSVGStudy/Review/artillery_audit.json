@@ -1,0 +1,1146 @@
+{
+  "sources": [
+    {
+      "source": "HD_M167VADS_UI.kra",
+      "source_sha256": "ae4992d5d1841ccce8d9ba21842c870ba5708e1337f656a172e985eec8c68e08",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "dpi": 100.0,
+      "merged_alpha_bbox": [
+        509,
+        457,
+        896,
+        569
+      ],
+      "references": [
+        {
+          "src": "reference_images/0.png",
+          "saturation": "1",
+          "width": "465.12",
+          "opacity": "1",
+          "transform": "translate(960.299959843714, 93.9599966554874)",
+          "keepAspectRatio": "true",
+          "height": "687.6",
+          "pixel_size": [
+            646,
+            955
+          ]
+        },
+        {
+          "src": "reference_images/1.png",
+          "saturation": "1",
+          "width": "992.394937432584",
+          "opacity": "0",
+          "transform": "translate(1.55769098999093, 83.6099969111276)",
+          "keepAspectRatio": "true",
+          "height": "648.562452316675",
+          "pixel_size": [
+            736,
+            481
+          ]
+        }
+      ],
+      "layer_types": {
+        "referenceimages": 1,
+        "grouplayer": 24,
+        "shapelayer": 100,
+        "paintlayer": 1
+      },
+      "vector_layer_count": 100,
+      "empty_vector_entries": [
+        "unnamed/layers/layer17.shapelayer/content.svg"
+      ],
+      "svg_element_counts": {
+        "svg": 99,
+        "defs": 99,
+        "rect": 609,
+        "path": 617,
+        "ellipse": 51,
+        "circle": 35
+      },
+      "svg_fill_counts": {
+        "none": 162,
+        "#484848": 108,
+        "#404040": 72,
+        "#5d5147": 48,
+        "#393939": 45,
+        "#414141": 45,
+        "#3b3b3b": 42,
+        "#7a6a5b": 36,
+        "#4c4c4c": 36,
+        "#5c5046": 36,
+        "#554a41": 33,
+        "#887565": 27,
+        "#8f7b6a": 27,
+        "#6d5e51": 27,
+        "#64574c": 27,
+        "#66594d": 27,
+        "#9e8773": 27,
+        "#816f60": 18,
+        "#8b7767": 18,
+        "#64564a": 18,
+        "#695c50": 18,
+        "#5f5f5f": 18,
+        "#6d5f52": 18,
+        "#716256": 18,
+        "#726355": 18,
+        "#756558": 18,
+        "#626262": 18,
+        "#52483f": 17,
+        "#443c35": 15,
+        "#62554a": 12,
+        "#695b4f": 12,
+        "#4a4139": 12,
+        "#615449": 12,
+        "#e2e2e2": 11,
+        "#817973": 9,
+        "#8b827c": 9,
+        "#8c8c8c": 9,
+        "#65574b": 9,
+        "#65584c": 9,
+        "#6e5f53": 9,
+        "#7a695b": 9,
+        "#716255": 9,
+        "#7d6c5d": 9,
+        "#947f6d": 9,
+        "#98826f": 9,
+        "#67594e": 9,
+        "#6b5d51": 9,
+        "#817060": 9,
+        "#776658": 9,
+        "#493f36": 9,
+        "#5c5c5c": 9,
+        "#353535": 9,
+        "#313131": 9,
+        "#454545": 9,
+        "#564b42": 9,
+        "#4a4038": 9,
+        "#50473e": 3,
+        "#544940": 3,
+        "#5b4f45": 3,
+        "#343434": 3,
+        "#4a4037": 3,
+        "#000000": 2,
+        "#ffffff": 1
+      },
+      "svg_stroke_width_counts": {
+        "0": 367,
+        "3.6": 75,
+        "1.44": 54,
+        "2.88": 33
+      },
+      "layer_style_size_px": [
+        9.0,
+        9.0,
+        9.0
+      ],
+      "runtime": null,
+      "runtime_pixels_equal_merged": null
+    },
+    {
+      "source": "HD_M114Howitzer_.kra",
+      "source_sha256": "956a8179a2f47000311a288c52824fdf6801d3e25bf1c94bc79f20a842d1985f",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "dpi": 100.0,
+      "merged_alpha_bbox": [
+        50,
+        154,
+        971,
+        839
+      ],
+      "references": [
+        {
+          "saturation": "1",
+          "width": "323.999993653364",
+          "height": "478.978318790964",
+          "transform": "translate(1049.39998758692, 172.350840339762)",
+          "keepAspectRatio": "true",
+          "opacity": "1",
+          "src": "reference_images/0.png",
+          "pixel_size": [
+            646,
+            955
+          ]
+        }
+      ],
+      "layer_types": {
+        "referenceimages": 1,
+        "shapelayer": 15,
+        "grouplayer": 8,
+        "paintlayer": 1
+      },
+      "vector_layer_count": 15,
+      "empty_vector_entries": [],
+      "svg_element_counts": {
+        "svg": 15,
+        "defs": 15,
+        "path": 268,
+        "rect": 35,
+        "ellipse": 15,
+        "circle": 1
+      },
+      "svg_fill_counts": {
+        "none": 89,
+        "#5f5148": 27,
+        "#584b43": 13,
+        "#6c5d52": 11,
+        "#51453e": 7,
+        "#5c5c5c": 6,
+        "#64554b": 6,
+        "#66574d": 6,
+        "#6d5d52": 6,
+        "#897667": 5,
+        "#947f6e": 5,
+        "#5c4f47": 5,
+        "#473c36": 5,
+        "#736256": 4,
+        "#6d5e53": 4,
+        "#65574d": 4,
+        "#61544a": 4,
+        "#75685b": 4,
+        "#827364": 4,
+        "#646464": 4,
+        "#6c6c6c": 4,
+        "#4a3f39": 4,
+        "#7b695c": 3,
+        "#8f7b6b": 3,
+        "#6a5b50": 3,
+        "#726256": 3,
+        "#8a7768": 3,
+        "#63554c": 3,
+        "#79685b": 3,
+        "#816f61": 3,
+        "#5b4d45": 3,
+        "#5a5755": 2,
+        "#897566": 2,
+        "#736d69": 2,
+        "#625e5c": 2,
+        "#837163": 2,
+        "#65564b": 2,
+        "#827062": 2,
+        "#937e6d": 2,
+        "#594d44": 2,
+        "#62544b": 2,
+        "#6f5f53": 2,
+        "#887566": 2,
+        "#343434": 2,
+        "#5e5449": 2,
+        "#7b6d5f": 2,
+        "#4e4e4e": 2,
+        "#545454": 2,
+        "#747474": 2,
+        "#7c7c7c": 2,
+        "#292929": 2,
+        "#3d342f": 2,
+        "#413732": 2,
+        "#5c4e45": 2,
+        "#53463e": 2,
+        "#8e7a6a": 1,
+        "#626160": 1,
+        "#7c6b5e": 1,
+        "#5f5248": 1,
+        "#7c6b5d": 1,
+        "#857163": 1,
+        "#877465": 1,
+        "#564a43": 1,
+        "#907c6c": 1,
+        "#978271": 1,
+        "#74675a": 1,
+        "#726155": 1,
+        "#695a4f": 1,
+        "#706054": 1,
+        "#7a685b": 1,
+        "#4f433b": 1,
+        "#4e423b": 1
+      },
+      "svg_stroke_width_counts": {
+        "0.72": 86,
+        "0": 36,
+        "0.8928": 2,
+        "2.16": 1
+      },
+      "layer_style_size_px": [
+        7.0
+      ],
+      "runtime": null,
+      "runtime_pixels_equal_merged": null
+    },
+    {
+      "source": "HD_M2A2LightHowitzer.kra",
+      "source_sha256": "dc7077e90df24852fdf45ca3db3fe4cde12a200ed19655aa6b5fe755d32abdda",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "dpi": 100.0,
+      "merged_alpha_bbox": [
+        35,
+        189,
+        989,
+        834
+      ],
+      "references": [
+        {
+          "src": "reference_images/0.png",
+          "saturation": "1",
+          "width": "390.966651003799",
+          "opacity": "0",
+          "transform": "matrix(0.999987287697554 -0.00504226569046681 0.00504226569046681 0.999987287697554 166.107659605602 234.357200342687)",
+          "keepAspectRatio": "true",
+          "height": "263.703640974393",
+          "pixel_size": [
+            1278,
+            862
+          ]
+        },
+        {
+          "src": "reference_images/1.png",
+          "saturation": "1",
+          "width": "268.56",
+          "opacity": "1",
+          "transform": "translate(980.639971902663, 318.599997864831)",
+          "keepAspectRatio": "true",
+          "height": "208.08",
+          "pixel_size": [
+            373,
+            289
+          ]
+        }
+      ],
+      "layer_types": {
+        "referenceimages": 1,
+        "grouplayer": 8,
+        "shapelayer": 20,
+        "paintlayer": 2
+      },
+      "vector_layer_count": 20,
+      "empty_vector_entries": [],
+      "svg_element_counts": {
+        "svg": 20,
+        "defs": 20,
+        "path": 141,
+        "rect": 54,
+        "circle": 3,
+        "ellipse": 8
+      },
+      "svg_fill_counts": {
+        "#5d5147": 21,
+        "#6f6156": 12,
+        "#544942": 9,
+        "#544941": 9,
+        "#505050": 9,
+        "#877868": 8,
+        "#473e37": 8,
+        "#61564d": 6,
+        "#5a5047": 6,
+        "#806f62": 6,
+        "#4e443e": 6,
+        "#50453d": 6,
+        "#62554c": 6,
+        "#4f453d": 6,
+        "#68594e": 6,
+        "#594d44": 6,
+        "#665a4f": 4,
+        "#7b6d5f": 4,
+        "#2f2f2f": 4,
+        "#443c35": 4,
+        "#4e4e4e": 4,
+        "#584c43": 4,
+        "#63554b": 4,
+        "#6d5e53": 3,
+        "#62564c": 3,
+        "#76675b": 3,
+        "#7a6a5d": 3,
+        "#827163": 3,
+        "#584d44": 3,
+        "#5c5046": 3,
+        "#483e37": 3,
+        "#4c423b": 3,
+        "#554a41": 3,
+        "#4e443d": 3,
+        "#79695d": 3,
+        "#453c35": 2,
+        "#594e45": 2,
+        "none": 2,
+        "#555555": 2,
+        "#585858": 2,
+        "#494949": 2
+      },
+      "svg_stroke_width_counts": {
+        "0": 69,
+        "1.44": 2
+      },
+      "layer_style_size_px": [
+        8.0,
+        8.0,
+        8.0
+      ],
+      "runtime": null,
+      "runtime_pixels_equal_merged": null
+    }
+  ],
+  "runtime_checks": [
+    {
+      "runtime": "Textures/Buildings/Security/HD_M114Howitzer_Barrel.png",
+      "source_sha256": "3164c0dcdda4cc6c5021f7b35b255c5db22163079eb694717a6f7f2ca80b6706",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        443,
+        469,
+        965,
+        537
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M114Howitzer_BarrelOutline.png",
+      "source_sha256": "60a0f54505b8cb2286f5fafff8abd8785c9b0f6863a176791f4ee9574ac34f4f",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        437,
+        463,
+        971,
+        543
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M114Howitzer_Base.png",
+      "source_sha256": "f934cf1a00208071154211d5054453590b2e445741e39451bf3f6ce9eb0164b2",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        50,
+        154,
+        712,
+        839
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M114Howitzer_Chamber.png",
+      "source_sha256": "50b09cca0469d62fe66059ee1abe083b2b63486d3bc00f64c3c16218bd7bbe68",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        478,
+        454,
+        536,
+        518
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M114Howitzer_ChamberOutline.png",
+      "source_sha256": "9c850b7d39f21d8e00026f72938e3c65ae8a59a74151f67c5983b7060c1f73a6",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        472,
+        448,
+        542,
+        524
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M114Howitzer_Lever1.png",
+      "source_sha256": "6fcb29a5b0c9bda70156365615d66aa038dc155286e79f4e46981908ce6606d1",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        484,
+        444,
+        493,
+        451
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M114Howitzer_Lever1Outline.png",
+      "source_sha256": "657b8900296a8078a9e8e9cf3c6537a8aedd779ce4539bb9dcf0e4eea3618592",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        478,
+        438,
+        499,
+        457
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M114Howitzer_Lever2.png",
+      "source_sha256": "0ef4160e7ffdb292da6153be389d4dc2cd669dac4d9bb282f899dac883877555",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        561,
+        417,
+        565,
+        425
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M114Howitzer_Lever2Outline.png",
+      "source_sha256": "a50c71cad54d791d8f3368e3a9e0a6c189d162fcce277b5ce805121220f4ffc1",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        555,
+        411,
+        571,
+        431
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M114Howitzer_TopTop.png",
+      "source_sha256": "5df091fb60e233b7713d3e7855a8b30890cdbe3b70acbc04c592dca138b19599",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        503,
+        461,
+        793,
+        531
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M114Howitzer_TopTopOutline.png",
+      "source_sha256": "2263f7145063482888657c766bdc2173956d8177e735436ebd5d728b915a7bdb",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        497,
+        455,
+        799,
+        537
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M114Howitzer_TopUnder.png",
+      "source_sha256": "f4cf4829d4ad0f4fdad187705808c81933c8726f513114afe64ad533853bd25c",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        485,
+        349,
+        823,
+        642
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M114Howitzer_TopUnderOutline.png",
+      "source_sha256": "bec6e9a34b30ee11d72761095dee7e495e68a5511837bd8bd91305c4074842fa",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        479,
+        343,
+        829,
+        648
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M114Howitzer_UI.png",
+      "source_sha256": "b8fd224b41455923d7aeef78873bfbba19fb471473b6a441ee4efd267cc3ab09",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        168,
+        36,
+        853,
+        957
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M167VADS_1Barrel.png",
+      "source_sha256": "d079b7cf89ea9e7b4870b851a6fb1b9d4b3dc7223a5c36be9d3fc15cf889b3bc",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        509,
+        457,
+        896,
+        569
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M167VADS_1BarrelOutLine.png",
+      "source_sha256": "dd60a28ba19ee9e045be5de41e345d641037e3a6d3859a1b395c1afbed341119",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        501,
+        449,
+        904,
+        577
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M167VADS_2Barrel.png",
+      "source_sha256": "0089ea8b1142ef6196e25790c786a739d7a1a06f9e96bf44e55031b3592c9279",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        509,
+        457,
+        896,
+        569
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M167VADS_2BarrelOutLine.png",
+      "source_sha256": "f92f546336233a34de3cf9b1492fbb645920bb3750856998324d9c1915e41270",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        501,
+        449,
+        904,
+        577
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M167VADS_3Barrel.png",
+      "source_sha256": "f7a8491ed99608e27f8bef82ceb0c3ac2fb9f337c7cfd49c1539fd0fe1e64590",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        509,
+        457,
+        896,
+        569
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M167VADS_3BarrelOutLine.png",
+      "source_sha256": "69b6ab4e139634dca3459350c36a49b324bcfa9390155de112d563036a04b3f4",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        501,
+        449,
+        904,
+        577
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M167VADS_4Barrel.png",
+      "source_sha256": "41a278947394ac3c83216b35f13da9a4ec026422637b89dc6456614bf2f63318",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        509,
+        457,
+        896,
+        569
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M167VADS_4BarrelOutLine.png",
+      "source_sha256": "fd43f07e21d0eb465c888f6e52659eb6468960c0d9de61adcb4eb12b36c3a0bc",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        501,
+        449,
+        904,
+        577
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M167VADS_Base.png",
+      "source_sha256": "90b7ae043eb2a869b68fa012007593e17b3b96831b44000267655f8a61c5697a",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        18,
+        272,
+        757,
+        763
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M167VADS_Top.png",
+      "source_sha256": "25fb32289574888082bbb036860052726dd761fbfcb9ba3dd27427710efc0112",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        380,
+        387,
+        709,
+        720
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M167VADS_TopOutLine.png",
+      "source_sha256": "bb6a7a55dbef7dc846fe04b0771fb55bb60417951a8f6f6216e59964978aa391",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        372,
+        379,
+        717,
+        728
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M2A2LightHowitzer_Barrel.png",
+      "source_sha256": "0f7a13e0f4fd88fbbf09bf8a237ca75a10a6750abe30bb6d5585aab8715b7086",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        491,
+        476,
+        982,
+        548
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M2A2LightHowitzer_BarrelOutLine.png",
+      "source_sha256": "16ede5de7529d867d1210d34d527077a1538048a846c6a2aac2ab78e52effa02",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        484,
+        469,
+        989,
+        555
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M2A2LightHowitzer_Base.png",
+      "source_sha256": "35d833f645413b68097e7f52be98141921168b72f459669bb96ba3f32b349ac0",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        35,
+        189,
+        651,
+        834
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M2A2LightHowitzer_Body.png",
+      "source_sha256": "344799b1de347f552a7405817304a2eab323733f0c87877770760a8c2a7b3932",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        412,
+        408,
+        860,
+        561
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M2A2LightHowitzer_BodyOutLine.png",
+      "source_sha256": "824a63a7408790300efe7c773700a648c5fedd547b8f3f9e25a9a2055a8b71e7",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        405,
+        401,
+        867,
+        568
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M2A2LightHowitzer_Lever1.png",
+      "source_sha256": "9f886606d1e7fff6fab2984470330c76b74d02e8b565b81a8327600dd106d160",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        467,
+        470,
+        473,
+        484
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M2A2LightHowitzer_Lever1OutLine.png",
+      "source_sha256": "b3b649217494ce848d1fe2c4287d2f2ea7b7306a4bf113b3d72e7f5594d98824",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        460,
+        463,
+        480,
+        491
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M2A2LightHowitzer_Lever2.png",
+      "source_sha256": "c06c73a130a18f465a7cdd99d83e969a3c53947465c653eb59a92507dd2d3cba",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        510,
+        555,
+        517,
+        570
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M2A2LightHowitzer_Lever2OutLine.png",
+      "source_sha256": "9b7d18a39577fc42fb9cea6baa7ab1b416bcb6fa2d053fcff2399082a5f5ea4b",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        503,
+        548,
+        524,
+        577
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M2A2LightHowitzer_Lever3.png",
+      "source_sha256": "7d726d9d0f35a9339077e55496896f75665e6bc6932e552574563c10ec467e78",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        506,
+        406,
+        519,
+        413
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M2A2LightHowitzer_Lever3OutLine.png",
+      "source_sha256": "f0467ed322861246449ebb48c492a9524c0bc7ac9f4e49c4ecbe13ac16a8fa09",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        499,
+        399,
+        526,
+        420
+      ],
+      "pixels_equal": true
+    },
+    {
+      "runtime": "Textures/Buildings/Security/HD_M2A2LightHowitzer_UI.png",
+      "source_sha256": "89f54df6ad792cbc49dca2ea5a6fe6d6e2b38c5de86b3cf7edd9e87cfc7df6b5",
+      "source_unchanged": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        189,
+        34,
+        835,
+        989
+      ],
+      "pixels_equal": true
+    }
+  ],
+  "outline_pairs": [
+    {
+      "base": "HD_M114Howitzer_Barrel.png",
+      "outline": "HD_M114Howitzer_BarrelOutline.png",
+      "bbox_extension_left_top_right_bottom": [
+        6,
+        6,
+        6,
+        6
+      ]
+    },
+    {
+      "base": "HD_M114Howitzer_Chamber.png",
+      "outline": "HD_M114Howitzer_ChamberOutline.png",
+      "bbox_extension_left_top_right_bottom": [
+        6,
+        6,
+        6,
+        6
+      ]
+    },
+    {
+      "base": "HD_M114Howitzer_Lever1.png",
+      "outline": "HD_M114Howitzer_Lever1Outline.png",
+      "bbox_extension_left_top_right_bottom": [
+        6,
+        6,
+        6,
+        6
+      ]
+    },
+    {
+      "base": "HD_M114Howitzer_Lever2.png",
+      "outline": "HD_M114Howitzer_Lever2Outline.png",
+      "bbox_extension_left_top_right_bottom": [
+        6,
+        6,
+        6,
+        6
+      ]
+    },
+    {
+      "base": "HD_M114Howitzer_TopTop.png",
+      "outline": "HD_M114Howitzer_TopTopOutline.png",
+      "bbox_extension_left_top_right_bottom": [
+        6,
+        6,
+        6,
+        6
+      ]
+    },
+    {
+      "base": "HD_M114Howitzer_TopUnder.png",
+      "outline": "HD_M114Howitzer_TopUnderOutline.png",
+      "bbox_extension_left_top_right_bottom": [
+        6,
+        6,
+        6,
+        6
+      ]
+    },
+    {
+      "base": "HD_M167VADS_1Barrel.png",
+      "outline": "HD_M167VADS_1BarrelOutline.png",
+      "bbox_extension_left_top_right_bottom": [
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "base": "HD_M167VADS_2Barrel.png",
+      "outline": "HD_M167VADS_2BarrelOutline.png",
+      "bbox_extension_left_top_right_bottom": [
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "base": "HD_M167VADS_3Barrel.png",
+      "outline": "HD_M167VADS_3BarrelOutline.png",
+      "bbox_extension_left_top_right_bottom": [
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "base": "HD_M167VADS_4Barrel.png",
+      "outline": "HD_M167VADS_4BarrelOutline.png",
+      "bbox_extension_left_top_right_bottom": [
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "base": "HD_M167VADS_Top.png",
+      "outline": "HD_M167VADS_TopOutline.png",
+      "bbox_extension_left_top_right_bottom": [
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "base": "HD_M2A2LightHowitzer_Barrel.png",
+      "outline": "HD_M2A2LightHowitzer_BarrelOutline.png",
+      "bbox_extension_left_top_right_bottom": [
+        7,
+        7,
+        7,
+        7
+      ]
+    },
+    {
+      "base": "HD_M2A2LightHowitzer_Body.png",
+      "outline": "HD_M2A2LightHowitzer_BodyOutline.png",
+      "bbox_extension_left_top_right_bottom": [
+        7,
+        7,
+        7,
+        7
+      ]
+    },
+    {
+      "base": "HD_M2A2LightHowitzer_Lever1.png",
+      "outline": "HD_M2A2LightHowitzer_Lever1Outline.png",
+      "bbox_extension_left_top_right_bottom": [
+        7,
+        7,
+        7,
+        7
+      ]
+    },
+    {
+      "base": "HD_M2A2LightHowitzer_Lever2.png",
+      "outline": "HD_M2A2LightHowitzer_Lever2Outline.png",
+      "bbox_extension_left_top_right_bottom": [
+        7,
+        7,
+        7,
+        7
+      ]
+    },
+    {
+      "base": "HD_M2A2LightHowitzer_Lever3.png",
+      "outline": "HD_M2A2LightHowitzer_Lever3Outline.png",
+      "bbox_extension_left_top_right_bottom": [
+        7,
+        7,
+        7,
+        7
+      ]
+    }
+  ]
+}

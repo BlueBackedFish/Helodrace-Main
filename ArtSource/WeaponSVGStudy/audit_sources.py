@@ -46,8 +46,13 @@ def inspect(path, runtime):
         merged = rgba(archive.read("mergedimage.png"))
         fills, tags, widths = Counter(), Counter(), Counter()
         svgs = [n for n in archive.namelist() if n.endswith(".shapelayer/content.svg")]
+        empty_svgs = []
         for name in svgs:
-            for element in ET.fromstring(archive.read(name)).iter():
+            data = archive.read(name)
+            if not data.strip():
+                empty_svgs.append(name)
+                continue
+            for element in ET.fromstring(data).iter():
                 tags[tag(element)] += 1
                 if "fill" in element.attrib:
                     fills[element.get("fill")] += 1
@@ -60,9 +65,13 @@ def inspect(path, runtime):
         for name in archive.namelist():
             if name.endswith(".asl"):
                 data = archive.read(name)
-                offset = data.find(marker)
-                if offset >= 0:
+                start = 0
+                while True:
+                    offset = data.find(marker, start)
+                    if offset < 0:
+                        break
                     sizes.append(struct.unpack_from(">d", data, offset + len(marker))[0])
+                    start = offset + len(marker) + 8
     runtime_image = Image.open(runtime).convert("RGBA") if runtime else None
     result = {
         "source": path.name,
@@ -74,6 +83,7 @@ def inspect(path, runtime):
         "references": [dict(r, pixel_size=refs[r["src"]].size) for r in references],
         "layer_types": dict(Counter(e.get("nodetype") for e in layers)),
         "vector_layer_count": len(svgs),
+        "empty_vector_entries": empty_svgs,
         "svg_element_counts": dict(tags),
         "svg_fill_counts": dict(fills.most_common()),
         "svg_stroke_width_counts": dict(widths.most_common()),
