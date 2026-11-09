@@ -249,6 +249,8 @@
       </li>
     </apparelGraphics>
     <apparelList>
+      <li>HD_Apparel_Hoodie</li>
+      <li>HD_Apparel_BaseballCap</li>
       <li>HD_Apparel_CarvalyUniform</li>
       <li>HD_Apparel_CarvalyHat</li>
       <li>HD_Apparel_CowboyHat</li>

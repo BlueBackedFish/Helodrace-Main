@@ -69,7 +69,14 @@ namespace Helodrace
                 "HD_Settings_LimitToOnePlatoon_Desc".Translate());
             listing.CheckboxLabeled("HD_Settings_TacticalAI".Translate(), ref RaidOptions.tacticalAI,
                 "HD_Settings_TacticalAI_Desc".Translate());
+            listing.CheckboxLabeled("HD_Settings_BodyVariants".Translate(), ref RaidOptions.bodyVariants,
+                "HD_Settings_BodyVariants_Desc".Translate());
             listing.End();
+        }
+        public override void WriteSettings()
+        {
+            base.WriteSettings();
+            HelodBodyVariants.ApplyToLoadedPawns();
         }
     }
 

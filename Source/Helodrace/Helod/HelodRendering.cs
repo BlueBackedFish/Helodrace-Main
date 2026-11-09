@@ -19,6 +19,8 @@ namespace Helodrace
                 ? "Things/Pawn/Humanlike/Bodies/Dessicated/Dessicated_Thin"
                 : "Helod/Bodies/Naked_" + (pawn.DevelopmentalStage.Baby() ? "Baby"
                     : pawn.DevelopmentalStage.Child() ? "Child" : "Female");
+            if (pawn.Drawer.renderer.CurRotDrawMode != RotDrawMode.Dessicated && HelodBodyVariants.Active(pawn))
+                path = HelodBodyVariants.BodyPath(pawn);
             return GraphicDatabase.Get<Graphic_Multi>(path, ShaderFor(pawn), Vector2.one, ColorFor(pawn));
         }
     }

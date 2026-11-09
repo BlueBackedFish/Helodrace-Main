@@ -183,8 +183,12 @@ namespace Helodrace
                 + " apparel graphics, " + Def.recipes.Count + " operations.");
         }
 
+        internal static bool HasApparelGraphic(ThingDef def) => apparelPaths.ContainsKey(def);
+
         public static string ApparelPath(Apparel apparel)
         {
+            string variantPath = HelodBodyVariants.ApparelPath(apparel);
+            if (variantPath != null) return variantPath;
             return apparel != null && IsHelod(apparel.Wearer)
                 && apparelPaths.TryGetValue(apparel.def, out string path) ? path : null;
         }
@@ -192,7 +196,7 @@ namespace Helodrace
         public static bool CanWear(Pawn pawn, ThingDef apparel)
         {
             if (Settings == null || apparel == null || !apparel.IsApparel) return true;
-            return IsHelod(pawn) ? permittedApparel.Contains(apparel)
+            return IsHelod(pawn) ? permittedApparel.Contains(apparel) && HelodBodyVariants.Supports(pawn, apparel)
                 : !exclusiveApparel.Contains(apparel);
         }
 

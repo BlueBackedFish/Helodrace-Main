@@ -3,6 +3,9 @@
   <ThingDef ParentName="HD_PawnBase">
     <defName>Helod</defName>
     <label>Helod</label>
+    <comps>
+      <li Class="Helodrace.CompProperties_HelodBodyVariant" />
+    </comps>
     <description>A noble canine-like humanoid race known for their loyalty, agility, and frontier spirit. Excellent survivors, trackers, and marksmen.</description>
     <modExtensions>
       <li Class="Helodrace.HelodRaceExtension">

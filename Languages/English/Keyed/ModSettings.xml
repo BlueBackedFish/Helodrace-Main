@@ -4,4 +4,6 @@
   <HD_Settings_LimitToOnePlatoon_Desc>LOW raids field at most 40 people and HIGH raids at most 43. Excess raid budget is converted into support points.</HD_Settings_LimitToOnePlatoon_Desc>
   <HD_Settings_TacticalAI>Squad tactical AI (experimental)</HD_Settings_TacticalAI>
   <HD_Settings_TacticalAI_Desc>Raiders use the squad tactical engine: stack-up room clearing, hand grenades, smoke, breaching charges and coordinated fire. It is unstable. When off, raiders use vanilla AI; engineers still breach doors and walls with sledgehammers and grenadiers still fire underbarrel grenade launchers, and raiders carry no hand grenades. Requires a restart.</HD_Settings_TacticalAI_Desc>
+  <HD_Settings_BodyVariants>Helod body variants (experimental)</HD_Settings_BodyVariants>
+  <HD_Settings_BodyVariants_Desc>Enables six adult Helod body variants. Only fitted clothing and body-independent armor, headgear and equipment can be worn. Changing this setting replaces adult Helods' clothing with a hoodie and trousers in the current game and when loading an existing save; removed garments are kept on the ground or in their inventory. Body variants are preserved when this setting is turned off. No restart is needed.</HD_Settings_BodyVariants_Desc>
 </LanguageData>

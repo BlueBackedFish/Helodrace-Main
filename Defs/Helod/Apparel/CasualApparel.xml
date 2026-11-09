@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="ApparelBase">
+    <defName>HD_Apparel_Hoodie</defName>
+    <label>Helod hoodie</label>
+    <description>A soft hooded sweatshirt with a drawstring collar and a front pouch pocket, cut for a Helod's frame.</description>
+    <graphicData>
+      <texPath>Helod/BodyVariants/Apparel/HD_Hoodie/Huge/HD_Hoodie_Female_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToMake>1800</WorkToMake>
+      <Mass>0.6</Mass>
+      <ArmorRating_Sharp>0.05</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.05</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.08</ArmorRating_Heat>
+      <Insulation_Cold>12</Insulation_Cold>
+      <Insulation_Heat>2</Insulation_Heat>
+      <EquipDelay>1.5</EquipDelay>
+    </statBases>
+    <thingCategories><li>Apparel</li></thingCategories>
+    <apparel>
+      <developmentalStageFilter>Adult</developmentalStageFilter>
+      <bodyPartGroups><li>Torso</li><li>Shoulders</li><li>Arms</li></bodyPartGroups>
+      <wornGraphicPath>Helod/BodyVariants/Apparel/HD_Hoodie/Huge/HD_Hoodie</wornGraphicPath>
+      <useWornGraphicMask>true</useWornGraphicMask>
+      <layers><li>OnSkin</li></layers>
+      <tags><li>HD_Apparel</li></tags>
+      <defaultOutfitTags><li>Worker</li></defaultOutfitTags>
+    </apparel>
+    <costList><Cloth>50</Cloth></costList>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers><li>ElectricTailoringBench</li><li>HandTailoringBench</li></recipeUsers>
+    </recipeMaker>
+  </ThingDef>
+  <ThingDef ParentName="ApparelBase">
+    <defName>HD_Apparel_BaseballCap</defName>
+    <label>Helod baseball cap</label>
+    <description>A plain cloth cap with a curved visor, shaped to sit between a Helod's ears.</description>
+    <graphicData>
+      <texPath>Helod/BodyVariants/Apparel/HD_Baseballcap_Muji/HD_Baseballcap_Muji_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <WorkToMake>900</WorkToMake>
+      <Mass>0.1</Mass>
+      <ArmorRating_Sharp>0.02</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.02</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.04</ArmorRating_Heat>
+      <Insulation_Cold>2</Insulation_Cold>
+      <Insulation_Heat>4</Insulation_Heat>
+      <EquipDelay>0.5</EquipDelay>
+    </statBases>
+    <thingCategories><li>Headgear</li></thingCategories>
+    <apparel>
+      <bodyPartGroups><li>UpperHead</li></bodyPartGroups>
+      <wornGraphicPath>Helod/BodyVariants/Apparel/HD_Baseballcap_Muji/HD_Baseballcap_Muji</wornGraphicPath>
+      <useWornGraphicMask>true</useWornGraphicMask>
+      <layers><li>Overhead</li></layers>
+      <tags><li>HD_Apparel</li></tags>
+      <defaultOutfitTags><li>Worker</li></defaultOutfitTags>
+    </apparel>
+    <costList><Cloth>20</Cloth></costList>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers><li>ElectricTailoringBench</li><li>HandTailoringBench</li></recipeUsers>
+    </recipeMaker>
+  </ThingDef>
+</Defs>
