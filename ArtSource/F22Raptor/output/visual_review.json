@@ -12,9 +12,7 @@
     "output/airframe_review.png",
     "analysis/references/usaf_8397555.jpg",
     "analysis/references/usaf_8075211.jpg",
-    "output/finish_validation.json",
-    "output/paint_cleanup_mask.png",
-    "output/cover_skin_paint.png"
+    "output/finish_validation.json"
   ],
   "exact_top_and_nose_up": true,
   "canopy_and_gear_closed_in_source_pose": true,
@@ -47,8 +45,5 @@
   "restored_source_uv_pattern": true,
   "current_palette_retained": true,
   "paint_color_boundaries_crisp": true,
-  "detail_borders_one_pixel_outside_unchanged_openings": true,
-  "source_painted_panels_and_insignia_removed": true,
-  "cover_uv_seam_stripes_removed": true,
-  "all_346_mesh_shapes_and_transforms_preserved": true
+  "detail_borders_one_pixel_outside_unchanged_openings": true
 }

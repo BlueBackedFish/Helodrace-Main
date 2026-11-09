@@ -1205,21 +1205,6 @@
     "edited_source_objects": [
       "Fuselage"
     ],
-    "cover_paint_projection": {
-      "image": "cover_skin_paint.png",
-      "bounds_native_xy": [
-        [
-          -0.8,
-          -0.45
-        ],
-        [
-          0.9,
-          0.45
-        ]
-      ],
-      "filter": "Closest",
-      "source_uv_island_seams_not_interpolated": true
-    },
     "body_faces_before": 1605,
     "body_faces_after": 1721,
     "default_cannon_shutter": "closed",
@@ -1286,16 +1271,16 @@
   "delivery_resolution": 1024,
   "draw_size_tiles": null,
   "source_albedo_sha256": "c34c15dd580baecdc8b5424f453fc8e7cff44789e39fd25c644aeb775fd304d1",
-  "paint_profile": "Original source-UV camouflage with source-painted panels and insignia removed; current palette retained",
-  "paint_coordinates": "Source UV layers; continuous projected source-skin map on new covers",
+  "paint_profile": "Source UV pattern restored from 9ebb9fa4; current palette retained",
+  "paint_coordinates": "Source UV layers; interpolated skin UVs on new covers",
   "paint_texture_filter": "Closest",
   "source_albedo_pattern_replaced": false,
-  "lighting": "Emission only; three clean camouflage/RAM paint colors, no lights/AO/normal/reflection",
+  "lighting": "Emission only; crisp four-color source-UV camouflage, no lights/AO/normal/reflection",
   "material_roles": {
     "F22 mechanism": 279,
     "F22 glass_frame": 1,
     "F22 glass": 1,
-    "F22 crisp original UV camouflage": 28,
+    "F22 crisp original UV camouflage": 38,
     "F22 physical joint": 41,
     "F22 vent": 17,
     "F22 nozzle_inside": 1,
@@ -1307,8 +1292,7 @@
     "F22 nozzle": 4,
     "F22 nozzle_lip": 4,
     "F22 radome": 1,
-    "F22 detail_border": 16,
-    "F22 continuous skin paint on covers": 10
+    "F22 detail_border": 16
   },
   "objects": [
     {

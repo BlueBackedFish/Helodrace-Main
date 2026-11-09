@@ -1,35 +1,20 @@
 {
   "passed": true,
-  "baseline": "a1430830",
-  "geometry": {
-    "passed": true,
-    "baseline": "a1430830",
-    "mesh_shapes_and_transforms_unchanged": 346
+  "pattern_baseline": "9ebb9fa4",
+  "geometry_baseline": "7f13044a",
+  "pattern_label_masks_identical": true,
+  "atlas_color_counts": {
+    "vent": 51405,
+    "camo_dark": 596111,
+    "body": 2594959,
+    "edge": 951829
   },
-  "paint_cleanup": {
-    "passed": true,
-    "removed_source_graphic_components": 955,
-    "explicit_panel_regions": 6,
-    "solid_retouch_regions": [
-      "wing insignia",
-      "legacy dorsal vent surround",
-      "legacy centerline oval stencil",
-      "legacy circular inspection stencil"
-    ],
-    "removed_logos": [
-      "wing insignia"
-    ],
-    "edited_pixels": 239470,
-    "unchanged_outside_retouch_mask": true,
-    "blur_used": false,
-    "model_geometry_changed": false
-  },
-  "atlas_unique_paint_colors": 3,
-  "blur_used": false,
-  "wing_insignia_removed": true,
-  "source_vent_stencil_color_removed": true,
-  "source_panels_removed": true,
-  "default_covers_follow_clean_skin": true,
-  "aircraft_alpha_identical": true,
-  "all_16_recesses_and_borders_unchanged": true
+  "atlas_unique_colors": 4,
+  "current_palette_retained": true,
+  "gaussian_blur_used": false,
+  "texture_filter": "Closest",
+  "unchanged_recess_footprints_and_depths": 16,
+  "unchanged_canopy_and_radome": true,
+  "surrounding_border_width_pixels": 1,
+  "opening_enlargement": false
 }
