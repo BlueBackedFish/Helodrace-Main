@@ -42,6 +42,11 @@ if (motion/'controls_neutral.png').exists():
     frames[0].save(OUT/'articulation_preview.gif',save_all=True,append_images=frames[1:],duration=[800,650,650,800],loop=0)
     sheet([(label.upper(),Image.open(motion/('tvc_'+label+'.png'))) for label in ['negative','neutral','positive']],
         OUT/'tvc_review.png',columns=3,cell_size=(400,440))
+if (motion/'canopy_top.png').exists():
+    sheet([('BEFORE / TOP',Image.open(ROOT/'analysis/canopy_before.png')),
+        ('REFINED / TOP',Image.open(motion/'canopy_top.png')),
+        ('REFINED / OBLIQUE',Image.open(motion/'canopy_oblique.png'))],
+        OUT/'canopy_review.png',columns=3,cell_size=(400,440))
 (OUT/'texture_validation.json').write_text(json.dumps(dict(passed=True,images=validation,resolution=[size,size],
     outline_pixels=style['outline_pixels'],internal_lines_from_model_geometry=True,
     one_outline_for_complete_aircraft=True,pivot_normalized=[.5,.5],nose_up=True,draw_size_tiles=None,

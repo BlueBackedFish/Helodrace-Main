@@ -4,6 +4,7 @@
   "pose_frame": 650,
   "master_resolution": 2048,
   "delivery_resolution": 1024,
+  "canopy_subdivision_levels": 3,
   "outline_pixels": 12,
   "transparent_margin_pixels": 16,
   "palette": {

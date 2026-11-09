@@ -7,8 +7,8 @@
   "source_faces": 39040,
   "omitted_meshes": 0,
   "final_meshes": 267,
-  "final_faces": 39350,
-  "untouched_source_meshes_preserved": 246,
+  "final_faces": 44032,
+  "untouched_source_meshes_preserved": 245,
   "source_rig_retained_and_actions_archived": true,
   "articulation": {
     "controllers": [
@@ -534,6 +534,22 @@
       }
     ],
     "runtime_flight_controller_added": false
+  },
+  "canopy": {
+    "object": "Cockpit.001",
+    "method": "Rejoin glass quads; applied Catmull-Clark dome subdivision",
+    "subdivision_levels": 3,
+    "source_vertices": 84,
+    "source_faces": 150,
+    "final_vertices": 4897,
+    "final_faces": 4832,
+    "glass_control_quads": 19,
+    "glass_control_triangles": 2,
+    "mounting_seam_vertices": 18,
+    "maximum_mounting_seam_displacement": 0.0,
+    "parent_and_closed_pose_preserved": true,
+    "uv_layers_preserved": true,
+    "fixed_emission_palette_preserved": true
   },
   "pose_note": "Gear/canopy/bays frozen from source frame 650; controls neutralized; named hinge demo at frames 1..60",
   "source_forward": "+X",

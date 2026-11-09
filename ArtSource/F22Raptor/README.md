@@ -12,13 +12,16 @@ Created from the FBX supplied in `.texture/ref/lockheed-martin-f-22-raptor`. The
 - Source, pose, preservation and texture checks: `output/model_validation.json`, `output/texture_validation.json`.
 - Reviewed source pose: `analysis/pose_selection.png`; style-reference hashes: `output/references.json`; visual review: `output/visual_review.json`.
 - Hinge positions, axes, mesh ownership and independent-movement checks: `output/articulation.json`.
+- Canopy before/after and oblique review: `output/canopy_review.png`.
 - Model motion preview: `output/articulation_preview.gif`; nozzle close-ups: `output/tvc_review.png`.
 
 The source's broad gray camouflage and light RAM-edge layout are retained through the source UV paint. Fine baked scuffs are removed before assigning four fixed paint colors. The upright fins and rudders retain that pattern with a mild 1.12 linear color gain (roughly 7–9 extra sRGB levels). The canopy is opaque muted gold; exhaust nozzles use separate fixed metal colors. No light, normal-map shading, AO, reflections or cast shadows are used. Main P-47/A-10 and Arsenal P-47/DH-4 assets were inspected for the flat silhouette treatment; their pixels are not copied into the new texture.
 
 Source frame **650** supplies the closed canopy, retracted gear and closed bays. Those subsystems are frozen in that pose; the source rig remains and its original actions are archived as fake-user actions. Small source flight-control deflections are neutralized. The current model saves at **frame 1**, the neutral frame of the new control demonstration.
 
-The user-requested geometry revision edits 19 source meshes: eight control surfaces, the two fins split into fixed/moving portions, eight nozzle flap/lip meshes, and the fixed fuselage. Wing controls have real inset/beveled rims. Six watertight pocket cutters remove the fixed wing skin beneath the leading-edge flaps, flaps and ailerons so a stationary duplicate is not exposed when they move. Rudder hinge gaps are capped model cuts. The remaining **246 source meshes** retain their coordinates, topology and UVs; two new rudder meshes make **267 meshes** overall. The input FBX remains unchanged. A parent transform still rotates the native +X nose to +Y and centers the aircraft without nonuniform scale. The image pivot remains `(0.5,0.5)`.
+The canopy now uses three applied Catmull-Clark subdivision levels after rejoining the source glass triangles into mostly quads: **84 to 4,897 vertices**, 150 to 4,832 faces. Its eighteen outside mounting vertices stay exactly in place; source parenting, closed pose, UV layers and fixed gold/frame materials remain. Only the dome is rounded; the mounting footprint retains its original fitting. `canopy.py` reproduces this refinement.
+
+The user-requested geometry revision edits 20 source meshes: eight control surfaces, the two fins split into fixed/moving portions, eight nozzle flap/lip meshes, the fixed fuselage, and the refined canopy. Wing controls have real inset/beveled rims. Six watertight pocket cutters remove the fixed wing skin beneath the leading-edge flaps, flaps and ailerons so a stationary duplicate is not exposed when they move. Rudder hinge gaps are capped model cuts. The remaining **245 source meshes** retain their coordinates, topology and UVs; two new rudder meshes make **267 meshes** overall. The input FBX remains unchanged. A parent transform still rotates the native +X nose to +Y and centers the aircraft without nonuniform scale. The image pivot remains `(0.5,0.5)`.
 
 ## Model controls
 

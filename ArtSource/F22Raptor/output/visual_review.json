@@ -6,7 +6,8 @@
     "output/scale_review.png",
     "analysis/pose_selection.png",
     "output/articulation_preview.gif",
-    "output/tvc_review.png"
+    "output/tvc_review.png",
+    "output/canopy_review.png"
   ],
   "exact_top_and_nose_up": true,
   "canopy_and_gear_closed_in_source_pose": true,
@@ -23,9 +24,11 @@
   "no_raster_control_seams": true,
   "vertical_fins_slightly_brightened": true,
   "independent_tvc_and_neutral_return_reviewed": true,
-  "source_geometry_edits": 19,
-  "untouched_source_meshes": 246,
+  "source_geometry_edits": 20,
+  "untouched_source_meshes": 245,
   "source_pose_frame": 650,
   "model_neutral_frame": 1,
-  "runtime_flight_animation_added": false
+  "runtime_flight_animation_added": false,
+  "canopy_curved_dome_reviewed": true,
+  "canopy_mounting_loop_preserved": true
 }

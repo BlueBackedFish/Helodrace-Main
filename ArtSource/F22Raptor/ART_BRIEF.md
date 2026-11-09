@@ -20,12 +20,12 @@
 | Main fuselage and fixed wing | Original UV camouflage/RAM layout; six true control pockets cut from the underlying fixed skin | Fixed skin outside the control footprint retained |
 | Eight existing moving wing/tail panels | Connected upper skin inset with sloping joint rims; independent named hinges | Source panel shape/UV paint basis, revised rim topology |
 | Upright fins and rudders | Split on the source fin hinge vertices; capped physical gaps; same camouflage with mild 1.12 linear gain | Fixed front fin and separate movable rudder |
-| `Cockpit.001` glass and frame | Opaque muted gold glass, separate neutral frame | Source closed-canopy pose and geometry |
+| `Cockpit.001` glass and frame | Opaque muted gold glass, separate neutral frame | Source closed pose and mounting footprint; three-level subdivided dome |
 | Eight nozzle flap/lip meshes | Small modeled edge bevel; independent left/right TVC hinge | Fixed metal paint, source inner throat retained |
 | Gear, internal cockpit and weapon-bay assemblies | Fixed mechanism material; normal 3D occlusion in the chosen pose | Kept in model, no automatic deletion |
 | Control boundaries | Modeled upper-skin rims and rudder separation; nominal 2px rim at 1024px | No raster seam mask or painted contour |
 
-The source starts with 265 meshes / 39,040 faces. This revision explicitly edits 19 source meshes for the requested mechanical joints and adds two rudder meshes. The remaining 246 source meshes retain their coordinate/topology/UV hashes. Control paint uses the source UVs with interpolated UVs on new boundary vertices; cut caps and rim faces have the fixed joint material. The source rig and original action data are retained, but original actions are archived and the source subsystems are frozen. The input FBX is not overwritten. `output/model_validation.json` lists the operations and before/after face counts instead of claiming that edited topology is unchanged.
+The source starts with 265 meshes / 39,040 faces. This revision explicitly edits 20 source meshes for the requested mechanical joints and adds two rudder meshes. The remaining 245 source meshes retain their coordinate/topology/UV hashes. Control paint uses the source UVs with interpolated UVs on new boundary vertices; cut caps and rim faces have the fixed joint material. The source rig and original action data are retained, but original actions are archived and the source subsystems are frozen. The input FBX is not overwritten. `output/model_validation.json` lists the operations and before/after face counts instead of claiming that edited topology is unchanged.
 
 ## Paint and outline
 
@@ -37,7 +37,7 @@ There is one 12px black aircraft silhouette, generated at double resolution and 
 
 | Item | Status / evidence |
 | --- | --- |
-| Limited geometry edits / untouched mesh preservation | 19 listed source edits, two added rudders; 246 untouched source meshes retain their geometry/UV signatures |
+| Limited geometry edits / untouched mesh preservation | 20 listed source edits, two added rudders; 245 untouched source meshes retain their geometry/UV signatures |
 | Exactly top-down camera and nose-up orientation | Camera rotation `(0,0,0)`, orthographic, reviewed rendered silhouette |
 | Pose selection | Source side-view samples in `analysis/pose_selection.png`; frame 650 selected |
 | Flat camouflage and clear canopy/nozzles | Review final output and record in `output/visual_review.json` |
@@ -54,3 +54,5 @@ There is one 12px black aircraft silhouette, generated at double resolution and 
 The first four-color shader pass exposed isolated baked weathering as spots. The paint input was median-cleaned in UV space before four-color assignment, retaining the broad camouflage instead of adding light or shadow. Source geometry, camera, closed flight pose and the 12px outside-outline target were fixed during that initial paint iteration.
 
 The follow-up request authorizes control-joint geometry changes. Raster boundary lines were removed. Source control panels receive real inset upper-skin rims; closed footprint prisms cut away the underlying fixed wing skin, preventing duplicate surfaces during movement. The fins were split into fixed and moving pieces along the existing rudder hinge vertices. Source nozzle flaps/lips now have independent left/right TVC controls. Camera, camouflage, opaque canopy and outside-outline thickness remain the same; control poses now start from a symmetric neutral state.
+
+The canopy follow-up refines only `Cockpit.001` from 84 to 4,897 vertices. Mostly quad glass topology precedes three applied Catmull-Clark subdivision levels. Eighteen outside mounting-loop vertices are creased and verified unchanged, while the gold dome ends and upper profile curve smoothly. Original parent/closed pose, UV layers and fixed emission palette are retained. Top before/after and oblique views are in `output/canopy_review.png`.

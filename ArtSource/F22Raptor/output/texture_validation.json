@@ -2,7 +2,7 @@
   "passed": true,
   "images": {
     "Plain": {
-      "sha256": "e4fe7d4268f7e4142d7efedead9d5a08f912410224436a380c876e6537d6c0ff",
+      "sha256": "29aa55eeb0a4a1b3c53f084790ca819c55bb24256b0ba5ea73c1763a705200b1",
       "bounds": [
         161,
         26,
@@ -12,7 +12,7 @@
       "minimum_margin_pixels": 25
     },
     "Outlined": {
-      "sha256": "f4a0c9b7ef1fa17392951ef61ab20bcd31b080fa976ff2a85a14147e287fedbb",
+      "sha256": "b04d1e53333f041bcd1165b64b53e6f982b9207c5d591182558c20877f060333",
       "bounds": [
         149,
         14,

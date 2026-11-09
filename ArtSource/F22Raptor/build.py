@@ -73,7 +73,10 @@ sys.path.insert(0,str(ROOT))
 from articulation import prepare
 joint=m.material('F22 physical joint',json.loads((ROOT/'articulation.json').read_text())['joint_rgb'])
 articulation=prepare(scene,origin,scale,joint)
+from canopy import prepare as prepare_canopy
+canopy=prepare_canopy(scene,STYLE['canopy_subdivision_levels'])
 edited={item['object'] for item in articulation['edited_source_objects']}
+edited.add(canopy['object'])
 assert all(geometry_signature(scene.objects[name])==signature for name,signature in before.items() if name not in edited)
 objects=[o for o in scene.objects if o.type=='MESH']
 image.pack()
@@ -88,7 +91,7 @@ report=dict(passed=True,source=str(SOURCE),source_sha256=source_hash,pose_frame=
     source_meshes=len(before),source_faces=source_faces,omitted_meshes=0,
     final_meshes=len(objects),final_faces=sum(len(o.data.polygons) for o in objects),
     untouched_source_meshes_preserved=len(before)-len(edited),
-    source_rig_retained_and_actions_archived=True,articulation=articulation,
+    source_rig_retained_and_actions_archived=True,articulation=articulation,canopy=canopy,
     pose_note='Gear/canopy/bays frozen from source frame 650; controls neutralized; named hinge demo at frames 1..60',
     source_forward='+X',source_up='+Z',source_pose_bounds=[list(lo),list(hi)],root_transform=[list(r) for r in transform],
     orthographic_camera_rotation=[0,0,0],ortho_scale=scale,pivot_normalized=[.5,.5],

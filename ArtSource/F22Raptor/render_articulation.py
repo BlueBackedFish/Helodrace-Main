@@ -12,4 +12,11 @@ for label,frame in [('neutral',1),('negative',20),('positive',40),('return',60)]
     scene.frame_set(frame);bpy.context.view_layer.update();m.render(REVIEW/('controls_'+label+'.png'),overview,800)
     if label!='return':m.render(REVIEW/('tvc_'+label+'.png'),nozzles,600)
 scene.frame_set(1)
+canopy=scene.objects['Cockpit.001'];dg=bpy.context.evaluated_depsgraph_get()
+evaluated=canopy.evaluated_get(dg)
+points=[evaluated.matrix_world@v.co for v in evaluated.data.vertices]
+target=sum(points,Vector())/len(points)
+for label,azimuth,elevation in [('top',0,90),('oblique',-30,30)]:
+    camera=m.camera('Canopy '+label,azimuth,elevation,1.0,target)
+    m.render(REVIEW/('canopy_'+label+'.png'),camera,700)
 print('F22_ARTICULATION_REVIEW_PASS: neutral / negative / positive / return; independent controls and TVC close-ups')
