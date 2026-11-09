@@ -62,14 +62,31 @@
       160,
       164,
       162
+    ],
+    "detail_border": [
+      95,
+      106,
+      113
     ]
   },
   "projection": "Orthographic directly above +Z; rotate native +X nose to +Y; image nose up",
-  "surface_style": "Photo-referenced broad two-tone gray camouflage with narrow light RAM edge bands; fixed emission colors",
+  "surface_style": "Original source-UV camouflage pattern; current palette; discrete colors and closest texture sampling",
   "outline_style": "One black outside silhouette; internal control joints are modeled bevels and capped rudder gaps, not a painted mask",
   "draw_size_tiles": null,
   "source_sha256": "499abc020205f73ad57fe5ba9d1dcb5ba73b26764abb55c212d3e6bd58b7c746",
   "source_albedo_sha256": "c34c15dd580baecdc8b5424f453fc8e7cff44789e39fd25c644aeb775fd304d1",
   "articulation_profile": "articulation.json",
-  "paint_profile": "paint.json"
+  "camo_source_thresholds_srgb": [
+    0,
+    42,
+    85,
+    108
+  ],
+  "camo_roles": [
+    "vent",
+    "camo_dark",
+    "body",
+    "edge"
+  ],
+  "detail_border_pixels": 1.0
 }

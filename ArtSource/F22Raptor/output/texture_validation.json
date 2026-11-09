@@ -2,7 +2,7 @@
   "passed": true,
   "images": {
     "Plain": {
-      "sha256": "280b5465e8c996105d7f98a1cf74e58d5db767122fc702cfbfb0592e1126d677",
+      "sha256": "39fd721bf9692806a07697f2ddad3ac1c2c5771f1ecf0c7ea4d5812851a0912f",
       "bounds": [
         161,
         26,
@@ -12,7 +12,7 @@
       "minimum_margin_pixels": 25
     },
     "Outlined": {
-      "sha256": "c879f20583f5a74ff50c6c14f01282ad3beff4d8c19ca356857846b883d6add8",
+      "sha256": "adcb4ec1e17b46a9c0ea33f0c06a1d1ed8887d4a332fc6ff908dbc8e2f5031c6",
       "bounds": [
         149,
         14,
@@ -38,7 +38,8 @@
   "moving_controls": 12,
   "source_subsystem_pose": 650,
   "model_neutral_frame": 1,
-  "color_treatment": "Photo-referenced two-tone gray camouflage, narrow RAM bands, mildly brighter fins, gold canopy",
+  "color_treatment": "Restored original UV camouflage pattern with current palette; discrete colors and closest sampling",
+  "detail_border_pixels": 1.0,
   "physical_recesses": 16,
   "cannon_shutter": "closed",
   "texture": "Textures/Effects/Aircraft/F22/HD_F22.png",

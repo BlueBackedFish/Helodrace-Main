@@ -2,16 +2,8 @@
 import bpy,bmesh,math
 from mathutils import Vector,Matrix
 from mathutils.bvhtree import BVHTree
+from mathutils.geometry import barycentric_transform
 from articulation import bake_native
-
-
-def paint_coordinates(obj,bounds,transform=None):
-    lo,hi=bounds
-    attr=obj.data.attributes.get('F22 native paint')
-    if attr is None:attr=obj.data.attributes.new('F22 native paint','FLOAT_VECTOR','POINT')
-    for vertex,value in zip(obj.data.vertices,attr.data):
-        x,y,_=transform@vertex.co if transform is not None else vertex.co
-        value.vector=((y-lo[1])/(hi[1]-lo[1]),(x-lo[0])/(hi[0]-lo[0]),0)
 
 
 def mesh_object(scene,origin,name,vertices,faces,materials,indices=None):
@@ -72,18 +64,33 @@ def radome(scene,origin,body,material):
         original_tip_x=tip,maximum_tip_error=abs(max(v.co.x for v in nose.data.vertices)-tip))
 
 
-def prepare(scene,origin,materials,bounds):
+def prepare(scene,origin,materials,ortho_scale,border_pixels):
     body=scene.objects['Fuselage'];bake_native(body,origin)
     before=len(body.data.polygons)
     nose=radome(scene,origin,body,materials['radome'])
     tree=BVHTree.FromPolygons([v.co for v in body.data.vertices],
         [list(f.vertices) for f in body.data.polygons])
+    # Cache original skin triangles/UVs before cutting. New covers inherit
+    # the underlying camouflage instead of stretching one color across them.
+    body.data.calc_loop_triangles();source_uv=body.data.uv_layers.active
+    uv_name=source_uv.name
+    triangles=[([body.data.vertices[i].co.copy() for i in t.vertices],
+        [Vector((*source_uv.data[i].uv,0)) for i in t.loops]) for t in body.data.loop_triangles]
+    uv_tree=BVHTree.FromPolygons([v.co.copy() for v in body.data.vertices],
+        [list(t.vertices) for t in body.data.loop_triangles],all_triangles=True)
+    border_width=ortho_scale*border_pixels/1024
     records=[]
 
     def surface(x,y):
         hit=tree.ray_cast(Vector((x,y,2)),Vector((0,0,-1)))
         assert hit[0] is not None,('Detail misses the aircraft skin',x,y)
         return hit[0].z
+
+    def skin_uv(x,y):
+        hit,_,index,_=uv_tree.ray_cast(Vector((x,y,2)),Vector((0,0,-1)))
+        assert hit is not None,('Cover UV misses the source skin',x,y)
+        points,uv=triangles[index]
+        return barycentric_transform(hit,*points,*uv).xy
 
     def pocket(name,points,depth,cover=False,grille=False):
         area=sum(a[0]*b[1]-b[0]*a[1] for a,b in zip(points,points[1:]+points[:1]))
@@ -109,12 +116,29 @@ def prepare(scene,origin,materials,bounds):
             [[i,(i+1)%n,(i+1)%n+n,i+n] for i in range(n)]+[list(range(n,2*n))],
             [materials['joint'],materials['vent']],[0]*n+[1])
         well['recess_depth_native']=depth
+        # A modeled band lies outside the unchanged cut footprint. Parallel
+        # edge offsets maintain constant thickness at concave sawtooth edges.
+        outer=[]
+        for i,point in enumerate(top):
+            incoming=(point-top[i-1]).xy.normalized()
+            outgoing=(top[(i+1)%n]-point).xy.normalized()
+            a=Vector((incoming.y,-incoming.x));b=Vector((outgoing.y,-outgoing.x))
+            miter=(a+b).normalized();distance=min(border_width/max(miter.dot(b),.1),border_width*2)
+            xy=point.xy+miter*distance
+            outer.append(Vector((xy.x,xy.y,surface(*xy)+.0004)))
+        border=mesh_object(scene,origin,'DETAIL '+name+' outer border',
+            [p+Vector((0,0,.0004)) for p in top]+outer,
+            [[i,(i+1)%n,(i+1)%n+n,i+n] for i in range(n)],[materials['detail_border']])
+        border['width_delivery_pixels']=border_pixels
         plate=None
         if cover:
             vertices=[center+(p-center)*.94 for p in top]
             for v in vertices:v.z-=min(.001,depth*.3)
             plate=mesh_object(scene,origin,'DETAIL '+name+' cover',vertices,[list(range(n))],[materials['camo']])
-            paint_coordinates(plate,bounds)
+            uv=plate.data.uv_layers.new(name=uv_name)
+            for loop in plate.data.loops:
+                p=plate.data.vertices[loop.vertex_index].co
+                uv.data[loop.index].uv=skin_uv(p.x,p.y)
         if grille:
             # Repeated narrow solid strips sit inside the well, below the
             # outer skin. They are geometry rather than a black texture decal.
@@ -129,7 +153,8 @@ def prepare(scene,origin,materials,bounds):
                     [[0,1,2,3]],[materials['mechanism']])
         records.append(dict(name=name,footprint_native_xy=points,depth_native=depth,
             original_skin_cut_verified=removed,well_mesh=well.name,cover_mesh=plate.name if plate else None,
-            grille_bars=6 if grille else 0))
+            grille_bars=6 if grille else 0,border_mesh=border.name,
+            border_width_delivery_pixels=border_pixels,border_width_native=border_width))
         return plate
 
     # Right side is native -Y (image right with the nose pointing up).
@@ -144,7 +169,6 @@ def prepare(scene,origin,materials,bounds):
     pocket('APU intake', [(-.42,.07),(-.57,.07),(-.61,.145),(-.51,.20),(-.40,.145)],.014,grille=True)
     pocket('APU exhaust', [(-.67,.345),(-.74,.39),(-.84,.345),(-.79,.29)],.018,grille=True)
     pocket('refueling receptacle',[(.23,0),(.19,.058),(.045,.058),(.015,0),(.045,-.058),(.19,-.058)],.008,cover=True)
-    paint_coordinates(body,bounds)
     return dict(radome=nose,details=records,edited_source_objects=['Fuselage'],
         body_faces_before=before,body_faces_after=len(body.data.polygons),
         default_cannon_shutter='closed',cannon_shutter_object=shutter.name,

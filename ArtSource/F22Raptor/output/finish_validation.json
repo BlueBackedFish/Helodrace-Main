@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "pattern_baseline": "9ebb9fa4",
+  "geometry_baseline": "7f13044a",
+  "pattern_label_masks_identical": true,
+  "atlas_color_counts": {
+    "vent": 51405,
+    "camo_dark": 596111,
+    "body": 2594959,
+    "edge": 951829
+  },
+  "atlas_unique_colors": 4,
+  "current_palette_retained": true,
+  "gaussian_blur_used": false,
+  "texture_filter": "Closest",
+  "unchanged_recess_footprints_and_depths": 16,
+  "unchanged_canopy_and_radome": true,
+  "surrounding_border_width_pixels": 1,
+  "opening_enlargement": false
+}
