@@ -1,0 +1,1000 @@
+[
+  {
+    "source": "HD_M16A1.kra",
+    "source_sha256": "03cabec9f50c8ce2b30992c32b0d2b1db017631e6d6525ea166b923418e54497",
+    "source_unchanged": true,
+    "canvas": [
+      1024,
+      1024
+    ],
+    "dpi": 100.0,
+    "merged_alpha_bbox": [
+      30,
+      394,
+      994,
+      630
+    ],
+    "references": [
+      {
+        "height": "121.831466681677",
+        "width": "429.14512549505",
+        "saturation": "1",
+        "src": "reference_images/0.png",
+        "transform": "matrix(0.70710678118655 -0.70710678118655 0.70710678118655 0.70710678118655 11.3821360202841 295.680005531881)",
+        "keepAspectRatio": "true",
+        "opacity": "0",
+        "pixel_size": [
+          863,
+          245
+        ]
+      },
+      {
+        "height": "148.32",
+        "width": "331.2",
+        "saturation": "1",
+        "src": "reference_images/1.png",
+        "transform": "translate(456.839981042666, 80.0100058520934)",
+        "keepAspectRatio": "true",
+        "opacity": "1",
+        "pixel_size": [
+          460,
+          206
+        ]
+      },
+      {
+        "height": "102.384476632156",
+        "width": "428.835504218454",
+        "saturation": "1",
+        "src": "reference_images/2.png",
+        "transform": "matrix(0.707106781186551 -0.70710678118655 0.70710678118655 0.707106781186551 18.3157373539878 297.675726470308)",
+        "keepAspectRatio": "true",
+        "opacity": "0",
+        "pixel_size": [
+          800,
+          191
+        ]
+      }
+    ],
+    "layer_types": {
+      "referenceimages": 1,
+      "grouplayer": 1,
+      "shapelayer": 5,
+      "paintlayer": 1
+    },
+    "vector_layer_count": 5,
+    "svg_element_counts": {
+      "svg": 5,
+      "defs": 5,
+      "g": 5,
+      "path": 71,
+      "circle": 4,
+      "ellipse": 2
+    },
+    "svg_fill_counts": {
+      "#4e4e4e": 13,
+      "#565656": 5,
+      "#5e5e5e": 5,
+      "#646464": 4,
+      "#6f6f6f": 4,
+      "#696969": 4,
+      "#767676": 3,
+      "#393939": 3,
+      "#424242": 3,
+      "#4a4a4a": 2,
+      "#505050": 2,
+      "#585858": 2,
+      "#727272": 2,
+      "#6e6e6e": 2,
+      "#787878": 2,
+      "#737373": 2,
+      "#4d4d4d": 2,
+      "#7d7d7d": 2,
+      "#525252": 2,
+      "#676767": 1,
+      "#5d5d5d": 1,
+      "#6b6b6b": 1,
+      "#6a6a6a": 1,
+      "#777777": 1,
+      "#757575": 1,
+      "#7b7b7b": 1,
+      "#848484": 1,
+      "#515151": 1,
+      "#7e7e7e": 1,
+      "#414141": 1,
+      "#3b3b3b": 1,
+      "#4b4b4b": 1
+    },
+    "svg_stroke_width_counts": {
+      "0": 72
+    },
+    "layer_style_size_px": [
+      16.0
+    ],
+    "runtime": "Textures\\Weapons\\ColdWar\\HD_M16A1.png",
+    "runtime_pixels_equal_merged": true
+  },
+  {
+    "source": "HD_M16A4.kra",
+    "source_sha256": "e10808458cf3103d071e1fddd19d5a2ed670751f565814ec650d7df1c502b8ad",
+    "source_unchanged": true,
+    "canvas": [
+      1024,
+      1024
+    ],
+    "dpi": 100.0,
+    "merged_alpha_bbox": [
+      23,
+      354,
+      1002,
+      671
+    ],
+    "references": [
+      {
+        "height": "121.831466681677",
+        "width": "429.14512549505",
+        "saturation": "1",
+        "src": "reference_images/0.png",
+        "transform": "matrix(0.70710678118655 -0.70710678118655 0.70710678118655 0.70710678118655 11.3821360202841 295.680005531881)",
+        "keepAspectRatio": "true",
+        "opacity": "0",
+        "pixel_size": [
+          863,
+          245
+        ]
+      },
+      {
+        "height": "148.32",
+        "width": "331.2",
+        "saturation": "1",
+        "src": "reference_images/1.png",
+        "transform": "translate(456.839981042666, 80.0100058520934)",
+        "keepAspectRatio": "true",
+        "opacity": "1",
+        "pixel_size": [
+          460,
+          206
+        ]
+      }
+    ],
+    "layer_types": {
+      "referenceimages": 1,
+      "grouplayer": 1,
+      "shapelayer": 5,
+      "paintlayer": 2
+    },
+    "vector_layer_count": 5,
+    "svg_element_counts": {
+      "svg": 5,
+      "defs": 5,
+      "g": 5,
+      "path": 143,
+      "circle": 8,
+      "ellipse": 5
+    },
+    "svg_fill_counts": {
+      "#4e4e4e": 13,
+      "#757575": 11,
+      "#7f7f7f": 11,
+      "#646464": 9,
+      "#6f6f6f": 9,
+      "#6e6e6e": 7,
+      "#696969": 5,
+      "#565656": 4,
+      "#4d4d4d": 4,
+      "#6a6a6a": 4,
+      "#262626": 4,
+      "#505050": 3,
+      "#595959": 3,
+      "#7a7a7a": 3,
+      "#777777": 3,
+      "#5b5b5b": 3,
+      "#414141": 3,
+      "#656565": 3,
+      "#767676": 3,
+      "#5e5e5e": 3,
+      "#606060": 3,
+      "none": 3,
+      "#393939": 3,
+      "#424242": 3,
+      "#555555": 2,
+      "#6b6b6b": 2,
+      "#666666": 2,
+      "#4b4b4b": 2,
+      "#4a4a4a": 2,
+      "#585858": 2,
+      "#727272": 2,
+      "#787878": 2,
+      "#737373": 2,
+      "#7d7d7d": 2,
+      "#676767": 2,
+      "#525252": 2,
+      "#313131": 2,
+      "#5d5d5d": 1,
+      "#4b494f": 1,
+      "#7b7b7b": 1,
+      "#848484": 1,
+      "#626262": 1,
+      "#6c6c6c": 1,
+      "#4c4c4c": 1,
+      "#ff0000": 1,
+      "#515151": 1,
+      "#3b3b3b": 1
+    },
+    "svg_stroke_width_counts": {
+      "0": 153,
+      "0.2664": 3
+    },
+    "layer_style_size_px": [
+      16.0
+    ],
+    "runtime": "Textures\\Weapons\\ModernWar\\HD_M16A4.png",
+    "runtime_pixels_equal_merged": true
+  },
+  {
+    "source": "HD_M4A1.kra",
+    "source_sha256": "7743740a2b426418a61b36e88b4310d9bd913a9213e18f4aa405d01509ef2904",
+    "source_unchanged": true,
+    "canvas": [
+      1024,
+      1024
+    ],
+    "dpi": 100.0,
+    "merged_alpha_bbox": [
+      102,
+      358,
+      923,
+      665
+    ],
+    "references": [
+      {
+        "height": "121.831466681677",
+        "width": "429.14512549505",
+        "saturation": "1",
+        "src": "reference_images/0.png",
+        "transform": "matrix(0.70710678118655 -0.70710678118655 0.70710678118655 0.70710678118655 11.3821360202841 295.680005531881)",
+        "keepAspectRatio": "true",
+        "opacity": "0",
+        "pixel_size": [
+          863,
+          245
+        ]
+      },
+      {
+        "height": "148.32",
+        "width": "331.2",
+        "saturation": "1",
+        "src": "reference_images/1.png",
+        "transform": "translate(456.839981042666, 80.0100058520934)",
+        "keepAspectRatio": "true",
+        "opacity": "1",
+        "pixel_size": [
+          460,
+          206
+        ]
+      },
+      {
+        "height": "332.819999745144",
+        "width": "332.819999745144",
+        "saturation": "1",
+        "src": "reference_images/2.png",
+        "transform": "matrix(-1 0 0 1 355.770000532892 33.4799999753239)",
+        "keepAspectRatio": "true",
+        "opacity": "0",
+        "pixel_size": [
+          447,
+          447
+        ]
+      }
+    ],
+    "layer_types": {
+      "referenceimages": 1,
+      "grouplayer": 1,
+      "shapelayer": 6,
+      "paintlayer": 2
+    },
+    "vector_layer_count": 6,
+    "svg_element_counts": {
+      "svg": 6,
+      "defs": 6,
+      "g": 6,
+      "path": 147,
+      "circle": 7,
+      "ellipse": 5
+    },
+    "svg_fill_counts": {
+      "#4e4e4e": 23,
+      "#7f7f7f": 11,
+      "#646464": 10,
+      "#6f6f6f": 9,
+      "#6e6e6e": 6,
+      "#696969": 5,
+      "#565656": 5,
+      "#777777": 4,
+      "#424242": 4,
+      "#4b4b4b": 4,
+      "#5b5b5b": 4,
+      "#4d4d4d": 4,
+      "#6a6a6a": 4,
+      "#606060": 4,
+      "#262626": 4,
+      "#505050": 3,
+      "#555555": 3,
+      "#595959": 3,
+      "#414141": 3,
+      "#656565": 3,
+      "#767676": 3,
+      "none": 3,
+      "#393939": 3,
+      "#7a7a7a": 2,
+      "#4a4a4a": 2,
+      "#585858": 2,
+      "#727272": 2,
+      "#787878": 2,
+      "#737373": 2,
+      "#757575": 2,
+      "#5e5e5e": 2,
+      "#7d7d7d": 2,
+      "#676767": 2,
+      "#525252": 2,
+      "#313131": 2,
+      "#5d5d5d": 1,
+      "#4b494f": 1,
+      "#6b6b6b": 1,
+      "#7b7b7b": 1,
+      "#848484": 1,
+      "#626262": 1,
+      "#6c6c6c": 1,
+      "#4c4c4c": 1,
+      "#ff0000": 1,
+      "#3b3b3b": 1
+    },
+    "svg_stroke_width_counts": {
+      "0": 139,
+      "0.2664": 3
+    },
+    "layer_style_size_px": [
+      16.0
+    ],
+    "runtime": "Textures\\Weapons\\ModernWar\\HD_M4A1.png",
+    "runtime_pixels_equal_merged": true
+  },
+  {
+    "source": "HD_MK18MOD1.kra",
+    "source_sha256": "4a8e240c5fc768a13154029bfc37b4576cd6e098b338643518365a8c34011df9",
+    "source_unchanged": true,
+    "canvas": [
+      768,
+      768
+    ],
+    "dpi": 100.0,
+    "merged_alpha_bbox": [
+      9,
+      238,
+      759,
+      529
+    ],
+    "references": [
+      {
+        "width": "429.14512549505",
+        "keepAspectRatio": "true",
+        "opacity": "0",
+        "saturation": "1",
+        "height": "121.831466681677",
+        "transform": "matrix(0.70710678118655 -0.70710678118655 0.70710678118655 0.70710678118655 11.3821360202841 295.680005531881)",
+        "src": "reference_images/0.png",
+        "pixel_size": [
+          863,
+          245
+        ]
+      },
+      {
+        "width": "331.2",
+        "keepAspectRatio": "true",
+        "opacity": "1",
+        "saturation": "1",
+        "height": "148.32",
+        "transform": "translate(456.839981042666, 80.0100058520934)",
+        "src": "reference_images/1.png",
+        "pixel_size": [
+          460,
+          206
+        ]
+      },
+      {
+        "width": "150.48",
+        "keepAspectRatio": "true",
+        "opacity": "1",
+        "saturation": "1",
+        "height": "352.08",
+        "transform": "translate(-308.879987966003, 63.7199975174622)",
+        "src": "reference_images/2.png",
+        "pixel_size": [
+          209,
+          489
+        ]
+      },
+      {
+        "width": "338.4",
+        "keepAspectRatio": "true",
+        "opacity": "1",
+        "saturation": "1",
+        "height": "125.28",
+        "transform": "translate(15.12, 281.879988439031)",
+        "src": "reference_images/3.png",
+        "pixel_size": [
+          470,
+          174
+        ]
+      }
+    ],
+    "layer_types": {
+      "referenceimages": 1,
+      "grouplayer": 2,
+      "paintlayer": 5,
+      "shapelayer": 12
+    },
+    "vector_layer_count": 12,
+    "svg_element_counts": {
+      "svg": 12,
+      "defs": 12,
+      "g": 12,
+      "path": 153,
+      "circle": 26,
+      "ellipse": 35,
+      "rect": 18
+    },
+    "svg_fill_counts": {
+      "#000000": 45,
+      "#74675b": 13,
+      "#4e4e4e": 12,
+      "#4b4b4b": 6,
+      "#957f5e": 6,
+      "#78674c": 5,
+      "#393939": 5,
+      "#8e795a": 4,
+      "#4d4d4d": 4,
+      "#505050": 4,
+      "#424242": 4,
+      "#9c8562": 4,
+      "#3a3a3a": 4,
+      "#565656": 4,
+      "#6f6f6f": 4,
+      "#696969": 4,
+      "#262626": 4,
+      "#3b3b3b": 3,
+      "#313131": 3,
+      "#826e52": 3,
+      "#727272": 3,
+      "#6e6e6e": 3,
+      "#767676": 3,
+      "#837053": 2,
+      "#826f51": 2,
+      "#616161": 2,
+      "#595959": 2,
+      "#474747": 2,
+      "#76644a": 2,
+      "#857154": 2,
+      "#7c694e": 2,
+      "#8a7557": 2,
+      "#414141": 2,
+      "#7c6e60": 2,
+      "#655a50": 2,
+      "#594f46": 2,
+      "#76695d": 2,
+      "#7d6f63": 2,
+      "#585858": 2,
+      "#646464": 2,
+      "#6b6b6b": 2,
+      "#787878": 2,
+      "#737373": 2,
+      "#5e5e5e": 2,
+      "#7d7d7d": 2,
+      "#86693f": 2,
+      "#8f7a5a": 1,
+      "#383838": 1,
+      "#404040": 1,
+      "#272727": 1,
+      "#7e6b4f": 1,
+      "#8e7859": 1,
+      "#967f5e": 1,
+      "#3182d7": 1,
+      "#464646": 1,
+      "#3e3e3e": 1,
+      "#8d7859": 1,
+      "#75685c": 1,
+      "#61564c": 1,
+      "#6a5e53": 1,
+      "#7a6c5f": 1,
+      "#807265": 1,
+      "#454545": 1,
+      "#3d3d3d": 1,
+      "#525252": 1,
+      "#4a4a4a": 1,
+      "#373737": 1,
+      "#434343": 1,
+      "#5d5d5d": 1,
+      "#6a6a6a": 1,
+      "#777777": 1,
+      "#757575": 1,
+      "#7b7b7b": 1,
+      "#848484": 1,
+      "#626262": 1,
+      "#676767": 1,
+      "none": 1,
+      "#555555": 1,
+      "#7a7a7a": 1,
+      "#8e6f43": 1,
+      "#584529": 1,
+      "#71552c": 1
+    },
+    "svg_stroke_width_counts": {
+      "0": 144,
+      "0.2664": 1
+    },
+    "layer_style_size_px": [
+      16.0
+    ],
+    "runtime": "Textures\\Weapons\\ModernWar\\HD_MK18MOD1.png",
+    "runtime_pixels_equal_merged": true
+  },
+  {
+    "source": "HD_Glock19.kra",
+    "source_sha256": "baaa3757eb008e229ea084b65dbbc0289014ce2c3f128ec1e8f423a744088510",
+    "source_unchanged": true,
+    "canvas": [
+      256,
+      256
+    ],
+    "dpi": 100.0,
+    "merged_alpha_bbox": [
+      24,
+      40,
+      232,
+      216
+    ],
+    "references": [
+      {
+        "width": "312.48",
+        "keepAspectRatio": "true",
+        "opacity": "1",
+        "saturation": "1",
+        "height": "119.52",
+        "transform": "translate(383.759985048602, 185.039992790789)",
+        "src": "reference_images/0.png",
+        "pixel_size": [
+          434,
+          166
+        ]
+      }
+    ],
+    "layer_types": {
+      "referenceimages": 1,
+      "grouplayer": 1,
+      "paintlayer": 2,
+      "shapelayer": 4
+    },
+    "vector_layer_count": 4,
+    "svg_element_counts": {
+      "svg": 4,
+      "defs": 4,
+      "g": 4,
+      "path": 79,
+      "rect": 7,
+      "circle": 4,
+      "ellipse": 4
+    },
+    "svg_fill_counts": {
+      "none": 14,
+      "#646464": 9,
+      "#b2966a": 7,
+      "#484848": 6,
+      "#656565": 3,
+      "#907347": 3,
+      "#9d7e4e": 3,
+      "#4c4c4c": 3,
+      "#636363": 2,
+      "#4e4e4e": 2,
+      "#1a1a1a": 2,
+      "#515151": 2,
+      "#96784a": 2,
+      "#ab8955": 2,
+      "#272727": 2,
+      "#3a3a3a": 2,
+      "#767676": 2,
+      "#cfae7b": 1,
+      "#c1a273": 1,
+      "#606060": 1,
+      "#6b6b6b": 1,
+      "#7a5c2f": 1,
+      "#967748": 1,
+      "#565656": 1,
+      "#a28b67": 1,
+      "#3e321f": 1,
+      "#ae946b": 1,
+      "#bea275": 1,
+      "#544737": 1,
+      "#313131": 1,
+      "#444444": 1,
+      "#545454": 1,
+      "#846941": 1,
+      "#2e2e2e": 1,
+      "#a38351": 1,
+      "#8b6f44": 1,
+      "#9b7c4c": 1,
+      "#a88753": 1,
+      "#a88e66": 1,
+      "#535353": 1,
+      "#4a4a4a": 1,
+      "#4d4d4d": 1,
+      "#4f4f4f": 1,
+      "#575757": 1,
+      "#828282": 1
+    },
+    "svg_stroke_width_counts": {
+      "0": 30,
+      "0.5184": 14
+    },
+    "layer_style_size_px": [
+      16.0
+    ],
+    "runtime": "Textures\\Weapons\\ModernWar\\HD_Glock19.png",
+    "runtime_pixels_equal_merged": true
+  },
+  {
+    "source": "HD_m1911.kra",
+    "source_sha256": "e5bc81e4fecda9eea2be4143b604599a9b85c40b67d6261f074e253f7a2b75bc",
+    "source_unchanged": true,
+    "canvas": [
+      256,
+      256
+    ],
+    "dpi": 100.0,
+    "merged_alpha_bbox": [
+      11,
+      47,
+      246,
+      209
+    ],
+    "references": [
+      {
+        "height": "209.789992864529",
+        "opacity": "0",
+        "saturation": "1",
+        "keepAspectRatio": "true",
+        "src": "reference_images/0.png",
+        "width": "320.036774829051",
+        "transform": "matrix(-1 0 0 1 345.785959958951 90.7199937618535)",
+        "pixel_size": [
+          897,
+          588
+        ]
+      },
+      {
+        "height": "142.56",
+        "opacity": "1",
+        "saturation": "1",
+        "keepAspectRatio": "true",
+        "src": "reference_images/1.png",
+        "width": "337.68",
+        "transform": "translate(416.609974314012, 113.04)",
+        "pixel_size": [
+          469,
+          198
+        ]
+      }
+    ],
+    "layer_types": {
+      "referenceimages": 1,
+      "shapelayer": 5,
+      "paintlayer": 2
+    },
+    "vector_layer_count": 5,
+    "svg_element_counts": {
+      "svg": 5,
+      "defs": 5,
+      "g": 5,
+      "path": 46,
+      "ellipse": 5
+    },
+    "svg_fill_counts": {
+      "#565656": 12,
+      "none": 6,
+      "#4f4f4f": 3,
+      "#5e5e5e": 2,
+      "#8c5c2f": 2,
+      "#7c5129": 2,
+      "#3f3f3f": 2,
+      "#4d4d4d": 2,
+      "#949494": 2,
+      "#595959": 2,
+      "#292929": 1,
+      "#585858": 1,
+      "#696969": 1,
+      "#666666": 1,
+      "#3d3d3d": 1,
+      "#6a4430": 1,
+      "#787878": 1,
+      "#8c8c8c": 1,
+      "#6f6f6f": 1,
+      "#7f7f7f": 1,
+      "#575757": 1,
+      "#925841": 1,
+      "#9b9b9b": 1,
+      "#474747": 1,
+      "#414141": 1,
+      "#9e9e9e": 1
+    },
+    "svg_stroke_width_counts": {
+      "0": 14,
+      "0.72": 5,
+      "44.122": 2,
+      "28.8": 1
+    },
+    "layer_style_size_px": [],
+    "runtime": "Textures\\Weapons\\GreatWar\\HD_m1911.png",
+    "runtime_pixels_equal_merged": true
+  },
+  {
+    "source": "HD_Thompsonm1a1.kra",
+    "source_sha256": "7a0880eee37e38ca613fb74237bd97b53ef76a92407d0815bc419967d964184c",
+    "source_unchanged": true,
+    "canvas": [
+      1024,
+      1024
+    ],
+    "dpi": 100.0,
+    "merged_alpha_bbox": [
+      114,
+      374,
+      911,
+      648
+    ],
+    "references": [
+      {
+        "src": "reference_images/0.png",
+        "opacity": "0",
+        "height": "106.897491747571",
+        "keepAspectRatio": "true",
+        "transform": "translate(16.7218895176402, 137.159998743915)",
+        "saturation": "1",
+        "width": "329.639842393391",
+        "pixel_size": [
+          700,
+          227
+        ]
+      },
+      {
+        "src": "reference_images/1.png",
+        "opacity": "1",
+        "height": "333.36",
+        "keepAspectRatio": "true",
+        "transform": "translate(376.379976114967, 82.9800063211637)",
+        "saturation": "1",
+        "width": "312.48",
+        "pixel_size": [
+          434,
+          463
+        ]
+      }
+    ],
+    "layer_types": {
+      "referenceimages": 1,
+      "shapelayer": 10,
+      "paintlayer": 2
+    },
+    "vector_layer_count": 10,
+    "svg_element_counts": {
+      "svg": 10,
+      "defs": 10,
+      "g": 10,
+      "path": 34,
+      "ellipse": 8
+    },
+    "svg_fill_counts": {
+      "none": 6,
+      "#6a4430": 3,
+      "#272727": 3,
+      "#5d5d5d": 3,
+      "#8d5843": 2,
+      "#505050": 2,
+      "#373737": 2,
+      "#383838": 2,
+      "#323232": 2,
+      "#454545": 2,
+      "#7a7a7a": 2,
+      "#000000": 1,
+      "#787878": 1,
+      "#393939": 1,
+      "#4e4e4e": 1,
+      "#595959": 1,
+      "#3f3f3f": 1,
+      "#898989": 1,
+      "#1a1a1a": 1,
+      "#808080": 1,
+      "#303030": 1,
+      "#ffffff": 1,
+      "#5b5b5b": 1,
+      "#424242": 1
+    },
+    "svg_stroke_width_counts": {
+      "0": 8,
+      "0.72": 4,
+      "1": 2,
+      "28.8": 2,
+      "12.6688": 1,
+      "8.77073": 1
+    },
+    "layer_style_size_px": [],
+    "runtime": "Textures\\Weapons\\GreatWar\\HD_Thompsonm1a1.png",
+    "runtime_pixels_equal_merged": true
+  },
+  {
+    "source": "m1903.kra",
+    "source_sha256": "e625d747346e72bff8dafa6fb1c08afa176db9c06e0e6df697ac8e5af9b1ef15",
+    "source_unchanged": true,
+    "canvas": [
+      1280,
+      1280
+    ],
+    "dpi": 100.0,
+    "merged_alpha_bbox": [
+      107,
+      539,
+      1171,
+      741
+    ],
+    "references": [
+      {
+        "width": "443.029127448665",
+        "transform": "matrix(0.751249320546313 -0.660018528814689 0.660018528814689 0.751249320546313 -29.1350649982542 276.978900481256)",
+        "opacity": "0",
+        "keepAspectRatio": "true",
+        "height": "142.548723878158",
+        "saturation": "1",
+        "src": "reference_images/0.png",
+        "pixel_size": [
+          1728,
+          556
+        ]
+      },
+      {
+        "width": "308.88",
+        "transform": "translate(-550.07999830301, 115.199999644609)",
+        "opacity": "1",
+        "keepAspectRatio": "true",
+        "height": "337.68",
+        "saturation": "1",
+        "src": "reference_images/1.png",
+        "pixel_size": [
+          429,
+          469
+        ]
+      }
+    ],
+    "layer_types": {
+      "referenceimages": 1,
+      "paintlayer": 3,
+      "shapelayer": 6
+    },
+    "vector_layer_count": 6,
+    "svg_element_counts": {
+      "svg": 6,
+      "defs": 6,
+      "g": 6,
+      "path": 31,
+      "circle": 2,
+      "ellipse": 1
+    },
+    "svg_fill_counts": {
+      "#606060": 8,
+      "none": 7,
+      "#7e7e7e": 3,
+      "#474747": 2,
+      "#523425": 2,
+      "#8d5843": 2,
+      "#414141": 1,
+      "#535353": 1,
+      "#a7a7a7": 1,
+      "#434241": 1,
+      "#6a4430": 1,
+      "#868686": 1,
+      "#717171": 1,
+      "#8c8c8c": 1,
+      "#783a22": 1,
+      "#94533a": 1
+    },
+    "svg_stroke_width_counts": {
+      "0.0072": 28,
+      "12.2429": 2,
+      "10.2024": 2,
+      "6.12144": 1,
+      "8.16192": 1
+    },
+    "layer_style_size_px": [],
+    "runtime": "Textures\\Weapons\\GreatWar\\SprM1903.png",
+    "runtime_pixels_equal_merged": true
+  },
+  {
+    "source": "K2.kra",
+    "source_sha256": "28338faee984382c7e25274c228933f3eaeee67f2c6b2d80ad364f9bd1c9acc7",
+    "source_unchanged": true,
+    "canvas": [
+      1024,
+      1024
+    ],
+    "dpi": 100.0,
+    "merged_alpha_bbox": [
+      35,
+      364,
+      989,
+      660
+    ],
+    "references": [
+      {
+        "transform": "translate(1.34999987498401, -11.2049992335386)",
+        "keepAspectRatio": "true",
+        "height": "407.52",
+        "opacity": "0",
+        "width": "405.36",
+        "saturation": "1",
+        "src": "reference_images/0.png",
+        "pixel_size": [
+          563,
+          566
+        ]
+      }
+    ],
+    "layer_types": {
+      "referenceimages": 1,
+      "grouplayer": 1,
+      "shapelayer": 2,
+      "paintlayer": 1
+    },
+    "vector_layer_count": 2,
+    "svg_element_counts": {
+      "svg": 2,
+      "defs": 2,
+      "g": 2,
+      "path": 39,
+      "ellipse": 3,
+      "circle": 9,
+      "rect": 1
+    },
+    "svg_fill_counts": {
+      "#242424": 6,
+      "#757575": 5,
+      "#616161": 4,
+      "#292929": 4,
+      "#282828": 4,
+      "#5b6168": 3,
+      "#606060": 3,
+      "#7c7c7c": 3,
+      "#6a6a6a": 2,
+      "#888888": 2,
+      "#646b73": 1,
+      "#6c6c6c": 1,
+      "#676767": 1,
+      "#333333": 1,
+      "#6e6e6e": 1,
+      "#7f7f7f": 1,
+      "#717171": 1,
+      "#303030": 1,
+      "#5c5c5c": 1,
+      "#636363": 1,
+      "#727272": 1,
+      "#7a7a7a": 1,
+      "#656565": 1,
+      "#848484": 1,
+      "#b38912": 1,
+      "#1c1c1c": 1
+    },
+    "svg_stroke_width_counts": {
+      "0": 52
+    },
+    "layer_style_size_px": [
+      16.0
+    ],
+    "runtime": null,
+    "runtime_pixels_equal_merged": null
+  }
+]
