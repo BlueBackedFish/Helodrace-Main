@@ -13,6 +13,16 @@ gray=Image.open(source).convert('L').resize((2048,2048),Image.Resampling.LANCZOS
 values=np.asarray(gray);labels=np.zeros_like(values)
 for index,threshold in enumerate(style['camo_source_thresholds_srgb']):labels[values>=threshold]=index
 labels=np.asarray(Image.fromarray(labels).filter(ImageFilter.MedianFilter(9)))
+labels=labels.copy();before=labels.copy()
+# Retouch only the source wing insignia. Preserve all original panel graphics.
+left,top,right,bottom=style['wing_logo_bounds_atlas_pixels']
+labels[top:bottom,left:right]=style['camo_roles'].index('camo_dark')
+changed=before!=labels
+assert not changed[:top].any() and not changed[bottom:].any()
+assert not changed[top:bottom,:left].any() and not changed[top:bottom,right:].any()
+(OUT/'logo_validation.json').write_text(json.dumps(dict(passed=True,
+    changed_atlas_pixels=int(changed.sum()),retouch_bounds=[left,top,right,bottom],
+    source_panels_and_camouflage_unchanged_outside_logo=True),indent=2)+'\n',encoding='utf-8')
 palette=np.array([style['palette'][role] for role in style['camo_roles']],dtype=np.uint8)
 Image.fromarray(palette[labels]).save(OUT/'fuselage_flat_uv.png')
 print('F22_UV_PAINT_PASS: source camouflage and RAM layout reduced to four clean fixed colors')

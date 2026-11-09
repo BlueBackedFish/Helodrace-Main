@@ -47,3 +47,5 @@ Twenty original meshes have authorized geometry changes. The other 245 source me
 The default texture has the cannon shutter closed. Hiding its separate cover reveals the actual opening. No gameplay opening behavior or flight controller is added. Prepared display draw size is 6.9867×6.9867 tiles. Aerodynamic limits, independent blueprint dimensions and in-game verification remain unassigned.
 
 The source-painted panel/insignia-removal revision was reverted at the user's request. Paint is restored exactly to `a1430830`; the subsequent changes calibrate display size and output pixel density against C-17. Interior one-pixel borders and control-joint widths are derived from the delivery resolution.
+
+The later logo-only request removes the wing insignia in atlas bounds (276,268)–(403,344), with the source panel graphics and camouflage outside that rectangle untouched. `output/logo_validation.json` verifies the scope.

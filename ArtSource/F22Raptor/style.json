@@ -93,5 +93,11 @@
   ],
   "detail_border_pixels": 1.0,
   "physical_length_m": 18.9,
-  "physical_wingspan_m": 13.6
+  "physical_wingspan_m": 13.6,
+  "wing_logo_bounds_atlas_pixels": [
+    276,
+    268,
+    403,
+    344
+  ]
 }

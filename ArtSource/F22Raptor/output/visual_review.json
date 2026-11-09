@@ -52,5 +52,7 @@
   "detail_borders_one_pixel_outside_unchanged_openings": true,
   "c17_real_scale_comparison_reviewed": true,
   "panel_logo_cleanup_reverted": true,
-  "delivery_resolution": 1192
+  "delivery_resolution": 1192,
+  "wing_logo_removed": true,
+  "source_panel_graphics_retained": true
 }

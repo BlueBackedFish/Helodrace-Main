@@ -13,7 +13,7 @@ The supplied FBX is the geometry reference. The aircraft points up in a true 90-
 
 ## Paint and references
 
-The camouflage layout is restored from revision `9ebb9fa4`; the current gray palette is retained. Source-albedo threshold masks and median cleanup recreate that earlier pattern without Gaussian blur. The atlas contains exactly four palette RGBs. The material uses closest/nearest sampling, so it does not blend colors across paint edges. Final projection/resize still uses pixel-coverage antialiasing at the actual edge.
+The camouflage layout is restored from revision `9ebb9fa4`; the current gray palette is retained. Source-albedo threshold masks and median cleanup recreate that earlier pattern without Gaussian blur. Only the wing insignia is retouched to the surrounding camouflage color; source panel graphics and all paint outside that small atlas rectangle remain unchanged. `output/logo_validation.json` records the region and changed-pixel count. The atlas contains exactly four palette RGBs. The material uses closest/nearest sampling, so it does not blend colors across paint edges. Final projection/resize still uses pixel-coverage antialiasing at the actual edge.
 
 Original source UVs attach the pattern to moving controls. New panel covers receive barycentrically interpolated UVs from the original skin triangles, allowing their paint to follow the underlying body. The replaced native-coordinate paint maps and their procedural pattern definition were removed.
 
@@ -23,7 +23,7 @@ External-detail reference links, photographers, uses and cached USAF-photo hashe
 
 ## Physical display scale
 
-The panel/insignia-removal revision was reverted; the paint and covers are restored to `a1430830`. C-17 stays at its existing 19×19-tile display size. USAF nominal dimensions are F-22 length/span 18.9/13.6m and C-17 53/51.75m. `calibrate_scale.py` derives the F-22 display size by matching physical body length, excluding transparent padding and outline. The resulting F-22 square canvas is 6.9867 tiles. Its 1192px delivery retains approximately the C-17's 170.6667 pixels per tile and the same 12px outside outline; it is regenerated from the 2048px model render, not enlarged from the former 1024px texture.
+The panel/insignia-removal revision was reverted; the paint and covers follow `a1430830`, with only the wing logo removed by the later user request. C-17 stays at its existing 19×19-tile display size. USAF nominal dimensions are F-22 length/span 18.9/13.6m and C-17 53/51.75m. `calibrate_scale.py` derives the F-22 display size by matching physical body length, excluding transparent padding and outline. The resulting F-22 square canvas is 6.9867 tiles. Its 1192px delivery retains approximately the C-17's 170.6667 pixels per tile and the same 12px outside outline; it is regenerated from the 2048px model render, not enlarged from the former 1024px texture.
 
 `compare_aircraft.py` places both textures at 20 pixels per meter with their actual noses aligned. Uniform scaling preserves the original model proportions. Inferred model spans differ from the rounded USAF dimensions by less than 0.1%. The source links and numerical checks are stored in the scale reports. C-17 artwork is read unchanged.
 

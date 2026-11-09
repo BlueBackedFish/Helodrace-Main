@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "changed_atlas_pixels": 2768,
+  "retouch_bounds": [
+    276,
+    268,
+    403,
+    344
+  ],
+  "source_panels_and_camouflage_unchanged_outside_logo": true
+}

@@ -20,7 +20,7 @@
     {
       "aircraft": "F-22 Raptor",
       "source": "ArtSource\\F22Raptor\\output\\HD_F22.png",
-      "texture_sha256": "57011e2c0560940e74edc844c1817593e29714b9dcee60e71ede5de45a1e8bb7",
+      "texture_sha256": "19634f10188759557401c1904235b57408076fba203b4b3d357f501d528fcc9c",
       "canvas_tiles": 6.986707712640448,
       "comparison_canvas_pixels": 397,
       "length_m": 18.9,
