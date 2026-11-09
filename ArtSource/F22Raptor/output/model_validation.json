@@ -1,0 +1,3325 @@
+{
+  "passed": true,
+  "source": "C:\\Users\\human\\Documents\\GitHub\\.texture\\ref\\lockheed-martin-f-22-raptor\\source\\Lockheed Martin F-22 \u00abRaptor\u00bb.fbx",
+  "source_sha256": "499abc020205f73ad57fe5ba9d1dcb5ba73b26764abb55c212d3e6bd58b7c746",
+  "pose_frame": 650,
+  "source_meshes": 265,
+  "source_faces": 39040,
+  "omitted_meshes": 0,
+  "original_mesh_coordinates_topology_and_uv_preserved": true,
+  "original_animation_and_rig_preserved": true,
+  "pose_note": "Source animation frame 650; closed canopy, retracted landing gear and closed weapon bays reviewed from the side",
+  "source_forward": "+X",
+  "source_up": "+Z",
+  "source_pose_bounds": [
+    [
+      -2.2455742359161377,
+      -1.5454577207565308,
+      0.15811806917190552
+    ],
+    [
+      2.048219919204712,
+      1.5454574823379517,
+      1.103707194328308
+    ]
+  ],
+  "root_transform": [
+    [
+      7.549790126404332e-08,
+      -1.0,
+      0.0,
+      -1.1175936975860168e-07
+    ],
+    [
+      1.0,
+      7.549790126404332e-08,
+      0.0,
+      0.09867715835571289
+    ],
+    [
+      0.0,
+      0.0,
+      1.0,
+      -0.15811806917190552
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "orthographic_camera_rotation": [
+    0,
+    0,
+    0
+  ],
+  "ortho_scale": 4.542195469879907,
+  "pivot_normalized": [
+    0.5,
+    0.5
+  ],
+  "master_resolution": 2048,
+  "delivery_resolution": 1024,
+  "draw_size_tiles": null,
+  "source_albedo_sha256": "c34c15dd580baecdc8b5424f453fc8e7cff44789e39fd25c644aeb775fd304d1",
+  "lighting": "Emission only; four fixed UV camouflage colors, no lights/AO/normal/reflection",
+  "material_roles": {
+    "F22 mechanism": 243,
+    "F22 glass_frame": 1,
+    "F22 glass": 1,
+    "F22 fixed UV camouflage": 30,
+    "F22 nozzle_inside": 1,
+    "F22 body": 6,
+    "F22 edge": 6,
+    "F22 nozzle": 4,
+    "F22 nozzle_lip": 4
+  },
+  "objects": [
+    {
+      "name": "Aim.001",
+      "vertices": 21,
+      "faces": 24,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "91a20aa97f2f87866cd3f6665e3929834c313058943b1c1435590c79aa59afec"
+    },
+    {
+      "name": "Aim",
+      "vertices": 123,
+      "faces": 230,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "d2e2c2e14d1b816fb96e19e7f508849b9a19b29503811b89165dd0f6d1fddcc3"
+    },
+    {
+      "name": "AIM-120 AMRAAM.001",
+      "vertices": 171,
+      "faces": 282,
+      "original_materials": [
+        "F22 Raptor weapons"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "39ed33dd7cd4ad2134f2616916cd368e3818d8f805b4b47f652805fc43b43800"
+    },
+    {
+      "name": "AIM-120 AMRAAM.002",
+      "vertices": 171,
+      "faces": 282,
+      "original_materials": [
+        "F22 Raptor weapons"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "a8c091c63be4cd901a40567e6290311e496e23c50c65f5b7adda240c8fd7aee4"
+    },
+    {
+      "name": "AIM-120 AMRAAM.003",
+      "vertices": 171,
+      "faces": 282,
+      "original_materials": [
+        "F22 Raptor weapons"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "d28fe86a1e7effb94c2a327f4462711424a39f2204070b42957a6b7af1b8796b"
+    },
+    {
+      "name": "AIM-120 AMRAAM.004",
+      "vertices": 171,
+      "faces": 282,
+      "original_materials": [
+        "F22 Raptor weapons"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "5d4ce8c9c8b3bf1bed9c2e61a87b1e5c6fc25656c976b7d809aa55dd24c59dd7"
+    },
+    {
+      "name": "AIM-120 AMRAAM.005",
+      "vertices": 171,
+      "faces": 282,
+      "original_materials": [
+        "F22 Raptor weapons"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "ed961e0b81d8dcffa1918cccfdd745c300a3eaf04b492b0b158e2526a774624c"
+    },
+    {
+      "name": "AIM-120 AMRAAM",
+      "vertices": 171,
+      "faces": 282,
+      "original_materials": [
+        "F22 Raptor weapons"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "8166beedeb7dbdf740d3b23610e0edb9ebfdf2d195cea39ad1418265c18882cf"
+    },
+    {
+      "name": "Buttons.024",
+      "vertices": 856,
+      "faces": 1070,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "e55c3f0cb9ea7d8d7b11af05b944d70037a7c57d29dd4cbf68bfd24540eac859"
+    },
+    {
+      "name": "Buttons.091",
+      "vertices": 192,
+      "faces": 264,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "b48ae815f8e93c35d04b350d759e72eee6f33fee48e0738f8588f6a32f6c920b"
+    },
+    {
+      "name": "Buttons.099",
+      "vertices": 17,
+      "faces": 24,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "2a2dcf7e6327398e7adc320dd98a7ecd881c814e34f92d1c40f21ca735c0c643"
+    },
+    {
+      "name": "Buttons.100",
+      "vertices": 17,
+      "faces": 24,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "03f197adf6a449b674cae06c0e02ec684a32108e1ac9e67452e2e292a9a5b569"
+    },
+    {
+      "name": "Buttons.101",
+      "vertices": 17,
+      "faces": 24,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "b6ba70087e002c14734c342dd10d5463469f8945f72aecd04b9d5da3f182bf9a"
+    },
+    {
+      "name": "Buttons.102",
+      "vertices": 17,
+      "faces": 24,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "dc46eed5bfae7367f923fa132c064024224fe6bcd29bacee97b6ff6586c70bc6"
+    },
+    {
+      "name": "Buttons.124",
+      "vertices": 12,
+      "faces": 16,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "ebe20fe85da6525f9a9cd01e1d4c457c244607f8389f5a95608edb5613dca747"
+    },
+    {
+      "name": "Buttons.125",
+      "vertices": 12,
+      "faces": 16,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "f656ec79521fcba41d0c1a6e6f8dfd05977d02cb6dcee0b212c5b2701b2c89dd"
+    },
+    {
+      "name": "Buttons.126",
+      "vertices": 8,
+      "faces": 10,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "333cffe53a3f209ade77a0802c5fa033ed8a6dded50fe2addbc41845c72ca90a"
+    },
+    {
+      "name": "Buttons.127",
+      "vertices": 8,
+      "faces": 10,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "f90ee36a367a11b89891cfae3a41e7866e094d2da22a0483951c057d8fb51567"
+    },
+    {
+      "name": "Buttons.128",
+      "vertices": 18,
+      "faces": 32,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "0df3a16caf2b5b61b2cb2e70d15986fc00b38677d32098697b8dbf2eda8b8b0e"
+    },
+    {
+      "name": "Buttons.129",
+      "vertices": 18,
+      "faces": 32,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "710e06d010b871f869201388bee7ab77d92c1baf7d842145bbc0cafe364d25d9"
+    },
+    {
+      "name": "Buttons.130",
+      "vertices": 18,
+      "faces": 32,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "eb6638346dc161d6f0cfc4b4fb57fc0536c955fbe12aeb38e5d8ec241fb5b324"
+    },
+    {
+      "name": "Buttons.131",
+      "vertices": 18,
+      "faces": 32,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "88dbb6f075d3b64b2854797e9846e9eb2d20b69f5e338d48e1b2752b61781ee0"
+    },
+    {
+      "name": "Buttons",
+      "vertices": 17,
+      "faces": 24,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "4cc76d4bb152dd1e5f3c8b907e4965967dd8b392588518924b1e245090d728f1"
+    },
+    {
+      "name": "Circle.002",
+      "vertices": 48,
+      "faces": 72,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "3e3fa00ee13b94327a0f9eb6f88a0532ff46a02f92028dd0c41dfbe2e0c6b0bf"
+    },
+    {
+      "name": "Circle.003",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "924e478e85a99024b2fa0650d12e648040a8ed34a8cd1e3f18605e859aa25b0e"
+    },
+    {
+      "name": "Circle.004",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "f3b36102220a407794f3a45378377689ac3a2326c9e5ce6554e2b56824f88c60"
+    },
+    {
+      "name": "Circle.005",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "d6edbf6c4ad440d93555b06cc0073783c9d4ec0fe116e2df73ab16a732fd06ea"
+    },
+    {
+      "name": "Circle.006",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "68f348127b12d8c9a3d3674de7554c72b1b5a1fc5d2ddc1fd0a3903727cfedeb"
+    },
+    {
+      "name": "Circle.007",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "3c07c90f6a44271b74c182f74cc1092284a1cf9fee150f4d598db87985514871"
+    },
+    {
+      "name": "Circle.008",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "7edf98195cf5330b74338e7bde41fc0f749a02da0d88159cdc60403c67824099"
+    },
+    {
+      "name": "Circle.009",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "3fa53e19287381bbcb7b95b99da971331af650aa5843a3a5ec6efb861bde5f38"
+    },
+    {
+      "name": "Circle.010",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "879846a83331f62e2ccd7cefb8eedef7dbb70eb3b77079759a892f28a333ca15"
+    },
+    {
+      "name": "Circle.011",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "7f19dab2f089c2297b8599d70109ae3cb841a98cad62e2782a5835387aa90113"
+    },
+    {
+      "name": "Circle.012",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "f2f9a57ff16a9845b16c49c975cafd53598dd9aae0fafe11189355a728458415"
+    },
+    {
+      "name": "Circle.013",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "84ee995860af41ade35c405ba0b43f975d8f5b16c75e8df993a4daa36d5e80c0"
+    },
+    {
+      "name": "Circle.014",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "a869c8092a11001df0fd00277c61d81322028231438ea45fa9b0561b7fe829f5"
+    },
+    {
+      "name": "Circle.015",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "92594b306ff7f765725bc19e314005a13a89fa9ed4de19ab04a4f092bf80c5d6"
+    },
+    {
+      "name": "Circle.016",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "2f81efe45d3bdc1894528ecf86995c4fd7ce1d5a810fe146f0d3136427aa528e"
+    },
+    {
+      "name": "Circle.017",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "5569cbd1c09fc4e34dc0de7ec68b8600d58bddbb868a4058409d18be4898906f"
+    },
+    {
+      "name": "Circle.018",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "d34c4b16dda8f2541dd2f5d1e9888d15d9b9f51792eed2163d5f48e071bf51c5"
+    },
+    {
+      "name": "Circle.019",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "b6573dd811249a82afe862c6f7a611391f42fa9765cf7e951c086171740fd589"
+    },
+    {
+      "name": "Circle.020",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "143c9cc7525ddd0a13a60a20f59491862118ca06340d540e3f1b3c4515685da7"
+    },
+    {
+      "name": "Cockpit.001",
+      "vertices": 84,
+      "faces": 150,
+      "original_materials": [
+        "F22 Details",
+        "F22 Cockpit"
+      ],
+      "materials": [
+        "F22 glass_frame",
+        "F22 glass"
+      ],
+      "geometry_uv_sha256": "49ce9fd1970f7dd9188252fd8cd856f6cf571c86eaf2d94b60182b85ebe96018"
+    },
+    {
+      "name": "Cockpit .001",
+      "vertices": 80,
+      "faces": 148,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "a3b02512e085cffa334b2520ea4d7d1ae71f432345377522d634df8fa2696553"
+    },
+    {
+      "name": "Cylinder.012",
+      "vertices": 126,
+      "faces": 240,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "14f62dea935f6caa12e22a909b59e2703a7e59bacd6f3f974994a9249ad0f70f"
+    },
+    {
+      "name": "Cube.001",
+      "vertices": 79,
+      "faces": 148,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "e647179282c2da2d3b3748c813f1a987ae7088b59929983f4a8bcc0564c300d8"
+    },
+    {
+      "name": "Cube.002",
+      "vertices": 121,
+      "faces": 238,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "961451fa3fbef5d8a130471826391a8ab873f6e428d089d343fbb3fd2211100b"
+    },
+    {
+      "name": "Compartment Back Gear",
+      "vertices": 244,
+      "faces": 434,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "28bfeb0d69a93566f883771910dd0fba37cfb7d3539e6bee16a7f50b78031e9a"
+    },
+    {
+      "name": "Compartment Front Gear",
+      "vertices": 95,
+      "faces": 176,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "b56fc4bd051f1576379cd4413250b28cf2480fb3bfc5f9e3994f589fd3745bdc"
+    },
+    {
+      "name": "Cube",
+      "vertices": 40,
+      "faces": 72,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "05efe61860c313b8d91dd3ecd43ed2a6b7f70929ddca88dc4557f188ea4beb28"
+    },
+    {
+      "name": "Cylinder.001",
+      "vertices": 48,
+      "faces": 72,
+      "original_materials": [
+        "Tailhook & details"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "8824932f0220035755d87b72e8a7da14d9f29e2355809d18d8c6e3392d9a9d58"
+    },
+    {
+      "name": "Cylinder.002",
+      "vertices": 84,
+      "faces": 164,
+      "original_materials": [
+        "Tailhook & details"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "b26abdeb1aef34466ebdfd8f250eb2fb46fbccfc05a53f7e3b69681c1c4ff0c2"
+    },
+    {
+      "name": "Dashboard.001",
+      "vertices": 54,
+      "faces": 78,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "466b02a87df243497eb0860ad0fd44b5de44db6f03addeca3b22d4c54bade6ae"
+    },
+    {
+      "name": "Dashboard",
+      "vertices": 57,
+      "faces": 88,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "529a9fcbfcf24db178832ee4105b3a1d7da16264b959096de0c48a7d70167056"
+    },
+    {
+      "name": "Electroluminescent light strip (Keel)",
+      "vertices": 12,
+      "faces": 8,
+      "original_materials": [
+        "F22 Details"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "6c24cb00b1ba888b73f1a84e39f92c8f86050ba15ab60d87d7d0cdd5f8360cca"
+    },
+    {
+      "name": "Electroluminescent light strip (nose)",
+      "vertices": 8,
+      "faces": 4,
+      "original_materials": [
+        "F22 Details"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "72d5fa6388b14c5741c9542ec3463783542bb070fea992d63011373adb871930"
+    },
+    {
+      "name": "Electroluminescent light strip (winds)",
+      "vertices": 12,
+      "faces": 8,
+      "original_materials": [
+        "F22 Details"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "9f4a7a15b392bd4ab8999043f9c9a576b9eccb7e7a28d487fb2377e37734d625"
+    },
+    {
+      "name": "Fuselage.036",
+      "vertices": 56,
+      "faces": 106,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "5cc83085bea3cb58cf7ac4ee6f012253878d0f636fed33d04d637124a0b508df"
+    },
+    {
+      "name": "Fuselage.037",
+      "vertices": 62,
+      "faces": 118,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "e8767cae917cc4ffeae345e929b8c40c1cc1a6234f1067f3178565c59f112792"
+    },
+    {
+      "name": "Fuselage.048",
+      "vertices": 117,
+      "faces": 184,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "d6a38929d794f4ab75226ba88d127caf2fb3879a68437392df68524939accf55"
+    },
+    {
+      "name": "Fuselage.010",
+      "vertices": 104,
+      "faces": 160,
+      "original_materials": [
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "3a64c004fb6fa03c415301f699b1941d2e39c6b7dd773a994d712ec3e1e1fd7a"
+    },
+    {
+      "name": "Fuselage.011",
+      "vertices": 96,
+      "faces": 152,
+      "original_materials": [
+        "Tailhook & details"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "872ee28deb9361f8b8ec50e11ce4a16cf67e1db80940bcb0615aaf17aa4e88ce"
+    },
+    {
+      "name": "Fuselage.017",
+      "vertices": 168,
+      "faces": 240,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "bc7bea3e18562390585958e1d748be281529e64030d2575eb38c516e93c9e171"
+    },
+    {
+      "name": "Fuselage.030",
+      "vertices": 104,
+      "faces": 184,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "68382c813d45c007090b18e4375599917f024f3823ab660125d47c6e24f6a0f2"
+    },
+    {
+      "name": "Fuselage.033",
+      "vertices": 64,
+      "faces": 116,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "f3830bd0f3c59be7c9539df2dbdf36c7e5e9bb68e0cff0b3fb0aadb056734612"
+    },
+    {
+      "name": "Fuselage.034",
+      "vertices": 488,
+      "faces": 712,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "fa485dd43eb9551430d640aa46ea9fae6aa481dbd40be227b702c02779c9bcda"
+    },
+    {
+      "name": "Fuselage.035",
+      "vertices": 150,
+      "faces": 250,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "9b8d04a1a8908278c013f570fa22358d861b51531a7dd987a121ee73bb35293e"
+    },
+    {
+      "name": "Fuselage.038",
+      "vertices": 331,
+      "faces": 648,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "f68ee5972b39f35027db7801d8e60879e95311a503508c88056e4f6ed680469a"
+    },
+    {
+      "name": "Fuselage.039",
+      "vertices": 48,
+      "faces": 76,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "0e5e95aeab45b56fd6783f9ae0868526693b7d6ba9382b6360dbe44a2f4099e4"
+    },
+    {
+      "name": "Fuselage.040",
+      "vertices": 89,
+      "faces": 148,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "d8b83c9475f75ce196d1b36d660fc8065fbdca8054e677923ca47e884fd403f9"
+    },
+    {
+      "name": "Fuselage.041",
+      "vertices": 16,
+      "faces": 20,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "8820dcfb52df1699d199e0aa352305c235ba9cacce749feac8dfa4effb9e80d0"
+    },
+    {
+      "name": "Fuselage.042",
+      "vertices": 49,
+      "faces": 88,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "692d70414c1c2c9b4e55ab27806676d75c8ec005397b553916d63b0c1997c3ed"
+    },
+    {
+      "name": "Fuselage.043",
+      "vertices": 48,
+      "faces": 74,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "5aaafd7129b5b7f6ca25c1f22498729d9ca53a2f5c545433c13af87b060e8a77"
+    },
+    {
+      "name": "Fuselage.044",
+      "vertices": 17,
+      "faces": 24,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "c2831b06c057145310203dcba34bce6b140084ae6b0c09ed37cb9e5a7efd1b78"
+    },
+    {
+      "name": "Fuselage.045",
+      "vertices": 97,
+      "faces": 176,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "85dac28730c641c92c6ffe3326c515957308c4991f71023fd2a4fce97cb9e130"
+    },
+    {
+      "name": "Fuselage.046",
+      "vertices": 17,
+      "faces": 24,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "eaeae9faedd7ff77d6b44b69ef296f8abf0cb5572eaa9c6721d27b5a5bdbd883"
+    },
+    {
+      "name": "Fuselage.047",
+      "vertices": 84,
+      "faces": 128,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "986c42c6f2bf4c4c7b1fd319241e88abe622062f9c8622f15160dda6a1ff6104"
+    },
+    {
+      "name": "Fuselage.049",
+      "vertices": 237,
+      "faces": 384,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "c880656378ca679d0860b37dbd0be83a03407046b575e3c6f55da0f616cc0059"
+    },
+    {
+      "name": "Fuselage.050",
+      "vertices": 100,
+      "faces": 160,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "bfe2f181825eea397c3cdfa82162a524f29770f1fdb9ab1f5c3731826420e3a4"
+    },
+    {
+      "name": "Fuselage.051",
+      "vertices": 33,
+      "faces": 56,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "f19d4dc673b876f68aeb587c68b49c62c5c91192ffefa01b78be59c2c8b6046f"
+    },
+    {
+      "name": "Fuselage.052",
+      "vertices": 25,
+      "faces": 40,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "09bfad5a8ade0e7a399168d2d9aeb20ffe86cd674f8f913d364165061b8c42d7"
+    },
+    {
+      "name": "Fuselage.053",
+      "vertices": 85,
+      "faces": 142,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "34b19edcb4f9a7efe09ab5720f00ff3d53f09328527932c1c097976db4a0f527"
+    },
+    {
+      "name": "Fuselage.054",
+      "vertices": 50,
+      "faces": 80,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "f717b77e9fdc7a9dfe2fa3909d6c39a4858931b9ed112046f31c368726612155"
+    },
+    {
+      "name": "Fuselage.055",
+      "vertices": 60,
+      "faces": 110,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "8c0ad31dee7daa33b4413635bc457ebac210dd354c64b2085db4a572b4158604"
+    },
+    {
+      "name": "Fuselage.056",
+      "vertices": 60,
+      "faces": 110,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "cab3b0460470a4b67b674f0377eda522c2e235191a288ed389ebdc21acae3acb"
+    },
+    {
+      "name": "Fuselage.057",
+      "vertices": 60,
+      "faces": 110,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "d12ded913037fccfa907431edc55081473d605980eb48b8c09679e55e4432b84"
+    },
+    {
+      "name": "Fuselage.058",
+      "vertices": 16,
+      "faces": 22,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "e0a12fb405ccd98462f023fd8dfbc0852c663f945256c24a4ebefe022eae5c3a"
+    },
+    {
+      "name": "Fuselage.059",
+      "vertices": 60,
+      "faces": 110,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "2b7acc853692530fd7e1d9e21140d7933633e7a8f188232c167aeac5d35b544b"
+    },
+    {
+      "name": "Fuselage",
+      "vertices": 924,
+      "faces": 1605,
+      "original_materials": [
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "52264d3263ab7a71fd005ada51b3be2ae95a0ca82c3c8904a76e6d883416ac65"
+    },
+    {
+      "name": "bLGrack.L.002",
+      "vertices": 365,
+      "faces": 710,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "e2dcb38a64c05b903e720e8c7b8e7ad63ff92259d18bf18c9f7e3afb039bb1fb"
+    },
+    {
+      "name": "bLGrack.L.003",
+      "vertices": 24,
+      "faces": 32,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "24cb7ff7ed89856979063bdc5efdaa9a63af2241b49eb3445f02b8c8349a732a"
+    },
+    {
+      "name": "bLGrack.L.010",
+      "vertices": 65,
+      "faces": 120,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "c30ea8ca45379d8d09a15d0093c29cdbfc15378c5a3a527120ecb2a2e01313f3"
+    },
+    {
+      "name": "B.wheel.L",
+      "vertices": 418,
+      "faces": 832,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "2222956231a4a16d6ef1f7534deb7da798132929af2e2b08e7bf4cf1858a2eef"
+    },
+    {
+      "name": "bLGrack.L.001",
+      "vertices": 243,
+      "faces": 420,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "9e950cab58538c99c1fdc14316b18f4e5c28c8b276fe5413a7ce60bf6361346c"
+    },
+    {
+      "name": "bLGrack.L.007",
+      "vertices": 24,
+      "faces": 32,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "dc85d9b0e4924a3ae75c37850e7869e51b2c3079a9f8fe7b6cfdca2c19714870"
+    },
+    {
+      "name": "bLGrack.L.008",
+      "vertices": 107,
+      "faces": 180,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "0fae3719d3be7cc73598fbc67bd1833bbcc313302ea76a240fb1357d18c383af"
+    },
+    {
+      "name": "bLGrack.L.013",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "3777e57ea4e3fb254247d10be38e4b1a04d8f7bd49503af61ecd94e36ccd8c12"
+    },
+    {
+      "name": "bLGrack.L.012",
+      "vertices": 77,
+      "faces": 146,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "7de7dbc99ee4282d5c4830190867514b07ee85e60611f45c3fb375557a6e762e"
+    },
+    {
+      "name": "bLGrack.L.004",
+      "vertices": 202,
+      "faces": 388,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "7114e0088e24a3e69757dca389a9ce3595d70e54de4ba5b2eeed90866a509b7b"
+    },
+    {
+      "name": "bLGrack.L.021",
+      "vertices": 56,
+      "faces": 88,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "eaeb65c2dd4be663098e7b29d356a3d2b81f8bf15f3b7757bd79a22de59d37eb"
+    },
+    {
+      "name": "Fuselage.028",
+      "vertices": 32,
+      "faces": 60,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "07faedb3063f9812cf8af8cd0e08deda40d057a0f322ded9cf3d72c4a87c4b7e"
+    },
+    {
+      "name": "bLGrack.L.020",
+      "vertices": 29,
+      "faces": 40,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "329bdeffce76bd4a0021105cc4109d0024fbfde7adaf26e3486a778552caa5dc"
+    },
+    {
+      "name": "bLGrack.L.018",
+      "vertices": 141,
+      "faces": 276,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "afa61a7bd478ce8045e8b98ea8cdad734c3c7adac1a3f9185df6c14bca68ab11"
+    },
+    {
+      "name": "bLGrack.L.005",
+      "vertices": 41,
+      "faces": 68,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "0434a90d0e41c1a17e566eb6425f8218f266a61ca66f9d59461ae4c294a89c17"
+    },
+    {
+      "name": "bLGrack.L.024",
+      "vertices": 50,
+      "faces": 96,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "bb1bc762389ef3e8559223d27a08ef7421137d6c3fd3932d41603e2901b0f2fd"
+    },
+    {
+      "name": "bLGrack.L.025",
+      "vertices": 10,
+      "faces": 10,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "2f36446fc24a7b3177035a2c4fcb9ae85e72f88b4cf250489d2365fc77a808cf"
+    },
+    {
+      "name": "bLGrack.L.015",
+      "vertices": 230,
+      "faces": 456,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "677332e488c2e25bc52fa02da9211609c58a71e1e0c05f7de5a128f3f51a1f02"
+    },
+    {
+      "name": "bLGrack.L.017",
+      "vertices": 88,
+      "faces": 160,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "c91b4fb41d4d3dfaffbff01c32e31837b505954977e032abd13ccf54a4bbef13"
+    },
+    {
+      "name": "bLGrack.L.006",
+      "vertices": 61,
+      "faces": 118,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "4e9aa7d644d190d911f22975859522214f7c18bc8caae39979d6c193a02dd8e4"
+    },
+    {
+      "name": "bLGrack.L.009",
+      "vertices": 199,
+      "faces": 388,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "d0fd6898b089733a9b65399ab59799edbb2d1ee3ef3a8b8e4884bd0dfa10adb5"
+    },
+    {
+      "name": "bLGrack.L.011",
+      "vertices": 238,
+      "faces": 446,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "c2a6bc605c164da6a1a39d2c30efffe9ab925308823efd90f423e1ea13c1926f"
+    },
+    {
+      "name": "bLGrack.L.016",
+      "vertices": 98,
+      "faces": 192,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "398ad9afc3d8a4b75a4fa0bce7a9f6c6711a53600e1a58eedd4a93c986ab5431"
+    },
+    {
+      "name": "bLGrack.L.019",
+      "vertices": 24,
+      "faces": 44,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "058fa4762b677f5084a9e4555df3c9412d7e52e197504c98ef2ef2acddb2756b"
+    },
+    {
+      "name": "bLGrack.L.022",
+      "vertices": 34,
+      "faces": 56,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "84a9ea7ae9b404cea7ccdf5a9e9727edb35f7cd310c55379279f447ce9ad64e8"
+    },
+    {
+      "name": "bLGrack.L",
+      "vertices": 72,
+      "faces": 132,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "3b143454a49c2ad311417142a20eb610da3124ddbb279023736605e50ba4eaa8"
+    },
+    {
+      "name": "Fuselage.029",
+      "vertices": 94,
+      "faces": 184,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "c02c54fa6bc40f5eedff3ac75911ae74df8a03509a8d1dcad85b1573df5c5dbc"
+    },
+    {
+      "name": "bLGrack.L.023",
+      "vertices": 40,
+      "faces": 72,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "e830b59cd36b67d0ed65a768920e3c64ebe931f0f377e15f0c374627bcc26cf3"
+    },
+    {
+      "name": "bLGrack.L.014",
+      "vertices": 61,
+      "faces": 118,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "c8b5a675aa81d8ee0da4589c1d1e57a42f332f31aab75ec8c6c357143ebf8c72"
+    },
+    {
+      "name": "bLGrack.L.026",
+      "vertices": 42,
+      "faces": 80,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "f2c78adf88b46cdf79c28ea9f93ca84844e115e13ef8f52b8e391d7fa5e81402"
+    },
+    {
+      "name": "bLGrack.L.037",
+      "vertices": 65,
+      "faces": 120,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "c30ea8ca45379d8d09a15d0093c29cdbfc15378c5a3a527120ecb2a2e01313f3"
+    },
+    {
+      "name": "bLGrack.L.044",
+      "vertices": 24,
+      "faces": 32,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "24cb7ff7ed89856979063bdc5efdaa9a63af2241b49eb3445f02b8c8349a732a"
+    },
+    {
+      "name": "bLGrack.L.045",
+      "vertices": 365,
+      "faces": 710,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "9f007077738fc43967eff3eeefcd063899e8c59a30e108697867c008867893e4"
+    },
+    {
+      "name": "B.wheel.L.001",
+      "vertices": 418,
+      "faces": 832,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "2222956231a4a16d6ef1f7534deb7da798132929af2e2b08e7bf4cf1858a2eef"
+    },
+    {
+      "name": "bLGrack.L.039",
+      "vertices": 107,
+      "faces": 180,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "0fae3719d3be7cc73598fbc67bd1833bbcc313302ea76a240fb1357d18c383af"
+    },
+    {
+      "name": "bLGrack.L.040",
+      "vertices": 24,
+      "faces": 32,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "dc85d9b0e4924a3ae75c37850e7869e51b2c3079a9f8fe7b6cfdca2c19714870"
+    },
+    {
+      "name": "bLGrack.L.046",
+      "vertices": 243,
+      "faces": 420,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "9e950cab58538c99c1fdc14316b18f4e5c28c8b276fe5413a7ce60bf6361346c"
+    },
+    {
+      "name": "bLGrack.L.034",
+      "vertices": 58,
+      "faces": 112,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "3777e57ea4e3fb254247d10be38e4b1a04d8f7bd49503af61ecd94e36ccd8c12"
+    },
+    {
+      "name": "bLGrack.L.035",
+      "vertices": 77,
+      "faces": 146,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "7de7dbc99ee4282d5c4830190867514b07ee85e60611f45c3fb375557a6e762e"
+    },
+    {
+      "name": "bLGrack.L.043",
+      "vertices": 202,
+      "faces": 388,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "7114e0088e24a3e69757dca389a9ce3595d70e54de4ba5b2eeed90866a509b7b"
+    },
+    {
+      "name": "bLGrack.L.027",
+      "vertices": 56,
+      "faces": 88,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "eaeb65c2dd4be663098e7b29d356a3d2b81f8bf15f3b7757bd79a22de59d37eb"
+    },
+    {
+      "name": "Fuselage.022",
+      "vertices": 32,
+      "faces": 60,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "07faedb3063f9812cf8af8cd0e08deda40d057a0f322ded9cf3d72c4a87c4b7e"
+    },
+    {
+      "name": "bLGrack.L.028",
+      "vertices": 29,
+      "faces": 40,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "329bdeffce76bd4a0021105cc4109d0024fbfde7adaf26e3486a778552caa5dc"
+    },
+    {
+      "name": "bLGrack.L.030",
+      "vertices": 141,
+      "faces": 276,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "bed5776b3b1df2ee5faf60017c042a8eeb06fa63c3748ef2cfef2e875825aa60"
+    },
+    {
+      "name": "bLGrack.L.042",
+      "vertices": 41,
+      "faces": 68,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "0434a90d0e41c1a17e566eb6425f8218f266a61ca66f9d59461ae4c294a89c17"
+    },
+    {
+      "name": "bLGrack.L.051",
+      "vertices": 50,
+      "faces": 96,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "bb1bc762389ef3e8559223d27a08ef7421137d6c3fd3932d41603e2901b0f2fd"
+    },
+    {
+      "name": "bLGrack.L.052",
+      "vertices": 10,
+      "faces": 10,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "2f36446fc24a7b3177035a2c4fcb9ae85e72f88b4cf250489d2365fc77a808cf"
+    },
+    {
+      "name": "bLGrack.L.031",
+      "vertices": 88,
+      "faces": 160,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "c91b4fb41d4d3dfaffbff01c32e31837b505954977e032abd13ccf54a4bbef13"
+    },
+    {
+      "name": "bLGrack.L.033",
+      "vertices": 230,
+      "faces": 456,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "677332e488c2e25bc52fa02da9211609c58a71e1e0c05f7de5a128f3f51a1f02"
+    },
+    {
+      "name": "bLGrack.L.032",
+      "vertices": 98,
+      "faces": 192,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "398ad9afc3d8a4b75a4fa0bce7a9f6c6711a53600e1a58eedd4a93c986ab5431"
+    },
+    {
+      "name": "bLGrack.L.036",
+      "vertices": 238,
+      "faces": 446,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "c2a6bc605c164da6a1a39d2c30efffe9ab925308823efd90f423e1ea13c1926f"
+    },
+    {
+      "name": "bLGrack.L.038",
+      "vertices": 199,
+      "faces": 388,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "d0fd6898b089733a9b65399ab59799edbb2d1ee3ef3a8b8e4884bd0dfa10adb5"
+    },
+    {
+      "name": "bLGrack.L.041",
+      "vertices": 61,
+      "faces": 118,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "4e9aa7d644d190d911f22975859522214f7c18bc8caae39979d6c193a02dd8e4"
+    },
+    {
+      "name": "bLGrack.L.029",
+      "vertices": 24,
+      "faces": 44,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "058fa4762b677f5084a9e4555df3c9412d7e52e197504c98ef2ef2acddb2756b"
+    },
+    {
+      "name": "bLGrack.L.047",
+      "vertices": 72,
+      "faces": 132,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "3b143454a49c2ad311417142a20eb610da3124ddbb279023736605e50ba4eaa8"
+    },
+    {
+      "name": "bLGrack.L.049",
+      "vertices": 34,
+      "faces": 56,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "84a9ea7ae9b404cea7ccdf5a9e9727edb35f7cd310c55379279f447ce9ad64e8"
+    },
+    {
+      "name": "Fuselage.023",
+      "vertices": 94,
+      "faces": 184,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "c02c54fa6bc40f5eedff3ac75911ae74df8a03509a8d1dcad85b1573df5c5dbc"
+    },
+    {
+      "name": "bLGrack.L.050",
+      "vertices": 40,
+      "faces": 72,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "e830b59cd36b67d0ed65a768920e3c64ebe931f0f377e15f0c374627bcc26cf3"
+    },
+    {
+      "name": "bLGrack.L.048",
+      "vertices": 61,
+      "faces": 118,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "c8b5a675aa81d8ee0da4589c1d1e57a42f332f31aab75ec8c6c357143ebf8c72"
+    },
+    {
+      "name": "bLGrack.L.053",
+      "vertices": 42,
+      "faces": 80,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "d47e67eeb6631e505bafdd6ecb9a68338a50af7564d998c9e0d33d31d86f6b67"
+    },
+    {
+      "name": "sLGrack.010",
+      "vertices": 182,
+      "faces": 360,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "2ea357b326ca1a9aefd53fbd153575a76f0f8c7b548b0f6148fa51506f7d44b1"
+    },
+    {
+      "name": "Taxi lights1",
+      "vertices": 51,
+      "faces": 104,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "465cf94fbdab3d3e8e8e46f1d35d498fb867881c3d7dd061e11fac7759890ddc"
+    },
+    {
+      "name": "Taxi lights2",
+      "vertices": 51,
+      "faces": 104,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "ad21e0e60b79b16806cc518c5dee720a3eee319866f75f7d1a8c066ca7d767db"
+    },
+    {
+      "name": "S.wheel",
+      "vertices": 338,
+      "faces": 672,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "5fb192048ff337fefacf830a743d47eb4cf8b661a3f815665e6879c3aa3a388b"
+    },
+    {
+      "name": "sLGrack.001",
+      "vertices": 215,
+      "faces": 412,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "e076fdfa8d2dc44507398bbb424ecb0b3069ad2e4af141afa80aa1549dcff7f1"
+    },
+    {
+      "name": "sLGrack.004",
+      "vertices": 124,
+      "faces": 228,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "7c3396479c5cc9ef96c182f916bed1abda23faa9349c516ccb7f3d0398bcaf2b"
+    },
+    {
+      "name": "sLGrack",
+      "vertices": 36,
+      "faces": 68,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "214cc480e5300afe9945eac0dd7e1c0316ec959fb3cfb08422c6bab20523d2e0"
+    },
+    {
+      "name": "sLGrack.002",
+      "vertices": 31,
+      "faces": 56,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "c6e6d165cba8564e1a304f19df69f0295abd8c7a550516b89edc302c0da8d7c9"
+    },
+    {
+      "name": "sLGrack.005",
+      "vertices": 114,
+      "faces": 208,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "a4daa64080745d1a4f3d30d247b12994a8cef804dc08d20cf555f7fcfbb4f662"
+    },
+    {
+      "name": "sLGrack.006",
+      "vertices": 76,
+      "faces": 144,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "5a8b3964ac3b29040161de60f04d08a9642fc23828a8c652c80bef999fe1cd49"
+    },
+    {
+      "name": "sLGrack.007",
+      "vertices": 114,
+      "faces": 204,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "094a952bdf6e6fce6b0e97f2bd8a388c23405220f3a6248b47ba746e7624ee45"
+    },
+    {
+      "name": "sLGrack.009",
+      "vertices": 36,
+      "faces": 64,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "b2275c978d7751e22b58c85c7f806498276c7e2726e46b1c6db4770abf3b50cd"
+    },
+    {
+      "name": "Fuselage.016",
+      "vertices": 32,
+      "faces": 58,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "e4cb5c42078db5b53cf85ad2e732895bbdd24b0e238d469a7e9120815e4d8573"
+    },
+    {
+      "name": "Fuselage.020",
+      "vertices": 32,
+      "faces": 58,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "999a398cb5ecfd2fd239d90c1a307eadf6408e8906098cbcfc6bc185d0251a88"
+    },
+    {
+      "name": "Fuselage.021",
+      "vertices": 32,
+      "faces": 58,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "af79413c7a8ad1abbdfc1d74d87b5d1481306bbad1851c957f5b22ed21e06b69"
+    },
+    {
+      "name": "Fuselage.031",
+      "vertices": 24,
+      "faces": 44,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "e27d95730f1402b07465205903907f4be50695a188a81ed71b7cb8714a0cbfb9"
+    },
+    {
+      "name": "Fuselage.032",
+      "vertices": 24,
+      "faces": 44,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "f7ea9709b59ee36fe9456f30bedec14857665cebfb1b8319ba6479b4d246f2be"
+    },
+    {
+      "name": "Fuselage.060",
+      "vertices": 32,
+      "faces": 58,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "f29c922e2538bf41ec18dcd721ba73f92864afda36af9c93e676fefe074ba614"
+    },
+    {
+      "name": "Fuselage.061",
+      "vertices": 32,
+      "faces": 58,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "0e26c199e7f59a0b8603c434028ac5e7ae38f48d56c0d7c70b8f983fac683267"
+    },
+    {
+      "name": "Fuselage.062",
+      "vertices": 32,
+      "faces": 58,
+      "original_materials": [
+        "Landing gear"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "25b375023e2d7f87b5d7aa23e41001129eb03b905bee63c4aa52d1d2474efdfb"
+    },
+    {
+      "name": "IR compartment",
+      "vertices": 124,
+      "faces": 220,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "65d06bc20674af81a39f6b4ea90ef66bdae210d0d969f06aa01f35091b341d4c"
+    },
+    {
+      "name": "Nozzle.001",
+      "vertices": 112,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details"
+      ],
+      "materials": [
+        "F22 nozzle_inside"
+      ],
+      "geometry_uv_sha256": "30c34b960a53eb7115c0e0b4a1955154cfc5e2ff3b4a8561462e1b6181a1aec6"
+    },
+    {
+      "name": "NurbsPath.001",
+      "vertices": 96,
+      "faces": 160,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "b9e5d3900249fba0561f95afc27092880ed4933ce896dec97158972581549ab1"
+    },
+    {
+      "name": "NurbsPath.002",
+      "vertices": 78,
+      "faces": 144,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "f4f810954c99299bfa53a0f70eaa67fcbf472abae3b94eb5dcf40def49472d1b"
+    },
+    {
+      "name": "NurbsPath.003",
+      "vertices": 124,
+      "faces": 256,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "c191cbe921f5da0df70a16dbb69d6200a29044db76500331be046db560d2a755"
+    },
+    {
+      "name": "NurbsPath",
+      "vertices": 96,
+      "faces": 168,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "c694bd4cc3dcdb3c586346ab1c61acc0c30d00ae09d31ba7156fb47d7f9e0710"
+    },
+    {
+      "name": "Object.001",
+      "vertices": 36,
+      "faces": 56,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "b187ebfb96938113cf47b3fa000535209d965b3beab7112a27c026d30792628b"
+    },
+    {
+      "name": "AIM-9M Sidewinder",
+      "vertices": 98,
+      "faces": 136,
+      "original_materials": [
+        "F22 Raptor weapons"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "af493bd59ddd95db192ca67f72597347994aadff002a8243f19374f0221deec2"
+    },
+    {
+      "name": "Object",
+      "vertices": 94,
+      "faces": 184,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "2e29b5ed03a27d6930bfd6ae8206f4b0b8c61095ca69802f4f21e3a7879750a5"
+    },
+    {
+      "name": "Object.002",
+      "vertices": 36,
+      "faces": 56,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "f8a85b5002e6b1a8182a94b587b0e4c5b255fa90c060c008374cbb1327be9320"
+    },
+    {
+      "name": "Object.005",
+      "vertices": 36,
+      "faces": 56,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "0176765b70054f39074e601424a6483f398405ff0bcfd04f1c3862110f3567e4"
+    },
+    {
+      "name": "AIM-9M Sidewinder.001",
+      "vertices": 98,
+      "faces": 136,
+      "original_materials": [
+        "F22 Raptor weapons"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "6d9c8c4cf4dc14afe854aaffa5307f003eb8d4eacaed22e62ce1db5ef0ebb6bd"
+    },
+    {
+      "name": "Object.006",
+      "vertices": 94,
+      "faces": 184,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "d1c82777919b49da7adc37ac954d661734cfbe0e0565e05520ba3a48f6590c7f"
+    },
+    {
+      "name": "Object.004",
+      "vertices": 36,
+      "faces": 56,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "461b0fc39c8b8ba34e52a4df3b6f44da47ab222a9c25b2008ea18b526770ae78"
+    },
+    {
+      "name": "Cylinder.007",
+      "vertices": 78,
+      "faces": 132,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "27c2a7eb0850adbed0e0d4032e91893d3f33d337896d70f118cf8b91b305ebbd"
+    },
+    {
+      "name": "Cylinder.009",
+      "vertices": 64,
+      "faces": 64,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "f9130b18c03cda9ee8dbd0ed02a1d715b4bdcd1c7d1bb16aaf0a7bba00a8119f"
+    },
+    {
+      "name": "Fuselage.003",
+      "vertices": 12,
+      "faces": 20,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "9b962f3cadd87a58c57b76761a099fca136292295b5e71f3e90802e6da787b37"
+    },
+    {
+      "name": "Cylinder.008",
+      "vertices": 78,
+      "faces": 124,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "3363eadced401cd7ecd3a53f6367569f71d83f1a515124da8680e0c584a466d3"
+    },
+    {
+      "name": "Cylinder.010",
+      "vertices": 64,
+      "faces": 64,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "b31f39ec4b9fd2512e4eb75b6e885b622a2a94efff5e6abc1fca01d2c4462e54"
+    },
+    {
+      "name": "Fuselage.002",
+      "vertices": 12,
+      "faces": 20,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "612a6f8c4df9b8be0b09e957821f4a6092cd66402fd49193bf4eeb2743eedbca"
+    },
+    {
+      "name": "Cylinder.003",
+      "vertices": 126,
+      "faces": 212,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "e57d86bc916f84198ab4b39ac2515b15a9fb323bf691d107bd90deade80a0c9c"
+    },
+    {
+      "name": "Cylinder.004",
+      "vertices": 72,
+      "faces": 60,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "95a0a260bb729575cf2d44de89bb07d0e7417aa099b1216159dcef230d469e79"
+    },
+    {
+      "name": "Fuselage.004",
+      "vertices": 32,
+      "faces": 60,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "3743e78099378a34bb4237b514d6b8a02da6703b43a19b3878badc27e6128f74"
+    },
+    {
+      "name": "Cylinder.005",
+      "vertices": 96,
+      "faces": 130,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "817118020057fda3c7e750958db097e78e865dc21052760ea34bb549a9406878"
+    },
+    {
+      "name": "Cylinder.006",
+      "vertices": 72,
+      "faces": 120,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "2e860e6cc38d8fb831fe2a1edc1b08eb7db94c9e6a9e7afa3663a8c601cb49b7"
+    },
+    {
+      "name": "Cylinder.011",
+      "vertices": 58,
+      "faces": 96,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "a636691ad79bef67b10b75ea0b78b727af9f768ad7173200df4a96328f7f3980"
+    },
+    {
+      "name": "Fuselage.006",
+      "vertices": 8,
+      "faces": 12,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "8f868ea3b957d220040c915acfba027f3d3067eaaaacc06bc663b2c47582bdee"
+    },
+    {
+      "name": "Circle.001",
+      "vertices": 96,
+      "faces": 176,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "5d6f8c82181e7e0a0a8ca25091f6aa6ab82a3c3dfdeba09d93c7d4d6c0dc7770"
+    },
+    {
+      "name": "Fuselage.025",
+      "vertices": 56,
+      "faces": 100,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "f540fcca2400444dde2e56c40ea0ddccd07891684a31c66aa53451176d15d814"
+    },
+    {
+      "name": "Fuselage.027",
+      "vertices": 24,
+      "faces": 44,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "867cc9c7f538160545220c9727a38127fa5a2e9479fad9c0346d9db438bbed1b"
+    },
+    {
+      "name": "Fuselage.024",
+      "vertices": 56,
+      "faces": 100,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "268db57603e3e9ff96cb750809481ef19940a1a72cd6f2c64995c444dc777c17"
+    },
+    {
+      "name": "Fuselage.026",
+      "vertices": 24,
+      "faces": 44,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "f22f8a489602081017184ce1946240df0ac00c7f8a5187c2b9a117ad2b5a21eb"
+    },
+    {
+      "name": "Circle",
+      "vertices": 60,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "10fca21a60781a70854457867b11eef493fed3cf209ba3e0b1756c4d9a22e891"
+    },
+    {
+      "name": "Plane.001",
+      "vertices": 12,
+      "faces": 12,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "90ee9e09bdd9465e6f872b016e9e67562545196ed53f2e667a9d5ff92010d7f2"
+    },
+    {
+      "name": "Cylinder.019",
+      "vertices": 78,
+      "faces": 132,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "c7be9dd1b034e27137bb796634e1ffec0921475a2931b699c1539f9bb6a2beeb"
+    },
+    {
+      "name": "Cylinder.020",
+      "vertices": 64,
+      "faces": 64,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "b100dad59e12982a9642c072912e02e988e206db12d2e8463bc470101ad616d8"
+    },
+    {
+      "name": "Fuselage.070",
+      "vertices": 12,
+      "faces": 20,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "ffa0112b970188124e0df77dfec503f8a6169df9a994bcf01a06d4fc0be1cc61"
+    },
+    {
+      "name": "Cylinder.018",
+      "vertices": 78,
+      "faces": 124,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "088202787945ff15778f10a55a02bc7394590dc2a4f7b9dc40df5f7a4ba11342"
+    },
+    {
+      "name": "Cylinder.021",
+      "vertices": 64,
+      "faces": 64,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "de258cd40f0b1bdba7d77cf2aacdf3058486b131516beff3b61a9694ddeffead"
+    },
+    {
+      "name": "Fuselage.069",
+      "vertices": 12,
+      "faces": 20,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "349c2ea92c3646312e60ef1abb433e04ab5e827dd142680a956167f6157b08e6"
+    },
+    {
+      "name": "Cylinder.016",
+      "vertices": 72,
+      "faces": 60,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "6069f6c2a3f8e5b64ed33261ef1df07df65ce81f988b050e99686f130e4700bb"
+    },
+    {
+      "name": "Cylinder.017",
+      "vertices": 126,
+      "faces": 212,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "27390d2a31f7622b455554669a35061d662e855599903e326c0ddeaa7f6c4384"
+    },
+    {
+      "name": "Fuselage.064",
+      "vertices": 32,
+      "faces": 60,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "a867bbaedf50b80b115a2c42c555b479ab75e575b0ca8371d286aa90136d4e42"
+    },
+    {
+      "name": "Cylinder.013",
+      "vertices": 96,
+      "faces": 130,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "6e54f18c45d931b2b0c083293a57933ef82dbe47b5c0d2af4917f718d900c223"
+    },
+    {
+      "name": "Cylinder.014",
+      "vertices": 58,
+      "faces": 96,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "61c8c0f84bcbafc2c3ea461b0c2d1b648a83eff6bfb5b876e0cfd1bb83c2f96d"
+    },
+    {
+      "name": "Cylinder.015",
+      "vertices": 72,
+      "faces": 120,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "aa61dddb27d6e6ae6c861d51116c05d6256fd77a2a18c7a62c9875c57831a2f6"
+    },
+    {
+      "name": "Fuselage.063",
+      "vertices": 8,
+      "faces": 12,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "facdeb82c54dbf71ad512f9fdf7b36b3f8cab4e9256ea999419388f0bbf1ccac"
+    },
+    {
+      "name": "Circle.021",
+      "vertices": 96,
+      "faces": 176,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "64b0c5f3aedca0d6630c9f5e5bc1db91105340694e19e40aeb98d90168607786"
+    },
+    {
+      "name": "Fuselage.067",
+      "vertices": 56,
+      "faces": 100,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "11b81c46e8c690895db29d6e5cdd24fda18a3ee0a17d946e697b36974fd0ed08"
+    },
+    {
+      "name": "Fuselage.068",
+      "vertices": 24,
+      "faces": 44,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "b2cc13fd9dc8b2d6a3bd7d176de7d9496ed2b6f5ef18100636a1968f2df3c995"
+    },
+    {
+      "name": "Fuselage.065",
+      "vertices": 24,
+      "faces": 44,
+      "original_materials": [
+        "F22 Details 2",
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 mechanism",
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "4266cd820aa8e68668c7e50f00ad12a2d437a27b528d509225844836177b8814"
+    },
+    {
+      "name": "Fuselage.066",
+      "vertices": 56,
+      "faces": 100,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "32fe0ea11eb82851ca2e33cfc9147ed5313ce887ec0230bc3d870817264c7a25"
+    },
+    {
+      "name": "Circle.022",
+      "vertices": 60,
+      "faces": 112,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "c33b92b93a7e4421f86a6efbeafc3df9c41780cf8c4e1bdad95d3375e2c95e01"
+    },
+    {
+      "name": "Pitot tube",
+      "vertices": 96,
+      "faces": 176,
+      "original_materials": [
+        "F22 Details"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "9399ca2b95bc183c5aba983c741496be6ebca498703f20c7e6c80506811637b6"
+    },
+    {
+      "name": "Plane.004",
+      "vertices": 93,
+      "faces": 160,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "99d3d171ca17253ecc48e746bc0e44235ad77464baa11ab941f75e35dc045a23"
+    },
+    {
+      "name": "Plane.005",
+      "vertices": 400,
+      "faces": 746,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "278f9bc486e15ba4b41b691ee60f4d521f9110dfa05ca8f4379da541e436abfe"
+    },
+    {
+      "name": "Plane.006",
+      "vertices": 56,
+      "faces": 80,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "9b5a88b4a07be84af04096ee72b0fb8e4db1392015ba34b271bc4348ef7e0716"
+    },
+    {
+      "name": "Plane.007",
+      "vertices": 60,
+      "faces": 104,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "2f29a881645a9245ac9d9bf97e8a7070b90c91f6caf8d08530a7c688786a472d"
+    },
+    {
+      "name": "Plane.008",
+      "vertices": 8,
+      "faces": 8,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "af4d1bd4c2a364839b4709afbad5a2de406901184d5007ec7a307078f36f23f5"
+    },
+    {
+      "name": "Plane.009",
+      "vertices": 24,
+      "faces": 44,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "c4780178a6a993635eae88ff2e3f347ca25aa258d71370f6f7ed4dbfc2a4f2b1"
+    },
+    {
+      "name": "Plane.010",
+      "vertices": 78,
+      "faces": 132,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "dd69ae513b4d650e5aadc14b6d28c383c7d594a1c69b68efb715be8b08415316"
+    },
+    {
+      "name": "Plane.011",
+      "vertices": 54,
+      "faces": 88,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "e3207c87276b60f840d8fe56ca8752b84ca0e5989569e8620961922109f4d58e"
+    },
+    {
+      "name": "Screens Dashboard",
+      "vertices": 192,
+      "faces": 324,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "dfec947b3bb06174513f2bf52ccaccaa71abd0145fe0716bfdf0b996897c4de9"
+    },
+    {
+      "name": "Side Weapons compartment.001",
+      "vertices": 80,
+      "faces": 136,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "b2ac440f6242538da4e8d1f48e94af9bd91d1ece8a0a4018a1d680a9955d3b4c"
+    },
+    {
+      "name": "Sphere",
+      "vertices": 129,
+      "faces": 240,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "5d09e22159f4895dddc9c37b12b763b1ebe83031187e50e14145e081154bed14"
+    },
+    {
+      "name": "Tailhook fuselage",
+      "vertices": 68,
+      "faces": 97,
+      "original_materials": [
+        "Tailhook & details"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "20778649818f7ef1e553949ff303b8c7d8cd89bcd15adcc2ad15a72cc5a68ba6"
+    },
+    {
+      "name": "Tailhook",
+      "vertices": 32,
+      "faces": 48,
+      "original_materials": [
+        "Tailhook & details"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "0405f3147ebf2371173026e5cdb25d6df5ca25fade631a5b4bcbc7942e2cc05a"
+    },
+    {
+      "name": "Tailhook.002",
+      "vertices": 30,
+      "faces": 56,
+      "original_materials": [
+        "Tailhook & details"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "13494a8cbd43ad5ce6e1b69f2eee9b388695994324d7b49d912458bd24084ab5"
+    },
+    {
+      "name": "Tailhook.004",
+      "vertices": 102,
+      "faces": 196,
+      "original_materials": [
+        "Tailhook & details"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "a7df03c93dfaf5ecfd7e3ae429150c6fa39141ec9c8648d94c2027e9dfdafcb9"
+    },
+    {
+      "name": "Tailhook.005",
+      "vertices": 16,
+      "faces": 18,
+      "original_materials": [
+        "Tailhook & details"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "5f0e0a7ec72bbbd6650370318bc7fdb60110f8ae871fa403a274a94389a150d0"
+    },
+    {
+      "name": "Tailhook.006",
+      "vertices": 24,
+      "faces": 40,
+      "original_materials": [
+        "Tailhook & details"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "8456c3e94396a847ff92ecd087aa99c258ad43d2decd03c2ee6f7c176dd4f332"
+    },
+    {
+      "name": "Tailhook.003",
+      "vertices": 6,
+      "faces": 4,
+      "original_materials": [
+        "Tailhook & details"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "76e3b3acd3ee17aed7876565d370e08caf91df3e0bea6e463c89b83a1a2bf5d0"
+    },
+    {
+      "name": "Tailhook.001",
+      "vertices": 6,
+      "faces": 4,
+      "original_materials": [
+        "Tailhook & details"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "eb3bf378ad8799c6a2881899cb6f107ea950d222c3d8956eead993cc4176a192"
+    },
+    {
+      "name": "Tailhook fuselage.001",
+      "vertices": 15,
+      "faces": 16,
+      "original_materials": [
+        "Tailhook & details"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "f806da6a800ac7290c95de0536b2ff67bc3a7b52e7ba5043a33f9ee9a8f1e734"
+    },
+    {
+      "name": "Fuselage.015",
+      "vertices": 30,
+      "faces": 56,
+      "original_materials": [
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "8ffe1fc84b7e5aa3baad69817047f4e8f28404296a404c40582c27305a55aafc"
+    },
+    {
+      "name": "Fuselage.013",
+      "vertices": 30,
+      "faces": 56,
+      "original_materials": [
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "15781f8d8acf740e085912ab7a49e27479dcd1b8784feea05dfbc3ff5e1a1188"
+    },
+    {
+      "name": "Fuselage.007",
+      "vertices": 29,
+      "faces": 41,
+      "original_materials": [
+        "F22 Cockpit",
+        "F22 Main Fuselage",
+        "Material.011"
+      ],
+      "materials": [
+        "F22 body",
+        "F22 fixed UV camouflage",
+        "F22 edge"
+      ],
+      "geometry_uv_sha256": "2e66b5f9262829bf53b31b37422856842d02a6c5edf8a9818e89ad643f908b66"
+    },
+    {
+      "name": "Fuselage.005",
+      "vertices": 29,
+      "faces": 41,
+      "original_materials": [
+        "F22 Cockpit",
+        "F22 Main Fuselage",
+        "Material.011"
+      ],
+      "materials": [
+        "F22 body",
+        "F22 fixed UV camouflage",
+        "F22 edge"
+      ],
+      "geometry_uv_sha256": "0d7b705b341b98816cca0fee0a77c9dbb79482f4687fb03ab054b15d288fa861"
+    },
+    {
+      "name": "Fuselage.009",
+      "vertices": 33,
+      "faces": 52,
+      "original_materials": [
+        "F22 Cockpit",
+        "F22 Main Fuselage",
+        "Material.011"
+      ],
+      "materials": [
+        "F22 body",
+        "F22 fixed UV camouflage",
+        "F22 edge"
+      ],
+      "geometry_uv_sha256": "4a36d0e0a098ea1a805c2631129a20df93fe4aeb005e470283d73fca0282b25f"
+    },
+    {
+      "name": "Fuselage.018",
+      "vertices": 33,
+      "faces": 52,
+      "original_materials": [
+        "F22 Cockpit",
+        "F22 Main Fuselage",
+        "Material.011"
+      ],
+      "materials": [
+        "F22 body",
+        "F22 fixed UV camouflage",
+        "F22 edge"
+      ],
+      "geometry_uv_sha256": "11fddcf709834b39e85452f1c33b3de29acfda083c30b8f4ed2f4ed1210a5867"
+    },
+    {
+      "name": "Fuselage.001",
+      "vertices": 31,
+      "faces": 46,
+      "original_materials": [
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "81dd6e0d0f6e7861536acfdc2ae244aec7dae4ab19a140de5d786f1cdb97b646"
+    },
+    {
+      "name": "Fuselage.008",
+      "vertices": 31,
+      "faces": 46,
+      "original_materials": [
+        "F22 Main Fuselage"
+      ],
+      "materials": [
+        "F22 fixed UV camouflage"
+      ],
+      "geometry_uv_sha256": "190a6387eb8d11c49855daf78579915871562c4dec83983cf414e7c2a9229333"
+    },
+    {
+      "name": "Fuselage.019",
+      "vertices": 26,
+      "faces": 38,
+      "original_materials": [
+        "F22 Cockpit",
+        "F22 Main Fuselage",
+        "Material.011"
+      ],
+      "materials": [
+        "F22 body",
+        "F22 fixed UV camouflage",
+        "F22 edge"
+      ],
+      "geometry_uv_sha256": "3a973a9699da571610be0d946d2d6338b85df8f5d0aff13897c22e5539ba1cf6"
+    },
+    {
+      "name": "Fuselage.012",
+      "vertices": 26,
+      "faces": 38,
+      "original_materials": [
+        "F22 Cockpit",
+        "F22 Main Fuselage",
+        "Material.011"
+      ],
+      "materials": [
+        "F22 body",
+        "F22 fixed UV camouflage",
+        "F22 edge"
+      ],
+      "geometry_uv_sha256": "40078007164d1f8f7834359f07a134ff323c5dbc53660d9eea0bed0b1c90562a"
+    },
+    {
+      "name": "Nozzle.002",
+      "vertices": 54,
+      "faces": 82,
+      "original_materials": [
+        "F22 Details"
+      ],
+      "materials": [
+        "F22 nozzle"
+      ],
+      "geometry_uv_sha256": "a1171b8bd5bf86ec4732ca19dcf88e559edcd507518aa246c46d03b8546f770b"
+    },
+    {
+      "name": "Nozzle.004",
+      "vertices": 22,
+      "faces": 20,
+      "original_materials": [
+        "F22 Details"
+      ],
+      "materials": [
+        "F22 nozzle_lip"
+      ],
+      "geometry_uv_sha256": "ecf500adde0a6ceeab93b9367497add36b5ae88de622a15a6433b6fe0beb42b6"
+    },
+    {
+      "name": "Nozzle",
+      "vertices": 54,
+      "faces": 82,
+      "original_materials": [
+        "F22 Details"
+      ],
+      "materials": [
+        "F22 nozzle"
+      ],
+      "geometry_uv_sha256": "b6a8f4ea276d0a5d0d9984761d4360b0328176be050a7b28602e29ef4e4d98c4"
+    },
+    {
+      "name": "Nozzle.003",
+      "vertices": 22,
+      "faces": 20,
+      "original_materials": [
+        "F22 Details"
+      ],
+      "materials": [
+        "F22 nozzle_lip"
+      ],
+      "geometry_uv_sha256": "cb43b925bbdc52e034142b580932e4fc4e744ff98d2621ec131164e2e286145b"
+    },
+    {
+      "name": "Nozzle.006",
+      "vertices": 54,
+      "faces": 82,
+      "original_materials": [
+        "F22 Details"
+      ],
+      "materials": [
+        "F22 nozzle"
+      ],
+      "geometry_uv_sha256": "3be66d624b548b1a5c598f4cbda0a50f93c0627c4f0b7079bacfeb200cf43caa"
+    },
+    {
+      "name": "Nozzle.008",
+      "vertices": 22,
+      "faces": 20,
+      "original_materials": [
+        "F22 Details"
+      ],
+      "materials": [
+        "F22 nozzle_lip"
+      ],
+      "geometry_uv_sha256": "447c086ccc0c5191d5240e3c4cb7eee38a5300ad53f3fa45864659bdb5250e04"
+    },
+    {
+      "name": "Nozzle.005",
+      "vertices": 54,
+      "faces": 82,
+      "original_materials": [
+        "F22 Details"
+      ],
+      "materials": [
+        "F22 nozzle"
+      ],
+      "geometry_uv_sha256": "6ea81f268b570b9b3c81bcccc3acc646418abddfbccb49364a3bfbc40fe5110c"
+    },
+    {
+      "name": "Nozzle.007",
+      "vertices": 22,
+      "faces": 20,
+      "original_materials": [
+        "F22 Details"
+      ],
+      "materials": [
+        "F22 nozzle_lip"
+      ],
+      "geometry_uv_sha256": "71b7549955678e2391b85955846cfcd9bfce64a0914287b45306ac21179f409c"
+    },
+    {
+      "name": "The indicator on the windshield",
+      "vertices": 148,
+      "faces": 280,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "0ef0c4831f60e6cb11ddb4d5750703f6f42f3581e07ec521ad4d59efb9851e77"
+    },
+    {
+      "name": "\u0421entral Weapons compartment .001",
+      "vertices": 8,
+      "faces": 4,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "d46eecfe78acb8d8eaebd36feb66d84810555a97dad5131adbab62ee70ecee56"
+    },
+    {
+      "name": "\u0421entral Weapons compartment .002",
+      "vertices": 16,
+      "faces": 16,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "7c8ddd73fa2701f2c7e89b44f191d45908ee6a9b4e9fb2ecb647807226510bc7"
+    },
+    {
+      "name": "\u0421entral Weapons compartment ",
+      "vertices": 227,
+      "faces": 408,
+      "original_materials": [
+        "F22 Details 2"
+      ],
+      "materials": [
+        "F22 mechanism"
+      ],
+      "geometry_uv_sha256": "dd5f6284a14d9add0d9e518d708634f58aca9418ab399a93d81d31c8900d6401"
+    }
+  ],
+  "game_definition_added": false,
+  "in_game_tested": false,
+  "blueprint_validation_performed": false
+}

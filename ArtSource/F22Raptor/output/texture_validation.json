@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "images": {
+    "Plain": {
+      "sha256": "387334b3f350540197728aeda40bad471223419e93988ca05a780ab55c51841d",
+      "bounds": [
+        161,
+        26,
+        863,
+        999
+      ],
+      "minimum_margin_pixels": 25
+    },
+    "Outlined": {
+      "sha256": "2e83f415795bfdc64004ae803eb9f91842561e09f3917716611eb0dc23856efa",
+      "bounds": [
+        149,
+        14,
+        875,
+        1011
+      ],
+      "minimum_margin_pixels": 13
+    }
+  },
+  "resolution": [
+    1024,
+    1024
+  ],
+  "outline_pixels": 12,
+  "panel_line_pixels": 2,
+  "one_outline_for_complete_aircraft": true,
+  "pivot_normalized": [
+    0.5,
+    0.5
+  ],
+  "nose_up": true,
+  "draw_size_tiles": null,
+  "color_treatment": "Source UV layout, four-color flat camouflage and muted control seams; opaque gold canopy",
+  "texture": "Textures/Effects/Aircraft/F22/HD_F22.png",
+  "game_definition_added": false,
+  "in_game_tested": false
+}

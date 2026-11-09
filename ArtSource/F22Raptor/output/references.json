@@ -1,0 +1,47 @@
+[
+  {
+    "label": "Main P-47",
+    "path": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Textures\\Effects\\CAS\\HD_P47_CAS.png",
+    "sha256": "aff9e78bf83fdd375fb8ba00568b9fb6e5d9df10189ed16ce81e65414ba1cf1f",
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "label": "Main A-10C",
+    "path": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Textures\\Effects\\CAS\\A10\\HD_A10C.png",
+    "sha256": "c7f3e1852b6a087c8dc6dc3d1027f65cfaddfac64913e8ae1c7f304b57641949",
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "label": "Main MH-60M",
+    "path": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Textures\\Effects\\Aircraft\\MH60M\\HD_MH60M_Base.png",
+    "sha256": "b3874204dfa93d9a5a6ef8342c325b6cd3f2f13b1d60caef648d75777e7b65c0",
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "label": "Arsenal P-47",
+    "path": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-LobosArsenal\\Textures\\Aerocraft\\P-47\\HD_P47.png",
+    "sha256": "aff9e78bf83fdd375fb8ba00568b9fb6e5d9df10189ed16ce81e65414ba1cf1f",
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "label": "Arsenal DH-4",
+    "path": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-LobosArsenal\\Textures\\Aerocraft\\DH-4\\HD_DH4.png",
+    "sha256": "657751051a91822c2fe3372114008f5aa5e668da57753075f7e78f9bdd5f82bb",
+    "size": [
+      1024,
+      1024
+    ]
+  }
+]

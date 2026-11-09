@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-10",
+  "reviewed_files": [
+    "output/HD_F22.png",
+    "output/preview.png",
+    "output/scale_review.png",
+    "analysis/pose_selection.png"
+  ],
+  "exact_top_and_nose_up": true,
+  "canopy_and_gear_closed_in_source_pose": true,
+  "flat_camouflage_without_baked_scuff_speckles": true,
+  "control_surfaces_and_nozzles_readable": true,
+  "readable_at_256_and_512": true,
+  "light_gray_dark_alpha_edges_reviewed": true,
+  "geometry_not_simplified": true,
+  "draw_size_tiles": null,
+  "blueprint_validation_performed": false,
+  "in_game_tested": false,
+  "remaining_limits": "Physical map size and aircraft gameplay are not assigned; small source insignia becomes indistinct at 256px."
+}
