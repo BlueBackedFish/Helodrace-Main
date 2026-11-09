@@ -1,5 +1,7 @@
 """Native-space radome refinement and real recessed external airframe details."""
 import bpy,bmesh,math
+import numpy as np
+from pathlib import Path
 from mathutils import Vector,Matrix
 from mathutils.bvhtree import BVHTree
 from mathutils.geometry import barycentric_transform
@@ -86,11 +88,27 @@ def prepare(scene,origin,materials,ortho_scale,border_pixels):
         assert hit[0] is not None,('Detail misses the aircraft skin',x,y)
         return hit[0].z
 
-    def skin_uv(x,y):
-        hit,_,index,_=uv_tree.ray_cast(Vector((x,y,2)),Vector((0,0,-1)))
-        assert hit is not None,('Cover UV misses the source skin',x,y)
-        points,uv=triangles[index]
-        return barycentric_transform(hit,*points,*uv).xy
+    # A cover can cross the source mesh's UV-island seam. Interpolating its
+    # corner UVs across unrelated islands creates false stripes/panels. Bake
+    # the actual skin paint into one continuous local map for the covers.
+    source_image=next(n.image for n in materials['camo'].node_tree.nodes if n.type=='TEX_IMAGE')
+    sw,sh=source_image.size;source_pixels=np.asarray(source_image.pixels[:],dtype=np.float32).reshape(sh,sw,4)
+    width,height=512,1024;paint_x0,paint_x1=-.8,.9;paint_y0,paint_y1=-.45,.45
+    pixels=np.ones((height,width,4),dtype=np.float32);pixels[:,:,:3]=source_pixels[sh//2,sw//2,:3]
+    for row in range(height):
+        x=paint_x0+(row+.5)*(paint_x1-paint_x0)/height
+        for col in range(width):
+            y=paint_y0+(col+.5)*(paint_y1-paint_y0)/width
+            hit,_,index,_=uv_tree.ray_cast(Vector((x,y,2)),Vector((0,0,-1)))
+            if hit is None:continue
+            points,uv=triangles[index];sample=barycentric_transform(hit,*points,*uv)
+            pixels[row,col]=source_pixels[min(sh-1,max(0,int(sample.y*sh))),min(sw-1,max(0,int(sample.x*sw)))]
+    cover_image=bpy.data.images.new('F22 continuous skin paint for covers',width,height,alpha=True)
+    cover_image.colorspace_settings.name='sRGB';cover_image.pixels.foreach_set(pixels.ravel())
+    cover_image.filepath_raw=str(Path(__file__).resolve().parent/'output/cover_skin_paint.png')
+    cover_image.file_format='PNG';cover_image.save();cover_image.pack()
+    cover_material=materials['camo'].copy();cover_material.name='F22 continuous skin paint on covers'
+    next(n for n in cover_material.node_tree.nodes if n.type=='TEX_IMAGE').image=cover_image
 
     def pocket(name,points,depth,cover=False,grille=False):
         area=sum(a[0]*b[1]-b[0]*a[1] for a,b in zip(points,points[1:]+points[:1]))
@@ -134,11 +152,11 @@ def prepare(scene,origin,materials,ortho_scale,border_pixels):
         if cover:
             vertices=[center+(p-center)*.94 for p in top]
             for v in vertices:v.z-=min(.001,depth*.3)
-            plate=mesh_object(scene,origin,'DETAIL '+name+' cover',vertices,[list(range(n))],[materials['camo']])
+            plate=mesh_object(scene,origin,'DETAIL '+name+' cover',vertices,[list(range(n))],[cover_material])
             uv=plate.data.uv_layers.new(name=uv_name)
             for loop in plate.data.loops:
                 p=plate.data.vertices[loop.vertex_index].co
-                uv.data[loop.index].uv=skin_uv(p.x,p.y)
+                uv.data[loop.index].uv=((p.y-paint_y0)/(paint_y1-paint_y0),(p.x-paint_x0)/(paint_x1-paint_x0))
         if grille:
             # Repeated narrow solid strips sit inside the well, below the
             # outer skin. They are geometry rather than a black texture decal.
@@ -170,6 +188,8 @@ def prepare(scene,origin,materials,ortho_scale,border_pixels):
     pocket('APU exhaust', [(-.67,.345),(-.74,.39),(-.84,.345),(-.79,.29)],.018,grille=True)
     pocket('refueling receptacle',[(.23,0),(.19,.058),(.045,.058),(.015,0),(.045,-.058),(.19,-.058)],.008,cover=True)
     return dict(radome=nose,details=records,edited_source_objects=['Fuselage'],
+        cover_paint_projection=dict(image='cover_skin_paint.png',bounds_native_xy=[[paint_x0,paint_y0],[paint_x1,paint_y1]],
+            filter='Closest',source_uv_island_seams_not_interpolated=True),
         body_faces_before=before,body_faces_after=len(body.data.polygons),
         default_cannon_shutter='closed',cannon_shutter_object=shutter.name,
         coordinates='Native model units; photo-informed positions, not engineering measurements',

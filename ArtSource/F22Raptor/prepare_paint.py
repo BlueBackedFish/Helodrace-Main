@@ -1,4 +1,4 @@
-"""Create a clean four-color UV paint map for the provided aircraft mesh."""
+"""Retain the source camouflage while removing painted panels and markings."""
 from pathlib import Path
 import json,hashlib
 import numpy as np
@@ -13,6 +13,10 @@ gray=Image.open(source).convert('L').resize((2048,2048),Image.Resampling.LANCZOS
 values=np.asarray(gray);labels=np.zeros_like(values)
 for index,threshold in enumerate(style['camo_source_thresholds_srgb']):labels[values>=threshold]=index
 labels=np.asarray(Image.fromarray(labels).filter(ImageFilter.MedianFilter(9)))
+from paint_cleanup import clean
+labels,mask,report=clean(labels.copy(),style['camo_roles'],json.loads((ROOT/'paint_cleanup.json').read_text(encoding='utf-8')))
 palette=np.array([style['palette'][role] for role in style['camo_roles']],dtype=np.uint8)
 Image.fromarray(palette[labels]).save(OUT/'fuselage_flat_uv.png')
-print('F22_UV_PAINT_PASS: source camouflage and RAM layout reduced to four clean fixed colors')
+Image.fromarray(mask.astype(np.uint8)*255).save(OUT/'paint_cleanup_mask.png')
+(OUT/'paint_cleanup_validation.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+print('F22_UV_PAINT_PASS: broad camouflage retained; source-painted panels, vents and insignia removed')

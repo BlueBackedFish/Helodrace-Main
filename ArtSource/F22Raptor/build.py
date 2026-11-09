@@ -102,10 +102,10 @@ report=dict(passed=True,source=str(SOURCE),source_sha256=source_hash,pose_frame=
     orthographic_camera_rotation=[0,0,0],ortho_scale=scale,pivot_normalized=[.5,.5],
     master_resolution=STYLE['master_resolution'],delivery_resolution=size,draw_size_tiles=None,
     source_albedo_sha256=hashlib.sha256(image_path.read_bytes()).hexdigest(),
-    paint_profile='Source UV pattern restored from 9ebb9fa4; current palette retained',
-    paint_coordinates='Source UV layers; interpolated skin UVs on new covers',paint_texture_filter='Closest',
+    paint_profile='Original source-UV camouflage with source-painted panels and insignia removed; current palette retained',
+    paint_coordinates='Source UV layers; continuous projected source-skin map on new covers',paint_texture_filter='Closest',
     source_albedo_pattern_replaced=False,
-    lighting='Emission only; crisp four-color source-UV camouflage, no lights/AO/normal/reflection',
+    lighting='Emission only; three clean camouflage/RAM paint colors, no lights/AO/normal/reflection',
     material_roles=dict(Counter(mat.name for o in objects for mat in o.data.materials)),objects=inventory,
     game_definition_added=False,in_game_tested=False,blueprint_validation_performed=False)
 (OUT/'model_validation.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')

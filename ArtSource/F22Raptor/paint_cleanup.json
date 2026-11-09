@@ -1,0 +1,95 @@
+{
+  "atlas_resolution": 2048,
+  "description": "Remove source-painted mechanical panels, vent stencils, insignia and speckles while retaining broad camouflage and RAM edge bands",
+  "remove_all_roles": [
+    "vent"
+  ],
+  "remove_small_components": {
+    "camo_dark": 2200,
+    "edge": 6000
+  },
+  "remove_components_by_bounds": {
+    "edge": [
+      [
+        957,
+        640,
+        1127,
+        978
+      ],
+      [
+        365,
+        1221,
+        443,
+        1566
+      ],
+      [
+        810,
+        1655,
+        877,
+        2048
+      ],
+      [
+        157,
+        1829,
+        303,
+        2048
+      ],
+      [
+        330,
+        1828,
+        449,
+        2048
+      ]
+    ],
+    "camo_dark": [
+      [
+        770,
+        1263,
+        898,
+        1360
+      ]
+    ]
+  },
+  "solid_retouch_regions": [
+    {
+      "name": "wing insignia",
+      "bounds": [
+        276,
+        268,
+        403,
+        344
+      ],
+      "role": "camo_dark"
+    },
+    {
+      "name": "legacy dorsal vent surround",
+      "bounds": [
+        790,
+        1325,
+        900,
+        1440
+      ],
+      "role": "body"
+    },
+    {
+      "name": "legacy centerline oval stencil",
+      "bounds": [
+        823,
+        1636,
+        864,
+        1716
+      ],
+      "role": "camo_dark"
+    },
+    {
+      "name": "legacy circular inspection stencil",
+      "bounds": [
+        625,
+        1527,
+        682,
+        1584
+      ],
+      "role": "body"
+    }
+  ]
+}

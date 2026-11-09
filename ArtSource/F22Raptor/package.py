@@ -35,8 +35,8 @@ for n,x,y in [(256,20,150),(512,300,52)]:
 review.save(OUT/'scale_review.png')
 before=ROOT/'analysis/paint_before.png'
 if before.exists():
-    sheet([('PREVIOUS / SOFTENED PATTERN',Image.open(ROOT/'analysis/finish_before.png')),
-        ('RESTORED PATTERN / CRISP EDGES',images['Outlined'])],
+    sheet([('BEFORE / SOURCE PANELS AND MARKINGS',Image.open(ROOT/'analysis/cleanup_before.png')),
+        ('CLEAN CAMOUFLAGE / MODELED DETAILS',images['Outlined'])],
         OUT/'paint_review.png',columns=2,cell_size=(540,580))
 motion=OUT/'articulation_review'
 if (motion/'controls_neutral.png').exists():
@@ -65,7 +65,7 @@ if (motion/'cannon_open.png').exists():
     outline_pixels=style['outline_pixels'],internal_lines_from_model_geometry=True,
     one_outline_for_complete_aircraft=True,pivot_normalized=[.5,.5],nose_up=True,draw_size_tiles=None,
     moving_controls=12,source_subsystem_pose=650,model_neutral_frame=1,
-    color_treatment='Restored original UV camouflage pattern with current palette; discrete colors and closest sampling',
+    color_treatment='Original camouflage with source-painted panels/markings removed; crisp colors and closest sampling',
     detail_border_pixels=style['detail_border_pixels'],
     physical_recesses=len(report['airframe']['details']),cannon_shutter='closed',
     texture='Textures/Effects/Aircraft/F22/HD_F22.png',game_definition_added=False,in_game_tested=False),indent=2)+'\n')
