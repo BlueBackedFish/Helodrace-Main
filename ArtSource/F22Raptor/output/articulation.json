@@ -376,16 +376,16 @@
       "fixed": "Fuselage.005",
       "rudder": "SURFACE_rudder_left",
       "capped_cut_faces": 0,
-      "gap_native": 0.005766459092620976
+      "gap_native": 0.004913672888782662
     },
     {
       "fixed": "Fuselage.007",
       "rudder": "SURFACE_rudder_right",
       "capped_cut_faces": 0,
-      "gap_native": 0.005766459092620976
+      "gap_native": 0.004913672888782662
     }
   ],
-  "geometric_edge_width_native": 0.008871475527109193,
+  "geometric_edge_width_native": 0.007559496751973327,
   "joint_geometry": "beveled control edges and capped physical rudder separation",
   "fin_linear_gain": 1.12,
   "archived_source_actions": [
@@ -495,14 +495,14 @@
     {
       "control": "rudder_left",
       "test_degrees": 12,
-      "maximum_vertex_travel": 0.020722947191497264,
+      "maximum_vertex_travel": 0.020721991458070164,
       "fixed_fins_unchanged": true,
       "other_controls_unchanged": true
     },
     {
       "control": "rudder_right",
       "test_degrees": 12,
-      "maximum_vertex_travel": 0.020722914955523693,
+      "maximum_vertex_travel": 0.02072191649327908,
       "fixed_fins_unchanged": true,
       "other_controls_unchanged": true
     },

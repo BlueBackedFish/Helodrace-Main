@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "reference_aircraft": "C-17 Globemaster III",
+  "reference_draw_size_tiles": [
+    19,
+    19
+  ],
+  "reference_length_m": 53.0,
+  "reference_wingspan_m": 51.75,
+  "f22_length_m": 18.9,
+  "f22_wingspan_m": 13.6,
+  "tiles_per_meter": 0.3523001651912019,
+  "f22_draw_size_tiles": [
+    6.986707712640448,
+    6.986707712640448
+  ],
+  "f22_resolution": 1192,
+  "reference_pixels_per_tile": 170.66666666666666,
+  "actual_pixels_per_tile": 170.6096847079229,
+  "nominal_length_ratio": 0.35660377358490564,
+  "nominal_wingspan_ratio": 0.26280193236714977,
+  "calibration": "Uniform scale from physical body length, excluding padding and outline; model proportions retained",
+  "sources": [
+    {
+      "aircraft": "F-22",
+      "url": "https://www.af.mil/About-Us/Fact-Sheets/Display/Article/104506/f-22-raptor/"
+    },
+    {
+      "aircraft": "C-17",
+      "url": "https://www.af.mil/About-Us/Fact-Sheets/Display/Article/1529726/c-17-globemaster-iii/c-17-globemaster-iii/"
+    }
+  ]
+}

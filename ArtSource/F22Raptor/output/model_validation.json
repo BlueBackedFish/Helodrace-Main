@@ -388,16 +388,16 @@
         "fixed": "Fuselage.005",
         "rudder": "SURFACE_rudder_left",
         "capped_cut_faces": 0,
-        "gap_native": 0.005766459092620976
+        "gap_native": 0.004913672888782662
       },
       {
         "fixed": "Fuselage.007",
         "rudder": "SURFACE_rudder_right",
         "capped_cut_faces": 0,
-        "gap_native": 0.005766459092620976
+        "gap_native": 0.004913672888782662
       }
     ],
-    "geometric_edge_width_native": 0.008871475527109193,
+    "geometric_edge_width_native": 0.007559496751973327,
     "joint_geometry": "beveled control edges and capped physical rudder separation",
     "fin_linear_gain": 1.12,
     "archived_source_actions": [
@@ -507,14 +507,14 @@
       {
         "control": "rudder_left",
         "test_degrees": 12,
-        "maximum_vertex_travel": 0.020722947191497264,
+        "maximum_vertex_travel": 0.020721991458070164,
         "fixed_fins_unchanged": true,
         "other_controls_unchanged": true
       },
       {
         "control": "rudder_right",
         "test_degrees": 12,
-        "maximum_vertex_travel": 0.020722914955523693,
+        "maximum_vertex_travel": 0.02072191649327908,
         "fixed_fins_unchanged": true,
         "other_controls_unchanged": true
       },
@@ -592,7 +592,7 @@
         "grille_bars": 0,
         "border_mesh": "DETAIL cannon muzzle outer border",
         "border_width_delivery_pixels": 1.0,
-        "border_width_native": 0.004435737763554597
+        "border_width_native": 0.0037797483759866636
       },
       {
         "name": "port canopy purge screen",
@@ -637,7 +637,7 @@
         "grille_bars": 6,
         "border_mesh": "DETAIL port canopy purge screen outer border",
         "border_width_delivery_pixels": 1.0,
-        "border_width_native": 0.004435737763554597
+        "border_width_native": 0.0037797483759866636
       },
       {
         "name": "port intake shoulder vent",
@@ -666,7 +666,7 @@
         "grille_bars": 6,
         "border_mesh": "DETAIL port intake shoulder vent outer border",
         "border_width_delivery_pixels": 1.0,
-        "border_width_native": 0.004435737763554597
+        "border_width_native": 0.0037797483759866636
       },
       {
         "name": "port engine bypass door 1",
@@ -711,7 +711,7 @@
         "grille_bars": 0,
         "border_mesh": "DETAIL port engine bypass door 1 outer border",
         "border_width_delivery_pixels": 1.0,
-        "border_width_native": 0.004435737763554597
+        "border_width_native": 0.0037797483759866636
       },
       {
         "name": "port engine bypass door 2",
@@ -756,7 +756,7 @@
         "grille_bars": 0,
         "border_mesh": "DETAIL port engine bypass door 2 outer border",
         "border_width_delivery_pixels": 1.0,
-        "border_width_native": 0.004435737763554597
+        "border_width_native": 0.0037797483759866636
       },
       {
         "name": "port engine bypass door 3",
@@ -801,7 +801,7 @@
         "grille_bars": 0,
         "border_mesh": "DETAIL port engine bypass door 3 outer border",
         "border_width_delivery_pixels": 1.0,
-        "border_width_native": 0.004435737763554597
+        "border_width_native": 0.0037797483759866636
       },
       {
         "name": "port engine bypass door 4",
@@ -846,7 +846,7 @@
         "grille_bars": 0,
         "border_mesh": "DETAIL port engine bypass door 4 outer border",
         "border_width_delivery_pixels": 1.0,
-        "border_width_native": 0.004435737763554597
+        "border_width_native": 0.0037797483759866636
       },
       {
         "name": "starboard canopy purge screen",
@@ -891,7 +891,7 @@
         "grille_bars": 6,
         "border_mesh": "DETAIL starboard canopy purge screen outer border",
         "border_width_delivery_pixels": 1.0,
-        "border_width_native": 0.004435737763554597
+        "border_width_native": 0.0037797483759866636
       },
       {
         "name": "starboard intake shoulder vent",
@@ -920,7 +920,7 @@
         "grille_bars": 6,
         "border_mesh": "DETAIL starboard intake shoulder vent outer border",
         "border_width_delivery_pixels": 1.0,
-        "border_width_native": 0.004435737763554597
+        "border_width_native": 0.0037797483759866636
       },
       {
         "name": "starboard engine bypass door 1",
@@ -965,7 +965,7 @@
         "grille_bars": 0,
         "border_mesh": "DETAIL starboard engine bypass door 1 outer border",
         "border_width_delivery_pixels": 1.0,
-        "border_width_native": 0.004435737763554597
+        "border_width_native": 0.0037797483759866636
       },
       {
         "name": "starboard engine bypass door 2",
@@ -1010,7 +1010,7 @@
         "grille_bars": 0,
         "border_mesh": "DETAIL starboard engine bypass door 2 outer border",
         "border_width_delivery_pixels": 1.0,
-        "border_width_native": 0.004435737763554597
+        "border_width_native": 0.0037797483759866636
       },
       {
         "name": "starboard engine bypass door 3",
@@ -1055,7 +1055,7 @@
         "grille_bars": 0,
         "border_mesh": "DETAIL starboard engine bypass door 3 outer border",
         "border_width_delivery_pixels": 1.0,
-        "border_width_native": 0.004435737763554597
+        "border_width_native": 0.0037797483759866636
       },
       {
         "name": "starboard engine bypass door 4",
@@ -1100,7 +1100,7 @@
         "grille_bars": 0,
         "border_mesh": "DETAIL starboard engine bypass door 4 outer border",
         "border_width_delivery_pixels": 1.0,
-        "border_width_native": 0.004435737763554597
+        "border_width_native": 0.0037797483759866636
       },
       {
         "name": "APU intake",
@@ -1133,7 +1133,7 @@
         "grille_bars": 6,
         "border_mesh": "DETAIL APU intake outer border",
         "border_width_delivery_pixels": 1.0,
-        "border_width_native": 0.004435737763554597
+        "border_width_native": 0.0037797483759866636
       },
       {
         "name": "APU exhaust",
@@ -1162,7 +1162,7 @@
         "grille_bars": 6,
         "border_mesh": "DETAIL APU exhaust outer border",
         "border_width_delivery_pixels": 1.0,
-        "border_width_native": 0.004435737763554597
+        "border_width_native": 0.0037797483759866636
       },
       {
         "name": "refueling receptacle",
@@ -1199,7 +1199,7 @@
         "grille_bars": 0,
         "border_mesh": "DETAIL refueling receptacle outer border",
         "border_width_delivery_pixels": 1.0,
-        "border_width_native": 0.004435737763554597
+        "border_width_native": 0.0037797483759866636
       }
     ],
     "edited_source_objects": [
@@ -1262,14 +1262,17 @@
     0,
     0
   ],
-  "ortho_scale": 4.542195469879907,
+  "ortho_scale": 4.505460064176103,
   "pivot_normalized": [
     0.5,
     0.5
   ],
   "master_resolution": 2048,
-  "delivery_resolution": 1024,
-  "draw_size_tiles": null,
+  "delivery_resolution": 1192,
+  "draw_size_tiles": [
+    6.986707712640448,
+    6.986707712640448
+  ],
   "source_albedo_sha256": "c34c15dd580baecdc8b5424f453fc8e7cff44789e39fd25c644aeb775fd304d1",
   "paint_profile": "Source UV pattern restored from 9ebb9fa4; current palette retained",
   "paint_coordinates": "Source UV layers; interpolated skin UVs on new covers",

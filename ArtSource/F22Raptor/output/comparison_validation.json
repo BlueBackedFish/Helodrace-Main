@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "pixels_per_meter": 20,
+  "uniform_scale": true,
+  "noses_aligned": true,
+  "aircraft": [
+    {
+      "aircraft": "C-17 Globemaster III",
+      "source": "ArtSource\\C17Globemaster\\output\\HD_C17.png",
+      "texture_sha256": "e328b9b3e02b43bcbb62bc3cf63b2a91f6e1323e7a2251fb4765c5d281497be4",
+      "canvas_tiles": 19,
+      "comparison_canvas_pixels": 1079,
+      "length_m": 53,
+      "wingspan_m": 51.75,
+      "model_inferred_wingspan_m": 51.706048601371805,
+      "model_span_relative_error": -0.0008493023889506457,
+      "raster_length_m": 53.05,
+      "native_model_proportions_preserved": true
+    },
+    {
+      "aircraft": "F-22 Raptor",
+      "source": "ArtSource\\F22Raptor\\output\\HD_F22.png",
+      "texture_sha256": "57011e2c0560940e74edc844c1817593e29714b9dcee60e71ede5de45a1e8bb7",
+      "canvas_tiles": 6.986707712640448,
+      "comparison_canvas_pixels": 397,
+      "length_m": 18.9,
+      "wingspan_m": 13.6,
+      "model_inferred_wingspan_m": 13.605285961092264,
+      "model_span_relative_error": 0.00038867360972538734,
+      "raster_length_m": 18.9,
+      "native_model_proportions_preserved": true
+    }
+  ],
+  "calibration": "physical_scale.json",
+  "comparison_image": "F22_C17_real_scale.png"
+}

@@ -17,7 +17,7 @@ validation={};images={}
 for label,image in [('Plain',plain),('Outlined',outlined)]:
     image=resize_linear(image,size);path=OUT/('HD_F22_'+label.lower()+'.png');image.save(path)
     a=np.asarray(image);bbox=image.getbbox();margin=min(bbox[0],bbox[1],size-bbox[2],size-bbox[3])
-    assert image.size==(1024,1024) and image.mode=='RGBA' and margin>=12
+    assert image.size==(size,size) and image.mode=='RGBA' and margin>=12
     assert image.getchannel('A').getextrema()==(0,255)
     assert not a[a[:,:,3]==0,:3].any()
     validation[label]=dict(sha256=hashlib.sha256(path.read_bytes()).hexdigest(),bounds=list(bbox),minimum_margin_pixels=margin)
@@ -63,23 +63,19 @@ if (motion/'cannon_open.png').exists():
         OUT/'airframe_review.png',columns=2,cell_size=(500,540))
 (OUT/'texture_validation.json').write_text(json.dumps(dict(passed=True,images=validation,resolution=[size,size],
     outline_pixels=style['outline_pixels'],internal_lines_from_model_geometry=True,
-    one_outline_for_complete_aircraft=True,pivot_normalized=[.5,.5],nose_up=True,draw_size_tiles=None,
+    one_outline_for_complete_aircraft=True,pivot_normalized=[.5,.5],nose_up=True,draw_size_tiles=style['draw_size_tiles'],
     moving_controls=12,source_subsystem_pose=650,model_neutral_frame=1,
     color_treatment='Restored original UV camouflage pattern with current palette; discrete colors and closest sampling',
     detail_border_pixels=style['detail_border_pixels'],
     physical_recesses=len(report['airframe']['details']),cannon_shutter='closed',
     texture='Textures/Effects/Aircraft/F22/HD_F22.png',game_definition_added=False,in_game_tested=False),indent=2)+'\n')
 (OUT/'canopy_validation.json').write_text(json.dumps(dict(passed=True,canopy=report['canopy']),indent=2)+'\n')
-if before.exists():
-    old_alpha=np.asarray(Image.open(before).convert('RGBA'))[:,:,3].astype(int)
-    new_alpha=np.asarray(images['Outlined'])[:,:,3].astype(int)
-    difference=np.abs(old_alpha-new_alpha)
-    assert not difference[160:,:].any(),'Airframe silhouette changed outside the radome'
-    ratio=float(new_alpha.sum()/old_alpha.sum());assert .97<ratio<1.03
-    y,x=np.where(difference>0)
-    (OUT/'silhouette_validation.json').write_text(json.dumps(dict(passed=True,baseline='9ebb9fa4',
-        neutral_projected_alpha_area_ratio=ratio,
-        alpha_change_bounds=[int(x.min()),int(y.min()),int(x.max()+1),int(y.max()+1)] if len(x) else None,
-        alpha_unchanged_below_row=160,
-        checks='Only the refined nose changes the outer silhouette; wing, tail and lower airframe alpha unchanged'),indent=2)+'\n')
-print('F22_TEXTURE_PASS: 1024px RGBA; exact top; 12px outside outline; physical model joints without 2D seam painting')
+alpha=np.asarray(images['Plain'])[:,:,3]
+y,x=np.where(alpha>=128);aspect=(x.max()-x.min()+1)/(y.max()-y.min()+1)
+lo,hi=report['source_pose_bounds'];model_aspect=(hi[1]-lo[1])/(hi[0]-lo[0])
+assert abs(aspect/model_aspect-1)<.005
+(OUT/'silhouette_validation.json').write_text(json.dumps(dict(passed=True,
+    plain_alpha_aspect_ratio=float(aspect),native_model_aspect_ratio=model_aspect,
+    relative_aspect_error=float(aspect/model_aspect-1),uniform_scale=True,
+    checks='Plain silhouette retains native model proportions after physical-size framing; outline excluded'),indent=2)+'\n')
+print('F22_TEXTURE_PASS:',size,'px RGBA; exact top; 12px outside outline; physical scale calibrated against C-17')

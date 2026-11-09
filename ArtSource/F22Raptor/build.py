@@ -75,10 +75,10 @@ scale=span/(1-2*padding/size)
 sys.path.insert(0,str(ROOT))
 from articulation import prepare
 joint=m.material('F22 physical joint',json.loads((ROOT/'articulation.json').read_text())['joint_rgb'])
-articulation=prepare(scene,origin,scale,joint)
+articulation=prepare(scene,origin,scale,joint,size)
 from canopy import prepare as prepare_canopy
 canopy=prepare_canopy(scene,STYLE['canopy_subdivision_levels'])
-airframe=prepare_airframe(scene,origin,dict(colors,camo=camo,joint=joint),scale,STYLE['detail_border_pixels'])
+airframe=prepare_airframe(scene,origin,dict(colors,camo=camo,joint=joint),scale,STYLE['detail_border_pixels'],size)
 edited={item['object'] for item in articulation['edited_source_objects']}
 edited.add(canopy['object'])
 edited.update(airframe['edited_source_objects'])
@@ -100,7 +100,7 @@ report=dict(passed=True,source=str(SOURCE),source_sha256=source_hash,pose_frame=
     pose_note='Gear/canopy/bays frozen from source frame 650; controls neutralized; named hinge demo at frames 1..60',
     source_forward='+X',source_up='+Z',source_pose_bounds=[list(lo),list(hi)],root_transform=[list(r) for r in transform],
     orthographic_camera_rotation=[0,0,0],ortho_scale=scale,pivot_normalized=[.5,.5],
-    master_resolution=STYLE['master_resolution'],delivery_resolution=size,draw_size_tiles=None,
+    master_resolution=STYLE['master_resolution'],delivery_resolution=size,draw_size_tiles=STYLE['draw_size_tiles'],
     source_albedo_sha256=hashlib.sha256(image_path.read_bytes()).hexdigest(),
     paint_profile='Source UV pattern restored from 9ebb9fa4; current palette retained',
     paint_coordinates='Source UV layers; interpolated skin UVs on new covers',paint_texture_filter='Closest',

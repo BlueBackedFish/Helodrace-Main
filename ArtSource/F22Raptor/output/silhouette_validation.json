@@ -1,13 +1,8 @@
 {
   "passed": true,
-  "baseline": "9ebb9fa4",
-  "neutral_projected_alpha_area_ratio": 0.9981917179603097,
-  "alpha_change_bounds": [
-    462,
-    14,
-    562,
-    138
-  ],
-  "alpha_unchanged_below_row": 160,
-  "checks": "Only the refined nose changes the outer silhouette; wing, tail and lower airframe alpha unchanged"
+  "plain_alpha_aspect_ratio": 0.7213403880070547,
+  "native_model_aspect_ratio": 0.7198564000577918,
+  "relative_aspect_error": 0.0020615055296357987,
+  "uniform_scale": true,
+  "checks": "Plain silhouette retains native model proportions after physical-size framing; outline excluded"
 }

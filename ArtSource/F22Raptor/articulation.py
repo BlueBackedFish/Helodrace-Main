@@ -82,7 +82,7 @@ def pocket_prism(obj,material):
     return mesh
 
 
-def prepare(scene,origin,ortho_scale,joint_material):
+def prepare(scene,origin,ortho_scale,joint_material,delivery_resolution):
     settings=json.loads((ROOT/'articulation.json').read_text());inv=origin.matrix_world.inverted()
     source_rig=scene.objects[settings['source_control_armature']]
     target_bones={s['bone'] for s in settings['surfaces']+settings['fins']}
@@ -105,8 +105,8 @@ def prepare(scene,origin,ortho_scale,joint_material):
     bpy.context.view_layer.update()
     rig=bpy.data.objects.new('F22_CONTROL_RIG',None);scene.collection.objects.link(rig);rig.parent=origin
     rig.matrix_basis=Matrix.Identity(4)
-    width=ortho_scale*settings['bevel_width_delivery_pixels']/1024
-    gap=ortho_scale*settings['rudder_gap_delivery_pixels']/1024
+    width=ortho_scale*settings['bevel_width_delivery_pixels']/delivery_resolution
+    gap=ortho_scale*settings['rudder_gap_delivery_pixels']/delivery_resolution
     controllers=[];edited=[];splits=[];cutters=[]
 
     def hinge(identifier,root,axis,objects,sign=1):

@@ -64,7 +64,7 @@ def radome(scene,origin,body,material):
         original_tip_x=tip,maximum_tip_error=abs(max(v.co.x for v in nose.data.vertices)-tip))
 
 
-def prepare(scene,origin,materials,ortho_scale,border_pixels):
+def prepare(scene,origin,materials,ortho_scale,border_pixels,delivery_resolution):
     body=scene.objects['Fuselage'];bake_native(body,origin)
     before=len(body.data.polygons)
     nose=radome(scene,origin,body,materials['radome'])
@@ -78,7 +78,7 @@ def prepare(scene,origin,materials,ortho_scale,border_pixels):
         [Vector((*source_uv.data[i].uv,0)) for i in t.loops]) for t in body.data.loop_triangles]
     uv_tree=BVHTree.FromPolygons([v.co.copy() for v in body.data.vertices],
         [list(t.vertices) for t in body.data.loop_triangles],all_triangles=True)
-    border_width=ortho_scale*border_pixels/1024
+    border_width=ortho_scale*border_pixels/delivery_resolution
     records=[]
 
     def surface(x,y):

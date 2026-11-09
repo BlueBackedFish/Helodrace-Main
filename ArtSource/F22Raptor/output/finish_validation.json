@@ -16,5 +16,12 @@
   "unchanged_recess_footprints_and_depths": 16,
   "unchanged_canopy_and_radome": true,
   "surrounding_border_width_pixels": 1,
-  "opening_enlargement": false
+  "opening_enlargement": false,
+  "restored_artwork_baseline": "a1430830",
+  "restored_paint_atlas_byte_identical": true,
+  "delivery_resolution": 1192,
+  "prepared_draw_size_tiles": [
+    6.986707712640448,
+    6.986707712640448
+  ]
 }

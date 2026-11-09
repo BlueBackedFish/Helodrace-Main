@@ -3,7 +3,7 @@
   "texture_directory": "../textures",
   "pose_frame": 650,
   "master_resolution": 2048,
-  "delivery_resolution": 1024,
+  "delivery_resolution": 1192,
   "canopy_subdivision_levels": 3,
   "outline_pixels": 12,
   "transparent_margin_pixels": 16,
@@ -72,7 +72,10 @@
   "projection": "Orthographic directly above +Z; rotate native +X nose to +Y; image nose up",
   "surface_style": "Original source-UV camouflage pattern; current palette; discrete colors and closest texture sampling",
   "outline_style": "One black outside silhouette; internal control joints are modeled bevels and capped rudder gaps, not a painted mask",
-  "draw_size_tiles": null,
+  "draw_size_tiles": [
+    6.986707712640448,
+    6.986707712640448
+  ],
   "source_sha256": "499abc020205f73ad57fe5ba9d1dcb5ba73b26764abb55c212d3e6bd58b7c746",
   "source_albedo_sha256": "c34c15dd580baecdc8b5424f453fc8e7cff44789e39fd25c644aeb775fd304d1",
   "articulation_profile": "articulation.json",
@@ -88,5 +91,7 @@
     "body",
     "edge"
   ],
-  "detail_border_pixels": 1.0
+  "detail_border_pixels": 1.0,
+  "physical_length_m": 18.9,
+  "physical_wingspan_m": 13.6
 }
