@@ -41,7 +41,8 @@ namespace Helodrace
         }
 
         internal static int DefaultVariant(Pawn pawn) => pawn.gender == Gender.Male
-            ? 0 : (int)((uint)pawn.thingIDNumber % (uint)Sizes.Length);
+            ? (Rand.ChanceSeeded(0.05f, pawn.thingIDNumber) ? 1 : 0)
+            : (int)((uint)pawn.thingIDNumber % (uint)Sizes.Length);
 
         public static string BodyPath(Pawn pawn) => "Helod/BodyVariants/Bodies/Naked_Female_" + SizeFor(pawn);
 

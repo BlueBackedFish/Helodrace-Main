@@ -11,7 +11,7 @@ namespace Helodrace.Tests.BodyVariants;
 public sealed class Checks : GameComponent
 {
     private int phase;
-    private Pawn pawn, worldPawn;
+    private Pawn pawn, worldPawn, tinyMale;
     private Apparel armor, cap, originalShirt;
     private string savedSize;
     private bool started, load;
@@ -23,6 +23,7 @@ public sealed class Checks : GameComponent
         Scribe_Values.Look(ref savedSize, "bodyVariantTestSize");
         Scribe_References.Look(ref pawn, "bodyVariantTestPawn");
         Scribe_References.Look(ref worldPawn, "bodyVariantTestWorldPawn");
+        Scribe_References.Look(ref tinyMale, "bodyVariantTestTinyMale");
         Scribe_References.Look(ref armor, "bodyVariantTestArmor");
         Scribe_References.Look(ref cap, "bodyVariantTestCap");
         Scribe_References.Look(ref originalShirt, "bodyVariantTestShirt");
@@ -60,6 +61,7 @@ public sealed class Checks : GameComponent
                     && pawn.apparel.WornApparel.Any(a => a.def.defName == "Apparel_Pants"), "Existing save changes back to original-body hoodie and pants");
                 Check(pawn.apparel.WornApparel.Contains(armor) && pawn.apparel.WornApparel.Contains(cap), "Armor and headgear survive save/load and setting change");
                 Check(HelodBodyVariants.SizeFor(pawn) == savedSize, "Saved body variant does not reroll while disabled");
+                Check(HelodBodyVariants.SizeFor(tinyMale) == "Tiny", "Male Tiny variant survives save/load while disabled");
                 Check(originalShirt.Spawned && !originalShirt.Destroyed, "Removed original garment survives save/load");
                 Check(worldPawn.apparel.WornApparel.Any(a => a.def.defName == "Apparel_Pants"), "World pawn migrates on loading with changed setting");
                 Graphic(pawn.apparel.WornApparel.First(a => a.def.defName == "HD_Apparel_Hoodie"), "Original-body hoodie");
@@ -69,6 +71,7 @@ public sealed class Checks : GameComponent
                 HelodraceBase.Instance.RaidOptions.bodyVariants = true;
                 HelodBodyVariants.ApplyToLoadedPawns();
                 Check(HelodBodyVariants.SizeFor(pawn) == savedSize, "Re-enabling restores saved variant");
+                Check(HelodBodyVariants.SizeFor(tinyMale) == "Tiny", "Re-enabling preserves male Tiny variant");
                 var hoodie = pawn.apparel.WornApparel.First(a => a.def.defName == "HD_Apparel_Hoodie");
                 HelodBodyVariants.ApplyToLoadedPawns();
                 Check(pawn.apparel.WornApparel.Contains(hoodie), "Repeated synchronization does not replace garments");
@@ -115,8 +118,27 @@ public sealed class Checks : GameComponent
         foreach (string allowed in new[] { "Apparel_FlakVest", "HD_Apparel_IBTVAssault", "HD_Apparel_M1952AFlakJacket", "HD_WildWestMetalVest", "HD_Apparel_FASTMT", "HD_Apparel_UCPPants", "HD_Apparel_MOLLEBattleBelt", "HD_Apparel_GreatWarMedibag", "HD_Apparel_GreatWarCBRNPouch" })
             Check(HelodRace.CanWear(pawn, Def(allowed)), allowed + " remains wearable");
         var male = PawnGenerator.GeneratePawn(new PawnGenerationRequest(HelodRace.ColonistKind, Faction.OfPlayer, fixedGender: Gender.Male));
-        Check(HelodBodyVariants.SizeFor(male) == "None", "Male Helod uses the flat variant");
+        Check(new[] { "None", "Tiny" }.Contains(HelodBodyVariants.SizeFor(male)), "Male Helod uses only None or Tiny");
         Find.WorldPawns.PassToWorld(male, PawnDiscardDecideMode.KeepForever);
+        var choose = (Func<Pawn, int>)AccessTools.Method(typeof(HelodBodyVariants), "DefaultVariant")
+            .CreateDelegate(typeof(Func<Pawn, int>));
+        var probe = new Pawn { gender = Gender.Male };
+        int tinyCount = 0;
+        bool onlyMaleSizes = true, stable = true;
+        for (int id = 1; id <= 20000; id++)
+        {
+            probe.thingIDNumber = id;
+            int variant = choose(probe);
+            onlyMaleSizes &= variant == 0 || variant == 1;
+            stable &= choose(probe) == variant;
+            if (variant == 1) tinyCount++;
+        }
+        Check(onlyMaleSizes && stable, "Male assignment is deterministic and excludes Small through Huge");
+        Check(tinyCount >= 800 && tinyCount <= 1200,
+            "Male Tiny probability is approximately 5% across 20000 IDs: " + tinyCount);
+        tinyMale = PawnGenerator.GeneratePawn(new PawnGenerationRequest(HelodRace.ColonistKind, Faction.OfPlayer, fixedGender: Gender.Male));
+        AccessTools.Field(typeof(CompHelodBodyVariant), "variant").SetValue(tinyMale.TryGetComp<CompHelodBodyVariant>(), 1);
+        Find.WorldPawns.PassToWorld(tinyMale, PawnDiscardDecideMode.KeepForever);
         var child = PawnGenerator.GeneratePawn(new PawnGenerationRequest(HelodRace.ColonistKind, Faction.OfPlayer,
             fixedBiologicalAge: 6, fixedChronologicalAge: 6, developmentalStages: DevelopmentalStage.Child));
         Check(child.DevelopmentalStage.Child() && !HelodBodyVariants.Active(child), "Children retain their existing body art");
