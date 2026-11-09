@@ -1,0 +1,35 @@
+{
+  "artwork": [
+    {
+      "pose": "item",
+      "svg": "HD_M18A1_Item.svg",
+      "png": "HD_M18A1_Item.png",
+      "alpha_bbox": [
+        149,
+        312,
+        875,
+        699
+      ],
+      "path_count": 50
+    },
+    {
+      "pose": "deployed",
+      "svg": "HD_M18A1_Deployed.svg",
+      "png": "HD_M18A1_Deployed.png",
+      "alpha_bbox": [
+        149,
+        314,
+        875,
+        710
+      ],
+      "path_count": 63
+    }
+  ],
+  "projection": "orthographic; deployed forward is image up",
+  "source_sha256": {
+    "source/Clay.obj": "ae4e0b642b868446d9358d26717b28036e6c944c64c77b42537b31dd13a0c886",
+    "textures/ClayMore_Base_Color.png": "7fe80722cbcd3d174fd8ec7db38210abf0aa9ede20a547e3aee56af978039d7e"
+  },
+  "game_integration": false,
+  "krita_import_verified": false
+}
