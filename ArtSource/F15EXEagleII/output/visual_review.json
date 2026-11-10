@@ -35,8 +35,11 @@
   "in_game_tested": false,
   "blueprint_validation_performed": false,
   "engine_crowns_match_body": true,
-  "engine_fold_boundaries_darkened": true,
-  "engine_fold_source_edges": 8,
   "straight_radome_paint_boundary": true,
-  "radome_boundary_y_m": 7.09
+  "radome_boundary_y_m": 7.09,
+  "thick_engine_fold_overlay_removed": true,
+  "original_thin_engine_boundary_retained": true,
+  "lower_shoulder_and_stabilators_subtly_darker": true,
+  "tail_shading_delta_rgb": -8,
+  "stabilator_uniform_color_samples_verified": 8352
 }

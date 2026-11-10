@@ -1,6 +1,6 @@
 # Aircraft art brief — F-15EX Eagle II
 
-Create the supplied clean F-15EX in the established flat top-view aircraft style. Preserve the C-17/F-22 calibration and 12px outside outline. Current paint revision: straight radome color boundary, body-gray engine crowns and dark roof-to-shoulder fold edges. Matched variable exhausts and separated controls remain.
+Create the supplied clean F-15EX in the established flat top-view aircraft style. Preserve the C-17/F-22 calibration and 12px outside outline. Current paint revision: straight radome color boundary, body-gray engine crowns and subtly darker lower shoulders/stabilators beyond the existing thin engine boundary. Matched variable exhausts and separated controls remain.
 
 ## Evidence
 
@@ -17,7 +17,7 @@ Create the supplied clean F-15EX in the established flat top-view aircraft style
 | Body / inspected panels | Existing fixed gray tones and source-face paint boundaries |
 | Engine upper covers | Original inspected mid-tone RGB 134/146/156 |
 | Engine crowns | Body RGB 143/153/161; previous bright fill removed |
-| Engine shoulder folds | Eight actual roof-to-descending-shoulder source edges, dark 0.040m lines |
+| Lower rear shoulders / stabilators | Existing thin boundary retained; 78 shoulder and 182 stabilator source faces darkened by eight sRGB levels per channel |
 | Radome paint | Existing gray, straight rear boundary at physical Y=7.09m |
 | Canopy / radome / upright fins | Existing opaque canopy, distinct radome and mild fixed fin brightness gain |
 | Flaps / ailerons / stabilators / rudders | Eight independent surfaces and physical hinge controllers |
@@ -30,18 +30,18 @@ Create the supplied clean F-15EX in the established flat top-view aircraft style
 
 Source geometry/UVs are verified at ingestion, then explicitly edited. Unedited faces retain geometry/UVs in the physical-coordinate basis. Revised control hulls/caps, mirrored left nozzle and new seals are recorded edits; the complete final model is no longer described as untouched source geometry. No source file is modified.
 
-No lights, shadows, AO, reflections, gloss, source markings or baked weathering. Radome paint is clipped by a binary plane; engine folds follow verified source edge vertices and adjacent faces.
+No lights, shadows, AO, reflections, gloss, source markings or baked weathering. Radome paint is clipped by a binary plane; the lower tail region uses pinned source face selections. The previously added thick engine lines are removed.
 
 ## Delivery and validation
 
 - 1222px RGBA, 12px outside outline, approximately 7.163-tile square draw size.
-- `output/engine_paint_review.png`: `2e5cec6f` / body-gray fairings and dark fold edges.
+- `output/engine_paint_review.png`: `d135349d` / removed thick overlay and subtly darker lower shoulders/stabilators.
 - `output/radome_paint_review.png`: original pointed paint boundary / straight seam.
 - `output/nozzle_review.png`: contracted / matched neutral pair / open.
 - `output/articulation_review.png`, `output/articulation.gif`: neutral and moving surfaces.
 - `output/model_validation.json`: hashes, source/final inventories, face partition, geometry edits, scale, pivots and independent movement checks.
 - `output/articulation_validation.json`: reopened saved drivers, symmetry and joint-line ownership/return.
-- `output/panel_color_validation.json`: protected source paint mapping before geometry edits and current radome/fold treatment.
+- `output/panel_color_validation.json`: protected source paint mapping before geometry edits and current radome/tail treatment.
 - `output/texture_validation.json`: alpha, margins, scale and export/runtime equality.
 - `output/visual_review.json`: inspected final images and limits.
 

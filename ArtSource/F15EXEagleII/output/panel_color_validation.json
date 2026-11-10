@@ -11,101 +11,16 @@
     "control_panel": 8
   },
   "protected_intake_faces_excluded": 42,
-  "engine_folds": {
-    "object": "DETAIL engine roof to lower shoulder folds",
-    "segments": 8,
-    "diameter_m": 0.04,
-    "source_edges": [
-      {
-        "side": "right",
-        "source_vertices": [
-          12189,
-          12186
-        ],
-        "source_faces": [
-          11048,
-          11049
-        ]
-      },
-      {
-        "side": "left",
-        "source_vertices": [
-          10836,
-          10839
-        ],
-        "source_faces": [
-          9550,
-          9551
-        ]
-      },
-      {
-        "side": "right",
-        "source_vertices": [
-          12186,
-          12179
-        ],
-        "source_faces": [
-          11043,
-          11044
-        ]
-      },
-      {
-        "side": "left",
-        "source_vertices": [
-          10832,
-          10836
-        ],
-        "source_faces": [
-          9545,
-          9546
-        ]
-      },
-      {
-        "side": "right",
-        "source_vertices": [
-          12173,
-          12179
-        ],
-        "source_faces": [
-          11034,
-          11037
-        ]
-      },
-      {
-        "side": "left",
-        "source_vertices": [
-          10822,
-          10832
-        ],
-        "source_faces": [
-          9538,
-          9539
-        ]
-      },
-      {
-        "side": "right",
-        "source_vertices": [
-          12174,
-          12173
-        ],
-        "source_faces": [
-          11028,
-          11029
-        ]
-      },
-      {
-        "side": "left",
-        "source_vertices": [
-          10822,
-          10823
-        ],
-        "source_faces": [
-          9527,
-          9528
-        ]
-      }
-    ],
-    "source": "Actual engine roof / descending outboard shoulder crease edges"
+  "tail_shading": {
+    "shoulder_faces": 78,
+    "stabilator_faces": 182,
+    "delta_rgb": -8,
+    "source_material_counts": {
+      "F15EX straight radome paint": 246,
+      "F15EX panel_light": 10,
+      "F15EX panel_mid": 4
+    },
+    "thick_added_lines_removed": true
   },
   "engine_fairing_highlight_removed": true,
   "radome": {

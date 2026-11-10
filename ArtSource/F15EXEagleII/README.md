@@ -5,7 +5,7 @@ The supplied first clean aircraft is exported without missiles, bombs, separate 
 - Runtime texture: `Textures/Effects/Aircraft/F15EX/HD_F15EX.png` in the repository root.
 - Export: `output/HD_F15EX.png`, **1222×1222 RGBA**, one **12px outside outline**, approximately **7.163×7.163 tiles** at the shared C-17/F-22 scale.
 - Editable model: `output/f15ex_eagle_ii.blend`, neutral at frame 1.
-- Engine paint comparison: `output/engine_paint_review.png` (baseline `2e5cec6f`).
+- Engine paint comparison: `output/engine_paint_review.png` (baseline `d135349d`).
 - Straight radome paint comparison: `output/radome_paint_review.png`.
 - Exhaust apertures: `output/nozzle_review.png`; separated surfaces: `output/articulation_review.png`; motion: `output/articulation.gif`.
 - Overall/alpha/size reviews: `output/model_review.png`, `output/preview.png`, `output/scale_review.png`.
@@ -13,11 +13,13 @@ The supplied first clean aircraft is exported without missiles, bombs, separate 
 
 ## Paint
 
-Fixed emission materials retain the inspected wing, stabilator, inlet, carriage and mounting-interface tones in `panel_colors.json`. Engine fairing crowns now use body gray rather than a bright fill; inlet aft covers return to RGB 134/146/156. Eight inspected source edges mark the actual fold from each engine roof into the lower outboard shoulder towards the stabilators. Those edges receive a 0.040m dark line, owned by the fixed airframe. `paint_boundaries.json` pins the edge vertices and adjacent faces to the archive hash; the builder verifies the endpoints against both faces.
+Fixed emission materials retain the inspected wing, stabilator, inlet, carriage and mounting-interface tones in `panel_colors.json`. Engine fairing crowns retain body gray; inlet aft covers retain RGB 134/146/156. The added thick engine-fold overlay has been removed. The existing thin outboard line, where the engine meets the lower shoulder, is the paint boundary. The lower rear shoulder and both horizontal stabilators are slightly darker: subtract eight sRGB levels from each original panel color, preserving their relative tones.
+
+`paint_boundaries.json` pins 78 inspected shoulder faces and 182 stabilator faces to the source archive hash, and records the thin boundary's physical profile. Only these source faces receive darker material copies; engine crowns, wings, upright fins and other panels keep their colors.
 
 The radome uses its existing fixed gray with a straight rear paint boundary at physical Y=7.09m. A binary coordinate-plane mask cuts across long source triangles so their individual tips cannot create a pointed paint seam. This changes paint only, with no gradient, lighting or source-shape changes. Source weathering, markings and baked highlights remain unused.
 
-`panel_edges.py` traces actual upper-skin boundaries/creases. Every line belongs to its own mesh, including moving controls and nozzle leaves. Generic line diameter is 0.020m on the airframe and 0.010m on exhaust petals; the eight emphasized engine folds replace their generic overlay segments. These internal joints are separate from the final 12px outside sprite outline.
+`panel_edges.py` traces actual upper-skin boundaries/creases. Every line belongs to its own mesh, including moving controls and nozzle leaves. Line diameter is 0.020m on the airframe and 0.010m on exhaust petals; there is no extra thick engine-boundary overlay. These internal joints are separate from the final 12px outside sprite outline.
 
 ## Control surfaces
 

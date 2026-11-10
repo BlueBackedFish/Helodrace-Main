@@ -23,7 +23,7 @@
       "aperture": 0.5
     }
   ],
-  "joint_line_objects": 58,
+  "joint_line_objects": 57,
   "joint_lines_follow_their_own_meshes": true,
   "neutral_lines_return": true,
   "independent_movement": [

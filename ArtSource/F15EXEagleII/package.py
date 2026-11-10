@@ -46,11 +46,11 @@ if (OUT/'nozzles_neutral.png').exists():
         ('8 CONTROL SURFACES / OPEN NOZZLES',Image.open(OUT/'controls_pose_b.png'))],
         OUT/'articulation_review.png',columns=2,cell_size=(520,560))
     before=Image.open(ROOT/'analysis/engine_before.png').convert('RGBA')
-    crop=(480,640,742,1080)
-    sheet([('BEFORE',before.crop(crop)),('DARK ENGINE FOLD BOUNDARIES',images['outlined'].crop(crop))],
-        OUT/'engine_paint_review.png',columns=2,cell_size=(350,510))
+    crop=(330,640,892,1200)
+    sheet([('BEFORE',before.crop(crop)),('LOWER SHOULDER / TAIL SHADE',images['outlined'].crop(crop))],
+        OUT/'engine_paint_review.png',columns=2,cell_size=(450,500))
     nose=(500,30,722,350)
-    sheet([('BEFORE',before.crop(nose)),('STRAIGHT RADOME PAINT',images['outlined'].crop(nose))],
+    sheet([('BEFORE',Image.open(ROOT/'analysis/panel_colors_before.png').crop(nose)),('STRAIGHT RADOME PAINT',images['outlined'].crop(nose))],
         OUT/'radome_paint_review.png',columns=2,cell_size=(300,480))
     frames=[]
     for i in range(7):

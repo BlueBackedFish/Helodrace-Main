@@ -93,12 +93,27 @@ emission=nodes.new('ShaderNodeEmission');output=nodes.new('ShaderNodeOutputMater
 slot=len(body_obj.data.materials);body_obj.data.materials.append(radome_material)
 for polygon in body_obj.data.polygons:
     if polygon.material_index in (0,2):polygon.material_index=slot
+# Shade the lower shoulder beyond the existing thin outboard boundary and
+# both stabilators, preserving each panel's original relative paint tone.
+shade_faces=set(paint_boundaries['tail_shoulder_source_faces']+paint_boundaries['stabilator_source_faces'])
+assert len(shade_faces)==len(paint_boundaries['tail_shoulder_source_faces'])+len(paint_boundaries['stabilator_source_faces'])
+assert shade_faces.issubset(set(airframe['faces']))
+source_rgb={material.name:style['palette'][key] for key,material in materials.items()}
+source_rgb[radome_material.name]=style['palette']['body']
+dark_slots={};shade_counts=Counter()
+for polygon,source_face in zip(body_obj.data.polygons,airframe['faces']):
+    if source_face not in shade_faces:continue
+    original=body_obj.data.materials[polygon.material_index];assert original.name in source_rgb
+    if original.name not in dark_slots:
+        rgb=[max(0,v+paint_boundaries['tail_shading_delta_rgb']) for v in source_rgb[original.name]]
+        material=m.material(original.name+' lower tail shade',rgb)
+        dark_slots[original.name]=len(body_obj.data.materials);body_obj.data.materials.append(material)
+    polygon.material_index=dark_slots[original.name];shade_counts[original.name]+=1
+assert sum(shade_counts.values())==len(shade_faces)
 sys.path.insert(0,str(ROOT));from articulation import prepare as prepare_articulation
 visible,articulation=prepare_articulation(scene,body_obj,airframe['faces'],origin,materials['panel'])
-sys.path.insert(0,str(ROOT));from panel_edges import prepare as prepare_edges,engine_folds
-fixed_body=next(o for o in visible if o.name=='AIRFRAME_FIXED')
-engine_fold_detail,fold_edges=engine_folds(scene,fixed_body,model,transform,paint_boundaries,materials['panel'])
-panel_edges=[prepare_edges(scene,obj,materials['panel'],.010 if obj.name.startswith('EXHAUST') else .020,fold_edges if obj==fixed_body else ())
+sys.path.insert(0,str(ROOT));from panel_edges import prepare as prepare_edges
+panel_edges=[prepare_edges(scene,obj,materials['panel'],.010 if obj.name.startswith('EXHAUST') else .020)
     for obj in visible if not obj.name.startswith(('EXHAUST_FIXED','JOINT_FIXED')) and not obj.name.endswith('inner_seal')]
 points=[o.matrix_world@v.co for o in visible for v in o.data.vertices]
 low=Vector([min(p[i] for p in points) for i in range(3)]);high=Vector([max(p[i] for p in points) for i in range(3)])
@@ -121,7 +136,9 @@ report=dict(passed=True,source_archive=str(archive),source_sha256=style['source_
     selected_aircraft='1_F_15EX_clean',visible_faces=sum(len(o.data.polygons) for o in visible),source_airframe_faces=13886,archived_landing_gear_faces=5762,
     ingested_source_meshes=inventory,visible_meshes=[dict(object=o.name,faces=len(o.data.polygons)) for o in visible],external_weapons=0,external_drop_tanks=0,targeting_pods=0,panel_edges=panel_edges,
     other_lineup_aircraft_omitted=True,landing_gear_hidden=True,source_geometry_preserved_before_articulation=True,
-    articulation=articulation,engine_fold_detail=engine_fold_detail,engine_fairing_rgb=style['palette']['body'],
+    articulation=articulation,engine_fairing_rgb=style['palette']['body'],
+    tail_shading=dict(shoulder_faces=len(paint_boundaries['tail_shoulder_source_faces']),stabilator_faces=len(paint_boundaries['stabilator_source_faces']),
+        delta_rgb=paint_boundaries['tail_shading_delta_rgb'],source_material_counts=dict(shade_counts),thick_added_lines_removed=True),
     radome_paint=dict(boundary='Straight physical Y-plane',start_y_m=paint_boundaries['radome_start_y_m']),
     native_forward=[s,0,c],native_up=[0,1,0],source_to_physical_transform=[list(r) for r in transform],
     physical_bounds=[list(low),list(high)],physical_length_m=style['physical_length_m'],
@@ -141,7 +158,7 @@ assert not any(o.type=='LIGHT' for o in scene.objects)
     source_material_assignment_checked_before_articulation=True,part_groups=len(color_plan['parts']),
     painted_source_faces=sum(color_counts.values()),palette_roles=dict(color_counts),
     protected_intake_faces_excluded=color_plan['protected_intake_faces_excluded'],
-    engine_folds=engine_fold_detail,engine_fairing_highlight_removed=True,radome=report['radome_paint'],source_albedo_weathering_used=False,
+    tail_shading=report['tail_shading'],engine_fairing_highlight_removed=True,radome=report['radome_paint'],source_albedo_weathering_used=False,
     geometry_revision='Control separation/caps and mirrored variable nozzles; see model_validation.json'),indent=2)+'\n',encoding='utf-8')
 (OUT/'selection_manifest.json').write_text(json.dumps([dict(object=g['object'],faces=len(g['faces']),
     materials=dict(Counter(model['faces'][i]['material'] for i in g['faces'])),
