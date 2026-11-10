@@ -1,0 +1,79 @@
+{
+  "passed": true,
+  "aircraft": [
+    {
+      "aircraft": "F22",
+      "model": "ArtSource\\F22Raptor\\output\\f22_raptor.blend",
+      "model_sha256": "b422b0455630b07c040f4bba82d9551d65f96becaa2efda7141c6f9a91f16cd1",
+      "roll_degrees": 90,
+      "roll_axis": "+Y / forward",
+      "meters_per_native_unit": 4.401701459642528,
+      "viewport_m": 24,
+      "resolution": 1056,
+      "pixels_per_meter": 44,
+      "neutral_frame": 1,
+      "bounds_before": [
+        [
+          -1.5454580783843994,
+          -2.146892786026001,
+          4.845290835220339e-13
+        ],
+        [
+          1.545457363128662,
+          2.146897077560425,
+          0.9455891251564026
+        ]
+      ],
+      "bounds_after": [
+        [
+          9.304225301320912e-08,
+          -2.146892786026001,
+          -1.5454574823379517
+        ],
+        [
+          0.9455893039703369,
+          2.146897077560425,
+          1.5454579591751099
+        ]
+      ],
+      "source_blend_unchanged": true
+    },
+    {
+      "aircraft": "F15EX",
+      "model": "ArtSource\\F15EXEagleII\\output\\f15ex_eagle_ii.blend",
+      "model_sha256": "ccf3a3fbccaceeb8cacc88ed2a16e80fa82d29f144d2627a63211cf348649639",
+      "roll_degrees": 90,
+      "roll_axis": "+Y / forward",
+      "meters_per_native_unit": 1.0,
+      "viewport_m": 24,
+      "resolution": 1056,
+      "pixels_per_meter": 44,
+      "neutral_frame": 1,
+      "bounds_before": [
+        [
+          -6.595987319946289,
+          -9.699999809265137,
+          -3.159046627843054e-06
+        ],
+        [
+          6.595998764038086,
+          9.700002670288086,
+          5.125593662261963
+        ]
+      ],
+      "bounds_after": [
+        [
+          -6.449278771469835e-06,
+          -9.699999809265137,
+          -6.595998287200928
+        ],
+        [
+          5.125589847564697,
+          9.700002670288086,
+          6.595987796783447
+        ]
+      ],
+      "source_blend_unchanged": true
+    }
+  ]
+}

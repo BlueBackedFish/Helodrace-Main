@@ -1,0 +1,96 @@
+{
+  "passed": true,
+  "pixels_per_meter": 22,
+  "reference": "C-17 length 53 m; existing 19-tile artwork",
+  "independent_axis_stretch": false,
+  "aircraft": [
+    {
+      "aircraft": "C-17",
+      "pose": "roll 0",
+      "source": "ArtSource\\C17Globemaster\\output\\Textures\\Plain\\HD_C17.png",
+      "source_sha256": "11d199e69235d67e0a366d17c26ff80822276057eb5a5be480f5c28e994a1f7f",
+      "viewport_m": 53.93128325582316,
+      "canvas_pixels": 1186,
+      "nominal_length_m": 53,
+      "raster_length_m": 53.0,
+      "scale_pixels_per_meter": 22,
+      "body_bbox_pixels": [
+        116,
+        240,
+        1254,
+        1406
+      ]
+    },
+    {
+      "aircraft": "F-22 Raptor",
+      "pose": "roll 0",
+      "source": "ArtSource\\F22Raptor\\output\\HD_F22_plain.png",
+      "source_sha256": "14617db42f00c1db6e0609cbbee54b714b65a1aac848000f51942c14d3ba067a",
+      "viewport_m": 19.83169014084507,
+      "canvas_pixels": 436,
+      "nominal_length_m": 18.9,
+      "raster_length_m": 18.818181818181817,
+      "scale_pixels_per_meter": 22,
+      "body_bbox_pixels": [
+        1486,
+        240,
+        1786,
+        654
+      ]
+    },
+    {
+      "aircraft": "F-22 Raptor",
+      "pose": "roll +90",
+      "source": "ArtSource\\AircraftScalePreview\\output\\F22_roll90_plain.png",
+      "source_sha256": "b9b0cd13dd50143b37e2320af9ab0daa6baf459aa16f37bbaa9d4f3594622e8a",
+      "viewport_m": 24,
+      "canvas_pixels": 528,
+      "nominal_length_m": 18.9,
+      "raster_length_m": 18.5,
+      "scale_pixels_per_meter": 22,
+      "body_bbox_pixels": [
+        1590,
+        900,
+        1682,
+        1307
+      ]
+    },
+    {
+      "aircraft": "F-15EX Eagle II",
+      "pose": "roll 0",
+      "source": "ArtSource\\F15EXEagleII\\output\\HD_F15EX_plain.png",
+      "source_sha256": "3dad3492dd98091605de9846832d7bd35dceae1cfc2964819c970af6f5fa6fc3",
+      "viewport_m": 20.331735017164696,
+      "canvas_pixels": 447,
+      "nominal_length_m": 19.4,
+      "raster_length_m": 19.363636363636363,
+      "scale_pixels_per_meter": 22,
+      "body_bbox_pixels": [
+        2081,
+        240,
+        2370,
+        666
+      ]
+    },
+    {
+      "aircraft": "F-15EX Eagle II",
+      "pose": "roll +90",
+      "source": "ArtSource\\AircraftScalePreview\\output\\F15EX_roll90_plain.png",
+      "source_sha256": "62c0bc01df2965035d8f1acf0fb1731a666dafc8131de0dfcb098652378e5fbf",
+      "viewport_m": 24,
+      "canvas_pixels": 528,
+      "nominal_length_m": 19.4,
+      "raster_length_m": 19.0,
+      "scale_pixels_per_meter": 22,
+      "body_bbox_pixels": [
+        2169,
+        900,
+        2282,
+        1318
+      ]
+    }
+  ],
+  "f15ex_model_span_m": 13.191986083984375,
+  "f15ex_nominal_span_m": 13.0,
+  "in_game_tested": false
+}

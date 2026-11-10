@@ -1,0 +1,17 @@
+{
+  "image": "C17_F22_F15EX_real_scale_roll90.png",
+  "visually_reviewed": true,
+  "resolution": [2600, 1600],
+  "five_views_present": true,
+  "shared_physical_scale": true,
+  "top_view_noses_aligned": true,
+  "roll_views_show_actual_side_profiles": true,
+  "silhouettes_unclipped": true,
+  "labels_readable_and_nonoverlapping": true,
+  "source_shape_and_paint_preserved": true,
+  "remaining_differences": [
+    "F-15EX source model span is 13.19 m versus rounded nominal 13.0 m; uniform length calibration retained.",
+    "Exact 90-degree roll makes thin tail/nozzle surfaces edge-on; raster side silhouettes measure about 0.4 m shorter than unchanged longitudinal model bounds."
+  ],
+  "in_game_tested": false
+}
