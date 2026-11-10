@@ -23,7 +23,9 @@
 | 게임 적용 장구 | 적용 등급 | 날카로움 방호 | 방호층 (`ArmorLayupDef`) |
 | --- | --- | --- | --- |
 | IBTV 본체 | HG2 | 85% | `HD_Layup_SoftHG2` |
-| FAST MT, 멀티히트 바이저 | HG2 | 85% | 없음 (헬멧은 4단계) |
+| FAST MT | HG2 | 85% | `HD_Layup_HelmetHG2` (셸, 도탄 판정) |
+| 멀티히트 바이저 | HG2 | 85% | `HD_Layup_VisorHG2` |
+| M1 헬멧 | -hg1 | 50% | `HD_Layup_HelmetM1` (셸, 도탄 판정) |
 | IBTV 연질 확장 보호대 | HG1 | 70% | `HD_Layup_SoftHG1` |
 | SAPI / SSAPI 플레이트 | RF1 | 120% | `HD_Layup_SAPI` |
 | ESAPI / ESBI 플레이트 | RF3 | 165% | `HD_Layup_ESAPI` |

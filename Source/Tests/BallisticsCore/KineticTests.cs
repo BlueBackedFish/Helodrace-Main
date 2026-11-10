@@ -171,7 +171,10 @@ internal static class KineticTests
             var material = new KineticMaterial((string)def.Element("defName"),
                 Enum.Parse<ArmorMaterialFamily>((string)def.Element("family")), F(def.Element("densityKgM3")),
                 Values("ballisticLimitCoefficient"), Values("coreErosion"), Values("coreMushroom"),
-                F(def.Element("limitScatter")), F(def.Element("traumaTransfer")), F(def.Element("wearPerJoule")));
+                F(def.Element("limitScatter")), F(def.Element("traumaTransfer")), F(def.Element("wearPerJoule")),
+                F(def.Element("ricochetCriticalDegrees")), def.Element("ricochetWidthDegrees") == null ? 4f : F(def.Element("ricochetWidthDegrees")),
+                def.Element("ricochetTangentialRetention") == null ? 0.8f : F(def.Element("ricochetTangentialRetention")),
+                def.Element("ricochetNormalRestitution") == null ? 0.1f : F(def.Element("ricochetNormalRestitution")));
             check(!material.Validate().Any(), "Shipped material valid: " + material.Id);
             materials[material.Id] = material;
         }
@@ -225,6 +228,16 @@ internal static class KineticTests
         Expect("HD_Layup_SoftHG1", layups, new[] { At(pistol, 398f), acp }, new[] { carbine, blk, m193, m855, m2ball });
         Expect("HD_Layup_ShieldHG2", layups, new[] { At(pistol, 448f), acp }, new[] { m193, m855, a1 });
         Expect("HD_Layup_ShieldRF3", layups, esapiStops.Concat(new[] { m995 }).ToArray(), new[] { api20 });
+
+        // Helmets and visor at normal incidence (phase 4).
+        Round acp244 = At(acp, 244f);
+        Expect("HD_Layup_HelmetHG2", layups, new[] { At(pistol, 448f), acp }, new[] { carbine, m193, a1 });
+        Expect("HD_Layup_VisorHG2", layups, new[] { At(pistol, 448f), acp }, new[] { carbine, m193, a1 });
+        Expect("HD_Layup_HelmetM1", layups, new[] { acp244, acp }, new[] { pistol, m193 });
+        check(materials["HD_Armor_ManganeseSteel"].RicochetCriticalDegrees > 0f
+            && materials["HD_Armor_Aramid"].RicochetCriticalDegrees > 0f
+            && materials["HD_Armor_BoronCarbide"].RicochetCriticalDegrees == 0f,
+            "Helmet faces glance rounds off; plate ceramics keep the phase 2 calibration");
 
         // Damage on a plate makes it weaker; obliquity makes it stronger.
         double fresh = Perforation(layups["HD_Layup_ESAPI+IBTV"], m80a1, 0f, 1f);

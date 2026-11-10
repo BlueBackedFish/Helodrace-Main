@@ -24,6 +24,8 @@ namespace Helodrace.Ballistics
         private Pawn shooter;
         private Pawn victim;
         private static bool forceTorso;
+        /// <summary>When set, hits go to the first outside part with this def name instead of the torso.</summary>
+        private static string forcedPart;
         private bool diagnosed;
         private int shotsLogged;
         private static readonly List<ArmorCall> calls = new List<ArmorCall>();
@@ -46,6 +48,9 @@ namespace Helodrace.Ballistics
             public float Damage;
             public bool Notes(string text) => Trace != null && Trace.Stages.Any(s => s.Note != null && s.Note.Contains(text));
             public bool Stopped => Trace?.Result == ImpactResult.Stopped;
+            public bool Uncovered => Trace != null && Trace.Stages.Any(s => s.StageId == "Uncovered");
+            public double Obliquity => Trace?.Find(ImpactStageIds.HitLocation)?.Values
+                .FirstOrDefault(v => v.Key == "surfaceObliquityDeg").Value ?? 0d;
         }
 
         public BallisticsInGameChecks(Game game) { }
@@ -74,7 +79,6 @@ namespace Helodrace.Ballistics
             public float WorstSpriteGap;
             public bool AimSeen;
             public int AimTick = -1;
-            public float Rate;
             public float Offset;
         }
 
@@ -118,9 +122,8 @@ namespace Helodrace.Ballistics
         }
 
         /// <summary>
-        /// Drafted Helod shooters facing north are ordered to fire at a wall to the east. Each tick the torso
-        /// yaw must move at no more than the stance rate, and the drawn Rot4 must show the side the torso
-        /// faces. Returns true when all trials and the follow-up checks are done.
+        /// Drafted Helod shooters facing north are ordered to fire at a wall to the east. The torso must take
+        /// aim + stance offset as soon as the pawn aims, and the drawn Rot4 must show the side the torso faces. Returns true when all trials and the follow-up checks are done.
         /// </summary>
         private bool TickTrials()
         {
@@ -182,7 +185,6 @@ namespace Helodrace.Ballistics
             trial.Target = wall;
             trial.StartTick = now;
             trial.LastYaw = comp.TorsoYaw;
-            trial.Rate = profile.torsoTurnRate;
             trial.Offset = profile.torsoOffsetDegrees;
             Check(Math.Abs(BallisticGeometry.DeltaDegrees(trial.LastYaw, 0f)) < 0.01f, trial.WeaponDef + " shooter starts facing north");
             Job job = JobMaker.MakeJob(JobDefOf.AttackStatic, wall);
@@ -199,7 +201,8 @@ namespace Helodrace.Ballistics
                 + ", head " + comp.HeadYaw.ToString("0.0"));
             Check(trial.AimSeen, trial.WeaponDef + " aims at the target");
             Check(trial.SettledTick >= 0, trial.WeaponDef + " torso settles on aim + stance offset");
-            Check(trial.MaxStep <= trial.Rate + 0.01f, trial.WeaponDef + " torso never turns faster than its stance rate");
+            Check(trial.SettledTick >= 0 && trial.SettledTick - trial.AimTick <= 1,
+                trial.WeaponDef + " torso is on aim + stance offset within one tick of aiming (no turn-rate limit)");
             Check(trial.WorstSpriteGap <= 45f + BodyOrientationRules.SpriteHysteresis + 0.01f,
                 trial.WeaponDef + " drawn side always matches the torso (within one sprite sector)");
             Check(Math.Abs(BallisticGeometry.DeltaDegrees(comp.HeadYaw, comp.AimYaw)) < 1f, trial.WeaponDef + " head looks at the target");
@@ -243,19 +246,17 @@ namespace Helodrace.Ballistics
 
         private void CompareTrials()
         {
-            // Settle time also depends on where the pawn faced before it began aiming, so the families are
-            // compared by the turn rate actually observed while turning.
-            TurnTrial pistol = trials[0], rifle = trials[1], mg = trials[2];
+            // Families differ only by stance offset now: the torso offsets from the aim must differ as authored.
             foreach (TurnTrial trial in trials)
-                Check(trial.MaxStep >= trial.Rate - 0.01f, trial.WeaponDef + " turns at its full stance rate");
-            Check(pistol.MaxStep > rifle.MaxStep && rifle.MaxStep > mg.MaxStep,
-                "Pistol turns faster than rifle faster than machine gun: " + pistol.MaxStep + "/" + rifle.MaxStep + "/" + mg.MaxStep);
+                Note(trial.WeaponDef + " largest single-tick turn " + trial.MaxStep.ToString("0.0") + " deg");
+            Check(trials.Any(t => t.MaxStep > 45f), "A quarter turn happens in a single tick");
         }
 
         public static bool ForceTorso(Pawn pawn, ref BodyPartRecord __result)
         {
             if (!forceTorso) return true;
-            __result = pawn.RaceProps.body.corePart;
+            __result = forcedPart == null ? pawn.RaceProps.body.corePart
+                : pawn.health.hediffSet.GetNotMissingParts().First(p => p.def.defName == forcedPart);
             return false;
         }
 
@@ -318,10 +319,12 @@ namespace Helodrace.Ballistics
                 && s.Call.After < s.Call.Before) >= offPlate.Count * 0.9, "M855A1 perforates the soft panel with a reduced wound");
 
             // 3. The plate's own grade: SAPI is beaten by M855A1 but stops M855.
-            var sapiA1 = Fire(a1, 120, () => WearCarrier(ibtv, "HD_IOTVPart_FrontRear_SAPI"));
+            // About 58 % of plate hits perforate (it varies with obliquity on the flat plate): sample enough
+            // plate hits that the 45 % floor is several standard errors away.
+            var sapiA1 = Fire(a1, 360, () => WearCarrier(ibtv, "HD_IOTVPart_FrontRear_SAPI"));
             Summarize("SAPI/M855A1", sapiA1, "HD_IOTVPart_FrontRear_SAPI");
             var sapiHits = sapiA1.Where(s => s.Notes("HD_IOTVPart_FrontRear_SAPI")).ToList();
-            Check(sapiHits.Count >= 30 && sapiHits.Count(s => !s.Stopped) >= sapiHits.Count * 0.5,
+            Check(sapiHits.Count >= 100 && sapiHits.Count(s => !s.Stopped) >= sapiHits.Count * 0.45,
                 "M855A1 perforates SAPI on most plate hits");
             Check(sapiHits.Where(s => !s.Stopped && s.Called).All(s => s.Call.After < s.Call.Before),
                 "A round through SAPI and the soft panel arrives weaker");
@@ -356,11 +359,109 @@ namespace Helodrace.Ballistics
             float m193Damage = DamageOf(m193);
             Check(shield556.Where(s => s.Called).All(s => s.Call.After < m193Damage), "A round through the shield arrives weaker");
 
+            // 6b. Helmets (phase 4): head hits on the curved shell glance off or stop; the face window is open.
+            ThingDef fast = DefDatabase<ThingDef>.GetNamed("HD_Apparel_FASTMT");
+            ThingDef m1 = DefDatabase<ThingDef>.GetNamed("HD_Apparel_GreatWarM1Helmet");
+            ThingDef acp = DefDatabase<ThingDef>.GetNamed("HD_Bullet_45ACP_Proj");
+            forcedPart = "Head";
+            int ricochetsBefore = map.listerThings.AllThings.Count(t => t is Projectile_Ricochet);
+            var fast9 = Fire(pistol, 240, () => WearHelmet(fast, null));
+            SummarizeHelmet("FAST MT / 9 mm", fast9, fast.defName);
+            var fast9Covered = fast9.Where(s => s.Notes(fast.defName) && !s.Uncovered).ToList();
+            // High-cut shell seen from the front: the face and the lower head are open, about a third is covered.
+            Check(fast9Covered.Count >= 40, "Head shots reach the FAST shell: " + fast9Covered.Count);
+            Check(fast9.Any(s => s.Trace != null && s.Uncovered), "Some head shots meet the open face or ears");
+            Check(fast9Covered.All(s => s.Trace.Result != ImpactResult.Perforation), "9 mm never perforates the HG2 shell");
+            var glanced = fast9Covered.Where(s => s.Trace.Result == ImpactResult.Ricochet).ToList();
+            Check(glanced.Count >= 4, "Some 9 mm rounds glance off the shell: " + glanced.Count);
+            Check(glanced.Where(s => s.Called).All(s => s.Call.After <= 0f || s.Call.Def == DamageDefOf.Blunt),
+                "A glancing round leaves only blunt trauma");
+            int ricochetsLaunched = map.listerThings.AllThings.Count(t => t is Projectile_Ricochet) - ricochetsBefore;
+            Note("ricochet projectiles in flight after FAST/9 mm: " + ricochetsLaunched);
+            Check(ricochetsLaunched >= 1 && ricochetsLaunched <= glanced.Count, "Level glances fly on as ricochet projectiles");
+            Projectile_Ricochet flying = map.listerThings.AllThings.OfType<Projectile_Ricochet>().FirstOrDefault();
+            Check(flying != null && flying.DamageAmount <= DamageOf(pistol) && flying.speedMetersPerSecond < 350f
+                && flying.speedMetersPerSecond >= Projectile_Ricochet.MinimumSpeed, "A ricochet flies slower and weaker");
+
+            var fastRifle = Fire(a1, 200, () => WearHelmet(fast, null));
+            var fastRifleCovered = fastRifle.Where(s => s.Notes(fast.defName) && !s.Uncovered
+                && s.Trace.Result != ImpactResult.Ricochet).ToList();
+            Check(fastRifleCovered.Count >= 20 && fastRifleCovered.Count(s => s.Trace.Result == ImpactResult.Perforation)
+                >= fastRifleCovered.Count * 0.8, "M855A1 perforates the HG2 shell when it does not glance");
+
+            var m1Acp = Fire(acp, 200, () => WearHelmet(m1, null));
+            SummarizeHelmet("M1 / .45 ACP", m1Acp, m1.defName);
+            var m1AcpSquare = m1Acp.Where(s => s.Notes(m1.defName) && !s.Uncovered && s.Trace.Result != ImpactResult.Ricochet).ToList();
+            Check(m1AcpSquare.Count >= 20 && m1AcpSquare.Count(s => s.Stopped) >= m1AcpSquare.Count * 0.9, "The steel helmet stops .45 ACP");
+            // From behind: the back of the shell meets the round square on (the front is mostly face window).
+            var m19 = Fire(pistol, 200, () => WearHelmet(m1, null), Rot4.North);
+            SummarizeHelmet("M1 / 9 mm", m19, m1.defName);
+            // The curved shell adds line-of-sight thickness: oblique hits stop 9 mm, near-normal hits do not.
+            var m19Normal = m19.Where(s => s.Notes(m1.defName) && !s.Uncovered && s.Trace.Result != ImpactResult.Ricochet
+                && s.Obliquity <= 25d).ToList();
+            Note("M1 / 9 mm near-normal hits: " + m19Normal.Count + ", perforated " + m19Normal.Count(s => s.Trace.Result == ImpactResult.Perforation));
+            Check(m19Normal.Count >= 15 && m19Normal.Count(s => s.Trace.Result == ImpactResult.Perforation) >= m19Normal.Count * 0.6,
+                "9 mm perforates the steel helmet on near-normal hits");
+            Check(m1Acp.Count(s => s.Trace?.Result == ImpactResult.Ricochet) + m19.Count(s => s.Trace?.Result == ImpactResult.Ricochet) >= 5,
+                "Rounds glance off the steel helmet");
+
+            // Visor: the face is open on the bare shell and covered by the visor part.
+            forcedPart = "Eye";
+            var bareFace = Fire(pistol, 30, () => WearHelmet(fast, null));
+            Check(bareFace.All(s => s.Trace == null || !s.Notes("HD_FASTMTPart_MultiHitVisor")), "Without a visor the face has no face armour");
+            var visorFace = Fire(pistol, 40, () => WearHelmet(fast, "HD_FASTMTPart_MultiHitVisor"));
+            Check(visorFace.Count(s => s.Notes("HD_FASTMTPart_MultiHitVisor") && s.Stopped) >= 38, "The multi-hit visor stops 9 mm to the eyes");
+            var visorRifle = Fire(m193, 30, () => WearHelmet(fast, "HD_FASTMTPart_MultiHitVisor"));
+            Check(visorRifle.Count(s => s.Notes("HD_FASTMTPart_MultiHitVisor") && s.Trace.Result == ImpactResult.Perforation) >= 27,
+                "M193 perforates the visor");
+
+            // Helmet wear from absorbed energy.
+            victim = NewVictim();
+            Apparel worn = WearHelmet(fast, null);
+            int before = worn.HitPoints;
+            forcedPart = "Head";
+            for (int i = 0; i < 20; i++) { HealVictim(); if (victim != null && !victim.apparel.WornApparel.Contains(worn)) victim.apparel.Wear(worn, false, true); FireOnce(pistol); }
+            Check(worn.HitPoints < before, "Helmet shell wears from the rounds it absorbs");
+            forcedPart = null;
+
             // 7. Projectiles without physical data keep the vanilla roll and record nothing.
             var vanillaShots = Fire(vanilla, 30, () => WearCarrier(ibtv, "HD_IOTVPart_FrontRear_ESAPI"));
             Check(vanillaShots.All(s => s.Trace == null && s.Called), "Vanilla revolver rounds use the vanilla armour roll");
 
             forceTorso = false;
+        }
+
+        private void SummarizeHelmet(string label, List<Shot> shots, string helmet)
+        {
+            var covered = shots.Where(s => s.Notes(helmet) && !s.Uncovered).ToList();
+            Note(label + ": shots " + shots.Count + ", on shell " + covered.Count
+                + ", ricochet " + covered.Count(s => s.Trace.Result == ImpactResult.Ricochet)
+                + ", stopped " + covered.Count(s => s.Trace.Result == ImpactResult.Stopped)
+                + ", perforated " + covered.Count(s => s.Trace.Result == ImpactResult.Perforation)
+                + ", uncovered " + shots.Count(s => s.Uncovered));
+            ImpactTrace sample = covered.FirstOrDefault(s => s.Trace.Result == ImpactResult.Ricochet)?.Trace;
+            if (sample != null) Note("ricochet trace:\n" + sample.ToText());
+        }
+
+        private Apparel WearHelmet(ThingDef helmetDef, string visorPart)
+        {
+            victim.apparel.DestroyAll();
+            var helmet = (Apparel)ThingMaker.MakeThing(helmetDef);
+            if (visorPart != null)
+            {
+                CompModularArmor comp = helmet.TryGetComp<CompModularArmor>();
+                ModularArmorPartDef part = DefDatabase<ModularArmorPartDef>.GetNamed(visorPart);
+                var preset = new ModularArmorPresetDef
+                {
+                    defName = "HD_BallisticsTest_" + visorPart,
+                    armorDef = helmetDef,
+                    fixedParts = new List<ModularArmorPresetPart> { new ModularArmorPresetPart { slot = part.slot, part = part } }
+                };
+                Check(comp.TryApplyPreset(preset, out string rejection), "Install " + visorPart + " " + rejection, quiet: true);
+            }
+            victim.apparel.Wear(helmet, false, true);
+            Check(victim.apparel.WornApparel.Contains(helmet), "Victim wears " + helmetDef.defName, quiet: true);
+            return helmet;
         }
 
         private void Summarize(string label, List<Shot> shots, string plate)

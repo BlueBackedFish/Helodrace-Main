@@ -518,7 +518,7 @@
         </statConversions>
       </li>
     </comps>
-    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li><li Class="Helodrace.Ballistics.BallisticLayupExtension"><layup>HD_Layup_HelmetHG2</layup><shell><heightMin>0.0</heightMin><faceHalfWidthDegrees>50</faceHalfWidthDegrees><faceTopHeight>0.35</faceTopHeight></shell></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="ApparelNoQualityBase">

@@ -7,4 +7,7 @@
   <HD_Layup_SoftHG1.label>HG1 연질 패널</HD_Layup_SoftHG1.label>
   <HD_Layup_ShieldHG2.label>HG2 방패 패널</HD_Layup_ShieldHG2.label>
   <HD_Layup_ShieldRF3.label>RF3 방패 패널</HD_Layup_ShieldRF3.label>
+  <HD_Layup_HelmetHG2.label>HG2 헬멧 셸</HD_Layup_HelmetHG2.label>
+  <HD_Layup_HelmetM1.label>강철 헬멧 셸</HD_Layup_HelmetM1.label>
+  <HD_Layup_VisorHG2.label>HG2 바이저</HD_Layup_VisorHG2.label>
 </LanguageData>

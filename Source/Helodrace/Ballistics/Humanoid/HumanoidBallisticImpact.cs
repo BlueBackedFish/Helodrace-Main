@@ -38,10 +38,19 @@ namespace Helodrace.Ballistics
         private BodyPartRecord hitPart;
         private bool hasHit;
         private int layerCount;
+        private bool uncoveredNoted;
         internal readonly HashSet<Thing> resolvedThings = new HashSet<Thing>();
         internal readonly HashSet<Apparel> processedHosts = new HashSet<Apparel>();
 
-        public bool Stopped => penetrator.IsSpent;
+        /// <summary>True when the round was stopped, or glanced off and left the body.</summary>
+        public bool Stopped => penetrator.IsSpent || deflected;
+
+        internal bool deflected;
+        /// <summary>World-frame velocity of the glancing round after a ricochet.</summary>
+        internal Vector3 deflectedVelocity;
+        internal float impactDamage;
+        internal float impactPenetration;
+        private float hitYaw;
 
         // Game contract: Projectile.origin is protected; the launch point is a Unity vector.
         private static readonly AccessTools.FieldRef<Projectile, UnityEngine.Vector3> Origin =
@@ -61,23 +70,35 @@ namespace Helodrace.Ballistics
 
         internal static HumanoidBallisticImpact TryBegin(Bullet bullet, Pawn pawn)
         {
-            BulletBallisticsExtension physics = bullet.def.GetModExtension<BulletBallisticsExtension>();
-            if (physics == null || !physics.HasPhysics || bullet.def.projectile?.damageDef == null)
+            if (bullet.def.projectile?.damageDef == null) return null;
+            float massKg, speed, diameterM;
+            PenetratorClass penetratorClass;
+            if (bullet is Projectile_Ricochet ricochet)
             {
-                return null;
+                massKg = ricochet.massKg;
+                speed = ricochet.speedMetersPerSecond;
+                diameterM = ricochet.diameterM;
+                penetratorClass = ricochet.penetratorClass;
             }
-
-            float distance = SpatialMath.HorizontalLength(bullet.ExactPosition.ToNative() - Origin(bullet).ToNative());
-            float velocityFactor = bullet is Projectile_BallisticBullet ballistic
-                ? ballistic.ImpactVelocityFactor
-                : BulletBallisticsRules.RetainedVelocity(1f, distance, physics.velocityHalfDistance);
-            float speed = physics.referenceVelocityMetersPerSecond * velocityFactor;
+            else
+            {
+                BulletBallisticsExtension physics = bullet.def.GetModExtension<BulletBallisticsExtension>();
+                if (physics == null || !physics.HasPhysics) return null;
+                float distance = SpatialMath.HorizontalLength(bullet.ExactPosition.ToNative() - Origin(bullet).ToNative());
+                float velocityFactor = bullet is Projectile_BallisticBullet ballistic
+                    ? ballistic.ImpactVelocityFactor
+                    : BulletBallisticsRules.RetainedVelocity(1f, distance, physics.velocityHalfDistance);
+                speed = physics.referenceVelocityMetersPerSecond * velocityFactor;
+                massKg = physics.projectileMassGrams * 0.001f;
+                diameterM = physics.diameterMillimeters * 0.001f;
+                penetratorClass = physics.penetratorClass;
+            }
             // Game contract: the projectile's render rotation is its travel heading (0 = north, clockwise).
             float heading = bullet.ExactRotation.eulerAngles.y;
             // Phase 2 fires flat; descent from posture/height arrives with the orientation system (phase 3).
             Vector3 travel = BallisticGeometry.TravelDirection(heading, 0f);
             var penetrator = PenetratorState.Projectile(PenetrationMechanism.KineticBullet,
-                physics.projectileMassGrams * 0.001f, travel * speed, 0f, physics.diameterMillimeters * 0.001f);
+                massKg, travel * speed, 0f, diameterM);
             int tick = Find.TickManager?.TicksGame ?? 0;
             var impactEvent = new ImpactEvent(BallisticSeed.ForImpact(bullet.thingIDNumber, tick, pawn.thingIDNumber),
                 tick, bullet.Launcher?.thingIDNumber ?? -1, pawn.thingIDNumber, bullet.def.defName,
@@ -90,20 +111,26 @@ namespace Helodrace.Ballistics
                 pawn = pawn,
                 projectile = bullet,
                 damageDef = bullet.def.projectile.damageDef,
-                penetratorClass = physics.penetratorClass,
+                penetratorClass = penetratorClass,
                 penetrator = penetrator,
                 impactSpeed = speed,
                 headingDegrees = heading,
+                impactDamage = bullet.DamageAmount,
+                impactPenetration = bullet.ArmorPenetration,
                 context = context
             };
         }
 
         internal void Finish()
         {
-            if (layerCount == 0) return;
-            context.Outcome.Result = Stopped ? ImpactResult.Stopped : ImpactResult.Perforation;
+            // Record impacts that met a physical layer, or a helmet that did not cover the hit point.
+            if (layerCount == 0 && !uncoveredNoted) return;
+            context.Outcome.Result = layerCount == 0 ? ImpactResult.None
+                : deflected ? ImpactResult.Ricochet
+                : Stopped ? ImpactResult.Stopped : ImpactResult.Perforation;
             context.Trace.Result = context.Outcome.Result;
             RecentTraces.Add(context.Trace);
+            if (deflected) Projectile_Ricochet.TryLaunch(this);
         }
 
         /// <summary>Continuous torso yaw (phase 3); pawns without the comp use their Rot4 heading.</summary>
@@ -129,6 +156,7 @@ namespace Helodrace.Ballistics
             Vector3 localTravel = TravelIn(yaw);
             BallisticRng rng = context.StageRandom(ImpactStageIds.HitLocation);
             hit = BodyHitGeometry.Sample(ShapeOf(bodyPart), localTravel, ref rng);
+            hitYaw = yaw;
             hitPart = bodyPart;
             hasHit = true;
             context.Trace.Enter(ImpactStageIds.HitLocation, TraceStageStatus.Ran);
@@ -141,7 +169,17 @@ namespace Helodrace.Ballistics
             return hit;
         }
 
-        private static bool IsHead(BodyPartRecord bodyPart)
+        /// <summary>Yaw of the frame the last hit point was sampled in (head or torso).</summary>
+        internal float HitFrameYaw => hitYaw;
+
+        /// <summary>Face parts sit in a helmet's open window; only a visor covers them.</summary>
+        internal static bool IsFace(BodyPartRecord bodyPart)
+        {
+            string name = bodyPart?.def?.defName;
+            return name == "Eye" || name == "Nose" || name == "Jaw";
+        }
+
+        internal static bool IsHead(BodyPartRecord bodyPart)
         {
             for (BodyPartRecord current = bodyPart; current != null; current = current.parent)
             {
@@ -169,7 +207,8 @@ namespace Helodrace.Ballistics
         /// Returns the absorbed energy (J) for the caller's durability bookkeeping.
         /// </summary>
         internal float ResolveLayup(ArmorLayupDef layup, float obliquity, float effectiveness, string label,
-            ref float damageAmount, ref DamageDef currentDamageDef, out bool stopped, out int stoppingLayer)
+            ref float damageAmount, ref DamageDef currentDamageDef, out bool stopped, out int stoppingLayer,
+            Vector3? strikeNormalLocal = null)
         {
             stopped = false;
             stoppingLayer = -1;
@@ -180,6 +219,40 @@ namespace Helodrace.Ballistics
             context.Trace.Note(label);
             context.Trace.Value(label + ".effectiveness", effectiveness, EvidenceGrade.Game);
             float speedIn = penetrator.Speed;
+
+            // Strike face of a curved shell or a metal face: the round may glance off before penetrating.
+            KineticMaterial face = layup.KineticLayers[0].Material;
+            if (strikeNormalLocal.HasValue && face.RicochetCriticalDegrees > 0f)
+            {
+                Vector3 worldNormal = new BallisticFrame(Vector3.Zero, hitYaw).ToWorldDirection(strikeNormalLocal.Value);
+                BallisticRng rng = context.StageRandom(label + ".ricochet");
+                bool glanced = KineticBulletModel.TryRicochet(penetrator, worldNormal, face, ref rng,
+                    out PenetratorState after, out float glanceJ, out float probability);
+                context.Trace.Value(label + ".ricochetProbability", probability, EvidenceGrade.Game);
+                if (glanced)
+                {
+                    float energyIn = penetrator.KineticEnergyJ;
+                    deflected = true;
+                    deflectedVelocity = after.Velocity;
+                    penetrator = after;
+                    stopped = true;
+                    stoppingLayer = 0;
+                    // Blunt trauma from the share of energy the shell took. [game]
+                    float blunt = GenMath.RoundRandom(damageAmount * face.TraumaTransfer
+                        * (energyIn > 0f ? glanceJ / energyIn : 0f));
+                    damageAmount = blunt;
+                    if (blunt > 0f && currentDamageDef.armorCategory == DamageArmorCategoryDefOf.Sharp)
+                    {
+                        currentDamageDef = DamageDefOf.Blunt;
+                    }
+                    context.Trace.Note("ricochet");
+                    context.Trace.Value(label + ".ricochetSpeed", after.Speed, EvidenceGrade.Game);
+                    context.Trace.Value(label + ".trauma", blunt, EvidenceGrade.Game);
+                    context.Trace.Value(label + ".absorbedJ", glanceJ, EvidenceGrade.Physical);
+                    context.Trace.Leave();
+                    return glanceJ;
+                }
+            }
             KineticLayupResult result = KineticBulletModel.ResolveLayup(penetrator, penetratorClass,
                 layup.KineticLayers, obliquity, effectiveness, context.Event.Seed, context.Trace, label);
             penetrator = result.Out;
@@ -215,6 +288,14 @@ namespace Helodrace.Ballistics
 
         /// <summary>Penetration factor for layers that keep the vanilla roll after physical layers slowed the round.</summary>
         internal float VanillaPenetrationFactor => KineticBulletModel.VanillaPenetrationFactor(impactSpeed, penetrator.Speed);
+
+        internal void NoteUncovered(string label)
+        {
+            uncoveredNoted = true;
+            context.Trace.Enter("Uncovered", TraceStageStatus.Skipped);
+            context.Trace.Note(label);
+            context.Trace.Leave();
+        }
 
         internal void NoteVanillaLayer(string label)
         {
@@ -313,12 +394,29 @@ namespace Helodrace.Ballistics
                     }
                 }
 
-                ArmorLayupDef layup = apparel.def.GetModExtension<BallisticLayupExtension>()?.layup;
+                BallisticLayupExtension extension = apparel.def.GetModExtension<BallisticLayupExtension>();
+                ArmorLayupDef layup = extension?.layup;
                 if (layup != null)
                 {
                     BodyHit hit = impact.HitOn(impact.part);
+                    Vector3? strikeNormal = null;
+                    if (extension.shell != null)
+                    {
+                        // A helmet shell covers the head above its brim, except the open face.
+                        if (!HumanoidBallisticImpact.IsHead(impact.part) || HumanoidBallisticImpact.IsFace(impact.part)
+                            || !extension.shell.Model.Contains(hit.AzimuthDegrees, hit.HeightFraction))
+                        {
+                            impact.NoteUncovered(apparel.def.defName);
+                            return false;
+                        }
+                        strikeNormal = hit.LocalNormal;
+                    }
+                    else if (layup.KineticLayers[0].Material.Family == ArmorMaterialFamily.Metal)
+                    {
+                        strikeNormal = hit.LocalNormal;
+                    }
                     float absorbed = impact.ResolveLayup(layup, hit.SurfaceObliquity, 1f, apparel.def.defName,
-                        ref damAmount, ref damageDef, out bool stopped, out int stoppingLayer);
+                        ref damAmount, ref damageDef, out bool stopped, out int stoppingLayer, strikeNormal);
                     impact.resolvedThings.Add(apparel);
                     metalArmor = stopped && (layup.metallicEffect || apparel.def.apparel.useDeflectMetalEffect);
                     // Same durability contract as other worn armour: wear from the absorbed energy.

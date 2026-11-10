@@ -31,13 +31,21 @@ namespace Helodrace.Ballistics
         public float limitScatter = 0.06f;
         public float traumaTransfer = 0.2f;
         public float wearPerJoule = 1f / 300f;
+        // Strike-face ricochet on helmet shells and metal faces [game]; 0 = this face never glances rounds off.
+        public float ricochetCriticalDegrees;
+        public float ricochetWidthDegrees = 4f;
+        public float ricochetTangentialRetention = 0.8f;
+        public float ricochetNormalRestitution = 0.1f;
         public string empiricalSource;
 
         private KineticMaterial model;
 
-        public KineticMaterial Model => model ?? (model = new KineticMaterial(defName, family, densityKgM3,
+        public KineticMaterial Model => model ?? (model = Build());
+
+        private KineticMaterial Build() => new KineticMaterial(defName, family, densityKgM3,
             ballisticLimitCoefficient?.ToArray(), coreErosion?.ToArray(), coreMushroom?.ToArray(),
-            limitScatter, traumaTransfer, wearPerJoule));
+            limitScatter, traumaTransfer, wearPerJoule, ricochetCriticalDegrees, ricochetWidthDegrees,
+            ricochetTangentialRetention, ricochetNormalRestitution);
 
         public override IEnumerable<string> ConfigErrors()
         {
@@ -45,9 +53,7 @@ namespace Helodrace.Ballistics
             if (ballisticLimitCoefficient == null) yield return defName + " has no ballisticLimitCoefficient.";
             if (family == ArmorMaterialFamily.Ceramic && (coreErosion == null || coreMushroom == null))
                 yield return defName + " is ceramic but has no coreErosion/coreMushroom.";
-            foreach (string error in new KineticMaterial(defName, family, densityKgM3,
-                ballisticLimitCoefficient?.ToArray(), coreErosion?.ToArray(), coreMushroom?.ToArray(),
-                limitScatter, traumaTransfer, wearPerJoule).Validate())
+            foreach (string error in Build().Validate())
                 yield return error;
         }
     }
@@ -124,10 +130,22 @@ namespace Helodrace.Ballistics
         }
     }
 
+    /// <summary>Helmet shell on the head: covered above heightMin, except the open face window. [game]</summary>
+    public sealed class HelmetShellCoverage
+    {
+        public float heightMin = -1f;
+        public float faceHalfWidthDegrees = 45f;
+        public float faceTopHeight = 0.35f;
+
+        public ShellCoverage Model => new ShellCoverage(heightMin, faceHalfWidthDegrees, faceTopHeight);
+    }
+
     /// <summary>Attaches a ballistic layup to a plate, a worn armour piece or a shield.</summary>
     public sealed class BallisticLayupExtension : DefModExtension
     {
         public ArmorLayupDef layup;
+        /// <summary>Set for helmets: curved shell (ricochet at the strike face) with partial head coverage.</summary>
+        public HelmetShellCoverage shell;
 
         public override IEnumerable<string> ConfigErrors()
         {

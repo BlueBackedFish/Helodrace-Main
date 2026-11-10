@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- A round that glanced off armour (Helodrace.Ballistics.Projectile_Ricochet). Damage, penetration and
+       physical state are set per instance from the deflected round; the projectile block only drives flight. -->
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Projectile_Ricochet</defName>
+    <label>ricochet</label>
+    <thingClass>Helodrace.Ballistics.Projectile_Ricochet</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>1</damageAmountBase>
+      <speed>60</speed>
+    </projectile>
+  </ThingDef>
+</Defs>

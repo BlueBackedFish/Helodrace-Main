@@ -44,11 +44,25 @@ namespace Helodrace.Ballistics
         public readonly float TraumaTransfer;
         /// <summary>Durability loss per joule absorbed (before the item's own material coefficient).</summary>
         public readonly float WearPerJoule;
+        /// <summary>Obliquity (degrees) at which half the rounds glance off a curved or metal face; 0 = never. [game]</summary>
+        public readonly float RicochetCriticalDegrees;
+        /// <summary>Width (degrees) of the logistic transition around the critical angle. [game]</summary>
+        public readonly float RicochetWidthDegrees;
+        /// <summary>Share of the tangential velocity kept by a glancing round (friction). [game]</summary>
+        public readonly float RicochetTangentialRetention;
+        /// <summary>Share of the normal velocity returned by a glancing round (restitution). [game]</summary>
+        public readonly float RicochetNormalRestitution;
 
         public KineticMaterial(string id, ArmorMaterialFamily family, float densityKgM3,
             float[] limitCoefficient, float[] erosion, float[] mushroom,
-            float scatter, float traumaTransfer, float wearPerJoule)
+            float scatter, float traumaTransfer, float wearPerJoule,
+            float ricochetCriticalDegrees = 0f, float ricochetWidthDegrees = 4f,
+            float ricochetTangentialRetention = 0.8f, float ricochetNormalRestitution = 0.1f)
         {
+            RicochetCriticalDegrees = ricochetCriticalDegrees;
+            RicochetWidthDegrees = ricochetWidthDegrees;
+            RicochetTangentialRetention = ricochetTangentialRetention;
+            RicochetNormalRestitution = ricochetNormalRestitution;
             Id = id ?? string.Empty;
             Family = family;
             DensityKgM3 = densityKgM3;
@@ -76,6 +90,10 @@ namespace Helodrace.Ballistics
             if (!(Scatter >= 0f && Scatter < 0.4f)) yield return Id + ": scatter must be in [0, 0.4)";
             if (!(TraumaTransfer >= 0f && TraumaTransfer <= 1f)) yield return Id + ": trauma transfer must be in [0, 1]";
             if (!(WearPerJoule >= 0f)) yield return Id + ": wear per joule must not be negative";
+            if (!(RicochetCriticalDegrees >= 0f && RicochetCriticalDegrees < 90f)) yield return Id + ": ricochet critical angle must be in [0, 90)";
+            if (RicochetCriticalDegrees > 0f && !(RicochetWidthDegrees > 0f)) yield return Id + ": ricochet width must be positive";
+            if (!(RicochetTangentialRetention >= 0f && RicochetTangentialRetention <= 1f)) yield return Id + ": tangential retention must be in [0, 1]";
+            if (!(RicochetNormalRestitution >= 0f && RicochetNormalRestitution <= 1f)) yield return Id + ": normal restitution must be in [0, 1]";
         }
 
         private static float[] Copy(float[] values, float fallback)
@@ -253,6 +271,40 @@ namespace Helodrace.Ballistics
         }
 
         /// <summary>
+        /// Probability that a round glances off a face at the given obliquity: logistic around the material's
+        /// critical angle. [game] Velocity and core hardness are not modelled: no sourced data is wired in.
+        /// </summary>
+        public static float RicochetProbability(KineticMaterial material, float obliquity)
+        {
+            if (material.RicochetCriticalDegrees <= 0f) return 0f;
+            float x = (obliquity * BallisticGeometry.RadToDeg - material.RicochetCriticalDegrees) / material.RicochetWidthDegrees;
+            return 1f / (1f + MathF.Exp(-x));
+        }
+
+        /// <summary>
+        /// Strike-face ricochet. The glancing round keeps its tangential velocity times the friction retention
+        /// and returns a small share of its normal velocity [physical form, game coefficients]. Velocity and
+        /// normal must be in the same frame.
+        /// </summary>
+        public static bool TryRicochet(in PenetratorState penetrator, Vector3 outwardNormal, KineticMaterial material,
+            ref BallisticRng rng, out PenetratorState after, out float absorbedJ, out float probability)
+        {
+            after = penetrator;
+            absorbedJ = 0f;
+            probability = 0f;
+            if (!BallisticGeometry.TryObliquity(penetrator.Velocity, outwardNormal, out float obliquity)) return false;
+            probability = RicochetProbability(material, obliquity);
+            if (probability <= 0f || rng.NextFloat() >= probability) return false;
+            Vector3 n = Vector3.Normalize(outwardNormal);
+            Vector3 normalPart = Vector3.Dot(penetrator.Velocity, n) * n;
+            Vector3 tangentPart = penetrator.Velocity - normalPart;
+            after.Velocity = tangentPart * material.RicochetTangentialRetention - normalPart * material.RicochetNormalRestitution;
+            after.Condition = PenetratorCondition.Deformed;
+            absorbedJ = MathF.Max(0f, penetrator.KineticEnergyJ - after.KineticEnergyJ);
+            return true;
+        }
+
+        /// <summary>
         /// Wound multiplier after armour. [game] g(E_out / E_in) = sqrt(E_out / E_in): g(1) = 1, so an unarmoured
         /// hit keeps the cartridge's balance damage, and the product over layers equals g over the whole stack.
         /// </summary>
@@ -321,6 +373,32 @@ namespace Helodrace.Ballistics
                 }
             }
             return centerIndex >= 0;
+        }
+    }
+
+    /// <summary>
+    /// Helmet shell coverage on the head (height -1 chin .. 1 crown, azimuth 0 = face). The shell covers the head
+    /// above <see cref="HeightMin"/> except the open face window. [game]
+    /// </summary>
+    public readonly struct ShellCoverage
+    {
+        public readonly float HeightMin;
+        public readonly float FaceHalfWidthDegrees;
+        public readonly float FaceTopHeight;
+
+        public ShellCoverage(float heightMin, float faceHalfWidthDegrees, float faceTopHeight)
+        {
+            HeightMin = heightMin;
+            FaceHalfWidthDegrees = faceHalfWidthDegrees;
+            FaceTopHeight = faceTopHeight;
+        }
+
+        public bool Contains(float azimuthDegrees, float heightFraction)
+        {
+            if (heightFraction < HeightMin) return false;
+            bool faceWindow = MathF.Abs(BallisticGeometry.DeltaDegrees(0f, azimuthDegrees)) <= FaceHalfWidthDegrees
+                && heightFraction < FaceTopHeight;
+            return !faceWindow;
         }
     }
 

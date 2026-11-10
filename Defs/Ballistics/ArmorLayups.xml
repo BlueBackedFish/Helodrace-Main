@@ -66,4 +66,30 @@
       <li><material>HD_Armor_UHMWPE</material><thicknessMillimeters>18</thicknessMillimeters></li>
     </layers>
   </Helodrace.Ballistics.ArmorLayupDef>
+
+  <Helodrace.Ballistics.ArmorLayupDef>
+    <defName>HD_Layup_HelmetHG2</defName>
+    <label>HG2 helmet shell</label>
+    <metallicEffect>false</metallicEffect>
+    <layers>
+      <li><material>HD_Armor_Aramid</material><thicknessMillimeters>5</thicknessMillimeters></li>
+    </layers>
+  </Helodrace.Ballistics.ArmorLayupDef>
+
+  <Helodrace.Ballistics.ArmorLayupDef>
+    <defName>HD_Layup_HelmetM1</defName>
+    <label>steel helmet shell</label>
+    <layers>
+      <li><material>HD_Armor_ManganeseSteel</material><thicknessMillimeters>1.1</thicknessMillimeters></li>
+    </layers>
+  </Helodrace.Ballistics.ArmorLayupDef>
+
+  <Helodrace.Ballistics.ArmorLayupDef>
+    <defName>HD_Layup_VisorHG2</defName>
+    <label>HG2 visor</label>
+    <metallicEffect>false</metallicEffect>
+    <layers>
+      <li><material>HD_Armor_Polycarbonate</material><thicknessMillimeters>10</thicknessMillimeters></li>
+    </layers>
+  </Helodrace.Ballistics.ArmorLayupDef>
 </Defs>

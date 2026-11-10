@@ -94,6 +94,7 @@
     <partThingDef>HD_ModularPart_MultiHitVisor</partThingDef>
     <installWorkTicks>300</installWorkTicks>
     <armorRatingSharp>0.85</armorRatingSharp>
+    <ballisticLayup>HD_Layup_VisorHG2</ballisticLayup>
     <armorRatingBlunt>0.35</armorRatingBlunt>
     <armorRatingHeat>0.10</armorRatingHeat>
     <metallic>false</metallic>

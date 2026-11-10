@@ -40,5 +40,35 @@
     <limitScatter>0.06</limitScatter>
     <traumaTransfer>0.30</traumaTransfer>
     <wearPerJoule>0.00333</wearPerJoule>
+    <!-- Only applies on helmet shells (curved strike face); soft vests never glance rounds off. -->
+    <ricochetCriticalDegrees>62</ricochetCriticalDegrees>
+    <ricochetWidthDegrees>5</ricochetWidthDegrees>
+  </Helodrace.Ballistics.ArmorMaterialDef>
+
+  <Helodrace.Ballistics.ArmorMaterialDef>
+    <defName>HD_Armor_ManganeseSteel</defName>
+    <label>manganese steel</label>
+    <family>Metal</family>
+    <densityKgM3>7850</densityKgM3>
+    <!-- Calibrated so a 1.1 mm helmet stops .45 ACP ball at 244-260 m/s and not 9 mm at 350 m/s. [game] -->
+    <ballisticLimitCoefficient><soft>1230</soft><mildSteel>1100</mildSteel><hardSteel>1000</hardSteel><tungsten>900</tungsten></ballisticLimitCoefficient>
+    <limitScatter>0.06</limitScatter>
+    <traumaTransfer>0.35</traumaTransfer>
+    <wearPerJoule>0.00333</wearPerJoule>
+    <ricochetCriticalDegrees>55</ricochetCriticalDegrees>
+    <ricochetWidthDegrees>5</ricochetWidthDegrees>
+    <ricochetTangentialRetention>0.85</ricochetTangentialRetention>
+  </Helodrace.Ballistics.ArmorMaterialDef>
+
+  <Helodrace.Ballistics.ArmorMaterialDef>
+    <defName>HD_Armor_Polycarbonate</defName>
+    <label>polycarbonate laminate</label>
+    <family>Fiber</family>
+    <densityKgM3>1200</densityKgM3>
+    <!-- Transparent face armour calibrated to the HG2 targets of the multi-hit visor. [game] -->
+    <ballisticLimitCoefficient><soft>1800</soft><mildSteel>1500</mildSteel><hardSteel>1350</hardSteel><tungsten>1150</tungsten></ballisticLimitCoefficient>
+    <limitScatter>0.06</limitScatter>
+    <traumaTransfer>0.25</traumaTransfer>
+    <wearPerJoule>0.00333</wearPerJoule>
   </Helodrace.Ballistics.ArmorMaterialDef>
 </Defs>

@@ -1274,7 +1274,7 @@
     <costList>
       <HD_UniformRolledSteelPlate>5</HD_UniformRolledSteelPlate>
     </costList>
-    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>1</HD_Pressing></requirements></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>1</HD_Pressing></requirements></li><li Class="Helodrace.Ballistics.BallisticLayupExtension"><layup>HD_Layup_HelmetM1</layup><shell><heightMin>-0.25</heightMin><faceHalfWidthDegrees>55</faceHalfWidthDegrees><faceTopHeight>0.30</faceTopHeight></shell></li></modExtensions>
   </ThingDef>
 
 </Defs>
