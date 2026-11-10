@@ -74,25 +74,27 @@ for name,group in selected.items():
         source_coordinates_topology_uv_preserved_at_ingestion=True,source_face_ids=group['faces']))
 assert sum(len(o.data.polygons) for o in objects)==19648
 bpy.context.view_layer.update();visible=[o for o in objects if not o.hide_render]
-# The engine fairing crown has fixed, smoothly interpolated vertex paint.
-# It is independent of camera, face normals, lighting and render direction.
-body_obj=visible[0];attribute=body_obj.data.color_attributes.new(name='Engine crown paint',type='FLOAT_COLOR',domain='CORNER')
+# Two fixed RGB colors separated by a hard geometric mask. No interpolation
+# between crown/body colors, vertex-color paint or normal-dependent shading.
+body_obj=visible[0]
+paint_frame=bpy.data.objects.new('F15EX physical paint coordinates',None);scene.collection.objects.link(paint_frame)
+paint_frame.parent=origin;paint_frame.matrix_parent_inverse=origin.matrix_world.inverted()
+engine_material=bpy.data.materials.new('F15EX solid engine fairing paint');engine_material.use_nodes=True
+nodes=engine_material.node_tree.nodes;nodes.clear();links=engine_material.node_tree.links
+coordinates=nodes.new('ShaderNodeTexCoord');coordinates.object=paint_frame
+xyz=nodes.new('ShaderNodeSeparateXYZ');links.new(coordinates.outputs['Object'],xyz.inputs[0])
+def compare(socket,operation,value):
+    node=nodes.new('ShaderNodeMath');node.operation=operation;links.new(socket,node.inputs[0]);node.inputs[1].default_value=value;return node.outputs[0]
+absolute=nodes.new('ShaderNodeMath');absolute.operation='ABSOLUTE';links.new(xyz.outputs['X'],absolute.inputs[0])
+checks=[compare(xyz.outputs['Z'],'GREATER_THAN',1.95),compare(xyz.outputs['Y'],'GREATER_THAN',-7.35),
+    compare(xyz.outputs['Y'],'LESS_THAN',-1.0),compare(absolute.outputs[0],'LESS_THAN',1.5),compare(absolute.outputs[0],'GREATER_THAN',.22)]
+mask=checks[0]
+for check in checks[1:]:
+    product=nodes.new('ShaderNodeMath');product.operation='MULTIPLY';links.new(mask,product.inputs[0]);links.new(check,product.inputs[1]);mask=product.outputs[0]
 linear=lambda v:v/255/12.92 if v/255<=.04045 else ((v/255+.055)/1.055)**2.4
-base=np.array([linear(v) for v in style['palette']['body']]);crown=np.array([linear(v) for v in style['engine_crown_rgb']])
-smooth=lambda v:(lambda t:t*t*(3-2*t))(min(1,max(0,v)))
-engine_painted=0
-for polygon in body_obj.data.polygons:
-    if polygon.material_index!=0:continue
-    weights=[]
-    for loop in polygon.loop_indices:
-        p=body_obj.matrix_world@body_obj.data.vertices[body_obj.data.loops[loop].vertex_index].co
-        weight=smooth((p.z-1.95)/.26)*smooth((p.y+7.35)/.55)*smooth((-1.0-p.y)/.6)*smooth((1.5-abs(p.x))/.3)
-        rgb=base*(1-weight)+crown*weight;attribute.data[loop].color=(*rgb,1);weights.append(weight)
-    if max(weights)>.001:engine_painted+=1
-engine_material=bpy.data.materials.new('F15EX fixed engine crown vertex paint');engine_material.use_nodes=True
-nodes=engine_material.node_tree.nodes;nodes.clear();color=nodes.new('ShaderNodeVertexColor');color.layer_name=attribute.name
-emission=nodes.new('ShaderNodeEmission');output=nodes.new('ShaderNodeOutputMaterial')
-engine_material.node_tree.links.new(color.outputs['Color'],emission.inputs[0]);engine_material.node_tree.links.new(emission.outputs[0],output.inputs[0])
+mix=nodes.new('ShaderNodeMixRGB');links.new(mask,mix.inputs[0]);mix.inputs[1].default_value=tuple(linear(v) for v in style['palette']['body'])+(1,)
+mix.inputs[2].default_value=tuple(linear(v) for v in style['palette']['engine_crown'])+(1,)
+emission=nodes.new('ShaderNodeEmission');output=nodes.new('ShaderNodeOutputMaterial');links.new(mix.outputs[0],emission.inputs[0]);links.new(emission.outputs[0],output.inputs[0])
 slot=len(body_obj.data.materials);body_obj.data.materials.append(engine_material)
 for polygon in body_obj.data.polygons:
     if polygon.material_index==0:polygon.material_index=slot
@@ -122,7 +124,7 @@ report=dict(passed=True,source_archive=str(archive),source_sha256=style['source_
     selected_aircraft='1_F_15EX_clean',visible_faces=sum(len(o.data.polygons) for o in visible),source_airframe_faces=13886,archived_landing_gear_faces=5762,
     ingested_source_meshes=inventory,visible_meshes=[dict(object=o.name,faces=len(o.data.polygons)) for o in visible],external_weapons=0,external_drop_tanks=0,targeting_pods=0,panel_edges=panel_edges,
     other_lineup_aircraft_omitted=True,landing_gear_hidden=True,source_geometry_preserved_before_articulation=True,
-    articulation=articulation,engine_crown_paint=dict(source_body_faces=engine_painted,rgb=style['engine_crown_rgb'],fixed_vertex_color=True),
+    articulation=articulation,engine_crown_paint=dict(rgb=style['palette']['engine_crown'],paint='Single fixed emission RGB; binary physical-region mask; no gradient',vertex_color_layers=0),
     native_forward=[s,0,c],native_up=[0,1,0],source_to_physical_transform=[list(r) for r in transform],
     physical_bounds=[list(low),list(high)],physical_length_m=style['physical_length_m'],
     nominal_wingspan_m=style['physical_wingspan_m'],model_wingspan_m=inferred_span,model_span_relative_error=span_error,

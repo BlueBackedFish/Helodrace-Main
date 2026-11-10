@@ -12,13 +12,13 @@
   },
   "protected_intake_faces_excluded": 42,
   "engine_crown": {
-    "source_body_faces": 338,
     "rgb": [
       163,
       173,
       181
     ],
-    "fixed_vertex_color": true
+    "paint": "Single fixed emission RGB; binary physical-region mask; no gradient",
+    "vertex_color_layers": 0
   },
   "source_albedo_weathering_used": false,
   "geometry_revision": "Control separation/caps and mirrored variable nozzles; see model_validation.json"

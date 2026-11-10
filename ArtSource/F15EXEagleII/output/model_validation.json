@@ -21592,13 +21592,13 @@
     "runtime_flight_controller_added": false
   },
   "engine_crown_paint": {
-    "source_body_faces": 338,
     "rgb": [
       163,
       173,
       181
     ],
-    "fixed_vertex_color": true
+    "paint": "Single fixed emission RGB; binary physical-region mask; no gradient",
+    "vertex_color_layers": 0
   },
   "native_forward": [
     0.573576436351046,

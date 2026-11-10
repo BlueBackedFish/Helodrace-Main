@@ -67,9 +67,7 @@ def close_and_gap(obj, pivot, axis, gap, material):
             if candidates:
                 center = f.calc_center_median()
                 src = min(candidates, key=lambda s:(center-closest_point_on_tri(center,*s[0])).length)
-                # Body-colored lower faces use the same fixed RGB, without an
-                # empty vertex-color attribute on newly generated hull loops.
-                f.material_index = 0 if mesh.materials[src[2]].name.endswith('vertex paint') else src[2]
+                f.material_index = src[2]
                 for loop in f.loops:
                     v = barycentric_transform(loop.vert.co,*src[0],*[Vector((v.x,v.y,0)) for v in src[3]])
                     loop[uv].uv = v.xy
