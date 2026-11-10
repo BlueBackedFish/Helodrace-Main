@@ -1,6 +1,6 @@
 # 통합 방어력·탄도 피해 시스템 설계
 
-2026-11-08. 설계 문서이며 코드는 아직 없다. 대상은 헤로드 본체(인간형·공통 코어)와 Lobos Arsenal(기갑차량)이다. 이 시스템은 현재의 `ArmorUtility` 확률 방어, 방탄판 확정 방어 컷, `BradleyRules.Resolve` ERA 판정을 대체한다. 배포 전이므로 구형 저장·DefName 호환은 두지 않는다(AGENTS.md).
+2026-11-08. 설계 문서. 구현 기록은 12절에 있다. 대상은 헤로드 본체(인간형·공통 코어)와 Lobos Arsenal(기갑차량)이다. 이 시스템은 현재의 `ArmorUtility` 확률 방어, 방탄판 확정 방어 컷, `BradleyRules.Resolve` ERA 판정을 대체한다. 배포 전이므로 구형 저장·DefName 호환은 두지 않는다(AGENTS.md).
 
 ## 0. 근거 등급 표기
 
@@ -733,6 +733,125 @@ AmmoStorageState (저장 위치별)
 - 재비행 탄이 실제로 다른 폰에 맞는 장면, 화면 확인, 저장/불러오기는 수행하지 않았다.
 
 1~4단계는 본체만 수정했다. 5단계부터 Lobos를 수정한다.
+
+### 5단계 구현 (2026-11-10)
+
+차량 장갑 셸과 차량용 KE 모델을 추가했다. 물리 자료(`BulletBallisticsExtension.diameterMillimeters` > 0)가 있는 탄이 장갑 모델이 있는 차량(M3A3·M1A2·M8)에 직접 명중하면 VF 장갑 확률 판정 대신 이 모델로 판정한다. 폭발·성형작약·바닐라 탄과 장갑 모델이 없는 차량은 기존 VF 판정을 쓴다. 선행 작업으로 Lobos의 미커밋 차체 방위 시스템(`CompHullHeading`)을 따로 커밋했다(Lobos `7b735bb`).
+
+**구성**
+
+| 파일 | 내용 |
+|---|---|
+| Main `Ballistics/Core/VehicleKineticModel.cs` | 장봉(Lanz–Odermatt)·Tate 도탄, AP 탄(De Marre), 소화기(2단계 모델 + T2 조기 종료), 층별 결과 `VehicleKineticResult` |
+| Main `Ballistics/Core/VehicleArmorShell.cs` | `ArmorPlate`(프레임·꼭짓점·층 구성·개방 키), `VehicleArmorShell.Raycast`(차체·포탑 프레임 동시 검사), 형상 검증, `VehicleShotLine`(2D 착탄 → 3D 탄 경로) |
+| Main `Ballistics/Defs/ProjectilePhysics.cs` | `ProjectileFlightExtension.descentDegrees`, 투사체 → 탄 모델 입력 변환 |
+| Main `ArmorMaterialDef` 확장 | `brinellHardness`, `yieldStrengthMPa`, `massEfficiencyVsKinetic`, `steelTarget`, `longRodPerforation`(출처 필수) |
+| Main `BulletBallisticsExtension` 확장 | `mechanism`, `penetratorLengthMillimeters`, `penetratorMaterial` |
+| Lobos `Source.Vehicles/Armor/VehicleArmorModel.cs` | `VehicleArmorModelDef`(차량 역참조, 포탑 키·피벗, 판 목록), `IVehicleArmorApertures` |
+| Lobos `Source.Vehicles/Armor/VehicleArmorImpact.cs` | VF 어댑터: `ApplyDamage` 프리픽스, `ReduceDamageFromArmor` 대체, `TakeDamage` 후처리(관통 피해 내부 전달), 트레이스 링 버퍼 |
+| Lobos `Tools/build_armor_models.py` | 판 형상·층 구성 생성기. `Defs/Vehicles/M3A3Armor.xml`, `M1A2SEPv3Armor.xml`, `M8Armor.xml`, `VehicleArmorLayups.xml`을 만든다 |
+
+**모델**
+- **장봉 APFSDS** `KineticLongRod`: Lanz–Odermatt 천공식 `P/L = a / tanh(b0 + b1·L/D) · cos^m θ · √(ρp/ρt) · exp(−s²/v²)` [실험]. 계수는 W. Odermatt의 천공 적합값이다(텅스텐 a 0.994, c0 134.5, c1 −0.148, 99발, 표준편차 3.3 %; DU a 0.825, c0 90.0, c1 −0.0849, 42발, 3.5 %; b0 0.283, b1 0.0656, m −0.224; 단위 kg/m³·km/s·BHN). P는 LOS 두께다.
+  - 층마다 RHA 등가 두께를 쓰고, 소비한 비율만큼 봉 길이·질량을 깎는다. 정상 침식 단계에서 후단 감속은 무시한다 [물리 근사]. 표준편차를 그 층의 산포로 쓴다.
+  - 적용 범위: L/D 4~40, 경사 ≤ 75°로 고정하고 넘으면 트레이스에 경고한다. 이 범위 값은 원 논문의 적용 범위를 확보하지 못한 [게임]이다. 탄속은 고정하지 않는다(0.8~2.2 km/s 밖은 경고만). 그래서 고속에서 `L·√(ρp/ρt)`(× a/tanh ≈ 1)로 수렴한다.
+  - 강재 표적(RHA·고경도강)은 자기 밀도·경도를 식에 넣는다. 그 밖의 재료는 `두께 × 밀도/7850 × massEfficiencyVsKinetic`의 RHA 등가 [게임]으로 바꾼다.
+  - 잔여 길이가 처음의 절반 이상이면 Overmatch [게임].
+- **Tate 도탄** [물리 근사]: `v² < 3·Yp·tan³θ / (2ρp·((L²+D²)/(L·D))·(1+√(ρp/ρt)))`이면 도탄. 계산은 Liu 등(LAJSS 2019)의 예제 값(34.0 m/s)을 재현한다. 그 논문 표기는 `tan³(π/2−θ)`이지만, 그대로 쓰면 경사가 클수록 도탄이 줄어든다. 그래서 θ를 법선 기준으로 적용했다. 1.5 km/s 봉은 60~70°에서 도탄하지 않고 87°에서 도탄한다. 항복강도는 텅스텐 합금 1506 MPa(같은 논문)이고 DU 1000 MPa는 [게임]이다.
+- **AP 탄** `KineticHardCore`: De Marre `v = K·d^0.75·t^0.7/m^0.5`(d·t dm, m kg). 형태는 [실험]이고 K = 2400은 1차 출처를 확보하지 못한 [게임]이다(역사적 RHA 기준 경향). t^0.7은 더해지지 않으므로 층을 RHA 등가로 합쳐 한 번 판정한다. 층별로 판정하면 판을 나눌수록 약해진다. 관통하면 Lambert–Jonas p = 2로 잔여 탄속을 구한다. 도탄은 임계 72°·폭 3° 로지스틱 [게임].
+- **소화기** `KineticBullet`: 2단계 V50 모델을 층마다 쓴다. 첫 층 V50 × (1 − 2.5σ)보다 느리면 확정 정지로 바로 끝낸다(T2 조기 종료). 금속 타격면 도탄은 4단계 곡선이다.
+
+**착탄 기하**
+- 판은 차량 로컬 좌표(게임 칸 단위, +Z 전방)에 한 번만 둔다. 착탄 때 탄 경로를 차체 프레임(`VehicleHeading.Of`)과 포탑 프레임(`BallisticFrame.Child`, 포탑 상대각 = VF 포탑 각 − 차체 방위)으로 바꿔 모든 판과 교차시키고 가장 가까운 바깥 면을 고른다. 포탑이 차체 지붕을 가리는 경우도 같은 계산에서 나온다.
+- 탄 경로(`VehicleShotLine`) [게임 표본, 물리 기하]: 진행 방향 = 투사체 회전각 + 하강각.
+  - 사선에 수직인 방향의 오프셋은 게임 착탄점에서 가져오고 σ 0.45칸을 더한다. 높이는 셸 높이 범위에서 균일하게 뽑는다. 사선 방향 위치도 게임 착탄점을 쓴다(고각 사격의 낙하 지점). 표본은 결정론 시드로 뽑는다.
+  - 셸을 못 맞히면 최대 12번 다시 뽑는다. 그래도 못 맞히면 VF 판정을 쓰고 트레이스에 경고한다.
+- 하강각: `ProjectileFlightExtension.descentDegrees`, 없으면 `flyOverhead` 탄 60°, 나머지 0° [게임]. `BradleyProjectileProfile.topAttack`은 삭제했다. Bradley ERA 모듈 선택·궤도 스커트의 "상부 공격"은 하강각 ≥ 30°로 판단한다.
+- 방향 없는 간접 피해(폭발)는 `dinfo.Angle`로, 그것도 없으면 고각 탄일 때만 북쪽 방향으로 탄 경로를 만든다. 개방부 판정과 ERA 위치에만 쓰고 KE 판정은 하지 않는다.
+- VF 피격 칸은 착탄점(포탑 판은 차체 좌표로 변환)에서 다시 골라, VF가 맞은 판 쪽 구성품에 피해를 준다.
+
+**VF 연결과 피해 [게임]**
+- 정지 시 피해 = 원래 피해 × 0.2(도탄 0.1, T2 조기 종료 0.05). VF 장갑 확률 판정은 생략한다(`NonPenetrated`/`Deflected`).
+- 관통 시 피해 계수 = `√(E_out/E_in)`. 맞은 외부 구성품은 그 25 %를 받고, 나머지 전체가 내부 구성품으로 이어진다. VF는 관통해도 구성품 체력이 남아 있으면 피해를 0으로 만들기 때문에 `TakeDamage` 후처리에서 한 번 되돌린다.
+- 승무원 피해는 아직 VF의 기존 분배를 쓴다(7단계).
+- Bradley ERA는 기존 `ApplyEra` 그대로 먼저 적용한다(6단계에서 이전). ERA가 피해를 줄인 비율만큼 KE 탄의 질량·봉 길이를 줄인다 [게임, 6단계까지 임시].
+- 개방부: `BradleyRules.RearAperture/RoofAperture`와 `CompBradley.Unprotected`, `BradleyDamageScope`를 삭제했다. 판의 `aperture` 키(`ramp` = 후방 램프 판, `roof` = 상부 해치 판)를 `CompBradley.ApertureOpen`이 답한다. 열린 판에 먼저 닿으면 장갑 없이 관통한다. 지붕 해치는 수평 사격으로는 닿지 않으므로 예전의 "상부 공격일 때만" 조건이 기하에서 나온다.
+
+**데이터** — 두께·구성은 모두 공개 설명 범위 안에서 정한 [게임] 추정이다(생성기와 XML 머리 주석에 명시). 목표: M1A2 정면은 105 mm 장봉을 막고 측면은 관통된다. M3A3·M8 측면은 12.7 mm를 막고 25 mm AP에 관통된다. M3A3 정면은 25 mm AP를 약 절반 막는다(부가장갑이 정면 30 mm APDS 방호로 소개되는 점을 참고).
+
+| 재료 | 밀도 | BHN | 비고 |
+|---|---|---|---|
+| `HD_Armor_RHA` | 7850 | 270 | 12.7 mm M8 API(40.4 g, 887 m/s)가 20 mm에서 V50이 되도록 소화기 계수 보정 |
+| `HD_Armor_HighHardnessSteel` | 7850 | 500 | 소화기 계수 RHA × 약 1.2 |
+| `HD_Armor_Aluminium5083` | 2660 | 80 | KE 질량효율 0.95 |
+| `HDA_Armor_SpecialComposite`(Lobos) | 4000 | — | KE 질량효율 1.9, 세라믹 계열 소화기 응답. 실제 구성이 비공개라 전부 [게임] |
+| `HD_Penetrator_TungstenAlloy` / `DepletedUranium` | 17600 / 18600 | — | 장봉 적합 계수(위) |
+
+| 탄 | 모델 | 값 [게임] |
+|---|---|---|
+| `HDA_25mmAP_Projectile` | AP 탄(M791 APDS급) | 134 g, 탄심 16 mm, 1345 m/s |
+| `HDA_105mmAP_Projectile` | 장봉(M900급 DU) | 600 × 24 mm, 5.05 kg, 1505 m/s → 정면 RHA 약 517 mm |
+| Main 12.7 mm·20 mm | 소화기 | 2단계 값 그대로 |
+
+| 차량 | 판 수 | 주요 층 구성(mm) |
+|---|---|---|
+| M3A3 | 18(램프·해치 개방 판 포함) | 하부 전면 고경도강 55 + Al 38, 상부 경사판 고경도강 30 + Al 38(56°), 측면·포탑 측면 고경도강 12 + Al 25, 포탑 정면 고경도강 65 + Al 25, 지붕·후면 Al 25 |
+| M1A2 | 12 | 차체 정면 RHA 50 + 복합 500 + RHA 30, 포탑 정면 RHA 50 + 복합 650 + RHA 50, 측면(스커트 포함) RHA 10 + 50, 포탑 측면 RHA 40 + 복합 200 + RHA 20, 지붕 RHA 40 |
+| M8 | 12 | 정면 고경도강 20 + Al 25, 측면 고경도강 12 + Al 25, 포탑 정면 고경도강 25 + Al 25 |
+
+**하지 않은 것**
+- 판을 지난 뒤 다음 판(스커트 → 측면, 간격장갑) 순차 교차. 측면 스커트는 한 판의 층으로 합쳤다.
+- 국소 장갑 손상 기록(§3.2).
+- 정규화 각. 요(yaw) 성장은 11단계에서 다룬다.
+- 120 mm 탄, M919 장봉 탄약(25 mm는 기존 AP 하나를 M791급으로 정의).
+- 승무원 개별 피해(7단계), 구성품 기능 상태(8단계).
+- 판 형상 편집 화면: 생성 스크립트만 있다.
+- 개발자 오버레이: 트레이스는 `VehicleArmorImpact.RecentTraces`에 쌓이지만 화면 표시는 아직 없다.
+
+**검증**
+- Main `Source/Tests/BallisticsCore`: 290,680개 통과.
+  - 광선-판: 경사판 착탄각, 측면 정면각, 30° 비스듬한 착탄, 차체 90°·135° 회전 시 대응 판, 지붕 하강각, 개방 램프, 빗나감.
+  - 프레임: 포탑 회전·차체+포탑 합성, 포탑의 지붕 가림.
+  - 형상 검증: 안쪽 법선, 오목 다각형.
+  - 탄 경로 표본: 정면 판 분포, 수평 사격의 지붕 비율, 고각 착탄 위치, 결정론.
+  - Lanz–Odermatt: 손 계산, cos^m, 단조성, 고속 극한 ±1 %, 범위 경고.
+  - Tate: 논문 예제, 경사 단조성, 60~70° 미도탄, 87° 도탄.
+  - De Marre: 손 계산, t^0.7, 분할 판 동일, 도탄 비율.
+  - 소화기: 12.7 mm가 20 mm RHA에서 V50, 5.56 mm 조기 종료.
+  - 층 합성: 분할 판 침식 ±6 %, 에너지 비증가, 시드 재현.
+- Lobos `Source.Vehicles.Tests/VehicleArmor.Tests`(`dotnet run -c Release --project VehicleArmor.Tests.csproj -- ..`): 50,081개 통과. 배포 XML의 셸 검증과 시나리오별 3,000회 표본을 검사한다.
+
+| 시나리오 | 관통 비율 |
+|---|---|
+| M1A2 정면 / 포탑 정면 vs 105 mm 장봉 | 0 / 0 |
+| M1A2 측면 vs 105 mm 장봉 | 1.00 |
+| M1A2 포탑 좌로 90° 회전, 정면 사격 | 포탑 우측면에 맞아 1.00 |
+| M1A2 차체 동향, 동쪽 사격 | 0(정면판) |
+| M1A2 정면 vs 25 mm AP, 측면·지붕(70° 하강) vs 12.7 mm | 0 |
+| M3A3 정면 / 측면 vs 12.7 mm | 0 / 0.001 |
+| M3A3 정면 vs 25 mm AP | 0.29 |
+| M3A3 측면 vs 25 mm AP, 정면 vs 105 mm, 닫힌 해치 vs 25 mm(60° 하강) | 1.00 |
+| M8 정면·측면 vs 12.7 mm / 정면 vs 25 mm AP | 0 / 0.94 |
+
+  개방부: 열린 램프 후방 사격은 모두 장갑 없음, 고각 사격은 열린 해치로 들어가고 수평 사격은 해치에 닿지 않는다.
+- Lobos `BradleyRules` 47개, `HullHeading` 1,458개 통과. 모드 빌드 경고·오류 0.
+- 실제 엔진: Lobos `Source.Vehicles.Tests/Run-ArmorGameChecks.ps1`, RimWorld 1.7, 격리 런타임 `.codex-staging/LobosArmor5f`: **COMPLETE**(19 PASS).
+  - Main·Lobos·검사 DLL은 `.codex-staging/<이름>-mods`에 새로 빌드했다. 저장소의 `Assemblies`는 쓰지 않는다.
+  - 실제 투사체를 차량에서 18칸 떨어진 곳에서 발사했다. 발사마다 구성품을 수리했다.
+  - M1A2 북향, 북쪽에서 105 mm 장봉 40발: 포탑 정면 17, 하부 전면 17, 경사판 6발. 모두 PartialPenetration(외판 관통, 복합층에서 정지)이고 내부 손상 0이다. 외부 손상 합은 1,200(발당 피해 150 × 0.2)이다.
+  - 동쪽에서 같은 40발: 우측면 18, 포탑 우측면 22발. Overmatch 38, Perforation 2이고 외부 손상 합은 6,150이다.
+  - 차체를 동향으로 돌리고 동쪽에서 40발: 정면판(포탑 정면 20, 하부 전면 14, 경사판 6)에 맞아 모두 정지했다.
+  - 동향 차체에서 포탑을 북쪽으로 돌리면: 포탑 우측면 23발(관통), 차체 정면 17발(정지).
+  - 12.7 mm M8 측면 30발: 스커트층만 관통하고 모두 정지했다.
+  - 70° 하강 시험탄 30발: 포탑 지붕 29, 차체 지붕 1발, 모두 정지. 같은 경로를 수평으로 쏘면 지붕에 닿지 않는다.
+  - M3A3 정면 12.7 mm 30발: 정지. 좌측에서 25 mm AP 30발: 좌측면·포탑 좌측면을 모두 관통했다.
+  - 후방 12.7 mm: 닫힌 램프는 장갑으로 맞았다(Al 25 mm라 관통). 램프를 열면 램프 착탄 17발이 모두 개방(장갑 없음)으로 기록됐다.
+  - 첫 실행에서 짝수 길이 차체(M1A2 6칸)의 VF 칸 범위를 −2~3으로 잘못 잡았다. 그래서 정면 착탄이 빈 칸에 떨어져 VF가 피해를 엔진으로 보냈다. VF 범위(−3~2)로 고쳤다.
+  - 엔진 ERROR: 기존 `HDA_C17` 이름 규칙 2건, `HDA_M8_M35` 탄약 목록 1건, Workshop 폴더 부재 1건만 있다.
+- 확인하지 못한 것:
+  - 관통 피해가 내부 구성품으로 가는 장면. 위 시험에서 내부 손상은 0이었다. M1A2의 내부 구성품은 엔진 하나이고 측면 착탄 칸 뒤에 없어서, VF가 같은 외부 구성품을 계속 맞혔다(7단계에서 내부 광선으로 교체).
+  - Bradley ERA가 켜진 상태의 KE 감쇠.
+  - 화면 확인, 저장/불러오기.
 
 ## 13. 필요한 자료 목록
 

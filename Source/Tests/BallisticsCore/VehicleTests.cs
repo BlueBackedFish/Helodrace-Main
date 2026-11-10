@@ -170,6 +170,13 @@ internal static class VehicleTests
                 && (hit.Plate.Id == "roof" || hit.Plate.Id == "turretRoof")) diveRoof++;
         }
         check(diveRoof > 1700, "A 75 deg dive mostly strikes roofs: " + diveRoof);
+        // The game point sets where a dive lands along the line of fire.
+        Vector3 aft = hull.ToWorldPoint(new Vector3(0, 0, -2.2f));
+        int aftRoof = 0;
+        for (int i = 0; i < 1000; i++)
+            if (VehicleShotLine.TryStrike(shell, hull, 0f, aft, 180f, 75f, (ulong)i + 5, null, out ShellHit hit, out _)
+                && hit.Plate.Id == "roof" && hit.LocalPoint.Z < -1.2f) aftRoof++;
+        check(aftRoof > 800, "A dive aimed at the rear deck lands on the rear deck: " + aftRoof);
         VehicleShotLine.TryStrike(shell, hull, 0f, hull.Origin, 180f, 0f, 42, null, out ShellHit first, out _);
         VehicleShotLine.TryStrike(shell, hull, 0f, hull.Origin, 180f, 0f, 42, null, out ShellHit again, out _);
         check(first.PlateIndex == again.PlateIndex && first.WorldPoint == again.WorldPoint, "Shot line is deterministic");
@@ -277,7 +284,10 @@ internal static class VehicleTests
         var shot = PenetratorState.Projectile(PenetrationMechanism.KineticHardCore, 6.8f, -normal * (v * 1.3f), 0f, 0.075f);
         VehicleKineticModel.Resolve(round, shot, new[] { new VehicleArmorLayer(Rha(), 0.1f) }, normal, 5, result);
         check(result.Perforated, "AP shot 30 % above the limit perforates");
-        near(Math.Sqrt(1.69 - Math.Pow(result.Steps[0].Capability / v, 2)) * v, result.Out.Speed, 1.0, "Lambert-Jonas p = 2 residual");
+        check(result.Out.Speed >= v * 0.65f && result.Out.Speed <= v * 0.962f, "Lambert-Jonas p = 2 residual within the scatter band");
+        float single = result.Out.Speed;
+        VehicleKineticModel.Resolve(round, shot, new[] { new VehicleArmorLayer(Rha(), 0.05f), new VehicleArmorLayer(Rha(), 0.05f) }, normal, 5, result);
+        near(single, result.Out.Speed, 1e-2, "De Marre resolves the summed stack: a split plate equals one plate");
         var slow = PenetratorState.Projectile(PenetrationMechanism.KineticHardCore, 6.8f, -normal * (v * 0.8f), 0f, 0.075f);
         VehicleKineticModel.Resolve(round, slow, new[] { new VehicleArmorLayer(Rha(), 0.1f) }, normal, 5, result);
         check(result.Result == ImpactResult.Stopped, "AP shot below the limit stops");

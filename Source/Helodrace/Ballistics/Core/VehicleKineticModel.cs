@@ -380,42 +380,56 @@ namespace Helodrace.Ballistics
                 trace?.Value("ricochetProbability", result.RicochetProbability, EvidenceGrade.Game);
                 return;
             }
+            // De Marre describes a whole plate (t^0.7 is not additive), so the stack is summed as RHA
+            // equivalent and resolved once; the stopping layer is where the shot's reach runs out.
             float initialSpeed = current.Speed;
+            float total = 0f;
+            var cumulative = new float[layers.Count];
             for (int i = 0; i < layers.Count; i++)
             {
                 VehicleArmorLayer layer = layers[i];
                 float los = BallisticGeometry.LineOfSightThickness(layer.ThicknessM, obliquity);
                 float equivalent = layer.Material.RhaEquivalent(los);
-                float limit = DeMarreLimit(DeMarreRha, current.DiameterM, equivalent, current.MassKg);
-                var rng = BallisticSeed.Stream(seed, "apshot#" + i);
-                float z = Math.Clamp(rng.NextGaussian(), -KineticBulletModel.MaxScatterSigmas, KineticBulletModel.MaxScatterSigmas);
-                float sampled = MathF.Max(0f, limit * (1f + DeMarreScatter * z));
-                float speed = current.Speed;
-                var step = new VehicleLayerStep
+                total += equivalent;
+                cumulative[i] = total;
+                result.Steps.Add(new VehicleLayerStep
                 {
-                    MaterialId = layer.Material.Id, LosThicknessM = los, RhaEquivalentM = equivalent,
-                    Capability = sampled, Perforated = speed > sampled
-                };
-                result.Steps.Add(step);
-                string label = "layer." + i + "." + layer.Material.Id;
-                trace?.Value(label + ".rhaEquivalentMm", equivalent * 1000f, layer.Material.SteelTarget ? EvidenceGrade.Physical : EvidenceGrade.Game);
-                trace?.Value(label + ".deMarreLimit", limit, EvidenceGrade.Game);
-                trace?.Value(label + ".vIn", speed, EvidenceGrade.Physical);
-                if (!step.Perforated)
-                {
-                    current.Velocity = Vector3.Zero;
-                    current.Condition = PenetratorCondition.Spent;
-                    result.Result = i == 0 ? ImpactResult.Stopped : ImpactResult.PartialPenetration;
-                    result.StoppingLayer = i;
-                    result.Out = current;
-                    return;
-                }
-                // Lambert-Jonas with p = 2. [physical approximation]
-                float residual = MathF.Sqrt(speed * speed - sampled * sampled);
-                current.Velocity = current.Direction * residual;
+                    MaterialId = layer.Material.Id, LosThicknessM = los, RhaEquivalentM = equivalent
+                });
+                trace?.Value("layer." + i + "." + layer.Material.Id + ".rhaEquivalentMm", equivalent * 1000f,
+                    layer.Material.SteelTarget ? EvidenceGrade.Physical : EvidenceGrade.Game);
             }
+            var rng = BallisticSeed.Stream(seed, "apshot");
+            float z = Math.Clamp(rng.NextGaussian(), -KineticBulletModel.MaxScatterSigmas, KineticBulletModel.MaxScatterSigmas);
+            float limit = DeMarreLimit(DeMarreRha, current.DiameterM, total, current.MassKg);
+            float sampled = MathF.Max(0f, limit * (1f + DeMarreScatter * z));
+            trace?.Value("stackRhaEquivalentMm", total * 1000f, EvidenceGrade.Game);
+            trace?.Value("deMarreLimit", limit, EvidenceGrade.Game);
+            trace?.Value("vIn", initialSpeed, EvidenceGrade.Physical);
+            bool perforated = initialSpeed > sampled;
+            // Reach: the RHA thickness whose (sampled) limit equals the impact speed.
+            float reach = sampled > 0f ? total * MathF.Pow(initialSpeed / sampled, 1f / 0.7f) : float.MaxValue;
+            for (int i = 0; i < result.Steps.Count; i++)
+            {
+                VehicleLayerStep step = result.Steps[i];
+                step.Capability = reach;
+                step.Perforated = perforated || cumulative[i] < reach;
+                result.Steps[i] = step;
+            }
+            if (!perforated)
+            {
+                int stop = result.Steps.FindIndex(s => !s.Perforated);
+                current.Velocity = Vector3.Zero;
+                current.Condition = PenetratorCondition.Spent;
+                result.StoppingLayer = stop < 0 ? layers.Count - 1 : stop;
+                result.Result = result.StoppingLayer == 0 ? ImpactResult.Stopped : ImpactResult.PartialPenetration;
+                result.Out = current;
+                return;
+            }
+            // Lambert-Jonas with p = 2. [physical approximation]
+            current.Velocity = current.Direction * MathF.Sqrt(initialSpeed * initialSpeed - sampled * sampled);
             result.Out = current;
-            result.Result = initialSpeed > 0f && current.Speed / initialSpeed >= MathF.Sqrt(OvermatchShare)
+            result.Result = current.Speed / initialSpeed >= MathF.Sqrt(OvermatchShare)
                 ? ImpactResult.Overmatch : ImpactResult.Perforation;
         }
 

@@ -217,13 +217,17 @@ namespace Helodrace.Ballistics
             float lateral = Vector3.Dot(new Vector3(offset.X, 0f, offset.Z), across);
             float halfWidth = MathF.Max(MathF.Abs(min.X), MathF.Abs(max.X)) + 0.25f;
             lateral = Math.Clamp(lateral, -halfWidth, halfWidth);
+            // Along the line of fire the game point matters only for plunging fire: it sets where a dive lands.
+            Vector3 along = flat.LengthSquared() > Epsilon2 ? Vector3.Normalize(flat) : Vector3.Zero;
+            float halfLength = MathF.Max(MathF.Max(MathF.Abs(min.Z), MathF.Abs(max.Z)), halfWidth);
+            float depth = Math.Clamp(Vector3.Dot(new Vector3(offset.X, 0f, offset.Z), along), -halfLength, halfLength);
             var rng = BallisticSeed.Stream(seed, "shotLine");
             for (int attempt = 0; attempt < MaxSamples; attempt++)
             {
                 float side = lateral + rng.NextGaussian() * LateralScatter;
                 float height = rng.Range(MathF.Max(0f, min.Y), max.Y);
-                // Aim point on the plane through the hull origin, perpendicular to the line of fire.
-                Vector3 aim = centre + across * side + Vector3.UnitY * height;
+                // Aim point on the vertical plane through the game point, perpendicular to the line of fire.
+                Vector3 aim = new Vector3(centre.X, 0f, centre.Z) + along * depth + across * side + Vector3.UnitY * height;
                 Vector3 origin = aim - travel * radius;
                 if (shell.Raycast(origin, travel, hull, turret, apertureOpen, out hit)) return true;
             }
