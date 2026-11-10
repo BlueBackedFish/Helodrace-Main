@@ -47,7 +47,7 @@ if (OUT/'nozzles_neutral.png').exists():
         OUT/'articulation_review.png',columns=2,cell_size=(520,560))
     before=Image.open(ROOT/'analysis/engine_before.png').convert('RGBA')
     crop=(480,640,742,1080)
-    sheet([('BEFORE',before.crop(crop)),('ROUNDED ENGINE PAINT',images['outlined'].crop(crop))],
+    sheet([('BEFORE',before.crop(crop)),('SOLID ENGINE FAIRINGS',images['outlined'].crop(crop))],
         OUT/'engine_paint_review.png',columns=2,cell_size=(350,510))
     frames=[]
     for i in range(7):

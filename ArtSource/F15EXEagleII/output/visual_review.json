@@ -40,13 +40,5 @@
     173,
     181
   ],
-  "gradient_removed": true,
-  "rounded_engine_crown_boundaries": true,
-  "engine_crown_region": {
-    "axis_x_m": 0.7,
-    "center_y_m": -4.55,
-    "half_width_m": 0.42,
-    "half_length_m": 2.65,
-    "minimum_height_m": 1.95
-  }
+  "gradient_removed": true
 }

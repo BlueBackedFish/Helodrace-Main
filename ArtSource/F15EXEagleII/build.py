@@ -85,19 +85,12 @@ coordinates=nodes.new('ShaderNodeTexCoord');coordinates.object=paint_frame
 xyz=nodes.new('ShaderNodeSeparateXYZ');links.new(coordinates.outputs['Object'],xyz.inputs[0])
 def compare(socket,operation,value):
     node=nodes.new('ShaderNodeMath');node.operation=operation;links.new(socket,node.inputs[0]);node.inputs[1].default_value=value;return node.outputs[0]
-region=style['engine_crown_region']
-def calculate(operation,a,b=None):
-    node=nodes.new('ShaderNodeMath');node.operation=operation
-    for i,value in enumerate([a,b] if b is not None else [a]):
-        if isinstance(value,(int,float)):node.inputs[i].default_value=value
-        else:links.new(value,node.inputs[i])
-    return node.outputs[0]
-# Paired elongated oval footprints follow the engine crowns. The binary
-# comparison keeps the paint solid while rounding both ends and side edges.
-x=calculate('DIVIDE',calculate('SUBTRACT',calculate('ABSOLUTE',xyz.outputs['X']),region['axis_x_m']),region['half_width_m'])
-y=calculate('DIVIDE',calculate('SUBTRACT',xyz.outputs['Y'],region['center_y_m']),region['half_length_m'])
-oval=compare(calculate('ADD',calculate('MULTIPLY',x,x),calculate('MULTIPLY',y,y)),'LESS_THAN',1)
-mask=calculate('MULTIPLY',oval,compare(xyz.outputs['Z'],'GREATER_THAN',region['minimum_height_m']))
+absolute=nodes.new('ShaderNodeMath');absolute.operation='ABSOLUTE';links.new(xyz.outputs['X'],absolute.inputs[0])
+checks=[compare(xyz.outputs['Z'],'GREATER_THAN',1.95),compare(xyz.outputs['Y'],'GREATER_THAN',-7.35),
+    compare(xyz.outputs['Y'],'LESS_THAN',-1.0),compare(absolute.outputs[0],'LESS_THAN',1.5),compare(absolute.outputs[0],'GREATER_THAN',.22)]
+mask=checks[0]
+for check in checks[1:]:
+    product=nodes.new('ShaderNodeMath');product.operation='MULTIPLY';links.new(mask,product.inputs[0]);links.new(check,product.inputs[1]);mask=product.outputs[0]
 linear=lambda v:v/255/12.92 if v/255<=.04045 else ((v/255+.055)/1.055)**2.4
 mix=nodes.new('ShaderNodeMixRGB');links.new(mask,mix.inputs[0]);mix.inputs[1].default_value=tuple(linear(v) for v in style['palette']['body'])+(1,)
 mix.inputs[2].default_value=tuple(linear(v) for v in style['palette']['engine_crown'])+(1,)
@@ -131,7 +124,7 @@ report=dict(passed=True,source_archive=str(archive),source_sha256=style['source_
     selected_aircraft='1_F_15EX_clean',visible_faces=sum(len(o.data.polygons) for o in visible),source_airframe_faces=13886,archived_landing_gear_faces=5762,
     ingested_source_meshes=inventory,visible_meshes=[dict(object=o.name,faces=len(o.data.polygons)) for o in visible],external_weapons=0,external_drop_tanks=0,targeting_pods=0,panel_edges=panel_edges,
     other_lineup_aircraft_omitted=True,landing_gear_hidden=True,source_geometry_preserved_before_articulation=True,
-    articulation=articulation,engine_crown_paint=dict(rgb=style['palette']['engine_crown'],paint='Single fixed emission RGB; paired rounded oval boundaries; no gradient',region=style['engine_crown_region'],vertex_color_layers=0),
+    articulation=articulation,engine_crown_paint=dict(rgb=style['palette']['engine_crown'],paint='Single fixed emission RGB; binary physical-region mask; no gradient',vertex_color_layers=0),
     native_forward=[s,0,c],native_up=[0,1,0],source_to_physical_transform=[list(r) for r in transform],
     physical_bounds=[list(low),list(high)],physical_length_m=style['physical_length_m'],
     nominal_wingspan_m=style['physical_wingspan_m'],model_wingspan_m=inferred_span,model_span_relative_error=span_error,

@@ -21597,14 +21597,7 @@
       173,
       181
     ],
-    "paint": "Single fixed emission RGB; paired rounded oval boundaries; no gradient",
-    "region": {
-      "axis_x_m": 0.7,
-      "center_y_m": -4.55,
-      "half_width_m": 0.42,
-      "half_length_m": 2.65,
-      "minimum_height_m": 1.95
-    },
+    "paint": "Single fixed emission RGB; binary physical-region mask; no gradient",
     "vertex_color_layers": 0
   },
   "native_forward": [
