@@ -121,6 +121,48 @@ namespace Helodrace.Ballistics
             };
         }
 
+        /// <summary>Torso yaw from outside the pawn (crew seat in a vehicle frame); NaN = the pawn's own orientation.</summary>
+        internal float yawOverride = float.NaN;
+
+        /// <summary>
+        /// A physical hit without a flying projectile (behind-armour fragments, a residual penetrator inside a vehicle):
+        /// the pawn's worn layers resolve it like a bullet. massKg, speed and diameter describe the striking body;
+        /// headingDegrees is its travel in the world, torsoYaw the pawn's facing. Returns the damage dealt.
+        /// </summary>
+        public static void ApplyPhysicalHit(Pawn pawn, Thing instigator, float damage, PenetratorClass penetratorClass,
+            float massKg, float speed, float diameterM, float headingDegrees, float torsoYaw, ulong seed, string label)
+        {
+            if (pawn == null || pawn.Dead || damage <= 0f) return;
+            Vector3 travel = BallisticGeometry.TravelDirection(headingDegrees, 0f);
+            var penetrator = PenetratorState.Projectile(PenetrationMechanism.Fragment, massKg, travel * speed, 0f, diameterM);
+            int tick = Find.TickManager?.TicksGame ?? 0;
+            var impactEvent = new ImpactEvent(seed, tick, instigator?.thingIDNumber ?? -1, pawn.thingIDNumber, label,
+                PenetrationMechanism.Fragment, Vector3.Zero, penetrator);
+            var context = new ImpactContext();
+            context.Reset(impactEvent, new BallisticFrame(Vector3.Zero, torsoYaw), pawn);
+            var impact = new HumanoidBallisticImpact
+            {
+                pawn = pawn,
+                damageDef = DamageDefOf.Bullet,
+                penetratorClass = penetratorClass,
+                penetrator = penetrator,
+                impactSpeed = speed,
+                headingDegrees = headingDegrees,
+                impactDamage = damage,
+                impactPenetration = 0f,
+                context = context,
+                yawOverride = torsoYaw
+            };
+            HumanoidBallisticImpact previous = Current;
+            Current = impact;
+            try
+            {
+                pawn.TakeDamage(new DamageInfo(DamageDefOf.Bullet, damage, 0f, headingDegrees, instigator));
+                impact.Finish();
+            }
+            finally { Current = previous; }
+        }
+
         internal void Finish()
         {
             // Record impacts that met a physical layer, or a helmet that did not cover the hit point.
@@ -130,13 +172,13 @@ namespace Helodrace.Ballistics
                 : Stopped ? ImpactResult.Stopped : ImpactResult.Perforation;
             context.Trace.Result = context.Outcome.Result;
             RecentTraces.Add(context.Trace);
-            if (deflected) Projectile_Ricochet.TryLaunch(this);
+            if (deflected && projectile != null) Projectile_Ricochet.TryLaunch(this);
         }
 
         /// <summary>Continuous torso yaw (phase 3); pawns without the comp use their Rot4 heading.</summary>
-        internal float TorsoYaw => pawn.TryGetComp<CompBodyOrientation>()?.TorsoYaw ?? pawn.Rotation.AsAngle;
+        internal float TorsoYaw => !float.IsNaN(yawOverride) ? yawOverride : pawn.TryGetComp<CompBodyOrientation>()?.TorsoYaw ?? pawn.Rotation.AsAngle;
 
-        internal float HeadYaw => pawn.TryGetComp<CompBodyOrientation>()?.HeadYaw ?? pawn.Rotation.AsAngle;
+        internal float HeadYaw => !float.IsNaN(yawOverride) ? yawOverride : pawn.TryGetComp<CompBodyOrientation>()?.HeadYaw ?? pawn.Rotation.AsAngle;
 
         /// <summary>Travel direction in the torso frame (+Z = chest). Shields are held toward the torso facing.</summary>
         internal Vector3 LocalTravel => TravelIn(TorsoYaw);

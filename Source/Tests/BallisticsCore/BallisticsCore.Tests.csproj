@@ -12,6 +12,7 @@
     <Compile Include="HelmetTests.cs" />
     <Compile Include="VehicleTests.cs" />
     <Compile Include="ShapedChargeTests.cs" />
+    <Compile Include="InteriorTests.cs" />
     <Compile Include="../../Helodrace/Ballistics/Core/*.cs" LinkBase="Core" />
   </ItemGroup>
 </Project>
