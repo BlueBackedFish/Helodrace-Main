@@ -21,6 +21,25 @@ namespace Helodrace.Ballistics
             }
         }
 
+        [DebugAction("Helodrace", "Log body orientation of selected pawns", allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void LogSelectedOrientation()
+        {
+            foreach (object selected in Find.Selector.SelectedObjects)
+            {
+                if (!(selected is Pawn pawn)) continue;
+                CompBodyOrientation comp = pawn.TryGetComp<CompBodyOrientation>();
+                if (comp == null)
+                {
+                    Log.Message("[Helodrace.Ballistics] " + pawn.LabelShort + ": no body orientation");
+                    continue;
+                }
+                Log.Message("[Helodrace.Ballistics] " + pawn.LabelShort + ": torso " + comp.TorsoYaw.ToString("0.0")
+                    + ", head " + comp.HeadYaw.ToString("0.0") + ", sprite " + pawn.Rotation.AsAngle
+                    + ", aiming " + comp.Aiming + (comp.Aiming ? " at " + comp.AimYaw.ToString("0.0") : "")
+                    + ", stance " + (comp.Profile?.defName ?? "none"));
+            }
+        }
+
         [DebugAction("Helodrace", "Copy last ballistic trace as JSON", allowedGameStates = AllowedGameStates.Playing)]
         public static void CopyLastTraceJson()
         {

@@ -83,7 +83,8 @@ namespace Helodrace.Ballistics
                 tick, bullet.Launcher?.thingIDNumber ?? -1, pawn.thingIDNumber, bullet.def.defName,
                 PenetrationMechanism.KineticBullet, bullet.ExactPosition.ToNative(), penetrator);
             var context = new ImpactContext();
-            context.Reset(impactEvent, new BallisticFrame(pawn.DrawPos.ToNative(), pawn.Rotation.AsAngle), pawn);
+            context.Reset(impactEvent, new BallisticFrame(pawn.DrawPos.ToNative(),
+                pawn.TryGetComp<CompBodyOrientation>()?.TorsoYaw ?? pawn.Rotation.AsAngle), pawn);
             return new HumanoidBallisticImpact
             {
                 pawn = pawn,
@@ -105,29 +106,50 @@ namespace Helodrace.Ballistics
             RecentTraces.Add(context.Trace);
         }
 
-        /// <summary>Travel direction in the pawn's frame (+Z = facing). Shields are held toward the facing.</summary>
-        internal Vector3 LocalTravel => new BallisticFrame(Vector3.Zero, pawn.Rotation.AsAngle)
+        /// <summary>Continuous torso yaw (phase 3); pawns without the comp use their Rot4 heading.</summary>
+        internal float TorsoYaw => pawn.TryGetComp<CompBodyOrientation>()?.TorsoYaw ?? pawn.Rotation.AsAngle;
+
+        internal float HeadYaw => pawn.TryGetComp<CompBodyOrientation>()?.HeadYaw ?? pawn.Rotation.AsAngle;
+
+        /// <summary>Travel direction in the torso frame (+Z = chest). Shields are held toward the torso facing.</summary>
+        internal Vector3 LocalTravel => TravelIn(TorsoYaw);
+
+        private Vector3 TravelIn(float yaw) => new BallisticFrame(Vector3.Zero, yaw)
             .ToLocalDirection(BallisticGeometry.TravelDirection(headingDegrees, 0f));
 
         /// <summary>
-        /// Impact point on the hit part. Torso yaw is the pawn's Rot4 heading until the continuous orientation
-        /// system (phase 3) replaces it; rendering uses the same Rot4, so the hit side matches the picture.
+        /// Impact point on the hit part, in the frame of the part: the head turns with the head yaw, everything
+        /// else with the torso yaw. The Rot4 sprite is derived from the same torso yaw (CompBodyOrientation).
         /// </summary>
         internal BodyHit HitOn(BodyPartRecord bodyPart)
         {
             if (hasHit && hitPart == bodyPart) return hit;
-            Vector3 localTravel = LocalTravel;
+            bool head = IsHead(bodyPart);
+            float yaw = head ? HeadYaw : TorsoYaw;
+            Vector3 localTravel = TravelIn(yaw);
             BallisticRng rng = context.StageRandom(ImpactStageIds.HitLocation);
             hit = BodyHitGeometry.Sample(ShapeOf(bodyPart), localTravel, ref rng);
             hitPart = bodyPart;
             hasHit = true;
             context.Trace.Enter(ImpactStageIds.HitLocation, TraceStageStatus.Ran);
             context.Trace.Note(bodyPart?.def?.defName ?? "none");
+            context.Trace.Value(head ? "headYawDeg" : "torsoYawDeg", yaw, EvidenceGrade.Game);
             context.Trace.Value("azimuthDeg", hit.AzimuthDegrees, EvidenceGrade.Physical);
             context.Trace.Value("height", hit.HeightFraction, EvidenceGrade.Physical);
             context.Trace.Value("surfaceObliquityDeg", hit.SurfaceObliquity * BallisticGeometry.RadToDeg, EvidenceGrade.Physical);
             context.Trace.Leave();
             return hit;
+        }
+
+        private static bool IsHead(BodyPartRecord bodyPart)
+        {
+            for (BodyPartRecord current = bodyPart; current != null; current = current.parent)
+            {
+                string name = current.def?.defName;
+                if (name == "Head" || name == "Skull") return true;
+                if (name == "Neck" || name == "Torso") return false;
+            }
+            return false;
         }
 
         private static Vector3 ShapeOf(BodyPartRecord bodyPart)

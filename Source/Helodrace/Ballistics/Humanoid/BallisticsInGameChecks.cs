@@ -9,6 +9,7 @@ using HarmonyLib;
 using Helodrace.ModernWar;
 using RimWorld;
 using Verse;
+using Verse.AI;
 
 namespace Helodrace.Ballistics
 {
@@ -57,29 +58,198 @@ namespace Helodrace.Ballistics
 
         private void Note(string message) => File.AppendAllText(Results, "INFO " + message + "\n");
 
+        private bool armourDone;
+        private readonly List<TurnTrial> trials = new List<TurnTrial>();
+        private int trialIndex = -1;
+
+        private sealed class TurnTrial
+        {
+            public string WeaponDef;
+            public Pawn Shooter;
+            public Thing Target;
+            public int StartTick;
+            public int SettledTick = -1;
+            public float LastYaw;
+            public float MaxStep;
+            public float WorstSpriteGap;
+            public bool AimSeen;
+            public int AimTick = -1;
+            public float Rate;
+            public float Offset;
+        }
+
         public override void GameComponentTick()
         {
             if (finished || Find.CurrentMap == null || Find.TickManager.TicksGame < 120) return;
-            finished = true;
             try
             {
-                File.WriteAllText(Results, "Native ballistic protection checks\n");
-                var harmony = new Harmony("hd.ballistics.ingamechecks");
-                harmony.Patch(AccessTools.Method(typeof(DamageWorker_AddInjury), "ChooseHitPart"),
-                    prefix: new HarmonyMethod(typeof(BallisticsInGameChecks), nameof(ForceTorso)));
-                harmony.Patch(AccessTools.Method(typeof(ArmorUtility), nameof(ArmorUtility.GetPostArmorDamage)),
-                    prefix: new HarmonyMethod(typeof(BallisticsInGameChecks), nameof(RecordArmorInput)),
-                    postfix: new HarmonyMethod(typeof(BallisticsInGameChecks), nameof(RecordArmor)));
-                forceTorso = true;
-                Run();
-                File.AppendAllText(Results, "COMPLETE\n");
-                Waylith.EngineApplication.Instance.Quit(0);
+                if (!armourDone)
+                {
+                    armourDone = true;
+                    File.WriteAllText(Results, "Native ballistic protection checks\n");
+                    var harmony = new Harmony("hd.ballistics.ingamechecks");
+                    harmony.Patch(AccessTools.Method(typeof(DamageWorker_AddInjury), "ChooseHitPart"),
+                        prefix: new HarmonyMethod(typeof(BallisticsInGameChecks), nameof(ForceTorso)));
+                    harmony.Patch(AccessTools.Method(typeof(ArmorUtility), nameof(ArmorUtility.GetPostArmorDamage)),
+                        prefix: new HarmonyMethod(typeof(BallisticsInGameChecks), nameof(RecordArmorInput)),
+                        postfix: new HarmonyMethod(typeof(BallisticsInGameChecks), nameof(RecordArmor)));
+                    forceTorso = true;
+                    Run();
+                    forceTorso = false;
+                    if (victim != null && !victim.Destroyed) victim.Destroy();
+                    foreach (string weapon in new[] { "HD_Gun_Glock19Gen5_Weapon", "HD_Gun_M14_Weapon", "HD_Gun_M249_Weapon" })
+                        trials.Add(new TurnTrial { WeaponDef = weapon });
+                    Find.TickManager.CurTimeSpeed = TimeSpeed.Superfast;
+                    return;
+                }
+                if (TickTrials())
+                {
+                    finished = true;
+                    File.AppendAllText(Results, "COMPLETE\n");
+                    Waylith.EngineApplication.Instance.Quit(0);
+                }
             }
             catch (Exception error)
             {
+                finished = true;
                 File.AppendAllText(Results, "FAIL " + error + "\n");
                 Waylith.EngineApplication.Instance.Quit(1);
             }
+        }
+
+        /// <summary>
+        /// Drafted Helod shooters facing north are ordered to fire at a wall to the east. Each tick the torso
+        /// yaw must move at no more than the stance rate, and the drawn Rot4 must show the side the torso
+        /// faces. Returns true when all trials and the follow-up checks are done.
+        /// </summary>
+        private bool TickTrials()
+        {
+            Map map = Find.CurrentMap;
+            int now = Find.TickManager.TicksGame;
+            if (trialIndex < 0 || trials[trialIndex].SettledTick >= 0 || now - trials[trialIndex].StartTick > 600)
+            {
+                if (trialIndex >= 0) FinishTrial(trials[trialIndex]);
+                trialIndex++;
+                if (trialIndex >= trials.Count)
+                {
+                    CompareTrials();
+                    return true;
+                }
+                StartTrial(trials[trialIndex], map, now);
+                return false;
+            }
+
+            TurnTrial trial = trials[trialIndex];
+            CompBodyOrientation comp = trial.Shooter.TryGetComp<CompBodyOrientation>();
+            float yaw = comp.TorsoYaw;
+            trial.MaxStep = Math.Max(trial.MaxStep, Math.Abs(BallisticGeometry.DeltaDegrees(trial.LastYaw, yaw)));
+            trial.LastYaw = yaw;
+            trial.WorstSpriteGap = Math.Max(trial.WorstSpriteGap,
+                Math.Abs(BallisticGeometry.DeltaDegrees(trial.Shooter.Rotation.AsAngle, yaw)));
+            if (comp.Aiming)
+            {
+                if (!trial.AimSeen) trial.AimTick = now;
+                trial.AimSeen = true;
+                float target = comp.AimYaw + trial.Offset;
+                if (Math.Abs(BallisticGeometry.DeltaDegrees(yaw, target)) < 1f) trial.SettledTick = now;
+            }
+            return false;
+        }
+
+        private void StartTrial(TurnTrial trial, Map map, int now)
+        {
+            IntVec3 origin = map.Center + new IntVec3(-20, 0, 8 + trialIndex * 4);
+            foreach (IntVec3 cell in CellRect.FromLimits(origin + new IntVec3(-1, 0, -1), origin + new IntVec3(10, 0, 1)))
+                foreach (Thing thing in cell.GetThingList(map).ToArray())
+                    if (thing.def.category != ThingCategory.Filth && thing.def.destroyable) thing.Destroy();
+            Pawn shooter = PawnGenerator.GeneratePawn(new PawnGenerationRequest(
+                DefDatabase<PawnKindDef>.GetNamed("HD_WW_HelodColonist"), Faction.OfPlayer,
+                forceGenerateNewPawn: true, canGeneratePawnRelations: false, fixedBiologicalAge: 25,
+                fixedChronologicalAge: 25, allowAddictions: false, mustBeCapableOfViolence: true));
+            shooter.equipment.DestroyAllEquipment();
+            var weapon = (ThingWithComps)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed(trial.WeaponDef),
+                GenStuff.DefaultStuffFor(DefDatabase<ThingDef>.GetNamed(trial.WeaponDef)));
+            shooter.equipment.AddEquipment(weapon);
+            GenSpawn.Spawn(shooter, origin, map, Rot4.North);
+            Thing wall = GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.Wall, ThingDefOf.BlocksGranite), origin + new IntVec3(8, 0, 0), map);
+            shooter.drafter.Drafted = true;
+            CompBodyOrientation comp = shooter.TryGetComp<CompBodyOrientation>();
+            Check(comp != null, "Humanlike pawns get the body orientation comp");
+            StanceProfileDef profile = StanceProfileDef.For(weapon.def);
+            Check(profile != null, trial.WeaponDef + " has a stance profile: " + profile?.defName);
+            Note(trial.WeaponDef + " stance " + profile.defName + " (" + profile.family + ")");
+            trial.Shooter = shooter;
+            trial.Target = wall;
+            trial.StartTick = now;
+            trial.LastYaw = comp.TorsoYaw;
+            trial.Rate = profile.torsoTurnRate;
+            trial.Offset = profile.torsoOffsetDegrees;
+            Check(Math.Abs(BallisticGeometry.DeltaDegrees(trial.LastYaw, 0f)) < 0.01f, trial.WeaponDef + " shooter starts facing north");
+            Job job = JobMaker.MakeJob(JobDefOf.AttackStatic, wall);
+            Check(shooter.jobs.TryTakeOrderedJob(job), trial.WeaponDef + " takes the attack order");
+        }
+
+        private void FinishTrial(TurnTrial trial)
+        {
+            CompBodyOrientation comp = trial.Shooter.TryGetComp<CompBodyOrientation>();
+            Note(trial.WeaponDef + ": aiming after " + (trial.AimTick - trial.StartTick) + " ticks, turned onto target in "
+                + (trial.SettledTick - trial.AimTick) + " ticks, max step "
+                + trial.MaxStep.ToString("0.00") + " deg/tick, worst sprite gap " + trial.WorstSpriteGap.ToString("0.0")
+                + ", final torso " + comp.TorsoYaw.ToString("0.0") + ", aim " + comp.AimYaw.ToString("0.0")
+                + ", head " + comp.HeadYaw.ToString("0.0"));
+            Check(trial.AimSeen, trial.WeaponDef + " aims at the target");
+            Check(trial.SettledTick >= 0, trial.WeaponDef + " torso settles on aim + stance offset");
+            Check(trial.MaxStep <= trial.Rate + 0.01f, trial.WeaponDef + " torso never turns faster than its stance rate");
+            Check(trial.WorstSpriteGap <= 45f + BodyOrientationRules.SpriteHysteresis + 0.01f,
+                trial.WeaponDef + " drawn side always matches the torso (within one sprite sector)");
+            Check(Math.Abs(BallisticGeometry.DeltaDegrees(comp.HeadYaw, comp.AimYaw)) < 1f, trial.WeaponDef + " head looks at the target");
+
+            // A hit on the settled shooter is resolved in the torso frame, not the Rot4 frame.
+            if (trial.WeaponDef == "HD_Gun_M14_Weapon")
+            {
+                victim = trial.Shooter;
+                victim.jobs.StopAll();
+                victim.drafter.Drafted = false;
+                // A physical layer is needed for a trace; the carrier does not change the torso yaw.
+                WearCarrier(DefDatabase<ThingDef>.GetNamed("HD_Apparel_IBTVAssault"), "HD_IOTVPart_FrontRear_ESAPI");
+                Pawn previousShooter = shooter;
+                shooter = PawnGenerator.GeneratePawn(new PawnGenerationRequest(PawnKindDefOf.Colonist, Faction.OfPlayer,
+                    forceGenerateNewPawn: true, canGeneratePawnRelations: false, forcedXenotype: XenotypeDefOf.Baseliner));
+                shooter.apparel?.DestroyAll();
+                GenSpawn.Spawn(shooter, victim.Position + new IntVec3(0, 0, -6), victim.Map);
+                float torso = comp.TorsoYaw;
+                forceTorso = true;
+                Shot shot = FireOnce(DefDatabase<ThingDef>.GetNamed("HD_Bullet_556M855A1_Proj"));
+                forceTorso = false;
+                shooter.Destroy();
+                shooter = previousShooter;
+                Check(shot.Trace != null, "A physical hit on the turned shooter is traced");
+                TraceStage location = shot.Trace.Find(ImpactStageIds.HitLocation);
+                double tracedYaw = location.Values.First(v => v.Key == "torsoYawDeg").Value;
+                double azimuth = location.Values.First(v => v.Key == "azimuthDeg").Value;
+                Note("Turned shooter hit from the south: torso " + torso.ToString("0.0") + ", traced " + tracedYaw.ToString("0.0")
+                    + ", azimuth " + azimuth.ToString("0.0") + " (Rot4 " + victim.Rotation.AsAngle + ")");
+                Check(Math.Abs(BallisticGeometry.DeltaDegrees((float)tracedYaw, torso)) < 1f, "Hit uses the continuous torso yaw");
+                // The round comes from the south: relative to the torso it arrives from 180 - torso.
+                float expected = BallisticGeometry.DeltaDegrees(torso, 180f);
+                Check(Math.Abs(BallisticGeometry.DeltaDegrees((float)azimuth, expected)) <= 90f,
+                    "Hit lands on the side of the torso that faces the shot");
+                victim = null;
+            }
+            trial.Shooter.jobs?.StopAll();
+            if (!trial.Shooter.Destroyed) trial.Shooter.Destroy();
+            if (!trial.Target.Destroyed) trial.Target.Destroy();
+        }
+
+        private void CompareTrials()
+        {
+            // Settle time also depends on where the pawn faced before it began aiming, so the families are
+            // compared by the turn rate actually observed while turning.
+            TurnTrial pistol = trials[0], rifle = trials[1], mg = trials[2];
+            foreach (TurnTrial trial in trials)
+                Check(trial.MaxStep >= trial.Rate - 0.01f, trial.WeaponDef + " turns at its full stance rate");
+            Check(pistol.MaxStep > rifle.MaxStep && rifle.MaxStep > mg.MaxStep,
+                "Pistol turns faster than rifle faster than machine gun: " + pistol.MaxStep + "/" + rifle.MaxStep + "/" + mg.MaxStep);
         }
 
         public static bool ForceTorso(Pawn pawn, ref BodyPartRecord __result)
@@ -103,7 +273,7 @@ namespace Helodrace.Ballistics
             IntVec3 center = map.Center;
             foreach (IntVec3 cell in CellRect.CenteredOn(center, 14))
                 foreach (Thing thing in cell.GetThingList(map).ToArray())
-                    if (!(thing is Pawn) && thing.def.category != ThingCategory.Filth) thing.Destroy();
+                    if (!(thing is Pawn) && thing.def.category != ThingCategory.Filth && thing.def.destroyable) thing.Destroy();
 
             ThingDef a1 = DefDatabase<ThingDef>.GetNamed("HD_Bullet_556M855A1_Proj");
             ThingDef m855 = DefDatabase<ThingDef>.GetNamed("HD_Bullet_556M855_Proj");
@@ -204,7 +374,10 @@ namespace Helodrace.Ballistics
 
         private float DamageOf(ThingDef projectileDef) => projectileDef.projectile.GetDamageAmount(null);
 
-        private Pawn NewVictim()
+        private Pawn NewVictim() => NewVictim(Rot4.South);
+
+        // The torso yaw starts from the spawn rotation; setting Rotation afterwards would only change the sprite.
+        private Pawn NewVictim(Rot4 facing)
         {
             if (victim != null && !victim.Destroyed) victim.Destroy();
             // Helod equipment is restricted to the Helod race (HelodRace PawnCanWear).
@@ -213,8 +386,7 @@ namespace Helodrace.Ballistics
                 forceGenerateNewPawn: true, canGeneratePawnRelations: false, fixedBiologicalAge: 25,
                 fixedChronologicalAge: 25, allowAddictions: false));
             victim.apparel?.DestroyAll();
-            GenSpawn.Spawn(victim, Find.CurrentMap.Center, Find.CurrentMap);
-            victim.Rotation = Rot4.South;
+            GenSpawn.Spawn(victim, Find.CurrentMap.Center, Find.CurrentMap, facing);
             return victim;
         }
 
@@ -268,9 +440,8 @@ namespace Helodrace.Ballistics
             var shots = new List<Shot>();
             for (int i = 0; i < count; i++)
             {
-                NewVictim();
+                NewVictim(facing ?? Rot4.South);
                 dress();
-                victim.Rotation = facing ?? Rot4.South;
                 shots.Add(FireOnce(projectileDef));
             }
             return shots;
@@ -278,7 +449,6 @@ namespace Helodrace.Ballistics
 
         private Shot FireOnce(ThingDef projectileDef)
         {
-            victim.Rotation = victim.Rotation;
             ImpactTrace before = HumanoidBallisticImpact.RecentTraces.Count > 0 ? HumanoidBallisticImpact.RecentTraces[0] : null;
             calls.Clear();
             var projectile = (Projectile)GenSpawn.Spawn(projectileDef, shooter.Position, shooter.Map);

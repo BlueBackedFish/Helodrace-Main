@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Docs/Ballistic_Protection_System.md section 6.1. Turn rates are degrees per tick at normal speed (60 ticks
+    per second); offsets are the torso/head yaw relative to the aim direction (positive = clockwise, so a right-
+    handed shooter in a bladed stance turns the chest to the right of the target). All values are game values
+    [game] chosen from the general tendency of each weapon family, not measured shooter data.
+    weaponDefs overrides the heuristic family of the listed weapons.
+  -->
+  <Helodrace.Ballistics.StanceProfileDef>
+    <defName>HD_Stance_Unarmed</defName>
+    <label>unarmed</label>
+    <family>Unarmed</family>
+    <torsoTurnRate>12</torsoTurnRate>
+    <headTurnRate>18</headTurnRate>
+    <updateIntervalTicks>4</updateIntervalTicks>
+  </Helodrace.Ballistics.StanceProfileDef>
+
+  <Helodrace.Ballistics.StanceProfileDef>
+    <defName>HD_Stance_Pistol</defName>
+    <label>pistol</label>
+    <family>Pistol</family>
+    <torsoOffsetDegrees>0</torsoOffsetDegrees>
+    <torsoTurnRate>10</torsoTurnRate>
+    <headTurnRate>16</headTurnRate>
+    <moveTurnFactor>0.85</moveTurnFactor>
+    <updateIntervalTicks>2</updateIntervalTicks>
+  </Helodrace.Ballistics.StanceProfileDef>
+
+  <Helodrace.Ballistics.StanceProfileDef>
+    <defName>HD_Stance_Shotgun</defName>
+    <label>shotgun</label>
+    <family>Shotgun</family>
+    <torsoOffsetDegrees>25</torsoOffsetDegrees>
+    <torsoTurnRate>7</torsoTurnRate>
+    <headTurnRate>14</headTurnRate>
+    <moveTurnFactor>0.75</moveTurnFactor>
+    <updateIntervalTicks>3</updateIntervalTicks>
+  </Helodrace.Ballistics.StanceProfileDef>
+
+  <Helodrace.Ballistics.StanceProfileDef>
+    <defName>HD_Stance_Rifle</defName>
+    <label>rifle</label>
+    <family>Rifle</family>
+    <torsoOffsetDegrees>20</torsoOffsetDegrees>
+    <torsoTurnRate>7</torsoTurnRate>
+    <headTurnRate>14</headTurnRate>
+    <moveTurnFactor>0.75</moveTurnFactor>
+    <updateIntervalTicks>3</updateIntervalTicks>
+  </Helodrace.Ballistics.StanceProfileDef>
+
+  <Helodrace.Ballistics.StanceProfileDef>
+    <defName>HD_Stance_Sniper</defName>
+    <label>precision rifle</label>
+    <family>Sniper</family>
+    <torsoOffsetDegrees>25</torsoOffsetDegrees>
+    <torsoTurnRate>4</torsoTurnRate>
+    <headTurnRate>10</headTurnRate>
+    <moveTurnFactor>0.6</moveTurnFactor>
+    <updateIntervalTicks>4</updateIntervalTicks>
+  </Helodrace.Ballistics.StanceProfileDef>
+
+  <Helodrace.Ballistics.StanceProfileDef>
+    <defName>HD_Stance_MachineGun</defName>
+    <label>machine gun</label>
+    <family>MachineGun</family>
+    <torsoOffsetDegrees>15</torsoOffsetDegrees>
+    <torsoTurnRate>3</torsoTurnRate>
+    <headTurnRate>10</headTurnRate>
+    <moveTurnFactor>0.6</moveTurnFactor>
+    <updateIntervalTicks>4</updateIntervalTicks>
+  </Helodrace.Ballistics.StanceProfileDef>
+
+  <Helodrace.Ballistics.StanceProfileDef>
+    <defName>HD_Stance_Launcher</defName>
+    <label>launcher</label>
+    <family>Launcher</family>
+    <torsoOffsetDegrees>30</torsoOffsetDegrees>
+    <torsoTurnRate>3</torsoTurnRate>
+    <headTurnRate>8</headTurnRate>
+    <moveTurnFactor>0.6</moveTurnFactor>
+    <updateIntervalTicks>4</updateIntervalTicks>
+    <!-- Its guided missile is not a Projectile_Explosive subclass, so the heuristic would call it a rifle. -->
+    <weaponDefs><li>HD_Gun_M47_Dragon</li></weaponDefs>
+  </Helodrace.Ballistics.StanceProfileDef>
+</Defs>

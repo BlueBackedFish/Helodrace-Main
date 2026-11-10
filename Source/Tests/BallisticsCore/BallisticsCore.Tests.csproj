@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="KineticTests.cs" />
+    <Compile Include="OrientationTests.cs" />
     <Compile Include="../../Helodrace/Ballistics/Core/*.cs" LinkBase="Core" />
   </ItemGroup>
 </Project>
