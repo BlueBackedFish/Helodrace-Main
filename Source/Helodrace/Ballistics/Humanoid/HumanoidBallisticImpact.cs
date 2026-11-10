@@ -71,7 +71,7 @@ namespace Helodrace.Ballistics
 
         internal static HumanoidBallisticImpact TryBegin(Bullet bullet, Pawn pawn)
         {
-            if (bullet.def.projectile?.damageDef == null) return null;
+            if (!RaidSettings.UnifiedBallistics || bullet.def.projectile?.damageDef == null) return null;
             float massKg, speed, diameterM;
             PenetratorClass penetratorClass;
             if (bullet is Projectile_Ricochet ricochet)

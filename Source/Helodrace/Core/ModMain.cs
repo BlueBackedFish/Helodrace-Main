@@ -71,6 +71,15 @@ namespace Helodrace
                 "HD_Settings_TacticalAI_Desc".Translate());
             listing.CheckboxLabeled("HD_Settings_BodyVariants".Translate(), ref RaidOptions.bodyVariants,
                 "HD_Settings_BodyVariants_Desc".Translate());
+            if (RaidSettings.UnifiedBallisticsLocked)
+            {
+                listing.Label("HD_Settings_UnifiedBallistics_Locked".Translate());
+            }
+            else
+            {
+                listing.CheckboxLabeled("HD_Settings_UnifiedBallistics".Translate(), ref RaidOptions.unifiedBallistics,
+                    "HD_Settings_UnifiedBallistics_Desc".Translate());
+            }
             listing.Gap();
             listing.Label("HD_Ballistics_DebugSettings".Translate());
             listing.CheckboxLabeled("HD_Ballistics_DebugImpacts".Translate(), ref RaidOptions.ballisticImpactDebug,
