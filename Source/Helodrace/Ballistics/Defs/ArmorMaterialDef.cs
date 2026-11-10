@@ -37,10 +37,25 @@ namespace Helodrace.Ballistics
         public float ricochetTangentialRetention = 0.8f;
         public float ricochetNormalRestitution = 0.1f;
         public string empiricalSource;
+        // Vehicle armour and penetrator bodies (design doc 4.2, phase 5). Hardness and yield strength are
+        // measured-range properties [physical]; KE mass efficiency is an RHA-equivalence factor [game].
+        public float brinellHardness;
+        public float yieldStrengthMPa;
+        public float massEfficiencyVsKinetic = 1f;
+        /// <summary>Steels: the long-rod fit uses this target's own density and hardness instead of RHA equivalence.</summary>
+        public bool steelTarget;
+        /// <summary>Lanz-Odermatt perforation fit when this material is a rod. [experimental, with source]</summary>
+        public LongRodFit longRodPerforation;
 
         private KineticMaterial model;
+        private VehicleArmorMaterial vehicleModel;
+        private PenetratorMaterial penetratorModel;
 
         public KineticMaterial Model => model ?? (model = Build());
+        public VehicleArmorMaterial VehicleModel => vehicleModel ??
+            (vehicleModel = new VehicleArmorMaterial(Model, brinellHardness, massEfficiencyVsKinetic, steelTarget));
+        public PenetratorMaterial PenetratorModel => penetratorModel ?? (penetratorModel = new PenetratorMaterial(defName,
+            densityKgM3, brinellHardness, yieldStrengthMPa * 1e6f, longRodPerforation?.Model));
 
         private KineticMaterial Build() => new KineticMaterial(defName, family, densityKgM3,
             ballisticLimitCoefficient?.ToArray(), coreErosion?.ToArray(), coreMushroom?.ToArray(),
@@ -50,12 +65,39 @@ namespace Helodrace.Ballistics
         public override IEnumerable<string> ConfigErrors()
         {
             foreach (string error in base.ConfigErrors()) yield return error;
-            if (ballisticLimitCoefficient == null) yield return defName + " has no ballisticLimitCoefficient.";
-            if (family == ArmorMaterialFamily.Ceramic && (coreErosion == null || coreMushroom == null))
-                yield return defName + " is ceramic but has no coreErosion/coreMushroom.";
-            foreach (string error in Build().Validate())
-                yield return error;
+            // Penetrator-only bodies (rod alloys) carry no armour response.
+            bool penetratorOnly = ballisticLimitCoefficient == null && longRodPerforation != null;
+            if (!penetratorOnly)
+            {
+                if (ballisticLimitCoefficient == null) yield return defName + " has no ballisticLimitCoefficient.";
+                if (family == ArmorMaterialFamily.Ceramic && (coreErosion == null || coreMushroom == null))
+                    yield return defName + " is ceramic but has no coreErosion/coreMushroom.";
+                foreach (string error in Build().Validate())
+                    yield return error;
+            }
+            else if (!(densityKgM3 > 0f)) yield return defName + " needs a density.";
+            if (brinellHardness < 0f || yieldStrengthMPa < 0f) yield return defName + " has negative hardness or yield strength.";
+            if (!(massEfficiencyVsKinetic > 0f)) yield return defName + " needs a positive massEfficiencyVsKinetic.";
+            if (longRodPerforation != null)
+                foreach (string error in longRodPerforation.Model.Validate(defName)) yield return error;
         }
+    }
+
+    /// <summary>Lanz-Odermatt perforation coefficients with their source (design doc 4.2).</summary>
+    public sealed class LongRodFit
+    {
+        public float a;
+        public float c0;
+        public float c1;
+        public float scatter;
+        public bool steelForm;
+        public float k;
+        public float n;
+        public string source;
+
+        private LongRodCoefficients model;
+
+        public LongRodCoefficients Model => model ?? (model = new LongRodCoefficients(a, c0, c1, scatter, source, steelForm, k, n));
     }
 
     public sealed class ArmorLayupLayer

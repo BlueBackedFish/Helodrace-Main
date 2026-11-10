@@ -66,13 +66,13 @@ namespace Helodrace.Ballistics
             Result = ImpactResult.None;
         }
 
-        internal void Enter(string stageId, TraceStageStatus status)
+        public void Enter(string stageId, TraceStageStatus status)
         {
             current = new TraceStage { StageId = stageId, Status = status };
             Stages.Add(current);
         }
 
-        internal void Leave()
+        public void Leave()
         {
             current = null;
         }

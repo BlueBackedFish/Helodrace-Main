@@ -18,6 +18,11 @@ namespace Helodrace
         // Protection-system inputs (Docs/Ballistic_Protection_System.md). Zero diameter keeps the vanilla armor roll.
         public float diameterMillimeters;
         public Helodrace.Ballistics.PenetratorClass penetratorClass;
+        // Vehicle armour (design doc 4.2, phase 5): KineticBullet = small-arms model, KineticHardCore = AP shot
+        // (De Marre), KineticLongRod = Lanz-Odermatt with the penetrator material's sourced fit.
+        public Helodrace.Ballistics.PenetrationMechanism mechanism = Helodrace.Ballistics.PenetrationMechanism.KineticBullet;
+        public float penetratorLengthMillimeters;
+        public Helodrace.Ballistics.ArmorMaterialDef penetratorMaterial;
 
         public bool HasPhysics => diameterMillimeters > 0f;
 
@@ -30,6 +35,9 @@ namespace Helodrace
             if (!(barrelVelocityExponent >= 0f && barrelVelocityExponent <= 0.5f))
                 yield return "Ballistic barrel-velocity exponent must be between zero and 0.5.";
             if (diameterMillimeters < 0f) yield return "Ballistic penetrator diameter must not be negative.";
+            if (mechanism == Helodrace.Ballistics.PenetrationMechanism.KineticLongRod &&
+                (penetratorMaterial?.longRodPerforation == null || penetratorLengthMillimeters <= 0f))
+                yield return "Long-rod rounds need penetratorLengthMillimeters and a penetratorMaterial with longRodPerforation.";
         }
     }
 

@@ -10,6 +10,7 @@
     <Compile Include="KineticTests.cs" />
     <Compile Include="OrientationTests.cs" />
     <Compile Include="HelmetTests.cs" />
+    <Compile Include="VehicleTests.cs" />
     <Compile Include="../../Helodrace/Ballistics/Core/*.cs" LinkBase="Core" />
   </ItemGroup>
 </Project>

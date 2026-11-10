@@ -71,4 +71,91 @@
     <traumaTransfer>0.25</traumaTransfer>
     <wearPerJoule>0.00333</wearPerJoule>
   </Helodrace.Ballistics.ArmorMaterialDef>
+
+  <!--
+    Vehicle armour steels and aluminium (Docs/Ballistic_Protection_System.md phase 5).
+    densityKgM3 and brinellHardness are measured-range properties [physical]: RHA MIL-A-12560 class (about 240-310 HB),
+    high-hardness armour MIL-DTL-46100 class (about 480-540 HB), aluminium 5083 (about 75-85 HB).
+    The small-arms block is calibrated [game]: 12.7 mm M8 API (40.4 g, 887 m/s) is at V50 on 20 mm RHA.
+    steelTarget: the long-rod fit takes the plate's own density and hardness. Other materials use RHA equivalence
+    (density ratio x massEfficiencyVsKinetic [game]).
+  -->
+  <Helodrace.Ballistics.ArmorMaterialDef>
+    <defName>HD_Armor_RHA</defName>
+    <label>rolled homogeneous armour</label>
+    <family>Metal</family>
+    <densityKgM3>7850</densityKgM3>
+    <brinellHardness>270</brinellHardness>
+    <steelTarget>true</steelTarget>
+    <ballisticLimitCoefficient><soft>1680</soft><mildSteel>1395</mildSteel><hardSteel>1245</hardSteel><tungsten>1060</tungsten></ballisticLimitCoefficient>
+    <limitScatter>0.05</limitScatter>
+    <traumaTransfer>0.05</traumaTransfer>
+    <wearPerJoule>0</wearPerJoule>
+    <ricochetCriticalDegrees>60</ricochetCriticalDegrees>
+    <ricochetWidthDegrees>4</ricochetWidthDegrees>
+  </Helodrace.Ballistics.ArmorMaterialDef>
+
+  <Helodrace.Ballistics.ArmorMaterialDef>
+    <defName>HD_Armor_HighHardnessSteel</defName>
+    <label>high-hardness armour steel</label>
+    <family>Metal</family>
+    <densityKgM3>7850</densityKgM3>
+    <brinellHardness>500</brinellHardness>
+    <steelTarget>true</steelTarget>
+    <ballisticLimitCoefficient><soft>2100</soft><mildSteel>1740</mildSteel><hardSteel>1520</hardSteel><tungsten>1200</tungsten></ballisticLimitCoefficient>
+    <limitScatter>0.05</limitScatter>
+    <traumaTransfer>0.05</traumaTransfer>
+    <wearPerJoule>0</wearPerJoule>
+    <ricochetCriticalDegrees>58</ricochetCriticalDegrees>
+    <ricochetWidthDegrees>4</ricochetWidthDegrees>
+  </Helodrace.Ballistics.ArmorMaterialDef>
+
+  <Helodrace.Ballistics.ArmorMaterialDef>
+    <defName>HD_Armor_Aluminium5083</defName>
+    <label>aluminium armour</label>
+    <family>Metal</family>
+    <densityKgM3>2660</densityKgM3>
+    <brinellHardness>80</brinellHardness>
+    <massEfficiencyVsKinetic>0.95</massEfficiencyVsKinetic>
+    <ballisticLimitCoefficient><soft>1600</soft><mildSteel>1330</mildSteel><hardSteel>1185</hardSteel><tungsten>1010</tungsten></ballisticLimitCoefficient>
+    <limitScatter>0.05</limitScatter>
+    <traumaTransfer>0.05</traumaTransfer>
+    <wearPerJoule>0</wearPerJoule>
+    <ricochetCriticalDegrees>65</ricochetCriticalDegrees>
+    <ricochetWidthDegrees>4</ricochetWidthDegrees>
+  </Helodrace.Ballistics.ArmorMaterialDef>
+
+  <!--
+    Rod and core alloys. longRodPerforation is the Lanz-Odermatt perforation fit [experimental]: a, c0, c1 and the
+    standard deviation as published with W. Odermatt's calculator (longrods.ch perfcalc; reproduced by
+    xplicitmaterials.com "Lanz-Odermatt Penetration Calculator"); b0 = 0.283, b1 = 0.0656, m = -0.224 are in code.
+    Yield strength (Tate ricochet input): tungsten heavy alloy 1506 MPa as used in Liu et al., Latin American
+    Journal of Solids and Structures 2019 (Tate model worked example) [experimental]; DU-0.75Ti 1000 MPa is a
+    game estimate within the published alloy range [game]. Hardness of the rod only enters the steel-rod form.
+  -->
+  <Helodrace.Ballistics.ArmorMaterialDef>
+    <defName>HD_Penetrator_TungstenAlloy</defName>
+    <label>tungsten heavy alloy</label>
+    <family>Metal</family>
+    <densityKgM3>17600</densityKgM3>
+    <brinellHardness>375</brinellHardness>
+    <yieldStrengthMPa>1506</yieldStrengthMPa>
+    <longRodPerforation>
+      <a>0.994</a><c0>134.5</c0><c1>-0.148</c1><scatter>0.033</scatter>
+      <source>Lanz-Odermatt perforation fit, tungsten, 99 tests, sd 3.3 % (W. Odermatt, longrods.ch perfcalc)</source>
+    </longRodPerforation>
+  </Helodrace.Ballistics.ArmorMaterialDef>
+
+  <Helodrace.Ballistics.ArmorMaterialDef>
+    <defName>HD_Penetrator_DepletedUranium</defName>
+    <label>depleted uranium alloy</label>
+    <family>Metal</family>
+    <densityKgM3>18600</densityKgM3>
+    <brinellHardness>380</brinellHardness>
+    <yieldStrengthMPa>1000</yieldStrengthMPa>
+    <longRodPerforation>
+      <a>0.825</a><c0>90.0</c0><c1>-0.0849</c1><scatter>0.035</scatter>
+      <source>Lanz-Odermatt perforation fit, depleted uranium, 42 tests, sd 3.5 % (W. Odermatt, longrods.ch perfcalc)</source>
+    </longRodPerforation>
+  </Helodrace.Ballistics.ArmorMaterialDef>
 </Defs>

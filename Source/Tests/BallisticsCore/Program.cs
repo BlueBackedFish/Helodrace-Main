@@ -33,6 +33,7 @@ internal static class Program
         Trace();
         KineticTests.Run(args.Length > 0 ? args[0] : null, Check, Near);
         HelmetTests.Run(Check, Near);
+        VehicleTests.Run(Check, Near);
         OrientationTests.Run(args.Length > 0 ? args[0] : null, Check, Near);
         Console.WriteLine("BallisticsCore: " + checks + " checks passed");
         return 0;

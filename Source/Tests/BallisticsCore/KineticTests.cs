@@ -168,6 +168,7 @@ internal static class KineticTests
                 F(def.Element(name).Element("soft")), F(def.Element(name).Element("mildSteel")),
                 F(def.Element(name).Element("hardSteel")), F(def.Element(name).Element("tungsten"))
             };
+            if (def.Element("ballisticLimitCoefficient") == null && def.Element("longRodPerforation") != null) continue; // rod alloy
             var material = new KineticMaterial((string)def.Element("defName"),
                 Enum.Parse<ArmorMaterialFamily>((string)def.Element("family")), F(def.Element("densityKgM3")),
                 Values("ballisticLimitCoefficient"), Values("coreErosion"), Values("coreMushroom"),
