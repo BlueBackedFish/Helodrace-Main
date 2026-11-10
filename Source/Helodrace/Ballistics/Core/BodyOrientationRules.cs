@@ -35,30 +35,23 @@ namespace Helodrace.Ballistics
         }
     }
 
-    /// <summary>Turn rates and offsets of one stance (degrees, degrees per tick). [game]</summary>
+    /// <summary>Torso/head offsets from the aim direction of one stance (degrees). [game]</summary>
     public readonly struct StanceParameters
     {
         public readonly float TorsoOffset;
         public readonly float HeadOffset;
-        public readonly float TorsoRate;
-        public readonly float HeadRate;
-        public readonly float MoveFactor;
         public readonly int UpdateInterval;
 
-        public StanceParameters(float torsoOffset, float headOffset, float torsoRate, float headRate,
-            float moveFactor, int updateInterval)
+        public StanceParameters(float torsoOffset, float headOffset, int updateInterval)
         {
             TorsoOffset = torsoOffset;
             HeadOffset = headOffset;
-            TorsoRate = torsoRate;
-            HeadRate = headRate;
-            MoveFactor = moveFactor;
             UpdateInterval = Math.Max(1, updateInterval);
         }
     }
 
     /// <summary>
-    /// Continuous torso and head yaw (design doc section 6.1). Same convention as the hull heading: degrees,
+    /// Torso and head yaw (design doc section 6.1). Same convention as the hull heading: degrees,
     /// 0 = north, clockwise. No Unity/RimWorld types: the rules run in the regression executable.
     /// </summary>
     public static class BodyOrientationRules
@@ -78,14 +71,6 @@ namespace Helodrace.Ballistics
             if (weapon.MassKg >= 7f && weapon.Burst >= 3) return StanceFamily.MachineGun;
             if (weapon.Range >= 39f && weapon.Burst <= 1) return StanceFamily.Sniper;
             return StanceFamily.Rifle;
-        }
-
-        /// <summary>Rotate from one yaw toward another by at most <paramref name="maxStep"/> degrees.</summary>
-        public static float Step(float from, float to, float maxStep)
-        {
-            float delta = BallisticGeometry.DeltaDegrees(from, to);
-            float step = Math.Max(0f, maxStep);
-            return BallisticGeometry.NormalizeDegrees(Math.Abs(delta) <= step ? to : from + Math.Sign(delta) * step);
         }
 
         /// <summary>Head target clamped to the torso's reach.</summary>
@@ -116,8 +101,8 @@ namespace Helodrace.Ballistics
     }
 
     /// <summary>
-    /// Mutable orientation of one body. <see cref="Advance"/> integrates the turn analytically from the last
-    /// update tick, so reading the yaw at an impact does not depend on how often the body was ticked.
+    /// Mutable orientation of one body. Humanoid turns are not rate limited: the torso and head take their
+    /// targets at once (the head within its reach of the torso). LastTick records when they were last set.
     /// </summary>
     public sealed class BodyOrientationState
     {
@@ -126,8 +111,7 @@ namespace Helodrace.Ballistics
         public float TorsoTarget;
         public float HeadTarget;
         public int LastTick = int.MinValue;
-        public bool Moving;
-        public StanceParameters Stance = new StanceParameters(0f, 0f, 12f, 18f, 1f, 1);
+        public StanceParameters Stance = new StanceParameters(0f, 0f, 1);
 
         public bool Initialized => LastTick != int.MinValue;
 
@@ -150,13 +134,9 @@ namespace Helodrace.Ballistics
                 Reset(TorsoTarget, tick);
                 return;
             }
-            int elapsed = tick - LastTick;
-            if (elapsed <= 0) return;
-            float factor = Moving ? Stance.MoveFactor : 1f;
-            TorsoYaw = BodyOrientationRules.Step(TorsoYaw, TorsoTarget, Stance.TorsoRate * factor * elapsed);
-            // The head moves on its own rate but never further than the torso allows at this instant.
-            float head = BodyOrientationRules.Step(HeadYaw, HeadTarget, Stance.HeadRate * factor * elapsed);
-            HeadYaw = BodyOrientationRules.ClampHead(TorsoYaw, head);
+            if (tick < LastTick) return;
+            TorsoYaw = TorsoTarget;
+            HeadYaw = BodyOrientationRules.ClampHead(TorsoYaw, HeadTarget);
             LastTick = tick;
         }
     }

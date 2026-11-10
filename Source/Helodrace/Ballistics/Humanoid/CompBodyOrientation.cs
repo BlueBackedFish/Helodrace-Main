@@ -10,27 +10,21 @@ using Verse;
 
 namespace Helodrace.Ballistics
 {
-    /// <summary>Turn behaviour of one weapon family (Defs/Ballistics/StanceProfiles.xml). [game]</summary>
+    /// <summary>Aiming stance of one weapon family (Defs/Ballistics/StanceProfiles.xml). [game]</summary>
     public sealed class StanceProfileDef : Def
     {
         public StanceFamily family;
         public float torsoOffsetDegrees;
         public float headOffsetDegrees;
-        public float torsoTurnRate = 7f;
-        public float headTurnRate = 14f;
-        public float moveTurnFactor = 1f;
         public int updateIntervalTicks = 3;
         public List<ThingDef> weaponDefs;
 
-        public StanceParameters Parameters => new StanceParameters(torsoOffsetDegrees, headOffsetDegrees,
-            torsoTurnRate, headTurnRate, moveTurnFactor, updateIntervalTicks);
+        public StanceParameters Parameters => new StanceParameters(torsoOffsetDegrees, headOffsetDegrees, updateIntervalTicks);
 
         public override IEnumerable<string> ConfigErrors()
         {
             foreach (string error in base.ConfigErrors()) yield return error;
-            if (!(torsoTurnRate > 0f) || !(headTurnRate > 0f)) yield return defName + " needs positive turn rates.";
             if (Math.Abs(torsoOffsetDegrees) > 45f) yield return defName + " torso offset leaves the target behind the shoulder.";
-            if (!(moveTurnFactor > 0f && moveTurnFactor <= 1f)) yield return defName + " moveTurnFactor must be in (0, 1].";
         }
 
         private static Dictionary<ThingDef, StanceProfileDef> byWeapon;
@@ -84,8 +78,8 @@ namespace Helodrace.Ballistics
 
     /// <summary>
     /// Continuous torso and head yaw of a humanlike pawn (design doc section 6.1). Whatever assigns the pawn's
-    /// Rot4 (rotation tracker, jobs, stances, Ironhide forced facing, tactical aim) states an intent; this comp
-    /// turns the torso there at the stance's rate and stores the sprite of the turned torso as the actual Rot4.
+    /// Rot4 (rotation tracker, jobs, stances, Ironhide forced facing, tactical aim) states an intent; the torso
+    /// takes that intent (plus the aiming offset) without a turn-rate limit, and the stored Rot4 is its sprite.
     /// The side drawn is therefore the side that the ballistic hit uses.
     /// </summary>
     public sealed class CompBodyOrientation : ThingComp
@@ -233,15 +227,15 @@ namespace Helodrace.Ballistics
                 lastSampleTick = now;
                 SampleStance(pawn);
             }
-            state.Moving = pawn.pather?.Moving == true;
             // Shield bearers keep the shield on the forced facing: no bladed offset.
             bool shield = DirectionalBallisticShieldUtility.WornShield(pawn) != null;
             StanceParameters stance = profile?.Parameters ?? state.Stance;
             float torsoTarget = shield ? intentYaw : BodyOrientationRules.TorsoTarget(aiming, aimYaw, intentYaw, stance);
             float headTarget = BodyOrientationRules.HeadTarget(aiming, aimYaw, torsoTarget, stance);
             if (!state.Initialized) state.Reset(torsoTarget, now);
-            state.Advance(now);
+            // No turn-rate limit: take the new targets before choosing the sprite, so both show the same yaw.
             state.SetTargets(torsoTarget, headTarget);
+            state.Advance(now);
             spriteYaw = BodyOrientationRules.SpriteYaw(state.TorsoYaw, spriteYaw < 0f ? pawn.Rotation.AsAngle : spriteYaw);
         }
 
