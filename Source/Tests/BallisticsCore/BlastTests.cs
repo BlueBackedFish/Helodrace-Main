@@ -68,3 +68,23 @@ internal static class BlastTests
         check(!BlastModel.HeshScabs(0.05f, 0.105f, true), "Spaced or lined armour defeats the scab");
     }
 }
+
+// Phase 10: ammunition reaction odds and isolation.
+internal static class AmmoTests
+{
+    public static void Run(Action<bool, string> check, Action<double, double, double, string> near)
+    {
+        check(AmmoReactionModel.IgnitionChance(AmmoExposure.None, 100, false) == 0f, "An undamaged stowage never reacts");
+        float jet = AmmoReactionModel.IgnitionChance(AmmoExposure.Jet, 0, false);
+        float rod = AmmoReactionModel.IgnitionChance(AmmoExposure.Penetrator, 0, false);
+        float few = AmmoReactionModel.IgnitionChance(AmmoExposure.Fragments, 3, false);
+        float many = AmmoReactionModel.IgnitionChance(AmmoExposure.Fragments, 60, false);
+        check(jet > rod && rod > few && many > few, "Jets ignite more readily than penetrators, more fragments more readily than few");
+        check(AmmoReactionModel.IgnitionChance(AmmoExposure.Jet, 0, true) < jet * 0.5f, "Insensitive rounds resist ignition");
+        var magazine = new AmmoStowage { PropellantKg = 100f, Isolated = true, BlowOutAreaM2 = 1f };
+        var rack = new AmmoStowage { PropellantKg = 100f };
+        check(AmmoReactionModel.CrewGasShare(magazine, false) < 0.1f && AmmoReactionModel.CrewGasShare(magazine, true) == 1f &&
+              AmmoReactionModel.CrewGasShare(rack, false) == 1f, "An isolated magazine keeps the gas from the crew unless its door is open");
+        near(BlastModel.QuasiStaticPressureKPa(40f, 10f), AmmoReactionModel.BurnPressureKPa(rack, 10f), 1e-3, "Burning propellant gas through the compartment model");
+    }
+}

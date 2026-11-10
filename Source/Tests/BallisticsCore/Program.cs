@@ -37,6 +37,7 @@ internal static class Program
         ShapedChargeTests.Run(Check, Near);
         InteriorTests.Run(Check, Near);
         BlastTests.Run(Check, Near);
+        AmmoTests.Run(Check, Near);
         OrientationTests.Run(args.Length > 0 ? args[0] : null, Check, Near);
         Console.WriteLine("BallisticsCore: " + checks + " checks passed");
         return 0;
