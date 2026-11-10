@@ -30,6 +30,14 @@ namespace Helodrace.Ballistics
 
         public bool Chance(float probability) => NextFloat() < probability;
 
+        /// <summary>Standard normal sample (Box-Muller, one value per call).</summary>
+        public float NextGaussian()
+        {
+            float u1 = MathF.Max(1e-7f, NextFloat());
+            float u2 = NextFloat();
+            return MathF.Sqrt(-2f * MathF.Log(u1)) * MathF.Cos(2f * MathF.PI * u2);
+        }
+
         /// <summary>Number of successes among n trials with probability p (exact for small n, normal approximation above).</summary>
         public int Binomial(int trials, float probability)
         {

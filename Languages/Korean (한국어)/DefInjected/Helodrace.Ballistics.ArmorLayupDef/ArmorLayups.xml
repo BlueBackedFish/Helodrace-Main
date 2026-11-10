@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Layup_SAPI.label>SAPI급 방탄판</HD_Layup_SAPI.label>
+  <HD_Layup_ESAPI.label>ESAPI급 방탄판</HD_Layup_ESAPI.label>
+  <HD_Layup_RAMPART4800.label>RAMPART 4800 방탄판</HD_Layup_RAMPART4800.label>
+  <HD_Layup_SoftHG2.label>HG2 연질 패널</HD_Layup_SoftHG2.label>
+  <HD_Layup_SoftHG1.label>HG1 연질 패널</HD_Layup_SoftHG1.label>
+  <HD_Layup_ShieldHG2.label>HG2 방패 패널</HD_Layup_ShieldHG2.label>
+  <HD_Layup_ShieldRF3.label>RF3 방패 패널</HD_Layup_ShieldRF3.label>
+</LanguageData>

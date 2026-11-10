@@ -588,7 +588,64 @@ AmmoStorageState (저장 위치별)
 
 검증: `Source/Tests/BallisticsCore` (`dotnet run -c Release`) 254,200개 검사 통과. 프레임 왕복·포탑 합성·차량 회전 시 내부 점 회전, 60° 경사 LOS 2배, 탑어택이 같은 기하에서 지붕판에 맞는지, 구면 착탄각 분포(평균 π/4, CDF sin²θ, 20만 표본 ±0.005), 타원체 표면·법선, 시드 재현·단계 독립 난수, 단계 순서·생략·조기 종료·실패 추적·깊이 제한·풀 초기화, JSON 이스케이프를 검사한다. 모드 빌드 경고·오류 0. 게임 내 검증은 이 단계에 해당 사항 없음.
 
-1~3단계까지는 본체만 수정하고, 5단계부터 Lobos를 수정한다. 2단계 완료 시점에 기존 `guaranteedBlockPenetration`·`BallisticArmorRules.PlateWear`·90° 구역 판정을 삭제한다.
+### 2단계 구현 (2026-11-10)
+
+탄도 자료(`diameterMillimeters` > 0)가 있는 탄이 폰을 맞히면 방호층 모델로 판정한다. 그 밖의 피해(바닐라·타 모드 탄, 산탄, 근접, 폭발)는 기존 확률 판정을 그대로 쓴다.
+
+**구성**
+
+| 파일 | 내용 |
+|---|---|
+| `Ballistics/Core/KineticBulletModel.cs` | 탄심 등급 `PenetratorClass`(Soft/MildSteel/HardSteel/Tungsten), 재료 응답 `KineticMaterial`, 층·적층 판정, 상처 환산, 피복 영역 `CoverageRegion`, 신체 착탄점 `BodyHitGeometry` |
+| `Ballistics/Defs/ArmorMaterialDef.cs` | `ArmorMaterialDef`, `ArmorLayupDef`, `BallisticLayupExtension` |
+| `Ballistics/Humanoid/HumanoidBallisticImpact.cs` | 착탄 범위(`Bullet.Impact`), 피격 부위 기록, `ApplyArmor` 안의 물리 층 처리, 모듈형 판 처리 |
+| `Ballistics/Humanoid/BallisticsDebugActions.cs` | 개발자 모드: 최근 착탄 추적 로그·JSON 복사 |
+| `Defs/Ballistics/ArmorMaterials.xml`, `ArmorLayups.xml` | 탄화붕소·UHMWPE·아라미드, 방탄판·연질 패널·방패 7종 |
+
+**모델** — 층마다 `V50 = k(재료, 탄심 등급) × √(LOS 면밀도 × 탄 단면적 / 탄 질량)`. 기본 형태는 에너지 균형이고 Cunniff 스케일과 같은 무차원 묶음을 쓰지만 계수 `k`는 [게임] 보정값이다. 관통 판정은 `V50 × (1 + 0.06 z)`, `z ~ N(0,1)`(±2.5에서 자름)이고, 잔여 탄속은 `√(v² − V_bl²)`(Lambert–Jonas, p = 2)이다. 세라믹은 탄심 등급별로 질량을 깎고(침식) 단면을 넓힌다(변형). 상처는 `기존 피해 × √(E_out/E_in)`이라 무장갑 피해는 탄약 표와 같다. 정지하면 멈춘 층의 `traumaTransfer`만큼 둔상이 남는다. 물리 층을 지난 뒤의 바닐라 층에는 `(v_out/v_in)^1.2`로 줄인 관통력을 넘긴다.
+
+**착탄 기하** — 몸통 방위는 아직 `pawn.Rotation`(Rot4)이다(3단계에서 교체). 탄 진행 방향은 투사체 회전각이고 수평 사격으로 둔다. 피격 부위(타원체)에서 균일 빔으로 착탄점을 뽑아 방위·높이를 구한다. 방탄판은 `ModularArmorPositionDef`의 방향·호에 새 `coverageHeight`(전·후면 −0.25~0.85, 측면 −0.40~0.40)를 더한 영역 안에서만 맞는다. 판은 평판이므로 착탄각은 판 법선 기준이고, 연질 패널은 몸 표면 법선 기준이다.
+
+**층 순서** — 방패(`PostPreApplyDamage`) → 바닐라의 의복 순회(바깥부터). 판 캐리어는 장착 판을 먼저, 자기 연질 패널을 나중에 판정한다. 캐리어가 덮지 않는 부위의 부속(어깨 보호대 등)은 `GetPostArmorDamage` 후처리에서 판정한다. 바닐라는 의복 컴프에 피해 정보의 복사본을 넘기므로, 방패를 관통한 탄의 상처 감소는 착탄 범위에 실어 몸 적층 시작 때 적용한다.
+
+**내구도** — 판: `흡수 J × 재료 wearPerJoule(1/300) × 판 소재 계수`를 해당 방향 판에 적용한다. 효율은 `0.4 + 0.6 × 판 내구도 비율`이다. 의복 연질 패널은 흡수 에너지에 비례해 의복 자체가 손상된다. 방패는 기존 차단/관통 내구도 감소를 쓰고, 효율은 `0.4 + 0.6 × 기존 내구도 계수`다.
+
+**삭제** — `guaranteedBlockPenetration`(판·방패 Def·XML·UI·번역 키), `BallisticArmorRules.CanGuaranteeBlock`과 관련 상수. `PlateWear`와 90° 구역 판정은 탄도 자료가 없는 피해 경로에서 계속 쓰므로 남겼다.
+
+**보정과 목표** — 방탄판은 IBTV HG2 연질 패널 위에 착용한 적층(판 + 아라미드 4 mm)으로 보정했다. 게임에서 판은 항상 이 캐리어에 들어가기 때문이다. 판만으로 보정하면 판을 지난 탄을 연질 패널이 잡아 SAPI가 M855A1을 사실상 전부 막았다. 목표는 정면·기준 탄속·무손상에서 정지 ≤1%, 관통 ≥60%다.
+
+| 적층 | 정지 | 관통 |
+|---|---|---|
+| SAPI + IBTV | 9mm, .45, .30 Carbine, .300 BLK, .30-18, .30-06 M2/M1, M193, M855, MK262, MK318 | M855A1, M995, M80A1, 12.7 mm M2/M8, 20 mm |
+| ESAPI·RAMPART + IBTV | 위 + M855A1, M80A1, M80 | M995, 12.7 mm M2/M8, 20 mm |
+| HG2 연질 / HG1 연질 | 9mm(448 / 398 m/s), .45 | .30 Carbine 이상 소총탄 |
+| HG2 방패 | 9mm(448 m/s), .45 | M193, M855, M855A1 |
+| RF3 방패 (탄화붕소 12 + UHMWPE 18 mm) | ESAPI 정지 목록 + M995 | 20 mm |
+
+이전 확정 방어 표와 달라진 점:
+- ESAPI 컷 34%에 걸려 있던 12.7 mm M2 Ball(관통력 34%)은 이제 ESAPI를 관통한다.
+- Ironhide IV 컷 50%에 걸려 있던 12.7 mm는 확정 차단이 아니다. M2 Ball은 약 43%, M8 API는 약 97% 관통한다.
+- 텅스텐 7.62(M993·M1158)는 Ironhide를 64~71% 관통한다.
+- 바닐라 확률 판정보다 판 영역 밖 착탄이 훨씬 약하다. 정면 몸통 착탄의 약 40%만 판에 맞는다.
+
+**검증**
+- `Source/Tests/BallisticsCore` (`dotnet run -c Release -- ../../..`): 289,481개 통과. 모델 식·표본/해석 확률 일치·에너지 보존·세라믹 침식·적층 재현성·상처 환산 합성·피복 영역·정면 착탄 중 판 비율, 그리고 배포 XML 값으로 위 목표 표 전체와 손상 판·경사 효과를 검사한다.
+- `Source/Tests/BallisticArmor`: 79개 통과. 확정 방어 컷 제거, 판·방패·IBTV·연질 부속의 층 연결을 검사한다.
+- 실제 엔진 `Source/Tests/BallisticProtection/Run-InGameChecks.ps1`, RimWorld 1.7, 격리 런타임 `.codex-staging/BallisticsPhase2f`: **COMPLETE**. 몸통 착탄만 강제하고 나머지는 배포 코드로 판정했다.
+  - 무장갑 M855A1 20발이 피해 11을 그대로 유지했고 추적도 남지 않았다.
+  - ESAPI 정면 150발 중 57발이 판에 맞아 모두 정지했고 둔상만 남았다. 판 밖 93발은 연질 패널을 관통해 상처가 줄었다.
+  - SAPI는 판 착탄 47발 중 32발이 M855A1에 관통됐다. M855는 막았다.
+  - 등 쪽 착탄은 후면판에 맞았다. M855A1 30발 뒤 전면판 내구도는 40에서 0이 됐고 후면판은 그대로였다.
+  - 12.7 mm M2 Ball은 ESAPI를 관통했다.
+  - DefenTech 방패는 9mm 40발을 모두 정면에서 막았다. M193은 방패를 관통했고 몸에 닿은 상처는 줄었다.
+  - 바닐라 리볼버 탄은 추적 없이 기존 판정을 썼다.
+- 엔진 ERROR 중 이번 변경과 관련된 것은 없다.
+  - Workshop 3781143823 폴더 부재: 기존 오류.
+  - Helod 이름 생성 실패: 검사용 폰 약 1,000명을 만들어 이름 목록이 바닥난 것.
+  - `HD_BulletFragment`의 `Waist` 상처 오류 22건: 기존 `BulletFragmentation.Neighbors`가 몸통의 `Waist` 자식을 고르는 문제. 무장갑 사격에서도 났다.
+- 실제 마우스 조작·시각 확인·저장/불러오기는 수행하지 않았다.
+
+1~3단계까지는 본체만 수정하고, 5단계부터 Lobos를 수정한다.
 
 ## 13. 필요한 자료 목록
 

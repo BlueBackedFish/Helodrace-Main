@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Strike face first. Thicknesses are game estimates [game] chosen so the areal density sits in the range of
+    the named class of item; they are not the manufacturer's construction, which is not public.
+  -->
+  <Helodrace.Ballistics.ArmorLayupDef>
+    <defName>HD_Layup_SAPI</defName>
+    <label>SAPI-class plate</label>
+    <layers>
+      <li><material>HD_Armor_BoronCarbide</material><thicknessMillimeters>6.5</thicknessMillimeters></li>
+      <li><material>HD_Armor_UHMWPE</material><thicknessMillimeters>7.5</thicknessMillimeters></li>
+    </layers>
+  </Helodrace.Ballistics.ArmorLayupDef>
+
+  <Helodrace.Ballistics.ArmorLayupDef>
+    <defName>HD_Layup_ESAPI</defName>
+    <label>ESAPI-class plate</label>
+    <layers>
+      <li><material>HD_Armor_BoronCarbide</material><thicknessMillimeters>8.5</thicknessMillimeters></li>
+      <li><material>HD_Armor_UHMWPE</material><thicknessMillimeters>11</thicknessMillimeters></li>
+    </layers>
+  </Helodrace.Ballistics.ArmorLayupDef>
+
+  <Helodrace.Ballistics.ArmorLayupDef>
+    <defName>HD_Layup_RAMPART4800</defName>
+    <label>RAMPART 4800 plate</label>
+    <layers>
+      <li><material>HD_Armor_BoronCarbide</material><thicknessMillimeters>8</thicknessMillimeters></li>
+      <li><material>HD_Armor_UHMWPE</material><thicknessMillimeters>13</thicknessMillimeters></li>
+    </layers>
+  </Helodrace.Ballistics.ArmorLayupDef>
+
+  <Helodrace.Ballistics.ArmorLayupDef>
+    <defName>HD_Layup_SoftHG2</defName>
+    <label>HG2 soft panel</label>
+    <metallicEffect>false</metallicEffect>
+    <layers>
+      <li><material>HD_Armor_Aramid</material><thicknessMillimeters>4</thicknessMillimeters></li>
+    </layers>
+  </Helodrace.Ballistics.ArmorLayupDef>
+
+  <Helodrace.Ballistics.ArmorLayupDef>
+    <defName>HD_Layup_SoftHG1</defName>
+    <label>HG1 soft panel</label>
+    <metallicEffect>false</metallicEffect>
+    <layers>
+      <li><material>HD_Armor_Aramid</material><thicknessMillimeters>3</thicknessMillimeters></li>
+    </layers>
+  </Helodrace.Ballistics.ArmorLayupDef>
+
+  <Helodrace.Ballistics.ArmorLayupDef>
+    <defName>HD_Layup_ShieldHG2</defName>
+    <label>HG2 shield panel</label>
+    <metallicEffect>false</metallicEffect>
+    <layers>
+      <li><material>HD_Armor_UHMWPE</material><thicknessMillimeters>9</thicknessMillimeters></li>
+    </layers>
+  </Helodrace.Ballistics.ArmorLayupDef>
+
+  <Helodrace.Ballistics.ArmorLayupDef>
+    <defName>HD_Layup_ShieldRF3</defName>
+    <label>RF3 shield panel</label>
+    <layers>
+      <li><material>HD_Armor_BoronCarbide</material><thicknessMillimeters>12</thicknessMillimeters></li>
+      <li><material>HD_Armor_UHMWPE</material><thicknessMillimeters>18</thicknessMillimeters></li>
+    </layers>
+  </Helodrace.Ballistics.ArmorLayupDef>
+</Defs>

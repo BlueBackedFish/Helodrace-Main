@@ -63,6 +63,8 @@ namespace Helodrace.ModernWar
         public List<BodyPartDef> bodyParts;
         public List<ModularArmorFacing> protectedDirections;
         public float directionArcDegrees = 90f;
+        // Height band of the body part this position covers (-1 bottom .. 1 top), for physical hits.
+        public FloatRange coverageHeight = new FloatRange(-1f, 1f);
         public PawnRenderNodeTagDef parentTagDef;
         public ModularArmorDrawOffsets drawOffsets;
         // Absolute layer within the vanilla body/head apparel render band.
@@ -165,7 +167,8 @@ namespace Helodrace.ModernWar
         public bool canInstantCraft = true;
         public int installWorkTicks = 240;
         public bool playerSelectable = true;
-        public float guaranteedBlockPenetration;
+        // Physical layup of a part without a separate plate item (soft guards).
+        public Helodrace.Ballistics.ArmorLayupDef ballisticLayup;
 
         public float armorRatingSharp;
         public float armorRatingBlunt;
@@ -1758,7 +1761,8 @@ namespace Helodrace.ModernWar
                     Sharp = record.part.armorRatingSharp,
                     Blunt = record.part.armorRatingBlunt,
                     Heat = record.part.armorRatingHeat,
-                    GuaranteedBlock = record.part.guaranteedBlockPenetration
+                    Layup = record.part.plateThingDef?.GetModExtension<Helodrace.Ballistics.BallisticLayupExtension>()?.layup
+                        ?? record.part.ballisticLayup
                 })
                 .OrderByDescending(group => group.Key.Sharp)
                 .ThenByDescending(group => group.Key.Blunt)
@@ -1785,12 +1789,10 @@ namespace Helodrace.ModernWar
                 string protectionDescription = "HD_ModularArmor_ProtectionDesc".Translate(
                     coverage,
                     armorValues).Resolve();
-                if (group.Key.GuaranteedBlock > 0f)
+                if (group.Key.Layup != null)
                 {
-                    protectionDescription += "\n" +
-                        "HD_ModularArmor_GuaranteedBlock".Translate(
-                            group.Key.GuaranteedBlock.ToStringPercent(),
-                            0.4f.ToStringPercent()).Resolve();
+                    protectionDescription += "\n" + "HD_Ballistics_LayupLine".Translate(
+                        group.Key.Layup.Describe()).Resolve();
                 }
 
                 yield return new StatDrawEntry(

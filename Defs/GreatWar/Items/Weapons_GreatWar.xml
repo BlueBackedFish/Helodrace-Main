@@ -34,6 +34,7 @@
       <stoppingPower>1.5</stoppingPower>
       <speed>80</speed>
     </projectile>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>9.8</projectileMassGrams><referenceVelocityMetersPerSecond>853</referenceVelocityMetersPerSecond><referenceBarrelInches>24</referenceBarrelInches><velocityHalfDistance>80</velocityHalfDistance><diameterMillimeters>7.8</diameterMillimeters><penetratorClass>Soft</penetratorClass></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
@@ -50,13 +51,14 @@
       <stoppingPower>0.70</stoppingPower>
       <speed>70</speed>
     </projectile>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>5.2</projectileMassGrams><referenceVelocityMetersPerSecond>400</referenceVelocityMetersPerSecond><referenceBarrelInches>9</referenceBarrelInches><velocityHalfDistance>35</velocityHalfDistance><diameterMillimeters>7.8</diameterMillimeters><penetratorClass>Soft</penetratorClass></li></modExtensions>
   </ThingDef>
 
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_45ACP_Proj</defName>
     <thingClass>Helodrace.Projectile_BallisticBullet</thingClass>
-    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>14.9</projectileMassGrams><referenceVelocityMetersPerSecond>260</referenceVelocityMetersPerSecond><referenceBarrelInches>5</referenceBarrelInches><velocityHalfDistance>35</velocityHalfDistance></li></modExtensions>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>14.9</projectileMassGrams><referenceVelocityMetersPerSecond>260</referenceVelocityMetersPerSecond><referenceBarrelInches>5</referenceBarrelInches><velocityHalfDistance>35</velocityHalfDistance><diameterMillimeters>11.5</diameterMillimeters><penetratorClass>Soft</penetratorClass></li></modExtensions>
     <label>.45 ACP ball bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
@@ -86,6 +88,7 @@
       <stoppingPower>1.0</stoppingPower>
       <speed>76</speed>
     </projectile>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>7.1</projectileMassGrams><referenceVelocityMetersPerSecond>600</referenceVelocityMetersPerSecond><referenceBarrelInches>18</referenceBarrelInches><velocityHalfDistance>45</velocityHalfDistance><diameterMillimeters>7.8</diameterMillimeters><penetratorClass>Soft</penetratorClass></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
@@ -102,6 +105,7 @@
       <stoppingPower>1.2</stoppingPower>
       <speed>80</speed>
     </projectile>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>11.2</projectileMassGrams><referenceVelocityMetersPerSecond>800</referenceVelocityMetersPerSecond><referenceBarrelInches>24</referenceBarrelInches><velocityHalfDistance>90</velocityHalfDistance><diameterMillimeters>7.8</diameterMillimeters><penetratorClass>Soft</penetratorClass></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
@@ -112,7 +116,7 @@
       <texPath>Weapons/GreatWar/Projectiles/12.7x99mm/HD_12X99MMM8_proj</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
-    <modExtensions><li Class="Helodrace.IncendiaryProjectileExtension"><ignitionChance>0.15</ignitionChance><fireSize>0.15</fireSize></li></modExtensions>
+    <modExtensions><li Class="Helodrace.IncendiaryProjectileExtension"><ignitionChance>0.15</ignitionChance><fireSize>0.15</fireSize></li><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>40.4</projectileMassGrams><referenceVelocityMetersPerSecond>887</referenceVelocityMetersPerSecond><referenceBarrelInches>45</referenceBarrelInches><velocityHalfDistance>120</velocityHalfDistance><diameterMillimeters>12.9</diameterMillimeters><penetratorClass>HardSteel</penetratorClass></li></modExtensions>
     <projectile>
       <damageDef>Bullet</damageDef>
       <damageAmountBase>28</damageAmountBase>
@@ -131,7 +135,7 @@
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>TransparentPostLight</shaderType>
     </graphicData>
-    <modExtensions><li Class="Helodrace.IncendiaryProjectileExtension"><ignitionChance>0.15</ignitionChance><fireSize>0.15</fireSize></li></modExtensions>
+    <modExtensions><li Class="Helodrace.IncendiaryProjectileExtension"><ignitionChance>0.15</ignitionChance><fireSize>0.15</fireSize></li><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>40.4</projectileMassGrams><referenceVelocityMetersPerSecond>887</referenceVelocityMetersPerSecond><referenceBarrelInches>45</referenceBarrelInches><velocityHalfDistance>120</velocityHalfDistance><diameterMillimeters>12.9</diameterMillimeters><penetratorClass>HardSteel</penetratorClass></li></modExtensions>
     <projectile>
       <damageDef>Bullet</damageDef>
       <damageAmountBase>28</damageAmountBase>
@@ -156,6 +160,7 @@
       <speed>240</speed>
       <flyOverhead>true</flyOverhead>
     </projectile>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>42.9</projectileMassGrams><referenceVelocityMetersPerSecond>887</referenceVelocityMetersPerSecond><referenceBarrelInches>45</referenceBarrelInches><velocityHalfDistance>120</velocityHalfDistance><diameterMillimeters>12.9</diameterMillimeters><penetratorClass>MildSteel</penetratorClass></li></modExtensions>
   </ThingDef>
 
 

@@ -20,7 +20,7 @@ internal static class Program
     private static void NearVector(Vector3 expected, Vector3 actual, string message) =>
         Check(Vector3.Distance(expected, actual) < 1e-4f, message + " expected " + expected + " got " + actual);
 
-    private static int Main()
+    private static int Main(string[] args)
     {
         Frames();
         Angles();
@@ -31,6 +31,7 @@ internal static class Program
         Model();
         Pipeline();
         Trace();
+        KineticTests.Run(args.Length > 0 ? args[0] : null, Check, Near);
         Console.WriteLine("BallisticsCore: " + checks + " checks passed");
         return 0;
     }

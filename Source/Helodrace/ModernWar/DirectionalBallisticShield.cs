@@ -15,7 +15,6 @@ namespace Helodrace.ModernWar
         // Opt-in melee protection: existing ballistic shields remain ranged-only.
         public float meleeSharpArmorRating;
         public float meleeBluntArmorRating;
-        public float guaranteedBlockPenetration;
         public float rangedAccuracyMultiplier = 0.75f;
         public float minimumRangedAccuracyMultiplier = 0.35f;
         public float viewportHitChance = 0.08f;
@@ -153,15 +152,14 @@ namespace Helodrace.ModernWar
                 yield return new StatDrawEntry(StatCategoryDefOf.Apparel,
                     "HD_RiotShield_MeleeSharp".Translate().Resolve(), Props.meleeSharpArmorRating.ToStringPercent(),
                     "HD_RiotShield_MeleeArmor_Desc".Translate().Resolve(), 5497);
-            if (Props.guaranteedBlockPenetration > 0f)
+            Helodrace.Ballistics.ArmorLayupDef layup = Layup;
+            if (layup != null)
             {
                 yield return new StatDrawEntry(
                     StatCategoryDefOf.Apparel,
-                    "HD_BallisticShield_GuaranteedBlock".Translate().Resolve(),
-                    Props.guaranteedBlockPenetration.ToStringPercent(),
-                    "HD_BallisticShield_GuaranteedBlock_Desc".Translate(
-                        Props.guaranteedBlockPenetration.ToStringPercent(),
-                        BallisticArmorRules.ShieldGuaranteedBlockMinimumDurability.ToStringPercent()).Resolve(),
+                    "HD_Ballistics_Layup".Translate().Resolve(),
+                    layup.ArealDensity.ToString("0.#") + " kg/m²",
+                    "HD_Ballistics_Layup_Desc".Translate(layup.Describe()).Resolve(),
                     5496);
             }
 
@@ -361,13 +359,19 @@ namespace Helodrace.ModernWar
                 || durabilityRatio >= failureThreshold
                 ? 1f
                 : durabilityRatio / failureThreshold;
-            float blockChance = Mathf.Clamp01(effectiveArmor) * durabilityFactor;
-            bool guaranteedBlock = IsRanged(dinfo) && BallisticArmorRules.CanGuaranteeBlock(
-                dinfo.ArmorPenetrationInt,
-                Props.guaranteedBlockPenetration,
-                durabilityRatio,
-                BallisticArmorRules.ShieldGuaranteedBlockMinimumDurability);
-            bool blocked = guaranteedBlock || Rand.Value < blockChance;
+            bool blocked;
+            Helodrace.Ballistics.HumanoidBallisticImpact physical =
+                Helodrace.Ballistics.HumanoidBallisticImpact.For(pawn, dinfo.Def);
+            Helodrace.Ballistics.ArmorLayupDef layup = Layup;
+            if (physical != null && layup != null && !physical.Stopped)
+            {
+                blocked = ResolvePhysical(physical, layup, durabilityFactor, dinfo);
+            }
+            else
+            {
+                float blockChance = Mathf.Clamp01(effectiveArmor) * durabilityFactor;
+                blocked = Rand.Value < blockChance;
+            }
             DamageShield(dinfo, blocked
                 ? Props.durabilityDamageOnBlock
                 : Props.durabilityDamageOnPenetrate);
@@ -392,6 +396,34 @@ namespace Helodrace.ModernWar
                 pawn.Drawer.Notify_DamageApplied(dinfo);
                 EffecterDefOf.Deflect_Metal.Spawn().Trigger(pawn, dinfo.Instigator ?? pawn);
             }
+        }
+
+        public Helodrace.Ballistics.ArmorLayupDef Layup =>
+            parent.def.GetModExtension<Helodrace.Ballistics.BallisticLayupExtension>()?.layup;
+
+        /// <summary>
+        /// The shield is a flat panel held toward the wearer's facing. A perforating round continues with its
+        /// residual energy into the body armour; the impact scope carries the reduced wound and the slowed
+        /// penetrator to the body stack. [game: durability factor]
+        /// </summary>
+        private bool ResolvePhysical(Helodrace.Ballistics.HumanoidBallisticImpact physical,
+            Helodrace.Ballistics.ArmorLayupDef layup, float durabilityFactor, DamageInfo dinfo)
+        {
+            float obliquity = Helodrace.Ballistics.BallisticGeometry.TryObliquity(physical.LocalTravel,
+                System.Numerics.Vector3.UnitZ, out float angle) ? angle : Mathf.PI * 0.5f;
+            float amount = dinfo.Amount;
+            DamageDef def = dinfo.Def;
+            float effectiveness = 0.4f + 0.6f * durabilityFactor;
+            physical.ResolveLayup(layup, obliquity, effectiveness, parent.def.defName,
+                ref amount, ref def, out bool stopped, out _);
+            physical.resolvedThings.Add(parent);
+            if (stopped)
+            {
+                return true;
+            }
+            // The comp receives a copy of the damage info; the body stack applies the reduction.
+            if (dinfo.Amount > 0f) physical.pendingWoundFactor *= amount / dinfo.Amount;
+            return false;
         }
 
         private void TryDamageViewport(Pawn pawn)

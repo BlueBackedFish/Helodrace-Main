@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_Ballistics_LayupSummary>{0} ({1} kg/m²)</HD_Ballistics_LayupSummary>
+  <HD_Ballistics_LayupLine>방호층 구성: {0}</HD_Ballistics_LayupLine>
+  <HD_Ballistics_Layup>방호층 구성</HD_Ballistics_Layup>
+  <HD_Ballistics_Layup_Desc>타격면부터 안쪽 순서의 층: {0}.
+
+탄도 자료가 있는 탄은 탄속·질량·직경·탄심 종류로 이 층들을 지나는지 계산합니다. 패널에서 멈춘 탄은 둔상만 남기고, 관통한 탄은 남은 에너지로 계속 나아갑니다. 손상된 패널은 방호재의 효율이 낮아집니다.</HD_Ballistics_Layup_Desc>
+</LanguageData>

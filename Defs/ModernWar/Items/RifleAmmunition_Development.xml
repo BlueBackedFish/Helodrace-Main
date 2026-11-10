@@ -7,7 +7,7 @@
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_300BLKTACTX_Proj</defName>
     <thingClass>Helodrace.Projectile_BallisticBullet</thingClass>
-    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>7.1</projectileMassGrams><referenceVelocityMetersPerSecond>720</referenceVelocityMetersPerSecond><referenceBarrelInches>10.3</referenceBarrelInches><velocityHalfDistance>60</velocityHalfDistance></li></modExtensions>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>7.1</projectileMassGrams><referenceVelocityMetersPerSecond>720</referenceVelocityMetersPerSecond><referenceBarrelInches>10.3</referenceBarrelInches><velocityHalfDistance>60</velocityHalfDistance><diameterMillimeters>7.8</diameterMillimeters><penetratorClass>Soft</penetratorClass></li></modExtensions>
     <label>.300 BLK TACTX bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
@@ -26,7 +26,7 @@
     <defName>HD_Bullet_76251M80A1_Proj</defName>
     <label>7.62x51mm M80A1 bullet</label>
     <thingClass>Helodrace.Projectile_FragmentingBullet</thingClass>
-    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>8.4</projectileMassGrams><referenceVelocityMetersPerSecond>850</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>65</velocityHalfDistance></li><li Class="Helodrace.BulletFragmentationExtension"><chance>0.75</chance><damageFraction>0.55</damageFraction><minFragments>1</minFragments><maxFragments>1</maxFragments></li></modExtensions>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>8.4</projectileMassGrams><referenceVelocityMetersPerSecond>850</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>65</velocityHalfDistance><diameterMillimeters>7.8</diameterMillimeters><penetratorClass>HardSteel</penetratorClass></li><li Class="Helodrace.BulletFragmentationExtension"><chance>0.75</chance><damageFraction>0.55</damageFraction><minFragments>1</minFragments><maxFragments>1</maxFragments></li></modExtensions>
     <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
     <projectile><damageDef>Bullet</damageDef><damageAmountBase>17</damageAmountBase><armorPenetrationBase>0.34</armorPenetrationBase><stoppingPower>1.05</stoppingPower><speed>90</speed></projectile>
   </ThingDef>

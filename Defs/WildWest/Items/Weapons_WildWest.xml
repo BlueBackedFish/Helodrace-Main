@@ -17,6 +17,7 @@
       <stoppingPower>1.0</stoppingPower>
       <speed>55</speed>
     </projectile>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>16.5</projectileMassGrams><referenceVelocityMetersPerSecond>270</referenceVelocityMetersPerSecond><referenceBarrelInches>7.5</referenceBarrelInches><velocityHalfDistance>35</velocityHalfDistance><diameterMillimeters>11.5</diameterMillimeters><penetratorClass>Soft</penetratorClass></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
@@ -33,6 +34,7 @@
       <stoppingPower>0.80</stoppingPower>
       <speed>50</speed>
     </projectile>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>15.9</projectileMassGrams><referenceVelocityMetersPerSecond>230</referenceVelocityMetersPerSecond><referenceBarrelInches>6.5</referenceBarrelInches><velocityHalfDistance>30</velocityHalfDistance><diameterMillimeters>11.2</diameterMillimeters><penetratorClass>Soft</penetratorClass></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
@@ -49,6 +51,7 @@
       <stoppingPower>0.80</stoppingPower>
       <speed>48</speed>
     </projectile>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>9.1</projectileMassGrams><referenceVelocityMetersPerSecond>270</referenceVelocityMetersPerSecond><referenceBarrelInches>8</referenceBarrelInches><velocityHalfDistance>30</velocityHalfDistance><diameterMillimeters>11.2</diameterMillimeters><penetratorClass>Soft</penetratorClass></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
@@ -65,6 +68,7 @@
       <stoppingPower>1.1</stoppingPower>
       <speed>60</speed>
     </projectile>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>13</projectileMassGrams><referenceVelocityMetersPerSecond>340</referenceVelocityMetersPerSecond><referenceBarrelInches>24</referenceBarrelInches><velocityHalfDistance>40</velocityHalfDistance><diameterMillimeters>11.2</diameterMillimeters><penetratorClass>Soft</penetratorClass></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
@@ -99,6 +103,7 @@
       <stoppingPower>1.5</stoppingPower>
       <speed>70</speed>
     </projectile>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>14.3</projectileMassGrams><referenceVelocityMetersPerSecond>610</referenceVelocityMetersPerSecond><referenceBarrelInches>30</referenceBarrelInches><velocityHalfDistance>80</velocityHalfDistance><diameterMillimeters>7.8</diameterMillimeters><penetratorClass>Soft</penetratorClass></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
@@ -115,6 +120,7 @@
       <stoppingPower>2.0</stoppingPower>
       <speed>45</speed>
     </projectile>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>32.4</projectileMassGrams><referenceVelocityMetersPerSecond>290</referenceVelocityMetersPerSecond><referenceBarrelInches>40</referenceBarrelInches><velocityHalfDistance>40</velocityHalfDistance><diameterMillimeters>14.7</diameterMillimeters><penetratorClass>Soft</penetratorClass></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
@@ -131,6 +137,7 @@
       <stoppingPower>1.8</stoppingPower>
       <speed>65</speed>
     </projectile>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>26.2</projectileMassGrams><referenceVelocityMetersPerSecond>400</referenceVelocityMetersPerSecond><referenceBarrelInches>32</referenceBarrelInches><velocityHalfDistance>55</velocityHalfDistance><diameterMillimeters>11.6</diameterMillimeters><penetratorClass>Soft</penetratorClass></li></modExtensions>
   </ThingDef>
 
   <!-- ==================== Weapons ==================== -->

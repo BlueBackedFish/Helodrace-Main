@@ -4,7 +4,7 @@
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_76251M80_Proj</defName>
     <thingClass>Helodrace.Projectile_BallisticBullet</thingClass>
-    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>9.5</projectileMassGrams><referenceVelocityMetersPerSecond>830</referenceVelocityMetersPerSecond><referenceBarrelInches>22</referenceBarrelInches><velocityHalfDistance>80</velocityHalfDistance></li></modExtensions>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>9.5</projectileMassGrams><referenceVelocityMetersPerSecond>830</referenceVelocityMetersPerSecond><referenceBarrelInches>22</referenceBarrelInches><velocityHalfDistance>80</velocityHalfDistance><diameterMillimeters>7.8</diameterMillimeters><penetratorClass>Soft</penetratorClass></li></modExtensions>
     <label>7.62x51mm M80 bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
@@ -73,7 +73,7 @@
         <ignitionRadius>0</ignitionRadius>
         <fireSize>0.3</fireSize>
       </li>
-    </modExtensions>
+    <li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>100</projectileMassGrams><referenceVelocityMetersPerSecond>1030</referenceVelocityMetersPerSecond><referenceBarrelInches>60</referenceBarrelInches><velocityHalfDistance>110</velocityHalfDistance><diameterMillimeters>20</diameterMillimeters><penetratorClass>HardSteel</penetratorClass></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">

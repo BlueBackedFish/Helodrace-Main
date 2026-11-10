@@ -111,7 +111,8 @@ namespace Helodrace
         public static void Postfix(Pawn pawn, Thing armorThing, float armorRating, float damAmount, DamageDef damageDef)
         {
             // Natural armor affects the primary wound normally, but is not clothing.
-            if (armorThing is Apparel)
+            // Physically resolved layers already slowed the round (velocityFactor).
+            if (armorThing is Apparel && !Helodrace.Ballistics.HumanoidBallisticImpact.WasResolved(armorThing))
                 BulletFragmentationImpact.RecordArmor(pawn, armorRating, damAmount, damageDef);
         }
     }

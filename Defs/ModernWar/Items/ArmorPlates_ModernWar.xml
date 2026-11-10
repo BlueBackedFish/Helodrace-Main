@@ -78,7 +78,7 @@
       </defaultIngredientFilter>
       <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
-    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li><li Class="Helodrace.Ballistics.BallisticLayupExtension"><layup>HD_Layup_SAPI</layup></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="HD_ArmorPlateBase">
@@ -121,7 +121,7 @@
       </defaultIngredientFilter>
       <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
-    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li><li Class="Helodrace.Ballistics.BallisticLayupExtension"><layup>HD_Layup_ESAPI</layup></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="HD_ArmorPlateBase">
@@ -164,7 +164,7 @@
       </defaultIngredientFilter>
       <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
-    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li><li Class="Helodrace.Ballistics.BallisticLayupExtension"><layup>HD_Layup_SAPI</layup></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="HD_ArmorPlateBase">
@@ -207,7 +207,7 @@
       </defaultIngredientFilter>
       <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
-    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li><li Class="Helodrace.Ballistics.BallisticLayupExtension"><layup>HD_Layup_ESAPI</layup></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="HD_ArmorPlateBase">
@@ -251,6 +251,6 @@
       </defaultIngredientFilter>
       <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
-    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li><li Class="Helodrace.Ballistics.BallisticLayupExtension"><layup>HD_Layup_RAMPART4800</layup></li></modExtensions>
   </ThingDef>
 </Defs>

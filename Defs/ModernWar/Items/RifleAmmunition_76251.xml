@@ -9,7 +9,7 @@
     <thingClass>Helodrace.Projectile_DuplexBullet</thingClass>
     <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
     <modExtensions>
-      <li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>5.44</projectileMassGrams><referenceVelocityMetersPerSecond>850</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>40</velocityHalfDistance></li>
+      <li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>5.44</projectileMassGrams><referenceVelocityMetersPerSecond>850</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>40</velocityHalfDistance><diameterMillimeters>7.8</diameterMillimeters><penetratorClass>Soft</penetratorClass></li>
       <li Class="Helodrace.DuplexProjectileExtension"><secondarySpreadDegrees>1.2</secondarySpreadDegrees></li>
     </modExtensions>
     <projectile><damageDef>Bullet</damageDef><damageAmountBase>8</damageAmountBase><armorPenetrationBase>0.14</armorPenetrationBase><stoppingPower>0.45</stoppingPower><speed>90</speed></projectile>
@@ -18,21 +18,21 @@
     <defName>HD_Bullet_76251M948_Proj</defName><label>7.62x51mm M948 SLAP bullet</label>
     <thingClass>Helodrace.Projectile_BallisticBullet</thingClass>
     <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
-    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>4</projectileMassGrams><referenceVelocityMetersPerSecond>1200</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>50</velocityHalfDistance></li></modExtensions>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>4</projectileMassGrams><referenceVelocityMetersPerSecond>1200</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>50</velocityHalfDistance><diameterMillimeters>5.6</diameterMillimeters><penetratorClass>Tungsten</penetratorClass></li></modExtensions>
     <projectile><damageDef>Bullet</damageDef><damageAmountBase>9</damageAmountBase><armorPenetrationBase>0.58</armorPenetrationBase><stoppingPower>0.35</stoppingPower><speed>110</speed></projectile>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_76251M993_Proj</defName><label>7.62x51mm M993 AP bullet</label>
     <thingClass>Helodrace.Projectile_BallisticBullet</thingClass>
     <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
-    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>8.2</projectileMassGrams><referenceVelocityMetersPerSecond>930</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>70</velocityHalfDistance></li></modExtensions>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>8.2</projectileMassGrams><referenceVelocityMetersPerSecond>930</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>70</velocityHalfDistance><diameterMillimeters>7.8</diameterMillimeters><penetratorClass>Tungsten</penetratorClass></li></modExtensions>
     <projectile><damageDef>Bullet</damageDef><damageAmountBase>12</damageAmountBase><armorPenetrationBase>0.48</armorPenetrationBase><stoppingPower>0.55</stoppingPower><speed>100</speed></projectile>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_76251M1158_Proj</defName><label>7.62x51mm M1158 ADVAP bullet</label>
     <thingClass>Helodrace.Projectile_BallisticBullet</thingClass>
     <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
-    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>8</projectileMassGrams><referenceVelocityMetersPerSecond>950</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>75</velocityHalfDistance></li></modExtensions>
+    <modExtensions><li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>8</projectileMassGrams><referenceVelocityMetersPerSecond>950</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>75</velocityHalfDistance><diameterMillimeters>7.8</diameterMillimeters><penetratorClass>Tungsten</penetratorClass></li></modExtensions>
     <projectile><damageDef>Bullet</damageDef><damageAmountBase>14</damageAmountBase><armorPenetrationBase>0.56</armorPenetrationBase><stoppingPower>0.65</stoppingPower><speed>100</speed></projectile>
   </ThingDef>
   <ThingDef ParentName="BaseBullet">
@@ -40,7 +40,7 @@
     <thingClass>Helodrace.Projectile_FragmentingBullet</thingClass>
     <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
     <modExtensions>
-      <li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>11.3</projectileMassGrams><referenceVelocityMetersPerSecond>790</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>90</velocityHalfDistance></li>
+      <li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>11.3</projectileMassGrams><referenceVelocityMetersPerSecond>790</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>90</velocityHalfDistance><diameterMillimeters>7.8</diameterMillimeters><penetratorClass>Soft</penetratorClass></li>
       <li Class="Helodrace.BulletFragmentationExtension"><chance>0.7</chance><damageFraction>0.5</damageFraction><maxFragments>5</maxFragments></li>
     </modExtensions>
     <projectile><damageDef>Bullet</damageDef><damageAmountBase>16</damageAmountBase><armorPenetrationBase>0.26</armorPenetrationBase><stoppingPower>1</stoppingPower><speed>85</speed></projectile>
@@ -50,7 +50,7 @@
     <thingClass>Helodrace.Projectile_FragmentingBullet</thingClass>
     <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
     <modExtensions>
-      <li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>8.4</projectileMassGrams><referenceVelocityMetersPerSecond>885</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>65</velocityHalfDistance></li>
+      <li Class="Helodrace.BulletBallisticsExtension"><projectileMassGrams>8.4</projectileMassGrams><referenceVelocityMetersPerSecond>885</referenceVelocityMetersPerSecond><referenceBarrelInches>20</referenceBarrelInches><velocityHalfDistance>65</velocityHalfDistance><diameterMillimeters>7.8</diameterMillimeters><penetratorClass>Soft</penetratorClass></li>
       <li Class="Helodrace.BulletFragmentationExtension"><chance>0.75</chance><armorResistanceFactor>0.4</armorResistanceFactor><damageFraction>0.55</damageFraction><maxFragments>6</maxFragments></li>
     </modExtensions>
     <projectile><damageDef>Bullet</damageDef><damageAmountBase>18</damageAmountBase><armorPenetrationBase>0.29</armorPenetrationBase><stoppingPower>1.1</stoppingPower><speed>95</speed></projectile>

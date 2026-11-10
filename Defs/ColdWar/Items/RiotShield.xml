@@ -81,7 +81,6 @@
       <li Class="Helodrace.ModernWar.CompProperties_DirectionalBallisticShield">
         <frontalArcDegrees>100</frontalArcDegrees>
         <sharpArmorRating>0.18</sharpArmorRating>
-        <guaranteedBlockPenetration>0</guaranteedBlockPenetration>
         <rangedAccuracyMultiplier>0.85</rangedAccuracyMultiplier>
         <minimumRangedAccuracyMultiplier>0.5</minimumRangedAccuracyMultiplier>
         <viewportHitChance>0.15</viewportHitChance>

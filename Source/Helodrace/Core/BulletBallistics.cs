@@ -15,6 +15,11 @@ namespace Helodrace
         public float referenceBarrelInches = 16f;
         public float barrelVelocityExponent = 0.35f;
         public float velocityHalfDistance = 55f;
+        // Protection-system inputs (Docs/Ballistic_Protection_System.md). Zero diameter keeps the vanilla armor roll.
+        public float diameterMillimeters;
+        public Helodrace.Ballistics.PenetratorClass penetratorClass;
+
+        public bool HasPhysics => diameterMillimeters > 0f;
 
         public override IEnumerable<string> ConfigErrors()
         {
@@ -24,6 +29,7 @@ namespace Helodrace
             if (!(velocityHalfDistance > 0f)) yield return "Ballistic velocity half-distance must be positive.";
             if (!(barrelVelocityExponent >= 0f && barrelVelocityExponent <= 0.5f))
                 yield return "Ballistic barrel-velocity exponent must be between zero and 0.5.";
+            if (diameterMillimeters < 0f) yield return "Ballistic penetrator diameter must not be negative.";
         }
     }
 
@@ -88,7 +94,7 @@ namespace Helodrace
     {
         private BulletBallisticsSnapshot ballistics;
         protected float TravelDistance => SpatialMath.HorizontalLength(ExactPosition.ToNative() - origin.ToNative());
-        protected float ImpactVelocityFactor => ballistics?.VelocityAt(TravelDistance)
+        protected internal float ImpactVelocityFactor => ballistics?.VelocityAt(TravelDistance)
             ?? BulletBallisticsRules.RetainedVelocity(1f, TravelDistance,
                 def.GetModExtension<BulletBallisticsExtension>()?.velocityHalfDistance ?? 55f);
 

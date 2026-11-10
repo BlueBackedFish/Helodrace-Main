@@ -463,6 +463,31 @@ namespace Helodrace.ModernWar
                 return;
             }
 
+            Helodrace.Ballistics.HumanoidBallisticImpact physical =
+                Helodrace.Ballistics.HumanoidBallisticImpact.For(pawn, damageDef);
+            if (physical != null && physical.part == part)
+            {
+                // Carriers that covered the part resolved their parts inside ApplyArmor. Carriers that do not
+                // cover it (shoulder guards on a torso vest) still protect through their own parts here.
+                for (int apparelIndex = pawn.apparel.WornApparel.Count - 1;
+                    apparelIndex >= 0 && __result > 0f && !physical.Stopped;
+                    apparelIndex--)
+                {
+                    Apparel apparel = pawn.apparel.WornApparel[apparelIndex];
+                    CompModularArmor modular = apparel?.TryGetComp<CompModularArmor>();
+                    if (modular == null || !physical.processedHosts.Add(apparel))
+                    {
+                        continue;
+                    }
+                    bool metal = false;
+                    bool stopped = Helodrace.Ballistics.BallisticModularArmor.ResolveInstalledParts(physical, apparel,
+                        modular, armorPenetration, ref __result, ref damageDef, ref metal);
+                    if (stopped && __result <= 0f) deflectedByMetalArmor |= metal;
+                    else if (stopped) diminishedByMetalArmor |= metal;
+                }
+                return;
+            }
+
             DamageInfo? context = ModularArmorDamageContext.Current;
             for (int apparelIndex = pawn.apparel.WornApparel.Count - 1;
                 apparelIndex >= 0 && __result > 0f;
@@ -555,16 +580,8 @@ namespace Helodrace.ModernWar
             // ArmorUtility.ApplyArmor assumes armorThing is wearable apparel and
             // dereferences armorThing.def.apparel. Plates are ordinary items, so
             // reproduce the vanilla roll here while storing wear on plate 1 or 2
-            // inside the physical two-plate set item.
-            bool guaranteedBlock = damageDef.armorCategory
-                    == DamageArmorCategoryDefOf.Sharp
-                && (damageDef == DamageDefOf.Bullet || damageDef.isRanged)
-                && BallisticArmorRules.CanGuaranteeBlock(
-                    armorPenetration,
-                    installedPlateSet.part.guaranteedBlockPenetration,
-                    installedPlateSet.PlateHealthRatioForFacing(protectedFacing),
-                    BallisticArmorRules.PlateGuaranteedBlockMinimumDurability);
-
+            // inside the physical two-plate set item. Physical bullets never reach
+            // this roll; they are resolved by Ballistics.BallisticModularArmor.
             float materialCoefficient = installedPlateSet.PlateSet?
                 .TryGetComp<CompArmorPlateSet>()?.DurabilityMaterialCoefficient ?? 1f;
             int plateWear = GenMath.RoundRandom(BallisticArmorRules.PlateWear(
@@ -577,12 +594,6 @@ namespace Helodrace.ModernWar
                     protectedFacing,
                     plateWear,
                     damageDef);
-            }
-
-            if (guaranteedBlock)
-            {
-                damageAmount = 0f;
-                return;
             }
 
             float effectiveArmor = Mathf.Max(armorRating - armorPenetration, 0f);

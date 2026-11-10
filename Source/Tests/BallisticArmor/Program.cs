@@ -40,20 +40,6 @@ internal static class Program
         Near(0.65f, BallisticArmorRules.MaterialCoefficient(BallisticPlateMaterial.Composite, 0.65f), "Composite coefficient belongs to plate");
         Near(1.2f, BallisticArmorRules.MaterialCoefficient(BallisticPlateMaterial.Composite, 1.2f), "Composite coefficient may exceed one");
 
-        foreach (float cutoff in new[] { 0.19f, 0.5f })
-        {
-            Check(BallisticArmorRules.CanGuaranteeBlock(cutoff, cutoff, 0.75f,
-                BallisticArmorRules.ShieldGuaranteedBlockMinimumDurability), "Inclusive shield AP and durability boundaries");
-            Check(!BallisticArmorRules.CanGuaranteeBlock(cutoff, cutoff, 0.7499f,
-                BallisticArmorRules.ShieldGuaranteedBlockMinimumDurability), "Shield below 75% loses guarantee");
-            Check(!BallisticArmorRules.CanGuaranteeBlock(cutoff + 0.0001f, cutoff, 1f,
-                BallisticArmorRules.ShieldGuaranteedBlockMinimumDurability), "High AP bypasses guarantee");
-        }
-        Check(BallisticArmorRules.CanGuaranteeBlock(0.3f, 0.5f, 0.4f,
-            BallisticArmorRules.PlateGuaranteedBlockMinimumDurability), "Plate boundary remains 40%");
-        Check(!BallisticArmorRules.CanGuaranteeBlock(0f, 0f, 1f, 0.75f), "Zero cutoff disables guarantee");
-        Check(!BallisticArmorRules.CanGuaranteeBlock(0.1f, 0.5f, 0f, 0.4f), "Destroyed plate cannot guarantee block");
-
         string root = args.Length > 0 ? args[0] : ".";
         var plates = XDocument.Load(System.IO.Path.Combine(root, "Defs/ModernWar/Items/ArmorPlates_ModernWar.xml"))
             .Root.Elements("ThingDef").Where(n => n.Element("defName") != null)
@@ -73,12 +59,13 @@ internal static class Program
         Check((string)plates["HD_ArmorPlate_RAMPART4800_Plate"].Element("comps").Attribute("Inherit") == "False",
             "RAMPART overrides rather than duplicates inherited plate comp");
         var apparel = XDocument.Load(System.IO.Path.Combine(root, "Defs/ModernWar/Items/Apparel_ModernWar.xml"));
-        foreach (var expected in new[] { ("HD_Apparel_ShieldDefenTechIIIA", 0.19f), ("HD_Apparel_ShieldIronHideIV", 0.5f) })
+        foreach (var expected in new[] { ("HD_Apparel_ShieldDefenTechIIIA", "HD_Layup_ShieldHG2"), ("HD_Apparel_ShieldIronHideIV", "HD_Layup_ShieldRF3") })
         {
             var shield = apparel.Root.Elements("ThingDef").Single(n => (string)n.Element("defName") == expected.Item1);
             var comp = shield.Element("comps").Elements("li")
                 .Single(n => (string)n.Attribute("Class") == "Helodrace.ModernWar.CompProperties_DirectionalBallisticShield");
-            Near(expected.Item2, (float)comp.Element("guaranteedBlockPenetration"), "Shield cutoff " + expected.Item1);
+            Check(comp.Element("guaranteedBlockPenetration") == null, "Shield has no guaranteed-block cutoff " + expected.Item1);
+            Check(Layup(shield) == expected.Item2, "Shield ballistic layup " + expected.Item1);
         }
         var apparelDefs = apparel.Root.Elements("ThingDef")
             .Where(n => n.Element("defName") != null)
@@ -97,58 +84,44 @@ internal static class Program
         var partDefs = XDocument.Load(System.IO.Path.Combine(root, "Defs/ModernWar/ModularArmorParts.xml"))
             .Root.Elements("Helodrace.ModernWar.ModularArmorPartDef")
             .ToDictionary(n => (string)n.Element("defName"));
-        var plateStats = new Dictionary<string, (float armor, float cutoff)>
+        var plateStats = new Dictionary<string, float>
         {
-            ["SAPI"] = (1.20f, 0.27f), ["SSAPI"] = (1.20f, 0.27f),
-            ["ESAPI"] = (1.65f, 0.34f), ["ESBI"] = (1.65f, 0.34f),
-            ["RAMPART4800"] = (1.65f, 0.34f)
+            ["SAPI"] = 1.20f, ["SSAPI"] = 1.20f, ["ESAPI"] = 1.65f, ["ESBI"] = 1.65f, ["RAMPART4800"] = 1.65f
         };
-        var rifleThreats = new[]
-        {
-            ("Defs/GreatWar/Items/Weapons_GreatWar.xml", "HD_Bullet_3006M2Ball_Proj", true, true),
-            ("Defs/Items/WeaponFamilies_Helod.xml", "HD_Bullet_556M855A1_Proj", false, true),
-            ("Defs/ModernWar/Items/RifleAmmunition_Development.xml", "HD_Bullet_76251M80A1_Proj", false, true),
-            ("Defs/GreatWar/Items/Weapons_GreatWar.xml", "HD_Bullet_12799M8_Proj", false, false),
-            ("Defs/ColdWar/Items/Weapons_ColdWar.xml", "HD_Projectile_20mmAPI", false, false)
-        }.Select(threat =>
-        {
-            var projectile = XDocument.Load(System.IO.Path.Combine(root, threat.Item1))
-                .Root.Elements("ThingDef").Single(n => (string)n.Element("defName") == threat.Item2);
-            return (name: threat.Item2, ap: (float)projectile.Element("projectile").Element("armorPenetrationBase"),
-                sapiBlocks: threat.Item3, esapiBlocks: threat.Item4);
-        }).ToArray();
         foreach (string position in new[] { "FrontRear", "Sides" })
         {
             foreach (var plate in plateStats)
             {
                 string name = "HD_IOTVPart_" + position + "_" + plate.Key;
                 if (!partDefs.ContainsKey(name)) continue;
-                Near(plate.Value.armor, (float)partDefs[name].Element("armorRatingSharp"), name + " grade armor");
-                Near(plate.Value.cutoff, (float)partDefs[name].Element("guaranteedBlockPenetration"), name + " grade cutoff");
-                float cutoff = (float)partDefs[name].Element("guaranteedBlockPenetration");
-                bool standardPlate = plate.Key == "SAPI" || plate.Key == "SSAPI";
-                foreach (var threat in rifleThreats)
-                {
-                    Check(BallisticArmorRules.CanGuaranteeBlock(threat.ap, cutoff, 0.4f,
-                        BallisticArmorRules.PlateGuaranteedBlockMinimumDurability)
-                        == (standardPlate ? threat.sapiBlocks : threat.esapiBlocks),
-                        name + " current ammunition guarantee: " + threat.name);
-                }
-                Check(!BallisticArmorRules.CanGuaranteeBlock(cutoff, cutoff, 0.3999f,
-                    BallisticArmorRules.PlateGuaranteedBlockMinimumDurability),
-                    name + " below 40% durability loses guarantee");
+                Near(plate.Value, (float)partDefs[name].Element("armorRatingSharp"), name + " grade armor");
+                Check(partDefs[name].Element("guaranteedBlockPenetration") == null, name + " has no guaranteed-block cutoff");
             }
         }
+        foreach (var plate in new[] { ("HD_ArmorPlate_SAPI", "HD_Layup_SAPI"), ("HD_ArmorPlate_SSAPI", "HD_Layup_SAPI"),
+            ("HD_ArmorPlate_ESAPI", "HD_Layup_ESAPI"), ("HD_ArmorPlate_ESBI", "HD_Layup_ESAPI"),
+            ("HD_ArmorPlate_RAMPART4800_Plate", "HD_Layup_RAMPART4800") })
+        {
+            Check(Layup(plates[plate.Item1]) == plate.Item2, "Plate item ballistic layup " + plate.Item1);
+        }
+        Check(Layup(apparelDefs["HD_Apparel_IBTVAssault"]) == "HD_Layup_SoftHG2", "IBTV soft panel layup");
         foreach (string suffix in new[] { "FrontRearPlates", "SidePlates", "FrontPlate", "RearPlate", "LeftPlate", "RightPlate" })
         {
             var part = partDefs["HD_IOTVPart_" + suffix];
             Near(1.20f, (float)part.Element("armorRatingSharp"), "Legacy plate lower RF1 grade: " + suffix);
             Check(part.Element("guaranteedBlockPenetration") == null, "Legacy plate has no unsupported cutoff: " + suffix);
         }
+        foreach (string suffix in new[] { "FrontRearPlates", "SidePlates" })
+        {
+            Check((string)partDefs["HD_IOTVPart_" + suffix].Element("ballisticLayup") == "HD_Layup_SAPI",
+                "Legacy RF1 plate set uses the SAPI layup: " + suffix);
+        }
         foreach (string suffix in new[] { "NeckGuard", "ShoulderGuards", "LowerBody", "BackProtector" })
         {
             Near(0.70f, (float)partDefs["HD_IOTVPart_" + suffix].Element("armorRatingSharp"),
                 "Soft module lower HG1 grade: " + suffix);
+            Check((string)partDefs["HD_IOTVPart_" + suffix].Element("ballisticLayup") == "HD_Layup_SoftHG1",
+                "Soft module HG1 layup: " + suffix);
         }
         var visor = XDocument.Load(System.IO.Path.Combine(root, "Defs/ModernWar/ModularHelmetParts.xml"))
             .Root.Elements("Helodrace.ModernWar.ModularArmorPartDef")
@@ -160,4 +133,8 @@ internal static class Program
             "Below HG1 remains unchanged");
         Console.WriteLine("PASS: " + checks + " ballistic armor checks.");
     }
+
+    private static string Layup(XElement def) => (string)def.Element("modExtensions")?.Elements("li")
+        .FirstOrDefault(n => (string)n.Attribute("Class") == "Helodrace.Ballistics.BallisticLayupExtension")
+        ?.Element("layup");
 }

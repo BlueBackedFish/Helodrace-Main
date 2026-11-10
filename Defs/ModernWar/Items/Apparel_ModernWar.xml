@@ -229,7 +229,7 @@
         </statConversions>
       </li>
     </comps>
-    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li><li Class="Helodrace.Ballistics.BallisticLayupExtension"><layup>HD_Layup_SoftHG2</layup></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="ApparelNoQualityBase">
@@ -599,7 +599,6 @@
       <li Class="Helodrace.ModernWar.CompProperties_DirectionalBallisticShield">
         <frontalArcDegrees>80</frontalArcDegrees>
         <sharpArmorRating>0.85</sharpArmorRating>
-        <guaranteedBlockPenetration>0.19</guaranteedBlockPenetration>
         <rangedAccuracyMultiplier>0.90</rangedAccuracyMultiplier>
         <minimumRangedAccuracyMultiplier>0.55</minimumRangedAccuracyMultiplier>
         <viewportHitChance>0.10</viewportHitChance>
@@ -623,7 +622,7 @@
         </allowedWeaponDefs>
       </li>
     </comps>
-    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li><li Class="Helodrace.Ballistics.BallisticLayupExtension"><layup>HD_Layup_ShieldHG2</layup></li></modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="ApparelNoQualityBase">
@@ -706,7 +705,6 @@
       <li Class="Helodrace.ModernWar.CompProperties_DirectionalBallisticShield">
         <frontalArcDegrees>90</frontalArcDegrees>
         <sharpArmorRating>1.65</sharpArmorRating>
-        <guaranteedBlockPenetration>0.50</guaranteedBlockPenetration>
         <rangedAccuracyMultiplier>0.75</rangedAccuracyMultiplier>
         <minimumRangedAccuracyMultiplier>0.35</minimumRangedAccuracyMultiplier>
         <viewportHitChance>0.08</viewportHitChance>
@@ -719,7 +717,7 @@
         <stationaryAllyCoverBlockChance>0.75</stationaryAllyCoverBlockChance>
       </li>
     </comps>
-    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li></modExtensions>
+    <modExtensions><li Class="Helodrace.FacilityRequirementExtension"><requirements><HD_Pressing>2</HD_Pressing></requirements></li><li Class="Helodrace.Ballistics.BallisticLayupExtension"><layup>HD_Layup_ShieldRF3</layup></li></modExtensions>
   </ThingDef>
 
 </Defs>

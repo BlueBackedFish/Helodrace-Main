@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Docs/Ballistic_Protection_System.md section 3.1.
+    densityKgM3 is a measured material property [physical].
+    ballisticLimitCoefficient, coreErosion, coreMushroom, limitScatter, traumaTransfer and wearPerJoule are
+    calibrated game values [game]: they reproduce the plate/shield/vest target table in the protection document.
+    Plates are calibrated as worn over the HG2 soft panel (in-conjunction stack). They are not test data. Fill empiricalSource when a sourced value replaces one.
+  -->
+  <Helodrace.Ballistics.ArmorMaterialDef>
+    <defName>HD_Armor_BoronCarbide</defName>
+    <label>boron carbide</label>
+    <family>Ceramic</family>
+    <densityKgM3>2520</densityKgM3>
+    <ballisticLimitCoefficient><soft>2320</soft><mildSteel>1920</mildSteel><hardSteel>1750</hardSteel><tungsten>1740</tungsten></ballisticLimitCoefficient>
+    <coreErosion><soft>0.73</soft><mildSteel>0.46</mildSteel><hardSteel>0.37</hardSteel><tungsten>0.28</tungsten></coreErosion>
+    <coreMushroom><soft>1.36</soft><mildSteel>1.27</mildSteel><hardSteel>1.2</hardSteel><tungsten>1.08</tungsten></coreMushroom>
+    <limitScatter>0.06</limitScatter>
+    <traumaTransfer>0.10</traumaTransfer>
+    <wearPerJoule>0.00333</wearPerJoule>
+  </Helodrace.Ballistics.ArmorMaterialDef>
+
+  <Helodrace.Ballistics.ArmorMaterialDef>
+    <defName>HD_Armor_UHMWPE</defName>
+    <label>UHMWPE</label>
+    <family>Fiber</family>
+    <densityKgM3>970</densityKgM3>
+    <ballisticLimitCoefficient><soft>2045</soft><mildSteel>1695</mildSteel><hardSteel>1695</hardSteel><tungsten>1360</tungsten></ballisticLimitCoefficient>
+    <limitScatter>0.06</limitScatter>
+    <traumaTransfer>0.15</traumaTransfer>
+    <wearPerJoule>0.00333</wearPerJoule>
+  </Helodrace.Ballistics.ArmorMaterialDef>
+
+  <Helodrace.Ballistics.ArmorMaterialDef>
+    <defName>HD_Armor_Aramid</defName>
+    <label>aramid</label>
+    <family>Fiber</family>
+    <densityKgM3>1440</densityKgM3>
+    <ballisticLimitCoefficient><soft>2600</soft><mildSteel>1585</mildSteel><hardSteel>1385</hardSteel><tungsten>1075</tungsten></ballisticLimitCoefficient>
+    <limitScatter>0.06</limitScatter>
+    <traumaTransfer>0.30</traumaTransfer>
+    <wearPerJoule>0.00333</wearPerJoule>
+  </Helodrace.Ballistics.ArmorMaterialDef>
+</Defs>

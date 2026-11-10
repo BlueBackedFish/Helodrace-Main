@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_Ballistics_LayupSummary>{0} ({1} kg/m²)</HD_Ballistics_LayupSummary>
+  <HD_Ballistics_LayupLine>Ballistic layup: {0}</HD_Ballistics_LayupLine>
+  <HD_Ballistics_Layup>Ballistic layup</HD_Ballistics_Layup>
+  <HD_Ballistics_Layup_Desc>Layers from the strike face inward: {0}.
+
+Rounds with ballistic data are resolved against these layers by velocity, mass, diameter and core type. A round that stops in the panel leaves only blunt trauma; a round that perforates continues with its remaining energy. Hits on a damaged panel meet less effective material.</HD_Ballistics_Layup_Desc>
+</LanguageData>

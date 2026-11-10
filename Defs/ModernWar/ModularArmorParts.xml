@@ -93,6 +93,7 @@
     <bodyPartGroups><li>Torso</li></bodyPartGroups>
     <protectedDirections><li>Front</li><li>Back</li></protectedDirections>
     <directionArcDegrees>100</directionArcDegrees>
+    <coverageHeight>-0.25~0.85</coverageHeight>
     <parentTagDef>ApparelBody</parentTagDef>
     <drawLayer>21</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
@@ -102,6 +103,7 @@
     <bodyPartGroups><li>Torso</li></bodyPartGroups>
     <protectedDirections><li>Left</li><li>Right</li></protectedDirections>
     <directionArcDegrees>80</directionArcDegrees>
+    <coverageHeight>-0.40~0.40</coverageHeight>
     <parentTagDef>ApparelBody</parentTagDef>
     <drawLayer>21</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
@@ -111,6 +113,7 @@
     <bodyPartGroups><li>Torso</li></bodyPartGroups>
     <protectedDirections><li>Front</li></protectedDirections>
     <directionArcDegrees>100</directionArcDegrees>
+    <coverageHeight>-0.25~0.85</coverageHeight>
     <parentTagDef>ApparelBody</parentTagDef>
     <drawLayer>21</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
@@ -283,6 +286,7 @@
     <bodyPartGroups><li>Torso</li></bodyPartGroups>
     <protectedDirections><li>Back</li></protectedDirections>
     <directionArcDegrees>100</directionArcDegrees>
+    <coverageHeight>-0.25~0.85</coverageHeight>
     <parentTagDef>ApparelBody</parentTagDef>
     <drawLayer>21</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
@@ -301,6 +305,7 @@
     <bodyPartGroups><li>Torso</li></bodyPartGroups>
     <protectedDirections><li>Left</li></protectedDirections>
     <directionArcDegrees>80</directionArcDegrees>
+    <coverageHeight>-0.40~0.40</coverageHeight>
     <parentTagDef>ApparelBody</parentTagDef>
     <drawLayer>21</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
@@ -310,6 +315,7 @@
     <bodyPartGroups><li>Torso</li></bodyPartGroups>
     <protectedDirections><li>Right</li></protectedDirections>
     <directionArcDegrees>80</directionArcDegrees>
+    <coverageHeight>-0.40~0.40</coverageHeight>
     <parentTagDef>ApparelBody</parentTagDef>
     <drawLayer>21</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
@@ -354,6 +360,7 @@
     <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <armorRatingSharp>1.20</armorRatingSharp>
+    <ballisticLayup>HD_Layup_SAPI</ballisticLayup>
     <armorRatingBlunt>0.50</armorRatingBlunt>
     <armorRatingHeat>0.30</armorRatingHeat>
     <ergonomics>-2</ergonomics>
@@ -370,6 +377,7 @@
     <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <armorRatingSharp>1.20</armorRatingSharp>
+    <ballisticLayup>HD_Layup_SAPI</ballisticLayup>
     <armorRatingBlunt>0.40</armorRatingBlunt>
     <armorRatingHeat>0.20</armorRatingHeat>
     <ergonomics>-1</ergonomics>
@@ -386,7 +394,6 @@
     <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_SAPI</plateThingDef>
-    <guaranteedBlockPenetration>0.27</guaranteedBlockPenetration>
     <armorRatingSharp>1.20</armorRatingSharp>
     <armorRatingBlunt>0.45</armorRatingBlunt>
     <armorRatingHeat>0.20</armorRatingHeat>
@@ -401,7 +408,6 @@
     <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_ESAPI</plateThingDef>
-    <guaranteedBlockPenetration>0.34</guaranteedBlockPenetration>
     <armorRatingSharp>1.65</armorRatingSharp>
     <armorRatingBlunt>0.50</armorRatingBlunt>
     <armorRatingHeat>0.25</armorRatingHeat>
@@ -416,7 +422,6 @@
     <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_SSAPI</plateThingDef>
-    <guaranteedBlockPenetration>0.27</guaranteedBlockPenetration>
     <armorRatingSharp>1.20</armorRatingSharp>
     <armorRatingBlunt>0.55</armorRatingBlunt>
     <armorRatingHeat>0.30</armorRatingHeat>
@@ -432,7 +437,6 @@
     <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_RAMPART4800_Plate</plateThingDef>
-    <guaranteedBlockPenetration>0.34</guaranteedBlockPenetration>
     <armorRatingSharp>1.65</armorRatingSharp>
     <armorRatingBlunt>0.65</armorRatingBlunt>
     <armorRatingHeat>0.30</armorRatingHeat>
@@ -448,7 +452,6 @@
     <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_SAPI</plateThingDef>
-    <guaranteedBlockPenetration>0.27</guaranteedBlockPenetration>
     <armorRatingSharp>1.20</armorRatingSharp>
     <armorRatingBlunt>0.45</armorRatingBlunt>
     <armorRatingHeat>0.20</armorRatingHeat>
@@ -464,7 +467,6 @@
     <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_ESAPI</plateThingDef>
-    <guaranteedBlockPenetration>0.34</guaranteedBlockPenetration>
     <armorRatingSharp>1.65</armorRatingSharp>
     <armorRatingBlunt>0.50</armorRatingBlunt>
     <armorRatingHeat>0.25</armorRatingHeat>
@@ -480,7 +482,6 @@
     <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_SSAPI</plateThingDef>
-    <guaranteedBlockPenetration>0.27</guaranteedBlockPenetration>
     <armorRatingSharp>1.20</armorRatingSharp>
     <armorRatingBlunt>0.55</armorRatingBlunt>
     <armorRatingHeat>0.30</armorRatingHeat>
@@ -495,7 +496,6 @@
     <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_ESBI</plateThingDef>
-    <guaranteedBlockPenetration>0.34</guaranteedBlockPenetration>
     <armorRatingSharp>1.65</armorRatingSharp>
     <armorRatingBlunt>0.60</armorRatingBlunt>
     <armorRatingHeat>0.30</armorRatingHeat>
@@ -510,7 +510,6 @@
     <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_RAMPART4800_Plate</plateThingDef>
-    <guaranteedBlockPenetration>0.34</guaranteedBlockPenetration>
     <armorRatingSharp>1.65</armorRatingSharp>
     <armorRatingBlunt>0.65</armorRatingBlunt>
     <armorRatingHeat>0.30</armorRatingHeat>
@@ -558,6 +557,7 @@
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <partThingDef>HD_ModularPart_IBTVNeckGuard</partThingDef>
     <armorRatingSharp>0.70</armorRatingSharp>
+    <ballisticLayup>HD_Layup_SoftHG1</ballisticLayup>
     <armorRatingBlunt>0.35</armorRatingBlunt>
     <armorRatingHeat>0.20</armorRatingHeat>
     <ergonomics>-0.5</ergonomics>
@@ -606,6 +606,7 @@
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <partThingDef>HD_ModularPart_IBTVShoulderGuards</partThingDef>
     <armorRatingSharp>0.70</armorRatingSharp>
+    <ballisticLayup>HD_Layup_SoftHG1</ballisticLayup>
     <armorRatingBlunt>0.40</armorRatingBlunt>
     <armorRatingHeat>0.20</armorRatingHeat>
     <ergonomics>-1</ergonomics>
@@ -629,6 +630,7 @@
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <partThingDef>HD_ModularPart_IBTVLowerBody</partThingDef>
     <armorRatingSharp>0.70</armorRatingSharp>
+    <ballisticLayup>HD_Layup_SoftHG1</ballisticLayup>
     <armorRatingBlunt>0.30</armorRatingBlunt>
     <armorRatingHeat>0.15</armorRatingHeat>
     <ergonomics>-1</ergonomics>
@@ -654,6 +656,7 @@
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <partThingDef>HD_ModularPart_IBTVBackProtector</partThingDef>
     <armorRatingSharp>0.70</armorRatingSharp>
+    <ballisticLayup>HD_Layup_SoftHG1</ballisticLayup>
     <armorRatingBlunt>0.30</armorRatingBlunt>
     <armorRatingHeat>0.15</armorRatingHeat>
     <ergonomics>-0.6</ergonomics>
