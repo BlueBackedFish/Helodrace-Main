@@ -85,5 +85,12 @@
     ]
   },
   "reference_url": "https://www.boeing.com/defense/fighters-and-bombers/f-15ex-eagle",
-  "source_albedo_reference_only": true
+  "source_albedo_reference_only": true,
+  "engine_crown_region": {
+    "axis_x_m": 0.7,
+    "center_y_m": -4.55,
+    "half_width_m": 0.42,
+    "half_length_m": 2.65,
+    "minimum_height_m": 1.95
+  }
 }

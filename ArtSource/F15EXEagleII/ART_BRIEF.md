@@ -16,7 +16,7 @@ Create the supplied clean F-15EX in the established flat top-view aircraft style
 | --- | --- |
 | Body / inspected panels | Existing fixed gray tones and source-face paint boundaries |
 | Engine upper covers | Lighter RGB 149/159/168 |
-| Engine crowns | Single fixed emission RGB 163/173/181; binary part boundary, no gradient |
+| Engine crowns | Single fixed emission RGB 163/173/181; rounded oval boundary, no gradient |
 | Canopy / radome / upright fins | Existing opaque canopy, distinct radome and mild fixed fin brightness gain |
 | Flaps / ailerons / stabilators / rudders | Eight independent surfaces and physical hinge controllers |
 | Open control skins | Closed from source vertices with skin UV/color transfer, dark caps and 0.020m gaps |
@@ -28,12 +28,12 @@ Create the supplied clean F-15EX in the established flat top-view aircraft style
 
 Source geometry/UVs are verified at ingestion, then explicitly edited. Unedited faces retain geometry/UVs in the physical-coordinate basis. Revised control hulls/caps, mirrored left nozzle and new seals are recorded edits; the complete final model is no longer described as untouched source geometry. No source file is modified.
 
-No lights, shadows, AO, reflections, gloss, source markings or baked weathering. Engine crowns have one uniform color with a hard physical-region boundary.
+No lights, shadows, AO, reflections, gloss, source markings or baked weathering. Engine crowns have one uniform color with rounded ends and sides following each engine crown.
 
 ## Delivery and validation
 
 - 1222px RGBA, 12px outside outline, approximately 7.163-tile square draw size.
-- `output/engine_paint_review.png`: `bf3456f0` / current engine fairings.
+- `output/engine_paint_review.png`: `750ee546` / current engine fairings.
 - `output/nozzle_review.png`: contracted / matched neutral pair / open.
 - `output/articulation_review.png`, `output/articulation.gif`: neutral and moving surfaces.
 - `output/model_validation.json`: hashes, source/final inventories, face partition, geometry edits, scale, pivots and independent movement checks.

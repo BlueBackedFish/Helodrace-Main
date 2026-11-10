@@ -5,14 +5,14 @@ The supplied first clean aircraft is exported without missiles, bombs, separate 
 - Runtime texture: `Textures/Effects/Aircraft/F15EX/HD_F15EX.png` in the repository root.
 - Export: `output/HD_F15EX.png`, **1222×1222 RGBA**, one **12px outside outline**, approximately **7.163×7.163 tiles** at the shared C-17/F-22 scale.
 - Editable model: `output/f15ex_eagle_ii.blend`, neutral at frame 1.
-- Engine paint comparison: `output/engine_paint_review.png` (baseline `bf3456f0`).
+- Engine paint comparison: `output/engine_paint_review.png` (baseline `750ee546`).
 - Exhaust apertures: `output/nozzle_review.png`; separated surfaces: `output/articulation_review.png`; motion: `output/articulation.gif`.
 - Overall/alpha/size reviews: `output/model_review.png`, `output/preview.png`, `output/scale_review.png`.
 - Equal physical scale with F-22: `output/F22_F15EX_real_scale.png`.
 
 ## Paint
 
-Fixed emission materials retain the inspected wing, stabilator, inlet, carriage and mounting-interface tones in `panel_colors.json`. Engine upper covers are lighter. Curved engine fairing crowns use a single fixed emission RGB 163/173/181. A binary mask in the aircraft physical coordinate frame gives the part a continuous boundary across source triangles. There is no gradient or vertex-color interpolation. Source weathering, markings and baked highlights remain unused.
+Fixed emission materials retain the inspected wing, stabilator, inlet, carriage and mounting-interface tones in `panel_colors.json`. Engine upper covers are lighter. Curved engine fairing crowns use a single fixed emission RGB 163/173/181. Paired elongated oval masks in the aircraft physical coordinate frame round the ends and sides over each engine crown. There is no gradient or vertex-color interpolation. Source weathering, markings and baked highlights remain unused.
 
 `panel_edges.py` traces actual upper-skin boundaries/creases. Every line object belongs to its own mesh, including each moving surface and nozzle leaf. Line diameter is 0.020m on the airframe and 0.010m on exhaust petals. These internal joints are separate from the final 12px outside sprite outline.
 
