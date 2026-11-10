@@ -52,6 +52,27 @@ namespace Helodrace.Ballistics
         }
     }
 
+    /// <summary>
+    /// High-explosive warhead (design doc 4.2, 5.3, 5.4): TNT-equivalent charge, steel case for Gurney/Mott fragments,
+    /// and the squash-head (HESH) flag. Values are game estimates within public descriptions [game].
+    /// </summary>
+    public sealed class BlastWarheadExtension : DefModExtension
+    {
+        public float explosiveTntKilograms;
+        public float caseKilograms;
+        /// <summary>Mott mean-mass parameter mu, grams (mean fragment mass is 2 mu). [game]</summary>
+        public float mottMuGrams = 2f;
+        public bool squashHead;
+        public float calibreMillimeters;
+
+        public override IEnumerable<string> ConfigErrors()
+        {
+            if (!(explosiveTntKilograms > 0f)) yield return "Blast warhead needs explosiveTntKilograms.";
+            if (caseKilograms < 0f || !(mottMuGrams > 0f)) yield return "Blast warhead case and Mott mu must be positive.";
+            if (squashHead && !(calibreMillimeters > 0f)) yield return "Squash-head warheads need calibreMillimeters.";
+        }
+    }
+
     /// <summary>Game boundary: reads a live projectile into the kinetic vehicle model's inputs.</summary>
     public static class ProjectilePhysics
     {

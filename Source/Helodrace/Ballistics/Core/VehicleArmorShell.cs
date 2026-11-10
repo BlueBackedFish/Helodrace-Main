@@ -42,6 +42,17 @@ namespace Helodrace.Ballistics
             }
         }
 
+        /// <summary>Polygon area, m^2 (cells^2). [physical] Used as the vent area of an open aperture.</summary>
+        public float Area
+        {
+            get
+            {
+                Vector3 sum = Vector3.Zero;
+                for (int i = 0; i < Vertices.Length; i++) sum += Vector3.Cross(Vertices[i], Vertices[(i + 1) % Vertices.Length]);
+                return 0.5f * MathF.Abs(Vector3.Dot(sum, Normal));
+            }
+        }
+
         /// <summary>Plate slope from vertical in degrees: 0 = vertical wall, 90 = flat roof. [physical]</summary>
         public float SlopeFromVerticalDegrees => MathF.Asin(Math.Clamp(Normal.Y, -1f, 1f)) * BallisticGeometry.RadToDeg;
     }

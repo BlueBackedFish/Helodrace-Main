@@ -86,6 +86,7 @@ internal static class VehicleTests
         check(front.Plate.Id == "glacis", "North shot on a north hull hits the glacis, got " + front.Plate?.Id);
         near(60, front.Obliquity * BallisticGeometry.RadToDeg, 1e-2, "Glacis obliquity is its slope");
         near(60, front.Plate.SlopeFromVerticalDegrees, 1e-2, "Glacis slope from the vertices");
+        near(3.0 * 1.3 / Math.Cos(60 * Math.PI / 180), front.Plate.Area, 1e-3, "Plate area from its vertices");
         Vector3 west = BallisticGeometry.TravelDirection(270f, 0f);
         check(Hit(shell, 0f, 0f, new Vector3(20, 1.0f, 0), west, out ShellHit side) && side.Plate.Id == "right", "East shot hits the right side");
         near(0, side.Obliquity, 1e-4, "Side shot is normal");
