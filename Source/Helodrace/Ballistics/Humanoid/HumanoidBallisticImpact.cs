@@ -71,7 +71,10 @@ namespace Helodrace.Ballistics
 
         internal static HumanoidBallisticImpact TryBegin(Bullet bullet, Pawn pawn)
         {
-            if (!RaidSettings.UnifiedBallistics || bullet.def.projectile?.damageDef == null) return null;
+            // VehiclePawn also derives from Pawn. Its vehicle adapter owns the hit and its debug notification;
+            // a second, empty humanoid scope would overwrite that armour decision when Bullet.Impact ends.
+            if (pawn?.RaceProps?.Humanlike != true || !RaidSettings.UnifiedBallistics
+                || bullet.def.projectile?.damageDef == null) return null;
             float massKg, speed, diameterM;
             PenetratorClass penetratorClass;
             if (bullet is Projectile_Ricochet ricochet)

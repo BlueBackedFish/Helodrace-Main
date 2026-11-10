@@ -30,3 +30,13 @@ Main의 `HumanoidBallisticImpact.Finish`와 Lobos의 `VehicleArmorDamagePatch.Po
 - 실제 1.7.5000 `.codex-staging/BallisticDebug20261111MainB`: 99 PASS, COMPLETE, 종료 코드 0. 외부 후속 폭발의 중복 억제와 스폴 전용 모드도 검사했다.
 - 실제 1.7.5000 `.codex-staging/BallisticDebug20261111LobosB`: 452 PASS, COMPLETE, 종료 코드 0. 관통 사격 뒤 스냅샷 32건과 실제 대표 광선 192개를 확인했다. 기존 차량 Def/Workshop 오류 3종 외에 새 엔진 오류는 없었다.
 - 제품 Main·Lobos 차량 Release 빌드 경고·오류 0. Lobos 검사 하네스의 기존 미사용 필드 경고 2건은 유지했다. 화면 외형의 수동 검수는 이 검사에 포함하지 않는다.
+
+### 차량 피격 결과를 보병 알림이 덮어쓰던 문제 (2026-11-11)
+
+`VehiclePawn`도 `Pawn`이므로 `Bullet.Impact`의 보병 패치가 차량 피격에 빈 인간형 착탄 범위를 만들었다. VF 차량 어댑터가 장갑과 내부 피해를 계산해 알림을 낸 뒤, 바깥 보병 패치의 finalizer가 물리 장갑층 0개인 `None` 결과와 감소하지 않은 탄 에너지를 같은 차량의 마지막 알림으로 추가했다. 결과 창은 대상별 마지막 알림만 그리므로 실제 계산 결과가 가려졌다.
+
+설치된 1.7.5005에서 `.codex-staging/VehicleScopeRepro20261111`로 재현했다. M3A3 측면의 25 mm AP는 장갑 추적 `Overmatch`, 화면 스냅샷 `None`으로 달랐다. 한 발의 실제 추적에는 고경도강 12 mm와 알루미늄의 RHA 환산 8.04777 mm, 합계 20.0478 mm, De Marre 한계 538.512 m/s, 운동에너지 120,611 → 103,794 J가 기록됐다. 장갑 계산을 생략한 관통은 아니었다.
+
+`HumanoidBallisticImpact.TryBegin`은 인간형 폰에만 범위를 만들도록 제한했다. 차량은 자체 어댑터가 알림을 소유하며, 차량 내부 승무원에 대한 명시적 `ApplyPhysicalHit` 경로는 유지한다. 회귀 검사는 실제 M3A3 25 mm 사격의 마지막 표시 결과와 차량 장갑 추적 결과가 일치하는지 확인한다.
+
+수정 후 `.codex-staging/VehicleScopeMain20261111`은 100 PASS, `.codex-staging/VehicleScopeFixed20261111B`는 455 PASS와 COMPLETE·종료 코드 0이다. 같은 M3A3 사격이 장갑 추적 `Overmatch`, 표시 `Overmatch`로 일치했다. Main·Lobos 차량 Release 빌드 경고·오류 0. 차량 검사 마지막의 제트 점화 사례는 앞선 연소 비교로 손상된 대상을 재사용하지 않고 새 차량을 사용하도록 격리했다. 차량 검사 엔진 로그에는 기존 오류 3종만 남았다.

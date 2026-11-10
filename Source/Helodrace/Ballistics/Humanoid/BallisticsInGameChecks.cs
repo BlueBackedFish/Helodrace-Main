@@ -522,6 +522,9 @@ namespace Helodrace.Ballistics
 
         private void DebugDisplayChecks(ThingDef round, ThingDef carrier)
         {
+            var nonHumanlike = new Pawn { def = ThingDef.Named("Muffalo") };
+            Check(HumanoidBallisticImpact.TryBegin((Bullet)ThingMaker.MakeThing(round), nonHumanlike) == null,
+                "Humanoid bullet scopes reject non-humanlike pawns so vehicle adapters own their hit result");
             RaidSettings settings = HelodraceBase.Instance.RaidOptions;
             bool impacts = settings.ballisticImpactDebug, spall = settings.ballisticSpallDebug, dev = Prefs.DevMode;
             var display = Find.CurrentMap.GetComponent<MapComponent_BallisticDebug>();
