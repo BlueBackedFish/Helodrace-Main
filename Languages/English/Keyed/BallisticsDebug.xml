@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_Ballistics_DebugSettings>Ballistic debugging (developer mode)</HD_Ballistics_DebugSettings>
+  <HD_Ballistics_DebugImpacts>Show ballistic impact results</HD_Ballistics_DebugImpacts>
+  <HD_Ballistics_DebugImpacts_Desc>In developer mode, show the latest physical impact above each target: penetration, stopping or ricochet, impact angle, and remaining kinetic energy. Shots without a physical armour decision are marked separately. White lines show incoming fire; coloured lines show the remaining trajectory.</HD_Ballistics_DebugImpacts_Desc>
+  <HD_Ballistics_DebugSpall>Show spall and fragment paths</HD_Ballistics_DebugSpall>
+  <HD_Ballistics_DebugSpall_Desc>In developer mode, show the actual representative fragment rays used by the vehicle damage calculation, including HESH scabs and internal warhead fragments. Each line represents a bundle, rather than one fragment. The view is projected onto the map; vertical spread can overlap. No extra fragments are simulated.</HD_Ballistics_DebugSpall_Desc>
+  <HD_Ballistics_DebugDuration>Display duration: {0} seconds</HD_Ballistics_DebugDuration>
+  <HD_Ballistics_DebugHit>{0} · {1}
+{2}</HD_Ballistics_DebugHit>
+  <HD_Ballistics_DebugAngle>Impact angle from normal: {0}°</HD_Ballistics_DebugAngle>
+  <HD_Ballistics_DebugZone>Hit zone: {0}</HD_Ballistics_DebugZone>
+  <HD_Ballistics_DebugJet>Jet penetration potential: {0} → {1} mm RHA equivalent</HD_Ballistics_DebugJet>
+  <HD_Ballistics_DebugEnergy>Kinetic energy: {0} → {1} J</HD_Ballistics_DebugEnergy>
+  <HD_Ballistics_DebugSpallCount>Armour spall: {0} fragments</HD_Ballistics_DebugSpallCount>
+  <HD_Ballistics_DebugScabCount>HESH scab: {0} fragments</HD_Ballistics_DebugScabCount>
+  <HD_Ballistics_DebugCaseCount>Warhead fragments: {0}</HD_Ballistics_DebugCaseCount>
+  <HD_Ballistics_DebugRays>{0} bundle rays · initial speed {1} m/s</HD_Ballistics_DebugRays>
+  <HD_Ballistics_DebugLegend>Fragment paths: &lt;color=#FFA626&gt;orange: continues&lt;/color&gt; · &lt;color=#59CCFF&gt;blue: stopped&lt;/color&gt; · &lt;color=#FF40E6&gt;magenta: crew hit&lt;/color&gt;
+Crosses mark stops and the first crew hit on each ray. Up to 32 recent hits are retained.</HD_Ballistics_DebugLegend>
+  <HD_Ballistics_Result_None>No physical armour decision / uncovered</HD_Ballistics_Result_None>
+  <HD_Ballistics_Result_Ricochet>Ricochet</HD_Ballistics_Result_Ricochet>
+  <HD_Ballistics_Result_Shatter>Projectile shattered</HD_Ballistics_Result_Shatter>
+  <HD_Ballistics_Result_Stopped>Stopped · no perforation</HD_Ballistics_Result_Stopped>
+  <HD_Ballistics_Result_PartialPenetration>Partial penetration · no perforation</HD_Ballistics_Result_PartialPenetration>
+  <HD_Ballistics_Result_Perforation>Perforation</HD_Ballistics_Result_Perforation>
+  <HD_Ballistics_Result_Overmatch>Perforation · substantial residual penetration</HD_Ballistics_Result_Overmatch>
+</LanguageData>

@@ -8,6 +8,9 @@ namespace Helodrace
         // The squad tactical engine is unstable; vanilla raid AI is the default.
         public bool tacticalAI;
         public bool bodyVariants;
+        public bool ballisticImpactDebug;
+        public bool ballisticSpallDebug;
+        public float ballisticDebugSeconds = 6f;
         public static bool BodyVariants => HelodraceBase.Instance?.RaidOptions?.bodyVariants ?? false;
         public static bool LimitToOnePlatoon => HelodraceBase.Instance?.RaidOptions?.limitToOnePlatoon ?? true;
         public static bool TacticalAI => HelodraceBase.Instance?.RaidOptions?.tacticalAI ?? false;
@@ -16,6 +19,9 @@ namespace Helodrace
             Scribe_Values.Look(ref limitToOnePlatoon, "limitRaidToOnePlatoon", true);
             Scribe_Values.Look(ref tacticalAI, "tacticalAI", false);
             Scribe_Values.Look(ref bodyVariants, "bodyVariants", false);
+            Scribe_Values.Look(ref ballisticImpactDebug, "ballisticImpactDebug", false);
+            Scribe_Values.Look(ref ballisticSpallDebug, "ballisticSpallDebug", false);
+            Scribe_Values.Look(ref ballisticDebugSeconds, "ballisticDebugSeconds", 6f);
         }
     }
 }

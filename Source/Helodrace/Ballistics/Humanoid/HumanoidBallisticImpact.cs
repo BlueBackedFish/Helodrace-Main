@@ -171,12 +171,17 @@ namespace Helodrace.Ballistics
             foreach (var crazing in pendingCrazing) VisorCrazingUtility.Craze(pawn, crazing.host, crazing.perforated);
             pendingCrazing.Clear();
             // Record impacts that met a physical layer, or a helmet that did not cover the hit point.
-            if (layerCount == 0 && !uncoveredNoted) return;
             context.Outcome.Result = layerCount == 0 ? ImpactResult.None
                 : deflected ? ImpactResult.Ricochet
                 : Stopped ? ImpactResult.Stopped : ImpactResult.Perforation;
             context.Trace.Result = context.Outcome.Result;
-            RecentTraces.Add(context.Trace);
+            if (layerCount > 0 || uncoveredNoted) RecentTraces.Add(context.Trace);
+            // Vehicle crew fragments have no map position; their parent vehicle reports the full spray.
+            if (pawn.Spawned)
+                BallisticsDebugDisplay.Record(pawn, context.Trace, pawn.DrawPos.ToNative(),
+                    BallisticGeometry.TravelDirection(headingDegrees, 0f),
+                    deflected ? deflectedVelocity : penetrator.Velocity,
+                    context.Event.Penetrator.KineticEnergyJ, penetrator.KineticEnergyJ);
             if (deflected && projectile != null) Projectile_Ricochet.TryLaunch(this);
         }
 

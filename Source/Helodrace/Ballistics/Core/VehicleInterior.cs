@@ -284,19 +284,29 @@ namespace Helodrace.Ballistics
         public float Speed;
     }
 
+    /// <summary>One actual representative ray, clipped where its remaining bundle stops. Debug data only.</summary>
+    public struct SpallDebugRay
+    {
+        public Vector3 Start, End, CrewPoint;
+        public int Fragments;
+        public float Speed;
+        public bool Stopped, CrewHit;
+    }
+
     /// <summary>
-    /// Traces a spall cone through an interior as bundle rays (design doc 7.2). Equipment shields what lies behind it:
-    /// fragments meet the box's thin layers with the small-arms model and either stop or slow down. Pure: the
-    /// vehicle adapter turns the result into component damage and per-crew wounds.
+    /// Traces bundle rays through interior equipment and crew. Optional debug output copies the same rays and
+    /// consumes no random values; the vehicle adapter applies the resulting damage.
     /// </summary>
     public static class SpallTracer
     {
         public static void Trace(VehicleInterior interior, SpallProfile profile, Vector3 origin, Vector3 axis, int fragments,
             float speed, in BallisticFrame hull, in BallisticFrame turret, Func<int, IReadOnlyList<VehicleArmorLayer>> boxLayers,
-            ulong seed, List<SpallSeatHit> seats, List<SpallBoxHit> boxes, float maxRange = 8f)
+            ulong seed, List<SpallSeatHit> seats, List<SpallBoxHit> boxes, float maxRange = 8f,
+            List<SpallDebugRay> debugRays = null)
         {
             seats.Clear();
             boxes.Clear();
+            debugRays?.Clear();
             if (interior == null || fragments <= 0) return;
             var directions = new List<Vector3>(profile.Rays);
             profile.Directions(axis, seed, directions);
@@ -308,6 +318,10 @@ namespace Helodrace.Ballistics
             for (int r = 0; r < directions.Count; r++)
             {
                 int bundle = fragments / directions.Count + (r < fragments % directions.Count ? 1 : 0);
+                int initialBundle = bundle;
+                float endDistance = maxRange;
+                bool crewHit = false;
+                Vector3 crewPoint = default;
                 float bundleSpeed = speed;
                 interior.Trace(origin, directions[r], hull, turret, maxRange, hits);
                 for (int i = 0; i < hits.Count && bundle > 0; i++)
@@ -320,16 +334,22 @@ namespace Helodrace.Ballistics
                             Vector3.Normalize(hit.LocalTravel) * bundleSpeed, 0f, diameter);
                         VehicleKineticModel.Resolve(round, fragment, boxLayers(hit.Index), hit.LocalNormal,
                             BallisticSeed.ForChild(seed, 1000 + r * 64 + i, 0), scratch);
-                        if (!scratch.Perforated) bundle = 0;
+                        if (!scratch.Perforated) { bundle = 0; endDistance = hit.Distance; }
                         else bundleSpeed = scratch.Out.Speed;
                         continue;
                     }
                     InteriorSeat seat = interior.Seats[hit.Index];
                     int struck = profile.Hits(bundle, InteriorGeometry.ProjectedArea(seat, hit.LocalTravel), hit.Distance, ref rng);
                     if (struck <= 0) continue;
+                    if (!crewHit) crewPoint = origin + directions[r] * hit.Distance;
+                    crewHit = true;
                     bundle -= struck;
+                    if (bundle == 0) endDistance = hit.Distance;
                     seats.Add(new SpallSeatHit { Seat = hit.Index, Fragments = struck, Speed = bundleSpeed, WorldDirection = directions[r], Range = hit.Distance });
                 }
+                if (debugRays != null && initialBundle > 0)
+                    debugRays.Add(new SpallDebugRay { Start = origin, End = origin + directions[r] * endDistance,
+                        Fragments = initialBundle, Speed = speed, Stopped = bundle == 0, CrewHit = crewHit, CrewPoint = crewPoint });
             }
         }
     }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_Ballistics_DebugSettings>탄도 디버그 (개발자 모드)</HD_Ballistics_DebugSettings>
+  <HD_Ballistics_DebugImpacts>피격 탄도 결과 표시</HD_Ballistics_DebugImpacts>
+  <HD_Ballistics_DebugImpacts_Desc>개발자 모드에서 대상 위에 최근 물리 피격의 관통·비관통·도탄 결과, 착탄각, 잔여 운동에너지를 표시합니다. 물리 장갑 판정이 없었던 피격은 따로 표시합니다. 흰 선은 입사 경로, 유색 선은 남은 탄의 진행 방향입니다.</HD_Ballistics_DebugImpacts_Desc>
+  <HD_Ballistics_DebugSpall>스폴·파편 경로 표시</HD_Ballistics_DebugSpall>
+  <HD_Ballistics_DebugSpall_Desc>개발자 모드에서 차량 피해 계산에 실제 사용한 대표 파편 광선을 표시합니다. HESH 스캡과 내부 탄두 파편도 포함합니다. 선 하나는 파편 한 개가 아니라 묶음입니다. 지도에 투영하므로 높이 방향으로 퍼진 선은 겹칠 수 있습니다. 파편을 추가로 계산하지 않습니다.</HD_Ballistics_DebugSpall_Desc>
+  <HD_Ballistics_DebugDuration>표시 유지 시간: {0}초</HD_Ballistics_DebugDuration>
+  <HD_Ballistics_DebugHit>{0} · {1}
+{2}</HD_Ballistics_DebugHit>
+  <HD_Ballistics_DebugAngle>법선 기준 착탄각: {0}°</HD_Ballistics_DebugAngle>
+  <HD_Ballistics_DebugZone>피격 구역: {0}</HD_Ballistics_DebugZone>
+  <HD_Ballistics_DebugJet>제트 관통 여력: {0} → {1} mm RHA 환산</HD_Ballistics_DebugJet>
+  <HD_Ballistics_DebugEnergy>운동에너지: {0} → {1} J</HD_Ballistics_DebugEnergy>
+  <HD_Ballistics_DebugSpallCount>장갑 스폴: 파편 {0}개</HD_Ballistics_DebugSpallCount>
+  <HD_Ballistics_DebugScabCount>HESH 스캡: 파편 {0}개</HD_Ballistics_DebugScabCount>
+  <HD_Ballistics_DebugCaseCount>탄두 파편: {0}개</HD_Ballistics_DebugCaseCount>
+  <HD_Ballistics_DebugRays>대표 광선 {0}개 · 초기 속도 {1} m/s</HD_Ballistics_DebugRays>
+  <HD_Ballistics_DebugLegend>파편 경로: &lt;color=#FFA626&gt;주황: 계속 진행&lt;/color&gt; · &lt;color=#59CCFF&gt;파랑: 정지&lt;/color&gt; · &lt;color=#FF40E6&gt;자홍: 승무원 명중&lt;/color&gt;
+십자는 정지 지점과 각 광선의 첫 승무원 명중 지점입니다. 최근 피격을 최대 32건 유지합니다.</HD_Ballistics_DebugLegend>
+  <HD_Ballistics_Result_None>물리 장갑 판정 없음 / 피복 밖</HD_Ballistics_Result_None>
+  <HD_Ballistics_Result_Ricochet>도탄</HD_Ballistics_Result_Ricochet>
+  <HD_Ballistics_Result_Shatter>탄체 파쇄</HD_Ballistics_Result_Shatter>
+  <HD_Ballistics_Result_Stopped>비관통 · 정지</HD_Ballistics_Result_Stopped>
+  <HD_Ballistics_Result_PartialPenetration>일부 층 관통 후 정지 · 비관통</HD_Ballistics_Result_PartialPenetration>
+  <HD_Ballistics_Result_Perforation>관통</HD_Ballistics_Result_Perforation>
+  <HD_Ballistics_Result_Overmatch>관통 · 관통 여력 충분</HD_Ballistics_Result_Overmatch>
+</LanguageData>

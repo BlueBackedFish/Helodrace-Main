@@ -515,7 +515,61 @@ namespace Helodrace.Ballistics
             var vanillaShots = Fire(vanilla, 30, () => WearCarrier(ibtv, "HD_IOTVPart_FrontRear_ESAPI"));
             Check(vanillaShots.All(s => s.Trace == null && s.Called), "Vanilla revolver rounds use the vanilla armour roll");
 
+            DebugDisplayChecks(m193, ibtv);
+
             forceTorso = false;
+        }
+
+        private void DebugDisplayChecks(ThingDef round, ThingDef carrier)
+        {
+            RaidSettings settings = HelodraceBase.Instance.RaidOptions;
+            bool impacts = settings.ballisticImpactDebug, spall = settings.ballisticSpallDebug, dev = Prefs.DevMode;
+            var display = Find.CurrentMap.GetComponent<MapComponent_BallisticDebug>();
+            try
+            {
+                settings.ballisticImpactDebug = settings.ballisticSpallDebug = false;
+                display.MapComponentUpdate();
+                Fire(round, 1, () => WearCarrier(carrier, "HD_IOTVPart_FrontRear_ESAPI"));
+                Check(display.Count == 0, "Disabled ballistic debugging retains no hit notifications");
+                Prefs.DevMode = true;
+                settings.ballisticImpactDebug = true;
+                Shot shot = Fire(round, 1, () => WearCarrier(carrier, "HD_IOTVPart_FrontRear_ESAPI"))[0];
+                Check(display.Count == 1, "A real physical hit reaches the map debug display");
+                var blast = new ImpactTrace { ProjectileDefName = round.defName };
+                blast.Enter("ExternalBlast", TraceStageStatus.Ran); blast.Leave();
+                BallisticsDebugDisplay.Record(victim, blast, victim.DrawPos.ToNative(), System.Numerics.Vector3.UnitZ,
+                    System.Numerics.Vector3.Zero);
+                Check(display.Count == 1, "Following exterior blast does not replace the full impact notification");
+                settings.ballisticImpactDebug = false; settings.ballisticSpallDebug = true;
+                BallisticsDebugDisplay.Record(victim, shot.Trace, victim.DrawPos.ToNative(), System.Numerics.Vector3.UnitZ,
+                    System.Numerics.Vector3.Zero);
+                Check(display.Count == 1, "Spall-only mode ignores impacts with no fragment rays");
+                BallisticsDebugDisplay.Record(victim, shot.Trace, victim.DrawPos.ToNative(), System.Numerics.Vector3.UnitZ,
+                    System.Numerics.Vector3.Zero, rays: new List<SpallDebugRay> { new SpallDebugRay {
+                        Start = victim.DrawPos.ToNative(), End = victim.DrawPos.ToNative() + System.Numerics.Vector3.UnitZ,
+                        Speed = 200, Fragments = 2 } });
+                Check(display.Count == 2 && display.RayCount == 1, "Spall-only mode retains representative fragment geometry");
+                settings.ballisticImpactDebug = true; settings.ballisticSpallDebug = false;
+                string description = BallisticsDebugDisplay.Describe(victim, shot.Trace, 100, 0, null);
+                Check(!description.Contains("HD_Ballistics_") && description.Contains("100"), "Impact display resolves its localized result and energy text");
+                for (int i = 0; i < 40; i++)
+                    BallisticsDebugDisplay.Record(victim, shot.Trace, victim.DrawPos.ToNative(), System.Numerics.Vector3.UnitZ,
+                        System.Numerics.Vector3.Zero);
+                Check(display.Count == 32, "Rapid fire is bounded to 32 retained debug hits");
+                Prefs.DevMode = false;
+                display.MapComponentUpdate();
+                Check(display.Count == 0 && !BallisticsDebugDisplay.Enabled, "Leaving developer mode clears the overlay");
+                Prefs.DevMode = true;
+                display.Add(victim, shot.Trace, victim.DrawPos.ToNative(), System.Numerics.Vector3.UnitZ,
+                    System.Numerics.Vector3.Zero, 100, 0, null, -1f);
+                display.MapComponentUpdate();
+                Check(display.Count == 0, "Expired debug snapshots disappear even while simulation time is unchanged");
+            }
+            finally
+            {
+                settings.ballisticImpactDebug = impacts; settings.ballisticSpallDebug = spall; Prefs.DevMode = dev;
+                display.MapComponentUpdate();
+            }
         }
 
         private void SummarizeHelmet(string label, List<Shot> shots, string helmet)

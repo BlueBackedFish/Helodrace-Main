@@ -16,6 +16,44 @@ internal static class InteriorTests
         Geometry();
         Trace();
         Spall();
+        DebugCapture();
+    }
+
+    private static void DebugCapture()
+    {
+        var interior = new VehicleInterior();
+        interior.Boxes.Add(new InteriorBox { Min = new Vector3(-10, -10, 2), Max = new Vector3(10, 10, 3) });
+        var profile = new SpallProfile { Rays = 8 };
+        var frame = new BallisticFrame(new Vector3(20, 0, 30), 37f);
+        Vector3 origin = frame.ToWorldPoint(new Vector3(0, 0.5f, 0));
+        var layers = new[] { new VehicleArmorLayer(VehicleTests.Rha(), 1f) };
+        var seats = new List<SpallSeatHit>();
+        var boxes = new List<SpallBoxHit>();
+        var rays = new List<SpallDebugRay>();
+        SpallTracer.Trace(interior, profile, origin, frame.Forward, 64, 200f, frame, frame,
+            _ => layers, 17, seats, boxes);
+        var baseline = boxes.ToArray();
+        SpallTracer.Trace(interior, profile, origin, frame.Forward, 64, 200f, frame, frame,
+            _ => layers, 17, seats, boxes, debugRays: rays);
+        check(rays.Count == 8 && boxes.Count == baseline.Length, "Debug capture retains actual bundle rays without changing intersections");
+        for (int i = 0; i < rays.Count; i++)
+        {
+            check(boxes[i].Box == baseline[i].Box && boxes[i].Fragments == baseline[i].Fragments && boxes[i].Speed == baseline[i].Speed,
+                "Debug capture does not alter fragment damage input");
+            check(rays[i].Start == origin && rays[i].Stopped && !rays[i].CrewHit && rays[i].Fragments == 8,
+                "Debug ray retains its origin, bundle count and equipment stop");
+            near(2f, frame.ToLocalPoint(rays[i].End).Z, 1e-4, "Debug ray ends on the stopping equipment face");
+        }
+        interior.Boxes.Clear();
+        interior.Seats.Add(new InteriorSeat { Base = new Vector3(0, 0, 1), Radius = 0.25f, Height = 1 });
+        profile.Rays = 1; profile.ConeHalfAngleDegrees = 0f;
+        SpallTracer.Trace(interior, profile, origin, frame.Forward, 1, 200f, frame, frame,
+            _ => layers, 17, seats, boxes, debugRays: rays);
+        check(rays.Count == 1 && rays[0].CrewHit && rays[0].Stopped && seats.Count == 1, "Crew hit is captured on the actual ray");
+        near(0.75f, frame.ToLocalPoint(rays[0].CrewPoint).Z, 1e-4, "Crew marker is at the seat entry rather than the maximum ray range");
+        SpallTracer.Trace(interior, profile, origin, frame.Forward, 0, 200f, frame, frame,
+            _ => layers, 17, seats, boxes, debugRays: rays);
+        check(rays.Count == 0, "No-fragment impacts clear debug rays");
     }
 
     private static void Geometry()

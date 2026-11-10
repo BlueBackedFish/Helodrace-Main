@@ -71,6 +71,14 @@ namespace Helodrace
                 "HD_Settings_TacticalAI_Desc".Translate());
             listing.CheckboxLabeled("HD_Settings_BodyVariants".Translate(), ref RaidOptions.bodyVariants,
                 "HD_Settings_BodyVariants_Desc".Translate());
+            listing.Gap();
+            listing.Label("HD_Ballistics_DebugSettings".Translate());
+            listing.CheckboxLabeled("HD_Ballistics_DebugImpacts".Translate(), ref RaidOptions.ballisticImpactDebug,
+                "HD_Ballistics_DebugImpacts_Desc".Translate());
+            listing.CheckboxLabeled("HD_Ballistics_DebugSpall".Translate(), ref RaidOptions.ballisticSpallDebug,
+                "HD_Ballistics_DebugSpall_Desc".Translate());
+            listing.Label("HD_Ballistics_DebugDuration".Translate(RaidOptions.ballisticDebugSeconds.ToString("0")));
+            RaidOptions.ballisticDebugSeconds = listing.Slider(RaidOptions.ballisticDebugSeconds, 1f, 20f);
             listing.End();
         }
         public override void WriteSettings()
