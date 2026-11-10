@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "baseline": "65463caa",
+  "part_groups": 10,
+  "painted_source_faces": 3284,
+  "source_shape_and_uv_and_transform_unchanged": true,
+  "alpha_identical": true,
+  "physical_scale_unchanged": true,
+  "glass_radome_intakes_exhausts_and_gear_protected": true,
+  "protected_intake_faces_excluded": 42,
+  "external_weapons": 0,
+  "source_albedo_weathering_used": false,
+  "palette_roles": {
+    "panel_light": 46,
+    "engine_cover": 28,
+    "mount_interface": 2900,
+    "panel_mid": 302,
+    "control_panel": 8
+  }
+}

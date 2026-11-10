@@ -24,6 +24,9 @@ for label,rgb in [('LIGHT',(220,222,225)),('GRAY',(91,97,104)),('DARK',(31,37,44
     bg=Image.new('RGBA',(size,size),rgb+(255,));bg.alpha_composite(images['outlined']);backgrounds.append((label,bg))
 sheet(backgrounds,OUT/'preview.png',columns=3,cell_size=(400,440))
 sheet([('TOP / CLEAN CONFIGURATION',images['outlined']),('OBLIQUE / NO EXTERNAL STORES',Image.open(OUT/'oblique.png'))],OUT/'model_review.png',columns=2,cell_size=(520,560))
+sheet([('BEFORE',Image.open(ROOT/'analysis/panel_colors_before.png')),
+    ('PANEL TONES',images['outlined']),('EMPTY MOUNTS / UNDERSIDE',Image.open(OUT/'mounts_underside.png'))],
+    OUT/'panel_color_review.png',columns=3,cell_size=(460,510))
 review=Image.new('RGB',(840,590),(91,97,104));draw=ImageDraw.Draw(review)
 for n,x,y in [(256,20,150),(512,300,52)]:
     small=resize_linear(images['outlined'],n);review.paste(small,(x,y),small);draw.text((x,y-32),f'{n}px / actual pixels',font=font(16),fill='white')

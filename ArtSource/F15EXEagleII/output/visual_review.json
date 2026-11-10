@@ -5,7 +5,9 @@
     "output/model_review.png",
     "output/preview.png",
     "output/scale_review.png",
-    "output/F22_F15EX_real_scale.png"
+    "output/F22_F15EX_real_scale.png",
+    "output/panel_color_review.png",
+    "output/mounts_underside.png"
   ],
   "exact_top_nose_up": true,
   "unarmed_clean_airframe_reviewed": true,
@@ -26,5 +28,9 @@
   "model_span_relative_difference": 0.014767976907583469,
   "model_span_difference_retained_without_distortion": true,
   "in_game_tested": false,
-  "blueprint_validation_performed": false
+  "blueprint_validation_performed": false,
+  "panel_tone_variation_reviewed": true,
+  "empty_mount_colors_reviewed": true,
+  "source_geometry_preserved": true,
+  "alpha_unchanged_after_paint": true
 }

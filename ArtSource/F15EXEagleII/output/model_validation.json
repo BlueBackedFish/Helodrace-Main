@@ -19749,6 +19749,65 @@
   "ortho_scale": 20.331734017687843,
   "source_albedo_used_for_paint": false,
   "source_markings_used": false,
+  "panel_color_groups": [
+    {
+      "name": "Inner main-wing skins",
+      "palette_role": "panel_light",
+      "source_faces": 8
+    },
+    {
+      "name": "Wing trailing-edge panels",
+      "palette_role": "control_panel",
+      "source_faces": 8
+    },
+    {
+      "name": "Intake forward upper panels",
+      "palette_role": "panel_light",
+      "source_faces": 12
+    },
+    {
+      "name": "Intake aft upper panels",
+      "palette_role": "engine_cover",
+      "source_faces": 28
+    },
+    {
+      "name": "Horizontal stabilator main skins",
+      "palette_role": "panel_light",
+      "source_faces": 10
+    },
+    {
+      "name": "Horizontal stabilator aft panels",
+      "palette_role": "panel_mid",
+      "source_faces": 4
+    },
+    {
+      "name": "Centerline rear spine panel",
+      "palette_role": "panel_light",
+      "source_faces": 16
+    },
+    {
+      "name": "Side carriage panels",
+      "palette_role": "panel_mid",
+      "source_faces": 298
+    },
+    {
+      "name": "Empty forward and side mounting adapters",
+      "palette_role": "mount_interface",
+      "source_faces": 468
+    },
+    {
+      "name": "Side-rack attachment lugs and fasteners",
+      "palette_role": "mount_interface",
+      "source_faces": 2432
+    }
+  ],
+  "panel_color_face_counts": {
+    "panel_light": 46,
+    "engine_cover": 28,
+    "mount_interface": 2900,
+    "panel_mid": 302,
+    "control_panel": 8
+  },
   "delivery_resolution": 1222,
   "draw_size_tiles": [
     7.162872689669626,

@@ -15,7 +15,9 @@ Create an unarmed F-15EX from the locally supplied model, using the established 
 
 | Part | Treatment |
 | --- | --- |
-| Airframe | Constant gray emission, original source geometry and UVs |
+| Airframe | Fixed panel-specific gray emission tones, original source geometry and UVs |
+| Wing / tail / inlet panels | Light/mid-gray skins and slightly darker trailing-edge/inlet panels, selected by inspected source face IDs |
+| Empty mounts | Cooler/darker gray on mounting brackets and side-rack lugs; separate subtle tone on side carriage panels |
 | Canopy | Opaque muted blue-gray; original two-seat canopy/frame geometry |
 | Radome | Separate fixed gray, original shape |
 | Twin exhaust | Separate inner/outer metal colors; source petal geometry |
@@ -40,3 +42,5 @@ Source albedo markings, baked lighting and weathering are not used as paint. Sep
 - `output/F22_F15EX_real_scale.png`: same physical scale with the existing F-22.
 
 No gameplay aircraft definition, control-surface animation implementation or in-game validation is claimed.
+
+The panel-color revision uses ten inspected part groups in `panel_colors.json`. It changes material assignments only. Glass, radome, dark intake mouths, exhausts and hidden gear retain their earlier colors; 42 protected intake faces were explicitly excluded from the tint sets. Pixel alpha, source coordinates, topology, UVs, transforms, scale and physical crease geometry are unchanged. `output/panel_color_validation.json` records the checks. The underside close-up makes the actual empty mount surfaces visible without adding weapons.

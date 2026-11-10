@@ -52,6 +52,31 @@
       126,
       138,
       147
+    ],
+    "panel_light": [
+      154,
+      163,
+      170
+    ],
+    "panel_mid": [
+      137,
+      148,
+      157
+    ],
+    "control_panel": [
+      130,
+      142,
+      152
+    ],
+    "engine_cover": [
+      134,
+      146,
+      156
+    ],
+    "mount_interface": [
+      121,
+      137,
+      148
     ]
   },
   "reference_url": "https://www.boeing.com/defense/fighters-and-bombers/f-15ex-eagle",

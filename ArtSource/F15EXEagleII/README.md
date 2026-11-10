@@ -6,6 +6,7 @@ Created from the supplied `F15EX_Eagle_II_Lineup.zip`, using only the first clea
 - Final export: `output/HD_F15EX.png`, **1222×1222 transparent RGBA**, one **12px black outside outline**.
 - Plain / outlined exports: `output/HD_F15EX_plain.png`, `output/HD_F15EX_outlined.png`.
 - Editable model: `output/f15ex_eagle_ii.blend`; original airframe and archived landing gear retain source coordinates, topology and UVs.
+- Panel paint before/after and empty-mount close-up: `output/panel_color_review.png`; underside close-up: `output/mounts_underside.png`; preservation checks: `output/panel_color_validation.json`.
 - Full model view: `output/model_review.png`; alpha backgrounds: `output/preview.png`; actual 256/512px sizes: `output/scale_review.png`.
 - Equal physical scale with the logo-free F-22: `output/F22_F15EX_real_scale.png`.
 - Source selection and geometry/scale checks: `output/selection_manifest.json`, `output/model_validation.json`, `output/texture_validation.json`, `output/visual_review.json`.
@@ -17,6 +18,8 @@ Created from the supplied `F15EX_Eagle_II_Lineup.zip`, using only the first clea
 Source geometry is not welded, decimated or reshaped. The common `VehiclePipeline/pipeline.py` OBJ reader preserves source face IDs, polygon order and UVs. The original +Y up and 35-degree XZ heading are transformed with a uniform parent matrix to +Z up and +Y forward. Original absolute source vertex coordinates remain in the mesh datablocks. `F15EX_ART_ORIGIN` centers and calibrates the aircraft. The image pivot is `(0.5,0.5)`.
 
 ## Flat aircraft paint
+
+The broad inner-wing and stabilator skins, trailing-edge panels, inlet upper panels and rear centerline skin now have subtle separate gray tones. `panel_colors.json` maps inspected source face IDs to each paint role, guarded by the pinned archive hash. Empty mounting adapters and side-rack lugs have a slightly cooler/darker mounting-interface gray, while the side carriage panels have a softer mid-gray. The original source panel shapes determine the color boundaries; no noise or arbitrary triangle shading is added.
 
 The aircraft uses fixed gray emission colors, an opaque muted blue-gray canopy, a distinct radome, intake recesses, and two exhaust metal colors. Upright fins receive the same mild fixed brightness gain used for F-22. There are no lamps, AO, reflections, normal maps, gloss or cast shadows.
 

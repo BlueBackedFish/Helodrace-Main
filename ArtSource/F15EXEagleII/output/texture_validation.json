@@ -20,7 +20,7 @@
   ],
   "images": {
     "plain": {
-      "sha256": "a674621822fb351d2e753c380151dfcbf5367d578e28f56dafd22ac88b43a028",
+      "sha256": "6940c40b991bb2afe718608364fe330387acffb39bd72585711a5cde85bfdb60",
       "bounds": [
         212,
         26,
@@ -30,7 +30,7 @@
       "margin": 25
     },
     "outlined": {
-      "sha256": "1fce6adbf59cc54344bcbd064940da7ed0b7303857914a78af779f58d3c1afe3",
+      "sha256": "21a19df0a559a8e98d5e35af1473ab22612bdc66c2b166ff8c0b1b54f50709e5",
       "bounds": [
         200,
         14,

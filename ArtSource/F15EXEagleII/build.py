@@ -9,6 +9,10 @@ ROOT=Path(__file__).resolve().parent;OUT=ROOT/'output';OUT.mkdir(exist_ok=True)
 sys.path.insert(0,str(ROOT.parent/'VehiclePipeline'));from pipeline import read_obj
 sys.path.insert(0,str(ROOT.parent/'PropAssets'));import modeling as m
 style=json.loads((ROOT/'style.json').read_text(encoding='utf-8'))
+color_plan=json.loads((ROOT/'panel_colors.json').read_text(encoding='utf-8'))
+assert color_plan['source_sha256']==style['source_sha256']
+face_roles={fi:part['palette_role'] for part in color_plan['parts'] for fi in part['source_face_ids']}
+color_counts=Counter()
 archive=Path(style['source_archive']);assert hashlib.sha256(archive.read_bytes()).hexdigest()==style['source_sha256']
 with zipfile.ZipFile(archive) as package:
     data=package.read(style['obj_member'])
@@ -46,6 +50,8 @@ for name,group in selected.items():
     assert np.array_equal(actual.reshape(-1,3),np.asarray(coords,dtype=np.float32))
     obj=bpy.data.objects.new(name,mesh);scene.collection.objects.link(obj);obj.parent=origin
     roles=[paint,materials['glass'],materials['radome'],materials['exhaust'],materials['exhaust_inside'],materials['intake'],fin,materials['gear']]
+    color_slots={key:len(roles)+i for i,key in enumerate(color_plan['roles'])}
+    roles.extend(materials[key] for key in color_plan['roles'])
     for material in roles:mesh.materials.append(material)
     hidden=name==style['hidden_gear_object'];obj.hide_render=hidden;obj.hide_viewport=hidden
     for polygon,face in zip(mesh.polygons,faces):
@@ -58,6 +64,10 @@ for name,group in selected.items():
             radial=math.hypot(abs(x)-.70,z-2.32);role=4 if radial<.43 else 3
         elif 1<y<4 and .65<abs(x)<1.85 and z<2.8 and normal.y>.5:role=5
         elif y< -4 and z>3.5:role=6
+        source_face=group['faces'][polygon.index]
+        if source_face in face_roles:
+            assert role==0,('Panel tint overlaps protected glass/nozzle/gear',source_face,role)
+            palette_role=face_roles[source_face];role=color_slots[palette_role];color_counts[palette_role]+=1
         polygon.material_index=role
     obj['source_group']=group['id'];obj['flight_visibility']='hidden landing gear' if hidden else 'clean airframe only'
     objects.append(obj);inventory.append(dict(object=name,faces=len(faces),vertices=len(coords),hidden_in_flight=hidden,
@@ -79,6 +89,7 @@ camera.location=(0,0,high.z+10);camera.rotation_euler=(0,0,0);scene.camera=camer
 bpy.data.orphans_purge(do_recursive=True)
 m.save(OUT/'f15ex_eagle_ii.blend');m.render(OUT/'top_plain_2048.png',camera,style['master_resolution'])
 detail_camera=m.camera('F15EX oblique inspection',-55,40,23,(0,0,2));m.render(OUT/'oblique.png',detail_camera,1000)
+mount_camera=m.camera('F15EX empty mount inspection',-65,-35,12,(0,-1.8,.8));m.render(OUT/'mounts_underside.png',mount_camera,1000)
 inferred_span=high.x-low.x;span_error=inferred_span/style['physical_wingspan_m']-1
 assert abs(span_error)<.025
 report=dict(passed=True,source_archive=str(archive),source_sha256=style['source_sha256'],
@@ -93,6 +104,8 @@ report=dict(passed=True,source_archive=str(archive),source_sha256=style['source_
     lighting='Fixed emission only; no lights, AO, gloss, normal maps, reflections or shadows',
     source_albedo_sha256=style['source_albedo_sha256'],ortho_scale=ortho,
     source_albedo_used_for_paint=False,source_markings_used=False,
+    panel_color_groups=[dict(name=p['name'],palette_role=p['palette_role'],source_faces=len(p['source_face_ids'])) for p in color_plan['parts']],
+    panel_color_face_counts=dict(color_counts),
     delivery_resolution=resolution,draw_size_tiles=[draw_size,draw_size],pivot_normalized=[.5,.5],
     reference_scale='C-17 19 tiles / F-22 physical_scale.json',reference_url=style['reference_url'],
     game_definition_added=False,in_game_tested=False)
