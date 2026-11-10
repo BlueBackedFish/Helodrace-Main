@@ -181,6 +181,8 @@
       <soundExplode>Explosion_Bomb</soundExplode>
     </projectile>
     <modExtensions>
+      <!-- Single 127 mm shaped charge against vehicle armour; about 430 mm RHA is a game value within public claims [game]. -->
+      <li Class="Helodrace.Ballistics.ShapedChargeExtension"><penetrationRhaMillimeters>430</penetrationRhaMillimeters></li>
       <li Class="Helodrace.TowProjectileExtension">
         <normalTexPath>Weapons/ColdWar/Projectiles/BGM-71A/HD_BGM71A</normalTexPath>
         <ignitionTexPath>Weapons/ColdWar/Projectiles/BGM-71A/HD_BGM71A_Fire</ignitionTexPath>
@@ -276,6 +278,8 @@
       <soundExplode>Explosion_Bomb</soundExplode>
     </projectile>
     <modExtensions>
+      <!-- Single 140 mm shaped charge; about 450 mm RHA is a game value within public claims [game]. -->
+      <li Class="Helodrace.Ballistics.ShapedChargeExtension"><penetrationRhaMillimeters>450</penetrationRhaMillimeters></li>
       <li Class="Helodrace.M47DragonProjectileExtension">
         <!-- Increasing this angle produces wider weaving and a lower practical hit chance. -->
         <steeringOscillationDegrees>1.1</steeringOscillationDegrees>

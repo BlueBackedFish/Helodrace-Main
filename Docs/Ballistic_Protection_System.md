@@ -853,6 +853,91 @@ AmmoStorageState (저장 위치별)
   - Bradley ERA가 켜진 상태의 KE 감쇠.
   - 화면 확인, 저장/불러오기.
 
+### 6단계 구현 (2026-11-10)
+
+성형작약 제트, 탠덤, 범용 반응장갑(ERA/NERA)을 추가했다. Bradley ERA 판정(`BradleyRules.Resolve`, `CompBradley.ApplyEra`·`SelectEraModule`, `BradleyThreat`, `BradleyProjectileProfile`, 잔여 계수 속성)은 삭제하고 범용 단계로 옮겼다. Bradley 고유 코드에는 BUSK 설치 상태, 타일 체력 저장, 타일 그림·위치만 남는다.
+
+**선행 조사** — TOW·M47 드래곤은 지금까지 차량에 직접 맞는 판정이 없었다. `Projectile_Explosive`의 폭발은 착탄보다 뒤의 틱에 피해를 주기 때문이다. 그래서 Bradley ERA는 이 탄들을 `Tandem`/`ShapedCharge`가 아니라 늘 `Blast`로 분류했다.
+
+**피해 배분(사용자 결정, 2026-11-10: 제트 위주)**
+- 성형작약 탄이 장갑 모델이 있는 차량에 직접 명중하면 폭발 전에 제트를 직접 명중 피해로 넣는다. 피해량은 탄의 기존 피해량이고 피해 종류는 `Bullet`이다.
+- 뒤따르는 그 탄의 폭발은 같은 차량에 외부 폭압 몫 0.25만 준다 [게임]. 30틱 안에 같은 공격자가 일으킨 폭발로 판단한다.
+- 다른 대상(주변 폰·차량)에 대한 폭발 피해는 그대로다.
+
+**구성**
+
+| 파일 | 내용 |
+|---|---|
+| Main `Ballistics/Core/ShapedChargeModel.cs` | `ShapedChargeWarhead`, 제트 판정 `ShapedChargeModel`, 반응장갑 형상식 `ReactiveArmorModel`, `ReactiveModuleSpec` |
+| Main `Ballistics/Defs/ReactiveModuleDef.cs` | 반응장갑 모듈 정의(전부 [게임]), 기폭 파편 |
+| Main `Ballistics/Defs/ProjectilePhysics.cs` | `ShapedChargeExtension`(RHA 수치, 선구 탄두, 탠덤 지연, 제트 밀도·속도) |
+| Main `ArmorMaterialDef.massEfficiencyVsJet` | 제트에 대한 RHA 등가 계수 [게임] |
+| Lobos `Source.Vehicles/Armor/ReactiveArmorRules.cs` | 모듈 선택·응답(게임 의존성 없음, 테스트 실행 파일에서도 돈다) |
+| Lobos `Source.Vehicles/Armor/ReactiveArmor.cs` | `IVehicleReactiveArmor`, 기폭 효과(`ReactiveArmorEffects`, `ReactiveArmorFragment`), 제트 직접 명중과 폭발 몫 `VehicleJetDelivery` |
+| Lobos `Defs/Vehicles/ReactiveModules.xml` | `HDA_Reactive_BUSK` |
+
+**모델**
+- **제트** [물리 근사]: 유체역학 `P = L_jet·√(ρj/ρt)`.
+  - 탄두의 RHA 수치에서 제트 길이를 구하고, 남은 RHA 등가 잠재력으로 추적한다. 층마다 `LOS × 밀도/7850 × massEfficiencyVsJet`만큼 쓴다.
+  - 도탄은 없다. 착탄각 80° 근처에서는 로지스틱 곡선(폭 2°)으로 신관이 작동하지 않는다 [게임].
+  - 산포 5 % [게임]. 잔여 잠재력이 절반 이상이면 Overmatch.
+  - 관통 피해 몫 = (0.5 + 0.5 × 잔여 비율) × 반응장갑 잔여 계수 [게임]. 예전 Bradley 규칙도 같은 잔여 계수로 피해를 줄였다.
+- **반응장갑** [물리 근사 형태, 게임 계수]: 모듈 면 법선에서 내부 카세트 경사만큼 기운 판 법선을 쓴다(제트와 판의 각 θ).
+  - 제트 선단은 작동 지연 동안 그냥 지나간다: `L_tip = v_tip·t_d`.
+  - 비판은 절단점이 폭의 절반을 미끄러질 때까지 제트에 걸린다: `T = (W/2)/(v_f·tanθ)`. 걸리는 제트 길이는 `v_평균·T`이다.
+  - 그중 `효율 × sinθ`를 무력화한다. 정면 수직(θ = 0)에서는 비판이 옆으로 쓸지 않으므로 효과가 없다.
+  - **탠덤**: 선구 탄두가 모듈을 작동시킨다. 주 제트는 `t_m` 뒤에 남은 겹침 `1 − v_f·t_m·tanθ/(W/2)`만큼만 교란된다.
+  - **KE**: 운동에너지가 문턱 이상이면 작동하고, 탄 질량·봉 길이의 `kineticResidual`을 남긴다 [게임].
+  - **소화기·폭압**: 작동하지 않고 마모만 준다(피해 × 0.04 / 0.65).
+  - **NERA**: 같은 식에 비판 속도·효율을 낮추고, 소모 대신 맞을 때마다 효율이 줄어든다. 현재 차량 데이터에는 쓰지 않는다.
+- **모듈 선택**: 예전 Bradley 추첨(부피 × 쏜 쪽을 향함)을 유지하되, 맞은 판과 같은 프레임이고 판 법선과 60° 이내인 모듈로 제한한다. 소모된 모듈은 추첨에 남는다(빈 자리에 맞으면 방호 없음). 난수는 `Verse.Rand` 대신 결정론 스트림을 쓴다.
+
+**데이터** [게임, 공개 주장 범위]
+
+| 탄 | 수치 |
+|---|---|
+| BGM-71A `HD_BGM71A_Proj` | 단일 430 mm |
+| M222 `HD_M222_Proj` | 단일 450 mm |
+| TOW-2A `HDA_TOW2A_Projectile` | 주 900 mm + 선구 50 mm, 지연 120 μs |
+
+- BUSK(`HDA_Reactive_BUSK`): 카세트 경사 60°, 비판 500 m/s, 폭 0.3 m, 작동 지연 3 μs, 효율 1, KE 문턱 60 kJ, KE 잔여 0.9. 측면 정면 착탄에서 단일 HEAT 잔여 0.186, 탠덤 주 제트 0.734이다(예전 0.2 / 0.7).
+- 제트 효율: 알루미늄 1.1, `HDA_Armor_SpecialComposite` 3.5. M1A2 포탑 정면은 제트에 대해 RHA 약 1,260 mm, 차체 정면은 약 970 mm다.
+- 한국어 DefInjected: 5단계 재료(RHA 등)·Lobos 층 구성 30개·복합장갑·BUSK 이름을 같은 작업에서 추가했다(5단계에서 빠뜨린 것 포함).
+
+**하지 않은 것**
+- 간격장갑·슬랫 조기 기폭, 스탠드오프에 따른 제트 신장.
+- ERA 연쇄 작동, 주변 보병 피해 확률. 기폭 파편은 기존 투사체 16개를 그대로 쓴다.
+- 제트 관통 후 내부 원뿔(7단계).
+- 1.6 전용 net48 스모크(`GameSmoke`, `MapSmoke`, `AirborneMapSmoke`)는 1.7에서 빌드되지 않는 구형 파일이라 삭제한 ERA API를 반영하지 않았다.
+
+**검증**
+- Main `Source/Tests/BallisticsCore`: 290,709개 통과.
+  - 제트: 길이 식, 층별 소비·분할 동일, 60° LOS, 알루미늄 등가, 박한 여유의 피해 몫, 공칭 두께에서 관통 약 50 %, 신관 실패 곡선.
+  - 반응장갑: 카세트 경사, 단일 0.2 / 탠덤 0.7, 늦은 주 제트, 수직 무효, 경사 단조성, 작동 지연, NERA와 열화.
+- Lobos `VehicleArmor.Tests`: 50,115개 통과.
+  - 예전 `BradleyRules.Resolve` 기대값을 범용 규칙으로 다시 검사했다: 소화기 미작동·4 % 마모, 단일 HEAT 작동·0.2, 탠덤 > 단일, 25 mm AP 작동·0.9, 문턱 미만 KE 마모, 불활성 스커트·소모 모듈 무효, 폭압 마모, 비탄도 피해 무시.
+  - 모듈 선택: 동쪽 사격은 동쪽을 향한 같은 프레임 모듈만 고른다. 후면은 방호 없음.
+  - 제트 시나리오(3,000회):
+
+| 시나리오 | 관통 비율 |
+|---|---|
+| M3A3 측면·정면, M8 정면 vs BGM-71A / M222 | 1.00 |
+| M1A2 정면 vs BGM-71A / TOW-2A | 0 / 0 |
+| M1A2 측면 vs BGM-71A(포탑 볼이 일부 막음) / TOW-2A | 0.88 / 1.00 |
+| M3A3 측면 + BUSK vs BGM-71A | 1.00(경장갑이라 약해진 제트도 관통. 피해만 × 0.186) |
+| M1A2 측면 + BUSK형 타일 vs BGM-71A | 0.53 |
+
+- Lobos `BradleyRules` 28개 통과(ERA 검사는 위로 이동), 모드 빌드 경고·오류 0.
+- 실제 엔진 `.codex-staging/LobosArmor6b`: **COMPLETE**(28 PASS). 5단계 검사 전체가 다시 통과했다.
+  - M1A2 정면 TOW-2A 20발: 모두 정지. 경사판 착탄 중 3발은 80° 근처라 신관이 작동하지 않았다. 측면 20발은 모두 Overmatch. 발마다 뒤따른 폭발 2회가 외부 몫으로 기록됐다.
+  - BUSK 없는 M3A3 측면 BGM-71A 20발: 모두 관통, 외부 손상 합 3,439. BUSK를 새로 장착하고 쏜 20발: 19발에서 타일이 작동했고 손상 합은 1,871.
+  - 작동한 타일은 사라졌다. 12.7 mm 20발은 타일을 작동시키지 않았다. 25 mm AP 20발 중 17발이 작동시켰다.
+  - 엔진 ERROR는 기존 3종(`HDA_C17`, `HDA_M8_M35`, Workshop 폴더)뿐이다.
+- 확인하지 못한 것:
+  - 실제 유도 비행으로 날아온 TOW. 검사는 착탄 함수를 직접 호출했다.
+  - 기폭 파편이 운반 차량을 다치게 하지 않는지 따로 측정하지 않았다(기존 무시 목록 코드를 그대로 썼다).
+  - 화면 확인, 저장/불러오기.
+
 ## 13. 필요한 자료 목록
 
 [실험] 계수는 출처를 확보하기 전에는 [게임] 값으로 동작하고 트레이스에 표시한다.

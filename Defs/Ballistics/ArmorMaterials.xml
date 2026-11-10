@@ -78,7 +78,7 @@
     high-hardness armour MIL-DTL-46100 class (about 480-540 HB), aluminium 5083 (about 75-85 HB).
     The small-arms block is calibrated [game]: 12.7 mm M8 API (40.4 g, 887 m/s) is at V50 on 20 mm RHA.
     steelTarget: the long-rod fit takes the plate's own density and hardness. Other materials use RHA equivalence
-    (density ratio x massEfficiencyVsKinetic [game]).
+    (density ratio x massEfficiencyVsKinetic [game]); jets always use density ratio x massEfficiencyVsJet [game].
   -->
   <Helodrace.Ballistics.ArmorMaterialDef>
     <defName>HD_Armor_RHA</defName>
@@ -117,6 +117,7 @@
     <densityKgM3>2660</densityKgM3>
     <brinellHardness>80</brinellHardness>
     <massEfficiencyVsKinetic>0.95</massEfficiencyVsKinetic>
+    <massEfficiencyVsJet>1.1</massEfficiencyVsJet>
     <ballisticLimitCoefficient><soft>1600</soft><mildSteel>1330</mildSteel><hardSteel>1185</hardSteel><tungsten>1010</tungsten></ballisticLimitCoefficient>
     <limitScatter>0.05</limitScatter>
     <traumaTransfer>0.05</traumaTransfer>

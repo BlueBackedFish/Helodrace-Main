@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using HarmonyLib;
 using Verse;
 using Vector3 = System.Numerics.Vector3;
@@ -11,6 +12,44 @@ namespace Helodrace.Ballistics
     public sealed class ProjectileFlightExtension : DefModExtension
     {
         public float descentDegrees;
+    }
+
+    /// <summary>
+    /// Shaped-charge warhead of a projectile (design doc 4.2). The RHA figures are game values within public claims
+    /// for each warhead [game]; mechanism is ShapedCharge, or Tandem when a precursor is given.
+    /// </summary>
+    public sealed class ShapedChargeExtension : DefModExtension
+    {
+        public float penetrationRhaMillimeters;
+        public float precursorPenetrationRhaMillimeters;
+        public float tandemDelayMicroseconds = 120f;
+        public float jetDensityKgM3 = ShapedChargeModel.CopperDensity;
+        public float tipVelocityMetersPerSecond = 8000f;
+        public float tailVelocityMetersPerSecond = 2000f;
+        public float scatter = 0.05f;
+
+        private ShapedChargeWarhead model;
+
+        public PenetrationMechanism Mechanism => precursorPenetrationRhaMillimeters > 0f ? PenetrationMechanism.Tandem : PenetrationMechanism.ShapedCharge;
+
+        public ShapedChargeWarhead Model => model ?? (model = new ShapedChargeWarhead
+        {
+            PenetrationRhaM = penetrationRhaMillimeters * 0.001f,
+            PrecursorPenetrationRhaM = precursorPenetrationRhaMillimeters * 0.001f,
+            TandemDelayS = tandemDelayMicroseconds * 1e-6f,
+            JetDensityKgM3 = jetDensityKgM3,
+            TipVelocityMs = tipVelocityMetersPerSecond,
+            TailVelocityMs = tailVelocityMetersPerSecond,
+            Scatter = scatter
+        });
+
+        public override IEnumerable<string> ConfigErrors()
+        {
+            if (!(penetrationRhaMillimeters > 0f)) yield return "Shaped charge needs penetrationRhaMillimeters.";
+            if (precursorPenetrationRhaMillimeters < 0f || tandemDelayMicroseconds < 0f) yield return "Shaped charge precursor and delay must not be negative.";
+            if (!(jetDensityKgM3 > 0f && tipVelocityMetersPerSecond > tailVelocityMetersPerSecond && tailVelocityMetersPerSecond > 0f))
+                yield return "Shaped charge jet needs density and tip velocity above tail velocity.";
+        }
     }
 
     /// <summary>Game boundary: reads a live projectile into the kinetic vehicle model's inputs.</summary>

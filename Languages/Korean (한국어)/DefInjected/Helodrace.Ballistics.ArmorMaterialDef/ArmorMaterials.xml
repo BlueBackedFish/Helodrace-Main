@@ -5,4 +5,9 @@
   <HD_Armor_Aramid.label>아라미드</HD_Armor_Aramid.label>
   <HD_Armor_ManganeseSteel.label>망간강</HD_Armor_ManganeseSteel.label>
   <HD_Armor_Polycarbonate.label>폴리카보네이트 적층재</HD_Armor_Polycarbonate.label>
+  <HD_Armor_RHA.label>압연 균질 장갑</HD_Armor_RHA.label>
+  <HD_Armor_HighHardnessSteel.label>고경도 장갑강</HD_Armor_HighHardnessSteel.label>
+  <HD_Armor_Aluminium5083.label>알루미늄 장갑</HD_Armor_Aluminium5083.label>
+  <HD_Penetrator_TungstenAlloy.label>텅스텐 중합금</HD_Penetrator_TungstenAlloy.label>
+  <HD_Penetrator_DepletedUranium.label>열화우라늄 합금</HD_Penetrator_DepletedUranium.label>
 </LanguageData>

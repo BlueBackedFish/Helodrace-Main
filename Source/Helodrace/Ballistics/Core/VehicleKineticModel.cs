@@ -96,9 +96,13 @@ namespace Helodrace.Ballistics
         /// <summary>True for steels: the long-rod fit takes this target's own density and hardness.</summary>
         public readonly bool SteelTarget;
 
+        /// <summary>RHA-equivalence factor against shaped-charge jets (per unit mass). [game]</summary>
+        public readonly float MassEfficiencyVsJet;
+
         public VehicleArmorMaterial(KineticMaterial smallArms, float brinellHardness, float massEfficiencyVsKinetic,
-            bool steelTarget)
+            bool steelTarget, float massEfficiencyVsJet = 1f)
         {
+            MassEfficiencyVsJet = massEfficiencyVsJet;
             SmallArms = smallArms;
             Id = smallArms?.Id ?? string.Empty;
             DensityKgM3 = smallArms?.DensityKgM3 ?? 0f;
@@ -111,12 +115,17 @@ namespace Helodrace.Ballistics
         public float RhaEquivalent(float losThicknessM) =>
             SteelTarget ? losThicknessM : losThicknessM * DensityKgM3 / VehicleKineticModel.RhaDensity * MassEfficiencyVsKinetic;
 
+        /// <summary>RHA-equivalent line-of-sight thickness against a jet, metres (density ratio x jet efficiency).</summary>
+        public float RhaEquivalentVsJet(float losThicknessM) =>
+            losThicknessM * DensityKgM3 / VehicleKineticModel.RhaDensity * MassEfficiencyVsJet;
+
         public IEnumerable<string> Validate()
         {
             if (SmallArms == null) { yield return "vehicle armour material without small-arms response"; yield break; }
             foreach (string error in SmallArms.Validate()) yield return error;
             if (!(BrinellHardness > 0f)) yield return Id + ": Brinell hardness must be positive";
             if (!(MassEfficiencyVsKinetic > 0f)) yield return Id + ": KE mass efficiency must be positive";
+            if (!(MassEfficiencyVsJet > 0f)) yield return Id + ": jet mass efficiency must be positive";
         }
     }
 

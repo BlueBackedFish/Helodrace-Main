@@ -42,6 +42,8 @@ namespace Helodrace.Ballistics
         public float brinellHardness;
         public float yieldStrengthMPa;
         public float massEfficiencyVsKinetic = 1f;
+        /// <summary>RHA-equivalence factor against shaped-charge jets, per unit mass. [game]</summary>
+        public float massEfficiencyVsJet = 1f;
         /// <summary>Steels: the long-rod fit uses this target's own density and hardness instead of RHA equivalence.</summary>
         public bool steelTarget;
         /// <summary>Lanz-Odermatt perforation fit when this material is a rod. [experimental, with source]</summary>
@@ -53,7 +55,7 @@ namespace Helodrace.Ballistics
 
         public KineticMaterial Model => model ?? (model = Build());
         public VehicleArmorMaterial VehicleModel => vehicleModel ??
-            (vehicleModel = new VehicleArmorMaterial(Model, brinellHardness, massEfficiencyVsKinetic, steelTarget));
+            (vehicleModel = new VehicleArmorMaterial(Model, brinellHardness, massEfficiencyVsKinetic, steelTarget, massEfficiencyVsJet));
         public PenetratorMaterial PenetratorModel => penetratorModel ?? (penetratorModel = new PenetratorMaterial(defName,
             densityKgM3, brinellHardness, yieldStrengthMPa * 1e6f, longRodPerforation?.Model));
 
@@ -77,7 +79,7 @@ namespace Helodrace.Ballistics
             }
             else if (!(densityKgM3 > 0f)) yield return defName + " needs a density.";
             if (brinellHardness < 0f || yieldStrengthMPa < 0f) yield return defName + " has negative hardness or yield strength.";
-            if (!(massEfficiencyVsKinetic > 0f)) yield return defName + " needs a positive massEfficiencyVsKinetic.";
+            if (!(massEfficiencyVsKinetic > 0f && massEfficiencyVsJet > 0f)) yield return defName + " needs positive KE and jet mass efficiencies.";
             if (longRodPerforation != null)
                 foreach (string error in longRodPerforation.Model.Validate(defName)) yield return error;
         }
