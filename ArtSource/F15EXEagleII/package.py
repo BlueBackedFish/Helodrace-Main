@@ -38,6 +38,27 @@ for title,image,tiles,center in [('F-22 Raptor',Image.open(ROOT.parent/'F22Rapto
     draw.text((center-150,75),title,font=font(22),fill='white')
 draw.text((40,650),'C-17 = 19 tiles; F-22 = 18.9 m; F-15EX = 19.4 m. Uniform scaling; original model proportions retained.',font=font(17),fill=(205,212,217))
 comparison.convert('RGB').save(OUT/'F22_F15EX_real_scale.png')
+if (OUT/'nozzles_neutral.png').exists():
+    sheet([(title,Image.open(OUT/f'nozzles_{name}.png')) for title,name in
+        [('CONTRACTED','contracted'),('NEUTRAL / MATCHED PAIR','neutral'),('OPEN','open')]],
+        OUT/'nozzle_review.png',columns=3,cell_size=(400,440))
+    sheet([('NEUTRAL',Image.open(OUT/'controls_neutral.png')),
+        ('8 CONTROL SURFACES / OPEN NOZZLES',Image.open(OUT/'controls_pose_b.png'))],
+        OUT/'articulation_review.png',columns=2,cell_size=(520,560))
+    before=Image.open(ROOT/'analysis/engine_before.png').convert('RGBA')
+    crop=(480,640,742,1080)
+    sheet([('BEFORE',before.crop(crop)),('BRIGHTER ENGINE FAIRINGS',images['outlined'].crop(crop))],
+        OUT/'engine_paint_review.png',columns=2,cell_size=(350,510))
+    frames=[]
+    for i in range(7):
+        path=OUT/f'motion_{i:02}.png'
+        if not path.exists():break
+        bg=Image.new('RGBA',(640,640),(64,71,78,255));bg.alpha_composite(Image.open(path).convert('RGBA'))
+        ImageDraw.Draw(bg).text((18,18),'F-15EX / control surfaces + variable exhaust',font=font(20),fill='white')
+        frames.append(bg.convert('RGB').convert('P',palette=Image.Palette.ADAPTIVE,colors=256))
+    if len(frames)==7:
+        frames[0].save(OUT/'articulation.gif',save_all=True,append_images=frames[1:],duration=[350,180,350,180,350,180,350],loop=0,disposal=2)
+        for i in range(7):(OUT/f'motion_{i:02}.png').unlink()
 (OUT/'texture_validation.json').write_text(json.dumps(dict(passed=True,resolution=[size,size],outline_pixels=12,
     external_weapons=0,external_drop_tanks=0,targeting_pods=0,draw_size_tiles=model['draw_size_tiles'],
     reference='C-17 19 tiles',transparent_background=True,pivot_normalized=[.5,.5],images=validation),indent=2)+'\n',encoding='utf-8')

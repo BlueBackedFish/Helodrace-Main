@@ -1,46 +1,45 @@
 # Aircraft art brief — F-15EX Eagle II
 
-## Request and references
+Create the supplied clean F-15EX in the established flat top-view aircraft style. Preserve the C-17/F-22 calibration and 12px outside outline. Current revision: brighter engine fairings, matched nozzles, separated controls and variable exhaust apertures.
 
-Create an unarmed F-15EX from the locally supplied model, using the established Main/Arsenal aircraft flat top-view style. Use the shared C-17/F-22 physical scale, one 12px outside outline, transparent background and centered nose-up image.
+## Evidence
 
-- Source archive: `.texture/ref/f-15ex-eagle-ii-all-loadouts-broken-arrow/source/F15EX_Eagle_II_Lineup.zip`; pinned absolute path and SHA256 in `style.json`.
-- Selected airframe: `1_F_15EX_clean__F_15EX`; source landing gear kept hidden as `1_F_15EX_clean__open`.
-- External armament / separate drop tanks / targeting pods: none; other lineup groups are omitted.
-- Geometry evidence: provided game model. Independent blueprint: not provided.
-- Primary nominal dimensions and appearance reference: https://www.boeing.com/defense/fighters-and-bombers/f-15ex-eagle . Boeing rear-engine photo was inspected for twin-exhaust appearance; it is not redistributed.
-- Flat emission style and physical calibration: local F-22 and C-17 artwork; the C-17 stays at 19 tiles.
+- Archive/hash: `style.json`; clean airframe 13,886 source faces, hidden gear 5,762. Other loadouts omitted; no external weapons, separate tanks or targeting pods.
+- Geometry/hinge evidence: supplied OBJ; no independent blueprint or measured actuator limits supplied.
+- Nominal dimensions: https://www.boeing.com/defense/fighters-and-bombers/f-15ex-eagle . Uniform length 19.4m; inferred span 13.19m versus rounded 13.0m specification.
+- GE F110 variable-area exhaust petals: https://www.geaerospace.com/news/articles/product/ges-f110-earns-its-way-us-air-force-f-15s .
+- F-15 control-system roles (stabilators, ailerons, rudders): https://ntrs.nasa.gov/api/citations/19790015808/downloads/19790015808.pdf . This does not establish EX-specific hinge dimensions or operating limits.
 
-## Paint and geometry
+## Treatment
 
 | Part | Treatment |
 | --- | --- |
-| Airframe | Fixed panel-specific gray emission tones, original source geometry and UVs |
-| Wing / tail / inlet panels | Light/mid-gray skins and slightly darker trailing-edge/inlet panels, selected by inspected source face IDs |
-| Empty mounts | Cooler/darker gray on mounting brackets and side-rack lugs; separate subtle tone on side carriage panels |
-| Canopy | Opaque muted blue-gray; original two-seat canopy/frame geometry |
-| Radome | Separate fixed gray, original shape |
-| Twin exhaust | Separate inner/outer metal colors; source petal geometry |
-| Intake recesses | Fixed darker gray |
-| Upright fins | Mild fixed brightness gain, no lighting |
-| Surface joints | Thin curves on actual upper-skin crease/boundary edges, not source-image scratches |
-| Landing gear | Original deployed group archived hidden in viewport/render |
-| Weapons / stores | No separate lineup store group retained |
+| Body / inspected panels | Existing fixed gray tones and source-face paint boundaries |
+| Engine upper covers | Lighter RGB 149/159/168 |
+| Engine crowns | Fixed smooth vertex paint, body gray toward RGB 163/173/181 |
+| Canopy / radome / upright fins | Existing opaque canopy, distinct radome and mild fixed fin brightness gain |
+| Flaps / ailerons / stabilators / rudders | Eight independent surfaces and physical hinge controllers |
+| Open control skins | Closed from source vertices with skin UV/color transfer, dark caps and 0.020m gaps |
+| Nozzles | Right barrel and 24 leaf meshes mirrored to replace the more open source left assembly |
+| Nozzle motion | Independent aperture controls, tangential leaf hinges, saved drivers, continuous variable inner seals |
+| Exhaust core / inner barrel | Dark recess color replaces accidental body-colored plug |
+| Crease lines | Owned by each mesh; follow surface/leaf motion |
+| Gear | Original group hidden in original calibration basis |
 
-The visible body retains all 13,886 source faces. The hidden gear retains 5,762. Source coordinates, polygon order and UVs are preserved in mesh data. One uniform parent transform centers the aircraft, rotates the original +Y-up / 35-degree heading to the exact +Z top view, and calibrates length to 19.4m. The inferred width is about 13.19m, 1.5% wider than Boeing's rounded nominal value; no independent-axis distortion is applied.
+Source geometry/UVs are verified at ingestion, then explicitly edited. Unedited faces retain geometry/UVs in the physical-coordinate basis. Revised control hulls/caps, mirrored left nozzle and new seals are recorded edits; the complete final model is no longer described as untouched source geometry. No source file is modified.
 
-Source albedo markings, baked lighting and weathering are not used as paint. Separate curve geometry traces physical joint edges. The curve follows the same parent transform as the source body. Source triangles are not welded or removed to create the line overlay.
+No lights, shadows, AO, reflections, gloss, source markings or baked weathering. Broad crown transitions are fixed geometric vertex colors.
 
 ## Delivery and validation
 
-- 1222px RGBA, 12px outside outline, approximately 7.163-tile square prepared display size.
-- `output/model_validation.json`: archive/OBJ hashes, retained source face IDs, original coordinate/order checks, clean-group selection, hidden gear, uniform physical transform, span difference and no external armament.
-- `output/selection_manifest.json`: every source group and visible/hidden/omitted status.
-- `output/texture_validation.json`: transparent RGB cleanup, bounds, margins, runtime/export equality and prepared draw size.
-- `output/model_review.png`: exact top and oblique inspection; no external weapons, tanks or pods visible.
-- `output/scale_review.png`: 256px/512px actual display; `output/preview.png`: light/gray/dark alpha edges.
-- `output/F22_F15EX_real_scale.png`: same physical scale with the existing F-22.
+- 1222px RGBA, 12px outside outline, approximately 7.163-tile square draw size.
+- `output/engine_paint_review.png`: `bf3456f0` / current engine fairings.
+- `output/nozzle_review.png`: contracted / matched neutral pair / open.
+- `output/articulation_review.png`, `output/articulation.gif`: neutral and moving surfaces.
+- `output/model_validation.json`: hashes, source/final inventories, face partition, geometry edits, scale, pivots and independent movement checks.
+- `output/articulation_validation.json`: reopened saved drivers, symmetry and joint-line ownership/return.
+- `output/panel_color_validation.json`: protected source paint mapping before geometry edits and current crown treatment.
+- `output/texture_validation.json`: alpha, margins, scale and export/runtime equality.
+- `output/visual_review.json`: inspected final images and limits.
 
-No gameplay aircraft definition, control-surface animation implementation or in-game validation is claimed.
-
-The panel-color revision uses ten inspected part groups in `panel_colors.json`. It changes material assignments only. Glass, radome, dark intake mouths, exhausts and hidden gear retain their earlier colors; 42 protected intake faces were explicitly excluded from the tint sets. Pixel alpha, source coordinates, topology, UVs, transforms, scale and physical crease geometry are unchanged. `output/panel_color_validation.json` records the checks. The underside close-up makes the actual empty mount surfaces visible without adding weapons.
+Preview travel (±12° control surfaces, ±10° nozzle leaves) demonstrates motion only. No game aircraft definition, runtime flight controller or in-game test is included.

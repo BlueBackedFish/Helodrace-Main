@@ -1,0 +1,96 @@
+{
+  "passed": true,
+  "saved_blend_reopened": true,
+  "saved_driver_symmetry_checks": [
+    {
+      "frame": 1,
+      "mirror_error_m": 1.1127406577165905e-05,
+      "aperture": 0.5
+    },
+    {
+      "frame": 20,
+      "mirror_error_m": 1.1306201434474835e-05,
+      "aperture": 0.0
+    },
+    {
+      "frame": 40,
+      "mirror_error_m": 1.1192508075859693e-05,
+      "aperture": 1.0
+    },
+    {
+      "frame": 60,
+      "mirror_error_m": 1.1127406577165905e-05,
+      "aperture": 0.5
+    }
+  ],
+  "joint_line_objects": 57,
+  "joint_lines_follow_their_own_meshes": true,
+  "neutral_lines_return": true,
+  "independent_movement": [
+    {
+      "id": "flap_left",
+      "travel_m": 0.1984050171864769,
+      "other_parts_fixed": true,
+      "neutral_return": true
+    },
+    {
+      "id": "flap_right",
+      "travel_m": 0.19841847830457826,
+      "other_parts_fixed": true,
+      "neutral_return": true
+    },
+    {
+      "id": "aileron_left",
+      "travel_m": 0.17616879515499229,
+      "other_parts_fixed": true,
+      "neutral_return": true
+    },
+    {
+      "id": "aileron_right",
+      "travel_m": 0.1761796111105649,
+      "other_parts_fixed": true,
+      "neutral_return": true
+    },
+    {
+      "id": "stabilator_left",
+      "travel_m": 0.4494678876745131,
+      "other_parts_fixed": true,
+      "neutral_return": true
+    },
+    {
+      "id": "stabilator_right",
+      "travel_m": 0.4494735150840185,
+      "other_parts_fixed": true,
+      "neutral_return": true
+    },
+    {
+      "id": "rudder_left",
+      "travel_m": 0.11188272083808788,
+      "other_parts_fixed": true,
+      "neutral_return": true
+    },
+    {
+      "id": "rudder_right",
+      "travel_m": 0.11187864982556825,
+      "other_parts_fixed": true,
+      "neutral_return": true
+    },
+    {
+      "id": "CTRL_nozzle_right",
+      "contracted_radius_m": 0.23733308667216277,
+      "open_radius_m": 0.5037661697569,
+      "neutral_radius_m": 0.3705341182811756,
+      "other_parts_fixed": true,
+      "neutral_return": true
+    },
+    {
+      "id": "CTRL_nozzle_left",
+      "contracted_radius_m": 0.2373333236524862,
+      "open_radius_m": 0.5037662613867663,
+      "neutral_radius_m": 0.3705342489867099,
+      "other_parts_fixed": true,
+      "neutral_return": true
+    }
+  ],
+  "no_gameplay_controller_added": true
+}

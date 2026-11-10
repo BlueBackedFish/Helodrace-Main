@@ -69,9 +69,9 @@
       152
     ],
     "engine_cover": [
-      134,
-      146,
-      156
+      149,
+      159,
+      168
     ],
     "mount_interface": [
       121,
@@ -80,5 +80,10 @@
     ]
   },
   "reference_url": "https://www.boeing.com/defense/fighters-and-bombers/f-15ex-eagle",
-  "source_albedo_reference_only": true
+  "source_albedo_reference_only": true,
+  "engine_crown_rgb": [
+    163,
+    173,
+    181
+  ]
 }

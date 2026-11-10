@@ -1,23 +1,29 @@
 {
   "date": "2026-11-10",
   "reviewed_files": [
+    "output/engine_paint_review.png",
+    "output/nozzle_review.png",
+    "output/articulation_review.png",
+    "output/controls_pose_b.png",
     "output/HD_F15EX.png",
     "output/model_review.png",
-    "output/preview.png",
-    "output/scale_review.png",
-    "output/F22_F15EX_real_scale.png",
-    "output/panel_color_review.png",
-    "output/mounts_underside.png"
+    "output/scale_review.png"
   ],
   "exact_top_nose_up": true,
-  "unarmed_clean_airframe_reviewed": true,
-  "no_external_drop_tanks_or_pods": true,
+  "engine_crowns_brighter": true,
+  "smooth_fixed_vertex_paint": true,
+  "left_right_neutral_nozzles_matched": true,
+  "conventional_aperture_motion_reviewed": true,
+  "dark_inner_core_and_continuous_seals": true,
+  "eight_separated_control_surfaces": true,
+  "joint_lines_follow_surfaces": true,
+  "clean_unarmed_airframe": true,
   "landing_gear_hidden": true,
-  "closed_two_seat_canopy_reviewed": true,
-  "source_geometry_and_uv_preserved": true,
-  "flat_emission_without_source_weathering": true,
-  "source_unit_codes_not_used": true,
-  "physical_crease_lines_reviewed": true,
+  "source_markings_and_weathering_unused": true,
+  "source_geometry_verified_before_requested_edits": true,
+  "edited_geometry": "Control hulls/caps/gaps, mirrored left exhaust assembly, variable inner seals",
+  "source_uvs_retained_on_unedited_faces": true,
+  "skin_uvs_transferred_on_rebuilt_controls": true,
   "outline_pixels": 12,
   "delivery_resolution": 1222,
   "draw_size_tiles": [
@@ -25,12 +31,8 @@
     7.162872689669626
   ],
   "equal_scale_with_f22": true,
-  "model_span_relative_difference": 0.014767976907583469,
-  "model_span_difference_retained_without_distortion": true,
+  "saved_blend_driver_validation_passed": true,
+  "preview_travel_is_not_certified_operating_limit": true,
   "in_game_tested": false,
-  "blueprint_validation_performed": false,
-  "panel_tone_variation_reviewed": true,
-  "empty_mount_colors_reviewed": true,
-  "source_geometry_preserved": true,
-  "alpha_unchanged_after_paint": true
+  "blueprint_validation_performed": false
 }

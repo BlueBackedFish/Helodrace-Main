@@ -1,20 +1,25 @@
 {
   "passed": true,
-  "baseline": "65463caa",
+  "source_material_assignment_checked_before_articulation": true,
   "part_groups": 10,
   "painted_source_faces": 3284,
-  "source_shape_and_uv_and_transform_unchanged": true,
-  "alpha_identical": true,
-  "physical_scale_unchanged": true,
-  "glass_radome_intakes_exhausts_and_gear_protected": true,
-  "protected_intake_faces_excluded": 42,
-  "external_weapons": 0,
-  "source_albedo_weathering_used": false,
   "palette_roles": {
     "panel_light": 46,
     "engine_cover": 28,
     "mount_interface": 2900,
     "panel_mid": 302,
     "control_panel": 8
-  }
+  },
+  "protected_intake_faces_excluded": 42,
+  "engine_crown": {
+    "source_body_faces": 338,
+    "rgb": [
+      163,
+      173,
+      181
+    ],
+    "fixed_vertex_color": true
+  },
+  "source_albedo_weathering_used": false,
+  "geometry_revision": "Control separation/caps and mirrored variable nozzles; see model_validation.json"
 }

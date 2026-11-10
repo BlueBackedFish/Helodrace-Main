@@ -5,15 +5,16 @@
   "obj_sha256": "eeb3ac54c80a0a353b458e2389c8066b21e550e866b24d5914d34f19de6f709c",
   "source_groups": 122,
   "selected_aircraft": "1_F_15EX_clean",
-  "visible_faces": 13886,
+  "visible_faces": 14092,
+  "source_airframe_faces": 13886,
   "archived_landing_gear_faces": 5762,
-  "retained_source_meshes": [
+  "ingested_source_meshes": [
     {
       "object": "1_F_15EX_clean__open",
       "faces": 5762,
       "vertices": 6569,
       "hidden_in_flight": true,
-      "source_coordinates_topology_uv_preserved": true,
+      "source_coordinates_topology_uv_preserved_at_ingestion": true,
       "source_face_ids": [
         0,
         1,
@@ -5784,7 +5785,7 @@
       "faces": 13886,
       "vertices": 15497,
       "hidden_in_flight": false,
-      "source_coordinates_topology_uv_preserved": true,
+      "source_coordinates_topology_uv_preserved_at_ingestion": true,
       "source_face_ids": [
         5762,
         5763,
@@ -19675,20 +19676,1930 @@
       ]
     }
   ],
+  "visible_meshes": [
+    {
+      "object": "SURFACE_flap_left",
+      "faces": 7
+    },
+    {
+      "object": "SURFACE_flap_right",
+      "faces": 7
+    },
+    {
+      "object": "SURFACE_aileron_left",
+      "faces": 7
+    },
+    {
+      "object": "SURFACE_aileron_right",
+      "faces": 7
+    },
+    {
+      "object": "SURFACE_stabilator_left",
+      "faces": 91
+    },
+    {
+      "object": "SURFACE_stabilator_right",
+      "faces": 91
+    },
+    {
+      "object": "SURFACE_rudder_left",
+      "faces": 15
+    },
+    {
+      "object": "SURFACE_rudder_right",
+      "faces": 15
+    },
+    {
+      "object": "EXHAUST_FIXED_right",
+      "faces": 108
+    },
+    {
+      "object": "EXHAUST_right_petal_00",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_right_petal_01",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_right_petal_02",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_right_petal_03",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_right_petal_04",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_right_petal_05",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_right_petal_06",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_right_petal_07",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_right_petal_08",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_right_petal_09",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_right_petal_10",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_right_petal_11",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_right_petal_12",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_right_petal_13",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_right_petal_14",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_right_petal_15",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_right_petal_16",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_right_petal_17",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_right_petal_18",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_right_petal_19",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_right_petal_20",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_right_petal_21",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_right_petal_22",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_right_petal_23",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_FIXED_left",
+      "faces": 108
+    },
+    {
+      "object": "EXHAUST_left_petal_00",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_left_petal_01",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_left_petal_02",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_left_petal_03",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_left_petal_04",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_left_petal_05",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_left_petal_06",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_left_petal_07",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_left_petal_08",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_left_petal_09",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_left_petal_10",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_left_petal_11",
+      "faces": 84
+    },
+    {
+      "object": "EXHAUST_left_petal_12",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_left_petal_13",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_left_petal_14",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_left_petal_15",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_left_petal_16",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_left_petal_17",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_left_petal_18",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_left_petal_19",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_left_petal_20",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_left_petal_21",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_left_petal_22",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_left_petal_23",
+      "faces": 20
+    },
+    {
+      "object": "EXHAUST_right_inner_seal",
+      "faces": 96
+    },
+    {
+      "object": "EXHAUST_left_inner_seal",
+      "faces": 96
+    },
+    {
+      "object": "AIRFRAME_FIXED",
+      "faces": 10946
+    },
+    {
+      "object": "JOINT_FIXED_rudder_left",
+      "faces": 1
+    },
+    {
+      "object": "JOINT_FIXED_rudder_right",
+      "faces": 1
+    }
+  ],
   "external_weapons": 0,
   "external_drop_tanks": 0,
   "targeting_pods": 0,
-  "panel_edges": {
-    "object": "DETAIL physical upper-skin creases",
-    "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
-    "segments": 610,
-    "diameter_m": 0.02,
-    "minimum_edge_length_m": 0.18,
-    "minimum_dihedral_degrees": 35
-  },
+  "panel_edges": [
+    {
+      "object": "DETAIL joints SURFACE_flap_left",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.02,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints SURFACE_flap_right",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.02,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints SURFACE_aileron_left",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.02,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints SURFACE_aileron_right",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.02,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints SURFACE_stabilator_left",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 15,
+      "diameter_m": 0.02,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints SURFACE_stabilator_right",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 15,
+      "diameter_m": 0.02,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints SURFACE_rudder_left",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.02,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints SURFACE_rudder_right",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.02,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_00",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_01",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_02",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 1,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_03",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_04",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_05",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 3,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_06",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_07",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_08",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 3,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_09",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_10",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_11",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 5,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_12",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_13",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_14",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 1,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_15",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_16",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_17",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 1,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_18",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_19",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_20",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 3,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_21",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_22",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_right_petal_23",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 3,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_00",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_01",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_02",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 1,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_03",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_04",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_05",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 3,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_06",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_07",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_08",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 3,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_09",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_10",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 4,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_11",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 5,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_12",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_13",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_14",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 1,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_15",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_16",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_17",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 1,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_18",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_19",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_20",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 3,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_21",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_22",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 2,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints EXHAUST_left_petal_23",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 3,
+      "diameter_m": 0.01,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    },
+    {
+      "object": "DETAIL joints AIRFRAME_FIXED",
+      "source": "Actual source-mesh boundary/crease edges; source faces unchanged",
+      "segments": 420,
+      "diameter_m": 0.02,
+      "minimum_edge_length_m": 0.18,
+      "minimum_dihedral_degrees": 35
+    }
+  ],
   "other_lineup_aircraft_omitted": true,
   "landing_gear_hidden": true,
-  "source_geometry_preserved": true,
+  "source_geometry_preserved_before_articulation": true,
+  "articulation": {
+    "passed": true,
+    "controls": [
+      {
+        "id": "flap_left",
+        "object": "CTRL_flap_left",
+        "pivot_m": [
+          -3.0,
+          -4.412600040435791,
+          1.840999960899353
+        ],
+        "axis": [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "SURFACE_flap_left"
+        ],
+        "nozzle": false
+      },
+      {
+        "id": "flap_right",
+        "object": "CTRL_flap_right",
+        "pivot_m": [
+          3.0,
+          -4.412600040435791,
+          1.840999960899353
+        ],
+        "axis": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "SURFACE_flap_right"
+        ],
+        "nozzle": false
+      },
+      {
+        "id": "aileron_left",
+        "object": "CTRL_aileron_left",
+        "pivot_m": [
+          -3.946199893951416,
+          -4.414100170135498,
+          1.840999960899353
+        ],
+        "axis": [
+          -0.919709324836731,
+          -0.39260005950927734,
+          0.0
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "SURFACE_aileron_left"
+        ],
+        "nozzle": false
+      },
+      {
+        "id": "aileron_right",
+        "object": "CTRL_aileron_right",
+        "pivot_m": [
+          3.946199893951416,
+          -4.414100170135498,
+          1.840999960899353
+        ],
+        "axis": [
+          0.919709324836731,
+          -0.39260005950927734,
+          0.0
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "SURFACE_aileron_right"
+        ],
+        "nozzle": false
+      },
+      {
+        "id": "stabilator_left",
+        "object": "CTRL_stabilator_left",
+        "pivot_m": [
+          -1.9299999475479126,
+          -7.550000190734863,
+          1.5
+        ],
+        "axis": [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "SURFACE_stabilator_left"
+        ],
+        "nozzle": false
+      },
+      {
+        "id": "stabilator_right",
+        "object": "CTRL_stabilator_right",
+        "pivot_m": [
+          1.9299999475479126,
+          -7.550000190734863,
+          1.5
+        ],
+        "axis": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "SURFACE_stabilator_right"
+        ],
+        "nozzle": false
+      },
+      {
+        "id": "rudder_left",
+        "object": "CTRL_rudder_left",
+        "pivot_m": [
+          -1.7480000257492065,
+          -7.7779998779296875,
+          3.578000068664551
+        ],
+        "axis": [
+          0.0,
+          -0.0418073870241642,
+          0.9991257190704346
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "SURFACE_rudder_left"
+        ],
+        "nozzle": false
+      },
+      {
+        "id": "rudder_right",
+        "object": "CTRL_rudder_right",
+        "pivot_m": [
+          1.7480000257492065,
+          -7.7779998779296875,
+          3.578000068664551
+        ],
+        "axis": [
+          0.0,
+          -0.0418073870241642,
+          0.9991257190704346
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "SURFACE_rudder_right"
+        ],
+        "nozzle": false
+      },
+      {
+        "id": "nozzle_right_petal_00",
+        "object": "CTRL_nozzle_right_petal_00",
+        "pivot_m": [
+          0.25048694014549255,
+          -7.454663276672363,
+          1.2907167673110962
+        ],
+        "axis": [
+          0.5270756483078003,
+          0.0,
+          -0.8498184084892273
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_00"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_01",
+        "object": "CTRL_nozzle_right_petal_01",
+        "pivot_m": [
+          0.17080388963222504,
+          -7.450402736663818,
+          1.5544346570968628
+        ],
+        "axis": [
+          0.031649813055992126,
+          0.0,
+          -0.9994990229606628
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_01"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_02",
+        "object": "CTRL_nozzle_right_petal_02",
+        "pivot_m": [
+          0.23366792500019073,
+          -7.446054458618164,
+          1.8226732015609741
+        ],
+        "axis": [
+          -0.4722844660282135,
+          0.0,
+          -0.8814461827278137
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_02"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_03",
+        "object": "CTRL_nozzle_right_petal_03",
+        "pivot_m": [
+          0.42227405309677124,
+          -7.442802429199219,
+          2.02352237701416
+        ],
+        "axis": [
+          -0.8497449159622192,
+          0.0,
+          -0.5271940231323242
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_03"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_04",
+        "object": "CTRL_nozzle_right_petal_04",
+        "pivot_m": [
+          0.6860308051109314,
+          -7.441522121429443,
+          2.103196144104004
+        ],
+        "axis": [
+          -0.9995004534721375,
+          0.0,
+          -0.03160499408841133
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_04"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_05",
+        "object": "CTRL_nozzle_right_petal_05",
+        "pivot_m": [
+          0.9542844295501709,
+          -7.442532539367676,
+          2.040334463119507
+        ],
+        "axis": [
+          -0.8813578486442566,
+          0.0,
+          0.47244933247566223
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_05"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_06",
+        "object": "CTRL_nozzle_right_petal_06",
+        "pivot_m": [
+          1.1551717519760132,
+          -7.445580005645752,
+          1.8517552614212036
+        ],
+        "axis": [
+          -0.5269854664802551,
+          0.0,
+          0.8498743772506714
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_06"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_07",
+        "object": "CTRL_nozzle_right_petal_07",
+        "pivot_m": [
+          1.2348393201828003,
+          -7.449863910675049,
+          1.5880440473556519
+        ],
+        "axis": [
+          -0.03149212896823883,
+          0.0,
+          0.999504029750824
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_07"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_08",
+        "object": "CTRL_nozzle_right_petal_08",
+        "pivot_m": [
+          1.1719697713851929,
+          -7.4542083740234375,
+          1.3198200464248657
+        ],
+        "axis": [
+          0.4724377989768982,
+          -0.0,
+          0.8813639879226685
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_08"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_09",
+        "object": "CTRL_nozzle_right_petal_09",
+        "pivot_m": [
+          0.983371376991272,
+          -7.457449913024902,
+          1.1189565658569336
+        ],
+        "axis": [
+          0.8498361706733704,
+          -0.0,
+          0.5270470380783081
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_09"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_10",
+        "object": "CTRL_nozzle_right_petal_10",
+        "pivot_m": [
+          0.7196213006973267,
+          -7.458734035491943,
+          1.039289951324463
+        ],
+        "axis": [
+          0.9995034337043762,
+          -0.0,
+          0.0315091609954834
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_10"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_11",
+        "object": "CTRL_nozzle_right_petal_11",
+        "pivot_m": [
+          0.4513603150844574,
+          -7.457718372344971,
+          1.1021664142608643
+        ],
+        "axis": [
+          0.8813408017158508,
+          0.0,
+          -0.47248122096061707
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_11"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_12",
+        "object": "CTRL_nozzle_right_petal_12",
+        "pivot_m": [
+          0.32422226667404175,
+          -7.709794044494629,
+          1.4710845947265625
+        ],
+        "axis": [
+          0.2558271884918213,
+          0.0,
+          -0.9667226076126099
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_12"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_13",
+        "object": "CTRL_nozzle_right_petal_13",
+        "pivot_m": [
+          0.3232949674129486,
+          -7.704474449157715,
+          1.6711969375610352
+        ],
+        "axis": [
+          -0.25456878542900085,
+          0.0,
+          -0.9670546650886536
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_13"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_14",
+        "object": "CTRL_nozzle_right_petal_14",
+        "pivot_m": [
+          0.42323431372642517,
+          -7.701341152191162,
+          1.8442929983139038
+        ],
+        "axis": [
+          -0.6986051797866821,
+          0.0,
+          -0.715507447719574
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_14"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_15",
+        "object": "CTRL_nozzle_right_petal_15",
+        "pivot_m": [
+          0.5960105657577515,
+          -7.698742866516113,
+          1.9447067975997925
+        ],
+        "axis": [
+          -0.9614238739013672,
+          0.0,
+          -0.2750711441040039
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_15"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_16",
+        "object": "CTRL_nozzle_right_petal_16",
+        "pivot_m": [
+          0.7968403697013855,
+          -7.697875022888184,
+          1.9453887939453125
+        ],
+        "axis": [
+          -0.9698591828346252,
+          0.0,
+          0.2436661422252655
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_16"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_17",
+        "object": "CTRL_nozzle_right_petal_17",
+        "pivot_m": [
+          0.9709482192993164,
+          -7.698686599731445,
+          1.845590353012085
+        ],
+        "axis": [
+          -0.715155839920044,
+          0.0,
+          0.6989650726318359
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_17"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_18",
+        "object": "CTRL_nozzle_right_petal_18",
+        "pivot_m": [
+          1.071439504623413,
+          -7.701402187347412,
+          1.6716961860656738
+        ],
+        "axis": [
+          -0.262848436832428,
+          0.0,
+          0.9648371934890747
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_18"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_19",
+        "object": "CTRL_nozzle_right_petal_19",
+        "pivot_m": [
+          1.0713729858398438,
+          -7.704747676849365,
+          1.4709017276763916
+        ],
+        "axis": [
+          0.26281124353408813,
+          -0.0,
+          0.9648472666740417
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_19"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_20",
+        "object": "CTRL_nozzle_right_petal_20",
+        "pivot_m": [
+          0.9707247614860535,
+          -7.707849502563477,
+          1.2971904277801514
+        ],
+        "axis": [
+          0.7151716351509094,
+          -0.0,
+          0.6989489197731018
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_20"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_21",
+        "object": "CTRL_nozzle_right_petal_21",
+        "pivot_m": [
+          0.7966321706771851,
+          -7.710299491882324,
+          1.1972756385803223
+        ],
+        "axis": [
+          0.969971239566803,
+          -0.0,
+          0.24321942031383514
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_21"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_22",
+        "object": "CTRL_nozzle_right_petal_22",
+        "pivot_m": [
+          0.5961765050888062,
+          -7.7126898765563965,
+          1.198573112487793
+        ],
+        "axis": [
+          0.9613974690437317,
+          0.0,
+          -0.2751635015010834
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_22"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_right_petal_23",
+        "object": "CTRL_nozzle_right_petal_23",
+        "pivot_m": [
+          0.42283472418785095,
+          -7.709568977355957,
+          1.2978391647338867
+        ],
+        "axis": [
+          0.6986603736877441,
+          0.0,
+          -0.7154534459114075
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_right_petal_23"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_00",
+        "object": "CTRL_nozzle_left_petal_00",
+        "pivot_m": [
+          -0.25048694014549255,
+          -7.454663276672363,
+          1.2907167673110962
+        ],
+        "axis": [
+          0.5270756483078003,
+          -0.0,
+          0.8498184084892273
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_00"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_01",
+        "object": "CTRL_nozzle_left_petal_01",
+        "pivot_m": [
+          -0.17080388963222504,
+          -7.450402736663818,
+          1.5544346570968628
+        ],
+        "axis": [
+          0.031649813055992126,
+          -0.0,
+          0.9994990229606628
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_01"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_02",
+        "object": "CTRL_nozzle_left_petal_02",
+        "pivot_m": [
+          -0.23366792500019073,
+          -7.446054458618164,
+          1.8226732015609741
+        ],
+        "axis": [
+          -0.4722844660282135,
+          0.0,
+          0.8814461827278137
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_02"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_03",
+        "object": "CTRL_nozzle_left_petal_03",
+        "pivot_m": [
+          -0.42227405309677124,
+          -7.442802429199219,
+          2.02352237701416
+        ],
+        "axis": [
+          -0.8497449159622192,
+          0.0,
+          0.5271940231323242
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_03"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_04",
+        "object": "CTRL_nozzle_left_petal_04",
+        "pivot_m": [
+          -0.6860308051109314,
+          -7.441522121429443,
+          2.103196144104004
+        ],
+        "axis": [
+          -0.9995004534721375,
+          0.0,
+          0.03160499408841133
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_04"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_05",
+        "object": "CTRL_nozzle_left_petal_05",
+        "pivot_m": [
+          -0.9542844295501709,
+          -7.442532539367676,
+          2.040334463119507
+        ],
+        "axis": [
+          -0.8813578486442566,
+          0.0,
+          -0.47244933247566223
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_05"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_06",
+        "object": "CTRL_nozzle_left_petal_06",
+        "pivot_m": [
+          -1.1551717519760132,
+          -7.445580005645752,
+          1.8517552614212036
+        ],
+        "axis": [
+          -0.5269854664802551,
+          0.0,
+          -0.8498743772506714
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_06"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_07",
+        "object": "CTRL_nozzle_left_petal_07",
+        "pivot_m": [
+          -1.2348393201828003,
+          -7.449863910675049,
+          1.5880440473556519
+        ],
+        "axis": [
+          -0.03149212896823883,
+          0.0,
+          -0.999504029750824
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_07"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_08",
+        "object": "CTRL_nozzle_left_petal_08",
+        "pivot_m": [
+          -1.1719697713851929,
+          -7.4542083740234375,
+          1.3198200464248657
+        ],
+        "axis": [
+          0.4724377989768982,
+          0.0,
+          -0.8813639879226685
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_08"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_09",
+        "object": "CTRL_nozzle_left_petal_09",
+        "pivot_m": [
+          -0.983371376991272,
+          -7.457449913024902,
+          1.1189565658569336
+        ],
+        "axis": [
+          0.8498361706733704,
+          0.0,
+          -0.5270470380783081
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_09"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_10",
+        "object": "CTRL_nozzle_left_petal_10",
+        "pivot_m": [
+          -0.7196213006973267,
+          -7.458734035491943,
+          1.039289951324463
+        ],
+        "axis": [
+          0.9995034337043762,
+          0.0,
+          -0.0315091609954834
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_10"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_11",
+        "object": "CTRL_nozzle_left_petal_11",
+        "pivot_m": [
+          -0.4513603150844574,
+          -7.457718372344971,
+          1.1021664142608643
+        ],
+        "axis": [
+          0.8813408017158508,
+          -0.0,
+          0.47248122096061707
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_11"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_12",
+        "object": "CTRL_nozzle_left_petal_12",
+        "pivot_m": [
+          -0.32422226667404175,
+          -7.709794044494629,
+          1.4710845947265625
+        ],
+        "axis": [
+          0.2558271884918213,
+          -0.0,
+          0.9667226076126099
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_12"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_13",
+        "object": "CTRL_nozzle_left_petal_13",
+        "pivot_m": [
+          -0.3232949674129486,
+          -7.704474449157715,
+          1.6711969375610352
+        ],
+        "axis": [
+          -0.25456878542900085,
+          0.0,
+          0.9670546650886536
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_13"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_14",
+        "object": "CTRL_nozzle_left_petal_14",
+        "pivot_m": [
+          -0.42323431372642517,
+          -7.701341152191162,
+          1.8442929983139038
+        ],
+        "axis": [
+          -0.6986051797866821,
+          0.0,
+          0.715507447719574
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_14"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_15",
+        "object": "CTRL_nozzle_left_petal_15",
+        "pivot_m": [
+          -0.5960105657577515,
+          -7.698742866516113,
+          1.9447067975997925
+        ],
+        "axis": [
+          -0.9614238739013672,
+          0.0,
+          0.2750711441040039
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_15"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_16",
+        "object": "CTRL_nozzle_left_petal_16",
+        "pivot_m": [
+          -0.7968403697013855,
+          -7.697875022888184,
+          1.9453887939453125
+        ],
+        "axis": [
+          -0.9698591828346252,
+          0.0,
+          -0.2436661422252655
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_16"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_17",
+        "object": "CTRL_nozzle_left_petal_17",
+        "pivot_m": [
+          -0.9709482192993164,
+          -7.698686599731445,
+          1.845590353012085
+        ],
+        "axis": [
+          -0.715155839920044,
+          0.0,
+          -0.6989650726318359
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_17"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_18",
+        "object": "CTRL_nozzle_left_petal_18",
+        "pivot_m": [
+          -1.071439504623413,
+          -7.701402187347412,
+          1.6716961860656738
+        ],
+        "axis": [
+          -0.262848436832428,
+          0.0,
+          -0.9648371934890747
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_18"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_19",
+        "object": "CTRL_nozzle_left_petal_19",
+        "pivot_m": [
+          -1.0713729858398438,
+          -7.704747676849365,
+          1.4709017276763916
+        ],
+        "axis": [
+          0.26281124353408813,
+          0.0,
+          -0.9648472666740417
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_19"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_20",
+        "object": "CTRL_nozzle_left_petal_20",
+        "pivot_m": [
+          -0.9707247614860535,
+          -7.707849502563477,
+          1.2971904277801514
+        ],
+        "axis": [
+          0.7151716351509094,
+          0.0,
+          -0.6989489197731018
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_20"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_21",
+        "object": "CTRL_nozzle_left_petal_21",
+        "pivot_m": [
+          -0.7966321706771851,
+          -7.710299491882324,
+          1.1972756385803223
+        ],
+        "axis": [
+          0.969971239566803,
+          0.0,
+          -0.24321942031383514
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_21"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_22",
+        "object": "CTRL_nozzle_left_petal_22",
+        "pivot_m": [
+          -0.5961765050888062,
+          -7.7126898765563965,
+          1.198573112487793
+        ],
+        "axis": [
+          0.9613974690437317,
+          -0.0,
+          0.2751635015010834
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_22"
+        ],
+        "nozzle": true
+      },
+      {
+        "id": "nozzle_left_petal_23",
+        "object": "CTRL_nozzle_left_petal_23",
+        "pivot_m": [
+          -0.42283472418785095,
+          -7.709568977355957,
+          1.2978391647338867
+        ],
+        "axis": [
+          0.6986603736877441,
+          -0.0,
+          0.7154534459114075
+        ],
+        "channel": "rotation_euler[1]",
+        "meshes": [
+          "EXHAUST_left_petal_23"
+        ],
+        "nozzle": true
+      }
+    ],
+    "nozzle_engine_controls": [
+      "CTRL_nozzle_right",
+      "CTRL_nozzle_left"
+    ],
+    "nozzle_type": "Conventional variable area; independent tangential petal hinges, no thrust vectoring",
+    "nozzle_petal_meshes_per_engine": 24,
+    "continuous_inner_seals": 2,
+    "nozzle_symmetry": {
+      "source_mirrored_outlet_max_nearest_vertex_difference_m": 0.1207132335693887,
+      "correction": "Mirror right fixed barrel, 12 outer petals and 12 interleaved flaps onto left engine",
+      "template_side": "right",
+      "source_left_replaced_faces": 1356,
+      "template_reflection_exact_before_parent_float_rounding": true
+    },
+    "closed_control_volumes": [
+      {
+        "object": "SURFACE_flap_left",
+        "closed_volume": true,
+        "boundary_edges": 0,
+        "gap_m": 0.02
+      },
+      {
+        "object": "SURFACE_flap_right",
+        "closed_volume": true,
+        "boundary_edges": 0,
+        "gap_m": 0.02
+      },
+      {
+        "object": "SURFACE_aileron_left",
+        "closed_volume": true,
+        "boundary_edges": 0,
+        "gap_m": 0.02
+      },
+      {
+        "object": "SURFACE_aileron_right",
+        "closed_volume": true,
+        "boundary_edges": 0,
+        "gap_m": 0.02
+      },
+      {
+        "object": "SURFACE_rudder_left",
+        "closed_volume": true,
+        "boundary_edges": 0,
+        "gap_m": 0.02
+      },
+      {
+        "object": "SURFACE_rudder_right",
+        "closed_volume": true,
+        "boundary_edges": 0,
+        "gap_m": 0.02
+      }
+    ],
+    "independent_movement_checks": [
+      {
+        "id": "flap_left",
+        "travel_m": 0.1984050171864769,
+        "other_parts_fixed": true,
+        "neutral_return": true
+      },
+      {
+        "id": "flap_right",
+        "travel_m": 0.19841847830457826,
+        "other_parts_fixed": true,
+        "neutral_return": true
+      },
+      {
+        "id": "aileron_left",
+        "travel_m": 0.17616879515499229,
+        "other_parts_fixed": true,
+        "neutral_return": true
+      },
+      {
+        "id": "aileron_right",
+        "travel_m": 0.1761796111105649,
+        "other_parts_fixed": true,
+        "neutral_return": true
+      },
+      {
+        "id": "stabilator_left",
+        "travel_m": 0.4494678876745131,
+        "other_parts_fixed": true,
+        "neutral_return": true
+      },
+      {
+        "id": "stabilator_right",
+        "travel_m": 0.4494735150840185,
+        "other_parts_fixed": true,
+        "neutral_return": true
+      },
+      {
+        "id": "rudder_left",
+        "travel_m": 0.11188272083808788,
+        "other_parts_fixed": true,
+        "neutral_return": true
+      },
+      {
+        "id": "rudder_right",
+        "travel_m": 0.11187864982556825,
+        "other_parts_fixed": true,
+        "neutral_return": true
+      },
+      {
+        "id": "CTRL_nozzle_right",
+        "contracted_radius_m": 0.23733308667216277,
+        "open_radius_m": 0.5037661697569,
+        "neutral_radius_m": 0.3705341182811756,
+        "other_parts_fixed": true,
+        "neutral_return": true
+      },
+      {
+        "id": "CTRL_nozzle_left",
+        "contracted_radius_m": 0.2373333236524862,
+        "open_radius_m": 0.5037662613867663,
+        "neutral_radius_m": 0.3705342489867099,
+        "other_parts_fixed": true,
+        "neutral_return": true
+      }
+    ],
+    "joint_gap_m": 0.02,
+    "source_face_partition_count": 13886,
+    "demo_frames": [
+      1,
+      20,
+      40,
+      60
+    ],
+    "travel_values_are_art_preview_only": true,
+    "runtime_flight_controller_added": false
+  },
+  "engine_crown_paint": {
+    "source_body_faces": 338,
+    "rgb": [
+      163,
+      173,
+      181
+    ],
+    "fixed_vertex_color": true
+  },
   "native_forward": [
     0.573576436351046,
     0,
@@ -19727,26 +21638,26 @@
   ],
   "physical_bounds": [
     [
-      -6.595990180969238,
-      -9.699996948242188,
-      -3.257998741901247e-06
+      -6.595987319946289,
+      -9.699999809265137,
+      -3.159046627843054e-06
     ],
     [
-      6.595993518829346,
-      9.700004577636719,
-      5.125593185424805
+      6.595998764038086,
+      9.700002670288086,
+      5.125593662261963
     ]
   ],
   "physical_length_m": 19.4,
   "nominal_wingspan_m": 13.0,
-  "model_wingspan_m": 13.191983699798584,
-  "model_span_relative_error": 0.014767976907583469,
+  "model_wingspan_m": 13.191986083984375,
+  "model_span_relative_error": 0.014768160306490419,
   "uniform_scale": true,
   "blueprint_validation_performed": false,
   "projection": "Exact 90-degree top, nose up",
   "lighting": "Fixed emission only; no lights, AO, gloss, normal maps, reflections or shadows",
   "source_albedo_sha256": "31902e4ac6ba5c43cedb5bc7e88031e3f634ad6627bf5abd01495f1814222cfe",
-  "ortho_scale": 20.331734017687843,
+  "ortho_scale": 20.331735017164696,
   "source_albedo_used_for_paint": false,
   "source_markings_used": false,
   "panel_color_groups": [

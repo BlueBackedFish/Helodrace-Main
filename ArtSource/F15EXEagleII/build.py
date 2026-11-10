@@ -71,11 +71,36 @@ for name,group in selected.items():
         polygon.material_index=role
     obj['source_group']=group['id'];obj['flight_visibility']='hidden landing gear' if hidden else 'clean airframe only'
     objects.append(obj);inventory.append(dict(object=name,faces=len(faces),vertices=len(coords),hidden_in_flight=hidden,
-        source_coordinates_topology_uv_preserved=True,source_face_ids=group['faces']))
+        source_coordinates_topology_uv_preserved_at_ingestion=True,source_face_ids=group['faces']))
 assert sum(len(o.data.polygons) for o in objects)==19648
 bpy.context.view_layer.update();visible=[o for o in objects if not o.hide_render]
+# The engine fairing crown has fixed, smoothly interpolated vertex paint.
+# It is independent of camera, face normals, lighting and render direction.
+body_obj=visible[0];attribute=body_obj.data.color_attributes.new(name='Engine crown paint',type='FLOAT_COLOR',domain='CORNER')
+linear=lambda v:v/255/12.92 if v/255<=.04045 else ((v/255+.055)/1.055)**2.4
+base=np.array([linear(v) for v in style['palette']['body']]);crown=np.array([linear(v) for v in style['engine_crown_rgb']])
+smooth=lambda v:(lambda t:t*t*(3-2*t))(min(1,max(0,v)))
+engine_painted=0
+for polygon in body_obj.data.polygons:
+    if polygon.material_index!=0:continue
+    weights=[]
+    for loop in polygon.loop_indices:
+        p=body_obj.matrix_world@body_obj.data.vertices[body_obj.data.loops[loop].vertex_index].co
+        weight=smooth((p.z-1.95)/.26)*smooth((p.y+7.35)/.55)*smooth((-1.0-p.y)/.6)*smooth((1.5-abs(p.x))/.3)
+        rgb=base*(1-weight)+crown*weight;attribute.data[loop].color=(*rgb,1);weights.append(weight)
+    if max(weights)>.001:engine_painted+=1
+engine_material=bpy.data.materials.new('F15EX fixed engine crown vertex paint');engine_material.use_nodes=True
+nodes=engine_material.node_tree.nodes;nodes.clear();color=nodes.new('ShaderNodeVertexColor');color.layer_name=attribute.name
+emission=nodes.new('ShaderNodeEmission');output=nodes.new('ShaderNodeOutputMaterial')
+engine_material.node_tree.links.new(color.outputs['Color'],emission.inputs[0]);engine_material.node_tree.links.new(emission.outputs[0],output.inputs[0])
+slot=len(body_obj.data.materials);body_obj.data.materials.append(engine_material)
+for polygon in body_obj.data.polygons:
+    if polygon.material_index==0:polygon.material_index=slot
+sys.path.insert(0,str(ROOT));from articulation import prepare as prepare_articulation
+visible,articulation=prepare_articulation(scene,body_obj,airframe['faces'],origin,materials['panel'])
 sys.path.insert(0,str(ROOT));from panel_edges import prepare as prepare_edges
-panel_edges=prepare_edges(scene,visible[0],materials['panel'])
+panel_edges=[prepare_edges(scene,obj,materials['panel'],.010 if obj.name.startswith('EXHAUST') else .020)
+    for obj in visible if not obj.name.startswith(('EXHAUST_FIXED','JOINT_FIXED')) and not obj.name.endswith('inner_seal')]
 points=[o.matrix_world@v.co for o in visible for v in o.data.vertices]
 low=Vector([min(p[i] for p in points) for i in range(3)]);high=Vector([max(p[i] for p in points) for i in range(3)])
 assert abs(high.y-low.y-style['physical_length_m'])<1e-4
@@ -94,9 +119,10 @@ inferred_span=high.x-low.x;span_error=inferred_span/style['physical_wingspan_m']
 assert abs(span_error)<.025
 report=dict(passed=True,source_archive=str(archive),source_sha256=style['source_sha256'],
     obj_sha256=hashlib.sha256(data).hexdigest(),source_groups=len(model['groups']),
-    selected_aircraft='1_F_15EX_clean',visible_faces=13886,archived_landing_gear_faces=5762,
-    retained_source_meshes=inventory,external_weapons=0,external_drop_tanks=0,targeting_pods=0,panel_edges=panel_edges,
-    other_lineup_aircraft_omitted=True,landing_gear_hidden=True,source_geometry_preserved=True,
+    selected_aircraft='1_F_15EX_clean',visible_faces=sum(len(o.data.polygons) for o in visible),source_airframe_faces=13886,archived_landing_gear_faces=5762,
+    ingested_source_meshes=inventory,visible_meshes=[dict(object=o.name,faces=len(o.data.polygons)) for o in visible],external_weapons=0,external_drop_tanks=0,targeting_pods=0,panel_edges=panel_edges,
+    other_lineup_aircraft_omitted=True,landing_gear_hidden=True,source_geometry_preserved_before_articulation=True,
+    articulation=articulation,engine_crown_paint=dict(source_body_faces=engine_painted,rgb=style['engine_crown_rgb'],fixed_vertex_color=True),
     native_forward=[s,0,c],native_up=[0,1,0],source_to_physical_transform=[list(r) for r in transform],
     physical_bounds=[list(low),list(high)],physical_length_m=style['physical_length_m'],
     nominal_wingspan_m=style['physical_wingspan_m'],model_wingspan_m=inferred_span,model_span_relative_error=span_error,
@@ -111,6 +137,12 @@ report=dict(passed=True,source_archive=str(archive),source_sha256=style['source_
     game_definition_added=False,in_game_tested=False)
 assert not any(o.type=='LIGHT' for o in scene.objects)
 (OUT/'model_validation.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+(OUT/'panel_color_validation.json').write_text(json.dumps(dict(passed=True,
+    source_material_assignment_checked_before_articulation=True,part_groups=len(color_plan['parts']),
+    painted_source_faces=sum(color_counts.values()),palette_roles=dict(color_counts),
+    protected_intake_faces_excluded=color_plan['protected_intake_faces_excluded'],
+    engine_crown=report['engine_crown_paint'],source_albedo_weathering_used=False,
+    geometry_revision='Control separation/caps and mirrored variable nozzles; see model_validation.json'),indent=2)+'\n',encoding='utf-8')
 (OUT/'selection_manifest.json').write_text(json.dumps([dict(object=g['object'],faces=len(g['faces']),
     materials=dict(Counter(model['faces'][i]['material'] for i in g['faces'])),
     selection='visible clean airframe' if g['object']==style['airframe_object'] else
