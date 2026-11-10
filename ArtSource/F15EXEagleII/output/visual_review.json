@@ -7,10 +7,10 @@
     "output/controls_pose_b.png",
     "output/HD_F15EX.png",
     "output/model_review.png",
-    "output/scale_review.png"
+    "output/scale_review.png",
+    "output/radome_paint_review.png"
   ],
   "exact_top_nose_up": true,
-  "engine_crowns_brighter": true,
   "left_right_neutral_nozzles_matched": true,
   "conventional_aperture_motion_reviewed": true,
   "dark_inner_core_and_continuous_seals": true,
@@ -34,11 +34,9 @@
   "preview_travel_is_not_certified_operating_limit": true,
   "in_game_tested": false,
   "blueprint_validation_performed": false,
-  "solid_engine_crown_paint": true,
-  "engine_crown_rgb": [
-    163,
-    173,
-    181
-  ],
-  "gradient_removed": true
+  "engine_crowns_match_body": true,
+  "engine_fold_boundaries_darkened": true,
+  "engine_fold_source_edges": 8,
+  "straight_radome_paint_boundary": true,
+  "radome_boundary_y_m": 7.09
 }

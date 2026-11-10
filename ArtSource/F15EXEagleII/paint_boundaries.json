@@ -1,0 +1,95 @@
+{
+  "source_sha256": "1db5cd9e48a2b8fcbd7447e3a5a073647b93aa65c3205c99153b10ce447a75d0",
+  "radome_start_y_m": 7.09,
+  "engine_fold_diameter_m": 0.04,
+  "engine_fold_edges": [
+    {
+      "side": "right",
+      "source_vertices": [
+        12189,
+        12186
+      ],
+      "source_faces": [
+        11048,
+        11049
+      ]
+    },
+    {
+      "side": "left",
+      "source_vertices": [
+        10836,
+        10839
+      ],
+      "source_faces": [
+        9550,
+        9551
+      ]
+    },
+    {
+      "side": "right",
+      "source_vertices": [
+        12186,
+        12179
+      ],
+      "source_faces": [
+        11043,
+        11044
+      ]
+    },
+    {
+      "side": "left",
+      "source_vertices": [
+        10832,
+        10836
+      ],
+      "source_faces": [
+        9545,
+        9546
+      ]
+    },
+    {
+      "side": "right",
+      "source_vertices": [
+        12173,
+        12179
+      ],
+      "source_faces": [
+        11034,
+        11037
+      ]
+    },
+    {
+      "side": "left",
+      "source_vertices": [
+        10822,
+        10832
+      ],
+      "source_faces": [
+        9538,
+        9539
+      ]
+    },
+    {
+      "side": "right",
+      "source_vertices": [
+        12174,
+        12173
+      ],
+      "source_faces": [
+        11028,
+        11029
+      ]
+    },
+    {
+      "side": "left",
+      "source_vertices": [
+        10822,
+        10823
+      ],
+      "source_faces": [
+        9527,
+        9528
+      ]
+    }
+  ]
+}

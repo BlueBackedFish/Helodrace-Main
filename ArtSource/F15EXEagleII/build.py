@@ -13,6 +13,8 @@ color_plan=json.loads((ROOT/'panel_colors.json').read_text(encoding='utf-8'))
 assert color_plan['source_sha256']==style['source_sha256']
 face_roles={fi:part['palette_role'] for part in color_plan['parts'] for fi in part['source_face_ids']}
 color_counts=Counter()
+paint_boundaries=json.loads((ROOT/'paint_boundaries.json').read_text(encoding='utf-8'))
+assert paint_boundaries['source_sha256']==style['source_sha256']
 archive=Path(style['source_archive']);assert hashlib.sha256(archive.read_bytes()).hexdigest()==style['source_sha256']
 with zipfile.ZipFile(archive) as package:
     data=package.read(style['obj_member'])
@@ -74,34 +76,29 @@ for name,group in selected.items():
         source_coordinates_topology_uv_preserved_at_ingestion=True,source_face_ids=group['faces']))
 assert sum(len(o.data.polygons) for o in objects)==19648
 bpy.context.view_layer.update();visible=[o for o in objects if not o.hide_render]
-# Two fixed RGB colors separated by a hard geometric mask. No interpolation
-# between crown/body colors, vertex-color paint or normal-dependent shading.
+# A physical Y-plane cuts the paint across long source triangles, keeping
+# the radome's rear color boundary straight without changing its shape.
 body_obj=visible[0]
 paint_frame=bpy.data.objects.new('F15EX physical paint coordinates',None);scene.collection.objects.link(paint_frame)
 paint_frame.parent=origin;paint_frame.matrix_parent_inverse=origin.matrix_world.inverted()
-engine_material=bpy.data.materials.new('F15EX solid engine fairing paint');engine_material.use_nodes=True
-nodes=engine_material.node_tree.nodes;nodes.clear();links=engine_material.node_tree.links
+radome_material=bpy.data.materials.new('F15EX straight radome paint');radome_material.use_nodes=True
+nodes=radome_material.node_tree.nodes;nodes.clear();links=radome_material.node_tree.links
 coordinates=nodes.new('ShaderNodeTexCoord');coordinates.object=paint_frame
 xyz=nodes.new('ShaderNodeSeparateXYZ');links.new(coordinates.outputs['Object'],xyz.inputs[0])
-def compare(socket,operation,value):
-    node=nodes.new('ShaderNodeMath');node.operation=operation;links.new(socket,node.inputs[0]);node.inputs[1].default_value=value;return node.outputs[0]
-absolute=nodes.new('ShaderNodeMath');absolute.operation='ABSOLUTE';links.new(xyz.outputs['X'],absolute.inputs[0])
-checks=[compare(xyz.outputs['Z'],'GREATER_THAN',1.95),compare(xyz.outputs['Y'],'GREATER_THAN',-7.35),
-    compare(xyz.outputs['Y'],'LESS_THAN',-1.0),compare(absolute.outputs[0],'LESS_THAN',1.5),compare(absolute.outputs[0],'GREATER_THAN',.22)]
-mask=checks[0]
-for check in checks[1:]:
-    product=nodes.new('ShaderNodeMath');product.operation='MULTIPLY';links.new(mask,product.inputs[0]);links.new(check,product.inputs[1]);mask=product.outputs[0]
+mask=nodes.new('ShaderNodeMath');mask.operation='GREATER_THAN';links.new(xyz.outputs['Y'],mask.inputs[0]);mask.inputs[1].default_value=paint_boundaries['radome_start_y_m']
 linear=lambda v:v/255/12.92 if v/255<=.04045 else ((v/255+.055)/1.055)**2.4
-mix=nodes.new('ShaderNodeMixRGB');links.new(mask,mix.inputs[0]);mix.inputs[1].default_value=tuple(linear(v) for v in style['palette']['body'])+(1,)
-mix.inputs[2].default_value=tuple(linear(v) for v in style['palette']['engine_crown'])+(1,)
+mix=nodes.new('ShaderNodeMixRGB');links.new(mask.outputs[0],mix.inputs[0]);mix.inputs[1].default_value=tuple(linear(v) for v in style['palette']['body'])+(1,)
+mix.inputs[2].default_value=tuple(linear(v) for v in style['palette']['radome'])+(1,)
 emission=nodes.new('ShaderNodeEmission');output=nodes.new('ShaderNodeOutputMaterial');links.new(mix.outputs[0],emission.inputs[0]);links.new(emission.outputs[0],output.inputs[0])
-slot=len(body_obj.data.materials);body_obj.data.materials.append(engine_material)
+slot=len(body_obj.data.materials);body_obj.data.materials.append(radome_material)
 for polygon in body_obj.data.polygons:
-    if polygon.material_index==0:polygon.material_index=slot
+    if polygon.material_index in (0,2):polygon.material_index=slot
 sys.path.insert(0,str(ROOT));from articulation import prepare as prepare_articulation
 visible,articulation=prepare_articulation(scene,body_obj,airframe['faces'],origin,materials['panel'])
-sys.path.insert(0,str(ROOT));from panel_edges import prepare as prepare_edges
-panel_edges=[prepare_edges(scene,obj,materials['panel'],.010 if obj.name.startswith('EXHAUST') else .020)
+sys.path.insert(0,str(ROOT));from panel_edges import prepare as prepare_edges,engine_folds
+fixed_body=next(o for o in visible if o.name=='AIRFRAME_FIXED')
+engine_fold_detail,fold_edges=engine_folds(scene,fixed_body,model,transform,paint_boundaries,materials['panel'])
+panel_edges=[prepare_edges(scene,obj,materials['panel'],.010 if obj.name.startswith('EXHAUST') else .020,fold_edges if obj==fixed_body else ())
     for obj in visible if not obj.name.startswith(('EXHAUST_FIXED','JOINT_FIXED')) and not obj.name.endswith('inner_seal')]
 points=[o.matrix_world@v.co for o in visible for v in o.data.vertices]
 low=Vector([min(p[i] for p in points) for i in range(3)]);high=Vector([max(p[i] for p in points) for i in range(3)])
@@ -124,7 +121,8 @@ report=dict(passed=True,source_archive=str(archive),source_sha256=style['source_
     selected_aircraft='1_F_15EX_clean',visible_faces=sum(len(o.data.polygons) for o in visible),source_airframe_faces=13886,archived_landing_gear_faces=5762,
     ingested_source_meshes=inventory,visible_meshes=[dict(object=o.name,faces=len(o.data.polygons)) for o in visible],external_weapons=0,external_drop_tanks=0,targeting_pods=0,panel_edges=panel_edges,
     other_lineup_aircraft_omitted=True,landing_gear_hidden=True,source_geometry_preserved_before_articulation=True,
-    articulation=articulation,engine_crown_paint=dict(rgb=style['palette']['engine_crown'],paint='Single fixed emission RGB; binary physical-region mask; no gradient',vertex_color_layers=0),
+    articulation=articulation,engine_fold_detail=engine_fold_detail,engine_fairing_rgb=style['palette']['body'],
+    radome_paint=dict(boundary='Straight physical Y-plane',start_y_m=paint_boundaries['radome_start_y_m']),
     native_forward=[s,0,c],native_up=[0,1,0],source_to_physical_transform=[list(r) for r in transform],
     physical_bounds=[list(low),list(high)],physical_length_m=style['physical_length_m'],
     nominal_wingspan_m=style['physical_wingspan_m'],model_wingspan_m=inferred_span,model_span_relative_error=span_error,
@@ -143,7 +141,7 @@ assert not any(o.type=='LIGHT' for o in scene.objects)
     source_material_assignment_checked_before_articulation=True,part_groups=len(color_plan['parts']),
     painted_source_faces=sum(color_counts.values()),palette_roles=dict(color_counts),
     protected_intake_faces_excluded=color_plan['protected_intake_faces_excluded'],
-    engine_crown=report['engine_crown_paint'],source_albedo_weathering_used=False,
+    engine_folds=engine_fold_detail,engine_fairing_highlight_removed=True,radome=report['radome_paint'],source_albedo_weathering_used=False,
     geometry_revision='Control separation/caps and mirrored variable nozzles; see model_validation.json'),indent=2)+'\n',encoding='utf-8')
 (OUT/'selection_manifest.json').write_text(json.dumps([dict(object=g['object'],faces=len(g['faces']),
     materials=dict(Counter(model['faces'][i]['material'] for i in g['faces'])),
