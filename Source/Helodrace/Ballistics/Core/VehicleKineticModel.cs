@@ -133,11 +133,14 @@ namespace Helodrace.Ballistics
     {
         public readonly VehicleArmorMaterial Material;
         public readonly float ThicknessM;
+        /// <summary>Air gap behind this layer (spaced armour, skirts), metres.</summary>
+        public readonly float GapAfterM;
 
-        public VehicleArmorLayer(VehicleArmorMaterial material, float thicknessM)
+        public VehicleArmorLayer(VehicleArmorMaterial material, float thicknessM, float gapAfterM = 0f)
         {
             Material = material;
             ThicknessM = thicknessM;
+            GapAfterM = gapAfterM;
         }
     }
 
@@ -294,16 +297,23 @@ namespace Helodrace.Ballistics
                 return;
             }
             trace?.Value("obliquityDeg", obliquity * BallisticGeometry.RadToDeg, EvidenceGrade.Physical);
+            // Phase 11: blunt and capped cores normalize toward the plate normal; LOS and protection are kept apart.
+            float normalization = Normalization.Degrees(round.Mechanism, round.SmallArmsClass);
+            if (normalization > 0f)
+            {
+                trace?.Value("normalizationDeg", normalization, EvidenceGrade.Game);
+                trace?.Value("geometricLosFactor", 1f / MathF.Max(BallisticGeometry.MinimumCosine, MathF.Cos(obliquity)), EvidenceGrade.Physical);
+            }
             switch (round.Mechanism)
             {
                 case PenetrationMechanism.KineticLongRod:
                     ResolveLongRod(round, penetrator, layers, obliquity, outwardNormal, seed, result, trace);
                     break;
                 case PenetrationMechanism.KineticHardCore:
-                    ResolveDeMarre(round, penetrator, layers, obliquity, outwardNormal, seed, result, trace);
+                    ResolveDeMarre(round, penetrator, layers, obliquity, Normalization.Apply(obliquity, normalization), outwardNormal, seed, result, trace);
                     break;
                 default:
-                    ResolveSmallArms(round, penetrator, layers, obliquity, outwardNormal, seed, result, trace);
+                    ResolveSmallArms(round, penetrator, layers, obliquity, Normalization.Apply(obliquity, normalization), outwardNormal, seed, result, trace);
                     break;
             }
             result.EnergyOut = result.Perforated ? result.Out.KineticEnergyJ : 0f;
@@ -317,7 +327,7 @@ namespace Helodrace.Ballistics
             if (rod?.LongRod == null)
             {
                 trace?.Warn("long rod without a sourced rod material; treated as small arms");
-                ResolveSmallArms(round, current, layers, obliquity, normal, seed, result, trace);
+                ResolveSmallArms(round, current, layers, obliquity, obliquity, normal, seed, result, trace);
                 return;
             }
             float initialLength = current.LengthM;
@@ -340,7 +350,7 @@ namespace Helodrace.Ballistics
                 float brinell = layer.Material.SteelTarget ? layer.Material.BrinellHardness : RhaBrinell;
                 string label = "layer." + i + "." + layer.Material.Id;
                 float limit = RodPerforationLimit(rod, current.LengthM, current.DiameterM, current.Speed, obliquity,
-                    density, brinell, trace, label);
+                    density, brinell, trace, label) * RodYaw.LimitFactor(current.YawRadians, current.LengthM, current.DiameterM);
                 var rng = BallisticSeed.Stream(seed, "rod#" + i);
                 float z = Math.Clamp(rng.NextGaussian(), -KineticBulletModel.MaxScatterSigmas, KineticBulletModel.MaxScatterSigmas);
                 float sampled = MathF.Max(0f, limit * (1f + rod.LongRod.Scatter * z));
@@ -370,6 +380,12 @@ namespace Helodrace.Ballistics
                 current.MassKg *= remaining;
                 current.LengthM *= remaining;
                 current.Condition = PenetratorCondition.Eroded;
+                // Phase 11: an air gap behind the layer lets the eroded rod yaw before the next one. [game]
+                if (layer.GapAfterM > 0f)
+                {
+                    current.YawRadians = RodYaw.Grow(current.YawRadians, layer.GapAfterM, current.LengthM);
+                    trace?.Value(label + ".yawAfterGapDeg", current.YawRadians * BallisticGeometry.RadToDeg, EvidenceGrade.Game);
+                }
             }
             result.Out = current;
             result.Result = initialLength > 0f && current.LengthM / initialLength >= OvermatchShare
@@ -378,7 +394,7 @@ namespace Helodrace.Ballistics
         }
 
         private static void ResolveDeMarre(VehicleKineticRound round, PenetratorState current,
-            IReadOnlyList<VehicleArmorLayer> layers, float obliquity, Vector3 normal, ulong seed,
+            IReadOnlyList<VehicleArmorLayer> layers, float obliquity, float effectiveObliquity, Vector3 normal, ulong seed,
             VehicleKineticResult result, ImpactTrace trace)
         {
             result.RicochetProbability = RicochetProbability(obliquity, round.RicochetCriticalDegrees, round.RicochetWidthDegrees);
@@ -397,7 +413,7 @@ namespace Helodrace.Ballistics
             for (int i = 0; i < layers.Count; i++)
             {
                 VehicleArmorLayer layer = layers[i];
-                float los = BallisticGeometry.LineOfSightThickness(layer.ThicknessM, obliquity);
+                float los = BallisticGeometry.LineOfSightThickness(layer.ThicknessM, effectiveObliquity);
                 float equivalent = layer.Material.RhaEquivalent(los);
                 total += equivalent;
                 cumulative[i] = total;
@@ -443,12 +459,12 @@ namespace Helodrace.Ballistics
         }
 
         private static void ResolveSmallArms(VehicleKineticRound round, PenetratorState current,
-            IReadOnlyList<VehicleArmorLayer> layers, float obliquity, Vector3 normal, ulong seed,
+            IReadOnlyList<VehicleArmorLayer> layers, float obliquity, float effectiveObliquity, Vector3 normal, ulong seed,
             VehicleKineticResult result, ImpactTrace trace)
         {
             KineticMaterial face = layers[0].Material.SmallArms;
             // Tier T2 early exit: below 2.5 sigma of the first layer's limit the stop is certain.
-            float faceDensity = KineticBulletModel.LosArealDensity(face, layers[0].ThicknessM, obliquity, 1f);
+            float faceDensity = KineticBulletModel.LosArealDensity(face, layers[0].ThicknessM, effectiveObliquity, 1f);
             float faceLimit = KineticBulletModel.LimitVelocity(face, round.SmallArmsClass, faceDensity, current.MassKg, current.DiameterM);
             if (current.Speed <= faceLimit * (1f - face.Scatter * KineticBulletModel.MaxScatterSigmas))
             {
@@ -460,7 +476,7 @@ namespace Helodrace.Ballistics
                 result.Out = current;
                 result.Steps.Add(new VehicleLayerStep
                 {
-                    MaterialId = face.Id, LosThicknessM = BallisticGeometry.LineOfSightThickness(layers[0].ThicknessM, obliquity),
+                    MaterialId = face.Id, LosThicknessM = BallisticGeometry.LineOfSightThickness(layers[0].ThicknessM, effectiveObliquity),
                     RhaEquivalentM = 0f, Capability = faceLimit, Perforated = false
                 });
                 trace?.Value("smallArms.faceV50", faceLimit, EvidenceGrade.Game);
@@ -482,10 +498,10 @@ namespace Helodrace.Ballistics
                 VehicleArmorLayer layer = layers[i];
                 var rng = BallisticSeed.Stream(seed, "smallArms#" + i);
                 KineticLayerResult step = KineticBulletModel.ResolveLayer(current, round.SmallArmsClass, layer.Material.SmallArms,
-                    layer.ThicknessM, obliquity, 1f, ref rng);
+                    layer.ThicknessM, effectiveObliquity, 1f, ref rng);
                 result.Steps.Add(new VehicleLayerStep
                 {
-                    MaterialId = layer.Material.Id, LosThicknessM = BallisticGeometry.LineOfSightThickness(layer.ThicknessM, obliquity),
+                    MaterialId = layer.Material.Id, LosThicknessM = BallisticGeometry.LineOfSightThickness(layer.ThicknessM, effectiveObliquity),
                     RhaEquivalentM = 0f, Capability = step.SampledLimitVelocity, Perforated = step.Perforated
                 });
                 trace?.Value("layer." + i + "." + layer.Material.Id + ".v50", step.LimitVelocity, EvidenceGrade.Game);

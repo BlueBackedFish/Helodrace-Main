@@ -357,6 +357,9 @@ namespace Helodrace.ModernWar
     {
         private int plateOneHitPoints = -1;
         private int plateTwoHitPoints = -1;
+        // Ceramic multi-hit cracks per plate face, 3 x 3 cells (Ballistics phase 11, CrackGrid). [game]
+        private List<float> plateOneCracks;
+        private List<float> plateTwoCracks;
 
         public int MaxHitPointsPerPlate => parent.MaxHitPoints;
 
@@ -382,10 +385,28 @@ namespace Helodrace.ModernWar
             base.PostExposeData();
             Scribe_Values.Look(ref plateOneHitPoints, "plateOneHitPoints", -1);
             Scribe_Values.Look(ref plateTwoHitPoints, "plateTwoHitPoints", -1);
+            Scribe_Collections.Look(ref plateOneCracks, "plateOneCracks", LookMode.Value);
+            Scribe_Collections.Look(ref plateTwoCracks, "plateTwoCracks", LookMode.Value);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 EnsureInitialized();
             }
+        }
+
+        /// <summary>Crack levels of one plate face (9 cells), created on first use.</summary>
+        public float[] CracksFor(int plateNumber)
+        {
+            ref List<float> list = ref plateNumber == 2 ? ref plateTwoCracks : ref plateOneCracks;
+            if (list == null || list.Count != Helodrace.Ballistics.CrackGrid.Cells)
+                list = new List<float>(new float[Helodrace.Ballistics.CrackGrid.Cells]);
+            return list.ToArray();
+        }
+
+        public void SetCracks(int plateNumber, float[] cracks)
+        {
+            if (cracks == null || cracks.Length != Helodrace.Ballistics.CrackGrid.Cells) return;
+            if (plateNumber == 2) plateTwoCracks = new List<float>(cracks);
+            else plateOneCracks = new List<float>(cracks);
         }
 
         public int HitPointsFor(int plateNumber)

@@ -88,3 +88,54 @@ internal static class AmmoTests
         near(BlastModel.QuasiStaticPressureKPa(40f, 10f), AmmoReactionModel.BurnPressureKPa(rack, 10f), 1e-3, "Burning propellant gas through the compartment model");
     }
 }
+
+// Phase 11: normalization, rod yaw in gaps, slats, ceramic crack grid, visor crazing.
+internal static class AdvancedTests
+{
+    public static void Run(Action<bool, string> check, Action<double, double, double, string> near)
+    {
+        near(55, Normalization.Apply(60f * BallisticGeometry.DegToRad, 5f) * BallisticGeometry.RadToDeg, 1e-3, "Normalization turns the effective obliquity toward the normal");
+        check(Normalization.Apply(2f * BallisticGeometry.DegToRad, 5f) == 0f, "Normalization never passes the normal");
+        check(Normalization.Degrees(PenetrationMechanism.KineticLongRod, PenetratorClass.Tungsten) == 0f, "Long rods: the fit already holds obliquity");
+        check(Normalization.Degrees(PenetrationMechanism.KineticHardCore, PenetratorClass.HardSteel) > Normalization.Degrees(PenetrationMechanism.KineticHardCore, PenetratorClass.Tungsten),
+            "Blunt steel shot normalizes more than a tungsten core");
+        // Spaced armour: the same two plates with a gap between them cost a rod more than bonded.
+        var rha = VehicleTests.Rha();
+        var round = new VehicleKineticRound { Mechanism = PenetrationMechanism.KineticLongRod, Core = VehicleTests.TungstenRod };
+        var result = new VehicleKineticResult();
+        float bonded = 0f, spaced = 0f;
+        for (int i = 0; i < 400; i++)
+        {
+            var rod = PenetratorState.Projectile(PenetrationMechanism.KineticLongRod, 3f, -System.Numerics.Vector3.UnitZ * 1600f, 0.5f, 0.02f);
+            VehicleKineticModel.Resolve(round, rod, new[] { new VehicleArmorLayer(rha, 0.08f), new VehicleArmorLayer(rha, 0.15f) }, System.Numerics.Vector3.UnitZ, (ulong)i, result);
+            bonded += result.Out.LengthM;
+            VehicleKineticModel.Resolve(round, rod, new[] { new VehicleArmorLayer(rha, 0.08f, 0.5f), new VehicleArmorLayer(rha, 0.15f) }, System.Numerics.Vector3.UnitZ, (ulong)i, result);
+            spaced += result.Out.LengthM;
+        }
+        check(spaced < bonded, "A gap behind the first plate yaws the rod and costs it more length (" + spaced + " vs " + bonded + ")");
+        check(RodYaw.Grow(0f, 100f, 0.5f) <= 0.35f && RodYaw.LimitFactor(1f, 0.6f, 0.02f) >= 0.5f, "Yaw growth and its cost are capped");
+        // Slats: the three outcomes in their shares.
+        int pass = 0, dud = 0, early = 0;
+        for (int i = 0; i < 1000; i++)
+        {
+            switch (SlatArmor.Roll((i + 0.5f) / 1000f))
+            {
+                case SlatOutcome.PassThrough: pass++; break;
+                case SlatOutcome.Dud: dud++; break;
+                default: early++; break;
+            }
+        }
+        check(pass == 350 && dud == 500 && early == 150, "Slat outcomes 35 / 50 / 15 %");
+        // Crack grid: a repeat hit on the same cell meets weaker ceramic than a hit far away.
+        var cracks = new float[CrackGrid.Cells];
+        int centre = CrackGrid.CellOf(0f, 40f, 0.5f, 0f, 1f), corner = CrackGrid.CellOf(-39f, 40f, 0.01f, 0f, 1f);
+        check(centre == 4 && corner == 0, "Hit cells: centre and lower-left corner");
+        CrackGrid.Record(cracks, centre, false);
+        check(CrackGrid.Effectiveness(cracks, centre) < CrackGrid.Effectiveness(cracks, corner) && CrackGrid.Effectiveness(cracks, corner) < 1f,
+            "Same-spot hits meet cracked ceramic; neighbours are slightly weakened");
+        for (int i = 0; i < 5; i++) CrackGrid.Record(cracks, centre, true);
+        check(CrackGrid.Effectiveness(cracks, centre) >= 0.1f, "A shattered cell keeps a floor");
+        near(0.25, VisorCrazing.Grow(0f, false), 1e-6, "A stopped hit crazes the visor");
+        check(VisorCrazing.SightLoss(VisorCrazing.Grow(VisorCrazing.Grow(0f, true), true)) > 0.25f, "Repeated hits cloud the visor");
+    }
+}

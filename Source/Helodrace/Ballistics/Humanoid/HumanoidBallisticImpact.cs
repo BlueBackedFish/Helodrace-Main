@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using HarmonyLib;
 using Helodrace.ModernWar;
@@ -163,8 +164,12 @@ namespace Helodrace.Ballistics
             finally { Current = previous; }
         }
 
+        internal readonly List<(Apparel host, bool perforated)> pendingCrazing = new List<(Apparel, bool)>();
+
         internal void Finish()
         {
+            foreach (var crazing in pendingCrazing) VisorCrazingUtility.Craze(pawn, crazing.host, crazing.perforated);
+            pendingCrazing.Clear();
             // Record impacts that met a physical layer, or a helmet that did not cover the hit point.
             if (layerCount == 0 && !uncoveredNoted) return;
             context.Outcome.Result = layerCount == 0 ? ImpactResult.None
@@ -557,6 +562,24 @@ namespace Helodrace.Ballistics
                     }
                     effectiveness = PlateEffectiveness(record.PlateHealthRatioForFacing(facing));
                 }
+                // Phase 11: ceramic plates remember where they were hit (3 x 3 crack grid). [game]
+                CompArmorPlateSet plateSet = plate ? record.PlateSet?.TryGetComp<CompArmorPlateSet>() : null;
+                bool ceramic = plateSet != null && layup.KineticLayers.Any(l => l.Material.Family == ArmorMaterialFamily.Ceramic);
+                int plateNumber = plateSet != null ? record.PlateNumberForFacing(facing) : 0;
+                int crackCell = -1;
+                float[] cracks = null;
+                if (ceramic && centerIndex >= 0)
+                {
+                    float offset = BallisticGeometry.DeltaDegrees(DirectionCenter(position.protectedDirections[centerIndex]), hit.AzimuthDegrees);
+                    crackCell = CrackGrid.CellOf(offset, region.HalfArcDegrees, hit.HeightFraction, region.HeightMin, region.HeightMax);
+                    cracks = plateSet.CracksFor(plateNumber);
+                    float crackFactor = CrackGrid.Effectiveness(cracks, crackCell);
+                    effectiveness *= crackFactor;
+                    impact.context.Trace.Enter("CrackGrid", TraceStageStatus.Ran);
+                    impact.context.Trace.Value(record.part.defName + ".crackCell", crackCell, EvidenceGrade.Game);
+                    impact.context.Trace.Value(record.part.defName + ".crackFactor", crackFactor, EvidenceGrade.Game);
+                    impact.context.Trace.Leave();
+                }
                 if (centerIndex >= 0)
                 {
                     // Plates and directional panels are flat: obliquity against the panel, not the body surface.
@@ -565,6 +588,14 @@ namespace Helodrace.Ballistics
 
                 float absorbed = impact.ResolveLayup(layup, obliquity, effectiveness, record.part.defName,
                     ref damAmount, ref damageDef, out bool stopped, out int stoppingLayer);
+                if (cracks != null)
+                {
+                    CrackGrid.Record(cracks, crackCell, !stopped);
+                    plateSet.SetCracks(plateNumber, cracks);
+                }
+                // Applied after the impact: adding a hediff mid-damage disturbs vanilla's injury pass.
+                if (layup.KineticLayers.Any(l => VisorCrazingUtility.Transparent(l.Material.Id)))
+                    impact.pendingCrazing.Add((host, !stopped));
                 if (plate)
                 {
                     float coefficient = record.PlateSet?.TryGetComp<CompArmorPlateSet>()?.DurabilityMaterialCoefficient ?? 1f;

@@ -63,6 +63,7 @@
   <Helodrace.Ballistics.ArmorMaterialDef>
     <defName>HD_Armor_Polycarbonate</defName>
     <label>polycarbonate laminate</label>
+    <transparent>true</transparent>
     <family>Fiber</family>
     <densityKgM3>1200</densityKgM3>
     <!-- Transparent face armour calibrated to the HG2 targets of the multi-hit visor. [game] -->

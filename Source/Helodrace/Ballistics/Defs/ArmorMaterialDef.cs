@@ -37,6 +37,8 @@ namespace Helodrace.Ballistics
         public float ricochetTangentialRetention = 0.8f;
         public float ricochetNormalRestitution = 0.1f;
         public string empiricalSource;
+        /// <summary>Transparent armour (visors): hits craze it and cost the wearer sight (phase 11). [game]</summary>
+        public bool transparent;
         // Vehicle armour and penetrator bodies (design doc 4.2, phase 5). Hardness and yield strength are
         // measured-range properties [physical]; KE mass efficiency is an RHA-equivalence factor [game].
         public float brinellHardness;
@@ -106,6 +108,8 @@ namespace Helodrace.Ballistics
     {
         public ArmorMaterialDef material;
         public float thicknessMillimeters;
+        /// <summary>Air gap behind this layer (spaced armour, skirts), mm. Vehicle long-rod yaw uses it. [game]</summary>
+        public float gapAfterMillimeters;
     }
 
     /// <summary>Ordered layers of a protective item, strike face first.</summary>

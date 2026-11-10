@@ -14,6 +14,8 @@ namespace Helodrace.Ballistics
         public int LayupIndex = -1;
         /// <summary>Vehicle component key that takes the damage.</summary>
         public string Component;
+        /// <summary>Bar (slat) armour outside the shell (phase 11).</summary>
+        public bool Slat;
     }
 
     /// <summary>A crew seat: a vertical capsule (cylinder) standing on its base point. [game geometry]</summary>

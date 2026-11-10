@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_VisorCrazed.label>바이저 균열</HD_VisorCrazed.label>
+  <HD_VisorCrazed.description>투명 안면 방호재가 탄에 맞은 자리마다 별 모양으로 금이 가 착용자의 시야를 흐린다. 바이저를 벗으면 사라진다.</HD_VisorCrazed.description>
+  <HD_VisorCrazed.stages.0.label>잔금</HD_VisorCrazed.stages.0.label>
+  <HD_VisorCrazed.stages.1.label>균열</HD_VisorCrazed.stages.1.label>
+  <HD_VisorCrazed.stages.2.label>흐림</HD_VisorCrazed.stages.2.label>
+  <HD_VisorCrazed.stages.3.label>일부 불투명</HD_VisorCrazed.stages.3.label>
+  <HD_VisorCrazed.stages.4.label>파손</HD_VisorCrazed.stages.4.label>
+</LanguageData>

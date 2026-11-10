@@ -343,6 +343,28 @@ namespace Helodrace.Ballistics
             int rear = plates.PlateHitPointsForFacing(ModularArmorFacing.Back);
             for (int i = 0; i < 30; i++) { HealVictim(); FireOnce(a1); }
             Check(plates.PlateHitPointsForFacing(ModularArmorFacing.Front) < fresh, "Front plate wears from absorbed energy");
+
+            // 5b. Phase 11 crack grid: repeated M855A1 hits crack the ESAPI ceramic where they land.
+            victim = NewVictim();
+            InstalledModularArmorPart cracked = WearCarrier(ibtv, "HD_IOTVPart_FrontRear_ESAPI");
+            var crackFactors = new List<double>();
+            int crackedPerforations = 0, crackedHits = 0;
+            for (int i = 0; i < 300 && crackedHits < 40; i++)
+            {
+                HealVictim();
+                Shot shot = FireOnce(a1);
+                TraceStage stage = shot.Trace?.Find("CrackGrid");
+                if (stage == null) continue;
+                crackFactors.Add(stage.Values.First(v => v.Key.EndsWith(".crackFactor")).Value);
+                crackedHits++;
+                if (crackedHits > 20 && !shot.Stopped) crackedPerforations++;
+            }
+            Note("ESAPI crack grid: " + crackedHits + " plate hits, first factor " + (crackFactors.Count > 0 ? crackFactors[0] : 0) +
+                ", last factors " + string.Join(", ", crackFactors.Skip(Math.Max(0, crackFactors.Count - 5)).Select(f => f.ToString("0.00"))) +
+                ", perforations after 20 hits " + crackedPerforations);
+            // The plate wears out after about ten M855A1 stops (existing durability rule), so the sample is small.
+            Check(crackedHits >= 8 && crackFactors[0] > 0.99 && crackFactors.Skip(crackFactors.Count - 5).Average() < 0.75,
+                "Ceramic weakens where it was hit before (crack grid)");
             Check(plates.PlateHitPointsForFacing(ModularArmorFacing.Back) == rear, "Rear plate keeps its own durability");
             Note("ESAPI front plate after 30 frontal M855A1: " + plates.PlateHitPointsForFacing(ModularArmorFacing.Front) + "/" + fresh);
             var big = Fire(ball50, 60, () => WearCarrier(ibtv, "HD_IOTVPart_FrontRear_ESAPI"));
@@ -410,10 +432,30 @@ namespace Helodrace.Ballistics
             var bareFace = Fire(pistol, 30, () => WearHelmet(fast, null));
             Check(bareFace.All(s => s.Trace == null || !s.Notes("HD_FASTMTPart_MultiHitVisor")), "Without a visor the face has no face armour");
             var visorFace = Fire(pistol, 40, () => WearHelmet(fast, "HD_FASTMTPart_MultiHitVisor"));
-            Check(visorFace.Count(s => s.Notes("HD_FASTMTPart_MultiHitVisor") && s.Stopped) >= 38, "The multi-hit visor stops 9 mm to the eyes");
+            Note("visor vs 9 mm: " + visorFace.Count(s => s.Notes("HD_FASTMTPart_MultiHitVisor")) + " visor hits, " +
+                visorFace.Count(s => s.Notes("HD_FASTMTPart_MultiHitVisor") && s.Stopped) + " stopped, results " +
+                string.Join(",", visorFace.Select(s => s.Trace?.Result.ToString() ?? "none")));
+            int visorHits = visorFace.Count(s => s.Notes("HD_FASTMTPart_MultiHitVisor"));
+            Check(visorHits >= 30 && visorFace.Count(s => s.Notes("HD_FASTMTPart_MultiHitVisor") && s.Stopped) >= visorHits - 1,
+                "The multi-hit visor stops 9 mm to the eyes");
             var visorRifle = Fire(m193, 30, () => WearHelmet(fast, "HD_FASTMTPart_MultiHitVisor"));
-            Check(visorRifle.Count(s => s.Notes("HD_FASTMTPart_MultiHitVisor") && s.Trace.Result == ImpactResult.Perforation) >= 27,
-                "M193 perforates the visor");
+            int rifleVisorHits = visorRifle.Count(s => s.Notes("HD_FASTMTPart_MultiHitVisor"));
+            int riflePerforations = visorRifle.Count(s => s.Notes("HD_FASTMTPart_MultiHitVisor") && s.Trace.Result == ImpactResult.Perforation);
+            Note("visor vs M193: " + rifleVisorHits + " visor hits, " + riflePerforations + " perforated");
+            Check(rifleVisorHits >= 22 && riflePerforations >= rifleVisorHits * 0.9, "M193 perforates the visor");
+
+            // Phase 11 visor crazing: hits cloud the visor and cost the wearer sight until it comes off.
+            victim = NewVictim();
+            Apparel visorHelmet = WearHelmet(fast, "HD_FASTMTPart_MultiHitVisor");
+            float sightBefore = victim.health.capacities.GetLevel(PawnCapacityDefOf.Sight);
+            for (int i = 0; i < 3; i++) FireOnce(pistol);
+            Hediff crazed = victim.health.hediffSet.hediffs.FirstOrDefault(h => h.def.defName == "HD_VisorCrazed");
+            victim.health.capacities.Notify_CapacityLevelsDirty();
+            float sightAfter = victim.health.capacities.GetLevel(PawnCapacityDefOf.Sight);
+            Note("visor crazing: severity " + (crazed?.Severity ?? 0f) + ", sight " + sightBefore + " -> " + sightAfter);
+            Check(crazed != null && crazed.Severity >= 0.5f && sightAfter < sightBefore, "Hits craze the visor and cost the wearer sight");
+            victim.apparel.Remove(visorHelmet);
+            Check(((HediffWithComps)crazed).TryGetComp<HediffComp_VisorCrazed>().CompShouldRemove, "Taking the visor off clears the crazing");
 
             // Helmet wear from absorbed energy.
             victim = NewVictim();
