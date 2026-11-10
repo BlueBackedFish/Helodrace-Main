@@ -40,18 +40,16 @@ namespace Helodrace.Ballistics
     {
         public readonly float TorsoOffset;
         public readonly float HeadOffset;
-        public readonly int UpdateInterval;
 
-        public StanceParameters(float torsoOffset, float headOffset, int updateInterval)
+        public StanceParameters(float torsoOffset, float headOffset)
         {
             TorsoOffset = torsoOffset;
             HeadOffset = headOffset;
-            UpdateInterval = Math.Max(1, updateInterval);
         }
     }
 
     /// <summary>
-    /// Torso and head yaw (design doc section 6.1). Same convention as the hull heading: degrees,
+    /// Torso and head yaw (design doc section 6.1). Continuous only while engaged; vanilla Rot4 otherwise. Same convention as the hull heading: degrees,
     /// 0 = north, clockwise. No Unity/RimWorld types: the rules run in the regression executable.
     /// </summary>
     public static class BodyOrientationRules
@@ -92,52 +90,16 @@ namespace Helodrace.Ballistics
             return BallisticGeometry.NormalizeDegrees((float)Math.Round(BallisticGeometry.NormalizeDegrees(torsoYaw) / 90f) * 90f) % 360f;
         }
 
-        /// <summary>Torso target: aim yaw plus the stance offset while aiming, otherwise the intended facing.</summary>
-        public static float TorsoTarget(bool aiming, float aimYaw, float intentYaw, in StanceParameters stance) =>
-            aiming ? BallisticGeometry.NormalizeDegrees(aimYaw + stance.TorsoOffset) : BallisticGeometry.NormalizeDegrees(intentYaw);
+        /// <summary>
+        /// Torso yaw. Engaged (aiming a ranged or melee attack): the aim direction plus the stance offset.
+        /// Otherwise the vanilla four-way facing, unchanged.
+        /// </summary>
+        public static float TorsoYaw(bool engaged, float aimYaw, float vanillaYaw, in StanceParameters stance) =>
+            BallisticGeometry.NormalizeDegrees(engaged ? aimYaw + stance.TorsoOffset : vanillaYaw);
 
-        public static float HeadTarget(bool aiming, float aimYaw, float torsoTarget, in StanceParameters stance) =>
-            aiming ? BallisticGeometry.NormalizeDegrees(aimYaw + stance.HeadOffset) : torsoTarget;
-    }
-
-    /// <summary>
-    /// Mutable orientation of one body. Humanoid turns are not rate limited: the torso and head take their
-    /// targets at once (the head within its reach of the torso). LastTick records when they were last set.
-    /// </summary>
-    public sealed class BodyOrientationState
-    {
-        public float TorsoYaw;
-        public float HeadYaw;
-        public float TorsoTarget;
-        public float HeadTarget;
-        public int LastTick = int.MinValue;
-        public StanceParameters Stance = new StanceParameters(0f, 0f, 1);
-
-        public bool Initialized => LastTick != int.MinValue;
-
-        public void Reset(float yaw, int tick)
-        {
-            TorsoYaw = HeadYaw = TorsoTarget = HeadTarget = BallisticGeometry.NormalizeDegrees(yaw);
-            LastTick = tick;
-        }
-
-        public void SetTargets(float torsoTarget, float headTarget)
-        {
-            TorsoTarget = BallisticGeometry.NormalizeDegrees(torsoTarget);
-            HeadTarget = BallisticGeometry.NormalizeDegrees(headTarget);
-        }
-
-        public void Advance(int tick)
-        {
-            if (!Initialized)
-            {
-                Reset(TorsoTarget, tick);
-                return;
-            }
-            if (tick < LastTick) return;
-            TorsoYaw = TorsoTarget;
-            HeadYaw = BodyOrientationRules.ClampHead(TorsoYaw, HeadTarget);
-            LastTick = tick;
-        }
+        /// <summary>Head yaw: looks along the aim (plus head offset) within reach of the torso while engaged.</summary>
+        public static float HeadYaw(bool engaged, float aimYaw, float vanillaYaw, in StanceParameters stance) =>
+            engaged ? ClampHead(TorsoYaw(true, aimYaw, vanillaYaw, stance), aimYaw + stance.HeadOffset)
+                : BallisticGeometry.NormalizeDegrees(vanillaYaw);
     }
 }

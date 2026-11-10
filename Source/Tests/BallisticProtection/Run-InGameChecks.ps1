@@ -3,6 +3,7 @@ param(
     [string]$GameRoot='C:\Program Files (x86)\Steam\steamapps\common\RimWorld',
     [string]$HarmonyRoot='C:\Program Files (x86)\Steam\steamapps\workshop\content\294100\2009463077',
     [string]$BlancasRoot,
+    [switch]$OrientationOnly,
     [switch]$Wait,
     [int]$TimeoutSeconds=600
 )
@@ -13,5 +14,7 @@ $runtime=New-Game17Runtime -RuntimeRoot $RuntimeRoot -GameRoot $GameRoot -Harmon
 dotnet build (Join-Path $runtime.Repository 'Source/Helodrace/Helodrace.csproj') -p:DefineConstants=BALLISTICS_TESTS -p:IntermediateOutputPath=obj/BallisticsGame17/ ("-p:OutputPath="+(Join-Path $runtime.Game 'Mods/Main/Assemblies/')) ("-p:RimWorldPath="+$GameRoot) ("-p:HarmonyAssemblyPath="+$runtime.HarmonyAssembly) -v:minimal
 if($LASTEXITCODE -ne 0){throw 'Ballistics in-game validation build failed.'}
 $result=Join-Path $runtime.Profile 'ballistics-results.txt'
-$process=Start-Game17Runtime -Runtime $runtime -Headless -ResultFile $result
+$arguments=@()
+if($OrientationOnly){$arguments+='-hdBallisticsOrientationOnly=true'}
+$process=Start-Game17Runtime -Runtime $runtime -Arguments $arguments -Headless -ResultFile $result
 if($Wait){Wait-Game17Runtime -Runtime $runtime -TimeoutSeconds $TimeoutSeconds -Process $process}

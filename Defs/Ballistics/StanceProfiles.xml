@@ -3,15 +3,15 @@
   <!--
     Docs/Ballistic_Protection_System.md section 6.1. Offsets are the torso/head yaw relative to the aim direction
     (positive = clockwise, so a right-handed shooter in a bladed stance turns the chest to the right of the
-    target). Humanoid turns are not rate limited. All values are game values [game] chosen from the general
+    target). They apply only while the pawn is engaged (aiming a ranged or melee attack; player pawns must be
+    drafted); otherwise the vanilla four-way facing is used. Turns are not rate limited. All values are game values [game] chosen from the general
     tendency of each weapon family, not measured shooter data.
     weaponDefs overrides the heuristic family of the listed weapons.
   -->
   <Helodrace.Ballistics.StanceProfileDef>
     <defName>HD_Stance_Unarmed</defName>
-    <label>unarmed</label>
+    <label>unarmed and melee</label>
     <family>Unarmed</family>
-    <updateIntervalTicks>4</updateIntervalTicks>
   </Helodrace.Ballistics.StanceProfileDef>
 
   <Helodrace.Ballistics.StanceProfileDef>
@@ -19,7 +19,6 @@
     <label>pistol</label>
     <family>Pistol</family>
     <torsoOffsetDegrees>0</torsoOffsetDegrees>
-    <updateIntervalTicks>2</updateIntervalTicks>
   </Helodrace.Ballistics.StanceProfileDef>
 
   <Helodrace.Ballistics.StanceProfileDef>
@@ -27,7 +26,6 @@
     <label>shotgun</label>
     <family>Shotgun</family>
     <torsoOffsetDegrees>25</torsoOffsetDegrees>
-    <updateIntervalTicks>3</updateIntervalTicks>
   </Helodrace.Ballistics.StanceProfileDef>
 
   <Helodrace.Ballistics.StanceProfileDef>
@@ -35,7 +33,6 @@
     <label>rifle</label>
     <family>Rifle</family>
     <torsoOffsetDegrees>20</torsoOffsetDegrees>
-    <updateIntervalTicks>3</updateIntervalTicks>
   </Helodrace.Ballistics.StanceProfileDef>
 
   <Helodrace.Ballistics.StanceProfileDef>
@@ -43,7 +40,6 @@
     <label>precision rifle</label>
     <family>Sniper</family>
     <torsoOffsetDegrees>25</torsoOffsetDegrees>
-    <updateIntervalTicks>4</updateIntervalTicks>
   </Helodrace.Ballistics.StanceProfileDef>
 
   <Helodrace.Ballistics.StanceProfileDef>
@@ -51,7 +47,6 @@
     <label>machine gun</label>
     <family>MachineGun</family>
     <torsoOffsetDegrees>15</torsoOffsetDegrees>
-    <updateIntervalTicks>4</updateIntervalTicks>
   </Helodrace.Ballistics.StanceProfileDef>
 
   <Helodrace.Ballistics.StanceProfileDef>
@@ -59,7 +54,6 @@
     <label>launcher</label>
     <family>Launcher</family>
     <torsoOffsetDegrees>30</torsoOffsetDegrees>
-    <updateIntervalTicks>4</updateIntervalTicks>
     <!-- Its guided missile is not a Projectile_Explosive subclass, so the heuristic would call it a rifle. -->
     <weaponDefs><li>HD_Gun_M47_Dragon</li></weaponDefs>
   </Helodrace.Ballistics.StanceProfileDef>

@@ -78,6 +78,7 @@ namespace Helodrace.Ballistics
             public float MaxStep;
             public float WorstSpriteGap;
             public bool AimSeen;
+            public bool Melee;
             public int AimTick = -1;
             public float Offset;
         }
@@ -97,12 +98,24 @@ namespace Helodrace.Ballistics
                     harmony.Patch(AccessTools.Method(typeof(ArmorUtility), nameof(ArmorUtility.GetPostArmorDamage)),
                         prefix: new HarmonyMethod(typeof(BallisticsInGameChecks), nameof(RecordArmorInput)),
                         postfix: new HarmonyMethod(typeof(BallisticsInGameChecks), nameof(RecordArmor)));
-                    forceTorso = true;
-                    Run();
-                    forceTorso = false;
+                    // -hdBallisticsOrientationOnly=true skips the armour statistics (fast orientation runs).
+                    if (!GenCommandLine.TryGetCommandLineArg("hdBallisticsOrientationOnly", out _))
+                    {
+                        forceTorso = true;
+                        Run();
+                        forceTorso = false;
+                    }
+                    else
+                    {
+                        shooter = PawnGenerator.GeneratePawn(new PawnGenerationRequest(PawnKindDefOf.Colonist, Faction.OfPlayer,
+                            forceGenerateNewPawn: true, canGeneratePawnRelations: false, forcedXenotype: XenotypeDefOf.Baseliner));
+                        GenSpawn.Spawn(shooter, Find.CurrentMap.Center + new IntVec3(0, 0, -10), Find.CurrentMap);
+                    }
                     if (victim != null && !victim.Destroyed) victim.Destroy();
                     foreach (string weapon in new[] { "HD_Gun_Glock19Gen5_Weapon", "HD_Gun_M14_Weapon", "HD_Gun_M249_Weapon" })
                         trials.Add(new TurnTrial { WeaponDef = weapon });
+                    // Bare hands against a wall one cell to the north-east: the melee aim is 45 degrees.
+                    trials.Add(new TurnTrial { WeaponDef = null });
                     Find.TickManager.CurTimeSpeed = TimeSpeed.Superfast;
                     return;
                 }
@@ -143,6 +156,9 @@ namespace Helodrace.Ballistics
             }
 
             TurnTrial trial = trials[trialIndex];
+            if ((now - trial.StartTick) % 60 == 0)
+                Note(trial.WeaponDef + " tick " + (now - trial.StartTick) + " job " + trial.Shooter.CurJobDef?.defName
+                    + " stance " + trial.Shooter.stances?.curStance?.GetType().Name + " pos " + trial.Shooter.Position);
             CompBodyOrientation comp = trial.Shooter.TryGetComp<CompBodyOrientation>();
             float yaw = comp.TorsoYaw;
             trial.MaxStep = Math.Max(trial.MaxStep, Math.Abs(BallisticGeometry.DeltaDegrees(trial.LastYaw, yaw)));
@@ -170,24 +186,39 @@ namespace Helodrace.Ballistics
                 forceGenerateNewPawn: true, canGeneratePawnRelations: false, fixedBiologicalAge: 25,
                 fixedChronologicalAge: 25, allowAddictions: false, mustBeCapableOfViolence: true));
             shooter.equipment.DestroyAllEquipment();
-            var weapon = (ThingWithComps)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed(trial.WeaponDef),
-                GenStuff.DefaultStuffFor(DefDatabase<ThingDef>.GetNamed(trial.WeaponDef)));
-            shooter.equipment.AddEquipment(weapon);
+            bool melee = trial.WeaponDef == null;
+            ThingDef weaponDef = melee ? null : DefDatabase<ThingDef>.GetNamed(trial.WeaponDef);
+            if (!melee)
+                shooter.equipment.AddEquipment((ThingWithComps)ThingMaker.MakeThing(weaponDef, GenStuff.DefaultStuffFor(weaponDef)));
+            trial.WeaponDef = trial.WeaponDef ?? "Melee";
             GenSpawn.Spawn(shooter, origin, map, Rot4.North);
-            Thing wall = GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.Wall, ThingDefOf.BlocksGranite), origin + new IntVec3(8, 0, 0), map);
-            shooter.drafter.Drafted = true;
+            Thing wall = GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.Wall, ThingDefOf.BlocksGranite),
+                origin + (melee ? new IntVec3(1, 0, 1) : new IntVec3(8, 0, 0)), map);
             CompBodyOrientation comp = shooter.TryGetComp<CompBodyOrientation>();
             Check(comp != null, "Humanlike pawns get the body orientation comp");
-            StanceProfileDef profile = StanceProfileDef.For(weapon.def);
+            // Not drafted, and drafted without a target: the vanilla four-way facing, whatever it is set to.
+            foreach (bool drafted in new[] { false, true })
+            {
+                shooter.drafter.Drafted = drafted;
+                foreach (Rot4 facing in new[] { Rot4.East, Rot4.South, Rot4.West, Rot4.North })
+                {
+                    shooter.Rotation = facing;
+                    Check(!comp.Aiming && shooter.Rotation == facing && comp.TorsoYaw == facing.AsAngle && comp.HeadYaw == facing.AsAngle,
+                        trial.WeaponDef + (drafted ? " drafted idle" : " undrafted") + " uses the vanilla facing " + facing.AsAngle, quiet: true);
+                }
+            }
+            File.AppendAllText(Results, "PASS " + trial.WeaponDef + " undrafted and drafted-idle pawns use the vanilla four-way facing\n");
+            StanceProfileDef profile = StanceProfileDef.For(weaponDef);
             Check(profile != null, trial.WeaponDef + " has a stance profile: " + profile?.defName);
             Note(trial.WeaponDef + " stance " + profile.defName + " (" + profile.family + ")");
+            trial.Melee = melee;
             trial.Shooter = shooter;
             trial.Target = wall;
             trial.StartTick = now;
             trial.LastYaw = comp.TorsoYaw;
             trial.Offset = profile.torsoOffsetDegrees;
             Check(Math.Abs(BallisticGeometry.DeltaDegrees(trial.LastYaw, 0f)) < 0.01f, trial.WeaponDef + " shooter starts facing north");
-            Job job = JobMaker.MakeJob(JobDefOf.AttackStatic, wall);
+            Job job = JobMaker.MakeJob(trial.Melee ? JobDefOf.AttackMelee : JobDefOf.AttackStatic, wall);
             Check(shooter.jobs.TryTakeOrderedJob(job), trial.WeaponDef + " takes the attack order");
         }
 
@@ -206,13 +237,27 @@ namespace Helodrace.Ballistics
             Check(trial.WorstSpriteGap <= 45f + BodyOrientationRules.SpriteHysteresis + 0.01f,
                 trial.WeaponDef + " drawn side always matches the torso (within one sprite sector)");
             Check(Math.Abs(BallisticGeometry.DeltaDegrees(comp.HeadYaw, comp.AimYaw)) < 1f, trial.WeaponDef + " head looks at the target");
+            if (trial.Melee)
+                Check(Math.Abs(BallisticGeometry.DeltaDegrees(comp.TorsoYaw, 45f)) < 1f, "Melee torso faces the diagonal attack direction (45 degrees)");
+
+            // Disengaging returns the pawn to the vanilla facing at once.
+            trial.Shooter.jobs.StopAll();
+            trial.Shooter.stances.CancelBusyStanceHard();
+            trial.Shooter.Rotation = Rot4.South;
+            Check(!comp.Aiming && trial.Shooter.Rotation == Rot4.South && comp.TorsoYaw == 180f,
+                trial.WeaponDef + " returns to the vanilla facing when the engagement ends");
+            if (!trial.Melee && trial.WeaponDef == "HD_Gun_M14_Weapon")
+            {
+                // Re-engage for the hit-frame check below.
+                trial.Shooter.jobs.TryTakeOrderedJob(JobMaker.MakeJob(JobDefOf.AttackStatic, trial.Target));
+                trial.Shooter.stances.SetStance(new Stance_Cooldown(600, trial.Target, trial.Shooter.equipment.PrimaryEq.PrimaryVerb));
+                Check(comp.Aiming && Math.Abs(BallisticGeometry.DeltaDegrees(comp.TorsoYaw, 110f)) < 1f, "Rifle re-engages at aim + 20 degrees");
+            }
 
             // A hit on the settled shooter is resolved in the torso frame, not the Rot4 frame.
             if (trial.WeaponDef == "HD_Gun_M14_Weapon")
             {
                 victim = trial.Shooter;
-                victim.jobs.StopAll();
-                victim.drafter.Drafted = false;
                 // A physical layer is needed for a trace; the carrier does not change the torso yaw.
                 WearCarrier(DefDatabase<ThingDef>.GetNamed("HD_Apparel_IBTVAssault"), "HD_IOTVPart_FrontRear_ESAPI");
                 Pawn previousShooter = shooter;
@@ -529,6 +574,8 @@ namespace Helodrace.Ballistics
                 forceGenerateNewPawn: true, canGeneratePawnRelations: false, fixedBiologicalAge: 25,
                 fixedChronologicalAge: 25, allowAddictions: false));
             victim.apparel?.DestroyAll();
+            // Generated pawns can lack parts (old injuries); forced head/eye hits need a whole body.
+            victim.health.RemoveAllHediffs();
             GenSpawn.Spawn(victim, Find.CurrentMap.Center, Find.CurrentMap, facing);
             return victim;
         }

@@ -29,30 +29,22 @@ internal static class OrientationTests
                 "Shown side is never more than 50 degrees from the torso: " + yaw);
         }
 
-        // Targets: bladed stance offsets the torso from the aim; idle follows the intended facing.
-        var rifle = new StanceParameters(20f, 0f, 3);
-        near(110, BodyOrientationRules.TorsoTarget(true, 90f, 0f, rifle), 1e-4, "Aiming torso = aim + offset");
-        near(180, BodyOrientationRules.TorsoTarget(false, 90f, 180f, rifle), 1e-4, "Idle torso follows facing");
-        near(90, BodyOrientationRules.HeadTarget(true, 90f, 110f, rifle), 1e-4, "Aiming head looks at the target");
-
-        // No turn-rate limit: the torso takes its target at once, the head within reach of the torso.
-        var a = new BodyOrientationState { Stance = rifle };
-        a.Reset(0f, 100);
-        a.SetTargets(110f, 90f);
-        a.Advance(101);
-        near(110, a.TorsoYaw, 1e-3, "Torso takes its target on the next update");
-        near(90, a.HeadYaw, 1e-3, "Head takes its target on the next update");
-        a.SetTargets(0f, 200f);
-        a.Advance(102);
-        near(0, a.TorsoYaw, 1e-3, "A half turn also happens at once");
-        near(BallisticGeometry.NormalizeDegrees(-BodyOrientationRules.MaxHeadTurn), a.HeadYaw, 1e-3, "Head still limited by the torso");
-        a.SetTargets(50f, 50f);
-        a.Advance(101);
-        near(0, a.TorsoYaw, 1e-3, "Time going backwards does nothing");
-        var fresh = new BodyOrientationState();
-        fresh.SetTargets(250f, 250f);
-        fresh.Advance(5);
-        check(fresh.Initialized && Math.Abs(fresh.TorsoYaw - 250f) < 1e-3, "First advance snaps to the target");
+        // Engaged: aim direction + stance offset. Not engaged: the vanilla four-way facing, untouched.
+        var rifle = new StanceParameters(20f, 0f);
+        near(110, BodyOrientationRules.TorsoYaw(true, 90f, 0f, rifle), 1e-4, "Engaged torso = aim + offset");
+        near(90, BodyOrientationRules.HeadYaw(true, 90f, 0f, rifle), 1e-4, "Engaged head looks along the aim");
+        near(57, BodyOrientationRules.TorsoYaw(true, 37f, 180f, rifle), 1e-4, "Engaged torso is continuous, not four-way");
+        near(10, BodyOrientationRules.TorsoYaw(true, 350f, 0f, rifle), 1e-4, "Offset wraps through north");
+        foreach (float vanilla in new[] { 0f, 90f, 180f, 270f })
+        {
+            near(vanilla, BodyOrientationRules.TorsoYaw(false, 37f, vanilla, rifle), 1e-4, "Not engaged torso is the vanilla facing");
+            near(vanilla, BodyOrientationRules.HeadYaw(false, 37f, vanilla, rifle), 1e-4, "Not engaged head is the vanilla facing");
+        }
+        var melee = new StanceParameters(0f, 0f);
+        near(45, BodyOrientationRules.TorsoYaw(true, 45f, 0f, melee), 1e-4, "Melee torso faces the attack direction");
+        var wide = new StanceParameters(40f, -60f);
+        near(BallisticGeometry.NormalizeDegrees(90f + 40f - BodyOrientationRules.MaxHeadTurn),
+            BodyOrientationRules.HeadYaw(true, 90f, 0f, wide), 1e-4, "Head stays within reach of the torso");
 
         // Family heuristic over the Helod arsenal's shapes.
         StanceFamily F(float mass, float range, int burst, bool shotgun = false, bool explosive = false, bool ranged = true) =>
@@ -73,8 +65,8 @@ internal static class OrientationTests
         var profiles = XDocument.Load(Path.Combine(root, "Defs/Ballistics/StanceProfiles.xml")).Root.Elements()
             .ToDictionary(e => Enum.Parse<StanceFamily>((string)e.Element("family")), e => e);
         check(profiles.Count == Enum.GetValues(typeof(StanceFamily)).Length, "One stance profile per family");
-        check(profiles.Values.All(p => p.Element("torsoTurnRate") == null && p.Element("headTurnRate") == null),
-            "Stance profiles carry no turn-rate limit");
+        check(profiles.Values.All(p => p.Element("torsoTurnRate") == null && p.Element("headTurnRate") == null
+            && p.Element("updateIntervalTicks") == null), "Stance profiles carry only offsets");
         foreach (var profile in profiles.Values)
         {
             float offset = profile.Element("torsoOffsetDegrees") == null ? 0f
