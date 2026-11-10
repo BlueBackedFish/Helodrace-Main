@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "resolution": [
+    1222,
+    1222
+  ],
+  "outline_pixels": 12,
+  "external_weapons": 0,
+  "external_drop_tanks": 0,
+  "targeting_pods": 0,
+  "draw_size_tiles": [
+    7.162872689669626,
+    7.162872689669626
+  ],
+  "reference": "C-17 19 tiles",
+  "transparent_background": true,
+  "pivot_normalized": [
+    0.5,
+    0.5
+  ],
+  "images": {
+    "plain": {
+      "sha256": "a674621822fb351d2e753c380151dfcbf5367d578e28f56dafd22ac88b43a028",
+      "bounds": [
+        212,
+        26,
+        1010,
+        1197
+      ],
+      "margin": 25
+    },
+    "outlined": {
+      "sha256": "1fce6adbf59cc54344bcbd064940da7ed0b7303857914a78af779f58d3c1afe3",
+      "bounds": [
+        200,
+        14,
+        1022,
+        1209
+      ],
+      "margin": 13
+    }
+  }
+}

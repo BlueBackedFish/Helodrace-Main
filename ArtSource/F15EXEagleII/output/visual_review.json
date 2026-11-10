@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-10",
+  "reviewed_files": [
+    "output/HD_F15EX.png",
+    "output/model_review.png",
+    "output/preview.png",
+    "output/scale_review.png",
+    "output/F22_F15EX_real_scale.png"
+  ],
+  "exact_top_nose_up": true,
+  "unarmed_clean_airframe_reviewed": true,
+  "no_external_drop_tanks_or_pods": true,
+  "landing_gear_hidden": true,
+  "closed_two_seat_canopy_reviewed": true,
+  "source_geometry_and_uv_preserved": true,
+  "flat_emission_without_source_weathering": true,
+  "source_unit_codes_not_used": true,
+  "physical_crease_lines_reviewed": true,
+  "outline_pixels": 12,
+  "delivery_resolution": 1222,
+  "draw_size_tiles": [
+    7.162872689669626,
+    7.162872689669626
+  ],
+  "equal_scale_with_f22": true,
+  "model_span_relative_difference": 0.014767976907583469,
+  "model_span_difference_retained_without_distortion": true,
+  "in_game_tested": false,
+  "blueprint_validation_performed": false
+}

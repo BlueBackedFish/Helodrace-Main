@@ -1,0 +1,993 @@
+[
+  {
+    "object": "1_F_15EX_clean__open",
+    "faces": 5762,
+    "materials": {
+      "US_F15EX": 5762
+    },
+    "selection": "archived hidden landing gear"
+  },
+  {
+    "object": "1_F_15EX_clean__F_15EX",
+    "faces": 13886,
+    "materials": {
+      "US_1F15EX_Glass": 520,
+      "US_F15EX": 13366
+    },
+    "selection": "visible clean airframe"
+  },
+  {
+    "object": "2_F_15EX_1__open",
+    "faces": 5762,
+    "materials": {
+      "US_F15EX": 5762
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "2_F_15EX_1__F_15EX",
+    "faces": 13886,
+    "materials": {
+      "US_1F15EX_Glass": 520,
+      "US_F15EX": 13366
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "2_F_15EX_1__HP1_AIM9_wingtip_AIM9X",
+    "faces": 1665,
+    "materials": {
+      "aim_9x": 1587,
+      "aim_9x_glass": 78
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "2_F_15EX_1__HP1_AIM9_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "2_F_15EX_1__HP2_AIM9_wingtip_AIM9X",
+    "faces": 1665,
+    "materials": {
+      "aim_9x": 1587,
+      "aim_9x_glass": 78
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "2_F_15EX_1__HP2_AIM9_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "2_F_15EX_1__HP3_AIM9_wingtip_AIM9X",
+    "faces": 1665,
+    "materials": {
+      "aim_9x": 1587,
+      "aim_9x_glass": 78
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "2_F_15EX_1__HP3_AIM9_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "2_F_15EX_1__HP4_AIM9_wingtip_AIM9X",
+    "faces": 1665,
+    "materials": {
+      "aim_9x": 1587,
+      "aim_9x_glass": 78
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "2_F_15EX_1__HP4_AIM9_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "2_F_15EX_1__HP9_US_FueTank_370Fuel",
+    "faces": 884,
+    "materials": {
+      "Fuel": 884
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "2_F_15EX_1__HP10_US_FueTank_370Fuel",
+    "faces": 884,
+    "materials": {
+      "Fuel": 884
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__open",
+    "faces": 5762,
+    "materials": {
+      "US_F15EX": 5762
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__F_15EX",
+    "faces": 13886,
+    "materials": {
+      "US_1F15EX_Glass": 520,
+      "US_F15EX": 13366
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP1_AIM9_wingtip_AIM9X",
+    "faces": 1665,
+    "materials": {
+      "aim_9x": 1587,
+      "aim_9x_glass": 78
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP1_AIM9_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP2_AIM9_wingtip_AIM9X",
+    "faces": 1665,
+    "materials": {
+      "aim_9x": 1587,
+      "aim_9x_glass": 78
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP2_AIM9_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP3_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP3_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP4_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP4_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP9_US_FueTank_370Fuel",
+    "faces": 884,
+    "materials": {
+      "Fuel": 884
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP10_US_FueTank_370Fuel",
+    "faces": 884,
+    "materials": {
+      "Fuel": 884
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP11_AIM120_single_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP11_AIM120_single_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP12_AIM120_single_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP12_AIM120_single_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP13_AIM120_single_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP13_AIM120_single_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP14_AIM120_single_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "3_F_15EX_2__HP14_AIM120_single_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__open",
+    "faces": 5762,
+    "materials": {
+      "US_F15EX": 5762
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__F_15EX",
+    "faces": 13886,
+    "materials": {
+      "US_1F15EX_Glass": 520,
+      "US_F15EX": 13366
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP1_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP1_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP2_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP2_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP3_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP3_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP4_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP4_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP9_SDBII_BRU61",
+    "faces": 6512,
+    "materials": {
+      "BRU61": 6512
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP9_SDBII_GBU53",
+    "faces": 9336,
+    "materials": {
+      "GBU53": 9336
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP10_SDBII_BRU61",
+    "faces": 6512,
+    "materials": {
+      "BRU61": 6512
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP10_SDBII_GBU53",
+    "faces": 9336,
+    "materials": {
+      "GBU53": 9336
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP11_AIM120_single_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP11_AIM120_single_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP12_AIM120_single_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP12_AIM120_single_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP13_AIM120_single_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP13_AIM120_single_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP14_AIM120_single_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "4_F_15EX_3__HP14_AIM120_single_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__open",
+    "faces": 5762,
+    "materials": {
+      "US_F15EX": 5762
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__F_15EX",
+    "faces": 13886,
+    "materials": {
+      "US_1F15EX_Glass": 520,
+      "US_F15EX": 13366
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP1_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP1_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP2_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP2_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP3_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP3_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP4_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP4_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP5_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP5_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP6_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP6_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP7_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP7_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP8_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP8_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP9_JASSM_LOD_Main_lp",
+    "faces": 376,
+    "materials": {
+      "JASSM_Mat": 376
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP10_JASSM_LOD_Main_lp",
+    "faces": 376,
+    "materials": {
+      "JASSM_Mat": 376
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP13_JASSM_LOD_Main_lp",
+    "faces": 376,
+    "materials": {
+      "JASSM_Mat": 376
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP14_JASSM_LOD_Main_lp",
+    "faces": 376,
+    "materials": {
+      "JASSM_Mat": 376
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "5_F_15EX_4__HP19_JASSM_LOD_Main_lp",
+    "faces": 376,
+    "materials": {
+      "JASSM_Mat": 376
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__open",
+    "faces": 5762,
+    "materials": {
+      "US_F15EX": 5762
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__F_15EX",
+    "faces": 13886,
+    "materials": {
+      "US_1F15EX_Glass": 520,
+      "US_F15EX": 13366
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP1_AIM9_wingtip_AIM9X",
+    "faces": 1665,
+    "materials": {
+      "aim_9x": 1587,
+      "aim_9x_glass": 78
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP1_AIM9_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP2_AIM9_wingtip_AIM9X",
+    "faces": 1665,
+    "materials": {
+      "aim_9x": 1587,
+      "aim_9x_glass": 78
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP2_AIM9_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP3_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP3_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP4_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP4_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP5_HARM_F15_AGM-88_HARM",
+    "faces": 1392,
+    "materials": {
+      "AGM_88_HARM": 1392
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP5_HARM_F15_lau117a",
+    "faces": 1070,
+    "materials": {
+      "BRULAU": 1070
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP8_HARM_F15_AGM-88_HARM",
+    "faces": 1392,
+    "materials": {
+      "AGM_88_HARM": 1392
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP8_HARM_F15_lau117a",
+    "faces": 1070,
+    "materials": {
+      "BRULAU": 1070
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP9_JASSM_LOD_Main_lp",
+    "faces": 376,
+    "materials": {
+      "JASSM_Mat": 376
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP10_JASSM_LOD_Main_lp",
+    "faces": 376,
+    "materials": {
+      "JASSM_Mat": 376
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP11_GBU56_single_GBU56",
+    "faces": 1532,
+    "materials": {
+      "GBU56": 1532
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP12_GBU56_single_GBU56",
+    "faces": 1532,
+    "materials": {
+      "GBU56": 1532
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP13_GBU56_single_GBU56",
+    "faces": 1532,
+    "materials": {
+      "GBU56": 1532
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP14_GBU56_single_GBU56",
+    "faces": 1532,
+    "materials": {
+      "GBU56": 1532
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "6_F_15EX_5__HP19_GBU56_single_GBU56",
+    "faces": 1532,
+    "materials": {
+      "GBU56": 1532
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__open",
+    "faces": 5762,
+    "materials": {
+      "US_F15EX": 5762
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__F_15EX",
+    "faces": 13886,
+    "materials": {
+      "US_1F15EX_Glass": 520,
+      "US_F15EX": 13366
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__SniperXR",
+    "faces": 3138,
+    "materials": {
+      "SniperXR": 3138
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP1_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP1_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP2_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP2_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP3_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP3_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP4_AIM120_wingtip_AIM_120",
+    "faces": 454,
+    "materials": {
+      "AIM_120_Albedo": 454
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP4_AIM120_wingtip_LAU_129",
+    "faces": 252,
+    "materials": {
+      "LAU_129_Mat": 252
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP5_HARM_F15_AGM-88_HARM",
+    "faces": 1392,
+    "materials": {
+      "AGM_88_HARM": 1392
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP5_HARM_F15_lau117a",
+    "faces": 1070,
+    "materials": {
+      "BRULAU": 1070
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP8_HARM_F15_AGM-88_HARM",
+    "faces": 1392,
+    "materials": {
+      "AGM_88_HARM": 1392
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP8_HARM_F15_lau117a",
+    "faces": 1070,
+    "materials": {
+      "BRULAU": 1070
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP9_JASSM_LOD_Main_lp",
+    "faces": 376,
+    "materials": {
+      "JASSM_Mat": 376
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP10_JASSM_LOD_Main_lp",
+    "faces": 376,
+    "materials": {
+      "JASSM_Mat": 376
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP11_GBU56_single_GBU56",
+    "faces": 1532,
+    "materials": {
+      "GBU56": 1532
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP12_GBU56_single_GBU56",
+    "faces": 1532,
+    "materials": {
+      "GBU56": 1532
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP13_GBU56_single_GBU56",
+    "faces": 1532,
+    "materials": {
+      "GBU56": 1532
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP14_GBU56_single_GBU56",
+    "faces": 1532,
+    "materials": {
+      "GBU56": 1532
+    },
+    "selection": "omitted other aircraft/loadout"
+  },
+  {
+    "object": "7_F_15EX_6__HP19_GBU56_single_GBU56",
+    "faces": 1532,
+    "materials": {
+      "GBU56": 1532
+    },
+    "selection": "omitted other aircraft/loadout"
+  }
+]

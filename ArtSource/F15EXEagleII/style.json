@@ -1,0 +1,59 @@
+{
+  "source_archive": "C:/Users/human/Documents/GitHub/.texture/ref/f-15ex-eagle-ii-all-loadouts-broken-arrow/source/F15EX_Eagle_II_Lineup.zip",
+  "source_sha256": "1db5cd9e48a2b8fcbd7447e3a5a073647b93aa65c3205c99153b10ce447a75d0",
+  "obj_member": "F15EX_Eagle_II_Lineup.obj",
+  "airframe_object": "1_F_15EX_clean__F_15EX",
+  "hidden_gear_object": "1_F_15EX_clean__open",
+  "source_albedo": "C:/Users/human/Documents/GitHub/.texture/ref/f-15ex-eagle-ii-all-loadouts-broken-arrow/textures/US_F15EX_Standard_BaseColor.png",
+  "source_albedo_sha256": "31902e4ac6ba5c43cedb5bc7e88031e3f634ad6627bf5abd01495f1814222cfe",
+  "source_yaw_degrees": 35,
+  "physical_length_m": 19.4,
+  "physical_wingspan_m": 13.0,
+  "master_resolution": 2048,
+  "outline_pixels": 12,
+  "transparent_margin_pixels": 16,
+  "palette": {
+    "body": [
+      143,
+      153,
+      161
+    ],
+    "panel": [
+      111,
+      126,
+      137
+    ],
+    "glass": [
+      87,
+      108,
+      120
+    ],
+    "radome": [
+      153,
+      162,
+      168
+    ],
+    "exhaust": [
+      104,
+      116,
+      125
+    ],
+    "exhaust_inside": [
+      61,
+      76,
+      87
+    ],
+    "intake": [
+      72,
+      87,
+      98
+    ],
+    "gear": [
+      126,
+      138,
+      147
+    ]
+  },
+  "reference_url": "https://www.boeing.com/defense/fighters-and-bombers/f-15ex-eagle",
+  "source_albedo_reference_only": true
+}
