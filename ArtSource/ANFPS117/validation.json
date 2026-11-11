@@ -1,0 +1,87 @@
+{
+  "asset": "HD_ANFPS117",
+  "footprint": [
+    4,
+    4
+  ],
+  "features": [
+    "closed white geodesic radome; radar antenna intentionally enclosed",
+    "low circular equipment building and mounting collar",
+    "service door, entry step and two side ventilation grilles",
+    "fixed face colors; no lights, cast shadows, ambient occlusion or texture noise"
+  ],
+  "mesh_objects": 221,
+  "design_period": "AN/FPS-117 fixed radar, enclosed radome interpretation",
+  "texture_resolution": [
+    1024,
+    1024
+  ],
+  "nominal_pixels_per_footprint_tile": 256,
+  "pixels_per_game_unit": 170.66666666666666,
+  "outline_width_in_game_units": 0.0703125,
+  "orthographic_scale": 6.0,
+  "outline_pixels": 12,
+  "expected_draw_size": [
+    6.0,
+    6.0
+  ],
+  "presentation_rule": "one_model_unit_per_game_tile",
+  "ground_anchor": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "camera_target": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "expected_draw_offset": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "tabletop_anchor": null,
+  "cameras": {
+    "North": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 148,
+      "mask_alpha_matches": true
+    },
+    "East": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 148,
+      "mask_alpha_matches": true
+    },
+    "South": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 147,
+      "mask_alpha_matches": true
+    },
+    "West": {
+      "downward_degrees": 64.00000113525775,
+      "minimum_margin": 147,
+      "mask_alpha_matches": true
+    }
+  },
+  "in_game_tested": false,
+  "building_theme_version": 1,
+  "building_theme_family": "industrial_steel",
+  "building_theme_roles": {
+    "fixed": 261
+  },
+  "theme_secondary_color": [
+    105,
+    105,
+    105
+  ],
+  "radome_panels": 200,
+  "enclosed_antenna": true,
+  "lighting": "fixed RGB Emission only",
+  "gameplay_definition_added": false,
+  "interpretation": "stylized dome enclosure, not a surveyed site reconstruction",
+  "source_geometry_palette_sha256": "c3383e255beaadc2104fb4b23b368cc532f09cd768a5d15ecac91ea682b90271",
+  "saved_geometry_palette_sha256": "d3198106aebbe62f7b5243b60b547d4e49beb23542da70f9b63e35be68ad2334",
+  "geometry_preserved_after_save_reload": true,
+  "mesh_shape_sha256": "dcd6032e554af3e25b9b7f81ccf72c9202eda970dc199d9b2d7e70eb3ff991a1"
+}
