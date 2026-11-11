@@ -15,34 +15,64 @@ scene = bpy.context.scene
 scene['design_period'] = 'AN/FPS-117 fixed radar, enclosed radome interpretation'
 scene['north_azimuth'] = -90
 concrete = s.pal('Concrete_plinth_', [(158,159,154),(140,142,137),(131,133,129)], False)
-wall = s.pal('Concrete_equipment_building_', [(153,160,155),(125,134,129),(117,126,121)], False)
+wall = s.pal('Equipment_building_cladding_', [(176,166,145),(159,149,129),(149,139,120)], False)
+rib = s.pal('Cladding_vertical_rib_', [(157,147,127),(147,137,118),(140,130,112)], False)
 trim = s.pal('Radome_mounting_ring_', [(177,183,179),(151,159,154),(141,149,144)], False)
 door = s.pal('Service_door_', [(103,119,112),(83,99,92),(75,91,84)], False)
 dark = s.pal('Insulator_recess_', [(57,64,60),(48,55,51),(44,51,47)], False)
 silver = s.pal('Door_hardware_', [(188,193,188),(170,176,170),(157,163,157)], False)
 seam = s.mat('Radome_panel_joint', (181,188,186), False)
 
-s.cube('01_Concrete_foundation', (0,0,.075), (3.82,3.82,.15), concrete)
-s.cyl('02_Circular_equipment_room', (0,0,.46), 1.53,.62,wall,vertices=64)
-s.cyl('03_Foundation_skirt', (0,0,.20), 1.59,.11,concrete,vertices=64)
-s.cyl('04_Radome_mounting_collar', (0,0,.79), 1.60,.14,trim,vertices=64)
-# A shallow entry projects from the circular room; no unrelated site furniture.
-s.cube('05_Entry_frame', (0,-1.49,.45), (.69,.20,.60), trim)
-s.cube('06_Service_door', (0,-1.601,.43), (.51,.025,.49), door)
-s.cube('07_Door_latch', (.16,-1.625,.43), (.035,.025,.105), silver)
-s.cube('08_Entry_step', (0,-1.67,.19), (.83,.38,.08), concrete)
+s.cyl('01_Concrete_foundation', (0,0,.09), 1.49,.18,concrete,vertices=64)
+s.cyl('02_Tall_equipment_building', (0,0,1.15), 1.38,1.94,wall,vertices=64)
+s.cyl('03_Foundation_skirt', (0,0,.24), 1.42,.12,concrete,vertices=64)
+# Vertical standing seams echo the reference's beige metal-clad equipment room.
+for i in range(96):
+    angle = i*math.tau/96
+    x,y = 1.385*math.cos(angle),1.385*math.sin(angle)
+    if y < -1.29 and abs(x)<.35:
+        continue
+    s.rod('03_Cladding_rib_%02d'%i,(x,y,.31),(x,y,2.08),.009,rib)
+s.cyl('04_Roof_edge_fascia', (0,0,2.15), 1.80,.13,trim,vertices=64)
+s.ring('04_Perimeter_maintenance_walkway', (0,0,2.23),1.86,1.37,.08,trim,axis='Z')
+s.cyl('04_Radome_mounting_collar', (0,0,2.29),1.44,.12,trim,vertices=64)
+for z in [2.46,2.70]:
+    s.ring('14_Continuous_guardrail', (0,0,z),1.875,1.845,.028,dark,axis='Z')
+for i in range(24):
+    angle=i*math.tau/24
+    x,y=1.86*math.cos(angle),1.86*math.sin(angle)
+    s.rod('15_Guardrail_post_%02d'%i,(x,y,2.25),(x,y,2.72),.018,dark)
+    if i%3==0:
+        s.rod('16_Walkway_diagonal_brace_%02d'%i,
+              (1.36*math.cos(angle),1.36*math.sin(angle),1.65),(x,y,2.17),.025,trim)
+s.cube('05_Entry_frame', (0,-1.365,.83), (.65,.13,1.20), trim)
+s.cube('06_Service_door', (0,-1.441,.81), (.51,.025,1.06), door)
+s.cube('07_Door_latch', (.16,-1.465,.80), (.035,.025,.105), silver)
+for i in range(3):
+    s.cube('08_Entry_step', (0,-1.55-i*.13,.235-i*.045), (.78,.21,.09), concrete)
 for x in [-.285,.285]:
-    for z in [.30,.57]:
-        s.cube('09_Door_hinge', (x,-1.613,z), (.035,.035,.065), silver)
-# Broad ventilation slots remain legible in the native image.
+    for z in [.48,1.12]:
+        s.cube('09_Door_hinge', (x,-1.454,z), (.035,.035,.065), silver)
+# Small high windows and low wall vents are separate from the dome shell.
 for side in [-1,1]:
-    s.cube('10_Side_vent_frame', (side*1.526,0,.46), (.035,.65,.30), trim)
+    s.cube('10_Side_vent_frame', (side*1.389,0,.65), (.035,.58,.31), trim)
     for i in range(3):
-        s.cube('11_Vent_slot', (side*1.55,0,.38+i*.08), (.018,.51,.035), dark)
+        s.cube('11_Vent_slot', (side*1.415,0,.57+i*.08), (.018,.46,.035), dark)
+    s.cube('17_High_window_frame', (side*1.39,0,1.65), (.05,.43,.39), dark)
+    s.cube('18_High_window_glass', (side*1.421,0,1.65), (.014,.33,.29), door)
+# Fixed external ladder reaches the rear platform, as in the first reference.
+for x in [-.17,.17]:
+    s.rod('19_Ladder_stile',(x,1.90,.20),(x,1.90,2.72),.021,dark)
+for i in range(12):
+    z=.30+i*.20
+    s.rod('20_Ladder_rung',(-.17,1.90,z),(.17,1.90,z),.018,silver)
+for z in [.47,1.28,2.16]:
+    for x in [-.17,.17]:
+        s.rod('21_Ladder_wall_bracket',(x,1.37,z),(x,1.90,z),.022,trim)
 
 RADIUS = 1.65
-CENTER_Z = .96
-CUT_Z = .84
+CENTER_Z = 3.16
+CUT_Z = 2.33
 bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=3, radius=RADIUS, location=(0,0,CENTER_Z))
 source = bpy.context.object
 source.name = 'Temporary_geodesic_layout'
@@ -82,7 +112,8 @@ for number,polygon in enumerate(polygons):
     value = round(213+29*altitude)
     if value not in palette:
         palette[value] = s.mat('Radome_white_'+str(value),(value,value+1,value-1),False)
-    inset = [center+(point-center)*.974+Vector((0,0,.002)) for point in polygon]
+    outward = (center-Vector((0,0,CENTER_Z))).normalized()
+    inset = [center+(point-center)*.974+outward*.003 for point in polygon]
     s.quad('13_Radome_panel_%03d'%number, inset, palette[value])
 
 before = s.geometry_hash()
@@ -90,8 +121,9 @@ from building_theme import mesh_shape_hash
 shape_before = mesh_shape_hash(scene)
 s.export(str(OUT),'HD_ANFPS117',(4,4),[
     'closed white geodesic radome; radar antenna intentionally enclosed',
-    'low circular equipment building and mounting collar',
-    'service door, entry step and two side ventilation grilles',
+    'near-spherical radome on a tall beige metal-clad equipment building',
+    'perimeter maintenance catwalk, guardrails and diagonal support brackets',
+    'service door, entry steps, high windows, ventilation and external access ladder',
     'fixed face colors; no lights, cast shadows, ambient occlusion or texture noise',
 ])
 assert mesh_shape_hash(bpy.context.scene) == shape_before, 'Export changed model geometry'
@@ -109,6 +141,10 @@ metadata.update({
     'saved_geometry_palette_sha256':s.geometry_hash(),
     'geometry_preserved_after_save_reload':True,
     'mesh_shape_sha256':shape_before,
+    'radome_radius':RADIUS,
+    'radome_center_height':CENTER_Z,
+    'radome_cut_height':CUT_Z,
+    'reference_form':'user photos: near-spherical dome, tall beige base, perimeter catwalk and railing',
 })
 (OUT/'validation.json').write_text(json.dumps(metadata,indent=2)+'\n')
 print('ANFPS117_BUILD_PASS',len(polygons),'panels; 4x4; 1024px; four real 64-degree views')

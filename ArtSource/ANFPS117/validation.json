@@ -6,11 +6,12 @@
   ],
   "features": [
     "closed white geodesic radome; radar antenna intentionally enclosed",
-    "low circular equipment building and mounting collar",
-    "service door, entry step and two side ventilation grilles",
+    "near-spherical radome on a tall beige metal-clad equipment building",
+    "perimeter maintenance catwalk, guardrails and diagonal support brackets",
+    "service door, entry steps, high windows, ventilation and external access ladder",
     "fixed face colors; no lights, cast shadows, ambient occlusion or texture noise"
   ],
-  "mesh_objects": 221,
+  "mesh_objects": 442,
   "design_period": "AN/FPS-117 fixed radar, enclosed radome interpretation",
   "texture_resolution": [
     1024,
@@ -34,33 +35,33 @@
   "camera_target": [
     0.0,
     0.0,
-    0.0
+    0.4058513939380646
   ],
   "expected_draw_offset": [
     0.0,
     0.0,
-    0.0
+    0.17791354656219482
   ],
   "tabletop_anchor": null,
   "cameras": {
     "North": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 148,
+      "minimum_margin": 13,
       "mask_alpha_matches": true
     },
     "East": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 148,
+      "minimum_margin": 13,
       "mask_alpha_matches": true
     },
     "South": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 147,
+      "minimum_margin": 13,
       "mask_alpha_matches": true
     },
     "West": {
       "downward_degrees": 64.00000113525775,
-      "minimum_margin": 147,
+      "minimum_margin": 12,
       "mask_alpha_matches": true
     }
   },
@@ -68,20 +69,24 @@
   "building_theme_version": 1,
   "building_theme_family": "industrial_steel",
   "building_theme_roles": {
-    "fixed": 261
+    "fixed": 784
   },
   "theme_secondary_color": [
     105,
     105,
     105
   ],
-  "radome_panels": 200,
+  "radome_panels": 270,
   "enclosed_antenna": true,
   "lighting": "fixed RGB Emission only",
   "gameplay_definition_added": false,
   "interpretation": "stylized dome enclosure, not a surveyed site reconstruction",
-  "source_geometry_palette_sha256": "c3383e255beaadc2104fb4b23b368cc532f09cd768a5d15ecac91ea682b90271",
-  "saved_geometry_palette_sha256": "d3198106aebbe62f7b5243b60b547d4e49beb23542da70f9b63e35be68ad2334",
+  "source_geometry_palette_sha256": "649c81195391c9906ab44a4eae4d2ddc1434362212503e85442a514b080bc4ea",
+  "saved_geometry_palette_sha256": "c7e49b1ae6cdc68f54aa12f5430c4b7cbe9d2677176d48d6b2af868de330e7e2",
   "geometry_preserved_after_save_reload": true,
-  "mesh_shape_sha256": "dcd6032e554af3e25b9b7f81ccf72c9202eda970dc199d9b2d7e70eb3ff991a1"
+  "mesh_shape_sha256": "e7db024f1b3f98646b10788ebc729f3d892f80bdb42d422ddcc53768b5c6a0fa",
+  "radome_radius": 1.65,
+  "radome_center_height": 3.16,
+  "radome_cut_height": 2.33,
+  "reference_form": "user photos: near-spherical dome, tall beige base, perimeter catwalk and railing"
 }
