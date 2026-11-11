@@ -113,7 +113,7 @@ public sealed class Checks : GameComponent
         Check(pawn.apparel.WornApparel.Contains(armor) && pawn.apparel.WornApparel.Contains(cap), "Body-independent armor and headgear stay worn");
         Check(originalShirt.Spawned && originalShirt.HitPoints < originalShirt.MaxHitPoints, "Removed garments keep their damage and are placed on the map");
         Check(worldPawn.apparel.WornApparel.Any(a => a.def.defName == "HD_Apparel_Hoodie"), "Off-map world pawn migrates");
-        foreach (string blocked in new[] { "Apparel_BasicShirt", "Apparel_Duster", "Apparel_Pants", "HD_Apparel_WildWestFormalShirt" })
+        foreach (string blocked in new[] { "Apparel_BasicShirt", "Apparel_Duster", "Apparel_Robe", "Apparel_TribalA", "HD_Apparel_WildWestFormalShirt" })
             Check(!HelodRace.CanWear(pawn, Def(blocked)), blocked + " is restricted without fitted variant art");
         foreach (string allowed in new[] { "Apparel_FlakVest", "HD_Apparel_IBTVAssault", "HD_Apparel_M1952AFlakJacket", "HD_WildWestMetalVest", "HD_Apparel_FASTMT", "HD_Apparel_UCPPants", "HD_Apparel_MOLLEBattleBelt", "HD_Apparel_GreatWarMedibag", "HD_Apparel_GreatWarCBRNPouch" })
             Check(HelodRace.CanWear(pawn, Def(allowed)), allowed + " remains wearable");
@@ -157,6 +157,17 @@ public sealed class Checks : GameComponent
             foreach (Rot4 facing in new[] { Rot4.South, Rot4.North, Rot4.East, Rot4.West })
                 Check(bodyNode.GraphicFor(pawn).MatAt(facing).mainTexture != BaseContent.BadTex,
                     HelodBodyVariants.Sizes[size] + " body graphic " + facing);
+            foreach (string name in new[] { "Apparel_Pants", "Apparel_FlakPants" })
+            {
+                Check(HelodRace.CanWear(pawn, Def(name)) && Def(name).apparel.PawnCanWear(pawn, true),
+                    HelodBodyVariants.Sizes[size] + " " + name + " permission without fitted variant art");
+                var trousers = Wear(pawn, name);
+                Check(pawn.apparel.WornApparel.Contains(trousers), name + " can actually be worn");
+                Check(HelodBodyVariants.ApparelPath(trousers) == null
+                    && HelodRace.ApparelPath(trousers) != null, name + " uses existing Helod graphics");
+                Graphic(trousers, HelodBodyVariants.Sizes[size] + " " + name);
+                pawn.apparel.Remove(trousers); trousers.Destroy();
+            }
             foreach (string name in new[] { "HD_Apparel_Hoodie", "HD_Apparel_CarvalyUniform", "HD_Apparel_GreatWarTrenchArmyInner", "HD_Apparel_GreatWarTrenchArmyOuter", "HD_Apparel_GreatWarStormFrontInner", "HD_Apparel_GreatWarStormFrontOuter", "HD_Apparel_GreatWarStormFrontChestRig", "HD_Apparel_ACSUpper", "HD_Apparel_UCPBlouse", "HD_Apparel_UCPPants" })
             {
                 var apparel = Wear(pawn, name);

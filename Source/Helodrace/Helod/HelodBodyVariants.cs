@@ -65,15 +65,16 @@ namespace Helodrace
 
         public static bool IsIndependent(ThingDef def)
         {
-            if (Independent.Contains(def.defName) || def.defName == "HD_Apparel_UCPPants") return true;
+            if (Independent.Contains(def.defName)) return true;
             ApparelProperties apparel = def.apparel;
             if (apparel.wornGraphicPath.NullOrEmpty() && apparel.wornGraphicPaths.NullOrEmpty()
                 && !HelodRace.HasApparelGraphic(def)) return true;
             if (apparel.wornGraphicData?.renderUtilityAsPack == true) return true;
             if (apparel.layers.All(layer => layer == ApparelLayerDefOf.Belt)) return true;
-            // Headgear and utility equipment do not follow the torso/leg outline.
+            // Headgear, trousers and utility equipment keep their existing graphics.
+            // Garments covering the torso or shoulders still need fitted variant art.
             return !apparel.bodyPartGroups.Any(group => group.defName == "Torso"
-                || group.defName == "Shoulders" || group.defName == "Legs" || group.defName == "Waist");
+                || group.defName == "Shoulders");
         }
 
         public static void ApplyToLoadedPawns()
