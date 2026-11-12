@@ -10,45 +10,13 @@
   ],
   "omitted_faces_by_reason": {
     "User-requested flat armour: remove separate shallow rivet / bolt heads; preserve the continuous backing plate and functional fittings": 54334,
-    "Sub-pixel rod/rail/wire (middle dimension < 3 cm, length > 12 cm): thinner than 1px at 256px, removed to reduce model noise (style section 3)": 571,
+    "Sub-pixel rod/rail/wire (middle dimension < 3 cm, length > 12 cm): thinner than 1px at 256px, removed to reduce model noise (style section 3)": 637,
     "1.8 m thin whip antenna is subpixel at 256px; separate whip group only": 252
   },
   "source_faces": 223389,
-  "parts": 265,
-  "contacts": [
-    {
-      "lower": "g0000",
-      "upper": "g0002",
-      "direction": "down"
-    },
-    {
-      "lower": "g0000",
-      "upper": "g0018",
-      "direction": "down"
-    },
-    {
-      "lower": "g0000",
-      "upper": "g0040",
-      "direction": "down"
-    },
-    {
-      "lower": "g0085",
-      "upper": "g0099",
-      "direction": "up"
-    },
-    {
-      "lower": "g0085",
-      "upper": "g0101",
-      "direction": "up"
-    }
-  ],
-  "contact_levels": {
-    "g0002": 192,
-    "g0018": 192,
-    "g0040": 192,
-    "g0099": 216,
-    "g0101": 216
-  },
+  "parts": 218,
+  "contacts": [],
+  "contact_levels": {},
   "damage_layers": [
     {
       "id": "commanderViewer",

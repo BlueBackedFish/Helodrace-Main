@@ -73,6 +73,104 @@ def value_for(normal, part, top, style):
     return part.get("planes", {}).get(key, planes[key] + top-planes["roof"])
 
 
+def height_values(mesh, part, style):
+    """Height-band paint (style `height_paint`): one value per near-planar surface.
+
+    Connected faces whose normals stay within `plane_angle` of the region's first face form
+    one surface; its area-weighted centre height picks one of the layer's ladder steps
+    (higher = brighter). Walls and undersides sit `wall_steps` lower. Thin wall strips keep
+    their surface's step so plate edges do not draw seams. Returns one value per polygon.
+    """
+    from collections import defaultdict, deque
+    spec = style["height_paint"]
+    ladder = spec["ladder"]
+    bands = spec["layers"][part["layer"]]["thresholds"]  # descending heights, len(ladder)-1
+    if len(bands) != len(ladder)-1 or any(a <= b for a, b in zip(bands, bands[1:])):
+        raise ValueError(f"height_paint thresholds for {part['layer']} must descend, one fewer than ladder steps")
+    limit = math.cos(math.radians(spec.get("plane_angle", 12)))
+    wall_z, wall_steps = spec.get("wall_normal_z", .25), spec.get("wall_steps", 1)
+    min_wall = style.get("min_wall_height", .03)
+    key = lambda co: tuple(round(c, 5) for c in co)
+    edge_faces = defaultdict(list)
+    for poly in mesh.polygons:
+        ids = list(poly.vertices)
+        for a, b in zip(ids, ids[1:]+ids[:1]):
+            edge_faces[tuple(sorted((key(mesh.vertices[a].co), key(mesh.vertices[b].co))))].append(poly.index)
+    neighbours = defaultdict(set)
+    for faces in edge_faces.values():
+        for f in faces:
+            neighbours[f].update(g for g in faces if g != f)
+    region = [-1]*len(mesh.polygons)
+    values = [0]*len(mesh.polygons)
+    for seed in mesh.polygons:
+        if region[seed.index] >= 0:
+            continue
+        members, queue = [seed.index], deque([seed.index])
+        region[seed.index] = seed.index
+        while queue:
+            for g in neighbours[queue.popleft()]:
+                if region[g] < 0 and mesh.polygons[g].normal.dot(seed.normal) >= limit:
+                    region[g] = seed.index
+                    members.append(g)
+                    queue.append(g)
+        area = sum(mesh.polygons[f].area for f in members) or 1e-12
+        z = sum(mesh.polygons[f].center.z*mesh.polygons[f].area for f in members)/area
+        normal = sum((mesh.polygons[f].normal*mesh.polygons[f].area for f in members), Vector()).normalized()
+        step = sum(1 for t in bands if z < t)
+        if normal.z < wall_z:
+            zs = [mesh.vertices[v].co.z for f in members for v in mesh.polygons[f].vertices]
+            if max(zs)-min(zs) >= min_wall:
+                step += wall_steps
+        value = ladder[min(step, len(ladder)-1)]
+        for f in members:
+            values[f] = value
+    return values
+
+
+def simplify_mesh(obj, part, style):
+    """Opt-in polygon reduction (style `simplify`, per-part override or false).
+
+    Welds split source vertices, collapse-decimates parts above `min_faces` to `collapse_ratio`,
+    then merges near-coplanar faces (`planar_angle`) so flat armour is one polygon per plate.
+    Patterned grille/grid patches are never reduced. Returns a report dict, or None if untouched.
+    """
+    import bmesh
+    settings = style.get("simplify")
+    if settings is None or part.get("simplify") is False or "grille" in part or "grid" in part:
+        return None
+    settings = {**settings, **(part.get("simplify") or {})}
+    before = len(obj.data.polygons)
+    bm = bmesh.new()
+    bm.from_mesh(obj.data)
+    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=settings.get("weld", 1e-5))
+    bm.to_mesh(obj.data)
+    bm.free()
+    ratio = settings.get("collapse_ratio", 1)
+    if ratio < 1 and before >= settings.get("min_faces", 200):
+        modifier = obj.modifiers.new("Simplify", "DECIMATE")
+        modifier.decimate_type = "COLLAPSE"
+        modifier.ratio = ratio
+        modifier.use_collapse_triangulate = False
+        depsgraph = bpy.context.evaluated_depsgraph_get()
+        reduced = bpy.data.meshes.new_from_object(obj.evaluated_get(depsgraph))
+        obj.modifiers.remove(modifier)
+        old = obj.data
+        obj.data = reduced
+        reduced.name = old.name
+        bpy.data.meshes.remove(old)
+    angle = settings.get("planar_angle", 0)
+    if angle > 0:
+        bm = bmesh.new()
+        bm.from_mesh(obj.data)
+        bmesh.ops.dissolve_limit(bm, angle_limit=math.radians(angle), verts=bm.verts[:], edges=bm.edges[:])
+        bm.to_mesh(obj.data)
+        bm.free()
+    obj.data.update()
+    after = len(obj.data.polygons)
+    return {"source_faces": before, "faces": after, "collapse_ratio": ratio if before >= settings.get("min_faces", 200) else 1,
+            "planar_angle": angle}
+
+
 def material(rgb, cache):
     key = tuple(round(c, 4) for c in rgb)
     if key in cache:
@@ -285,7 +383,7 @@ def build(profile_path):
     scene.world.use_nodes = True
     scene.world.node_tree.nodes["Background"].inputs["Strength"].default_value = 0
     objects, cache, paint_report = {}, {}, {}
-    omitted, replaced, boxes = [], [], []
+    omitted, replaced, boxes, simplified = [], [], [], []
     for part in profile["parts"]:
         face_ids = selection[part["id"]]
         if part.get("action") == "omit":
@@ -316,20 +414,33 @@ def build(profile_path):
         scene.collection.objects.link(obj)
         obj["part_id"] = part["id"]
         obj["layer"] = part["layer"]
+        reduced = None if boxed else simplify_mesh(obj, part, style)
+        if reduced:
+            mesh = obj.data
+            replaced += face_ids
+            simplified.append({"part": part["id"], **reduced})
         source_id = mesh.attributes.new(name="source_face_id", type="INT", domain="FACE")
-        source_id.data.foreach_set("value", [-1]*len(mesh.polygons) if boxed else face_ids)
+        source_id.data.foreach_set("value", [-1]*len(mesh.polygons) if boxed or reduced else face_ids)
         original_uv = mesh.uv_layers.new(name="Source UV")
-        for poly, face_id in zip(mesh.polygons, [] if boxed else face_ids):
+        for poly, face_id in zip(mesh.polygons, [] if boxed or reduced else face_ids):
             face = source["faces"][face_id]
             for loop_id, uv_id in zip(poly.loop_indices, face["uv"]):
                 original_uv.data[loop_id].uv = source["uv"][uv_id] if uv_id is not None else (0, 0)
         slots, distribution, upward, walls = {}, Counter(), [], []
         min_wall = style.get("min_wall_height", .03)
+        by_height = None
+        if "height_paint" in style:
+            if "accent" in part or "smooth" in part:
+                raise ValueError(f"height_paint replaces accents and smooth gradients; remove them: {part['id']}")
+            if part["role"] in style["height_paint"].get("roles", ["paint", "hatch", "equipment"]):
+                by_height = height_values(mesh, part, style)
         for poly in mesh.polygons:
             value = value_for(poly.normal, part, levels[part["id"]], style)
+            if by_height is not None:
+                value = by_height[poly.index]
             # Sub-pixel strips (plate edges, bevels) take the part's top colour instead of
             # drawing hairline seams across flat armour (style section 4).
-            if -.25 <= poly.normal.z < .78 and "accent" not in part and part["mode"] in {"armor", "two_tone"}:
+            elif -.25 <= poly.normal.z < .78 and "accent" not in part and part["mode"] in {"armor", "two_tone"}:
                 zs = [(obj.matrix_world @ mesh.vertices[v].co).z for v in poly.vertices]
                 if max(zs)-min(zs) < min_wall:
                     value = levels[part["id"]] if part["mode"] == "two_tone" else value_for(Vector((0, 0, 1)), part, levels[part["id"]], style)
@@ -700,7 +811,7 @@ def build(profile_path):
     aim(center, style["render"]["hull_elevation"])
     # Validate preserved coordinates / polygons against the source with per-face provenance.
     seen, degenerate = set(), []
-    boxed_parts = {b["part"] for b in boxes}
+    boxed_parts = {b["part"] for b in boxes} | {s["part"] for s in simplified}
     for key, obj in objects.items():
         if key in boxed_parts or key.startswith("import:"):
             continue
@@ -772,7 +883,8 @@ def build(profile_path):
               "sources": profile["sources"], "profile_sha256": sha256(profile_path),
               "style_sha256": sha256(style_path), "source_faces": len(source["faces"]),
               "preserved_faces": len(seen), "explicitly_omitted_faces": len(omitted),
-              "box_replaced_faces": len(replaced), "boxes": boxes,
+              "box_replaced_faces": len(replaced), "boxes": boxes, "simplified_parts": simplified,
+              "rendered_faces": sum(len(o.data.polygons) for o in objects.values()),
               "imported_models": {"specs": profile.get("imported_models", []), "objects": imported,
                                   "repainted_materials": repainted},
               "accents": accents, "accent_area_fraction": accent_fraction,

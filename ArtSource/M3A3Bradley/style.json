@@ -1,6 +1,6 @@
 {
   "name": "m3a3_bradley_rimthunder_ladder_v1",
-  "description": "M3A3 Bradley snapshot of the M1A2 SEPv3 ladder (hull roof 216, turret roof 192), values from RimThunder M2A3 ratios. Not an approved standard.",
+  "description": "M3A3 Bradley: height-band paint (2026-11-13 user decision) - each near-planar surface takes one of 7 steps by its centre height per layer, walls one step darker; no highlights or smooth gradients.",
   "tint": [
     225,
     213,
@@ -51,5 +51,56 @@
         "depth_step": 0.06
       }
     }
+  },
+  "height_paint": {
+    "ladder": [
+      216,
+      196,
+      179,
+      160,
+      145,
+      128,
+      106
+    ],
+    "plane_angle": 12,
+    "wall_steps": 1,
+    "layers": {
+      "hull": {
+        "thresholds": [
+          2.04,
+          1.97,
+          1.75,
+          1.45,
+          1.1,
+          0.75
+        ]
+      },
+      "turret": {
+        "thresholds": [
+          2.76,
+          2.66,
+          2.55,
+          2.42,
+          2.3,
+          2.18
+        ]
+      },
+      "barrel": {
+        "thresholds": [
+          2.76,
+          2.66,
+          2.55,
+          2.42,
+          2.3,
+          2.18
+        ]
+      }
+    }
+  },
+  "simplify": {
+    "weld": 1e-05,
+    "collapse_ratio": 1,
+    "min_faces": 200,
+    "planar_angle": 8
   }
 }

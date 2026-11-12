@@ -1,7 +1,8 @@
 """M3A3 Bradley rework on the common pipeline (base vehicle, BUSK deferred).
 
-Same rules as M1A2 SEPv3: RimThunder M2A3 value ladder, contact directions, accents, grille
-panels, sub-pixel cleanup, large-curve smooth shading, boundary lines. New: destructible
+Height-band paint (style.json `height_paint`, 2026-11-13 user decision): no contact graph, highlight
+accents or smooth gradients. Polygon reduction via style `simplify` plus per-part collapse for curved
+fittings. Grille panels, sub-pixel cleanup and boundary lines as before. New: destructible
 `damage_layers` for optics and the ammunition lid so the runtime can remove or char them.
 Vehicle object names stay in this file only. Run after intake to rewrite vehicle.json.
 """
@@ -44,14 +45,12 @@ def is_fastener(model, vertices, faces):
 
 
 TOW = {"roll_05", "rocket_mount_01", "roll_03", "roll_04", "roll_06", "roll_07", "roll_08"}
-ACCENTS = {  # whole groups -> (base group, reason)
-    **{n: ("@root", "Tow shackle / towing pintle highlight") for n in
-       ["ex_decor_l_01", "ex_decor_r_01", "ex_decor_l_02", "ex_decor_r_02", "ex_decor_04", "ex_decor_l_05", "ex_decor_r_06"]},
-    **{n: ("@root", "Head light housing highlight; lens stays a separate optics colour") for n in
-       ["ex_lantern_l_01", "ex_lantern_r_01"]},
-    **{n: ("bone_turret", "Smoke grenade discharger highlight") for n in ["ex_decor_02", "ex_decor_03"]}}
-HANDLE_GROUPS = {"hatch_01", "hatch_02", "hatch_03", "hatch_05"}
-EYE_GROUPS = {"@root", "bone_turret"}
+# Curved fittings collapse-decimated before the planar merge (style `simplify`): fewer segments on
+# wheels, hatches, lamps and guns so their curves read as a few flat facets. Big armour plates stay
+# planar-merge only; collapse there leaves jagged shards along the silhouette.
+CURVED_PREFIXES = ("wheel_", "track_", "hatch_", "ex_lantern_", "mg_twin", "roll_", "gun_barrel", "ex_decor_01",
+                   "turret_inside", "suspension_", "bone_commander_sight_v")
+CURVED_SIMPLIFY = {"collapse_ratio": .3}
 # Destructible overlays (runtime: remove, or swap to the charred variant). Optics and lights only: no isolated ammunition store.
 DAMAGE = [
     ("commanderViewer", "turret", ["bone_commander_sight_v"], "Commander's independent viewer (CIV)"),
@@ -85,7 +84,7 @@ def configure():
             return None
         owner = next(p for p in parts if p["id"] == group["id"])
         part = {**owner, "id": group["id"]+"_"+label, "label": label, "faces": sorted(faces), **settings}
-        for key in ("planes", "side", "cylinder_axis", "cap", "accent", "smooth"):
+        for key in ("planes", "side", "cylinder_axis", "cap", "simplify"):
             if key not in settings:
                 part.pop(key, None)
         parts.append(part)
@@ -118,42 +117,35 @@ def configure():
         elif name.startswith("suspension_"):
             part.update(role="metal", mode="flat", top=72)
         elif name.startswith("wheel_"):
-            part.update(role="rubber", mode="cylinder", cylinder_axis=[1, 0, 0], top=40, side=40, cap=96,
-                        smooth={"low": 80, "high": 176, "signed": True})
+            part.update(role="rubber", mode="cylinder", cylinder_axis=[1, 0, 0], top=40, side=40, cap=96)
         elif name.startswith("track_"):
             part.update(role="track", mode="flat", top=40)
         elif name == "gun_barrel":
-            # RimThunder M2A3 barrel is dark metal (92/255): large curved surface, smooth band.
-            part.update(role="metal", mode="cylinder", cylinder_axis=[0, 1, 0], top=96, side=96, cap=72,
-                        smooth={"low": 72, "high": 144})
+            # RimThunder M2A3 barrel is dark metal (92/255).
+            part.update(role="metal", mode="cylinder", cylinder_axis=[0, 1, 0], top=96, side=96, cap=72)
         elif name == "mg_twin":
             part.update(role="metal", mode="flat", top=96)
         elif name in {"bone_gun", "ex_decor_01"}:
             part.update(mode="two_tone", top=144, side=120)  # mantlet / gun shroud (RimThunder 179/233)
         elif name in {"hatch_01", "hatch_06", "hatch_05"}:
             part.update(role="hatch", mode="two_tone", side=144)
-            contacts.append({"lower": groups["@root"]["id"], "upper": group["id"], "direction": "down"})
         elif name == "hatch_04":
             part.update(role="hatch", mode="two_tone", top=192, side=144)  # rear personnel door
         elif name == "hatch_02":
-            # Commander's domed hatch: RimThunder 221 below the 233 roof -> smooth dome below the roof.
-            part.update(role="hatch", mode="flat", top=168, smooth={"low": 144, "high": 192})
+            part.update(role="hatch", mode="flat", top=168)  # commander's domed hatch
         elif name == "hatch_03":
             part.update(role="hatch", mode="two_tone", side=120)
-            contacts.append({"lower": groups["bone_turret"]["id"], "upper": group["id"], "direction": "up"})
         elif name == "ex_armor_03":
             part.update(role="equipment", mode="two_tone", side=120)  # CIV armoured guard
-            contacts.append({"lower": groups["bone_turret"]["id"], "upper": group["id"], "direction": "up"})
         elif name in TOW:
             # RimThunder TOW box 255 above the 233 turret roof -> 216 (up), dark walls.
             part.update(role="equipment", mode="two_tone", top=HULL_TOP, side=144)
         elif name in {"bone_commander_sight_v", "roll_02", "roll_01"}:
             part.update(role="equipment", mode="two_tone", top=HULL_TOP, side=144)
-        elif name in ACCENTS:
-            base, reason = ACCENTS[name]
-            part.update(mode="flat", accent={"value": 240, "side": 192, "over": groups[base]["id"], "reason": reason})
         elif name.startswith("ex_decor") or name.startswith("ex_armor"):
             part.update(mode="two_tone", top=192 if layer == "hull" else 168, side=144)
+        if name.startswith(CURVED_PREFIXES):
+            part["simplify"] = dict(CURVED_SIMPLIFY)
         parts.append(part)
 
         if part.get("action") == "omit":
@@ -193,25 +185,7 @@ def configure():
             role, value = {"headlamp_lens": ("optics", 192), "glass": ("optics", 32), "bore": ("recess", 40)}[key]
             extract(group, key, faces, role=role, top=value, mode="flat")
 
-        if name in HANDLE_GROUPS | EYE_GROUPS:
-            taken = {f for p in parts if p["source_group"] == group["id"] and p["id"] != group["id"] for f in p.get("faces", [])}
-            rest = [f for f in group["faces"] if f not in taken]
-            for comp in common.components(model, rest, 1e-6):
-                co = vertices[[v for f in comp for v in model["faces"][f]["vertices"]]]
-                size = np.ptp(co, axis=0)
-                aligned = np.mean([np.max(np.abs(surface(f)[0])) > .97 for f in comp])
-                if name in HANDLE_GROUPS:
-                    keep = len(comp) >= 20 and .04 <= size.max() <= .2 and size[2] >= .02
-                    reason = "Hatch handle / hinge highlight"
-                else:
-                    keep = (len(comp) >= 40 and .08 <= size.max() <= .2 and size[2] >= .35*size.max()
-                            and aligned < .35 and co[:, 2].max() > (1.7 if name == "@root" else 2.6))
-                    reason = "Lifting / tie-down eye highlight"
-                if keep:
-                    extract(group, f"accent_{min(comp)}", comp, mode="flat",
-                            accent={"value": 240, "side": 192, "over": group["id"], "reason": reason})
-
-        if layer != "barrel" and part["role"] == "paint" and "accent" not in part and not name.startswith(NO_THIN_CLEANUP):
+        if layer != "barrel" and part["role"] == "paint" and not name.startswith(NO_THIN_CLEANUP):
             taken = {f for p in parts if p["source_group"] == group["id"] and p["id"] != group["id"] for f in p.get("faces", [])}
             rest = [f for f in group["faces"] if f not in taken]
             for comp in common.components(model, rest, 1e-6):
