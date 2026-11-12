@@ -1,0 +1,112 @@
+{
+  "source_report_sha256": "692e1a9cd99b3c46a826ab3c7e2766e6d66c0bcdd743d10e5d2375931bc974cb",
+  "source_layer_sha256": {
+    "hull_east": "d127b383d75a73f0fd92088063ea06f451bac05bcbb2404df1d193ef628362e3",
+    "turret_east": "fdba5416411725543ef80f33fd2cdf838364671e998923151bde55c1b71a47d3",
+    "barrel_east": "4b1fc65c00a3aefdefa2ba8ef470a60c4216df265fa526b675649954967cb3fb",
+    "turret_full_east": "5d7e41124eacbaf5359a1643f87ee37c592abf24753f188eb43ccfbd7ac0d8a1"
+  },
+  "outline_width_at_256": 2,
+  "color": [
+    0,
+    0,
+    0
+  ],
+  "method": "circular alpha dilation; black beneath each original layer",
+  "composition": "outline hull, turret and weapon layers separately at the master size, composite at the original pivot, then linear-light downscale",
+  "source_pixels_opaque_unchanged": true,
+  "source_files_unchanged": true,
+  "alpha_bounds": {
+    "1024/hull_east": [
+      159,
+      330,
+      865,
+      743
+    ],
+    "1024/turret_east": [
+      353,
+      338,
+      653,
+      658
+    ],
+    "1024/barrel_east": [
+      545,
+      490,
+      816,
+      561
+    ],
+    "1024/turret_full_east": [
+      353,
+      338,
+      816,
+      658
+    ],
+    "1024/preview_east": [
+      159,
+      330,
+      865,
+      743
+    ],
+    "256/hull_east": [
+      37,
+      80,
+      219,
+      188
+    ],
+    "256/turret_east": [
+      86,
+      82,
+      166,
+      167
+    ],
+    "256/barrel_east": [
+      134,
+      120,
+      206,
+      143
+    ],
+    "256/turret_full_east": [
+      86,
+      82,
+      206,
+      167
+    ],
+    "256/preview_east": [
+      37,
+      80,
+      219,
+      188
+    ],
+    "512/hull_east": [
+      77,
+      163,
+      435,
+      374
+    ],
+    "512/turret_east": [
+      175,
+      167,
+      329,
+      331
+    ],
+    "512/barrel_east": [
+      270,
+      243,
+      410,
+      283
+    ],
+    "512/turret_full_east": [
+      175,
+      167,
+      410,
+      331
+    ],
+    "512/preview_east": [
+      77,
+      163,
+      435,
+      374
+    ]
+  },
+  "outline_is_review_postprocess": true
+}

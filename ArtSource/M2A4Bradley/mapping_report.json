@@ -1,0 +1,30 @@
+{
+  "source_sha256": "e6f69ee64506e5ee5221e2da02c1cf7b37b79c8d0a46f6ac3a5079467a5eb3f5",
+  "yaw_pivot": [
+    -0.187,
+    0.2863,
+    2.0646
+  ],
+  "omitted_faces_by_reason": {
+    "Whip antenna (0.5-2.1 m tall, < 6 cm thick): subpixel at 256px, selected per connected component": 788,
+    "Sub-pixel rod/rail/wire/whip antenna (middle dimension < 3 cm, length > 12 cm): thinner than 1px at 256px, removed to reduce model noise (style section 3)": 180
+  },
+  "source_faces": 40845,
+  "parts": 41,
+  "contacts": [
+    {
+      "lower": "g0005",
+      "upper": "g0010",
+      "direction": "up"
+    },
+    {
+      "lower": "g0005",
+      "upper": "g0011",
+      "direction": "up"
+    }
+  ],
+  "contact_levels": {
+    "g0010": 216,
+    "g0011": 216
+  }
+}
