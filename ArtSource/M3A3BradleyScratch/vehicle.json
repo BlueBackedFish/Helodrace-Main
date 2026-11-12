@@ -1,0 +1,1616 @@
+{
+  "schema": 1,
+  "name": "M3A3 Bradley (scratch-built)",
+  "sources": {
+    "obj": {
+      "path": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\M3A3BradleyScratch\\model\\m3a3_scratch.obj",
+      "sha256": "604f7df58465e311481b6f4a9e5e97606517e885a439899aaa7dddd787cf6f0a"
+    }
+  },
+  "axes": {
+    "forward": "-y",
+    "up": "z",
+    "scale": 1,
+    "confirmed": true
+  },
+  "style": "style.json",
+  "variant_notes": "Scratch-built M3A3-type IFV: new authored geometry (build_model.py). Proportions and equipment placement taken from the War Thunder M3A3 extract and ArtSource/M3A3Bradley; no source faces reused. Base vehicle, no BUSK. Optics and headlights are destructible overlays (no isolated ammunition store, so no ammunition lid).",
+  "blueprint_views": {},
+  "parts": [
+    {
+      "id": "hull",
+      "source_group": "g0000",
+      "label": "hull",
+      "role": "paint",
+      "mode": "armor",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "planes": {
+        "front_wall": 120,
+        "side_wall": 120
+      }
+    },
+    {
+      "id": "side_armor_l",
+      "source_group": "g0001",
+      "label": "side_armor_l",
+      "role": "paint",
+      "mode": "armor",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "planes": {
+        "front_wall": 120,
+        "side_wall": 120
+      }
+    },
+    {
+      "id": "skirt_l_01",
+      "source_group": "g0002",
+      "label": "skirt_l_01",
+      "role": "paint",
+      "mode": "armor",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "planes": {
+        "side_wall": 144,
+        "front_wall": 144,
+        "side_slope": 168,
+        "front_slope": 168
+      }
+    },
+    {
+      "id": "skirt_l_02",
+      "source_group": "g0003",
+      "label": "skirt_l_02",
+      "role": "paint",
+      "mode": "armor",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "planes": {
+        "side_wall": 144,
+        "front_wall": 144,
+        "side_slope": 168,
+        "front_slope": 168
+      }
+    },
+    {
+      "id": "skirt_l_03",
+      "source_group": "g0004",
+      "label": "skirt_l_03",
+      "role": "paint",
+      "mode": "armor",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "planes": {
+        "side_wall": 144,
+        "front_wall": 144,
+        "side_slope": 168,
+        "front_slope": 168
+      }
+    },
+    {
+      "id": "skirt_l_04",
+      "source_group": "g0005",
+      "label": "skirt_l_04",
+      "role": "paint",
+      "mode": "armor",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "planes": {
+        "side_wall": 144,
+        "front_wall": 144,
+        "side_slope": 168,
+        "front_slope": 168
+      }
+    },
+    {
+      "id": "skirt_l_05",
+      "source_group": "g0006",
+      "label": "skirt_l_05",
+      "role": "paint",
+      "mode": "armor",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "planes": {
+        "side_wall": 144,
+        "front_wall": 144,
+        "side_slope": 168,
+        "front_slope": 168
+      }
+    },
+    {
+      "id": "skirt_l_06",
+      "source_group": "g0007",
+      "label": "skirt_l_06",
+      "role": "paint",
+      "mode": "armor",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "planes": {
+        "side_wall": 144,
+        "front_wall": 144,
+        "side_slope": 168,
+        "front_slope": 168
+      }
+    },
+    {
+      "id": "side_armor_r",
+      "source_group": "g0008",
+      "label": "side_armor_r",
+      "role": "paint",
+      "mode": "armor",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "planes": {
+        "front_wall": 120,
+        "side_wall": 120
+      }
+    },
+    {
+      "id": "skirt_r_01",
+      "source_group": "g0009",
+      "label": "skirt_r_01",
+      "role": "paint",
+      "mode": "armor",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "planes": {
+        "side_wall": 144,
+        "front_wall": 144,
+        "side_slope": 168,
+        "front_slope": 168
+      }
+    },
+    {
+      "id": "skirt_r_02",
+      "source_group": "g0010",
+      "label": "skirt_r_02",
+      "role": "paint",
+      "mode": "armor",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "planes": {
+        "side_wall": 144,
+        "front_wall": 144,
+        "side_slope": 168,
+        "front_slope": 168
+      }
+    },
+    {
+      "id": "skirt_r_03",
+      "source_group": "g0011",
+      "label": "skirt_r_03",
+      "role": "paint",
+      "mode": "armor",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "planes": {
+        "side_wall": 144,
+        "front_wall": 144,
+        "side_slope": 168,
+        "front_slope": 168
+      }
+    },
+    {
+      "id": "skirt_r_04",
+      "source_group": "g0012",
+      "label": "skirt_r_04",
+      "role": "paint",
+      "mode": "armor",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "planes": {
+        "side_wall": 144,
+        "front_wall": 144,
+        "side_slope": 168,
+        "front_slope": 168
+      }
+    },
+    {
+      "id": "skirt_r_05",
+      "source_group": "g0013",
+      "label": "skirt_r_05",
+      "role": "paint",
+      "mode": "armor",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "planes": {
+        "side_wall": 144,
+        "front_wall": 144,
+        "side_slope": 168,
+        "front_slope": 168
+      }
+    },
+    {
+      "id": "skirt_r_06",
+      "source_group": "g0014",
+      "label": "skirt_r_06",
+      "role": "paint",
+      "mode": "armor",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "planes": {
+        "side_wall": 144,
+        "front_wall": 144,
+        "side_slope": 168,
+        "front_slope": 168
+      }
+    },
+    {
+      "id": "exhaust_grille",
+      "source_group": "g0015",
+      "label": "exhaust_grille",
+      "role": "paint",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 96,
+      "confirmed": true,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "bar_fraction": 0.7,
+        "values": [
+          120,
+          192,
+          168
+        ]
+      }
+    },
+    {
+      "id": "engine_deck",
+      "source_group": "g0016",
+      "label": "engine_deck",
+      "role": "paint",
+      "mode": "two_tone",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "side": 144
+    },
+    {
+      "id": "engine_grille",
+      "source_group": "g0017",
+      "label": "engine_grille",
+      "role": "paint",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 96,
+      "confirmed": true,
+      "grille": {
+        "pattern": "louvers",
+        "rows": 6,
+        "columns": 1,
+        "bar_fraction": 0.7,
+        "values": [
+          120,
+          192,
+          168
+        ]
+      }
+    },
+    {
+      "id": "driver_hatch",
+      "source_group": "g0018",
+      "label": "driver_hatch",
+      "role": "hatch",
+      "mode": "two_tone",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "side": 144
+    },
+    {
+      "id": "driver_hatch_handle",
+      "source_group": "g0019",
+      "label": "driver_hatch_handle",
+      "role": "paint",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "accent": {
+        "value": 240,
+        "side": 192,
+        "over": "driver_hatch",
+        "reason": "Hatch / door grab handle highlight"
+      }
+    },
+    {
+      "id": "driver_periscopes",
+      "source_group": "g0020",
+      "label": "driver_periscopes",
+      "role": "equipment",
+      "mode": "two_tone",
+      "layer": "hull",
+      "top": 168,
+      "confirmed": true,
+      "side": 120
+    },
+    {
+      "id": "driver_periscopes_glass",
+      "source_group": "g0020",
+      "label": "driver_periscopes_glass",
+      "faces": [
+        176,
+        183,
+        190
+      ],
+      "role": "optics",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 32,
+      "confirmed": true
+    },
+    {
+      "id": "cargo_hatch",
+      "source_group": "g0021",
+      "label": "cargo_hatch",
+      "role": "hatch",
+      "mode": "two_tone",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "side": 144
+    },
+    {
+      "id": "cargo_hatch_handle",
+      "source_group": "g0022",
+      "label": "cargo_hatch_handle",
+      "role": "paint",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "accent": {
+        "value": 240,
+        "side": 192,
+        "over": "cargo_hatch",
+        "reason": "Hatch / door grab handle highlight"
+      }
+    },
+    {
+      "id": "trim_vane",
+      "source_group": "g0023",
+      "label": "trim_vane",
+      "role": "hatch",
+      "mode": "two_tone",
+      "layer": "hull",
+      "top": 168,
+      "confirmed": true,
+      "side": 144
+    },
+    {
+      "id": "trim_vane_handle",
+      "source_group": "g0024",
+      "label": "trim_vane_handle",
+      "role": "paint",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "accent": {
+        "value": 240,
+        "side": 192,
+        "over": "hull",
+        "reason": "Trim vane release handle highlight"
+      }
+    },
+    {
+      "id": "headlight_l",
+      "source_group": "g0025",
+      "label": "headlight_l",
+      "role": "equipment",
+      "mode": "two_tone",
+      "layer": "hull",
+      "top": 192,
+      "confirmed": true,
+      "side": 144
+    },
+    {
+      "id": "headlight_l_lens",
+      "source_group": "g0025",
+      "label": "headlight_l_lens",
+      "faces": [
+        259
+      ],
+      "role": "optics",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 192,
+      "confirmed": true
+    },
+    {
+      "id": "headlight_r",
+      "source_group": "g0026",
+      "label": "headlight_r",
+      "role": "equipment",
+      "mode": "two_tone",
+      "layer": "hull",
+      "top": 192,
+      "confirmed": true,
+      "side": 144
+    },
+    {
+      "id": "headlight_r_lens",
+      "source_group": "g0026",
+      "label": "headlight_r_lens",
+      "faces": [
+        266
+      ],
+      "role": "optics",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 192,
+      "confirmed": true
+    },
+    {
+      "id": "tow_hooks",
+      "source_group": "g0027",
+      "label": "tow_hooks",
+      "role": "paint",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "accent": {
+        "value": 240,
+        "side": 192,
+        "over": "hull",
+        "reason": "Front tow hook highlight"
+      }
+    },
+    {
+      "id": "lifting_eyes",
+      "source_group": "g0028",
+      "label": "lifting_eyes",
+      "role": "paint",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "accent": {
+        "value": 240,
+        "side": 192,
+        "over": "hull",
+        "reason": "Lifting eye highlight"
+      }
+    },
+    {
+      "id": "rear_ramp",
+      "source_group": "g0029",
+      "label": "rear_ramp",
+      "role": "hatch",
+      "mode": "two_tone",
+      "layer": "hull",
+      "top": 192,
+      "confirmed": true,
+      "side": 144
+    },
+    {
+      "id": "ramp_door",
+      "source_group": "g0030",
+      "label": "ramp_door",
+      "role": "hatch",
+      "mode": "two_tone",
+      "layer": "hull",
+      "top": 168,
+      "confirmed": true,
+      "side": 168
+    },
+    {
+      "id": "ramp_door_handle",
+      "source_group": "g0031",
+      "label": "ramp_door_handle",
+      "role": "paint",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 216,
+      "confirmed": true,
+      "accent": {
+        "value": 240,
+        "side": 192,
+        "over": "rear_ramp",
+        "reason": "Hatch / door grab handle highlight"
+      }
+    },
+    {
+      "id": "rear_stowage_l",
+      "source_group": "g0032",
+      "label": "rear_stowage_l",
+      "role": "paint",
+      "mode": "two_tone",
+      "layer": "hull",
+      "top": 192,
+      "confirmed": true,
+      "side": 144
+    },
+    {
+      "id": "rear_stowage_r",
+      "source_group": "g0033",
+      "label": "rear_stowage_r",
+      "role": "paint",
+      "mode": "two_tone",
+      "layer": "hull",
+      "top": 192,
+      "confirmed": true,
+      "side": 144
+    },
+    {
+      "id": "track_l",
+      "source_group": "g0034",
+      "label": "track_l",
+      "role": "track",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true
+    },
+    {
+      "id": "wheel_l_01",
+      "source_group": "g0035",
+      "label": "wheel_l_01",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "suspension_l",
+      "source_group": "g0036",
+      "label": "suspension_l",
+      "role": "metal",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 72,
+      "confirmed": true
+    },
+    {
+      "id": "wheel_l_02",
+      "source_group": "g0037",
+      "label": "wheel_l_02",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "wheel_l_03",
+      "source_group": "g0038",
+      "label": "wheel_l_03",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "wheel_l_04",
+      "source_group": "g0039",
+      "label": "wheel_l_04",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "wheel_l_05",
+      "source_group": "g0040",
+      "label": "wheel_l_05",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "wheel_l_06",
+      "source_group": "g0041",
+      "label": "wheel_l_06",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "sprocket_l",
+      "source_group": "g0042",
+      "label": "sprocket_l",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "idler_l",
+      "source_group": "g0043",
+      "label": "idler_l",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "roller_l_01",
+      "source_group": "g0044",
+      "label": "roller_l_01",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "roller_l_02",
+      "source_group": "g0045",
+      "label": "roller_l_02",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "roller_l_03",
+      "source_group": "g0046",
+      "label": "roller_l_03",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "track_r",
+      "source_group": "g0047",
+      "label": "track_r",
+      "role": "track",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true
+    },
+    {
+      "id": "wheel_r_01",
+      "source_group": "g0048",
+      "label": "wheel_r_01",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "suspension_r",
+      "source_group": "g0049",
+      "label": "suspension_r",
+      "role": "metal",
+      "mode": "flat",
+      "layer": "hull",
+      "top": 72,
+      "confirmed": true
+    },
+    {
+      "id": "wheel_r_02",
+      "source_group": "g0050",
+      "label": "wheel_r_02",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "wheel_r_03",
+      "source_group": "g0051",
+      "label": "wheel_r_03",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "wheel_r_04",
+      "source_group": "g0052",
+      "label": "wheel_r_04",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "wheel_r_05",
+      "source_group": "g0053",
+      "label": "wheel_r_05",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "wheel_r_06",
+      "source_group": "g0054",
+      "label": "wheel_r_06",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "sprocket_r",
+      "source_group": "g0055",
+      "label": "sprocket_r",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "idler_r",
+      "source_group": "g0056",
+      "label": "idler_r",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "roller_r_01",
+      "source_group": "g0057",
+      "label": "roller_r_01",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "roller_r_02",
+      "source_group": "g0058",
+      "label": "roller_r_02",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "roller_r_03",
+      "source_group": "g0059",
+      "label": "roller_r_03",
+      "role": "rubber",
+      "mode": "cylinder",
+      "layer": "hull",
+      "top": 40,
+      "confirmed": true,
+      "cylinder_axis": [
+        1,
+        0,
+        0
+      ],
+      "side": 40,
+      "cap": 96,
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      }
+    },
+    {
+      "id": "turret",
+      "source_group": "g0060",
+      "label": "turret",
+      "role": "paint",
+      "mode": "armor",
+      "layer": "turret",
+      "top": 192,
+      "confirmed": true,
+      "planes": {
+        "roof": 192,
+        "front_slope": 144,
+        "side_slope": 120,
+        "front_wall": 96,
+        "side_wall": 96,
+        "underside": 72
+      }
+    },
+    {
+      "id": "gunner_hatch",
+      "source_group": "g0061",
+      "label": "gunner_hatch",
+      "role": "hatch",
+      "mode": "two_tone",
+      "layer": "turret",
+      "top": 192,
+      "confirmed": true,
+      "side": 120
+    },
+    {
+      "id": "gunner_hatch_handle",
+      "source_group": "g0062",
+      "label": "gunner_hatch_handle",
+      "role": "paint",
+      "mode": "flat",
+      "layer": "turret",
+      "top": 192,
+      "confirmed": true,
+      "accent": {
+        "value": 240,
+        "side": 192,
+        "over": "gunner_hatch",
+        "reason": "Hatch / door grab handle highlight"
+      }
+    },
+    {
+      "id": "commander_hatch",
+      "source_group": "g0063",
+      "label": "commander_hatch",
+      "role": "hatch",
+      "mode": "flat",
+      "layer": "turret",
+      "top": 168,
+      "confirmed": true,
+      "smooth": {
+        "low": 144,
+        "high": 192
+      }
+    },
+    {
+      "id": "commander_hatch_handle",
+      "source_group": "g0064",
+      "label": "commander_hatch_handle",
+      "role": "paint",
+      "mode": "flat",
+      "layer": "turret",
+      "top": 192,
+      "confirmed": true,
+      "accent": {
+        "value": 240,
+        "side": 192,
+        "over": "turret",
+        "reason": "Hatch / door grab handle highlight"
+      }
+    },
+    {
+      "id": "isu_sight",
+      "source_group": "g0065",
+      "label": "isu_sight",
+      "role": "equipment",
+      "mode": "two_tone",
+      "layer": "turret",
+      "top": 216,
+      "confirmed": true,
+      "side": 144
+    },
+    {
+      "id": "isu_sight_glass",
+      "source_group": "g0065",
+      "label": "isu_sight_glass",
+      "faces": [
+        2009
+      ],
+      "role": "optics",
+      "mode": "flat",
+      "layer": "turret",
+      "top": 32,
+      "confirmed": true
+    },
+    {
+      "id": "civ_guard",
+      "source_group": "g0066",
+      "label": "civ_guard",
+      "role": "equipment",
+      "mode": "two_tone",
+      "layer": "turret",
+      "top": 192,
+      "confirmed": true,
+      "side": 120
+    },
+    {
+      "id": "civ_head",
+      "source_group": "g0067",
+      "label": "civ_head",
+      "role": "equipment",
+      "mode": "two_tone",
+      "layer": "turret",
+      "top": 192,
+      "confirmed": true,
+      "side": 144
+    },
+    {
+      "id": "civ_head_glass",
+      "source_group": "g0067",
+      "label": "civ_head_glass",
+      "faces": [
+        2027
+      ],
+      "role": "optics",
+      "mode": "flat",
+      "layer": "turret",
+      "top": 32,
+      "confirmed": true
+    },
+    {
+      "id": "smoke_launchers",
+      "source_group": "g0068",
+      "label": "smoke_launchers",
+      "role": "paint",
+      "mode": "flat",
+      "layer": "turret",
+      "top": 192,
+      "confirmed": true,
+      "accent": {
+        "value": 240,
+        "side": 192,
+        "over": "turret",
+        "reason": "Smoke grenade discharger highlight"
+      }
+    },
+    {
+      "id": "tow_launcher",
+      "source_group": "g0069",
+      "label": "tow_launcher",
+      "role": "equipment",
+      "mode": "two_tone",
+      "layer": "turret",
+      "top": 216,
+      "confirmed": true,
+      "side": 144
+    },
+    {
+      "id": "tow_mount",
+      "source_group": "g0070",
+      "label": "tow_mount",
+      "role": "equipment",
+      "mode": "two_tone",
+      "layer": "turret",
+      "top": 168,
+      "confirmed": true,
+      "side": 120
+    },
+    {
+      "id": "tow_tubes",
+      "source_group": "g0071",
+      "label": "tow_tubes",
+      "role": "recess",
+      "mode": "flat",
+      "layer": "turret",
+      "top": 40,
+      "confirmed": true
+    },
+    {
+      "id": "bustle_floor",
+      "source_group": "g0072",
+      "label": "bustle_floor",
+      "role": "recess",
+      "mode": "flat",
+      "layer": "turret",
+      "top": 48,
+      "confirmed": true
+    },
+    {
+      "id": "bustle_rack",
+      "source_group": "g0073",
+      "label": "bustle_rack",
+      "role": "equipment",
+      "mode": "two_tone",
+      "layer": "turret",
+      "top": 168,
+      "confirmed": true,
+      "side": 120
+    },
+    {
+      "id": "bustle_stowage",
+      "source_group": "g0074",
+      "label": "bustle_stowage",
+      "role": "equipment",
+      "mode": "two_tone",
+      "layer": "turret",
+      "top": 192,
+      "confirmed": true,
+      "side": 144
+    },
+    {
+      "id": "antenna_bases",
+      "source_group": "g0075",
+      "label": "antenna_bases",
+      "role": "metal",
+      "mode": "flat",
+      "layer": "turret",
+      "top": 96,
+      "confirmed": true
+    },
+    {
+      "id": "mantlet",
+      "source_group": "g0076",
+      "label": "mantlet",
+      "role": "paint",
+      "mode": "two_tone",
+      "layer": "barrel",
+      "top": 144,
+      "confirmed": true,
+      "side": 120
+    },
+    {
+      "id": "gun_shroud",
+      "source_group": "g0077",
+      "label": "gun_shroud",
+      "role": "metal",
+      "mode": "cylinder",
+      "layer": "barrel",
+      "top": 96,
+      "confirmed": true,
+      "cylinder_axis": [
+        0,
+        1,
+        0
+      ],
+      "side": 96,
+      "cap": 72
+    },
+    {
+      "id": "gun_barrel",
+      "source_group": "g0078",
+      "label": "gun_barrel",
+      "role": "metal",
+      "mode": "cylinder",
+      "layer": "barrel",
+      "top": 96,
+      "confirmed": true,
+      "cylinder_axis": [
+        0,
+        1,
+        0
+      ],
+      "side": 96,
+      "cap": 72,
+      "smooth": {
+        "low": 72,
+        "high": 144
+      }
+    },
+    {
+      "id": "gun_barrel_bore",
+      "source_group": "g0078",
+      "label": "gun_barrel_bore",
+      "faces": [
+        2325
+      ],
+      "role": "recess",
+      "mode": "flat",
+      "layer": "barrel",
+      "top": 40,
+      "confirmed": true
+    },
+    {
+      "id": "coax",
+      "source_group": "g0079",
+      "label": "coax",
+      "role": "metal",
+      "mode": "flat",
+      "layer": "barrel",
+      "top": 96,
+      "confirmed": true
+    }
+  ],
+  "rigs": [
+    {
+      "id": "TURRET_YAW",
+      "usage": "turret_yaw",
+      "pivot": [
+        -0.19,
+        0.23,
+        2.02
+      ],
+      "axis": "z",
+      "parts": [
+        "turret",
+        "isu_sight",
+        "isu_sight_glass",
+        "civ_guard",
+        "civ_head",
+        "civ_head_glass",
+        "smoke_launchers",
+        "tow_launcher",
+        "tow_mount",
+        "tow_tubes",
+        "bustle_floor",
+        "bustle_rack",
+        "bustle_stowage",
+        "antenna_bases"
+      ],
+      "confirmed": true,
+      "animate": true,
+      "angle": 35,
+      "evidence": "Authored turret yaw axis (build_model.TURRET_PIVOT), placed at the reference M3A3 ring centre; anchor Z = hull roof"
+    },
+    {
+      "id": "GUN_ELEVATION",
+      "parent": "TURRET_YAW",
+      "pivot": [
+        -0.23600000000000002,
+        -1.0145,
+        2.44
+      ],
+      "axis": "x",
+      "parts": [
+        "mantlet",
+        "gun_shroud",
+        "gun_barrel",
+        "gun_barrel_bore",
+        "coax"
+      ],
+      "confirmed": true,
+      "animate": false,
+      "evidence": "Authored trunnion at the back of the mantlet on the gun axis"
+    },
+    {
+      "id": "GUNNER_HATCH",
+      "parent": "TURRET_YAW",
+      "pivot": [
+        0.1205,
+        0.9315,
+        2.765
+      ],
+      "axis": "x",
+      "parts": [
+        "gunner_hatch",
+        "gunner_hatch_handle"
+      ],
+      "confirmed": true,
+      "animate": false,
+      "evidence": "Authored rear hinge barrel"
+    },
+    {
+      "id": "COMMANDER_HATCH",
+      "parent": "TURRET_YAW",
+      "pivot": [
+        -0.6385,
+        1.035,
+        2.72
+      ],
+      "axis": "x",
+      "parts": [
+        "commander_hatch",
+        "commander_hatch_handle"
+      ],
+      "confirmed": true,
+      "animate": false,
+      "evidence": "Authored rear edge of the dome"
+    },
+    {
+      "id": "DRIVER_HATCH",
+      "pivot": [
+        0.7,
+        -1.56,
+        2.09
+      ],
+      "axis": "x",
+      "parts": [
+        "driver_hatch",
+        "driver_hatch_handle"
+      ],
+      "confirmed": true,
+      "animate": false,
+      "evidence": "Authored hinge block at the hatch rear"
+    },
+    {
+      "id": "CARGO_HATCH",
+      "pivot": [
+        0.0,
+        2.66,
+        2.09
+      ],
+      "axis": "x",
+      "parts": [
+        "cargo_hatch",
+        "cargo_hatch_handle"
+      ],
+      "confirmed": true,
+      "animate": false,
+      "evidence": "Authored rear hinge barrels"
+    },
+    {
+      "id": "REAR_RAMP",
+      "pivot": [
+        0.0,
+        3.0,
+        0.62
+      ],
+      "axis": "x",
+      "parts": [
+        "rear_ramp"
+      ],
+      "confirmed": true,
+      "animate": true,
+      "angle": -75,
+      "evidence": "Authored bottom hinge line of the ramp; opens rearward and down"
+    },
+    {
+      "id": "RAMP_DOOR",
+      "parent": "REAR_RAMP",
+      "pivot": [
+        0.62,
+        3.06,
+        1.3
+      ],
+      "axis": "z",
+      "parts": [
+        "ramp_door",
+        "ramp_door_handle"
+      ],
+      "confirmed": true,
+      "animate": false,
+      "evidence": "Authored vertical hinge on the door's outboard edge"
+    }
+  ],
+  "contacts": [
+    {
+      "lower": "hull",
+      "upper": "engine_deck",
+      "direction": "down"
+    },
+    {
+      "lower": "hull",
+      "upper": "driver_hatch",
+      "direction": "down"
+    },
+    {
+      "lower": "hull",
+      "upper": "cargo_hatch",
+      "direction": "down"
+    },
+    {
+      "lower": "turret",
+      "upper": "gunner_hatch",
+      "direction": "up"
+    },
+    {
+      "lower": "turret",
+      "upper": "isu_sight",
+      "direction": "up"
+    },
+    {
+      "lower": "turret",
+      "upper": "civ_guard",
+      "direction": "up"
+    },
+    {
+      "lower": "civ_guard",
+      "upper": "civ_head",
+      "direction": "down"
+    }
+  ],
+  "review": {
+    "blueprint": false,
+    "style_reference": false,
+    "native_size": false,
+    "geometry": false,
+    "game": false
+  },
+  "damage_layers": [
+    {
+      "id": "commanderViewer",
+      "layer": "turret",
+      "parts": [
+        "civ_head",
+        "civ_head_glass"
+      ],
+      "label": "Commander's independent viewer (CIV)"
+    },
+    {
+      "id": "gunnerSight",
+      "layer": "turret",
+      "parts": [
+        "isu_sight",
+        "isu_sight_glass"
+      ],
+      "label": "Gunner's sight head"
+    },
+    {
+      "id": "leftHeadlight",
+      "layer": "hull",
+      "parts": [
+        "headlight_l",
+        "headlight_l_lens"
+      ],
+      "label": "Left headlight"
+    },
+    {
+      "id": "rightHeadlight",
+      "layer": "hull",
+      "parts": [
+        "headlight_r",
+        "headlight_r_lens"
+      ],
+      "label": "Right headlight"
+    }
+  ],
+  "references": {
+    "proportion_obj": "C:/Users/human/Downloads/Dagor-Asset-Explorer-1.0.0/Dagor-Asset-Explorer-1.0.0/ext/m3a3_bradley_0.obj",
+    "proportion_obj_sha256": "8cf128f1c44037f3caff8db7104a83ff6c6e70b05d06a1e89dbe5b5ab420b813",
+    "previous_model": "ArtSource/M3A3Bradley"
+  },
+  "style_references": {
+    "rimthunder": "C:/Program Files (x86)/Steam/steamapps/workshop/content/294100/3724793908/Textures/Vehicles/M2A3"
+  }
+}

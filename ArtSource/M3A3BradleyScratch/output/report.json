@@ -1,0 +1,3028 @@
+{
+  "status": "draft",
+  "postprocess_passed": true,
+  "blockers": [
+    "blueprint not supplied; OBJ-only draft",
+    "review: blueprint",
+    "review: style_reference",
+    "review: native_size",
+    "review: geometry",
+    "review: game"
+  ],
+  "sources": {
+    "obj": {
+      "path": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\ArtSource\\M3A3BradleyScratch\\model\\m3a3_scratch.obj",
+      "sha256": "604f7df58465e311481b6f4a9e5e97606517e885a439899aaa7dddd787cf6f0a"
+    }
+  },
+  "profile_sha256": "13b468a140b360d21b49373b6944696fc62c26d7a35ffdaa19929137caf19e89",
+  "style_sha256": "3f35d1038f33ed37500e539a493f43b061e32d59d297a44715e068f466388aac",
+  "source_faces": 2338,
+  "preserved_faces": 2338,
+  "explicitly_omitted_faces": 0,
+  "box_replaced_faces": 0,
+  "boxes": [],
+  "imported_models": {
+    "specs": [],
+    "objects": [],
+    "repainted_materials": {}
+  },
+  "accents": [
+    {
+      "part": "driver_hatch_handle",
+      "over": "driver_hatch",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.028800051659345627,
+      "reason": "Hatch / door grab handle highlight"
+    },
+    {
+      "part": "cargo_hatch_handle",
+      "over": "cargo_hatch",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.057600103318691254,
+      "reason": "Hatch / door grab handle highlight"
+    },
+    {
+      "part": "trim_vane_handle",
+      "over": "hull",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.07086874172091484,
+      "reason": "Trim vane release handle highlight"
+    },
+    {
+      "part": "tow_hooks",
+      "over": "hull",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.17920023202896118,
+      "reason": "Front tow hook highlight"
+    },
+    {
+      "part": "lifting_eyes",
+      "over": "hull",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.15039992332458496,
+      "reason": "Lifting eye highlight"
+    },
+    {
+      "part": "ramp_door_handle",
+      "over": "rear_ramp",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.02559998258948326,
+      "reason": "Hatch / door grab handle highlight"
+    },
+    {
+      "part": "gunner_hatch_handle",
+      "over": "gunner_hatch",
+      "value": 240,
+      "gap_over_base": 24,
+      "area": 0.03532797936350107,
+      "reason": "Hatch / door grab handle highlight"
+    },
+    {
+      "part": "commander_hatch_handle",
+      "over": "turret",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.03992796689271927,
+      "reason": "Hatch / door grab handle highlight"
+    },
+    {
+      "part": "smoke_launchers",
+      "over": "turret",
+      "value": 240,
+      "gap_over_base": 48,
+      "area": 0.9491482064622687,
+      "reason": "Smoke grenade discharger highlight"
+    }
+  ],
+  "accent_area_fraction": 0.006214992376395965,
+  "degenerate_source_faces": [],
+  "source_coordinates_preserved": true,
+  "unlit_glb": true,
+  "glb_animation_count": 2,
+  "mesh_count": 86,
+  "paint": {
+    "hull": {
+      "top": 216,
+      "luminances": {
+        "192": 1,
+        "216": 2,
+        "168": 2,
+        "120": 9,
+        "96": 4
+      },
+      "smooth": null,
+      "area": 89.60157340765,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        120,
+        192
+      ],
+      "source_faces": 18
+    },
+    "side_armor_l": {
+      "top": 216,
+      "luminances": {
+        "96": 4,
+        "120": 16,
+        "216": 4
+      },
+      "smooth": null,
+      "area": 8.461601436138153,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        120,
+        120
+      ],
+      "source_faces": 24
+    },
+    "skirt_l_01": {
+      "top": 216,
+      "luminances": {
+        "144": 4,
+        "216": 1,
+        "96": 2
+      },
+      "smooth": null,
+      "area": 1.2520065642893314,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 7
+    },
+    "skirt_l_02": {
+      "top": 216,
+      "luminances": {
+        "96": 1,
+        "144": 4,
+        "216": 1
+      },
+      "smooth": null,
+      "area": 1.2981201708316803,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 6
+    },
+    "skirt_l_03": {
+      "top": 216,
+      "luminances": {
+        "96": 1,
+        "144": 4,
+        "216": 1
+      },
+      "smooth": null,
+      "area": 1.2981200367212296,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 6
+    },
+    "skirt_l_04": {
+      "top": 216,
+      "luminances": {
+        "96": 1,
+        "144": 4,
+        "216": 1
+      },
+      "smooth": null,
+      "area": 1.298120155930519,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 6
+    },
+    "skirt_l_05": {
+      "top": 216,
+      "luminances": {
+        "96": 1,
+        "144": 4,
+        "216": 1
+      },
+      "smooth": null,
+      "area": 1.2981201708316803,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 6
+    },
+    "skirt_l_06": {
+      "top": 216,
+      "luminances": {
+        "96": 1,
+        "144": 4,
+        "216": 1
+      },
+      "smooth": null,
+      "area": 1.2981201708316803,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 6
+    },
+    "side_armor_r": {
+      "top": 216,
+      "luminances": {
+        "96": 4,
+        "120": 16,
+        "216": 4
+      },
+      "smooth": null,
+      "area": 8.461601436138153,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        120,
+        120
+      ],
+      "source_faces": 24
+    },
+    "skirt_r_01": {
+      "top": 216,
+      "luminances": {
+        "144": 4,
+        "216": 1,
+        "96": 2
+      },
+      "smooth": null,
+      "area": 1.2520065642893314,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 7
+    },
+    "skirt_r_02": {
+      "top": 216,
+      "luminances": {
+        "96": 1,
+        "144": 4,
+        "216": 1
+      },
+      "smooth": null,
+      "area": 1.2981201708316803,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 6
+    },
+    "skirt_r_03": {
+      "top": 216,
+      "luminances": {
+        "96": 1,
+        "144": 4,
+        "216": 1
+      },
+      "smooth": null,
+      "area": 1.2981200367212296,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 6
+    },
+    "skirt_r_04": {
+      "top": 216,
+      "luminances": {
+        "96": 1,
+        "144": 4,
+        "216": 1
+      },
+      "smooth": null,
+      "area": 1.298120155930519,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 6
+    },
+    "skirt_r_05": {
+      "top": 216,
+      "luminances": {
+        "96": 1,
+        "144": 4,
+        "216": 1
+      },
+      "smooth": null,
+      "area": 1.2981201708316803,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 6
+    },
+    "skirt_r_06": {
+      "top": 216,
+      "luminances": {
+        "96": 1,
+        "144": 4,
+        "216": 1
+      },
+      "smooth": null,
+      "area": 1.2981201708316803,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 6
+    },
+    "exhaust_grille": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "smooth": null,
+      "area": 0.32200002670288086,
+      "upward_min_max": null,
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 1
+    },
+    "engine_deck": {
+      "top": 192,
+      "luminances": {
+        "144": 5,
+        "192": 1
+      },
+      "smooth": null,
+      "area": 2.2526000887155533,
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 6
+    },
+    "engine_grille": {
+      "top": 96,
+      "luminances": {
+        "96": 1
+      },
+      "smooth": null,
+      "area": 0.787199854850769,
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": null,
+      "source_faces": 1
+    },
+    "driver_hatch": {
+      "top": 192,
+      "luminances": {
+        "144": 14,
+        "192": 2
+      },
+      "smooth": null,
+      "area": 1.1749802036210895,
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 16
+    },
+    "driver_hatch_handle": {
+      "top": 240,
+      "luminances": {
+        "192": 5,
+        "240": 1
+      },
+      "smooth": null,
+      "area": 0.028800051659345627,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 6
+    },
+    "driver_periscopes": {
+      "top": 168,
+      "luminances": {
+        "120": 15,
+        "168": 3
+      },
+      "smooth": null,
+      "area": 0.30366931296885014,
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        120,
+        120
+      ],
+      "source_faces": 18
+    },
+    "driver_periscopes_glass": {
+      "top": 32,
+      "luminances": {
+        "32": 3
+      },
+      "smooth": null,
+      "area": 0.03057642187923193,
+      "upward_min_max": null,
+      "wall_min_max": [
+        32,
+        32
+      ],
+      "source_faces": 3
+    },
+    "cargo_hatch": {
+      "top": 192,
+      "luminances": {
+        "144": 23,
+        "192": 15
+      },
+      "smooth": null,
+      "area": 3.208915777504444,
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 38
+    },
+    "cargo_hatch_handle": {
+      "top": 240,
+      "luminances": {
+        "192": 10,
+        "240": 2
+      },
+      "smooth": null,
+      "area": 0.057600103318691254,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 12
+    },
+    "trim_vane": {
+      "top": 168,
+      "luminances": {
+        "168": 2,
+        "144": 4
+      },
+      "smooth": null,
+      "area": 3.991085708141327,
+      "upward_min_max": null,
+      "wall_min_max": [
+        144,
+        168
+      ],
+      "source_faces": 6
+    },
+    "trim_vane_handle": {
+      "top": 240,
+      "luminances": {
+        "192": 4,
+        "240": 2
+      },
+      "smooth": null,
+      "area": 0.07086874172091484,
+      "upward_min_max": null,
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 6
+    },
+    "headlight_l": {
+      "top": 192,
+      "luminances": {
+        "144": 5,
+        "192": 1
+      },
+      "smooth": null,
+      "area": 0.5613342225551605,
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 6
+    },
+    "headlight_l_lens": {
+      "top": 192,
+      "luminances": {
+        "192": 1
+      },
+      "smooth": null,
+      "area": 0.052799999713897705,
+      "upward_min_max": null,
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 1
+    },
+    "headlight_r": {
+      "top": 192,
+      "luminances": {
+        "144": 5,
+        "192": 1
+      },
+      "smooth": null,
+      "area": 0.5613342225551605,
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 6
+    },
+    "headlight_r_lens": {
+      "top": 192,
+      "luminances": {
+        "192": 1
+      },
+      "smooth": null,
+      "area": 0.052799999713897705,
+      "upward_min_max": null,
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 1
+    },
+    "tow_hooks": {
+      "top": 240,
+      "luminances": {
+        "192": 10,
+        "240": 2
+      },
+      "smooth": null,
+      "area": 0.17920023202896118,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 12
+    },
+    "lifting_eyes": {
+      "top": 240,
+      "luminances": {
+        "192": 20,
+        "240": 4
+      },
+      "smooth": null,
+      "area": 0.15039992332458496,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 24
+    },
+    "rear_ramp": {
+      "top": 192,
+      "luminances": {
+        "144": 5,
+        "192": 3
+      },
+      "smooth": null,
+      "area": 4.7381019070744514,
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 8
+    },
+    "ramp_door": {
+      "top": 168,
+      "luminances": {
+        "168": 6
+      },
+      "smooth": null,
+      "area": 1.3022000715136528,
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        168,
+        168
+      ],
+      "source_faces": 6
+    },
+    "ramp_door_handle": {
+      "top": 240,
+      "luminances": {
+        "192": 5,
+        "240": 1
+      },
+      "smooth": null,
+      "area": 0.02559998258948326,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 6
+    },
+    "rear_stowage_l": {
+      "top": 192,
+      "luminances": {
+        "144": 5,
+        "192": 2
+      },
+      "smooth": null,
+      "area": 1.907333143055439,
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 7
+    },
+    "rear_stowage_r": {
+      "top": 192,
+      "luminances": {
+        "144": 5,
+        "192": 2
+      },
+      "smooth": null,
+      "area": 1.907333143055439,
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 7
+    },
+    "track_l": {
+      "top": 40,
+      "luminances": {
+        "40": 174
+      },
+      "smooth": null,
+      "area": 18.008160493336618,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 174
+    },
+    "wheel_l_01": {
+      "top": 40,
+      "luminances": {
+        "140": 4,
+        "128": 12,
+        "169": 4,
+        "174": 5,
+        "176": 2,
+        "162": 4,
+        "152": 4,
+        "87": 4,
+        "94": 4,
+        "116": 4,
+        "104": 4,
+        "82": 5,
+        "80": 2,
+        "168": 2,
+        "151": 2,
+        "105": 2,
+        "88": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 1.977853748947382,
+      "upward_min_max": [
+        168.1527705192566,
+        175.58937740325928
+      ],
+      "wall_min_max": [
+        128.0,
+        161.6507797241211
+      ],
+      "source_faces": 66
+    },
+    "suspension_l": {
+      "top": 72,
+      "luminances": {
+        "72": 36
+      },
+      "smooth": null,
+      "area": 1.1481638718396425,
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 36
+    },
+    "wheel_l_02": {
+      "top": 40,
+      "luminances": {
+        "140": 4,
+        "128": 12,
+        "87": 4,
+        "169": 4,
+        "174": 5,
+        "176": 2,
+        "162": 4,
+        "152": 4,
+        "94": 4,
+        "104": 4,
+        "116": 4,
+        "82": 5,
+        "80": 2,
+        "168": 2,
+        "151": 2,
+        "105": 2,
+        "88": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 1.9778535664081573,
+      "upward_min_max": [
+        168.1527805328369,
+        175.58938026428223
+      ],
+      "wall_min_max": [
+        128.0,
+        161.6507740020752
+      ],
+      "source_faces": 66
+    },
+    "wheel_l_03": {
+      "top": 40,
+      "luminances": {
+        "128": 12,
+        "140": 4,
+        "152": 4,
+        "169": 4,
+        "174": 5,
+        "176": 2,
+        "162": 4,
+        "87": 4,
+        "94": 4,
+        "116": 4,
+        "104": 4,
+        "82": 5,
+        "80": 2,
+        "168": 2,
+        "151": 2,
+        "105": 2,
+        "88": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 1.977853494696319,
+      "upward_min_max": [
+        168.1527762413025,
+        175.58937740325928
+      ],
+      "wall_min_max": [
+        128.0,
+        161.65076684951782
+      ],
+      "source_faces": 66
+    },
+    "wheel_l_04": {
+      "top": 40,
+      "luminances": {
+        "128": 12,
+        "140": 4,
+        "152": 4,
+        "169": 4,
+        "174": 5,
+        "176": 2,
+        "162": 4,
+        "87": 4,
+        "94": 4,
+        "116": 4,
+        "104": 4,
+        "82": 5,
+        "80": 2,
+        "168": 2,
+        "151": 2,
+        "105": 2,
+        "88": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 1.9778534807264805,
+      "upward_min_max": [
+        168.1527805328369,
+        175.58938312530518
+      ],
+      "wall_min_max": [
+        128.0,
+        161.65076684951782
+      ],
+      "source_faces": 66
+    },
+    "wheel_l_05": {
+      "top": 40,
+      "luminances": {
+        "128": 12,
+        "140": 4,
+        "169": 4,
+        "174": 5,
+        "176": 2,
+        "152": 4,
+        "116": 4,
+        "87": 4,
+        "94": 4,
+        "104": 4,
+        "162": 4,
+        "82": 5,
+        "80": 2,
+        "168": 2,
+        "151": 2,
+        "105": 2,
+        "88": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 1.977853536605835,
+      "upward_min_max": [
+        168.15277481079102,
+        175.58937883377075
+      ],
+      "wall_min_max": [
+        128.0,
+        161.65077257156372
+      ],
+      "source_faces": 66
+    },
+    "wheel_l_06": {
+      "top": 40,
+      "luminances": {
+        "128": 12,
+        "140": 4,
+        "169": 4,
+        "174": 5,
+        "176": 2,
+        "152": 4,
+        "116": 4,
+        "87": 4,
+        "94": 4,
+        "104": 4,
+        "162": 4,
+        "82": 5,
+        "80": 2,
+        "168": 2,
+        "151": 2,
+        "105": 2,
+        "88": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 1.9778533978387713,
+      "upward_min_max": [
+        168.1527705192566,
+        175.5893816947937
+      ],
+      "wall_min_max": [
+        128.0,
+        161.65077257156372
+      ],
+      "source_faces": 66
+    },
+    "sprocket_l": {
+      "top": 40,
+      "luminances": {
+        "128": 8,
+        "140": 2,
+        "169": 2,
+        "174": 3,
+        "176": 1,
+        "82": 3,
+        "87": 2,
+        "94": 2,
+        "116": 2,
+        "104": 2,
+        "80": 1,
+        "152": 2,
+        "162": 2,
+        "151": 2,
+        "105": 2,
+        "88": 2,
+        "168": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 1.6198639404028654,
+      "upward_min_max": [
+        168.1527876853943,
+        175.58937454223633
+      ],
+      "wall_min_max": [
+        128.0,
+        161.65077829360962
+      ],
+      "source_faces": 40
+    },
+    "idler_l": {
+      "top": 40,
+      "luminances": {
+        "128": 8,
+        "174": 3,
+        "116": 2,
+        "176": 1,
+        "169": 2,
+        "152": 2,
+        "140": 2,
+        "162": 2,
+        "104": 2,
+        "82": 3,
+        "80": 1,
+        "87": 2,
+        "94": 2,
+        "168": 2,
+        "151": 2,
+        "105": 2,
+        "88": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 1.3488710783421993,
+      "upward_min_max": [
+        168.15276622772217,
+        175.58934020996094
+      ],
+      "wall_min_max": [
+        128.0,
+        161.65075397491455
+      ],
+      "source_faces": 40
+    },
+    "roller_l_01": {
+      "top": 40,
+      "luminances": {
+        "161": 2,
+        "128": 4,
+        "146": 2,
+        "171": 2,
+        "175": 1,
+        "85": 2,
+        "110": 2,
+        "95": 2,
+        "81": 1
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 0.4180453270673752,
+      "upward_min_max": [
+        171.49405908584595,
+        175.07768201828003
+      ],
+      "wall_min_max": [
+        128.0,
+        161.28898191452026
+      ],
+      "source_faces": 18
+    },
+    "roller_l_02": {
+      "top": 40,
+      "luminances": {
+        "161": 2,
+        "128": 4,
+        "146": 2,
+        "110": 2,
+        "171": 2,
+        "175": 1,
+        "95": 2,
+        "81": 1,
+        "85": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 0.41804533638060093,
+      "upward_min_max": [
+        171.49405908584595,
+        175.07768058776855
+      ],
+      "wall_min_max": [
+        128.0,
+        161.28897762298584
+      ],
+      "source_faces": 18
+    },
+    "roller_l_03": {
+      "top": 40,
+      "luminances": {
+        "161": 2,
+        "128": 4,
+        "146": 2,
+        "171": 2,
+        "175": 1,
+        "85": 2,
+        "110": 2,
+        "95": 2,
+        "81": 1
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 0.4180453270673752,
+      "upward_min_max": [
+        171.49405908584595,
+        175.07768201828003
+      ],
+      "wall_min_max": [
+        128.0,
+        161.28898334503174
+      ],
+      "source_faces": 18
+    },
+    "track_r": {
+      "top": 40,
+      "luminances": {
+        "40": 174
+      },
+      "smooth": null,
+      "area": 18.008160493336618,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 174
+    },
+    "wheel_r_01": {
+      "top": 40,
+      "luminances": {
+        "140": 4,
+        "128": 12,
+        "169": 4,
+        "174": 5,
+        "176": 2,
+        "162": 4,
+        "152": 4,
+        "87": 4,
+        "94": 4,
+        "116": 4,
+        "104": 4,
+        "82": 5,
+        "80": 2,
+        "168": 2,
+        "151": 2,
+        "105": 2,
+        "88": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 1.977853748947382,
+      "upward_min_max": [
+        168.1527705192566,
+        175.58937740325928
+      ],
+      "wall_min_max": [
+        128.0,
+        161.6507797241211
+      ],
+      "source_faces": 66
+    },
+    "suspension_r": {
+      "top": 72,
+      "luminances": {
+        "72": 36
+      },
+      "smooth": null,
+      "area": 1.1481638718396425,
+      "upward_min_max": [
+        72,
+        72
+      ],
+      "wall_min_max": [
+        72,
+        72
+      ],
+      "source_faces": 36
+    },
+    "wheel_r_02": {
+      "top": 40,
+      "luminances": {
+        "140": 4,
+        "128": 12,
+        "87": 4,
+        "169": 4,
+        "174": 5,
+        "176": 2,
+        "162": 4,
+        "152": 4,
+        "94": 4,
+        "104": 4,
+        "116": 4,
+        "82": 5,
+        "80": 2,
+        "168": 2,
+        "151": 2,
+        "105": 2,
+        "88": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 1.9778535664081573,
+      "upward_min_max": [
+        168.1527805328369,
+        175.58938026428223
+      ],
+      "wall_min_max": [
+        128.0,
+        161.6507740020752
+      ],
+      "source_faces": 66
+    },
+    "wheel_r_03": {
+      "top": 40,
+      "luminances": {
+        "128": 12,
+        "140": 4,
+        "152": 4,
+        "169": 4,
+        "174": 5,
+        "176": 2,
+        "162": 4,
+        "87": 4,
+        "94": 4,
+        "116": 4,
+        "104": 4,
+        "82": 5,
+        "80": 2,
+        "168": 2,
+        "151": 2,
+        "105": 2,
+        "88": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 1.977853494696319,
+      "upward_min_max": [
+        168.1527762413025,
+        175.58937740325928
+      ],
+      "wall_min_max": [
+        128.0,
+        161.65076684951782
+      ],
+      "source_faces": 66
+    },
+    "wheel_r_04": {
+      "top": 40,
+      "luminances": {
+        "128": 12,
+        "140": 4,
+        "87": 4,
+        "152": 4,
+        "169": 4,
+        "174": 5,
+        "176": 2,
+        "162": 4,
+        "94": 4,
+        "104": 4,
+        "116": 4,
+        "82": 5,
+        "80": 2,
+        "168": 2,
+        "151": 2,
+        "105": 2,
+        "88": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 1.9778534807264805,
+      "upward_min_max": [
+        168.1527805328369,
+        175.58938312530518
+      ],
+      "wall_min_max": [
+        128.0,
+        161.65076684951782
+      ],
+      "source_faces": 66
+    },
+    "wheel_r_05": {
+      "top": 40,
+      "luminances": {
+        "128": 12,
+        "140": 4,
+        "169": 4,
+        "174": 5,
+        "176": 2,
+        "152": 4,
+        "116": 4,
+        "87": 4,
+        "94": 4,
+        "104": 4,
+        "162": 4,
+        "82": 5,
+        "80": 2,
+        "168": 2,
+        "151": 2,
+        "105": 2,
+        "88": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 1.977853536605835,
+      "upward_min_max": [
+        168.15277481079102,
+        175.58937883377075
+      ],
+      "wall_min_max": [
+        128.0,
+        161.65077257156372
+      ],
+      "source_faces": 66
+    },
+    "wheel_r_06": {
+      "top": 40,
+      "luminances": {
+        "128": 12,
+        "140": 4,
+        "169": 4,
+        "174": 5,
+        "176": 2,
+        "152": 4,
+        "116": 4,
+        "87": 4,
+        "94": 4,
+        "104": 4,
+        "162": 4,
+        "82": 5,
+        "80": 2,
+        "168": 2,
+        "151": 2,
+        "105": 2,
+        "88": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 1.9778533978387713,
+      "upward_min_max": [
+        168.1527705192566,
+        175.5893816947937
+      ],
+      "wall_min_max": [
+        128.0,
+        161.65077257156372
+      ],
+      "source_faces": 66
+    },
+    "sprocket_r": {
+      "top": 40,
+      "luminances": {
+        "128": 8,
+        "140": 2,
+        "169": 2,
+        "174": 3,
+        "176": 1,
+        "82": 3,
+        "87": 2,
+        "94": 2,
+        "116": 2,
+        "104": 2,
+        "80": 1,
+        "152": 2,
+        "162": 2,
+        "151": 2,
+        "105": 2,
+        "88": 2,
+        "168": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 1.6198639404028654,
+      "upward_min_max": [
+        168.1527876853943,
+        175.58937454223633
+      ],
+      "wall_min_max": [
+        128.0,
+        161.65077829360962
+      ],
+      "source_faces": 40
+    },
+    "idler_r": {
+      "top": 40,
+      "luminances": {
+        "128": 8,
+        "174": 3,
+        "116": 2,
+        "176": 1,
+        "169": 2,
+        "152": 2,
+        "140": 2,
+        "162": 2,
+        "104": 2,
+        "82": 3,
+        "80": 1,
+        "87": 2,
+        "94": 2,
+        "168": 2,
+        "151": 2,
+        "105": 2,
+        "88": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 1.3488710783421993,
+      "upward_min_max": [
+        168.15276622772217,
+        175.58934020996094
+      ],
+      "wall_min_max": [
+        128.0,
+        161.65075397491455
+      ],
+      "source_faces": 40
+    },
+    "roller_r_01": {
+      "top": 40,
+      "luminances": {
+        "161": 2,
+        "128": 4,
+        "146": 2,
+        "171": 2,
+        "175": 1,
+        "85": 2,
+        "110": 2,
+        "95": 2,
+        "81": 1
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 0.4180453270673752,
+      "upward_min_max": [
+        171.49405908584595,
+        175.07768201828003
+      ],
+      "wall_min_max": [
+        128.0,
+        161.28898191452026
+      ],
+      "source_faces": 18
+    },
+    "roller_r_02": {
+      "top": 40,
+      "luminances": {
+        "161": 2,
+        "128": 4,
+        "146": 2,
+        "110": 2,
+        "171": 2,
+        "175": 1,
+        "95": 2,
+        "81": 1,
+        "85": 2
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 0.41804533638060093,
+      "upward_min_max": [
+        171.49405908584595,
+        175.07768058776855
+      ],
+      "wall_min_max": [
+        128.0,
+        161.28897762298584
+      ],
+      "source_faces": 18
+    },
+    "roller_r_03": {
+      "top": 40,
+      "luminances": {
+        "161": 2,
+        "128": 4,
+        "146": 2,
+        "171": 2,
+        "175": 1,
+        "85": 2,
+        "110": 2,
+        "95": 2,
+        "81": 1
+      },
+      "smooth": {
+        "low": 80,
+        "high": 176,
+        "signed": true
+      },
+      "area": 0.4180453270673752,
+      "upward_min_max": [
+        171.49405908584595,
+        175.07768201828003
+      ],
+      "wall_min_max": [
+        128.0,
+        161.28898334503174
+      ],
+      "source_faces": 18
+    },
+    "turret": {
+      "top": 192,
+      "luminances": {
+        "96": 14,
+        "120": 9,
+        "144": 5,
+        "72": 1,
+        "192": 1
+      },
+      "smooth": null,
+      "area": 13.012485608458519,
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        96,
+        144
+      ],
+      "source_faces": 30
+    },
+    "gunner_hatch": {
+      "top": 216,
+      "luminances": {
+        "120": 15,
+        "216": 7
+      },
+      "smooth": null,
+      "area": 0.9685849538072944,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        120,
+        216
+      ],
+      "source_faces": 22
+    },
+    "gunner_hatch_handle": {
+      "top": 240,
+      "luminances": {
+        "192": 5,
+        "240": 1
+      },
+      "smooth": null,
+      "area": 0.03532797936350107,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 6
+    },
+    "commander_hatch": {
+      "top": 168,
+      "luminances": {
+        "189": 20,
+        "166": 20,
+        "182": 20,
+        "192": 20,
+        "191": 20,
+        "150": 20,
+        "144": 1
+      },
+      "smooth": {
+        "low": 144,
+        "high": 192
+      },
+      "area": 0.9321955379564315,
+      "upward_min_max": [
+        182.04845452308655,
+        191.69595623016357
+      ],
+      "wall_min_max": [
+        149.97856307029724,
+        166.40339559316635
+      ],
+      "source_faces": 121
+    },
+    "commander_hatch_handle": {
+      "top": 240,
+      "luminances": {
+        "192": 5,
+        "240": 1
+      },
+      "smooth": null,
+      "area": 0.03992796689271927,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        192
+      ],
+      "source_faces": 6
+    },
+    "isu_sight": {
+      "top": 216,
+      "luminances": {
+        "144": 5,
+        "216": 2
+      },
+      "smooth": null,
+      "area": 0.6100349482148886,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        216
+      ],
+      "source_faces": 7
+    },
+    "isu_sight_glass": {
+      "top": 32,
+      "luminances": {
+        "32": 1
+      },
+      "smooth": null,
+      "area": 0.017940018326044083,
+      "upward_min_max": null,
+      "wall_min_max": [
+        32,
+        32
+      ],
+      "source_faces": 1
+    },
+    "civ_guard": {
+      "top": 216,
+      "luminances": {
+        "120": 9,
+        "216": 1
+      },
+      "smooth": null,
+      "area": 1.1338647305965424,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        120,
+        120
+      ],
+      "source_faces": 10
+    },
+    "civ_head": {
+      "top": 192,
+      "luminances": {
+        "144": 5,
+        "192": 2
+      },
+      "smooth": null,
+      "area": 0.49300171434879303,
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
+      ],
+      "source_faces": 7
+    },
+    "civ_head_glass": {
+      "top": 32,
+      "luminances": {
+        "32": 1
+      },
+      "smooth": null,
+      "area": 0.027830027043819427,
+      "upward_min_max": null,
+      "wall_min_max": [
+        32,
+        32
+      ],
+      "source_faces": 1
+    },
+    "smoke_launchers": {
+      "top": 240,
+      "luminances": {
+        "192": 79,
+        "240": 34
+      },
+      "smooth": null,
+      "area": 0.9491482064622687,
+      "upward_min_max": [
+        240,
+        240
+      ],
+      "wall_min_max": [
+        192,
+        240
+      ],
+      "source_faces": 113
+    },
+    "tow_launcher": {
+      "top": 216,
+      "luminances": {
+        "144": 6,
+        "216": 2
+      },
+      "smooth": null,
+      "area": 3.369539026170969,
+      "upward_min_max": [
+        216,
+        216
+      ],
+      "wall_min_max": [
+        144,
+        216
+      ],
+      "source_faces": 8
+    },
+    "tow_mount": {
+      "top": 168,
+      "luminances": {
+        "120": 5,
+        "168": 1
+      },
+      "smooth": null,
+      "area": 0.6378819942474365,
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        120,
+        120
+      ],
+      "source_faces": 6
+    },
+    "tow_tubes": {
+      "top": 40,
+      "luminances": {
+        "40": 36
+      },
+      "smooth": null,
+      "area": 0.11619778466410935,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 36
+    },
+    "bustle_floor": {
+      "top": 48,
+      "luminances": {
+        "48": 7
+      },
+      "smooth": null,
+      "area": 2.6577646788209677,
+      "upward_min_max": [
+        48,
+        48
+      ],
+      "wall_min_max": [
+        48,
+        48
+      ],
+      "source_faces": 7
+    },
+    "bustle_rack": {
+      "top": 168,
+      "luminances": {
+        "120": 20,
+        "168": 4
+      },
+      "smooth": null,
+      "area": 2.81120621599257,
+      "upward_min_max": [
+        168,
+        168
+      ],
+      "wall_min_max": [
+        120,
+        120
+      ],
+      "source_faces": 24
+    },
+    "bustle_stowage": {
+      "top": 192,
+      "luminances": {
+        "144": 15,
+        "192": 3
+      },
+      "smooth": null,
+      "area": 1.6839049719274044,
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        144
+      ],
+      "source_faces": 18
+    },
+    "antenna_bases": {
+      "top": 96,
+      "luminances": {
+        "96": 24
+      },
+      "smooth": null,
+      "area": 0.10184594406746328,
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 24
+    },
+    "mantlet": {
+      "top": 144,
+      "luminances": {
+        "120": 5,
+        "144": 2
+      },
+      "smooth": null,
+      "area": 0.9689518734812737,
+      "upward_min_max": [
+        144,
+        144
+      ],
+      "wall_min_max": [
+        120,
+        144
+      ],
+      "source_faces": 7
+    },
+    "gun_shroud": {
+      "top": 96,
+      "luminances": {
+        "96": 16,
+        "72": 2
+      },
+      "smooth": null,
+      "area": 0.19831750448793173,
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": [
+        72,
+        96
+      ],
+      "source_faces": 18
+    },
+    "gun_barrel": {
+      "top": 96,
+      "luminances": {
+        "79": 4,
+        "99": 4,
+        "122": 4,
+        "137": 4,
+        "72": 18,
+        "143": 2
+      },
+      "smooth": {
+        "low": 72,
+        "high": 144
+      },
+      "area": 0.30695094680413604,
+      "upward_min_max": [
+        137.2411937713623,
+        142.616623878479
+      ],
+      "wall_min_max": [
+        72.0,
+        121.93355226516724
+      ],
+      "source_faces": 36
+    },
+    "gun_barrel_bore": {
+      "top": 40,
+      "luminances": {
+        "40": 1
+      },
+      "smooth": null,
+      "area": 0.0020280294120311737,
+      "upward_min_max": null,
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 1
+    },
+    "coax": {
+      "top": 96,
+      "luminances": {
+        "96": 12
+      },
+      "smooth": null,
+      "area": 0.040518708527088165,
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 12
+    }
+  },
+  "contact_checks": [
+    {
+      "lower": "hull",
+      "upper": "engine_deck",
+      "direction": "down",
+      "actual_downward_gap": 24
+    },
+    {
+      "lower": "hull",
+      "upper": "driver_hatch",
+      "direction": "down",
+      "actual_downward_gap": 24
+    },
+    {
+      "lower": "hull",
+      "upper": "cargo_hatch",
+      "direction": "down",
+      "actual_downward_gap": 24
+    },
+    {
+      "lower": "turret",
+      "upper": "gunner_hatch",
+      "direction": "up",
+      "actual_upward_gap": 24
+    },
+    {
+      "lower": "turret",
+      "upper": "isu_sight",
+      "direction": "up",
+      "actual_upward_gap": 24
+    },
+    {
+      "lower": "turret",
+      "upper": "civ_guard",
+      "direction": "up",
+      "actual_upward_gap": 24
+    },
+    {
+      "lower": "civ_guard",
+      "upper": "civ_head",
+      "direction": "down",
+      "actual_downward_gap": 24
+    }
+  ],
+  "grids": {
+    "exhaust_grille": {
+      "material_name": "exhaust_grille fixed grille",
+      "uv_name": "Fitted grille exhaust_grille",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 5,
+        "columns": 1,
+        "bar_fraction": 0.7,
+        "values": [
+          120,
+          192,
+          168
+        ]
+      },
+      "frame": {
+        "center": [
+          -1.6929999589920044,
+          -1.270000010728836,
+          1.4900000095367432
+        ],
+        "u": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "low": [
+          -0.3499999940395355,
+          -0.23000001907348633
+        ],
+        "extent": [
+          0.699999988079071,
+          0.46000003814697266
+        ],
+        "outline": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.0
+      },
+      "face_count": 1,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
+    },
+    "engine_grille": {
+      "material_name": "engine_grille fixed grille",
+      "uv_name": "Fitted grille engine_grille",
+      "pattern": {
+        "pattern": "louvers",
+        "rows": 6,
+        "columns": 1,
+        "bar_fraction": 0.7,
+        "values": [
+          120,
+          192,
+          168
+        ]
+      },
+      "frame": {
+        "center": [
+          -0.8899999707937241,
+          -1.800000011920929,
+          2.065999984741211
+        ],
+        "u": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "v": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "low": [
+          -0.4099999815225601,
+          -0.47999995946884155
+        ],
+        "extent": [
+          0.8199999630451202,
+          0.9599999189376831
+        ],
+        "outline": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "plane_deviation": 0.0
+      },
+      "face_count": 1,
+      "texture_extension": "EXTEND",
+      "anchored_to_panel_corners": true
+    }
+  },
+  "rigs": [
+    {
+      "id": "TURRET_YAW",
+      "usage": "turret_yaw",
+      "pivot": [
+        -0.19,
+        0.23,
+        2.02
+      ],
+      "axis": "z",
+      "parts": [
+        "turret",
+        "isu_sight",
+        "isu_sight_glass",
+        "civ_guard",
+        "civ_head",
+        "civ_head_glass",
+        "smoke_launchers",
+        "tow_launcher",
+        "tow_mount",
+        "tow_tubes",
+        "bustle_floor",
+        "bustle_rack",
+        "bustle_stowage",
+        "antenna_bases"
+      ],
+      "confirmed": true,
+      "animate": true,
+      "angle": 35,
+      "evidence": "Authored turret yaw axis (build_model.TURRET_PIVOT), placed at the reference M3A3 ring centre; anchor Z = hull roof"
+    },
+    {
+      "id": "GUN_ELEVATION",
+      "parent": "TURRET_YAW",
+      "pivot": [
+        -0.23600000000000002,
+        -1.0145,
+        2.44
+      ],
+      "axis": "x",
+      "parts": [
+        "mantlet",
+        "gun_shroud",
+        "gun_barrel",
+        "gun_barrel_bore",
+        "coax"
+      ],
+      "confirmed": true,
+      "animate": false,
+      "evidence": "Authored trunnion at the back of the mantlet on the gun axis"
+    },
+    {
+      "id": "GUNNER_HATCH",
+      "parent": "TURRET_YAW",
+      "pivot": [
+        0.1205,
+        0.9315,
+        2.765
+      ],
+      "axis": "x",
+      "parts": [
+        "gunner_hatch",
+        "gunner_hatch_handle"
+      ],
+      "confirmed": true,
+      "animate": false,
+      "evidence": "Authored rear hinge barrel"
+    },
+    {
+      "id": "COMMANDER_HATCH",
+      "parent": "TURRET_YAW",
+      "pivot": [
+        -0.6385,
+        1.035,
+        2.72
+      ],
+      "axis": "x",
+      "parts": [
+        "commander_hatch",
+        "commander_hatch_handle"
+      ],
+      "confirmed": true,
+      "animate": false,
+      "evidence": "Authored rear edge of the dome"
+    },
+    {
+      "id": "DRIVER_HATCH",
+      "pivot": [
+        0.7,
+        -1.56,
+        2.09
+      ],
+      "axis": "x",
+      "parts": [
+        "driver_hatch",
+        "driver_hatch_handle"
+      ],
+      "confirmed": true,
+      "animate": false,
+      "evidence": "Authored hinge block at the hatch rear"
+    },
+    {
+      "id": "CARGO_HATCH",
+      "pivot": [
+        0.0,
+        2.66,
+        2.09
+      ],
+      "axis": "x",
+      "parts": [
+        "cargo_hatch",
+        "cargo_hatch_handle"
+      ],
+      "confirmed": true,
+      "animate": false,
+      "evidence": "Authored rear hinge barrels"
+    },
+    {
+      "id": "REAR_RAMP",
+      "pivot": [
+        0.0,
+        3.0,
+        0.62
+      ],
+      "axis": "x",
+      "parts": [
+        "rear_ramp"
+      ],
+      "confirmed": true,
+      "animate": true,
+      "angle": -75,
+      "evidence": "Authored bottom hinge line of the ramp; opens rearward and down"
+    },
+    {
+      "id": "RAMP_DOOR",
+      "parent": "REAR_RAMP",
+      "pivot": [
+        0.62,
+        3.06,
+        1.3
+      ],
+      "axis": "z",
+      "parts": [
+        "ramp_door",
+        "ramp_door_handle"
+      ],
+      "confirmed": true,
+      "animate": false,
+      "evidence": "Authored vertical hinge on the door's outboard edge"
+    }
+  ],
+  "rig_demo_angles_and_rest_return": true,
+  "game_verified": false,
+  "render": {
+    "master": 1024,
+    "sizes": [
+      256,
+      512
+    ],
+    "hull_elevation": 64,
+    "turret_elevation": 90,
+    "padding": 0.12,
+    "hull_directions": {
+      "east": {
+        "azimuth": 180,
+        "hull_center_pixels": [
+          511.9999084472656,
+          538.2608032226562
+        ],
+        "turret_anchor_pixels": [
+          474.8903503417969,
+          511.7479248046875
+        ]
+      },
+      "north": {
+        "azimuth": 90,
+        "hull_center_pixels": [
+          512.0000610351562,
+          538.2609558105469
+        ],
+        "turret_anchor_pixels": [
+          532.145263671875,
+          526.9955139160156
+        ]
+      },
+      "south": {
+        "azimuth": 270,
+        "hull_center_pixels": [
+          512.0,
+          538.2607421875
+        ],
+        "turret_anchor_pixels": [
+          491.8548278808594,
+          460.28765869140625
+        ]
+      },
+      "west": {
+        "azimuth": 0,
+        "hull_center_pixels": [
+          512.0001220703125,
+          538.2608032226562
+        ],
+        "turret_anchor_pixels": [
+          549.109619140625,
+          475.53521728515625
+        ]
+      }
+    },
+    "ortho_scale": 9.6578950881958,
+    "hull_target": [
+      0.0,
+      -0.12000000476837158,
+      1.6250184774398804
+    ],
+    "turret_pivot": [
+      -0.1899999976158142,
+      0.23000000417232513,
+      2.0199999809265137
+    ],
+    "turret_anchor_pixels_top_origin": [
+      474.8903503417969,
+      511.7479248046875
+    ],
+    "placements": {},
+    "damage_layers": {
+      "specs": [
+        {
+          "id": "commanderViewer",
+          "layer": "turret",
+          "parts": [
+            "civ_head",
+            "civ_head_glass"
+          ],
+          "label": "Commander's independent viewer (CIV)"
+        },
+        {
+          "id": "gunnerSight",
+          "layer": "turret",
+          "parts": [
+            "isu_sight",
+            "isu_sight_glass"
+          ],
+          "label": "Gunner's sight head"
+        },
+        {
+          "id": "leftHeadlight",
+          "layer": "hull",
+          "parts": [
+            "headlight_l",
+            "headlight_l_lens"
+          ],
+          "label": "Left headlight"
+        },
+        {
+          "id": "rightHeadlight",
+          "layer": "hull",
+          "parts": [
+            "headlight_r",
+            "headlight_r_lens"
+          ],
+          "label": "Right headlight"
+        }
+      ],
+      "views": {
+        "hull_east": [
+          "leftHeadlight",
+          "rightHeadlight"
+        ],
+        "hull_north": [
+          "leftHeadlight",
+          "rightHeadlight"
+        ],
+        "hull_south": [
+          "leftHeadlight",
+          "rightHeadlight"
+        ],
+        "hull_west": [
+          "leftHeadlight",
+          "rightHeadlight"
+        ],
+        "turret_full_east": [
+          "commanderViewer",
+          "gunnerSight"
+        ],
+        "turret_east": [
+          "commanderViewer",
+          "gunnerSight"
+        ],
+        "barrel_east": []
+      }
+    },
+    "hull_center": [
+      0.0,
+      -0.12000000476837158,
+      1.060018539428711
+    ],
+    "top_pivot_pixels": [
+      512.0,
+      512.0
+    ],
+    "note": "turret_full includes barrel; never composite barrel twice",
+    "id_pass": {
+      "ids": {
+        "1": "hull",
+        "2": "side_armor_l",
+        "3": "skirt_l_01",
+        "4": "skirt_l_02",
+        "5": "skirt_l_03",
+        "6": "skirt_l_04",
+        "7": "skirt_l_05",
+        "8": "skirt_l_06",
+        "9": "side_armor_r",
+        "10": "skirt_r_01",
+        "11": "skirt_r_02",
+        "12": "skirt_r_03",
+        "13": "skirt_r_04",
+        "14": "skirt_r_05",
+        "15": "skirt_r_06",
+        "16": "exhaust_grille",
+        "17": "engine_deck",
+        "18": "engine_grille",
+        "19": "driver_hatch",
+        "20": "driver_hatch_handle",
+        "21": "driver_periscopes",
+        "22": "driver_periscopes_glass",
+        "23": "cargo_hatch",
+        "24": "cargo_hatch_handle",
+        "25": "trim_vane",
+        "26": "trim_vane_handle",
+        "27": "headlight_l",
+        "28": "headlight_l_lens",
+        "29": "headlight_r",
+        "30": "headlight_r_lens",
+        "31": "tow_hooks",
+        "32": "lifting_eyes",
+        "33": "rear_ramp",
+        "34": "ramp_door",
+        "35": "ramp_door_handle",
+        "36": "rear_stowage_l",
+        "37": "rear_stowage_r",
+        "38": "track_l",
+        "39": "wheel_l_01",
+        "40": "suspension_l",
+        "41": "wheel_l_02",
+        "42": "wheel_l_03",
+        "43": "wheel_l_04",
+        "44": "wheel_l_05",
+        "45": "wheel_l_06",
+        "46": "sprocket_l",
+        "47": "idler_l",
+        "48": "roller_l_01",
+        "49": "roller_l_02",
+        "50": "roller_l_03",
+        "51": "track_r",
+        "52": "wheel_r_01",
+        "53": "suspension_r",
+        "54": "wheel_r_02",
+        "55": "wheel_r_03",
+        "56": "wheel_r_04",
+        "57": "wheel_r_05",
+        "58": "wheel_r_06",
+        "59": "sprocket_r",
+        "60": "idler_r",
+        "61": "roller_r_01",
+        "62": "roller_r_02",
+        "63": "roller_r_03",
+        "64": "turret",
+        "65": "gunner_hatch",
+        "66": "gunner_hatch_handle",
+        "67": "commander_hatch",
+        "68": "commander_hatch_handle",
+        "69": "isu_sight",
+        "70": "isu_sight_glass",
+        "71": "civ_guard",
+        "72": "civ_head",
+        "73": "civ_head_glass",
+        "74": "smoke_launchers",
+        "75": "tow_launcher",
+        "76": "tow_mount",
+        "77": "tow_tubes",
+        "78": "bustle_floor",
+        "79": "bustle_rack",
+        "80": "bustle_stowage",
+        "81": "antenna_bases",
+        "82": "mantlet",
+        "83": "gun_shroud",
+        "84": "gun_barrel",
+        "85": "gun_barrel_bore",
+        "86": "coax"
+      },
+      "depth_range": 77.2631607055664,
+      "encoding": "16-bit RGB: R,G = id low/high byte, B = view depth / depth_range"
+    }
+  },
+  "lighting_max_difference_255": 0,
+  "boundary_lines": {
+    "hull_east": {
+      "pixels_at_mask": 264443,
+      "mask_supersample": 4.0,
+      "width_256": 1,
+      "depth_step": 0.06,
+      "value": 56,
+      "anti_aliased": true
+    },
+    "hull_north": {
+      "pixels_at_mask": 251252,
+      "mask_supersample": 4.0,
+      "width_256": 1,
+      "depth_step": 0.02,
+      "value": 56,
+      "anti_aliased": true
+    },
+    "hull_south": {
+      "pixels_at_mask": 267296,
+      "mask_supersample": 4.0,
+      "width_256": 1,
+      "depth_step": 0.02,
+      "value": 56,
+      "anti_aliased": true
+    },
+    "hull_west": {
+      "pixels_at_mask": 316501,
+      "mask_supersample": 4.0,
+      "width_256": 1,
+      "depth_step": 0.02,
+      "value": 56,
+      "anti_aliased": true
+    },
+    "turret_east": {
+      "pixels_at_mask": 112207,
+      "mask_supersample": 4.0,
+      "width_256": 1,
+      "depth_step": 0.02,
+      "value": 56,
+      "anti_aliased": true
+    },
+    "barrel_east": {
+      "pixels_at_mask": 1952,
+      "mask_supersample": 4.0,
+      "width_256": 1,
+      "depth_step": 0.02,
+      "value": 56,
+      "anti_aliased": true
+    },
+    "turret_full_east": {
+      "pixels_at_mask": 119313,
+      "mask_supersample": 4.0,
+      "width_256": 1,
+      "depth_step": 0.02,
+      "value": 56,
+      "anti_aliased": true
+    }
+  },
+  "alpha_bounds": {
+    "256/hull_east": [
+      37,
+      83,
+      219,
+      187
+    ],
+    "256/turret_east": [
+      83,
+      84,
+      165,
+      164
+    ],
+    "256/barrel_east": [
+      156,
+      118,
+      202,
+      140
+    ],
+    "256/turret_full_east": [
+      83,
+      84,
+      202,
+      164
+    ],
+    "256/hull_north": [
+      80,
+      52,
+      176,
+      218
+    ],
+    "256/hull_south": [
+      80,
+      44,
+      176,
+      220
+    ],
+    "256/hull_west": [
+      37,
+      83,
+      219,
+      187
+    ],
+    "256/hull_east__leftHeadlight": [
+      196,
+      87,
+      211,
+      107
+    ],
+    "256/hull_east__rightHeadlight": [
+      196,
+      149,
+      211,
+      168
+    ],
+    "256/hull_east__leftHeadlight_destroyed": [
+      196,
+      87,
+      211,
+      107
+    ],
+    "256/hull_east__rightHeadlight_destroyed": [
+      196,
+      149,
+      211,
+      168
+    ],
+    "256/turret_east__commanderViewer": [
+      97,
+      148,
+      112,
+      164
+    ],
+    "256/turret_east__gunnerSight": [
+      128,
+      113,
+      148,
+      126
+    ],
+    "256/turret_east__commanderViewer_destroyed": [
+      97,
+      148,
+      112,
+      164
+    ],
+    "256/turret_east__gunnerSight_destroyed": [
+      128,
+      113,
+      148,
+      126
+    ],
+    "256/turret_full_east__commanderViewer": [
+      97,
+      148,
+      112,
+      164
+    ],
+    "256/turret_full_east__gunnerSight": [
+      128,
+      113,
+      148,
+      126
+    ],
+    "256/turret_full_east__commanderViewer_destroyed": [
+      97,
+      148,
+      112,
+      164
+    ],
+    "256/turret_full_east__gunnerSight_destroyed": [
+      128,
+      113,
+      148,
+      126
+    ],
+    "256/hull_north__leftHeadlight": [
+      86,
+      52,
+      102,
+      66
+    ],
+    "256/hull_north__rightHeadlight": [
+      153,
+      52,
+      170,
+      66
+    ],
+    "256/hull_north__leftHeadlight_destroyed": [
+      86,
+      52,
+      102,
+      66
+    ],
+    "256/hull_north__rightHeadlight_destroyed": [
+      153,
+      52,
+      170,
+      66
+    ],
+    "256/hull_south__leftHeadlight": [
+      154,
+      187,
+      170,
+      205
+    ],
+    "256/hull_south__rightHeadlight": [
+      86,
+      187,
+      103,
+      205
+    ],
+    "256/hull_south__leftHeadlight_destroyed": [
+      154,
+      187,
+      170,
+      205
+    ],
+    "256/hull_south__rightHeadlight_destroyed": [
+      86,
+      187,
+      103,
+      205
+    ],
+    "256/hull_west__leftHeadlight": [
+      45,
+      148,
+      60,
+      168
+    ],
+    "256/hull_west__rightHeadlight": [
+      45,
+      87,
+      60,
+      107
+    ],
+    "256/hull_west__leftHeadlight_destroyed": [
+      45,
+      148,
+      60,
+      168
+    ],
+    "256/hull_west__rightHeadlight_destroyed": [
+      45,
+      87,
+      60,
+      107
+    ],
+    "256/preview_east": [
+      37,
+      83,
+      219,
+      187
+    ],
+    "512/hull_east": [
+      77,
+      169,
+      435,
+      371
+    ],
+    "512/turret_east": [
+      168,
+      170,
+      327,
+      326
+    ],
+    "512/barrel_east": [
+      314,
+      239,
+      401,
+      278
+    ],
+    "512/turret_full_east": [
+      168,
+      170,
+      401,
+      326
+    ],
+    "512/hull_north": [
+      163,
+      106,
+      349,
+      433
+    ],
+    "512/hull_south": [
+      163,
+      90,
+      349,
+      437
+    ],
+    "512/hull_west": [
+      77,
+      169,
+      435,
+      371
+    ],
+    "512/hull_east__leftHeadlight": [
+      396,
+      177,
+      419,
+      211
+    ],
+    "512/hull_east__rightHeadlight": [
+      395,
+      300,
+      419,
+      333
+    ],
+    "512/hull_east__leftHeadlight_destroyed": [
+      396,
+      177,
+      419,
+      211
+    ],
+    "512/hull_east__rightHeadlight_destroyed": [
+      395,
+      300,
+      419,
+      333
+    ],
+    "512/turret_east__commanderViewer": [
+      196,
+      298,
+      222,
+      325
+    ],
+    "512/turret_east__gunnerSight": [
+      258,
+      229,
+      293,
+      249
+    ],
+    "512/turret_east__commanderViewer_destroyed": [
+      196,
+      298,
+      222,
+      325
+    ],
+    "512/turret_east__gunnerSight_destroyed": [
+      258,
+      229,
+      293,
+      249
+    ],
+    "512/turret_full_east__commanderViewer": [
+      196,
+      298,
+      222,
+      325
+    ],
+    "512/turret_full_east__gunnerSight": [
+      258,
+      229,
+      293,
+      249
+    ],
+    "512/turret_full_east__commanderViewer_destroyed": [
+      196,
+      298,
+      222,
+      325
+    ],
+    "512/turret_full_east__gunnerSight_destroyed": [
+      258,
+      229,
+      293,
+      249
+    ],
+    "512/hull_north__leftHeadlight": [
+      174,
+      107,
+      202,
+      129
+    ],
+    "512/hull_north__rightHeadlight": [
+      310,
+      107,
+      338,
+      129
+    ],
+    "512/hull_north__leftHeadlight_destroyed": [
+      174,
+      107,
+      202,
+      129
+    ],
+    "512/hull_north__rightHeadlight_destroyed": [
+      310,
+      107,
+      338,
+      129
+    ],
+    "512/hull_south__leftHeadlight": [
+      310,
+      377,
+      338,
+      407
+    ],
+    "512/hull_south__rightHeadlight": [
+      174,
+      377,
+      202,
+      407
+    ],
+    "512/hull_south__leftHeadlight_destroyed": [
+      310,
+      377,
+      338,
+      407
+    ],
+    "512/hull_south__rightHeadlight_destroyed": [
+      174,
+      377,
+      202,
+      407
+    ],
+    "512/hull_west__leftHeadlight": [
+      93,
+      299,
+      116,
+      334
+    ],
+    "512/hull_west__rightHeadlight": [
+      93,
+      177,
+      117,
+      212
+    ],
+    "512/hull_west__leftHeadlight_destroyed": [
+      93,
+      299,
+      116,
+      334
+    ],
+    "512/hull_west__rightHeadlight_destroyed": [
+      93,
+      177,
+      117,
+      212
+    ],
+    "512/preview_east": [
+      77,
+      169,
+      435,
+      371
+    ]
+  },
+  "model_sha256": "91d6112c854b8eee2acdb7031e0869eba4258fa2176e54d11e14ecd5aa10a842"
+}

@@ -1,0 +1,94 @@
+{
+  "source_sha256": "604f7df58465e311481b6f4a9e5e97606517e885a439899aaa7dddd787cf6f0a",
+  "source_faces": 2338,
+  "groups": 80,
+  "parts": 86,
+  "contacts": [
+    {
+      "lower": "hull",
+      "upper": "engine_deck",
+      "direction": "down"
+    },
+    {
+      "lower": "hull",
+      "upper": "driver_hatch",
+      "direction": "down"
+    },
+    {
+      "lower": "hull",
+      "upper": "cargo_hatch",
+      "direction": "down"
+    },
+    {
+      "lower": "turret",
+      "upper": "gunner_hatch",
+      "direction": "up"
+    },
+    {
+      "lower": "turret",
+      "upper": "isu_sight",
+      "direction": "up"
+    },
+    {
+      "lower": "turret",
+      "upper": "civ_guard",
+      "direction": "up"
+    },
+    {
+      "lower": "civ_guard",
+      "upper": "civ_head",
+      "direction": "down"
+    }
+  ],
+  "contact_levels": {
+    "engine_deck": 192,
+    "driver_hatch": 192,
+    "cargo_hatch": 192,
+    "gunner_hatch": 216,
+    "isu_sight": 216,
+    "civ_guard": 216,
+    "civ_head": 192
+  },
+  "damage_layers": [
+    {
+      "id": "commanderViewer",
+      "layer": "turret",
+      "parts": [
+        "civ_head",
+        "civ_head_glass"
+      ],
+      "label": "Commander's independent viewer (CIV)"
+    },
+    {
+      "id": "gunnerSight",
+      "layer": "turret",
+      "parts": [
+        "isu_sight",
+        "isu_sight_glass"
+      ],
+      "label": "Gunner's sight head"
+    },
+    {
+      "id": "leftHeadlight",
+      "layer": "hull",
+      "parts": [
+        "headlight_l",
+        "headlight_l_lens"
+      ],
+      "label": "Left headlight"
+    },
+    {
+      "id": "rightHeadlight",
+      "layer": "hull",
+      "parts": [
+        "headlight_r",
+        "headlight_r_lens"
+      ],
+      "label": "Right headlight"
+    }
+  ],
+  "animated_rigs": [
+    "TURRET_YAW",
+    "REAR_RAMP"
+  ]
+}
