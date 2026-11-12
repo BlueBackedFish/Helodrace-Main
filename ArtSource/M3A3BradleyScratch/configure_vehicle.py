@@ -1,9 +1,9 @@
 """Common-pipeline profile for the scratch-built M3A3-type IFV (`build_model.py`).
 
-Geometry is authored per role, so parts map by group name; the only face-level extraction is by
-material (glass / lens / bore / recess). Palette, contact directions, accents and damage keys follow
-the same rules as `ArtSource/M3A3Bradley` (RimThunder M2A3 ladder 216/192/168/144/120/96) so the two
-read as one fleet, but no source face IDs are involved. Writes vehicle.json, inventory.json,
+Geometry is authored per role, so parts map by group name; the only face-level extractions are by
+material (glass / lens / bore) and by wheel-tread normals (rubber). The ladder (216/192/168/144/120/96),
+contact rules, accents and damage keys match `ArtSource/M3A3Bradley`; part-to-part paint relations
+follow the WARNO M2A4 reference (see the constants below). No source face IDs are involved. Writes vehicle.json, inventory.json,
 analysis/ and mapping_report.json. Run `build_model.py` first.
 """
 from pathlib import Path
@@ -17,12 +17,18 @@ import pipeline as common
 from images import parts_atlas
 import build_model as geo
 
-HULL_TOP, TURRET_TOP = 216, 192
-TURRET_PLANES = {"roof": 192, "front_slope": 144, "side_slope": 120, "front_wall": 96, "side_wall": 96, "underside": 72}
+# Recolour pass 2 (2026-11-13): TAN kept, part relations follow the WARNO M2A4 reference
+# (`.texture/ref/m2a4-bradley-ifv-us-army-warno-mod`), measured on its camouflage-green base only:
+# turret paint = hull paint, mantlet/sights ~0.9, painted barrel ~0.75, painted road-wheel discs ~0.8
+# with dark rubber treads, light neutral steel tracks ~1.44. Directional ladder stays the house rule
+# (the reference is an unlit albedo texture and has no per-direction shading).
+HULL_TOP, TURRET_TOP = 216, 216
+TURRET_PLANES = {"roof": 216, "front_slope": 168, "side_slope": 144, "front_wall": 120, "side_wall": 120, "underside": 96}
 HULL_PLANES = {"front_wall": 120, "side_wall": 120}  # RimThunder M2A3 wall 0.58 of roof; skirts brighter (0.70)
 SKIRT_PLANES = {"side_wall": 144, "front_wall": 144, "side_slope": 168, "front_slope": 168}
-WHEEL = dict(role="rubber", mode="cylinder", cylinder_axis=[1, 0, 0], top=40, side=40, cap=96,
-             smooth={"low": 80, "high": 176, "signed": True})
+WHEEL = dict(role="paint", mode="flat", top=96)  # painted disc / hub; treads are split off as rubber
+TREAD_RADIUS = 0.14  # faces farther than this from the wheel axis with radial normals are the rubber tread
+TRACK_VALUE = 168     # reference steel track is light neutral grey, brighter than the paint
 TURRET_GROUPS = {"turret", "gunner_hatch", "gunner_hatch_handle", "commander_hatch", "commander_hatch_handle",
                  "isu_sight", "civ_guard", "civ_head", "smoke_launchers", "tow_launcher", "tow_mount", "tow_tubes",
                  "bustle_floor", "bustle_rack", "bustle_stowage", "antenna_bases"}
@@ -42,7 +48,7 @@ def settings(name, gid):
     if re.fullmatch(r"wheel_[lr]_\d\d|sprocket_[lr]|idler_[lr]|roller_[lr]_\d\d", name):
         return dict(WHEEL), None
     if name.startswith("track_"):
-        return dict(role="track", mode="flat", top=40), None
+        return dict(role="track", mode="flat", top=TRACK_VALUE), None
     if name.startswith("suspension_"):
         return dict(role="metal", mode="flat", top=72), None
     if name.startswith("skirt_"):
@@ -72,16 +78,18 @@ def settings(name, gid):
     if name == "turret":
         return dict(planes=dict(TURRET_PLANES)), None
     if name == "gunner_hatch":
-        return dict(role="hatch", mode="two_tone", side=120), ("turret", "up")
+        # Turret roof now sits at the ladder top like the hull roof -> hatches one step below.
+        return dict(role="hatch", mode="two_tone", side=144), ("turret", "down")
     if name == "commander_hatch":
-        # Domed hatch: RimThunder dome 221 below the 233 roof -> smooth dome up to the roof value.
+        # Domed hatch below the roof (RimThunder dome 221 < roof 233).
         return dict(role="hatch", mode="flat", top=168, smooth={"low": 144, "high": 192}), None
     if name == "isu_sight":
-        return dict(role="equipment", mode="two_tone", top=HULL_TOP, side=144), ("turret", "up")
+        # Reference sight housings are painted ~0.9 of the turret paint -> one step below.
+        return dict(role="equipment", mode="two_tone", side=144), ("turret", "down")
     if name == "civ_guard":
-        return dict(role="equipment", mode="two_tone", side=120), ("turret", "up")
+        return dict(role="equipment", mode="two_tone", side=120), ("turret", "down")
     if name == "civ_head":
-        return dict(role="equipment", mode="two_tone", side=144), ("civ_guard", "down")
+        return dict(role="equipment", mode="two_tone", side=144), ("civ_guard", "up")
     if name == "tow_launcher":
         return dict(role="equipment", mode="two_tone", top=HULL_TOP, side=144), None
     if name == "tow_mount":
@@ -89,18 +97,19 @@ def settings(name, gid):
     if name in {"tow_tubes", "bustle_floor"}:
         return dict(role="recess", mode="flat", top=40 if name == "tow_tubes" else 48), None
     if name == "bustle_rack":
-        return dict(role="equipment", mode="two_tone", top=168, side=120), None
+        return dict(role="equipment", mode="two_tone", top=192, side=144), None
     if name == "bustle_stowage":
         return dict(role="equipment", mode="two_tone", top=192, side=144), None
     if name == "antenna_bases":
         return dict(role="metal", mode="flat", top=96), None
     if name == "mantlet":
-        return dict(mode="two_tone", top=144, side=120), None
+        return dict(mode="two_tone", top=192, side=168), None  # reference mantlet ~0.9 of turret paint
     if name == "gun_shroud":
-        return dict(role="metal", mode="cylinder", cylinder_axis=[0, 1, 0], top=96, side=96, cap=72), None
+        # Reference gun is painted, ~0.75 of the turret paint (not bare dark metal).
+        return dict(mode="cylinder", cylinder_axis=[0, 1, 0], top=144, side=144, cap=120), None
     if name == "gun_barrel":
-        return dict(role="metal", mode="cylinder", cylinder_axis=[0, 1, 0], top=96, side=96, cap=72,
-                    smooth={"low": 72, "high": 144}), None
+        return dict(mode="cylinder", cylinder_axis=[0, 1, 0], top=144, side=144, cap=120,
+                    smooth={"low": 120, "high": 168}), None
     if name == "coax":
         return dict(role="metal", mode="flat", top=96), None
     raise ValueError(f"Unmapped authored group: {name}")
@@ -117,6 +126,23 @@ ACCENTS = {  # group -> (base group, reason)
     "commander_hatch_handle": ("turret", HANDLE),
     "smoke_launchers": ("turret", "Smoke grenade discharger highlight"),
 }
+
+
+def is_tread(model, face_id, axis_yz):
+    """Rubber tread: radial-facing faces on the outer rim of an X-axis wheel (discs and hub stay paint)."""
+    import numpy as np
+    co = np.array([model["vertices"][v] for v in model["faces"][face_id]["vertices"]])
+    normal = np.sum(np.cross(co[1:-1]-co[0], co[2:]-co[0]), axis=0)
+    normal /= max(np.linalg.norm(normal), 1e-12)
+    if abs(normal[0]) > .5:
+        return False
+    return float(np.mean(np.linalg.norm(co[:, 1:]-axis_yz, axis=1))) > TREAD_RADIUS
+
+
+def wheel_axis(model, group):
+    import numpy as np
+    co = np.array([model["vertices"][v] for f in group["faces"] for v in model["faces"][f]["vertices"]])
+    return (co[:, 1:].min(axis=0)+co[:, 1:].max(axis=0))/2
 
 
 def configure():
@@ -158,6 +184,13 @@ def configure():
             role, value = SUBSETS[material]
             parts.append({"id": f"{name}_{material}", "source_group": group["id"], "label": f"{name}_{material}",
                           "faces": sorted(faces), "role": role, "mode": "flat", "layer": layer, "top": value,
+                          "confirmed": True})
+        if part.get("role") == "paint" and part.get("mode") == "flat" and re.fullmatch(
+                r"wheel_[lr]_\d\d|sprocket_[lr]|idler_[lr]|roller_[lr]_\d\d", name):
+            axis_yz = wheel_axis(model, group)
+            tread = [f for f in group["faces"] if is_tread(model, f, axis_yz)]
+            parts.append({"id": f"{name}_tread", "source_group": group["id"], "label": f"{name}_tread",
+                          "faces": tread, "role": "rubber", "mode": "flat", "layer": layer, "top": 40,
                           "confirmed": True})
 
     def owned(*names):

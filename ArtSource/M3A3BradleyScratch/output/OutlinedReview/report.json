@@ -1,10 +1,10 @@
 {
-  "source_report_sha256": "b7c0139ac327288d91afabd6d2abbf3471f6739489a82b81ede5e30373e686bf",
+  "source_report_sha256": "9d048a6a1b8be9db552ee70fea33233a2a65c4c2b8d1a07ed5d13214b92b6a5f",
   "source_layer_sha256": {
-    "hull_east": "3713dc733167a35029922a6aa1651057a4a4d20cd5664bcdfd6d69ae6a375ba0",
-    "turret_east": "0ea7af67e073726c5d5ce77b6678c6a0ac3b50ec83352bc5d24050b2bb8e357e",
-    "barrel_east": "58a984c6237b0b8c4b1a0cfe29fe72fd9679ad6fafa5c592358f581d2a7fd1b3",
-    "turret_full_east": "2c2cd5f5b400d81f152d545c258a17209ae04b46a96a05ed465dde3d06417224"
+    "hull_east": "b3c77f9bd1b1d9d402749353aff5fd654206e63b4a4d63a1179488204807c5a9",
+    "turret_east": "f770f6635dbfe74f737990eac07a249126f309c2f2405ab9b1377601f05958f2",
+    "barrel_east": "b8a004e1ec5cb6d4330dda78bdf4d02fb70008add1e4d03312fbbadc74f8b980",
+    "turret_full_east": "03305102de33959cd5ad4ab6cc7f1c42e9e352c3a8450f221527b57b9ad5bfed"
   },
   "outline_width_at_256": 2,
   "color": [

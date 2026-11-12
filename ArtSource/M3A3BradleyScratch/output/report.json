@@ -15,7 +15,7 @@
       "sha256": "604f7df58465e311481b6f4a9e5e97606517e885a439899aaa7dddd787cf6f0a"
     }
   },
-  "profile_sha256": "13b468a140b360d21b49373b6944696fc62c26d7a35ffdaa19929137caf19e89",
+  "profile_sha256": "7dc0f6b002f1387151a0fddb0bdd1cb362a599de8669e2f83a76a11fe1038df8",
   "style_sha256": "3f35d1038f33ed37500e539a493f43b061e32d59d297a44715e068f466388aac",
   "source_faces": 2338,
   "preserved_faces": 2338,
@@ -80,7 +80,7 @@
       "part": "gunner_hatch_handle",
       "over": "gunner_hatch",
       "value": 240,
-      "gap_over_base": 24,
+      "gap_over_base": 48,
       "area": 0.03532797936350107,
       "reason": "Hatch / door grab handle highlight"
     },
@@ -88,7 +88,7 @@
       "part": "commander_hatch_handle",
       "over": "turret",
       "value": 240,
-      "gap_over_base": 48,
+      "gap_over_base": 24,
       "area": 0.03992796689271927,
       "reason": "Hatch / door grab handle highlight"
     },
@@ -96,7 +96,7 @@
       "part": "smoke_launchers",
       "over": "turret",
       "value": 240,
-      "gap_over_base": 48,
+      "gap_over_base": 24,
       "area": 0.9491482064622687,
       "reason": "Smoke grenade discharger highlight"
     }
@@ -106,7 +106,7 @@
   "source_coordinates_preserved": true,
   "unlit_glb": true,
   "glb_animation_count": 2,
-  "mesh_count": 86,
+  "mesh_count": 108,
   "paint": {
     "hull": {
       "top": 216,
@@ -765,58 +765,55 @@
       "source_faces": 7
     },
     "track_l": {
-      "top": 40,
+      "top": 168,
       "luminances": {
-        "40": 174
+        "168": 174
       },
       "smooth": null,
       "area": 18.008160493336618,
       "upward_min_max": [
-        40,
-        40
+        168,
+        168
       ],
       "wall_min_max": [
-        40,
-        40
+        168,
+        168
       ],
       "source_faces": 174
     },
     "wheel_l_01": {
-      "top": 40,
+      "top": 96,
       "luminances": {
-        "140": 4,
-        "128": 12,
-        "169": 4,
-        "174": 5,
-        "176": 2,
-        "162": 4,
-        "152": 4,
-        "87": 4,
-        "94": 4,
-        "116": 4,
-        "104": 4,
-        "82": 5,
-        "80": 2,
-        "168": 2,
-        "151": 2,
-        "105": 2,
-        "88": 2
+        "96": 18
       },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 1.977853748947382,
+      "smooth": null,
+      "area": 1.4327765684574842,
       "upward_min_max": [
-        168.1527705192566,
-        175.58937740325928
+        96,
+        96
       ],
       "wall_min_max": [
-        128.0,
-        161.6507797241211
+        96,
+        96
       ],
-      "source_faces": 66
+      "source_faces": 18
+    },
+    "wheel_l_01_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 48
+      },
+      "smooth": null,
+      "area": 0.5450771804898977,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 48
     },
     "suspension_l": {
       "top": 72,
@@ -836,404 +833,386 @@
       "source_faces": 36
     },
     "wheel_l_02": {
-      "top": 40,
+      "top": 96,
       "luminances": {
-        "140": 4,
-        "128": 12,
-        "87": 4,
-        "169": 4,
-        "174": 5,
-        "176": 2,
-        "162": 4,
-        "152": 4,
-        "94": 4,
-        "104": 4,
-        "116": 4,
-        "82": 5,
-        "80": 2,
-        "168": 2,
-        "151": 2,
-        "105": 2,
-        "88": 2
+        "96": 18
       },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 1.9778535664081573,
+      "smooth": null,
+      "area": 1.4327764064073563,
       "upward_min_max": [
-        168.1527805328369,
-        175.58938026428223
+        96,
+        96
       ],
       "wall_min_max": [
-        128.0,
-        161.6507740020752
+        96,
+        96
       ],
-      "source_faces": 66
+      "source_faces": 18
+    },
+    "wheel_l_02_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 48
+      },
+      "smooth": null,
+      "area": 0.5450771600008011,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 48
     },
     "wheel_l_03": {
-      "top": 40,
+      "top": 96,
       "luminances": {
-        "128": 12,
-        "140": 4,
-        "152": 4,
-        "169": 4,
-        "174": 5,
-        "176": 2,
-        "162": 4,
-        "87": 4,
-        "94": 4,
-        "116": 4,
-        "104": 4,
-        "82": 5,
-        "80": 2,
-        "168": 2,
-        "151": 2,
-        "105": 2,
-        "88": 2
+        "96": 18
       },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 1.977853494696319,
+      "smooth": null,
+      "area": 1.4327763505280018,
       "upward_min_max": [
-        168.1527762413025,
-        175.58937740325928
+        96,
+        96
       ],
       "wall_min_max": [
-        128.0,
-        161.65076684951782
+        96,
+        96
       ],
-      "source_faces": 66
+      "source_faces": 18
+    },
+    "wheel_l_03_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 48
+      },
+      "smooth": null,
+      "area": 0.5450771441683173,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 48
     },
     "wheel_l_04": {
-      "top": 40,
+      "top": 96,
       "luminances": {
-        "128": 12,
-        "140": 4,
-        "152": 4,
-        "169": 4,
-        "174": 5,
-        "176": 2,
-        "162": 4,
-        "87": 4,
-        "94": 4,
-        "116": 4,
-        "104": 4,
-        "82": 5,
-        "80": 2,
-        "168": 2,
-        "151": 2,
-        "105": 2,
-        "88": 2
+        "96": 18
       },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 1.9778534807264805,
+      "smooth": null,
+      "area": 1.43277632817626,
       "upward_min_max": [
-        168.1527805328369,
-        175.58938312530518
+        96,
+        96
       ],
       "wall_min_max": [
-        128.0,
-        161.65076684951782
+        96,
+        96
       ],
-      "source_faces": 66
+      "source_faces": 18
+    },
+    "wheel_l_04_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 48
+      },
+      "smooth": null,
+      "area": 0.5450771525502205,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 48
     },
     "wheel_l_05": {
-      "top": 40,
+      "top": 96,
       "luminances": {
-        "128": 12,
-        "140": 4,
-        "169": 4,
-        "174": 5,
-        "176": 2,
-        "152": 4,
-        "116": 4,
-        "87": 4,
-        "94": 4,
-        "104": 4,
-        "162": 4,
-        "82": 5,
-        "80": 2,
-        "168": 2,
-        "151": 2,
-        "105": 2,
-        "88": 2
+        "96": 18
       },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 1.977853536605835,
+      "smooth": null,
+      "area": 1.4327763672918081,
       "upward_min_max": [
-        168.15277481079102,
-        175.58937883377075
+        96,
+        96
       ],
       "wall_min_max": [
-        128.0,
-        161.65077257156372
+        96,
+        96
       ],
-      "source_faces": 66
+      "source_faces": 18
+    },
+    "wheel_l_05_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 48
+      },
+      "smooth": null,
+      "area": 0.5450771693140268,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 48
     },
     "wheel_l_06": {
-      "top": 40,
+      "top": 96,
       "luminances": {
-        "128": 12,
-        "140": 4,
-        "169": 4,
-        "174": 5,
-        "176": 2,
-        "152": 4,
-        "116": 4,
-        "87": 4,
-        "94": 4,
-        "104": 4,
-        "162": 4,
-        "82": 5,
-        "80": 2,
-        "168": 2,
-        "151": 2,
-        "105": 2,
-        "88": 2
+        "96": 18
       },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 1.9778533978387713,
+      "smooth": null,
+      "area": 1.4327762480825186,
       "upward_min_max": [
-        168.1527705192566,
-        175.5893816947937
+        96,
+        96
       ],
       "wall_min_max": [
-        128.0,
-        161.65077257156372
+        96,
+        96
       ],
-      "source_faces": 66
+      "source_faces": 18
+    },
+    "wheel_l_06_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 48
+      },
+      "smooth": null,
+      "area": 0.5450771497562528,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 48
     },
     "sprocket_l": {
-      "top": 40,
+      "top": 96,
       "luminances": {
-        "128": 8,
-        "140": 2,
-        "169": 2,
-        "174": 3,
-        "176": 1,
-        "82": 3,
-        "87": 2,
-        "94": 2,
-        "116": 2,
-        "104": 2,
-        "80": 1,
-        "152": 2,
-        "162": 2,
-        "151": 2,
-        "105": 2,
-        "88": 2,
-        "168": 2
+        "96": 16
       },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 1.6198639404028654,
+      "smooth": null,
+      "area": 0.9996038265526295,
       "upward_min_max": [
-        168.1527876853943,
-        175.58937454223633
+        96,
+        96
       ],
       "wall_min_max": [
-        128.0,
-        161.65077829360962
+        96,
+        96
       ],
-      "source_faces": 40
+      "source_faces": 16
+    },
+    "sprocket_l_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 24
+      },
+      "smooth": null,
+      "area": 0.6202601138502359,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 24
     },
     "idler_l": {
-      "top": 40,
+      "top": 96,
       "luminances": {
-        "128": 8,
-        "174": 3,
-        "116": 2,
-        "176": 1,
-        "169": 2,
-        "152": 2,
-        "140": 2,
-        "162": 2,
-        "104": 2,
-        "82": 3,
-        "80": 1,
-        "87": 2,
-        "94": 2,
-        "168": 2,
-        "151": 2,
-        "105": 2,
-        "88": 2
+        "96": 16
       },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 1.3488710783421993,
+      "smooth": null,
+      "area": 0.7737207803875208,
       "upward_min_max": [
-        168.15276622772217,
-        175.58934020996094
+        96,
+        96
       ],
       "wall_min_max": [
-        128.0,
-        161.65075397491455
+        96,
+        96
       ],
-      "source_faces": 40
+      "source_faces": 16
+    },
+    "idler_l_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 24
+      },
+      "smooth": null,
+      "area": 0.5751502979546785,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 24
     },
     "roller_l_01": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "smooth": null,
+      "area": 0.1471037194132805,
+      "upward_min_max": null,
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 2
+    },
+    "roller_l_01_tread": {
       "top": 40,
       "luminances": {
-        "161": 2,
-        "128": 4,
-        "146": 2,
-        "171": 2,
-        "175": 1,
-        "85": 2,
-        "110": 2,
-        "95": 2,
-        "81": 1
+        "40": 16
       },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 0.4180453270673752,
+      "smooth": null,
+      "area": 0.2709416076540947,
       "upward_min_max": [
-        171.49405908584595,
-        175.07768201828003
+        40,
+        40
       ],
       "wall_min_max": [
-        128.0,
-        161.28898191452026
+        40,
+        40
       ],
-      "source_faces": 18
+      "source_faces": 16
     },
     "roller_l_02": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "smooth": null,
+      "area": 0.14710372686386108,
+      "upward_min_max": null,
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 2
+    },
+    "roller_l_02_tread": {
       "top": 40,
       "luminances": {
-        "161": 2,
-        "128": 4,
-        "146": 2,
-        "110": 2,
-        "171": 2,
-        "175": 1,
-        "95": 2,
-        "81": 1,
-        "85": 2
+        "40": 16
       },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 0.41804533638060093,
+      "smooth": null,
+      "area": 0.27094160951673985,
       "upward_min_max": [
-        171.49405908584595,
-        175.07768058776855
+        40,
+        40
       ],
       "wall_min_max": [
-        128.0,
-        161.28897762298584
+        40,
+        40
       ],
-      "source_faces": 18
+      "source_faces": 16
     },
     "roller_l_03": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "smooth": null,
+      "area": 0.1471037194132805,
+      "upward_min_max": null,
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 2
+    },
+    "roller_l_03_tread": {
       "top": 40,
       "luminances": {
-        "161": 2,
-        "128": 4,
-        "146": 2,
-        "171": 2,
-        "175": 1,
-        "85": 2,
-        "110": 2,
-        "95": 2,
-        "81": 1
+        "40": 16
       },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 0.4180453270673752,
+      "smooth": null,
+      "area": 0.2709416076540947,
       "upward_min_max": [
-        171.49405908584595,
-        175.07768201828003
+        40,
+        40
       ],
       "wall_min_max": [
-        128.0,
-        161.28898334503174
+        40,
+        40
       ],
-      "source_faces": 18
+      "source_faces": 16
     },
     "track_r": {
-      "top": 40,
+      "top": 168,
       "luminances": {
-        "40": 174
+        "168": 174
       },
       "smooth": null,
       "area": 18.008160493336618,
       "upward_min_max": [
-        40,
-        40
+        168,
+        168
       ],
       "wall_min_max": [
-        40,
-        40
+        168,
+        168
       ],
       "source_faces": 174
     },
     "wheel_r_01": {
-      "top": 40,
+      "top": 96,
       "luminances": {
-        "140": 4,
-        "128": 12,
-        "169": 4,
-        "174": 5,
-        "176": 2,
-        "162": 4,
-        "152": 4,
-        "87": 4,
-        "94": 4,
-        "116": 4,
-        "104": 4,
-        "82": 5,
-        "80": 2,
-        "168": 2,
-        "151": 2,
-        "105": 2,
-        "88": 2
+        "96": 18
       },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 1.977853748947382,
+      "smooth": null,
+      "area": 1.4327765684574842,
       "upward_min_max": [
-        168.1527705192566,
-        175.58937740325928
+        96,
+        96
       ],
       "wall_min_max": [
-        128.0,
-        161.6507797241211
+        96,
+        96
       ],
-      "source_faces": 66
+      "source_faces": 18
+    },
+    "wheel_r_01_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 48
+      },
+      "smooth": null,
+      "area": 0.5450771804898977,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 48
     },
     "suspension_r": {
       "top": 72,
@@ -1253,387 +1232,372 @@
       "source_faces": 36
     },
     "wheel_r_02": {
-      "top": 40,
+      "top": 96,
       "luminances": {
-        "140": 4,
-        "128": 12,
-        "87": 4,
-        "169": 4,
-        "174": 5,
-        "176": 2,
-        "162": 4,
-        "152": 4,
-        "94": 4,
-        "104": 4,
-        "116": 4,
-        "82": 5,
-        "80": 2,
-        "168": 2,
-        "151": 2,
-        "105": 2,
-        "88": 2
-      },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 1.9778535664081573,
-      "upward_min_max": [
-        168.1527805328369,
-        175.58938026428223
-      ],
-      "wall_min_max": [
-        128.0,
-        161.6507740020752
-      ],
-      "source_faces": 66
-    },
-    "wheel_r_03": {
-      "top": 40,
-      "luminances": {
-        "128": 12,
-        "140": 4,
-        "152": 4,
-        "169": 4,
-        "174": 5,
-        "176": 2,
-        "162": 4,
-        "87": 4,
-        "94": 4,
-        "116": 4,
-        "104": 4,
-        "82": 5,
-        "80": 2,
-        "168": 2,
-        "151": 2,
-        "105": 2,
-        "88": 2
-      },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 1.977853494696319,
-      "upward_min_max": [
-        168.1527762413025,
-        175.58937740325928
-      ],
-      "wall_min_max": [
-        128.0,
-        161.65076684951782
-      ],
-      "source_faces": 66
-    },
-    "wheel_r_04": {
-      "top": 40,
-      "luminances": {
-        "128": 12,
-        "140": 4,
-        "87": 4,
-        "152": 4,
-        "169": 4,
-        "174": 5,
-        "176": 2,
-        "162": 4,
-        "94": 4,
-        "104": 4,
-        "116": 4,
-        "82": 5,
-        "80": 2,
-        "168": 2,
-        "151": 2,
-        "105": 2,
-        "88": 2
-      },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 1.9778534807264805,
-      "upward_min_max": [
-        168.1527805328369,
-        175.58938312530518
-      ],
-      "wall_min_max": [
-        128.0,
-        161.65076684951782
-      ],
-      "source_faces": 66
-    },
-    "wheel_r_05": {
-      "top": 40,
-      "luminances": {
-        "128": 12,
-        "140": 4,
-        "169": 4,
-        "174": 5,
-        "176": 2,
-        "152": 4,
-        "116": 4,
-        "87": 4,
-        "94": 4,
-        "104": 4,
-        "162": 4,
-        "82": 5,
-        "80": 2,
-        "168": 2,
-        "151": 2,
-        "105": 2,
-        "88": 2
-      },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 1.977853536605835,
-      "upward_min_max": [
-        168.15277481079102,
-        175.58937883377075
-      ],
-      "wall_min_max": [
-        128.0,
-        161.65077257156372
-      ],
-      "source_faces": 66
-    },
-    "wheel_r_06": {
-      "top": 40,
-      "luminances": {
-        "128": 12,
-        "140": 4,
-        "169": 4,
-        "174": 5,
-        "176": 2,
-        "152": 4,
-        "116": 4,
-        "87": 4,
-        "94": 4,
-        "104": 4,
-        "162": 4,
-        "82": 5,
-        "80": 2,
-        "168": 2,
-        "151": 2,
-        "105": 2,
-        "88": 2
-      },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 1.9778533978387713,
-      "upward_min_max": [
-        168.1527705192566,
-        175.5893816947937
-      ],
-      "wall_min_max": [
-        128.0,
-        161.65077257156372
-      ],
-      "source_faces": 66
-    },
-    "sprocket_r": {
-      "top": 40,
-      "luminances": {
-        "128": 8,
-        "140": 2,
-        "169": 2,
-        "174": 3,
-        "176": 1,
-        "82": 3,
-        "87": 2,
-        "94": 2,
-        "116": 2,
-        "104": 2,
-        "80": 1,
-        "152": 2,
-        "162": 2,
-        "151": 2,
-        "105": 2,
-        "88": 2,
-        "168": 2
-      },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 1.6198639404028654,
-      "upward_min_max": [
-        168.1527876853943,
-        175.58937454223633
-      ],
-      "wall_min_max": [
-        128.0,
-        161.65077829360962
-      ],
-      "source_faces": 40
-    },
-    "idler_r": {
-      "top": 40,
-      "luminances": {
-        "128": 8,
-        "174": 3,
-        "116": 2,
-        "176": 1,
-        "169": 2,
-        "152": 2,
-        "140": 2,
-        "162": 2,
-        "104": 2,
-        "82": 3,
-        "80": 1,
-        "87": 2,
-        "94": 2,
-        "168": 2,
-        "151": 2,
-        "105": 2,
-        "88": 2
-      },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 1.3488710783421993,
-      "upward_min_max": [
-        168.15276622772217,
-        175.58934020996094
-      ],
-      "wall_min_max": [
-        128.0,
-        161.65075397491455
-      ],
-      "source_faces": 40
-    },
-    "roller_r_01": {
-      "top": 40,
-      "luminances": {
-        "161": 2,
-        "128": 4,
-        "146": 2,
-        "171": 2,
-        "175": 1,
-        "85": 2,
-        "110": 2,
-        "95": 2,
-        "81": 1
-      },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 0.4180453270673752,
-      "upward_min_max": [
-        171.49405908584595,
-        175.07768201828003
-      ],
-      "wall_min_max": [
-        128.0,
-        161.28898191452026
-      ],
-      "source_faces": 18
-    },
-    "roller_r_02": {
-      "top": 40,
-      "luminances": {
-        "161": 2,
-        "128": 4,
-        "146": 2,
-        "110": 2,
-        "171": 2,
-        "175": 1,
-        "95": 2,
-        "81": 1,
-        "85": 2
-      },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 0.41804533638060093,
-      "upward_min_max": [
-        171.49405908584595,
-        175.07768058776855
-      ],
-      "wall_min_max": [
-        128.0,
-        161.28897762298584
-      ],
-      "source_faces": 18
-    },
-    "roller_r_03": {
-      "top": 40,
-      "luminances": {
-        "161": 2,
-        "128": 4,
-        "146": 2,
-        "171": 2,
-        "175": 1,
-        "85": 2,
-        "110": 2,
-        "95": 2,
-        "81": 1
-      },
-      "smooth": {
-        "low": 80,
-        "high": 176,
-        "signed": true
-      },
-      "area": 0.4180453270673752,
-      "upward_min_max": [
-        171.49405908584595,
-        175.07768201828003
-      ],
-      "wall_min_max": [
-        128.0,
-        161.28898334503174
-      ],
-      "source_faces": 18
-    },
-    "turret": {
-      "top": 192,
-      "luminances": {
-        "96": 14,
-        "120": 9,
-        "144": 5,
-        "72": 1,
-        "192": 1
+        "96": 18
       },
       "smooth": null,
-      "area": 13.012485608458519,
+      "area": 1.4327764064073563,
       "upward_min_max": [
-        192,
-        192
+        96,
+        96
       ],
       "wall_min_max": [
         96,
-        144
+        96
       ],
-      "source_faces": 30
+      "source_faces": 18
     },
-    "gunner_hatch": {
-      "top": 216,
+    "wheel_r_02_tread": {
+      "top": 40,
       "luminances": {
-        "120": 15,
-        "216": 7
+        "40": 48
       },
       "smooth": null,
-      "area": 0.9685849538072944,
+      "area": 0.5450771600008011,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 48
+    },
+    "wheel_r_03": {
+      "top": 96,
+      "luminances": {
+        "96": 18
+      },
+      "smooth": null,
+      "area": 1.4327763505280018,
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 18
+    },
+    "wheel_r_03_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 48
+      },
+      "smooth": null,
+      "area": 0.5450771441683173,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 48
+    },
+    "wheel_r_04": {
+      "top": 96,
+      "luminances": {
+        "96": 18
+      },
+      "smooth": null,
+      "area": 1.43277632817626,
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 18
+    },
+    "wheel_r_04_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 48
+      },
+      "smooth": null,
+      "area": 0.5450771525502205,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 48
+    },
+    "wheel_r_05": {
+      "top": 96,
+      "luminances": {
+        "96": 18
+      },
+      "smooth": null,
+      "area": 1.4327763672918081,
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 18
+    },
+    "wheel_r_05_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 48
+      },
+      "smooth": null,
+      "area": 0.5450771693140268,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 48
+    },
+    "wheel_r_06": {
+      "top": 96,
+      "luminances": {
+        "96": 18
+      },
+      "smooth": null,
+      "area": 1.4327762480825186,
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 18
+    },
+    "wheel_r_06_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 48
+      },
+      "smooth": null,
+      "area": 0.5450771497562528,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 48
+    },
+    "sprocket_r": {
+      "top": 96,
+      "luminances": {
+        "96": 16
+      },
+      "smooth": null,
+      "area": 0.9996038265526295,
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 16
+    },
+    "sprocket_r_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 24
+      },
+      "smooth": null,
+      "area": 0.6202601138502359,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 24
+    },
+    "idler_r": {
+      "top": 96,
+      "luminances": {
+        "96": 16
+      },
+      "smooth": null,
+      "area": 0.7737207803875208,
+      "upward_min_max": [
+        96,
+        96
+      ],
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 16
+    },
+    "idler_r_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 24
+      },
+      "smooth": null,
+      "area": 0.5751502979546785,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 24
+    },
+    "roller_r_01": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "smooth": null,
+      "area": 0.1471037194132805,
+      "upward_min_max": null,
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 2
+    },
+    "roller_r_01_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 16
+      },
+      "smooth": null,
+      "area": 0.2709416076540947,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 16
+    },
+    "roller_r_02": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "smooth": null,
+      "area": 0.14710372686386108,
+      "upward_min_max": null,
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 2
+    },
+    "roller_r_02_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 16
+      },
+      "smooth": null,
+      "area": 0.27094160951673985,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 16
+    },
+    "roller_r_03": {
+      "top": 96,
+      "luminances": {
+        "96": 2
+      },
+      "smooth": null,
+      "area": 0.1471037194132805,
+      "upward_min_max": null,
+      "wall_min_max": [
+        96,
+        96
+      ],
+      "source_faces": 2
+    },
+    "roller_r_03_tread": {
+      "top": 40,
+      "luminances": {
+        "40": 16
+      },
+      "smooth": null,
+      "area": 0.2709416076540947,
+      "upward_min_max": [
+        40,
+        40
+      ],
+      "wall_min_max": [
+        40,
+        40
+      ],
+      "source_faces": 16
+    },
+    "turret": {
+      "top": 216,
+      "luminances": {
+        "120": 14,
+        "144": 9,
+        "168": 5,
+        "96": 1,
+        "216": 1
+      },
+      "smooth": null,
+      "area": 13.012485608458519,
       "upward_min_max": [
         216,
         216
       ],
       "wall_min_max": [
         120,
-        216
+        168
+      ],
+      "source_faces": 30
+    },
+    "gunner_hatch": {
+      "top": 192,
+      "luminances": {
+        "144": 15,
+        "192": 7
+      },
+      "smooth": null,
+      "area": 0.9685849538072944,
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        144,
+        192
       ],
       "source_faces": 22
     },
@@ -1700,20 +1664,20 @@
       "source_faces": 6
     },
     "isu_sight": {
-      "top": 216,
+      "top": 192,
       "luminances": {
         "144": 5,
-        "216": 2
+        "192": 2
       },
       "smooth": null,
       "area": 0.6100349482148886,
       "upward_min_max": [
-        216,
-        216
+        192,
+        192
       ],
       "wall_min_max": [
         144,
-        216
+        192
       ],
       "source_faces": 7
     },
@@ -1732,16 +1696,16 @@
       "source_faces": 1
     },
     "civ_guard": {
-      "top": 216,
+      "top": 192,
       "luminances": {
         "120": 9,
-        "216": 1
+        "192": 1
       },
       "smooth": null,
       "area": 1.1338647305965424,
       "upward_min_max": [
-        216,
-        216
+        192,
+        192
       ],
       "wall_min_max": [
         120,
@@ -1750,20 +1714,20 @@
       "source_faces": 10
     },
     "civ_head": {
-      "top": 192,
+      "top": 216,
       "luminances": {
         "144": 5,
-        "192": 2
+        "216": 2
       },
       "smooth": null,
       "area": 0.49300171434879303,
       "upward_min_max": [
-        192,
-        192
+        216,
+        216
       ],
       "wall_min_max": [
         144,
-        192
+        216
       ],
       "source_faces": 7
     },
@@ -1870,20 +1834,20 @@
       "source_faces": 7
     },
     "bustle_rack": {
-      "top": 168,
+      "top": 192,
       "luminances": {
-        "120": 20,
-        "168": 4
+        "144": 20,
+        "192": 4
       },
       "smooth": null,
       "area": 2.81120621599257,
       "upward_min_max": [
-        168,
-        168
+        192,
+        192
       ],
       "wall_min_max": [
-        120,
-        120
+        144,
+        144
       ],
       "source_faces": 24
     },
@@ -1923,13 +1887,31 @@
       "source_faces": 24
     },
     "mantlet": {
-      "top": 144,
+      "top": 192,
       "luminances": {
-        "120": 5,
-        "144": 2
+        "168": 5,
+        "192": 2
       },
       "smooth": null,
       "area": 0.9689518734812737,
+      "upward_min_max": [
+        192,
+        192
+      ],
+      "wall_min_max": [
+        168,
+        192
+      ],
+      "source_faces": 7
+    },
+    "gun_shroud": {
+      "top": 144,
+      "luminances": {
+        "144": 16,
+        "120": 2
+      },
+      "smooth": null,
+      "area": 0.19831750448793173,
       "upward_min_max": [
         144,
         144
@@ -1938,48 +1920,30 @@
         120,
         144
       ],
-      "source_faces": 7
-    },
-    "gun_shroud": {
-      "top": 96,
-      "luminances": {
-        "96": 16,
-        "72": 2
-      },
-      "smooth": null,
-      "area": 0.19831750448793173,
-      "upward_min_max": [
-        96,
-        96
-      ],
-      "wall_min_max": [
-        72,
-        96
-      ],
       "source_faces": 18
     },
     "gun_barrel": {
-      "top": 96,
+      "top": 144,
       "luminances": {
-        "79": 4,
-        "99": 4,
-        "122": 4,
-        "137": 4,
-        "72": 18,
-        "143": 2
+        "125": 4,
+        "138": 4,
+        "153": 4,
+        "163": 4,
+        "120": 18,
+        "167": 2
       },
       "smooth": {
-        "low": 72,
-        "high": 144
+        "low": 120,
+        "high": 168
       },
       "area": 0.30695094680413604,
       "upward_min_max": [
-        137.2411937713623,
-        142.616623878479
+        163.4941291809082,
+        167.07774925231934
       ],
       "wall_min_max": [
-        72.0,
-        121.93355226516724
+        120.0,
+        153.28903484344482
       ],
       "source_faces": 36
     },
@@ -2037,26 +2001,26 @@
     {
       "lower": "turret",
       "upper": "gunner_hatch",
-      "direction": "up",
-      "actual_upward_gap": 24
+      "direction": "down",
+      "actual_downward_gap": 24
     },
     {
       "lower": "turret",
       "upper": "isu_sight",
-      "direction": "up",
-      "actual_upward_gap": 24
+      "direction": "down",
+      "actual_downward_gap": 24
     },
     {
       "lower": "turret",
       "upper": "civ_guard",
-      "direction": "up",
-      "actual_upward_gap": 24
+      "direction": "down",
+      "actual_downward_gap": 24
     },
     {
       "lower": "civ_guard",
       "upper": "civ_head",
-      "direction": "down",
-      "actual_downward_gap": 24
+      "direction": "up",
+      "actual_upward_gap": 24
     }
   ],
   "grids": {
@@ -2527,53 +2491,75 @@
         "37": "rear_stowage_r",
         "38": "track_l",
         "39": "wheel_l_01",
-        "40": "suspension_l",
-        "41": "wheel_l_02",
-        "42": "wheel_l_03",
-        "43": "wheel_l_04",
-        "44": "wheel_l_05",
-        "45": "wheel_l_06",
-        "46": "sprocket_l",
-        "47": "idler_l",
-        "48": "roller_l_01",
-        "49": "roller_l_02",
-        "50": "roller_l_03",
-        "51": "track_r",
-        "52": "wheel_r_01",
-        "53": "suspension_r",
-        "54": "wheel_r_02",
-        "55": "wheel_r_03",
-        "56": "wheel_r_04",
-        "57": "wheel_r_05",
-        "58": "wheel_r_06",
-        "59": "sprocket_r",
-        "60": "idler_r",
-        "61": "roller_r_01",
-        "62": "roller_r_02",
-        "63": "roller_r_03",
-        "64": "turret",
-        "65": "gunner_hatch",
-        "66": "gunner_hatch_handle",
-        "67": "commander_hatch",
-        "68": "commander_hatch_handle",
-        "69": "isu_sight",
-        "70": "isu_sight_glass",
-        "71": "civ_guard",
-        "72": "civ_head",
-        "73": "civ_head_glass",
-        "74": "smoke_launchers",
-        "75": "tow_launcher",
-        "76": "tow_mount",
-        "77": "tow_tubes",
-        "78": "bustle_floor",
-        "79": "bustle_rack",
-        "80": "bustle_stowage",
-        "81": "antenna_bases",
-        "82": "mantlet",
-        "83": "gun_shroud",
-        "84": "gun_barrel",
-        "85": "gun_barrel_bore",
-        "86": "coax"
+        "40": "wheel_l_01_tread",
+        "41": "suspension_l",
+        "42": "wheel_l_02",
+        "43": "wheel_l_02_tread",
+        "44": "wheel_l_03",
+        "45": "wheel_l_03_tread",
+        "46": "wheel_l_04",
+        "47": "wheel_l_04_tread",
+        "48": "wheel_l_05",
+        "49": "wheel_l_05_tread",
+        "50": "wheel_l_06",
+        "51": "wheel_l_06_tread",
+        "52": "sprocket_l",
+        "53": "sprocket_l_tread",
+        "54": "idler_l",
+        "55": "idler_l_tread",
+        "56": "roller_l_01",
+        "57": "roller_l_01_tread",
+        "58": "roller_l_02",
+        "59": "roller_l_02_tread",
+        "60": "roller_l_03",
+        "61": "roller_l_03_tread",
+        "62": "track_r",
+        "63": "wheel_r_01",
+        "64": "wheel_r_01_tread",
+        "65": "suspension_r",
+        "66": "wheel_r_02",
+        "67": "wheel_r_02_tread",
+        "68": "wheel_r_03",
+        "69": "wheel_r_03_tread",
+        "70": "wheel_r_04",
+        "71": "wheel_r_04_tread",
+        "72": "wheel_r_05",
+        "73": "wheel_r_05_tread",
+        "74": "wheel_r_06",
+        "75": "wheel_r_06_tread",
+        "76": "sprocket_r",
+        "77": "sprocket_r_tread",
+        "78": "idler_r",
+        "79": "idler_r_tread",
+        "80": "roller_r_01",
+        "81": "roller_r_01_tread",
+        "82": "roller_r_02",
+        "83": "roller_r_02_tread",
+        "84": "roller_r_03",
+        "85": "roller_r_03_tread",
+        "86": "turret",
+        "87": "gunner_hatch",
+        "88": "gunner_hatch_handle",
+        "89": "commander_hatch",
+        "90": "commander_hatch_handle",
+        "91": "isu_sight",
+        "92": "isu_sight_glass",
+        "93": "civ_guard",
+        "94": "civ_head",
+        "95": "civ_head_glass",
+        "96": "smoke_launchers",
+        "97": "tow_launcher",
+        "98": "tow_mount",
+        "99": "tow_tubes",
+        "100": "bustle_floor",
+        "101": "bustle_rack",
+        "102": "bustle_stowage",
+        "103": "antenna_bases",
+        "104": "mantlet",
+        "105": "gun_shroud",
+        "106": "gun_barrel",
+        "107": "gun_barrel_bore",
+        "108": "coax"
       },
       "depth_range": 77.2631607055664,
       "encoding": "16-bit RGB: R,G = id low/high byte, B = view depth / depth_range"
@@ -3024,5 +3010,5 @@
       371
     ]
   },
-  "model_sha256": "91d6112c854b8eee2acdb7031e0869eba4258fa2176e54d11e14ecd5aa10a842"
+  "model_sha256": "c1b718f5e5d28af1bc7203fb322a9f5205b7a2d0937ba0ebc79f772ddcf383ab"
 }

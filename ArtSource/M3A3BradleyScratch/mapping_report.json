@@ -2,7 +2,7 @@
   "source_sha256": "604f7df58465e311481b6f4a9e5e97606517e885a439899aaa7dddd787cf6f0a",
   "source_faces": 2338,
   "groups": 80,
-  "parts": 86,
+  "parts": 108,
   "contacts": [
     {
       "lower": "hull",
@@ -22,32 +22,32 @@
     {
       "lower": "turret",
       "upper": "gunner_hatch",
-      "direction": "up"
+      "direction": "down"
     },
     {
       "lower": "turret",
       "upper": "isu_sight",
-      "direction": "up"
+      "direction": "down"
     },
     {
       "lower": "turret",
       "upper": "civ_guard",
-      "direction": "up"
+      "direction": "down"
     },
     {
       "lower": "civ_guard",
       "upper": "civ_head",
-      "direction": "down"
+      "direction": "up"
     }
   ],
   "contact_levels": {
     "engine_deck": 192,
     "driver_hatch": 192,
     "cargo_hatch": 192,
-    "gunner_hatch": 216,
-    "isu_sight": 216,
-    "civ_guard": 216,
-    "civ_head": 192
+    "gunner_hatch": 192,
+    "isu_sight": 192,
+    "civ_guard": 192,
+    "civ_head": 216
   },
   "damage_layers": [
     {
