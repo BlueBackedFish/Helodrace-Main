@@ -56,6 +56,8 @@
     <titleShort>mechanic</titleShort>
     <description>[PAWN_nameDef] kept battered engines, pumps, and line shafts alive with improvised parts and stubborn patience. The frontier rarely offered a second chance for bad repairs.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -72,6 +74,8 @@
     <titleShort>claim guard</titleShort>
     <description>Hired to protect surveyors and oil claims, [PAWN_nameDef] learned to read dust, distance, and the twitch of a hand near a holster.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -88,6 +92,8 @@
     <titleShort>clerk</titleShort>
     <description>[PAWN_nameDef] balanced ledgers for a frontier finance house, turning ore, oil, debts, and favors into neat columns of money.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -104,6 +110,8 @@
     <titleShort>doctor</titleShort>
     <description>Between cattle towns, drill camps, and rail depots, [PAWN_nameDef] treated burns, infections, and chemical sickness with whatever supplies could be found.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -199,6 +207,8 @@
     <titleShort>millwright</titleShort>
     <description>[PAWN_nameDef] installed belts, presses, and guarded shafts in noisy mills, arguing for safer shops whenever the foreman would listen.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -215,6 +225,8 @@
     <titleShort>camp cook</titleShort>
     <description>[PAWN_nameDef] fed work crews from dented kettles, turning scarce flour, beans, and coffee into enough comfort to face another shift.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -231,6 +243,8 @@
     <titleShort>patrolman</titleShort>
     <description>[PAWN_nameDef] watched new highways, wreck scenes, and roadside towns where engines ran faster than local law could adapt.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -247,6 +261,8 @@
     <titleShort>operator</titleShort>
     <description>With a headset and a wall of cords, [PAWN_nameDef] connected doctors, sheriffs, factories, and families before the line went dead.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -263,6 +279,8 @@
     <titleShort>range tech</titleShort>
     <description>[PAWN_nameDef] worked on desert test ranges, measuring burn rates, checking seals, and keeping curious visitors far from volatile machinery.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -359,6 +377,8 @@
     <titleShort>skirmisher</titleShort>
     <description>[PAWN_nameDef] fought through split-state farm country where neighbors wore different colors and every fence line could become a firing line.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -375,6 +395,8 @@
     <titleShort>drummer</titleShort>
     <description>Too young for a rifle at first, [PAWN_nameDef] carried signals through smoke until marching songs became orders no one could refuse.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -391,6 +413,8 @@
     <titleShort>sawbone</titleShort>
     <description>[PAWN_nameDef] served in tent hospitals behind divided front lines, where chloroform, bone saws, and prayer often arrived too late.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -407,6 +431,8 @@
     <titleShort>rifleman</titleShort>
     <description>[PAWN_nameDef] endured wire, mud, barrages, and whistles that sent whole lines over the lip into machine fire.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -423,6 +449,8 @@
     <titleShort>orderly</titleShort>
     <description>[PAWN_nameDef] dragged the wounded through duckboards and shell holes, memorizing the sounds that meant a stretcher was already too late.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -439,6 +467,8 @@
     <titleShort>gas scout</titleShort>
     <description>[PAWN_nameDef] watched wind, clouds, and the color of distant flares, warning dugouts before poison rolled into the low ground.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -455,6 +485,8 @@
     <titleShort>paratrooper</titleShort>
     <description>[PAWN_nameDef] dropped behind thunderous front lines, fighting through hedges, ruins, and roadblocks before maps could catch up.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -471,6 +503,8 @@
     <titleShort>motor pool</titleShort>
     <description>[PAWN_nameDef] kept trucks, halftracks, and field generators running while artillery dust settled into every gasket and lung.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -487,6 +521,8 @@
     <titleShort>code clerk</titleShort>
     <description>[PAWN_nameDef] handled ciphers, casualty lists, and radio traffic, learning that a clean message could carry unbearable news.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -503,6 +539,8 @@
     <titleShort>pointman</titleShort>
     <description>[PAWN_nameDef] walked first through wet green corridors where trails lied, birds went silent, and the ground itself might explode.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -519,6 +557,8 @@
     <titleShort>dustoff medic</titleShort>
     <description>[PAWN_nameDef] treated casualties under rotor wash, smoke, and monsoon rain, shouting triage over engines that never fully drowned out the screams.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -535,6 +575,8 @@
     <titleShort>radio hand</titleShort>
     <description>[PAWN_nameDef] carried a heavy radio through soaked hills, calling coordinates while every antenna made an obvious target.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -551,6 +593,8 @@
     <titleShort>marksman</titleShort>
     <description>[PAWN_nameDef] watched ridgelines and walled valleys where distance, patience, and one wrong glint decided who walked home.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -567,6 +611,8 @@
     <titleShort>convoy driver</titleShort>
     <description>[PAWN_nameDef] drove supply columns through dust, switchbacks, and culverts that might hide a charge beneath every patch of road.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -583,6 +629,8 @@
     <titleShort>interpreter</titleShort>
     <description>[PAWN_nameDef] translated bargains, warnings, and grief between patrols and villages, never fully trusted by either side.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -615,6 +663,8 @@
     <titleShort>blacksmith</titleShort>
     <description>[PAWN_nameDef] shod horses and repaired coach iron on rough stage roads before rail depots reached every county seat.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -631,6 +681,8 @@
     <titleShort>surveyor</titleShort>
     <description>Before fences settled the maps, [PAWN_nameDef] measured claims, water rights, and wagon routes with a chain, notebook, and wary eye.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -647,6 +699,8 @@
     <titleShort>airstrip mechanic</titleShort>
     <description>[PAWN_nameDef] kept crop dusters, mail planes, and rescue craft flying from dirt strips where a missing bolt could strand a whole valley.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>
@@ -663,6 +717,8 @@
     <titleShort>broadcaster</titleShort>
     <description>[PAWN_nameDef] ran a small-town transmitter, reading storm warnings, market prices, lost notices, and late-night music into the dark.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <spawnCategories>
       <li>HD_Helod</li>
     </spawnCategories>

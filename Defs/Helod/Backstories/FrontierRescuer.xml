@@ -6,6 +6,8 @@
     <titleShort>gunslinger</titleShort>
     <description>[PAWN_nameDef] spent years riding between isolated settlements, settling trouble with a sixgun and patching up those left behind. A dusty hat and weathered brown coat became familiar signs of help on the frontier. Long practice taught [PAWN_objective] to take a quick sight picture and recover exceptionally fast between shots.</description>
     <slot>Adulthood</slot>
+    <bodyTypeMale>Male</bodyTypeMale>
+    <bodyTypeFemale>Female</bodyTypeFemale>
     <shuffleable>false</shuffleable>
     <spawnCategories><li>HD_FrontierRescuerOnly</li></spawnCategories>
     <skillGains><Shooting>6</Shooting><Medicine>3</Medicine><Social>1</Social></skillGains>
