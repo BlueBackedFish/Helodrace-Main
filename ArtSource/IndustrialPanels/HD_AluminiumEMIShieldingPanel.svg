@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <g stroke="#292b2c" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Folded aluminium sheet: continuous, unperforated shielding surface. -->
+    <path fill="#777c7e" d="M26 116 161 47 230 89 230 108 95 177 26 135Z"/>
+    <path fill="#969b9c" d="M26 116 95 158 95 177 26 135Z"/>
+    <path fill="#6e7476" d="M95 158 230 89 230 108 95 177Z"/>
+    <path fill="#b4b8b8" d="M26 116 161 47 230 89 95 158Z"/>
+    <!-- Conductive perimeter gasket and the slightly recessed centre sheet. -->
+    <path fill="#62696b" stroke-width="3" d="M45 116 160 57 211 89 96 148Z"/>
+    <path fill="#bfc3c3" stroke="#8b9293" stroke-width="2" d="M55 116 160 62 201 89 96 143Z"/>
+    <path fill="#cbd0cf" stroke="none" d="M55 116 160 62 166 66 61 120Z"/>
+    <path fill="#a8aeae" stroke="none" d="M61 120 166 66 201 89 96 143Z"/>
+    <!-- Broad planar highlight, kept flat like the other raw-material icons. -->
+    <path fill="#bfc3c3" stroke="none" d="M61 120 166 66 179 75 74 128Z"/>
+    <path fill="none" stroke="#c9cdcc" stroke-width="2" d="M31 118 95 157 225 91"/>
+    <!-- Captive fasteners on the folded flange, outside the gasket. -->
+    <g fill="#d8dcda" stroke="#555b5d" stroke-width="1.8">
+      <ellipse cx="40" cy="116" rx="3.3" ry="2.3"/>
+      <ellipse cx="101" cy="85" rx="3.3" ry="2.3"/>
+      <ellipse cx="161" cy="54" rx="3.3" ry="2.3"/>
+      <ellipse cx="217" cy="89" rx="3.3" ry="2.3"/>
+      <ellipse cx="157" cy="120" rx="3.3" ry="2.3"/>
+      <ellipse cx="96" cy="151" rx="3.3" ry="2.3"/>
+    </g>
+    <path fill="none" stroke="#464c4e" stroke-width="2" d="M111 157 216 103"/>
+  </g>
+</svg>

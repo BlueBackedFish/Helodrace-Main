@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <g stroke="#292b2c" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Exposed insulation enclosed between two aluminium skins. -->
+    <path fill="#a99c72" d="M25 109 160 40 231 84 231 135 96 204 25 160Z"/>
+    <path fill="#c9bb89" d="M25 115 96 159 96 198 25 154Z"/>
+    <path fill="#a99c72" d="M96 159 231 90 231 129 96 198Z"/>
+    <!-- Sparse fibres in the cut edge; readable at item size. -->
+    <g fill="none" stroke-width="2.5">
+      <path stroke="#9d9067" d="m35 135 10 14m4-7 12 17m4-8 11 17m5-8 7 12"/>
+      <path stroke="#ded09e" d="m108 174 9-12m7 14 11-16m8 5 11-16m10 4 10-14m8 4 11-16m9 4 12-17m4 8 5-8"/>
+      <path stroke="#8e815c" d="m109 190 10-6m12-6 11-6m12-6 10-6m12-6 10-6m12-6 10-6m9-5 8-5"/>
+    </g>
+    <!-- Lower metal skin wraps the cut edges. -->
+    <path fill="#969c9d" d="M25 151 96 195 231 126 231 135 96 204 25 160Z"/>
+    <path fill="none" stroke="#c7cccb" stroke-width="2" d="m30 155 66 41 130-66"/>
+    <!-- Shallow ribs on the upper aluminium skin. -->
+    <path fill="#bbc0bf" d="M25 109 160 40 231 84 231 93 96 162 25 118Z"/>
+    <path fill="#c6cac9" d="M25 109 160 40 231 84 96 153Z"/>
+    <g stroke-width="2">
+      <path fill="#a1a8a8" stroke="#8c9495" d="M41 119 176 50 184 55 49 124Z"/>
+      <path fill="#a1a8a8" stroke="#8c9495" d="M61 132 196 63 204 68 69 137Z"/>
+      <path fill="#a1a8a8" stroke="#8c9495" d="M81 144 216 75 224 80 89 149Z"/>
+    </g>
+    <g fill="none" stroke="#e0e3de" stroke-width="2">
+      <path d="M40 117 175 48M60 130 195 61M80 142 215 73"/>
+    </g>
+    <path fill="none" stroke="#d5d9d6" stroke-width="2" d="m30 111 66 41 130-66"/>
+  </g>
+</svg>
