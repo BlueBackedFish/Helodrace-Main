@@ -1,0 +1,2 @@
+# Keep the generated OBJ byte-identical; vehicle.json pins its SHA256.
+*.obj -text
