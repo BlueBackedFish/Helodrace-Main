@@ -9,11 +9,12 @@
     2.01
   ],
   "omitted_faces_by_reason": {
+    "User-requested flat armour: remove separate shallow rivet / bolt heads; preserve the continuous backing plate and functional fittings": 54334,
     "Sub-pixel rod/rail/wire (middle dimension < 3 cm, length > 12 cm): thinner than 1px at 256px, removed to reduce model noise (style section 3)": 571,
     "1.8 m thin whip antenna is subpixel at 256px; separate whip group only": 252
   },
   "source_faces": 223389,
-  "parts": 226,
+  "parts": 265,
   "contacts": [
     {
       "lower": "g0000",

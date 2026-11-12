@@ -20,6 +20,29 @@ WHIP_REASON = "1.8 m thin whip antenna is subpixel at 256px; separate whip group
 THIN_REASON = ("Sub-pixel rod/rail/wire (middle dimension < 3 cm, length > 12 cm): thinner than 1px at "
                "256px, removed to reduce model noise (style section 3)")
 NO_THIN_CLEANUP = ("wheel_", "track_", "suspension_", "gun_barrel", "bone_gun", "mg_twin")
+FASTENER_REASON = ("User-requested flat armour: remove separate shallow rivet / bolt heads; "
+                   "preserve the continuous backing plate and functional fittings")
+
+
+def is_fastener(model, vertices, faces):
+    """Recognise the source's open/closed hexagonal and round fastener-head meshes.
+
+    Test topology and a shallow, near-round footprint in its own principal frame,
+    rather than deleting every small component (which would also lose hinges).
+    The immutable source hash below pins these templates to this particular OBJ.
+    """
+    co = np.unique(vertices[[v for f in faces for v in model["faces"][f]["vertices"]]], axis=0)
+    if (len(faces), len(co)) not in {
+        (16, 12), (20, 12), (22, 16), (24, 14), (28, 16), (28, 20),
+        (31, 20), (33, 20), (34, 24), (36, 20), (44, 24), (48, 32),
+        (54, 30), (56, 20), (60, 32),
+    }:
+        return False
+    _, _, frame = np.linalg.svd(co-co.mean(axis=0), full_matrices=False)
+    thickness, width, diameter = np.sort(np.ptp(co @ frame.T, axis=0))
+    return .004 <= diameter <= .08 and width >= .70*diameter and thickness <= .65*width
+
+
 TOW = {"roll_05", "rocket_mount_01", "roll_03", "roll_04", "roll_06", "roll_07", "roll_08"}
 ACCENTS = {  # whole groups -> (base group, reason)
     **{n: ("@root", "Tow shackle / towing pintle highlight") for n in
@@ -135,8 +158,20 @@ def configure():
 
         if part.get("action") == "omit":
             continue
+        # Heads are separate shells on top of intact plates, so omission leaves
+        # a flat surface without cutting holes or changing the plate vertices.
+        fastener_faces = set()
+        if not name.startswith(("wheel_", "track_", "suspension_")) and name != "turret_inside":
+            for comp in common.components(model, group["faces"], 1e-6):
+                if is_fastener(model, vertices, comp):
+                    fastener_faces.update(comp)
+            if fastener_faces:
+                extract(group, "fasteners", fastener_faces, action="omit", reason=FASTENER_REASON)
+                omissions[FASTENER_REASON] += len(fastener_faces)
         subsets = defaultdict(list)
         for face_id in group["faces"]:
+            if face_id in fastener_faces:
+                continue
             material = model["faces"][face_id]["material"]
             if material in {"net_f", "net_c"}:
                 subsets["grille"].append(face_id)
