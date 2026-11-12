@@ -18,7 +18,7 @@
     }
   },
   "profile_sha256": "79ba4a1b897af48c845159f769475538654e6e4ed61e71099773b3805d89b0e0",
-  "style_sha256": "e9c8c8e4d8c6c87fbec1aa46c9b21a7005c4742509bbb81e3e2e8fe702530ada",
+  "style_sha256": "d3b0b914690104808be8f2446baef760b4186abe9ab745026729fddad1f56ac0",
   "source_faces": 223389,
   "preserved_faces": 17,
   "explicitly_omitted_faces": 55223,
@@ -848,36 +848,36 @@
     "g0000": {
       "top": 216,
       "luminances": {
-        "179": 3555,
-        "160": 2911,
-        "106": 3274,
-        "216": 1210,
-        "145": 3448,
-        "128": 2950,
-        "196": 1230
+        "216": 1987,
+        "196": 3031,
+        "179": 2678,
+        "128": 3274,
+        "236": 1210,
+        "160": 3448,
+        "145": 2950
       },
       "smooth": null,
       "area": 247.20348529650727,
       "upward_min_max": [
-        106,
-        216
+        128,
+        236
       ],
       "wall_min_max": [
-        106,
-        216
+        128,
+        236
       ],
       "source_faces": 53841
     },
     "g0000_grille_00": {
       "top": 96,
       "luminances": {
-        "179": 14
+        "216": 14
       },
       "smooth": null,
       "area": 0.642630813352298,
       "upward_min_max": [
-        179,
-        179
+        216,
+        216
       ],
       "wall_min_max": null,
       "source_faces": 14
@@ -885,13 +885,13 @@
     "g0000_grille_01": {
       "top": 96,
       "luminances": {
-        "216": 3
+        "236": 3
       },
       "smooth": null,
       "area": 0.7534417789429426,
       "upward_min_max": [
-        216,
-        216
+        236,
+        236
       ],
       "wall_min_max": null,
       "source_faces": 3
@@ -899,37 +899,37 @@
     "g0001": {
       "top": 216,
       "luminances": {
-        "106": 168,
-        "128": 104
+        "128": 168,
+        "145": 104
       },
       "smooth": null,
       "area": 1.4868394055392855,
       "upward_min_max": [
-        106,
-        128
+        128,
+        145
       ],
       "wall_min_max": [
-        106,
-        128
+        128,
+        145
       ],
       "source_faces": 652
     },
     "g0002": {
       "top": 216,
       "luminances": {
-        "196": 172,
-        "216": 201,
-        "179": 8
+        "216": 172,
+        "236": 201,
+        "196": 8
       },
       "smooth": null,
       "area": 4.735799308880814,
       "upward_min_max": [
-        196,
-        216
+        216,
+        236
       ],
       "wall_min_max": [
-        179,
-        216
+        196,
+        236
       ],
       "source_faces": 1664
     },
@@ -1098,104 +1098,481 @@
     "g0012": {
       "top": 192,
       "luminances": {
-        "128": 78,
-        "106": 84
+        "145": 78,
+        "128": 84
       },
       "smooth": null,
       "area": 0.100400557705143,
       "upward_min_max": [
-        106,
-        128
+        128,
+        145
       ],
       "wall_min_max": [
-        106,
-        128
+        128,
+        145
       ],
       "source_faces": 352
     },
     "g0013": {
       "top": 192,
       "luminances": {
-        "106": 83,
-        "128": 78
+        "128": 83,
+        "145": 78
       },
       "smooth": null,
       "area": 0.10040332815697184,
       "upward_min_max": [
-        106,
-        128
+        128,
+        145
       ],
       "wall_min_max": [
-        106,
-        128
+        128,
+        145
       ],
       "source_faces": 352
     },
     "g0014": {
       "top": 192,
       "luminances": {
-        "128": 118,
-        "106": 36
+        "145": 118,
+        "128": 36
       },
       "smooth": null,
       "area": 0.09877007654722547,
       "upward_min_max": [
-        128,
-        128
+        145,
+        145
       ],
       "wall_min_max": [
-        106,
-        128
+        128,
+        145
       ],
       "source_faces": 336
     },
     "g0015": {
       "top": 192,
       "luminances": {
-        "128": 118,
-        "106": 36
+        "145": 118,
+        "128": 36
       },
       "smooth": null,
       "area": 0.09875708293111529,
       "upward_min_max": [
-        128,
-        128
+        145,
+        145
       ],
       "wall_min_max": [
-        106,
-        128
+        128,
+        145
       ],
       "source_faces": 336
     },
     "g0016": {
       "top": 192,
       "luminances": {
-        "179": 166,
-        "196": 51,
-        "160": 37,
-        "216": 1
+        "196": 61,
+        "216": 185,
+        "179": 8,
+        "236": 1
       },
       "smooth": null,
       "area": 0.2945965638591588,
       "upward_min_max": [
-        179,
-        216
+        216,
+        236
       ],
       "wall_min_max": [
-        160,
-        196
+        179,
+        216
       ],
       "source_faces": 818
     },
     "g0017": {
       "top": 192,
       "luminances": {
-        "160": 118,
-        "145": 45,
-        "179": 113
+        "179": 118,
+        "160": 45,
+        "196": 111,
+        "216": 2
       },
       "smooth": null,
       "area": 0.3500745951616864,
+      "upward_min_max": [
+        179,
+        196
+      ],
+      "wall_min_max": [
+        160,
+        216
+      ],
+      "source_faces": 874
+    },
+    "g0018": {
+      "top": 216,
+      "luminances": {
+        "160": 196,
+        "196": 29,
+        "179": 259,
+        "145": 74
+      },
+      "smooth": null,
+      "area": 3.8252423767471555,
+      "upward_min_max": [
+        160,
+        196
+      ],
+      "wall_min_max": [
+        145,
+        196
+      ],
+      "source_faces": 2156
+    },
+    "g0019": {
+      "top": 192,
+      "luminances": {
+        "196": 231,
+        "179": 425,
+        "160": 254,
+        "145": 168,
+        "128": 12,
+        "216": 7
+      },
+      "smooth": null,
+      "area": 6.058027553049158,
+      "upward_min_max": [
+        145,
+        216
+      ],
+      "wall_min_max": [
+        128,
+        216
+      ],
+      "source_faces": 3039
+    },
+    "g0020": {
+      "top": 192,
+      "luminances": {
+        "145": 162,
+        "179": 422,
+        "196": 231,
+        "160": 260,
+        "128": 12,
+        "216": 6
+      },
+      "smooth": null,
+      "area": 6.057329727662818,
+      "upward_min_max": [
+        145,
+        216
+      ],
+      "wall_min_max": [
+        128,
+        216
+      ],
+      "source_faces": 3030
+    },
+    "g0021": {
+      "top": 192,
+      "luminances": {
+        "128": 11,
+        "145": 11,
+        "160": 1
+      },
+      "smooth": null,
+      "area": 0.8772746252652723,
+      "upward_min_max": [
+        145,
+        145
+      ],
+      "wall_min_max": [
+        128,
+        160
+      ],
+      "source_faces": 90
+    },
+    "g0022": {
+      "top": 192,
+      "luminances": {
+        "128": 11,
+        "145": 11,
+        "160": 1
+      },
+      "smooth": null,
+      "area": 0.8772860537283123,
+      "upward_min_max": [
+        145,
+        145
+      ],
+      "wall_min_max": [
+        128,
+        160
+      ],
+      "source_faces": 90
+    },
+    "g0023": {
+      "top": 192,
+      "luminances": {
+        "145": 58,
+        "179": 33,
+        "160": 46,
+        "128": 37,
+        "196": 11
+      },
+      "smooth": null,
+      "area": 2.3102606449683663,
+      "upward_min_max": [
+        145,
+        196
+      ],
+      "wall_min_max": [
+        128,
+        196
+      ],
+      "source_faces": 1080
+    },
+    "g0024": {
+      "top": 216,
+      "luminances": {
+        "128": 171,
+        "145": 105
+      },
+      "smooth": null,
+      "area": 1.50654051544916,
+      "upward_min_max": [
+        128,
+        145
+      ],
+      "wall_min_max": [
+        128,
+        145
+      ],
+      "source_faces": 664
+    },
+    "g0025": {
+      "top": 216,
+      "luminances": {
+        "145": 106,
+        "128": 33
+      },
+      "smooth": null,
+      "area": 1.558273629296309,
+      "upward_min_max": [
+        145,
+        145
+      ],
+      "wall_min_max": [
+        128,
+        145
+      ],
+      "source_faces": 364
+    },
+    "g0026": {
+      "top": 216,
+      "luminances": {
+        "128": 30,
+        "145": 96
+      },
+      "smooth": null,
+      "area": 1.5518520885761973,
+      "upward_min_max": [
+        145,
+        145
+      ],
+      "wall_min_max": [
+        128,
+        145
+      ],
+      "source_faces": 340
+    },
+    "g0027": {
+      "top": 216,
+      "luminances": {
+        "128": 33,
+        "145": 93
+      },
+      "smooth": null,
+      "area": 1.5518420673597575,
+      "upward_min_max": [
+        145,
+        145
+      ],
+      "wall_min_max": [
+        128,
+        145
+      ],
+      "source_faces": 340
+    },
+    "g0028": {
+      "top": 216,
+      "luminances": {
+        "128": 36,
+        "145": 100
+      },
+      "smooth": null,
+      "area": 1.5666149152784783,
+      "upward_min_max": [
+        145,
+        145
+      ],
+      "wall_min_max": [
+        128,
+        145
+      ],
+      "source_faces": 364
+    },
+    "g0029": {
+      "top": 216,
+      "luminances": {
+        "128": 30,
+        "145": 106
+      },
+      "smooth": null,
+      "area": 1.5666954788684961,
+      "upward_min_max": [
+        145,
+        145
+      ],
+      "wall_min_max": [
+        128,
+        145
+      ],
+      "source_faces": 364
+    },
+    "g0030": {
+      "top": 216,
+      "luminances": {
+        "145": 107,
+        "128": 34
+      },
+      "smooth": null,
+      "area": 1.4618614331520803,
+      "upward_min_max": [
+        145,
+        145
+      ],
+      "wall_min_max": [
+        128,
+        145
+      ],
+      "source_faces": 372
+    },
+    "g0031": {
+      "top": 216,
+      "luminances": {
+        "145": 108,
+        "128": 36
+      },
+      "smooth": null,
+      "area": 1.4817306214899872,
+      "upward_min_max": [
+        145,
+        145
+      ],
+      "wall_min_max": [
+        128,
+        145
+      ],
+      "source_faces": 384
+    },
+    "g0032": {
+      "top": 216,
+      "luminances": {
+        "145": 104,
+        "128": 33
+      },
+      "smooth": null,
+      "area": 1.5582748083161277,
+      "upward_min_max": [
+        145,
+        145
+      ],
+      "wall_min_max": [
+        128,
+        145
+      ],
+      "source_faces": 364
+    },
+    "g0033": {
+      "top": 216,
+      "luminances": {
+        "145": 94,
+        "128": 30
+      },
+      "smooth": null,
+      "area": 1.5519831261754007,
+      "upward_min_max": [
+        145,
+        145
+      ],
+      "wall_min_max": [
+        128,
+        145
+      ],
+      "source_faces": 340
+    },
+    "g0034": {
+      "top": 216,
+      "luminances": {
+        "145": 94,
+        "128": 156
+      },
+      "smooth": null,
+      "area": 1.5766877729111002,
+      "upward_min_max": [
+        128,
+        145
+      ],
+      "wall_min_max": [
+        128,
+        145
+      ],
+      "source_faces": 620
+    },
+    "g0035": {
+      "top": 216,
+      "luminances": {
+        "128": 163,
+        "145": 105
+      },
+      "smooth": null,
+      "area": 1.5915084395674057,
+      "upward_min_max": [
+        128,
+        145
+      ],
+      "wall_min_max": [
+        128,
+        145
+      ],
+      "source_faces": 644
+    },
+    "g0036": {
+      "top": 216,
+      "luminances": {
+        "128": 32,
+        "145": 107
+      },
+      "smooth": null,
+      "area": 1.5668793828190246,
+      "upward_min_max": [
+        145,
+        145
+      ],
+      "wall_min_max": [
+        128,
+        145
+      ],
+      "source_faces": 364
+    },
+    "g0037": {
+      "top": 216,
+      "luminances": {
+        "160": 262,
+        "145": 60,
+        "179": 220
+      },
+      "smooth": null,
+      "area": 0.9358334746175387,
       "upward_min_max": [
         160,
         179
@@ -1203,380 +1580,6 @@
       "wall_min_max": [
         145,
         179
-      ],
-      "source_faces": 874
-    },
-    "g0018": {
-      "top": 216,
-      "luminances": {
-        "145": 196,
-        "179": 29,
-        "160": 259,
-        "128": 74
-      },
-      "smooth": null,
-      "area": 3.8252423767471555,
-      "upward_min_max": [
-        145,
-        179
-      ],
-      "wall_min_max": [
-        128,
-        179
-      ],
-      "source_faces": 2156
-    },
-    "g0019": {
-      "top": 192,
-      "luminances": {
-        "179": 234,
-        "160": 429,
-        "145": 254,
-        "128": 168,
-        "106": 12
-      },
-      "smooth": null,
-      "area": 6.058027553049158,
-      "upward_min_max": [
-        128,
-        179
-      ],
-      "wall_min_max": [
-        106,
-        179
-      ],
-      "source_faces": 3039
-    },
-    "g0020": {
-      "top": 192,
-      "luminances": {
-        "128": 162,
-        "160": 426,
-        "179": 233,
-        "145": 260,
-        "106": 12
-      },
-      "smooth": null,
-      "area": 6.057329727662818,
-      "upward_min_max": [
-        128,
-        179
-      ],
-      "wall_min_max": [
-        106,
-        179
-      ],
-      "source_faces": 3030
-    },
-    "g0021": {
-      "top": 192,
-      "luminances": {
-        "106": 11,
-        "128": 11,
-        "145": 1
-      },
-      "smooth": null,
-      "area": 0.8772746252652723,
-      "upward_min_max": [
-        128,
-        128
-      ],
-      "wall_min_max": [
-        106,
-        145
-      ],
-      "source_faces": 90
-    },
-    "g0022": {
-      "top": 192,
-      "luminances": {
-        "106": 11,
-        "128": 11,
-        "145": 1
-      },
-      "smooth": null,
-      "area": 0.8772860537283123,
-      "upward_min_max": [
-        128,
-        128
-      ],
-      "wall_min_max": [
-        106,
-        145
-      ],
-      "source_faces": 90
-    },
-    "g0023": {
-      "top": 192,
-      "luminances": {
-        "128": 58,
-        "160": 33,
-        "145": 46,
-        "106": 37,
-        "179": 11
-      },
-      "smooth": null,
-      "area": 2.3102606449683663,
-      "upward_min_max": [
-        128,
-        179
-      ],
-      "wall_min_max": [
-        106,
-        179
-      ],
-      "source_faces": 1080
-    },
-    "g0024": {
-      "top": 216,
-      "luminances": {
-        "106": 171,
-        "128": 105
-      },
-      "smooth": null,
-      "area": 1.50654051544916,
-      "upward_min_max": [
-        106,
-        128
-      ],
-      "wall_min_max": [
-        106,
-        128
-      ],
-      "source_faces": 664
-    },
-    "g0025": {
-      "top": 216,
-      "luminances": {
-        "128": 106,
-        "106": 33
-      },
-      "smooth": null,
-      "area": 1.558273629296309,
-      "upward_min_max": [
-        128,
-        128
-      ],
-      "wall_min_max": [
-        106,
-        128
-      ],
-      "source_faces": 364
-    },
-    "g0026": {
-      "top": 216,
-      "luminances": {
-        "106": 30,
-        "128": 96
-      },
-      "smooth": null,
-      "area": 1.5518520885761973,
-      "upward_min_max": [
-        128,
-        128
-      ],
-      "wall_min_max": [
-        106,
-        128
-      ],
-      "source_faces": 340
-    },
-    "g0027": {
-      "top": 216,
-      "luminances": {
-        "106": 33,
-        "128": 93
-      },
-      "smooth": null,
-      "area": 1.5518420673597575,
-      "upward_min_max": [
-        128,
-        128
-      ],
-      "wall_min_max": [
-        106,
-        128
-      ],
-      "source_faces": 340
-    },
-    "g0028": {
-      "top": 216,
-      "luminances": {
-        "106": 36,
-        "128": 100
-      },
-      "smooth": null,
-      "area": 1.5666149152784783,
-      "upward_min_max": [
-        128,
-        128
-      ],
-      "wall_min_max": [
-        106,
-        128
-      ],
-      "source_faces": 364
-    },
-    "g0029": {
-      "top": 216,
-      "luminances": {
-        "106": 30,
-        "128": 106
-      },
-      "smooth": null,
-      "area": 1.5666954788684961,
-      "upward_min_max": [
-        128,
-        128
-      ],
-      "wall_min_max": [
-        106,
-        128
-      ],
-      "source_faces": 364
-    },
-    "g0030": {
-      "top": 216,
-      "luminances": {
-        "128": 107,
-        "106": 34
-      },
-      "smooth": null,
-      "area": 1.4618614331520803,
-      "upward_min_max": [
-        128,
-        128
-      ],
-      "wall_min_max": [
-        106,
-        128
-      ],
-      "source_faces": 372
-    },
-    "g0031": {
-      "top": 216,
-      "luminances": {
-        "128": 108,
-        "106": 36
-      },
-      "smooth": null,
-      "area": 1.4817306214899872,
-      "upward_min_max": [
-        128,
-        128
-      ],
-      "wall_min_max": [
-        106,
-        128
-      ],
-      "source_faces": 384
-    },
-    "g0032": {
-      "top": 216,
-      "luminances": {
-        "128": 104,
-        "106": 33
-      },
-      "smooth": null,
-      "area": 1.5582748083161277,
-      "upward_min_max": [
-        128,
-        128
-      ],
-      "wall_min_max": [
-        106,
-        128
-      ],
-      "source_faces": 364
-    },
-    "g0033": {
-      "top": 216,
-      "luminances": {
-        "128": 94,
-        "106": 30
-      },
-      "smooth": null,
-      "area": 1.5519831261754007,
-      "upward_min_max": [
-        128,
-        128
-      ],
-      "wall_min_max": [
-        106,
-        128
-      ],
-      "source_faces": 340
-    },
-    "g0034": {
-      "top": 216,
-      "luminances": {
-        "128": 94,
-        "106": 156
-      },
-      "smooth": null,
-      "area": 1.5766877729111002,
-      "upward_min_max": [
-        106,
-        128
-      ],
-      "wall_min_max": [
-        106,
-        128
-      ],
-      "source_faces": 620
-    },
-    "g0035": {
-      "top": 216,
-      "luminances": {
-        "106": 163,
-        "128": 105
-      },
-      "smooth": null,
-      "area": 1.5915084395674057,
-      "upward_min_max": [
-        106,
-        128
-      ],
-      "wall_min_max": [
-        106,
-        128
-      ],
-      "source_faces": 644
-    },
-    "g0036": {
-      "top": 216,
-      "luminances": {
-        "106": 32,
-        "128": 107
-      },
-      "smooth": null,
-      "area": 1.5668793828190246,
-      "upward_min_max": [
-        128,
-        128
-      ],
-      "wall_min_max": [
-        106,
-        128
-      ],
-      "source_faces": 364
-    },
-    "g0037": {
-      "top": 216,
-      "luminances": {
-        "145": 262,
-        "128": 60,
-        "160": 220
-      },
-      "smooth": null,
-      "area": 0.9358334746175387,
-      "upward_min_max": [
-        145,
-        160
-      ],
-      "wall_min_max": [
-        128,
-        160
       ],
       "source_faces": 2614
     },
@@ -1600,70 +1603,12 @@
     "g0038": {
       "top": 192,
       "luminances": {
-        "128": 26,
-        "106": 40,
-        "145": 10
+        "145": 26,
+        "128": 40,
+        "160": 10
       },
       "smooth": null,
       "area": 1.0228481860431202,
-      "upward_min_max": [
-        128,
-        145
-      ],
-      "wall_min_max": [
-        106,
-        145
-      ],
-      "source_faces": 260
-    },
-    "g0039": {
-      "top": 192,
-      "luminances": {
-        "106": 41,
-        "128": 25,
-        "145": 10
-      },
-      "smooth": null,
-      "area": 1.020176821100904,
-      "upward_min_max": [
-        128,
-        145
-      ],
-      "wall_min_max": [
-        106,
-        145
-      ],
-      "source_faces": 260
-    },
-    "g0040": {
-      "top": 216,
-      "luminances": {
-        "179": 92,
-        "160": 94,
-        "216": 61,
-        "196": 61
-      },
-      "smooth": null,
-      "area": 2.618875939428108,
-      "upward_min_max": [
-        179,
-        216
-      ],
-      "wall_min_max": [
-        160,
-        216
-      ],
-      "source_faces": 1518
-    },
-    "g0041": {
-      "top": 216,
-      "luminances": {
-        "145": 208,
-        "160": 178,
-        "128": 55
-      },
-      "smooth": null,
-      "area": 0.8685918341652723,
       "upward_min_max": [
         145,
         160
@@ -1671,6 +1616,64 @@
       "wall_min_max": [
         128,
         160
+      ],
+      "source_faces": 260
+    },
+    "g0039": {
+      "top": 192,
+      "luminances": {
+        "128": 41,
+        "145": 25,
+        "160": 10
+      },
+      "smooth": null,
+      "area": 1.020176821100904,
+      "upward_min_max": [
+        145,
+        160
+      ],
+      "wall_min_max": [
+        128,
+        160
+      ],
+      "source_faces": 260
+    },
+    "g0040": {
+      "top": 216,
+      "luminances": {
+        "216": 81,
+        "196": 121,
+        "236": 61,
+        "179": 45
+      },
+      "smooth": null,
+      "area": 2.618875939428108,
+      "upward_min_max": [
+        196,
+        236
+      ],
+      "wall_min_max": [
+        179,
+        236
+      ],
+      "source_faces": 1518
+    },
+    "g0041": {
+      "top": 216,
+      "luminances": {
+        "160": 208,
+        "179": 178,
+        "145": 55
+      },
+      "smooth": null,
+      "area": 0.8685918341652723,
+      "upward_min_max": [
+        160,
+        179
+      ],
+      "wall_min_max": [
+        145,
+        179
       ],
       "source_faces": 2182
     },
@@ -1694,51 +1697,51 @@
     "g0042": {
       "top": 192,
       "luminances": {
-        "106": 340
+        "128": 340
       },
       "smooth": null,
       "area": 0.1838712912885967,
       "upward_min_max": [
-        106,
-        106
+        128,
+        128
       ],
       "wall_min_max": [
-        106,
-        106
+        128,
+        128
       ],
       "source_faces": 653
     },
     "g0043": {
       "top": 192,
       "luminances": {
-        "106": 137
+        "128": 137
       },
       "smooth": null,
       "area": 0.09438506641163258,
       "upward_min_max": [
-        106,
-        106
+        128,
+        128
       ],
       "wall_min_max": [
-        106,
-        106
+        128,
+        128
       ],
       "source_faces": 292
     },
     "g0044": {
       "top": 192,
       "luminances": {
-        "106": 137
+        "128": 137
       },
       "smooth": null,
       "area": 0.09437901888668421,
       "upward_min_max": [
-        106,
-        106
+        128,
+        128
       ],
       "wall_min_max": [
-        106,
-        106
+        128,
+        128
       ],
       "source_faces": 292
     },
@@ -3885,5 +3888,5 @@
       373
     ]
   },
-  "model_sha256": "306df6181d4238958f4c135d60cc4abd90c41fb96244ee204b25051c8534576e"
+  "model_sha256": "b9486d90fb0664194c7547436f9388f48d807f3099f9fe440d1c471330bf2409"
 }

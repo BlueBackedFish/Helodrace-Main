@@ -83,8 +83,11 @@ def height_values(mesh, part, style):
     """
     from collections import defaultdict, deque
     spec = style["height_paint"]
-    ladder = spec["ladder"]
-    bands = spec["layers"][part["layer"]]["thresholds"]  # descending heights, len(ladder)-1
+    layer = spec["layers"][part["layer"]]
+    ladder = layer.get("ladder", spec["ladder"])  # a layer may shift its own steps
+    bands = layer["thresholds"]  # descending heights, len(ladder)-1
+    if not all(style["minimum"] <= v <= style["maximum"] for v in ladder):
+        raise ValueError(f"height_paint ladder for {part['layer']} is outside the palette range")
     if len(bands) != len(ladder)-1 or any(a <= b for a, b in zip(bands, bands[1:])):
         raise ValueError(f"height_paint thresholds for {part['layer']} must descend, one fewer than ladder steps")
     limit = math.cos(math.radians(spec.get("plane_angle", 12)))
