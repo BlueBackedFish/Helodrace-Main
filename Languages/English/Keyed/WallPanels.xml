@@ -10,7 +10,7 @@
   <HD_Panel_Inactive>Inactive: open door or blocked face</HD_Panel_Inactive>
   <HD_Panel_Face>Attached face</HD_Panel_Face>
   <HD_Panel_Layers>Panel layers</HD_Panel_Layers>
-  <HD_Panel_LayersDesc>Show the panels on each face of this wall or door, outermost layer first, and order their removal or cancel construction.</HD_Panel_LayersDesc>
+  <HD_Panel_LayersDesc>Show this wall or door with the panel layers on each side, and order removal or cancel construction.</HD_Panel_LayersDesc>
   <HD_Panel_LayersTitle>{0}: panel layers</HD_Panel_LayersTitle>
   <HD_Panel_FaceHeader>{0} face</HD_Panel_FaceHeader>
   <HD_Panel_FaceBlocked>(blocked by a wall, door or rock)</HD_Panel_FaceBlocked>
@@ -25,4 +25,5 @@
   <HD_Panel_Remove>Remove</HD_Panel_Remove>
   <HD_Panel_CancelRemove>Cancel removal</HD_Panel_CancelRemove>
   <HD_Panel_CancelOrder>Cancel order</HD_Panel_CancelOrder>
+  <HD_Panel_LayersLegend>Centre: the wall or door, map north up. On each side, from the wall outward: insulation, shielding, reinforcement. Click a panel to remove it or cancel its order.</HD_Panel_LayersLegend>
 </LanguageData>

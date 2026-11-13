@@ -27,7 +27,8 @@ CELL = ATLAS // 4
 INSET = ATLAS // 32         # engine offset 0.03125, scale 0.1875
 SHEAR = 0.2                 # projected northward shift per unit height
 R, H = 0.09, 1.25           # half thickness, height (wall source model)
-PANEL_T, PANEL_LEN, PANEL_H = 0.03, 0.9, H  # full height: a north-face lining shows as its top edge
+DOOR_LEAF = 0.1             # assumed vanilla door leaf half-thickness
+PANEL_T, PANEL_LEN, PANEL_H = 0.03, 1.0, H  # full height: a north-face lining shows as its top edge
 
 def srgb(v): return [c / 255 for c in v]
 def to_linear(c): return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
@@ -170,7 +171,12 @@ def save(rgba, path):
     h, w = rgba.shape[:2]
     img = bpy.data.images.new('out', w, h, alpha=True)
     img.pixels.foreach_set(np.clip(rgba[::-1], 0, 1).astype(np.float32).ravel())
-    img.filepath_raw = path; img.file_format = 'PNG'; img.save()
+    img.filepath_raw = path; img.file_format = 'PNG'
+    for attempt in range(5):  # Windows indexers/antivirus can briefly lock a fresh PNG
+        try: img.save(); break
+        except RuntimeError:
+            if attempt == 4: raise
+            import time; time.sleep(0.5)
     bpy.data.images.remove(img)
 
 def place_wall(mask, offset):
@@ -216,49 +222,96 @@ save(icon, os.path.join(TEX, 'HD_SandwichWall_MenuIcon.png'))
 # walls/doors draw a flat atlas, so they occlude nothing and the panel sits on the
 # cell edge.
 DIRS = {'north': (0, 1), 'east': (1, 0), 'south': (0, -1), 'west': (-1, 0)}
-def slab(dx, dy, dist, rgb):
+def slab(dx, dy, dist, rgb, lo=-.5, hi=.5, height=None):
+    """Lining slab on face (dx, dy), `dist` from the cell centre, spanning
+    [lo, hi] along the wall run. height=None: full wall height (sandwich)."""
+    height = PANEL_H if height is None else height
     top = emission('panel_top', rgb)
     front = emission('panel_front', tuple(round(c * FRONT_RATIO) for c in rgb))
     if dx == 0:
-        x0, x1 = -PANEL_LEN / 2, PANEL_LEN / 2
+        x0, x1 = lo, hi
         y0, y1 = (dist, dist + PANEL_T) if dy > 0 else (-dist - PANEL_T, -dist)
     else:
-        y0, y1 = -PANEL_LEN / 2, PANEL_LEN / 2
+        y0, y1 = lo, hi
         x0, x1 = (dist, dist + PANEL_T) if dx > 0 else (-dist - PANEL_T, -dist)
-    return [([(x0, y0, PANEL_H), (x1, y0, PANEL_H), (x1, y1, PANEL_H), (x0, y1, PANEL_H)], top),
-            ([(x0, y0, 0), (x1, y0, 0), (x1, y0, PANEL_H), (x0, y0, PANEL_H)], front)]
+    faces = [([(x0, y0, height), (x1, y0, height), (x1, y1, height), (x0, y1, height)], top)]
+    if height > 0.01:
+        faces.append(([(x0, y0, 0), (x1, y0, 0), (x1, y0, height), (x0, y0, height)], front))
+    return faces
 
 OVER = round(1.5 * PX)  # 252 px canvas at drawSize 1.5
 lo = (3 * PX - OVER) // 2
+# Distance of the lining from the cell centre per host. Doors: assumed leaf
+# half-thickness (vanilla door art not measured; check in game).
+HOSTS = {'Sandwich': R, 'Wall': .5, 'Door': DOOR_LEAF}
+FLAT = 0.0  # vanilla walls/doors draw flat cell art: the lining is a flat strip
+
+def sandwich_variant(dx, dy, variant):
+    """(centre mask, [(offset, mask)], (lo, hi), dist, neg_connected, pos_connected).
+    Along the run: N/S faces run west(-)..east(+), E/W faces south(-)..north(+)."""
+    ns = dx == 0
+    straight = 10 if ns else 5
+    neg_off, pos_off = ((-1, 0), (1, 0)) if ns else ((0, -1), (0, 1))
+    if variant == 'Full':   return straight, [(neg_off, straight), (pos_off, straight)], (-.5, .5), R, True, True
+    if variant == 'EndNeg': return (2 if ns else 1), [(pos_off, straight)], (-R, .5), R, False, True
+    if variant == 'EndPos': return (8 if ns else 4), [(neg_off, straight)], (-.5, R), R, True, False
+    if variant == 'Short':  # the face is the cap at the end of a perpendicular arm
+        if ns: return (1 if dy < 0 else 4), [((0, 1) if dy < 0 else (0, -1), 5)], (-R, R), R, False, False
+        return (8 if dx > 0 else 2), [((-1, 0) if dx > 0 else (1, 0), 10)], (-R, R), R, False, False
+    # Isolated module: E-W bar stopping at 0.41
+    return 0, [], ((-.41, .41) if ns else (-R, R)), (R if ns else .41), False, False
+VARIANTS = ['Full', 'EndNeg', 'EndPos', 'Short', 'Isolated']
+
+def axis_coords():
+    c = (np.arange(3 * PX) + .5) / PX - 1.5
+    return c[None, :].repeat(3 * PX, 0), (-c)[:, None].repeat(3 * PX, 1)   # x, y (north up)
+AX, AY = axis_coords()
+
 panel_alpha = {}
-for host in ('Sandwich', 'Wall'):
+jobs = [('Sandwich' + v, 'Sandwich', v) for v in VARIANTS] + [('Wall', 'Wall', None), ('Door', 'Door', None)]
+for tag, host, variant in jobs:
     for d, (dx, dy) in DIRS.items():
-        # host silhouette (including its outline) for the shared-outline rule
-        clear(); camera(3, 3)
-        # A panel on a north/south face sits on an east-west wall run and vice versa.
-        straight = 10 if dx == 0 else 5
-        run = [((k, 0) if dx == 0 else (0, k)) for k in (-1, 0, 1)]
+        ns = dx == 0
         if host == 'Sandwich':
-            for off in run: place_wall(straight, off)
-            host_a = render()[..., 3]
-        else:
-            host_a = np.zeros((3 * PX, 3 * PX), dtype=np.float32); host_a[PX:2 * PX, PX:2 * PX] = 1
-        host_ring = dilate(host_a, OUTLINE)
-        for name, rgb in PANELS.items():
+            centre, neighbours, (slo, shi), dist, cneg, cpos = sandwich_variant(dx, dy, variant)
+            walls = [((0, 0), centre)] + neighbours
             clear(); camera(3, 3)
-            if host == 'Sandwich':
-                for off in run:
-                    ob = place_wall(straight, off)
+            for off, m in walls: place_wall(m, off)
+            host_a = render()[..., 3]
+            keep_out = dilate(host_a, OUTLINE)       # the wall atlas draws this ring
+            height = None
+        else:
+            walls = []; slo, shi = -.5, .5; dist = HOSTS[host]; cneg = cpos = True; height = FLAT
+            host_a = np.zeros((3 * PX, 3 * PX), dtype=np.float32); host_a[PX:2 * PX, PX:2 * PX] = 1
+            keep_out = host_a                         # never outline over flat cell art
+        # Outline across the face, and end caps only where the run really ends:
+        # where it continues, the neighbour's panel would be covered by a black bar.
+        along = AX if ns else AY
+        span = ((along >= (-.5 if cneg else -9)) & (along <= (.5 if cpos else 9))).astype(np.float32)
+        step = (1, 0) if ns else (0, 1)
+        ctx = [(0, 0)] + ([(-step[0], -step[1])] if cneg else []) + ([step] if cpos else [])
+        for name, rgb in PANELS.items():
+            def scene_with(offsets):
+                clear(); camera(3, 3)
+                for off, m in walls:
+                    ob = place_wall(m, off)
                     ob.data.materials.clear(); ob.data.materials.append(holdout())
                     for poly in ob.data.polygons: poly.material_index = 0
-            add_mesh('Panel', slab(dx, dy, R if host == 'Sandwich' else .5, rgb))
-            img = render()
-            p = img[..., 3]
-            ring = np.clip(dilate(np.maximum(p, host_a), OUTLINE) - host_ring, 0, 1) * (1 - p)
+                for off in offsets:
+                    lo_, hi_ = (slo, shi) if off == (0, 0) else (-.5, .5)
+                    add_mesh('Panel', slab(dx, dy, dist, rgb, lo_, hi_, height), off)
+                return render()
+            context = scene_with(ctx)[..., 3]
+            img = scene_with([(0, 0)])
+            # Sandwich: the panel joins the wall's silhouette, so only the part of the
+            # joint outline the atlas does not already draw is added. Flat hosts:
+            # outline the strip itself, never over the cell's own art.
+            grown = dilate(np.maximum(context, host_a), OUTLINE) if host == 'Sandwich' else dilate(context, OUTLINE)
+            ring = np.clip(grown - keep_out, 0, 1) * (1 - context) * span
             img = outline_under(img, ring)
             out = img[lo:lo + OVER, lo:lo + OVER]
-            save(out, os.path.join(OVERLAY, 'HD_Panel_%s_%s_%s.png' % (name, host, d)))
-            panel_alpha['%s_%s_%s' % (name, host, d)] = float(out[..., 3].sum())
+            save(out, os.path.join(OVERLAY, 'HD_Panel_%s_%s_%s.png' % (name, tag, d)))
+            panel_alpha['%s_%s_%s' % (name, tag, d)] = float(out[..., 3].sum())
 
 # ---- review sheet + validation -----------------------------------------
 sheet = np.ones((4 * (PX + 8) + 8, 4 * (PX + 8) + 8, 4), dtype=np.float32) * [0.33, 0.31, 0.28, 1]
@@ -292,18 +345,41 @@ def over(dst, src):
 def load(path):
     img = bpy.data.images.load(path); w, h = img.size
     a = np.array(img.pixels[:], dtype=np.float32).reshape(h, w, 4)[::-1].copy(); bpy.data.images.remove(img); return a
-names = list(PANELS); dirs = list(DIRS)
+# Three-cell runs with a panel on every cell, drawn in cell order as the map
+# does, to check continuity and outlines between neighbouring panels. Vanilla
+# wall and door cells are flat grey / brown proxies (their art is not exported).
 pad = (OVER - PX) // 2
-review = np.ones((len(names) * (OVER + 8) + 8, len(dirs) * (OVER + 8) + 8, 4), dtype=np.float32) * [0.33, 0.31, 0.28, 1]
-for r, name in enumerate(names):
-    for c, d in enumerate(dirs):
-        dx, dy = DIRS[d]; mask = 10 if dx == 0 else 5
-        tile = np.zeros((OVER, OVER, 4), dtype=np.float32)
-        tile[pad:pad + PX, pad:pad + PX] = cells[mask]
-        over(tile, load(os.path.join(OVERLAY, 'HD_Panel_%s_Sandwich_%s.png' % (name, d))))
-        y = 8 + r * (OVER + 8); x = 8 + c * (OVER + 8)
-        over(review[y:y + OVER, x:x + OVER], tile)
-save(review, os.path.join(REVIEW, 'panels_on_sandwich_review.png'))
+def run_review(name):
+    rows = []
+    for host in HOSTS:
+        cols = []
+        for d, (dx, dy) in DIRS.items():
+            horizontal = dx == 0
+            masks = (2, 10, 8) if horizontal else (4, 5, 1)
+            w = (3 * PX + 2 * pad) if horizontal else OVER
+            h = OVER if horizontal else (3 * PX + 2 * pad)
+            canvas = np.zeros((h, w, 4), dtype=np.float32)
+            run_tags = (['SandwichEndNeg', 'SandwichFull', 'SandwichEndPos'] if horizontal else
+                        ['SandwichEndPos', 'SandwichFull', 'SandwichEndNeg']) if host == 'Sandwich' else [host] * 3
+            overlays = [load(os.path.join(OVERLAY, 'HD_Panel_%s_%s_%s.png' % (name, t, d))) for t in run_tags]
+            for k in range(3):
+                oy, ox = (0, k * PX) if horizontal else (k * PX, 0)
+                cell = canvas[oy + pad:oy + pad + PX, ox + pad:ox + pad + PX]
+                if host == 'Sandwich': over(cell, cells[masks[k]])
+                else: cell[...] = [.45, .45, .44, 1] if host == 'Wall' else [.46, .33, .2, 1]
+            for k in range(3):
+                oy, ox = (0, k * PX) if horizontal else (k * PX, 0)
+                over(canvas[oy:oy + OVER, ox:ox + OVER], overlays[k])
+            cols.append(canvas)
+        rows.append(cols)
+    cw = max(c.shape[1] for r in rows for c in r); ch = max(c.shape[0] for r in rows for c in r)
+    sheet = np.ones((len(rows) * (ch + 12) + 12, 4 * (cw + 12) + 12, 4), dtype=np.float32) * [0.33, 0.31, 0.28, 1]
+    for r, cols in enumerate(rows):
+        for c, img in enumerate(cols):
+            y = 12 + r * (ch + 12); x = 12 + c * (cw + 12)
+            over(sheet[y:y + img.shape[0], x:x + img.shape[1]], img)
+    save(sheet, os.path.join(REVIEW, 'panel_runs_%s_review.png' % name))
+for name in ('Aramid', 'RHA'): run_review(name)
 print('PANEL_REVIEW_COMPLETE')
 
 # ---- panel menu icons: the south lining on a straight sandwich wall --------
@@ -318,7 +394,7 @@ def fit_icon(img):
 for name in PANELS:
     clear(); camera(3, 3)
     add_mesh('Wall', wall_faces(0))
-    add_mesh('Panel', slab(0, -1, R, PANELS[name]))
+    add_mesh('Panel', slab(0, -1, R, PANELS[name], -.41, .41))
     img = render(); img = outline_under(img, dilate(img[..., 3], OUTLINE))
     save(fit_icon(img), os.path.join(TEX, 'HD_Panel_%s_MenuIcon.png' % name))
 print('PANEL_ICONS_COMPLETE')

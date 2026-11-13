@@ -44,7 +44,7 @@
     <uiIconPath>Buildings/WallPanels/HD_Panel_MineralWool_MenuIcon</uiIconPath>
     <uiOrder>2110</uiOrder>
     <graphicData>
-      <texPath>Buildings/WallPanels/Overlay/HD_Panel_MineralWool_Sandwich</texPath>
+      <texPath>Buildings/WallPanels/Overlay/HD_Panel_MineralWool_SandwichFull</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(1.5,1.5)</drawSize>
     </graphicData>
@@ -58,11 +58,16 @@
     </costList>
     <modExtensions>
       <li Class="Helodrace.Panels.WallPanelProperties">
-        <otherHostGraphic>
+        <wallHostGraphic>
           <texPath>Buildings/WallPanels/Overlay/HD_Panel_MineralWool_Wall</texPath>
           <graphicClass>Graphic_Multi</graphicClass>
           <drawSize>(1.5,1.5)</drawSize>
-        </otherHostGraphic>
+        </wallHostGraphic>
+        <doorHostGraphic>
+          <texPath>Buildings/WallPanels/Overlay/HD_Panel_MineralWool_Door</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>(1.5,1.5)</drawSize>
+        </doorHostGraphic>
         <slot>Insulation</slot>
         <thermalResistance>3</thermalResistance>
         <ignitionMultiplier>0.1</ignitionMultiplier>
@@ -77,7 +82,7 @@
     <uiIconPath>Buildings/WallPanels/HD_Panel_Styrofoam_MenuIcon</uiIconPath>
     <uiOrder>2111</uiOrder>
     <graphicData>
-      <texPath>Buildings/WallPanels/Overlay/HD_Panel_Styrofoam_Sandwich</texPath>
+      <texPath>Buildings/WallPanels/Overlay/HD_Panel_Styrofoam_SandwichFull</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(1.5,1.5)</drawSize>
     </graphicData>
@@ -90,11 +95,16 @@
     </costList>
     <modExtensions>
       <li Class="Helodrace.Panels.WallPanelProperties">
-        <otherHostGraphic>
+        <wallHostGraphic>
           <texPath>Buildings/WallPanels/Overlay/HD_Panel_Styrofoam_Wall</texPath>
           <graphicClass>Graphic_Multi</graphicClass>
           <drawSize>(1.5,1.5)</drawSize>
-        </otherHostGraphic>
+        </wallHostGraphic>
+        <doorHostGraphic>
+          <texPath>Buildings/WallPanels/Overlay/HD_Panel_Styrofoam_Door</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>(1.5,1.5)</drawSize>
+        </doorHostGraphic>
         <slot>Insulation</slot>
         <thermalResistance>5</thermalResistance>
         <ignitionMultiplier>1.5</ignitionMultiplier>
@@ -116,7 +126,7 @@
     <uiIconPath>Buildings/WallPanels/HD_Panel_RHA_MenuIcon</uiIconPath>
     <uiOrder>2112</uiOrder>
     <graphicData>
-      <texPath>Buildings/WallPanels/Overlay/HD_Panel_RHA_Sandwich</texPath>
+      <texPath>Buildings/WallPanels/Overlay/HD_Panel_RHA_SandwichFull</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(1.5,1.5)</drawSize>
     </graphicData>
@@ -130,11 +140,16 @@
     </costList>
     <modExtensions>
       <li Class="Helodrace.Panels.WallPanelProperties">
-        <otherHostGraphic>
+        <wallHostGraphic>
           <texPath>Buildings/WallPanels/Overlay/HD_Panel_RHA_Wall</texPath>
           <graphicClass>Graphic_Multi</graphicClass>
           <drawSize>(1.5,1.5)</drawSize>
-        </otherHostGraphic>
+        </wallHostGraphic>
+        <doorHostGraphic>
+          <texPath>Buildings/WallPanels/Overlay/HD_Panel_RHA_Door</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>(1.5,1.5)</drawSize>
+        </doorHostGraphic>
         <slot>Reinforcement</slot>
         <thermalResistance>0</thermalResistance>
         <ignitionMultiplier>0.25</ignitionMultiplier>
@@ -151,7 +166,7 @@
     <uiIconPath>Buildings/WallPanels/HD_Panel_Aramid_MenuIcon</uiIconPath>
     <uiOrder>2113</uiOrder>
     <graphicData>
-      <texPath>Buildings/WallPanels/Overlay/HD_Panel_Aramid_Sandwich</texPath>
+      <texPath>Buildings/WallPanels/Overlay/HD_Panel_Aramid_SandwichFull</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(1.5,1.5)</drawSize>
     </graphicData>
@@ -164,11 +179,16 @@
     </costList>
     <modExtensions>
       <li Class="Helodrace.Panels.WallPanelProperties">
-        <otherHostGraphic>
+        <wallHostGraphic>
           <texPath>Buildings/WallPanels/Overlay/HD_Panel_Aramid_Wall</texPath>
           <graphicClass>Graphic_Multi</graphicClass>
           <drawSize>(1.5,1.5)</drawSize>
-        </otherHostGraphic>
+        </wallHostGraphic>
+        <doorHostGraphic>
+          <texPath>Buildings/WallPanels/Overlay/HD_Panel_Aramid_Door</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>(1.5,1.5)</drawSize>
+        </doorHostGraphic>
         <slot>Reinforcement</slot>
         <thermalResistance>0</thermalResistance>
         <aramid>true</aramid>
@@ -184,7 +204,7 @@
     <uiIconPath>Buildings/WallPanels/HD_Panel_EMI_MenuIcon</uiIconPath>
     <uiOrder>2114</uiOrder>
     <graphicData>
-      <texPath>Buildings/WallPanels/Overlay/HD_Panel_EMI_Sandwich</texPath>
+      <texPath>Buildings/WallPanels/Overlay/HD_Panel_EMI_SandwichFull</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(1.5,1.5)</drawSize>
     </graphicData>
@@ -197,11 +217,16 @@
     </costList>
     <modExtensions>
       <li Class="Helodrace.Panels.WallPanelProperties">
-        <otherHostGraphic>
+        <wallHostGraphic>
           <texPath>Buildings/WallPanels/Overlay/HD_Panel_EMI_Wall</texPath>
           <graphicClass>Graphic_Multi</graphicClass>
           <drawSize>(1.5,1.5)</drawSize>
-        </otherHostGraphic>
+        </wallHostGraphic>
+        <doorHostGraphic>
+          <texPath>Buildings/WallPanels/Overlay/HD_Panel_EMI_Door</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>(1.5,1.5)</drawSize>
+        </doorHostGraphic>
         <slot>Shielding</slot>
         <thermalResistance>0</thermalResistance>
         <electromagneticShielding>true</electromagneticShielding>
@@ -240,6 +265,12 @@
       <HD_ExpandedPolystyrene>6</HD_ExpandedPolystyrene>
       <HD_AluminiumAlloy>2</HD_AluminiumAlloy>
     </costList>
+    <building>
+      <!-- Inherited from Wall, isStuffableAirtight reads the construction stuff,
+           which this wall does not have; the info card then crashed. -->
+      <isStuffableAirtight>false</isStuffableAirtight>
+      <isAirtight>true</isAirtight>
+    </building>
     <tickerType>Rare</tickerType>
     <comps>
       <li Class="Helodrace.Panels.CompProperties_PolymerCore">

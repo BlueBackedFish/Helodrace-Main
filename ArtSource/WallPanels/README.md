@@ -10,7 +10,7 @@
 |---|---|
 | `Textures/Buildings/WallPanels/HD_SandwichWall_Atlas.png` (896²) | Linked wall atlas, 16 NESW states |
 | `Textures/Buildings/WallPanels/HD_SandwichWall_MenuIcon.png` | Architect icon |
-| `Textures/Buildings/WallPanels/Overlay/HD_Panel_<type>_{Sandwich,Wall}_{north,east,south,west}.png` (252²) | Panel overlays, drawSize 1.5 |
+| `Textures/Buildings/WallPanels/Overlay/HD_Panel_<type>_<host>_{north,east,south,west}.png` (252²) | Panel overlays, drawSize 1.5. Host: `SandwichFull/EndNeg/EndPos/Short/Isolated` (run continues on both sides / ends on the west-or-south side / ends on the east-or-north side / end cap of a perpendicular arm / unconnected module), `Wall`, `Door` |
 | `Textures/Buildings/WallPanels/HD_Panel_<type>_MenuIcon.png` | Panel icons |
 | `Textures/Items/HD_ExpandedPolystyrene.png` | Foam resource |
 | `Review/*.png`, `texture_validation.json` | Review sheets and checks (not game files) |
@@ -30,6 +30,10 @@ Rules: `ArtSource/IndustrialMachines/PRESENTATION_CALIBRATION.md`, `BUILDING_COL
 
 Linking: `Basic`, not `CornerFiller`. The corner filler paints a square from atlas UV (0.5, 0.6) between diagonal walls, which would put solid blocks between these 0.18-thick walls.
 
-Panel faces: a south lining covers the facade; north, east and west linings show as their top edge because the wall hides the rest in this projection. Panels on other walls and doors sit on the cell edge without occlusion, since those hosts draw flat atlases.
+Panel faces: a south lining covers the facade; north, east and west linings show as their top edge because the wall hides the rest in this projection. On sandwich walls a lining spans exactly the wall face of its connection state.
+
+Vanilla walls and doors draw flat cell art without height, so their linings are flat strips: on the cell edge for walls, at `DOOR_LEAF` = 0.1 tiles from the centre for doors. That leaf position is an assumption: the game's packed door textures could not be decoded for measurement, so check it in game.
+
+Outlines: a sandwich lining adds only the part of the joint wall+panel outline that the atlas does not already draw. Flat-host strips are outlined only outside the cell. End caps are outlined only where the run really ends; where it continues, the neighbouring cell's panel is not covered. `Review/panel_runs_<type>_review.png` shows three-cell runs per host and face (vanilla wall/door cells are flat proxies).
 
 Not verified in game: appearance next to vanilla walls and doors, overlay altitude against pawns/items, blueprint display.

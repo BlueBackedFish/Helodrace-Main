@@ -10,7 +10,7 @@
   <HD_Panel_Inactive>비활성: 열린 문 또는 가려진 면</HD_Panel_Inactive>
   <HD_Panel_Face>부착 면</HD_Panel_Face>
   <HD_Panel_Layers>패널 층</HD_Panel_Layers>
-  <HD_Panel_LayersDesc>이 벽이나 문의 면별 패널을 바깥층부터 보여 주고, 철거를 지시하거나 건설 예약을 취소합니다.</HD_Panel_LayersDesc>
+  <HD_Panel_LayersDesc>이 벽이나 문과 각 면의 패널 층을 보여 주고, 철거를 지시하거나 건설 예약을 취소합니다.</HD_Panel_LayersDesc>
   <HD_Panel_LayersTitle>{0}: 패널 층</HD_Panel_LayersTitle>
   <HD_Panel_FaceHeader>{0}쪽 면</HD_Panel_FaceHeader>
   <HD_Panel_FaceBlocked>(벽, 문 또는 암석에 가려짐)</HD_Panel_FaceBlocked>
@@ -25,4 +25,5 @@
   <HD_Panel_Remove>철거</HD_Panel_Remove>
   <HD_Panel_CancelRemove>철거 취소</HD_Panel_CancelRemove>
   <HD_Panel_CancelOrder>예약 취소</HD_Panel_CancelOrder>
+  <HD_Panel_LayersLegend>가운데는 벽이나 문이며 화면 위가 북쪽입니다. 각 면은 벽에서 바깥쪽으로 단열, 차폐, 보강 순입니다. 패널을 누르면 철거하거나 예약을 취소합니다.</HD_Panel_LayersLegend>
 </LanguageData>

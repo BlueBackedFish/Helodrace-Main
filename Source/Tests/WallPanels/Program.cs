@@ -39,7 +39,9 @@ internal static class Program
         foreach(var tex in doc.Descendants("texPath").Concat(doc.Descendants("uiIconPath")))
         {
             string cls=tex.Parent!.Element("graphicClass")?.Value??"";
-            string[] files=cls=="Graphic_Multi"?new[]{"_north","_east","_south","_west"}.Select(s=>tex.Value+s).ToArray():new[]{tex.Value};
+            // Sandwich overlays also ship the end variants PanelOverlay picks from the wall links.
+            string[] bases=tex.Value.Contains("_SandwichFull")?new[]{"Full","EndNeg","EndPos","Short","Isolated"}.Select(v=>tex.Value.Replace("_SandwichFull","_Sandwich"+v)).ToArray():new[]{tex.Value};
+            string[] files=cls=="Graphic_Multi"?bases.SelectMany(b=>new[]{"_north","_east","_south","_west"}.Select(s=>b+s)).ToArray():bases;
             foreach(string f in files)
             {
                 string path=Path.Combine(root,"Textures",f+".png");

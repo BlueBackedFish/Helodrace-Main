@@ -21,9 +21,10 @@ namespace Helodrace.Panels
         public float flameMultiplier = 1;
         public Helodrace.Ballistics.ArmorMaterialDef armorMaterial;
         public float armorThicknessMeters;
-        // Overlay for walls and doors other than the sandwich wall, which draw a
-        // flat atlas; the def's own graphicData is the sandwich-wall overlay.
-        public GraphicData otherHostGraphic;
+        // Overlays for hosts that draw flat cell art. The def's own graphicData is
+        // the sandwich-wall overlay for a run continuing on both sides.
+        public GraphicData wallHostGraphic;
+        public GraphicData doorHostGraphic;
     }
 
     // The wall itself is an ordinary linked map-mesh wall; the class marks the
@@ -230,8 +231,7 @@ namespace Helodrace.Panels
         protected override void DrawAt(UnityEngine.Vector3 drawLoc, bool flip = false)
         {
             if (!PanelRules.IsActive(this)) return;
-            Graphic overlay = Host is Building_SandwichPanelWall ? Graphic : Properties.otherHostGraphic?.Graphic ?? Graphic;
-            overlay.Draw(drawLoc, Rotation, this);
+            PanelOverlay.For(this).Draw(drawLoc, Rotation, this);
         }
 
         public override string GetInspectString()
@@ -240,6 +240,40 @@ namespace Helodrace.Panels
                 PanelRules.IsActive(this) ? "HD_Panel_Attached" : "HD_Panel_Inactive";
             return PanelText.AppendLine(PanelText.AppendLine(base.GetInspectString(), state.Translate()),
                 "HD_Panel_Face".Translate() + ": " + Rotation.ToStringWord());
+        }
+    }
+
+    // Picks the rendered overlay matching the host. On a sandwich wall the
+    // lining stops where the wall run stops, so the variant follows the
+    // wall's links on both sides of the face (see render_wall_textures.py).
+    public static class PanelOverlay
+    {
+        private static readonly Dictionary<(ThingDef, string), Graphic> variants = new();
+        public static Graphic For(Building_WallPanel panel)
+        {
+            WallPanelProperties props = panel.Properties;
+            if (panel.Host is Building_Door) return props.doorHostGraphic?.Graphic ?? panel.Graphic;
+            if (panel.Host is not Building_SandwichPanelWall) return props.wallHostGraphic?.Graphic ?? panel.Graphic;
+            string variant = SandwichVariant(panel.Position, panel.Rotation, panel.Map);
+            if (variant == "Full") return panel.Graphic;
+            if (!variants.TryGetValue((panel.def, variant), out Graphic graphic))
+            {
+                var data = new GraphicData();
+                data.CopyFrom(panel.def.graphicData);
+                data.texPath = panel.def.graphicData.texPath.Replace("_SandwichFull", "_Sandwich" + variant);
+                variants[(panel.def, variant)] = graphic = data.Graphic;
+            }
+            return graphic;
+        }
+        // Same links as the wall atlas: walls, doors and rock.
+        private static bool Linked(IntVec3 cell, Map map) => cell.InBounds(map) && PanelRules.Buries(cell.GetEdifice(map));
+        public static string SandwichVariant(IntVec3 pos, Rot4 face, Map map)
+        {
+            if (!GenAdj.CardinalDirections.Any(d => Linked(pos + d, map))) return "Isolated";
+            bool northSouthFace = (face.AsInt & 1) == 0;
+            bool neg = Linked(pos + (northSouthFace ? IntVec3.West : IntVec3.South), map);
+            bool pos2 = Linked(pos + (northSouthFace ? IntVec3.East : IntVec3.North), map);
+            return neg && pos2 ? "Full" : pos2 ? "EndNeg" : neg ? "EndPos" : "Short";
         }
     }
 
