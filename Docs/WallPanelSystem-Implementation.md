@@ -6,7 +6,7 @@
 
 Blender-authored isolated, end, straight, corner, T and cross junctions cover all 16 NESW masks. Runtime OBJ meshes compensate for the actual native loader's X reflection and winding reversal. One atlas and shared Waylith resources are preloaded; the map view projects authored height into a short facade within the building draw layers.
 
-Five panels attach to existing one-cell walls and doors. Doors use their front/rear faces. Each face has one insulation, shielding and reinforcement slot; mineral wool/foam and RHA/aramid compete within their respective slots. Blueprint/frame support references, material delivery, independent repair/removal, saved support identity and exposed-side work use the construction foundation. Support loss destroys completed attachments; buried faces and construction that would bury existing panels/orders are rejected. Opening a door disables its protection and hides its first-stage panel indicator.
+Five panels attach to existing one-cell walls and doors. Doors use their front/rear faces. Each face has one insulation, shielding and reinforcement slot; mineral wool/foam and RHA/aramid compete within their respective slots. Blueprint/frame support references, material delivery, independent repair/removal, saved support identity and exposed-side work use the construction foundation. Deconstructing a support deconstructs its attachments with the normal material return; any other support loss destroys them. Blueprints and frames anchored to a removed support are cancelled and return delivered materials. Panel wear registers for ordinary repair; buried faces and construction that would bury existing panels/orders are rejected. Opening a door disables its protection and hides its first-stage panel indicator.
 
 ## Effects
 

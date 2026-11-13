@@ -198,8 +198,8 @@ namespace Helodrace.Panels
         {
             string state = Host == null || !Host.Spawned ? "HD_Panel_SupportLost" :
                 PanelRules.IsActive(this) ? "HD_Panel_Attached" : "HD_Panel_Inactive";
-            return base.GetInspectString() + "\n" + state.Translate() + "\n" +
-                ("HD_Panel_Face".Translate() + ": " + Rotation.ToStringWord()).ToString();
+            return PanelText.AppendLine(PanelText.AppendLine(base.GetInspectString(), state.Translate()),
+                "HD_Panel_Face".Translate() + ": " + Rotation.ToStringWord());
         }
     }
 
@@ -234,11 +234,20 @@ namespace Helodrace.Panels
             byHost.Clear();
             foreach (var panel in map.listerThings.AllThings.OfType<Building_WallPanel>()) Register(panel);
         }
-        public void SupportRemoved(Building host)
+        public void SupportRemoved(Building host, DestroyMode mode)
         {
+            // Deconstructing the support takes its attachments down with the
+            // usual deconstruction return; any other loss destroys them.
+            DestroyMode panelMode = mode == DestroyMode.Deconstruct || mode == DestroyMode.Refund ? mode : DestroyMode.KillFinalize;
             foreach (Building_WallPanel panel in For(host))
-                if (panel.Spawned) panel.Destroy(DestroyMode.KillFinalize);
+                if (panel.Spawned) panel.Destroy(panelMode);
             byHost.Remove(host.thingIDNumber);
+            // Orders anchored to this support can never become valid again.
+            // Cancel them so delivered materials come back and the cell is free.
+            foreach (Thing order in host.Position.GetThingList(map).ToArray())
+                if ((order is Blueprint || order is Frame) && order.Spawned && PanelRules.Properties(order.def) != null &&
+                    (order as ThingWithComps)?.GetComp<CompPanelAnchor>()?.host == host)
+                    order.Destroy(DestroyMode.Cancel);
         }
     }
 
@@ -255,6 +264,10 @@ namespace Helodrace.Panels
                     if (!def.comps.Any(c => c.compClass == typeof(CompPanelAnchor)))
                         def.comps.Add(new CompProperties_PanelAnchor());
                 }
+            StatDef flammability = StatDefOf.Flammability;
+            flammability.parts ??= new List<StatPart>();
+            if (!flammability.parts.OfType<StatPart_SpentPolymerCore>().Any())
+                flammability.parts.Add(new StatPart_SpentPolymerCore { parentStat = flammability });
             ThingDef wall = DefDatabase<ThingDef>.GetNamedSilentFail("HD_Building_StyrofoamSandwichWall");
             if (wall != null) LongEventHandler.ExecuteWhenFinished(() => PanelGraphics.Preload(wall.modContentPack.RootDir));
         }
@@ -346,10 +359,10 @@ namespace Helodrace.Panels
     [HarmonyPatch(typeof(Building), nameof(Building.DeSpawn))]
     public static class PanelSupportRemoved
     {
-        static void Prefix(Building __instance)
+        static void Prefix(Building __instance, DestroyMode mode)
         {
             if (__instance.Spawned && PanelRules.IsHost(__instance.def))
-                __instance.Map.GetComponent<MapComponent_WallPanels>().SupportRemoved(__instance);
+                __instance.Map.GetComponent<MapComponent_WallPanels>().SupportRemoved(__instance, mode);
         }
     }
 

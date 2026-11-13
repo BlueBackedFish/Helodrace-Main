@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_Panel_CoreRemaining>남은 발포 심재: {0}%</HD_Panel_CoreRemaining>
+  <HD_Panel_CoreSpent>발포 심재 소진: x0%</HD_Panel_CoreSpent>
   <HD_Panel_ThermalResistance>추가 열저항: {0}</HD_Panel_ThermalResistance>
   <HD_Panel_ShieldLining>방의 전자파 차폐에 기여</HD_Panel_ShieldLining>
   <HD_Panel_AramidEffect>추가 내구도 제공 · 도탄 없음</HD_Panel_AramidEffect>

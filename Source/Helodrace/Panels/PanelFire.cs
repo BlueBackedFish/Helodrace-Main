@@ -162,13 +162,17 @@ namespace Helodrace.Panels
         }
     }
 
-    [HarmonyPatch(typeof(StatExtension),nameof(StatExtension.GetStatValue))]
-    public static class PanelSpentCoreFlammability
+    // Added to the Flammability stat at startup instead of patching every
+    // GetStatValue call in the game.
+    public sealed class StatPart_SpentPolymerCore : StatPart
     {
-        static void Postfix(Thing thing, StatDef stat, ref float __result)
+        private static bool Spent(StatRequest req) =>
+            req.Thing is ThingWithComps thing && thing.GetComp<CompPolymerCore>() is CompPolymerCore core && core.FractionRemaining <= 0;
+        public override void TransformValue(StatRequest req, ref float val)
         {
-            if(stat==StatDefOf.Flammability && thing.TryGetComp<CompPolymerCore>() is CompPolymerCore core && core.FractionRemaining<=0) __result=0;
+            if (Spent(req)) val = 0;
         }
+        public override string ExplanationPart(StatRequest req) => Spent(req) ? "HD_Panel_CoreSpent".Translate() : null;
     }
 
     public sealed class HelodGasWorker_PolymerSmoke : HelodGasWorker

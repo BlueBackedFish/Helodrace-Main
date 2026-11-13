@@ -58,7 +58,10 @@ namespace Helodrace.Panels
             if(amount<=0||!panel.Spawned)return;
             int hp=Math.Min(panel.HitPoints,Math.Max(1,(int)MathF.Ceiling(amount)));
             panel.HitPoints-=hp;
-            if(panel.HitPoints<=0)panel.Destroy(DestroyMode.KillFinalize);
+            if(panel.HitPoints<=0){panel.Destroy(DestroyMode.KillFinalize);return;}
+            // Direct HP removal skips Building.PostApplyDamage; register the
+            // damage so the panel is offered for repair like any other building.
+            panel.Map.listerBuildingsRepairable?.Notify_BuildingTookDamage(panel);
         }
         public static void Resolve(Building host, ref DamageInfo damage)
         {

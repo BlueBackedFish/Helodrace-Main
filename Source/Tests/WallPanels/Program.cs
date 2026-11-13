@@ -73,6 +73,11 @@ internal static class Program
         var props=new CompProperties_PanelAnchor();
         var anchor=new CompPanelAnchor{parent=frame,props=props,anchored=true};
         Check(!anchor.Valid,"Orphan construction order accepted");
+        Check(PanelText.AppendLine("","a")=="a"&&PanelText.AppendLine("a\n","b")=="a\nb"&&PanelText.AppendLine("a",null)=="a","Inspect text gained a blank line");
+        var spentCore=new CompPolymerCore();typeof(CompPolymerCore).GetField("remaining",BindingFlags.NonPublic|BindingFlags.Instance)!.SetValue(spentCore,0f);
+        var spentWall=(ThingWithComps)RuntimeHelpers.GetUninitializedObject(typeof(ThingWithComps));typeof(ThingWithComps).GetField("comps",BindingFlags.NonPublic|BindingFlags.Instance)!.SetValue(spentWall,new List<ThingComp>{spentCore});spentCore.parent=spentWall;
+        float flammability=1.5f;new StatPart_SpentPolymerCore().TransformValue(StatRequest.For(spentWall),ref flammability);
+        Check(flammability==0,"Burned-out foam core stayed flammable");
         EffectChecks.Run(Check);
         if(args.Length>1)EffectChecks.CheckDefinitions(Check,Path.GetFullPath(args[1]));
         var harmony=new Harmony("Helodrace.WallPanels.ContractChecks");

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_Panel_CoreRemaining>Unburned foam core: {0}%</HD_Panel_CoreRemaining>
+  <HD_Panel_CoreSpent>Foam core burned out: x0%</HD_Panel_CoreSpent>
   <HD_Panel_ThermalResistance>Added thermal resistance: {0}</HD_Panel_ThermalResistance>
   <HD_Panel_ShieldLining>Contributes to room electromagnetic shielding</HD_Panel_ShieldLining>
   <HD_Panel_AramidEffect>Additional durability; no ricochet</HD_Panel_AramidEffect>
