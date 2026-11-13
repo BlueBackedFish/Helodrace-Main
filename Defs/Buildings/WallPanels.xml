@@ -59,6 +59,8 @@
       <li Class="Helodrace.Panels.WallPanelProperties">
         <slot>Insulation</slot>
         <thermalResistance>3</thermalResistance>
+        <ignitionMultiplier>0.1</ignitionMultiplier>
+        <flameMultiplier>0.35</flameMultiplier>
       </li>
     </modExtensions>
   </ThingDef>
@@ -84,8 +86,17 @@
       <li Class="Helodrace.Panels.WallPanelProperties">
         <slot>Insulation</slot>
         <thermalResistance>5</thermalResistance>
+        <ignitionMultiplier>1.5</ignitionMultiplier>
+        <flameMultiplier>1</flameMultiplier>
       </li>
     </modExtensions>
+    <tickerType>Rare</tickerType>
+    <comps>
+      <li Class="Helodrace.Panels.CompProperties_PolymerCore">
+        <burnTicks>1800</burnTicks>
+        <totalSmoke>24</totalSmoke>
+      </li>
+    </comps>
   </ThingDef>
   <ThingDef ParentName="HD_WallPanelBase">
     <defName>HD_Panel_RHA</defName>
@@ -101,14 +112,19 @@
     <statBases>
       <MaxHitPoints>350</MaxHitPoints>
       <Flammability>0</Flammability>
+      <Mass>63</Mass>
     </statBases>
     <costList>
-      <HD_UniformRolledSteelPlate>6</HD_UniformRolledSteelPlate>
+      <HD_UniformRolledSteelPlate>21</HD_UniformRolledSteelPlate>
     </costList>
     <modExtensions>
       <li Class="Helodrace.Panels.WallPanelProperties">
         <slot>Reinforcement</slot>
         <thermalResistance>0</thermalResistance>
+        <ignitionMultiplier>0.25</ignitionMultiplier>
+        <flameMultiplier>0.9</flameMultiplier>
+        <armorMaterial>HD_Armor_RHA</armorMaterial>
+        <armorThicknessMeters>.008</armorThicknessMeters>
       </li>
     </modExtensions>
   </ThingDef>
@@ -135,6 +151,8 @@
         <slot>Reinforcement</slot>
         <thermalResistance>0</thermalResistance>
         <aramid>true</aramid>
+        <ignitionMultiplier>0.5</ignitionMultiplier>
+        <flameMultiplier>0.75</flameMultiplier>
       </li>
     </modExtensions>
   </ThingDef>
@@ -161,6 +179,8 @@
         <slot>Shielding</slot>
         <thermalResistance>0</thermalResistance>
         <electromagneticShielding>true</electromagneticShielding>
+        <ignitionMultiplier>0.25</ignitionMultiplier>
+        <flameMultiplier>0.9</flameMultiplier>
       </li>
     </modExtensions>
   </ThingDef>
@@ -191,6 +211,13 @@
       <HD_ExpandedPolystyrene>6</HD_ExpandedPolystyrene>
       <HD_AluminiumAlloy>2</HD_AluminiumAlloy>
     </costList>
+    <tickerType>Rare</tickerType>
+    <comps>
+      <li Class="Helodrace.Panels.CompProperties_PolymerCore">
+        <burnTicks>3000</burnTicks>
+        <totalSmoke>72</totalSmoke>
+      </li>
+    </comps>
   </ThingDef>
   <ThingDef ParentName="ResourceBase">
     <defName>HD_ExpandedPolystyrene</defName>
@@ -211,6 +238,13 @@
     <thingCategories>
       <li>Manufactured</li>
     </thingCategories>
+    <tickerType>Rare</tickerType>
+    <comps>
+      <li Class="Helodrace.Panels.CompProperties_PolymerCore">
+        <burnTicks>1800</burnTicks>
+        <totalSmoke>24</totalSmoke>
+      </li>
+    </comps>
   </ThingDef>
   <RecipeDef>
     <defName>HD_MakeExpandedPolystyrene</defName>

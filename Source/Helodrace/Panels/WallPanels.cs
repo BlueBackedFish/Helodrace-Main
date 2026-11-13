@@ -17,6 +17,10 @@ namespace Helodrace.Panels
         public float thermalResistance;
         public bool electromagneticShielding;
         public bool aramid;
+        public float ignitionMultiplier = 1;
+        public float flameMultiplier = 1;
+        public Helodrace.Ballistics.ArmorMaterialDef armorMaterial;
+        public float armorThicknessMeters;
     }
 
     public static class PanelRules
@@ -210,6 +214,7 @@ namespace Helodrace.Panels
             if (!byHost.TryGetValue(host.thingIDNumber, out var list))
                 byHost[host.thingIDNumber] = list = new();
             if (!list.Contains(panel)) list.Add(panel);
+            PanelShielding.Invalidate(map,host);
         }
         public void Unregister(Building_WallPanel panel)
         {
@@ -218,6 +223,7 @@ namespace Helodrace.Panels
                 list.Remove(panel);
                 if (list.Count == 0) byHost.Remove(panel.Host.thingIDNumber);
             }
+            PanelShielding.Invalidate(map,panel.Host);
         }
         public Building_WallPanel[] For(Building host) => host != null && byHost.TryGetValue(host.thingIDNumber, out var list)
             ? list.ToArray() : Array.Empty<Building_WallPanel>();
@@ -347,34 +353,13 @@ namespace Helodrace.Panels
         }
     }
 
-    // Initial directional durability path. Ballistic penetration and ricochet
-    // remain a later, separate resolver rather than claiming a fixed HP layer
-    // implements the RHA physics model.
     [HarmonyPatch(typeof(Thing), nameof(Thing.TakeDamage))]
     public static class PanelDirectionalDurability
     {
         static void Prefix(Thing __instance, ref DamageInfo dinfo)
         {
-            if (__instance is not Building host || !host.Spawned || !PanelRules.IsHost(host.def) ||
-                dinfo.Amount <= 0 || dinfo.Angle < 0 || dinfo.Def.isExplosive ||
-                dinfo.Def == DamageDefOf.Deterioration || dinfo.Def == DamageDefOf.Flame) return;
-            float rad = dinfo.Angle * (MathF.PI / 180f);
-            // DamageInfo.Angle follows incoming travel direction: source is opposite.
-            float sx = -MathF.Sin(rad), sz = -MathF.Cos(rad);
-            Rot4 face = MathF.Abs(sx) > MathF.Abs(sz) ? (sx > 0 ? Rot4.East : Rot4.West) : (sz > 0 ? Rot4.North : Rot4.South);
-            var panels = host.Map.GetComponent<MapComponent_WallPanels>().For(host)
-                .Where(p => p.Rotation == face && PanelRules.IsActive(p))
-                .OrderByDescending(p => p.Properties.slot).ToArray();
-            foreach (var panel in panels)
-            {
-                if (dinfo.Amount <= 0) break;
-                int absorbed = Math.Min(panel.HitPoints, Math.Max(0, (int)MathF.Ceiling(dinfo.Amount)));
-                if (absorbed == 0) continue;
-                // Direct HP removal avoids recursion and armour being applied twice.
-                panel.HitPoints -= absorbed;
-                if (panel.HitPoints <= 0) panel.Destroy(DestroyMode.KillFinalize);
-                dinfo.SetAmount(Math.Max(0, dinfo.Amount - absorbed));
-            }
+            if (__instance is Building host && host.Spawned && PanelRules.IsHost(host.def) && dinfo.Amount > 0)
+                PanelCombat.Resolve(host, ref dinfo);
         }
     }
 }

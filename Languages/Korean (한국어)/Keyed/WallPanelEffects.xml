@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Panel_CoreRemaining>남은 발포 심재: {0}%</HD_Panel_CoreRemaining>
+  <HD_Panel_ThermalResistance>추가 열저항: {0}</HD_Panel_ThermalResistance>
+  <HD_Panel_ShieldLining>방의 전자파 차폐에 기여</HD_Panel_ShieldLining>
+  <HD_Panel_AramidEffect>추가 내구도 제공 · 도탄 없음</HD_Panel_AramidEffect>
+  <HD_Panel_HeatTransferAxes>벽 열전달: 남북 {0}%, 동서 {1}%</HD_Panel_HeatTransferAxes>
+  <HD_Panel_ShieldCoverage>차폐 면: {0}/{1} · 지붕 구멍: {2} · 열린 경계: {3}</HD_Panel_ShieldCoverage>
+  <HD_Panel_SolarProtected>흑점폭발로부터 보호됨 · 전력 공급 필요</HD_Panel_SolarProtected>
+  <HD_Panel_SolarExposed>흑점폭발 중 차폐되지 않음</HD_Panel_SolarExposed>
+</LanguageData>

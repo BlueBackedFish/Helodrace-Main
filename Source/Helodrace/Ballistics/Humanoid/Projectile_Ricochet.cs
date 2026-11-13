@@ -41,8 +41,16 @@ namespace Helodrace.Ballistics
         {
             if (impact.projectile is Projectile_Ricochet) return null;
             Pawn pawn = impact.pawn;
-            Map map = pawn?.MapHeld;
-            Vector3 velocity = impact.deflectedVelocity;
+            return TryLaunchFromSurface(impact.projectile, pawn?.MapHeld, pawn?.DrawPos.ToNative() ?? Vector3.Zero,
+                impact.deflectedVelocity, impact.penetrator, impact.penetratorClass,
+                impact.impactSpeed, impact.impactDamage, impact.impactPenetration, 1.1f);
+        }
+
+        internal static Projectile_Ricochet TryLaunchFromSurface(Projectile source, Map map, Vector3 strike,
+            Vector3 velocity, PenetratorState penetrator, PenetratorClass penetratorClass,
+            float incomingSpeed, float incomingDamage, float incomingPenetration, float clearance = 0)
+        {
+            if (source == null || source is Projectile_Ricochet) return null;
             float speed = velocity.Length();
             if (map == null || speed < MinimumSpeed) return null;
             float horizontal = MathF.Sqrt(velocity.X * velocity.X + velocity.Z * velocity.Z);
@@ -52,10 +60,10 @@ namespace Helodrace.Ballistics
             ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail("HD_Projectile_Ricochet");
             if (def == null) return null;
             Vector3 direction = new Vector3(velocity.X, 0f, velocity.Z) / horizontal;
-            float speedRatio = impact.impactSpeed > 0f ? Math.Clamp(speed / impact.impactSpeed, 0f, 1f) : 0f;
+            float speedRatio = incomingSpeed > 0f ? Math.Clamp(speed / incomingSpeed, 0f, 1f) : 0f;
             // Range in cells from the residual speed. [game]
             float range = Math.Clamp(speed / 25f, 3f, 30f);
-            Vector3 start = pawn.DrawPos.ToNative() + direction * 1.1f;
+            Vector3 start = strike + direction * clearance;
             IntVec3 startCell = new IntVec3((int)MathF.Floor(start.X), 0, (int)MathF.Floor(start.Z));
             Vector3 end = start + direction * range;
             IntVec3 targetCell = new IntVec3(
@@ -64,15 +72,15 @@ namespace Helodrace.Ballistics
             if (!startCell.InBounds(map) || targetCell == startCell) return null;
 
             var ricochet = (Projectile_Ricochet)GenSpawn.Spawn(def, startCell, map);
-            ricochet.massKg = impact.penetrator.MassKg;
+            ricochet.massKg = penetrator.MassKg;
             ricochet.speedMetersPerSecond = speed;
-            ricochet.diameterM = impact.penetrator.DiameterM;
-            ricochet.penetratorClass = impact.penetratorClass;
+            ricochet.diameterM = penetrator.DiameterM;
+            ricochet.penetratorClass = penetratorClass;
             // Same wound law as armour: sqrt(E ratio) is the speed ratio for an unchanged mass.
-            ricochet.damage = Math.Max(1, (int)MathF.Round(impact.impactDamage * speedRatio));
-            ricochet.penetration = impact.impactPenetration * MathF.Pow(speedRatio, 1.2f);
+            ricochet.damage = Math.Max(1, (int)MathF.Round(incomingDamage * speedRatio));
+            ricochet.penetration = incomingPenetration * MathF.Pow(speedRatio, 1.2f);
             // Game contract: Launch takes Unity vectors for the origin.
-            ricochet.Launch(impact.projectile.Launcher, start.ToGame(), new LocalTargetInfo(targetCell),
+            ricochet.Launch(source.Launcher, start.ToGame(), new LocalTargetInfo(targetCell),
                 new LocalTargetInfo(targetCell), ProjectileHitFlags.All);
             return ricochet;
         }

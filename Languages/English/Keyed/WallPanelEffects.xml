@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Panel_CoreRemaining>Unburned foam core: {0}%</HD_Panel_CoreRemaining>
+  <HD_Panel_ThermalResistance>Added thermal resistance: {0}</HD_Panel_ThermalResistance>
+  <HD_Panel_ShieldLining>Contributes to room electromagnetic shielding</HD_Panel_ShieldLining>
+  <HD_Panel_AramidEffect>Additional durability; no ricochet</HD_Panel_AramidEffect>
+  <HD_Panel_HeatTransferAxes>Wall heat transfer: N–S {0}%, E–W {1}%</HD_Panel_HeatTransferAxes>
+  <HD_Panel_ShieldCoverage>Shielded faces: {0}/{1}; roof gaps: {2}; open boundaries: {3}</HD_Panel_ShieldCoverage>
+  <HD_Panel_SolarProtected>Protected from solar flare; power supply still required</HD_Panel_SolarProtected>
+  <HD_Panel_SolarExposed>Unshielded during solar flare</HD_Panel_SolarExposed>
+</LanguageData>

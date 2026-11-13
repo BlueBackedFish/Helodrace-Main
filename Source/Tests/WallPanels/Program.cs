@@ -73,6 +73,8 @@ internal static class Program
         var props=new CompProperties_PanelAnchor();
         var anchor=new CompPanelAnchor{parent=frame,props=props,anchored=true};
         Check(!anchor.Valid,"Orphan construction order accepted");
+        EffectChecks.Run(Check);
+        if(args.Length>1)EffectChecks.CheckDefinitions(Check,Path.GetFullPath(args[1]));
         var harmony=new Harmony("Helodrace.WallPanels.ContractChecks");
         try
         {
@@ -81,6 +83,7 @@ internal static class Program
                 var patched=harmony.CreateClassProcessor(type).Patch();
                 Check(patched!=null&&patched.Count>0,"Patch did not bind: "+type.Name);
             }
+            EffectChecks.RunPatched(Check);
         }
         finally { harmony.UnpatchAll(harmony.Id); }
         Console.WriteLine($"PASS: {checks} mesh, connector, host and engine-contract checks; no gameplay/GPU claim.");
