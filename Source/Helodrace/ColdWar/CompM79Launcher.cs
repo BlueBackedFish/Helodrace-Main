@@ -347,6 +347,14 @@ namespace Helodrace
     {
         public static void Postfix(Thing thing, StatDef stat, ref float __result)
         {
+            // GetStatValue is one of the hottest calls in the game; reject other stats
+            // before the comp lookup.
+            if (stat != StatDefOf.AccuracyTouch && stat != StatDefOf.AccuracyShort
+                && stat != StatDefOf.AccuracyMedium && stat != StatDefOf.AccuracyLong)
+            {
+                return;
+            }
+
             CompM79Launcher launcher = thing?.TryGetComp<CompM79Launcher>();
             if (launcher == null || !launcher.TryGetBuckshotAccuracy(stat, out float configuredAccuracy))
             {

@@ -717,7 +717,8 @@ namespace Helodrace.ModernWar
         [HarmonyPostfix]
         public static void Postfix(Thing thing, StatDef stat, ref float __result)
         {
-            if (!(thing is Pawn pawn) || pawn.apparel?.WornApparel == null)
+            if (!(thing is Pawn pawn) || pawn.apparel?.WornApparel == null
+                || !TargetStats().Contains(stat))
             {
                 return;
             }
@@ -728,6 +729,39 @@ namespace Helodrace.ModernWar
                     ?.TryGetComp<CompModularArmor>()
                     ?.ApplyStatConversions(stat, ref __result);
             }
+        }
+
+        private static HashSet<StatDef> targetStats;
+
+        // Every stat a conversion or part modifier can touch. Both live on defs, so the set
+        // is fixed after loading and lets other stats skip the apparel walk.
+        private static HashSet<StatDef> TargetStats()
+        {
+            if (targetStats != null)
+            {
+                return targetStats;
+            }
+
+            var stats = new HashSet<StatDef>();
+            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading)
+            {
+                List<ModularArmorStatConversion> conversions =
+                    def.GetCompProperties<CompProperties_ModularArmor>()?.statConversions;
+                if (conversions == null) continue;
+                for (int i = 0; i < conversions.Count; i++)
+                    if (conversions[i]?.targetStat != null) stats.Add(conversions[i].targetStat);
+            }
+
+            foreach (ModularArmorPartDef part in DefDatabase<ModularArmorPartDef>.AllDefsListForReading)
+            {
+                if (part.statModifiers == null) continue;
+                for (int i = 0; i < part.statModifiers.Count; i++)
+                    if (part.statModifiers[i]?.stat != null) stats.Add(part.statModifiers[i].stat);
+            }
+
+            if (!PlayDataLoader.Loaded) return stats;
+            targetStats = stats;
+            return targetStats;
         }
     }
 }
