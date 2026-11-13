@@ -1,0 +1,103 @@
+{
+  "axes": "X/Y-up/Z",
+  "bits": "N=1 E=2 S=4 W=8",
+  "thickness": 0.18,
+  "variants": [
+    {
+      "mask": 0,
+      "faces": 14,
+      "triangles": 28,
+      "filename": "Wall_00.obj"
+    },
+    {
+      "mask": 1,
+      "faces": 10,
+      "triangles": 20,
+      "filename": "Wall_01.obj"
+    },
+    {
+      "mask": 2,
+      "faces": 10,
+      "triangles": 20,
+      "filename": "Wall_02.obj"
+    },
+    {
+      "mask": 3,
+      "faces": 14,
+      "triangles": 28,
+      "filename": "Wall_03.obj"
+    },
+    {
+      "mask": 4,
+      "faces": 10,
+      "triangles": 20,
+      "filename": "Wall_04.obj"
+    },
+    {
+      "mask": 5,
+      "faces": 14,
+      "triangles": 28,
+      "filename": "Wall_05.obj"
+    },
+    {
+      "mask": 6,
+      "faces": 14,
+      "triangles": 28,
+      "filename": "Wall_06.obj"
+    },
+    {
+      "mask": 7,
+      "faces": 18,
+      "triangles": 36,
+      "filename": "Wall_07.obj"
+    },
+    {
+      "mask": 8,
+      "faces": 10,
+      "triangles": 20,
+      "filename": "Wall_08.obj"
+    },
+    {
+      "mask": 9,
+      "faces": 14,
+      "triangles": 28,
+      "filename": "Wall_09.obj"
+    },
+    {
+      "mask": 10,
+      "faces": 14,
+      "triangles": 28,
+      "filename": "Wall_10.obj"
+    },
+    {
+      "mask": 11,
+      "faces": 18,
+      "triangles": 36,
+      "filename": "Wall_11.obj"
+    },
+    {
+      "mask": 12,
+      "faces": 14,
+      "triangles": 28,
+      "filename": "Wall_12.obj"
+    },
+    {
+      "mask": 13,
+      "faces": 18,
+      "triangles": 36,
+      "filename": "Wall_13.obj"
+    },
+    {
+      "mask": 14,
+      "faces": 18,
+      "triangles": 36,
+      "filename": "Wall_14.obj"
+    },
+    {
+      "mask": 15,
+      "faces": 22,
+      "triangles": 44,
+      "filename": "Wall_15.obj"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework><OutputType>Exe</OutputType><ImplicitUsings>enable</ImplicitUsings>
+    <RimWorldPath Condition="'$(RimWorldPath)' == ''">C:\Program Files (x86)\Steam\steamapps\common\RimWorld</RimWorldPath>
+    <HelodAssembly Condition="'$(HelodAssembly)' == ''">../../../Assemblies/Helodrace.dll</HelodAssembly>
+    <HelodAssembly>$([System.IO.Path]::GetFullPath('$(HelodAssembly)', '$(MSBuildProjectDirectory)'))</HelodAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp"><HintPath>$(RimWorldPath)/Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Waylith"><HintPath>$(RimWorldPath)/Waylith.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityStubs"><HintPath>$(RimWorldPath)/UnityStubs.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Helodrace"><HintPath>$(HelodAssembly)</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(RimWorldPath)/../../workshop/content/294100/2009463077/1.7/Assemblies/0Harmony.dll</HintPath><Private>false</Private></Reference>
+    <AssemblyMetadata Include="Helodrace.GameRoot" Value="$(RimWorldPath)" />
+    <AssemblyMetadata Include="Helodrace.Assembly" Value="$(HelodAssembly)" />
+  </ItemGroup>
+</Project>

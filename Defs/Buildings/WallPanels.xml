@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BuildingBase" Name="HD_WallPanelBase" Abstract="True">
+    <thingClass>Helodrace.Panels.Building_WallPanel</thingClass>
+    <category>Building</category>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <passability>Standable</passability>
+    <drawerType>RealtimeOnly</drawerType>
+    <rotatable>true</rotatable>
+    <selectable>true</selectable>
+    <tickerType>Never</tickerType>
+    <fillPercent>0</fillPercent>
+    <designationCategory>Structure</designationCategory>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <drawPlaceWorkersWhileInstallBlueprintSelected>true</drawPlaceWorkersWhileInstallBlueprintSelected>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <useHitPoints>true</useHitPoints>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,1)</interactionCellOffset>
+    <size>(1,1)</size>
+    <statBases>
+      <WorkToBuild>120</WorkToBuild>
+      <Mass>4</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <building>
+      <isEdifice>false</isEdifice>
+      <isInert>true</isInert>
+      <canPlaceOverWall>true</canPlaceOverWall>
+    </building>
+    <placeWorkers>
+      <li>Helodrace.Panels.PlaceWorker_WallPanel</li>
+    </placeWorkers>
+    <comps>
+      <li Class="Helodrace.Panels.CompProperties_PanelAnchor" />
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="HD_WallPanelBase">
+    <defName>HD_Panel_MineralWool</defName>
+    <label>mineral wool panel</label>
+    <description>A mineral-fiber mat enclosed in a thin protective skin.</description>
+    <uiIconPath>Items/HD_AluminiumSandwichPanel</uiIconPath>
+    <uiOrder>2110</uiOrder>
+    <graphicData>
+      <texPath>Items/HD_AluminiumSandwichPanel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.8,0.8)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0</Flammability>
+    </statBases>
+    <costList>
+      <BlocksGranite>3</BlocksGranite>
+      <HD_AluminiumAlloy>1</HD_AluminiumAlloy>
+    </costList>
+    <modExtensions>
+      <li Class="Helodrace.Panels.WallPanelProperties">
+        <slot>Insulation</slot>
+        <thermalResistance>3</thermalResistance>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <ThingDef ParentName="HD_WallPanelBase">
+    <defName>HD_Panel_Styrofoam</defName>
+    <label>expanded foam panel</label>
+    <description>A light slab of expanded polystyrene. Its combustible core releases toxic smoke when it burns.</description>
+    <uiIconPath>Buildings/WallPanels/HD_Panel_Styrofoam</uiIconPath>
+    <uiOrder>2111</uiOrder>
+    <graphicData>
+      <texPath>Buildings/WallPanels/HD_Panel_Styrofoam</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.8,0.8)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <Flammability>1.5</Flammability>
+    </statBases>
+    <costList>
+      <HD_ExpandedPolystyrene>4</HD_ExpandedPolystyrene>
+    </costList>
+    <modExtensions>
+      <li Class="Helodrace.Panels.WallPanelProperties">
+        <slot>Insulation</slot>
+        <thermalResistance>5</thermalResistance>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <ThingDef ParentName="HD_WallPanelBase">
+    <defName>HD_Panel_RHA</defName>
+    <label>rolled armor panel</label>
+    <description>A thick rolled steel facing held by anchor brackets.</description>
+    <uiIconPath>Items/HD_RHA/HD_RHA_a</uiIconPath>
+    <uiOrder>2112</uiOrder>
+    <graphicData>
+      <texPath>Items/HD_RHA/HD_RHA_a</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.8,0.8)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>350</MaxHitPoints>
+      <Flammability>0</Flammability>
+    </statBases>
+    <costList>
+      <HD_UniformRolledSteelPlate>6</HD_UniformRolledSteelPlate>
+    </costList>
+    <modExtensions>
+      <li Class="Helodrace.Panels.WallPanelProperties">
+        <slot>Reinforcement</slot>
+        <thermalResistance>0</thermalResistance>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <ThingDef ParentName="HD_WallPanelBase">
+    <defName>HD_Panel_Aramid</defName>
+    <label>aramid reinforcement panel</label>
+    <description>Layers of golden aramid fabric bonded into a tough backing panel.</description>
+    <uiIconPath>Buildings/WallPanels/HD_Panel_Aramid</uiIconPath>
+    <uiOrder>2113</uiOrder>
+    <graphicData>
+      <texPath>Buildings/WallPanels/HD_Panel_Aramid</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.8,0.8)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <Flammability>0.2</Flammability>
+    </statBases>
+    <costList>
+      <HD_Aramid>12</HD_Aramid>
+    </costList>
+    <modExtensions>
+      <li Class="Helodrace.Panels.WallPanelProperties">
+        <slot>Reinforcement</slot>
+        <thermalResistance>0</thermalResistance>
+        <aramid>true</aramid>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <ThingDef ParentName="HD_WallPanelBase">
+    <defName>HD_Panel_EMI</defName>
+    <label>electromagnetic shielding panel</label>
+    <description>An unperforated aluminium lining with overlapping conductive joints.</description>
+    <uiIconPath>Items/HD_AluminiumEMIShieldingPanel</uiIconPath>
+    <uiOrder>2114</uiOrder>
+    <graphicData>
+      <texPath>Items/HD_AluminiumEMIShieldingPanel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.8,0.8)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <Flammability>0</Flammability>
+    </statBases>
+    <costList>
+      <HD_AluminiumAlloy>3</HD_AluminiumAlloy>
+    </costList>
+    <modExtensions>
+      <li Class="Helodrace.Panels.WallPanelProperties">
+        <slot>Shielding</slot>
+        <thermalResistance>0</thermalResistance>
+        <electromagneticShielding>true</electromagneticShielding>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <ThingDef ParentName="Wall">
+    <defName>HD_Building_StyrofoamSandwichWall</defName>
+    <label>sandwich panel wall</label>
+    <description>A lightweight wall assembled from metal-faced polystyrene panels. The foam core gives off dense toxic smoke when it burns.</description>
+    <thingClass>Helodrace.Panels.Building_SandwichPanelWall</thingClass>
+    <drawerType>RealtimeOnly</drawerType>
+    <costStuffCount>0</costStuffCount>
+    <useStuffTerrainAffordance>false</useStuffTerrainAffordance>
+    <uiIconPath>Buildings/WallPanels/HD_SandwichWall_MenuIcon</uiIconPath>
+    <uiOrder>2100</uiOrder>
+    <drawStyleCategory IsNull="True" />
+    <stuffCategories Inherit="False" />
+    <uiIconPathsStuff Inherit="False" />
+    <graphicData Inherit="False">
+      <texPath>Buildings/WallPanels/HD_SandwichWall_MenuIcon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>220</MaxHitPoints>
+      <WorkToBuild>33.75</WorkToBuild>
+      <Flammability>1.5</Flammability>
+      <Mass>8</Mass>
+    </statBases>
+    <costList>
+      <HD_ExpandedPolystyrene>6</HD_ExpandedPolystyrene>
+      <HD_AluminiumAlloy>2</HD_AluminiumAlloy>
+    </costList>
+  </ThingDef>
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_ExpandedPolystyrene</defName>
+    <label>expanded polystyrene</label>
+    <description>Light rigid foam used as an insulating core. It produces toxic smoke when it burns.</description>
+    <stackLimit>150</stackLimit>
+    <burnableByRecipe>true</burnableByRecipe>
+    <graphicData>
+      <texPath>Buildings/WallPanels/HD_Panel_Styrofoam</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Mass>0.05</Mass>
+      <MarketValue>1.8</MarketValue>
+      <Flammability>1.5</Flammability>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+  <RecipeDef>
+    <defName>HD_MakeExpandedPolystyrene</defName>
+    <label>make expanded polystyrene</label>
+    <description>Produce expanded polymer foam from refined petrochemical feedstock.</description>
+    <jobString>Making expanded polystyrene.</jobString>
+    <workAmount>1800</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_AromaticBaseOil</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_AromaticBaseOil</li>
+        <li>Chemfuel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_ExpandedPolystyrene>20</HD_ExpandedPolystyrene>
+    </products>
+    <recipeUsers>
+      <li>HD_StirredTankReactor</li>
+    </recipeUsers>
+  </RecipeDef>
+</Defs>

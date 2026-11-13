@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Panel_MineralWool.label>암면 패널</HD_Panel_MineralWool.label>
+  <HD_Panel_MineralWool.description>얇은 외피로 감싼 광물 섬유 매트다.</HD_Panel_MineralWool.description>
+  <HD_Panel_Styrofoam.label>스티로폼 패널</HD_Panel_Styrofoam.label>
+  <HD_Panel_Styrofoam.description>가벼운 발포 폴리스티렌 판재다. 가연성 심재가 타면 독성 연기가 발생한다.</HD_Panel_Styrofoam.description>
+  <HD_Panel_RHA.label>RHA 장갑 패널</HD_Panel_RHA.label>
+  <HD_Panel_RHA.description>고정 브래킷으로 지지하는 두꺼운 압연강 장갑판이다.</HD_Panel_RHA.description>
+  <HD_Panel_Aramid.label>아라미드 보강 패널</HD_Panel_Aramid.label>
+  <HD_Panel_Aramid.description>황금색 아라미드 직물을 여러 겹 접합한 보강판이다.</HD_Panel_Aramid.description>
+  <HD_Panel_EMI.label>전자파 차폐 패널</HD_Panel_EMI.label>
+  <HD_Panel_EMI.description>전도성 이음부가 겹쳐지는 무공 알루미늄 내장판이다.</HD_Panel_EMI.description>
+  <HD_Building_StyrofoamSandwichWall.label>샌드위치 패널 벽</HD_Building_StyrofoamSandwichWall.label>
+  <HD_Building_StyrofoamSandwichWall.description>금속 외피를 댄 폴리스티렌 패널로 조립한 경량 벽이다. 발포 심재가 타면 짙은 독성 연기가 발생한다.</HD_Building_StyrofoamSandwichWall.description>
+  <HD_ExpandedPolystyrene.label>발포 폴리스티렌</HD_ExpandedPolystyrene.label>
+  <HD_ExpandedPolystyrene.description>단열 심재로 사용하는 가볍고 단단한 발포재다. 연소 시 독성 연기가 발생한다.</HD_ExpandedPolystyrene.description>
+</LanguageData>

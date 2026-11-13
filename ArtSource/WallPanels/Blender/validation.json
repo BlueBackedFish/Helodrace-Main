@@ -1,0 +1,46 @@
+{
+  "dimensions_xyz": [
+    1.0,
+    0.17999999225139618,
+    1.25
+  ],
+  "baseline_thickness_assumption": 0.24,
+  "thickness_ratio": 0.7499999677141508,
+  "objects": 11,
+  "textures": [
+    {
+      "name": "HD_SandwichWall_Metal_BaseColor",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "name": "HD_SandwichWall_Metal_Roughness",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "name": "HD_SandwichWall_Metal_Normal",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "name": "HD_SandwichWall_EPS_BaseColor",
+      "size": [
+        512,
+        512
+      ]
+    }
+  ],
+  "checks": [
+    "evaluated thickness is 0.18",
+    "all wall meshes UV-mapped",
+    "no zero-area mesh faces"
+  ],
+  "game_integration": "not performed; one straight module, no junction variants"
+}

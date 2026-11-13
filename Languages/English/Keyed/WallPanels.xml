@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Panel_NeedHost>Requires an existing one-cell wall or door.</HD_Panel_NeedHost>
+  <HD_Panel_DoorFaces>Attach to the front or rear face of the door.</HD_Panel_DoorFaces>
+  <HD_Panel_BuriedFace>This face is blocked by a wall or door.</HD_Panel_BuriedFace>
+  <HD_Panel_RemoveBeforeWall>Remove panels or panel construction orders before enclosing this face.</HD_Panel_RemoveBeforeWall>
+  <HD_Panel_OccupiedSlot>This face already has this type of panel or a construction order.</HD_Panel_OccupiedSlot>
+  <HD_Panel_SupportLost>Supporting wall or door lost</HD_Panel_SupportLost>
+  <HD_Panel_Attached>Attached</HD_Panel_Attached>
+  <HD_Panel_Inactive>Inactive: open door or blocked face</HD_Panel_Inactive>
+  <HD_Panel_Face>Attached face</HD_Panel_Face>
+  <HD_Panel_Select>Panels</HD_Panel_Select>
+  <HD_Panel_SelectDesc>Select an attached panel to inspect, repair or remove it.</HD_Panel_SelectDesc>
+</LanguageData>

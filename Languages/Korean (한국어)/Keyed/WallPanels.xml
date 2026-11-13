@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Panel_NeedHost>완성된 한 칸짜리 벽이나 문이 필요합니다.</HD_Panel_NeedHost>
+  <HD_Panel_DoorFaces>문의 앞면이나 뒷면에 부착하십시오.</HD_Panel_DoorFaces>
+  <HD_Panel_BuriedFace>벽이나 문에 가려진 면입니다.</HD_Panel_BuriedFace>
+  <HD_Panel_RemoveBeforeWall>이 면을 막기 전에 패널이나 패널 건설 예약을 철거하십시오.</HD_Panel_RemoveBeforeWall>
+  <HD_Panel_OccupiedSlot>이 면의 같은 슬롯에 패널이나 건설 예약이 있습니다.</HD_Panel_OccupiedSlot>
+  <HD_Panel_SupportLost>지지 벽 또는 문 소실</HD_Panel_SupportLost>
+  <HD_Panel_Attached>부착됨</HD_Panel_Attached>
+  <HD_Panel_Inactive>비활성: 열린 문 또는 가려진 면</HD_Panel_Inactive>
+  <HD_Panel_Face>부착 면</HD_Panel_Face>
+  <HD_Panel_Select>패널</HD_Panel_Select>
+  <HD_Panel_SelectDesc>부착 패널을 선택하여 상태를 확인하거나 수리·철거합니다.</HD_Panel_SelectDesc>
+</LanguageData>
