@@ -81,7 +81,8 @@ def height_values(mesh, part, style):
     (higher = brighter). Walls and undersides sit `wall_steps` lower. Thin wall strips keep
     their surface's step so plate edges do not draw seams. Returns one value per polygon.
 
-    Per-part exceptions: `height_steps` shifts every surface (negative = brighter),
+    Per-part exceptions: `height_steps` shifts every surface (negative = brighter; fractions blend
+    neighbouring steps),
     `slope_steps` adds to chamfers/slopes (normal z between the wall limit and .9),
     `plane_angle` overrides the grouping angle, `fixed` paints one value regardless of height.
     """
@@ -133,7 +134,11 @@ def height_values(mesh, part, style):
             zs = [mesh.vertices[v].co.z for f in members for v in mesh.polygons[f].vertices]
             if max(zs)-min(zs) >= min_wall:
                 step += wall_steps
-        value = ladder[max(0, min(step, len(ladder)-1))]
+        # Fractional steps (e.g. 0.5) blend two neighbouring ladder values: an extra in-between
+        # step for one part without changing the shared ladder.
+        step = max(0, min(step, len(ladder)-1))
+        low = int(math.floor(step))
+        value = ladder[low] if low == step else round(ladder[low]+(ladder[low+1]-ladder[low])*(step-low))
         for f in members:
             values[f] = value
     return values
@@ -177,10 +182,20 @@ def simplify_mesh(obj, part, style):
         bmesh.ops.dissolve_limit(bm, angle_limit=math.radians(angle), verts=bm.verts[:], edges=bm.edges[:])
         bm.to_mesh(obj.data)
         bm.free()
+    inflate = part.get("inflate", 0)
+    if inflate:
+        # Thicken sub-pixel fittings (grab handles): push welded vertices out along their normals.
+        bm = bmesh.new()
+        bm.from_mesh(obj.data)
+        bm.normal_update()
+        for v in bm.verts:
+            v.co += v.normal*inflate
+        bm.to_mesh(obj.data)
+        bm.free()
     obj.data.update()
     after = len(obj.data.polygons)
     return {"source_faces": before, "faces": after, "collapse_ratio": ratio if before >= settings.get("min_faces", 200) else 1,
-            "planar_angle": angle}
+            "planar_angle": angle, "inflate": inflate}
 
 
 def material(rgb, cache):

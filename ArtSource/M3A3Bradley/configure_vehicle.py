@@ -51,7 +51,7 @@ TOW = {"roll_05", "rocket_mount_01", "roll_03", "roll_04", "roll_06", "roll_07",
 CURVED_PREFIXES = ("wheel_", "track_", "hatch_", "ex_lantern_", "mg_twin", "roll_", "gun_barrel", "ex_decor_01",
                    "turret_inside", "suspension_", "bone_commander_sight_v")
 CURVED_SIMPLIFY = {"collapse_ratio": .3}
-CB_RGB, FDE_RGB = [129, 97, 60], [160, 140, 106]  # Coyote Brown / Flat Dark Earth (display sRGB)
+FDE_RGB = [160, 140, 106]  # Flat Dark Earth (display sRGB)
 # Destructible overlays (runtime: remove, or swap to the charred variant). Optics and lights only: no isolated ammunition store.
 DAMAGE = [
     ("commanderViewer", "turret", ["bone_commander_sight_v"], "Commander's independent viewer (CIV)"),
@@ -85,7 +85,7 @@ def configure():
             return None
         owner = next(p for p in parts if p["id"] == group["id"])
         part = {**owner, "id": group["id"]+"_"+label, "label": label, "faces": sorted(faces), **settings}
-        for key in ("planes", "side", "cylinder_axis", "cap", "simplify", "height_steps", "slope_steps", "plane_angle", "rgb"):
+        for key in ("planes", "side", "cylinder_axis", "cap", "simplify", "height_steps", "slope_steps", "plane_angle", "rgb", "inflate"):
             if key not in settings:
                 part.pop(key, None)
         parts.append(part)
@@ -129,8 +129,6 @@ def configure():
         elif name in {"bone_gun", "ex_decor_01"}:
             # Mantlet / gun shroud: wide grouping so the faceted cone is not cut into two tones.
             part.update(mode="two_tone", top=144, side=120, plane_angle=45)
-        elif name in {"ex_decor_02", "ex_decor_03"}:
-            part.update(role="metal", mode="flat", top=88)  # smoke grenade dischargers: dark grey
         elif name.startswith("ex_lantern_"):
             part.update(height_steps=-1)  # lamp guard/base one TAN step brighter; inner parts below
         elif name == "hatch_06":
@@ -142,7 +140,8 @@ def configure():
         elif name == "hatch_04":
             part.update(role="hatch", mode="two_tone", top=192, side=144)  # rear personnel door
         elif name == "hatch_02":
-            part.update(role="hatch", mode="flat", top=168, slope_steps=1)
+            # Gunner hatch: same band as the turret roof, so a half step brighter (in-between value).
+            part.update(role="hatch", mode="flat", top=168, slope_steps=1, height_steps=-.5)
         elif name == "hatch_03":
             part.update(role="hatch", mode="two_tone", side=120)
         elif name == "ex_armor_03":
@@ -233,7 +232,7 @@ def configure():
     # Headlamps: the two largest front-projected shells (guard, base) keep the brighter housing
     # step; lamp bodies, bezels and back plate inside them sit one step darker (height_steps 0).
     # Shells reaching outside the guard (the cable) stay with the housing.
-    for name in ("ex_lantern_l_01", "ex_lantern_r_01"):
+    for name in ("ex_lantern_l_01",):
         group = groups[name]
         taken = {f for p in parts if p["source_group"] == group["id"] and p["id"] != group["id"] for f in p.get("faces", [])}
         shells = []
@@ -245,8 +244,26 @@ def configure():
         hi = np.maximum(shells[0][2], shells[1][2])+.005
         inner = [f for _, a, b, comp in shells[2:] if np.all(a >= lo) and np.all(b <= hi) for f in comp]
         extract(group, "inner", inner, height_steps=0)
-    # Commander's viewer roof handles: grips Coyote Brown, posts Flat Dark Earth.
-    take("bone_commander_sight_v", [208013, 208389], "handle_grip", rgb=CB_RGB, mode="flat")
+    # The right lamp's shells split differently; mirror the left classification face by face.
+    from scipy.spatial import cKDTree
+    left_inner = next(p for p in parts if p["id"] == groups["ex_lantern_l_01"]["id"]+"_inner")["faces"]
+    left_rest = [f for f in groups["ex_lantern_l_01"]["faces"]
+                 if f not in {g for p in parts if p["source_group"] == groups["ex_lantern_l_01"]["id"] and p["id"] != groups["ex_lantern_l_01"]["id"] for g in p.get("faces", [])}]
+    pool = list(left_inner)+left_rest
+    tree = cKDTree([surface(f)[1] for f in pool])
+    inner_set = set(left_inner)
+    group = groups["ex_lantern_r_01"]
+    taken = {f for p in parts if p["source_group"] == group["id"] and p["id"] != group["id"] for f in p.get("faces", [])}
+    right = [f for f in group["faces"] if f not in taken]
+    _, nearest = tree.query([surface(f)[1]*np.array([-1, 1, 1]) for f in right])
+    extract(group, "inner", [f for f, k in zip(right, nearest) if pool[k] in inner_set], height_steps=0)
+    # Commander's viewer roof handles: grips and posts Flat Dark Earth. Its round base plate
+    # sits a half step below the viewer head so the two heights read apart.
+    take("ex_armor_03", [207399], "base_plate", height_steps=.5)
+    # Smoke grenade dischargers live in the turret body mesh: four tubes + mount per side.
+    take("bone_turret", [155431, 156316, 155688, 159134, 156406, 159300, 157462, 156000, 170382, 169880],
+         "smoke_dischargers", role="metal", mode="flat", top=88)
+    take("bone_commander_sight_v", [208013, 208389], "handle_grip", rgb=FDE_RGB, mode="flat")
     take("bone_commander_sight_v", [207937, 208103, 208205, 208287], "handle_post", rgb=FDE_RGB, mode="flat")
     # Hull rear cargo hatch: same treatment as the turret hatch (no separate hinge pin modelled).
     take("hatch_05", [82018, 82030, 82042, 82054], "handle", **handle)
@@ -268,7 +285,10 @@ def configure():
             co = vertices[[v for f in comp for v in model["faces"][f]["vertices"]]]
             plate = np.abs(co[:, 0]).min()
             feet = [f for f in comp if abs(surface(f)[1][0])-plate < .025]
-            extract(group, f"handle_feet_{min(comp)}", feet, role="paint", mode="flat", fixed=128)
+            grip = [f for f in comp if f not in set(feet)]
+            # Thickened ~1 cm all round: sub-pixel loops otherwise vanish at 256px.
+            extract(group, f"handle_feet_{min(comp)}", feet, role="paint", mode="flat", fixed=128, inflate=.01)
+            extract(group, f"handle_grip_{min(comp)}", grip, inflate=.01)
     # Right-side engine louvre above the skirts: one mid value instead of height bands.
     take("@root", [493], "side_louvre", role="paint", mode="flat", fixed=179)
 
