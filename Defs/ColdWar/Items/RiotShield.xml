@@ -69,7 +69,7 @@
       <skillRequirements>
         <Crafting>6</Crafting>
       </skillRequirements>
-      <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
+      <researchPrerequisite>HelodLessLethalClose</researchPrerequisite>
       <recipeUsers Inherit="False"><li>HD_ClothingBench</li></recipeUsers>
     </recipeMaker>
     <costList>

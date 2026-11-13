@@ -29,7 +29,7 @@
       <skillRequirements>
         <Crafting>5</Crafting>
       </skillRequirements>
-      <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
+      <researchPrerequisite>HelodLessLethalClose</researchPrerequisite>
       <recipeUsers Inherit="False"><li>HD_GunSmithTable</li></recipeUsers>
     </recipeMaker>
     <tools>
