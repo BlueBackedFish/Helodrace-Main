@@ -224,7 +224,7 @@ namespace Helodrace
                 CompCEDoubleTapWeapon ceDoubleTap = eq.parent.TryGetComp<CompCEDoubleTapWeapon>();
                 if (ceDoubleTap != null)
                 {
-                    ceDoubleTap.ApplyMode();
+                    ceDoubleTap.EnsureModeApplied();
                     Verb selectedVerb = ceDoubleTap.CurrentVerb;
                     if (selectedVerb != null)
                     {
@@ -402,7 +402,7 @@ namespace Helodrace
                 CompCEDoubleTapWeapon ceDoubleTap = __instance.parent.TryGetComp<CompCEDoubleTapWeapon>();
                 if (ceDoubleTap != null)
                 {
-                    ceDoubleTap.ApplyMode();
+                    ceDoubleTap.EnsureModeApplied();
                     Verb selectedVerb = ceDoubleTap.CurrentVerb;
                     if (selectedVerb != null)
                     {
@@ -432,7 +432,7 @@ namespace Helodrace
                 {
                     var updated = new List<Command>();
                     CompCEDoubleTapWeapon ceDoubleTap = __instance.parent.TryGetComp<CompCEDoubleTapWeapon>();
-                    ceDoubleTap?.ApplyMode();
+                    ceDoubleTap?.EnsureModeApplied();
                     Verb selectedVerb = ceDoubleTap?.CurrentVerb;
                     bool shouldSwap = selectedVerb != null || (comp.altModeActive && comp.CanUseSharpshooterMode && comp.AltVerb != null);
                     
@@ -524,6 +524,18 @@ namespace Helodrace
             }
         }
 
+        // The PrimaryVerb getters run many times per tick. The written values never change, so
+        // they only need applying once the verbs exist; mode toggles still call ApplyMode.
+        private bool modeApplied;
+
+        public void EnsureModeApplied()
+        {
+            if (!modeApplied)
+            {
+                ApplyMode();
+            }
+        }
+
         public void ApplyMode()
         {
             Verb doubleTapVerb = DoubleTapVerb;
@@ -531,6 +543,8 @@ namespace Helodrace
             {
                 return;
             }
+
+            modeApplied = true;
 
             doubleTapVerb.verbProps.burstShotCount = Props.doubleTapBurstShotCount;
             doubleTapVerb.verbProps.ticksBetweenBurstShots = Props.ticksBetweenBurstShots;
@@ -567,9 +581,10 @@ namespace Helodrace
             CachedTicksBetweenBurstShotsField?.SetValue(verb, null);
         }
 
+        private static readonly Dictionary<System.Type, FieldInfo> aimedBurstFields = new Dictionary<System.Type, FieldInfo>();
+
         private void ApplyCEFireModesBurstCount(int burstShotCount)
         {
-            FieldInfo propsField = AccessTools.Field(typeof(ThingComp), "props");
             foreach (ThingComp comp in parent.AllComps)
             {
                 if (comp?.GetType().FullName != "CombatExtended.CompFireModes")
@@ -577,8 +592,19 @@ namespace Helodrace
                     continue;
                 }
 
-                object compProps = propsField?.GetValue(comp);
-                FieldInfo burstField = compProps == null ? null : AccessTools.Field(compProps.GetType(), "aimedBurstShotCount");
+                object compProps = comp.props;
+                if (compProps == null)
+                {
+                    continue;
+                }
+
+                System.Type propsType = compProps.GetType();
+                if (!aimedBurstFields.TryGetValue(propsType, out FieldInfo burstField))
+                {
+                    burstField = AccessTools.Field(propsType, "aimedBurstShotCount");
+                    aimedBurstFields[propsType] = burstField;
+                }
+
                 burstField?.SetValue(compProps, burstShotCount);
             }
         }
