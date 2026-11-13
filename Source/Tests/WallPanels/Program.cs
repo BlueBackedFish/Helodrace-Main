@@ -68,6 +68,11 @@ internal static class Program
                 foreach(MethodBase target in (IEnumerable<MethodBase>)method.Invoke(null,null)!)
                     Check(target!=null,"Missing runtime patch target in "+t.Name);
         }
+        Building Edifice(ThingDef def){var b=(Building)RuntimeHelpers.GetUninitializedObject(typeof(Building));b.def=def;return b;}
+        Check(!PanelRules.Buries(Edifice(new ThingDef{thingClass=typeof(Building),building=new BuildingProperties()})),"Furniture in front buried a lining");
+        Check(PanelRules.Buries(Edifice(new ThingDef{thingClass=typeof(Building_Door),building=new BuildingProperties()})),"A door against the face did not bury it");
+        Check(PanelRules.Buries(Edifice(new ThingDef{thingClass=typeof(Building),building=new BuildingProperties{isNaturalRock=true}})),"Rock against the face did not bury it");
+        Check(!PanelRules.Buries(null),"An empty cell buried a lining");
         var frame=new Frame();
         var props=new CompProperties_PanelAnchor();
         var anchor=new CompPanelAnchor{parent=frame,props=props,anchored=true};

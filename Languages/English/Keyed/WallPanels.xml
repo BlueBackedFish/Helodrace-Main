@@ -2,13 +2,27 @@
 <LanguageData>
   <HD_Panel_NeedHost>Requires an existing one-cell wall or door.</HD_Panel_NeedHost>
   <HD_Panel_DoorFaces>Attach to the front or rear face of the door.</HD_Panel_DoorFaces>
-  <HD_Panel_BuriedFace>This face is blocked by a wall or door.</HD_Panel_BuriedFace>
+  <HD_Panel_BuriedFace>This face is blocked by a wall, door or rock.</HD_Panel_BuriedFace>
   <HD_Panel_RemoveBeforeWall>Remove panels or panel construction orders before enclosing this face.</HD_Panel_RemoveBeforeWall>
   <HD_Panel_OccupiedSlot>This face already has this type of panel or a construction order.</HD_Panel_OccupiedSlot>
   <HD_Panel_SupportLost>Supporting wall or door lost</HD_Panel_SupportLost>
   <HD_Panel_Attached>Attached</HD_Panel_Attached>
   <HD_Panel_Inactive>Inactive: open door or blocked face</HD_Panel_Inactive>
   <HD_Panel_Face>Attached face</HD_Panel_Face>
-  <HD_Panel_Select>Panels</HD_Panel_Select>
-  <HD_Panel_SelectDesc>Select an attached panel to inspect, repair or remove it.</HD_Panel_SelectDesc>
+  <HD_Panel_Layers>Panel layers</HD_Panel_Layers>
+  <HD_Panel_LayersDesc>Show the panels on each face of this wall or door, outermost layer first, and order their removal or cancel construction.</HD_Panel_LayersDesc>
+  <HD_Panel_LayersTitle>{0}: panel layers</HD_Panel_LayersTitle>
+  <HD_Panel_FaceHeader>{0} face</HD_Panel_FaceHeader>
+  <HD_Panel_FaceBlocked>(blocked by a wall, door or rock)</HD_Panel_FaceBlocked>
+  <HD_Panel_Slot_Reinforcement>Reinforcement</HD_Panel_Slot_Reinforcement>
+  <HD_Panel_Slot_Shielding>Shielding</HD_Panel_Slot_Shielding>
+  <HD_Panel_Slot_Insulation>Insulation</HD_Panel_Slot_Insulation>
+  <HD_Panel_EmptySlot>Empty</HD_Panel_EmptySlot>
+  <HD_Panel_StatusOrdered>(construction ordered)</HD_Panel_StatusOrdered>
+  <HD_Panel_StatusBuilding>(under construction)</HD_Panel_StatusBuilding>
+  <HD_Panel_StatusHitPoints>{0}/{1} HP</HD_Panel_StatusHitPoints>
+  <HD_Panel_StatusRemoving>removal ordered</HD_Panel_StatusRemoving>
+  <HD_Panel_Remove>Remove</HD_Panel_Remove>
+  <HD_Panel_CancelRemove>Cancel removal</HD_Panel_CancelRemove>
+  <HD_Panel_CancelOrder>Cancel order</HD_Panel_CancelOrder>
 </LanguageData>

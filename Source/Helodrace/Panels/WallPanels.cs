@@ -41,6 +41,29 @@ namespace Helodrace.Panels
         public static IntVec3 Front(IntVec3 pos, Rot4 face) => pos + GenAdj.CardinalDirections[face.AsInt];
 
         public static bool DoorFaceAllowed(Rot4 door, Rot4 face) => (door.AsInt & 1) == (face.AsInt & 1);
+        // A lining is like wallpaper: furniture and machines may stand right in
+        // front of it. Only a wall, door or rock against the face buries it.
+        public static bool Buries(Thing edifice) => edifice != null &&
+            (IsHost(BuiltDef(edifice.def)) || edifice.def.building?.isNaturalRock == true);
+        public static bool FaceBuried(IntVec3 pos, Rot4 face, Map map)
+        {
+            IntVec3 front = Front(pos, face);
+            return !front.InBounds(map) || Buries(front.GetEdifice(map));
+        }
+        // Blueprints and frames of panels anchored to this support.
+        public static IEnumerable<Thing> Orders(Building host) => host.Position.GetThingList(host.Map)
+            .Where(t => (t is Blueprint || t is Frame) && Properties(t.def) != null &&
+                (t as ThingWithComps)?.GetComp<CompPanelAnchor>()?.host == host).ToArray();
+        public static IEnumerable<Rot4> Faces(Building host) =>
+            new[] { Rot4.North, Rot4.East, Rot4.South, Rot4.West }.Where(f => !(host is Building_Door door) || DoorFaceAllowed(door.Rotation, f));
+        // Work from the face side when a pawn can stand there; otherwise any
+        // touching cell, as with other buildings.
+        public static bool WorkFromFront(Thing panelThing, Pawn pawn, out IntVec3 front)
+        {
+            front = Front(panelThing.Position, panelThing.Rotation);
+            return panelThing.Spawned && front.InBounds(panelThing.Map) && front.Standable(panelThing.Map) &&
+                pawn.CanReach(front, PathEndMode.OnCell, Danger.Some);
+        }
         public static bool SameSlot(Rot4 faceA, PanelSlot slotA, Rot4 faceB, PanelSlot slotB) => faceA == faceB && slotA == slotB;
 
         public static AcceptanceReport Check(ThingDef panelDef, IntVec3 pos, Rot4 face, Map map, Thing ignore = null)
@@ -52,9 +75,7 @@ namespace Helodrace.Panels
             if (host is Building_Door door && !DoorFaceAllowed(door.Rotation, face))
                 return "HD_Panel_DoorFaces".Translate();
             IntVec3 front = Front(pos, face);
-            if (!front.InBounds(map) || front.GetEdifice(map) != null || !front.Standable(map))
-                return "HD_Panel_BuriedFace".Translate();
-            if (front.GetThingList(map).Any(t => IsHost(BuiltDef(t.def))))
+            if (FaceBuried(pos, face, map) || front.GetThingList(map).Any(t => IsHost(BuiltDef(t.def))))
                 return "HD_Panel_BuriedFace".Translate();
             foreach (Thing other in pos.GetThingList(map))
             {
@@ -69,8 +90,7 @@ namespace Helodrace.Panels
         public static bool IsActive(Building_WallPanel panel) => panel.Spawned && panel.Host != null &&
             panel.Host.Spawned && panel.Host.Map == panel.Map && panel.Host.Position == panel.Position &&
             HostAt(panel.Position, panel.Map) == panel.Host &&
-            Front(panel.Position, panel.Rotation).InBounds(panel.Map) &&
-            Front(panel.Position, panel.Rotation).GetEdifice(panel.Map) == null &&
+            !FaceBuried(panel.Position, panel.Rotation, panel.Map) &&
             !(panel.Host is Building_Door door && door.Open);
     }
 
@@ -146,10 +166,9 @@ namespace Helodrace.Panels
     {
         static bool Prefix(Pawn __0, Thing __1, ref IntVec3 __2, ref bool __result)
         {
-            if (PanelRules.Properties(__1?.def) == null) return true;
-            __2 = PanelRules.Front(__1.Position, __1.Rotation);
-            __result = __1.Spawned && __2.InBounds(__1.Map) && __2.Standable(__1.Map) &&
-                __0.CanReach(__2, PathEndMode.OnCell, Danger.Some);
+            if (PanelRules.Properties(__1?.def) == null || !PanelRules.WorkFromFront(__1, __0, out IntVec3 front)) return true;
+            __2 = front;
+            __result = true;
             return false;
         }
     }
@@ -164,9 +183,8 @@ namespace Helodrace.Panels
             {
                 Pawn pawn = __result.actor;
                 Thing target = pawn.CurJob?.GetTarget(__0).Thing;
-                if (PanelRules.Properties(target?.def) == null) { original?.Invoke(); return; }
-                if (!target.Spawned) { pawn.jobs.EndCurrentJob(JobCondition.Incompletable); return; }
-                pawn.pather.StartPath(PanelRules.Front(target.Position, target.Rotation), PathEndMode.OnCell);
+                if (PanelRules.Properties(target?.def) == null || !PanelRules.WorkFromFront(target, pawn, out IntVec3 front)) { original?.Invoke(); return; }
+                pawn.pather.StartPath(front, PathEndMode.OnCell);
             };
         }
     }
@@ -253,10 +271,8 @@ namespace Helodrace.Panels
             byHost.Remove(host.thingIDNumber);
             // Orders anchored to this support can never become valid again.
             // Cancel them so delivered materials come back and the cell is free.
-            foreach (Thing order in host.Position.GetThingList(map).ToArray())
-                if ((order is Blueprint || order is Frame) && order.Spawned && PanelRules.Properties(order.def) != null &&
-                    (order as ThingWithComps)?.GetComp<CompPanelAnchor>()?.host == host)
-                    order.Destroy(DestroyMode.Cancel);
+            foreach (Thing order in PanelRules.Orders(host))
+                if (order.Spawned) order.Destroy(DestroyMode.Cancel);
         }
     }
 
@@ -287,19 +303,16 @@ namespace Helodrace.Panels
         {
             foreach (Gizmo gizmo in __result) yield return gizmo;
             if (__instance is not Building host || !host.Spawned || !PanelRules.IsHost(host.def)) yield break;
-            Building_WallPanel[] panels = host.Map.GetComponent<MapComponent_WallPanels>().For(host);
-            if (panels.Length == 0) yield break;
+            ThingDef first = host.Map.GetComponent<MapComponent_WallPanels>().For(host).Select(p => p.def)
+                .Concat(PanelRules.Orders(host).Select(o => PanelRules.BuiltDef(o.def))).FirstOrDefault();
+            if (first == null) yield break;
             yield return new Command_Action
             {
-                defaultLabel = "HD_Panel_Select".Translate(),
-                defaultDesc = "HD_Panel_SelectDesc".Translate(),
-                icon = panels[0].def.uiIcon,
-                action = () => Find.WindowStack.Add(new FloatMenu(panels.Where(p => p.Spawned).Select(p =>
-                    new FloatMenuOption(p.Rotation.ToStringWord() + ": " + p.LabelCap + $" ({p.HitPoints}/{p.MaxHitPoints})", () =>
-                    {
-                        Find.Selector.ClearSelection();
-                        Find.Selector.Select(p);
-                    })).ToList()))
+                defaultLabel = "HD_Panel_Layers".Translate(),
+                defaultDesc = "HD_Panel_LayersDesc".Translate(),
+                icon = first.uiIcon,
+                groupable = false,
+                action = () => Find.WindowStack.Add(new Dialog_WallPanelLayers(host))
             };
         }
     }

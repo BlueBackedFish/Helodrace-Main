@@ -7,7 +7,8 @@
     <passability>Standable</passability>
     <drawerType>RealtimeOnly</drawerType>
     <rotatable>true</rotatable>
-    <selectable>true</selectable>
+    <!-- Selected and removed through the support's panel layer window. -->
+    <selectable>false</selectable>
     <tickerType>Never</tickerType>
     <fillPercent>0</fillPercent>
     <designationCategory>Structure</designationCategory>
@@ -16,8 +17,6 @@
     <drawPlaceWorkersWhileInstallBlueprintSelected>true</drawPlaceWorkersWhileInstallBlueprintSelected>
     <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <useHitPoints>true</useHitPoints>
-    <hasInteractionCell>true</hasInteractionCell>
-    <interactionCellOffset>(0,0,1)</interactionCellOffset>
     <size>(1,1)</size>
     <statBases>
       <WorkToBuild>120</WorkToBuild>
