@@ -232,7 +232,7 @@ def configure():
     # Headlamps: the two largest front-projected shells (guard, base) keep the brighter housing
     # step; lamp bodies, bezels and back plate inside them sit one step darker (height_steps 0).
     # Shells reaching outside the guard (the cable) stay with the housing.
-    for name in ("ex_lantern_l_01",):
+    for name in ("ex_lantern_r_01",):
         group = groups[name]
         taken = {f for p in parts if p["source_group"] == group["id"] and p["id"] != group["id"] for f in p.get("faces", [])}
         shells = []
@@ -244,19 +244,27 @@ def configure():
         hi = np.maximum(shells[0][2], shells[1][2])+.005
         inner = [f for _, a, b, comp in shells[2:] if np.all(a >= lo) and np.all(b <= hi) for f in comp]
         extract(group, "inner", inner, height_steps=0)
-    # The right lamp's shells split differently; mirror the left classification face by face.
+    # The left lamp's shells split differently; mirror the right classification face by face.
     from scipy.spatial import cKDTree
-    left_inner = next(p for p in parts if p["id"] == groups["ex_lantern_l_01"]["id"]+"_inner")["faces"]
-    left_rest = [f for f in groups["ex_lantern_l_01"]["faces"]
-                 if f not in {g for p in parts if p["source_group"] == groups["ex_lantern_l_01"]["id"] and p["id"] != groups["ex_lantern_l_01"]["id"] for g in p.get("faces", [])}]
-    pool = list(left_inner)+left_rest
+    ref = groups["ex_lantern_r_01"]
+    ref_inner = next(p for p in parts if p["id"] == ref["id"]+"_inner")["faces"]
+    ref_rest = [f for f in ref["faces"]
+                 if f not in {g for p in parts if p["source_group"] == ref["id"] and p["id"] != ref["id"] for g in p.get("faces", [])}]
+    pool = list(ref_inner)+ref_rest
     tree = cKDTree([surface(f)[1] for f in pool])
-    inner_set = set(left_inner)
-    group = groups["ex_lantern_r_01"]
+    inner_set = set(ref_inner)
+    group = groups["ex_lantern_l_01"]
     taken = {f for p in parts if p["source_group"] == group["id"] and p["id"] != group["id"] for f in p.get("faces", [])}
-    right = [f for f in group["faces"] if f not in taken]
-    _, nearest = tree.query([surface(f)[1]*np.array([-1, 1, 1]) for f in right])
-    extract(group, "inner", [f for f, k in zip(right, nearest) if pool[k] in inner_set], height_steps=0)
+    other = [f for f in group["faces"] if f not in taken]
+    mirrored = np.array([surface(f)[1]*np.array([-1, 1, 1]) for f in other])
+    distance, nearest = tree.query(mirrored)
+    # Faces with an exact mirror twin copy its class; the extra blackout lamp has none, so it is
+    # inner when it sits inside the reference lamp's inner bounding box.
+    box = np.array([surface(f)[1] for f in ref_inner])
+    lo, hi = box.min(0)-.01, box.max(0)+.01
+    inner = [f for f, d, k, c in zip(other, distance, nearest, mirrored)
+             if (pool[k] in inner_set if d < .005 else bool(np.all((c >= lo) & (c <= hi))))]
+    extract(group, "inner", inner, height_steps=0)
     # Commander's viewer roof handles: grips and posts Flat Dark Earth. Its round base plate
     # sits a half step below the viewer head so the two heights read apart.
     take("ex_armor_03", [207399], "base_plate", height_steps=.5)
