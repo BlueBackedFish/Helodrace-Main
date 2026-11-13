@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using RimWorld;
@@ -354,16 +353,79 @@ namespace Helodrace
             float rangeSquared = range * range;
             float minimumRangeSquared = minimumRange * minimumRange;
 
-            selectedThreat = parent.Map.listerThings.AllThings
-                .Where(IsThreat)
-                .Where(thing =>
+            // CompTick calls this every tick while the gun idles in anti-air
+            // mode, so only the projectile and drop-pod lists are scanned
+            // instead of every thing on the map.
+            ListerThings lister = parent.Map.listerThings;
+            Thing best = null;
+            float bestPriority = float.MinValue;
+            if (Props.interceptOverheadProjectiles || Props.interceptDirectProjectiles)
+            {
+                ConsiderThreats(lister.ThingsInGroup(ThingRequestGroup.Projectile),
+                    rangeSquared, minimumRangeSquared, ref best, ref bestPriority);
+            }
+
+            if (Props.interceptDropPods)
+            {
+                List<ThingDef> podDefs = DropPodDefs();
+                for (int i = 0; i < podDefs.Count; i++)
                 {
-                    float distanceSquared = parent.Position.DistanceToSquared(thing.Position);
-                    return distanceSquared <= rangeSquared && distanceSquared >= minimumRangeSquared;
-                })
-                .OrderByDescending(ThreatPriority)
-                .FirstOrDefault();
+                    ConsiderThreats(lister.ThingsOfDef(podDefs[i]),
+                        rangeSquared, minimumRangeSquared, ref best, ref bestPriority);
+                }
+            }
+
+            selectedThreat = best;
             return selectedThreat;
+        }
+
+        private static List<ThingDef> dropPodDefs;
+
+        private static List<ThingDef> DropPodDefs()
+        {
+            if (dropPodDefs == null)
+            {
+                dropPodDefs = new List<ThingDef>();
+                foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading)
+                {
+                    if (def.thingClass != null && typeof(DropPodIncoming).IsAssignableFrom(def.thingClass))
+                    {
+                        dropPodDefs.Add(def);
+                    }
+                }
+            }
+
+            return dropPodDefs;
+        }
+
+        private void ConsiderThreats(
+            List<Thing> candidates,
+            float rangeSquared,
+            float minimumRangeSquared,
+            ref Thing best,
+            ref float bestPriority)
+        {
+            for (int i = 0; i < candidates.Count; i++)
+            {
+                Thing thing = candidates[i];
+                if (!IsThreat(thing))
+                {
+                    continue;
+                }
+
+                float distanceSquared = parent.Position.DistanceToSquared(thing.Position);
+                if (distanceSquared > rangeSquared || distanceSquared < minimumRangeSquared)
+                {
+                    continue;
+                }
+
+                float priority = ThreatPriority(thing);
+                if (best == null || priority > bestPriority)
+                {
+                    best = thing;
+                    bestPriority = priority;
+                }
+            }
         }
 
         public bool CanContinueLockedBurst =>
