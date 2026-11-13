@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
   <name>Helodrace</name>
-  <author>BlueBackedFish</author>
+  <author>BlueBackedFish, formingrain</author>
   <packageId>BlueBackedFish.Helodrace.Main</packageId>
   <supportedVersions>
     <li>1.7</li>
   </supportedVersions>
-  <description>Helodrace adds the Helods, a standalone industrial-age frontier race. Build line-shaft factories, oil fields and steelworks, deal in Sthaler banknotes, and use the telegraph and radio to call caravans, loans and forward-base support.
+  <description>-start : BlueBackedFish or byeongsin
+-Race, cloth texture : formingrain
+
+Helodrace adds the Helods, a standalone industrial-age frontier race. Build line-shaft factories, oil fields and steelworks, deal in Sthaler banknotes, and use the telegraph and radio to call caravans, loans and forward-base support.
 Era weapons and modular gear span the Wild West to the modern day.
+
 Requires Harmony, Biotech and Helod race - Blanca's Drugs.</description>
   <modDependencies>
     <li>
