@@ -5,7 +5,7 @@ namespace Helodrace
     public sealed class RaidSettings : ModSettings
     {
         public bool limitToOnePlatoon = true;
-        // The squad tactical engine is unstable; vanilla raid AI is the default.
+        // Selects the rewritten squad AI; vanilla raid AI is the default.
         public bool tacticalAI;
         public bool bodyVariants;
         public bool unifiedBallistics = true;

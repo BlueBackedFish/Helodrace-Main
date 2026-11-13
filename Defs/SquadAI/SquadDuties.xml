@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Squad AI: hold the post in focus, facing the enemy in focusSecond. -->
+  <DutyDef>
+    <defName>HD_SquadHold</defName>
+    <alwaysShowWeapon>true</alwaysShowWeapon>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="JobGiver_TakeCombatEnhancingDrug">
+          <onlyIfInDanger>true</onlyIfInDanger>
+        </li>
+        <li Class="Helodrace.SquadAI.JobGiver_SquadCloseThreat">
+          <radius>6</radius>
+        </li>
+        <li Class="Helodrace.SquadAI.JobGiver_SquadReturnToPost" />
+        <li Class="JobGiver_AIDefendPoint">
+          <targetAcquireRadius>65</targetAcquireRadius>
+          <targetKeepRadius>72</targetKeepRadius>
+        </li>
+        <li Class="Helodrace.SquadAI.JobGiver_SquadHoldPost" />
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
+  <!-- Squad AI: move to the post in focus (flank or bound), answering only close threats. -->
+  <DutyDef>
+    <defName>HD_SquadMove</defName>
+    <alwaysShowWeapon>true</alwaysShowWeapon>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="Helodrace.SquadAI.JobGiver_SquadCloseThreat">
+          <radius>7</radius>
+        </li>
+        <li Class="Helodrace.SquadAI.JobGiver_SquadMove" />
+        <li Class="Helodrace.SquadAI.JobGiver_SquadHoldPost" />
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+</Defs>

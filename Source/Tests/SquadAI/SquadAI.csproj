@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework><AssemblyName>Helodrace.SquadAIChecks</AssemblyName><HelodUsesGame>true</HelodUsesGame><HelodUsesHarmony>true</HelodUsesHarmony><GenerateDependencyFile>false</GenerateDependencyFile></PropertyGroup>
+  <ItemGroup><Reference Include="Helodrace"><HintPath>$(HelodAssembly)</HintPath><Private>false</Private></Reference></ItemGroup>
+</Project>
