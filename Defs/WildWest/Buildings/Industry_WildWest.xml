@@ -319,7 +319,7 @@
       <li Class="CompProperties_Flickable"/>
       <li Class="Helodrace.CompProperties_IndustrialRefuelable">
         <fuelConsumptionRate>20.0</fuelConsumptionRate>
-        <fuelCapacity>80.0</fuelCapacity>
+        <fuelCapacity>40.0</fuelCapacity>
         <autoRefuelPercent>0.40</autoRefuelPercent>
         <fuelFilter>
           <thingDefs>
