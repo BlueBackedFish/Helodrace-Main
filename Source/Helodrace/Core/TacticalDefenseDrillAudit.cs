@@ -29,7 +29,7 @@ namespace Helodrace
         }
         private void InitializeDefenseDrill(Faction faction)
         {
-            if (result.units != 2 || TacticalEngineSelection.Kind != TacticalEngineKind.New)
+            if (result.units != 2 || TacticalEngineSelection.Kind != TacticalEngineKind.Legacy)
                 throw new InvalidOperationException("Defense drill requires exactly two complete squads and the new engine.");
             int size = raiders.Count / 2;
             LordMaker.MakeNewLord(faction, new LordJob_DefendBase(faction, new IntVec3(72, 0, 108),

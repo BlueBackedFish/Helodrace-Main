@@ -21,7 +21,7 @@ param(
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot '../../Tests/Game17SaveRuntime.ps1')
 $runtime=New-Game17SaveRuntime -SaveFile $SaveFile -RuntimeRoot $AuditRoot -GameRoot $GameRoot -HarmonyRoot $HarmonyRoot -BlancasRoot $BlancasRoot -ExtraModRoots $ExtraModRoots
-$arguments=@(('-hdCqbSavedMapAudit='+(Join-Path $runtime.Root 'audit.json')),'-hdTacticalEngine=new',"-hdTacticalAuditSample=$Ticks",
+$arguments=@(('-hdCqbSavedMapAudit='+(Join-Path $runtime.Root 'audit.json')),'-hdTacticalEngine=legacy',"-hdTacticalAuditSample=$Ticks",
     "-hdCqbSavedSpawnX=$SpawnX","-hdCqbSavedSpawnZ=$SpawnZ",'-screen-fullscreen','0','-screen-width','800','-screen-height','600')
 if($High){$arguments+='-hdCqbSavedHigh=true'}
 if($DownProbe){$arguments+='-hdCqbSavedDownProbe=true'}

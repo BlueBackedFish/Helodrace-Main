@@ -265,7 +265,7 @@ namespace Helodrace.Tactics
                 validator = c => owner.FieldCombatFloor(command, c) && owner.FieldLocusContains(command, pawn, c) }, out dest);
         }
     }
-    [NewTactical, HarmonyPatch(typeof(Pawn_JobTracker), "DetermineNextJob")]
+    [LegacyEngine, HarmonyPatch(typeof(Pawn_JobTracker), "DetermineNextJob")]
     public static class Patch_NewTactical_FieldJobs
     {
         private static readonly Func<Pawn_JobTracker, ThinkResult> ConstantJobs =
@@ -291,7 +291,7 @@ namespace Helodrace.Tactics
             finally { ___determiningNextJob = false; }
         }
     }
-    [NewTactical, HarmonyPatch(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.StartJob))]
+    [LegacyEngine, HarmonyPatch(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.StartJob))]
     public static class Patch_NewTactical_AdoptFieldJob
     {
         public static void Prefix(Pawn ___pawn, Job newJob)

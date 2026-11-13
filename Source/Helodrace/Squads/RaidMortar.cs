@@ -309,7 +309,7 @@ namespace Helodrace.Squads
             });
         }
     }
-    [NewTactical, HarmonyPatch(typeof(RaidStrategyWorker), nameof(RaidStrategyWorker.CanUseWith))]
+    [LegacyEngine, HarmonyPatch(typeof(RaidStrategyWorker), nameof(RaidStrategyWorker.CanUseWith))]
     public static class Patch_HelodRaid_ImplementedMissions
     {
         public static bool Prefix(RaidStrategyWorker __instance, IncidentParms parms, ref bool __result)

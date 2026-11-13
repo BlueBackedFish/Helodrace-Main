@@ -98,8 +98,8 @@ namespace Helodrace.Squads
                                 pawn.health.AddHediff(HediffMaker.MakeHediff(trainingDef, pawn));
                         }
                     // Hand grenades and charges are thrown/planted only by the
-                    // squad tactical engine; vanilla raiders would just carry them.
-                    IEnumerable<ThingDef> carried = TacticalEngineSelection.Kind == TacticalEngineKind.New
+                    // legacy tactical engine; other raiders would just carry them.
+                    IEnumerable<ThingDef> carried = TacticalEngineSelection.Kind == TacticalEngineKind.Legacy
                         ? member.slot.grenadeLoadout.Concat(member.slot.inventoryLoadout) : member.slot.inventoryLoadout;
                     foreach (ThingDef grenadeDef in carried)
                     {
@@ -118,7 +118,7 @@ namespace Helodrace.Squads
                     }
                     member.assignment.pawn = pawn;
                 }
-                if (TacticalEngineSelection.Kind == TacticalEngineKind.New) EnsureSmokeCarriers(result);
+                if (TacticalEngineSelection.Kind == TacticalEngineKind.Legacy) EnsureSmokeCarriers(result);
                 OrganizationMedical.Equip(result);
                 RaidSupport.Equip(result);
                 foreach (CombatGroup root in result.rootGroups) root.InitializeCommand();

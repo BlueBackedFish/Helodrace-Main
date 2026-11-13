@@ -56,7 +56,7 @@ namespace Helodrace
         }
         private void ApplyFieldDrill()
         {
-            if (TacticalEngineSelection.Kind != TacticalEngineKind.New || fieldStep >= 5) return;
+            if (TacticalEngineSelection.Kind != TacticalEngineKind.Legacy || fieldStep >= 5) return;
             int tick = GenTicks.TicksGame;
             MapComponent_TacticalCommands service = map.GetComponent<MapComponent_TacticalCommands>();
             if (fieldStep == 0)

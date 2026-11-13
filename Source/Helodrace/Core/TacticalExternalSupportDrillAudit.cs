@@ -36,7 +36,7 @@ namespace Helodrace
         }
         private void ApplyExternalSupportDrill()
         {
-            if (TacticalEngineSelection.Kind != TacticalEngineKind.New || result.units != 1)
+            if (TacticalEngineSelection.Kind != TacticalEngineKind.Legacy || result.units != 1)
                 throw new InvalidOperationException("Support drill requires one actual new-engine squad.");
             TacticalSquadCommand command = ExternalCommand;
             MapComponent_TacticalCommands service = map.GetComponent<MapComponent_TacticalCommands>();

@@ -80,7 +80,7 @@ namespace Helodrace.Tactics
     }
 
     // One fair bounded scheduler for ALL maps. No per-map tactical tick/update.
-    [NewTactical]
+    [LegacyEngine]
     public sealed partial class GameComponent_TacticalCommands : GameComponent
     {
         private readonly List<TacticalSquadCommand> commands = new List<TacticalSquadCommand>();
@@ -178,7 +178,7 @@ namespace Helodrace.Tactics
         }
     }
 
-    [NewTactical]
+    [LegacyEngine]
     public sealed partial class MapComponent_TacticalCommands : MapComponent
     {
         private readonly Dictionary<string, TacticalSquadCommand> squads = new Dictionary<string, TacticalSquadCommand>();
@@ -1101,7 +1101,7 @@ namespace Helodrace.Tactics
         }
     }
 
-    [NewTactical, HarmonyPatch(typeof(LordMaker), nameof(LordMaker.MakeNewLord))]
+    [LegacyEngine, HarmonyPatch(typeof(LordMaker), nameof(LordMaker.MakeNewLord))]
     public static class Patch_NewTactical_RaidCreated
     {
         private static void Postfix(Lord __result) => Current.Game.GetComponent<GameComponent_TacticalCommands>()?.RegisterLord(__result);

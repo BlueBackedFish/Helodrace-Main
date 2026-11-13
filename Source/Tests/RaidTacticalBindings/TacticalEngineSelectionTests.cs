@@ -11,9 +11,10 @@ internal static class TacticalEngineSelectionTests
 {
     internal static void Run()
     {
-        if (TacticalEngineSelection.Parse(null) != TacticalEngineKind.New
+        if (TacticalEngineSelection.Parse(null) != TacticalEngineKind.Squad
             || TacticalEngineSelection.Parse("VANILLA") != TacticalEngineKind.Vanilla
-            || TacticalEngineSelection.Parse("new") != TacticalEngineKind.New)
+            || TacticalEngineSelection.Parse("legacy") != TacticalEngineKind.Legacy
+            || TacticalEngineSelection.Parse("Squad") != TacticalEngineKind.Squad)
             throw new Exception("Engine selection parser/default failed.");
         try { TacticalEngineSelection.Parse("garbage"); throw new Exception("Invalid engine accepted."); }
         catch (ArgumentException) { }
@@ -49,8 +50,9 @@ internal static class TacticalEngineSelectionTests
                 throw new Exception("Patch discovery would omit a method-only target: " + type);
         foreach (Type type in new[] { typeof(Helodrace.Tactics.MapComponent_TacticalCommands), typeof(Helodrace.Tactics.GameComponent_TacticalCommands),
             typeof(Helodrace.Tactics.Patch_NewTactical_RaidCreated) })
-            if (!TacticalEngineSelection.Install(type, TacticalEngineKind.New)
-                || TacticalEngineSelection.Install(type, TacticalEngineKind.Vanilla)) throw new Exception("New engine component isolation failed: " + type);
+            if (!TacticalEngineSelection.Install(type, TacticalEngineKind.Legacy)
+                || TacticalEngineSelection.Install(type, TacticalEngineKind.Vanilla)
+                || TacticalEngineSelection.Install(type, TacticalEngineKind.Squad)) throw new Exception("Legacy engine component isolation failed: " + type);
         var connected = new[] { new IntVec3(0,0,0), new IntVec3(1,0,0), new IntVec3(1,0,1) };
         if (!Helodrace.Tactics.TacticalLocalPlanner.Connected(connected)
             || Helodrace.Tactics.TacticalLocalPlanner.Connected(new[] { connected[0], connected[2] })

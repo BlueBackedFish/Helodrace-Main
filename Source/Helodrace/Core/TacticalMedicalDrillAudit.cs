@@ -33,7 +33,7 @@ namespace Helodrace
         }
         private void ApplyMedicalDrill()
         {
-            if (TacticalEngineSelection.Kind != TacticalEngineKind.New || medicalStep >= 3) return;
+            if (TacticalEngineSelection.Kind != TacticalEngineKind.Legacy || medicalStep >= 3) return;
             int tick = GenTicks.TicksGame;
             MapComponent_TacticalCommands service = map.GetComponent<MapComponent_TacticalCommands>();
             if (medicalStep == 0)

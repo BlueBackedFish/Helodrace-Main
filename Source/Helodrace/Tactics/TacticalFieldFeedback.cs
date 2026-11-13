@@ -32,7 +32,7 @@ namespace Helodrace.Tactics
             if (field.EnemyId == enemy.thingIDNumber) field.LastSeen = tick;
         }
     }
-    [NewTactical, HarmonyPatch(typeof(Pawn), nameof(Pawn.Notify_UsedVerb))]
+    [LegacyEngine, HarmonyPatch(typeof(Pawn), nameof(Pawn.Notify_UsedVerb))]
     public static class Patch_NewTactical_NativeFieldShot
     {
         public static void Postfix(Pawn __instance, Verb verb) => __instance.Map?

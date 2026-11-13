@@ -45,8 +45,8 @@ internal static class TacticalRemovalTests
                 foreach (string include in XDocument.Load(project).Descendants("Compile").Attributes("Include").Select(attribute => attribute.Value))
                     Check(!deleted.Contains(Path.GetFullPath(Path.Combine(Path.GetDirectoryName(project), include))), "A surviving project compiles a retired source: " + project + ": " + include);
         }
-        Check(TacticalEngineSelection.Parse(null) == TacticalEngineKind.New, "Production default must be the new engine.");
-        try { TacticalEngineSelection.Parse("legacy"); throw new Exception("Removed legacy engine option was accepted."); }
+        Check(TacticalEngineSelection.Parse(null) == TacticalEngineKind.Squad, "A bare engine switch must select the squad AI.");
+        try { TacticalEngineSelection.Parse("new"); throw new Exception("Renamed engine option was accepted."); }
         catch (ArgumentException) { checks++; }
         var retiredDefs = new HashSet<string> { "HD_RaidTacticalControl", "HD_RaidPrepareGrenade", "HD_RaidObserveOpening", "HD_RecoverSledgehammer" };
         var elements = Directory.EnumerateFiles(Path.Combine(root, "Defs"), "*.xml", SearchOption.AllDirectories)

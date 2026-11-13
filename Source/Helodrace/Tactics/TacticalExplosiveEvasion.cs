@@ -211,7 +211,7 @@ namespace Helodrace.Tactics
         }
     }
 
-    [NewTactical, HarmonyPatch(typeof(JobGiver_FleePotentialExplosion), "TryGiveJob")]
+    [LegacyEngine, HarmonyPatch(typeof(JobGiver_FleePotentialExplosion), "TryGiveJob")]
     public static class Patch_NewTactical_KeepExplosiveEvasion
     {
         public static bool Prefix(Pawn pawn, ref Job __result)
@@ -255,7 +255,7 @@ namespace Helodrace.Tactics
         }
     }
 
-    [NewTactical, HarmonyPatch(typeof(GenExplosion), nameof(GenExplosion.NotifyNearbyPawnsOfDangerousExplosive))]
+    [LegacyEngine, HarmonyPatch(typeof(GenExplosion), nameof(GenExplosion.NotifyNearbyPawnsOfDangerousExplosive))]
     public static class Patch_NewTactical_NoticeHostileGrenade
     {
         public static void Postfix(Thing exploder, DamageDef damage, Faction onlyFaction)

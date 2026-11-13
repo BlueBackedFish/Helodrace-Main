@@ -95,7 +95,7 @@ namespace Helodrace.Squads
         public override void GameComponentTick()
         {
             int tick = Find.TickManager.TicksGame;
-            if (TacticalEngineSelection.Kind == TacticalEngineKind.New)
+            if (TacticalEngineSelection.Kind == TacticalEngineKind.Legacy)
             {
                 // The comparison engines retain their original cadence. New
                 // spreads organization maintenance instead of a 15-tick burst.

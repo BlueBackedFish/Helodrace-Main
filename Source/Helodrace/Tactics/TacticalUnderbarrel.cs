@@ -67,7 +67,7 @@ namespace Helodrace.Tactics
             return false;
         }
     }
-    [NewTactical,HarmonyPatch(typeof(Pawn),nameof(Pawn.TryGetAttackVerb))]
+    [LegacyEngine,HarmonyPatch(typeof(Pawn),nameof(Pawn.TryGetAttackVerb))]
     public static class Patch_TacticalUnderbarrelSelection
     {
         public static void Postfix(Pawn __instance,Thing target,ref Verb __result)

@@ -23,7 +23,7 @@ namespace Helodrace
         {
             if (!cpuWindows || measured < 0 || cpuWindowPoints.Count >= 128) return false;
             var commands = map.GetComponent<MapComponent_TacticalCommands>()?.Commands;
-            int active = TacticalEngineSelection.Kind == TacticalEngineKind.New
+            int active = TacticalEngineSelection.Kind == TacticalEngineKind.Legacy
                 ? commands.Count(c => !c.Terminal && c.Phase != TacticalCommandPhase.Complete) : -1;
             string phases = Phases();
             ProfileCpuCheckpoint point;
@@ -48,7 +48,7 @@ namespace Helodrace
         private void MissionCpuWindow(int tick)
         {
             if (!cpuWindows || measured < 0 || result.r7FirstVerifiedMissionTick >= 0 || result.units == 0
-                || TacticalEngineSelection.Kind != TacticalEngineKind.New) return;
+                || TacticalEngineSelection.Kind != TacticalEngineKind.Legacy) return;
             TacticalSquadCommand[] commands = map.GetComponent<MapComponent_TacticalCommands>().Commands.ToArray();
             if (commands.Length != result.units || commands.Any(c => c.Phase != TacticalCommandPhase.Complete
                 || c.ContactRestoring || c.Link.IdentificationHolding || c.Members.Any(m => !m.EntryAssignmentDone))) return;

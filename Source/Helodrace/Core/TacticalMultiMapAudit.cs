@@ -38,7 +38,7 @@ namespace Helodrace
         }
         private void InitializeMultiMapDrill()
         {
-            if (result.units < 1 || TacticalEngineSelection.Kind != TacticalEngineKind.New)
+            if (result.units < 1 || TacticalEngineSelection.Kind != TacticalEngineKind.Legacy)
                 throw new InvalidOperationException("Multi-map drill requires complete squads on both actual maps and the new engine.");
             var neighbors = new List<PlanetTile>(); Find.WorldGrid.GetTileNeighbors(map.Tile, neighbors);
             PlanetTile tile = neighbors.First(t => !Find.WorldGrid[t].WaterCovered

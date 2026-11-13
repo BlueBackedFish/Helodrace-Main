@@ -26,7 +26,7 @@ namespace Helodrace
         }
         private void ApplyOfferRetirementDrill()
         {
-            if (TacticalEngineSelection.Kind != TacticalEngineKind.New || result.units != 2)
+            if (TacticalEngineSelection.Kind != TacticalEngineKind.Legacy || result.units != 2)
                 throw new InvalidOperationException("Offer retirement requires two native new-engine squads.");
             MapComponent_TacticalCommands service = map.GetComponent<MapComponent_TacticalCommands>();
             GameComponent_TacticalCommands scheduler = Current.Game.GetComponent<GameComponent_TacticalCommands>();

@@ -6,9 +6,14 @@ using Verse;
 
 namespace Helodrace
 {
-    public enum TacticalEngineKind { Vanilla, New }
+    // Vanilla: vanilla raid AI plus BasicRaidAI. Squad: the rewritten squad AI
+    // (mod setting). Legacy: the previous tactical engine, kept only as a
+    // command-line reference until the squad AI covers its features.
+    public enum TacticalEngineKind { Vanilla, Legacy, Squad }
     [AttributeUsage(AttributeTargets.Class)]
-    internal sealed class NewTacticalAttribute : Attribute { }
+    internal sealed class LegacyEngineAttribute : Attribute { }
+    [AttributeUsage(AttributeTargets.Class)]
+    internal sealed class SquadTacticalAttribute : Attribute { }
 
     // Fixed before patches/components are installed. Never switch a live raid's owner.
     public static class TacticalEngineSelection
@@ -17,22 +22,24 @@ namespace Helodrace
         // The command-line switch (test harnesses) overrides the mod setting.
         public static TacticalEngineKind Kind => selected ?? (selected =
             GenCommandLine.TryGetCommandLineArg("hdTacticalEngine", out string value) ? Parse(value)
-            : RaidSettings.TacticalAI ? TacticalEngineKind.New : TacticalEngineKind.Vanilla).Value;
+            : RaidSettings.TacticalAI ? TacticalEngineKind.Squad : TacticalEngineKind.Vanilla).Value;
         public static bool NewImplemented => true;
         public static string EffectiveEngine => Kind.ToString().ToLowerInvariant();
 
         public static TacticalEngineKind Parse(string value)
         {
-            if (value == null) return TacticalEngineKind.New;
-            switch (value.ToLowerInvariant())
+            switch (value?.ToLowerInvariant())
             {
                 case "vanilla": return TacticalEngineKind.Vanilla;
-                case "new": return TacticalEngineKind.New;
-                default: throw new ArgumentException("hdTacticalEngine must be vanilla or new.");
+                case "legacy": return TacticalEngineKind.Legacy;
+                case null:
+                case "squad": return TacticalEngineKind.Squad;
+                default: throw new ArgumentException("hdTacticalEngine must be vanilla, legacy or squad.");
             }
         }
         public static bool Install(Type type, TacticalEngineKind engine) =>
-            !type.IsDefined(typeof(NewTacticalAttribute), false) || engine == TacticalEngineKind.New;
+            type.IsDefined(typeof(LegacyEngineAttribute), false) ? engine == TacticalEngineKind.Legacy
+            : !type.IsDefined(typeof(SquadTacticalAttribute), false) || engine == TacticalEngineKind.Squad;
         internal static void InstallPatches(Harmony harmony, Assembly assembly)
         {
             foreach (Type type in assembly.GetTypes())

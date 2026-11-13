@@ -44,7 +44,7 @@ foreach($entry in $prepared.contentSha256.PSObject.Properties){
     if((Get-FileHash -LiteralPath (Join-Path $runtime.Repository $entry.Name)).Hash -ne $entry.Value){throw 'Content changed; prepare a fresh manual test runtime.'}
 }
 . (Join-Path $runtime.Repository 'Source/Tests/Game17Runtime.ps1')
-$process=Start-Game17Runtime -Runtime $runtime -Arguments @('-hdTacticalEngine=new') -SkipQuicktest -Visible
+$process=Start-Game17Runtime -Runtime $runtime -Arguments @('-hdTacticalEngine=legacy') -SkipQuicktest -Visible
 $process.Id | Set-Content -LiteralPath (Join-Path $runtime.Root 'process-id.txt')
 '@
 [IO.File]::WriteAllText((Join-Path $runtime.Root 'Start-TestGame.ps1'),$launchText)

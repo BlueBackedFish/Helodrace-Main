@@ -51,7 +51,7 @@ namespace Helodrace
         }
         private void ApplyContactDrill()
         {
-            if (TacticalEngineSelection.Kind != TacticalEngineKind.New || contactStep >= 9) return;
+            if (TacticalEngineSelection.Kind != TacticalEngineKind.Legacy || contactStep >= 9) return;
             int tick = GenTicks.TicksGame;
             var service = map.GetComponent<MapComponent_TacticalCommands>();
             if (contactStep == 0)

@@ -17,7 +17,7 @@ namespace Helodrace.Tactics
         public static void Inspect()
         {
             MapComponent_TacticalCommands service = Find.CurrentMap.GetComponent<MapComponent_TacticalCommands>();
-            Find.WindowStack.Add(new Dialog_MessageBox(service == null ? "Start with -hdTacticalEngine=new."
+            Find.WindowStack.Add(new Dialog_MessageBox(service == null ? "Start with -hdTacticalEngine=legacy."
                 : "Jobs=" + service.JobsIssued + " failures=" + service.JobFailures + " plans=" + service.PlansAttempted
                     + "\n" + string.Join("\n", service.ExecutionCommands.Select(command => command.Id + ": " + command.Phase
                         + " goal=" + command.Goal + " opening=" + command.Plan?.Opening + " depth=" + command.Plan?.Depth

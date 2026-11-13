@@ -310,11 +310,11 @@ namespace Helodrace.Tactics
     // Toil sequence stays constant, even when execution is rebuilt after load.
     public static class TacticalCareBridge
     {
-        public static bool Owned(Pawn pawn, Job job) => TacticalEngineSelection.Kind == TacticalEngineKind.New
+        public static bool Owned(Pawn pawn, Job job) => TacticalEngineSelection.Kind == TacticalEngineKind.Legacy
             && pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.OwnsMedicalJob(pawn, job) == true;
         public static void Finished(Pawn pawn, Job job, JobCondition condition)
         {
-            if (TacticalEngineSelection.Kind == TacticalEngineKind.New)
+            if (TacticalEngineSelection.Kind == TacticalEngineKind.Legacy)
                 pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.MedicalJobFinished(pawn, job, condition);
         }
         public static Toil Movement(Pawn pawn, Job job, Action ready)
@@ -329,7 +329,7 @@ namespace Helodrace.Tactics
             return gate;
         }
     }
-    [NewTactical, HarmonyPatch(typeof(Pawn_HealthTracker), "MakeUndowned")]
+    [LegacyEngine, HarmonyPatch(typeof(Pawn_HealthTracker), "MakeUndowned")]
     public static class Patch_NewTactical_MedicalRecoveryWake
     {
         public static void Postfix(Pawn ___pawn) => ___pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.Wake(___pawn);

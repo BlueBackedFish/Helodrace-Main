@@ -483,7 +483,7 @@ namespace Helodrace
             if (FieldFixture) { ApplyFieldDrill(); return; }
             if (CooperationFixture) { ApplyCooperationDrill(); return; }
             if (result.fixtureCase == "r4-contact-drill") { ApplyContactDrill(); return; }
-            if (result.fixtureCase == "outdoor-opening" && TacticalEngineSelection.Kind == TacticalEngineKind.New)
+            if (result.fixtureCase == "outdoor-opening" && TacticalEngineSelection.Kind == TacticalEngineKind.Legacy)
                 foreach (var command in map.GetComponent<Tactics.MapComponent_TacticalCommands>().Commands)
                 {
                     var action = command.OpeningAction;
@@ -505,7 +505,7 @@ namespace Helodrace
                 && result.fixtureCase != "recovery" && result.fixtureCase != "cutter-recovery" && result.fixtureCase != "unexpected-hole"
                 && result.fixtureCase != "door-contact" && result.fixtureCase != "room-recovery" && result.fixtureCase != "cutter-active-recovery"
                 && !result.fixtureCase.StartsWith("charge-", StringComparison.Ordinal)) return;
-            if (result.caseTriggered || TacticalEngineSelection.Kind != TacticalEngineKind.New) return;
+            if (result.caseTriggered || TacticalEngineSelection.Kind != TacticalEngineKind.Legacy) return;
             var service = map.GetComponent<Tactics.MapComponent_TacticalCommands>();
             if (result.fixtureCase == "room-recovery")
             {
@@ -831,7 +831,7 @@ namespace Helodrace
             }
             result.finalBoundarySketch = sketch.ToString();
         }
-        private string Phases() => TacticalEngineSelection.Kind == TacticalEngineKind.New
+        private string Phases() => TacticalEngineSelection.Kind == TacticalEngineKind.Legacy
             ? string.Join(",", map.GetComponent<Tactics.MapComponent_TacticalCommands>().Commands.GroupBy(command => command.Phase)
                 .OrderBy(group => group.Key).Select(group => group.Key + ":" + group.Count()))
             : result.effectiveEngine;
@@ -840,7 +840,7 @@ namespace Helodrace
             SampleScaling(tick);
             foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned)
                 if (pawn != owner && !ProtectedRaiders.Contains(pawn)) unexpected.Add(pawn.ThingID + ":" + pawn.kindDef.defName);
-            if (result.newAllCompleteTick < 0 && result.units > 0 && TacticalEngineSelection.Kind == TacticalEngineKind.New)
+            if (result.newAllCompleteTick < 0 && result.units > 0 && TacticalEngineSelection.Kind == TacticalEngineKind.Legacy)
             {
                 var service = map.GetComponent<Tactics.MapComponent_TacticalCommands>();
                 if (service.Commands.Count() == result.units && service.Commands.All(command => command.Phase == Tactics.TacticalCommandPhase.Complete))
@@ -871,13 +871,13 @@ namespace Helodrace
                     .Select(patch => method.DeclaringType.FullName + "." + method.Name + " <- " + patch.PatchMethod.DeclaringType.FullName);
             }).OrderBy(name => name).ToArray();
             result.newComponents = map.components.Cast<object>().Concat(Current.Game.components)
-                .Where(value => value.GetType().IsDefined(typeof(NewTacticalAttribute), false))
+                .Where(value => value.GetType().IsDefined(typeof(LegacyEngineAttribute), false))
                 .Select(value => value.GetType().FullName).OrderBy(name => name).ToArray();
             result.installedNewHooks = Harmony.GetAllPatchedMethods().SelectMany(method =>
             {
                 Patches patches = Harmony.GetPatchInfo(method);
                 return patches.Prefixes.Concat(patches.Postfixes).Concat(patches.Transpilers).Concat(patches.Finalizers)
-                    .Where(patch => patch.PatchMethod.DeclaringType.IsDefined(typeof(NewTacticalAttribute), false))
+                    .Where(patch => patch.PatchMethod.DeclaringType.IsDefined(typeof(LegacyEngineAttribute), false))
                     .Select(patch => method.DeclaringType.FullName + "." + method.Name + " <- " + patch.PatchMethod.DeclaringType.FullName);
             }).OrderBy(name => name).ToArray();
             result.r7RetiredTypesAbsent = TacticalRetirementAudit.TypesAbsent();
@@ -887,18 +887,18 @@ namespace Helodrace
                 && DefDatabase<JobDef>.GetNamedSilentFail("HD_RaidObserveOpening") == null;
             result.isolationVerified = result.legacyComponents.Length == 0 && result.installedLegacyHooks.Length == 0
                 && result.r7RetiredTypesAbsent && result.r7RetiredDefinitionsAbsent;
-            result.isolationVerified &= result.newComponents.Length == (TacticalEngineSelection.Kind == TacticalEngineKind.New ? 2 : 0);
+            result.isolationVerified &= result.newComponents.Length == (TacticalEngineSelection.Kind == TacticalEngineKind.Legacy ? 2 : 0);
             // R3 adds narrow presentation/weapon hooks; these must still be
             // absent in Vanilla, with every concrete New patch present.
             string[] expectedHooks = typeof(TacticalEngineSelection).Assembly.GetTypes()
-                .Where(type => type.IsDefined(typeof(NewTacticalAttribute), false) && type.IsDefined(typeof(HarmonyPatch), false))
+                .Where(type => type.IsDefined(typeof(LegacyEngineAttribute), false) && type.IsDefined(typeof(HarmonyPatch), false))
                 .Select(type => type.FullName).OrderBy(name => name).ToArray();
             // A patch class can install both a Prefix and a Postfix. Compare
             // concrete patch classes, retaining every hook in the raw evidence.
             string[] installedHooks = result.installedNewHooks
                 .Select(hook => hook.Substring(hook.LastIndexOf(" <- ", StringComparison.Ordinal) + 4))
                 .Distinct().OrderBy(name => name).ToArray();
-            result.isolationVerified &= TacticalEngineSelection.Kind == TacticalEngineKind.New
+            result.isolationVerified &= TacticalEngineSelection.Kind == TacticalEngineKind.Legacy
                 ? installedHooks.SequenceEqual(expectedHooks) : installedHooks.Length == 0;
             if (!result.isolationVerified) throw new InvalidOperationException("Tactical engine isolation failed.");
         }

@@ -177,7 +177,7 @@ namespace Helodrace.Tactics
             || pawn?.jobs?.curDriver is JobDriver_ThrowInventoryGrenade inventory && !inventory.Released
             || pawn?.jobs?.curDriver is JobDriver_TacticalObserve;
     }
-    [NewTactical, HarmonyPatch(typeof(Verb), nameof(Verb.TryStartCastOn), new[] {
+    [LegacyEngine, HarmonyPatch(typeof(Verb), nameof(Verb.TryStartCastOn), new[] {
         typeof(LocalTargetInfo), typeof(LocalTargetInfo), typeof(bool), typeof(bool), typeof(bool), typeof(bool) })]
     public static class Patch_NewTactical_NoGunCast
     {
@@ -187,7 +187,7 @@ namespace Helodrace.Tactics
             __result = false; return false;
         }
     }
-    [NewTactical, HarmonyPatch(typeof(Verb), nameof(Verb.Available))]
+    [LegacyEngine, HarmonyPatch(typeof(Verb), nameof(Verb.Available))]
     public static class Patch_NewTactical_NoGunAvailable
     {
         public static void Postfix(Verb __instance, ref bool __result)
@@ -195,13 +195,13 @@ namespace Helodrace.Tactics
             if (__instance.EquipmentSource != null && !__instance.IsMeleeAttack && TacticalOpeningPresentation.BlocksGun(__instance.CasterPawn)) __result = false;
         }
     }
-    [NewTactical, HarmonyPatch(typeof(PawnRenderUtility), nameof(PawnRenderUtility.CarryWeaponOpenly))]
+    [LegacyEngine, HarmonyPatch(typeof(PawnRenderUtility), nameof(PawnRenderUtility.CarryWeaponOpenly))]
     public static class Patch_NewTactical_HideGun
     {
         public static void Postfix(Pawn pawn, ref bool __result)
         { if (TacticalOpeningPresentation.BlocksGun(pawn)) __result = false; }
     }
-    [NewTactical, HarmonyPatch(typeof(PawnRenderUtility), nameof(PawnRenderUtility.DrawEquipmentAndApparelExtras))]
+    [LegacyEngine, HarmonyPatch(typeof(PawnRenderUtility), nameof(PawnRenderUtility.DrawEquipmentAndApparelExtras))]
     public static class Patch_NewTactical_DrawGrenade
     {
         public static void Postfix(Pawn pawn, UnityEngine.Vector3 drawPos, Rot4 facing, PawnRenderFlags flags)
@@ -215,7 +215,7 @@ namespace Helodrace.Tactics
                 grenade.Graphic.MatAt(facing, grenade), 0);
         }
     }
-    [NewTactical, HarmonyPatch(typeof(PawnLeaner), nameof(PawnLeaner.ShouldLean))]
+    [LegacyEngine, HarmonyPatch(typeof(PawnLeaner), nameof(PawnLeaner.ShouldLean))]
     public static class Patch_NewTactical_ObserveLean
     {
         public static void Postfix(Pawn ___pawn, ref IntVec3 ___shootSourceOffset, ref bool __result)

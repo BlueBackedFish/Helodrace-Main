@@ -8,16 +8,16 @@ using Verse.AI;
 
 namespace Helodrace.Tactics
 {
-    // With the squad tactical engine off, raiders keep vanilla AI except for
+    // Unless the legacy tactical engine owns raids, raiders keep these
     // two self-contained behaviours: sledgehammer breaching and underbarrel
-    // grenade launchers. Both stay inert while the tactical engine owns raids.
+    // grenade launchers. The squad AI keeps them as well.
     public static class BasicRaidAI
     {
         private const int RetryTicks = 900, UnderbarrelCheckTicks = 180, ReloadScanTicks = 120;
         private static readonly Dictionary<int, (int target, int tick)> lastBreach = new Dictionary<int, (int, int)>();
         private static readonly Dictionary<int, int> nextUnderbarrelCheck = new Dictionary<int, int>();
 
-        public static bool Active => TacticalEngineSelection.Kind != TacticalEngineKind.New;
+        public static bool Active => TacticalEngineSelection.Kind != TacticalEngineKind.Legacy;
 
         private static bool Raider(Pawn pawn) => pawn?.Spawned == true && pawn.Faction != null
             && pawn.Faction != Faction.OfPlayer && !pawn.Dead && !pawn.Downed && !pawn.InMentalState

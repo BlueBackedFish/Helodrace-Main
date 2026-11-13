@@ -121,7 +121,7 @@ namespace Helodrace
         }
         private void ApplyCooperationDrill()
         {
-            if (TacticalEngineSelection.Kind != TacticalEngineKind.New) return;
+            if (TacticalEngineSelection.Kind != TacticalEngineKind.Legacy) return;
             int tick = GenTicks.TicksGame;
             var commands = map.GetComponent<MapComponent_TacticalCommands>().Commands.OrderBy(c=>c.Id).ToArray();
             if (commands.Length != 2) return;
