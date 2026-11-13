@@ -3,10 +3,12 @@ import bpy, math, os, json, runpy
 from mathutils import Vector
 
 ROOT=os.path.dirname(os.path.abspath(__file__))
-OUT=os.path.join(ROOT,'ERA')
+OUT=globals().get('OUTPUT_DIR',os.path.join(ROOT,'ERA'))
 PARTS=os.path.join(OUT,'Tiles')
 os.makedirs(PARTS,exist_ok=True)
-bpy.ops.wm.open_mainfile(filepath=os.path.join(ROOT,'m2a3_bradley.blend'))
+bpy.ops.wm.open_mainfile(filepath=globals().get('SOURCE_BLEND',os.path.join(ROOT,'m2a3_bradley.blend')))
+refit='WT_@root' in bpy.data.objects
+prefix='m3a3_bradley_era' if refit else 'm2a3_bradley_era'
 scene=bpy.context.scene
 scene.frame_set(1)
 kit=bpy.data.collections.new('ERA | independently removable tiles')
@@ -52,11 +54,15 @@ contacts=[]
 def tile(name,hint,normal,width,height,depth,target,parent=rack,family='M5'):
     # Snap to the actual armor mesh; never position a box by bounding width alone.
     normal=Vector(normal).normalized();hint=Vector(hint)
-    inv=target.matrix_world.inverted()
-    hit,p,n,face=target.ray_cast(inv@(hint+normal),inv.to_3x3()@(-normal))
-    assert hit, (name,'missing armor backing')
-    surface=target.matrix_world@p
-    normal=(target.matrix_world.to_3x3()@n).normalized()
+    candidates=[]
+    for receiver in target if isinstance(target,list) else [target]:
+        inv=receiver.matrix_world.inverted()
+        hit,p,n,face=receiver.ray_cast(inv@(hint+normal),inv.to_3x3()@(-normal))
+        if hit:
+            surface=receiver.matrix_world@p
+            candidates.append(((surface-hint-normal).length,receiver,surface,(receiver.matrix_world.to_3x3()@n).normalized()))
+    assert candidates,(name,'missing armor backing')
+    _,target,surface,normal=min(candidates,key=lambda c:c[0])
     if normal.dot(hint+Vector(normal)-surface)<0:normal=-normal
     # Horizontal direction on each armor face, with local +Y toward the roof.
     up=Vector((0,0,1))
@@ -103,14 +109,14 @@ def tile(name,hint,normal,width,height,depth,target,parent=rack,family='M5'):
 # BRAT-1 style silhouette in the GD/Rafael brochure and Army photograph:
 # upper hull belt, stepped down at the bow; original lower skirt stays exposed.
 # No later BUSK/XM33 lower-wheel panels are mixed into this configuration.
-hull_mesh=bpy.data.objects['Main hull sloped glacis']
+hull_mesh=([bpy.data.objects['WT_@root'],bpy.data.objects['WT_hatch_06']] if refit else bpy.data.objects['Main hull sloped glacis'])
 for side,label,count in [(-1,'L',16),(1,'R',15)]:
     for i in range(count):
         y=-2.46+i*(5.00/(count-1))
-        tile(f'ERA_M5_{label}_LOW_{i+1:02d}',(side*1.48,y,1.65),(side,0,0),5.00/(count-1)-.012,.36,.25,hull_mesh)
+        tile(f'ERA_M5_{label}_LOW_{i+1:02d}',(side*1.48,y,1.48 if refit else 1.65),(side,0,0),5.00/(count-1)-.012,.36,.25,hull_mesh)
     for i in range(12):
         y=-1.20+i*.34
-        tile(f'ERA_M5_{label}_HIGH_{i+1:02d}',(side*1.48,y,1.995),(side,0,0),.328,.31,.25,hull_mesh)
+        tile(f'ERA_M5_{label}_HIGH_{i+1:02d}',(side*1.48,y,1.83 if refit else 1.995),(side,0,0),.328,.31,.25,hull_mesh)
 # Three rows of small center modules conform to the glacis, not a single rail.
 glacis_normal=Vector((0,-.62,.84)).normalized()
 for row,y in enumerate([-3.025,-2.755,-2.485]):
@@ -123,10 +129,11 @@ for side,label in [(-1,'L'),(1,'R')]:
         for col,x in enumerate([1.075,1.345]):
             tile(f'ERA_M4_SHOULDER_{label}_{row+1}_{col+1}',(side*x,y,1.42+(y+3.16)*.62/.84),glacis_normal,.255,.245,.13,hull_mesh,family='M4')
 # Turret tiles follow its individual sloped facets and rotate with the turret.
-armor=bpy.data.objects['Faceted turret armor']
+armor=bpy.data.objects['WT_bone_turret' if refit else 'Faceted turret armor']
 lower=[(-1.21,-.94),(-.82,-1.38),(.42,-1.38),(.88,-.98),(.91,.61),(.59,.94),(-.96,.94),(-1.30,.49)]
 upper=[(-.99,-.79),(-.68,-1.08),(.32,-1.08),(.65,-.80),(.69,.61),(.56,.93),(-.92,.93),(-1.05,.46)]
 def turret_face(index,t,z=2.72):
+    if refit:z-=.20
     j=(index+1)%8;f=(z-2.4)/.51
     a=Vector((*lower[index],2.4)).lerp(Vector((*upper[index],2.91)),f)
     b=Vector((*lower[j],2.4)).lerp(Vector((*upper[j],2.91)),f)
@@ -139,15 +146,24 @@ for face,count,label in [(7,4,'L'),(3,3,'R')]:
     for i in range(count):
         p,n=turret_face(face,.25+i*.60/(count-1))
         tile(f'ERA_M6_TURRET_{label}_{i+1:02d}',p,n,.255 if count==4 else .31,.32,.13,armor,turret_rack,'M6')
-for face,ts in [(0,[.30,.72]),(2,[.30,.72]),(1,[.08,.23,.78,.93])]:
-    for i,t in enumerate(ts):
-        p,n=turret_face(face,t,2.77)
-        tile(f'ERA_M7_CHEEK_{face}_{i+1}',p,n,.16 if face==1 else .20,.26,.11,armor,turret_rack,'M7')
+if refit:
+    # Source mantlet is wider than the procedural version: keep all eight
+    # cheek tiles outside its opening instead of casting through to the bustle.
+    for side,xs in [('L',[-1.10,-.93]),('R',[.27,.46])]:
+        for row,z in enumerate([2.48,2.65]):
+            for col,x in enumerate(xs):
+                tile(f'ERA_M7_CHEEK_{side}_{row}_{col}',(x,-.65,z),(0,-1,0),.155,.18,.11,armor,turret_rack,'M7')
+else:
+    for face,ts in [(0,[.30,.72]),(2,[.30,.72]),(1,[.08,.23,.78,.93])]:
+        for i,t in enumerate(ts):
+            p,n=turret_face(face,t,2.77)
+            tile(f'ERA_M7_CHEEK_{face}_{i+1}',p,n,.16 if face==1 else .20,.26,.11,armor,turret_rack,'M7')
 # The reference has headlights above the front kit, not buried behind the tiles.
 for o in list(scene.objects):
     if o.name.startswith('Headlight '):o.location.z+=.30
+    elif refit and o.name.startswith('WT_ex_lantern_'):o.location.z+=.18
 for side in [-1,1]:
-    pedestal=cube((side*1.23,-2.69,1.87),(.29,.20,.22),mats)
+    pedestal=cube((side*1.30,-2.90,1.50) if refit else (side*1.23,-2.69,1.87),(.29,.20,.22),mats)
     pedestal.name='ERA headlamp pedestal '+str(side)
     pedestal.parent=bpy.data.objects['HULL']
 bpy.context.view_layer.update()
@@ -155,7 +171,7 @@ assert len(tiles)==96 and len({o.data.as_pointer() for o in tiles})==96
 assert sum(o.parent==turret_rack for o in tiles)==15
 assert not any(o.type=='LIGHT' for o in scene.objects)
 scene.camera=bpy.data.objects['Camera_west']
-blend=os.path.join(OUT,'m2a3_bradley_era.blend')
+blend=os.path.join(OUT,prefix+'.blend')
 bpy.ops.wm.save_as_mainfile(filepath=blend)
 
 # Interchange exports use the same constant-emission fallback as the base GLB.
@@ -165,7 +181,7 @@ for m in bpy.data.materials:
         if n.type=='EMISSION':
             for link in list(n.inputs['Color'].links):m.node_tree.links.remove(link)
             n.inputs['Color'].default_value=m.diffuse_color
-bpy.ops.export_scene.gltf(filepath=os.path.join(OUT,'m2a3_bradley_era.glb'),export_format='GLB',export_animations=True,export_cameras=False,export_lights=False)
+bpy.ops.export_scene.gltf(filepath=os.path.join(OUT,prefix+'.glb'),export_format='GLB',export_animations=True,export_cameras=False,export_lights=False)
 bpy.ops.object.select_all(action='DESELECT')
 for o in tiles:o.select_set(True)
 bpy.ops.export_scene.gltf(filepath=os.path.join(OUT,'era_kit.glb'),export_format='GLB',use_selection=True,export_animations=False,export_cameras=False,export_lights=False)
@@ -190,11 +206,12 @@ for entry in records:
     assert sum('mesh' in n for n in payload['nodes'])==1
 with open(os.path.join(OUT,'tile_manifest.json'),'w',encoding='utf-8') as f:
     json.dump({'count':len(tiles),'layout':'BRAT-1 photo-matched silhouette: 55 side, 26 glacis, 15 turret; inferred exterior dimensions and family placement','contacts':contacts,'tiles':records},f,indent=2)
-bpy.ops.wm.open_mainfile(filepath=blend)
-scene=bpy.context.scene
-for camera in ['iso_front','iso_rear','east']:
-    scene.camera=bpy.data.objects['Camera_'+camera]
-    scene.render.filepath=os.path.join(OUT,'audit_'+camera+'.png')
-    bpy.ops.render.render(write_still=True)
-runpy.run_path(os.path.join(ROOT,'render_vf_east.py'),init_globals={'SOURCE_BLEND':blend,'OUTPUT_DIR':os.path.join(OUT,'VF_East')})
+if globals().get('RENDER_OUTPUT',True):
+    bpy.ops.wm.open_mainfile(filepath=blend)
+    scene=bpy.context.scene
+    for camera in ['iso_front','iso_rear','east']:
+        scene.camera=bpy.data.objects['Camera_'+camera]
+        scene.render.filepath=os.path.join(OUT,'audit_'+camera+'.png')
+        bpy.ops.render.render(write_still=True)
+    runpy.run_path(os.path.join(ROOT,'render_vf_east.py'),init_globals={'SOURCE_BLEND':blend,'OUTPUT_DIR':os.path.join(OUT,'VF_East')})
 print('ERA VALIDATION PASSED: 96 independent tiles; all rear mounts contact armor; 96 single-mesh GLBs')

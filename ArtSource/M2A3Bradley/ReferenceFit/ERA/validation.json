@@ -1,0 +1,8 @@
+{
+  "tile_count": 96,
+  "individual_glb_count": 96,
+  "turret_tiles": 15,
+  "armor_contact_checks": 96,
+  "saved_scene_parenting_and_frame_40_animation": "passed",
+  "unlit": true
+}

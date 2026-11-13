@@ -1,7 +1,7 @@
 """Validate saved tile ownership, animation attachment and standalone exports."""
 import bpy, os, json, struct
-ROOT=os.path.dirname(os.path.abspath(__file__))
-bpy.ops.wm.open_mainfile(filepath=os.path.join(ROOT,'m2a3_bradley_era.blend'))
+ROOT=globals().get('ASSET_DIR',os.path.dirname(os.path.abspath(__file__)))
+bpy.ops.wm.open_mainfile(filepath=os.path.join(ROOT,globals().get('BLEND_NAME','m2a3_bradley_era.blend')))
 scene=bpy.context.scene;scene.frame_set(1)
 with open(os.path.join(ROOT,'tile_manifest.json')) as f:manifest=json.load(f)
 assert manifest['count']==96
