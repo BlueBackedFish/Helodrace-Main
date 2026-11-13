@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Defs/Research/ResearchProjects_Helod.xml -->
   <HelodFrontierSpirit.label>개척정신</HelodFrontierSpirit.label>
@@ -152,7 +152,7 @@
   <HelodLessLethalChemical.description>비살상 화학 제압 장비를 연구합니다.</HelodLessLethalChemical.description>
 
   <HelodSpecialOperationsWeapons.label>닫힌 문 너머</HelodSpecialOperationsWeapons.label>
-  <HelodSpecialOperationsWeapons.description>CS와 전기충격 장비를 확보한 뒤 MP5와 전용 부품을 도입합니다.</HelodSpecialOperationsWeapons.description>
+  <HelodSpecialOperationsWeapons.description>클로즈드 볼트 기관단총, 단총열 소총등을 연구합니다.</HelodSpecialOperationsWeapons.description>
 
   <HelodFlakJacket.label>첫 번째 방호층</HelodFlakJacket.label>
   <HelodFlakJacket.description>초기형 방탄 조끼를 연구합니다.</HelodFlakJacket.description>

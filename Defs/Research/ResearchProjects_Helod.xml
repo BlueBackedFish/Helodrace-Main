@@ -780,7 +780,7 @@ Develops the M1902 saber and service dress.</description>
     <ResearchProjectDef>
         <defName>HelodSpecialOperationsWeapons</defName>
         <label>Beyond the Closed Door</label>
-        <description>Adopts the MP5 and its components for specialized operations after developing CS and electroshock equipment.</description>
+        <description>Researches closed-bolt submachine guns, short-barreled rifles, and related firearms.</description>
         <baseCost>1500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
