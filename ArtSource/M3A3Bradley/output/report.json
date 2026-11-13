@@ -17,7 +17,7 @@
       "sha256": "8cf128f1c44037f3caff8db7104a83ff6c6e70b05d06a1e89dbe5b5ab420b813"
     }
   },
-  "profile_sha256": "6909f940cd6acb8bb576646d4f9e803039bfd7248fb28d862c7ef46f2d2e5e07",
+  "profile_sha256": "ccf749b5e3935e5e174ea4ca9b5e93d700b997773ea29c9c92092b7238c39a69",
   "style_sha256": "37a390813e4132e7ffe7235204d164fc105765e8c804c03449b12f79dc92eea8",
   "source_faces": 223389,
   "preserved_faces": 17,
@@ -4734,5 +4734,5 @@
       373
     ]
   },
-  "model_sha256": "286fc1710d52b917abaab7793a0c3cbe6a4c3f065ada2cb5ef75a568be549b82"
+  "model_sha256": "b744a7ebc2bbfe391c0b1289139eeadeb976193b61a2607bb164759155742066"
 }

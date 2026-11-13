@@ -132,6 +132,8 @@ def configure():
             part.update(mode="two_tone", top=144, side=120, plane_angle=45)
         elif name in {"ex_decor_02", "ex_decor_03"}:
             part.update(role="metal", mode="flat", top=88)  # smoke grenade dischargers: dark grey
+        elif name.startswith("ex_lantern_"):
+            part.update(rgb=HEADLAMP_RGB)  # whole headlamp unit, guard included (user choice)
         elif name == "hatch_06":
             part.update(role="hatch", mode="two_tone", side=144, height_steps=-1)  # brighter than the glacis
         elif name == "hatch_05":
