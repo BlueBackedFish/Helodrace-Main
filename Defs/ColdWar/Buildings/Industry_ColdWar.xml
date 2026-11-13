@@ -41,7 +41,7 @@
     </costList>
     <size>(3,4)</size>
     <hasInteractionCell>true</hasInteractionCell>
-    <interactionCellOffset>(0,0,-3)</interactionCellOffset>
+    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
     <surfaceType>Item</surfaceType>
     <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>

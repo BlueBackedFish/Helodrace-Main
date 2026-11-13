@@ -11,8 +11,8 @@
     <graphicData>
       <texPath>Buildings/HD_HaberBoschHighPressureReactor</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(4.5,4.5)</drawSize>
-      <drawOffset>(0,0,0)</drawOffset>
+      <drawSize>(4.2,4.2)</drawSize>
+      <drawOffset>(0,0,-0.05)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <colorTwo>(105,105,105)</colorTwo>
       <color>(255,255,255)</color>
@@ -41,9 +41,9 @@
       <HD_GeneralMachinePart>12</HD_GeneralMachinePart>
       <HD_BasicElectricalComponents>8</HD_BasicElectricalComponents>
     </costList>
-    <size>(3,3)</size>
+    <size>(3,2)</size>
     <hasInteractionCell>true</hasInteractionCell>
-    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
     <surfaceType>Item</surfaceType>
     <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
@@ -78,8 +78,8 @@
     <graphicData>
       <texPath>Buildings/HD_StirredTankReactor</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(4.5,4.5)</drawSize>
-      <drawOffset>(0,0,0)</drawOffset>
+      <drawSize>(4.3,4.3)</drawSize>
+      <drawOffset>(0,0,-0.05)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <colorTwo>(105,105,105)</colorTwo>
       <color>(255,255,255)</color>
@@ -108,9 +108,9 @@
       <HD_GeneralMachinePart>10</HD_GeneralMachinePart>
       <HD_BasicElectricalComponents>6</HD_BasicElectricalComponents>
     </costList>
-    <size>(3,3)</size>
+    <size>(3,2)</size>
     <hasInteractionCell>true</hasInteractionCell>
-    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
     <surfaceType>Item</surfaceType>
     <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>

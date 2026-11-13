@@ -10,8 +10,8 @@
     <graphicData>
       <texPath>Buildings/HD_ClothingBench</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(4.5,4.5)</drawSize>
-      <drawOffset>(0,0,-0.416452646)</drawOffset>
+      <drawSize>(4.3,4.3)</drawSize>
+      <drawOffset>(0,0,-0.41)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData><volume>(2.2,0.5,0.8)</volume></shadowData>
     </graphicData>

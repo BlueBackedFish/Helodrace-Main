@@ -183,7 +183,7 @@
       <shaderType>CutoutComplex</shaderType>
       <colorTwo>(105,105,105)</colorTwo>
       <color>(255,255,255)</color>
-      <drawSize>(6,6)</drawSize>
+      <drawSize>(5.5,5.5)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shadowData>
         <volume>(3.6,0.7,2.6)</volume>
@@ -209,7 +209,7 @@
       <HD_GeneralMachinePart>12</HD_GeneralMachinePart>
       <HD_Shaft>4</HD_Shaft>
     </costList>
-    <size>(4,3)</size>
+    <size>(4,2)</size>
     <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2110</uiOrder>
@@ -270,7 +270,7 @@
       <shaderType>CutoutComplex</shaderType>
       <colorTwo>(105,105,105)</colorTwo>
       <color>(255,255,255)</color>
-      <drawSize>(6,6)</drawSize>
+      <drawSize>(5.85,5.85)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shadowData>
         <volume>(3.6,0.7,2.6)</volume>
@@ -297,7 +297,7 @@
       <HD_GeneralMachinePart>16</HD_GeneralMachinePart>
       <HD_Shaft>4</HD_Shaft>
     </costList>
-    <size>(4,3)</size>
+    <size>(4,2)</size>
     <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2120</uiOrder>
@@ -392,7 +392,7 @@
       <HD_BasicElectricalComponents>10</HD_BasicElectricalComponents>
       <HD_Shaft>4</HD_Shaft>
     </costList>
-    <size>(3,3)</size>
+    <size>(3,2)</size>
     <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2130</uiOrder>
@@ -464,7 +464,7 @@
       <HD_BasicElectricalComponents>10</HD_BasicElectricalComponents>
       <HD_Shaft>4</HD_Shaft>
     </costList>
-    <size>(3,3)</size>
+    <size>(3,2)</size>
     <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2140</uiOrder>
@@ -662,8 +662,8 @@
     <graphicData>
       <texPath>Buildings/HD_DistillationTower</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(4.5,4.5)</drawSize>
-      <drawOffset>(0,0,0.463665724)</drawOffset>
+      <drawSize>(4.4,4.4)</drawSize>
+      <drawOffset>(0,0,0.46)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <colorTwo>(105,105,105)</colorTwo>
       <color>(255,255,255)</color>
@@ -692,7 +692,7 @@
       <HD_GeneralMachinePart>10</HD_GeneralMachinePart>
       <HD_BasicElectricalComponents>6</HD_BasicElectricalComponents>
     </costList>
-    <size>(3,3)</size>
+    <size>(3,2)</size>
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(-1,0,-2)</interactionCellOffset>
     <surfaceType>Item</surfaceType>
@@ -1210,7 +1210,7 @@
     <graphicData>
       <texPath>Buildings/HD_RollingMC</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(4.5,4.5)</drawSize>
+      <drawSize>(4,4)</drawSize>
       <drawOffset>(0,0,0)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <colorTwo>(105,105,105)</colorTwo>
@@ -1241,7 +1241,7 @@
     </costList>
     <size>(3,3)</size>
     <hasInteractionCell>true</hasInteractionCell>
-    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
     <surfaceType>Item</surfaceType>
     <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
@@ -1288,8 +1288,8 @@
     <graphicData>
       <texPath>Buildings/HD_BlastFurnace</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(6,6)</drawSize>
-      <drawOffset>(0,0,0.00635170937)</drawOffset>
+      <drawSize>(6.7,6.7)</drawSize>
+      <drawOffset>(0,0,0.006)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <colorTwo>(105,105,105)</colorTwo>
       <color>(255,255,255)</color>
@@ -1478,7 +1478,7 @@
     </costList>
     <size>(4,4)</size>
     <hasInteractionCell>true</hasInteractionCell>
-    <interactionCellOffset>(0,0,-3)</interactionCellOffset>
+    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
     <surfaceType>Item</surfaceType>
     <rotatable>true</rotatable>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
@@ -1669,8 +1669,8 @@
     <graphicData>
       <texPath>Buildings/HD_GunSmithTable</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(4.5,4.5)</drawSize>
-      <drawOffset>(0,0,-0.416452646)</drawOffset>
+      <drawSize>(4.3,4.3)</drawSize>
+      <drawOffset>(0,0,-0.41)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
         <volume>(2.2, 0.5, 0.8)</volume>

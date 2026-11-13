@@ -9,7 +9,7 @@
       <texPath>Buildings/HD_Radio</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <!-- Compensate camera headroom and center the desktop surface. -->
-      <drawSize>(1.5,1.5)</drawSize>
+      <drawSize>(1.35,1.35)</drawSize>
       <drawOffset>(0,0,-0.074457139)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
     </graphicData>

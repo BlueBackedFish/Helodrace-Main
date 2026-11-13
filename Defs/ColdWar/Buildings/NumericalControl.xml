@@ -36,7 +36,7 @@
     </costList>
     <size>(3,2)</size>
     <hasInteractionCell>true</hasInteractionCell>
-    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
     <surfaceType>Item</surfaceType>
     <rotatable>true</rotatable>
     <tickerType>Rare</tickerType>
@@ -106,7 +106,7 @@
     </costList>
     <size>(3,2)</size>
     <hasInteractionCell>true</hasInteractionCell>
-    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
     <surfaceType>Item</surfaceType>
     <rotatable>true</rotatable>
     <tickerType>Rare</tickerType>

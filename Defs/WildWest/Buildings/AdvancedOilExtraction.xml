@@ -33,7 +33,7 @@
     <size>(4,4)</size>
     <rotatable>true</rotatable>
     <hasInteractionCell>true</hasInteractionCell>
-    <interactionCellOffset>(1,0,-3)</interactionCellOffset>
+    <interactionCellOffset>(1,0,-2)</interactionCellOffset>
     <tickerType>Normal</tickerType>
     <designationCategory>HD_HelodTechnology_Build</designationCategory>
     <uiOrder>2010</uiOrder>
