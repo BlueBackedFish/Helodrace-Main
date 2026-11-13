@@ -50,7 +50,8 @@
       "hull_east": {
         "depth_step": 0.06
       }
-    }
+    },
+    "enabled": false
   },
   "height_paint": {
     "ladder": [

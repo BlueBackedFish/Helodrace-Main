@@ -80,6 +80,10 @@ def height_values(mesh, part, style):
     one surface; its area-weighted centre height picks one of the layer's ladder steps
     (higher = brighter). Walls and undersides sit `wall_steps` lower. Thin wall strips keep
     their surface's step so plate edges do not draw seams. Returns one value per polygon.
+
+    Per-part exceptions: `height_steps` shifts every surface (negative = brighter),
+    `slope_steps` adds to chamfers/slopes (normal z between the wall limit and .9),
+    `plane_angle` overrides the grouping angle, `fixed` paints one value regardless of height.
     """
     from collections import defaultdict, deque
     spec = style["height_paint"]
@@ -90,7 +94,10 @@ def height_values(mesh, part, style):
         raise ValueError(f"height_paint ladder for {part['layer']} is outside the palette range")
     if len(bands) != len(ladder)-1 or any(a <= b for a, b in zip(bands, bands[1:])):
         raise ValueError(f"height_paint thresholds for {part['layer']} must descend, one fewer than ladder steps")
-    limit = math.cos(math.radians(spec.get("plane_angle", 12)))
+    limit = math.cos(math.radians(part.get("plane_angle", spec.get("plane_angle", 12))))
+    if "fixed" in part:
+        return [part["fixed"]]*len(mesh.polygons)
+    shift, slope_steps = part.get("height_steps", 0), part.get("slope_steps", 0)
     wall_z, wall_steps = spec.get("wall_normal_z", .25), spec.get("wall_steps", 1)
     min_wall = style.get("min_wall_height", .03)
     key = lambda co: tuple(round(c, 5) for c in co)
@@ -119,12 +126,14 @@ def height_values(mesh, part, style):
         area = sum(mesh.polygons[f].area for f in members) or 1e-12
         z = sum(mesh.polygons[f].center.z*mesh.polygons[f].area for f in members)/area
         normal = sum((mesh.polygons[f].normal*mesh.polygons[f].area for f in members), Vector()).normalized()
-        step = sum(1 for t in bands if z < t)
+        step = sum(1 for t in bands if z < t)+shift
+        if wall_z <= normal.z < .9:
+            step += slope_steps
         if normal.z < wall_z:
             zs = [mesh.vertices[v].co.z for f in members for v in mesh.polygons[f].vertices]
             if max(zs)-min(zs) >= min_wall:
                 step += wall_steps
-        value = ladder[min(step, len(ladder)-1)]
+        value = ladder[max(0, min(step, len(ladder)-1))]
         for f in members:
             values[f] = value
     return values
@@ -449,7 +458,7 @@ def build(profile_path):
                     value = levels[part["id"]] if part["mode"] == "two_tone" else value_for(Vector((0, 0, 1)), part, levels[part["id"]], style)
             if not style["minimum"] <= value <= style["maximum"]:
                 raise ValueError(f"Paint outside range: {part['id']} = {value}; fix its planes")
-            rgb = paint_rgb(value, part["role"], style)
+            rgb = tuple(part["rgb"]) if "rgb" in part else paint_rgb(value, part["role"], style)
             mat = material(rgb, cache)
             if mat.name not in slots:
                 slots[mat.name] = len(mesh.materials)

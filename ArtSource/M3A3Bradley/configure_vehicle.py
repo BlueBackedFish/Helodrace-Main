@@ -51,6 +51,8 @@ TOW = {"roll_05", "rocket_mount_01", "roll_03", "roll_04", "roll_06", "roll_07",
 CURVED_PREFIXES = ("wheel_", "track_", "hatch_", "ex_lantern_", "mg_twin", "roll_", "gun_barrel", "ex_decor_01",
                    "turret_inside", "suspension_", "bone_commander_sight_v")
 CURVED_SIMPLIFY = {"collapse_ratio": .3}
+CB_RGB, FDE_RGB = [129, 97, 60], [160, 140, 106]  # Coyote Brown / Flat Dark Earth (display sRGB)
+HEADLAMP_RGB = [255, 222, 140]  # bright, saturated warm lens
 # Destructible overlays (runtime: remove, or swap to the charred variant). Optics and lights only: no isolated ammunition store.
 DAMAGE = [
     ("commanderViewer", "turret", ["bone_commander_sight_v"], "Commander's independent viewer (CIV)"),
@@ -84,7 +86,7 @@ def configure():
             return None
         owner = next(p for p in parts if p["id"] == group["id"])
         part = {**owner, "id": group["id"]+"_"+label, "label": label, "faces": sorted(faces), **settings}
-        for key in ("planes", "side", "cylinder_axis", "cap", "simplify"):
+        for key in ("planes", "side", "cylinder_axis", "cap", "simplify", "height_steps", "slope_steps", "plane_angle", "rgb"):
             if key not in settings:
                 part.pop(key, None)
         parts.append(part)
@@ -122,17 +124,24 @@ def configure():
             part.update(role="track", mode="flat", top=40)
         elif name == "gun_barrel":
             # RimThunder M2A3 barrel is dark metal (92/255).
-            part.update(role="metal", mode="cylinder", cylinder_axis=[0, 1, 0], top=96, side=96, cap=72)
+            part.update(role="metal", mode="cylinder", cylinder_axis=[0, 1, 0], top=64, side=64, cap=48)
         elif name == "mg_twin":
-            part.update(role="metal", mode="flat", top=96)
+            part.update(role="metal", mode="flat", top=56)
         elif name in {"bone_gun", "ex_decor_01"}:
-            part.update(mode="two_tone", top=144, side=120)  # mantlet / gun shroud (RimThunder 179/233)
-        elif name in {"hatch_01", "hatch_06", "hatch_05"}:
+            # Mantlet / gun shroud: wide grouping so the faceted cone is not cut into two tones.
+            part.update(mode="two_tone", top=144, side=120, plane_angle=45)
+        elif name in {"ex_decor_02", "ex_decor_03"}:
+            part.update(role="metal", mode="flat", top=88)  # smoke grenade dischargers: dark grey
+        elif name == "hatch_06":
+            part.update(role="hatch", mode="two_tone", side=144, height_steps=-1)  # brighter than the glacis
+        elif name == "hatch_05":
+            part.update(role="hatch", mode="two_tone", side=144, slope_steps=1)
+        elif name == "hatch_01":
             part.update(role="hatch", mode="two_tone", side=144)
         elif name == "hatch_04":
             part.update(role="hatch", mode="two_tone", top=192, side=144)  # rear personnel door
         elif name == "hatch_02":
-            part.update(role="hatch", mode="flat", top=168)  # commander's domed hatch
+            part.update(role="hatch", mode="flat", top=168, slope_steps=1)
         elif name == "hatch_03":
             part.update(role="hatch", mode="two_tone", side=120)
         elif name == "ex_armor_03":
@@ -183,7 +192,8 @@ def configure():
                     extract(group, f"grille_{i:02d}", panel, role="paint", mode="flat", top=96, grille=grille)
                 continue
             role, value = {"headlamp_lens": ("optics", 192), "glass": ("optics", 32), "bore": ("recess", 40)}[key]
-            extract(group, key, faces, role=role, top=value, mode="flat")
+            extract(group, key, faces, role=role, top=value, mode="flat",
+                    **({"rgb": HEADLAMP_RGB} if key == "headlamp_lens" else {}))
 
         if layer != "barrel" and part["role"] == "paint" and not name.startswith(NO_THIN_CLEANUP):
             taken = {f for p in parts if p["source_group"] == group["id"] and p["id"] != group["id"] for f in p.get("faces", [])}
@@ -194,6 +204,58 @@ def configure():
                     item = extract(group, f"cleanup_{min(comp)}", comp)
                     next(p for p in parts if p["id"] == item).update(action="omit", reason=THIN_REASON)
                     omissions[THIN_REASON] += len(comp)
+
+    # Colour detail exceptions (2026-11-13 user list). Seeds are source face IDs inside one
+    # connected component; the pinned source hash keeps them valid.
+    def take(name, seeds, label, **settings):
+        group = groups[name]
+        taken = {f for p in parts if p["source_group"] == group["id"] and p["id"] != group["id"] for f in p.get("faces", [])}
+        rest = [f for f in group["faces"] if f not in taken]
+        faces = set()
+        for comp in common.components(model, rest, 1e-6):
+            if set(seeds) & set(comp):
+                faces.update(comp)
+        missing = [s for s in seeds if s not in faces]
+        if missing:
+            raise ValueError(f"Detail seeds not found in {name}: {missing}")
+        return extract(group, label, faces, **settings)
+
+    hinge = dict(role="paint", mode="flat", fixed=145)
+    axis = dict(role="metal", mode="flat", top=88)
+    handle = dict(height_steps=2)
+    # Turret gunner hatch: opening handle, hinge knuckles + arms, hinge pin.
+    take("hatch_02", [204787], "handle", **handle)
+    take("hatch_02", [204651, 204591, 204535, 204455, 204559], "hinge", **hinge)
+    take("hatch_02", [206037], "hinge_axis", **axis)
+    take("hatch_03", [203314], "handle", **handle)
+    take("hatch_03", [202458, 202460, 202478], "hinge", **hinge)
+    take("hatch_03", [202462], "hinge_axis", **axis)
+    # Commander's viewer roof handles: grips Coyote Brown, posts Flat Dark Earth.
+    take("bone_commander_sight_v", [208013, 208389], "handle_grip", rgb=CB_RGB, mode="flat")
+    take("bone_commander_sight_v", [207937, 208103, 208205, 208287], "handle_post", rgb=FDE_RGB, mode="flat")
+    # Hull rear cargo hatch: same treatment as the turret hatch (no separate hinge pin modelled).
+    take("hatch_05", [82018, 82030, 82042, 82054], "handle", **handle)
+    take("hatch_05", [81994, 81996, 81998], "hinge", **hinge)
+    # Rear personnel door: hinge and handles as fixed exceptions.
+    take("hatch_04", [109776], "hinge", **hinge)
+    take("hatch_04", [109794, 109806], "handle", role="paint", mode="flat", fixed=128)
+    # Crescent recess on the glacis between hatch_06 and the left headlight: one step darker.
+    take("@root", [65681], "glacis_recess", height_steps=1)
+    # Cables on the rear ramp: near-black.
+    take("@root", [40629, 22095, 22113, 22100, 22101], "ramp_cables", role="recess", mode="flat", top=25)
+    # Skirt grab handles: grips keep their colour, mounting feet darker and flat.
+    for name in [g["group"] for g in model["groups"] if re.fullmatch(r"ex_armor_[lr]_0\d", g["group"])]:
+        group = groups[name]
+        taken = {f for p in parts if p["source_group"] == group["id"] and p["id"] != group["id"] for f in p.get("faces", [])}
+        for comp in common.components(model, [f for f in group["faces"] if f not in taken], 1e-6):
+            if len(comp) < 200:
+                continue
+            co = vertices[[v for f in comp for v in model["faces"][f]["vertices"]]]
+            plate = np.abs(co[:, 0]).min()
+            feet = [f for f in comp if abs(surface(f)[1][0])-plate < .025]
+            extract(group, f"handle_feet_{min(comp)}", feet, role="paint", mode="flat", fixed=128)
+    # Right-side engine louvre above the skirts: one mid value instead of height bands.
+    take("@root", [493], "side_louvre", role="paint", mode="flat", fixed=179)
 
     # Turret yaw axis: flattest round shell of the turret group, anchored on the hull roof.
     hull = groups["@root"]

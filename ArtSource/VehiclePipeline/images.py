@@ -152,8 +152,8 @@ def boundary_lines(root, name, style, render):
     if not ids_path.exists():
         return None
     settings = line_settings(style, name)
-    if settings.get("enabled", True) is False:
-        return None
+    # Disabled lines still run the pass with an empty mask, so damage overlays are produced.
+    enabled = settings.get("enabled", True) is not False
     data = np.load(ids_path)
     ident, depth = data["ident"].astype(np.int64), data["depth"].astype(np.float64)
     factor = ident.shape[0]/render["master"]
@@ -169,7 +169,7 @@ def boundary_lines(root, name, style, render):
     band = change.copy()
     for _ in range(radius):
         band = band | _shift(band, 1, 0, False) | _shift(band, -1, 0, False) | _shift(band, 0, 1, False) | _shift(band, 0, -1, False)
-    ys, xs = np.nonzero(band & (ident > 0))
+    ys, xs = np.nonzero(band & (ident > 0) & enabled)
     here, far = ident[ys, xs], depth[ys, xs]
     hit = np.zeros(len(ys), dtype=bool)
     trigger = np.zeros(len(ys), dtype=np.int64)  # the nearer part that caused each line pixel
