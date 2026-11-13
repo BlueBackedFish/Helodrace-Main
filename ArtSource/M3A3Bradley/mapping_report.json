@@ -14,7 +14,7 @@
     "1.8 m thin whip antenna is subpixel at 256px; separate whip group only": 252
   },
   "source_faces": 223389,
-  "parts": 247,
+  "parts": 249,
   "contacts": [],
   "contact_levels": {},
   "damage_layers": [
@@ -43,7 +43,8 @@
       "layer": "hull",
       "parts": [
         "g0037",
-        "g0037_headlamp_lens"
+        "g0037_headlamp_lens",
+        "g0037_inner"
       ],
       "label": "Left headlight"
     },
@@ -52,7 +53,8 @@
       "layer": "hull",
       "parts": [
         "g0041",
-        "g0041_headlamp_lens"
+        "g0041_headlamp_lens",
+        "g0041_inner"
       ],
       "label": "Right headlight"
     }

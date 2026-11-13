@@ -17,7 +17,7 @@
       "sha256": "8cf128f1c44037f3caff8db7104a83ff6c6e70b05d06a1e89dbe5b5ab420b813"
     }
   },
-  "profile_sha256": "ccf749b5e3935e5e174ea4ca9b5e93d700b997773ea29c9c92092b7238c39a69",
+  "profile_sha256": "05931e42ef18e0bbc6cedb497df41f2c0693ddc03ff92d5436f5b702edaff1a9",
   "style_sha256": "37a390813e4132e7ffe7235204d164fc105765e8c804c03449b12f79dc92eea8",
   "source_faces": 223389,
   "preserved_faces": 17,
@@ -286,8 +286,8 @@
     },
     {
       "part": "g0037",
-      "source_faces": 2614,
-      "faces": 542,
+      "source_faces": 790,
+      "faces": 134,
       "collapse_ratio": 0.3,
       "planar_angle": 8
     },
@@ -321,8 +321,8 @@
     },
     {
       "part": "g0041",
-      "source_faces": 2182,
-      "faces": 441,
+      "source_faces": 1268,
+      "faces": 250,
       "collapse_ratio": 0.3,
       "planar_angle": 8
     },
@@ -636,8 +636,8 @@
     },
     {
       "part": "g0085",
-      "source_faces": 17838,
-      "faces": 5676,
+      "source_faces": 17794,
+      "faces": 5662,
       "collapse_ratio": 1,
       "planar_angle": 8
     },
@@ -755,8 +755,8 @@
     },
     {
       "part": "g0099",
-      "source_faces": 680,
-      "faces": 85,
+      "source_faces": 711,
+      "faces": 87,
       "collapse_ratio": 0.3,
       "planar_angle": 8
     },
@@ -866,9 +866,23 @@
       "planar_angle": 8
     },
     {
-      "part": "g0099_hinge_axis",
-      "source_faces": 31,
-      "faces": 12,
+      "part": "g0085_hatch_03_hinge_axis",
+      "source_faces": 44,
+      "faces": 14,
+      "collapse_ratio": 1,
+      "planar_angle": 8
+    },
+    {
+      "part": "g0037_inner",
+      "source_faces": 1824,
+      "faces": 683,
+      "collapse_ratio": 1,
+      "planar_angle": 8
+    },
+    {
+      "part": "g0041_inner",
+      "source_faces": 914,
+      "faces": 383,
       "collapse_ratio": 1,
       "planar_angle": 8
     },
@@ -1062,7 +1076,7 @@
       "planar_angle": 8
     }
   ],
-  "rendered_faces": 47784,
+  "rendered_faces": 48241,
   "imported_models": {
     "specs": [],
     "objects": [],
@@ -1074,7 +1088,7 @@
   "source_coordinates_preserved": true,
   "unlit_glb": true,
   "glb_animation_count": 1,
-  "mesh_count": 150,
+  "mesh_count": 152,
   "paint": {
     "g0000": {
       "top": 216,
@@ -1812,21 +1826,21 @@
     "g0037": {
       "top": 216,
       "luminances": {
-        "179": 275,
-        "160": 95,
-        "196": 172
+        "216": 30,
+        "179": 23,
+        "196": 81
       },
       "smooth": null,
-      "area": 0.9358334746175387,
+      "area": 0.4658990826937952,
       "upward_min_max": [
-        179,
-        196
+        196,
+        216
       ],
       "wall_min_max": [
-        160,
-        196
+        179,
+        216
       ],
-      "source_faces": 2614
+      "source_faces": 790
     },
     "g0037_headlamp_lens": {
       "top": 192,
@@ -1905,21 +1919,21 @@
     "g0041": {
       "top": 216,
       "luminances": {
-        "179": 192,
-        "196": 152,
-        "160": 97
+        "179": 72,
+        "196": 126,
+        "216": 52
       },
       "smooth": null,
-      "area": 0.8685918341652723,
+      "area": 0.6891062227969087,
       "upward_min_max": [
-        179,
-        196
+        196,
+        216
       ],
       "wall_min_max": [
-        160,
-        196
+        179,
+        216
       ],
-      "source_faces": 2182
+      "source_faces": 1268
     },
     "g0041_headlamp_lens": {
       "top": 192,
@@ -2685,16 +2699,16 @@
     "g0085": {
       "top": 192,
       "luminances": {
-        "196": 1454,
-        "179": 601,
-        "145": 509,
-        "128": 500,
-        "106": 552,
-        "160": 1025,
-        "216": 1035
+        "196": 1448,
+        "179": 597,
+        "145": 508,
+        "128": 504,
+        "106": 550,
+        "160": 1030,
+        "216": 1025
       },
       "smooth": null,
-      "area": 42.91550908439399,
+      "area": 42.85509898625037,
       "upward_min_max": [
         106,
         216
@@ -2703,7 +2717,7 @@
         106,
         216
       ],
-      "source_faces": 17838
+      "source_faces": 17794
     },
     "g0085_glass": {
       "top": 32,
@@ -3006,12 +3020,12 @@
     "g0099": {
       "top": 192,
       "luminances": {
-        "196": 60,
-        "216": 8,
+        "196": 61,
+        "216": 9,
         "179": 17
       },
       "smooth": null,
-      "area": 0.6931882076678448,
+      "area": 0.7385738406956079,
       "upward_min_max": [
         196,
         216
@@ -3020,7 +3034,7 @@
         179,
         216
       ],
-      "source_faces": 680
+      "source_faces": 711
     },
     "g0100": {
       "top": 168,
@@ -3285,13 +3299,13 @@
       ],
       "source_faces": 136
     },
-    "g0099_hinge_axis": {
+    "g0085_hatch_03_hinge_axis": {
       "top": 88,
       "luminances": {
-        "88": 12
+        "88": 14
       },
       "smooth": null,
-      "area": 0.05519756740250159,
+      "area": 0.06163586862385273,
       "upward_min_max": [
         88,
         88
@@ -3300,7 +3314,45 @@
         88,
         88
       ],
-      "source_faces": 31
+      "source_faces": 44
+    },
+    "g0037_inner": {
+      "top": 216,
+      "luminances": {
+        "179": 358,
+        "160": 56,
+        "196": 269
+      },
+      "smooth": null,
+      "area": 0.49765221182406094,
+      "upward_min_max": [
+        179,
+        196
+      ],
+      "wall_min_max": [
+        160,
+        196
+      ],
+      "source_faces": 1824
+    },
+    "g0041_inner": {
+      "top": 216,
+      "luminances": {
+        "179": 156,
+        "196": 213,
+        "160": 14
+      },
+      "smooth": null,
+      "area": 0.18644579539068218,
+      "upward_min_max": [
+        179,
+        196
+      ],
+      "wall_min_max": [
+        160,
+        196
+      ],
+      "source_faces": 914
     },
     "g0102_handle_grip": {
       "top": 216,
@@ -3928,6 +3980,7 @@
         "g0102_glass",
         "g0104",
         "g0105",
+        "g0085_hatch_03_hinge_axis",
         "g0102_handle_grip",
         "g0102_handle_post"
       ],
@@ -3969,7 +4022,6 @@
         "g0099",
         "g0099_handle",
         "g0099_hinge",
-        "g0099_hinge_axis",
         "g0100",
         "g0100_handle",
         "g0100_hinge",
@@ -4080,7 +4132,8 @@
           "layer": "hull",
           "parts": [
             "g0037",
-            "g0037_headlamp_lens"
+            "g0037_headlamp_lens",
+            "g0037_inner"
           ],
           "label": "Left headlight"
         },
@@ -4089,7 +4142,8 @@
           "layer": "hull",
           "parts": [
             "g0041",
-            "g0041_headlamp_lens"
+            "g0041_headlamp_lens",
+            "g0041_inner"
           ],
           "label": "Right headlight"
         }
@@ -4256,34 +4310,36 @@
         "120": "g0100_hinge_axis",
         "121": "g0099_handle",
         "122": "g0099_hinge",
-        "123": "g0099_hinge_axis",
-        "124": "g0102_handle_grip",
-        "125": "g0102_handle_post",
-        "126": "g0002_handle",
-        "127": "g0002_hinge",
-        "128": "g0023_hinge",
-        "129": "g0023_handle",
-        "130": "g0000_glacis_recess",
-        "131": "g0000_ramp_cables",
-        "132": "g0001_handle_feet_80921",
-        "133": "g0001_handle_feet_80977",
-        "134": "g0024_handle_feet_111316",
-        "135": "g0024_handle_feet_111268",
-        "136": "g0025_handle_feet_112478",
-        "137": "g0026_handle_feet_113386",
-        "138": "g0027_handle_feet_113910",
-        "139": "g0028_handle_feet_114414",
-        "140": "g0029_handle_feet_115302",
-        "141": "g0030_handle_feet_116178",
-        "142": "g0031_handle_feet_117088",
-        "143": "g0032_handle_feet_118010",
-        "144": "g0033_handle_feet_118918",
-        "145": "g0034_handle_feet_119490",
-        "146": "g0034_handle_feet_119830",
-        "147": "g0035_handle_feet_120294",
-        "148": "g0035_handle_feet_120634",
-        "149": "g0036_handle_feet_121450",
-        "150": "g0000_side_louvre"
+        "123": "g0085_hatch_03_hinge_axis",
+        "124": "g0037_inner",
+        "125": "g0041_inner",
+        "126": "g0102_handle_grip",
+        "127": "g0102_handle_post",
+        "128": "g0002_handle",
+        "129": "g0002_hinge",
+        "130": "g0023_hinge",
+        "131": "g0023_handle",
+        "132": "g0000_glacis_recess",
+        "133": "g0000_ramp_cables",
+        "134": "g0001_handle_feet_80921",
+        "135": "g0001_handle_feet_80977",
+        "136": "g0024_handle_feet_111316",
+        "137": "g0024_handle_feet_111268",
+        "138": "g0025_handle_feet_112478",
+        "139": "g0026_handle_feet_113386",
+        "140": "g0027_handle_feet_113910",
+        "141": "g0028_handle_feet_114414",
+        "142": "g0029_handle_feet_115302",
+        "143": "g0030_handle_feet_116178",
+        "144": "g0031_handle_feet_117088",
+        "145": "g0032_handle_feet_118010",
+        "146": "g0033_handle_feet_118918",
+        "147": "g0034_handle_feet_119490",
+        "148": "g0034_handle_feet_119830",
+        "149": "g0035_handle_feet_120294",
+        "150": "g0035_handle_feet_120634",
+        "151": "g0036_handle_feet_121450",
+        "152": "g0000_side_louvre"
       },
       "depth_range": 76.49185943603516,
       "encoding": "16-bit RGB: R,G = id low/high byte, B = view depth / depth_range"
@@ -4706,7 +4762,7 @@
     "512/hull_west__leftHeadlight": [
       96,
       308,
-      118,
+      119,
       338
     ],
     "512/hull_west__rightHeadlight": [
@@ -4718,7 +4774,7 @@
     "512/hull_west__leftHeadlight_destroyed": [
       96,
       308,
-      118,
+      119,
       338
     ],
     "512/hull_west__rightHeadlight_destroyed": [
@@ -4734,5 +4790,5 @@
       373
     ]
   },
-  "model_sha256": "b744a7ebc2bbfe391c0b1289139eeadeb976193b61a2607bb164759155742066"
+  "model_sha256": "d1ae377c50e4f2e0b73062bf7b71efbcd5449d304bb4ced97699e20c0558bffb"
 }

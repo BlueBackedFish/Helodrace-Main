@@ -52,7 +52,6 @@ CURVED_PREFIXES = ("wheel_", "track_", "hatch_", "ex_lantern_", "mg_twin", "roll
                    "turret_inside", "suspension_", "bone_commander_sight_v")
 CURVED_SIMPLIFY = {"collapse_ratio": .3}
 CB_RGB, FDE_RGB = [129, 97, 60], [160, 140, 106]  # Coyote Brown / Flat Dark Earth (display sRGB)
-HEADLAMP_RGB = [255, 222, 140]  # bright, saturated warm lens
 # Destructible overlays (runtime: remove, or swap to the charred variant). Optics and lights only: no isolated ammunition store.
 DAMAGE = [
     ("commanderViewer", "turret", ["bone_commander_sight_v"], "Commander's independent viewer (CIV)"),
@@ -133,7 +132,7 @@ def configure():
         elif name in {"ex_decor_02", "ex_decor_03"}:
             part.update(role="metal", mode="flat", top=88)  # smoke grenade dischargers: dark grey
         elif name.startswith("ex_lantern_"):
-            part.update(rgb=HEADLAMP_RGB)  # whole headlamp unit, guard included (user choice)
+            part.update(height_steps=-1)  # lamp guard/base one TAN step brighter; inner parts below
         elif name == "hatch_06":
             part.update(role="hatch", mode="two_tone", side=144, height_steps=-1)  # brighter than the glacis
         elif name == "hatch_05":
@@ -194,8 +193,7 @@ def configure():
                     extract(group, f"grille_{i:02d}", panel, role="paint", mode="flat", top=96, grille=grille)
                 continue
             role, value = {"headlamp_lens": ("optics", 192), "glass": ("optics", 32), "bore": ("recess", 40)}[key]
-            extract(group, key, faces, role=role, top=value, mode="flat",
-                    **({"rgb": HEADLAMP_RGB} if key == "headlamp_lens" else {}))
+            extract(group, key, faces, role=role, top=value, mode="flat")
 
         if layer != "barrel" and part["role"] == "paint" and not name.startswith(NO_THIN_CLEANUP):
             taken = {f for p in parts if p["source_group"] == group["id"] and p["id"] != group["id"] for f in p.get("faces", [])}
@@ -231,7 +229,22 @@ def configure():
     take("hatch_02", [206037], "hinge_axis", **axis)
     take("hatch_03", [203314], "handle", **handle)
     take("hatch_03", [202458, 202460, 202478], "hinge", **hinge)
-    take("hatch_03", [202462], "hinge_axis", **axis)
+    take("bone_turret", [178884], "hatch_03_hinge_axis", **axis)  # pin is modelled in the turret body
+    # Headlamps: the two largest front-projected shells (guard, base) keep the brighter housing
+    # step; lamp bodies, bezels and back plate inside them sit one step darker (height_steps 0).
+    # Shells reaching outside the guard (the cable) stay with the housing.
+    for name in ("ex_lantern_l_01", "ex_lantern_r_01"):
+        group = groups[name]
+        taken = {f for p in parts if p["source_group"] == group["id"] and p["id"] != group["id"] for f in p.get("faces", [])}
+        shells = []
+        for comp in common.components(model, [f for f in group["faces"] if f not in taken], 1e-6):
+            co = vertices[[v for f in comp for v in model["faces"][f]["vertices"]]]
+            shells.append((np.ptp(co[:, 0])*np.ptp(co[:, 2]), co.min(0), co.max(0), comp))
+        shells.sort(key=lambda s: -s[0])
+        lo = np.minimum(shells[0][1], shells[1][1])-.005
+        hi = np.maximum(shells[0][2], shells[1][2])+.005
+        inner = [f for _, a, b, comp in shells[2:] if np.all(a >= lo) and np.all(b <= hi) for f in comp]
+        extract(group, "inner", inner, height_steps=0)
     # Commander's viewer roof handles: grips Coyote Brown, posts Flat Dark Earth.
     take("bone_commander_sight_v", [208013, 208389], "handle_grip", rgb=CB_RGB, mode="flat")
     take("bone_commander_sight_v", [207937, 208103, 208205, 208287], "handle_post", rgb=FDE_RGB, mode="flat")
