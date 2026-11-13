@@ -34,8 +34,7 @@ Fire obtains its source from native fire-spread/damage scopes or the bullet's st
 - Sandwich wall: 3,000 burning ticks and 72 density-cell units. It produces three times the total toxic smoke of a single foam panel; ordinary structural fire has no polymer-smoke source.
 - Emission starts from the panel's face or the wall/item's exposed adjacent air, then walks connected air within Manhattan distance two. A pulse is shared across that set. The existing byte-density gas grid may cap concentrated output; the budget is not a claim of exact real smoke mass.
 - Exhausted cores emit no more gas and become nonflammable. Remaining core is saved with Scribe. Stack splits copy the fraction; merges average it by transferred item count. Smoke emitted per item stack scales with count, preserving finite per-unit fuel.
-- Polymer smoke dissipation 3, diffusion threshold 10, transfer divisor 2, effect threshold 8. Inhalation gain at full density is 0.00008 per game tick before existing exposure resistance. Toxic buildup receives one quarter of the resisted dose, further adjusted by toxic resistance.
-- The inhalation hediff begins affecting breathing at severity .10, .35 and .65, with offsets -.10, -.25 and -.45. Recovery begins after 600 unexposed ticks at .00004 per tick.
+- The gas is Biotech tox gas. One density-cell unit is one full cell of vanilla gas (255 grid density); each pulse is rounded per target cell. Diffusion, dissipation and exposure are entirely vanilla.
 
 These are game simulation parameters, not real chemistry or protective-equipment specifications.
 

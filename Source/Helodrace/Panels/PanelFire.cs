@@ -50,12 +50,15 @@ namespace Helodrace.Panels
         public static void Emit(Thing source, float amount)
         {
             if (amount <= 0 || source?.Spawned != true) return;
-            HelodGasDef smoke = DefDatabase<HelodGasDef>.GetNamedSilentFail("HD_PolymerFireSmoke");
-            if (smoke == null) return;
             List<IntVec3> targets=EmissionCells(source);
-            // A fixed pulse budget is divided among reachable air cells. A wall
-            // with two exposed sides does not emit the full budget twice.
-            foreach (IntVec3 cell in targets) HelodGasStore.AddGas(cell, source.Map, smoke, amount / targets.Count);
+            if (targets.Count == 0) return;
+            // Burning polystyrene releases Biotech tox gas. One normalized unit is
+            // one full cell of gas (255 grid density). A fixed pulse budget is
+            // divided among reachable air cells, so a wall with two exposed sides
+            // does not emit the full budget twice.
+            int perCell = (int)MathF.Round(amount * 255f / targets.Count);
+            if (perCell <= 0) return;
+            foreach (IntVec3 cell in targets) source.Map.gasGrid.AddGas(cell, GasType.ToxGas, perCell, true);
         }
         public static List<IntVec3> EmissionCells(Thing source)
         {
@@ -173,43 +176,5 @@ namespace Helodrace.Panels
             if (Spent(req)) val = 0;
         }
         public override string ExplanationPart(StatRequest req) => Spent(req) ? "HD_Panel_CoreSpent".Translate() : null;
-    }
-
-    public sealed class HelodGasWorker_PolymerSmoke : HelodGasWorker
-    {
-        public override void Apply(Pawn pawn,float density,float severityAtFullDensity)
-        {
-            if(pawn?.health==null || pawn.Dead || pawn.RaceProps?.IsFlesh!=true ||
-                pawn.RaceProps.Humanlike && !GasUtility.IsAffectedByExposure(pawn)) return;
-            float resistance=Math.Clamp(pawn.GetStatValue(StatDefOf.ToxicEnvironmentResistance),0,1);
-            float gain=severityAtFullDensity*Math.Clamp(density,0,1)*(1-resistance);
-            if(gain<=0)return;
-            HediffDef def=DefDatabase<HediffDef>.GetNamedSilentFail("HD_PolymerSmokeInhalation");
-            if(def==null)return;
-            var exposure=pawn.health.hediffSet.GetFirstHediffOfDef(def) as Hediff_PolymerSmoke;
-            if(exposure==null)
-            {
-                exposure=(Hediff_PolymerSmoke)HediffMaker.MakeHediff(def,pawn);
-                exposure.Severity=MathF.Min(def.maxSeverity,gain);
-                pawn.health.AddHediff(exposure);
-                exposure.Touch();
-            }
-            else exposure.AddDose(gain);
-            HealthUtility.AdjustSeverity(pawn,HediffDefOf.ToxicBuildup,gain*.25f*(1-Math.Clamp(pawn.GetStatValue(StatDefOf.ToxicResistance),0,1)));
-        }
-    }
-
-    public sealed class Hediff_PolymerSmoke : HediffWithComps
-    {
-        private int lastExposure=-1;
-        public void Touch() => lastExposure=Find.TickManager.TicksGame;
-        public void AddDose(float amount) {Severity=MathF.Min(def.maxSeverity,Severity+amount);Touch();}
-        public override bool ShouldRemove => base.ShouldRemove||Severity<=0;
-        public override void ExposeData(){base.ExposeData();Scribe_Values.Look(ref lastExposure,"lastPolymerSmokeExposure",-1);}
-        public override void TickInterval(int delta)
-        {
-            base.TickInterval(delta);
-            if(Find.TickManager.TicksGame-lastExposure>=600) Severity=MathF.Max(0,Severity-.00004f*delta);
-        }
     }
 }

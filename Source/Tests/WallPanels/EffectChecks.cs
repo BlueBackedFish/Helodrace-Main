@@ -14,7 +14,7 @@ internal static class EffectChecks
     private sealed class FixtureAutoPowered : CompAutoPowered { public override bool WantsToBeOn=>true; }
     public static void CheckDefinitions(Action<bool,string> check,string root)
     {
-        foreach(string path in new[]{"Buildings/WallPanels.xml","WallPanels/PolymerSmoke.xml","WallPanels/PolymerSmokeHediff.xml"}.Select(p=>Path.Combine(root,"Defs",p)))
+        foreach(string path in new[]{"Buildings/WallPanels.xml"}.Select(p=>Path.Combine(root,"Defs",p)))
             foreach(XElement def in XDocument.Load(path).Root!.Elements())
             {
                 Type type=def.Name.LocalName switch {"ThingDef"=>typeof(ThingDef),"HediffDef"=>typeof(HediffDef),"RecipeDef"=>typeof(RecipeDef),_=>typeof(PanelRules).Assembly.GetType(def.Name.LocalName)!};

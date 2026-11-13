@@ -32,7 +32,9 @@ Linking: `Basic`, not `CornerFiller`. The corner filler paints a square from atl
 
 Panel faces: a south lining covers the facade; north, east and west linings show as their top edge because the wall hides the rest in this projection. On sandwich walls a lining spans exactly the wall face of its connection state.
 
-Vanilla walls and doors draw flat cell art without height, so their linings are flat strips: on the cell edge for walls, at `DOOR_LEAF` = 0.1 tiles from the centre for doors. That leaf position is an assumption: the game's packed door textures could not be decoded for measurement, so check it in game.
+Vanilla walls and doors draw flat cell art without height, so their linings are flat strips: just inside the cell edge for walls, at `DOOR_LEAF` = 0.2 tiles from the centre for doors (0.1 drew too far inside in game). The game's packed door textures could not be decoded for measurement, so this is tuned by eye.
+
+Overlays are cleared beyond the host cell on the face side and panels draw at `BuildingBelowTop`, just above walls: furniture in the front cell is never covered.
 
 Outlines: a sandwich lining adds only the part of the joint wall+panel outline that the atlas does not already draw. Flat-host strips are outlined only outside the cell. End caps are outlined only where the run really ends; where it continues, the neighbouring cell's panel is not covered. `Review/panel_runs_<type>_review.png` shows three-cell runs per host and face (vanilla wall/door cells are flat proxies).
 

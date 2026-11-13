@@ -3,7 +3,9 @@
   <ThingDef ParentName="BuildingBase" Name="HD_WallPanelBase" Abstract="True">
     <thingClass>Helodrace.Panels.Building_WallPanel</thingClass>
     <category>Building</category>
-    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <!-- Just above walls, below BuildingOnTop. Overlays never reach the front cell,
+         so furniture there is not covered. -->
+    <altitudeLayer>BuildingBelowTop</altitudeLayer>
     <passability>Standable</passability>
     <drawerType>RealtimeOnly</drawerType>
     <rotatable>true</rotatable>
@@ -269,7 +271,7 @@
       <!-- Inherited from Wall, isStuffableAirtight reads the construction stuff,
            which this wall does not have; the info card then crashed. -->
       <isStuffableAirtight>false</isStuffableAirtight>
-      <isAirtight>true</isAirtight>
+      <isAirtight>false</isAirtight>
     </building>
     <tickerType>Rare</tickerType>
     <comps>

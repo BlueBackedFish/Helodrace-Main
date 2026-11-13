@@ -27,7 +27,7 @@ CELL = ATLAS // 4
 INSET = ATLAS // 32         # engine offset 0.03125, scale 0.1875
 SHEAR = 0.2                 # projected northward shift per unit height
 R, H = 0.09, 1.25           # half thickness, height (wall source model)
-DOOR_LEAF = 0.1             # assumed vanilla door leaf half-thickness
+DOOR_LEAF = 0.2             # door leaf half-thickness (0.1 drew too far inside in game)
 PANEL_T, PANEL_LEN, PANEL_H = 0.03, 1.0, H  # full height: a north-face lining shows as its top edge
 
 def srgb(v): return [c / 255 for c in v]
@@ -281,7 +281,9 @@ for tag, host, variant in jobs:
             keep_out = dilate(host_a, OUTLINE)       # the wall atlas draws this ring
             height = None
         else:
-            walls = []; slo, shi = -.5, .5; dist = HOSTS[host]; cneg = cpos = True; height = FLAT
+            walls = []; slo, shi = -.5, .5; cneg = cpos = True; height = FLAT
+            # Vanilla wall: strip just inside the cell edge. Door: on the leaf face.
+            dist = HOSTS[host] - PANEL_T if host == 'Wall' else HOSTS[host]
             host_a = np.zeros((3 * PX, 3 * PX), dtype=np.float32); host_a[PX:2 * PX, PX:2 * PX] = 1
             keep_out = host_a                         # never outline over flat cell art
         # Outline across the face, and end caps only where the run really ends:
@@ -309,6 +311,9 @@ for tag, host, variant in jobs:
             grown = dilate(np.maximum(context, host_a), OUTLINE) if host == 'Sandwich' else dilate(context, OUTLINE)
             ring = np.clip(grown - keep_out, 0, 1) * (1 - context) * span
             img = outline_under(img, ring)
+            # Never draw into the cell in front of the face: furniture stands there.
+            front = (AY > .5) if dy > 0 else (AY < -.5) if dy < 0 else (AX > .5) if dx > 0 else (AX < -.5)
+            img[front] = 0
             out = img[lo:lo + OVER, lo:lo + OVER]
             save(out, os.path.join(OVERLAY, 'HD_Panel_%s_%s_%s.png' % (name, tag, d)))
             panel_alpha['%s_%s_%s' % (name, tag, d)] = float(out[..., 3].sum())
