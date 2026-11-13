@@ -12,6 +12,8 @@
     <tickerType>Never</tickerType>
     <fillPercent>0</fillPercent>
     <designationCategory>Structure</designationCategory>
+    <!-- Drag a run of linings along a wall; every cell keeps the chosen face. -->
+    <drawStyleCategory>Walls</drawStyleCategory>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
     <drawPlaceWorkersWhileInstallBlueprintSelected>true</drawPlaceWorkersWhileInstallBlueprintSelected>
@@ -217,7 +219,6 @@
     <useStuffTerrainAffordance>false</useStuffTerrainAffordance>
     <uiIconPath>Buildings/WallPanels/HD_SandwichWall_MenuIcon</uiIconPath>
     <uiOrder>2100</uiOrder>
-    <drawStyleCategory IsNull="True" />
     <stuffCategories Inherit="False" />
     <uiIconPathsStuff Inherit="False" />
     <graphicData Inherit="False">

@@ -30,6 +30,19 @@ namespace Helodrace.Panels
     // sandwich construction for thermal resistance and panel overlays.
     public sealed class Building_SandwichPanelWall : Building { }
 
+    // Doors do not carry the Wall link flag, so a linked wall normally ends
+    // short of them. Sandwich walls run their connection arm into a door.
+    [HarmonyPatch(typeof(Graphic_Linked), nameof(Graphic_Linked.ShouldLinkWith))]
+    public static class SandwichWallDoorLink
+    {
+        static void Postfix(IntVec3 c, Thing parent, ref bool __result)
+        {
+            if (!__result && parent is Building_SandwichPanelWall && parent.Spawned && c.InBounds(parent.Map) &&
+                c.GetEdifice(parent.Map) is Building_Door)
+                __result = true;
+        }
+    }
+
     public static class PanelRules
     {
         public static bool IsHost(ThingDef def) => def?.building != null && !def.IsBlueprint && !def.IsFrame && def.size.x == 1 && def.size.z == 1 &&
