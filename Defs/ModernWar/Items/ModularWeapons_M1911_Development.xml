@@ -22,7 +22,7 @@
       <graphicLayer>-2</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
       <!-- Legacy saved lower-half item. No mount: no longer offered as a part. -->
       <hideWhenAttached>true</hideWhenAttached>
-      
+
     </li></comps>
   </ThingDef>
   <ThingDef ParentName="HD_ModularWeaponPartBase">
@@ -54,7 +54,7 @@
       <graphicLayer>-1</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
       <animatedPart>GripSafety</animatedPart><animationTravel>(0,0,0)</animationTravel><animationPivot>(-0.342,0,0.092)</animationPivot><animationAngle>9</animationAngle>
       <mounts><li><id>grip_safety_mount</id><socketTags><li>m1911_grip_safety</li></socketTags><transform><position>(-0.346,0,0.092)</position></transform></li></mounts>
-      
+
     </li></comps>
   </ThingDef>
   <ThingDef ParentName="HD_ModularWeaponPartBase">
@@ -74,7 +74,7 @@
       <graphicLayer>4</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
       <animatedPart>None</animatedPart><animationTravel>(0,0,0)</animationTravel><animationPivot>(0,0,0)</animationPivot><animationAngle>0</animationAngle>
       <mounts><li><id>grip_mount</id><socketTags><li>m1911_grip</li></socketTags><transform><position>(-0.195,0,0.07)</position></transform></li></mounts>
-      
+
     </li></comps>
   </ThingDef>
   <ThingDef ParentName="HD_ModularWeaponPartBase">

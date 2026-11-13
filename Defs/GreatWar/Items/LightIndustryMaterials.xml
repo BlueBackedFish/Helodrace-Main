@@ -21,7 +21,7 @@
     <thingCategories>
       <li>Manufactured</li>
     </thingCategories>
-  </ThingDef>
+  </ThingDef> 
   <ThingDef ParentName="ResourceBase">
     <defName>HD_AluminiumAlloy</defName>
     <label>aluminium alloy</label>
