@@ -21,7 +21,14 @@ namespace Helodrace.Panels
         public float flameMultiplier = 1;
         public Helodrace.Ballistics.ArmorMaterialDef armorMaterial;
         public float armorThicknessMeters;
+        // Overlay for walls and doors other than the sandwich wall, which draw a
+        // flat atlas; the def's own graphicData is the sandwich-wall overlay.
+        public GraphicData otherHostGraphic;
     }
+
+    // The wall itself is an ordinary linked map-mesh wall; the class marks the
+    // sandwich construction for thermal resistance and panel overlays.
+    public sealed class Building_SandwichPanelWall : Building { }
 
     public static class PanelRules
     {
@@ -191,7 +198,9 @@ namespace Helodrace.Panels
         // Actual override contract in 1.7 still uses Unity's compatibility value.
         protected override void DrawAt(UnityEngine.Vector3 drawLoc, bool flip = false)
         {
-            if (PanelRules.IsActive(this)) PanelGraphics.DrawPanel(this);
+            if (!PanelRules.IsActive(this)) return;
+            Graphic overlay = Host is Building_SandwichPanelWall ? Graphic : Properties.otherHostGraphic?.Graphic ?? Graphic;
+            overlay.Draw(drawLoc, Rotation, this);
         }
 
         public override string GetInspectString()
@@ -268,8 +277,6 @@ namespace Helodrace.Panels
             flammability.parts ??= new List<StatPart>();
             if (!flammability.parts.OfType<StatPart_SpentPolymerCore>().Any())
                 flammability.parts.Add(new StatPart_SpentPolymerCore { parentStat = flammability });
-            ThingDef wall = DefDatabase<ThingDef>.GetNamedSilentFail("HD_Building_StyrofoamSandwichWall");
-            if (wall != null) LongEventHandler.ExecuteWhenFinished(() => PanelGraphics.Preload(wall.modContentPack.RootDir));
         }
     }
 

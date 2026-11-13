@@ -40,12 +40,12 @@
     <defName>HD_Panel_MineralWool</defName>
     <label>mineral wool panel</label>
     <description>A mineral-fiber mat enclosed in a thin protective skin.</description>
-    <uiIconPath>Items/HD_AluminiumSandwichPanel</uiIconPath>
+    <uiIconPath>Buildings/WallPanels/HD_Panel_MineralWool_MenuIcon</uiIconPath>
     <uiOrder>2110</uiOrder>
     <graphicData>
-      <texPath>Items/HD_AluminiumSandwichPanel</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.8,0.8)</drawSize>
+      <texPath>Buildings/WallPanels/Overlay/HD_Panel_MineralWool_Sandwich</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1.5,1.5)</drawSize>
     </graphicData>
     <statBases>
       <MaxHitPoints>100</MaxHitPoints>
@@ -57,6 +57,11 @@
     </costList>
     <modExtensions>
       <li Class="Helodrace.Panels.WallPanelProperties">
+        <otherHostGraphic>
+          <texPath>Buildings/WallPanels/Overlay/HD_Panel_MineralWool_Wall</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>(1.5,1.5)</drawSize>
+        </otherHostGraphic>
         <slot>Insulation</slot>
         <thermalResistance>3</thermalResistance>
         <ignitionMultiplier>0.1</ignitionMultiplier>
@@ -68,12 +73,12 @@
     <defName>HD_Panel_Styrofoam</defName>
     <label>expanded foam panel</label>
     <description>A light slab of expanded polystyrene. Its combustible core releases toxic smoke when it burns.</description>
-    <uiIconPath>Buildings/WallPanels/HD_Panel_Styrofoam</uiIconPath>
+    <uiIconPath>Buildings/WallPanels/HD_Panel_Styrofoam_MenuIcon</uiIconPath>
     <uiOrder>2111</uiOrder>
     <graphicData>
-      <texPath>Buildings/WallPanels/HD_Panel_Styrofoam</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.8,0.8)</drawSize>
+      <texPath>Buildings/WallPanels/Overlay/HD_Panel_Styrofoam_Sandwich</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1.5,1.5)</drawSize>
     </graphicData>
     <statBases>
       <MaxHitPoints>60</MaxHitPoints>
@@ -84,6 +89,11 @@
     </costList>
     <modExtensions>
       <li Class="Helodrace.Panels.WallPanelProperties">
+        <otherHostGraphic>
+          <texPath>Buildings/WallPanels/Overlay/HD_Panel_Styrofoam_Wall</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>(1.5,1.5)</drawSize>
+        </otherHostGraphic>
         <slot>Insulation</slot>
         <thermalResistance>5</thermalResistance>
         <ignitionMultiplier>1.5</ignitionMultiplier>
@@ -102,12 +112,12 @@
     <defName>HD_Panel_RHA</defName>
     <label>rolled armor panel</label>
     <description>A thick rolled steel facing held by anchor brackets.</description>
-    <uiIconPath>Items/HD_RHA/HD_RHA_a</uiIconPath>
+    <uiIconPath>Buildings/WallPanels/HD_Panel_RHA_MenuIcon</uiIconPath>
     <uiOrder>2112</uiOrder>
     <graphicData>
-      <texPath>Items/HD_RHA/HD_RHA_a</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.8,0.8)</drawSize>
+      <texPath>Buildings/WallPanels/Overlay/HD_Panel_RHA_Sandwich</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1.5,1.5)</drawSize>
     </graphicData>
     <statBases>
       <MaxHitPoints>350</MaxHitPoints>
@@ -119,6 +129,11 @@
     </costList>
     <modExtensions>
       <li Class="Helodrace.Panels.WallPanelProperties">
+        <otherHostGraphic>
+          <texPath>Buildings/WallPanels/Overlay/HD_Panel_RHA_Wall</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>(1.5,1.5)</drawSize>
+        </otherHostGraphic>
         <slot>Reinforcement</slot>
         <thermalResistance>0</thermalResistance>
         <ignitionMultiplier>0.25</ignitionMultiplier>
@@ -132,12 +147,12 @@
     <defName>HD_Panel_Aramid</defName>
     <label>aramid reinforcement panel</label>
     <description>Layers of golden aramid fabric bonded into a tough backing panel.</description>
-    <uiIconPath>Buildings/WallPanels/HD_Panel_Aramid</uiIconPath>
+    <uiIconPath>Buildings/WallPanels/HD_Panel_Aramid_MenuIcon</uiIconPath>
     <uiOrder>2113</uiOrder>
     <graphicData>
-      <texPath>Buildings/WallPanels/HD_Panel_Aramid</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.8,0.8)</drawSize>
+      <texPath>Buildings/WallPanels/Overlay/HD_Panel_Aramid_Sandwich</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1.5,1.5)</drawSize>
     </graphicData>
     <statBases>
       <MaxHitPoints>250</MaxHitPoints>
@@ -148,6 +163,11 @@
     </costList>
     <modExtensions>
       <li Class="Helodrace.Panels.WallPanelProperties">
+        <otherHostGraphic>
+          <texPath>Buildings/WallPanels/Overlay/HD_Panel_Aramid_Wall</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>(1.5,1.5)</drawSize>
+        </otherHostGraphic>
         <slot>Reinforcement</slot>
         <thermalResistance>0</thermalResistance>
         <aramid>true</aramid>
@@ -160,12 +180,12 @@
     <defName>HD_Panel_EMI</defName>
     <label>electromagnetic shielding panel</label>
     <description>An unperforated aluminium lining with overlapping conductive joints.</description>
-    <uiIconPath>Items/HD_AluminiumEMIShieldingPanel</uiIconPath>
+    <uiIconPath>Buildings/WallPanels/HD_Panel_EMI_MenuIcon</uiIconPath>
     <uiOrder>2114</uiOrder>
     <graphicData>
-      <texPath>Items/HD_AluminiumEMIShieldingPanel</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.8,0.8)</drawSize>
+      <texPath>Buildings/WallPanels/Overlay/HD_Panel_EMI_Sandwich</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1.5,1.5)</drawSize>
     </graphicData>
     <statBases>
       <MaxHitPoints>80</MaxHitPoints>
@@ -176,6 +196,11 @@
     </costList>
     <modExtensions>
       <li Class="Helodrace.Panels.WallPanelProperties">
+        <otherHostGraphic>
+          <texPath>Buildings/WallPanels/Overlay/HD_Panel_EMI_Wall</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>(1.5,1.5)</drawSize>
+        </otherHostGraphic>
         <slot>Shielding</slot>
         <thermalResistance>0</thermalResistance>
         <electromagneticShielding>true</electromagneticShielding>
@@ -189,7 +214,6 @@
     <label>sandwich panel wall</label>
     <description>A lightweight wall assembled from metal-faced polystyrene panels. The foam core gives off dense toxic smoke when it burns.</description>
     <thingClass>Helodrace.Panels.Building_SandwichPanelWall</thingClass>
-    <drawerType>RealtimeOnly</drawerType>
     <costStuffCount>0</costStuffCount>
     <useStuffTerrainAffordance>false</useStuffTerrainAffordance>
     <uiIconPath>Buildings/WallPanels/HD_SandwichWall_MenuIcon</uiIconPath>
@@ -198,8 +222,13 @@
     <stuffCategories Inherit="False" />
     <uiIconPathsStuff Inherit="False" />
     <graphicData Inherit="False">
-      <texPath>Buildings/WallPanels/HD_SandwichWall_MenuIcon</texPath>
+      <texPath>Buildings/WallPanels/HD_SandwichWall_Atlas</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <linkType>Basic</linkType>
+      <linkFlags>
+        <li>Wall</li>
+        <li>Rock</li>
+      </linkFlags>
     </graphicData>
     <statBases>
       <MaxHitPoints>220</MaxHitPoints>
@@ -226,7 +255,7 @@
     <stackLimit>150</stackLimit>
     <burnableByRecipe>true</burnableByRecipe>
     <graphicData>
-      <texPath>Buildings/WallPanels/HD_Panel_Styrofoam</texPath>
+      <texPath>Items/HD_ExpandedPolystyrene</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <statBases>

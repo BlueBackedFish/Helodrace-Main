@@ -4,7 +4,7 @@
 
 ## Construction and models
 
-Blender-authored isolated, end, straight, corner, T and cross junctions cover all 16 NESW masks. Runtime OBJ meshes compensate for the actual native loader's X reflection and winding reversal. One atlas and shared Waylith resources are preloaded; the map view projects authored height into a short facade within the building draw layers.
+The sandwich wall is an ordinary linked map-mesh wall (`Graphic_Single` + `linkType Basic`, links to walls and rock). Its rendered atlas covers all 16 NESW connection states; no runtime meshes are shipped. Each panel draws a rendered `Graphic_Multi` overlay for its face: the def's `graphicData` on sandwich walls, `WallPanelProperties.otherHostGraphic` on other walls and doors. Textures are rendered by `ArtSource/WallPanels/render_wall_textures.py`; see its README for the building-texture rule review.
 
 Five panels attach to existing one-cell walls and doors. Doors use their front/rear faces. Each face has one insulation, shielding and reinforcement slot; mineral wool/foam and RHA/aramid compete within their respective slots. Blueprint/frame support references, material delivery, independent repair/removal, saved support identity and exposed-side work use the construction foundation. Deconstructing a support deconstructs its attachments with the normal material return; any other support loss destroys them. Blueprints and frames anchored to a removed support are cancelled and return delivered materials. Panel wear registers for ordinary repair; buried faces and construction that would bury existing panels/orders are rejected. Opening a door disables its protection and hides its first-stage panel indicator.
 
@@ -26,20 +26,20 @@ Room results are invalidated on lining, structure, roof and room changes. Door c
 - This is not a multi-cell support adapter or a Combat Extended projectile adapter. Unsupported projectile physics use the ordinary HP path.
 - Shielding does not grant world-radio/support-call immunity, bypass the native comms-console external communications checks, stop EMP weapons or block smoke.
 - Complete roofs represent the ceiling/floor shielding abstraction; separate conductive floor/ceiling tiles are not required.
-- Door indicator geometry is still hidden during opening rather than animated with the door leaf.
+- Door panel overlays are hidden while the door is open rather than animated with the door leaf. Blueprints and frames always show the sandwich-wall overlay position.
 - Native engine fixture tests are not an interactive played save or GPU rendering validation. Full game placement/AI workflow, long-running performance, visible smoke/PPE playtesting and final balance still require live verification.
 
-The full integration build uses the actual installed game/Harmony/Waylith assemblies. `WallPanels.Tests` validates the 16 native-loaded meshes, patch binding, real room/edifice/roof grids, per-path heat changes through the patched engine method, sacrificial HP direction, normal/grazing physical impacts, finite core and native Scribe round-trip, stack conservation, smoke air-cell routing, enclosure breaks, native network ticks, battery isolation and native automatic/facility power checks. A narrow test condition supplies map applicability so a console fixture does not bootstrap the user's DLC/ModsConfig. No replacement game classes or GPU are used.
+The full integration build uses the actual installed game/Harmony/Waylith assemblies. `WallPanels.Tests` validates that every panel/wall texture path resolves (four faces per overlay, 4×4-compatible atlas, no shipped meshes), patch binding, real room/edifice/roof grids, per-path heat changes through the patched engine method, sacrificial HP direction, normal/grazing physical impacts, finite core and native Scribe round-trip, stack conservation, smoke air-cell routing, enclosure breaks, native network ticks, battery isolation and native automatic/facility power checks. A narrow test condition supplies map applicability so a console fixture does not bootstrap the user's DLC/ModsConfig. No replacement game classes or GPU are used.
 
 ```powershell
-dotnet run --project Source/Tests/WallPanels/WallPanels.Tests.csproj -- Meshes/WallPanels .
+dotnet run --project Source/Tests/WallPanels/WallPanels.Tests.csproj -- .
 ```
 
-For isolated builds pass `-p:HelodAssembly=<absolute DLL path>`. The optional second positional argument audits the panel/effect XML and English/Korean arguments against actual engine fields/types.
+For isolated builds pass `-p:HelodAssembly=<absolute DLL path>`. The optional positional argument (repository root) checks textures and audits the panel/effect XML and English/Korean arguments against actual engine fields/types.
 
 ## Native boundaries
 
-`Building_SandwichPanelWall.DrawAt` and `Building_WallPanel.DrawAt` keep the installed override's `UnityEngine.Vector3` parameter. Internal rendering uses System.Numerics and Waylith meshes, textures, materials and Graphics. The gizmo icon is assigned from the existing game `ThingDef.uiIcon` handle.
+`Building_WallPanel.DrawAt` keeps the installed override's `UnityEngine.Vector3` parameter and passes it unchanged to the engine's own `Graphic.Draw`; the mod creates no meshes, textures or materials. The gizmo icon is assigned from the existing game `ThingDef.uiIcon` handle.
 
 `PanelBulletScope` reads the protected game's compatibility `Projectile.origin` field and converts it once to System.Numerics. `Projectile_Ricochet` converts its final launch origin to the game's actual `Projectile.Launch` signature. No Unity resource creation or internal math is added. `DamageInfo.armorPenetrationInt` is updated through the actual struct field because the public game property is read-only.
 

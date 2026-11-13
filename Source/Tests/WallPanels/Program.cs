@@ -5,7 +5,6 @@ using System.Numerics;
 using Helodrace.Panels;
 using RimWorld;
 using Verse;
-using Waylith.Graphics.Meshes;
 using HarmonyLib;
 
 internal static class Runtime
@@ -27,33 +26,33 @@ internal static class Program
 {
     static int checks;
     static void Check(bool value,string message) {checks++;if(!value)throw new Exception(message);}
-    static void Main(string[] args)
+    static (int w,int h) PngSize(string path)
     {
-        string assetRoot=Path.GetFullPath(args[0]);
-        for(int mask=0;mask<16;mask++)
+        byte[] b=File.ReadAllBytes(path);
+        return ((b[16]<<24)|(b[17]<<16)|(b[18]<<8)|b[19],(b[20]<<24)|(b[21]<<16)|(b[22]<<8)|b[23]);
+    }
+    // Every wall/panel texture path resolves to real PNGs; the linked atlas is the
+    // engine's 4x4 grid; Graphic_Multi overlays exist for all four faces.
+    static void CheckTextures(string root)
+    {
+        var doc=System.Xml.Linq.XDocument.Load(Path.Combine(root,"Defs/Buildings/WallPanels.xml"));
+        foreach(var tex in doc.Descendants("texPath").Concat(doc.Descendants("uiIconPath")))
         {
-            using var mesh=ObjMeshLoader.LoadFromFile(Path.Combine(assetRoot,$"Wall_{mask:00}.obj"));
-            var v=MeshArrays.GetPositions(mesh.CpuStorage);
-            var normals=MeshArrays.GetNormals(mesh.CpuStorage);
-            var tris=MeshArrays.GetTriangles(mesh.CpuStorage,0);
-            Console.WriteLine($"Mask {mask}: X {v.Min(p=>p.X)}..{v.Max(p=>p.X)}, Z {v.Min(p=>p.Z)}..{v.Max(p=>p.Z)}");
-            Check(v.Length>0&&tris.Length%3==0,$"Mask {mask}: empty or broken mesh");
-            Check(v.All(p=>p.X>=-.50001f&&p.X<=.50001f&&p.Z>=-.50001f&&p.Z<=.50001f&&p.Y>=0&&p.Y<=1.25001f),$"Mask {mask}: out of cell bounds");
-            for(int i=0;i<tris.Length;i+=3)
+            string cls=tex.Parent!.Element("graphicClass")?.Value??"";
+            string[] files=cls=="Graphic_Multi"?new[]{"_north","_east","_south","_west"}.Select(s=>tex.Value+s).ToArray():new[]{tex.Value};
+            foreach(string f in files)
             {
-                var cross=Vector3.Cross(v[tris[i+1]]-v[tris[i]],v[tris[i+2]]-v[tris[i]]);
-                Check(cross.LengthSquared()>1e-10f,$"Mask {mask}: degenerate face");
-                Check(Vector3.Dot(Vector3.Normalize(cross),normals[tris[i]])>.99f,$"Mask {mask}: reversed face");
-            }
-            for(int d=0;d<4;d++) if((mask&(1<<d))!=0)
-            {
-                // Every connector meets the neighboring cell at the same .18-wide port.
-                var edge=v.Where(p=>d==0?MathF.Abs(p.Z-.5f)<.00001f:d==1?MathF.Abs(p.X-.5f)<.00001f:d==2?MathF.Abs(p.Z+.5f)<.00001f:MathF.Abs(p.X+.5f)<.00001f).ToArray();
-                Check(edge.Length>0,$"Mask {mask}: missing port {d}");
-                float width=(d%2==0?edge.Max(p=>p.X)-edge.Min(p=>p.X):edge.Max(p=>p.Z)-edge.Min(p=>p.Z));
-                Check(MathF.Abs(width-.18f)<.00001f,$"Mask {mask}: cracked port {d}");
+                string path=Path.Combine(root,"Textures",f+".png");
+                Check(File.Exists(path),"Missing wall panel texture "+f);
+                if(cls=="Graphic_Multi")Check(PngSize(path)==(252,252),"Overlay is not the 1.5-tile canvas: "+f);
             }
         }
+        var atlas=PngSize(Path.Combine(root,"Textures/Buildings/WallPanels/HD_SandwichWall_Atlas.png"));
+        Check(atlas.w==atlas.h&&atlas.w%32==0,"Linked atlas cannot hold the engine's 4x4 sub-UV grid");
+        Check(!Directory.Exists(Path.Combine(root,"Meshes")),"Runtime meshes are still shipped");
+    }
+    static void Main(string[] args)
+    {
         Check(PanelRules.IsHost(new ThingDef{thingClass=typeof(Building_Door),building=new BuildingProperties()}),"Door is not supported");
         Check(!PanelRules.IsHost(new ThingDef{thingClass=typeof(Building),building=new BuildingProperties()}),"Furniture accepted as support");
         foreach(var door in new[]{Rot4.North,Rot4.East,Rot4.South,Rot4.West})
@@ -79,7 +78,12 @@ internal static class Program
         float flammability=1.5f;new StatPart_SpentPolymerCore().TransformValue(StatRequest.For(spentWall),ref flammability);
         Check(flammability==0,"Burned-out foam core stayed flammable");
         EffectChecks.Run(Check);
-        if(args.Length>1)EffectChecks.CheckDefinitions(Check,Path.GetFullPath(args[1]));
+        if(args.Length>0)
+        {
+            string root=Path.GetFullPath(args[0]);
+            EffectChecks.CheckDefinitions(Check,root);
+            CheckTextures(root);
+        }
         var harmony=new Harmony("Helodrace.WallPanels.ContractChecks");
         try
         {
@@ -91,6 +95,6 @@ internal static class Program
             EffectChecks.RunPatched(Check);
         }
         finally { harmony.UnpatchAll(harmony.Id); }
-        Console.WriteLine($"PASS: {checks} mesh, connector, host and engine-contract checks; no gameplay/GPU claim.");
+        Console.WriteLine($"PASS: {checks} host and engine-contract checks; no gameplay/GPU claim.");
     }
 }

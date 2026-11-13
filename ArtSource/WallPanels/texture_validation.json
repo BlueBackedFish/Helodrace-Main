@@ -1,0 +1,77 @@
+{
+  "atlas": {
+    "size": 896,
+    "cell": 224,
+    "sampled_pixels_per_tile": 168,
+    "engine_uv_scale": 0.1875,
+    "engine_uv_inset": 0.03125,
+    "bit_order": "N=1 E=2 S=4 W=8",
+    "linkType": "Basic",
+    "sha256": "244d9feb82422da25e390178433e5e946b1783a95ed034f8e476f5f682bff644"
+  },
+  "outline_pixels": 12,
+  "outline_game_units": 0.07142857142857142,
+  "shear_per_height": 0.2,
+  "palette": {
+    "metal_top": [
+      193,
+      193,
+      190
+    ],
+    "metal_front": [
+      180,
+      180,
+      177
+    ],
+    "metal_rib": [
+      166,
+      166,
+      163
+    ],
+    "foam_top": [
+      239,
+      239,
+      237
+    ],
+    "foam_front": [
+      228,
+      228,
+      225
+    ]
+  },
+  "panel_palette": {
+    "MineralWool": [
+      176,
+      161,
+      110
+    ],
+    "Styrofoam": [
+      239,
+      239,
+      237
+    ],
+    "RHA": [
+      105,
+      105,
+      105
+    ],
+    "Aramid": [
+      189,
+      150,
+      56
+    ],
+    "EMI": [
+      184,
+      201,
+      207
+    ]
+  },
+  "panel_front_ratio": 0.9326424870466321,
+  "overlay": {
+    "canvas": 252,
+    "drawSize": 1.5,
+    "count": 40,
+    "empty": []
+  },
+  "lighting": "none (Emission only, Standard view transform, transparent film)"
+}
